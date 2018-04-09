@@ -11,5 +11,6 @@ setup(
 
     install_requires=[
         "Django==2.0.4",
+        "django-bootstrap4==0.0.6",
     ],
 )
