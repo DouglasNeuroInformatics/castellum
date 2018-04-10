@@ -4,6 +4,8 @@ MANAGEPY = python castellum_core/manage.py
 run:
 	$(MANAGEPY) runserver
 
+bootstrap: install migrate createsuperuser
+
 migrate:
 	$(MANAGEPY) migrate
 
