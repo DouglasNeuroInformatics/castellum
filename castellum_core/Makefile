@@ -4,7 +4,7 @@ MANAGEPY = python castellum_core/manage.py
 run:
 	$(MANAGEPY) runserver
 
-migrate: makemigrations
+migrate:
 	$(MANAGEPY) migrate
 
 makemigrations:
