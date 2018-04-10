@@ -11,5 +11,6 @@ setup(
 
     install_requires=[
         "Django==2.0.4",
+        "django-auth-ldap==1.4.0",
     ],
 )
