@@ -1,6 +1,8 @@
 MANAGEPY = python castellum_core/manage.py
 
 
+.PHONY: bootstrap createsuperuser install makemigrations migrate run
+
 run:
 	$(MANAGEPY) runserver
 
