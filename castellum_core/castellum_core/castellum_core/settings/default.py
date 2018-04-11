@@ -3,10 +3,6 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = 'i#$kwk(s24ysn+l%+c!*z9u4+45)oex!-s#!bux#wf2pv2cc0d'
-
-DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
@@ -52,16 +48,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'castellum_core.wsgi.application'
-
-
-# Database
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 # Password validation
