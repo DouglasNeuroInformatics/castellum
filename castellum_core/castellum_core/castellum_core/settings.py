@@ -19,7 +19,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users.apps.UsersConfig',
+
+    'castellum_auth.apps.CastellumAuthConfig',
 ]
 
 MIDDLEWARE = [
@@ -80,7 +81,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'castellum_auth.User'
 
 
 # Internationalization
