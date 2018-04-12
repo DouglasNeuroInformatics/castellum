@@ -1,0 +1,6 @@
+{
+  "name": "castellum-core",
+  "dependencies": {
+    "bootstrap": "^4.0.0"
+  }
+}
