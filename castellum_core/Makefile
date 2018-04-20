@@ -15,8 +15,11 @@ makemigrations:
 	$(MANAGEPY) makemigrations
 
 createsuperuser:
-	$(MANAGEPY) shell -c "from django.contrib.auth.models import User; User.objects.filter(username='admin') or User.objects.create_superuser('admin', 'admin@example.com', '123')"
+	$(MANAGEPY) shell -c "from castellum_auth.models import User; User.objects.filter(username='admin') or User.objects.create_superuser('admin', 'admin@example.com', '123')"
 
 install:
 	pip install tox ipdb
 	pip install -e .
+	npm install
+	mkdir -p castellum_core/static/
+	cp node_modules/bootstrap/dist/css/bootstrap.min.css castellum_core/static/
