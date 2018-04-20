@@ -8,4 +8,4 @@ services:
       - "389:389"
     command: [--copy-service]
     volumes:
-      - ./tests.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif
+      - ./ldap/dummy_data.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif
