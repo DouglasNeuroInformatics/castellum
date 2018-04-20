@@ -70,18 +70,24 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 AUTHENTICATION_BACKENDS = [
-    'django_auth_ldap.backend.LDAPBackend',
-    'django.contrib.auth.backends.ModelBackend',
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
-import ldap
-from django_auth_ldap.config import LDAPSearch
 
-AUTH_LDAP_SERVER_URI = 'ldap://localhost'
-AUTH_LDAP_BIND_DN = 'cn=admin,dc=example,dc=org'
-AUTH_LDAP_BIND_PASSWORD = 'admin'
-AUTH_LDAP_USER_SEARCH = LDAPSearch('dc=example,dc=org', ldap.SCOPE_SUBTREE, '(uid=%(user)s)')
+LDAP_ENABLED = True
+
+if LDAP_ENABLED:
+    try:
+        from .ldap import *
+    except ImportError:
+        raise ImportError(
+            "Failed to load LDAP settings. Either you disable LDAP by setting "
+            "'LDAP_ENABLED = False' or you create a ldap.py file in the settings directory!"
+        )
+    AUTHENTICATION_BACKENDS.append("django_auth_ldap.backend.LDAPBackend")
+
 
 AUTH_USER_MODEL = 'castellum_auth.User'
 
