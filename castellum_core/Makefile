@@ -18,6 +18,6 @@ createsuperuser:
 	$(MANAGEPY) shell -c "from castellum_auth.models import User; User.objects.filter(username='admin') or User.objects.create_superuser('admin', 'admin@example.com', '123')"
 
 install:
-	pip install tox ipdb django-npm
+	pip install tox ipdb
 	pip install -e .
 	npm install
