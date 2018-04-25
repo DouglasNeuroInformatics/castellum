@@ -75,20 +75,6 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 ]
 
-
-LDAP_ENABLED = True
-
-if LDAP_ENABLED:
-    try:
-        from .ldap import *
-    except ImportError:
-        raise ImportError(
-            "Failed to load LDAP settings. Either you disable LDAP by setting "
-            "'LDAP_ENABLED = False' or you create a ldap.py file in the settings directory!"
-        )
-    AUTHENTICATION_BACKENDS.append("django_auth_ldap.backend.LDAPBackend")
-
-
 AUTH_USER_MODEL = 'castellum_auth.User'
 
 LOGIN_REDIRECT_URL = '/'
