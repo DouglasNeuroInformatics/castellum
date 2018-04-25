@@ -1,3 +1,5 @@
+.tox/
+.pytest_cache/
 dist/
 *.egg-info/
 node_modules/
