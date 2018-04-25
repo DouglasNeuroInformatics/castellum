@@ -21,5 +21,3 @@ install:
 	pip install tox ipdb
 	pip install -e .
 	npm install
-	mkdir -p castellum_core/static/
-	cp node_modules/bootstrap/dist/css/bootstrap.min.css castellum_core/static/
