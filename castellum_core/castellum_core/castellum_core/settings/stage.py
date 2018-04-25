@@ -20,14 +20,10 @@ ALLOWED_HOSTS = [
 ]
 
 # LDAP
+# See https://django-auth-ldap.readthedocs.io/
 AUTHENTICATION_BACKENDS.append("django_auth_ldap.backend.LDAPBackend")
 
-host = os.environ.get("LDAP_HOST", "ldap://localhost")
-distinguised_name = os.environ.get("LDAP_DISTINGUISHED_NAME", "dc=example,dc=org")
-username = os.environ.get("LDAP_USERNAME", "cn=admin," + distinguised_name)
-password = os.environ.get("LDAP_PASSWORD", "admin")
-
-AUTH_LDAP_SERVER_URI = host
-AUTH_LDAP_BIND_DN = username
-AUTH_LDAP_BIND_PASSWORD = password
-AUTH_LDAP_USER_SEARCH = LDAPSearch(distinguised_name, ldap.SCOPE_SUBTREE, '(uid=%(user)s)')
+AUTH_LDAP_SERVER_URI = 'ldap://localhost'
+AUTH_LDAP_BIND_DN = 'cn=admin,dc=example,dc=org'
+AUTH_LDAP_BIND_PASSWORD = 'admin'
+AUTH_LDAP_USER_SEARCH = LDAPSearch('dc=example,dc=org', ldap.SCOPE_SUBTREE, '(uid=%(user)s)')
