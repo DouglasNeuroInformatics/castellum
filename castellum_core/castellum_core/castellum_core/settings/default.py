@@ -95,4 +95,17 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'npm.finders.NpmFinder',
+]
+
 STATIC_URL = '/static/'
+
+NPM_ROOT_PATH = os.path.dirname(BASE_DIR)
+
+NPM_FILE_PATTERNS = {
+    'bootstrap': ['dist/css/bootstrap.min.css'],
+}
