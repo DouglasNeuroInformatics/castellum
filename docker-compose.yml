@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  ldap:
+    container_name: ldap
+    image: osixia/openldap
+    ports:
+      - "389:389"
+    command: [--copy-service]
+    volumes:
+      - ./ldap/dummy_data.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif

@@ -70,6 +70,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]
+
 AUTH_USER_MODEL = 'castellum_auth.User'
 
 LOGIN_REDIRECT_URL = '/'
