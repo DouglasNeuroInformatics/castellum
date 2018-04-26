@@ -10,7 +10,7 @@ services:
       - "389:389"
     command: [--copy-service]
     volumes:
-      - ./ldap/dummy_data.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif
+      - ./stage/dummy_data.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif
   web:
     build: castellum_core
     environment:
