@@ -1,6 +1,13 @@
+.tox/
+.pytest_cache/
+
+castellum_core.egg-info/
 dist/
-*.egg-info/
+htmlcov/
 node_modules/
 
 *.pyc
 *.sqlite3
+
+.coverage
+package-lock.json
