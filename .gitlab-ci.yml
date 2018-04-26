@@ -12,3 +12,7 @@ stages:
 test:
   stage: test
   script: cd castellum_core && tox
+  coverage: '/TOTAL.*\s+(\d+\%)/'
+  artifacts:
+    paths:
+      - htmlcov/
