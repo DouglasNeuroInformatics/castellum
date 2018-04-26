@@ -16,9 +16,9 @@ services:
     environment:
       DJANGO_SETTINGS_MODULE: castellum_core.settings.stage
     command: >
-        sh -c "cd castellum_core &&
-        make bootstrap &&
-        python castellum_core/manage.py runserver 0.0.0.0:8000"
+      sh -c "cd castellum_core &&
+      make bootstrap &&
+      python castellum_core/manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
     ports:
