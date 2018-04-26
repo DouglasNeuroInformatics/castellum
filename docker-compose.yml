@@ -22,8 +22,14 @@ services:
       python castellum_core/manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
-    ports:
-      - "8000:8000"
     depends_on:
       - db
       - ldap
+  nginx:
+    image: nginx
+    volumes:
+      - ./stage/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8000:80"
+    depends_on:
+      - web
