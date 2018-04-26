@@ -19,7 +19,7 @@ services:
       sh -c "cd castellum_core &&
       make bootstrap &&
       python castellum_core/manage.py collectstatic --no-input &&
-      python castellum_core/manage.py runserver 0.0.0.0:8000"
+      uwsgi uwsgi.ini"
     volumes:
       - .:/code
       - static-content:/code/castellum_core/castellum_core/staticserve
