@@ -23,6 +23,7 @@ services:
       uwsgi uwsgi.ini"
     volumes:
       - static-content:/code/castellum_core/staticserve
+      - ./stage/settings.py:/code/castellum_core/castellum_core/settings/stage.py
     depends_on:
       - db
       - ldap
