@@ -8,6 +8,7 @@ before_script:
 
 stages:
   - test
+  - publish_coverage
 
 test:
   stage: test
@@ -16,3 +17,12 @@ test:
   artifacts:
     paths:
       - castellum_core/htmlcov/
+
+pages:
+  stage: publish_coverage
+  script:
+    - mv castellum_core/htmlcov/ public/
+  artifacts:
+    paths:
+      - public
+    expire_in: 3 days
