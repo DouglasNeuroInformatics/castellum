@@ -15,4 +15,4 @@ test:
   coverage: '/TOTAL.*\s+(\d+\%)/'
   artifacts:
     paths:
-      - htmlcov/
+      - castellum_core/htmlcov/
