@@ -28,6 +28,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'castellum_auth.middlewares.UserExpirationMiddleware',
 ]
 
 ROOT_URLCONF = 'castellum_core.urls'
