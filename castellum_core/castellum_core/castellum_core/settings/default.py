@@ -113,3 +113,15 @@ NPM_ROOT_PATH = os.path.dirname(BASE_DIR)
 NPM_FILE_PATTERNS = {
     'bootstrap': ['dist/css/bootstrap.min.css'],
 }
+
+# adapt message classes for bootstrap
+
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'light',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'danger',
+}
