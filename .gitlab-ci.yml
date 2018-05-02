@@ -20,6 +20,8 @@ test:
 
 pages:
   stage: publish_coverage
+  only:
+    - master
   script:
     - mv castellum_core/htmlcov/ public/
   artifacts:
