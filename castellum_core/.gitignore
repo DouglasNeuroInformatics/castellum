@@ -5,7 +5,7 @@ castellum_core.egg-info/
 dist/
 htmlcov/
 node_modules/
-staticserve/
+collectstatic/
 
 *.pyc
 *.sqlite3

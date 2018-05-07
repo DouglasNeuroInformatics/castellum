@@ -22,7 +22,7 @@ services:
       python3 castellum_core/manage.py collectstatic --no-input &&
       uwsgi uwsgi.ini"
     volumes:
-      - static-content:/code/castellum_core/staticserve
+      - static-content:/code/castellum_core/collectstatic
       - ./stage/settings.py:/code/castellum_core/castellum_core/settings/stage.py
     depends_on:
       - db
