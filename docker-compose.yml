@@ -10,19 +10,32 @@ services:
       - "389:389"
     command: [--copy-service]
     volumes:
-      - ./ldap/dummy_data.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif
+      - ./stage/dummy_data.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif
   web:
     build: castellum_core
     environment:
       DJANGO_SETTINGS_MODULE: castellum_core.settings.stage
     command: >
-        sh -c "cd castellum_core &&
-        make bootstrap &&
-        python castellum_core/manage.py runserver 0.0.0.0:8000"
+      sh -c "
+      python3 castellum_core/manage.py migrate &&
+      python3 castellum_core/manage.py shell -c \"from castellum_auth.models import User; User.objects.filter(username='admin') or User.objects.create_superuser('admin', 'admin@example.com', '123')\" &&
+      python3 castellum_core/manage.py collectstatic --no-input &&
+      uwsgi uwsgi.ini"
     volumes:
-      - .:/code
-    ports:
-      - "8000:8000"
+      - static-content:/code/castellum_core/collectstatic
+      - ./stage/settings.py:/code/castellum_core/castellum_core/settings/stage.py
     depends_on:
       - db
       - ldap
+  nginx:
+    image: nginx
+    volumes:
+      - ./stage/nginx.conf:/etc/nginx/conf.d/default.conf
+      - static-content:/static
+    ports:
+      - "8000:80"
+    depends_on:
+      - web
+
+volumes:
+  static-content:

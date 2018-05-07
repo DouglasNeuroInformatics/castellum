@@ -108,6 +108,8 @@ STATICFILES_FINDERS = [
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'collectstatic')
+
 NPM_ROOT_PATH = os.path.dirname(BASE_DIR)
 
 NPM_FILE_PATTERNS = {
