@@ -1,3 +1,5 @@
+![coverage report](https://git.mpib-berlin.mpg.de/castellum/castellum/badges/master/coverage.svg)]
+
 # Castellum
 
 Castellum is a privacy-compliant recruiting database for scientific contexts.
