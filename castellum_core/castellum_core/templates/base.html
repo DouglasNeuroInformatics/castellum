@@ -44,5 +44,8 @@
     </main>
 
     <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+    {% if user.is_authenticated %}
+        <script src="{% static 'autologout.js' %}"></script>
+    {% endif %}
 </body>
 </html>
