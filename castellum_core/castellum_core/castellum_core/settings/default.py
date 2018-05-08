@@ -30,6 +30,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'castellum_auth.middlewares.UserExpirationMiddleware',
+    'castellum_auth.middlewares.AutoLogoutMiddleware',
 ]
 
 ROOT_URLCONF = 'castellum_core.urls'
