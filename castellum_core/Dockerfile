@@ -12,3 +12,5 @@ RUN pip3 install -e .
 RUN npm install
 
 RUN apk del $BUILDPKGS
+
+RUN python3 castellum_core/manage.py collectstatic --no-input
