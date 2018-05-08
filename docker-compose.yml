@@ -19,7 +19,6 @@ services:
       sh -c "
       python3 castellum_core/manage.py migrate &&
       python3 castellum_core/manage.py shell -c \"from castellum_auth.models import User; User.objects.filter(username='admin') or User.objects.create_superuser('admin', 'admin@example.com', '123')\" &&
-      python3 castellum_core/manage.py collectstatic --no-input &&
       uwsgi uwsgi.ini"
     volumes:
       - static-content:/code/castellum_core/collectstatic
