@@ -1,5 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import logout
+from django.contrib.auth.signals import user_logged_in
+from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -49,3 +51,8 @@ class AutoLogoutMiddleware:
                 set_last_active(request)
 
         return self.get_response(request)
+
+
+@receiver(user_logged_in)
+def set_last_active_on_login(sender, user, request, **kwargs):
+    set_last_active(request)
