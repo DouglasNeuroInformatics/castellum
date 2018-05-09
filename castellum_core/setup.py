@@ -6,6 +6,7 @@ setup(
     version="0.0.1",
 
     author="Max-Planck-Gesellschaft",
+    license="AGPL-3.0-or-later",
 
     packages=find_packages(),
 
