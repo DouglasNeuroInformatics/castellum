@@ -1,0 +1,24 @@
+version: '2'
+
+# run with 'docker-compose -f docker-compose.yml -f docker-compose.manage.yml up <service>'
+# for more information see https://docs.docker.com/compose/extends/#administrative-tasks
+services:
+    migrate:
+        build: castellum_core
+        environment:
+            DJANGO_SETTINGS_MODULE: castellum_core.settings.stage
+        command: "python3 castellum_core/manage.py migrate"
+        volumes:
+            - ./stage/settings.py:/code/castellum_core/castellum_core/settings/stage.py
+        depends_on:
+            - db
+
+    createsuperuser:
+        build: castellum_core
+        environment:
+            DJANGO_SETTINGS_MODULE: castellum_core.settings.stage
+        volumes:
+            - ./stage/settings.py:/code/castellum_core/castellum_core/settings/stage.py
+        command: "python3 castellum_core/manage.py shell -c \"from castellum_auth.models import User; User.objects.filter(username='admin') or User.objects.create_superuser('admin', 'admin@example.com', '123')\""
+        depends_on:
+            - db
