@@ -1,6 +1,7 @@
 version: '2'
 
 # run with 'docker-compose -f docker-compose.yml -f docker-compose.manage.yml up <service>'
+# for more information see https://docs.docker.com/compose/extends/#administrative-tasks
 services:
     migrate:
         build: castellum_core

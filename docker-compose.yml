@@ -15,8 +15,7 @@ services:
     build: castellum_core
     environment:
       DJANGO_SETTINGS_MODULE: castellum_core.settings.stage
-    command: >
-      sh -c "uwsgi uwsgi.ini"
+    command: "uwsgi uwsgi.ini"
     volumes:
       - static-content:/code/castellum_core/collected_static
       - ./stage/settings.py:/code/castellum_core/castellum_core/settings/stage.py
