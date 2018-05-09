@@ -43,11 +43,10 @@ class AutoLogoutMiddleware:
 
     def __call__(self, request):
         if request.user.is_authenticated:
-            logout_timeout = 15 * 60
             idle_time = timezone.now() - get_last_active(request)
-            if idle_time.total_seconds() > logout_timeout:
+            if idle_time.total_seconds() > request.user.logout_timeout:
                 logout(request)
-            elif idle_time.total_seconds() > logout_timeout / 10:
+            elif idle_time.total_seconds() > request.user.logout_timeout / 10:
                 set_last_active(request)
 
         return self.get_response(request)

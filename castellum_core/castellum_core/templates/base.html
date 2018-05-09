@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'" />
 </head>
-<body>
+<body {% if user.is_authenticated %}data-logout-timeout="{{ user.logout_timeout }}"{% endif %}>
     <header class="bg-dark">
         <div class="container">
             <div class="row navbar navbar-dark">

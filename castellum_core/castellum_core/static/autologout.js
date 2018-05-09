@@ -1,5 +1,5 @@
 (function() {
-    var logoutTimeout = 15 * 60 * 1000;
+    var logoutTimeout = parseInt(document.body.getAttribute('data-logout-timeout'), 10) * 1000;
     var warnTimeout = logoutTimeout * 0.8;
     var pollTimeout = warnTimeout / 10;
 
