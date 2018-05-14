@@ -1,22 +1,66 @@
-image: node:8.11.1-stretch
-
-before_script:
-  - apt-get update -q && apt-get install -y -qq python3 python3-dev libldap-2.4-2 libldap2-dev libsasl2-dev tox
-  - git config user.email "gitlab-ci@example.com"
-  - git fetch origin master
-  - git merge origin/master --no-ff
+image: docker
+services:
+  - docker:dind
 
 stages:
   - test
+  - build
+  - selenium
+  - release
   - publish_coverage
 
-test:
+variables:
+  CONTAINER_TEST_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:$CI_COMMIT_REF_NAME
+  CONTAINER_RELEASE_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
+
+test-branch:
   stage: test
-  script: cd castellum_core && tox
+  image: node:8.11.1-stretch
+  script:
+    - apt-get update -q && apt-get install -y -qq python3 python3-dev libldap-2.4-2 libldap2-dev libsasl2-dev tox
+    - cd castellum_core && tox
+
+test-merge:
+  stage: test
+  image: node:8.11.1-stretch
+  script:
+    - git config user.email "gitlab-ci@example.com"
+    - git fetch origin master
+    - git merge origin/master --no-ff
+    - apt-get update -q && apt-get install -y -qq python3 python3-dev libldap-2.4-2 libldap2-dev libsasl2-dev tox
+    - cd castellum_core && tox
   coverage: '/TOTAL.*\s+(\d+\%)/'
   artifacts:
     paths:
       - castellum_core/htmlcov/
+
+build:
+  stage: build
+  script:
+    - apk update && apk add git
+    - git config user.email "gitlab-ci@example.com"
+    - git fetch origin master
+    - git merge origin/master --no-ff
+    - cd castellum_core
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
+    - docker build -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+
+selenium:
+  stage: selenium
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
+    - docker run $CONTAINER_TEST_IMAGE echo fake selenium
+
+release-image:
+  stage: release
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - master
 
 pages:
   stage: publish_coverage

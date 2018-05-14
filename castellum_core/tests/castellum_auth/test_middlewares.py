@@ -20,10 +20,8 @@ def test_user_expiration_date(client, expiration_date, expected):
 
 
 @pytest.mark.django_db
-def test_auto_logout(client):
+def test_auto_logout(client, user):
     with freeze_time('2018-01-01 12:00:00'):
-        future = timezone.now() + timezone.timedelta(days=10)
-        user = User.objects.create(expiration_date=future)
         client.force_login(user)
         response = client.get('/ping/')
     with freeze_time('2018-01-01 12:20:00'):
@@ -32,10 +30,8 @@ def test_auto_logout(client):
 
 
 @pytest.mark.django_db
-def test_auto_logout_ping(client):
+def test_auto_logout_ping(client, user):
     with freeze_time('2018-01-01 12:00:00'):
-        future = timezone.now() + timezone.timedelta(days=10)
-        user = User.objects.create(expiration_date=future)
         client.force_login(user)
         response = client.get('/ping/')
     with freeze_time('2018-01-01 12:10:00'):
