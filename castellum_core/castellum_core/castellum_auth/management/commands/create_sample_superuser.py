@@ -9,4 +9,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if not User.objects.filter(username='admin').exists():
-            User.objects.create_superuser('admin', 'admin@example.com', '123')
+            expiration_date = timezone.now() + timezone.timedelta(days=1000)
+            User.objects.create_superuser(
+                'admin', 'admin@example.com', '123', expiration_date=expiration_date)
