@@ -1,7 +1,5 @@
 import pytest
-from django.utils import timezone
 
-from castellum_auth.models import User
 from castellum_auth.management.commands.clear_sessions import Command
 
 
