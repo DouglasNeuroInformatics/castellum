@@ -18,7 +18,12 @@
         } else if (idleTime > warnTimeout) {
             // blocks until the alert is closed
             alert(django.gettext('If you do nothing your session will expire'));
-            setActive();
+
+            if (new Date() - lastActivity <= logoutTimeout) {
+                setActive();
+            } else {
+                location.reload();
+            }
         }
     }, pollTimeout);
 
