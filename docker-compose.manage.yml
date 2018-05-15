@@ -18,7 +18,7 @@ services:
         environment:
             DJANGO_SETTINGS_MODULE: castellum_core.settings.example
         volumes:
-            - ./stage/settings.py:/code/castellum_core/castellum_core/settings/example.py
+            - ./example/settings.py:/code/castellum_core/castellum_core/settings/example.py
         command: "python3 castellum_core/manage.py create_castellum_admin"
         depends_on:
             - db
