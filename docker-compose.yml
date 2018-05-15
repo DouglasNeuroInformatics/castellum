@@ -15,8 +15,9 @@ services:
     build: castellum_core
     environment:
       DJANGO_SETTINGS_MODULE: castellum_core.settings.example
-    command: "uwsgi uwsgi.ini"
+    command: "python manage.py runserver"
     volumes:
+      - ./castellum_core:/code
       - static-content:/code/castellum_core/collected_static
       - ./example/settings.py:/code/castellum_core/castellum_core/settings/example.py
     depends_on:

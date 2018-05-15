@@ -12,7 +12,7 @@ services:
     volumes:
       - ./example/dummy_data.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif
   web:
-    build: castellum_core
+    image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
     environment:
       DJANGO_SETTINGS_MODULE: castellum_core.settings.example
     command: "uwsgi uwsgi.ini"
