@@ -34,7 +34,7 @@ class UserExpirationMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if request.user.is_authenticated and not request.user.is_superuser:
+        if request.user.is_authenticated:
             error = None
             if not request.user.expiration_date:
                 error = _('Your account is not activated.')

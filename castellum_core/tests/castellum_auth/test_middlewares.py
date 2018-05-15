@@ -20,14 +20,6 @@ def test_user_expiration_date(client, expiration_date, expected):
 
 
 @pytest.mark.django_db
-def test_user_expiration_date_superuser(client):
-    user = User.objects.create(expiration_date=None, is_superuser=True)
-    client.force_login(user)
-    response = client.get('/')
-    assert response.wsgi_request.user.is_authenticated
-
-
-@pytest.mark.django_db
 def test_auto_logout(client, user):
     with freeze_time('2018-01-01 12:00:00'):
         client.force_login(user)
