@@ -10,12 +10,13 @@ stages:
   - publish_coverage
 
 variables:
+  PYTHON_IMAGE: python:3.5
   CONTAINER_TEST_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:$CI_COMMIT_REF_NAME
   CONTAINER_RELEASE_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
 
 test-branch:
   stage: test
-  image: python:3.5
+  image: $PYTHON_IMAGE
   script:
     - apt-get update -q && apt-get install -y -qq python3-dev libldap-2.4-2 libldap2-dev libsasl2-dev
     - pip install tox
