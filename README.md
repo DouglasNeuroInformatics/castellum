@@ -1,4 +1,5 @@
-![coverage report](https://git.mpib-berlin.mpg.de/castellum/castellum/badges/master/coverage.svg)]
+![pipeline status](https://git.mpib-berlin.mpg.de/castellum/castellum/badges/master/build.svg)
+![coverage report](https://git.mpib-berlin.mpg.de/castellum/castellum/badges/master/coverage.svg)
 
 # Castellum
 
