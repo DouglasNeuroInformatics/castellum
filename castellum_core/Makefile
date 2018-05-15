@@ -17,6 +17,9 @@ makemigrations:
 createsuperuser:
 	$(MANAGEPY) create_castellum_admin
 
+collectstatic:
+	$(MANAGEPY) collectstatic
+
 install:
 	pip install tox ipdb
 	pip install -e .
