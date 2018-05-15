@@ -11,12 +11,19 @@
 
     setInterval(function() {
         var idleTime = new Date() - lastActivity;
-        if (idleTime < pollTimeout) {
+        if (idleTime <= pollTimeout) {
             fetch('/ping/', {
                 credentials: 'same-origin',
             });
         } else if (idleTime > warnTimeout) {
+            // blocks until the alert is closed
             alert(django.gettext('If you do nothing your session will expire'));
+
+            if (new Date() - lastActivity <= logoutTimeout) {
+                setActive();
+            } else {
+                location.reload();
+            }
         }
     }, pollTimeout);
 
