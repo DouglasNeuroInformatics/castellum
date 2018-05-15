@@ -11,6 +11,7 @@ stages:
 
 variables:
   PYTHON_IMAGE: python:3.5
+  PYTHON_IMAGE_DEPENDENCIES: "python3-dev libldap-2.4-2 libldap2-dev libsasl2-dev"
   CONTAINER_TEST_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:$CI_COMMIT_REF_NAME
   CONTAINER_RELEASE_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
 
@@ -18,7 +19,7 @@ test-branch:
   stage: test
   image: $PYTHON_IMAGE
   script:
-    - apt-get update -q && apt-get install -y -qq python3-dev libldap-2.4-2 libldap2-dev libsasl2-dev
+    - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
     - pip install tox
     - cd castellum_core && tox
 
