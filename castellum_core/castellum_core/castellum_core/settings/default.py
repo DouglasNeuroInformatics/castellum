@@ -1,5 +1,7 @@
 import os
 
+from django.utils import timezone
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -81,6 +83,8 @@ AUTH_USER_MODEL = 'castellum_auth.User'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+LOGOUT_TIMEOUT_DEFAULT = timezone.timedelta(seconds=15 * 60)
 
 
 # Internationalization
