@@ -1,0 +1,17 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block sidebar %}
+    <div id="content-related">
+        <div class="module">
+            <h2>{% trans "Permissions" %}</h2>
+            <ul>
+                {% for perm in original.get_all_permissions %}
+                    <li>{{ perm }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
