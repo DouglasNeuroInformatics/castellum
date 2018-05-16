@@ -8,8 +8,8 @@
         <div class="module">
             <h2>{% trans "Permissions" %}</h2>
             <ul>
-                {% for perm in original.get_all_permissions %}
-                    <li>{{ perm }}</li>
+                {% for perm in original.get_all_permission_objects %}
+                    <li>{{ perm.name }}</li>
                 {% endfor %}
             </ul>
         </div>

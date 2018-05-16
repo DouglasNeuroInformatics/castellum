@@ -30,3 +30,11 @@ class User(AbstractUser):
     @property
     def logout_timeout(self):
         return 15 * 60
+
+    def get_all_permission_objects(self):
+        # NOTE: ignores any permissions form custom authentication backends
+        permissions = set()
+        permissions.update(self.user_permissions.all())
+        for group in self.groups.all():
+            permissions.update(group.permissions.all())
+        return permissions
