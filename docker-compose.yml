@@ -10,7 +10,7 @@ services:
       - "389:389"
     command: [--copy-service]
     volumes:
-      - ./example/dummy_data.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif
+      - ./example_deployment/dummy_data.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif
   web:
     build: castellum_core
     environment:
@@ -19,14 +19,14 @@ services:
     volumes:
       - ./castellum_core:/code
       - static-content:/code/castellum_core/collected_static
-      - ./example/settings.py:/code/castellum_core/castellum_core/settings/example.py
+      - ./example_deployment/settings.py:/code/castellum_core/castellum_core/settings/example.py
     depends_on:
       - db
       - ldap
   nginx:
     image: nginx
     volumes:
-      - ./example/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./example_deployment/nginx.conf:/etc/nginx/conf.d/default.conf
       - static-content:/static
     ports:
       - "8000:80"
