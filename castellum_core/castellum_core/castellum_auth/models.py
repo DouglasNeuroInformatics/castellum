@@ -37,4 +37,4 @@ class User(AbstractUser):
         permissions.update(self.user_permissions.all())
         for group in self.groups.all():
             permissions.update(group.permissions.all())
-        return permissions
+        return sorted(permissions, key=lambda p: p.codename)
