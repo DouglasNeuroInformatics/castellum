@@ -7,8 +7,8 @@ concerning deployment.
 ## Example
 
 An example configuration is included in this repository.  You can execute it with `docker-compose -f
-docker-compose.yml up` inside the `example_deplyment/` folder. It includes example configuration for
-Nginx, uWSGI, PostgreSQL, and LDAP.
+docker-compose.yml -f docker-compose.manage.yml up` inside the `example_deplyment/` folder. It
+includes example configuration for Nginx, uWSGI, PostgreSQL, and LDAP.
 
 ## Authentication
 
