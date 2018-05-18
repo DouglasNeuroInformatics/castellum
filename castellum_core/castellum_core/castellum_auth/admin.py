@@ -27,19 +27,23 @@ from django.utils.translation import ugettext_lazy as _
 from .models import User
 
 
-def expires_in(obj):
-    if obj.expiration_date is None or obj.expiration_date < timezone.now():
-        return None
-    else:
-        return obj.expiration_date - timezone.now()
+def expiration_date(obj):
+    if not obj.expiration_date:
+        return
+
+    if obj.expiration_date < timezone.now():
+        return "{} (expired)".format(obj.expiration_date.date())
+
+    expires_in = obj.expiration_date - timezone.now()
+    return "{} ({} days left)".format(obj.expiration_date.date(), expires_in.days)
 
 
-expires_in.admin_order_field = 'expiration_date'
+expiration_date.admin_order_field = 'expiration_date'
 
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    list_display = BaseUserAdmin.list_display + (expires_in,)
+    list_display = BaseUserAdmin.list_display + (expiration_date,)
     fieldsets = (
         (None, {
             'fields': ('username', 'password')
