@@ -15,16 +15,16 @@ def test_no_expiration_date_is_set():
 
 def test_user_account_is_expired():
     user = mommy.prepare(User, expiration_date=datetime(2010, 1, 1, tzinfo=pytz.UTC))
-    assert "2010-01-01 (expired)" == expiration_date(user)
+    assert "1/1/2010 (expired)" == expiration_date(user)
 
 
 @freeze_time("2018-01-01")
 def test_expiration_date_is_today():
     user = mommy.prepare(User, expiration_date=datetime(2018, 1, 1, tzinfo=pytz.UTC))
-    assert "2018-01-01 (0 days left)" == expiration_date(user)
+    assert "1/1/2018 (0 days left)" == expiration_date(user)
 
 
 @freeze_time("2018-01-01")
 def test_expiration_date_is_in_the_future():
     user = mommy.prepare(User, expiration_date=datetime(2019, 1, 1, tzinfo=pytz.UTC))
-    assert "2019-01-01 (365 days left)" == expiration_date(user)
+    assert "1/1/2019 (365 days left)" == expiration_date(user)

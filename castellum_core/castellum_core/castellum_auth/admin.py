@@ -22,7 +22,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 
 from .models import User
 
@@ -31,11 +31,19 @@ def expiration_date(obj):
     if not obj.expiration_date:
         return
 
+    expiration_date = obj.expiration_date.date()
+    formatted_expiration_date = _("%(month)s/%(day)s/%(year)s") % {
+        "month": expiration_date.month,
+        "day": expiration_date.day,
+        "year": expiration_date.year,
+    }
+
     if obj.expiration_date < timezone.now():
-        return "{} (expired)".format(obj.expiration_date.date())
+        return "{} ({})".format(formatted_expiration_date, _("expired"))
 
     expires_in = obj.expiration_date - timezone.now()
-    return "{} ({} days left)".format(obj.expiration_date.date(), expires_in.days)
+    formatted_expires_in = _("%(days)s days left") % {"days": expires_in.days}
+    return "{} ({})".format(formatted_expiration_date, formatted_expires_in)
 
 
 expiration_date.admin_order_field = 'expiration_date'
