@@ -29,3 +29,11 @@ class User(AbstractUser):
     expiration_date = models.DateTimeField(_('Expiration date'), blank=True, null=True)
     logout_timeout = models.DurationField(
         _('Time until automatic logout'), default=settings.LOGOUT_TIMEOUT_DEFAULT)
+
+    def get_all_permission_objects(self):
+        # NOTE: ignores any permissions form custom authentication backends
+        permissions = set()
+        permissions.update(self.user_permissions.all())
+        for group in self.groups.all():
+            permissions.update(group.permissions.all())
+        return sorted(permissions, key=lambda p: p.codename)
