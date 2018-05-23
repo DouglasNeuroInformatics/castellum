@@ -6,7 +6,7 @@ MANAGEPY = python castellum_core/manage.py
 run:
 	$(MANAGEPY) runserver
 
-bootstrap: install migrate createsuperuser
+bootstrap: install migrate createsuperuser castellum_core/locale/de/LC_MESSAGES/django.mo
 
 migrate:
 	$(MANAGEPY) migrate
@@ -19,6 +19,9 @@ createsuperuser:
 
 collectstatic:
 	$(MANAGEPY) collectstatic
+
+%.mo: %.po
+	$(MANAGEPY) compilemessages
 
 install:
 	pip install tox ipdb
