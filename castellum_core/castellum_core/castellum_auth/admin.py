@@ -22,24 +22,36 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 
 from .models import User
 
 
-def expires_in(obj):
-    if obj.expiration_date is None or obj.expiration_date < timezone.now():
-        return None
-    else:
-        return obj.expiration_date - timezone.now()
+def expiration_date(obj):
+    if not obj.expiration_date:
+        return
+
+    expiration_date = obj.expiration_date.date()
+    formatted_expiration_date = _("%(month)s/%(day)s/%(year)s") % {
+        "month": expiration_date.month,
+        "day": expiration_date.day,
+        "year": expiration_date.year,
+    }
+
+    if obj.expiration_date < timezone.now():
+        return "{} ({})".format(formatted_expiration_date, _("expired"))
+
+    expires_in = obj.expiration_date - timezone.now()
+    formatted_expires_in = _("%(days)s days left") % {"days": expires_in.days}
+    return "{} ({})".format(formatted_expiration_date, formatted_expires_in)
 
 
-expires_in.admin_order_field = 'expiration_date'
+expiration_date.admin_order_field = 'expiration_date'
 
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    list_display = BaseUserAdmin.list_display + (expires_in,)
+    list_display = BaseUserAdmin.list_display + (expiration_date,)
     fieldsets = (
         (None, {
             'fields': ('username', 'password')
