@@ -9,6 +9,7 @@ collected_static/
 
 *.pyc
 *.sqlite3
+*.mo
 
 .coverage
 package-lock.json
