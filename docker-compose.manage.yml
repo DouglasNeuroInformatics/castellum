@@ -6,19 +6,19 @@ services:
     migrate:
         build: castellum_core
         environment:
-            DJANGO_SETTINGS_MODULE: castellum_core.settings.stage
+            DJANGO_SETTINGS_MODULE: castellum_core.settings.example
         command: "python3 castellum_core/manage.py migrate"
         volumes:
-            - ./stage/settings.py:/code/castellum_core/castellum_core/settings/stage.py
+            - ./example_deployment/settings.py:/code/castellum_core/castellum_core/settings/example.py
         depends_on:
             - db
 
     createsuperuser:
         build: castellum_core
         environment:
-            DJANGO_SETTINGS_MODULE: castellum_core.settings.stage
+            DJANGO_SETTINGS_MODULE: castellum_core.settings.example
         volumes:
-            - ./stage/settings.py:/code/castellum_core/castellum_core/settings/stage.py
+            - ./example_deployment/settings.py:/code/castellum_core/castellum_core/settings/example.py
         command: "python3 castellum_core/manage.py create_castellum_admin"
         depends_on:
             - db
