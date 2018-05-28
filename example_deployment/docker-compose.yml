@@ -17,7 +17,7 @@ services:
       DJANGO_SETTINGS_MODULE: castellum_core.settings.example
     command: "uwsgi uwsgi.ini"
     ports:
-      - "8000:80"
+      - "8000:8000"
     volumes:
       - ./settings.py:/code/castellum_core/castellum_core/settings/example.py
     depends_on:
