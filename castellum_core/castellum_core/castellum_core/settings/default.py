@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'bootstrap4',
 
     'castellum_auth.apps.CastellumAuthConfig',
+    'subject_management',
 ]
 
 MIDDLEWARE = [
