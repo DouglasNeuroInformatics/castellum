@@ -35,8 +35,8 @@ class Address(models.Model):
     additional_information = models.CharField(max_length=32, blank=True, default="")
 
     def __str__(self):
-        return "{} {}, {} {} {}".format(self.zip_code, self.city.name, self.street,
-                                        self.house_number, self.additional_information)
+        street = " ".join([self.street, self.house_number, self.additional_information]).strip()
+        return "{} {}, {}".format(self.zip_code, self.city.name, street)
 
     class Meta:
         ordering = ("city__country__name", "city__name", "zip_code", "street", "house_number",
