@@ -38,7 +38,6 @@ class Address(models.Model):
         return "{} {}, {} {} {}".format(self.zip_code, self.city.name, self.street,
                                         self.house_number, self.additional_information)
 
-
     class Meta:
         ordering = ("city__country__name", "city__name", "zip_code", "street", "house_number",
                     "additional_information")
