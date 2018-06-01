@@ -2,6 +2,8 @@ import os
 
 from django.utils import timezone
 
+from .databases import DATABASE_ROUTERS, DATABASES
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -42,14 +44,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'castellum_core.urls'
-
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 TEMPLATES = [

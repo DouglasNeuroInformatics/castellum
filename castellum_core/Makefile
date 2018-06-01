@@ -10,6 +10,7 @@ bootstrap: install migrate createsuperuser castellum_core/locale/de/LC_MESSAGES/
 
 migrate:
 	$(MANAGEPY) migrate
+	$(MANAGEPY) migrate --database=subject_management
 
 makemigrations:
 	$(MANAGEPY) makemigrations
