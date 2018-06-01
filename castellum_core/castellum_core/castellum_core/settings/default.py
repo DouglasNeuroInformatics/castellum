@@ -5,6 +5,10 @@ from django.utils import timezone
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+SECRET_KEY = os.environ.get("SECRET_KEY", os.urandom(32))
+
+DEBUG = "on" == os.environ.get("DEBUG", "on")
+
 ALLOWED_HOSTS = []
 
 
@@ -38,6 +42,15 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'castellum_core.urls'
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
 
 TEMPLATES = [
     {
