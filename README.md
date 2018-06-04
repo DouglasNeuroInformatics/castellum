@@ -5,11 +5,19 @@
 
 Castellum is a privacy-compliant recruiting database for scientific contexts.
 
-## Installation
+## Usage
 
-If python3 is available on your system, the following commands will install everything and start a
-local testserver:
+Example setup:
 
+    docker-compose -f docker-compose.yml -f docker-compose.manage.yml up
+
+For more details, see `docs/deployment.md`.
+
+## Development
+
+The following commands will install everything and start a local testserver (on ubuntu):
+
+    sudo apt install python3 libldap2-dev libsasl2-dev
     python3 -m venv .env
     . .env/bin/activate
     cd castellum_core
