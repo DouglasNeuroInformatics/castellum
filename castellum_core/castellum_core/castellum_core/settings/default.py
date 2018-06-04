@@ -146,6 +146,10 @@ LOGGING = {
         'verbose': {
             'format': '%(asctime)s %(levelname)s %(name)s %(message)s'
         },
+        'django.server': {
+            '()': 'django.utils.log.ServerFormatter',
+            'format': '[%(server_time)s] %(message)s',
+        }
     },
     'filters': {
         'require_debug_true': {
@@ -170,6 +174,11 @@ LOGGING = {
             'filename': os.path.join(BASE_DIR, 'audit.log'),
             'formatter': 'verbose',
         },
+        'django.server': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'django.server',
+        },
     },
     'loggers': {
         'django': {
@@ -181,6 +190,11 @@ LOGGING = {
             'handlers': ['audit-file'],
             'level': 'DEBUG',
             'propagate': True,
+        },
+        'django.server': {
+            'handlers': ['django.server'],
+            'level': 'DEBUG',
+            'propagate': False,
         },
     },
 }
