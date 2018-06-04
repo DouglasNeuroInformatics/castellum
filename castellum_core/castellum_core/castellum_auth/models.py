@@ -20,9 +20,15 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.db import models
+import logging
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.signals import user_logged_in
+from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
+
+audit_logger = logging.getLogger('audit.auth')
 
 
 class User(AbstractUser):
@@ -37,3 +43,8 @@ class User(AbstractUser):
         for group in self.groups.all():
             permissions.update(group.permissions.all())
         return sorted(permissions, key=lambda p: p.codename)
+
+
+@receiver(user_logged_in)
+def log_login(sender, user, request, **kwargs):
+    audit_logger.info('Login by {} ({})'.format(user.username, user.pk))
