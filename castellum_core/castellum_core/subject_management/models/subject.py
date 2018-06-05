@@ -21,7 +21,7 @@ class Subject(models.Model):
 
     birthday = models.DateField(_("birthday"))
 
-    address = models.ForeignKey(_("Address"), Address, blank=True, null=True,
+    address = models.ForeignKey(Address, blank=True, null=True, verbose_name=_("Address"),
                                 on_delete=models.SET_NULL)
     email = models.EmailField(_("email"), max_length=128, blank=True, default="")
     phone_number = models.CharField(_("phone number"), max_length=32, blank=True, default="")
