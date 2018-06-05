@@ -181,15 +181,20 @@ LOGGING = {
         },
     },
     'loggers': {
-        'django': {
+        '': {
             'handlers': ['debug-file', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django': {
+            'handlers': [],
             'level': 'DEBUG',
             'propagate': True,
         },
         'audit': {
             'handlers': ['audit-file'],
             'level': 'DEBUG',
-            'propagate': True,
+            'propagate': False,
         },
         'django.server': {
             'handlers': ['django.server'],
