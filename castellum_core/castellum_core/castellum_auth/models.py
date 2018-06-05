@@ -23,6 +23,7 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 
@@ -46,4 +47,8 @@ def lock_notification(sender, instance=None, **kwargs):
     if isinstance(instance, User) and not instance.is_active:
         old = User.objects.get(pk=instance.pk)
         if old.is_active:
-            pass
+            send_mail(
+                settings.CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT,
+                settings.CASTELLUM_LOCK_USER_NOTIFICATION_TEXT.format(username=instance.username),
+                settings.DEFAULT_FROM_EMAIL,
+                [instance.email])
