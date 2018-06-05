@@ -20,8 +20,10 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.db import models
+from django.db.models.signals import pre_save
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -37,3 +39,11 @@ class User(AbstractUser):
         for group in self.groups.all():
             permissions.update(group.permissions.all())
         return sorted(permissions, key=lambda p: p.codename)
+
+
+@receiver(pre_save)
+def lock_notification(sender, instance=None, **kwargs):
+    if isinstance(instance, User) and not instance.is_active:
+        old = User.objects.get(pk=instance.pk)
+        if old.is_active:
+            pass
