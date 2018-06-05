@@ -34,7 +34,7 @@ class Address(models.Model):
     street = models.CharField(_("street"), max_length=128)
     house_number = models.CharField(_("house_number"), max_length=5)
     additional_information = models.CharField(_("additional information"), max_length=32,
-                                              blank=True, default="")
+                                              blank=True)
 
     def __str__(self):
         street = " ".join([self.street, self.house_number, self.additional_information]).strip()
