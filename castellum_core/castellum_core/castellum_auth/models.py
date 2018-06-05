@@ -28,7 +28,7 @@ from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 
-audit_logger = logging.getLogger('audit.auth')
+monitoring_logger = logging.getLogger('monitoring.auth')
 
 
 class User(AbstractUser):
@@ -47,4 +47,4 @@ class User(AbstractUser):
 
 @receiver(user_logged_in)
 def log_login(sender, user, request, **kwargs):
-    audit_logger.info('Login by {} ({})'.format(user.username, user.pk))
+    monitoring_logger.info('Login by {} ({})'.format(user.username, user.pk))

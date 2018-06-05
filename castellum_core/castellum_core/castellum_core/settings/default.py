@@ -168,10 +168,10 @@ LOGGING = {
             'filename': os.path.join(BASE_DIR, 'debug.log'),
             'formatter': 'verbose',
         },
-        'audit-file': {
+        'monitoring-file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'audit.log'),
+            'filename': os.path.join(BASE_DIR, 'monitoring.log'),
             'formatter': 'verbose',
         },
         'django.server': {
@@ -191,8 +191,8 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
-        'audit': {
-            'handlers': ['audit-file'],
+        'monitoring': {
+            'handlers': ['monitoring-file'],
             'level': 'DEBUG',
             'propagate': False,
         },
