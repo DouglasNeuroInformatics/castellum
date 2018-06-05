@@ -17,7 +17,7 @@ For more details, see `docs/deployment.md`.
 
 The following commands will install everything and start a local testserver (on ubuntu):
 
-    sudo apt install python3 libldap2-dev libsasl2-dev
+    sudo apt install python3 npm python3-dev libldap2-dev libsasl2-dev
     python3 -m venv .env
     . .env/bin/activate
     cd castellum_core
