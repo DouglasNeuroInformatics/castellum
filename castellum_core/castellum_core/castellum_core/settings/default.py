@@ -139,6 +139,19 @@ MESSAGE_TAGS = {
 }
 
 
+"""
+Some notes on the logging configuration:
+
+-   Loggers are hierarchical, so everything eventually ends up at ''.
+-   Most logger correspond to modules (e.g. django.server).
+-   'monitoring' is our custom logger namespace to monitor user behavior.
+-   'django.server' is the development server. It is not used in production.
+-   'django' logs to console by default. It is listed here only to remove that handler
+    (as this is already covered by '').
+
+See also https://docs.djangoproject.com/en/2.0/topics/logging/
+
+"""
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
