@@ -49,6 +49,8 @@ def lock_notification(sender, instance=None, **kwargs):
         if old.is_active:
             send_mail(
                 settings.CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT,
-                settings.CASTELLUM_LOCK_USER_NOTIFICATION_TEXT.format(username=instance.username),
+                settings.CASTELLUM_LOCK_USER_NOTIFICATION_TEXT.format(
+                    username=instance.username,
+                    contact=settings.CASTELLUM_LOCK_USER_CONTACT),
                 settings.DEFAULT_FROM_EMAIL,
                 [instance.email])

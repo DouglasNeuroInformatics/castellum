@@ -140,10 +140,11 @@ MESSAGE_TAGS = {
 }
 
 
+CASTELLUM_LOCK_USER_CONTACT = 'admin@example.com'
 CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT = _('[Castellum] Suspicious activity')
 CASTELLUM_LOCK_USER_NOTIFICATION_TEXT = _("""Dear {username},
 
 your castellum account has been locked due to suspicious activity.
 
-Please contact <admin@example.com>.
+Please contact {contact}.
 """)
