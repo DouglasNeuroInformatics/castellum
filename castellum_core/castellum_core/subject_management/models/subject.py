@@ -10,6 +10,7 @@ class Subject(models.Model):
     GENDER = (
         ("f", _("female")),
         ("m", _("male")),
+        ("*", _("diverse")),
     )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
