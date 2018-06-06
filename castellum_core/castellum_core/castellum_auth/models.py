@@ -19,13 +19,18 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.db import models
-from django.db.models.signals import pre_save
+import logging
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.signals import user_logged_in
 from django.core.mail import send_mail
+from django.db import models
+from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
+
+monitoring_logger = logging.getLogger('monitoring.auth')
 
 
 class User(AbstractUser):
@@ -54,3 +59,8 @@ def lock_notification(sender, instance=None, **kwargs):
                     contact=settings.CASTELLUM_LOCK_USER_CONTACT),
                 settings.DEFAULT_FROM_EMAIL,
                 [instance.email])
+
+
+@receiver(user_logged_in)
+def log_login(sender, user, request, **kwargs):
+    monitoring_logger.info('Login by {} ({})'.format(user.username, user.pk))
