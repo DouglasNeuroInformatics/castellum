@@ -38,3 +38,5 @@ class SubjectManagementRouter:
     def allow_migrate(self, db, app_label, **hints):
         if db == APP_LABEL:
             return app_label == APP_LABEL
+        elif app_label == APP_LABEL:
+            return False
