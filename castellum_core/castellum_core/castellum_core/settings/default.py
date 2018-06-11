@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'bootstrap4',
 
     'castellum_auth',
+    'subject_management',
 ]
 
 MIDDLEWARE = [
@@ -38,6 +39,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'castellum_core.urls'
+
 
 TEMPLATES = [
     {
@@ -59,6 +61,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'castellum_core.wsgi.application'
 
+
+DATABASE_ROUTERS = [
+    'subject_management.routers.SubjectManagementRouter',
+]
 
 # Password validation
 
