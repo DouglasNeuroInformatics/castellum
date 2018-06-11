@@ -20,7 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap4',
 
-    'castellum_auth.apps.CastellumAuthConfig',
+    'castellum_auth',
 ]
 
 MIDDLEWARE = [
