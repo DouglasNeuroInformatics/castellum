@@ -1,6 +1,7 @@
 import os
 
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 from .databases import DATABASE_ROUTERS, DATABASES
 
@@ -145,3 +146,92 @@ MESSAGE_TAGS = {
     messages.WARNING: 'warning',
     messages.ERROR: 'danger',
 }
+
+
+"""
+Some notes on the logging configuration:
+
+-   Loggers are hierarchical, so everything eventually ends up at ''.
+-   Most logger correspond to modules (e.g. django.server).
+-   'monitoring' is our custom logger namespace to monitor user behavior.
+-   'django.server' is the development server. It is not used in production.
+-   'django' logs to console by default. It is listed here only to remove that handler
+    (as this is already covered by '').
+
+See also https://docs.djangoproject.com/en/2.0/topics/logging/
+
+"""
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s %(levelname)s %(name)s %(message)s'
+        },
+        'django.server': {
+            '()': 'django.utils.log.ServerFormatter',
+            'format': '[%(server_time)s] %(message)s',
+        }
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+        },
+        'debug-file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'debug.log'),
+            'formatter': 'verbose',
+        },
+        'monitoring-file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'monitoring.log'),
+            'formatter': 'verbose',
+        },
+        'django.server': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'django.server',
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['debug-file', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django': {
+            'handlers': [],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'monitoring': {
+            'handlers': ['monitoring-file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'django.server': {
+            'handlers': ['django.server'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
+
+
+CASTELLUM_LOCK_USER_CONTACT = 'admin@example.com'
+CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT = _('[Castellum] Suspicious activity')
+CASTELLUM_LOCK_USER_NOTIFICATION_TEXT = _("""Dear {username},
+
+your castellum account has been locked due to suspicious activity.
+
+Please contact {contact}.
+""")

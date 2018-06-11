@@ -19,16 +19,39 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.db import models
+import logging
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.signals import user_logged_in
+from django.core.mail import send_mail
+from django.db import models
+from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
+
+monitoring_logger = logging.getLogger('monitoring.auth')
 
 
 class User(AbstractUser):
     expiration_date = models.DateTimeField(_('Expiration date'), blank=True, null=True)
     logout_timeout = models.DurationField(
         _('Time until automatic logout'), default=settings.LOGOUT_TIMEOUT_DEFAULT)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__initial_is_active = self.is_active
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if not self.is_active and self.__initial_is_active:
+            send_mail(
+                settings.CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT,
+                settings.CASTELLUM_LOCK_USER_NOTIFICATION_TEXT.format(
+                    username=self.username,
+                    contact=settings.CASTELLUM_LOCK_USER_CONTACT),
+                settings.DEFAULT_FROM_EMAIL,
+                [self.email])
 
     def get_all_permission_objects(self):
         # NOTE: ignores any permissions form custom authentication backends
@@ -37,3 +60,8 @@ class User(AbstractUser):
         for group in self.groups.all():
             permissions.update(group.permissions.all())
         return sorted(permissions, key=lambda p: p.codename)
+
+
+@receiver(user_logged_in)
+def log_login(sender, user, request, **kwargs):
+    monitoring_logger.info('Login by {} ({})'.format(user.username, user.pk))
