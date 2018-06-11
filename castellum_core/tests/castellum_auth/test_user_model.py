@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from django.contrib.auth.models import AbstractUser as DjangoUser
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
@@ -28,3 +30,19 @@ def test_user_get_all_permission_objects_unique(user):
     user.groups.add(group)
 
     assert len(user.get_all_permission_objects()) == 1
+
+
+@patch('castellum_auth.models.send_mail')
+def test_lock_notification(send_mail, user):
+    user.is_active = True
+    user.save()
+    send_mail.reset_mock()
+
+    user.is_active = False
+    user.save()
+    assert send_mail.called
+    send_mail.reset_mock()
+
+    user.is_active = True
+    user.save()
+    assert not send_mail.called
