@@ -3,14 +3,8 @@ import os
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from .databases import DATABASE_ROUTERS, DATABASES
-
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-SECRET_KEY = os.environ.get("SECRET_KEY", os.urandom(32))
-
-DEBUG = "on" == os.environ.get("DEBUG", "on")
 
 ALLOWED_HOSTS = []
 
@@ -67,6 +61,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'castellum_core.wsgi.application'
 
+
+DATABASE_ROUTERS = [
+    'subject_management.routers.SubjectManagementRouter',
+]
 
 # Password validation
 
