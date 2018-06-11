@@ -7,11 +7,15 @@ services:
         build: castellum_core
         environment:
             DJANGO_SETTINGS_MODULE: castellum_core.settings.example
-        command: "python3 castellum_core/manage.py migrate"
+        command: >
+            sh -c "
+            python3 castellum_core/manage.py migrate &&
+            python3 castellum_core/manage.py migrate --database=subject_management"
         volumes:
             - ./example_deployment/settings.py:/code/castellum_core/castellum_core/settings/example.py
         depends_on:
-            - db
+            - db_default
+            - db_subject_management
 
     createsuperuser:
         build: castellum_core
@@ -21,4 +25,4 @@ services:
             - ./example_deployment/settings.py:/code/castellum_core/castellum_core/settings/example.py
         command: "python3 castellum_core/manage.py create_castellum_admin"
         depends_on:
-            - db
+            - db_default
