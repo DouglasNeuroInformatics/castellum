@@ -26,7 +26,6 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.signals import user_logged_in
 from django.core.mail import send_mail
 from django.db import models
-from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 
@@ -38,6 +37,22 @@ class User(AbstractUser):
     logout_timeout = models.DurationField(
         _('Time until automatic logout'), default=settings.LOGOUT_TIMEOUT_DEFAULT)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__initial_is_active = self.is_active
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if not self.is_active and self.__initial_is_active:
+            send_mail(
+                settings.CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT,
+                settings.CASTELLUM_LOCK_USER_NOTIFICATION_TEXT.format(
+                    username=self.username,
+                    contact=settings.CASTELLUM_LOCK_USER_CONTACT),
+                settings.DEFAULT_FROM_EMAIL,
+                [self.email])
+
     def get_all_permission_objects(self):
         # NOTE: ignores any permissions form custom authentication backends
         permissions = set()
@@ -45,20 +60,6 @@ class User(AbstractUser):
         for group in self.groups.all():
             permissions.update(group.permissions.all())
         return sorted(permissions, key=lambda p: p.codename)
-
-
-@receiver(pre_save)
-def lock_notification(sender, instance=None, **kwargs):
-    if isinstance(instance, User) and not instance.is_active:
-        old = User.objects.get(pk=instance.pk)
-        if old.is_active:
-            send_mail(
-                settings.CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT,
-                settings.CASTELLUM_LOCK_USER_NOTIFICATION_TEXT.format(
-                    username=instance.username,
-                    contact=settings.CASTELLUM_LOCK_USER_CONTACT),
-                settings.DEFAULT_FROM_EMAIL,
-                [instance.email])
 
 
 @receiver(user_logged_in)
