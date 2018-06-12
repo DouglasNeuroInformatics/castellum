@@ -3,7 +3,7 @@ version: '2'
 # run with 'docker-compose -f docker-compose.yml -f docker-compose.manage.yml up <service>'
 # for more information see https://docs.docker.com/compose/extends/#administrative-tasks
 services:
-    migrate:
+    migrate_default:
         image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
         environment:
             DJANGO_SETTINGS_MODULE: castellum_core.settings.example
@@ -11,7 +11,17 @@ services:
         volumes:
             - ./settings.py:/code/castellum_core/castellum_core/settings/example.py
         depends_on:
-            - db
+            - db_default
+
+    migrate_subject_management:
+        image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
+        environment:
+            DJANGO_SETTINGS_MODULE: castellum_core.settings.example
+        command: "python3 castellum_core/manage.py migrate --database=subject_management"
+        volumes:
+            - ./settings.py:/code/castellum_core/castellum_core/settings/example.py
+        depends_on:
+            - db_subject_management
 
     createsuperuser:
         image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
@@ -21,4 +31,4 @@ services:
             - ./settings.py:/code/castellum_core/castellum_core/settings/example.py
         command: "python3 castellum_core/manage.py create_castellum_admin"
         depends_on:
-            - db
+            - db_default

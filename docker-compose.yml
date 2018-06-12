@@ -1,7 +1,9 @@
 version: '2'
 
 services:
-  db:
+  db_default:
+    image: postgres
+  db_subject_management:
     image: postgres
   ldap:
     container_name: ldap
@@ -22,5 +24,6 @@ services:
       - ./castellum_core:/code
       - ./example_deployment/settings.py:/code/castellum_core/castellum_core/settings/example.py
     depends_on:
-      - db
+      - db_default
+      - db_subject_management
       - ldap
