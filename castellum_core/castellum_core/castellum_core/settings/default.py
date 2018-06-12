@@ -159,6 +159,11 @@ Some notes on the logging configuration:
 See also https://docs.djangoproject.com/en/2.0/topics/logging/
 
 """
+if os.access('/log', os.W_OK):
+    LOG_DIR = '/log'
+else:
+    LOG_DIR = BASE_DIR
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -179,13 +184,13 @@ LOGGING = {
         'debug-file': {
             'level': 'WARNING',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'debug.log'),
+            'filename': os.path.join(LOG_DIR, 'debug.log'),
             'formatter': 'verbose',
         },
         'monitoring-file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'monitoring.log'),
+            'filename': os.path.join(LOG_DIR, 'monitoring.log'),
             'formatter': 'verbose',
         },
         'django.server': {
