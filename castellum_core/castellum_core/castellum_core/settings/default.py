@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'bootstrap4',
 
     'castellum_auth',
+    'recruitment',
     'studies',
     'subject_management',
 ]
