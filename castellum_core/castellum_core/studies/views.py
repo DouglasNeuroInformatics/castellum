@@ -19,16 +19,17 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 
 from . import models
 
 
-class IndexView(generic.ListView):
+class IndexView(LoginRequiredMixin, generic.ListView):
     model = models.Study
 
 
-class CreateView(generic.CreateView):
+class CreateView(LoginRequiredMixin, generic.CreateView):
     model = models.Study
     fields = '__all__'
     success_url = '/'
