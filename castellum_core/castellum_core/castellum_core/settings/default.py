@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'bootstrap4',
 
     'castellum_auth',
+    'studies',
     'subject_management',
 ]
 
@@ -91,6 +92,7 @@ AUTH_USER_MODEL = 'castellum_auth.User'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
 
 LOGOUT_TIMEOUT_DEFAULT = timezone.timedelta(seconds=15 * 60)
 
