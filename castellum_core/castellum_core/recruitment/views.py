@@ -19,11 +19,12 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 
 from studies.models import Study
 
 
-class IndexView(generic.ListView):
+class IndexView(LoginRequiredMixin, generic.ListView):
     model = Study
     template_name = 'recruitment/study_list.html'
