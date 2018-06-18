@@ -1,7 +1,7 @@
 MANAGEPY = python castellum_core/manage.py
 
 
-.PHONY: bootstrap createsuperuser install makemigrations migrate run
+.PHONY: bootstrap createsuperuser install makemigrations migrate run makemessages
 
 run:
 	$(MANAGEPY) runserver
@@ -20,6 +20,10 @@ createsuperuser:
 
 collectstatic:
 	$(MANAGEPY) collectstatic
+
+makemessages:
+	$(MANAGEPY) makemessages -d django
+	$(MANAGEPY) makemessages -d djangojs
 
 %.mo: %.po
 	$(MANAGEPY) compilemessages
