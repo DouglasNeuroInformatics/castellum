@@ -19,8 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.core.management.base import BaseCommand
 from django.contrib.sessions.models import Session
+from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
