@@ -26,7 +26,7 @@ makemessages:
 	$(MANAGEPY) makemessages -d djangojs
 
 %.mo: %.po
-	$(MANAGEPY) compilemessages
+	$(MANAGEPY) compilemessages -l de
 
 install:
 	pip install tox ipdb
