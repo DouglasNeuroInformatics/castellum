@@ -20,4 +20,4 @@ msgstr ""
 
 #: castellum_core/static/autologout.js:20
 msgid "If you do nothing your session will expire"
-msgstr ""
+msgstr "Wenn Sie nichts tun wird ihre Sitzung ablaufen"

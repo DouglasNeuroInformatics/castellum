@@ -20,23 +20,23 @@ msgstr ""
 #: build/lib/castellum_core/castellum_auth/admin.py:14
 #: castellum_core/castellum_auth/admin.py:59
 msgid "Personal info"
-msgstr ""
+msgstr "Persönliche Informationen"
 
 #: build/lib/castellum_core/castellum_auth/admin.py:17
 #: castellum_core/castellum_auth/admin.py:62
 #: castellum_core/castellum_auth/templates/admin/castellum_auth/user/change_form.html:9
 msgid "Permissions"
-msgstr ""
+msgstr "Rechte"
 
 #: build/lib/castellum_core/castellum_auth/admin.py:20
 #: castellum_core/castellum_auth/admin.py:65
 msgid "Important dates"
-msgstr ""
+msgstr "Wichtige Daten"
 
 #: build/lib/castellum_core/castellum_auth/models.py:7
 #: castellum_core/castellum_auth/models.py:36
 msgid "Expiration date"
-msgstr ""
+msgstr "Ablaufdatum"
 
 #: castellum_core/castellum_auth/admin.py:35
 #, python-format
@@ -54,150 +54,150 @@ msgstr "%(days)s Tage verbleibend"
 
 #: castellum_core/castellum_auth/middlewares.py:40
 msgid "Your account is not activated."
-msgstr ""
+msgstr "Ihr Konto ist nicht aktiviert."
 
 #: castellum_core/castellum_auth/middlewares.py:42
 msgid "Your account is expired."
-msgstr ""
+msgstr "Ihr Konto ist abgelaufen."
 
 #: castellum_core/castellum_auth/middlewares.py:70
 msgid "Your session has expired"
-msgstr ""
+msgstr "Ihre Sitzung ist abgelaufen"
 
 #: castellum_core/castellum_auth/models.py:38
 msgid "Time until automatic logout"
-msgstr ""
+msgstr "Zeit bis zur automatischen Abmeldung"
 
 #: castellum_core/castellum_core/settings/default.py:231
 msgid "[Castellum] Suspicious activity"
-msgstr ""
+msgstr "[Castellum] Verdächtige Aktivität"
 
 #: castellum_core/castellum_core/settings/default.py:232
 #, python-brace-format
 msgid ""
-"Dear {username},\n"
+"Liebe/r {username},\n"
 "\n"
-"your castellum account has been locked due to suspicious activity.\n"
+"dein Castellum-Konto wurde wegen verdächtiger Aktivitäten gesperrt.\n"
 "\n"
-"Please contact {contact}.\n"
+"Bitte kontaktiere {contact}.\n"
 msgstr ""
 
 #: castellum_core/studies/models.py:27
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: castellum_core/studies/models.py:28
 msgid "Responsible contact person"
-msgstr ""
+msgstr "Verantwortliche Kontaktperson"
 
 #: castellum_core/studies/templates/studies/study_form.html:16
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: castellum_core/studies/templates/studies/study_list.html:11
 msgid "Create new study"
-msgstr ""
+msgstr "Neue Studie anlegen"
 
 #: castellum_core/subject_management/models/address.py:27
 #: castellum_core/subject_management/models/address.py:39
 msgid "name"
-msgstr ""
+msgstr "Name"
 
 #: castellum_core/subject_management/models/address.py:34
 #: castellum_core/subject_management/models/address.py:40
 msgid "Country"
-msgstr ""
+msgstr "Staat"
 
 #: castellum_core/subject_management/models/address.py:35
 msgid "Countries"
-msgstr ""
+msgstr "Staaten"
 
 #: castellum_core/subject_management/models/address.py:48
 #: castellum_core/subject_management/models/address.py:53
 msgid "City"
-msgstr ""
+msgstr "Stadt"
 
 #: castellum_core/subject_management/models/address.py:49
 msgid "Cities"
-msgstr ""
+msgstr "Städte"
 
 #: castellum_core/subject_management/models/address.py:54
 msgid "zip code"
-msgstr ""
+msgstr "Postleitzahl"
 
 #: castellum_core/subject_management/models/address.py:55
 msgid "street"
-msgstr ""
+msgstr "Straße"
 
 #: castellum_core/subject_management/models/address.py:56
 msgid "house_number"
-msgstr ""
+msgstr "Hausnummer"
 
 #: castellum_core/subject_management/models/address.py:57
 msgid "additional information"
-msgstr ""
+msgstr "Zusätzliche Informationen"
 
 #: castellum_core/subject_management/models/address.py:67
 #: castellum_core/subject_management/models/subject.py:46
 msgid "Address"
-msgstr ""
+msgstr "Adresse"
 
 #: castellum_core/subject_management/models/address.py:68
 msgid "Addresses"
-msgstr ""
+msgstr "Adressen"
 
 #: castellum_core/subject_management/models/subject.py:32
 msgid "female"
-msgstr ""
+msgstr "weiblich"
 
 #: castellum_core/subject_management/models/subject.py:33
 msgid "male"
-msgstr ""
+msgstr "männlich"
 
 #: castellum_core/subject_management/models/subject.py:34
 msgid "diverse"
-msgstr ""
+msgstr "divers"
 
 #: castellum_core/subject_management/models/subject.py:39
 msgid "first name"
-msgstr ""
+msgstr "Vorname"
 
 #: castellum_core/subject_management/models/subject.py:40
 msgid "last name"
-msgstr ""
+msgstr "Nachname"
 
 #: castellum_core/subject_management/models/subject.py:42
 msgid "gender"
-msgstr ""
+msgstr "Geschlecht"
 
 #: castellum_core/subject_management/models/subject.py:44
 msgid "birthday"
-msgstr ""
+msgstr "Geburtstag"
 
 #: castellum_core/subject_management/models/subject.py:48
 msgid "email"
-msgstr ""
+msgstr "E-Mail"
 
 #: castellum_core/subject_management/models/subject.py:49
 msgid "phone number"
-msgstr ""
+msgstr "Telefonnummer"
 
 #: castellum_core/subject_management/models/subject.py:50
 msgid "phone number alternative"
-msgstr ""
+msgstr "Alternative Telefonnummer"
 
 #: castellum_core/templates/base.html:21
 msgid "Logout"
-msgstr ""
+msgstr "Abmelden"
 
 #: castellum_core/templates/base.html:24 castellum_core/templates/login.html:17
 msgid "Login"
-msgstr ""
+msgstr "Anmelden"
 
 #: castellum_core/templates/index.html:4
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 #: castellum_core/templates/login.html:4
 msgid "Log in"
-msgstr ""
+msgstr "Anmelden"
