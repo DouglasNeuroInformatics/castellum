@@ -38,6 +38,7 @@ MIDDLEWARE = [
 
     'castellum_auth.middlewares.UserExpirationMiddleware',
     'castellum_auth.middlewares.AutoLogoutMiddleware',
+    'castellum_auth.middlewares.UserLanguageMiddleware',
 ]
 
 ROOT_URLCONF = 'castellum_core.urls'

@@ -39,3 +39,15 @@ def test_auto_logout_ping(client, user):
     with freeze_time('2018-01-01 12:20:00'):
         response = client.get('/')
         assert response.wsgi_request.user.is_authenticated
+
+
+@pytest.mark.parametrize('language,expected', (
+    ('de', b'lang="de"'),
+    ('en', b'lang="en"'),
+))
+def test_user_language_middleware(client, user, language, expected):
+    user.language = language
+    user.save()
+    client.force_login(user)
+    response = client.get('/')
+    assert expected in response.content
