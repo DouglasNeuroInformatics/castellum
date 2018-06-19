@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% load i18n static bootstrap4 %}
 {% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="utf-8" />
@@ -14,6 +15,25 @@
         <div class="container">
             <div class="row navbar navbar-dark">
                 <a href="/" rel="home" class="navbar-brand">Castellum</a>
+
+                {% if user.is_authenticated %}
+                    <div class="btn-group" role="region" aria-label="{% trans 'Set language' %}">
+                        {% for lang, label in LANGUAGES %}
+                            <form class="btn-group" action="{% url 'set_language' %}" method="post">
+                                {# Bootstrap uses :firstchild for styling #}
+                                {% if forloop.first %}
+                                    <input type="submit" value="{{ lang }}" title="{{ label }}" class="btn btn-secondary" />
+                                {% endif %}
+                                {% csrf_token %}
+                                <input name="next" type="hidden" value="{{ request.get_full_path }}" />
+                                <input name="language" type="hidden" value="{{ lang }}" />
+                                {% if not forloop.first %}
+                                    <input type="submit" value="{{ lang }}" title="{{ label }}" class="btn btn-secondary" />
+                                {% endif %}
+                            </form>
+                        {% endfor %}
+                    </div>
+                {% endif %}
 
                 {% if request.user.is_authenticated %}
                     <div>
