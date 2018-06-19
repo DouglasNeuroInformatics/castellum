@@ -1,7 +1,6 @@
 import os
 
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -228,10 +227,21 @@ LOGGING = {
 
 
 CASTELLUM_LOCK_USER_CONTACT = 'admin@example.com'
-CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT = _('[Castellum] Suspicious activity')
-CASTELLUM_LOCK_USER_NOTIFICATION_TEXT = _("""Dear {username},
+CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT = '[Castellum] Verdächtige Aktivität / Suspicious activity'
+CASTELLUM_LOCK_USER_NOTIFICATION_TEXT = """(English version below)
+
+Liebe/r {username},
+
+dein Castellum-Konto wurde wegen verdächtiger Aktivitäten gesperrt.
+
+Bitte kontaktiere {contact}.
+
+
+* * * * * * * * * * * *
+
+Dear {username},
 
 your castellum account has been locked due to suspicious activity.
 
 Please contact {contact}.
-""")
+"""
