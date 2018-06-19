@@ -1,6 +1,7 @@
 import os
 
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -101,7 +102,12 @@ LOGOUT_TIMEOUT_DEFAULT = timezone.timedelta(seconds=15 * 60)
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+LANGUAGES = [
+  ('de', _('German')),
+  ('en', _('English')),
+]
+
+TIME_ZONE = 'Europe/Berlin'
 
 USE_I18N = True
 
