@@ -9,5 +9,5 @@
     <p>{% trans 'Email:' %} {{ object.email|default:_('not provided') }}</p>
     <p>{% trans 'Phone number:' %} {{ object.phone_number|default:_('not provided') }}</p>
     <p>{% trans 'Second phone number:' %} {{ object.phone_number_alternative|default:_('not provided') }}</p>
-    <a href="{% url 'recruitment:select_subject' study.pk %}" class="btn btn-info" role="button">{% trans "Back" %}</a>
+    <a href="{% url 'recruitment:select_subject' study.pk %}" class="btn btn-info">{% trans "Back" %}</a>
 {% endblock %}
