@@ -9,7 +9,7 @@
     <h2> {% trans 'Select subject' %}</h2>
     <ol>
         {% for subject in subjects  %}
-            <li>{{ subject.first_name }} {{ subject.last_name }} <a href="{% url 'recruitment:detail_subject' study_id subject.id %}">{% trans 'Call' %}</a></li>
+            <li>{{ subject.first_name }} {{ subject.last_name }} <a href="{% url 'recruitment:detail_subject' study.pk subject.pk %}">{% trans 'Call' %}</a></li>
         {% endfor %}
     </ol>
 

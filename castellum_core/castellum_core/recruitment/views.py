@@ -49,7 +49,7 @@ class SubjectChoiceView(LoginRequiredMixin, ListView):
 class SubjectDetailsView(LoginRequiredMixin, DetailView):
     model = Subject
     slug_field = 'id'
-    slug_url_kwarg = 'subject_id'
+    slug_url_kwarg = 'subject_pk'
     template_name = 'recruitment/subject_detail_view.html'
 
     def get_context_data(self, **kwargs):

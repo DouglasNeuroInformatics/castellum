@@ -26,6 +26,6 @@ from . import views
 app_name = 'recruitment'
 urlpatterns = [
     path('', views.StudyChoiceView.as_view(), name='select_study'),
-    path('<study_id>', views.SubjectChoiceView.as_view(), name='select_subject'),
-    path('<study_id>/<subject_id>', views.SubjectDetailsView.as_view(), name='detail_subject'),
+    path('<study_pk>', views.SubjectChoiceView.as_view(), name='select_subject'),
+    path('<study_pk>/<subject_pk>', views.SubjectDetailsView.as_view(), name='detail_subject'),
 ]
