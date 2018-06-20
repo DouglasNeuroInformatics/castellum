@@ -39,6 +39,10 @@ class SubjectChoiceView(LoginRequiredMixin, ListView):
     context_object_name = 'subjects'
     template_name = 'recruitment/subjects_list.html'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.order_by('first_name')
+
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
         study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
