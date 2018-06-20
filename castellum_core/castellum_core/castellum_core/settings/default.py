@@ -245,3 +245,19 @@ your castellum account has been locked due to suspicious activity.
 
 Please contact {contact}.
 """
+CASTELLUM_UNLOCK_USER_NOTIFICATION_SUBJECT = (
+    '[Castellum] Verdächtige Aktivität geklärt / Suspicious activity resolved'
+)
+CASTELLUM_UNLOCK_USER_NOTIFICATION_TEXT = """(English version below)
+
+Liebe/r {username},
+
+dein Castellum-Konto wurde wieder freigegeben.
+
+
+* * * * * * * * * * * *
+
+Dear {username},
+
+your castellum account has been unlocked.
+"""

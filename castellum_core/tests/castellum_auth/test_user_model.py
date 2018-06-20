@@ -47,7 +47,7 @@ def test_lock_notification(send_mail, user):
 
 
 @patch('castellum_auth.models.send_mail')
-def test_unlock_no_notification(send_mail, user):
+def test_unlock_notification(send_mail, user):
     user.is_active = False
     user.save()
     user = User.objects.get(pk=user.pk)
@@ -55,4 +55,4 @@ def test_unlock_no_notification(send_mail, user):
 
     user.is_active = True
     user.save()
-    assert not send_mail.called
+    assert send_mail.called
