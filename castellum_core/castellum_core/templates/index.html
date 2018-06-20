@@ -13,8 +13,8 @@
             {% endif %}
             <div>{% trans 'You are registered since' %}{{ request.user.date_joined|timesince}}</div>
 
-            <a href="{% url 'studies:index' %}" class="btn btn-primary" role="button">{% trans "Study management" %}</a>
-            <a href="{% url 'recruitment:select_study' %}" class="btn btn-primary" role="button">{% trans "Recruitment" %}</a>
+            <a href="{% url 'studies:index' %}" class="btn btn-primary">{% trans "Study management" %}</a>
+            <a href="{% url 'recruitment:select_study' %}" class="btn btn-primary">{% trans "Recruitment" %}</a>
         </div>
      {% else %}
         <div>
