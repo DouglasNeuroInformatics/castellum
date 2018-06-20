@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+    <h2>{% trans 'Study details' %}</h2>
+    <p>{% trans 'Name:' %} {{ study.name }}</p>
+    <p>{% trans 'Contact person:' %} {{ study.contact_person }}</p>
+
+    <h2> {% trans 'Select subject' %}</h2>
+    <ol>
+        {% for subject in subjects  %}
+            <li>{{ subject.first_name }} {{ subject.last_name }} <a href="{% url 'recruitment:detail_subject' study_id subject.id %}">{% trans 'Call' %}</a></li>
+        {% endfor %}
+    </ol>
+
+{% if is_paginated %}
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo;</a></li>
+    {% else %}
+      <li class="page-link disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="page-link active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}" class="page-link">&raquo;</a></li>
+    {% else %}
+      <li class="page-link disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+{% endblock %}
