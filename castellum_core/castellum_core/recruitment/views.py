@@ -27,7 +27,6 @@ from subject_management.models import Subject
 
 class StudyChoiceView(LoginRequiredMixin, ListView):
     model = Study
-    queryset = Study.objects.all()
     context_object_name = 'studies'
     template_name = 'recruitment/studies_list.html'
 
@@ -35,7 +34,6 @@ class StudyChoiceView(LoginRequiredMixin, ListView):
 class SubjectChoiceView(LoginRequiredMixin, ListView):
     model = Subject
     paginate_by = 5
-    queryset = Subject.objects.all()
     context_object_name = 'subjects'
     template_name = 'recruitment/subjects_list.html'
 
