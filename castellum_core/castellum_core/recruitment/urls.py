@@ -23,6 +23,9 @@ from django.urls import path
 
 from . import views
 
+app_name = 'recruitment'
 urlpatterns = [
-    path('', views.IndexView.as_view(), name='recruitment.index'),
+    path('', views.StudyChoiceView.as_view(), name='select_study'),
+    path('<study_id>', views.SubjectChoiceView.as_view(), name='select_subject'),
+    path('<study_id>/<subject_id>', views.SubjectDetailsView.as_view(), name='detail_subject'),
 ]
