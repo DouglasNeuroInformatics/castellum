@@ -38,6 +38,7 @@ class Subject(models.Model):
 
     first_name = models.CharField(_("first name"), max_length=64)
     last_name = models.CharField(_("last name"), max_length=64)
+    title = models.CharField(_("title"), max_length=64, blank=True)
 
     gender = models.CharField(_("gender"), max_length=1, choices=GENDER, default="f")
 
