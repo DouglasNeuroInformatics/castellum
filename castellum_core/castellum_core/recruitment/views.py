@@ -41,7 +41,7 @@ class SubjectChoiceView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
-        study = get_object_or_404(Study, pk = self.kwargs['study_pk'])
+        study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
         context['study'] = study
         return context
 
