@@ -7,15 +7,14 @@
     <p>{% trans 'Name:' %} {{ study.name }}</p>
     <p>{% trans 'Contact person:' %} {{ study.contact_person }}</p>
 
-    <h2> {% trans 'Select subject' %}</h2>
+    <h2>{% trans 'Select subject' %}</h2>
     <ol>
         {% for subject in subjects  %}
             <li>{{ subject.first_name }} {{ subject.last_name }} <a href="{% url 'recruitment:detail_subject' study.pk subject.pk %}">{% trans 'Call' %}</a></li>
         {% endfor %}
     </ol>
 
-{% if is_paginated %}
- {% bootstrap_pagination page_obj size="small" %}
-{% endif %}
-
+    {% if is_paginated %}
+        {% bootstrap_pagination page_obj size="small" %}
+    {% endif %}
 {% endblock %}
