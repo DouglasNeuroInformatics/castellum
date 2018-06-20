@@ -20,7 +20,9 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView
+from django.shortcuts import get_object_or_404
+from django.views.generic import DetailView, ListView
+
 from studies.models import Study
 from subject_management.models import Subject
 
@@ -39,10 +41,8 @@ class SubjectChoiceView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
-        study = Study.objects.filter(id=self.kwargs['study_id']).first()
-        if study:
-            context['study'] = study
-            context['study_id'] = self.kwargs['study_id']
+        study = get_object_or_404(Study, pk = self.kwargs['study_pk'])
+        context['study'] = study
         return context
 
 
@@ -54,5 +54,6 @@ class SubjectDetailsView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
-        context['study_id'] = self.kwargs['study_id']
+        study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
+        context['study'] = study
         return context
