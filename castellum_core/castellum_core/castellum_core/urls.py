@@ -41,6 +41,6 @@ urlpatterns = [
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
 
     path('admin/', admin.site.urls),
-    path('recruitment/', include('recruitment.urls')),
-    path('studies/', include('studies.urls')),
+    path('recruitment/', include('recruitment.urls', namespace='recruitment')),
+    path('studies/', include('studies.urls', namespace='studies')),
 ]

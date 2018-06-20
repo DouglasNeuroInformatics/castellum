@@ -20,11 +20,44 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import generic
+from django.shortcuts import get_object_or_404
+from django.views.generic import DetailView, ListView
 
 from studies.models import Study
+from subject_management.models import Subject
 
 
-class IndexView(LoginRequiredMixin, generic.ListView):
+class StudyChoiceView(LoginRequiredMixin, ListView):
     model = Study
-    template_name = 'recruitment/study_list.html'
+    context_object_name = 'studies'
+    template_name = 'recruitment/studies_list.html'
+
+
+class SubjectChoiceView(LoginRequiredMixin, ListView):
+    model = Subject
+    paginate_by = 5
+    context_object_name = 'subjects'
+    template_name = 'recruitment/subjects_list.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.order_by('first_name')
+
+    def get_context_data(self, **kwargs):
+        context = super(ListView, self).get_context_data(**kwargs)
+        study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
+        context['study'] = study
+        return context
+
+
+class SubjectDetailsView(LoginRequiredMixin, DetailView):
+    model = Subject
+    slug_field = 'id'
+    slug_url_kwarg = 'subject_pk'
+    template_name = 'recruitment/subject_detail_view.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
+        context['study'] = study
+        return context

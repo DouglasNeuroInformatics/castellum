@@ -7,11 +7,14 @@
     {% if request.user.is_authenticated %}
         <div>
             {% if request.user.is_superuser %}
-                <div>You are logged in as admin</div>
+                <div>{% trans 'You are logged in as admin' %}</div>
             {% else %}
-                <div>You are not listed as admin</div>
+                <div>{% trans 'You are not listed as admin' %}</div>
             {% endif %}
-            <div>You are registered since {{ request.user.date_joined|timesince}}</div>
+            <div>{% trans 'You are registered since' %}{{ request.user.date_joined|timesince}}</div>
+
+            <a href="{% url 'studies:index' %}" class="btn btn-primary">{% trans "Study management" %}</a>
+            <a href="{% url 'recruitment:select_study' %}" class="btn btn-primary">{% trans "Recruitment" %}</a>
         </div>
      {% else %}
         <div>

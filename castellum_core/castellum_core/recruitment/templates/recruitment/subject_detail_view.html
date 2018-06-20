@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+    <h2>{{ object.first_name|default:_('not provided') }} {{ object.last_name|default:_('not provided') }}</h2>
+    <p>{% trans 'Gender:' %} {{ object.gender|default:_('not provided') }}</p>
+    <p>{% trans 'Birthday:' %} {{ object.birthday|default:_('not provided') }}</p>
+    <p>{% trans 'Address:' %}{{ object.address|default:_('not provided') }}</p>
+    <p>{% trans 'Email:' %} {{ object.email|default:_('not provided') }}</p>
+    <p>{% trans 'Phone number:' %} {{ object.phone_number|default:_('not provided') }}</p>
+    <p>{% trans 'Second phone number:' %} {{ object.phone_number_alternative|default:_('not provided') }}</p>
+    <a href="{% url 'recruitment:select_subject' study.pk %}" class="btn btn-info">{% trans "Back" %}</a>
+{% endblock %}
