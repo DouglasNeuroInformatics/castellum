@@ -20,11 +20,41 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import generic
-
+from django.views.generic import ListView, DetailView
 from studies.models import Study
+from subject_management.models import Subject
 
 
-class IndexView(LoginRequiredMixin, generic.ListView):
+class StudyChoiceView(LoginRequiredMixin, ListView):
     model = Study
-    template_name = 'recruitment/study_list.html'
+    queryset = Study.objects.all()
+    context_object_name = 'studies'
+    template_name = 'recruitment/studies_list.html'
+
+
+class SubjectChoiceView(LoginRequiredMixin, ListView):
+    model = Subject
+    paginate_by = 5
+    queryset = Subject.objects.all()
+    context_object_name = 'subjects'
+    template_name = 'recruitment/subjects_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ListView, self).get_context_data(**kwargs)
+        study = Study.objects.filter(id=self.kwargs['study_id']).first()
+        if study:
+            context['study'] = study
+            context['study_id'] = self.kwargs['study_id']
+        return context
+
+
+class SubjectDetailsView(LoginRequiredMixin, DetailView):
+    model = Subject
+    slug_field = 'id'
+    slug_url_kwarg = 'subject_id'
+    template_name = 'recruitment/subject_detail_view.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        context['study_id'] = self.kwargs['study_id']
+        return context
