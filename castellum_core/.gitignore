@@ -12,6 +12,7 @@ collected_static/
 *.pyc
 *.sqlite3
 *.mo
+castellum_core/locale/en/LC_MESSAGES/*.po
 *.log
 
 .coverage
