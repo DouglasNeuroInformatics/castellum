@@ -31,7 +31,7 @@ class SubjectAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             "fields": (
-                ("first_name", "last_name"),
+                ("first_name", "last_name", "title"),
                 "gender",
                 "birthday",
             ),
