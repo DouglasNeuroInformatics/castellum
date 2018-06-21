@@ -4,17 +4,48 @@
 
 {% block content %}
     <h2>{% trans 'Study details' %}</h2>
-    <p>{% trans 'Name:' %} {{ study.name }}</p>
-    <p>{% trans 'Contact person:' %} {{ study.contact_person }}</p>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>{% trans 'Name' %}</th>
+            <th>{% trans 'Contact person' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ study.name|default:_('not provided') }}</td>
+            <td>{{ study.contact_person|default:_('not provided') }}</td>
+        </tr>
+    </tbody>
+    </table>
 
-    <h2>{% trans 'Select subject' %}</h2>
-    <ol>
-        {% for subject in subjects  %}
-            <li>{{ subject.first_name }} {{ subject.last_name }} <a href="{% url 'recruitment:detail_subject' study.pk subject.pk %}">{% trans 'Call' %}</a></li>
+
+    <h2>{% trans 'Subjects' %}</h2>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>{% trans 'First name' %}</th>
+            <th>{% trans 'Last name' %}</th>
+            <th>{% trans 'Action' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for subject in subjects %}
+        <tr>
+            <td>{{ subject.first_name|default:_('not provided') }}</td>
+            <td>{{ subject.last_name|default:_('not provided') }}</td>
+            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:detail_subject' study.pk subject.pk %}">{% trans 'Call' %}</a></td>
+        </tr>
         {% endfor %}
-    </ol>
+    </tbody>
+    </table>
 
     {% if is_paginated %}
-        {% bootstrap_pagination page_obj size="small" %}
+        <div class="container">
+            <div class="row">
+                {% bootstrap_pagination page_obj %}
+            </div>
+        </div>
     {% endif %}
+
 {% endblock %}

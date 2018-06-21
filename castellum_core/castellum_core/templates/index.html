@@ -5,14 +5,17 @@
 
 {% block content %}
     {% if request.user.is_authenticated %}
-        <div>
-            {% if request.user.is_superuser %}
-                <div>{% trans 'You are logged in as admin' %}</div>
-            {% else %}
-                <div>{% trans 'You are not listed as admin' %}</div>
-            {% endif %}
-            <div>{% trans 'You are registered since' %}{{ request.user.date_joined|timesince}}</div>
 
+        <div class="alert alert-success" role="alert">
+          {% if request.user.is_superuser %}
+          <h4 class="alert-heading">{% trans 'You are logged in as admin!' %}</h4>
+          {% else %}
+          <h4 class="alert-heading">{% trans 'You are not listed as admin!' %}</h4>
+          {% endif %}
+              <p>{% trans 'You are registered since' %} {{ request.user.date_joined|timesince}}</p>
+        </div>
+
+        <div>
             <a href="{% url 'studies:index' %}" class="btn btn-primary">{% trans "Study management" %}</a>
             <a href="{% url 'recruitment:select_study' %}" class="btn btn-primary">{% trans "Recruitment" %}</a>
         </div>
