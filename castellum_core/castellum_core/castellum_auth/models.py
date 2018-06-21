@@ -52,6 +52,13 @@ class User(AbstractUser):
                     contact=settings.CASTELLUM_LOCK_USER_CONTACT),
                 settings.DEFAULT_FROM_EMAIL,
                 [self.email])
+        elif self.is_active and not self.__initial_is_active:
+            send_mail(
+                settings.CASTELLUM_UNLOCK_USER_NOTIFICATION_SUBJECT,
+                settings.CASTELLUM_UNLOCK_USER_NOTIFICATION_TEXT.format(
+                    username=self.username),
+                settings.DEFAULT_FROM_EMAIL,
+                [self.email])
 
     def get_all_permission_objects(self):
         # NOTE: ignores any permissions form custom authentication backends
