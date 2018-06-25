@@ -22,8 +22,8 @@ collectstatic:
 	$(MANAGEPY) collectstatic
 
 makemessages:
-	$(MANAGEPY) makemessages -d django
-	$(MANAGEPY) makemessages -d djangojs
+	$(MANAGEPY) makemessages -l de -d django
+	$(MANAGEPY) makemessages -l de -d djangojs
 
 %.mo: %.po
 	$(MANAGEPY) compilemessages -l de
