@@ -2,12 +2,23 @@
 {% load i18n %}
 
 {% block content %}
-    <a href="{% url 'studies:create' %}" class="btn btn-primary">{% trans "Create new study"%}</a>
-
-    <ul>
+    <h2>{% trans 'Studies' %}</h2>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>{% trans 'Name' %}</th>
+            <th>{% trans 'Contact person' %}</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for study in object_list %}
-            <li>{{ study }}</li>
+        <tr>
+            <td>{{ study.name|default:_('not provided') }}</td>
+            <td>{{ study.contact_person|default:_('not provided') }}</td>
+        </tr>
         {% endfor %}
-    </ul>
+    </tbody>
+    </table>
 
+    <a href="{% url 'studies:create' %}" class="btn btn-primary">{% trans "Create new study"%}</a>
 {% endblock %}

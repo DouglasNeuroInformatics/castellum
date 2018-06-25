@@ -2,10 +2,24 @@
 {% load i18n %}
 
 {% block content %}
-    <h2>{% trans 'Select study' %}</h2>
-    <ol>
+    <h2>{% trans 'Studies' %}</h2>
+
+    <table class="table">
+    <thead>
+        <tr>
+            <th>{% trans 'Name' %}</th>
+            <th>{% trans 'Action' %}</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for study in studies %}
-            <li><a href="{% url 'recruitment:select_subject' study.pk %}">{{ study.name }}</a></li>
+        <tr>
+            <td>{{ study.name|default:_('not provided') }}</td>
+            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:select_subject' study.pk %}">{% trans 'Find subjects' %}</a></td>
+        </tr>
         {% endfor %}
-    </ol>
+    </tbody>
+    </table>
+
+    <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
 {% endblock %}
