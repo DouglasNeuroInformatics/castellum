@@ -57,7 +57,7 @@ class UserAdmin(BaseUserAdmin):
             'fields': ('username', 'password')
         }),
         (_('Personal info'), {
-            'fields': ('first_name', 'last_name', 'email')
+            'fields': ('first_name', 'last_name', 'email', 'language')
         }),
         (_('Permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')

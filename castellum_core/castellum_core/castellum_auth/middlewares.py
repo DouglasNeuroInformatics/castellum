@@ -24,6 +24,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
 from django.utils import timezone
+from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S%z'
@@ -77,3 +78,13 @@ class AutoLogoutMiddleware:
 @receiver(user_logged_in)
 def set_last_active_on_login(sender, user, request, **kwargs):
     set_last_active(request)
+
+
+class UserLanguageMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        if request.user.is_authenticated and request.user.language:
+            translation.activate(request.user.language)
+        return self.get_response(request)

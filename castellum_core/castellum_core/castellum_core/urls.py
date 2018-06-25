@@ -27,6 +27,8 @@ from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 from django.views.i18n import JavaScriptCatalog
 
+from castellum_auth.views import set_language
+
 
 def dummy(request):
     return HttpResponse('', status=204)
@@ -38,6 +40,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('ping/', dummy, name='ping'),
 
+    path('i18n/', set_language, name='set_language'),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
 
     path('admin/', admin.site.urls),
