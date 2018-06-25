@@ -21,7 +21,8 @@
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView
+from django.views.generic import ListView
 
 from studies.models import Study
 from subject_management.models import Subject
