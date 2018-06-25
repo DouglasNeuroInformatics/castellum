@@ -51,12 +51,12 @@ class SubjectChoiceView(LoginRequiredMixin, ListView):
         return context
 
 
-class SubjectDetailsView(LoginRequiredMixin, DetailView):
+class ContactView(LoginRequiredMixin, DetailView):
     model = Subject
     slug_field = 'id'
     slug_url_kwarg = 'subject_pk'
     context_object_name = 'subject'
-    template_name = 'recruitment/subject_detail_view.html'
+    template_name = 'recruitment/contact.html'
 
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
