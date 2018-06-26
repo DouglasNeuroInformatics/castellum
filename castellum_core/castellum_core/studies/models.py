@@ -19,12 +19,15 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import uuid
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
 class Study(models.Model):
     name = models.CharField(_('Name'), max_length=254)
+    domain = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     contact_person = models.CharField(_('Responsible contact person'), max_length=512)
 
     def __str__(self):
