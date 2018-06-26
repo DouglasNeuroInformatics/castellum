@@ -22,6 +22,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from studies.models import Study
+
 
 class AttributeSet(models.Model):
     handedness = models.CharField(_('Handedness'), blank=True, max_length=10, choices=(
@@ -30,3 +32,23 @@ class AttributeSet(models.Model):
     ))
     first_language = models.CharField(_('First Language'), blank=True, max_length=5)
     date_of_birth = models.DateField(_('Date of birth'), null=True, blank=True)
+
+
+class Participation(models.Model):
+    MISSED_CALL = 0
+    UNSUITABLE = 1
+    INVITED = 2
+    STATUS_OPTIONS = (
+        (MISSED_CALL, _('missed call')),
+        (UNSUITABLE, _('unsuitable')),
+        (INVITED, _('invited')),
+    )
+
+    study = models.ForeignKey(Study, verbose_name=_('study'), on_delete=models.CASCADE)
+
+    # just a placeholder until proper pseudonyms are available
+    subject_pk = models.CharField(max_length=128)
+
+    status = models.IntegerField(
+        _('status of participation'), choices=STATUS_OPTIONS, default=UNSUITABLE)
+    updated_at = models.DateTimeField(_('last updated at'), blank=True, null=True)

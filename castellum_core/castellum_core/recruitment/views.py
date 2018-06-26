@@ -21,11 +21,15 @@
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
-from django.views.generic import DetailView
+from django.urls import reverse
+from django.utils import timezone
 from django.views.generic import ListView
+from django.views.generic import UpdateView
 
 from studies.models import Study
 from subject_management.models import Subject
+
+from .models import Participation
 
 
 class StudyChoiceView(LoginRequiredMixin, ListView):
@@ -51,14 +55,31 @@ class SubjectChoiceView(LoginRequiredMixin, ListView):
         return context
 
 
-class SubjectDetailsView(LoginRequiredMixin, DetailView):
-    model = Subject
-    slug_field = 'id'
-    slug_url_kwarg = 'subject_pk'
-    template_name = 'recruitment/subject_detail_view.html'
+class ContactView(LoginRequiredMixin, UpdateView):
+    model = Participation
+    fields = ['status']
+    template_name = 'recruitment/contact.html'
+
+    def get_object(self, queryset=None):
+        if queryset is None:
+            queryset = self.get_queryset()
+
+        study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
+        subject_pk = self.kwargs['subject_pk']
+
+        participation, __ = queryset.get_or_create(study=study, subject_pk=subject_pk)
+        return participation
+
+    def get_success_url(self):
+        return reverse('recruitment:select_subject', args=[self.object.study.pk])
 
     def get_context_data(self, **kwargs):
-        context = super(DetailView, self).get_context_data(**kwargs)
-        study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
-        context['study'] = study
+        context = super().get_context_data(**kwargs)
+        context['study'] = self.object.study
+        context['subject'] = get_object_or_404(Subject, pk=self.object.subject_pk)
         return context
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.updated_at = timezone.now()
+        return super(ContactView, self).form_valid(form)

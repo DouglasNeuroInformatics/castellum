@@ -22,5 +22,7 @@
 from django.contrib import admin
 
 from .models import AttributeSet
+from .models import Participation
 
 admin.site.register(AttributeSet)
+admin.site.register(Participation)

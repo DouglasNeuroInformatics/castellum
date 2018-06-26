@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load i18n bootstrap4 %}
+
+{% block content %}
+    <table class="table">
+    <thead>
+        <tr>
+            <h2>{{ subject.first_name|default:_('not provided') }} {{ subject.last_name|default:_('not provided') }}</h2>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>{% trans 'Gender:' %}</th>
+            <td>{{ subject.gender|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Birthday:' %}</th>
+            <td>{{ subject.birthday|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Address:' %}</th>
+            <td>{{ subject.address|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Email:' %}</th>
+            <td>{{ subject.email|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Phone number:' %}</th>
+            <td>{{ subject.phone_number|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Second phone number:' %}</th>
+            <td>{{ subject.phone_number_alternative|default:_('not provided') }}</td>
+        </tr>
+    </tbody>
+    </table>
+
+    <form method="post">
+        {% for error in form.non_field_errors %}
+            <p class="alert alert-danger" role="alert">{{ error }}</p>
+        {% endfor %}
+
+        {% csrf_token %}
+        {% bootstrap_field form.status %}
+
+        <a href="{% url 'recruitment:select_subject' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+        <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}" />
+    </form>
+
+{% endblock %}

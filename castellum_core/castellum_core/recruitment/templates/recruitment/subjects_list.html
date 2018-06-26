@@ -34,7 +34,7 @@
         <tr>
             <td>{{ subject.first_name|default:_('not provided') }}</td>
             <td>{{ subject.last_name|default:_('not provided') }}</td>
-            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:detail_subject' study.pk subject.pk %}">{% trans 'Call' %}</a></td>
+            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk subject.pk %}">{% trans 'Call' %}</a></td>
         </tr>
         {% endfor %}
     </tbody>
