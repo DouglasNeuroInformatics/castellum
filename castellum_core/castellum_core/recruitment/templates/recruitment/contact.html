@@ -13,15 +13,15 @@
     </thead>
     <tbody>
         <tr>
-            <th>{% trans 'Email:' %}</th>
+            <th>{% trans 'Email' %}</th>
             <td>{{ subject.email|default:_('not provided') }}</td>
         </tr>
         <tr>
-            <th>{% trans 'Phone number:' %}</th>
+            <th>{% trans 'Phone number' %}</th>
             <td>{{ subject.phone_number|default:_('not provided') }}</td>
         </tr>
         <tr>
-            <th>{% trans 'Second phone number:' %}</th>
+            <th>{% trans 'Second phone number' %}</th>
             <td>{{ subject.phone_number_alternative|default:_('not provided') }}</td>
         </tr>
     </tbody>
