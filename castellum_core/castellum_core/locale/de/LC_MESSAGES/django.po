@@ -89,10 +89,8 @@ msgid "Right"
 msgstr "Rechts"
 
 #: castellum_core/recruitment/models.py:33
-#, fuzzy
-#| msgid "first name"
 msgid "First Language"
-msgstr "Vorname"
+msgstr "Muttersprache"
 
 #: castellum_core/recruitment/models.py:34
 msgid "Date of birth"
@@ -140,40 +138,28 @@ msgid "not provided"
 msgstr "nicht angegeben"
 
 #: castellum_core/recruitment/templates/recruitment/contact.html:13
-#, fuzzy
-#| msgid "gender"
 msgid "Gender:"
-msgstr "Geschlecht"
+msgstr "Geschlecht:"
 
 #: castellum_core/recruitment/templates/recruitment/contact.html:17
-#, fuzzy
-#| msgid "birthday"
 msgid "Birthday:"
-msgstr "Geburtstag"
+msgstr "Geburtstag:"
 
 #: castellum_core/recruitment/templates/recruitment/contact.html:21
-#, fuzzy
-#| msgid "Address"
 msgid "Address:"
-msgstr "Adresse"
+msgstr "Adresse:"
 
 #: castellum_core/recruitment/templates/recruitment/contact.html:25
-#, fuzzy
-#| msgid "email"
 msgid "Email:"
-msgstr "E-Mail"
+msgstr "E-Mail:"
 
 #: castellum_core/recruitment/templates/recruitment/contact.html:29
-#, fuzzy
-#| msgid "phone number"
 msgid "Phone number:"
-msgstr "Telefonnummer"
+msgstr "Telefonnummer:"
 
 #: castellum_core/recruitment/templates/recruitment/contact.html:33
-#, fuzzy
-#| msgid "phone number"
 msgid "Second phone number:"
-msgstr "Telefonnummer"
+msgstr "Zweite Telefonnummer:"
 
 #: castellum_core/recruitment/templates/recruitment/contact.html:47
 #: castellum_core/recruitment/templates/recruitment/studies_list.html:24
@@ -211,24 +197,18 @@ msgstr "Studiendetails"
 
 #: castellum_core/recruitment/templates/recruitment/subjects_list.html:11
 #: castellum_core/studies/templates/studies/study_list.html:10
-#, fuzzy
-#| msgid "Responsible contact person"
 msgid "Contact person"
-msgstr "Verantwortliche Kontaktperson"
+msgstr "Kontaktperson"
 
 #: castellum_core/recruitment/templates/recruitment/subjects_list.html:23
 msgid "Subjects"
 msgstr "Teilnehmende"
 
 #: castellum_core/recruitment/templates/recruitment/subjects_list.html:27
-#, fuzzy
-#| msgid "first name"
 msgid "First name"
 msgstr "Vorname"
 
 #: castellum_core/recruitment/templates/recruitment/subjects_list.html:28
-#, fuzzy
-#| msgid "last name"
 msgid "Last name"
 msgstr "Nachname"
 
