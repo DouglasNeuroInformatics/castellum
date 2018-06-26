@@ -35,11 +35,11 @@ class AttributeSet(models.Model):
 
 
 class Participation(models.Model):
-    MISSED_CALL = 0
+    NOT_REACHED = 0
     UNSUITABLE = 1
     INVITED = 2
     STATUS_OPTIONS = (
-        (MISSED_CALL, _('missed call')),
+        (NOT_REACHED, _('not reached')),
         (UNSUITABLE, _('unsuitable')),
         (INVITED, _('invited')),
     )

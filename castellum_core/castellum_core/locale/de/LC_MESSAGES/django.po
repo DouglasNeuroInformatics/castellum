@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-18 14:13+0000\n"
+"POT-Creation-Date: 2018-06-26 10:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,27 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: build/lib/castellum_core/castellum_auth/admin.py:14
-#: castellum_core/castellum_auth/admin.py:59
-msgid "Personal info"
-msgstr "Persönliche Informationen"
-
-#: build/lib/castellum_core/castellum_auth/admin.py:17
-#: castellum_core/castellum_auth/admin.py:62
-#: castellum_core/castellum_auth/templates/admin/castellum_auth/user/change_form.html:9
-msgid "Permissions"
-msgstr "Rechte"
-
-#: build/lib/castellum_core/castellum_auth/admin.py:20
-#: castellum_core/castellum_auth/admin.py:65
-msgid "Important dates"
-msgstr "Wichtige Daten"
-
-#: build/lib/castellum_core/castellum_auth/models.py:7
-#: castellum_core/castellum_auth/models.py:36
-msgid "Expiration date"
-msgstr "Ablaufdatum"
 
 #: castellum_core/castellum_auth/admin.py:35
 #, python-format
@@ -52,39 +31,190 @@ msgstr "abgelaufen"
 msgid "%(days)s days left"
 msgstr "%(days)s Tage verbleibend"
 
-#: castellum_core/castellum_auth/middlewares.py:40
+#: castellum_core/castellum_auth/admin.py:59
+msgid "Personal info"
+msgstr "Persönliche Informationen"
+
+#: castellum_core/castellum_auth/admin.py:62
+#: castellum_core/castellum_auth/templates/admin/castellum_auth/user/change_form.html:9
+msgid "Permissions"
+msgstr "Rechte"
+
+#: castellum_core/castellum_auth/admin.py:65
+msgid "Important dates"
+msgstr "Wichtige Daten"
+
+#: castellum_core/castellum_auth/middlewares.py:41
 msgid "Your account is not activated."
 msgstr "Ihr Konto ist nicht aktiviert."
 
-#: castellum_core/castellum_auth/middlewares.py:42
+#: castellum_core/castellum_auth/middlewares.py:43
 msgid "Your account is expired."
 msgstr "Ihr Konto ist abgelaufen."
 
-#: castellum_core/castellum_auth/middlewares.py:70
+#: castellum_core/castellum_auth/middlewares.py:71
 msgid "Your session has expired"
 msgstr "Ihre Sitzung ist abgelaufen"
 
+#: castellum_core/castellum_auth/models.py:37
+msgid "Language"
+msgstr "Sprache"
+
 #: castellum_core/castellum_auth/models.py:38
+msgid "Expiration date"
+msgstr "Ablaufdatum"
+
+#: castellum_core/castellum_auth/models.py:40
 msgid "Time until automatic logout"
 msgstr "Zeit bis zur automatischen Abmeldung"
 
-#: castellum_core/castellum_core/settings/default.py:231
-msgid "[Castellum] Suspicious activity"
-msgstr "[Castellum] Verdächtige Aktivität"
+#: castellum_core/castellum_core/settings/default.py:107
+msgid "German"
+msgstr "Deutsch"
 
-#: castellum_core/castellum_core/settings/default.py:232
-#, python-brace-format
-msgid ""
-"Liebe/r {username},\n"
-"\n"
-"dein Castellum-Konto wurde wegen verdächtiger Aktivitäten gesperrt.\n"
-"\n"
-"Bitte kontaktiere {contact}.\n"
-msgstr ""
+#: castellum_core/castellum_core/settings/default.py:108
+msgid "English"
+msgstr "Englisch"
 
+#: castellum_core/recruitment/models.py:29
+msgid "Handedness"
+msgstr "Händigkeit"
+
+#: castellum_core/recruitment/models.py:30
+msgid "Left"
+msgstr "Links"
+
+#: castellum_core/recruitment/models.py:31
+msgid "Right"
+msgstr "Rechts"
+
+#: castellum_core/recruitment/models.py:33
+msgid "First Language"
+msgstr "Muttersprache"
+
+#: castellum_core/recruitment/models.py:34
+msgid "Date of birth"
+msgstr "Geburtsdatum"
+
+#: castellum_core/recruitment/models.py:42
+msgid "not reached"
+msgstr "nicht erreicht"
+
+#: castellum_core/recruitment/models.py:43
+msgid "unsuitable"
+msgstr "nicht geeignet"
+
+#: castellum_core/recruitment/models.py:44
+msgid "invited"
+msgstr "eingeladen"
+
+#: castellum_core/recruitment/models.py:47
+msgid "study"
+msgstr "Studie"
+
+#: castellum_core/recruitment/models.py:53
+msgid "status of participation"
+msgstr "Teilnahmestatus"
+
+#: castellum_core/recruitment/models.py:54
+msgid "last updated at"
+msgstr "Zuletzt aktualisiert"
+
+#: castellum_core/recruitment/templates/recruitment/contact.html:8
+#: castellum_core/recruitment/templates/recruitment/contact.html:14
+#: castellum_core/recruitment/templates/recruitment/contact.html:18
+#: castellum_core/recruitment/templates/recruitment/contact.html:22
+#: castellum_core/recruitment/templates/recruitment/contact.html:26
+#: castellum_core/recruitment/templates/recruitment/contact.html:30
+#: castellum_core/recruitment/templates/recruitment/contact.html:34
+#: castellum_core/recruitment/templates/recruitment/studies_list.html:17
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:16
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:17
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:35
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:36
+#: castellum_core/studies/templates/studies/study_list.html:16
+#: castellum_core/studies/templates/studies/study_list.html:17
+msgid "not provided"
+msgstr "nicht angegeben"
+
+#: castellum_core/recruitment/templates/recruitment/contact.html:13
+msgid "Gender:"
+msgstr "Geschlecht:"
+
+#: castellum_core/recruitment/templates/recruitment/contact.html:17
+msgid "Birthday:"
+msgstr "Geburtstag:"
+
+#: castellum_core/recruitment/templates/recruitment/contact.html:21
+msgid "Address:"
+msgstr "Adresse:"
+
+#: castellum_core/recruitment/templates/recruitment/contact.html:25
+msgid "Email:"
+msgstr "E-Mail:"
+
+#: castellum_core/recruitment/templates/recruitment/contact.html:29
+msgid "Phone number:"
+msgstr "Telefonnummer:"
+
+#: castellum_core/recruitment/templates/recruitment/contact.html:33
+msgid "Second phone number:"
+msgstr "Zweite Telefonnummer:"
+
+#: castellum_core/recruitment/templates/recruitment/contact.html:47
+#: castellum_core/recruitment/templates/recruitment/studies_list.html:24
+msgid "Back"
+msgstr "Zurück"
+
+#: castellum_core/recruitment/templates/recruitment/contact.html:48
+msgid "Submit"
+msgstr "Speichern"
+
+#: castellum_core/recruitment/templates/recruitment/studies_list.html:5
+#: castellum_core/studies/templates/studies/study_list.html:5
+msgid "Studies"
+msgstr "Studien"
+
+#: castellum_core/recruitment/templates/recruitment/studies_list.html:10
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:10
 #: castellum_core/studies/models.py:27
+#: castellum_core/studies/templates/studies/study_list.html:9
 msgid "Name"
 msgstr "Name"
+
+#: castellum_core/recruitment/templates/recruitment/studies_list.html:11
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:29
+msgid "Action"
+msgstr "Aktion"
+
+#: castellum_core/recruitment/templates/recruitment/studies_list.html:18
+msgid "Find subjects"
+msgstr "Teilnehmende finden"
+
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:6
+msgid "Study details"
+msgstr "Studiendetails"
+
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:11
+#: castellum_core/studies/templates/studies/study_list.html:10
+msgid "Contact person"
+msgstr "Kontaktperson"
+
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:23
+msgid "Subjects"
+msgstr "Teilnehmende"
+
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:27
+msgid "First name"
+msgstr "Vorname"
+
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:28
+msgid "Last name"
+msgstr "Nachname"
+
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:37
+msgid "Call"
+msgstr "Anrufen"
 
 #: castellum_core/studies/models.py:28
 msgid "Responsible contact person"
@@ -94,7 +224,7 @@ msgstr "Verantwortliche Kontaktperson"
 msgid "Save"
 msgstr "Speichern"
 
-#: castellum_core/studies/templates/studies/study_list.html:11
+#: castellum_core/studies/templates/studies/study_list.html:23
 msgid "Create new study"
 msgstr "Neue Studie anlegen"
 
@@ -138,7 +268,7 @@ msgid "additional information"
 msgstr "Zusätzliche Informationen"
 
 #: castellum_core/subject_management/models/address.py:67
-#: castellum_core/subject_management/models/subject.py:46
+#: castellum_core/subject_management/models/subject.py:47
 msgid "Address"
 msgstr "Adresse"
 
@@ -166,37 +296,69 @@ msgstr "Vorname"
 msgid "last name"
 msgstr "Nachname"
 
-#: castellum_core/subject_management/models/subject.py:42
+#: castellum_core/subject_management/models/subject.py:41
+msgid "title"
+msgstr "Titel"
+
+#: castellum_core/subject_management/models/subject.py:43
 msgid "gender"
 msgstr "Geschlecht"
 
-#: castellum_core/subject_management/models/subject.py:44
+#: castellum_core/subject_management/models/subject.py:45
 msgid "birthday"
 msgstr "Geburtstag"
 
-#: castellum_core/subject_management/models/subject.py:48
+#: castellum_core/subject_management/models/subject.py:49
 msgid "email"
 msgstr "E-Mail"
 
-#: castellum_core/subject_management/models/subject.py:49
+#: castellum_core/subject_management/models/subject.py:50
 msgid "phone number"
 msgstr "Telefonnummer"
 
-#: castellum_core/subject_management/models/subject.py:50
+#: castellum_core/subject_management/models/subject.py:51
 msgid "phone number alternative"
 msgstr "Alternative Telefonnummer"
 
 #: castellum_core/templates/base.html:21
+msgid "Set language"
+msgstr "Sprache festlegen"
+
+#: castellum_core/templates/base.html:42
 msgid "Logout"
 msgstr "Abmelden"
 
-#: castellum_core/templates/base.html:24 castellum_core/templates/login.html:17
+#: castellum_core/templates/base.html:45 castellum_core/templates/login.html:17
 msgid "Login"
 msgstr "Anmelden"
 
 #: castellum_core/templates/index.html:4
 msgid "Start"
 msgstr "Start"
+
+#: castellum_core/templates/index.html:10
+msgid "You are logged in as admin!"
+msgstr "Sie sind mit Administrationsrechten angemeldet!"
+
+#: castellum_core/templates/index.html:12
+msgid "You are not listed as admin!"
+msgstr "Sie haben keine Administrationsrechte!"
+
+#: castellum_core/templates/index.html:14
+msgid "You are registered since"
+msgstr "Sie sind registriert seit"
+
+#: castellum_core/templates/index.html:18
+msgid "Study management"
+msgstr "Studienverwaltung"
+
+#: castellum_core/templates/index.html:19
+msgid "Recruitment"
+msgstr "Rekrutierung"
+
+#: castellum_core/templates/index.html:22
+msgid "Not logged in"
+msgstr "Nicht angemeldet"
 
 #: castellum_core/templates/login.html:4
 msgid "Log in"
