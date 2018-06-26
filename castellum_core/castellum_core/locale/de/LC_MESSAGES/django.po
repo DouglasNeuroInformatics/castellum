@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-26 10:44+0200\n"
+"POT-Creation-Date: 2018-06-26 11:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -120,53 +120,50 @@ msgstr "Teilnahmestatus"
 msgid "last updated at"
 msgstr "Zuletzt aktualisiert"
 
-#: castellum_core/recruitment/templates/recruitment/contact.html:8
+#: castellum_core/recruitment/templates/recruitment/contact.html:6
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:7
+#: castellum_core/studies/models.py:28
+msgid "Responsible contact person"
+msgstr "Verantwortliche Kontaktperson"
+
+#: castellum_core/recruitment/templates/recruitment/contact.html:10
+#: castellum_core/recruitment/templates/recruitment/studies_list.html:10
+#: castellum_core/studies/models.py:27
+#: castellum_core/studies/templates/studies/study_list.html:9
+msgid "Name"
+msgstr "Name"
+
 #: castellum_core/recruitment/templates/recruitment/contact.html:14
-#: castellum_core/recruitment/templates/recruitment/contact.html:18
-#: castellum_core/recruitment/templates/recruitment/contact.html:22
-#: castellum_core/recruitment/templates/recruitment/contact.html:26
-#: castellum_core/recruitment/templates/recruitment/contact.html:30
-#: castellum_core/recruitment/templates/recruitment/contact.html:34
+msgid "Email"
+msgstr "E-Mail"
+
+#: castellum_core/recruitment/templates/recruitment/contact.html:15
+#: castellum_core/recruitment/templates/recruitment/contact.html:19
+#: castellum_core/recruitment/templates/recruitment/contact.html:23
 #: castellum_core/recruitment/templates/recruitment/studies_list.html:17
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:16
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:17
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:35
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:36
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:21
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:22
 #: castellum_core/studies/templates/studies/study_list.html:16
 #: castellum_core/studies/templates/studies/study_list.html:17
 msgid "not provided"
 msgstr "nicht angegeben"
 
-#: castellum_core/recruitment/templates/recruitment/contact.html:13
-msgid "Gender:"
-msgstr "Geschlecht:"
+#: castellum_core/recruitment/templates/recruitment/contact.html:18
+msgid "Phone number"
+msgstr "Telefonnummer"
 
-#: castellum_core/recruitment/templates/recruitment/contact.html:17
-msgid "Birthday:"
-msgstr "Geburtstag:"
+#: castellum_core/recruitment/templates/recruitment/contact.html:22
+msgid "Second phone number"
+msgstr "Zweite Telefonnummer"
 
-#: castellum_core/recruitment/templates/recruitment/contact.html:21
-msgid "Address:"
-msgstr "Adresse:"
-
-#: castellum_core/recruitment/templates/recruitment/contact.html:25
-msgid "Email:"
-msgstr "E-Mail:"
-
-#: castellum_core/recruitment/templates/recruitment/contact.html:29
-msgid "Phone number:"
-msgstr "Telefonnummer:"
-
-#: castellum_core/recruitment/templates/recruitment/contact.html:33
-msgid "Second phone number:"
-msgstr "Zweite Telefonnummer:"
-
-#: castellum_core/recruitment/templates/recruitment/contact.html:47
+#: castellum_core/recruitment/templates/recruitment/contact.html:35
 #: castellum_core/recruitment/templates/recruitment/studies_list.html:24
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:37
+#: castellum_core/studies/templates/studies/study_list.html:23
 msgid "Back"
 msgstr "Zurück"
 
-#: castellum_core/recruitment/templates/recruitment/contact.html:48
+#: castellum_core/recruitment/templates/recruitment/contact.html:36
 msgid "Submit"
 msgstr "Speichern"
 
@@ -175,15 +172,8 @@ msgstr "Speichern"
 msgid "Studies"
 msgstr "Studien"
 
-#: castellum_core/recruitment/templates/recruitment/studies_list.html:10
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:10
-#: castellum_core/studies/models.py:27
-#: castellum_core/studies/templates/studies/study_list.html:9
-msgid "Name"
-msgstr "Name"
-
 #: castellum_core/recruitment/templates/recruitment/studies_list.html:11
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:29
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:15
 msgid "Action"
 msgstr "Aktion"
 
@@ -191,40 +181,35 @@ msgstr "Aktion"
 msgid "Find subjects"
 msgstr "Teilnehmende finden"
 
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:6
-msgid "Study details"
-msgstr "Studiendetails"
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:9
+msgid "Subjects"
+msgstr "Teilnehmende"
 
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:11
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:13
+msgid "First name"
+msgstr "Vorname"
+
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:14
+msgid "Last name"
+msgstr "Nachname"
+
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:23
+msgid "Call"
+msgstr "Anrufen"
+
+#: castellum_core/studies/templates/studies/study_form.html:16
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: castellum_core/studies/templates/studies/study_form.html:17
+msgid "Save"
+msgstr "Speichern"
+
 #: castellum_core/studies/templates/studies/study_list.html:10
 msgid "Contact person"
 msgstr "Kontaktperson"
 
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:23
-msgid "Subjects"
-msgstr "Teilnehmende"
-
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:27
-msgid "First name"
-msgstr "Vorname"
-
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:28
-msgid "Last name"
-msgstr "Nachname"
-
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:37
-msgid "Call"
-msgstr "Anrufen"
-
-#: castellum_core/studies/models.py:28
-msgid "Responsible contact person"
-msgstr "Verantwortliche Kontaktperson"
-
-#: castellum_core/studies/templates/studies/study_form.html:16
-msgid "Save"
-msgstr "Speichern"
-
-#: castellum_core/studies/templates/studies/study_list.html:23
+#: castellum_core/studies/templates/studies/study_list.html:24
 msgid "Create new study"
 msgstr "Neue Studie anlegen"
 
