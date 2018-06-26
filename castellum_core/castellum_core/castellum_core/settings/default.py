@@ -239,9 +239,9 @@ CASTELLUM_LOCK_USER_NOTIFICATION_TEXT = """(English version below)
 
 Liebe/r {username},
 
-dein Castellum-Konto wurde wegen verdächtiger Aktivitäten gesperrt.
+Ihr Castellum-Konto wurde wegen verdächtiger Aktivitäten gesperrt.
 
-Bitte kontaktiere {contact}.
+Bitte kontaktieren Sie {contact}.
 
 
 * * * * * * * * * * * *
@@ -259,7 +259,7 @@ CASTELLUM_UNLOCK_USER_NOTIFICATION_TEXT = """(English version below)
 
 Liebe/r {username},
 
-dein Castellum-Konto wurde wieder freigegeben.
+Ihr Castellum-Konto wurde wieder freigegeben.
 
 
 * * * * * * * * * * * *
