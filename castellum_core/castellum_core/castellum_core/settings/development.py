@@ -20,3 +20,7 @@ DATABASES = {
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+DOMAINS = {
+    'contact': '04d0e64e-a58a-41b3-bf6b-7a90dae84199',
+}
