@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-26 10:17+0200\n"
+"POT-Creation-Date: 2018-06-26 10:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -97,8 +97,8 @@ msgid "Date of birth"
 msgstr "Geburtsdatum"
 
 #: castellum_core/recruitment/models.py:42
-msgid "missed call"
-msgstr "Anruf in Abwesenheit"
+msgid "not reached"
+msgstr "nicht erreicht"
 
 #: castellum_core/recruitment/models.py:43
 msgid "unsuitable"
@@ -363,6 +363,3 @@ msgstr "Nicht angemeldet"
 #: castellum_core/templates/login.html:4
 msgid "Log in"
 msgstr "Anmelden"
-
-#~ msgid "[Castellum] Suspicious activity"
-#~ msgstr "[Castellum] Verdächtige Aktivität"
