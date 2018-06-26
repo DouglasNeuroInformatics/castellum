@@ -45,8 +45,10 @@ class Participation(models.Model):
     )
 
     study = models.ForeignKey(Study, verbose_name=_('study'), on_delete=models.CASCADE)
+
     # just a placeholder until proper pseudonyms are available
     subject_pk = models.CharField(max_length=128)
+
     status = models.IntegerField(
-        _('status of participation'), choices=STATUS_OPTIONS, default=INVITED)
+        _('status of participation'), choices=STATUS_OPTIONS, default=UNSUITABLE)
     updated_at = models.DateTimeField(_('last updated at'), blank=True, null=True)
