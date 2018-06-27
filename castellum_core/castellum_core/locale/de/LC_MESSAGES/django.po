@@ -120,12 +120,6 @@ msgstr "Teilnahmestatus"
 msgid "last updated at"
 msgstr "Zuletzt aktualisiert"
 
-#: castellum_core/recruitment/templates/recruitment/contact.html:6
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:7
-#: castellum_core/studies/models.py:28
-msgid "Responsible contact person"
-msgstr "Verantwortliche Kontaktperson"
-
 #: castellum_core/recruitment/templates/recruitment/contact.html:10
 #: castellum_core/recruitment/templates/recruitment/studies_list.html:10
 #: castellum_core/studies/models.py:27
