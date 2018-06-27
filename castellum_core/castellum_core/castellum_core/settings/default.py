@@ -112,6 +112,8 @@ LANGUAGES = [
 
 TIME_ZONE = 'Europe/Berlin'
 
+PHONENUMBER_DEFAULT_REGION = 'DE'
+
 USE_I18N = True
 
 USE_L10N = True
