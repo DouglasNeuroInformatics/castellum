@@ -46,4 +46,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('recruitment/', include('recruitment.urls', namespace='recruitment')),
     path('studies/', include('studies.urls', namespace='studies')),
+    path('subjects/', include('subject_management.urls', namespace='subject_management')),
 ]

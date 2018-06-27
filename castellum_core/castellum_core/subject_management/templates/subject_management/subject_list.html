@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n bootstrap4 %}
+
+{% block content %}
+    <h1>{% trans 'Subjects' %}</h1>
+
+    <ul>
+        {% for subject in object_list %}
+            <li><a href="{{ subject.get_absolute_url }}">{{ subject.full_name }}</a></li>
+        {% endfor %}
+    </ul>
+
+    {% if is_paginated %}
+        <div class="container">
+            <div class="row">
+                {% bootstrap_pagination page_obj %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

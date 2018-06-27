@@ -22,6 +22,7 @@
 import uuid
 
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from . import Address
@@ -50,3 +51,12 @@ class Subject(models.Model):
     phone_number = models.CharField(_("phone number"), max_length=32, blank=True)
     phone_number_alternative = models.CharField(_("phone number alternative"), max_length=32,
                                                 blank=True)
+
+    def get_absolute_url(self):
+        return reverse('subject_management:subject_detail', args=[self.pk])
+
+    def full_name(self):
+        name = self.first_name + ' ' + self.last_name
+        if self.title:
+            name = self.title + ' ' + name
+        return name
