@@ -24,6 +24,8 @@ import uuid
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from phonenumber_field.modelfields import PhoneNumberField
+
 from . import Address
 
 
@@ -47,6 +49,5 @@ class Subject(models.Model):
     address = models.ForeignKey(Address, blank=True, null=True, verbose_name=_("Address"),
                                 on_delete=models.SET_NULL)
     email = models.EmailField(_("email"), max_length=128, blank=True)
-    phone_number = models.CharField(_("phone number"), max_length=32, blank=True)
-    phone_number_alternative = models.CharField(_("phone number alternative"), max_length=32,
-                                                blank=True)
+    phone_number = PhoneNumberField(_("phone number"), blank=True)
+    phone_number_alternative = PhoneNumberField(_("phone number alternative"), blank=True)
