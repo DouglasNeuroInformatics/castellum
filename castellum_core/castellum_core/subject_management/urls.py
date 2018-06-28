@@ -21,9 +21,9 @@
 
 from django.urls import path
 
-from .views import SubjectListView
-from .views import SubjectDetailView
 from .views import SubjectCreateView
+from .views import SubjectDetailView
+from .views import SubjectListView
 
 app_name = 'subject_management'
 urlpatterns = [
