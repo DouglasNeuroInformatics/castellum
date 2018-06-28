@@ -237,16 +237,16 @@ CASTELLUM_LOCK_USER_CONTACT = 'admin@example.com'
 CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT = '[Castellum] Verdächtige Aktivität / Suspicious activity'
 CASTELLUM_LOCK_USER_NOTIFICATION_TEXT = """(English version below)
 
-Liebe/r {username},
+Liebe/r Castellum Nutzer/in,
 
-dein Castellum-Konto wurde wegen verdächtiger Aktivitäten gesperrt.
+Ihr Castellum-Konto wurde wegen verdächtiger Aktivitäten gesperrt.
 
-Bitte kontaktiere {contact}.
+Bitte kontaktieren Sie {contact}.
 
 
 * * * * * * * * * * * *
 
-Dear {username},
+Dear castellum user,
 
 your castellum account has been locked due to suspicious activity.
 
@@ -257,14 +257,14 @@ CASTELLUM_UNLOCK_USER_NOTIFICATION_SUBJECT = (
 )
 CASTELLUM_UNLOCK_USER_NOTIFICATION_TEXT = """(English version below)
 
-Liebe/r {username},
+Liebe/r Castellum Nutzer/in,
 
-dein Castellum-Konto wurde wieder freigegeben.
+Ihr Castellum-Konto wurde wieder freigegeben.
 
 
 * * * * * * * * * * * *
 
-Dear {username},
+Dear castellum user,
 
 your castellum account has been unlocked.
 """
