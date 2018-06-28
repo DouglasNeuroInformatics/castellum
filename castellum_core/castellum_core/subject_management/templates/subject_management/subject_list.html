@@ -22,6 +22,8 @@
     </tbody>
     </table>
 
+    <a href="{% url 'subject_management:create' %}" class="btn btn-primary">{% trans "Create new subject"%}</a>
+
     {% if is_paginated %}
         <div class="container">
             <div class="row">

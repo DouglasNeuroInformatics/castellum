@@ -28,6 +28,7 @@ from .views import SubjectCreateView
 app_name = 'subject_management'
 urlpatterns = [
     path('', SubjectListView.as_view(), name='list'),
+    path('create/', SubjectCreateView.as_view(), name='create'),
     path('<pk>/', SubjectDetailView.as_view(), name='detail'),
 
 ]

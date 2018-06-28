@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 
@@ -32,3 +33,9 @@ class SubjectListView(LoginRequiredMixin, ListView):
 
 class SubjectDetailView(LoginRequiredMixin, DetailView):
     model = Subject
+
+
+class SubjectCreateView(LoginRequiredMixin, CreateView):
+    model = Subject
+    fields = '__all__'
+    success_url = '/'
