@@ -21,10 +21,13 @@
 
 from django.urls import path
 
-from . import views
+from .views import SubjectListView
+from .views import SubjectDetailView
+from .views import SubjectCreateView
 
 app_name = 'subject_management'
 urlpatterns = [
-    path('', views.SubjectListView.as_view(), name='subject_list'),
-    path('<pk>/', views.SubjectDetailView.as_view(), name='subject_detail'),
+    path('', SubjectListView.as_view(), name='list'),
+    path('<pk>/', SubjectDetailView.as_view(), name='detail'),
+
 ]
