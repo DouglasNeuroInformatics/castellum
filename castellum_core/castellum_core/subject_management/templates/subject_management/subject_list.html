@@ -4,11 +4,23 @@
 {% block content %}
     <h1>{% trans 'Subjects' %}</h1>
 
-    <ul>
+
+    <table class="table">
+    <thead>
+        <tr>
+            <th>{% trans 'Full name' %}</th>
+            <th>{% trans 'Action' %}</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for subject in object_list %}
-            <li><a href="{{ subject.get_absolute_url }}">{{ subject.full_name }}</a></li>
+        <tr>
+            <td>{{ subject.full_name }}</td>
+            <td><a class='btn btn-outline-primary' href="{% url 'subject_management:subject_detail' subject.pk %}">{% trans 'View details' %}</a></td>
+        </tr>
         {% endfor %}
-    </ul>
+    </tbody>
+    </table>
 
     {% if is_paginated %}
         <div class="container">
