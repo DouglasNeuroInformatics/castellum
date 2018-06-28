@@ -2,38 +2,25 @@
 {% load i18n bootstrap4 %}
 
 {% block content %}
+    <h1>{{ study.name }}</h1>
+
     <table class="table">
-    <thead>
         <tr>
-            <h2>{{ subject.first_name|default:_('not provided') }} {{ subject.last_name|default:_('not provided') }}</h2>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th>{% trans 'Gender:' %}</th>
-            <td>{{ subject.gender|default:_('not provided') }}</td>
+            <th>{% trans 'Name' %}</th>
+            <td>{{ subject.title }} {{ subject.first_name }} {{ subject.last_name }}</td>
         </tr>
         <tr>
-            <th>{% trans 'Birthday:' %}</th>
-            <td>{{ subject.birthday|default:_('not provided') }}</td>
-        </tr>
-        <tr>
-            <th>{% trans 'Address:' %}</th>
-            <td>{{ subject.address|default:_('not provided') }}</td>
-        </tr>
-        <tr>
-            <th>{% trans 'Email:' %}</th>
+            <th>{% trans 'Email' %}</th>
             <td>{{ subject.email|default:_('not provided') }}</td>
         </tr>
         <tr>
-            <th>{% trans 'Phone number:' %}</th>
+            <th>{% trans 'Phone number' %}</th>
             <td>{{ subject.phone_number|default:_('not provided') }}</td>
         </tr>
         <tr>
-            <th>{% trans 'Second phone number:' %}</th>
+            <th>{% trans 'Second phone number' %}</th>
             <td>{{ subject.phone_number_alternative|default:_('not provided') }}</td>
         </tr>
-    </tbody>
     </table>
 
     <form method="post">

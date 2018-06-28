@@ -3,22 +3,7 @@
 {% load bootstrap4%}
 
 {% block content %}
-    <h2>{% trans 'Study details' %}</h2>
-    <table class="table">
-    <thead>
-        <tr>
-            <th>{% trans 'Name' %}</th>
-            <th>{% trans 'Contact person' %}</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>{{ study.name|default:_('not provided') }}</td>
-            <td>{{ study.contact_person|default:_('not provided') }}</td>
-        </tr>
-    </tbody>
-    </table>
-
+    <h1>{{ study.name }}</h1>
 
     <h2>{% trans 'Subjects' %}</h2>
     <table class="table">
@@ -48,4 +33,5 @@
         </div>
     {% endif %}
 
+    <a href="{% url 'recruitment:select_study' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
 {% endblock %}
