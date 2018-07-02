@@ -19,8 +19,9 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from .address import Address, City, Country
+from .address import Address
+from .address import City
+from .address import Country
 from .subject import Subject
-
 
 __all__ = Address, City, Country, Subject

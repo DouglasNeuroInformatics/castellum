@@ -21,11 +21,14 @@
 
 from django.contrib import admin
 
-from .address import AddressAdmin, CityAdmin, CountryAdmin
+from ..models import Address
+from ..models import City
+from ..models import Country
+from ..models import Subject
+from .address import AddressAdmin
+from .address import CityAdmin
+from .address import CountryAdmin
 from .subject import SubjectAdmin
-
-from ..models import Address, City, Country, Subject
-
 
 admin.site.register(Address, AddressAdmin)
 admin.site.register(City, CityAdmin)

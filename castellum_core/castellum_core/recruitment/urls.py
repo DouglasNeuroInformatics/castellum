@@ -21,11 +21,13 @@
 
 from django.urls import path
 
-from . import views
+from .views import ContactView
+from .views import StudyChoiceView
+from .views import SubjectChoiceView
 
 app_name = 'recruitment'
 urlpatterns = [
-    path('', views.StudyChoiceView.as_view(), name='select_study'),
-    path('<study_pk>/', views.SubjectChoiceView.as_view(), name='select_subject'),
-    path('<study_pk>/<subject_pk>/', views.ContactView.as_view(), name='contact'),
+    path('', StudyChoiceView.as_view(), name='select_study'),
+    path('<study_pk>/', SubjectChoiceView.as_view(), name='select_subject'),
+    path('<study_pk>/<subject_pk>/', ContactView.as_view(), name='contact'),
 ]

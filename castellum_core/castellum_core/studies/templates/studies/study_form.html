@@ -13,6 +13,7 @@
             {% bootstrap_field field %}
         {% endfor %}
 
+        <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Cancel" %}</a>
         <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
     </form>
 {% endblock %}
