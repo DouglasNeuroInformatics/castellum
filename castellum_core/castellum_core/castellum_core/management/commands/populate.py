@@ -32,6 +32,34 @@ from subject_management.models import Subject
 fake = Faker('de_DE')
 
 
+def fake_date_of_birth():
+    age_groups = [
+        # (start age, percentage)
+        (14, 0.06),
+        (20, 0.14),
+        (30, 0.14),
+        (40, 0.16),
+        (50, 0.19),
+        (60, 0.14),
+        (70, 0.16),
+    ]
+
+    r = fake.random.random()
+    percentage = 0
+
+    for i in range(len(age_groups) - 1):
+        percentage += age_groups[i][1]
+
+        if r < percentage:
+            start_date = '-{}y'.format(age_groups[i + 1][0])
+            end_date = '-{}y'.format(age_groups[i][0])
+            return fake.date_between(start_date=start_date, end_date=end_date)
+
+    start_date = '-{}y'.format(100)
+    end_date = '-{}y'.format(age_groups[-1][0])
+    return fake.date_between(start_date=start_date, end_date=end_date)
+
+
 def fake_study():
     return Study(name=fake.word().upper(), contact_person=fake.name())
 
@@ -51,13 +79,13 @@ def fake_subject(address):
             gender='f',
             first_name=fake.first_name_female(),
             last_name=fake.last_name_female(),
-            birthday=fake.past_date(start_date="-90y"))
+            birthday=fake_date_of_birth())
     else:
         subject = Subject(
             gender='m',
             first_name=fake.first_name_male(),
             last_name=fake.last_name_male(),
-            birthday=fake.past_date(start_date="-90y"))
+            birthday=fake_date_of_birth())
 
     if fake.random.random() < 0.67:
         subject.email = fake.email()
