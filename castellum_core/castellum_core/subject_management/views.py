@@ -29,6 +29,7 @@ from .models import Subject
 
 class SubjectListView(LoginRequiredMixin, ListView):
     model = Subject
+    paginate_by = 20
 
 
 class SubjectDetailView(LoginRequiredMixin, DetailView):
