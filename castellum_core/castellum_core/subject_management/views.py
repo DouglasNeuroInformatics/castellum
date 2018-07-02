@@ -39,4 +39,3 @@ class SubjectDetailView(LoginRequiredMixin, DetailView):
 class SubjectCreateView(LoginRequiredMixin, CreateView):
     model = Subject
     fields = '__all__'
-    success_url = '/'

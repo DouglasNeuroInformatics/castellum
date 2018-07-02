@@ -53,7 +53,7 @@ class Subject(models.Model):
                                                 blank=True)
 
     def get_absolute_url(self):
-        return reverse('subject_management:subject_detail', args=[self.pk])
+        return reverse('subject_management:detail', args=[self.pk])
 
     def full_name(self):
         name = self.first_name + ' ' + self.last_name
