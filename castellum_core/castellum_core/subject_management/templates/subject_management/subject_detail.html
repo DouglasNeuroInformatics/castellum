@@ -29,4 +29,5 @@
             <td>{{ subject.phone_number_alternative|default:_('not provided') }}</td>
         </tr>
     </table>
+    <a href="{% url 'subject_management:list' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
 {% endblock %}

@@ -22,6 +22,7 @@
     </tbody>
     </table>
 
+    <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
     <a href="{% url 'subject_management:create' %}" class="btn btn-primary">{% trans "Create new subject"%}</a>
 
     {% if is_paginated %}
