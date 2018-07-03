@@ -23,12 +23,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
+from django.views.generic import CreateView
+from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
 from studies.models import Study
 from subject_management.models import Subject
 
+from .models import AttributeSet
 from .models import Participation
 
 
@@ -83,3 +86,17 @@ class ContactView(LoginRequiredMixin, UpdateView):
         instance = form.save(commit=False)
         instance.updated_at = timezone.now()
         return super(ContactView, self).form_valid(form)
+
+
+class AttributeSetDetailView(LoginRequiredMixin, DetailView):
+    model = AttributeSet
+
+
+class AttributeSetCreateView(LoginRequiredMixin, CreateView):
+    model = AttributeSet
+    fields = '__all__'
+
+
+class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
+    model = AttributeSet
+    fields = '__all__'
