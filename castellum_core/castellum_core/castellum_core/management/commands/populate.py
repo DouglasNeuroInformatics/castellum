@@ -106,4 +106,5 @@ class Command(BaseCommand):
         country, __ = Country.objects.get_or_create(name='Deutschland')
         addresses = [fake_address(country) for i in range(2000)]
         Address.objects.bulk_create(addresses)
+        addresses = Address.objects.all()[:2000]
         Subject.objects.bulk_create(fake_subject(address) for address in addresses)
