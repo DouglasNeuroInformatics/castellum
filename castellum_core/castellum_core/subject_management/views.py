@@ -23,6 +23,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
+from django.views.generic import UpdateView
 
 from .models import Subject
 
@@ -37,5 +38,10 @@ class SubjectDetailView(LoginRequiredMixin, DetailView):
 
 
 class SubjectCreateView(LoginRequiredMixin, CreateView):
+    model = Subject
+    fields = '__all__'
+
+
+class SubjectUpdateView(LoginRequiredMixin, UpdateView):
     model = Subject
     fields = '__all__'
