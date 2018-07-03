@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n bootstrap4 %}
+
+{% block content %}
+    <h1>{{ subject.full_name }}</h1>
+    <table class="table">
+        <tr>
+            <th>{% trans 'Gender:' %}</th>
+            <td>{{ subject.gender|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Birthday:' %}</th>
+            <td>{{ subject.birthday|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Address:' %}</th>
+            <td>{{ subject.address|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Email:' %}</th>
+            <td>{{ subject.email|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Phone number:' %}</th>
+            <td>{{ subject.phone_number|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Second phone number:' %}</th>
+            <td>{{ subject.phone_number_alternative|default:_('not provided') }}</td>
+        </tr>
+    </table>
+    <a href="{% url 'subject_management:list' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+{% endblock %}
