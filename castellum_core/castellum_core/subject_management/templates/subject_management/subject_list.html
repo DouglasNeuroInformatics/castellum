@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n bootstrap4 %}
+
+{% block content %}
+    <h1>{% trans 'Subjects' %}</h1>
+
+
+    <table class="table">
+    <thead>
+        <tr>
+            <th>{% trans 'Full name' %}</th>
+            <th>{% trans 'Action' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for subject in object_list %}
+        <tr>
+            <td>{{ subject.full_name }}</td>
+            <td><a class='btn btn-outline-primary' href="{% url 'subject_management:detail' subject.pk %}">{% trans 'View details' %}</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+    <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+    <a href="{% url 'subject_management:create' %}" class="btn btn-primary">{% trans "Create new subject"%}</a>
+
+    {% if is_paginated %}
+        <div class="container">
+            <div class="row">
+                {% bootstrap_pagination page_obj %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
