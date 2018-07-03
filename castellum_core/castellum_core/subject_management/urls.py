@@ -24,11 +24,13 @@ from django.urls import path
 from .views import SubjectCreateView
 from .views import SubjectDetailView
 from .views import SubjectListView
+from .views import SubjectUpdateView
 
 app_name = 'subject_management'
 urlpatterns = [
     path('', SubjectListView.as_view(), name='list'),
     path('create/', SubjectCreateView.as_view(), name='create'),
-    path('<pk>/', SubjectDetailView.as_view(), name='detail'),
+    path('detail/<pk>/', SubjectDetailView.as_view(), name='detail'),
+    path('update/<pk>/', SubjectUpdateView.as_view(), name='update'),
 
 ]
