@@ -17,6 +17,7 @@
         <tr>
             <td>{{ subject.full_name }}</td>
             <td><a class='btn btn-outline-primary' href="{% url 'subject_management:detail' subject.pk %}">{% trans 'View details' %}</a></td>
+            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:detail_attributes' subject.pk %}">{% trans 'View attributes' %}</a></td>
         </tr>
         {% endfor %}
     </tbody>
