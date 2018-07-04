@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n bootstrap4 %}
+
+{% block content %}
+    <h1>{% trans 'Attribute set' %}</h1>
+    <table class="table">
+        <tr>
+            <th>{% trans 'Handeness' %}</th>
+            <td>{{ attributeset.handedness|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'First language' %}</th>
+            <td>{{ attributeset.first_language|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Date of birth' %}</th>
+            <td>{{ attributeset.date_of_birth|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+    </table>
+    <a href="{% url 'subject_management:list' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+    <a href="{% url 'recruitment:update_attributes' attributeset.pk %}" class="btn btn-outline-primary">{% trans "Modify" %}</a>
+{% endblock %}

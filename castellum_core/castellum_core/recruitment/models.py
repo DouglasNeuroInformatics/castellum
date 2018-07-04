@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from studies.models import Study
@@ -32,6 +33,9 @@ class AttributeSet(models.Model):
     ))
     first_language = models.CharField(_('First Language'), blank=True, max_length=5)
     date_of_birth = models.DateField(_('Date of birth'), null=True, blank=True)
+
+    def get_absolute_url(self):
+        return reverse('recruitment:detail_attributes', args=[self.pk])
 
 
 class Participation(models.Model):
