@@ -19,8 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import uuid
-
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -28,6 +27,9 @@ from django.utils.translation import ugettext_lazy as _
 from phonenumber_field.formfields import PhoneNumberField as _PhoneNumberFormField
 from phonenumber_field.modelfields import PhoneNumberField as _PhoneNumberField
 from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
+
+from pseudonyms.helpers import create_pseudonym
+from pseudonyms.models import SubjectData
 
 from . import Address
 
@@ -45,14 +47,12 @@ class PhoneNumberField(_PhoneNumberField):
         return super().formfield(**defaults)
 
 
-class Subject(models.Model):
+class Subject(SubjectData):
     GENDER = (
         ("f", _("female")),
         ("m", _("male")),
         ("*", _("diverse")),
     )
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     first_name = models.CharField(_("first name"), max_length=64)
     last_name = models.CharField(_("last name"), max_length=64)
@@ -67,6 +67,11 @@ class Subject(models.Model):
     email = models.EmailField(_("email"), max_length=128, blank=True)
     phone_number = PhoneNumberField(_("phone number"), blank=True)
     phone_number_alternative = PhoneNumberField(_("phone number alternative"), blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.id = create_pseudonym(settings.DOMAINS['contact'])
+        return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('subject_management:detail', args=[self.pk])

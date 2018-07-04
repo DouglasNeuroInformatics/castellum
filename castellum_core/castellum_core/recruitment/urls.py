@@ -21,12 +21,19 @@
 
 from django.urls import path
 
+from .views import AttributeSetCreateView
+from .views import AttributeSetDetailView
+from .views import AttributeSetUpdateView
 from .views import ContactView
 from .views import StudyChoiceView
 from .views import SubjectChoiceView
 
 app_name = 'recruitment'
 urlpatterns = [
+    path('attributes/create/', AttributeSetCreateView.as_view(), name='create_attributes'),
+    path('attributes/<pk>/', AttributeSetDetailView.as_view(), name='detail_attributes'),
+    path('attributes/<pk>/update/', AttributeSetUpdateView.as_view(), name='update_attributes'),
+
     path('', StudyChoiceView.as_view(), name='select_study'),
     path('<study_pk>/', SubjectChoiceView.as_view(), name='select_subject'),
     path('<study_pk>/<subject_pk>/', ContactView.as_view(), name='contact'),

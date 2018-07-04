@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
 
     'castellum_auth',
+    'pseudonyms',
     'recruitment',
     'studies',
     'subject_management',

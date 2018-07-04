@@ -20,12 +20,14 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
+from pseudonyms.models import SubjectData
 from studies.models import Study
 
 
-class AttributeSet(models.Model):
+class AttributeSet(SubjectData):
     handedness = models.CharField(_('Handedness'), blank=True, max_length=10, choices=(
         ('left', _('Left')),
         ('right', _('Right')),
@@ -33,8 +35,11 @@ class AttributeSet(models.Model):
     first_language = models.CharField(_('First Language'), blank=True, max_length=5)
     date_of_birth = models.DateField(_('Date of birth'), null=True, blank=True)
 
+    def get_absolute_url(self):
+        return reverse('recruitment:detail_attributes', args=[self.pk])
 
-class Participation(models.Model):
+
+class Participation(SubjectData):
     NOT_REACHED = 0
     UNSUITABLE = 1
     INVITED = 2
@@ -45,9 +50,6 @@ class Participation(models.Model):
     )
 
     study = models.ForeignKey(Study, verbose_name=_('study'), on_delete=models.CASCADE)
-
-    # just a placeholder until proper pseudonyms are available
-    subject_pk = models.CharField(max_length=128)
 
     status = models.IntegerField(
         _('status of participation'), choices=STATUS_OPTIONS, default=UNSUITABLE)
