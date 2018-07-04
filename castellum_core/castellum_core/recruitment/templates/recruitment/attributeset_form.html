@@ -13,7 +13,7 @@
             {% bootstrap_field field %}
         {% endfor %}
 
-        <a href="{% url 'subject_management:list' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+        <a href="{{ object.get_absolute_url }}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
     </form>
 {% endblock %}
