@@ -91,10 +91,16 @@ def fake_study():
     return Study(name=fake.word().upper(), contact_person=fake.name())
 
 
-def fake_address(country):
-    city, __ = City.objects.get_or_create(name=fake.city(), country=country)
+def fake_cities(country, count):
+    names = set()
+    while len(names) < count:
+        names.add(fake.city())
+    return [City(name=name, country=country) for name in names]
+
+
+def fake_address(cities):
     return Address(
-        city=city,
+        city=fake.random.choice(cities),
         zip_code=fake.postcode(),
         street=fake.street_name(),
         house_number=fake.random.randint(1, 200))
@@ -146,7 +152,9 @@ class Command(BaseCommand):
 
         print('Generating addresses')
         country, __ = Country.objects.get_or_create(name='Deutschland')
-        Address.objects.bulk_create(fake_address(country) for i in range(2000))
+        City.objects.bulk_create(fake_cities(country, 100))
+        cities = City.objects.all()[:100]
+        Address.objects.bulk_create(fake_address(cities) for i in range(2000))
         addresses = Address.objects.all()[:2000]
 
         print('Generating pseudonyms')
