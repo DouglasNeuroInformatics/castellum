@@ -27,7 +27,7 @@ from studies.models import Study
 from subject_management.models import Address
 from subject_management.models import City
 from subject_management.models import Country
-from subject_management.models import Subject
+from subject_management.models import Subject as Contact
 
 fake = Faker('de_DE')
 
@@ -73,28 +73,28 @@ def fake_address(country):
         house_number=fake.random.randint(1, 200))
 
 
-def fake_subject(address):
+def fake_contact(address):
     if fake.random.random() < 0.5:
-        subject = Subject(
+        contact = Contact(
             gender='f',
             first_name=fake.first_name_female(),
             last_name=fake.last_name_female(),
             birthday=fake_date_of_birth())
     else:
-        subject = Subject(
+        contact = Contact(
             gender='m',
             first_name=fake.first_name_male(),
             last_name=fake.last_name_male(),
             birthday=fake_date_of_birth())
 
     if fake.random.random() < 0.67:
-        subject.email = fake.email()
+        contact.email = fake.email()
         if fake.random.random() < 0.75:
-            subject.phone_number = fake.phone_number()
+            contact.phone_number = fake.phone_number()
 
-    subject.address = address
+    contact.address = address
 
-    return subject
+    return contact
 
 
 class Command(BaseCommand):
@@ -107,4 +107,4 @@ class Command(BaseCommand):
         addresses = [fake_address(country) for i in range(2000)]
         Address.objects.bulk_create(addresses)
         addresses = Address.objects.all()[:2000]
-        Subject.objects.bulk_create(fake_subject(address) for address in addresses)
+        Contact.objects.bulk_create(fake_contact(address) for address in addresses)
