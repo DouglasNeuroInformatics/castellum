@@ -137,12 +137,19 @@ class Command(BaseCommand):
     help = 'Populate database with sample data.'
 
     def handle(self, *args, **options):
+        print('Generating studies')
         Study.objects.bulk_create(fake_study() for i in range(5))
 
+        # NOTE: We have ForeignKeys to Address and Subject. Unfortunately, bulk_create does not set
+        # the id on the instances, so we have to get them from the database after bulk_create. This
+        # assumes that the database was empty before.
+
+        print('Generating addresses')
         country, __ = Country.objects.get_or_create(name='Deutschland')
         Address.objects.bulk_create(fake_address(country) for i in range(2000))
         addresses = Address.objects.all()[:2000]
 
+        print('Generating pseudonyms')
         Subject.objects.bulk_create([Subject() for i in range(2000)], batch_size=200)
         subjects = Subject.objects.all()[:2000]
 
@@ -156,9 +163,11 @@ class Command(BaseCommand):
         ) for i in range(2000)]
         Pseudonym.objects.bulk_create(attributeset_pseudonyms)
 
+        print('Generating contacts')
         contacts = [fake_contact(contact_pseudonyms[i], addresses[i]) for i in range(2000)]
         Contact.objects.bulk_create(contacts)
 
+        print('Generating attributesets')
         attributesets = [
             fake_attributeset(attributeset_pseudonyms[i], contacts[i]) for i in range(2000)]
         AttributeSet.objects.bulk_create(attributesets)
