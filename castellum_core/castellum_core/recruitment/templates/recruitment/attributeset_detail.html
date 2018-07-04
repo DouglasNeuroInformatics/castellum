@@ -6,7 +6,7 @@
     <table class="table">
         <tr>
             <th>{% trans 'Handedness' %}</th>
-            <td>{{ attributeset.handedness|default:_('not provided') }}</td>
+            <td>{{ attributeset.get_handedness_display|default:_('not provided') }}</td>
         </tr>
         <tr>
             <th>{% trans 'First language' %}</th>
