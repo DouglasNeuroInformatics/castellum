@@ -26,6 +26,7 @@ from faker import Faker
 
 from pseudonyms.models import Pseudonym
 from pseudonyms.models import Subject
+from recruitment.models import AttributeSet
 from studies.models import Study
 from subject_management.models import Address
 from subject_management.models import City
@@ -61,6 +62,29 @@ def fake_date_of_birth():
     start_date = '-{}y'.format(100)
     end_date = '-{}y'.format(age_groups[-1][0])
     return fake.date_between(start_date=start_date, end_date=end_date)
+
+
+def fake_language():
+    groups = [
+        # (language, percentage)
+        ('de', 0.70),
+        ('en', 0.10),
+        ('tr', 0.06),
+        ('fr', 0.06),
+        ('es', 0.06),
+        ('it', 0.02),
+    ]
+
+    r = fake.random.random()
+    percentage = 0
+
+    for lang, p in groups:
+        percentage += p
+
+        if r < percentage:
+            return lang
+
+    return groups[-1][0]
 
 
 def fake_study():
@@ -101,6 +125,14 @@ def fake_contact(pseudonym, address):
     return contact
 
 
+def fake_attributeset(pseudonym, contact):
+    return AttributeSet(
+        id=pseudonym.pseudonym,
+        date_of_birth=contact.birthday,
+        handedness='left' if fake.random.random() < 0.15 else 'right',
+        first_language=fake_language())
+
+
 class Command(BaseCommand):
     help = 'Populate database with sample data.'
 
@@ -119,5 +151,14 @@ class Command(BaseCommand):
         ) for i in range(2000)]
         Pseudonym.objects.bulk_create(contact_pseudonyms)
 
+        attributeset_pseudonyms = [Pseudonym(
+            subject=subjects[i], domain=settings.DOMAINS['attributeset']
+        ) for i in range(2000)]
+        Pseudonym.objects.bulk_create(attributeset_pseudonyms)
+
         contacts = [fake_contact(contact_pseudonyms[i], addresses[i]) for i in range(2000)]
         Contact.objects.bulk_create(contacts)
+
+        attributesets = [
+            fake_attributeset(attributeset_pseudonyms[i], contacts[i]) for i in range(2000)]
+        AttributeSet.objects.bulk_create(attributesets)
