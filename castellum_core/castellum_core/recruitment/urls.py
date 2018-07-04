@@ -30,11 +30,11 @@ from .views import SubjectChoiceView
 
 app_name = 'recruitment'
 urlpatterns = [
+    path('attributes/create/', AttributeSetCreateView.as_view(), name='create_attributes'),
+    path('attributes/<pk>/', AttributeSetDetailView.as_view(), name='detail_attributes'),
+    path('attributes/<pk>/update/', AttributeSetUpdateView.as_view(), name='update_attributes'),
+
     path('', StudyChoiceView.as_view(), name='select_study'),
     path('<study_pk>/', SubjectChoiceView.as_view(), name='select_subject'),
     path('<study_pk>/<subject_pk>/', ContactView.as_view(), name='contact'),
-
-    path('attributes/create/', AttributeSetCreateView.as_view(), name='create_attributes'),
-    path('attributes/detail/<pk>/', AttributeSetDetailView.as_view(), name='detail_attributes'),
-    path('attributes/update/<pk>/', AttributeSetUpdateView.as_view(), name='update_attributes'),
 ]
