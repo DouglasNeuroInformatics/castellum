@@ -19,10 +19,13 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from faker import Faker
 
+from pseudonyms.models import Pseudonym
+from pseudonyms.models import Subject
 from studies.models import Study
 from subject_management.models import Address
 from subject_management.models import City
@@ -73,7 +76,7 @@ def fake_address(country):
         house_number=fake.random.randint(1, 200))
 
 
-def fake_contact(address):
+def fake_contact(pseudonym, address):
     if fake.random.random() < 0.5:
         contact = Contact(
             gender='f',
@@ -92,6 +95,7 @@ def fake_contact(address):
         if fake.random.random() < 0.75:
             contact.phone_number = fake.phone_number()
 
+    contact.id = pseudonym.pseudonym
     contact.address = address
 
     return contact
@@ -104,7 +108,16 @@ class Command(BaseCommand):
         Study.objects.bulk_create(fake_study() for i in range(5))
 
         country, __ = Country.objects.get_or_create(name='Deutschland')
-        addresses = [fake_address(country) for i in range(2000)]
-        Address.objects.bulk_create(addresses)
+        Address.objects.bulk_create(fake_address(country) for i in range(2000))
         addresses = Address.objects.all()[:2000]
-        Contact.objects.bulk_create(fake_contact(address) for address in addresses)
+
+        Subject.objects.bulk_create([Subject() for i in range(2000)], batch_size=200)
+        subjects = Subject.objects.all()[:2000]
+
+        contact_pseudonyms = [Pseudonym(
+            subject=subjects[i], domain=settings.DOMAINS['contact']
+        ) for i in range(2000)]
+        Pseudonym.objects.bulk_create(contact_pseudonyms)
+
+        contacts = [fake_contact(contact_pseudonyms[i], addresses[i]) for i in range(2000)]
+        Contact.objects.bulk_create(contacts)
