@@ -107,6 +107,12 @@ class AttributeSetDetailView(LoginRequiredMixin, DetailView):
     model = AttributeSet
     slug_field = 'pseudonym'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['subject_pseudonym'] = resolve_pseudonym(
+            settings.DOMAINS['attributeset'], self.object.pseudonym, settings.DOMAINS['contact'])
+        return context
+
 
 class AttributeSetCreateView(LoginRequiredMixin, CreateView):
     model = AttributeSet
