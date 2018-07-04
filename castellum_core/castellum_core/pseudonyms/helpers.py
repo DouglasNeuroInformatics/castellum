@@ -27,7 +27,7 @@ def resolve_pseudonym(domain, pseudonym, target_domain):
     origin = Pseudonym.objects.get(domain=domain, pseudonym=pseudonym)
     target, __ = Pseudonym.objects.get_or_create(
         subject=origin.subject, domain=target_domain)
-    return target.pseudonym
+    return str(target.pseudonym)
 
 
 def create_pseudonym(domain):
@@ -35,7 +35,7 @@ def create_pseudonym(domain):
     subject.save()
     p = Pseudonym(subject=subject, domain=domain)
     p.save()
-    return p.pseudonym
+    return str(p.pseudonym)
 
 
 def delete_pseudonym(domain, pseudonym, delete_related=False):
