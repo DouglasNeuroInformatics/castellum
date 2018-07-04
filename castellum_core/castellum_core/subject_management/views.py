@@ -19,6 +19,9 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import logging
+
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView
 from django.views.generic import DetailView
@@ -26,6 +29,8 @@ from django.views.generic import ListView
 from django.views.generic import UpdateView
 
 from .models import Subject
+
+monitoring_logger = logging.getLogger('monitoring.subject_data')
 
 
 class SubjectListView(LoginRequiredMixin, ListView):
@@ -41,7 +46,23 @@ class SubjectCreateView(LoginRequiredMixin, CreateView):
     model = Subject
     fields = '__all__'
 
+    def form_valid(self, form):
+        result = super().form_valid(form)
+        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
+            settings.DOMAINS['contact'],
+            self.object.id,
+            self.request.user.pk))
+        return result
+
 
 class SubjectUpdateView(LoginRequiredMixin, UpdateView):
     model = Subject
     fields = '__all__'
+
+    def form_valid(self, form):
+        result = super().form_valid(form)
+        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
+            settings.DOMAINS['contact'],
+            self.object.id,
+            self.request.user.pk))
+        return result
