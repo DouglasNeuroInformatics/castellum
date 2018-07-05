@@ -31,7 +31,6 @@ from .models import Subject
 class SubjectForm(forms.ModelForm):
 
     phone_number = PhoneNumberField(label=_("Phone number"))
-
     phone_number_alternative = PhoneNumberField(label=_("Alternative phone number"))
 
     class Meta:
@@ -43,5 +42,4 @@ class SubjectForm(forms.ModelForm):
                 attrs={'placeholder': _('Phone (ex. +4917693333333)')}),
             'phone_number_alternative': PhoneNumberInternationalFallbackWidget(
                 attrs={'placeholder': _('Alternative phone (ex. +4917693333333)')}),
-
         }
