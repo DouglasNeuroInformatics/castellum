@@ -25,8 +25,8 @@ from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
-from .models import Subject
 from .forms import SubjectForm
+from .models import Subject
 
 
 class SubjectListView(LoginRequiredMixin, ListView):
