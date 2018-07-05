@@ -30,8 +30,8 @@ from .models import Subject
 
 class SubjectForm(forms.ModelForm):
 
-    phone_number = PhoneNumberField(label=_("Phone number"))
-    phone_number_alternative = PhoneNumberField(label=_("Alternative phone number"))
+    phone_number = PhoneNumberField(label=_("Phone number"), required=False)
+    phone_number_alternative = PhoneNumberField(label=_("Alternative phone number"), required=False)
 
     class Meta:
         model = Subject
