@@ -24,27 +24,12 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
-from phonenumber_field.formfields import PhoneNumberField as _PhoneNumberFormField
-from phonenumber_field.modelfields import PhoneNumberField as _PhoneNumberField
-from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
+from phonenumber_field.modelfields import PhoneNumberField
 
 from pseudonyms.helpers import create_pseudonym
 from pseudonyms.models import SubjectData
 
 from . import Address
-
-
-class PhoneNumberFormField(_PhoneNumberFormField):
-    widget = PhoneNumberInternationalFallbackWidget
-
-
-class PhoneNumberField(_PhoneNumberField):
-    def formfield(self, **kwargs):
-        defaults = {
-            'form_class': PhoneNumberFormField,
-        }
-        defaults.update(kwargs)
-        return super().formfield(**defaults)
 
 
 class Subject(SubjectData):
