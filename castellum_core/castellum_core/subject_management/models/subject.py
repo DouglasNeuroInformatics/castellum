@@ -50,8 +50,9 @@ class Subject(SubjectData):
     address = models.ForeignKey(Address, blank=True, null=True, verbose_name=_("Address"),
                                 on_delete=models.SET_NULL)
     email = models.EmailField(_("email"), max_length=128, blank=True)
-    phone_number = PhoneNumberField(_("phone number"), blank=True)
-    phone_number_alternative = PhoneNumberField(_("phone number alternative"), blank=True)
+    phone_number = PhoneNumberField(_("phone number"), max_length=32, blank=True)
+    phone_number_alternative = PhoneNumberField(_("phone number alternative"), max_length=32,
+                                                blank=True)
 
     def save(self, *args, **kwargs):
         if not self.id:
