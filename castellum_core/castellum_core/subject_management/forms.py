@@ -46,7 +46,7 @@ class SubjectForm(forms.ModelForm):
         }
 
     def clean(self):
-        if not self.cleaned_data['address'] \
-                and not self.cleaned_data['email'] \
-                and not self.cleaned_data['phone_number']:
+        data = self.cleaned_data
+        print(data)
+        if not any([data['address'], data['email'], data['phone_number']]):
             raise ValidationError(_('At least one of address, email, or phone number must be set'))
