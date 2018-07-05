@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import forms
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from phonenumber_field.formfields import PhoneNumberField
@@ -43,3 +44,9 @@ class SubjectForm(forms.ModelForm):
             'phone_number_alternative': PhoneNumberInternationalFallbackWidget(
                 attrs={'placeholder': _('Alternative phone (ex. +4917693333333)')}),
         }
+
+    def clean(self):
+        if not self.cleaned_data['address'] \
+                and not self.cleaned_data['email'] \
+                and not self.cleaned_data['phone_number']:
+            raise ValidationError(_('At least one of address, email, or phone number must be set'))
