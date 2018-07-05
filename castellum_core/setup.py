@@ -15,6 +15,7 @@ setup(
         "django-auth-ldap==1.4.0",
         "django-bootstrap4==0.0.6",
         "django-npm==1.0.0",
+        "django-phonenumber-field==2.0.0",
         "psycopg2==2.7.4",
     ],
 )

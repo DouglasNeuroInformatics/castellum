@@ -25,6 +25,7 @@ from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
+from .forms import SubjectForm
 from .models import Subject
 
 
@@ -44,4 +45,4 @@ class SubjectCreateView(LoginRequiredMixin, CreateView):
 
 class SubjectUpdateView(LoginRequiredMixin, UpdateView):
     model = Subject
-    fields = '__all__'
+    form_class = SubjectForm
