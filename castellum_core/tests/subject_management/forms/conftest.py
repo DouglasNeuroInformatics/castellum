@@ -12,6 +12,12 @@ def address():
 
 @pytest.fixture
 def stable_data():
-    d = {'first_name': 'a', 'last_name': 't', 'title': 'Dr.', 'gender': 'm',
-         'birthday': '2010-01-28', 'phone_number_alternative': '+4917691233435'}
+    d = {
+        'first_name': 'a',
+        'last_name': 't',
+        'title': 'Dr.',
+        'gender': 'm',
+        'birthday': '2010-01-28',
+        'phone_number_alternative': '+4917691233435'
+    }
     return d

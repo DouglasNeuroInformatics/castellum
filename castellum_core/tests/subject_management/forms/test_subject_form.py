@@ -23,15 +23,7 @@ def test_subject_form_empty():
 
 
 def test_subject_form_with_data_except_email_phone_address(stable_data):
-    form = SubjectForm(data={
-        'first_name': stable_data['first_name'],
-        'last_name': stable_data['last_name'],
-        'title': stable_data['title'],
-        'gender': stable_data['gender'],
-        'birthday': stable_data['birthday'],
-        'phone_number_alternative': stable_data['phone_number_alternative']
-    })
-
+    form = SubjectForm(data=stable_data)
     assert form.is_valid() is False
 
 
@@ -39,18 +31,15 @@ def test_subject_form_with_data_except_email_phone_address(stable_data):
 @pytest.mark.parametrize('email, phone_number, validity', check_data_without_address)
 def test_subject_form_without_address(stable_data, email, phone_number, validity):
 
-    form = SubjectForm(data={
-        'first_name': stable_data['first_name'],
-        'last_name': stable_data['last_name'],
-        'title': stable_data['title'],
-        'gender': stable_data['gender'],
-        'birthday': stable_data['birthday'],
-        'phone_number_alternative': stable_data['phone_number_alternative'],
+    test_data = {
         'address': '',
         'email': email,
-        'phone_number': phone_number,
+        'phone_number': phone_number
+    }
 
-    })
+    stable_data.update(test_data)
+
+    form = SubjectForm(data=stable_data)
 
     assert form.is_valid() is validity
 
@@ -59,17 +48,14 @@ def test_subject_form_without_address(stable_data, email, phone_number, validity
 @pytest.mark.parametrize('email, phone_number, validity', check_data_with_address)
 def test_subject_form_with_address(stable_data, address, email, phone_number, validity):
 
-    form = SubjectForm(data={
-        'first_name': stable_data['first_name'],
-        'last_name': stable_data['last_name'],
-        'title': stable_data['title'],
-        'gender': stable_data['gender'],
-        'birthday': stable_data['birthday'],
-        'phone_number_alternative': stable_data['phone_number_alternative'],
+    test_data = {
         'address': address.id,
         'email': email,
-        'phone_number': phone_number,
+        'phone_number': phone_number
+    }
 
-    })
+    stable_data.update(test_data)
+
+    form = SubjectForm(data=stable_data)
 
     assert form.is_valid() is validity
