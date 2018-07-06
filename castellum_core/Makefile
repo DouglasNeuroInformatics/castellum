@@ -29,6 +29,9 @@ makemessages:
 	$(MANAGEPY) compilemessages -l de
 
 install:
-	pip install tox ipdb
+	pip install tox ipdb watchdog
 	pip install -e .
 	npm install
+
+tdd:
+	watchmedo shell-command --drop --patterns='*.py' --recursive --command='clear && tox -e py35'
