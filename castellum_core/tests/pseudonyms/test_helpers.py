@@ -33,6 +33,16 @@ def test_resovle_pseudonym_that_does_not_exist(pseudonym):
 
 
 @pytest.mark.django_db
+def test_create_pseudonym():
+    result = helpers.create_pseudonym("domain")
+
+    pseudonym = Pseudonym.objects.select_related("subject").get(domain="domain")
+
+    assert result == str(pseudonym.pseudonym)
+    assert 1 == pseudonym.subject.id
+
+
+@pytest.mark.django_db
 def test_delete_pseudonym(pseudonym, pseudonym2):
     assert 2 == len(Pseudonym.objects.all())
 
