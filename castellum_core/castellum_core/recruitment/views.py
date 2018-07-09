@@ -105,6 +105,7 @@ class ContactView(LoginRequiredMixin, UpdateView):
 
 class AttributeSetDetailView(LoginRequiredMixin, DetailView):
     model = AttributeSet
+    slug_field = 'pseudonym'
 
 
 class AttributeSetCreateView(LoginRequiredMixin, CreateView):
@@ -123,6 +124,7 @@ class AttributeSetCreateView(LoginRequiredMixin, CreateView):
 class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
     model = AttributeSet
     fields = '__all__'
+    slug_field = 'pseudonym'
 
     def form_valid(self, form):
         result = super().form_valid(form)

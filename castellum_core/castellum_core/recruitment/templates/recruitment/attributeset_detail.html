@@ -19,5 +19,5 @@
         <tr>
     </table>
     <a href="{% url 'subject_management:list' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-    <a href="{% url 'recruitment:update_attributes' attributeset.pk %}" class="btn btn-outline-primary">{% trans "Modify" %}</a>
+    <a href="{% url 'recruitment:update_attributes' attributeset.pseudonym %}" class="btn btn-outline-primary">{% trans "Modify" %}</a>
 {% endblock %}

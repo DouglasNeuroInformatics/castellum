@@ -41,6 +41,7 @@ class SubjectListView(LoginRequiredMixin, ListView):
 
 class SubjectDetailView(LoginRequiredMixin, DetailView):
     model = Subject
+    slug_field = 'pseudonym'
 
 
 class SubjectCreateView(LoginRequiredMixin, CreateView):
@@ -59,6 +60,7 @@ class SubjectCreateView(LoginRequiredMixin, CreateView):
 class SubjectUpdateView(LoginRequiredMixin, UpdateView):
     model = Subject
     form_class = SubjectForm
+    slug_field = 'pseudonym'
 
     def form_valid(self, form):
         result = super().form_valid(form)
