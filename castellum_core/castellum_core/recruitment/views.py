@@ -74,11 +74,11 @@ class ContactView(LoginRequiredMixin, UpdateView):
             queryset = self.get_queryset()
 
         self.study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
-        self.subject = get_object_or_404(Subject, pk=self.kwargs['subject_pk'])
+        self.subject = get_object_or_404(Subject, pseudonym=self.kwargs['subject_slug'])
 
         pseudonym = resolve_pseudonym(
             settings.DOMAINS['contact'], self.subject.pseudonym, self.study.domain)
-        participation, __ = queryset.get_or_create(study=self.study, id=pseudonym)
+        participation, __ = queryset.get_or_create(study=self.study, pseudonym=pseudonym)
         return participation
 
     def get_success_url(self):
@@ -97,7 +97,7 @@ class ContactView(LoginRequiredMixin, UpdateView):
 
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             self.study.domain,
-            self.object.id,
+            self.object.pseudonym,
             self.request.user.pk))
 
         return result
@@ -116,7 +116,7 @@ class AttributeSetCreateView(LoginRequiredMixin, CreateView):
         result = super().form_valid(form)
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             settings.DOMAINS['attributeset'],
-            self.object.id,
+            self.object.pseudonym,
             self.request.user.pk))
         return result
 
@@ -130,6 +130,6 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
         result = super().form_valid(form)
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             settings.DOMAINS['attributeset'],
-            self.object.id,
+            self.object.pseudonym,
             self.request.user.pk))
         return result

@@ -52,7 +52,7 @@ class SubjectCreateView(LoginRequiredMixin, CreateView):
         result = super().form_valid(form)
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             settings.DOMAINS['contact'],
-            self.object.id,
+            self.object.pseudonym,
             self.request.user.pk))
         return result
 
@@ -66,6 +66,6 @@ class SubjectUpdateView(LoginRequiredMixin, UpdateView):
         result = super().form_valid(form)
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             settings.DOMAINS['contact'],
-            self.object.id,
+            self.object.pseudonym,
             self.request.user.pk))
         return result

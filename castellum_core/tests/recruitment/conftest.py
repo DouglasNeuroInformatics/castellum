@@ -12,4 +12,4 @@ def study(db):
 
 @pytest.fixture
 def subject(db):
-    return mommy.make(Subject, id=None)
+    return mommy.make(Subject, pseudonym=None)
