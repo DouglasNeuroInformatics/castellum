@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import logging
+
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
@@ -35,6 +37,8 @@ from subject_management.models import Subject
 
 from .models import AttributeSet
 from .models import Participation
+
+monitoring_logger = logging.getLogger('monitoring.subject_data')
 
 
 class StudyChoiceView(LoginRequiredMixin, ListView):
@@ -89,7 +93,14 @@ class ContactView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.updated_at = timezone.now()
-        return super(ContactView, self).form_valid(form)
+        result = super(ContactView, self).form_valid(form)
+
+        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
+            self.study.domain,
+            self.object.id,
+            self.request.user.pk))
+
+        return result
 
 
 class AttributeSetDetailView(LoginRequiredMixin, DetailView):
@@ -100,7 +111,23 @@ class AttributeSetCreateView(LoginRequiredMixin, CreateView):
     model = AttributeSet
     fields = '__all__'
 
+    def form_valid(self, form):
+        result = super().form_valid(form)
+        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
+            settings.DOMAINS['attributeset'],
+            self.object.id,
+            self.request.user.pk))
+        return result
+
 
 class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
     model = AttributeSet
     fields = '__all__'
+
+    def form_valid(self, form):
+        result = super().form_valid(form)
+        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
+            settings.DOMAINS['attributeset'],
+            self.object.id,
+            self.request.user.pk))
+        return result
