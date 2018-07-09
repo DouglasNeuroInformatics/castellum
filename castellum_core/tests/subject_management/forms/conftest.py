@@ -11,13 +11,11 @@ def address():
 
 
 @pytest.fixture
-def stable_data():
-    d = {
-        'first_name': 'a',
-        'last_name': 't',
+def subject_data():
+    return {
+        'first_name': 'Winston',
+        'last_name': 'Wolfe',
         'title': 'Dr.',
         'gender': 'm',
         'birthday': '2010-01-28',
-        'phone_number_alternative': '+4917691233435'
     }
-    return d

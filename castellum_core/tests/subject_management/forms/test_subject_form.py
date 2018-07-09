@@ -22,14 +22,14 @@ def test_subject_form_empty():
     assert form.is_valid() is False
 
 
-def test_subject_form_with_data_except_email_phone_address(stable_data):
-    form = SubjectForm(data=stable_data)
+def test_subject_form_with_data_except_email_phone_address(subject_data):
+    form = SubjectForm(data=subject_data)
     assert form.is_valid() is False
 
 
 @pytest.mark.django_db
 @pytest.mark.parametrize('email, phone_number, validity', check_data_without_address)
-def test_subject_form_without_address(stable_data, email, phone_number, validity):
+def test_subject_form_without_address(subject_data, email, phone_number, validity):
 
     test_data = {
         'address': '',
@@ -37,16 +37,16 @@ def test_subject_form_without_address(stable_data, email, phone_number, validity
         'phone_number': phone_number
     }
 
-    stable_data.update(test_data)
+    subject_data.update(test_data)
 
-    form = SubjectForm(data=stable_data)
+    form = SubjectForm(data=subject_data)
 
     assert form.is_valid() is validity
 
 
 @pytest.mark.django_db
 @pytest.mark.parametrize('email, phone_number, validity', check_data_with_address)
-def test_subject_form_with_address(stable_data, address, email, phone_number, validity):
+def test_subject_form_with_address(subject_data, address, email, phone_number, validity):
 
     test_data = {
         'address': address.id,
@@ -54,8 +54,8 @@ def test_subject_form_with_address(stable_data, address, email, phone_number, va
         'phone_number': phone_number
     }
 
-    stable_data.update(test_data)
+    subject_data.update(test_data)
 
-    form = SubjectForm(data=stable_data)
+    form = SubjectForm(data=subject_data)
 
     assert form.is_valid() is validity
