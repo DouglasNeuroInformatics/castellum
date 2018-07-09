@@ -77,7 +77,7 @@ class ContactView(LoginRequiredMixin, UpdateView):
         self.subject = get_object_or_404(Subject, pk=self.kwargs['subject_pk'])
 
         pseudonym = resolve_pseudonym(
-            settings.DOMAINS['contact'], self.subject.id, self.study.domain)
+            settings.DOMAINS['contact'], self.subject.pseudonym, self.study.domain)
         participation, __ = queryset.get_or_create(study=self.study, id=pseudonym)
         return participation
 
