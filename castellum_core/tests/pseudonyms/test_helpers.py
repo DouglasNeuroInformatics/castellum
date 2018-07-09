@@ -60,3 +60,9 @@ def test_delete_all_pseudonyms_for_related_subject(pseudonym, pseudonym2):
 
     assert 0 == len(Pseudonym.objects.all())
     assert 0 == len(Subject.objects.filter(id=pseudonym.subject.id))
+
+
+@pytest.mark.django_db
+def test_list_pseudonyms(pseudonym):
+    helpers.resolve_pseudonym(pseudonym.domain, pseudonym.pseudonym, 'another_domain')
+    assert 2 == len(helpers.list_pseudonyms(pseudonym.domain, pseudonym.pseudonym))
