@@ -28,6 +28,7 @@ from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
+from .forms import SubjectForm
 from .models import Subject
 
 monitoring_logger = logging.getLogger('monitoring.subject_data')
@@ -57,7 +58,7 @@ class SubjectCreateView(LoginRequiredMixin, CreateView):
 
 class SubjectUpdateView(LoginRequiredMixin, UpdateView):
     model = Subject
-    fields = '__all__'
+    form_class = SubjectForm
 
     def form_valid(self, form):
         result = super().form_valid(form)

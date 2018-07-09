@@ -18,7 +18,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'bootstrap4',
+    'phonenumber_field',
 
     'castellum_auth',
     'pseudonyms',
@@ -110,6 +112,8 @@ LANGUAGES = [
 ]
 
 TIME_ZONE = 'Europe/Berlin'
+
+PHONENUMBER_DEFAULT_REGION = 'DE'
 
 USE_I18N = True
 
