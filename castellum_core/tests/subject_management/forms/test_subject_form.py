@@ -14,13 +14,12 @@ def test_subject_form_with_data_except_email_phone_address(subject_data):
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('email, phone_number, validity', [
-    ('t@g.com', '+4917691233434', True),
-    ('t@g.com', '', True),
-    ('', '+4917691233434', True),
-    ('', '', False),
+@pytest.mark.parametrize('email, phone_number', [
+    ('t@g.com', '+4917691233434'),
+    ('t@g.com', ''),
+    ('', '+4917691233434'),
 ])
-def test_subject_form_without_address(subject_data, email, phone_number, validity):
+def test_subject_form_without_address(subject_data, email, phone_number):
 
     subject_data.update({
         'address': '',
@@ -30,17 +29,16 @@ def test_subject_form_without_address(subject_data, email, phone_number, validit
 
     form = SubjectForm(data=subject_data)
 
-    assert form.is_valid() is validity
+    assert form.is_valid() is True
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('email, phone_number, validity', [
-    ('t@g.com', '+4917691233434', True),
-    ('t@g.com', '', True),
-    ('', '+4917691233434', True),
-    ('', '', True),
+@pytest.mark.parametrize('email, phone_number', [
+    ('t@g.com', '+4917691233434'),
+    ('t@g.com', ''),
+    ('', '+4917691233434'),
 ])
-def test_subject_form_with_address(subject_data, address, email, phone_number, validity):
+def test_subject_form_with_address(subject_data, address, email, phone_number):
 
     subject_data.update({
         'address': address.id,
@@ -50,4 +48,4 @@ def test_subject_form_with_address(subject_data, address, email, phone_number, v
 
     form = SubjectForm(data=subject_data)
 
-    assert form.is_valid() is validity
+    assert form.is_valid() is True
