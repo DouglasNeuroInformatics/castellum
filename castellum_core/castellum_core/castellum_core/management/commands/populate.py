@@ -139,43 +139,50 @@ def fake_attributeset(pseudonym, contact):
         first_language=fake_language())
 
 
+def generate_studies(count):
+    print('Generating studies')
+    Study.objects.bulk_create(fake_study() for i in range(count))
+
+
+def generate_subjects(count):
+    # NOTE: We have ForeignKeys to Address and Subject. Unfortunately, bulk_create does not set
+    # the id on the instances, so we have to get them from the database after bulk_create. This
+    # assumes that the database was empty before.
+
+    print('Generating addresses')
+    country, __ = Country.objects.get_or_create(name='Deutschland')
+    City.objects.bulk_create(fake_cities(country, 100))
+    cities = City.objects.all()[:100]
+    Address.objects.bulk_create(fake_address(cities) for i in range(count))
+    addresses = Address.objects.all()[:count]
+
+    print('Generating pseudonyms')
+    Subject.objects.bulk_create([Subject() for i in range(count)], batch_size=200)
+    subjects = Subject.objects.all()[:count]
+
+    contact_pseudonyms = [Pseudonym(
+        subject=subjects[i], domain=settings.DOMAINS['contact']
+    ) for i in range(count)]
+    Pseudonym.objects.bulk_create(contact_pseudonyms)
+
+    attributeset_pseudonyms = [Pseudonym(
+        subject=subjects[i], domain=settings.DOMAINS['attributeset']
+    ) for i in range(count)]
+    Pseudonym.objects.bulk_create(attributeset_pseudonyms)
+
+    print('Generating contacts')
+    contacts = [fake_contact(contact_pseudonyms[i], addresses[i]) for i in range(count)]
+    Contact.objects.bulk_create(contacts)
+
+    print('Generating attributesets')
+    attributesets = [
+        fake_attributeset(attributeset_pseudonyms[i], contacts[i]) for i in range(count)]
+    AttributeSet.objects.bulk_create(attributesets)
+
+
 class Command(BaseCommand):
     help = 'Populate database with sample data.'
 
     def handle(self, *args, **options):
-        print('Generating studies')
-        Study.objects.bulk_create(fake_study() for i in range(5))
-
-        # NOTE: We have ForeignKeys to Address and Subject. Unfortunately, bulk_create does not set
-        # the id on the instances, so we have to get them from the database after bulk_create. This
-        # assumes that the database was empty before.
-
-        print('Generating addresses')
-        country, __ = Country.objects.get_or_create(name='Deutschland')
-        City.objects.bulk_create(fake_cities(country, 100))
-        cities = City.objects.all()[:100]
-        Address.objects.bulk_create(fake_address(cities) for i in range(2000))
-        addresses = Address.objects.all()[:2000]
-
-        print('Generating pseudonyms')
-        Subject.objects.bulk_create([Subject() for i in range(2000)], batch_size=200)
-        subjects = Subject.objects.all()[:2000]
-
-        contact_pseudonyms = [Pseudonym(
-            subject=subjects[i], domain=settings.DOMAINS['contact']
-        ) for i in range(2000)]
-        Pseudonym.objects.bulk_create(contact_pseudonyms)
-
-        attributeset_pseudonyms = [Pseudonym(
-            subject=subjects[i], domain=settings.DOMAINS['attributeset']
-        ) for i in range(2000)]
-        Pseudonym.objects.bulk_create(attributeset_pseudonyms)
-
-        print('Generating contacts')
-        contacts = [fake_contact(contact_pseudonyms[i], addresses[i]) for i in range(2000)]
-        Contact.objects.bulk_create(contacts)
-
-        print('Generating attributesets')
-        attributesets = [
-            fake_attributeset(attributeset_pseudonyms[i], contacts[i]) for i in range(2000)]
-        AttributeSet.objects.bulk_create(attributesets)
+        generate_studies(5)
+        generate_subjects(2000)
