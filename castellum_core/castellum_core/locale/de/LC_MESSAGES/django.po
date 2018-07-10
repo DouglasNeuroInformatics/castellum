@@ -2,12 +2,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-26 11:29+0200\n"
+"POT-Creation-Date: 2018-07-10 13:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,96 +67,131 @@ msgstr "Ablaufdatum"
 msgid "Time until automatic logout"
 msgstr "Zeit bis zur automatischen Abmeldung"
 
-#: castellum_core/castellum_core/settings/default.py:107
+#: castellum_core/castellum_core/settings/default.py:111
 msgid "German"
 msgstr "Deutsch"
 
-#: castellum_core/castellum_core/settings/default.py:108
+#: castellum_core/castellum_core/settings/default.py:112
 msgid "English"
 msgstr "Englisch"
 
-#: castellum_core/recruitment/models.py:29
+#: castellum_core/recruitment/models.py:31
+#: castellum_core/recruitment/templates/recruitment/attributeset_detail.html:8
 msgid "Handedness"
 msgstr "Händigkeit"
 
-#: castellum_core/recruitment/models.py:30
+#: castellum_core/recruitment/models.py:32
 msgid "Left"
 msgstr "Links"
 
-#: castellum_core/recruitment/models.py:31
+#: castellum_core/recruitment/models.py:33
 msgid "Right"
 msgstr "Rechts"
 
-#: castellum_core/recruitment/models.py:33
+#: castellum_core/recruitment/models.py:35
 msgid "First Language"
 msgstr "Muttersprache"
 
-#: castellum_core/recruitment/models.py:34
+#: castellum_core/recruitment/models.py:36
+#: castellum_core/recruitment/templates/recruitment/attributeset_detail.html:16
 msgid "Date of birth"
 msgstr "Geburtsdatum"
 
-#: castellum_core/recruitment/models.py:42
+#: castellum_core/recruitment/models.py:47
 msgid "not reached"
 msgstr "nicht erreicht"
 
-#: castellum_core/recruitment/models.py:43
+#: castellum_core/recruitment/models.py:48
 msgid "unsuitable"
 msgstr "nicht geeignet"
 
-#: castellum_core/recruitment/models.py:44
+#: castellum_core/recruitment/models.py:49
 msgid "invited"
 msgstr "eingeladen"
 
-#: castellum_core/recruitment/models.py:47
+#: castellum_core/recruitment/models.py:52
 msgid "study"
 msgstr "Studie"
 
-#: castellum_core/recruitment/models.py:53
+#: castellum_core/recruitment/models.py:55
 msgid "status of participation"
 msgstr "Teilnahmestatus"
 
-#: castellum_core/recruitment/models.py:54
+#: castellum_core/recruitment/models.py:56
 msgid "last updated at"
 msgstr "Zuletzt aktualisiert"
 
-#: castellum_core/recruitment/templates/recruitment/contact.html:10
+#: castellum_core/recruitment/templates/recruitment/attributeset_detail.html:5
+msgid "Attribute set"
+msgstr "Merkmale"
+
+#: castellum_core/recruitment/templates/recruitment/attributeset_detail.html:9
+#: castellum_core/recruitment/templates/recruitment/attributeset_detail.html:13
+#: castellum_core/recruitment/templates/recruitment/attributeset_detail.html:17
+#: castellum_core/recruitment/templates/recruitment/contact.html:14
+#: castellum_core/recruitment/templates/recruitment/contact.html:18
+#: castellum_core/recruitment/templates/recruitment/contact.html:22
+#: castellum_core/recruitment/templates/recruitment/studies_list.html:17
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:20
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:21
+#: castellum_core/studies/templates/studies/study_list.html:16
+#: castellum_core/studies/templates/studies/study_list.html:17
+#: castellum_core/subject_management/templates/subject_management/subject_detail.html:9
+#: castellum_core/subject_management/templates/subject_management/subject_detail.html:13
+#: castellum_core/subject_management/templates/subject_management/subject_detail.html:17
+#: castellum_core/subject_management/templates/subject_management/subject_detail.html:21
+#: castellum_core/subject_management/templates/subject_management/subject_detail.html:25
+#: castellum_core/subject_management/templates/subject_management/subject_detail.html:29
+msgid "not provided"
+msgstr "nicht angegeben"
+
+#: castellum_core/recruitment/templates/recruitment/attributeset_detail.html:12
+msgid "First language"
+msgstr "Muttersprache"
+
+#: castellum_core/recruitment/templates/recruitment/attributeset_detail.html:21
+#: castellum_core/recruitment/templates/recruitment/attributeset_form.html:16
+#: castellum_core/recruitment/templates/recruitment/contact.html:34
+#: castellum_core/recruitment/templates/recruitment/studies_list.html:24
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:36
+#: castellum_core/studies/templates/studies/study_list.html:23
+#: castellum_core/subject_management/templates/subject_management/subject_detail.html:32
+#: castellum_core/subject_management/templates/subject_management/subject_form.html:16
+#: castellum_core/subject_management/templates/subject_management/subject_list.html:28
+msgid "Back"
+msgstr "Zurück"
+
+#: castellum_core/recruitment/templates/recruitment/attributeset_detail.html:22
+msgid "Modify"
+msgstr "Bearbeiten"
+
+#: castellum_core/recruitment/templates/recruitment/attributeset_form.html:17
+#: castellum_core/studies/templates/studies/study_form.html:17
+#: castellum_core/subject_management/templates/subject_management/subject_form.html:17
+msgid "Save"
+msgstr "Speichern"
+
+#: castellum_core/recruitment/templates/recruitment/contact.html:9
 #: castellum_core/recruitment/templates/recruitment/studies_list.html:10
-#: castellum_core/studies/models.py:27
+#: castellum_core/studies/models.py:29
 #: castellum_core/studies/templates/studies/study_list.html:9
 msgid "Name"
 msgstr "Name"
 
-#: castellum_core/recruitment/templates/recruitment/contact.html:14
+#: castellum_core/recruitment/templates/recruitment/contact.html:13
 msgid "Email"
 msgstr "E-Mail"
 
-#: castellum_core/recruitment/templates/recruitment/contact.html:15
-#: castellum_core/recruitment/templates/recruitment/contact.html:19
-#: castellum_core/recruitment/templates/recruitment/contact.html:23
-#: castellum_core/recruitment/templates/recruitment/studies_list.html:17
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:21
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:22
-#: castellum_core/studies/templates/studies/study_list.html:16
-#: castellum_core/studies/templates/studies/study_list.html:17
-msgid "not provided"
-msgstr "nicht angegeben"
-
-#: castellum_core/recruitment/templates/recruitment/contact.html:18
+#: castellum_core/recruitment/templates/recruitment/contact.html:17
+#: castellum_core/subject_management/forms.py:34
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: castellum_core/recruitment/templates/recruitment/contact.html:22
+#: castellum_core/recruitment/templates/recruitment/contact.html:21
 msgid "Second phone number"
 msgstr "Zweite Telefonnummer"
 
 #: castellum_core/recruitment/templates/recruitment/contact.html:35
-#: castellum_core/recruitment/templates/recruitment/studies_list.html:24
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:37
-#: castellum_core/studies/templates/studies/study_list.html:23
-msgid "Back"
-msgstr "Zurück"
-
-#: castellum_core/recruitment/templates/recruitment/contact.html:36
 msgid "Submit"
 msgstr "Speichern"
 
@@ -167,7 +201,8 @@ msgid "Studies"
 msgstr "Studien"
 
 #: castellum_core/recruitment/templates/recruitment/studies_list.html:11
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:15
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:14
+#: castellum_core/subject_management/templates/subject_management/subject_list.html:12
 msgid "Action"
 msgstr "Aktion"
 
@@ -175,29 +210,30 @@ msgstr "Aktion"
 msgid "Find subjects"
 msgstr "Teilnehmende finden"
 
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:9
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:8
+#: castellum_core/subject_management/templates/subject_management/subject_list.html:5
 msgid "Subjects"
 msgstr "Teilnehmende"
 
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:13
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:12
 msgid "First name"
 msgstr "Vorname"
 
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:14
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:13
 msgid "Last name"
 msgstr "Nachname"
 
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:23
+#: castellum_core/recruitment/templates/recruitment/subjects_list.html:22
 msgid "Call"
 msgstr "Anrufen"
+
+#: castellum_core/studies/models.py:31
+msgid "Responsible contact person"
+msgstr "Verantwortliche Kontaktperson"
 
 #: castellum_core/studies/templates/studies/study_form.html:16
 msgid "Cancel"
 msgstr "Abbrechen"
-
-#: castellum_core/studies/templates/studies/study_form.html:17
-msgid "Save"
-msgstr "Speichern"
 
 #: castellum_core/studies/templates/studies/study_list.html:10
 msgid "Contact person"
@@ -206,6 +242,23 @@ msgstr "Kontaktperson"
 #: castellum_core/studies/templates/studies/study_list.html:24
 msgid "Create new study"
 msgstr "Neue Studie anlegen"
+
+#: castellum_core/subject_management/forms.py:35
+msgid "Alternative phone number"
+msgstr "Alternative  Telefonnummer"
+
+#: castellum_core/subject_management/forms.py:43
+msgid "Phone (ex. +4917693333333)"
+msgstr "Telefon (z.B. +4917693333333)"
+
+#: castellum_core/subject_management/forms.py:45
+msgid "Alternative phone (ex. +4917693333333)"
+msgstr "Alternatives Telefon (z.B. +4917693333333)"
+
+#: castellum_core/subject_management/forms.py:51
+msgid "At least one of address, email, or phone number must be set"
+msgstr ""
+"Mindestens eins von Adress, E-Mail oder Telefonnummer muss ausgefüllt sein"
 
 #: castellum_core/subject_management/models/address.py:27
 #: castellum_core/subject_management/models/address.py:39
@@ -247,7 +300,7 @@ msgid "additional information"
 msgstr "Zusätzliche Informationen"
 
 #: castellum_core/subject_management/models/address.py:67
-#: castellum_core/subject_management/models/subject.py:47
+#: castellum_core/subject_management/models/subject.py:50
 msgid "Address"
 msgstr "Adresse"
 
@@ -255,49 +308,89 @@ msgstr "Adresse"
 msgid "Addresses"
 msgstr "Adressen"
 
-#: castellum_core/subject_management/models/subject.py:32
+#: castellum_core/subject_management/models/subject.py:37
 msgid "female"
 msgstr "weiblich"
 
-#: castellum_core/subject_management/models/subject.py:33
+#: castellum_core/subject_management/models/subject.py:38
 msgid "male"
 msgstr "männlich"
 
-#: castellum_core/subject_management/models/subject.py:34
+#: castellum_core/subject_management/models/subject.py:39
 msgid "diverse"
 msgstr "divers"
 
-#: castellum_core/subject_management/models/subject.py:39
+#: castellum_core/subject_management/models/subject.py:42
 msgid "first name"
 msgstr "Vorname"
 
-#: castellum_core/subject_management/models/subject.py:40
+#: castellum_core/subject_management/models/subject.py:43
 msgid "last name"
 msgstr "Nachname"
 
-#: castellum_core/subject_management/models/subject.py:41
+#: castellum_core/subject_management/models/subject.py:44
 msgid "title"
 msgstr "Titel"
 
-#: castellum_core/subject_management/models/subject.py:43
+#: castellum_core/subject_management/models/subject.py:46
 msgid "gender"
 msgstr "Geschlecht"
 
-#: castellum_core/subject_management/models/subject.py:45
+#: castellum_core/subject_management/models/subject.py:48
 msgid "birthday"
 msgstr "Geburtstag"
 
-#: castellum_core/subject_management/models/subject.py:49
+#: castellum_core/subject_management/models/subject.py:52
 msgid "email"
 msgstr "E-Mail"
 
-#: castellum_core/subject_management/models/subject.py:50
+#: castellum_core/subject_management/models/subject.py:53
 msgid "phone number"
 msgstr "Telefonnummer"
 
-#: castellum_core/subject_management/models/subject.py:51
+#: castellum_core/subject_management/models/subject.py:54
 msgid "phone number alternative"
 msgstr "Alternative Telefonnummer"
+
+#: castellum_core/subject_management/templates/subject_management/subject_detail.html:8
+msgid "Gender:"
+msgstr "Geschlecht:"
+
+#: castellum_core/subject_management/templates/subject_management/subject_detail.html:12
+msgid "Birthday:"
+msgstr "Geburtstag:"
+
+#: castellum_core/subject_management/templates/subject_management/subject_detail.html:16
+msgid "Address:"
+msgstr "Adresse:"
+
+#: castellum_core/subject_management/templates/subject_management/subject_detail.html:20
+msgid "Email:"
+msgstr "E-Mail:"
+
+#: castellum_core/subject_management/templates/subject_management/subject_detail.html:24
+msgid "Phone number:"
+msgstr "Telefonnummer:"
+
+#: castellum_core/subject_management/templates/subject_management/subject_detail.html:28
+msgid "Second phone number:"
+msgstr "Zweite Telefonnummer:"
+
+#: castellum_core/subject_management/templates/subject_management/subject_list.html:11
+msgid "Full name"
+msgstr "Voller Name"
+
+#: castellum_core/subject_management/templates/subject_management/subject_list.html:20
+msgid "View details"
+msgstr "Details ansehen"
+
+#: castellum_core/subject_management/templates/subject_management/subject_list.html:21
+msgid "Update"
+msgstr "Aktualisieren"
+
+#: castellum_core/subject_management/templates/subject_management/subject_list.html:29
+msgid "Create new subject"
+msgstr "Neuen Probanden anlegen"
 
 #: castellum_core/templates/base.html:21
 msgid "Set language"
@@ -332,10 +425,14 @@ msgid "Study management"
 msgstr "Studienverwaltung"
 
 #: castellum_core/templates/index.html:19
+msgid "Subject management"
+msgstr "Probandenverwaltung"
+
+#: castellum_core/templates/index.html:20
 msgid "Recruitment"
 msgstr "Rekrutierung"
 
-#: castellum_core/templates/index.html:22
+#: castellum_core/templates/index.html:23
 msgid "Not logged in"
 msgstr "Nicht angemeldet"
 
