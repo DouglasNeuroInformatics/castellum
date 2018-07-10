@@ -16,10 +16,9 @@ split into separate parts (`SubjectData`). The granularity is chosen so that
 each part is just big enough to perform a task (e.g. `AttributeSet` is
 sufficient to decide whether a subject is suitable for a given study).
 
-The mapping between `Subject` and `SubjectData` is done in the `pseudonyms`
-app. A `Pseudonym` consists of the reference to a `Subject`, a `SubjectData` ID
-and a domain. The domain field allows us to use different pseudonyms in
-different domains, e.g. different studies.
+Each `SubjectData` belongs to a "domain" and has a pseudonym that uniquely
+identifies it in this domain. A separate pseudonym service (implemented in the
+`pseudonyms` app) keeps track of which pseudonyms belong to the same `Subject`.
 
 The ID and domain are just strings, no database constructs. This means that the
 different parts of a Subject and even the pseudonyms could potentially all be
