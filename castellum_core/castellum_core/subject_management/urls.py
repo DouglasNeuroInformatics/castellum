@@ -30,7 +30,7 @@ app_name = 'subject_management'
 urlpatterns = [
     path('', SubjectListView.as_view(), name='list'),
     path('create/', SubjectCreateView.as_view(), name='create'),
-    path('detail/<pk>/', SubjectDetailView.as_view(), name='detail'),
-    path('update/<pk>/', SubjectUpdateView.as_view(), name='update'),
+    path('detail/<slug>/', SubjectDetailView.as_view(), name='detail'),
+    path('update/<slug>/', SubjectUpdateView.as_view(), name='update'),
 
 ]

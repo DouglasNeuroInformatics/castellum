@@ -17,8 +17,8 @@
         <tr>
             <td>{{ subject.full_name }}</td>
             <td>
-                <a class='btn btn-outline-primary' href="{% url 'subject_management:detail' subject.pk %}">{% trans 'View details' %}</a>
-                <a class='btn btn-outline-primary' href="{% url 'subject_management:update' subject.pk %}">{% trans 'Update' %}</a>
+                <a class='btn btn-outline-primary' href="{% url 'subject_management:detail' subject.pseudonym %}">{% trans 'View details' %}</a>
+                <a class='btn btn-outline-primary' href="{% url 'subject_management:update' subject.pseudonym %}">{% trans 'Update' %}</a>
             </td>
         </tr>
         {% endfor %}

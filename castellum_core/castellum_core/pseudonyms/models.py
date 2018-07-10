@@ -35,7 +35,7 @@ class Subject(models.Model):
 
 
 class SubjectData(models.Model):
-    id = models.CharField(max_length=64, primary_key=True, editable=False)
+    pseudonym = models.CharField(max_length=64, unique=True, editable=False)
 
     class Meta:
         abstract = True
