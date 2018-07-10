@@ -125,7 +125,7 @@ def fake_contact(pseudonym, address):
         if fake.random.random() < 0.75:
             contact.phone_number = fake.phone_number()
 
-    contact.id = pseudonym.pseudonym
+    contact.pseudonym = pseudonym.pseudonym
     contact.address = address
 
     return contact
@@ -133,7 +133,7 @@ def fake_contact(pseudonym, address):
 
 def fake_attributeset(pseudonym, contact):
     return AttributeSet(
-        id=pseudonym.pseudonym,
+        pseudonym=pseudonym.pseudonym,
         date_of_birth=contact.birthday,
         handedness='left' if fake.random.random() < 0.15 else 'right',
         first_language=fake_language())
