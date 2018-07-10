@@ -32,3 +32,14 @@ services:
         command: "python3 castellum_core/manage.py create_castellum_admin"
         depends_on:
             - db_default
+
+    populate:
+        image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
+        environment:
+            DJANGO_SETTINGS_MODULE: castellum_core.settings.example
+        volumes:
+            - ./settings.py:/code/castellum_core/castellum_core/settings/example.py
+        command: "python3 castellum_core/manage.py populate"
+        depends_on:
+            - migrate_default
+            - migrate_subject_management
