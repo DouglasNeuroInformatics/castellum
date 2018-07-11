@@ -60,7 +60,7 @@ class Subject(SubjectData):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('subject_management:detail', args=[self.pk])
+        return reverse('subject_management:detail', args=[self.pseudonym])
 
     def full_name(self):
         name = self.first_name + ' ' + self.last_name

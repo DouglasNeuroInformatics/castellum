@@ -36,7 +36,7 @@ class AttributeSet(SubjectData):
     date_of_birth = models.DateField(_('Date of birth'), null=True, blank=True)
 
     def get_absolute_url(self):
-        return reverse('recruitment:detail_attributes', args=[self.pk])
+        return reverse('recruitment:detail_attributes', args=[self.pseudonym])
 
 
 class Participation(SubjectData):
