@@ -26,7 +26,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
@@ -105,20 +104,18 @@ class ContactView(LoginRequiredMixin, UpdateView):
 
 class AttributeSetDetailView(LoginRequiredMixin, DetailView):
     model = AttributeSet
-    slug_field = 'pseudonym'
 
+    def get_object(self, queryset=None):
+        if queryset is None:
+            queryset = self.get_queryset()
+        attributeset, __ = queryset.get_or_create(pseudonym=self.kwargs['slug'])
+        return attributeset
 
-class AttributeSetCreateView(LoginRequiredMixin, CreateView):
-    model = AttributeSet
-    fields = '__all__'
-
-    def form_valid(self, form):
-        result = super().form_valid(form)
-        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
-            settings.DOMAINS['attributeset'],
-            self.object.pseudonym,
-            self.request.user.pk))
-        return result
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['subject_pseudonym'] = resolve_pseudonym(
+            settings.DOMAINS['attributeset'], self.object.pseudonym, settings.DOMAINS['contact'])
+        return context
 
 
 class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):

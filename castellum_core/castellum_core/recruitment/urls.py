@@ -21,7 +21,6 @@
 
 from django.urls import path
 
-from .views import AttributeSetCreateView
 from .views import AttributeSetDetailView
 from .views import AttributeSetUpdateView
 from .views import ContactView
@@ -30,7 +29,6 @@ from .views import SubjectChoiceView
 
 app_name = 'recruitment'
 urlpatterns = [
-    path('attributes/create/', AttributeSetCreateView.as_view(), name='create_attributes'),
     path('attributes/<slug>/', AttributeSetDetailView.as_view(), name='detail_attributes'),
     path('attributes/<slug>/update/', AttributeSetUpdateView.as_view(), name='update_attributes'),
 

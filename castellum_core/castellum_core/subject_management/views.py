@@ -28,6 +28,8 @@ from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
+from pseudonyms.helpers import resolve_pseudonym
+
 from .forms import SubjectForm
 from .models import Subject
 
@@ -42,6 +44,12 @@ class SubjectListView(LoginRequiredMixin, ListView):
 class SubjectDetailView(LoginRequiredMixin, DetailView):
     model = Subject
     slug_field = 'pseudonym'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['attributeset_pseudonym'] = resolve_pseudonym(
+            settings.DOMAINS['contact'], self.object.pseudonym, settings.DOMAINS['attributeset'])
+        return context
 
 
 class SubjectCreateView(LoginRequiredMixin, CreateView):
