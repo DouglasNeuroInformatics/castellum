@@ -24,6 +24,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 
+from .forms import UserCreationAdminForm
 from .models import User
 
 
@@ -51,6 +52,7 @@ expiration_date.admin_order_field = 'expiration_date'
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
+    add_form = UserCreationAdminForm
     list_display = BaseUserAdmin.list_display + (expiration_date,)
     fieldsets = (
         (None, {
