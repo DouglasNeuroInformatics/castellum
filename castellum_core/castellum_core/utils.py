@@ -19,9 +19,29 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from collections import namedtuple
 from itertools import chain
+from random import choice
 from random import randint
 from random import random
+
+LanguageDistribution = namedtuple("LanguageDistribution", ["name", "percentage"])
+
+
+class RandomLanguage:
+
+    distributions = [
+        LanguageDistribution("de", 70),
+        LanguageDistribution("en", 10),
+        LanguageDistribution("tr", 6),
+        LanguageDistribution("fr", 6),
+        LanguageDistribution("es", 6),
+        LanguageDistribution("it", 2),
+    ]
+
+    def get(self):
+        languages = chain.from_iterable([[l.name]*l.percentage for l in self.distributions])
+        return choice(list(languages))
 
 
 class RandomPhoneNumber:
@@ -44,6 +64,10 @@ class RandomPhoneNumber:
 class FakeData:
     def __init__(self):
         self._phone_number = RandomPhoneNumber()
+        self._language = RandomLanguage()
+
+    def language(self):
+        return self._language.get()
 
     def phone_number(self):
         return self._phone_number.create()

@@ -66,29 +66,6 @@ def fake_date_of_birth():
     return fake.date_between(start_date=start_date, end_date=end_date)
 
 
-def fake_language():
-    groups = [
-        # (language, percentage)
-        ('de', 0.70),
-        ('en', 0.10),
-        ('tr', 0.06),
-        ('fr', 0.06),
-        ('es', 0.06),
-        ('it', 0.02),
-    ]
-
-    r = fake.random.random()
-    percentage = 0
-
-    for lang, p in groups:
-        percentage += p
-
-        if r < percentage:
-            return lang
-
-    return groups[-1][0]
-
-
 def fake_study():
     return Study(name=fake.word().upper(), contact_person=fake.name())
 
@@ -137,7 +114,7 @@ def fake_attributeset(pseudonym, contact):
         pseudonym=pseudonym.pseudonym,
         date_of_birth=contact.birthday,
         handedness='left' if fake.random.random() < 0.15 else 'right',
-        first_language=fake_language())
+        first_language=fake_data.language())
 
 
 def generate_studies(count):
