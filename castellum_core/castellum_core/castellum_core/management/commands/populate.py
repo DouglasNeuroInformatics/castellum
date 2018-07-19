@@ -32,8 +32,10 @@ from subject_management.models import Address
 from subject_management.models import City
 from subject_management.models import Country
 from subject_management.models import Subject as Contact
+from utils import FakeData
 
 fake = Faker('de_DE')
+fake_data = FakeData()
 
 
 def fake_date_of_birth():
@@ -122,8 +124,7 @@ def fake_contact(pseudonym, address):
 
     if fake.random.random() < 0.67:
         contact.email = fake.email()
-        if fake.random.random() < 0.75:
-            contact.phone_number = fake.phone_number()
+        contact.phone_number = fake_data.phone_number_by_probability(0.75)
 
     contact.pseudonym = pseudonym.pseudonym
     contact.address = address
