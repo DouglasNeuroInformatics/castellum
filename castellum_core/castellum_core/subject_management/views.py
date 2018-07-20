@@ -54,7 +54,7 @@ class SubjectDetailView(LoginRequiredMixin, DetailView):
 
 class SubjectCreateView(LoginRequiredMixin, CreateView):
     model = Subject
-    fields = '__all__'
+    form_class = SubjectForm
 
     def form_valid(self, form):
         result = super().form_valid(form)

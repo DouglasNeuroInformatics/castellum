@@ -1,13 +1,22 @@
 import pytest
 
 from model_mommy import mommy
+from subject_management.models import City, Address, Subject
 
-from subject_management.models import Address
+
+@pytest.fixture
+def city():
+    return mommy.make(City)
 
 
 @pytest.fixture
 def address():
     return mommy.make(Address)
+
+
+@pytest.fixture
+def subject(address):
+    return mommy.make(Subject, address=address)
 
 
 @pytest.fixture
