@@ -28,3 +28,21 @@ def subject_data():
         'gender': 'm',
         'birthday': '2010-01-28',
     }
+
+
+@pytest.fixture
+def address_data(address):
+    return {
+        'country': address.city.country.name,
+        'city': address.city.name,
+        'zip_code': address.zip_code,
+        'street': address.street,
+        'house_number': address.house_number,
+        'additional_information': address.additional_information,
+    }
+
+
+@pytest.fixture
+def full_data(subject_data, address_data):
+    subject_data.update(address_data)
+    return subject_data

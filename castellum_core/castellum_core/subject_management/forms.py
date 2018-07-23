@@ -47,16 +47,48 @@ class DatalistWidget(TextInput):
         return context
 
 
+class AddressForm(forms.Form):
+
+    country = forms.CharField()
+    city = forms.CharField()
+    zip_code = forms.CharField()
+    street = forms.CharField()
+    house_number = forms.CharField()
+    additional_information = forms.CharField(required=False)
+
+    class Meta:
+        widgets = {
+            'country': DatalistWidget(datalist=Country.objects.values_list('name', flat=True)),
+            'city': DatalistWidget(datalist=City.objects.values_list('name', flat=True))
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        country_str = cleaned_data.get('country', '')
+        city_str = cleaned_data.get('city', '')
+
+        if country_str:
+            country = Country.objects.filter(name=country_str).first()
+            if country:
+                if city_str:
+                    city = City.objects.filter(name=city_str, country=country).first()
+                    if not city:
+                        self.add_error('city', _("We can not find city for given country."))
+            else:
+                self.add_error('country', _("There is no such country in our database."))
+
+        return cleaned_data
+
+
 class SubjectForm(forms.ModelForm):
 
     phone_number = PhoneNumberField(label=_("Phone number"), required=False)
     phone_number_alternative = PhoneNumberField(label=_("Alternative phone number"), required=False)
 
     # fields required for the address
-    country = forms.CharField(widget=DatalistWidget(
-        datalist=Country.objects.values_list('name', flat=True)), required=False)
-    city = forms.CharField(widget=DatalistWidget(
-        datalist=City.objects.values_list('name', flat=True)), required=False)
+    country = forms.CharField(required=False)
+    city = forms.CharField(required=False)
     zip_code = forms.CharField(required=False)
     street = forms.CharField(required=False)
     house_number = forms.CharField(required=False)
@@ -67,6 +99,8 @@ class SubjectForm(forms.ModelForm):
         exclude = ('address',)
 
         widgets = {
+            'city': DatalistWidget(datalist=City.objects.values_list('name', flat=True)),
+            'country': DatalistWidget(datalist=Country.objects.values_list('name', flat=True)),
             'phone_number': PhoneNumberInternationalFallbackWidget(
                 attrs={'placeholder': _('Phone (ex. +4917693333333)')}),
             'phone_number_alternative': PhoneNumberInternationalFallbackWidget(
@@ -75,9 +109,10 @@ class SubjectForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
         if self.instance.address:
             self.fields['country'].initial = self.instance.address.city.country
-            self.fields['city'].initial = self.instance.address.city
+            self.fields['city'].initial = self.instance.address.city.name
             self.fields['zip_code'].initial = self.instance.address.zip_code
             self.fields['street'].initial = self.instance.address.street
             self.fields['house_number'].initial = self.instance.address.house_number
@@ -87,47 +122,26 @@ class SubjectForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        country_str = cleaned_data.get('country', '')
-        city_str = cleaned_data.get('city', '')
-        zip_code_str = cleaned_data.get('zip_code', '')
-        street_str = cleaned_data.get('street', '')
-        house_number_str = cleaned_data.get('house_number', '')
-        phone_number_str = cleaned_data.get('phone_number', '')
-        email_str = cleaned_data.get('email', '')
+        country = cleaned_data.get('country', '')
+        city = cleaned_data.get('city', '')
+        zip_code = cleaned_data.get('zip_code', '')
+        street = cleaned_data.get('street', '')
+        house_number = cleaned_data.get('house_number', '')
+        add_info = cleaned_data.get('additional_information', '')
+        phone_number = cleaned_data.get('phone_number', '')
+        email = cleaned_data.get('email', '')
 
-        full_address = False
-        if all([country_str, city_str, zip_code_str, street_str, house_number_str]):
-            full_address = True
+        if any([country, city, zip_code, street, house_number, add_info]):
+            af = AddressForm(data=cleaned_data)
+            if not af.is_valid():
+                if af.errors:
+                    for field, errors in af.errors.items():
+                        self.add_error(field, errors)
 
-        incomplete_address = False
-        if not full_address:
-            if any([country_str, city_str, zip_code_str, street_str, house_number_str]):
-                incomplete_address = True
-
-        # check if address has all the required fields
-        if not any([phone_number_str, email_str]):
-            if incomplete_address:
                 raise ValidationError(_("Provide more details for the address"))
-
-        # check if there is at least address, phone_number or email.
-        if not any([full_address, phone_number_str, email_str]):
-            raise ValidationError(_("Either email, phone number or address should be provided"))
-
-        # check if there is such country in the database
-        if country_str:
-            country = Country.objects.filter(name=country_str).first()
-            if country:
-                # check if there is such city in the country
-                if city_str:
-                    city = City.objects.filter(name=city_str, country=country).first()
-                    if not city:
-                        msg = 'We can not find city for given country in our database.'
-                        self._errors['city'] = self.error_class([msg])
-                        return cleaned_data
-            else:
-                msg = 'There is no such country in our database.'
-                self._errors['country'] = self.error_class([msg])
-                return cleaned_data
+        else:
+            if not any([phone_number, email]):
+                raise ValidationError(_("Either email, phone number or address should be provided"))
 
         return cleaned_data
 
