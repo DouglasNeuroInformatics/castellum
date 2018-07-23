@@ -21,11 +21,14 @@
 
 from django.urls import path
 
-from .views import CreateView
-from .views import IndexView
+from . import views
 
 app_name = 'studies'
 urlpatterns = [
-    path('', IndexView.as_view(), name='index'),
-    path('new/', CreateView.as_view(), name='create'),
+    path('', views.IndexView.as_view(), name='index'),
+    path('new/', views.CreateView.as_view(), name='create'),
+    path('subject_filter/<int:study_id>/remove/<int:filter_id>',
+         views.RemoveSubjectFilterView.as_view(),
+         name='remove_subject_filter'),
+    path('subject_filter/<int:study_id>', views.SubjectFilterView.as_view(), name='subject_filter'),
 ]
