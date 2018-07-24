@@ -32,8 +32,10 @@ from subject_management.models import Address
 from subject_management.models import City
 from subject_management.models import Country
 from subject_management.models import Subject as Contact
+from utils import FakeData
 
 fake = Faker('de_DE')
+fake_data = FakeData()
 
 
 def fake_date_of_birth():
@@ -62,29 +64,6 @@ def fake_date_of_birth():
     start_date = '-{}y'.format(100)
     end_date = '-{}y'.format(age_groups[-1][0])
     return fake.date_between(start_date=start_date, end_date=end_date)
-
-
-def fake_language():
-    groups = [
-        # (language, percentage)
-        ('de', 0.70),
-        ('en', 0.10),
-        ('tr', 0.06),
-        ('fr', 0.06),
-        ('es', 0.06),
-        ('it', 0.02),
-    ]
-
-    r = fake.random.random()
-    percentage = 0
-
-    for lang, p in groups:
-        percentage += p
-
-        if r < percentage:
-            return lang
-
-    return groups[-1][0]
 
 
 def fake_study():
@@ -122,8 +101,7 @@ def fake_contact(pseudonym, address):
 
     if fake.random.random() < 0.67:
         contact.email = fake.email()
-        if fake.random.random() < 0.75:
-            contact.phone_number = fake.phone_number()
+        contact.phone_number = fake_data.phone_number_by_probability(0.75)
 
     contact.pseudonym = pseudonym.pseudonym
     contact.address = address
@@ -136,7 +114,7 @@ def fake_attributeset(pseudonym, contact):
         pseudonym=pseudonym.pseudonym,
         date_of_birth=contact.birthday,
         handedness='left' if fake.random.random() < 0.15 else 'right',
-        first_language=fake_language())
+        first_language=fake_data.language())
 
 
 def generate_studies(count):
