@@ -12,16 +12,17 @@ services:
       - "389:389"
     command: [--copy-service]
     volumes:
-      - ./example_deployment/dummy_data.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif
+      - ./docker/example_deployment/dummy_data.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif
   web:
-    build: castellum_core
+    build:
+      context: ..
+      dockerfile: ./docker/castellum/Dockerfile
     environment:
       DJANGO_SETTINGS_MODULE: castellum_core.settings.example
-    command: "uwsgi uwsgi.ini"
+    command: "uwsgi castellum_core/uwsgi.ini"
     ports:
       - "8000:8000"
     volumes:
-      - ./castellum_core:/code
       - ./example_deployment/settings.py:/code/castellum_core/castellum_core/settings/example.py
     depends_on:
       - db_default
