@@ -138,10 +138,11 @@ class SubjectForm(forms.ModelForm):
                     for field, errors in af.errors.items():
                         self.add_error(field, errors)
 
-                raise ValidationError(_("Provide more details for the address"))
+                raise ValidationError(_("Provide more details for the address."))
         else:
             if not any([phone_number, email]):
-                raise ValidationError(_("Either email, phone number or address should be provided"))
+                raise ValidationError(_("Either email, phone number"
+                                        " or address should be provided."))
 
         return cleaned_data
 

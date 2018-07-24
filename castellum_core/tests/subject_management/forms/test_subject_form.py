@@ -11,6 +11,7 @@ def test_subject_form_empty():
 def test_subject_form_with_subject_data_except_email_phone_address(subject_data):
     form = SubjectForm(data=subject_data)
     assert form.is_valid() is False
+    assert 'Either email, phone number or address should be provided.' in str(form.errors)
 
 
 @pytest.mark.django_db
