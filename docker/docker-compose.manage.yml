@@ -4,7 +4,9 @@ version: '2'
 # for more information see https://docs.docker.com/compose/extends/#administrative-tasks
 services:
     migrate_default:
-        build: castellum_core
+        build:
+            context: ..
+            dockerfile: ./docker/castellum/Dockerfile
         environment:
             DJANGO_SETTINGS_MODULE: castellum_core.settings.example
         command: "python3 castellum_core/manage.py migrate"
@@ -14,7 +16,9 @@ services:
             - db_default
 
     migrate_subject_management:
-        build: castellum_core
+        build:
+            context: ..
+            dockerfile: ./docker/castellum/Dockerfile
         environment:
             DJANGO_SETTINGS_MODULE: castellum_core.settings.example
         command: "python3 castellum_core/manage.py migrate --database=subject_management"
@@ -24,7 +28,9 @@ services:
             - db_subject_management
 
     createsuperuser:
-        build: castellum_core
+        build:
+            context: ..
+            dockerfile: ./docker/castellum/Dockerfile
         environment:
             DJANGO_SETTINGS_MODULE: castellum_core.settings.example
         volumes:
@@ -34,7 +40,9 @@ services:
             - db_default
 
     populate:
-        build: castellum_core
+        build:
+            context: ..
+            dockerfile: ./docker/castellum/Dockerfile
         environment:
             DJANGO_SETTINGS_MODULE: castellum_core.settings.example
         volumes:
