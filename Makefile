@@ -1,4 +1,4 @@
-MANAGEPY = python castellum_core/manage.py
+MANAGEPY = python manage.py
 
 
 .PHONY: bootstrap createsuperuser install makemigrations migrate run makemessages

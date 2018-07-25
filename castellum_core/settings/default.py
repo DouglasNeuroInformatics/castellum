@@ -142,7 +142,7 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 
-NPM_ROOT_PATH = os.path.dirname(BASE_DIR)
+NPM_ROOT_PATH = BASE_DIR
 
 NPM_FILE_PATTERNS = {
     'bootstrap': ['dist/css/bootstrap.min.css'],
