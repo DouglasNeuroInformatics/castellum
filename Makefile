@@ -6,7 +6,7 @@ MANAGEPY = python manage.py
 run:
 	$(MANAGEPY) runserver
 
-bootstrap: install migrate createsuperuser castellum_core/locale/de/LC_MESSAGES/django.mo
+bootstrap: install migrate createsuperuser castellum/locale/de/LC_MESSAGES/django.mo
 
 migrate:
 	$(MANAGEPY) migrate

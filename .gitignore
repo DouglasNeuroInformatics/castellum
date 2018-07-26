@@ -3,7 +3,7 @@
 
 .idea/
 
-castellum_core.egg-info/
+castellum.egg-info/
 dist/
 htmlcov/
 node_modules/
@@ -12,7 +12,7 @@ collected_static/
 *.pyc
 *.sqlite3
 *.mo
-castellum_core/locale/en/LC_MESSAGES/*.po
+castellum/locale/en/LC_MESSAGES/*.po
 *.log
 
 .coverage

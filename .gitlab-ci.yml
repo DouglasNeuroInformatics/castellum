@@ -21,7 +21,7 @@ test-branch:
   script:
     - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
     - pip install tox
-    - cd castellum_core && tox
+    - cd castellum && tox
 
 test-merge:
   stage: test
@@ -32,11 +32,11 @@ test-merge:
     - git merge origin/master --no-ff
     - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
     - pip install tox
-    - cd castellum_core && tox
+    - cd castellum && tox
   coverage: '/TOTAL.*\s+(\d+\%)/'
   artifacts:
     paths:
-      - castellum_core/htmlcov/
+      - castellum/htmlcov/
 
 build:
   stage: build
@@ -70,7 +70,7 @@ pages:
   only:
     - master
   script:
-    - mv castellum_core/htmlcov/ public/
+    - mv castellum/htmlcov/ public/
   artifacts:
     paths:
       - public

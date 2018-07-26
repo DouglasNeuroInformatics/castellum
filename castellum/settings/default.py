@@ -23,7 +23,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
 
     'castellum_auth',
-    'castellum_core',
+    'castellum',
     'pseudonyms',
     'recruitment',
     'studies',
@@ -45,7 +45,7 @@ MIDDLEWARE = [
     'castellum_auth.middlewares.UserLanguageMiddleware',
 ]
 
-ROOT_URLCONF = 'castellum_core.urls'
+ROOT_URLCONF = 'castellum.urls'
 
 
 TEMPLATES = [
@@ -66,7 +66,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'castellum_core.wsgi.application'
+WSGI_APPLICATION = 'castellum.wsgi.application'
 
 
 DATABASE_ROUTERS = [

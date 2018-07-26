@@ -1,5 +1,5 @@
 {
-  "name": "castellum-core",
+  "name": "castellum",
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "jquery": "1.9.1",
