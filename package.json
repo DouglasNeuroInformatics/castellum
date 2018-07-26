@@ -1,0 +1,9 @@
+{
+  "name": "castellum",
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "jquery": "1.9.1",
+    "popper.js": "^1.14.3",
+    "bootstrap": "^4.0.0"
+  }
+}
