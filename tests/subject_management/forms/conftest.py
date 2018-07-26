@@ -1,7 +1,7 @@
 import pytest
 
 from model_mommy import mommy
-from subject_management.models import City, Address, Subject
+from castellum.subject_management.models import City, Address, Subject
 
 
 @pytest.fixture

@@ -2,8 +2,8 @@ import pytest
 
 from model_mommy import mommy
 
-from pseudonyms import helpers
-from pseudonyms.models import Pseudonym, Subject
+from castellum.pseudonyms import helpers
+from castellum.pseudonyms.models import Pseudonym, Subject
 
 
 @pytest.fixture

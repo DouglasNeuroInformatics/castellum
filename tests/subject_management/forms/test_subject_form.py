@@ -1,6 +1,6 @@
 import pytest
 
-from subject_management.forms import SubjectForm, AddressForm
+from castellum.subject_management.forms import SubjectForm, AddressForm
 
 
 def test_subject_form_empty():

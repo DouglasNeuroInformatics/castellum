@@ -1,6 +1,6 @@
 import pytest
 
-from castellum_auth.management.commands.clear_sessions import Command
+from castellum.castellum_auth.management.commands.clear_sessions import Command
 
 
 @pytest.mark.django_db

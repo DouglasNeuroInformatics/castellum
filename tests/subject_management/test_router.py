@@ -2,9 +2,9 @@ import pytest
 
 from model_mommy import mommy
 
-from castellum_auth.models import User
-from subject_management.models import Subject
-from subject_management.routers import APP_LABEL, SubjectManagementRouter
+from castellum.castellum_auth.models import User
+from castellum.subject_management.models import Subject
+from castellum.subject_management.routers import APP_LABEL, SubjectManagementRouter
 
 
 @pytest.fixture

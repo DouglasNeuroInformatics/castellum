@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser as DjangoUser
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 
-from castellum_auth.models import User
+from castellum.castellum_auth.models import User
 
 
 def test_castellum_user_is_django_user(user):
@@ -34,7 +34,7 @@ def test_user_get_all_permission_objects_unique(user):
     assert len(user.get_all_permission_objects()) == 1
 
 
-@patch('castellum_auth.models.send_mail')
+@patch('castellum.castellum_auth.models.send_mail')
 def test_lock_notification(send_mail, user):
     user.is_active = True
     user.save()
@@ -46,7 +46,7 @@ def test_lock_notification(send_mail, user):
     assert send_mail.called
 
 
-@patch('castellum_auth.models.send_mail')
+@patch('castellum.castellum_auth.models.send_mail')
 def test_unlock_notification(send_mail, user):
     user.is_active = False
     user.save()

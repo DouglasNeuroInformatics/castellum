@@ -1,5 +1,5 @@
-from castellum_auth.forms import UserCreationAdminForm
-from castellum_auth.models import User
+from castellum.castellum_auth.forms import UserCreationAdminForm
+from castellum.castellum_auth.models import User
 
 
 def test_with_password(db):

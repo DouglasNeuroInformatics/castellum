@@ -4,8 +4,8 @@ from django.utils.timezone import datetime
 from freezegun import freeze_time
 from model_mommy import mommy
 
-from castellum_auth.admin import expiration_date
-from castellum_auth.models import User
+from castellum.castellum_auth.admin import expiration_date
+from castellum.castellum_auth.models import User
 
 
 def test_no_expiration_date_is_set():

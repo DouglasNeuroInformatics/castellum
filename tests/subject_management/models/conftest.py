@@ -1,6 +1,6 @@
 import pytest
 
-from subject_management.models import Address, City, Country
+from castellum.subject_management.models import Address, City, Country
 
 
 @pytest.fixture

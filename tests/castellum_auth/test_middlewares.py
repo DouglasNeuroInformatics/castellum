@@ -3,7 +3,7 @@ from freezegun import freeze_time
 
 from django.utils import timezone
 
-from castellum_auth.models import User
+from castellum.castellum_auth.models import User
 
 
 @pytest.mark.django_db

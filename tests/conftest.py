@@ -1,7 +1,7 @@
 import pytest
 from django.utils import timezone
 
-from castellum_auth.models import User
+from castellum.castellum_auth.models import User
 
 
 @pytest.fixture

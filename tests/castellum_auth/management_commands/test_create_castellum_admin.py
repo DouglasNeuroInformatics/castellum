@@ -1,7 +1,7 @@
 import pytest
 
-from castellum_auth.models import User
-from castellum_auth.management.commands.create_castellum_admin import Command
+from castellum.castellum_auth.models import User
+from castellum.castellum_auth.management.commands.create_castellum_admin import Command
 
 
 @pytest.mark.django_db

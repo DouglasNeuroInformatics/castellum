@@ -1,8 +1,8 @@
 import pytest
 from model_mommy import mommy
 
-from studies.models import Study
-from subject_management.models import Subject
+from castellum.studies.models import Study
+from castellum.subject_management.models import Subject
 
 
 @pytest.fixture

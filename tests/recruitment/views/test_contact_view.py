@@ -1,6 +1,6 @@
 from freezegun import freeze_time
 
-from recruitment.models import Participation
+from castellum.recruitment.models import Participation
 
 
 def test_404_page_returned_if_study_is_not_provided(client, user, subject):
