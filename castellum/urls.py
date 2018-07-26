@@ -28,7 +28,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 from django.views.i18n import JavaScriptCatalog
 
-from castellum_auth.views import set_language
+from castellum.castellum_auth.views import set_language
 
 
 def dummy(request):
@@ -45,7 +45,7 @@ urlpatterns = [
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
 
     path('admin/', admin.site.urls),
-    path('recruitment/', include('recruitment.urls', namespace='recruitment')),
-    path('studies/', include('studies.urls', namespace='studies')),
-    path('subjects/', include('subject_management.urls', namespace='subject_management')),
+    path('recruitment/', include('castellum.recruitment.urls', namespace='recruitment')),
+    path('studies/', include('castellum.studies.urls', namespace='studies')),
+    path('subjects/', include('castellum.subject_management.urls', namespace='subject_management')),
 ]

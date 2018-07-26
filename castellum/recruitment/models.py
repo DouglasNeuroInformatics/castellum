@@ -23,8 +23,8 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
-from pseudonyms.models import SubjectData
-from studies.models import Study
+from castellum.pseudonyms.models import SubjectData
+from castellum.studies.models import Study
 
 
 class AttributeSet(SubjectData):

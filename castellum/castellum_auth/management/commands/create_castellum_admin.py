@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
-from castellum_auth.models import User
+from castellum.castellum_auth.models import User
 
 
 class Command(BaseCommand):

@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 ALLOWED_HOSTS = []
 
@@ -22,12 +22,11 @@ INSTALLED_APPS = [
     'bootstrap4',
     'phonenumber_field',
 
-    'castellum_auth',
-    'castellum',
-    'pseudonyms',
-    'recruitment',
-    'studies',
-    'subject_management',
+    'castellum.castellum_auth',
+    'castellum.pseudonyms',
+    'castellum.recruitment',
+    'castellum.studies',
+    'castellum.subject_management',
 ]
 
 MIDDLEWARE = [
@@ -40,9 +39,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'castellum_auth.middlewares.UserExpirationMiddleware',
-    'castellum_auth.middlewares.AutoLogoutMiddleware',
-    'castellum_auth.middlewares.UserLanguageMiddleware',
+    'castellum.castellum_auth.middlewares.UserExpirationMiddleware',
+    'castellum.castellum_auth.middlewares.AutoLogoutMiddleware',
+    'castellum.castellum_auth.middlewares.UserLanguageMiddleware',
 ]
 
 ROOT_URLCONF = 'castellum.urls'
@@ -70,7 +69,7 @@ WSGI_APPLICATION = 'castellum.wsgi.application'
 
 
 DATABASE_ROUTERS = [
-    'subject_management.routers.SubjectManagementRouter',
+    'castellum.subject_management.routers.SubjectManagementRouter',
 ]
 
 # Password validation
@@ -142,7 +141,7 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 
-NPM_ROOT_PATH = BASE_DIR
+NPM_ROOT_PATH = os.path.dirname(BASE_DIR)
 
 NPM_FILE_PATTERNS = {
     'bootstrap': ['dist/css/bootstrap.min.css'],

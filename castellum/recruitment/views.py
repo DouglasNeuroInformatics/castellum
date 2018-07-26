@@ -30,9 +30,9 @@ from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
-from pseudonyms.helpers import resolve_pseudonym
-from studies.models import Study
-from subject_management.models import Subject
+from castellum.pseudonyms.helpers import resolve_pseudonym
+from castellum.studies.models import Study
+from castellum.subject_management.models import Subject
 
 from .models import AttributeSet
 from .models import Participation
