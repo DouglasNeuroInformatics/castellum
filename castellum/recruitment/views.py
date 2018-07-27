@@ -33,9 +33,9 @@ from django.views.generic import ListView
 from django.views.generic import UpdateView
 from django.views.generic import View
 
+from castellum.contacts.models import Subject
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.studies.models import Study
-from castellum.subject_management.models import Subject
 
 from . import forms
 from .models import AttributeSet

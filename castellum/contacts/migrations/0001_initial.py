@@ -63,18 +63,18 @@ class Migration(migrations.Migration):
                 ('email', models.EmailField(blank=True, default='', max_length=128)),
                 ('phone_number', models.CharField(blank=True, default='', max_length=32)),
                 ('phone_number_alternative', models.CharField(blank=True, default='', max_length=32)),
-                ('address', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='subject_management.Address')),
+                ('address', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='contacts.Address')),
             ],
         ),
         migrations.AddField(
             model_name='city',
             name='country',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='subject_management.Country'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contacts.Country'),
         ),
         migrations.AddField(
             model_name='address',
             name='city',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='subject_management.City'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contacts.City'),
         ),
         migrations.AlterUniqueTogether(
             name='city',

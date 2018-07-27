@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('subject_management', '0001_initial'),
+        ('contacts', '0001_initial'),
     ]
 
     operations = [
@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='address',
             name='city',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='subject_management.City', verbose_name='City'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contacts.City', verbose_name='City'),
         ),
         migrations.AlterField(
             model_name='address',
@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='city',
             name='country',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='subject_management.Country', verbose_name='Country'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contacts.Country', verbose_name='Country'),
         ),
         migrations.AlterField(
             model_name='city',
@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subject',
             name='address',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='subject_management.Address', verbose_name='Address'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='contacts.Address', verbose_name='Address'),
         ),
         migrations.AlterField(
             model_name='subject',

@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('subject_management', '0003_subject_title'),
+        ('contacts', '0003_subject_title'),
     ]
 
     operations = [

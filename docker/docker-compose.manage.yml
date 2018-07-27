@@ -15,17 +15,17 @@ services:
         depends_on:
             - db_default
 
-    migrate_subject_management:
+    migrate_contacts:
         build:
             context: ..
             dockerfile: ./docker/castellum/Dockerfile
         environment:
             DJANGO_SETTINGS_MODULE: castellum.settings.deployment
-        command: "python3 manage.py migrate --database=subject_management"
+        command: "python3 manage.py migrate --database=contacts"
         volumes:
             - ./deployment/settings.py:/code/castellum/settings/deployment.py
         depends_on:
-            - db_subject_management
+            - db_contacts
 
     createsuperuser:
         build:
@@ -50,4 +50,4 @@ services:
         command: "python3 manage.py populate"
         depends_on:
             - migrate_default
-            - migrate_subject_management
+            - migrate_contacts

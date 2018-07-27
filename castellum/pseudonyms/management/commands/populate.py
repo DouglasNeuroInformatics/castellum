@@ -24,14 +24,14 @@ from django.core.management.base import BaseCommand
 
 from faker import Faker
 
+from castellum.contacts.models import Address
+from castellum.contacts.models import City
+from castellum.contacts.models import Country
+from castellum.contacts.models import Subject as Contact
 from castellum.pseudonyms.models import Pseudonym
 from castellum.pseudonyms.models import Subject
 from castellum.recruitment.models import AttributeSet
 from castellum.studies.models import Study
-from castellum.subject_management.models import Address
-from castellum.subject_management.models import City
-from castellum.subject_management.models import Country
-from castellum.subject_management.models import Subject as Contact
 from castellum.utils import FakeData
 
 fake = Faker('de_DE')

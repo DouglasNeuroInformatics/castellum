@@ -2,7 +2,7 @@ import pytest
 from model_mommy import mommy
 
 from castellum.studies.models import Study
-from castellum.subject_management.models import Subject
+from castellum.contacts.models import Subject
 
 
 @pytest.fixture

@@ -3,17 +3,17 @@ import pytest
 from model_mommy import mommy
 
 from castellum.castellum_auth.models import User
-from castellum.subject_management.models import Subject
-from castellum.subject_management.routers import APP_LABEL, SubjectManagementRouter
+from castellum.contacts.models import Subject
+from castellum.contacts.routers import APP_LABEL, ContactsRouter
 
 
 @pytest.fixture
 def router():
-    return SubjectManagementRouter()
+    return ContactsRouter()
 
 
 @pytest.mark.parametrize("model,expected", [
-    (Subject, "subject_management"),
+    (Subject, "contacts"),
     (User, None),
 ])
 def test_db_for_read(router, model, expected):
@@ -21,7 +21,7 @@ def test_db_for_read(router, model, expected):
 
 
 @pytest.mark.parametrize("model,expected", [
-    (Subject, "subject_management"),
+    (Subject, "contacts"),
     (User, None),
 ])
 def test_db_for_write(router, model, expected):

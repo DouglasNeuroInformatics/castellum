@@ -1,7 +1,7 @@
 import pytest
 from model_mommy import mommy
 
-from castellum.subject_management.models import Subject
+from castellum.contacts.models import Subject
 
 
 @pytest.mark.parametrize('title,expected', (

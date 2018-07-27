@@ -22,5 +22,5 @@
 from django.apps import AppConfig
 
 
-class SubjectManagementConfig(AppConfig):
-    name = 'castellum.subject_management'
+class ContactsConfig(AppConfig):
+    name = 'castellum.contacts'
