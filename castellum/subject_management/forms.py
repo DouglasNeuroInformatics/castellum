@@ -149,20 +149,26 @@ class SubjectForm(forms.ModelForm):
     def save(self, commit=True):
         subject = super().save(commit=False)
 
-        city = City.objects.get(name=self.cleaned_data['city'])
+        if self.cleaned_data.get('city'):
+            city = City.objects.get(name=self.cleaned_data['city'])
 
-        if not subject.address:
-            subject.address = Address.objects.create(city=city)
-        else:
-            subject.address.city = city
+            if not subject.address:
+                subject.address = Address.objects.create(city=city)
+            else:
+                subject.address.city = city
 
-        subject.address.zip_code = self.cleaned_data['zip_code']
-        subject.address.street = self.cleaned_data['street']
-        subject.address.house_number = self.cleaned_data['house_number']
-        subject.address.additional_information = self.cleaned_data['additional_information']
+            subject.address.zip_code = self.cleaned_data['zip_code']
+            subject.address.street = self.cleaned_data['street']
+            subject.address.house_number = self.cleaned_data['house_number']
+            subject.address.additional_information = self.cleaned_data['additional_information']
+
+            if commit:
+                subject.address.save()
 
         if commit:
-            subject.address.save()
             subject.save()
+
+            if not self.cleaned_data.get('city') and subject.address:
+                subject.address.delete()
 
         return subject
