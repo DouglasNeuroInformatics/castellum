@@ -49,18 +49,14 @@ class DatalistWidget(TextInput):
 
 class AddressForm(forms.Form):
 
-    country = forms.CharField()
-    city = forms.CharField()
+    country = forms.CharField(widget=DatalistWidget(
+        datalist=Country.objects.values_list('name', flat=True)))
+    city = forms.CharField(widget=DatalistWidget(
+        datalist=City.objects.values_list('name', flat=True)))
     zip_code = forms.CharField()
     street = forms.CharField()
     house_number = forms.CharField()
     additional_information = forms.CharField(required=False)
-
-    class Meta:
-        widgets = {
-            'country': DatalistWidget(datalist=Country.objects.values_list('name', flat=True)),
-            'city': DatalistWidget(datalist=City.objects.values_list('name', flat=True))
-        }
 
     def clean(self):
         cleaned_data = super().clean()
@@ -87,8 +83,10 @@ class SubjectForm(forms.ModelForm):
     phone_number_alternative = PhoneNumberField(label=_("Alternative phone number"), required=False)
 
     # fields required for the address
-    country = forms.CharField(required=False)
-    city = forms.CharField(required=False)
+    country = forms.CharField(required=False, widget=DatalistWidget(
+        datalist=Country.objects.values_list('name', flat=True)))
+    city = forms.CharField(required=False, widget=DatalistWidget(
+        datalist=City.objects.values_list('name', flat=True)))
     zip_code = forms.CharField(required=False)
     street = forms.CharField(required=False)
     house_number = forms.CharField(required=False)
@@ -99,8 +97,6 @@ class SubjectForm(forms.ModelForm):
         exclude = ('address',)
 
         widgets = {
-            'city': DatalistWidget(datalist=City.objects.values_list('name', flat=True)),
-            'country': DatalistWidget(datalist=Country.objects.values_list('name', flat=True)),
             'phone_number': PhoneNumberInternationalFallbackWidget(
                 attrs={'placeholder': _('Phone (ex. +4917693333333)')}),
             'phone_number_alternative': PhoneNumberInternationalFallbackWidget(
