@@ -47,16 +47,16 @@ class DatalistWidget(TextInput):
         return context
 
 
-class AddressForm(forms.Form):
+class AddressForm(forms.ModelForm):
 
-    country = forms.CharField(widget=DatalistWidget(
+    country = forms.CharField(max_length=64, widget=DatalistWidget(
         datalist=Country.objects.values_list('name', flat=True)))
-    city = forms.CharField(widget=DatalistWidget(
+    city = forms.CharField(max_length=128, widget=DatalistWidget(
         datalist=City.objects.values_list('name', flat=True)))
-    zip_code = forms.CharField()
-    street = forms.CharField()
-    house_number = forms.CharField()
-    additional_information = forms.CharField(required=False)
+
+    class Meta:
+        model = Address
+        exclude = ('city',)
 
     def clean(self):
         cleaned_data = super().clean()
