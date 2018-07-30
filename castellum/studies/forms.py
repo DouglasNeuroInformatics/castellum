@@ -32,18 +32,29 @@ class AddSubjectFilterForm(forms.ModelForm):
             return
 
         selected_field_name = kwargs["initial"]["field_name"]
-        fields = AttributeSet._meta.get_fields()
-        selected_field = list(filter(lambda f: f.name == selected_field_name, fields))[0]
+        subject_filter = self._get_subject_filter_for_selected_field_name(selected_field_name)
 
-        subject_filter = self.FILTER_MAPPING[selected_field.get_internal_type()]
-
-        operators = subject_filter.available_operators
-        choices = (tuple(operator) for operator in operators.items())
+        choices = self._get_operator_choices_from_subject_filter(subject_filter)
         self.fields["operator"].widget = forms.Select(choices=choices)
 
-        values = AttributeSet.objects.values_list(selected_field_name, flat=True).distinct()
-        choices = ((value, value) for value in values)
+        choices = self._get_value_choices_for_selected_field_name(selected_field_name)
         self.fields["value"].widget = forms.Select(choices=choices)
+
+    def _get_subject_filter_for_selected_field_name(self, selected_field_name):
+        selected_field = self._get_selected_field_from_attribute_set(selected_field_name)
+        return self.FILTER_MAPPING[selected_field.get_internal_type()]
+
+    def _get_selected_field_from_attribute_set(self, selected_field_name):
+        fields = AttributeSet._meta.get_fields()
+        return list(filter(lambda f: f.name == selected_field_name, fields))[0]
+
+    def _get_operator_choices_from_subject_filter(self, subject_filter):
+        operators = subject_filter.available_operators
+        return (tuple(operator) for operator in operators.items())
+
+    def _get_value_choices_for_selected_field_name(self, selected_field_name):
+        values = AttributeSet.objects.values_list(selected_field_name, flat=True).distinct()
+        return ((value, value) for value in values)
 
     class Meta:
         model = SubjectFilter
