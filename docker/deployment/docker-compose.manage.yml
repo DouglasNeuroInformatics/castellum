@@ -19,7 +19,7 @@ services:
             DJANGO_SETTINGS_MODULE: castellum.settings.deployment
         command: "python3 manage.py migrate --database=subject_management"
         volumes:
-            - ./settings.py:/code/castellum_core/castellum_core/settings/deployment.py
+            - ./settings.py:/code/castellum/settings/deployment.py
         depends_on:
             - db_subject_management
 
