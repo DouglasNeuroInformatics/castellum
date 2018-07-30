@@ -58,24 +58,6 @@ class AddressForm(forms.ModelForm):
         model = Address
         exclude = ('city',)
 
-    def clean(self):
-        cleaned_data = super().clean()
-
-        country_str = cleaned_data.get('country', '')
-        city_str = cleaned_data.get('city', '')
-
-        if country_str:
-            country = Country.objects.filter(name=country_str).first()
-            if country:
-                if city_str:
-                    city = City.objects.filter(name=city_str, country=country).first()
-                    if not city:
-                        self.add_error('city', _("We can not find city for given country."))
-            else:
-                self.add_error('country', _("There is no such country in our database."))
-
-        return cleaned_data
-
 
 class SubjectForm(forms.ModelForm):
 
@@ -146,7 +128,8 @@ class SubjectForm(forms.ModelForm):
         subject = super().save(commit=False)
 
         if self.cleaned_data.get('city'):
-            city = City.objects.get(name=self.cleaned_data['city'])
+            country, __ = Country.objects.get_or_create(name=self.cleaned_data['country'])
+            city, __ = City.objects.get_or_create(name=self.cleaned_data['city'], country=country)
 
             if not subject.address:
                 subject.address = Address.objects.create(city=city)

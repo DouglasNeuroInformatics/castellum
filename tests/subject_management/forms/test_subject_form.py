@@ -74,23 +74,12 @@ def test_subject_form_without_email_or_phonenumber_with_incomplete_address(subje
 
 
 @pytest.mark.django_db
-def test_address_form_given_city_has_no_relation_to_given_country(address_data):
-
-    address_data.update({'city': 'AnyFakeCityName'})
-    form = AddressForm(data=address_data)
-
-    assert 'We can not find city for given country.' in str(form.errors)
-    assert form.is_valid() is False
-
-
-@pytest.mark.django_db
 def test_address_form_given_country_not_in_db(address_data):
 
     address_data.update({'country': 'AnyFakeCountryName'})
     form = AddressForm(data=address_data)
 
-    assert 'There is no such country in our database.' in str(form.errors)
-    assert form.is_valid() is False
+    assert form.is_valid() is True
 
 
 @pytest.mark.django_db
