@@ -46,8 +46,11 @@ class SubjectFilterView(LoginRequiredMixin, View):
     template_name = "studies/filters.html"
 
     def get_subject_count(self, filters):
-        filter_dict = {"{}__{}".format(f.field_name, f.operator): f.value for f in filters}
-        return AttributeSet.objects.filter(**filter_dict).count()
+        query_set = AttributeSet.objects
+        for f in filters:
+            filter_dict = {"{}__{}".format(f.field_name, f.operator): f.value}
+            query_set = query_set.filter(**filter_dict)
+        return query_set.count()
 
     def get_filters_for_study(self, study_id):
         return models.SubjectFilter.objects.filter(study__id=study_id)
