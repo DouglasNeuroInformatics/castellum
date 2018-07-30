@@ -132,10 +132,10 @@ class SubjectForm(forms.ModelForm):
         email = cleaned_data.get('email', '')
 
         if any([country, city, zip_code, street, house_number, add_info]):
-            af = AddressForm(data=cleaned_data)
-            if not af.is_valid():
-                if af.errors:
-                    for field, errors in af.errors.items():
+            address_form = AddressForm(data=cleaned_data)
+            if not address_form.is_valid():
+                if address_form.errors:
+                    for field, errors in address_form.errors.items():
                         self.add_error(field, errors)
 
                 raise ValidationError(_("Provide more details for the address."))
