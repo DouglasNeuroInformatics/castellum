@@ -1,1 +1,1 @@
-# default_app_config = 'subject_management.apps.SubjectManagementConfig'
+default_app_config = 'castellum.subject_management.apps.SubjectManagementConfig'

@@ -1,1 +1,1 @@
-# default_app_config = 'pseudonyms.apps.PseudonymsConfig'
+default_app_config = 'castellum.pseudonyms.apps.PseudonymsConfig'

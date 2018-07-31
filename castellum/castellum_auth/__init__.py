@@ -1,1 +1,1 @@
-# default_app_config = 'castellum_auth.apps.CastellumAuthConfig'
+default_app_config = 'castellum.castellum_auth.apps.CastellumAuthConfig'
