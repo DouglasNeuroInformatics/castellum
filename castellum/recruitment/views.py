@@ -147,6 +147,9 @@ class SubjectFilterView(LoginRequiredMixin, View):
             query_set = query_set.filter(**filter_dict)
         return query_set.count()
 
+    def get_total_count(self):
+        return AttributeSet.objects.count()
+
     def get_filters_for_study(self, study_id):
         return SubjectFilter.objects.filter(study__id=study_id)
 
@@ -154,6 +157,7 @@ class SubjectFilterView(LoginRequiredMixin, View):
         filters = self.get_filters_for_study(study_id)
         context = {
             "count": self.get_subject_count(filters),
+            "total_count": self.get_total_count(),
             "filters": filters,
             "study_id": study_id,
             "selected_field": "",
@@ -189,6 +193,7 @@ class SubjectFilterView(LoginRequiredMixin, View):
 
         context = {
             "count": self.get_subject_count(filters),
+            "total_count": self.get_total_count(),
             "filters": filters,
             "study_id": study_id,
             "selected_field": selected_field,
