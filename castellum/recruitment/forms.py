@@ -56,10 +56,10 @@ class AddSubjectFilterForm(forms.ModelForm):
         subject_filter = self._get_subject_filter_for_selected_field_name(selected_field_name)
 
         choices = self._get_operator_choices_from_subject_filter(subject_filter)
-        self.fields["operator"].widget = forms.Select(choices=choices)
+        self.fields["operator"] = forms.ChoiceField(choices=choices)
 
         choices = self._get_value_choices_for_selected_field_name(selected_field_name)
-        self.fields["value"].widget = forms.Select(choices=choices)
+        self.fields["value"] = forms.ChoiceField(choices=choices)
 
     def _get_subject_filter_for_selected_field_name(self, selected_field_name):
         selected_field = AttributeSet._meta.get_field(selected_field_name)
