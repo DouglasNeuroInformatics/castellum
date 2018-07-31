@@ -1,1 +1,1 @@
-# default_app_config = 'recruitment.apps.RecruitmentConfig'
+default_app_config = 'castellum.recruitment.apps.RecruitmentConfig'

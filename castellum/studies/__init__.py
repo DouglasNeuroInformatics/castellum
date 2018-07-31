@@ -1,1 +1,1 @@
-# default_app_config = 'studies.apps.StudiesConfig'
+default_app_config = 'castellum.studies.apps.StudiesConfig'

@@ -23,4 +23,4 @@ from django.apps import AppConfig
 
 
 class PseudonymsConfig(AppConfig):
-    name = 'pseudonyms'
+    name = 'castellum.pseudonyms'
