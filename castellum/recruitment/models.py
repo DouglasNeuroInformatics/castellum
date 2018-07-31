@@ -54,3 +54,91 @@ class Participation(SubjectData):
     status = models.IntegerField(
         _('status of participation'), choices=STATUS_OPTIONS, default=UNSUITABLE)
     updated_at = models.DateTimeField(_('last updated at'), blank=True, null=True)
+
+
+class SubjectFilterManager(models.Manager):
+    field_type = NotImplemented
+
+    def get_queryset(self):
+        return super().get_queryset().filter(field_type=self.field_type)
+
+    def create(self, **kwargs):
+        kwargs.update({"field_type": self.field_type})
+        return super().create(**kwargs)
+
+    def get_or_create(self, **kwargs):
+        kwargs.update({"field_type": self.field_type})
+        return super().get_or_create(**kwargs)
+
+
+class SubjectFilter(models.Model):
+    FIELD_TYPES = (
+        ("date", "date"),
+        ("number", "number"),
+        ("text", "text"),
+    )
+
+    available_operators = NotImplemented
+
+    field_type = models.CharField(max_length=16, choices=FIELD_TYPES)
+    study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    field_name = models.CharField(max_length=256)
+    operator = models.CharField(max_length=64)
+    value = models.CharField(max_length=128)
+
+
+class DateFilterManager(SubjectFilterManager):
+    field_type = "date"
+
+
+class DateFilter(SubjectFilter):
+    objects = DateFilterManager()
+    available_operators = {
+        "lt": "before",
+        "gt": "after",
+    }
+
+    def __repr__(self):
+        return "DateFilter"
+
+    class Meta:
+        proxy = True
+
+
+class NumberFilterManager(SubjectFilterManager):
+    field_type = "number"
+
+
+class NumberFilter(SubjectFilter):
+    objects = NumberFilterManager()
+    available_operators = {
+        "lt": "<",
+        "gt": ">",
+        "exact": "==",
+        "lte": "<=",
+        "gte": ">=",
+    }
+
+    def __repr__(self):
+        return "NumberFilter"
+
+    class Meta:
+        proxy = True
+
+
+class TextFilterManager(SubjectFilterManager):
+    field_type = "text"
+
+
+class TextFilter(SubjectFilter):
+    objects = TextFilterManager()
+    available_operators = {
+        "exact": "equals",
+        "contains": "contains"
+    }
+
+    def __repr__(self):
+        return "TextFilter"
+
+    class Meta:
+        proxy = True

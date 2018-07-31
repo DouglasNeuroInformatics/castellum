@@ -8,14 +8,14 @@
     <ul>
         {% for f in filters %}
         <li>
-            <form action="{% url "studies:remove_subject_filter" study_id f.id %}" method="post">
+            <form action="{% url "recruitment:remove_subject_filter" study_id f.id %}" method="post">
             {% csrf_token %}
             {{ f.field_name }} {{ f.operator }} {{ f.value }} <button>remove</button>
             </form>
         </li>
         {% endfor %}
         <li>
-            <form action="{% url "studies:subject_filter" study_id %}" method="post">
+            <form action="{% url "recruitment:subject_filter" study_id %}" method="post">
                 {% csrf_token %}
                 {% if add_subject_filter_form %}
                 {% bootstrap_field add_subject_filter_form.field_name show_label=0 %}
