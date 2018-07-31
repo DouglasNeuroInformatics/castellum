@@ -1,6 +1,7 @@
 import pytest
 
 from castellum.subject_management.forms import SubjectForm, AddressForm
+from castellum.subject_management.models import Address
 
 
 def test_subject_form_empty():
@@ -73,23 +74,12 @@ def test_subject_form_without_email_or_phonenumber_with_incomplete_address(subje
 
 
 @pytest.mark.django_db
-def test_address_form_given_city_has_no_relation_to_given_country(address_data):
-
-    address_data.update({'city': 'AnyFakeCityName'})
-    form = AddressForm(data=address_data)
-
-    assert 'We can not find city for given country.' in str(form.errors)
-    assert form.is_valid() is False
-
-
-@pytest.mark.django_db
 def test_address_form_given_country_not_in_db(address_data):
 
     address_data.update({'country': 'AnyFakeCountryName'})
     form = AddressForm(data=address_data)
 
-    assert 'There is no such country in our database.' in str(form.errors)
-    assert form.is_valid() is False
+    assert form.is_valid() is True
 
 
 @pytest.mark.django_db
@@ -144,3 +134,19 @@ def test_subject_form_update_city_country_for_existing_instance_address(subject,
 
     updated_subject = form.save()
     assert updated_subject.address.city.name == city.name
+
+
+@pytest.mark.django_db
+def test_subject_form_delete_existing_address_if_empty(subject, subject_data):
+
+    subject_data.update({
+        'phone_number': '+4917691232323',
+        'phone_number_alternative': '',
+    })
+
+    address_count_before = Address.objects.count()
+
+    form = SubjectForm(instance=subject, data=subject_data)
+    form.save()
+
+    assert Address.objects.count() == address_count_before - 1

@@ -47,38 +47,16 @@ class DatalistWidget(TextInput):
         return context
 
 
-class AddressForm(forms.Form):
+class AddressForm(forms.ModelForm):
 
-    country = forms.CharField()
-    city = forms.CharField()
-    zip_code = forms.CharField()
-    street = forms.CharField()
-    house_number = forms.CharField()
-    additional_information = forms.CharField(required=False)
+    country = forms.CharField(max_length=64, widget=DatalistWidget(
+        datalist=Country.objects.values_list('name', flat=True)))
+    city = forms.CharField(max_length=128, widget=DatalistWidget(
+        datalist=City.objects.values_list('name', flat=True)))
 
     class Meta:
-        widgets = {
-            'country': DatalistWidget(datalist=Country.objects.values_list('name', flat=True)),
-            'city': DatalistWidget(datalist=City.objects.values_list('name', flat=True))
-        }
-
-    def clean(self):
-        cleaned_data = super().clean()
-
-        country_str = cleaned_data.get('country', '')
-        city_str = cleaned_data.get('city', '')
-
-        if country_str:
-            country = Country.objects.filter(name=country_str).first()
-            if country:
-                if city_str:
-                    city = City.objects.filter(name=city_str, country=country).first()
-                    if not city:
-                        self.add_error('city', _("We can not find city for given country."))
-            else:
-                self.add_error('country', _("There is no such country in our database."))
-
-        return cleaned_data
+        model = Address
+        exclude = ('city',)
 
 
 class SubjectForm(forms.ModelForm):
@@ -87,8 +65,10 @@ class SubjectForm(forms.ModelForm):
     phone_number_alternative = PhoneNumberField(label=_("Alternative phone number"), required=False)
 
     # fields required for the address
-    country = forms.CharField(required=False)
-    city = forms.CharField(required=False)
+    country = forms.CharField(required=False, widget=DatalistWidget(
+        datalist=Country.objects.values_list('name', flat=True)))
+    city = forms.CharField(required=False, widget=DatalistWidget(
+        datalist=City.objects.values_list('name', flat=True)))
     zip_code = forms.CharField(required=False)
     street = forms.CharField(required=False)
     house_number = forms.CharField(required=False)
@@ -99,8 +79,6 @@ class SubjectForm(forms.ModelForm):
         exclude = ('address',)
 
         widgets = {
-            'city': DatalistWidget(datalist=City.objects.values_list('name', flat=True)),
-            'country': DatalistWidget(datalist=Country.objects.values_list('name', flat=True)),
             'phone_number': PhoneNumberInternationalFallbackWidget(
                 attrs={'placeholder': _('Phone (ex. +4917693333333)')}),
             'phone_number_alternative': PhoneNumberInternationalFallbackWidget(
@@ -132,10 +110,10 @@ class SubjectForm(forms.ModelForm):
         email = cleaned_data.get('email', '')
 
         if any([country, city, zip_code, street, house_number, add_info]):
-            af = AddressForm(data=cleaned_data)
-            if not af.is_valid():
-                if af.errors:
-                    for field, errors in af.errors.items():
+            address_form = AddressForm(data=cleaned_data)
+            if not address_form.is_valid():
+                if address_form.errors:
+                    for field, errors in address_form.errors.items():
                         self.add_error(field, errors)
 
                 raise ValidationError(_("Provide more details for the address."))
@@ -149,20 +127,27 @@ class SubjectForm(forms.ModelForm):
     def save(self, commit=True):
         subject = super().save(commit=False)
 
-        city = City.objects.get(name=self.cleaned_data['city'])
+        if self.cleaned_data.get('city'):
+            country, __ = Country.objects.get_or_create(name=self.cleaned_data['country'])
+            city, __ = City.objects.get_or_create(name=self.cleaned_data['city'], country=country)
 
-        if not subject.address:
-            subject.address = Address.objects.create(city=city)
-        else:
-            subject.address.city = city
+            if not subject.address:
+                subject.address = Address.objects.create(city=city)
+            else:
+                subject.address.city = city
 
-        subject.address.zip_code = self.cleaned_data['zip_code']
-        subject.address.street = self.cleaned_data['street']
-        subject.address.house_number = self.cleaned_data['house_number']
-        subject.address.additional_information = self.cleaned_data['additional_information']
+            subject.address.zip_code = self.cleaned_data['zip_code']
+            subject.address.street = self.cleaned_data['street']
+            subject.address.house_number = self.cleaned_data['house_number']
+            subject.address.additional_information = self.cleaned_data['additional_information']
+
+            if commit:
+                subject.address.save()
 
         if commit:
-            subject.address.save()
             subject.save()
+
+            if not self.cleaned_data.get('city') and subject.address:
+                subject.address.delete()
 
         return subject
