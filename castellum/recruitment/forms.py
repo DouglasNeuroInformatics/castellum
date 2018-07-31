@@ -30,7 +30,7 @@ from .models import TextFilter
 
 
 class SelectAttributeForm(forms.Form):
-    CHOICES = ((field.name, field.name) for field in AttributeSet._meta.get_fields()[2:])
+    CHOICES = ((field.name, field.verbose_name) for field in AttributeSet._meta.get_fields()[2:])
 
     field_name = forms.ChoiceField(choices=CHOICES)
 
