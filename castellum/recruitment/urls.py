@@ -27,9 +27,7 @@ from .views import ContactChoiceView
 from .views import ContactView
 from .views import RemoveSubjectFilterView
 from .views import StudyChoiceView
-from .views import SubjectChoiceView
 from .views import SubjectFilterView
-
 
 app_name = 'recruitment'
 urlpatterns = [
@@ -45,5 +43,5 @@ urlpatterns = [
     path('subject_filter/<int:study_id>/remove/<int:filter_id>',
          RemoveSubjectFilterView.as_view(),
          name='remove_subject_filter'),
-    
+
 ]
