@@ -56,13 +56,6 @@ class Participation(SubjectData):
     updated_at = models.DateTimeField(_('last updated at'), blank=True, null=True)
 
 
-class SubjectFilterManager(models.Manager):
-    field_type = NotImplemented
-
-    def get_queryset(self):
-        return super().get_queryset().filter(field_type=self.field_type)
-
-
 class SubjectFilter(models.Model):
     FIELD_TYPES = (
         ("date", "date"),
@@ -79,12 +72,7 @@ class SubjectFilter(models.Model):
     value = models.CharField(max_length=128)
 
 
-class DateFilterManager(SubjectFilterManager):
-    field_type = "date"
-
-
 class DateFilter(SubjectFilter):
-    objects = DateFilterManager()
     available_operators = {
         "lt": "before",
         "gt": "after",
@@ -97,12 +85,7 @@ class DateFilter(SubjectFilter):
         proxy = True
 
 
-class NumberFilterManager(SubjectFilterManager):
-    field_type = "number"
-
-
 class NumberFilter(SubjectFilter):
-    objects = NumberFilterManager()
     available_operators = {
         "lt": "<",
         "gt": ">",
@@ -118,12 +101,7 @@ class NumberFilter(SubjectFilter):
         proxy = True
 
 
-class TextFilterManager(SubjectFilterManager):
-    field_type = "text"
-
-
 class TextFilter(SubjectFilter):
-    objects = TextFilterManager()
     available_operators = {
         "exact": "equals",
         "contains": "contains"
