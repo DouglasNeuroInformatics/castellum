@@ -32,7 +32,7 @@ from castellum.pseudonyms.models import SubjectData
 from . import Address
 
 
-class Subject(SubjectData):
+class Contact(SubjectData):
     GENDER = (
         ("f", _("female")),
         ("m", _("male")),
