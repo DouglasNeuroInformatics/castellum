@@ -34,4 +34,4 @@ install:
 	npm install
 
 tdd:
-	watchmedo shell-command --drop --patterns='*.py' --recursive --command='clear && tox -e py35'
+	watchmedo shell-command ./castellum --drop --patterns='*.py' --recursive --command='clear && tox -e py35,py36'
