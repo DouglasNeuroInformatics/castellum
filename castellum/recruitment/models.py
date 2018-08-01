@@ -38,6 +38,15 @@ class AttributeSet(SubjectData):
     def get_absolute_url(self):
         return reverse('recruitment:detail_attributes', args=[self.pseudonym])
 
+    @classmethod
+    def apply_study_filter(cls, study, queryset=None):
+        if not queryset:
+            queryset = cls.objects
+        q = models.Q()
+        for f in study.subjectfilter_set.all():
+            q &= f.to_q()
+        return queryset.filter(q)
+
 
 class Participation(SubjectData):
     NOT_REACHED = 0
@@ -63,6 +72,10 @@ class SubjectFilter(models.Model):
     field_name = models.CharField(max_length=256)
     operator = models.CharField(max_length=64)
     value = models.CharField(max_length=128)
+
+    def get_q(self):
+        key = '{}__{}'.format(self.attribute, self.operator)
+        return models.Q(**{key: self.value})
 
 
 class DateFilter(SubjectFilter):

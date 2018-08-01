@@ -150,12 +150,8 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
 class SubjectFilterView(LoginRequiredMixin, View):
     template_name = "recruitment/filters.html"
 
-    def get_subject_count(self, filters):
-        query_set = AttributeSet.objects
-        for f in filters:
-            filter_dict = {"{}__{}".format(f.field_name, f.operator): f.value}
-            query_set = query_set.filter(**filter_dict)
-        return query_set.count()
+    def get_subject_count(self, study):
+        return AttributeSet.apply_study_filter(study).count()
 
     def get_total_count(self):
         return AttributeSet.objects.count()
@@ -164,7 +160,7 @@ class SubjectFilterView(LoginRequiredMixin, View):
         study = get_object_or_404(Study, pk=study_pk)
         filters = study.subjectfilter_set.all()
         context = {
-            "count": self.get_subject_count(filters),
+            "count": self.get_subject_count(study),
             "total_count": self.get_total_count(),
             "study": study,
             "filters": filters,
@@ -200,7 +196,7 @@ class SubjectFilterView(LoginRequiredMixin, View):
                 add_subject_filter_form = None
 
         context = {
-            "count": self.get_subject_count(filters),
+            "count": self.get_subject_count(study),
             "total_count": self.get_total_count(),
             "study": study,
             "filters": filters,
