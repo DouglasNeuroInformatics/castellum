@@ -47,5 +47,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('recruitment/', include('castellum.recruitment.urls', namespace='recruitment')),
     path('studies/', include('castellum.studies.urls', namespace='studies')),
-    path('subjects/', include('castellum.subject_management.urls', namespace='subject_management')),
+    path('subjects/', include('castellum.contacts.urls', namespace='contacts')),
 ]

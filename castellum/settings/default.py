@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     'castellum.pseudonyms',
     'castellum.recruitment',
     'castellum.studies',
-    'castellum.subject_management',
+    'castellum.contacts',
 ]
 
 MIDDLEWARE = [
@@ -69,7 +69,7 @@ WSGI_APPLICATION = 'castellum.wsgi.application'
 
 
 DATABASE_ROUTERS = [
-    'castellum.subject_management.routers.SubjectManagementRouter',
+    'castellum.contacts.routers.ContactsRouter',
 ]
 
 # Password validation

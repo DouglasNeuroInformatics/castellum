@@ -14,11 +14,11 @@ DATABASES = {
         'USER': 'postgres',
         'HOST': 'db_default',
     },
-    'subject_management': {
+    'contacts': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'HOST': 'db_subject_management',
+        'HOST': 'db_contacts',
     }
 }
 

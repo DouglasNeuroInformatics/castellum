@@ -33,16 +33,16 @@ from django.views.generic import ListView
 from django.views.generic import UpdateView
 from django.views.generic import View
 
+from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.studies.models import Study
-from castellum.subject_management.models import Subject
 
 from . import forms
 from .models import AttributeSet
 from .models import Participation
 from .models import SubjectFilter
 
-monitoring_logger = logging.getLogger('monitoring.subject_data')
+monitoring_logger = logging.getLogger('monitoring.contact_data')
 
 
 class StudyChoiceView(LoginRequiredMixin, ListView):
@@ -51,11 +51,11 @@ class StudyChoiceView(LoginRequiredMixin, ListView):
     template_name = 'recruitment/studies_list.html'
 
 
-class SubjectChoiceView(LoginRequiredMixin, ListView):
-    model = Subject
+class ContactChoiceView(LoginRequiredMixin, ListView):
+    model = Contact
     paginate_by = 5
-    context_object_name = 'subjects'
-    template_name = 'recruitment/subjects_list.html'
+    context_object_name = 'contacts'
+    template_name = 'recruitment/contacts_list.html'
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -78,20 +78,20 @@ class ContactView(LoginRequiredMixin, UpdateView):
             queryset = self.get_queryset()
 
         self.study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
-        self.subject = get_object_or_404(Subject, pseudonym=self.kwargs['subject_slug'])
+        self.contact = get_object_or_404(Contact, pseudonym=self.kwargs['contact_slug'])
 
         pseudonym = resolve_pseudonym(
-            settings.DOMAINS['contact'], self.subject.pseudonym, self.study.domain)
+            settings.DOMAINS['contact'], self.contact.pseudonym, self.study.domain)
         participation, __ = queryset.get_or_create(study=self.study, pseudonym=pseudonym)
         return participation
 
     def get_success_url(self):
-        return reverse('recruitment:select_subject', args=[self.object.study.pk])
+        return reverse('recruitment:select_contact', args=[self.object.study.pk])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['study'] = self.study
-        context['subject'] = self.subject
+        context['contact'] = self.contact
         return context
 
     def form_valid(self, form):
@@ -99,7 +99,7 @@ class ContactView(LoginRequiredMixin, UpdateView):
         instance.updated_at = timezone.now()
         result = super(ContactView, self).form_valid(form)
 
-        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
+        monitoring_logger.info('ContactData update: {}:{} by {}'.format(
             self.study.domain,
             self.object.pseudonym,
             self.request.user.pk))
@@ -118,7 +118,7 @@ class AttributeSetDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['subject_pseudonym'] = resolve_pseudonym(
+        context['contact_pseudonym'] = resolve_pseudonym(
             settings.DOMAINS['attributeset'], self.object.pseudonym, settings.DOMAINS['contact'])
         return context
 
@@ -130,7 +130,7 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         result = super().form_valid(form)
-        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
+        monitoring_logger.info('ContactData update: {}:{} by {}'.format(
             settings.DOMAINS['attributeset'],
             self.object.pseudonym,
             self.request.user.pk))

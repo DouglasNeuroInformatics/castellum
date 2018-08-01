@@ -10,7 +10,7 @@ bootstrap: install migrate createsuperuser castellum/locale/de/LC_MESSAGES/djang
 
 migrate:
 	$(MANAGEPY) migrate
-	$(MANAGEPY) migrate --database=subject_management
+	$(MANAGEPY) migrate --database=contacts
 
 makemigrations:
 	$(MANAGEPY) makemigrations

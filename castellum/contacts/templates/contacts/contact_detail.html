@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n bootstrap4 %}
+
+{% block content %}
+    <h1>{{ contact.full_name }}</h1>
+    <table class="table">
+        <tr>
+            <th>{% trans 'Gender:' %}</th>
+            <td>{{ contact.gender|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Birthday:' %}</th>
+            <td>{{ contact.birthday|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Address:' %}</th>
+            <td>{{ contact.address|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Email:' %}</th>
+            <td>{{ contact.email|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Phone number:' %}</th>
+            <td>{{ contact.phone_number|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Second phone number:' %}</th>
+            <td>{{ contact.phone_number_alternative|default:_('not provided') }}</td>
+        </tr>
+    </table>
+    <a href="{% url 'contacts:list' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+    <a href="{% url 'recruitment:detail_attributes' attributeset_pseudonym %}" class="btn btn-outline-primary">{% trans 'View attributes' %}</a>
+{% endblock %}
