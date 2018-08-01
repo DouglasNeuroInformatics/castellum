@@ -62,14 +62,6 @@ class SubjectFilterManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(field_type=self.field_type)
 
-    def create(self, **kwargs):
-        kwargs.update({"field_type": self.field_type})
-        return super().create(**kwargs)
-
-    def get_or_create(self, **kwargs):
-        kwargs.update({"field_type": self.field_type})
-        return super().get_or_create(**kwargs)
-
 
 class SubjectFilter(models.Model):
     FIELD_TYPES = (
