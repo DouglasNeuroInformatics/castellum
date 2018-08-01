@@ -8,6 +8,7 @@
         <tr>
             <th>{% trans 'Name' %}</th>
             <th>{% trans 'Contact person' %}</th>
+            <th>{% trans 'Action' %}</th>
         </tr>
     </thead>
     <tbody>
@@ -15,6 +16,10 @@
         <tr>
             <td>{{ study.name|default:_('not provided') }}</td>
             <td>{{ study.contact_person|default:_('not provided') }}</td>
+            <td>
+                <a class='btn btn-outline-primary'
+                   href="{% url 'recruitment:subject_filter' study.id %}">{% trans 'add Filter' %}</a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>

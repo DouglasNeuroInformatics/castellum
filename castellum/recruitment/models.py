@@ -54,3 +54,54 @@ class Participation(SubjectData):
     status = models.IntegerField(
         _('status of participation'), choices=STATUS_OPTIONS, default=UNSUITABLE)
     updated_at = models.DateTimeField(_('last updated at'), blank=True, null=True)
+
+
+class SubjectFilter(models.Model):
+    available_operators = NotImplemented
+
+    study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    field_name = models.CharField(max_length=256)
+    operator = models.CharField(max_length=64)
+    value = models.CharField(max_length=128)
+
+
+class DateFilter(SubjectFilter):
+    available_operators = {
+        "lt": "before",
+        "gt": "after",
+    }
+
+    def __repr__(self):
+        return "DateFilter"
+
+    class Meta:
+        proxy = True
+
+
+class NumberFilter(SubjectFilter):
+    available_operators = {
+        "lt": "<",
+        "gt": ">",
+        "exact": "==",
+        "lte": "<=",
+        "gte": ">=",
+    }
+
+    def __repr__(self):
+        return "NumberFilter"
+
+    class Meta:
+        proxy = True
+
+
+class TextFilter(SubjectFilter):
+    available_operators = {
+        "exact": "equals",
+        "contains": "contains"
+    }
+
+    def __repr__(self):
+        return "TextFilter"
+
+    class Meta:
+        proxy = True

@@ -24,18 +24,23 @@ import logging
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
+from django.views.generic import View
 
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.studies.models import Study
 from castellum.subject_management.models import Subject
 
+from . import forms
 from .models import AttributeSet
 from .models import Participation
+from .models import SubjectFilter
 
 monitoring_logger = logging.getLogger('monitoring.subject_data')
 
@@ -130,3 +135,74 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
             self.object.pseudonym,
             self.request.user.pk))
         return result
+
+
+class SubjectFilterView(LoginRequiredMixin, View):
+    template_name = "recruitment/filters.html"
+
+    def get_subject_count(self, filters):
+        query_set = AttributeSet.objects
+        for f in filters:
+            filter_dict = {"{}__{}".format(f.field_name, f.operator): f.value}
+            query_set = query_set.filter(**filter_dict)
+        return query_set.count()
+
+    def get_total_count(self):
+        return AttributeSet.objects.count()
+
+    def get_filters_for_study(self, study_id):
+        return SubjectFilter.objects.filter(study__id=study_id)
+
+    def get(self, request, study_id):
+        filters = self.get_filters_for_study(study_id)
+        context = {
+            "count": self.get_subject_count(filters),
+            "total_count": self.get_total_count(),
+            "filters": filters,
+            "study_id": study_id,
+            "selected_field": "",
+            "select_attribute_form": forms.SelectAttributeForm,
+            "add_subject_filter_form": None,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, study_id):
+        filters = self.get_filters_for_study(study_id)
+
+        select_attribute_form = forms.SelectAttributeForm(request.POST)
+        add_subject_filter_form = forms.AddSubjectFilterForm()
+
+        selected_field = None
+        if select_attribute_form.is_valid():
+            selected_field = select_attribute_form.cleaned_data["field_name"]
+
+        if selected_field:
+            initial_data = {
+                "field_name": selected_field,
+            }
+            add_subject_filter_form = forms.AddSubjectFilterForm(request.POST, initial=initial_data)
+            if add_subject_filter_form.is_valid():
+                SubjectFilter.objects.create(
+                    study_id=study_id,
+                    field_name=selected_field,
+                    operator=add_subject_filter_form.cleaned_data["operator"],
+                    value=add_subject_filter_form.cleaned_data["value"]
+                )
+                add_subject_filter_form = None
+
+        context = {
+            "count": self.get_subject_count(filters),
+            "total_count": self.get_total_count(),
+            "filters": filters,
+            "study_id": study_id,
+            "selected_field": selected_field,
+            "select_attribute_form": select_attribute_form,
+            "add_subject_filter_form": add_subject_filter_form,
+        }
+        return render(request, self.template_name, context)
+
+
+class RemoveSubjectFilterView(LoginRequiredMixin, View):
+    def post(self, request, study_id, filter_id):
+        SubjectFilter.objects.get(pk=filter_id).delete()
+        return redirect(reverse('recruitment:subject_filter', kwargs={"study_id": study_id}))

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n bootstrap4 %}
+
+{% block content %}
+    <h2>{% trans 'Filters' %}</h2>
+    <h4>count: {{ count }} / {{ total_count }}</h4>
+    <h5>filters:</h5>
+    <ul>
+        {% for f in filters %}
+        <li>
+            <form action="{% url "recruitment:remove_subject_filter" study_id f.id %}" method="post">
+            {% csrf_token %}
+            {{ f.field_name }} {{ f.operator }} {{ f.value }} <button>remove</button>
+            </form>
+        </li>
+        {% endfor %}
+        <li>
+            <form action="{% url "recruitment:subject_filter" study_id %}" method="post">
+                {% csrf_token %}
+                {% if add_subject_filter_form %}
+                {% bootstrap_field add_subject_filter_form.field_name show_label=0 %}
+                {% bootstrap_field add_subject_filter_form.operator show_label=0 %}
+                {% bootstrap_field add_subject_filter_form.value show_label=0 %}
+                {% else %}
+                add new filter for {% bootstrap_field select_attribute_form.field_name show_label=0 %}
+                {% endif %}
+                {% bootstrap_button button_type='submit' content='ok' %}
+            </form>
+        </li>
+    <ul>
+    <table class="table">
+    </table>
+{% endblock %}
