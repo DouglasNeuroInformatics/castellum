@@ -75,4 +75,4 @@ class AddSubjectFilterForm(forms.ModelForm):
 
     class Meta:
         model = SubjectFilter
-        exclude = "study", "field_type"
+        exclude = "study",

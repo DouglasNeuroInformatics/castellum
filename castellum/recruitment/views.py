@@ -185,7 +185,6 @@ class SubjectFilterView(LoginRequiredMixin, View):
                 SubjectFilter.objects.create(
                     study_id=study_id,
                     field_name=selected_field,
-                    field_type="text",
                     operator=add_subject_filter_form.cleaned_data["operator"],
                     value=add_subject_filter_form.cleaned_data["value"]
                 )

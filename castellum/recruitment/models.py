@@ -57,15 +57,8 @@ class Participation(SubjectData):
 
 
 class SubjectFilter(models.Model):
-    FIELD_TYPES = (
-        ("date", "date"),
-        ("number", "number"),
-        ("text", "text"),
-    )
-
     available_operators = NotImplemented
 
-    field_type = models.CharField(max_length=16, choices=FIELD_TYPES)
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
     field_name = models.CharField(max_length=256)
     operator = models.CharField(max_length=64)
