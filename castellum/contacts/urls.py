@@ -21,16 +21,16 @@
 
 from django.urls import path
 
-from .views import SubjectCreateView
-from .views import SubjectDetailView
-from .views import SubjectListView
-from .views import SubjectUpdateView
+from .views import ContactCreateView
+from .views import ContactDetailView
+from .views import ContactListView
+from .views import ContactUpdateView
 
-app_name = 'subject_management'
+app_name = 'contacts'
 urlpatterns = [
-    path('', SubjectListView.as_view(), name='list'),
-    path('create/', SubjectCreateView.as_view(), name='create'),
-    path('detail/<slug>/', SubjectDetailView.as_view(), name='detail'),
-    path('update/<slug>/', SubjectUpdateView.as_view(), name='update'),
+    path('', ContactListView.as_view(), name='list'),
+    path('create/', ContactCreateView.as_view(), name='create'),
+    path('detail/<slug>/', ContactDetailView.as_view(), name='detail'),
+    path('update/<slug>/', ContactUpdateView.as_view(), name='update'),
 
 ]

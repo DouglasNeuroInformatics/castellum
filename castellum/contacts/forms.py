@@ -29,12 +29,12 @@ from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
 
 from .models import Address
 from .models import City
+from .models import Contact
 from .models import Country
-from .models import Subject
 
 
 class DatalistWidget(TextInput):
-    template_name = 'subject_management/widgets/datalist.html'
+    template_name = 'contacts/widgets/datalist.html'
 
     def __init__(self, *args, datalist=[], **kwargs):
         self.datalist = datalist
@@ -59,7 +59,7 @@ class AddressForm(forms.ModelForm):
         exclude = ('city',)
 
 
-class SubjectForm(forms.ModelForm):
+class ContactForm(forms.ModelForm):
 
     phone_number = PhoneNumberField(label=_("Phone number"), required=False)
     phone_number_alternative = PhoneNumberField(label=_("Alternative phone number"), required=False)
@@ -75,7 +75,7 @@ class SubjectForm(forms.ModelForm):
     additional_information = forms.CharField(required=False)
 
     class Meta:
-        model = Subject
+        model = Contact
         exclude = ('address',)
 
         widgets = {
@@ -125,29 +125,29 @@ class SubjectForm(forms.ModelForm):
         return cleaned_data
 
     def save(self, commit=True):
-        subject = super().save(commit=False)
+        contact = super().save(commit=False)
 
         if self.cleaned_data.get('city'):
             country, __ = Country.objects.get_or_create(name=self.cleaned_data['country'])
             city, __ = City.objects.get_or_create(name=self.cleaned_data['city'], country=country)
 
-            if not subject.address:
-                subject.address = Address.objects.create(city=city)
+            if not contact.address:
+                contact.address = Address.objects.create(city=city)
             else:
-                subject.address.city = city
+                contact.address.city = city
 
-            subject.address.zip_code = self.cleaned_data['zip_code']
-            subject.address.street = self.cleaned_data['street']
-            subject.address.house_number = self.cleaned_data['house_number']
-            subject.address.additional_information = self.cleaned_data['additional_information']
+            contact.address.zip_code = self.cleaned_data['zip_code']
+            contact.address.street = self.cleaned_data['street']
+            contact.address.house_number = self.cleaned_data['house_number']
+            contact.address.additional_information = self.cleaned_data['additional_information']
 
             if commit:
-                subject.address.save()
+                contact.address.save()
 
         if commit:
-            subject.save()
+            contact.save()
 
-            if not self.cleaned_data.get('city') and subject.address:
-                subject.address.delete()
+            if not self.cleaned_data.get('city') and contact.address:
+                contact.address.delete()
 
-        return subject
+        return contact

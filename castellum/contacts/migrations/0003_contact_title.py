@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name='subject',
+            model_name='contact',
             name='title',
             field=models.CharField(blank=True, max_length=64, verbose_name='title'),
         ),

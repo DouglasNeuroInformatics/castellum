@@ -2,7 +2,7 @@
 {% load i18n bootstrap4 %}
 
 {% block content %}
-    <h1>{% trans 'Subjects' %}</h1>
+    <h1>{% trans 'Contacts' %}</h1>
 
 
     <table class="table">
@@ -13,12 +13,12 @@
         </tr>
     </thead>
     <tbody>
-        {% for subject in object_list %}
+        {% for contact in object_list %}
         <tr>
-            <td>{{ subject.full_name }}</td>
+            <td>{{ contact.full_name }}</td>
             <td>
-                <a class='btn btn-outline-primary' href="{% url 'subject_management:detail' subject.pseudonym %}">{% trans 'View details' %}</a>
-                <a class='btn btn-outline-primary' href="{% url 'subject_management:update' subject.pseudonym %}">{% trans 'Update' %}</a>
+                <a class='btn btn-outline-primary' href="{% url 'contacts:detail' contact.pseudonym %}">{% trans 'View details' %}</a>
+                <a class='btn btn-outline-primary' href="{% url 'contacts:update' contact.pseudonym %}">{% trans 'Update' %}</a>
             </td>
         </tr>
         {% endfor %}
@@ -26,7 +26,7 @@
     </table>
 
     <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-    <a href="{% url 'subject_management:create' %}" class="btn btn-primary">{% trans "Create new subject"%}</a>
+    <a href="{% url 'contacts:create' %}" class="btn btn-primary">{% trans "Create new contact"%}</a>
 
     {% if is_paginated %}
         <div class="container">

@@ -22,6 +22,6 @@
 from .address import Address
 from .address import City
 from .address import Country
-from .subject import Subject
+from .contact import Contact
 
-__all__ = Address, City, Country, Subject
+__all__ = Address, City, Country, Contact

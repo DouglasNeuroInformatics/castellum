@@ -26,8 +26,8 @@ from faker import Faker
 
 from castellum.contacts.models import Address
 from castellum.contacts.models import City
+from castellum.contacts.models import Contact
 from castellum.contacts.models import Country
-from castellum.contacts.models import Subject as Contact
 from castellum.pseudonyms.models import Pseudonym
 from castellum.pseudonyms.models import Subject
 from castellum.recruitment.models import AttributeSet

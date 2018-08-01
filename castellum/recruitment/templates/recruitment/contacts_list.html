@@ -5,7 +5,7 @@
 {% block content %}
     <h1>{{ study.name }}</h1>
 
-    <h2>{% trans 'Subjects' %}</h2>
+    <h2>{% trans 'Contacts' %}</h2>
     <table class="table">
     <thead>
         <tr>
@@ -15,11 +15,11 @@
         </tr>
     </thead>
     <tbody>
-        {% for subject in subjects %}
+        {% for contact in contacts %}
         <tr>
-            <td>{{ subject.first_name|default:_('not provided') }}</td>
-            <td>{{ subject.last_name|default:_('not provided') }}</td>
-            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk subject.pseudonym %}">{% trans 'Call' %}</a></td>
+            <td>{{ contact.first_name|default:_('not provided') }}</td>
+            <td>{{ contact.last_name|default:_('not provided') }}</td>
+            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk contact.pseudonym %}">{% trans 'Call' %}</a></td>
         </tr>
         {% endfor %}
     </tbody>

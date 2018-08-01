@@ -22,7 +22,7 @@
 from django.contrib import admin
 
 
-class SubjectAdmin(admin.ModelAdmin):
+class ContactAdmin(admin.ModelAdmin):
     list_display = "first_name", "last_name", "address", "email", "phone_number"
     list_display_links = "first_name", "last_name"
     list_per_page = 200

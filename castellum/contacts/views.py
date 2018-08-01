@@ -30,19 +30,19 @@ from django.views.generic import UpdateView
 
 from castellum.pseudonyms.helpers import resolve_pseudonym
 
-from .forms import SubjectForm
-from .models import Subject
+from .forms import ContactForm
+from .models import Contact
 
-monitoring_logger = logging.getLogger('monitoring.subject_data')
+monitoring_logger = logging.getLogger('monitoring.contact_data')
 
 
-class SubjectListView(LoginRequiredMixin, ListView):
-    model = Subject
+class ContactListView(LoginRequiredMixin, ListView):
+    model = Contact
     paginate_by = 20
 
 
-class SubjectDetailView(LoginRequiredMixin, DetailView):
-    model = Subject
+class ContactDetailView(LoginRequiredMixin, DetailView):
+    model = Contact
     slug_field = 'pseudonym'
 
     def get_context_data(self, **kwargs):
@@ -52,9 +52,9 @@ class SubjectDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class SubjectCreateView(LoginRequiredMixin, CreateView):
-    model = Subject
-    form_class = SubjectForm
+class ContactCreateView(LoginRequiredMixin, CreateView):
+    model = Contact
+    form_class = ContactForm
 
     def form_valid(self, form):
         result = super().form_valid(form)
@@ -65,14 +65,14 @@ class SubjectCreateView(LoginRequiredMixin, CreateView):
         return result
 
 
-class SubjectUpdateView(LoginRequiredMixin, UpdateView):
-    model = Subject
-    form_class = SubjectForm
+class ContactUpdateView(LoginRequiredMixin, UpdateView):
+    model = Contact
+    form_class = ContactForm
     slug_field = 'pseudonym'
 
     def form_valid(self, form):
         result = super().form_valid(form)
-        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
+        monitoring_logger.info('ContactData update: {}:{} by {}'.format(
             settings.DOMAINS['contact'],
             self.object.pseudonym,
             self.request.user.pk))

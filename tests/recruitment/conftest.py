@@ -2,7 +2,7 @@ import pytest
 from model_mommy import mommy
 
 from castellum.studies.models import Study
-from castellum.contacts.models import Subject
+from castellum.contacts.models import Contact
 
 
 @pytest.fixture
@@ -11,5 +11,5 @@ def study(db):
 
 
 @pytest.fixture
-def subject(db):
-    return mommy.make(Subject, pseudonym=None)
+def contact(db):
+    return mommy.make(Contact, pseudonym=None)

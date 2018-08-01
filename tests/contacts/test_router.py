@@ -3,7 +3,7 @@ import pytest
 from model_mommy import mommy
 
 from castellum.castellum_auth.models import User
-from castellum.contacts.models import Subject
+from castellum.contacts.models import Contact
 from castellum.contacts.routers import APP_LABEL, ContactsRouter
 
 
@@ -13,7 +13,7 @@ def router():
 
 
 @pytest.mark.parametrize("model,expected", [
-    (Subject, "contacts"),
+    (Contact, "contacts"),
     (User, None),
 ])
 def test_db_for_read(router, model, expected):
@@ -21,7 +21,7 @@ def test_db_for_read(router, model, expected):
 
 
 @pytest.mark.parametrize("model,expected", [
-    (Subject, "contacts"),
+    (Contact, "contacts"),
     (User, None),
 ])
 def test_db_for_write(router, model, expected):
@@ -29,9 +29,9 @@ def test_db_for_write(router, model, expected):
 
 
 @pytest.mark.parametrize("obj1,obj2,expected", [
-    (mommy.prepare(Subject), mommy.prepare(Subject), True),
-    (mommy.prepare(Subject), mommy.prepare(User), None),
-    (mommy.prepare(User), mommy.prepare(Subject), None),
+    (mommy.prepare(Contact), mommy.prepare(Contact), True),
+    (mommy.prepare(Contact), mommy.prepare(User), None),
+    (mommy.prepare(User), mommy.prepare(Contact), None),
     (mommy.prepare(User), mommy.prepare(User), None),
 ])
 def test_allow_relation(router, obj1, obj2, expected):

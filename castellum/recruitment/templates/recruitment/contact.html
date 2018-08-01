@@ -7,19 +7,19 @@
     <table class="table">
         <tr>
             <th>{% trans 'Name' %}</th>
-            <td>{{ subject.full_name }}</td>
+            <td>{{ contact.full_name }}</td>
         </tr>
         <tr>
             <th>{% trans 'Email' %}</th>
-            <td>{{ subject.email|default:_('not provided') }}</td>
+            <td>{{ contact.email|default:_('not provided') }}</td>
         </tr>
         <tr>
             <th>{% trans 'Phone number' %}</th>
-            <td>{{ subject.phone_number|default:_('not provided') }}</td>
+            <td>{{ contact.phone_number|default:_('not provided') }}</td>
         </tr>
         <tr>
             <th>{% trans 'Second phone number' %}</th>
-            <td>{{ subject.phone_number_alternative|default:_('not provided') }}</td>
+            <td>{{ contact.phone_number_alternative|default:_('not provided') }}</td>
         </tr>
     </table>
 
@@ -31,7 +31,7 @@
         {% csrf_token %}
         {% bootstrap_field form.status %}
 
-        <a href="{% url 'recruitment:select_subject' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+        <a href="{% url 'recruitment:select_contact' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}" />
     </form>
 

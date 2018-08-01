@@ -12,12 +12,12 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name='subject',
+            model_name='contact',
             name='phone_number',
             field=phonenumber_field.modelfields.PhoneNumberField(blank=True, max_length=32, verbose_name='phone number'),
         ),
         migrations.AlterField(
-            model_name='subject',
+            model_name='contact',
             name='phone_number_alternative',
             field=phonenumber_field.modelfields.PhoneNumberField(blank=True, max_length=32, verbose_name='phone number alternative'),
         ),

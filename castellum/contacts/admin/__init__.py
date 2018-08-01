@@ -23,14 +23,14 @@ from django.contrib import admin
 
 from ..models import Address
 from ..models import City
+from ..models import Contact
 from ..models import Country
-from ..models import Subject
 from .address import AddressAdmin
 from .address import CityAdmin
 from .address import CountryAdmin
-from .subject import SubjectAdmin
+from .contact import ContactAdmin
 
 admin.site.register(Address, AddressAdmin)
 admin.site.register(City, CityAdmin)
 admin.site.register(Country, CountryAdmin)
-admin.site.register(Subject, SubjectAdmin)
+admin.site.register(Contact, ContactAdmin)

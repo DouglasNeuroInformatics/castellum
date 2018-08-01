@@ -11,13 +11,13 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name='subject',
+            model_name='contact',
             name='pseudonym',
             field=models.CharField(default='', editable=False, max_length=64, unique=True),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='subject',
+            model_name='contact',
             name='id',
             field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
         ),

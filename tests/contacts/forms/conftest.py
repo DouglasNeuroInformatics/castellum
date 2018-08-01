@@ -1,7 +1,7 @@
 import pytest
 
 from model_mommy import mommy
-from castellum.contacts.models import City, Address, Subject
+from castellum.contacts.models import City, Address, Contact
 
 
 @pytest.fixture
@@ -15,12 +15,12 @@ def address():
 
 
 @pytest.fixture
-def subject(address):
-    return mommy.make(Subject, address=address)
+def contact(address):
+    return mommy.make(Contact, address=address)
 
 
 @pytest.fixture
-def subject_data():
+def contact_data():
     return {
         'first_name': 'Winston',
         'last_name': 'Wolfe',
@@ -43,6 +43,6 @@ def address_data(address):
 
 
 @pytest.fixture
-def full_data(subject_data, address_data):
-    subject_data.update(address_data)
-    return subject_data
+def full_data(contact_data, address_data):
+    contact_data.update(address_data)
+    return contact_data
