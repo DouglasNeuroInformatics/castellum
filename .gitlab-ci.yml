@@ -70,7 +70,7 @@ pages:
   only:
     - master
   script:
-    - mv castellum/htmlcov/ public/
+    - mv ./htmlcov/ public/
   artifacts:
     paths:
       - public
