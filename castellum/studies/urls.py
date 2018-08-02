@@ -23,9 +23,11 @@ from django.urls import path
 
 from .views import CreateView
 from .views import IndexView
+from .views import PublishView
 
 app_name = 'studies'
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('new/', CreateView.as_view(), name='create'),
+    path('publish/<int:study_id>', PublishView.as_view(), name='publish'),
 ]

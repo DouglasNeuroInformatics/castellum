@@ -20,6 +20,9 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.views import View
 from django.views import generic
 
 from . import models
@@ -33,3 +36,8 @@ class CreateView(LoginRequiredMixin, generic.CreateView):
     model = models.Study
     fields = '__all__'
     success_url = '/'
+
+
+class PublishView(LoginRequiredMixin, View):
+    def get(self, request, study_id):
+        return redirect(reverse('studies:index'))
