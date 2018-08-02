@@ -8,7 +8,7 @@
         <tr>
             <th>{% trans 'Name' %}</th>
             <th>{% trans 'Contact person' %}</th>
-            <th>{% trans 'Action' %}</th>
+            <th colspan="2">{% trans 'Actions' %}</th>
         </tr>
     </thead>
     <tbody>
@@ -19,6 +19,10 @@
             <td>
                 <a class='btn btn-outline-primary'
                    href="{% url 'recruitment:subject_filter' study.id %}">{% trans 'add Filter' %}</a>
+            </td>
+            <td>
+                <a class='btn btn-outline-primary'
+                   href="{% url 'studies:publish' study.id %}">{% trans 'publish' %}</a>
             </td>
         </tr>
         {% endfor %}
