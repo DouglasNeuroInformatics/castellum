@@ -29,6 +29,7 @@ class Study(models.Model):
     name = models.CharField(_('Name'), max_length=254)
     domain = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     contact_person = models.CharField(_('Responsible contact person'), max_length=512)
+    published = models.BooleanField(_('Published'), default=False)
 
     def __str__(self):
         return self.name
