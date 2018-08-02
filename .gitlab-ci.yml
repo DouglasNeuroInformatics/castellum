@@ -36,7 +36,7 @@ test-merge:
   coverage: '/TOTAL.*\s+(\d+\%)/'
   artifacts:
     paths:
-      - castellum/htmlcov/
+      - ./htmlcov/
 
 build:
   stage: build
