@@ -14,6 +14,7 @@ setup(
         "Django==2.1.0",
         "django-auth-ldap==1.4.0",
         "django-bootstrap4==0.0.6",
+        "django-extra-views~=0.11.0",
         "django-npm==1.0.0",
         "django-phonenumber-field==2.0.0",
         "django-picklefield==1.0.0",

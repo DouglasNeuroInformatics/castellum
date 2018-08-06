@@ -6,29 +6,16 @@
 
     <p>{% trans 'matches' %}: {{ count }} / {{ total_count }}</p>
 
-    <ul>
-        {% for f in filters %}
-            <li>
-                <form action="{% url "recruitment:remove_subject_filter" study.pk f.pk %}" method="post">
-                    {% csrf_token %}
-                    {{ f.field_name }} {{ f.operator }} {{ f.value }}
-                    <input type="submit" class="btn btn-danger" value="{% trans 'Remove' %}" />
-                </form>
-            </li>
+    <form method="post">
+        {% csrf_token %}
+        {{ formset.management_form }}
+
+        {% for form in formset %}
+            <formset class="row">
+                {{ form }}
+            </formset>
         {% endfor %}
-        <li>
-            <form method="post">
-                {% csrf_token %}
-                {% if add_subject_filter_form %}
-                    {% bootstrap_field add_subject_filter_form.field_name show_label=0 %}
-                    {% bootstrap_field add_subject_filter_form.operator show_label=0 %}
-                    {% bootstrap_field add_subject_filter_form.value show_label=0 %}
-                {% else %}
-                    {% trans 'add new filter for' %}
-                    {% bootstrap_field select_attribute_form.field_name show_label=False %}
-                {% endif %}
-                <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}" />
-            </form>
-        </li>
-    <ul>
+
+        <input type="submit" class="btn btn-primary" />
+    </form>
 {% endblock %}

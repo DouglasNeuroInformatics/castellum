@@ -29,13 +29,7 @@ from .models import SubjectFilter
 from .models import TextFilter
 
 
-class SelectAttributeForm(forms.Form):
-    CHOICES = ((field.name, field.verbose_name) for field in AttributeSet._meta.get_fields()[2:])
-
-    field_name = forms.ChoiceField(choices=CHOICES)
-
-
-class AddSubjectFilterForm(forms.ModelForm):
+class SubjectFilterForm(forms.ModelForm):
     FILTER_MAPPING = {
         "CharField": TextFilter(),
         "DateField": DateFilter(),
@@ -74,4 +68,4 @@ class AddSubjectFilterForm(forms.ModelForm):
 
     class Meta:
         model = SubjectFilter
-        exclude = "study",
+        fields = "__all__"

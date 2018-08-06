@@ -26,13 +26,13 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.shortcuts import get_object_or_404
-from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
-from django.views.generic import View
+
+from extra_views import ModelFormSetView
 
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import resolve_pseudonym
@@ -159,61 +159,28 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
         return result
 
 
-class SubjectFilterView(LoginRequiredMixin, View):
+class SubjectFilterView(LoginRequiredMixin, ModelFormSetView):
+    model = SubjectFilter
+    form_class = forms.SubjectFilterForm
+    factory_kwargs = {
+        'can_delete': True,
+    }
     template_name = "recruitment/filters.html"
+
+    def dispatch(self, *args, **kwargs):
+        self.study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
+        return super().dispatch(*args, **kwargs)
 
     def get_subject_count(self, study):
         return AttributeSet.apply_study_filter(study).count()
 
-    def get_total_count(self):
-        return AttributeSet.objects.count()
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        return qs.filter(study=self.study)
 
-    def get(self, request, study_pk):
-        study = get_object_or_404(Study, pk=study_pk)
-        filters = study.subjectfilter_set.all()
-        context = {
-            "count": self.get_subject_count(study),
-            "total_count": self.get_total_count(),
-            "study": study,
-            "filters": filters,
-            "selected_field": "",
-            "select_attribute_form": forms.SelectAttributeForm,
-            "add_subject_filter_form": None,
-        }
-        return render(request, self.template_name, context)
-
-    def post(self, request, study_pk):
-        study = get_object_or_404(Study, pk=study_pk)
-        filters = study.subjectfilter_set.all()
-
-        select_attribute_form = forms.SelectAttributeForm(request.POST)
-        add_subject_filter_form = forms.AddSubjectFilterForm()
-
-        selected_field = None
-        if select_attribute_form.is_valid():
-            selected_field = select_attribute_form.cleaned_data["field_name"]
-
-        if selected_field:
-            initial_data = {
-                "field_name": selected_field,
-            }
-            add_subject_filter_form = forms.AddSubjectFilterForm(request.POST, initial=initial_data)
-            if add_subject_filter_form.is_valid():
-                SubjectFilter.objects.create(
-                    study_id=study.pk,
-                    field_name=selected_field,
-                    operator=add_subject_filter_form.cleaned_data["operator"],
-                    value=add_subject_filter_form.cleaned_data["value"]
-                )
-                add_subject_filter_form = None
-
-        context = {
-            "count": self.get_subject_count(study),
-            "total_count": self.get_total_count(),
-            "study": study,
-            "filters": filters,
-            "selected_field": selected_field,
-            "select_attribute_form": select_attribute_form,
-            "add_subject_filter_form": add_subject_filter_form,
-        }
-        return render(request, self.template_name, context)
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['study'] = self.study
+        data['count'] = self.get_subject_count(self.study)
+        data['total_count'] = AttributeSet.objects.count()
+        return data
