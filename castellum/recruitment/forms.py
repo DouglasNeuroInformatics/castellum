@@ -47,7 +47,7 @@ class SubjectFilterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["field_name"].widget.attrs["readonly"] = True
+        self.fields["field_name"].widget.attrs["disabled"] = True
 
         selected_field_name = self._get_selected_field_name(**kwargs)
 

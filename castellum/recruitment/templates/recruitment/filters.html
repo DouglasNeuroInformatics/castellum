@@ -17,7 +17,9 @@
                     <input type="hidden" name="{{ form.prefix }}-study" value="{{ study.id }}" />
 
                     <div class="col-sm-4">
+                        {# duplicated because disabled fields are not posted to the server #}
                         {% bootstrap_field form.field_name %}
+                        {{ form.field_name.as_hidden }}
                     </div>
                     {% if form.operator.field.choices|length > 1 %}
                         <div class="col-sm">
