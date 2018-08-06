@@ -31,5 +31,10 @@ install:
 	pip install -e .
 	npm install
 
+install-githooks: .git/hooks/pre-commit
+
+.git/hooks/%: .hooks/%
+	cp $< $@
+
 tdd:
 	watchmedo shell-command ./castellum --drop --patterns='*.py' --recursive --command='clear && tox -e py35,py36'

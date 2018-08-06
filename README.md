@@ -21,6 +21,7 @@ The following commands will install everything and start a local testserver (on 
     python3 -m venv .env
     . .env/bin/activate
     cd castellum
+    make install-githooks
     make bootstrap
     make run
 
