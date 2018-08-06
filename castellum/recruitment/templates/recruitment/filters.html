@@ -11,9 +11,27 @@
         {{ formset.management_form }}
 
         {% for form in formset %}
-            <formset class="row">
-                {{ form }}
-            </formset>
+            {% if form.field_name.value %}
+                <formset class="row">
+                    {{ form.id.as_hidden }}
+                    <input type="hidden" name="{{ form.prefix }}-study" value="{{ study.id }}" />
+
+                    <div class="col-sm-4">
+                        {% bootstrap_field form.field_name %}
+                    </div>
+                    {% if form.operator.field.choices|length > 1 %}
+                        <div class="col-sm">
+                            {% bootstrap_field form.operator %}
+                        </div>
+                    {% else %}
+                        <input type="hidden" name="{{ form.prefix }}-operator" value="exact" />
+                    {% endif %}
+                    <div class="col-sm">
+                        {% bootstrap_field form.value %}
+                    </div>
+                    {% bootstrap_field form.DELETE %}
+                </formset>
+            {% endif %}
         {% endfor %}
 
         <input type="submit" class="btn btn-primary" />
