@@ -3,17 +3,6 @@ version: '2'
 # run with 'docker-compose -f docker-compose.yml -f docker-compose.manage.yml up <service>'
 # for more information see https://docs.docker.com/compose/extends/#administrative-tasks
 services:
-    makemigrations:
-      image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
-      environment:
-          DJANGO_SETTINGS_MODULE: castellum.settings.deployment
-      command: "python3 manage.py makemigrations"
-      volumes:
-          - ./deployment/settings.py:/code/castellum/settings/deployment.py
-      depends_on:
-          - db_default
-          - db_contacts
-
     migrate_default:
         image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
         environment:
