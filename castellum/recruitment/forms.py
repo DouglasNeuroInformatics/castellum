@@ -57,8 +57,7 @@ class AddSubjectFilterForm(forms.ModelForm):
         choices = self._get_operator_choices_by_field_name(selected_field_name)
         self.fields["operator"] = forms.ChoiceField(choices=choices)
 
-        choices = self._get_value_choices_by_field_name(selected_field_name)
-        self.fields["value"] = forms.ChoiceField(choices=choices)
+        self.fields["value"] = self._get_value_field_by_field_name(selected_field_name)
 
     def _get_model_field_by_field_name(self, field_name):
         return AttributeSet._meta.get_field(field_name)
@@ -69,9 +68,9 @@ class AddSubjectFilterForm(forms.ModelForm):
         operators = subject_filter.available_operators
         return (tuple(operator) for operator in operators.items())
 
-    def _get_value_choices_by_field_name(self, field_name):
-        values = AttributeSet.objects.values_list(field_name, flat=True).distinct()
-        return ((value, value) for value in values)
+    def _get_value_field_by_field_name(self, field_name):
+        model_field = self._get_model_field_by_field_name(field_name)
+        return model_field.formfield()
 
     class Meta:
         model = SubjectFilter
