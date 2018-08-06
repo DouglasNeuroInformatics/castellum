@@ -41,17 +41,24 @@ class SubjectFilterForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["field_name"].widget.attrs["readonly"] = True
 
-        if "initial" not in kwargs:
-            return
-        if "field_name" not in kwargs["initial"]:
-            return
+        selected_field_name = self._get_selected_field_name(**kwargs)
 
-        selected_field_name = kwargs["initial"]["field_name"]
+        if not selected_field_name:
+            return
 
         choices = self._get_operator_choices_by_field_name(selected_field_name)
         self.fields["operator"] = forms.ChoiceField(choices=choices)
 
         self.fields["value"] = self._get_value_field_by_field_name(selected_field_name)
+
+    def _get_selected_field_name(self, instance=None, data=None, prefix=None, **kwargs):
+        if instance:
+            return instance.field_name
+        elif data:
+            if prefix:
+                return data[prefix + '-field_name']
+            else:
+                return data['field_name']
 
     def _get_model_field_by_field_name(self, field_name):
         return AttributeSet._meta.get_field(field_name)
