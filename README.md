@@ -20,7 +20,7 @@ The following commands will install everything and start a local testserver (on 
     sudo apt install python3 npm python3-dev libldap2-dev libsasl2-dev
     python3 -m venv .env
     . .env/bin/activate
-    cd castellum_core
+    cd castellum
     make bootstrap
     make run
 
