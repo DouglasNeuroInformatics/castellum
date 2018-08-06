@@ -11,6 +11,23 @@
         {{ formset.management_form }}
 
         {% for form in formset %}
+            {% if not form.field_name.value %}
+                <h2>{% trans "Add Filter" %}</h2>
+                <formset class="row">
+                    {{ form.id.as_hidden }}
+                    {{ form.study.as_hidden }}
+                    {{ form.operator.as_hidden }}
+                    {{ form.value.as_hidden }}
+
+                    <div class="col-sm-4">
+                        {% bootstrap_field form.field_name %}
+                    </div>
+                </formset>
+                <hr>
+            {% endif %}
+        {% endfor %}
+
+        {% for form in formset %}
             {% if form.field_name.value %}
                 <formset class="row">
                     {{ form.id.as_hidden }}

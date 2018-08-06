@@ -47,12 +47,13 @@ class SubjectFilterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["field_name"].widget.attrs["disabled"] = True
 
         selected_field_name = self._get_selected_field_name(**kwargs)
 
         if not selected_field_name:
             return
+
+        self.fields["field_name"].widget.attrs["disabled"] = True
 
         choices = self._get_operator_choices_by_field_name(selected_field_name)
         self.fields["operator"] = forms.ChoiceField(choices=choices)
