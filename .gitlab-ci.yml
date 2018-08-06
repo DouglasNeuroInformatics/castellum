@@ -21,6 +21,8 @@ test-branch:
   script:
     - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
     - pip install tox
+    - pip install -e .
+    - python manage.py makemigrations
     - cd castellum && tox
 
 test-merge:
@@ -32,6 +34,8 @@ test-merge:
     - git merge origin/master --no-ff
     - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
     - pip install tox
+    - pip install -e .
+    - python manage.py makemigrations
     - cd castellum && tox
   coverage: '/TOTAL.*\s+(\d+\%)/'
   artifacts:
