@@ -26,7 +26,6 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
@@ -218,9 +217,3 @@ class SubjectFilterView(LoginRequiredMixin, View):
             "add_subject_filter_form": add_subject_filter_form,
         }
         return render(request, self.template_name, context)
-
-
-class RemoveSubjectFilterView(LoginRequiredMixin, PublishedStudyMixin, View):
-    def post(self, request, study_pk, filter_id):
-        SubjectFilter.objects.get(pk=filter_id).delete()
-        return redirect(reverse('recruitment:subject_filter', kwargs={"study_pk": study_pk}))

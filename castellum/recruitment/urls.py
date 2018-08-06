@@ -25,7 +25,6 @@ from .views import AttributeSetDetailView
 from .views import AttributeSetUpdateView
 from .views import ContactView
 from .views import RecruitmentView
-from .views import RemoveSubjectFilterView
 from .views import StudyChoiceView
 from .views import SubjectFilterView
 
@@ -40,8 +39,4 @@ urlpatterns = [
     path('<study_pk>/<attributeset_slug>/', ContactView.as_view(), name='contact'),
 
     path('subject_filter/<int:study_pk>', SubjectFilterView.as_view(), name='subject_filter'),
-    path('subject_filter/<int:study_pk>/remove/<int:filter_id>',
-         RemoveSubjectFilterView.as_view(),
-         name='remove_subject_filter'),
-
 ]
