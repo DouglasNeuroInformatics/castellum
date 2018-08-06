@@ -6,10 +6,11 @@ concerning deployment.
 
 ## Example
 
-An example docker deployment configuration is provided by request. It includes two files `docker-compose.yml` 
-and `docker-compose.manage.yml`. Files implement minimal configuration for uWSGI, PostgreSQL, and LDAP and 
-can be changed depending on your local setup. To run the configuration you should go to the files folder and execute `docker-compose -f docker-compose.yml -f 
-docker-compose.manage.yml up`. 
+An example docker deployment configuration is provided by request. It includes two files 
+`docker-compose.yml` and `docker-compose.manage.yml` located in `docker/deployment/` folder. Files 
+implement minimal configuration for uWSGI, PostgreSQL, and LDAP and can be changed depending on your
+ local setup. To run the configuration you should go to the files folder and execute `docker-compose
+  -f docker-compose.yml -f docker-compose.manage.yml up`. 
 
 ## Authentication
 
