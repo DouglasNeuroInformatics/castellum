@@ -29,6 +29,12 @@ from .models import SubjectFilter
 from .models import TextFilter
 
 
+def get_field_name_choices():
+    yield '', '---'
+    for field in AttributeSet._meta.get_fields()[2:]:
+        yield field.name, field.verbose_name
+
+
 class SubjectFilterForm(forms.ModelForm):
     FILTER_MAPPING = {
         "CharField": TextFilter(),
@@ -36,6 +42,8 @@ class SubjectFilterForm(forms.ModelForm):
         "FloatField": NumberFilter(),
         "IntegerField": NumberFilter(),
     }
+
+    field_name = forms.ChoiceField(choices=get_field_name_choices())
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
