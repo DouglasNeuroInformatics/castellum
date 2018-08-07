@@ -145,7 +145,7 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
         return result
 
 
-class SubjectFilterView(LoginRequiredMixin, PublishedStudyMixin, View):
+class SubjectFilterView(LoginRequiredMixin, View):
     template_name = "recruitment/filters.html"
 
     def get_subject_count(self, filters):
