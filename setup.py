@@ -16,6 +16,7 @@ setup(
         "django-bootstrap4==0.0.6",
         "django-npm==1.0.0",
         "django-phonenumber-field==2.0.0",
+        "django-picklefield==1.0.0",
         "Faker==0.8.16",
         "psycopg2==2.7.4",
     ],

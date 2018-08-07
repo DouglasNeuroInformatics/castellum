@@ -19,11 +19,11 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import pickle
-
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+
+from picklefield.fields import PickledObjectField
 
 from castellum.pseudonyms.models import SubjectData
 from castellum.studies.models import Study
@@ -58,33 +58,13 @@ class Participation(SubjectData):
     updated_at = models.DateTimeField(_('last updated at'), blank=True, null=True)
 
 
-class PickleField(models.BinaryField):
-    def __init__(self, *args, **kwargs):
-        # HACK: bypasse editable=False on BinaryField
-        models.Field.__init__(self, *args, **kwargs)
-
-    def deconstruct(self, *args, **kwargs):
-        # HACK: bypasse editable=False on BinaryField
-        return models.Field.deconstruct(self, *args, **kwargs)
-
-    def get_prep_value(self, value):
-        b = pickle.dumps(value)
-        return super().get_prep_value(b)
-
-    def from_db_value(self, b, expression, connection):
-        return pickle.loads(b)
-
-    def to_python(self, value):
-        return value
-
-
 class SubjectFilter(models.Model):
     available_operators = NotImplemented
 
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
     field_name = models.CharField(max_length=256)
     operator = models.CharField(max_length=64)
-    value = PickleField()
+    value = PickledObjectField()
 
 
 class DateFilter(SubjectFilter):
