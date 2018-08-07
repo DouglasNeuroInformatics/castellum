@@ -1,0 +1,16 @@
+#!/bin/sh
+
+tmp=$(mktemp -d)
+
+cleanup() {
+  rm -r "$tmp"
+}
+trap cleanup EXIT
+
+# collecting files that should have license header
+find castellum -not -empty -name "*.py" | grep -v migrations | grep -v settings | grep -v wsgi.py | sort > "${tmp}/expected"
+
+# collecting files with license header
+git grep -l 'you can redistribute' castellum | grep py$ | sort > "${tmp}/actual"
+
+diff --unchanged-line-format="" "${tmp}/expected" "${tmp}/actual"
