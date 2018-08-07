@@ -6,8 +6,15 @@ def test_404_page_returned_if_study_is_not_provided(client, user):
     assert response.status_code == 404
 
 
-def test_200_page_returned_if_study_is_provided(client, user, study):
+def test_200_page_returned_if_published_study_is_provided(client, user, published_study):
     client.force_login(user)
-    url = '/recruitment/{}/'.format(study.pk)
+    url = '/recruitment/{}/'.format(published_study.pk)
     response = client.get(url)
     assert response.status_code == 200
+
+
+def test_404_page_returned_if_published_study_is_provided(client, user, unpublished_study):
+    client.force_login(user)
+    url = '/recruitment/{}/'.format(unpublished_study.pk)
+    response = client.get(url)
+    assert response.status_code == 404

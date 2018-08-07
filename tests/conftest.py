@@ -15,3 +15,13 @@ def user(db):
 @pytest.fixture
 def study(db):
     return mommy.make(Study)
+
+
+@pytest.fixture
+def published_study(db):
+    return mommy.make(Study, published=True)
+
+
+@pytest.fixture
+def unpublished_study(db):
+    return mommy.make(Study, published=False)

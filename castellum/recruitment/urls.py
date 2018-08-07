@@ -39,8 +39,8 @@ urlpatterns = [
     path('<study_pk>/', ContactChoiceView.as_view(), name='select_contact'),
     path('<study_pk>/<contact_slug>/', ContactView.as_view(), name='contact'),
 
-    path('subject_filter/<int:study_id>', SubjectFilterView.as_view(), name='subject_filter'),
-    path('subject_filter/<int:study_id>/remove/<int:filter_id>',
+    path('subject_filter/<int:study_pk>', SubjectFilterView.as_view(), name='subject_filter'),
+    path('subject_filter/<int:study_pk>/remove/<int:filter_id>',
          RemoveSubjectFilterView.as_view(),
          name='remove_subject_filter'),
 
