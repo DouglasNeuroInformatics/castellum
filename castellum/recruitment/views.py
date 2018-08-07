@@ -23,6 +23,7 @@ import logging
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -45,13 +46,22 @@ from .models import SubjectFilter
 monitoring_logger = logging.getLogger('monitoring.contact_data')
 
 
+class PublishedStudyMixin:
+    def dispatch(self, request, *args, **kwargs):
+        study_pk = self.kwargs.get('study_pk')
+        self.study = get_object_or_404(Study, pk=study_pk)
+        if not self.study.published:
+            raise Http404
+        return super().dispatch(request, *args, **kwargs)
+
+
 class StudyChoiceView(LoginRequiredMixin, ListView):
     model = Study
     context_object_name = 'studies'
     template_name = 'recruitment/studies_list.html'
 
 
-class ContactChoiceView(LoginRequiredMixin, ListView):
+class ContactChoiceView(LoginRequiredMixin, PublishedStudyMixin, ListView):
     model = Contact
     paginate_by = 5
     context_object_name = 'contacts'
@@ -63,12 +73,11 @@ class ContactChoiceView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
-        study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
-        context['study'] = study
+        context['study'] = self.study
         return context
 
 
-class ContactView(LoginRequiredMixin, UpdateView):
+class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
     model = Participation
     fields = ['status']
     template_name = 'recruitment/contact.html'
@@ -77,7 +86,6 @@ class ContactView(LoginRequiredMixin, UpdateView):
         if queryset is None:
             queryset = self.get_queryset()
 
-        self.study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
         self.contact = get_object_or_404(Contact, pseudonym=self.kwargs['contact_slug'])
 
         pseudonym = resolve_pseudonym(
@@ -137,7 +145,7 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
         return result
 
 
-class SubjectFilterView(LoginRequiredMixin, View):
+class SubjectFilterView(LoginRequiredMixin, PublishedStudyMixin, View):
     template_name = "recruitment/filters.html"
 
     def get_subject_count(self, filters):
@@ -202,7 +210,7 @@ class SubjectFilterView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-class RemoveSubjectFilterView(LoginRequiredMixin, View):
+class RemoveSubjectFilterView(LoginRequiredMixin, PublishedStudyMixin, View):
     def post(self, request, study_id, filter_id):
         SubjectFilter.objects.get(pk=filter_id).delete()
         return redirect(reverse('recruitment:subject_filter', kwargs={"study_id": study_id}))
