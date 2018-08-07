@@ -158,16 +158,14 @@ class SubjectFilterView(LoginRequiredMixin, View):
     def get_total_count(self):
         return AttributeSet.objects.count()
 
-    def get_filters_for_study(self, study_id):
-        return SubjectFilter.objects.filter(study__id=study_id)
-
     def get(self, request, study_pk):
-        filters = self.get_filters_for_study(study_pk)
+        study = get_object_or_404(Study, pk=study_pk)
+        filters = study.subjectfilter_set.all()
         context = {
             "count": self.get_subject_count(filters),
             "total_count": self.get_total_count(),
+            "study": study,
             "filters": filters,
-            "study_id": study_pk,
             "selected_field": "",
             "select_attribute_form": forms.SelectAttributeForm,
             "add_subject_filter_form": None,
@@ -175,7 +173,8 @@ class SubjectFilterView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
     def post(self, request, study_pk):
-        filters = self.get_filters_for_study(study_pk)
+        study = get_object_or_404(Study, pk=study_pk)
+        filters = study.subjectfilter_set.all()
 
         select_attribute_form = forms.SelectAttributeForm(request.POST)
         add_subject_filter_form = forms.AddSubjectFilterForm()
@@ -191,7 +190,7 @@ class SubjectFilterView(LoginRequiredMixin, View):
             add_subject_filter_form = forms.AddSubjectFilterForm(request.POST, initial=initial_data)
             if add_subject_filter_form.is_valid():
                 SubjectFilter.objects.create(
-                    study_id=study_pk,
+                    study_id=study.pk,
                     field_name=selected_field,
                     operator=add_subject_filter_form.cleaned_data["operator"],
                     value=add_subject_filter_form.cleaned_data["value"]
@@ -201,8 +200,8 @@ class SubjectFilterView(LoginRequiredMixin, View):
         context = {
             "count": self.get_subject_count(filters),
             "total_count": self.get_total_count(),
+            "study": study,
             "filters": filters,
-            "study_id": study_pk,
             "selected_field": selected_field,
             "select_attribute_form": select_attribute_form,
             "add_subject_filter_form": add_subject_filter_form,

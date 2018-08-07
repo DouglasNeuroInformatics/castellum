@@ -30,7 +30,7 @@ from .models import TextFilter
 
 
 class SelectAttributeForm(forms.Form):
-    CHOICES = ((field.name, field.name) for field in AttributeSet._meta.get_fields()[2:])
+    CHOICES = ((field.name, field.verbose_name) for field in AttributeSet._meta.get_fields()[2:])
 
     field_name = forms.ChoiceField(choices=CHOICES)
 
@@ -53,24 +53,24 @@ class AddSubjectFilterForm(forms.ModelForm):
             return
 
         selected_field_name = kwargs["initial"]["field_name"]
-        subject_filter = self._get_subject_filter_for_selected_field_name(selected_field_name)
 
-        choices = self._get_operator_choices_from_subject_filter(subject_filter)
-        self.fields["operator"].widget = forms.Select(choices=choices)
+        choices = self._get_operator_choices_by_field_name(selected_field_name)
+        self.fields["operator"] = forms.ChoiceField(choices=choices)
 
-        choices = self._get_value_choices_for_selected_field_name(selected_field_name)
-        self.fields["value"].widget = forms.Select(choices=choices)
+        choices = self._get_value_choices_by_field_name(selected_field_name)
+        self.fields["value"] = forms.ChoiceField(choices=choices)
 
-    def _get_subject_filter_for_selected_field_name(self, selected_field_name):
-        selected_field = AttributeSet._meta.get_field(selected_field_name)
-        return self.FILTER_MAPPING[selected_field.get_internal_type()]
+    def _get_model_field_by_field_name(self, field_name):
+        return AttributeSet._meta.get_field(field_name)
 
-    def _get_operator_choices_from_subject_filter(self, subject_filter):
+    def _get_operator_choices_by_field_name(self, field_name):
+        model_field = self._get_model_field_by_field_name(field_name)
+        subject_filter = self.FILTER_MAPPING[model_field.get_internal_type()]
         operators = subject_filter.available_operators
         return (tuple(operator) for operator in operators.items())
 
-    def _get_value_choices_for_selected_field_name(self, selected_field_name):
-        values = AttributeSet.objects.values_list(selected_field_name, flat=True).distinct()
+    def _get_value_choices_by_field_name(self, field_name):
+        values = AttributeSet.objects.values_list(field_name, flat=True).distinct()
         return ((value, value) for value in values)
 
     class Meta:
