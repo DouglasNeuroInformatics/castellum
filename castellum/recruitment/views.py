@@ -161,21 +161,21 @@ class SubjectFilterView(LoginRequiredMixin, PublishedStudyMixin, View):
     def get_filters_for_study(self, study_id):
         return SubjectFilter.objects.filter(study__id=study_id)
 
-    def get(self, request, study_id):
-        filters = self.get_filters_for_study(study_id)
+    def get(self, request, study_pk):
+        filters = self.get_filters_for_study(study_pk)
         context = {
             "count": self.get_subject_count(filters),
             "total_count": self.get_total_count(),
             "filters": filters,
-            "study_id": study_id,
+            "study_id": study_pk,
             "selected_field": "",
             "select_attribute_form": forms.SelectAttributeForm,
             "add_subject_filter_form": None,
         }
         return render(request, self.template_name, context)
 
-    def post(self, request, study_id):
-        filters = self.get_filters_for_study(study_id)
+    def post(self, request, study_pk):
+        filters = self.get_filters_for_study(study_pk)
 
         select_attribute_form = forms.SelectAttributeForm(request.POST)
         add_subject_filter_form = forms.AddSubjectFilterForm()
@@ -191,7 +191,7 @@ class SubjectFilterView(LoginRequiredMixin, PublishedStudyMixin, View):
             add_subject_filter_form = forms.AddSubjectFilterForm(request.POST, initial=initial_data)
             if add_subject_filter_form.is_valid():
                 SubjectFilter.objects.create(
-                    study_id=study_id,
+                    study_id=study_pk,
                     field_name=selected_field,
                     operator=add_subject_filter_form.cleaned_data["operator"],
                     value=add_subject_filter_form.cleaned_data["value"]
@@ -202,7 +202,7 @@ class SubjectFilterView(LoginRequiredMixin, PublishedStudyMixin, View):
             "count": self.get_subject_count(filters),
             "total_count": self.get_total_count(),
             "filters": filters,
-            "study_id": study_id,
+            "study_id": study_pk,
             "selected_field": selected_field,
             "select_attribute_form": select_attribute_form,
             "add_subject_filter_form": add_subject_filter_form,
@@ -211,6 +211,6 @@ class SubjectFilterView(LoginRequiredMixin, PublishedStudyMixin, View):
 
 
 class RemoveSubjectFilterView(LoginRequiredMixin, PublishedStudyMixin, View):
-    def post(self, request, study_id, filter_id):
+    def post(self, request, study_pk, filter_id):
         SubjectFilter.objects.get(pk=filter_id).delete()
-        return redirect(reverse('recruitment:subject_filter', kwargs={"study_id": study_id}))
+        return redirect(reverse('recruitment:subject_filter', kwargs={"study_pk": study_pk}))
