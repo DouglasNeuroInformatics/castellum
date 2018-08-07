@@ -61,10 +61,10 @@ class StudyChoiceView(LoginRequiredMixin, ListView):
     template_name = 'recruitment/studies_list.html'
 
 
-class ContactChoiceView(LoginRequiredMixin, PublishedStudyMixin, ListView):
+class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
     model = AttributeSet
     context_object_name = 'attributesets'
-    template_name = 'recruitment/contacts_list.html'
+    template_name = 'recruitment/recruitment.html'
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)

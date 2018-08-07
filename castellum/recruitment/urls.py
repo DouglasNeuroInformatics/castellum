@@ -23,8 +23,8 @@ from django.urls import path
 
 from .views import AttributeSetDetailView
 from .views import AttributeSetUpdateView
-from .views import ContactChoiceView
 from .views import ContactView
+from .views import RecruitmentView
 from .views import RemoveSubjectFilterView
 from .views import StudyChoiceView
 from .views import SubjectFilterView
@@ -36,7 +36,7 @@ urlpatterns = [
 
     path('', StudyChoiceView.as_view(), name='select_study'),
 
-    path('<study_pk>/', ContactChoiceView.as_view(), name='select_contact'),
+    path('<study_pk>/', RecruitmentView.as_view(), name='select_contact'),
     path('<study_pk>/<attributeset_slug>/', ContactView.as_view(), name='contact'),
 
     path('subject_filter/<int:study_pk>', SubjectFilterView.as_view(), name='subject_filter'),
