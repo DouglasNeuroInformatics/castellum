@@ -62,8 +62,8 @@ class StudyChoiceView(LoginRequiredMixin, ListView):
 
 
 class ContactChoiceView(LoginRequiredMixin, PublishedStudyMixin, ListView):
-    model = Contact
-    context_object_name = 'contacts'
+    model = AttributeSet
+    context_object_name = 'attributesets'
     template_name = 'recruitment/contacts_list.html'
 
     def get_context_data(self, **kwargs):
@@ -81,7 +81,14 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
         if queryset is None:
             queryset = self.get_queryset()
 
-        self.contact = get_object_or_404(Contact, pseudonym=self.kwargs['contact_slug'])
+        self.attributeset = get_object_or_404(
+            AttributeSet, pseudonym=self.kwargs['attributeset_slug'])
+
+        contact_pseudonym = resolve_pseudonym(
+            settings.DOMAINS['attributeset'],
+            self.attributeset.pseudonym,
+            settings.DOMAINS['contact'])
+        self.contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
 
         pseudonym = resolve_pseudonym(
             settings.DOMAINS['contact'], self.contact.pseudonym, self.study.domain)
