@@ -63,13 +63,8 @@ class StudyChoiceView(LoginRequiredMixin, ListView):
 
 class ContactChoiceView(LoginRequiredMixin, PublishedStudyMixin, ListView):
     model = Contact
-    paginate_by = 5
     context_object_name = 'contacts'
     template_name = 'recruitment/contacts_list.html'
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.order_by('first_name')
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)

@@ -25,13 +25,5 @@
     </tbody>
     </table>
 
-    {% if is_paginated %}
-        <div class="container">
-            <div class="row">
-                {% bootstrap_pagination page_obj %}
-            </div>
-        </div>
-    {% endif %}
-
     <a href="{% url 'recruitment:select_study' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
 {% endblock %}
