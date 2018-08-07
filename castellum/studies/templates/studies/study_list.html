@@ -21,8 +21,16 @@
                    href="{% url 'recruitment:subject_filter' study.id %}">{% trans 'add Filter' %}</a>
             </td>
             <td>
-                <a class='btn btn-outline-primary'
-                   href="{% url 'studies:publish' study.id %}">{% trans 'publish' %}</a>
+                <form method="post" action="{% url 'studies:publish' study.id %}">
+                    {% csrf_token %}
+                    <button class='btn btn-outline-primary'>
+                        {% if study.published %}
+                            {% trans 'unpublish' %}
+                        {% else %}
+                            {% trans 'publish' %}
+                        {% endif %}
+                    </button>
+                </form>
             </td>
         </tr>
         {% endfor %}

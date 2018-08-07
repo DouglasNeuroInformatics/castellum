@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import View
@@ -39,5 +40,9 @@ class CreateView(LoginRequiredMixin, generic.CreateView):
 
 
 class PublishView(LoginRequiredMixin, View):
-    def get(self, request, study_id):
+    def post(self, request, study_id):
+        study = get_object_or_404(models.Study, pk=study_id)
+        study.published = not study.published
+        study.save()
+
         return redirect(reverse('studies:index'))
