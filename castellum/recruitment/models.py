@@ -73,8 +73,8 @@ class SubjectFilter(models.Model):
     operator = models.CharField(max_length=64)
     value = models.CharField(max_length=128)
 
-    def get_q(self):
-        key = '{}__{}'.format(self.attribute, self.operator)
+    def to_q(self):
+        key = '{}__{}'.format(self.field_name, self.operator)
         return models.Q(**{key: self.value})
 
 
