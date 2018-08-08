@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import logging
+import random
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -66,8 +67,17 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
     context_object_name = 'attributesets'
     template_name = 'recruitment/recruitment.html'
 
+    def qs_sample(self, qs, k):
+        all_ids = list(qs.values_list('id', flat=True))
+        if len(all_ids) > k:
+            picked_ids = random.sample(all_ids, k)
+            return qs.filter(id__in=picked_ids)
+        else:
+            return qs
+
     def get_queryset(self, queryset=None):
-        return AttributeSet.apply_study_filter(self.study, queryset=queryset)
+        qs = AttributeSet.apply_study_filter(self.study, queryset=queryset)
+        return self.qs_sample(qs, 6)
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
