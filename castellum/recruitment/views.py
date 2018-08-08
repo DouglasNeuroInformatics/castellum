@@ -66,6 +66,9 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
     context_object_name = 'attributesets'
     template_name = 'recruitment/recruitment.html'
 
+    def get_queryset(self, queryset=None):
+        return AttributeSet.apply_study_filter(self.study, queryset=queryset)
+
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
         context['study'] = self.study
