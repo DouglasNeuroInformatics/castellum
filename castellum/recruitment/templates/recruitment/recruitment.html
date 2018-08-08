@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load bootstrap4%}
+
+{% block content %}
+    <h1>{{ study.name }}</h1>
+
+    <h2>{% trans 'Contacts' %}</h2>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>{% trans 'Pseudonym' %}</th>
+            <th>{% trans 'Action' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for attributeset in attributesets %}
+        <tr>
+            <td>{{ attributeset.pseudonym }}</td>
+            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk attributeset.pseudonym %}">{% trans 'Call' %}</a></td> </tr>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+    <a href="{% url 'recruitment:select_study' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+{% endblock %}

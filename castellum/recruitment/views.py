@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import logging
+import random
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -61,15 +62,22 @@ class StudyChoiceView(LoginRequiredMixin, ListView):
     template_name = 'recruitment/studies_list.html'
 
 
-class ContactChoiceView(LoginRequiredMixin, PublishedStudyMixin, ListView):
-    model = Contact
-    paginate_by = 5
-    context_object_name = 'contacts'
-    template_name = 'recruitment/contacts_list.html'
+class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
+    model = AttributeSet
+    context_object_name = 'attributesets'
+    template_name = 'recruitment/recruitment.html'
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.order_by('first_name')
+    def qs_sample(self, qs, k):
+        all_ids = list(qs.values_list('id', flat=True))
+        if len(all_ids) > k:
+            picked_ids = random.sample(all_ids, k)
+            return qs.filter(id__in=picked_ids)
+        else:
+            return qs
+
+    def get_queryset(self, queryset=None):
+        qs = AttributeSet.apply_study_filter(self.study, queryset=queryset)
+        return self.qs_sample(qs, 6)
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
@@ -86,7 +94,14 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
         if queryset is None:
             queryset = self.get_queryset()
 
-        self.contact = get_object_or_404(Contact, pseudonym=self.kwargs['contact_slug'])
+        self.attributeset = get_object_or_404(
+            AttributeSet, pseudonym=self.kwargs['attributeset_slug'])
+
+        contact_pseudonym = resolve_pseudonym(
+            settings.DOMAINS['attributeset'],
+            self.attributeset.pseudonym,
+            settings.DOMAINS['contact'])
+        self.contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
 
         pseudonym = resolve_pseudonym(
             settings.DOMAINS['contact'], self.contact.pseudonym, self.study.domain)
@@ -148,12 +163,8 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
 class SubjectFilterView(LoginRequiredMixin, View):
     template_name = "recruitment/filters.html"
 
-    def get_subject_count(self, filters):
-        query_set = AttributeSet.objects
-        for f in filters:
-            filter_dict = {"{}__{}".format(f.field_name, f.operator): f.value}
-            query_set = query_set.filter(**filter_dict)
-        return query_set.count()
+    def get_subject_count(self, study):
+        return AttributeSet.apply_study_filter(study).count()
 
     def get_total_count(self):
         return AttributeSet.objects.count()
@@ -162,7 +173,7 @@ class SubjectFilterView(LoginRequiredMixin, View):
         study = get_object_or_404(Study, pk=study_pk)
         filters = study.subjectfilter_set.all()
         context = {
-            "count": self.get_subject_count(filters),
+            "count": self.get_subject_count(study),
             "total_count": self.get_total_count(),
             "study": study,
             "filters": filters,
@@ -198,7 +209,7 @@ class SubjectFilterView(LoginRequiredMixin, View):
                 add_subject_filter_form = None
 
         context = {
-            "count": self.get_subject_count(filters),
+            "count": self.get_subject_count(study),
             "total_count": self.get_total_count(),
             "study": study,
             "filters": filters,
