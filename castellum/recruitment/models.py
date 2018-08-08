@@ -23,6 +23,8 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
+from picklefield.fields import PickledObjectField
+
 from castellum.pseudonyms.models import SubjectData
 from castellum.studies.models import Study
 
@@ -62,7 +64,7 @@ class SubjectFilter(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
     field_name = models.CharField(max_length=256)
     operator = models.CharField(max_length=64)
-    value = models.CharField(max_length=128)
+    value = PickledObjectField()
 
 
 class DateFilter(SubjectFilter):
