@@ -29,13 +29,13 @@ from .models import SubjectFilter
 from .models import TextFilter
 
 
-class SelectAttributeForm(forms.Form):
-    CHOICES = ((field.name, field.verbose_name) for field in AttributeSet._meta.get_fields()[2:])
+def get_field_name_choices():
+    yield '', '---'
+    for field in AttributeSet._meta.get_fields()[2:]:
+        yield field.name, field.verbose_name
 
-    field_name = forms.ChoiceField(choices=CHOICES)
 
-
-class AddSubjectFilterForm(forms.ModelForm):
+class SubjectFilterForm(forms.ModelForm):
     FILTER_MAPPING = {
         "CharField": TextFilter(),
         "DateField": DateFilter(),
@@ -43,21 +43,31 @@ class AddSubjectFilterForm(forms.ModelForm):
         "IntegerField": NumberFilter(),
     }
 
+    field_name = forms.ChoiceField(choices=get_field_name_choices())
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["field_name"].widget.attrs["readonly"] = True
 
-        if "initial" not in kwargs:
-            return
-        if "field_name" not in kwargs["initial"]:
+        selected_field_name = self._get_selected_field_name(**kwargs)
+
+        if not selected_field_name:
             return
 
-        selected_field_name = kwargs["initial"]["field_name"]
+        self.fields["field_name"].widget.attrs["disabled"] = True
 
         choices = self._get_operator_choices_by_field_name(selected_field_name)
         self.fields["operator"] = forms.ChoiceField(choices=choices)
 
         self.fields["value"] = self._get_value_field_by_field_name(selected_field_name)
+
+    def _get_selected_field_name(self, instance=None, data=None, prefix=None, **kwargs):
+        if instance:
+            return instance.field_name
+        elif data:
+            if prefix:
+                return data[prefix + '-field_name']
+            else:
+                return data['field_name']
 
     def _get_model_field_by_field_name(self, field_name):
         return AttributeSet._meta.get_field(field_name)
@@ -74,4 +84,4 @@ class AddSubjectFilterForm(forms.ModelForm):
 
     class Meta:
         model = SubjectFilter
-        exclude = "study",
+        fields = "__all__"

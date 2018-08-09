@@ -6,29 +6,53 @@
 
     <p>{% trans 'matches' %}: {{ count }} / {{ total_count }}</p>
 
-    <ul>
-        {% for f in filters %}
-            <li>
-                <form action="{% url "recruitment:remove_subject_filter" study.pk f.pk %}" method="post">
-                    {% csrf_token %}
-                    {{ f.field_name }} {{ f.operator }} {{ f.value }}
-                    <input type="submit" class="btn btn-danger" value="{% trans 'Remove' %}" />
-                </form>
-            </li>
+    <form method="post">
+        {% csrf_token %}
+        {{ formset.management_form }}
+
+        {% for form in formset %}
+            {% if not form.field_name.value %}
+                <h2>{% trans "Add Filter" %}</h2>
+                <formset class="row">
+                    {{ form.id.as_hidden }}
+                    {{ form.study.as_hidden }}
+                    {{ form.operator.as_hidden }}
+                    {{ form.value.as_hidden }}
+
+                    <div class="col-sm-4">
+                        {% bootstrap_field form.field_name %}
+                    </div>
+                </formset>
+                <hr>
+            {% endif %}
         {% endfor %}
-        <li>
-            <form method="post">
-                {% csrf_token %}
-                {% if add_subject_filter_form %}
-                    {% bootstrap_field add_subject_filter_form.field_name show_label=0 %}
-                    {% bootstrap_field add_subject_filter_form.operator show_label=0 %}
-                    {% bootstrap_field add_subject_filter_form.value show_label=0 %}
-                {% else %}
-                    {% trans 'add new filter for' %}
-                    {% bootstrap_field select_attribute_form.field_name show_label=False %}
-                {% endif %}
-                <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}" />
-            </form>
-        </li>
-    <ul>
+
+        {% for form in formset %}
+            {% if form.field_name.value %}
+                <formset class="row">
+                    {{ form.id.as_hidden }}
+                    <input type="hidden" name="{{ form.prefix }}-study" value="{{ study.id }}" />
+
+                    <div class="col-sm-4">
+                        {# duplicated because disabled fields are not posted to the server #}
+                        {% bootstrap_field form.field_name %}
+                        {{ form.field_name.as_hidden }}
+                    </div>
+                    {% if form.operator.field.choices|length > 1 %}
+                        <div class="col-sm">
+                            {% bootstrap_field form.operator %}
+                        </div>
+                    {% else %}
+                        <input type="hidden" name="{{ form.prefix }}-operator" value="exact" />
+                    {% endif %}
+                    <div class="col-sm">
+                        {% bootstrap_field form.value %}
+                    </div>
+                    {% bootstrap_field form.DELETE %}
+                </formset>
+            {% endif %}
+        {% endfor %}
+
+        <input type="submit" class="btn btn-primary" />
+    </form>
 {% endblock %}

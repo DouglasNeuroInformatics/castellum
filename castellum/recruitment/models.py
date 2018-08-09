@@ -73,7 +73,7 @@ class SubjectFilter(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
     field_name = models.CharField(max_length=256)
     operator = models.CharField(max_length=64)
-    value = PickledObjectField()
+    value = PickledObjectField(editable=True)
 
     def to_q(self):
         key = '{}__{}'.format(self.field_name, self.operator)
