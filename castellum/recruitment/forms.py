@@ -58,7 +58,7 @@ class SubjectFilterForm(forms.ModelForm):
         choices = self._get_operator_choices_by_field_name(selected_field_name)
         self.fields["operator"] = forms.ChoiceField(choices=choices)
 
-        self.fields["value"] = self._get_value_field_by_field_name(selected_field_name)
+        self.fields["value"] = self._get_form_field_by_field_name(selected_field_name)
 
     def _get_selected_field_name(self, instance=None, data=None, prefix=None, **kwargs):
         if instance:
@@ -78,7 +78,7 @@ class SubjectFilterForm(forms.ModelForm):
         operators = subject_filter.available_operators
         return (tuple(operator) for operator in operators.items())
 
-    def _get_value_field_by_field_name(self, field_name):
+    def _get_form_field_by_field_name(self, field_name):
         model_field = self._get_model_field_by_field_name(field_name)
         return model_field.formfield()
 
