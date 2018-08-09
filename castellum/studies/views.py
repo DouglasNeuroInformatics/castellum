@@ -31,6 +31,7 @@ from . import models
 
 class IndexView(LoginRequiredMixin, generic.ListView):
     model = models.Study
+    ordering = 'name'
 
 
 class CreateView(LoginRequiredMixin, generic.CreateView):
