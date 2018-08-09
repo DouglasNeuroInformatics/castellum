@@ -20,7 +20,7 @@
                     {{ form.value.as_hidden }}
 
                     <div class="col-sm-4">
-                        {% bootstrap_field form.field_name %}
+                        {% bootstrap_field form.field_name show_label=False %}
                     </div>
                 </formset>
                 <hr>
@@ -35,18 +35,18 @@
 
                     <div class="col-sm-4">
                         {# duplicated because disabled fields are not posted to the server #}
-                        {% bootstrap_field form.field_name %}
+                        {% bootstrap_field form.field_name show_label=False%}
                         {{ form.field_name.as_hidden }}
                     </div>
                     {% if form.operator.field.choices|length > 1 %}
                         <div class="col-sm">
-                            {% bootstrap_field form.operator %}
+                            {% bootstrap_field form.operator show_label=False %}
                         </div>
                     {% else %}
                         <input type="hidden" name="{{ form.prefix }}-operator" value="exact" />
                     {% endif %}
                     <div class="col-sm">
-                        {% bootstrap_field form.value %}
+                        {% bootstrap_field form.value show_label=False%}
                     </div>
                     {% bootstrap_field form.DELETE %}
                 </formset>
