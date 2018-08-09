@@ -10,6 +10,8 @@
         {% csrf_token %}
         {{ formset.management_form }}
 
+        {{ formset.non_form_errors }}
+
         {% for form in formset %}
             {% if not form.field_name.value %}
                 <h2>{% trans "Add Filter" %}</h2>

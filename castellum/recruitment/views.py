@@ -24,10 +24,13 @@ import random
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms import BaseModelFormSet
+from django.forms import ValidationError
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
@@ -159,9 +162,28 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
         return result
 
 
+class FilterFormSet(BaseModelFormSet):
+
+     def clean(self):
+         values = []
+         for form in self.forms:
+             if 'field_name' in form.cleaned_data:
+                 values.append(form.cleaned_data['field_name'])
+             if 'operator' in form.cleaned_data:
+                 values.append(form.cleaned_data['operator'])
+             if 'value' in form.cleaned_data:
+                 values.append(form.cleaned_data['value'])
+
+         it = iter(values)
+         result = list(zip(it, it, it))
+
+         if len(list(set(result))) != len(result):
+             raise ValidationError(_('You have dublicates in filters!'))
+
 class SubjectFilterView(LoginRequiredMixin, ModelFormSetView):
     model = SubjectFilter
     form_class = forms.SubjectFilterForm
+    formset_class = FilterFormSet
     factory_kwargs = {
         'can_delete': True,
     }
