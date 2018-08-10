@@ -61,6 +61,11 @@ class SubjectFilterForm(forms.ModelForm):
         self.fields["value"] = self._get_form_field_by_field_name(selected_field_name)
         self.fields["value"].required = True
 
+        # disable fields when study is not published
+        if not self.instance.study.published:
+            self.fields["operator"].widget.attrs["disabled"] = True
+            self.fields["value"].widget.attrs["disabled"] = True
+
     def _get_selected_field_name(self, instance=None, data=None, prefix=None, **kwargs):
         if instance:
             return instance.field_name
