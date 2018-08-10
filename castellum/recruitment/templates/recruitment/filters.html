@@ -50,7 +50,10 @@
                     <div class="col-sm">
                         {% bootstrap_field form.value show_label=False%}
                     </div>
-                    {% bootstrap_field form.DELETE %}
+
+                    {% if study.published %}
+                        {% bootstrap_field form.DELETE %}
+                    {% endif %}
                 </formset>
             {% endif %}
         {% endfor %}
