@@ -30,7 +30,6 @@ from .models import SubjectFilter
 from .models import TextFilter
 
 
-
 def get_field_name_choices():
     yield '', '---'
     for field in AttributeSet._meta.get_fields()[2:]:
