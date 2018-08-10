@@ -178,7 +178,7 @@ class FilterFormSet(BaseModelFormSet):
          result = list(zip(it, it, it))
 
          if len(list(set(result))) != len(result):
-             raise ValidationError(_('You have dublicates in filters!'))
+             raise ValidationError(_('There are duplicates in filters. Please change or delete filter!'))
 
 class SubjectFilterView(LoginRequiredMixin, ModelFormSetView):
     model = SubjectFilter
