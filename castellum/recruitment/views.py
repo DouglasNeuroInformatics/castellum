@@ -165,14 +165,17 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
 class FilterFormSet(BaseModelFormSet):
 
      def clean(self):
+
          values = []
          for form in self.forms:
-             if 'field_name' in form.cleaned_data:
-                 values.append(form.cleaned_data['field_name'])
-             if 'operator' in form.cleaned_data:
-                 values.append(form.cleaned_data['operator'])
-             if 'value' in form.cleaned_data:
-                 values.append(form.cleaned_data['value'])
+             if 'DELETE' in form.cleaned_data:
+                 if form.cleaned_data['DELETE'] == False:
+                     if 'field_name' in form.cleaned_data:
+                         values.append(form.cleaned_data['field_name'])
+                     if 'operator' in form.cleaned_data:
+                         values.append(form.cleaned_data['operator'])
+                     if 'value' in form.cleaned_data:
+                         values.append(form.cleaned_data['value'])
 
          it = iter(values)
          result = list(zip(it, it, it))
