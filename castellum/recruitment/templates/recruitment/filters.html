@@ -6,6 +6,7 @@
 
     <p>{% trans 'matches' %}: {{ count }} / {{ total_count }}</p>
 
+    {% if study.published %}
     <form method="post">
         {% csrf_token %}
         {{ formset.management_form }}
@@ -28,6 +29,7 @@
                 <hr>
             {% endif %}
         {% endfor %}
+    {% endif %}
 
         {% for form in formset %}
             {% if form.field_name.value %}
@@ -58,6 +60,10 @@
             {% endif %}
         {% endfor %}
 
-        <input type="submit" class="btn btn-primary" />
-    </form>
+        <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+        {% if study.published %}
+            <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}"/>
+            </form>
+        {% endif %}
+
 {% endblock %}
