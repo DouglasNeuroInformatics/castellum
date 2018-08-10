@@ -164,24 +164,25 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
 
 class FilterFormSet(BaseModelFormSet):
 
-     def clean(self):
+    def clean(self):
+        values = []
+        for form in self.forms:
+            if 'DELETE' in form.cleaned_data:
+                if not form.cleaned_data['DELETE']:
+                    if 'field_name' in form.cleaned_data:
+                        values.append(form.cleaned_data['field_name'])
+                    if 'operator' in form.cleaned_data:
+                        values.append(form.cleaned_data['operator'])
+                    if 'value' in form.cleaned_data:
+                        values.append(form.cleaned_data['value'])
 
-         values = []
-         for form in self.forms:
-             if 'DELETE' in form.cleaned_data:
-                 if form.cleaned_data['DELETE'] == False:
-                     if 'field_name' in form.cleaned_data:
-                         values.append(form.cleaned_data['field_name'])
-                     if 'operator' in form.cleaned_data:
-                         values.append(form.cleaned_data['operator'])
-                     if 'value' in form.cleaned_data:
-                         values.append(form.cleaned_data['value'])
+        it = iter(values)
+        result = list(zip(it, it, it))
 
-         it = iter(values)
-         result = list(zip(it, it, it))
+        if len(list(set(result))) != len(result):
+            raise ValidationError(_('There are duplicates in filters. Please change or '
+                                    'delete filter!'))
 
-         if len(list(set(result))) != len(result):
-             raise ValidationError(_('There are duplicates in filters. Please change or delete filter!'))
 
 class SubjectFilterView(LoginRequiredMixin, ModelFormSetView):
     model = SubjectFilter
