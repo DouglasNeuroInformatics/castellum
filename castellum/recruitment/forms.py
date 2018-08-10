@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import forms
+from django.core.exceptions import ObjectDoesNotExist
 
 from castellum.recruitment.models import AttributeSet
 
@@ -27,6 +28,7 @@ from .models import DateFilter
 from .models import NumberFilter
 from .models import SubjectFilter
 from .models import TextFilter
+
 
 
 def get_field_name_choices():
@@ -62,9 +64,13 @@ class SubjectFilterForm(forms.ModelForm):
         self.fields["value"].required = True
 
         # disable fields when study is not published
-        if not self.instance.study.published:
-            self.fields["operator"].widget.attrs["disabled"] = True
-            self.fields["value"].widget.attrs["disabled"] = True
+        try:
+            if self.instance.study:
+                if not self.instance.study.published:
+                    self.fields["operator"].widget.attrs["disabled"] = True
+                    self.fields["value"].widget.attrs["disabled"] = True
+        except ObjectDoesNotExist:
+            pass
 
     def _get_selected_field_name(self, instance=None, data=None, prefix=None, **kwargs):
         if instance:
