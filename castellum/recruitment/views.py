@@ -163,6 +163,23 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
         return result
 
 
+class SubjectFilterGroupView(LoginRequiredMixin, ListView):
+    model = SubjectFilterGroup
+
+    def dispatch(self, *args, **kwargs):
+        self.study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
+        return super().dispatch(*args, **kwargs)
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        return qs.filter(study=self.study)
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['study'] = self.study
+        return data
+
+
 class FilterFormSet(BaseModelFormSet):
 
     def clean(self):

@@ -18,7 +18,7 @@
             <td>{{ study.contact_person|default:_('not provided') }}</td>
             <td>
                 <a class='btn btn-outline-primary'
-                   href="{% url 'recruitment:subject_filter' study.id %}">{% if study.published %}{% trans 'view Filter' %}{%else%}{% trans 'add Filter' %}{%endif%}</a>
+                   href="{% url 'recruitment:subject_filter_group' study.id %}">{% if study.published %}{% trans 'view Filter' %}{%else%}{% trans 'add Filter' %}{%endif%}</a>
             </td>
             <td>
                 <form method="post" action="{% url 'studies:publish' study.id %}">
