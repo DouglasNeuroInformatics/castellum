@@ -19,9 +19,8 @@ RUN chmod 755 /etc/periodic/daily/castellum_clear_sessions
 RUN pip3 install -e .
 RUN npm install
 
-RUN python3 manage.py makemigrations
-
-RUN python3 manage.py collectstatic --no-input
-RUN python3 manage.py compilemessages -l de
+RUN castellum-admin makemigrations --settings=castellum.settings
+RUN castellum-admin collectstatic --no-input --settings=castellum.settings
+RUN castellum-admin compilemessages -l de
 
 RUN apk del $BUILDPKGS
