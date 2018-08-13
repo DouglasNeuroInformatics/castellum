@@ -75,28 +75,6 @@ msgstr "Deutsch"
 msgid "English"
 msgstr "Englisch"
 
-#: castellum_core/recruitment/models.py:31
-#: castellum_core/recruitment/templates/recruitment/attributeset_detail.html:8
-msgid "Handedness"
-msgstr "Händigkeit"
-
-#: castellum_core/recruitment/models.py:32
-msgid "Left"
-msgstr "Links"
-
-#: castellum_core/recruitment/models.py:33
-msgid "Right"
-msgstr "Rechts"
-
-#: castellum_core/recruitment/models.py:35
-msgid "First Language"
-msgstr "Muttersprache"
-
-#: castellum_core/recruitment/models.py:36
-#: castellum_core/recruitment/templates/recruitment/attributeset_detail.html:16
-msgid "Date of birth"
-msgstr "Geburtsdatum"
-
 #: castellum_core/recruitment/models.py:47
 msgid "not reached"
 msgstr "nicht erreicht"
@@ -391,6 +369,28 @@ msgstr "Aktualisieren"
 #: castellum_core/subject_management/templates/subject_management/subject_list.html:29
 msgid "Create new subject"
 msgstr "Neuen Probanden anlegen"
+
+#: castellum/recruitment/models.py:33
+#: castellum/recruitment/templates/recruitment/attributeset_detail.html:8
+msgid "Handedness"
+msgstr "Händigkeit"
+
+#: castellum/recruitment/models.py:34
+msgid "Left"
+msgstr "Links"
+
+#: castellum/recruitment/models.py:35
+msgid "Right"
+msgstr "Rechts"
+
+#: castellum/recruitment/models.py:37
+msgid "First Language"
+msgstr "Muttersprache"
+
+#: castellum/recruitment/models.py:38
+#: castellum/recruitment/templates/recruitment/attributeset_detail.html:16
+msgid "Date of birth"
+msgstr "Geburtsdatum"
 
 #: castellum_core/templates/base.html:21
 msgid "Set language"
