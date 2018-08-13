@@ -31,7 +31,7 @@
         {% csrf_token %}
         {% bootstrap_field form.status %}
 
-        <a href="{% url 'recruitment:select_contact' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+        <a href="{% url 'recruitment:recruitment' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}" />
     </form>
 

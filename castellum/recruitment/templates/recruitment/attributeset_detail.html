@@ -19,5 +19,5 @@
         <tr>
     </table>
     <a href="{% url 'contacts:detail' contact_pseudonym %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-    <a href="{% url 'recruitment:update_attributes' attributeset.pseudonym %}" class="btn btn-outline-primary">{% trans "Modify" %}</a>
+    <a href="{% url 'recruitment:attributes_update' attributeset.pseudonym %}" class="btn btn-outline-primary">{% trans "Modify" %}</a>
 {% endblock %}

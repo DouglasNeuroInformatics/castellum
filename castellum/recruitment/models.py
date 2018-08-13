@@ -38,7 +38,7 @@ class AttributeSet(SubjectData):
     date_of_birth = models.DateField(_('Date of birth'), null=True, blank=True)
 
     def get_absolute_url(self):
-        return reverse('recruitment:detail_attributes', args=[self.pseudonym])
+        return reverse('recruitment:attributes_detail', args=[self.pseudonym])
 
     @classmethod
     def apply_study_filter(cls, study, queryset=None):

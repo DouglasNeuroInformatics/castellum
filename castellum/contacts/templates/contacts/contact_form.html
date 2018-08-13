@@ -52,7 +52,7 @@
         </div>
         {% bootstrap_field form.additional_information %}
 
-        <a href="{% url 'contacts:list' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+        <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
     </form>
 {% endblock %}
