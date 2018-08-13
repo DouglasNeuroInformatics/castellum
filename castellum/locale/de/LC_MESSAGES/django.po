@@ -97,6 +97,14 @@ msgstr "Telefon (z.B. +4917693333333)"
 msgid "Alternative phone (ex. +4917693333333)"
 msgstr "Alternatives Telefon (z.B. +4917693333333)"
 
+#: castellum/contacts/forms.py:119
+msgid "Provide more details for the address."
+msgstr "Adressdaten unvollständig"
+
+#: castellum/contacts/forms.py:122
+msgid "Either email, phone number or address should be provided."
+msgstr "Entweder Email, Telefonnummer oder Adresse müssen angegeben werden!"
+
 #: castellum_core/subject_management/forms.py:51
 msgid "At least one of address, email, or phone number must be set"
 msgstr ""
@@ -355,6 +363,26 @@ msgstr "Zweite Telefonnummer"
 msgid "Submit"
 msgstr "Speichern"
 
+#: castellum/recruitment/templates/recruitment/filters.html:5
+msgid "Filters"
+msgstr "Filter"
+
+#: castellum/recruitment/templates/recruitment/filters.html:7
+msgid "matches"
+msgstr "Treffer"
+
+#: castellum/recruitment/templates/recruitment/filters.html:20
+msgid "Add Filter"
+msgstr "Filter hinzufügen"
+
+#: castellum/recruitment/templates/recruitment/filters.html:69
+msgid "Delete"
+msgstr "Löschen"
+
+#: castellum/recruitment/templates/recruitment/recruitment.html:12
+msgid "Pseudonym"
+msgstr "Pseudonym"
+
 #: castellum/recruitment/templates/recruitment/recruitment.html:20
 msgid "Call"
 msgstr "Anrufen"
@@ -368,10 +396,36 @@ msgstr "Studien"
 msgid "Find subjects"
 msgstr "Teilnehmende finden"
 
+#: castellum/recruitment/templates/recruitment/subjectfiltergroup_confirm_delete.html:4
+msgid "Delete Filter Group"
+msgstr "Filtergruppe löschen"
+
+#: castellum/recruitment/templates/recruitment/subjectfiltergroup_confirm_delete.html:9
+msgid ""
+"Are you sure you want to delete this filter group and all of its filters?"
+msgstr ""
+"Sind Sie sicher, dass Sie diese Filtergruppe und ihre dazugehörigen Filter löschen wollen?"
+
+#: castellum/recruitment/templates/recruitment/subjectfiltergroup_confirm_delete.html:10
+msgid "Confirm"
+msgstr "Bestätigen"
+
 #: castellum/recruitment/templates/recruitment/subjectfiltergroup_confirm_delete.html:11
 #: castellum/studies/templates/studies/study_form.html:16
 msgid "Cancel"
 msgstr "Abbrechen"
+
+#: castellum/recruitment/templates/recruitment/subjectfiltergroup_list.html:5
+msgid "Filter Groups"
+msgstr "Filtergruppen"
+
+#: castellum/recruitment/templates/recruitment/subjectfiltergroup_list.html:15
+msgid "Add new"
+msgstr "Hinzufügen"
+
+#: castellum/recruitment/views.py:225
+msgid "There are duplicates in filters. Please change or delete filter!"
+msgstr "Es wurden Filter dupliziert. Bitte ändern oder löschen Sie diese Filter!"
 
 #: castellum/settings/default.py:110
 msgid "German"
@@ -385,9 +439,25 @@ msgstr "Englisch"
 msgid "Responsible contact person"
 msgstr "Verantwortliche Kontaktperson"
 
+#: castellum/studies/models.py:32
+msgid "Published"
+msgstr "veröffentlicht"
+
 #: castellum/studies/templates/studies/study_list.html:10
 msgid "Contact person"
 msgstr "Kontaktperson"
+
+#: castellum/studies/templates/studies/study_list.html:21
+msgid "view Filter"
+msgstr "Filter einsehen"
+
+#: castellum/studies/templates/studies/study_list.html:21
+msgid "add Filter"
+msgstr "Filter hinzufügen"
+
+#: castellum/studies/templates/studies/study_list.html:33
+msgid "publish"
+msgstr "veröffentlichen"
 
 #: castellum/studies/templates/studies/study_list.html:44
 msgid "Create new study"
