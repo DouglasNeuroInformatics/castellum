@@ -24,9 +24,12 @@ from django.urls import path
 from .views import AttributeSetDetailView
 from .views import AttributeSetUpdateView
 from .views import ContactView
+from .views import FilterCreateView
+from .views import FilterDeleteView
+from .views import FilterListView
+from .views import FilterUpdateView
 from .views import RecruitmentView
 from .views import StudyChoiceView
-from .views import SubjectFilterView
 
 app_name = 'recruitment'
 urlpatterns = [
@@ -35,8 +38,23 @@ urlpatterns = [
 
     path('', StudyChoiceView.as_view(), name='select_study'),
 
+    path(
+        'filter/<int:study_pk>/',
+        FilterListView.as_view(),
+        name='filter_index'),
+    path(
+        'filter/<int:study_pk>/create/',
+        FilterCreateView.as_view(),
+        name='filter_create'),
+    path(
+        'filter/<int:study_pk>/<int:pk>/',
+        FilterUpdateView.as_view(),
+        name='filter_update'),
+    path(
+        'filter/<int:study_pk>/<int:pk>/delete/',
+        FilterDeleteView.as_view(),
+        name='filter_delete'),
+
     path('<study_pk>/', RecruitmentView.as_view(), name='select_contact'),
     path('<study_pk>/<attributeset_slug>/', ContactView.as_view(), name='contact'),
-
-    path('subject_filter/<int:study_pk>', SubjectFilterView.as_view(), name='subject_filter'),
 ]

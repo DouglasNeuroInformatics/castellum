@@ -28,12 +28,15 @@ from django.forms import BaseModelFormSet
 from django.forms import ValidationError
 from django.http import Http404
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
+from django.views.generic import View
 
 from extra_views import ModelFormSetView
 
@@ -45,6 +48,7 @@ from . import forms
 from .models import AttributeSet
 from .models import Participation
 from .models import SubjectFilter
+from .models import SubjectFilterGroup
 
 monitoring_logger = logging.getLogger('monitoring.contact_data')
 
@@ -162,6 +166,46 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
         return result
 
 
+class FilterListView(LoginRequiredMixin, ListView):
+    model = SubjectFilterGroup
+
+    def dispatch(self, *args, **kwargs):
+        self.study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
+        return super().dispatch(*args, **kwargs)
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        return qs.filter(study=self.study)
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['study'] = self.study
+        return data
+
+
+class FilterCreateView(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
+        group = SubjectFilterGroup.objects.create(study=study)
+        return redirect(group.get_absolute_url())
+
+
+class FilterDeleteView(LoginRequiredMixin, DeleteView):
+    model = SubjectFilterGroup
+
+    def get_context_data(self, **kwargs):
+        study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
+        if study != self.object.study:
+            raise Http404
+
+        data = super().get_context_data(**kwargs)
+        data['study'] = study
+        return data
+
+    def get_success_url(self):
+        return reverse('recruitment:filter_index', args=[self.object.study.pk])
+
+
 class FilterFormSet(BaseModelFormSet):
 
     def clean(self):
@@ -182,7 +226,7 @@ class FilterFormSet(BaseModelFormSet):
                                     'delete filter!'))
 
 
-class SubjectFilterView(LoginRequiredMixin, ModelFormSetView):
+class FilterUpdateView(LoginRequiredMixin, ModelFormSetView):
     model = SubjectFilter
     form_class = forms.SubjectFilterForm
     formset_class = FilterFormSet
@@ -193,18 +237,22 @@ class SubjectFilterView(LoginRequiredMixin, ModelFormSetView):
 
     def dispatch(self, *args, **kwargs):
         self.study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
+        self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['pk'])
+        if self.study != self.group.study:
+            raise Http404
         return super().dispatch(*args, **kwargs)
 
-    def get_subject_count(self, study):
-        return AttributeSet.apply_study_filter(study).count()
+    def get_subject_count(self, group):
+        return AttributeSet.objects.filter(group.to_q()).count()
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
-        return qs.filter(study=self.study)
+        return qs.filter(group=self.group)
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['study'] = self.study
-        data['count'] = self.get_subject_count(self.study)
+        data['group'] = self.group
+        data['count'] = self.get_subject_count(self.group)
         data['total_count'] = AttributeSet.objects.count()
         return data

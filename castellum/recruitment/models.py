@@ -45,8 +45,8 @@ class AttributeSet(SubjectData):
         if not queryset:
             queryset = cls.objects
         q = models.Q()
-        for f in study.subjectfilter_set.all():
-            q &= f.to_q()
+        for group in study.subjectfiltergroup_set.all():
+            q |= group.to_q()
         return queryset.filter(q)
 
 
@@ -67,10 +67,26 @@ class Participation(SubjectData):
     updated_at = models.DateTimeField(_('last updated at'), blank=True, null=True)
 
 
+class SubjectFilterGroup(models.Model):
+    study = models.ForeignKey(Study, on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return reverse('recruitment:filter_update', args=[self.study.pk, self.pk])
+
+    def to_q(self):
+        q = models.Q()
+        for f in self.subjectfilter_set.all():
+            q &= f.to_q()
+        return q
+
+    def __str__(self):
+        return ' AND '.join(str(f) for f in self.subjectfilter_set.all())
+
+
 class SubjectFilter(models.Model):
     available_operators = NotImplemented
 
-    study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    group = models.ForeignKey(SubjectFilterGroup, on_delete=models.CASCADE)
     field_name = models.CharField(max_length=256)
     operator = models.CharField(max_length=64)
     value = PickledObjectField(editable=True)
@@ -78,6 +94,9 @@ class SubjectFilter(models.Model):
     def to_q(self):
         key = '{}__{}'.format(self.field_name, self.operator)
         return models.Q(**{key: self.value})
+
+    def __str__(self):
+        return '{}__{}={}'.format(self.field_name, self.operator, self.value)
 
 
 class DateFilter(SubjectFilter):
