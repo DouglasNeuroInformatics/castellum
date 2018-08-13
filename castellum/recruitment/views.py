@@ -166,7 +166,7 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
         return result
 
 
-class SubjectFilterGroupView(LoginRequiredMixin, ListView):
+class FilterListView(LoginRequiredMixin, ListView):
     model = SubjectFilterGroup
 
     def dispatch(self, *args, **kwargs):
@@ -183,14 +183,14 @@ class SubjectFilterGroupView(LoginRequiredMixin, ListView):
         return data
 
 
-class SubjectFilterGroupCreateView(LoginRequiredMixin, View):
+class FilterCreateView(LoginRequiredMixin, View):
     def post(self, *args, **kwargs):
         study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
         group = SubjectFilterGroup.objects.create(study=study)
         return redirect(group.get_absolute_url())
 
 
-class SubjectFilterGroupDeleteView(LoginRequiredMixin, DeleteView):
+class FilterDeleteView(LoginRequiredMixin, DeleteView):
     model = SubjectFilterGroup
 
     def get_context_data(self, **kwargs):
@@ -203,7 +203,7 @@ class SubjectFilterGroupDeleteView(LoginRequiredMixin, DeleteView):
         return data
 
     def get_success_url(self):
-        return reverse('recruitment:subject_filter_group', args=[self.object.study.pk])
+        return reverse('recruitment:filter_index', args=[self.object.study.pk])
 
 
 class FilterFormSet(BaseModelFormSet):
@@ -226,7 +226,7 @@ class FilterFormSet(BaseModelFormSet):
                                     'delete filter!'))
 
 
-class SubjectFilterView(LoginRequiredMixin, ModelFormSetView):
+class FilterUpdateView(LoginRequiredMixin, ModelFormSetView):
     model = SubjectFilter
     form_class = forms.SubjectFilterForm
     formset_class = FilterFormSet

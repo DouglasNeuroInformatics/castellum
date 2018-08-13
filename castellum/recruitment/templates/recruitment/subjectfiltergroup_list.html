@@ -6,11 +6,11 @@
 
     <ul>
         {% for group in object_list %}
-            <li><a href={% url 'recruitment:subject_filter' study.pk group.pk %}>{{ group }}</li>
+            <li><a href={% url 'recruitment:filter_update' study.pk group.pk %}>{{ group }}</li>
         {% endfor %}
     </ul>
 
-    <form action="{% url 'recruitment:subject_filter_group_create' study.pk %}" method="post">
+    <form action="{% url 'recruitment:filter_create' study.pk %}" method="post">
         {% csrf_token %}
         <button class="btn btn-primary">{% trans 'Add new' %}</button>
     </form>
