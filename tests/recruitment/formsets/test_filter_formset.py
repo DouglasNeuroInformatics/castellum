@@ -1,0 +1,108 @@
+from castellum.recruitment.views import FilterFormSet
+from castellum.recruitment.models import SubjectFilter
+from django.forms import modelformset_factory
+
+
+def instantiate_formset(formset_class, data, instance=None, initial=None):
+    prefix = formset_class().prefix
+    formset_data = {}
+    for i, form_data in enumerate(data):
+        for name, value in form_data.items():
+            if isinstance(value, list):
+                for j, inner in enumerate(value):
+                    formset_data['{}-{}-{}_{}'.format(prefix, i, name, j)] = inner
+            else:
+                formset_data['{}-{}-{}'.format(prefix, i, name)] = value
+    formset_data['{}-TOTAL_FORMS'.format(prefix)] = len(data)
+    formset_data['{}-INITIAL_FORMS'.format(prefix)] = 0
+
+    if instance:
+        return formset_class(formset_data, instance=instance, initial=initial)
+    else:
+        return formset_class(formset_data, initial=initial)
+
+
+def test_formset_with_arbitary_data():
+    filterFormSet = modelformset_factory(SubjectFilter, fields=['field_name', 'operator', 'value'],
+                                         formset=FilterFormSet, extra=0, max_num=5, min_num=1,
+                                         can_delete=True)
+
+    formset = instantiate_formset(filterFormSet, [
+        {
+            'foo': 'bar1',
+        },
+        {
+            'foo': 'bar2',
+        },
+    ])
+
+    assert formset.is_valid() is False
+
+
+def test_formset_with_valid_data():
+    filterFormSet = modelformset_factory(SubjectFilter, fields=['field_name', 'operator', 'value'],
+                                         formset=FilterFormSet, extra=0, max_num=5, min_num=1,
+                                         can_delete=True)
+
+    formset = instantiate_formset(filterFormSet, [
+        {
+            'field_name': 'handedness',
+            'operator': 'contains',
+            'value': 'left',
+            'DELETE': 'False',
+        },
+        {
+            'field_name': 'handedness',
+            'operator': 'contains',
+            'value': 'right',
+            'DELETE': 'False',
+        },
+    ])
+
+    assert formset.is_valid() is True
+
+
+def test_two_identical_filters():
+    filterFormSet = modelformset_factory(SubjectFilter, fields=['field_name', 'operator', 'value'],
+                                         formset=FilterFormSet, extra=0, max_num=5, min_num=1,
+                                         can_delete=True)
+
+    formset = instantiate_formset(filterFormSet, [
+        {
+            'field_name': 'handedness',
+            'operator': 'contains',
+            'value': 'left',
+            'DELETE': False,
+        },
+        {
+            'field_name': 'handedness',
+            'operator': 'contains',
+            'value': 'left',
+            'DELETE': False,
+        },
+    ])
+
+    assert formset.is_valid() is False
+
+
+def test_two_identical_filters_with_delete():
+    filterFormSet = modelformset_factory(SubjectFilter, fields=['field_name', 'operator', 'value'],
+                                         formset=FilterFormSet, extra=0, max_num=5, min_num=1,
+                                         can_delete=True)
+
+    formset = instantiate_formset(filterFormSet, [
+        {
+            'field_name': 'handedness',
+            'operator': 'contains',
+            'value': 'left',
+            'DELETE': False,
+        },
+        {
+            'field_name': 'handedness',
+            'operator': 'contains',
+            'value': 'left',
+            'DELETE': True,
+        },
+    ])
+
+    assert formset.is_valid() is True

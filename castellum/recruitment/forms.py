@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import forms
+from django.core.exceptions import ObjectDoesNotExist
 
 from castellum.recruitment.models import AttributeSet
 
@@ -58,7 +59,17 @@ class SubjectFilterForm(forms.ModelForm):
         choices = self._get_operator_choices_by_field_name(selected_field_name)
         self.fields["operator"] = forms.ChoiceField(choices=choices)
 
-        self.fields["value"] = self._get_value_field_by_field_name(selected_field_name)
+        self.fields["value"] = self._get_form_field_by_field_name(selected_field_name)
+        self.fields["value"].required = True
+
+        # disable fields when study is not published
+        try:
+            if self.instance.study:
+                if self.instance.study.published:
+                    self.fields["operator"].widget.attrs["disabled"] = True
+                    self.fields["value"].widget.attrs["disabled"] = True
+        except ObjectDoesNotExist:
+            pass
 
     def _get_selected_field_name(self, instance=None, data=None, prefix=None, **kwargs):
         if instance:
@@ -78,7 +89,7 @@ class SubjectFilterForm(forms.ModelForm):
         operators = subject_filter.available_operators
         return (tuple(operator) for operator in operators.items())
 
-    def _get_value_field_by_field_name(self, field_name):
+    def _get_form_field_by_field_name(self, field_name):
         model_field = self._get_model_field_by_field_name(field_name)
         return model_field.formfield()
 

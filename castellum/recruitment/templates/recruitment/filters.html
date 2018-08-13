@@ -10,22 +10,29 @@
         {% csrf_token %}
         {{ formset.management_form }}
 
-        {% for form in formset %}
-            {% if not form.field_name.value %}
-                <h2>{% trans "Add Filter" %}</h2>
-                <formset class="row">
-                    {{ form.id.as_hidden }}
-                    {{ form.study.as_hidden }}
-                    {{ form.operator.as_hidden }}
-                    {{ form.value.as_hidden }}
-
-                    <div class="col-sm-4">
-                        {% bootstrap_field form.field_name %}
-                    </div>
-                </formset>
-                <hr>
-            {% endif %}
+        {% for error in formset.non_form_errors %}
+            <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
+
+        {% if not study.published %}
+            {% for form in formset %}
+                {% if not form.field_name.value %}
+                    <h2>{% trans "Add Filter" %}</h2>
+                    <formset class="row">
+                        {{ form.id.as_hidden }}
+                        {{ form.study.as_hidden }}
+                        {{ form.operator.as_hidden }}
+                        {{ form.value.as_hidden }}
+
+                        <div class="col-sm-4">
+                            {% bootstrap_field form.field_name show_label=False %}
+                        </div>
+                    </formset>
+                    <hr>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
 
         {% for form in formset %}
             {% if form.field_name.value %}
@@ -35,24 +42,32 @@
 
                     <div class="col-sm-4">
                         {# duplicated because disabled fields are not posted to the server #}
-                        {% bootstrap_field form.field_name %}
+                        {% bootstrap_field form.field_name show_label=False%}
                         {{ form.field_name.as_hidden }}
                     </div>
                     {% if form.operator.field.choices|length > 1 %}
                         <div class="col-sm">
-                            {% bootstrap_field form.operator %}
+                            {% bootstrap_field form.operator show_label=False %}
                         </div>
                     {% else %}
                         <input type="hidden" name="{{ form.prefix }}-operator" value="exact" />
                     {% endif %}
                     <div class="col-sm">
-                        {% bootstrap_field form.value %}
+                        {% bootstrap_field form.value show_label=False%}
                     </div>
-                    {% bootstrap_field form.DELETE %}
+
+                    {% if not study.published %}
+                        {% bootstrap_field form.DELETE %}
+                    {% endif %}
                 </formset>
             {% endif %}
         {% endfor %}
 
-        <input type="submit" class="btn btn-primary" />
-    </form>
+        <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+
+        {% if not study.published %}
+            <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}"/>
+        {% endif %}
+        </form>
+
 {% endblock %}

@@ -24,10 +24,13 @@ import random
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms import BaseModelFormSet
+from django.forms import ValidationError
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
@@ -159,9 +162,30 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
         return result
 
 
+class FilterFormSet(BaseModelFormSet):
+
+    def clean(self):
+
+        super().clean()
+
+        values = []
+        for form in self.forms:
+            if not form.cleaned_data.get('DELETE', False):
+                values.append((
+                    form.cleaned_data.get('field_name'),
+                    form.cleaned_data.get('operator'),
+                    form.cleaned_data.get('value'),
+                ))
+
+        if len(set(values)) != len(values):
+            raise ValidationError(_('There are duplicates in filters. Please change or '
+                                    'delete filter!'))
+
+
 class SubjectFilterView(LoginRequiredMixin, ModelFormSetView):
     model = SubjectFilter
     form_class = forms.SubjectFilterForm
+    formset_class = FilterFormSet
     factory_kwargs = {
         'can_delete': True,
     }
