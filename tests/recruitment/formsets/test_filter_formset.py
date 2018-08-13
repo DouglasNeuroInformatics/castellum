@@ -16,8 +16,6 @@ def instantiate_formset(formset_class, data, instance=None, initial=None):
     formset_data['{}-TOTAL_FORMS'.format(prefix)] = len(data)
     formset_data['{}-INITIAL_FORMS'.format(prefix)] = 0
 
-    print(formset_data)
-
     if instance:
         return formset_class(formset_data, instance=instance, initial=initial)
     else:
@@ -30,12 +28,12 @@ def test_formset_with_arbitary_data():
                                          can_delete=True)
 
     formset = instantiate_formset(filterFormSet, [
-      {
-        'foo': 'bar1',
-      },
-      {
-        'foo': 'bar2',
-      },
+        {
+            'foo': 'bar1',
+        },
+        {
+            'foo': 'bar2',
+        },
     ])
 
     assert formset.is_valid() is False
@@ -47,18 +45,18 @@ def test_formset_with_valid_data():
                                          can_delete=True)
 
     formset = instantiate_formset(filterFormSet, [
-      {
-        'field_name': 'handedness',
-        'operator': 'contains',
-        'value': 'left',
-        'DELETE': 'False',
-      },
-      {
-        'field_name': 'handedness',
-        'operator': 'contains',
-        'value': 'right',
-        'DELETE': 'False',
-      },
+        {
+            'field_name': 'handedness',
+            'operator': 'contains',
+            'value': 'left',
+            'DELETE': 'False',
+        },
+        {
+            'field_name': 'handedness',
+            'operator': 'contains',
+            'value': 'right',
+            'DELETE': 'False',
+        },
     ])
 
     assert formset.is_valid() is True
@@ -70,18 +68,18 @@ def test_two_identical_filters():
                                          can_delete=True)
 
     formset = instantiate_formset(filterFormSet, [
-      {
-        'field_name': 'handedness',
-        'operator': 'contains',
-        'value': 'left',
-        'DELETE': False,
-      },
-      {
-        'field_name': 'handedness',
-        'operator': 'contains',
-        'value': 'left',
-        'DELETE': False,
-      },
+        {
+            'field_name': 'handedness',
+            'operator': 'contains',
+            'value': 'left',
+            'DELETE': False,
+        },
+        {
+            'field_name': 'handedness',
+            'operator': 'contains',
+            'value': 'left',
+            'DELETE': False,
+        },
     ])
 
     assert formset.is_valid() is False
@@ -93,18 +91,18 @@ def test_two_identical_filters_with_delete():
                                          can_delete=True)
 
     formset = instantiate_formset(filterFormSet, [
-      {
-        'field_name': 'handedness',
-        'operator': 'contains',
-        'value': 'left',
-        'DELETE': False,
-      },
-      {
-        'field_name': 'handedness',
-        'operator': 'contains',
-        'value': 'left',
-        'DELETE': True,
-      },
+        {
+            'field_name': 'handedness',
+            'operator': 'contains',
+            'value': 'left',
+            'DELETE': False,
+        },
+        {
+            'field_name': 'handedness',
+            'operator': 'contains',
+            'value': 'left',
+            'DELETE': True,
+        },
     ])
 
     assert formset.is_valid() is True
