@@ -3,14 +3,8 @@ from django.conf import settings
 import pytest
 from model_mommy import mommy
 
-from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.recruitment.models import AttributeSet
-
-
-@pytest.fixture
-def contact(db):
-    return mommy.make(Contact, pseudonym=None)
 
 
 @pytest.fixture
