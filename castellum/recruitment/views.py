@@ -24,6 +24,7 @@ import random
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.forms import BaseModelFormSet
 from django.forms import ValidationError
 from django.http import Http404
@@ -60,6 +61,18 @@ class PublishedStudyMixin:
         if not self.study.published:
             raise Http404
         return super().dispatch(request, *args, **kwargs)
+
+
+class UnpublishedStudyMixin:
+    def dispatch(self, request, *args, **kwargs):
+        study_pk = self.kwargs.get('study_pk')
+        self.study = get_object_or_404(Study, pk=study_pk)
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        if self.study.published:
+            raise PermissionDenied
+        return super().post(request, *args, **kwargs)
 
 
 class StudyChoiceView(LoginRequiredMixin, ListView):
@@ -183,27 +196,25 @@ class FilterListView(LoginRequiredMixin, ListView):
         return data
 
 
-class FilterCreateView(LoginRequiredMixin, View):
+class FilterCreateView(LoginRequiredMixin, UnpublishedStudyMixin, View):
     def post(self, *args, **kwargs):
-        study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
-        group = SubjectFilterGroup.objects.create(study=study)
+        group = SubjectFilterGroup.objects.create(study=self.study)
         return redirect(group.get_absolute_url())
 
 
-class FilterDeleteView(LoginRequiredMixin, DeleteView):
+class FilterDeleteView(LoginRequiredMixin, UnpublishedStudyMixin, DeleteView):
     model = SubjectFilterGroup
 
     def get_context_data(self, **kwargs):
-        study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
-        if study != self.object.study:
+        if self.study != self.object.study:
             raise Http404
 
         data = super().get_context_data(**kwargs)
-        data['study'] = study
+        data['study'] = self.study
         return data
 
     def get_success_url(self):
-        return reverse('recruitment:filter_index', args=[self.object.study.pk])
+        return reverse('recruitment:filter_index', args=[self.study.pk])
 
 
 class FilterFormSet(BaseModelFormSet):
@@ -226,7 +237,7 @@ class FilterFormSet(BaseModelFormSet):
                                     'delete filter!'))
 
 
-class FilterUpdateView(LoginRequiredMixin, ModelFormSetView):
+class FilterUpdateView(LoginRequiredMixin, UnpublishedStudyMixin, ModelFormSetView):
     model = SubjectFilter
     form_class = forms.SubjectFilterForm
     formset_class = FilterFormSet
@@ -236,10 +247,7 @@ class FilterUpdateView(LoginRequiredMixin, ModelFormSetView):
     template_name = "recruitment/filters.html"
 
     def dispatch(self, *args, **kwargs):
-        self.study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
         self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['pk'])
-        if self.study != self.group.study:
-            raise Http404
         return super().dispatch(*args, **kwargs)
 
     def get_subject_count(self, group):
@@ -250,6 +258,9 @@ class FilterUpdateView(LoginRequiredMixin, ModelFormSetView):
         return qs.filter(group=self.group)
 
     def get_context_data(self, **kwargs):
+        if self.study != self.group.study:
+            raise Http404
+
         data = super().get_context_data(**kwargs)
         data['study'] = self.study
         data['group'] = self.group
