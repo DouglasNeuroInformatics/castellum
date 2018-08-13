@@ -72,19 +72,6 @@ msgstr "Zeit bis zur automatischen Abmeldung"
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:8
-#: castellum_core/subject_management/templates/subject_management/subject_list.html:5
-msgid "Subjects"
-msgstr "Teilnehmende"
-
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:12
-msgid "First name"
-msgstr "Vorname"
-
-#: castellum_core/recruitment/templates/recruitment/subjects_list.html:13
-msgid "Last name"
-msgstr "Nachname"
-
 #: castellum/contacts/forms.py:65
 msgid "Alternative phone number"
 msgstr "Alternative  Telefonnummer"
@@ -104,11 +91,6 @@ msgstr "Adressdaten unvollständig"
 #: castellum/contacts/forms.py:122
 msgid "Either email, phone number or address should be provided."
 msgstr "Entweder Email, Telefonnummer oder Adresse müssen angegeben werden!"
-
-#: castellum_core/subject_management/forms.py:51
-msgid "At least one of address, email, or phone number must be set"
-msgstr ""
-"Mindestens eins von Adress, E-Mail oder Telefonnummer muss ausgefüllt sein"
 
 #: castellum/contacts/models/address.py:27
 #: castellum/contacts/models/address.py:39
@@ -510,3 +492,12 @@ msgstr "Nicht angemeldet"
 #: castellum/templates/login.html:4
 msgid "Log in"
 msgstr "Anmelden"
+
+#~ msgid "Subjects"
+#~ msgstr "Teilnehmende"
+
+#~ msgid "First name"
+#~ msgstr "Vorname"
+
+#~ msgid "Last name"
+#~ msgstr "Nachname"
