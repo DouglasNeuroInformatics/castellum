@@ -4,6 +4,8 @@
 {% block content %}
     <h1>{{ study.name }} &mdash; {% trans 'Filter Groups' %}</h1>
 
+    <p>{% trans 'The subjects for the study will be picked from any of these groups:' %}</p>
+
     <ul>
         {% for group in object_list %}
             <li><a href={% url 'recruitment:filter_update' study.pk group.pk %}>{{ group }}</li>
