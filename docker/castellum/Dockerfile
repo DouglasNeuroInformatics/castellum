@@ -16,6 +16,7 @@ WORKDIR code/
 RUN echo 'python3 /code/manage.py clear_sessions' > /etc/periodic/daily/castellum_clear_sessions
 RUN chmod 755 /etc/periodic/daily/castellum_clear_sessions
 
+RUN pip3 install -U pip
 RUN pip3 install -e .
 RUN npm install
 
