@@ -165,6 +165,9 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
 class FilterFormSet(BaseModelFormSet):
 
     def clean(self):
+
+        super(BaseModelFormSet, self).clean()
+
         values = []
         for form in self.forms:
             if 'DELETE' in form.cleaned_data:
