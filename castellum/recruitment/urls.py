@@ -33,10 +33,10 @@ from .views import StudyChoiceView
 
 app_name = 'recruitment'
 urlpatterns = [
-    path('attributes/<slug>/', AttributeSetDetailView.as_view(), name='detail_attributes'),
-    path('attributes/<slug>/update/', AttributeSetUpdateView.as_view(), name='update_attributes'),
+    path('attributes/<slug>/', AttributeSetDetailView.as_view(), name='attributes_detail'),
+    path('attributes/<slug>/update/', AttributeSetUpdateView.as_view(), name='attributes_update'),
 
-    path('', StudyChoiceView.as_view(), name='select_study'),
+    path('', StudyChoiceView.as_view(), name='index'),
 
     path(
         'filter/<int:study_pk>/',
@@ -55,6 +55,6 @@ urlpatterns = [
         FilterDeleteView.as_view(),
         name='filter_delete'),
 
-    path('<study_pk>/', RecruitmentView.as_view(), name='select_contact'),
+    path('<study_pk>/', RecruitmentView.as_view(), name='recruitment'),
     path('<study_pk>/<attributeset_slug>/', ContactView.as_view(), name='contact'),
 ]

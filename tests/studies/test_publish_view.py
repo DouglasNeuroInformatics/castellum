@@ -3,7 +3,7 @@ def test_publish(client, user, study):
     study.published = False
     study.save()
 
-    response = client.post('/studies/publish/{}/'.format(study.pk))
+    response = client.post('/studies/{}/publish/'.format(study.pk))
     assert response.status_code == 302
 
     study.refresh_from_db()
@@ -15,7 +15,7 @@ def test_unpublish(client, user, study):
     study.published = True
     study.save()
 
-    response = client.post('/studies/publish/{}/'.format(study.pk))
+    response = client.post('/studies/{}/publish/'.format(study.pk))
     assert response.status_code == 302
 
     study.refresh_from_db()

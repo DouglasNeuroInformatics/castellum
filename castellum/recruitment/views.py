@@ -115,7 +115,7 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
         return participation
 
     def get_success_url(self):
-        return reverse('recruitment:select_contact', args=[self.object.study.pk])
+        return reverse('recruitment:recruitment', args=[self.object.study.pk])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

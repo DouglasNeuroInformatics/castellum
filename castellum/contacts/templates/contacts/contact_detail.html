@@ -29,6 +29,6 @@
             <td>{{ contact.phone_number_alternative|default:_('not provided') }}</td>
         </tr>
     </table>
-    <a href="{% url 'contacts:list' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-    <a href="{% url 'recruitment:detail_attributes' attributeset_pseudonym %}" class="btn btn-outline-primary">{% trans 'View attributes' %}</a>
+    <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+    <a href="{% url 'recruitment:attributes_detail' attributeset_pseudonym %}" class="btn btn-outline-primary">{% trans 'View attributes' %}</a>
 {% endblock %}

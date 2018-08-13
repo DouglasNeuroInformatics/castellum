@@ -28,9 +28,9 @@ from .views import ContactUpdateView
 
 app_name = 'contacts'
 urlpatterns = [
-    path('', ContactListView.as_view(), name='list'),
+    path('', ContactListView.as_view(), name='index'),
     path('create/', ContactCreateView.as_view(), name='create'),
-    path('detail/<slug>/', ContactDetailView.as_view(), name='detail'),
-    path('update/<slug>/', ContactUpdateView.as_view(), name='update'),
+    path('<slug>/', ContactDetailView.as_view(), name='detail'),
+    path('<slug>/update/', ContactUpdateView.as_view(), name='update'),
 
 ]

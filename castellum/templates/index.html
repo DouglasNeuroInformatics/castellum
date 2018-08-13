@@ -16,8 +16,8 @@
 
         <div>
             <a href="{% url 'studies:index' %}" class="btn btn-primary">{% trans "Study management" %}</a>
-            <a href="{% url 'contacts:list' %}" class="btn btn-primary">{% trans "Subject management" %}</a>
-            <a href="{% url 'recruitment:select_study' %}" class="btn btn-primary">{% trans "Recruitment" %}</a>
+            <a href="{% url 'contacts:index' %}" class="btn btn-primary">{% trans "Subject management" %}</a>
+            <a href="{% url 'recruitment:index' %}" class="btn btn-primary">{% trans "Recruitment" %}</a>
         </div>
      {% else %}
         <p>{% trans 'Not logged in' %}</p>
