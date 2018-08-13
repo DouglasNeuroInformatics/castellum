@@ -239,11 +239,20 @@ msgstr "Zweite Telefonnummer:"
 msgid "Back"
 msgstr "Zurück"
 
+#: castellum/contacts/templates/contacts/contact_detail.html:33
+msgid "View attributes"
+msgstr "Merkmale betrachten"
+
 #: castellum/contacts/templates/contacts/contact_form.html:56
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:17
 #: castellum/studies/templates/studies/study_form.html:17
 msgid "Save"
 msgstr "Speichern"
+
+#: castellum/contacts/templates/contacts/contact_list.html:5
+#: castellum/recruitment/templates/recruitment/recruitment.html:8
+msgid "Contacts"
+msgstr "Probanden"
 
 #: castellum/contacts/templates/contacts/contact_list.html:11
 msgid "Full name"
@@ -263,8 +272,8 @@ msgstr "Details ansehen"
 msgid "Update"
 msgstr "Aktualisieren"
 
-#: castellum_core/subject_management/templates/subject_management/subject_list.html:29
-msgid "Create new subject"
+#: castellum/contacts/templates/contacts/contact_list.html:29
+msgid "Create new contact"
 msgstr "Neuen Probanden anlegen"
 
 #: castellum/recruitment/models.py:33
@@ -429,6 +438,10 @@ msgstr "veröffentlicht"
 msgid "Contact person"
 msgstr "Kontaktperson"
 
+#: castellum/studies/templates/studies/study_list.html:11
+msgid "Actions"
+msgstr "Aktionen"
+
 #: castellum/studies/templates/studies/study_list.html:21
 msgid "view Filter"
 msgstr "Filter einsehen"
@@ -436,6 +449,10 @@ msgstr "Filter einsehen"
 #: castellum/studies/templates/studies/study_list.html:21
 msgid "add Filter"
 msgstr "Filter hinzufügen"
+
+#: castellum/studies/templates/studies/study_list.html:29
+msgid "unpublish"
+msgstr "Veröffentlichung zurücknehmen"
 
 #: castellum/studies/templates/studies/study_list.html:33
 msgid "publish"
