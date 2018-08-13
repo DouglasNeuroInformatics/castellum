@@ -28,6 +28,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 from castellum.pseudonyms.helpers import create_pseudonym
 from castellum.pseudonyms.models import SubjectData
+from castellum.utils import DateField
 
 from . import Address
 
@@ -45,7 +46,7 @@ class Contact(SubjectData):
 
     gender = models.CharField(_("gender"), max_length=1, choices=GENDER, default="f")
 
-    birthday = models.DateField(_("birthday"))
+    birthday = DateField(_("birthday"))
 
     address = models.ForeignKey(Address, blank=True, null=True, verbose_name=_("Address"),
                                 on_delete=models.SET_NULL)

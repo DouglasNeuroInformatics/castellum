@@ -25,6 +25,10 @@ from random import choice
 from random import randint
 from random import random
 
+from django import forms
+from django.db import models
+from django.utils.translation import ugettext as _
+
 LanguageDistribution = namedtuple("LanguageDistribution", ["name", "percentage"])
 
 
@@ -76,3 +80,24 @@ class FakeData:
         if random() <= probability:
             return self._phone_number.create()
         return ""
+
+
+class DateInput(forms.DateInput):
+    def __init__(self, attrs=None):
+        defaults = {
+            'placeholder': _('yyyy-mm-dd, e.g. 2018-07-21'),
+            'pattern': '[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]',
+        }
+        if attrs:
+            defaults.update(attrs)
+        super().__init__(attrs=defaults)
+
+
+class DateFormField(forms.DateField):
+    widget = DateInput
+
+
+class DateField(models.DateField):
+    def formfield(self, **kwargs):
+        kwargs.setdefault('form_class', DateFormField)
+        return super().formfield(**kwargs)
