@@ -45,8 +45,8 @@ class AttributeSet(SubjectData):
         if not queryset:
             queryset = cls.objects
         q = models.Q()
-        for f in study.subjectfilter_set.all():
-            q &= f.to_q()
+        for group in study.subjectfiltergroup_set.all():
+            q |= group.to_q()
         return queryset.filter(q)
 
 
@@ -67,10 +67,20 @@ class Participation(SubjectData):
     updated_at = models.DateTimeField(_('last updated at'), blank=True, null=True)
 
 
+class SubjectFilterGroup(models.Model):
+    study = models.ForeignKey(Study, on_delete=models.CASCADE)
+
+    def to_q(self):
+        q = models.Q()
+        for f in self.subjectfilter_set.all():
+            q &= f.to_q()
+        return q
+
+
 class SubjectFilter(models.Model):
     available_operators = NotImplemented
 
-    study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    group = models.ForeignKey(SubjectFilterGroup, on_delete=models.CASCADE)
     field_name = models.CharField(max_length=256)
     operator = models.CharField(max_length=64)
     value = PickledObjectField(editable=True)
