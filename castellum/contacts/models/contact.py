@@ -24,11 +24,10 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
-from phonenumber_field.modelfields import PhoneNumberField
-
 from castellum.pseudonyms.helpers import create_pseudonym
 from castellum.pseudonyms.models import SubjectData
 from castellum.utils import DateField
+from castellum.utils import PhoneNumberField
 
 from . import Address
 

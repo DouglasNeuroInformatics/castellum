@@ -29,6 +29,10 @@ from django import forms
 from django.db import models
 from django.utils.translation import ugettext as _
 
+from phonenumber_field.formfields import PhoneNumberField as _PhoneNumberFormField
+from phonenumber_field.modelfields import PhoneNumberField as _PhoneNumberField
+from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
+
 LanguageDistribution = namedtuple("LanguageDistribution", ["name", "percentage"])
 
 
@@ -100,4 +104,24 @@ class DateFormField(forms.DateField):
 class DateField(models.DateField):
     def formfield(self, **kwargs):
         kwargs.setdefault('form_class', DateFormField)
+        return super().formfield(**kwargs)
+
+
+class PhoneNumberWidget(PhoneNumberInternationalFallbackWidget):
+    def __init__(self, attrs=None):
+        defaults = {
+            'placeholder': _('e.g. 030 123456'),
+        }
+        if attrs:
+            defaults.update(defaults)
+        super().__init__(attrs=defaults)
+
+
+class PhoneNumberFormField(_PhoneNumberFormField):
+    widget = PhoneNumberWidget
+
+
+class PhoneNumberField(_PhoneNumberField):
+    def formfield(self, **kwargs):
+        kwargs.setdefault('form_class', PhoneNumberFormField)
         return super().formfield(**kwargs)
