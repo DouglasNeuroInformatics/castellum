@@ -166,7 +166,7 @@ class FilterFormSet(BaseModelFormSet):
 
     def clean(self):
 
-        super(BaseModelFormSet, self).clean()
+        super().clean()
 
         values = []
         for form in self.forms:
