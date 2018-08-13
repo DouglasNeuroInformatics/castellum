@@ -16,54 +16,54 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: castellum_core/castellum_auth/admin.py:35
+#: castellum/castellum_auth/admin.py:36
 #, python-format
 msgid "%(month)s/%(day)s/%(year)s"
 msgstr "%(day)s.%(month)s.%(year)s"
 
-#: castellum_core/castellum_auth/admin.py:42
+#: castellum/castellum_auth/admin.py:43
 msgid "expired"
 msgstr "abgelaufen"
 
-#: castellum_core/castellum_auth/admin.py:45
+#: castellum/castellum_auth/admin.py:46
 #, python-format
 msgid "%(days)s days left"
 msgstr "%(days)s Tage verbleibend"
 
-#: castellum_core/castellum_auth/admin.py:59
+#: castellum/castellum_auth/admin.py:61
 msgid "Personal info"
 msgstr "Persönliche Informationen"
 
-#: castellum_core/castellum_auth/admin.py:62
-#: castellum_core/castellum_auth/templates/admin/castellum_auth/user/change_form.html:9
+#: castellum/castellum_auth/admin.py:64
+#: castellum/castellum_auth/templates/admin/castellum_auth/user/change_form.html:9
 msgid "Permissions"
 msgstr "Rechte"
 
-#: castellum_core/castellum_auth/admin.py:65
+#: castellum/castellum_auth/admin.py:67
 msgid "Important dates"
 msgstr "Wichtige Daten"
 
-#: castellum_core/castellum_auth/middlewares.py:41
+#: castellum/castellum_auth/middlewares.py:41
 msgid "Your account is not activated."
 msgstr "Ihr Konto ist nicht aktiviert."
 
-#: castellum_core/castellum_auth/middlewares.py:43
+#: castellum/castellum_auth/middlewares.py:43
 msgid "Your account is expired."
 msgstr "Ihr Konto ist abgelaufen."
 
-#: castellum_core/castellum_auth/middlewares.py:71
+#: castellum/castellum_auth/middlewares.py:71
 msgid "Your session has expired"
 msgstr "Ihre Sitzung ist abgelaufen"
 
-#: castellum_core/castellum_auth/models.py:37
+#: castellum/castellum_auth/models.py:37
 msgid "Language"
 msgstr "Sprache"
 
-#: castellum_core/castellum_auth/models.py:38
+#: castellum/castellum_auth/models.py:38
 msgid "Expiration date"
 msgstr "Ablaufdatum"
 
-#: castellum_core/castellum_auth/models.py:40
+#: castellum/castellum_auth/models.py:40
 msgid "Time until automatic logout"
 msgstr "Zeit bis zur automatischen Abmeldung"
 
