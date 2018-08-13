@@ -193,7 +193,10 @@ class SubjectFilterView(LoginRequiredMixin, ModelFormSetView):
     template_name = "recruitment/filters.html"
 
     def dispatch(self, *args, **kwargs):
+        self.study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
         self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['group_pk'])
+        if self.study != self.group.study:
+            raise Http404
         return super().dispatch(*args, **kwargs)
 
     def get_subject_count(self, group):
@@ -205,7 +208,7 @@ class SubjectFilterView(LoginRequiredMixin, ModelFormSetView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data['study'] = self.group.study
+        data['study'] = self.study
         data['group'] = self.group
         data['count'] = self.get_subject_count(self.group)
         data['total_count'] = AttributeSet.objects.count()
