@@ -28,6 +28,6 @@ from .views import PublishView
 app_name = 'studies'
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
-    path('new/', CreateView.as_view(), name='create'),
-    path('publish/<int:study_id>/', PublishView.as_view(), name='publish'),
+    path('create/', CreateView.as_view(), name='create'),
+    path('<int:pk>/publish/', PublishView.as_view(), name='publish'),
 ]
