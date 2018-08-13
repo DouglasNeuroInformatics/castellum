@@ -159,6 +159,10 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
 
+BOOTSTRAP4 = {
+    'set_placeholder': False,
+}
+
 
 """
 Some notes on the logging configuration:
