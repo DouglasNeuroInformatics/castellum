@@ -45,6 +45,7 @@ from . import forms
 from .models import AttributeSet
 from .models import Participation
 from .models import SubjectFilter
+from .models import SubjectFilterGroup
 
 monitoring_logger = logging.getLogger('monitoring.contact_data')
 
@@ -192,19 +193,20 @@ class SubjectFilterView(LoginRequiredMixin, ModelFormSetView):
     template_name = "recruitment/filters.html"
 
     def dispatch(self, *args, **kwargs):
-        self.study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
+        self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['group_pk'])
         return super().dispatch(*args, **kwargs)
 
-    def get_subject_count(self, study):
-        return AttributeSet.apply_study_filter(study).count()
+    def get_subject_count(self, group):
+        return AttributeSet.objects.filter(group.to_q()).count()
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
-        return qs.filter(study=self.study)
+        return qs.filter(group=self.group)
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data['study'] = self.study
-        data['count'] = self.get_subject_count(self.study)
+        data['study'] = self.group.study
+        data['group'] = self.group
+        data['count'] = self.get_subject_count(self.group)
         data['total_count'] = AttributeSet.objects.count()
         return data

@@ -38,5 +38,5 @@ urlpatterns = [
     path('<study_pk>/', RecruitmentView.as_view(), name='select_contact'),
     path('<study_pk>/<attributeset_slug>/', ContactView.as_view(), name='contact'),
 
-    path('subject_filter/<int:study_pk>', SubjectFilterView.as_view(), name='subject_filter'),
+    path('subject_filter/<int:group_pk>', SubjectFilterView.as_view(), name='subject_filter'),
 ]
