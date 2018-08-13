@@ -10,10 +10,12 @@
         {% endfor %}
     </ul>
 
+    {% if not study.published %}
     <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
 
     <form class="d-inline" action="{% url 'recruitment:filter_create' study.pk %}" method="post">
         {% csrf_token %}
         <button class="btn btn-primary">{% trans 'Add new' %}</button>
     </form>
+    {% endif %}
 {% endblock %}
