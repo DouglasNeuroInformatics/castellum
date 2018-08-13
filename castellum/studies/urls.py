@@ -29,5 +29,5 @@ app_name = 'studies'
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('create/', CreateView.as_view(), name='create'),
-    path('<int:pk>/publish/', PublishView.as_view(), name='publish'),
+    path('<int:study_pk>/publish/', PublishView.as_view(), name='publish'),
 ]

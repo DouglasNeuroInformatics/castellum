@@ -41,8 +41,8 @@ class CreateView(LoginRequiredMixin, generic.CreateView):
 
 
 class PublishView(LoginRequiredMixin, View):
-    def post(self, request, pk):
-        study = get_object_or_404(models.Study, pk=pk)
+    def post(self, request, study_pk):
+        study = get_object_or_404(models.Study, pk=study_pk)
         study.published = not study.published
         study.save()
 
