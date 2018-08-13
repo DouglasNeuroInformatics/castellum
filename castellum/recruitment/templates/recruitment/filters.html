@@ -33,7 +33,6 @@
             {% endfor %}
         {% endif %}
 
-
         {% for form in formset %}
             {% if form.field_name.value %}
                 <formset class="row">
@@ -68,6 +67,6 @@
         {% if not study.published %}
             <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}"/>
         {% endif %}
-        </form>
+    </form>
 
 {% endblock %}
