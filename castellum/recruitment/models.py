@@ -76,6 +76,9 @@ class SubjectFilterGroup(models.Model):
             q &= f.to_q()
         return q
 
+    def __str__(self):
+        return ' AND '.join(str(f) for f in self.subjectfilter_set.all())
+
 
 class SubjectFilter(models.Model):
     available_operators = NotImplemented
@@ -88,6 +91,9 @@ class SubjectFilter(models.Model):
     def to_q(self):
         key = '{}__{}'.format(self.field_name, self.operator)
         return models.Q(**{key: self.value})
+
+    def __str__(self):
+        return '{}__{}={}'.format(self.field_name, self.operator, self.value)
 
 
 class DateFilter(SubjectFilter):
