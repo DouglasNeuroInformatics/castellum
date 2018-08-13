@@ -62,7 +62,7 @@
             {% endif %}
         {% endfor %}
 
-        <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+        <a href="{% url 'recruitment:filter_index' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
 
         {% if not study.published %}
             <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}"/>
