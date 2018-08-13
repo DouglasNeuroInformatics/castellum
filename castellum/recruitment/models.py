@@ -70,6 +70,9 @@ class Participation(SubjectData):
 class SubjectFilterGroup(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
 
+    def get_absolute_url(self):
+        return reverse('recruitment:subject_filter', args=[self.study.pk, self.pk])
+
     def to_q(self):
         q = models.Q()
         for f in self.subjectfilter_set.all():

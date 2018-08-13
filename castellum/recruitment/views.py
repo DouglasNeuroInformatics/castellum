@@ -28,12 +28,14 @@ from django.forms import BaseModelFormSet
 from django.forms import ValidationError
 from django.http import Http404
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
+from django.views.generic import View
 
 from extra_views import ModelFormSetView
 
@@ -178,6 +180,13 @@ class SubjectFilterGroupView(LoginRequiredMixin, ListView):
         data = super().get_context_data(**kwargs)
         data['study'] = self.study
         return data
+
+
+class SubjectFilterGroupCreateView(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
+        group = SubjectFilterGroup.objects.create(study=study)
+        return redirect(group.get_absolute_url())
 
 
 class FilterFormSet(BaseModelFormSet):

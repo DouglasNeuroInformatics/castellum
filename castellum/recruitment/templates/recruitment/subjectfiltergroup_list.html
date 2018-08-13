@@ -9,4 +9,9 @@
             <li><a href={% url 'recruitment:subject_filter' study.pk group.pk %}>{{ group }}</li>
         {% endfor %}
     </ul>
+
+    <form action="{% url 'recruitment:subject_filter_group_create' study.pk %}" method="post">
+        {% csrf_token %}
+        <button class="btn btn-primary">{% trans 'Add new' %}</button>
+    </form>
 {% endblock %}
