@@ -27,8 +27,8 @@ makemessages:
 	$(MANAGEPY) compilemessages -l de
 
 remove_sqlite_databases:
-	rm castellum/db.sqlite3
-	rm castellum/contacts.sqlite3
+	rm -f castellum/db.sqlite3
+	rm -f castellum/contacts.sqlite3
 
 remove_all_migration_files:
 	find . -name 0*.py -delete
