@@ -66,6 +66,7 @@
 
         {% if not study.published %}
             <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}"/>
+            <a href={% url "recruitment:subject_filter_group_delete" study.pk group.pk %} class="btn btn-danger">{% trans "Delete" %}</a>
         {% endif %}
     </form>
 

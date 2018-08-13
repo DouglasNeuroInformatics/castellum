@@ -27,6 +27,7 @@ from .views import ContactView
 from .views import RecruitmentView
 from .views import StudyChoiceView
 from .views import SubjectFilterGroupCreateView
+from .views import SubjectFilterGroupDeleteView
 from .views import SubjectFilterGroupView
 from .views import SubjectFilterView
 
@@ -46,9 +47,13 @@ urlpatterns = [
         SubjectFilterGroupCreateView.as_view(),
         name='subject_filter_group_create'),
     path(
-        'subject_filter/<int:study_pk>/<int:group_pk>/',
+        'subject_filter/<int:study_pk>/<int:pk>/',
         SubjectFilterView.as_view(),
         name='subject_filter'),
+    path(
+        'subject_filter/<int:study_pk>/<int:pk>/delete/',
+        SubjectFilterGroupDeleteView.as_view(),
+        name='subject_filter_group_delete'),
 
     path('<study_pk>/', RecruitmentView.as_view(), name='select_contact'),
     path('<study_pk>/<attributeset_slug>/', ContactView.as_view(), name='contact'),

@@ -32,6 +32,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
@@ -189,6 +190,22 @@ class SubjectFilterGroupCreateView(LoginRequiredMixin, View):
         return redirect(group.get_absolute_url())
 
 
+class SubjectFilterGroupDeleteView(LoginRequiredMixin, DeleteView):
+    model = SubjectFilterGroup
+
+    def get_context_data(self, **kwargs):
+        study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
+        if study != self.object.study:
+            raise Http404
+
+        data = super().get_context_data(**kwargs)
+        data['study'] = study
+        return data
+
+    def get_success_url(self):
+        return reverse('recruitment:subject_filter_group', args=[self.object.study.pk])
+
+
 class FilterFormSet(BaseModelFormSet):
 
     def clean(self):
@@ -220,7 +237,7 @@ class SubjectFilterView(LoginRequiredMixin, ModelFormSetView):
 
     def dispatch(self, *args, **kwargs):
         self.study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
-        self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['group_pk'])
+        self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['pk'])
         if self.study != self.group.study:
             raise Http404
         return super().dispatch(*args, **kwargs)
