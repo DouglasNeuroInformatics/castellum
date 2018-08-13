@@ -6,7 +6,7 @@
 
     <p>{% trans 'matches' %}: {{ count }} / {{ total_count }}</p>
 
-    <form {% if not study.published %}method="post"{% endif %}>
+    <form method="post">
         {% csrf_token %}
         {{ formset.management_form }}
 
