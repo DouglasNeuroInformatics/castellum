@@ -170,19 +170,14 @@ class FilterFormSet(BaseModelFormSet):
 
         values = []
         for form in self.forms:
-            if 'DELETE' in form.cleaned_data:
-                if not form.cleaned_data['DELETE']:
-                    if 'field_name' in form.cleaned_data:
-                        values.append(form.cleaned_data['field_name'])
-                    if 'operator' in form.cleaned_data:
-                        values.append(form.cleaned_data['operator'])
-                    if 'value' in form.cleaned_data:
-                        values.append(form.cleaned_data['value'])
+            if not form.cleaned_data.get('DELETE', False):
+                values.append((
+                    form.cleaned_data.get('field_name'),
+                    form.cleaned_data.get('operator'),
+                    form.cleaned_data.get('value'),
+                ))
 
-        it = iter(values)
-        result = list(zip(it, it, it))
-
-        if len(set(result)) != len(result):
+        if len(set(values)) != len(values):
             raise ValidationError(_('There are duplicates in filters. Please change or '
                                     'delete filter!'))
 
