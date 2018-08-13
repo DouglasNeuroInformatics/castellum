@@ -160,8 +160,8 @@ msgstr "Name"
 msgid "Email"
 msgstr "E-Mail"
 
-#: castellum_core/recruitment/templates/recruitment/contact.html:17
-#: castellum_core/subject_management/forms.py:34
+#: castellum/contacts/forms.py:64
+#: castellum/recruitment/templates/recruitment/contact.html:17
 msgid "Phone number"
 msgstr "Telefonnummer"
 
@@ -221,15 +221,15 @@ msgstr "Kontaktperson"
 msgid "Create new study"
 msgstr "Neue Studie anlegen"
 
-#: castellum_core/subject_management/forms.py:35
+#: castellum/contacts/forms.py:65
 msgid "Alternative phone number"
 msgstr "Alternative  Telefonnummer"
 
-#: castellum_core/subject_management/forms.py:43
+#: castellum/contacts/forms.py:83
 msgid "Phone (ex. +4917693333333)"
 msgstr "Telefon (z.B. +4917693333333)"
 
-#: castellum_core/subject_management/forms.py:45
+#: castellum/contacts/forms.py:85
 msgid "Alternative phone (ex. +4917693333333)"
 msgstr "Alternatives Telefon (z.B. +4917693333333)"
 
@@ -238,131 +238,131 @@ msgid "At least one of address, email, or phone number must be set"
 msgstr ""
 "Mindestens eins von Adress, E-Mail oder Telefonnummer muss ausgefüllt sein"
 
-#: castellum_core/subject_management/models/address.py:27
-#: castellum_core/subject_management/models/address.py:39
+#: castellum/contacts/models/address.py:27
+#: castellum/contacts/models/address.py:39
 msgid "name"
 msgstr "Name"
 
-#: castellum_core/subject_management/models/address.py:34
-#: castellum_core/subject_management/models/address.py:40
+#: castellum/contacts/models/address.py:34
+#: castellum/contacts/models/address.py:40
 msgid "Country"
 msgstr "Staat"
 
-#: castellum_core/subject_management/models/address.py:35
+#: castellum/contacts/models/address.py:35
 msgid "Countries"
 msgstr "Staaten"
 
-#: castellum_core/subject_management/models/address.py:48
-#: castellum_core/subject_management/models/address.py:53
+#: castellum/contacts/models/address.py:48
+#: castellum/contacts/models/address.py:53
 msgid "City"
 msgstr "Stadt"
 
-#: castellum_core/subject_management/models/address.py:49
+#: castellum/contacts/models/address.py:49
 msgid "Cities"
 msgstr "Städte"
 
-#: castellum_core/subject_management/models/address.py:54
+#: castellum/contacts/models/address.py:54
 msgid "zip code"
 msgstr "Postleitzahl"
 
-#: castellum_core/subject_management/models/address.py:55
+#: castellum/contacts/models/address.py:55
 msgid "street"
 msgstr "Straße"
 
-#: castellum_core/subject_management/models/address.py:56
+#: castellum/contacts/models/address.py:56
 msgid "house_number"
 msgstr "Hausnummer"
 
-#: castellum_core/subject_management/models/address.py:57
+#: castellum/contacts/models/address.py:57
 msgid "additional information"
 msgstr "Zusätzliche Informationen"
 
-#: castellum_core/subject_management/models/address.py:67
-#: castellum_core/subject_management/models/subject.py:50
+#: castellum/contacts/models/address.py:67
+#: castellum/contacts/models/contact.py:50
 msgid "Address"
 msgstr "Adresse"
 
-#: castellum_core/subject_management/models/address.py:68
+#: castellum/contacts/models/address.py:68
 msgid "Addresses"
 msgstr "Adressen"
 
-#: castellum_core/subject_management/models/subject.py:37
+#: castellum/contacts/models/contact.py:37
 msgid "female"
 msgstr "weiblich"
 
-#: castellum_core/subject_management/models/subject.py:38
+#: castellum/contacts/models/contact.py:38
 msgid "male"
 msgstr "männlich"
 
-#: castellum_core/subject_management/models/subject.py:39
+#: castellum/contacts/models/contact.py:39
 msgid "diverse"
 msgstr "divers"
 
-#: castellum_core/subject_management/models/subject.py:42
+#: castellum/contacts/models/contact.py:42
 msgid "first name"
 msgstr "Vorname"
 
-#: castellum_core/subject_management/models/subject.py:43
+#: castellum/contacts/models/contact.py:43
 msgid "last name"
 msgstr "Nachname"
 
-#: castellum_core/subject_management/models/subject.py:44
+#: castellum/contacts/models/contact.py:44
 msgid "title"
 msgstr "Titel"
 
-#: castellum_core/subject_management/models/subject.py:46
+#: castellum/contacts/models/contact.py:46
 msgid "gender"
 msgstr "Geschlecht"
 
-#: castellum_core/subject_management/models/subject.py:48
+#: castellum/contacts/models/contact.py:48
 msgid "birthday"
 msgstr "Geburtstag"
 
-#: castellum_core/subject_management/models/subject.py:52
+#: castellum/contacts/models/contact.py:52
 msgid "email"
 msgstr "E-Mail"
 
-#: castellum_core/subject_management/models/subject.py:53
+#: castellum/contacts/models/contact.py:53
 msgid "phone number"
 msgstr "Telefonnummer"
 
-#: castellum_core/subject_management/models/subject.py:54
+#: castellum/contacts/models/contact.py:54
 msgid "phone number alternative"
 msgstr "Alternative Telefonnummer"
 
-#: castellum_core/subject_management/templates/subject_management/subject_detail.html:8
+#: castellum/contacts/templates/contacts/contact_detail.html:8
 msgid "Gender:"
 msgstr "Geschlecht:"
 
-#: castellum_core/subject_management/templates/subject_management/subject_detail.html:12
+#: castellum/contacts/templates/contacts/contact_detail.html:12
 msgid "Birthday:"
 msgstr "Geburtstag:"
 
-#: castellum_core/subject_management/templates/subject_management/subject_detail.html:16
+#: castellum/contacts/templates/contacts/contact_detail.html:16
 msgid "Address:"
 msgstr "Adresse:"
 
-#: castellum_core/subject_management/templates/subject_management/subject_detail.html:20
+#: castellum/contacts/templates/contacts/contact_detail.html:20
 msgid "Email:"
 msgstr "E-Mail:"
 
-#: castellum_core/subject_management/templates/subject_management/subject_detail.html:24
+#: castellum/contacts/templates/contacts/contact_detail.html:24
 msgid "Phone number:"
 msgstr "Telefonnummer:"
 
-#: castellum_core/subject_management/templates/subject_management/subject_detail.html:28
+#: castellum/contacts/templates/contacts/contact_detail.html:28
 msgid "Second phone number:"
 msgstr "Zweite Telefonnummer:"
 
-#: castellum_core/subject_management/templates/subject_management/subject_list.html:11
+#: castellum/contacts/templates/contacts/contact_list.html:11
 msgid "Full name"
 msgstr "Voller Name"
 
-#: castellum_core/subject_management/templates/subject_management/subject_list.html:20
+#: castellum/contacts/templates/contacts/contact_list.html:20
 msgid "View details"
 msgstr "Details ansehen"
 
-#: castellum_core/subject_management/templates/subject_management/subject_list.html:21
+#: castellum/contacts/templates/contacts/contact_list.html:21
 msgid "Update"
 msgstr "Aktualisieren"
 
@@ -392,50 +392,50 @@ msgstr "Muttersprache"
 msgid "Date of birth"
 msgstr "Geburtsdatum"
 
-#: castellum_core/templates/base.html:21
+#: castellum/templates/base.html:21
 msgid "Set language"
 msgstr "Sprache festlegen"
 
-#: castellum_core/templates/base.html:42
+#: castellum/templates/base.html:42
 msgid "Logout"
 msgstr "Abmelden"
 
-#: castellum_core/templates/base.html:45 castellum_core/templates/login.html:17
+#: castellum/templates/base.html:45 castellum/templates/login.html:17
 msgid "Login"
 msgstr "Anmelden"
 
-#: castellum_core/templates/index.html:4
+#: castellum/templates/index.html:4
 msgid "Start"
 msgstr "Start"
 
-#: castellum_core/templates/index.html:10
+#: castellum/templates/index.html:10
 msgid "You are logged in as admin!"
 msgstr "Sie sind mit Administrationsrechten angemeldet!"
 
-#: castellum_core/templates/index.html:12
+#: castellum/templates/index.html:12
 msgid "You are not listed as admin!"
 msgstr "Sie haben keine Administrationsrechte!"
 
-#: castellum_core/templates/index.html:14
+#: castellum/templates/index.html:14
 msgid "You are registered since"
 msgstr "Sie sind registriert seit"
 
-#: castellum_core/templates/index.html:18
+#: castellum/templates/index.html:18
 msgid "Study management"
 msgstr "Studienverwaltung"
 
-#: castellum_core/templates/index.html:19
+#: castellum/templates/index.html:19
 msgid "Subject management"
 msgstr "Probandenverwaltung"
 
-#: castellum_core/templates/index.html:20
+#: castellum/templates/index.html:20
 msgid "Recruitment"
 msgstr "Rekrutierung"
 
-#: castellum_core/templates/index.html:23
+#: castellum/templates/index.html:23
 msgid "Not logged in"
 msgstr "Nicht angemeldet"
 
-#: castellum_core/templates/login.html:4
+#: castellum/templates/login.html:4
 msgid "Log in"
 msgstr "Anmelden"
