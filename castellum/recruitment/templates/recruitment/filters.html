@@ -6,8 +6,7 @@
 
     <p>{% trans 'matches' %}: {{ count }} / {{ total_count }}</p>
 
-    {% if study.published %}
-    <form method="post">
+    <form {% if not study.published %}method="post"{% endif %}>
         {% csrf_token %}
         {{ formset.management_form }}
 
@@ -15,23 +14,25 @@
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
 
-        {% for form in formset %}
-            {% if not form.field_name.value %}
-                <h2>{% trans "Add Filter" %}</h2>
-                <formset class="row">
-                    {{ form.id.as_hidden }}
-                    {{ form.study.as_hidden }}
-                    {{ form.operator.as_hidden }}
-                    {{ form.value.as_hidden }}
+        {% if not study.published %}
+            {% for form in formset %}
+                {% if not form.field_name.value %}
+                    <h2>{% trans "Add Filter" %}</h2>
+                    <formset class="row">
+                        {{ form.id.as_hidden }}
+                        {{ form.study.as_hidden }}
+                        {{ form.operator.as_hidden }}
+                        {{ form.value.as_hidden }}
 
-                    <div class="col-sm-4">
-                        {% bootstrap_field form.field_name show_label=False %}
-                    </div>
-                </formset>
-                <hr>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
+                        <div class="col-sm-4">
+                            {% bootstrap_field form.field_name show_label=False %}
+                        </div>
+                    </formset>
+                    <hr>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
 
         {% for form in formset %}
             {% if form.field_name.value %}
@@ -55,7 +56,7 @@
                         {% bootstrap_field form.value show_label=False%}
                     </div>
 
-                    {% if study.published %}
+                    {% if not study.published %}
                         {% bootstrap_field form.DELETE %}
                     {% endif %}
                 </formset>
@@ -63,7 +64,8 @@
         {% endfor %}
 
         <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-        {% if study.published %}
+
+        {% if not study.published %}
             <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}"/>
             </form>
         {% endif %}
