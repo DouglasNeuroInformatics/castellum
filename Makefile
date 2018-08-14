@@ -31,7 +31,7 @@ remove_sqlite_databases:
 	rm -f castellum/contacts.sqlite3
 
 remove_all_migration_files:
-	find . -name 0*.py -delete
+	find castellum -name 0*.py -delete
 
 reset_databases: remove_sqlite_databases remove_all_migration_files migrate createsuperuser
 	$(MANAGEPY) populate
