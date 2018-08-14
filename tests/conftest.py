@@ -1,9 +1,11 @@
 from django.utils import timezone
 
 import pytest
-from castellum.castellum_auth.models import User
-from castellum.studies.models import Study
 from model_mommy import mommy
+
+from castellum.castellum_auth.models import User
+from castellum.contacts.models import Contact
+from castellum.studies.models import Study
 
 
 @pytest.fixture
@@ -25,3 +27,8 @@ def published_study(db):
 @pytest.fixture
 def unpublished_study(db):
     return mommy.make(Study, published=False)
+
+
+@pytest.fixture
+def contact(db):
+    return mommy.make(Contact, pseudonym=None)
