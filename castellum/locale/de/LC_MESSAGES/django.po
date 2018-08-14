@@ -410,6 +410,10 @@ msgstr "Abbrechen"
 msgid "Filter Groups"
 msgstr "Filtergruppen"
 
+#: castellum/recruitment/templates/recruitment/subjectfiltergroup_list.html:7
+msgid "The subjects for the study will be picked from any of these groups:"
+msgstr "Die Probanden für die Studie werden aus einer dieser Gruppen ausgewählt:"
+
 #: castellum/recruitment/templates/recruitment/subjectfiltergroup_list.html:15
 msgid "Add new"
 msgstr "Hinzufügen"
