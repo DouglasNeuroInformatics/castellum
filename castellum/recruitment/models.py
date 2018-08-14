@@ -27,6 +27,7 @@ from picklefield.fields import PickledObjectField
 
 from castellum.pseudonyms.models import SubjectData
 from castellum.studies.models import Study
+from castellum.utils import DateField
 
 
 class AttributeSet(SubjectData):
@@ -35,7 +36,7 @@ class AttributeSet(SubjectData):
         ('right', _('Right')),
     ))
     first_language = models.CharField(_('First Language'), blank=True, max_length=5)
-    date_of_birth = models.DateField(_('Date of birth'), null=True, blank=True)
+    date_of_birth = DateField(_('Date of birth'), null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse('recruitment:attributes_detail', args=[self.pseudonym])

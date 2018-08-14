@@ -24,9 +24,6 @@ from django.forms import ValidationError
 from django.forms.widgets import TextInput
 from django.utils.translation import ugettext_lazy as _
 
-from phonenumber_field.formfields import PhoneNumberField
-from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
-
 from .models import Address
 from .models import City
 from .models import Contact
@@ -61,9 +58,6 @@ class AddressForm(forms.ModelForm):
 
 class ContactForm(forms.ModelForm):
 
-    phone_number = PhoneNumberField(label=_("Phone number"), required=False)
-    phone_number_alternative = PhoneNumberField(label=_("Alternative phone number"), required=False)
-
     # fields required for the address
     country = forms.CharField(required=False, widget=DatalistWidget(
         datalist=Country.objects.values_list('name', flat=True)))
@@ -77,13 +71,6 @@ class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
         exclude = ('address',)
-
-        widgets = {
-            'phone_number': PhoneNumberInternationalFallbackWidget(
-                attrs={'placeholder': _('Phone (ex. +4917693333333)')}),
-            'phone_number_alternative': PhoneNumberInternationalFallbackWidget(
-                attrs={'placeholder': _('Alternative phone (ex. +4917693333333)')}),
-        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -1,3 +1,4 @@
+from django.db.models import DateField
 from django.utils import timezone
 
 import pytest
@@ -6,6 +7,8 @@ from model_mommy import mommy
 from castellum.castellum_auth.models import User
 from castellum.contacts.models import Contact
 from castellum.studies.models import Study
+
+mommy.generators.add('castellum.utils.DateField', mommy.generators.default_mapping[DateField])
 
 
 @pytest.fixture
