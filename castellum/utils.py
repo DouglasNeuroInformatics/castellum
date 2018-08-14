@@ -90,7 +90,6 @@ class DateInput(forms.DateInput):
     def __init__(self, attrs=None):
         defaults = {
             'placeholder': _('yyyy-mm-dd, e.g. 2018-07-21'),
-            'pattern': '[1-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]',
         }
         if attrs:
             defaults.update(attrs)
