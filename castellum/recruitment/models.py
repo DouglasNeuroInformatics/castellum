@@ -93,8 +93,15 @@ class SubjectFilter(models.Model):
     value = PickledObjectField(editable=True)
 
     def to_q(self):
-        key = '{}__{}'.format(self.field_name, self.operator)
-        return models.Q(**{key: self.value})
+        if self.operator.startswith('!'):
+            key = '{}__{}'.format(self.field_name, self.operator[1:])
+            q = models.Q(**{key: self.value})
+            q_empty = models.Q(**{self.field_name: ''})
+            q_null = models.Q(**{self.field_name: None})
+            return ~q & ~q_empty & ~q_null
+        else:
+            key = '{}__{}'.format(self.field_name, self.operator)
+            return models.Q(**{key: self.value})
 
     def __str__(self):
         return '{}__{}={}'.format(self.field_name, self.operator, self.value)
@@ -118,6 +125,7 @@ class NumberFilter(SubjectFilter):
         "lt": _("<"),
         "gt": _(">"),
         "exact": _("=="),
+        "!exact": _("!="),
         "lte": _("<="),
         "gte": _(">="),
     }
@@ -131,7 +139,8 @@ class NumberFilter(SubjectFilter):
 
 class TextFilter(SubjectFilter):
     available_operators = {
-        "exact": _("equals"),
+        "exact": _("is"),
+        "!exact": _("is not"),
         "contains": _("contains"),
     }
 
