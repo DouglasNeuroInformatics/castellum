@@ -123,6 +123,11 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
     slug_field = 'pseudonym'
     template_name = 'recruitment/contact.html'
 
+    def get_queryset(self, queryset=None):
+        if not queryset:
+            queryset = Participation.objects
+        return queryset.filter(study=self.study)
+
     def get_success_url(self):
         return reverse('recruitment:recruitment', args=[self.object.study.pk])
 

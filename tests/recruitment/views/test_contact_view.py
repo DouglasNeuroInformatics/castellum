@@ -10,9 +10,9 @@ def test_404_page_returned_if_study_is_not_provided(client, user, participation)
     assert response.status_code == 404
 
 
-def test_404_page_returned_if_wrong_study_is_provided(client, user, participation, study):
+def test_404_page_returned_if_wrong_study_is_provided(client, user, participation, published_study):
     client.force_login(user)
-    url = '/recruitment/{}/{}/'.format(study.pk, participation.pseudonym)
+    url = '/recruitment/{}/{}/'.format(published_study.pk, participation.pseudonym)
     response = client.get(url)
     assert response.status_code == 404
 
