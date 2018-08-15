@@ -86,8 +86,7 @@ class SubjectFilterForm(forms.ModelForm):
     def _get_operator_choices_by_field_name(self, field_name):
         model_field = self._get_model_field_by_field_name(field_name)
         filter_field = self.FILTER_MAPPING[model_field.get_internal_type()]
-        operators = filter_field.available_operators
-        return (tuple(operator) for operator in operators.items())
+        return filter_field.available_operators
 
     def _get_form_field_by_field_name(self, field_name):
         model_field = self._get_model_field_by_field_name(field_name)

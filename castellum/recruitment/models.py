@@ -110,26 +110,26 @@ class BaseFilterField:
 
 
 class DateFilterField(BaseFilterField):
-    available_operators = {
-        "lt": _("before"),
-        "gt": _("after"),
-    }
+    available_operators = [
+        ("lt", _("before")),
+        ("gt", _("after")),
+    ]
 
 
 class NumberFilterField(BaseFilterField):
-    available_operators = {
-        "lt": _("<"),
-        "gt": _(">"),
-        "exact": _("=="),
-        "!exact": _("!="),
-        "lte": _("<="),
-        "gte": _(">="),
-    }
+    available_operators = [
+        ("lt", _("<")),
+        ("gt", _(">")),
+        ("exact", _("==")),
+        ("!exact", _("!=")),
+        ("lte", _("<=")),
+        ("gte", _(">=")),
+    ]
 
 
 class TextFilterField(BaseFilterField):
-    available_operators = {
-        "exact": _("is"),
-        "!exact": _("is not"),
-        "contains": _("contains"),
-    }
+    available_operators = [
+        ("exact", _("is")),
+        ("!exact", _("is not")),
+        ("contains", _("contains")),
+    ]
