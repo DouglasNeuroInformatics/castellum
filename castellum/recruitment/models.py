@@ -85,8 +85,6 @@ class SubjectFilterGroup(models.Model):
 
 
 class SubjectFilter(models.Model):
-    available_operators = NotImplemented
-
     group = models.ForeignKey(SubjectFilterGroup, on_delete=models.CASCADE)
     field_name = models.CharField(max_length=256)
     operator = models.CharField(max_length=64)
@@ -107,20 +105,18 @@ class SubjectFilter(models.Model):
         return '{}__{}={}'.format(self.field_name, self.operator, self.value)
 
 
-class DateFilter(SubjectFilter):
+class BaseFilterField:
+    available_operators = NotImplemented
+
+
+class DateFilterField(BaseFilterField):
     available_operators = {
         "lt": _("before"),
         "gt": _("after"),
     }
 
-    def __repr__(self):
-        return "DateFilter"
 
-    class Meta:
-        proxy = True
-
-
-class NumberFilter(SubjectFilter):
+class NumberFilterField(BaseFilterField):
     available_operators = {
         "lt": _("<"),
         "gt": _(">"),
@@ -130,22 +126,10 @@ class NumberFilter(SubjectFilter):
         "gte": _(">="),
     }
 
-    def __repr__(self):
-        return "NumberFilter"
 
-    class Meta:
-        proxy = True
-
-
-class TextFilter(SubjectFilter):
+class TextFilterField(BaseFilterField):
     available_operators = {
         "exact": _("is"),
         "!exact": _("is not"),
         "contains": _("contains"),
     }
-
-    def __repr__(self):
-        return "TextFilter"
-
-    class Meta:
-        proxy = True

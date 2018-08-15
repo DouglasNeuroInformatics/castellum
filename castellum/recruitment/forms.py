@@ -24,10 +24,10 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from castellum.recruitment.models import AttributeSet
 
-from .models import DateFilter
-from .models import NumberFilter
+from .models import DateFilterField
+from .models import NumberFilterField
 from .models import SubjectFilter
-from .models import TextFilter
+from .models import TextFilterField
 
 
 def get_field_name_choices():
@@ -38,10 +38,10 @@ def get_field_name_choices():
 
 class SubjectFilterForm(forms.ModelForm):
     FILTER_MAPPING = {
-        "CharField": TextFilter(),
-        "DateField": DateFilter(),
-        "FloatField": NumberFilter(),
-        "IntegerField": NumberFilter(),
+        "CharField": TextFilterField(),
+        "DateField": DateFilterField(),
+        "FloatField": NumberFilterField(),
+        "IntegerField": NumberFilterField(),
     }
 
     field_name = forms.ChoiceField(choices=get_field_name_choices())
@@ -85,8 +85,8 @@ class SubjectFilterForm(forms.ModelForm):
 
     def _get_operator_choices_by_field_name(self, field_name):
         model_field = self._get_model_field_by_field_name(field_name)
-        subject_filter = self.FILTER_MAPPING[model_field.get_internal_type()]
-        operators = subject_filter.available_operators
+        filter_field = self.FILTER_MAPPING[model_field.get_internal_type()]
+        operators = filter_field.available_operators
         return (tuple(operator) for operator in operators.items())
 
     def _get_form_field_by_field_name(self, field_name):
