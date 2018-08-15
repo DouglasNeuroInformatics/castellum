@@ -4,6 +4,31 @@
 {% block content %}
     <h1>{{ study.name }}</h1>
 
+    <details>
+        <summary>{% trans "Study details" %}</summary>
+
+        <p>{{ study.summary }}</p>
+
+        <table class="table">
+            <tr>
+                <th>{% trans "Expense allowance" %}</th>
+                <td>{{ study.expense }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Number of test sessions per subject" %}</th>
+                <td>{{ study.test_sessions }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Start of test sessions" %}</th>
+                <td>{{ study.test_start }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "End of test sessions" %}</th>
+                <td>{{ study.test_end }}</td>
+            </tr>
+        </table>
+    </details>
+
     <table class="table">
         <tr>
             <th>{% trans 'Name' %}</th>
