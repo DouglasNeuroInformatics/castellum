@@ -19,6 +19,9 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
+from django import forms
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -101,9 +104,9 @@ class SubjectFilter(models.Model):
 class BaseFilterField:
     available_operators = NotImplemented
 
-    def formfield(self, field_name):
+    def formfield(self, field_name, **kwargs):
         model_field = AttributeSet._meta.get_field(field_name)
-        return model_field.formfield()
+        return model_field.formfield(**kwargs)
 
     def to_q(self, field_name, operator, value):
         if operator.startswith('!'):
@@ -141,6 +144,21 @@ class TextFilterField(BaseFilterField):
         ("!exact", _("is not")),
         ("contains", _("contains")),
     ]
+
+
+class AgeFilterField(NumberFilterField):
+    available_operators = [
+        ("lt", _("older than")),
+        ("gt", _("younger than")),
+    ]
+
+    def formfield(self, field_name, **kwargs):
+        kwargs.setdefault('form_class', forms.IntegerField)
+        return super().formfield(field_name, **kwargs)
+
+    def to_q(self, field_name, operator, value):
+        date = datetime.date.today() - datetime.timedelta(days=365 * value)
+        return super().to_q(field_name, operator, date)
 
 
 def get_filter_field(field_name):
