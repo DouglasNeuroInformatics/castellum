@@ -82,21 +82,14 @@ class StudyChoiceView(LoginRequiredMixin, ListView):
 
 
 class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
-    model = AttributeSet
-    context_object_name = 'attributesets'
+    model = Participation
+    context_object_name = 'participations'
     template_name = 'recruitment/recruitment.html'
 
-    def qs_sample(self, qs, k):
-        all_ids = list(qs.values_list('id', flat=True))
-        if len(all_ids) > k:
-            picked_ids = random.sample(all_ids, k)
-            return qs.filter(id__in=picked_ids)
-        else:
-            return qs
-
     def get_queryset(self, queryset=None):
-        qs = AttributeSet.apply_study_filter(self.study, queryset=queryset)
-        return self.qs_sample(qs, 6)
+        if not queryset:
+            queryset = Participation.objects
+        return queryset.filter(study=self.study, status=Participation.TODO)
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
@@ -107,33 +100,23 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
 class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
     model = Participation
     fields = ['status']
+    slug_field = 'pseudonym'
     template_name = 'recruitment/contact.html'
-
-    def get_object(self, queryset=None):
-        if queryset is None:
-            queryset = self.get_queryset()
-
-        self.attributeset = get_object_or_404(
-            AttributeSet, pseudonym=self.kwargs['attributeset_slug'])
-
-        contact_pseudonym = resolve_pseudonym(
-            settings.DOMAINS['attributeset'],
-            self.attributeset.pseudonym,
-            settings.DOMAINS['contact'])
-        self.contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
-
-        pseudonym = resolve_pseudonym(
-            settings.DOMAINS['contact'], self.contact.pseudonym, self.study.domain)
-        participation, __ = queryset.get_or_create(study=self.study, pseudonym=pseudonym)
-        return participation
 
     def get_success_url(self):
         return reverse('recruitment:recruitment', args=[self.object.study.pk])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        contact_pseudonym = resolve_pseudonym(
+            self.study.domain,
+            self.object.pseudonym,
+            settings.DOMAINS['contact'])
+        contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
+
         context['study'] = self.study
-        context['contact'] = self.contact
+        context['contact'] = contact
         return context
 
     def form_valid(self, form):
