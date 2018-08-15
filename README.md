@@ -7,7 +7,7 @@ Castellum is a privacy-compliant recruiting database for scientific contexts.
 
 ## Status
 
-This project is still in development. There may be sever vulnerabilities
+This project is still in development. There may be severe vulnerabilities
 in the code. It is strongly recommended not to use this in production
 yet.
 
