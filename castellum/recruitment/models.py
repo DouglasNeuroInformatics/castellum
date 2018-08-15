@@ -133,3 +133,16 @@ class TextFilterField(BaseFilterField):
         ("!exact", _("is not")),
         ("contains", _("contains")),
     ]
+
+
+def get_filter_field(field_name):
+    FILTER_MAPPING = {
+        "CharField": TextFilterField(),
+        "DateField": DateFilterField(),
+        "FloatField": NumberFilterField(),
+        "IntegerField": NumberFilterField(),
+    }
+
+    model_field = AttributeSet._meta.get_field(field_name)
+    model_type = model_field.get_internal_type()
+    return FILTER_MAPPING[model_type]

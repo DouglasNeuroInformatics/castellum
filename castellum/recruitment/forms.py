@@ -22,12 +22,9 @@
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 
-from castellum.recruitment.models import AttributeSet
-
-from .models import DateFilterField
-from .models import NumberFilterField
+from .models import AttributeSet
 from .models import SubjectFilter
-from .models import TextFilterField
+from .models import get_filter_field
 
 
 def get_field_name_choices():
@@ -37,13 +34,6 @@ def get_field_name_choices():
 
 
 class SubjectFilterForm(forms.ModelForm):
-    FILTER_MAPPING = {
-        "CharField": TextFilterField(),
-        "DateField": DateFilterField(),
-        "FloatField": NumberFilterField(),
-        "IntegerField": NumberFilterField(),
-    }
-
     field_name = forms.ChoiceField(choices=get_field_name_choices())
 
     def __init__(self, *args, **kwargs):
@@ -54,10 +44,11 @@ class SubjectFilterForm(forms.ModelForm):
         if not selected_field_name:
             return
 
+        filter_field = get_filter_field(selected_field_name)
+
         self.fields["field_name"].widget.attrs["disabled"] = True
 
-        choices = self._get_operator_choices_by_field_name(selected_field_name)
-        self.fields["operator"] = forms.ChoiceField(choices=choices)
+        self.fields["operator"] = forms.ChoiceField(choices=filter_field.available_operators)
 
         self.fields["value"] = self._get_form_field_by_field_name(selected_field_name)
         self.fields["value"].required = True
@@ -82,11 +73,6 @@ class SubjectFilterForm(forms.ModelForm):
 
     def _get_model_field_by_field_name(self, field_name):
         return AttributeSet._meta.get_field(field_name)
-
-    def _get_operator_choices_by_field_name(self, field_name):
-        model_field = self._get_model_field_by_field_name(field_name)
-        filter_field = self.FILTER_MAPPING[model_field.get_internal_type()]
-        return filter_field.available_operators
 
     def _get_form_field_by_field_name(self, field_name):
         model_field = self._get_model_field_by_field_name(field_name)
