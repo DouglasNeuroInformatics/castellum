@@ -24,14 +24,22 @@ For more details, see `docs/deployment.md`.
 The following commands will install everything and start a local testserver (on ubuntu):
 
     sudo apt install python3 npm python3-dev libldap2-dev libsasl2-dev
+    cd castellum
     python3 -m venv .env
     . .env/bin/activate
-    cd castellum
     make install-githooks
     make bootstrap
     make run
 
 You can login with user "admin" and password "123".
+
+After pulling new changes it is recommended to rebuild the databases and migrations:
+
+    make reset_databases
+
+## Testing
+
+The command `tox` will execute all tests.
 
 ## Links
 
