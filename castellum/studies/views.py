@@ -36,7 +36,16 @@ class IndexView(LoginRequiredMixin, generic.ListView):
 
 class CreateView(LoginRequiredMixin, generic.CreateView):
     model = models.Study
-    fields = ('name', 'contact_person')
+    fields = (
+        'name',
+        'contact_person',
+        'summary',
+        'expense',
+        'test_sessions',
+        'test_start',
+        'test_end',
+        'target_size',
+    )
 
     def get_success_url(self):
         return reverse('studies:index')
@@ -44,7 +53,16 @@ class CreateView(LoginRequiredMixin, generic.CreateView):
 
 class UpdateView(LoginRequiredMixin, generic.UpdateView):
     model = models.Study
-    fields = ('name', 'contact_person')
+    fields = (
+        'name',
+        'contact_person',
+        'summary',
+        'expense',
+        'test_sessions',
+        'test_start',
+        'test_end',
+        'target_size',
+    )
 
     def get_success_url(self):
         return reverse('studies:index')
