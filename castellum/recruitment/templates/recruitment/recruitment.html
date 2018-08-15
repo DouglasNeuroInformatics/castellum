@@ -23,5 +23,10 @@
     </tbody>
     </table>
 
+    <form method="post">
+        {% csrf_token %}
+        <button class="btn btn-primary">{% trans 'Add' %}</button>
+    </form>
+
     <a href="{% url 'recruitment:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
 {% endblock %}

@@ -23,6 +23,7 @@ import logging
 import random
 
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.forms import BaseModelFormSet
@@ -95,6 +96,25 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
         context = super(ListView, self).get_context_data(**kwargs)
         context['study'] = self.study
         return context
+
+    def pick_random(self, qs):
+        random_index = random.randint(0, qs.count() - 1)
+        return qs.all()[random_index]
+
+    def post(self, request, *args, **kwargs):
+        attributeset = self.pick_random(AttributeSet.apply_study_filter(self.study))
+        participation_pseudonym = resolve_pseudonym(
+            settings.DOMAINS['attributeset'],
+            attributeset.pseudonym,
+            self.study.domain)
+        __, created = Participation.objects.get_or_create(
+            study=self.study, pseudonym=participation_pseudonym)
+        if not created:
+            messages.error(request, _(
+                'Picked person already participates in the study. You can '
+                'just try again. But this might indicate that there are not '
+                'many matches left.'))
+        return self.get(request, *args, **kwargs)
 
 
 class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
