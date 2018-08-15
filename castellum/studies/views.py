@@ -37,7 +37,9 @@ class IndexView(LoginRequiredMixin, generic.ListView):
 class CreateView(LoginRequiredMixin, generic.CreateView):
     model = models.Study
     fields = '__all__'
-    success_url = '/'
+
+    def get_success_url(self):
+        return reverse('studies:index')
 
 
 class PublishView(LoginRequiredMixin, View):
