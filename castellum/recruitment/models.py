@@ -91,15 +91,8 @@ class SubjectFilter(models.Model):
     value = PickledObjectField(editable=True)
 
     def to_q(self):
-        if self.operator.startswith('!'):
-            key = '{}__{}'.format(self.field_name, self.operator[1:])
-            q = models.Q(**{key: self.value})
-            q_empty = models.Q(**{self.field_name: ''})
-            q_null = models.Q(**{self.field_name: None})
-            return ~q & ~q_empty & ~q_null
-        else:
-            key = '{}__{}'.format(self.field_name, self.operator)
-            return models.Q(**{key: self.value})
+        filter_field = get_filter_field(self.field_name)
+        return filter_field.to_q(self.field_name, self.operator, self.value)
 
     def __str__(self):
         return '{}__{}={}'.format(self.field_name, self.operator, self.value)
@@ -111,6 +104,17 @@ class BaseFilterField:
     def formfield(self, field_name):
         model_field = AttributeSet._meta.get_field(field_name)
         return model_field.formfield()
+
+    def to_q(self, field_name, operator, value):
+        if operator.startswith('!'):
+            key = '{}__{}'.format(field_name, operator[1:])
+            q = models.Q(**{key: value})
+            q_empty = models.Q(**{field_name: ''})
+            q_null = models.Q(**{field_name: None})
+            return ~q & ~q_empty & ~q_null
+        else:
+            key = '{}__{}'.format(field_name, operator)
+            return models.Q(**{key: value})
 
 
 class DateFilterField(BaseFilterField):
