@@ -34,6 +34,10 @@ from castellum.utils import DateField
 
 
 class AttributeSet(SubjectData):
+    filter_fields = {
+        'date_of_birth': 'AgeFilterField',
+    }
+
     handedness = models.CharField(_('Handedness'), blank=True, max_length=10, choices=(
         ('left', _('Left')),
         ('right', _('Right')),
@@ -162,13 +166,24 @@ class AgeFilterField(NumberFilterField):
 
 
 def get_filter_field(field_name):
-    FILTER_MAPPING = {
-        "CharField": TextFilterField(),
-        "DateField": DateFilterField(),
-        "FloatField": NumberFilterField(),
-        "IntegerField": NumberFilterField(),
-    }
+    if field_name in AttributeSet.filter_fields:
+        FILTERS = {
+            "DateFilterField": DateFilterField(),
+            "NumberFilterField": NumberFilterField(),
+            "TextFilterField": TextFilterField(),
+            "AgeFilterField": AgeFilterField(),
+        }
 
-    model_field = AttributeSet._meta.get_field(field_name)
-    model_type = model_field.get_internal_type()
-    return FILTER_MAPPING[model_type]
+        overwrite = AttributeSet.filter_fields[field_name]
+        return FILTERS[overwrite]
+    else:
+        FILTER_MAPPING = {
+            "CharField": TextFilterField(),
+            "DateField": DateFilterField(),
+            "FloatField": NumberFilterField(),
+            "IntegerField": NumberFilterField(),
+        }
+
+        model_field = AttributeSet._meta.get_field(field_name)
+        model_type = model_field.get_internal_type()
+        return FILTER_MAPPING[model_type]
