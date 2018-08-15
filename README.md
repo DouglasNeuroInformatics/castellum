@@ -32,3 +32,9 @@ The following commands will install everything and start a local testserver (on 
     make run
 
 You can login with user "admin" and password "123".
+
+## Links
+
+-   Project home page: https://www.mpib-berlin.mpg.de/en/research/lifespan-psychology/castellum
+-   Source code: https://git.mpib-berlin.mpg.de/castellum/castellum/
+-   Code of conduct: https://www.mpg.de/11961177/code-of-conduct-en.pdf
