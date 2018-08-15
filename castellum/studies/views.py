@@ -42,6 +42,14 @@ class CreateView(LoginRequiredMixin, generic.CreateView):
         return reverse('studies:index')
 
 
+class UpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = models.Study
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('studies:index')
+
+
 class PublishView(LoginRequiredMixin, View):
     def post(self, request, study_pk):
         study = get_object_or_404(models.Study, pk=study_pk)
