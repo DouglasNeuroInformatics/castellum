@@ -21,7 +21,6 @@
 
 import datetime
 
-from django import forms
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -31,6 +30,8 @@ from picklefield.fields import PickledObjectField
 from castellum.pseudonyms.models import SubjectData
 from castellum.studies.models import Study
 from castellum.utils import DateField
+
+from .fields import AgeField
 
 
 class AttributeSet(SubjectData):
@@ -160,11 +161,14 @@ class AgeFilterField(NumberFilterField):
     ]
 
     def formfield(self, field_name, **kwargs):
-        kwargs.setdefault('form_class', forms.IntegerField)
+        kwargs.setdefault('form_class', AgeField)
         return super().formfield(field_name, **kwargs)
 
     def to_q(self, field_name, operator, value):
-        date = datetime.date.today() - datetime.timedelta(days=365 * value)
+        days, scale = value
+        if scale == 'years':
+            days *= 365
+        date = datetime.date.today() - datetime.timedelta(days=days)
         return super().to_q(field_name, operator, date)
 
 
