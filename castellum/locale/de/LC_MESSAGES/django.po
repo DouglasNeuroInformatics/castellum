@@ -349,10 +349,9 @@ msgstr "E-Mail"
 msgid "Second phone number"
 msgstr "Zweite Telefonnummer"
 
-#: castellum/recruitment/templates/recruitment/contact.html:35
-#: castellum/recruitment/templates/recruitment/filters.html:68
-msgid "Submit"
-msgstr "Speichern"
+#: castellum/recruitment/templates/recruitment/contact.html:34
+msgid "Save and go back"
+msgstr "Speichern und zurück"
 
 #: castellum/recruitment/templates/recruitment/filters.html:5
 msgid "Filters"
