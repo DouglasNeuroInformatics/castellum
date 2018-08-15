@@ -1,4 +1,5 @@
 FROM alpine
+
 ENV PYTHONUNBUFFERED 1
 ENV BUILDPKGS gcc musl-dev postgresql-dev openldap-dev cyrus-sasl-dev python3-dev gettext
 ENV RUNTIMEPKGS uwsgi uwsgi-python3 python3 nodejs-npm openldap postgresql-libs libressl
@@ -16,12 +17,12 @@ WORKDIR code/
 RUN echo 'python3 /code/manage.py clear_sessions' > /etc/periodic/daily/castellum_clear_sessions
 RUN chmod 755 /etc/periodic/daily/castellum_clear_sessions
 
-RUN pip3 install -e .
-RUN npm install
+RUN pip3 install -U pip && \
+    pip3 install -e . && \
+    npm install
 
-RUN python3 manage.py makemigrations
-
-RUN python3 manage.py collectstatic --no-input
-RUN python3 manage.py compilemessages -l de
+RUN castellum-admin makemigrations --settings=castellum.settings && \
+    castellum-admin collectstatic --no-input --settings=castellum.settings && \
+    castellum-admin compilemessages -l de
 
 RUN apk del $BUILDPKGS
