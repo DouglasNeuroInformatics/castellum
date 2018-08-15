@@ -30,7 +30,10 @@ from .models import get_filter_field
 def get_field_name_choices():
     yield '', '---'
     for field in AttributeSet._meta.get_fields()[2:]:
-        yield field.name, field.verbose_name
+        if field.name in AttributeSet.filter_names:
+            yield field.name, AttributeSet.filter_names[field.name]
+        else:
+            yield field.name, field.verbose_name
 
 
 class SubjectFilterForm(forms.ModelForm):

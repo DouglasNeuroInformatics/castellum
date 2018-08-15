@@ -37,6 +37,9 @@ class AttributeSet(SubjectData):
     filter_fields = {
         'date_of_birth': 'AgeFilterField',
     }
+    filter_names = {
+        'date_of_birth': _('Age'),
+    }
 
     handedness = models.CharField(_('Handedness'), blank=True, max_length=10, choices=(
         ('left', _('Left')),
