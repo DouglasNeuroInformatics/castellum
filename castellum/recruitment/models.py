@@ -108,6 +108,10 @@ class SubjectFilter(models.Model):
 class BaseFilterField:
     available_operators = NotImplemented
 
+    def formfield(self, field_name):
+        model_field = AttributeSet._meta.get_field(field_name)
+        return model_field.formfield()
+
 
 class DateFilterField(BaseFilterField):
     available_operators = [

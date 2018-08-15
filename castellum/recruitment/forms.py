@@ -50,7 +50,7 @@ class SubjectFilterForm(forms.ModelForm):
 
         self.fields["operator"] = forms.ChoiceField(choices=filter_field.available_operators)
 
-        self.fields["value"] = self._get_form_field_by_field_name(selected_field_name)
+        self.fields["value"] = filter_field.formfield(selected_field_name)
         self.fields["value"].required = True
 
         # disable fields when study is not published
@@ -70,13 +70,6 @@ class SubjectFilterForm(forms.ModelForm):
                 return data[prefix + '-field_name']
             else:
                 return data['field_name']
-
-    def _get_model_field_by_field_name(self, field_name):
-        return AttributeSet._meta.get_field(field_name)
-
-    def _get_form_field_by_field_name(self, field_name):
-        model_field = self._get_model_field_by_field_name(field_name)
-        return model_field.formfield()
 
     class Meta:
         model = SubjectFilter
