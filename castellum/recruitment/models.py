@@ -102,8 +102,8 @@ class SubjectFilter(models.Model):
 
 class DateFilter(SubjectFilter):
     available_operators = {
-        "lt": "before",
-        "gt": "after",
+        "lt": _("before"),
+        "gt": _("after"),
     }
 
     def __repr__(self):
@@ -115,11 +115,11 @@ class DateFilter(SubjectFilter):
 
 class NumberFilter(SubjectFilter):
     available_operators = {
-        "lt": "<",
-        "gt": ">",
-        "exact": "==",
-        "lte": "<=",
-        "gte": ">=",
+        "lt": _("<"),
+        "gt": _(">"),
+        "exact": _("=="),
+        "lte": _("<="),
+        "gte": _(">="),
     }
 
     def __repr__(self):
@@ -131,8 +131,8 @@ class NumberFilter(SubjectFilter):
 
 class TextFilter(SubjectFilter):
     available_operators = {
-        "exact": "equals",
-        "contains": "contains"
+        "exact": _("equals"),
+        "contains": _("contains"),
     }
 
     def __repr__(self):
