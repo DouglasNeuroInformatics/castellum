@@ -11,18 +11,18 @@
 
         {% bootstrap_field form.name %}
         {% bootstrap_field form.contact_person %}
-        {% bootstrap_field form.summary %}
-        {% bootstrap_field form.expense addon_after=_('EUR') %}
-        {% bootstrap_field form.test_sessions %}
+        {% bootstrap_field form.description %}
+        {% bootstrap_field form.expense_allowance addon_after=_('EUR') %}
+        {% bootstrap_field form.sessions_count %}
         <div class="row">
             <div class="col-md-6">
-                {% bootstrap_field form.test_start %}
+                {% bootstrap_field form.sessions_start %}
             </div>
             <div class="col-md-6">
-                {% bootstrap_field form.test_end %}
+                {% bootstrap_field form.sessions_end %}
             </div>
         </div>
-        {% bootstrap_field form.target_size %}
+        {% bootstrap_field form.min_subjects_count %}
 
         <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Cancel" %}</a>
         <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />

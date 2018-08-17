@@ -39,12 +39,12 @@ class CreateView(LoginRequiredMixin, generic.CreateView):
     fields = (
         'name',
         'contact_person',
-        'summary',
-        'expense',
-        'test_sessions',
-        'test_start',
-        'test_end',
-        'target_size',
+        'description',
+        'expense_allowance',
+        'sessions_count',
+        'sessions_start',
+        'sessions_end',
+        'min_subjects_count',
     )
 
     def get_success_url(self):
@@ -56,12 +56,12 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
     fields = (
         'name',
         'contact_person',
-        'summary',
-        'expense',
-        'test_sessions',
-        'test_start',
-        'test_end',
-        'target_size',
+        'description',
+        'expense_allowance',
+        'sessions_count',
+        'sessions_start',
+        'sessions_end',
+        'min_subjects_count',
     )
 
     def get_success_url(self):

@@ -12,19 +12,19 @@
         <table class="table">
             <tr>
                 <th>{% trans "Expense allowance" %}</th>
-                <td>{{ study.expense }}</td>
+                <td>{{ study.expense_allowance }}</td>
             </tr>
             <tr>
                 <th>{% trans "Number of test sessions per subject" %}</th>
-                <td>{{ study.test_sessions }}</td>
+                <td>{{ study.sessions_count }}</td>
             </tr>
             <tr>
                 <th>{% trans "Start of test sessions" %}</th>
-                <td>{{ study.test_start }}</td>
+                <td>{{ study.sessions_start }}</td>
             </tr>
             <tr>
                 <th>{% trans "End of test sessions" %}</th>
-                <td>{{ study.test_end }}</td>
+                <td>{{ study.sessions_end }}</td>
             </tr>
         </table>
     </details>
