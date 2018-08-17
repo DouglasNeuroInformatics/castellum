@@ -90,7 +90,7 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
     def get_queryset(self, queryset=None):
         if not queryset:
             queryset = Participation.objects
-        return queryset.filter(study=self.study, status=Participation.TODO)
+        return queryset.filter(study=self.study, status=Participation.NOT_CONTACTED)
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)

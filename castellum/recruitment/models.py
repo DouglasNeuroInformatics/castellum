@@ -52,12 +52,12 @@ class AttributeSet(SubjectData):
 
 
 class Participation(SubjectData):
-    TODO = 0
+    NOT_CONTACTED = 0
     NOT_REACHED = 1
     UNSUITABLE = 2
     INVITED = 3
     STATUS_OPTIONS = (
-        (TODO, _('to do')),
+        (NOT_CONTACTED, _('not contacted')),
         (NOT_REACHED, _('not reached')),
         (UNSUITABLE, _('unsuitable')),
         (INVITED, _('invited')),
@@ -66,7 +66,7 @@ class Participation(SubjectData):
     study = models.ForeignKey(Study, verbose_name=_('study'), on_delete=models.CASCADE)
 
     status = models.IntegerField(
-        _('status of participation'), choices=STATUS_OPTIONS, default=TODO)
+        _('status of participation'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
     updated_at = models.DateTimeField(_('last updated at'), blank=True, null=True)
 
 
