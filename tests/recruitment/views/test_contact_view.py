@@ -1,6 +1,6 @@
 from freezegun import freeze_time
 
-from castellum.recruitment.models import Participation
+from castellum.recruitment.models import ParticipationRequest
 
 
 def test_404_page_returned_if_study_is_not_provided(client, user, participation):
@@ -56,5 +56,5 @@ def test_post_updated_at(client, user, participation):
     client.force_login(user)
     url = '/recruitment/{}/{}/'.format(participation.study.pk, participation.pseudonym)
     client.post(url, {'status': 2})
-    participation = Participation.objects.get()
+    participation = ParticipationRequest.objects.get()
     assert participation.updated_at.strftime('%Y-%m-%d') == '2018-01-01'

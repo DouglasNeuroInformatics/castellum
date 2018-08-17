@@ -48,7 +48,7 @@ from castellum.studies.models import Study
 
 from . import forms
 from .models import AttributeSet
-from .models import Participation
+from .models import ParticipationRequest
 from .models import SubjectFilter
 from .models import SubjectFilterGroup
 
@@ -83,14 +83,14 @@ class StudyChoiceView(LoginRequiredMixin, ListView):
 
 
 class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
-    model = Participation
+    model = ParticipationRequest
     context_object_name = 'participations'
     template_name = 'recruitment/recruitment.html'
 
     def get_queryset(self, queryset=None):
         if not queryset:
-            queryset = Participation.objects
-        return queryset.filter(study=self.study, status=Participation.NOT_CONTACTED)
+            queryset = ParticipationRequest.objects
+        return queryset.filter(study=self.study, status=ParticipationRequest.NOT_CONTACTED)
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
@@ -107,7 +107,7 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
             settings.DOMAINS['attributeset'],
             attributeset.pseudonym,
             self.study.domain)
-        __, created = Participation.objects.get_or_create(
+        __, created = ParticipationRequest.objects.get_or_create(
             study=self.study, pseudonym=participation_pseudonym)
         if not created:
             messages.error(request, _(
@@ -118,14 +118,14 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
 
 
 class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
-    model = Participation
+    model = ParticipationRequest
     fields = ['status']
     slug_field = 'pseudonym'
     template_name = 'recruitment/contact.html'
 
     def get_queryset(self, queryset=None):
         if not queryset:
-            queryset = Participation.objects
+            queryset = ParticipationRequest.objects
         return queryset.filter(study=self.study)
 
     def get_success_url(self):

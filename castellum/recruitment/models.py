@@ -51,7 +51,7 @@ class AttributeSet(SubjectData):
         return queryset.filter(q)
 
 
-class Participation(SubjectData):
+class ParticipationRequest(SubjectData):
     NOT_CONTACTED = 0
     NOT_REACHED = 1
     UNSUITABLE = 2
