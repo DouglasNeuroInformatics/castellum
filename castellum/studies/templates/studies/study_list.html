@@ -8,7 +8,7 @@
         <tr>
             <th>{% trans 'Name' %}</th>
             <th>{% trans 'Contact person' %}</th>
-            <th colspan="2">{% trans 'Actions' %}</th>
+            <th>{% trans 'Actions' %}</th>
         </tr>
     </thead>
     <tbody>
@@ -17,23 +17,24 @@
             <td>{{ study.name|default:_('not provided') }}</td>
             <td>{{ study.contact_person|default:_('not provided') }}</td>
             <td>
-                <a class='btn btn-outline-primary'
-                   href="{% url 'recruitment:filter_index' study.id %}">{% if study.published %}{% trans 'view Filter' %}{%else%}{% trans 'add Filter' %}{%endif%}</a>
-            </td>
-            <td>
-                <form method="post" action="{% url 'studies:publish' study.id %}">
-                    {% csrf_token %}
+                <div class="btn-group">
+                    <a class="btn btn-outline-primary" href="{% url 'studies:update' study.pk %}">{% trans 'Edit' %}</a>
+                    <a class='btn btn-outline-primary'
+                       href="{% url 'recruitment:filter_index' study.pk %}">{% if study.published %}{% trans 'view Filter' %}{%else%}{% trans 'add Filter' %}{%endif%}</a>
+                    <form class="btn-group" method="post" action="{% url 'studies:publish' study.pk %}">
+                        {% csrf_token %}
 
-                    {% if study.published %}
-                    <button class='btn btn-outline-primary active'>
-                        {% trans 'unpublish' %}
-                    </button>
-                    {% else %}
-                    <button class='btn btn-outline-primary'>
-                        {% trans 'publish' %}
-                    </button>
-                    {% endif %}
-                </form>
+                        {% if study.published %}
+                            <button class='btn btn-outline-primary active'>
+                                {% trans 'unpublish' %}
+                            </button>
+                        {% else %}
+                            <button class='btn btn-outline-primary'>
+                                {% trans 'publish' %}
+                            </button>
+                        {% endif %}
+                    </form>
+                </div>
             </td>
         </tr>
         {% endfor %}

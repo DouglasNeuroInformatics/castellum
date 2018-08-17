@@ -24,10 +24,12 @@ from django.urls import path
 from .views import CreateView
 from .views import IndexView
 from .views import PublishView
+from .views import UpdateView
 
 app_name = 'studies'
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('create/', CreateView.as_view(), name='create'),
+    path('<int:pk>/update/', UpdateView.as_view(), name='update'),
     path('<int:study_pk>/publish/', PublishView.as_view(), name='publish'),
 ]
