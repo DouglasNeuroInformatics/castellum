@@ -63,11 +63,13 @@ class AttributeSet(SubjectData):
         return queryset.filter(q)
 
 
-class Participation(SubjectData):
-    NOT_REACHED = 0
-    UNSUITABLE = 1
-    INVITED = 2
+class ParticipationRequest(SubjectData):
+    NOT_CONTACTED = 0
+    NOT_REACHED = 1
+    UNSUITABLE = 2
+    INVITED = 3
     STATUS_OPTIONS = (
+        (NOT_CONTACTED, _('not contacted')),
         (NOT_REACHED, _('not reached')),
         (UNSUITABLE, _('unsuitable')),
         (INVITED, _('invited')),
@@ -76,7 +78,7 @@ class Participation(SubjectData):
     study = models.ForeignKey(Study, verbose_name=_('study'), on_delete=models.CASCADE)
 
     status = models.IntegerField(
-        _('status of participation'), choices=STATUS_OPTIONS, default=UNSUITABLE)
+        _('status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
     updated_at = models.DateTimeField(_('last updated at'), blank=True, null=True)
 
 

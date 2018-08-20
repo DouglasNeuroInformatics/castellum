@@ -56,5 +56,5 @@ urlpatterns = [
         name='filter_delete'),
 
     path('<study_pk>/', RecruitmentView.as_view(), name='recruitment'),
-    path('<study_pk>/<attributeset_slug>/', ContactView.as_view(), name='contact'),
+    path('<study_pk>/<slug>/', ContactView.as_view(), name='contact'),
 ]

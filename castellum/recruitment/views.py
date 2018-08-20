@@ -23,6 +23,7 @@ import logging
 import random
 
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.forms import BaseModelFormSet
@@ -47,7 +48,7 @@ from castellum.studies.models import Study
 
 from . import forms
 from .models import AttributeSet
-from .models import Participation
+from .models import ParticipationRequest
 from .models import SubjectFilter
 from .models import SubjectFilterGroup
 
@@ -82,58 +83,65 @@ class StudyChoiceView(LoginRequiredMixin, ListView):
 
 
 class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
-    model = AttributeSet
-    context_object_name = 'attributesets'
+    model = ParticipationRequest
+    context_object_name = 'participation_requests'
     template_name = 'recruitment/recruitment.html'
 
-    def qs_sample(self, qs, k):
-        all_ids = list(qs.values_list('id', flat=True))
-        if len(all_ids) > k:
-            picked_ids = random.sample(all_ids, k)
-            return qs.filter(id__in=picked_ids)
-        else:
-            return qs
-
     def get_queryset(self, queryset=None):
-        qs = AttributeSet.apply_study_filter(self.study, queryset=queryset)
-        return self.qs_sample(qs, 6)
+        if not queryset:
+            queryset = ParticipationRequest.objects
+        return queryset.filter(study=self.study, status=ParticipationRequest.NOT_CONTACTED)
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
         context['study'] = self.study
         return context
 
+    def pick_random(self, qs):
+        random_index = random.randint(0, qs.count() - 1)
+        return qs.all()[random_index]
+
+    def post(self, request, *args, **kwargs):
+        attributeset = self.pick_random(AttributeSet.apply_study_filter(self.study))
+        participation_request_pseudonym = resolve_pseudonym(
+            settings.DOMAINS['attributeset'],
+            attributeset.pseudonym,
+            self.study.domain)
+        __, created = ParticipationRequest.objects.get_or_create(
+            study=self.study, pseudonym=participation_request_pseudonym)
+        if not created:
+            messages.error(request, _(
+                'Picked person already participates in the study. You can '
+                'just try again. But this might indicate that there are not '
+                'many matches left.'))
+        return self.get(request, *args, **kwargs)
+
 
 class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
-    model = Participation
+    model = ParticipationRequest
     fields = ['status']
+    slug_field = 'pseudonym'
     template_name = 'recruitment/contact.html'
 
-    def get_object(self, queryset=None):
-        if queryset is None:
-            queryset = self.get_queryset()
-
-        self.attributeset = get_object_or_404(
-            AttributeSet, pseudonym=self.kwargs['attributeset_slug'])
-
-        contact_pseudonym = resolve_pseudonym(
-            settings.DOMAINS['attributeset'],
-            self.attributeset.pseudonym,
-            settings.DOMAINS['contact'])
-        self.contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
-
-        pseudonym = resolve_pseudonym(
-            settings.DOMAINS['contact'], self.contact.pseudonym, self.study.domain)
-        participation, __ = queryset.get_or_create(study=self.study, pseudonym=pseudonym)
-        return participation
+    def get_queryset(self, queryset=None):
+        if not queryset:
+            queryset = ParticipationRequest.objects
+        return queryset.filter(study=self.study)
 
     def get_success_url(self):
         return reverse('recruitment:recruitment', args=[self.object.study.pk])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        contact_pseudonym = resolve_pseudonym(
+            self.study.domain,
+            self.object.pseudonym,
+            settings.DOMAINS['contact'])
+        contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
+
         context['study'] = self.study
-        context['contact'] = self.contact
+        context['contact'] = contact
         return context
 
     def form_valid(self, form):

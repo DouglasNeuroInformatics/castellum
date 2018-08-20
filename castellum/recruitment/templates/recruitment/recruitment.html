@@ -14,14 +14,19 @@
         </tr>
     </thead>
     <tbody>
-        {% for attributeset in attributesets %}
+        {% for request in participation_requests %}
         <tr>
-            <td>{{ attributeset.pseudonym }}</td>
-            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk attributeset.pseudonym %}">{% trans 'Call' %}</a></td> </tr>
+            <td>{{ request.pseudonym }}</td>
+            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk request.pseudonym %}">{% trans 'Call' %}</a></td> </tr>
         </tr>
         {% endfor %}
     </tbody>
     </table>
+
+    <form method="post">
+        {% csrf_token %}
+        <button class="btn btn-primary">{% trans 'Add' %}</button>
+    </form>
 
     <a href="{% url 'recruitment:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
 {% endblock %}
