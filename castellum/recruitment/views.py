@@ -134,6 +134,9 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        status_field = context['form'].fields['status']
+        status_field.widget.choices = ParticipationRequest.STATUS_OPTIONS[1:]
+
         contact_pseudonym = resolve_pseudonym(
             self.study.domain,
             self.object.pseudonym,
