@@ -103,12 +103,12 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
 
     def post(self, request, *args, **kwargs):
         attributeset = self.pick_random(AttributeSet.apply_study_filter(self.study))
-        participation_pseudonym = resolve_pseudonym(
+        participation_request_pseudonym = resolve_pseudonym(
             settings.DOMAINS['attributeset'],
             attributeset.pseudonym,
             self.study.domain)
         __, created = ParticipationRequest.objects.get_or_create(
-            study=self.study, pseudonym=participation_pseudonym)
+            study=self.study, pseudonym=participation_request_pseudonym)
         if not created:
             messages.error(request, _(
                 'Picked person already participates in the study. You can '
