@@ -124,7 +124,7 @@ msgid "street"
 msgstr "Straße"
 
 #: castellum/contacts/models/address.py:56
-msgid "house_number"
+msgid "house number"
 msgstr "Hausnummer"
 
 #: castellum/contacts/models/address.py:57
