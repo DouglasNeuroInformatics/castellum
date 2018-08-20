@@ -29,6 +29,7 @@ from django.core.exceptions import PermissionDenied
 from django.forms import BaseModelFormSet
 from django.forms import ValidationError
 from django.http import Http404
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -137,9 +138,6 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
             queryset = ParticipationRequest.objects
         return queryset.filter(study=self.study)
 
-    def get_success_url(self):
-        return reverse('recruitment:recruitment', args=[self.object.study.pk])
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -158,16 +156,28 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        instance = form.save(commit=False)
-        instance.updated_at = timezone.now()
-        result = super(ContactView, self).form_valid(form)
+        qs = ParticipationRequest.objects.filter(study=self.study,
+                                                 status=ParticipationRequest.NOT_CONTACTED)
+        pseudonyms = list(qs.values_list("pseudonym", flat=True))
+        current_pseudonym_idx = pseudonyms.index(self.object.pseudonym)
+
+        self.object.updated_at = timezone.now()
+        self.object.save()
 
         monitoring_logger.info('ContactData update: {}:{} by {}'.format(
             self.study.domain,
             self.object.pseudonym,
             self.request.user.pk))
 
-        return result
+        if "btn_back" in form.data or 0 == len(pseudonyms) - 1:
+            redirect = reverse('recruitment:recruitment', args=[self.object.study.pk])
+        else:
+            next_pseudonym_idx = (current_pseudonym_idx + 1
+                                  if current_pseudonym_idx < len(pseudonyms) else
+                                  current_pseudonym_idx - 1)
+            redirect = reverse('recruitment:contact', args=[self.object.study.pk,
+                                                            pseudonyms[next_pseudonym_idx]])
+        return HttpResponseRedirect(redirect)
 
 
 class AttributeSetDetailView(LoginRequiredMixin, DetailView):

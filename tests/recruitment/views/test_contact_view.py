@@ -47,7 +47,19 @@ def test_post_redirect(client, user, participation_request):
     client.force_login(user)
     url = '/recruitment/{}/{}/'.format(participation_request.study.pk,
                                        participation_request.pseudonym)
-    response = client.post(url, {'status': 2})
+    response = client.post(url, {'status': 2, 'btn_back': 'value'})
+    assert response.status_code == 302
+    assert response.url == '/recruitment/{}/'.format(participation_request.study.pk)
+
+
+def test_post_redirect_next_with_one_participation_request(client, user, participation_request):
+    participation_request.study.published = True
+    participation_request.study.save()
+
+    client.force_login(user)
+    url = '/recruitment/{}/{}/'.format(participation_request.study.pk,
+                                       participation_request.pseudonym)
+    response = client.post(url, {'status': 2, 'btn_next': 'value'})
     assert response.status_code == 302
     assert response.url == '/recruitment/{}/'.format(participation_request.study.pk)
 
