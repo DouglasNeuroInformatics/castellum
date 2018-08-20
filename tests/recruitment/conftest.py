@@ -16,7 +16,7 @@ def attributeset(contact):
 
 
 @pytest.fixture
-def participation(contact, study):
+def participation_request(contact, study):
     pseudonym = resolve_pseudonym(
         settings.DOMAINS['contact'], contact.pseudonym, study.domain)
     return mommy.make(ParticipationRequest, study=study, pseudonym=pseudonym)
