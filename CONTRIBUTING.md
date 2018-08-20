@@ -8,10 +8,10 @@ While we are a rather small project, we would be happy about just any
 kind of contribution. We are especially interested in feedback from
 institutes that consider using the software.
 
-Please understand that our mission is first and foremost to service the
-Max Planck Gesellschaft and its institutes. While we try to build a
-reusable product, we cannot implement every potentially useful feature
-request.
+Please understand that our mission is first and foremost to serve the
+Max Planck Gesellschaft and its institutes. This also means that we have
+high standards on privacy and security. While we try to build a reusable
+product, we cannot implement every potentially useful feature request.
 
 # Get in touch
 
@@ -51,8 +51,8 @@ merged into the master branch. The reviewers will probably leave some
 comments and requests. Please respond to those within two weeks. If we
 do not hear back from you we will expect you lost interest.
 
-It is recommended that you provide a phone number. In our experience,
-conceptual debates work much better on the phone compared to long email
-threads.
+In our experience, conceptual debates work much better verbally compared
+to long email threads. Be prepared to have a video/audio chat with us if
+the need arises.
 
 TODO: Do we need a CLA?
