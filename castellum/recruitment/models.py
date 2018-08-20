@@ -154,7 +154,7 @@ class TextFilterField(BaseFilterField):
     ]
 
 
-class AgeFilterField(NumberFilterField):
+class AgeFilterField(BaseFilterField):
     available_operators = [
         ("lt", _("older than")),
         ("gt", _("younger than")),
