@@ -14,10 +14,10 @@
         </tr>
     </thead>
     <tbody>
-        {% for participation in participations %}
+        {% for request in participation_requests %}
         <tr>
-            <td>{{ participation.pseudonym }}</td>
-            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk participation.pseudonym %}">{% trans 'Call' %}</a></td> </tr>
+            <td>{{ request.pseudonym }}</td>
+            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk request.pseudonym %}">{% trans 'Call' %}</a></td> </tr>
         </tr>
         {% endfor %}
     </tbody>

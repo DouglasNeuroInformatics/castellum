@@ -84,7 +84,7 @@ class StudyChoiceView(LoginRequiredMixin, ListView):
 
 class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
     model = ParticipationRequest
-    context_object_name = 'participations'
+    context_object_name = 'participation_requests'
     template_name = 'recruitment/recruitment.html'
 
     def get_queryset(self, queryset=None):
