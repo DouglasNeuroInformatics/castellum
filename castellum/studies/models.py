@@ -24,7 +24,7 @@ import uuid
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from castellum.utils import DateField
+from castellum.utils.fields import DateField
 
 
 class Study(models.Model):

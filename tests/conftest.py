@@ -8,7 +8,8 @@ from castellum.castellum_auth.models import User
 from castellum.contacts.models import Contact
 from castellum.studies.models import Study
 
-mommy.generators.add('castellum.utils.DateField', mommy.generators.default_mapping[DateField])
+mommy.generators.add(
+    'castellum.utils.fields.DateField', mommy.generators.default_mapping[DateField])
 
 
 @pytest.fixture
