@@ -25,6 +25,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
+from dateutil.relativedelta import relativedelta
 from picklefield.fields import PickledObjectField
 
 from castellum.pseudonyms.models import SubjectData
@@ -165,10 +166,8 @@ class AgeFilterField(BaseFilterField):
         return super().formfield(field_name, **kwargs)
 
     def to_q(self, field_name, operator, value):
-        days, scale = value
-        if scale == 'years':
-            days *= 365
-        date = datetime.date.today() - datetime.timedelta(days=days)
+        period, scale = value
+        date = datetime.date.today() - relativedelta(**{scale: period})
         return super().to_q(field_name, operator, date)
 
 
