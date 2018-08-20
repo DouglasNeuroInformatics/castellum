@@ -192,6 +192,12 @@ class ContactUpdateView(PublishedStudyMixin, _ContactUpdateView):
 
         return contact
 
+    def get_success_url(self):
+        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['slug']])
+
+    def get_cancel_url(self):
+        return self.get_success_url()
+
 
 class AttributeSetDetailView(LoginRequiredMixin, DetailView):
     model = AttributeSet
