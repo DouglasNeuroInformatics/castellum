@@ -29,5 +29,6 @@ setup(
         "django-picklefield==1.0.0",
         "Faker==0.8.16",
         "psycopg2==2.7.4",
+        "python-dateutil",
     ],
 )

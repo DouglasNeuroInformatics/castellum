@@ -22,28 +22,21 @@
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 
-from castellum.recruitment.models import AttributeSet
-
-from .models import DateFilter
-from .models import NumberFilter
+from .models import AttributeSet
 from .models import SubjectFilter
-from .models import TextFilter
+from .models import get_filter_field
 
 
 def get_field_name_choices():
     yield '', '---'
     for field in AttributeSet._meta.get_fields()[2:]:
-        yield field.name, field.verbose_name
+        if field.name in AttributeSet.filter_names:
+            yield field.name, AttributeSet.filter_names[field.name]
+        else:
+            yield field.name, field.verbose_name
 
 
 class SubjectFilterForm(forms.ModelForm):
-    FILTER_MAPPING = {
-        "CharField": TextFilter(),
-        "DateField": DateFilter(),
-        "FloatField": NumberFilter(),
-        "IntegerField": NumberFilter(),
-    }
-
     field_name = forms.ChoiceField(choices=get_field_name_choices())
 
     def __init__(self, *args, **kwargs):
@@ -54,12 +47,13 @@ class SubjectFilterForm(forms.ModelForm):
         if not selected_field_name:
             return
 
+        filter_field = get_filter_field(selected_field_name)
+
         self.fields["field_name"].widget.attrs["disabled"] = True
 
-        choices = self._get_operator_choices_by_field_name(selected_field_name)
-        self.fields["operator"] = forms.ChoiceField(choices=choices)
+        self.fields["operator"] = forms.ChoiceField(choices=filter_field.available_operators)
 
-        self.fields["value"] = self._get_form_field_by_field_name(selected_field_name)
+        self.fields["value"] = filter_field.formfield(selected_field_name)
         self.fields["value"].required = True
 
         # disable fields when study is not published
@@ -79,19 +73,6 @@ class SubjectFilterForm(forms.ModelForm):
                 return data[prefix + '-field_name']
             else:
                 return data['field_name']
-
-    def _get_model_field_by_field_name(self, field_name):
-        return AttributeSet._meta.get_field(field_name)
-
-    def _get_operator_choices_by_field_name(self, field_name):
-        model_field = self._get_model_field_by_field_name(field_name)
-        subject_filter = self.FILTER_MAPPING[model_field.get_internal_type()]
-        operators = subject_filter.available_operators
-        return (tuple(operator) for operator in operators.items())
-
-    def _get_form_field_by_field_name(self, field_name):
-        model_field = self._get_model_field_by_field_name(field_name)
-        return model_field.formfield()
 
     class Meta:
         model = SubjectFilter

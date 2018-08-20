@@ -19,18 +19,30 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
+from dateutil.relativedelta import relativedelta
 from picklefield.fields import PickledObjectField
 
 from castellum.pseudonyms.models import SubjectData
 from castellum.studies.models import Study
 from castellum.utils import DateField
 
+from .fields import AgeField
+
 
 class AttributeSet(SubjectData):
+    filter_fields = {
+        'date_of_birth': 'AgeFilterField',
+    }
+    filter_names = {
+        'date_of_birth': _('Age'),
+    }
+
     handedness = models.CharField(_('Handedness'), blank=True, max_length=10, choices=(
         ('left', _('Left')),
         ('right', _('Right')),
@@ -85,67 +97,99 @@ class SubjectFilterGroup(models.Model):
 
 
 class SubjectFilter(models.Model):
-    available_operators = NotImplemented
-
     group = models.ForeignKey(SubjectFilterGroup, on_delete=models.CASCADE)
     field_name = models.CharField(max_length=256)
     operator = models.CharField(max_length=64)
     value = PickledObjectField(editable=True)
 
     def to_q(self):
-        if self.operator.startswith('!'):
-            key = '{}__{}'.format(self.field_name, self.operator[1:])
-            q = models.Q(**{key: self.value})
-            q_empty = models.Q(**{self.field_name: ''})
-            q_null = models.Q(**{self.field_name: None})
-            return ~q & ~q_empty & ~q_null
-        else:
-            key = '{}__{}'.format(self.field_name, self.operator)
-            return models.Q(**{key: self.value})
+        filter_field = get_filter_field(self.field_name)
+        return filter_field.to_q(self.field_name, self.operator, self.value)
 
     def __str__(self):
         return '{}__{}={}'.format(self.field_name, self.operator, self.value)
 
 
-class DateFilter(SubjectFilter):
-    available_operators = {
-        "lt": _("before"),
-        "gt": _("after"),
-    }
+class BaseFilterField:
+    available_operators = NotImplemented
 
-    def __repr__(self):
-        return "DateFilter"
+    def formfield(self, field_name, **kwargs):
+        model_field = AttributeSet._meta.get_field(field_name)
+        return model_field.formfield(**kwargs)
 
-    class Meta:
-        proxy = True
-
-
-class NumberFilter(SubjectFilter):
-    available_operators = {
-        "lt": _("<"),
-        "gt": _(">"),
-        "exact": _("=="),
-        "!exact": _("!="),
-        "lte": _("<="),
-        "gte": _(">="),
-    }
-
-    def __repr__(self):
-        return "NumberFilter"
-
-    class Meta:
-        proxy = True
+    def to_q(self, field_name, operator, value):
+        if operator.startswith('!'):
+            key = '{}__{}'.format(field_name, operator[1:])
+            q = models.Q(**{key: value})
+            q_empty = models.Q(**{field_name: ''})
+            q_null = models.Q(**{field_name: None})
+            return ~q & ~q_empty & ~q_null
+        else:
+            key = '{}__{}'.format(field_name, operator)
+            return models.Q(**{key: value})
 
 
-class TextFilter(SubjectFilter):
-    available_operators = {
-        "exact": _("is"),
-        "!exact": _("is not"),
-        "contains": _("contains"),
-    }
+class DateFilterField(BaseFilterField):
+    available_operators = [
+        ("lt", _("before")),
+        ("gt", _("after")),
+    ]
 
-    def __repr__(self):
-        return "TextFilter"
 
-    class Meta:
-        proxy = True
+class NumberFilterField(BaseFilterField):
+    available_operators = [
+        ("lt", _("<")),
+        ("gt", _(">")),
+        ("exact", _("==")),
+        ("!exact", _("!=")),
+        ("lte", _("<=")),
+        ("gte", _(">=")),
+    ]
+
+
+class TextFilterField(BaseFilterField):
+    available_operators = [
+        ("exact", _("is")),
+        ("!exact", _("is not")),
+        ("contains", _("contains")),
+    ]
+
+
+class AgeFilterField(BaseFilterField):
+    available_operators = [
+        ("lt", _("older than")),
+        ("gt", _("younger than")),
+    ]
+
+    def formfield(self, field_name, **kwargs):
+        kwargs.setdefault('form_class', AgeField)
+        return super().formfield(field_name, **kwargs)
+
+    def to_q(self, field_name, operator, value):
+        period, scale = value
+        date = datetime.date.today() - relativedelta(**{scale: period})
+        return super().to_q(field_name, operator, date)
+
+
+def get_filter_field(field_name):
+    if field_name in AttributeSet.filter_fields:
+        FILTERS = {
+            "DateFilterField": DateFilterField(),
+            "NumberFilterField": NumberFilterField(),
+            "TextFilterField": TextFilterField(),
+            "AgeFilterField": AgeFilterField(),
+        }
+
+        overwrite = AttributeSet.filter_fields[field_name]
+        return FILTERS[overwrite]
+    else:
+        FILTER_MAPPING = {
+            "CharField": TextFilterField(),
+            "DateField": DateFilterField(),
+            "FloatField": NumberFilterField(),
+            "IntegerField": NumberFilterField(),
+        }
+
+        model_field = AttributeSet._meta.get_field(field_name)
+        model_type = model_field.get_internal_type()
+        return FILTER_MAPPING[model_type]
