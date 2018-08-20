@@ -37,7 +37,7 @@ class Country(models.Model):
 
 class City(models.Model):
     name = models.CharField(_("name"), max_length=128)
-    country = models.ForeignKey(Country, verbose_name=_("Country"), on_delete=models.CASCADE)
+    country = models.ForeignKey(Country, verbose_name=_("country"), on_delete=models.CASCADE)
 
     def __str__(self):
         return "{}, {}".format(self.name, self.country.name)
@@ -50,7 +50,7 @@ class City(models.Model):
 
 
 class Address(models.Model):
-    city = models.ForeignKey(City, verbose_name=_("City"), on_delete=models.CASCADE)
+    city = models.ForeignKey(City, verbose_name=_("city"), on_delete=models.CASCADE)
     zip_code = models.CharField(_("zip code"), max_length=5)
     street = models.CharField(_("street"), max_length=128)
     house_number = models.CharField(_("house number"), max_length=5)
