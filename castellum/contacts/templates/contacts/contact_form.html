@@ -51,6 +51,7 @@
             </div>
         </div>
         {% bootstrap_field form.additional_information %}
+        {% bootstrap_field form.preferred_contact_method %}
 
         <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />

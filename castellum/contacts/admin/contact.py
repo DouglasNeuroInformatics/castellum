@@ -37,6 +37,11 @@ class ContactAdmin(admin.ModelAdmin):
             ),
         }),
         ("Contact Data", {
-            "fields": ("address", "email", ("phone_number", "phone_number_alternative"))
+            "fields": (
+                "address",
+                "email",
+                ("phone_number", "phone_number_alternative"),
+                "preferred_contact_method",
+            )
         }),
     )
