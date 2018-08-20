@@ -35,6 +35,8 @@ from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
 
 LanguageDistribution = namedtuple("LanguageDistribution", ["name", "percentage"])
 
+default_app_config = 'castellum.utils.apps.UtilsConfig'
+
 
 class RandomLanguage:
 
