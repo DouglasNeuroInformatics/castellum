@@ -1,19 +1,19 @@
 {% extends "base.html" %}
-{% load i18n bootstrap4 %}
+{% load i18n bootstrap4 utils %}
 
 {% block content %}
     <h1>{% trans 'Attribute set' %}</h1>
     <table class="table">
         <tr>
-            <th>{% trans 'Handedness' %}</th>
+            <th>{{ attributeset|verbose_name:'handedness' }}</th>
             <td>{{ attributeset.get_handedness_display|default:_('not provided') }}</td>
         </tr>
         <tr>
-            <th>{% trans 'First language' %}</th>
+            <th>{{ attributeset|verbose_name:'first_language' }}</th>
             <td>{{ attributeset.first_language|default:_('not provided') }}</td>
         </tr>
         <tr>
-            <th>{% trans 'Date of birth' %}</th>
+            <th>{{ attributeset|verbose_name:'date_of_birth' }}</th>
             <td>{{ attributeset.date_of_birth|default:_('not provided') }}</td>
         </tr>
         <tr>

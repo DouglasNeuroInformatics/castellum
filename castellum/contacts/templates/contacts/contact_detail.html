@@ -1,31 +1,31 @@
 {% extends "base.html" %}
-{% load i18n bootstrap4 %}
+{% load i18n bootstrap4 utils %}
 
 {% block content %}
     <h1>{{ contact.full_name }}</h1>
     <table class="table">
         <tr>
-            <th>{% trans 'Gender:' %}</th>
+            <th>{{ contact|verbose_name:'gender' }}</th>
             <td>{{ contact.gender|default:_('not provided') }}</td>
         </tr>
         <tr>
-            <th>{% trans 'Birthday:' %}</th>
+            <th>{{ contact|verbose_name:'birthday' }}</th>
             <td>{{ contact.birthday|default:_('not provided') }}</td>
         </tr>
         <tr>
-            <th>{% trans 'Address:' %}</th>
+            <th>{{ contact|verbose_name:'address' }}</th>
             <td>{{ contact.address|default:_('not provided') }}</td>
         </tr>
         <tr>
-            <th>{% trans 'Email:' %}</th>
+            <th>{{ contact|verbose_name:'email' }}</th>
             <td>{{ contact.email|default:_('not provided') }}</td>
         </tr>
         <tr>
-            <th>{% trans 'Phone number:' %}</th>
+            <th>{{ contact|verbose_name:'phone_number' }}</th>
             <td>{{ contact.phone_number|default:_('not provided') }}</td>
         </tr>
         <tr>
-            <th>{% trans 'Second phone number:' %}</th>
+            <th>{{ contact|verbose_name:'phone_number_alternative' }}</th>
             <td>{{ contact.phone_number_alternative|default:_('not provided') }}</td>
         </tr>
     </table>
