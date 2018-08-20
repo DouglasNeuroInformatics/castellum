@@ -62,7 +62,8 @@
         {% csrf_token %}
         {% bootstrap_field form.status %}
 
-        <input type="submit" class="btn btn-primary" value="{% trans 'Save and go back' %}" />
+        <input type="submit" class="btn btn-primary" name="btn_back" value="{% trans 'Save and go back' %}" />
+        <input type="submit" class="btn btn-primary" name="btn_next" value="{% trans 'Save and show next' %}" />
     </form>
 
 {% endblock %}
