@@ -53,7 +53,7 @@ class Address(models.Model):
     city = models.ForeignKey(City, verbose_name=_("City"), on_delete=models.CASCADE)
     zip_code = models.CharField(_("zip code"), max_length=5)
     street = models.CharField(_("street"), max_length=128)
-    house_number = models.CharField(_("house_number"), max_length=5)
+    house_number = models.CharField(_("house number"), max_length=5)
     additional_information = models.CharField(_("additional information"), max_length=32,
                                               blank=True)
 
