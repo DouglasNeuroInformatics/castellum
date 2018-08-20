@@ -66,7 +66,7 @@ class ParticipationRequest(SubjectData):
     study = models.ForeignKey(Study, verbose_name=_('study'), on_delete=models.CASCADE)
 
     status = models.IntegerField(
-        _('status of participation'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
+        _('status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
     updated_at = models.DateTimeField(_('last updated at'), blank=True, null=True)
 
 
