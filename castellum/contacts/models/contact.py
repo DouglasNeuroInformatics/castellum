@@ -31,17 +31,18 @@ from castellum.utils import PhoneNumberField
 
 from . import Address
 
+CONTACT_METHODS = (
+    ("phone", _("phone")),
+    ("email", _("email")),
+    ("postal", _("postal")),
+)
+
 
 class Contact(SubjectData):
     GENDER = (
         ("f", _("female")),
         ("m", _("male")),
         ("*", _("diverse")),
-    )
-    CONTACT_METHODS = (
-        ("phone", _("phone")),
-        ("email", _("email")),
-        ("postal", _("postal")),
     )
 
     first_name = models.CharField(_("first name"), max_length=64)

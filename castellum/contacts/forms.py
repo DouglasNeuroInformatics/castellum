@@ -28,6 +28,7 @@ from .models import Address
 from .models import City
 from .models import Contact
 from .models import Country
+from .models.contact import CONTACT_METHODS
 
 
 class DatalistWidget(TextInput):
@@ -68,6 +69,8 @@ class ContactForm(forms.ModelForm):
     house_number = forms.CharField(label=_('house number'), required=False)
     additional_information = forms.CharField(
         label=_('additional address information'), required=False)
+    preferred_contact_method = forms.ChoiceField(
+        label=_('preferred contact method'), choices=CONTACT_METHODS, required=False)
 
     class Meta:
         model = Contact
@@ -96,19 +99,31 @@ class ContactForm(forms.ModelForm):
         add_info = cleaned_data.get('additional_information', '')
         phone_number = cleaned_data.get('phone_number', '')
         email = cleaned_data.get('email', '')
+        contact_method = cleaned_data.get('preferred_contact_method', '')
 
         if any([country, city, zip_code, street, house_number, add_info]):
             address_form = AddressForm(data=cleaned_data)
             if not address_form.is_valid():
+
                 if address_form.errors:
                     for field, errors in address_form.errors.items():
                         self.add_error(field, errors)
 
+                if contact_method == dict(CONTACT_METHODS).get('postal'):
+                    self.add_error('preferred_contact_method',
+                                   _("Chosen contact method can not be saved."))
+
                 raise ValidationError(_("Provide more details for the address."))
+
         else:
             if not any([phone_number, email]):
                 raise ValidationError(_("Either email, phone number"
                                         " or address should be provided."))
+
+        if not phone_number and contact_method == dict(CONTACT_METHODS).get('phone'):
+            self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
+        if not email and contact_method == dict(CONTACT_METHODS).get('email'):
+            self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
 
         return cleaned_data
 
