@@ -38,6 +38,11 @@ class Contact(SubjectData):
         ("m", _("male")),
         ("*", _("diverse")),
     )
+    CONTACT_METHODS = (
+        ("phone", _("phone")),
+        ("email", _("email")),
+        ("postal", _("postal")),
+    )
 
     first_name = models.CharField(_("first name"), max_length=64)
     last_name = models.CharField(_("last name"), max_length=64)
@@ -53,6 +58,9 @@ class Contact(SubjectData):
     phone_number = PhoneNumberField(_("phone number"), max_length=32, blank=True)
     phone_number_alternative = PhoneNumberField(_("phone number alternative"), max_length=32,
                                                 blank=True)
+
+    preferred_contact_method = models.CharField(
+        _("preferred contact method"), max_length=16, blank=True, choices=CONTACT_METHODS)
 
     def save(self, *args, **kwargs):
         if not self.pseudonym:
