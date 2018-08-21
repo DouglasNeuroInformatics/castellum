@@ -94,6 +94,15 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
+
+        queryset = ParticipationRequest.objects.filter(study=self.study)
+        context['all_count'] = queryset.count()
+        context['invited_count'] = queryset.filter(
+            status=ParticipationRequest.INVITED).count()
+        context['not_reached_count'] = queryset.filter(
+            status=ParticipationRequest.NOT_REACHED).count()
+        context['unsuitable_count'] = queryset.filter(
+            status=ParticipationRequest.UNSUITABLE).count()
         context['study'] = self.study
         return context
 
