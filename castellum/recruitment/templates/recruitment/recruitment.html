@@ -5,6 +5,26 @@
 {% block content %}
     <h1>{{ study.name }}</h1>
 
+    <h2>{% trans 'Statistics' %}</h2>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>{% trans 'All' %}</th>
+            <th>{% trans 'Invited' %}</th>
+            <th>{% trans 'Not reached' %}</th>
+            <th>{% trans 'Unsuitable' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ all_count }}</td>
+            <td>{{ invited_count }}</td>
+            <td>{{ not_reached_count }}</td>
+            <td>{{ unsuitable_count }}</td>
+        </tr>
+    </tbody>
+    </table>
+
     <h2>{% trans 'Contacts' %}</h2>
     <table class="table">
     <thead>
