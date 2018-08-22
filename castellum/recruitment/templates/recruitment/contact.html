@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n bootstrap4 %}
+{% load i18n bootstrap4 utils %}
 
 {% block content %}
     <h1>{{ study.name }}</h1>
@@ -13,19 +13,19 @@
 
         <table class="table">
             <tr>
-                <th>{% trans "Expense allowance" %}</th>
+                <th>{{ study|verbose_name:'expense_allowance' }}</th>
                 <td>{{ study.expense_allowance }}</td>
             </tr>
             <tr>
-                <th>{% trans "Number of test sessions per subject" %}</th>
+                <th>{{ study|verbose_name:'sessions_count' }}</th>
                 <td>{{ study.sessions_count }}</td>
             </tr>
             <tr>
-                <th>{% trans "Start of test sessions" %}</th>
+                <th>{{ study|verbose_name:'sessions_start' }}</th>
                 <td>{{ study.sessions_start }}</td>
             </tr>
             <tr>
-                <th>{% trans "End of test sessions" %}</th>
+                <th>{{ study|verbose_name:'sessions_end' }}</th>
                 <td>{{ study.sessions_end }}</td>
             </tr>
         </table>
@@ -37,15 +37,15 @@
             <td>{{ contact.full_name }}</td>
         </tr>
         <tr>
-            <th>{% trans 'Email' %}</th>
+            <th>{{ contact|verbose_name:'email' }}</th>
             <td>{{ contact.email|default:_('not provided') }}</td>
         </tr>
         <tr>
-            <th>{% trans 'Phone number' %}</th>
+            <th>{{ contact|verbose_name:'phone_number' }}</th>
             <td>{{ contact.phone_number|default:_('not provided') }}</td>
         </tr>
         <tr>
-            <th>{% trans 'Second phone number' %}</th>
+            <th>{{ contact|verbose_name:'phone_number_alternative' }}</th>
             <td>{{ contact.phone_number_alternative|default:_('not provided') }}</td>
         </tr>
         <tr>

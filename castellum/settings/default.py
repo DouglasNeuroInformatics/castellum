@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'phonenumber_field',
 
+    'castellum.utils',
     'castellum.castellum_auth',
     'castellum.pseudonyms',
     'castellum.recruitment',

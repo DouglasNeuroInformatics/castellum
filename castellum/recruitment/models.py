@@ -30,7 +30,7 @@ from picklefield.fields import PickledObjectField
 
 from castellum.pseudonyms.models import SubjectData
 from castellum.studies.models import Study
-from castellum.utils import DateField
+from castellum.utils.fields import DateField
 
 from .fields import AgeField
 

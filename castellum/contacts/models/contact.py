@@ -26,8 +26,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from castellum.pseudonyms.helpers import create_pseudonym
 from castellum.pseudonyms.models import SubjectData
-from castellum.utils import DateField
-from castellum.utils import PhoneNumberField
+from castellum.utils.fields import DateField
+from castellum.utils.fields import PhoneNumberField
 
 from . import Address
 

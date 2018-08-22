@@ -25,15 +25,9 @@ from random import choice
 from random import randint
 from random import random
 
-from django import forms
-from django.db import models
-from django.utils.translation import ugettext as _
-
-from phonenumber_field.formfields import PhoneNumberField as _PhoneNumberFormField
-from phonenumber_field.modelfields import PhoneNumberField as _PhoneNumberField
-from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
-
 LanguageDistribution = namedtuple("LanguageDistribution", ["name", "percentage"])
+
+default_app_config = 'castellum.utils.apps.UtilsConfig'
 
 
 class RandomLanguage:
@@ -84,43 +78,3 @@ class FakeData:
         if random() <= probability:
             return self._phone_number.create()
         return ""
-
-
-class DateInput(forms.DateInput):
-    def __init__(self, attrs=None):
-        defaults = {
-            'placeholder': _('yyyy-mm-dd, e.g. 2018-07-21'),
-        }
-        if attrs:
-            defaults.update(attrs)
-        super().__init__(attrs=defaults)
-
-
-class DateFormField(forms.DateField):
-    widget = DateInput
-
-
-class DateField(models.DateField):
-    def formfield(self, **kwargs):
-        kwargs.setdefault('form_class', DateFormField)
-        return super().formfield(**kwargs)
-
-
-class PhoneNumberWidget(PhoneNumberInternationalFallbackWidget):
-    def __init__(self, attrs=None):
-        defaults = {
-            'placeholder': _('e.g. 030 123456'),
-        }
-        if attrs:
-            defaults.update(defaults)
-        super().__init__(attrs=defaults)
-
-
-class PhoneNumberFormField(_PhoneNumberFormField):
-    widget = PhoneNumberWidget
-
-
-class PhoneNumberField(_PhoneNumberField):
-    def formfield(self, **kwargs):
-        kwargs.setdefault('form_class', PhoneNumberFormField)
-        return super().formfield(**kwargs)
