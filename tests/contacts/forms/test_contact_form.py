@@ -150,3 +150,92 @@ def test_contact_form_delete_existing_address_if_empty(contact, contact_data):
     form.save()
 
     assert Address.objects.count() == address_count_before - 1
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize('method', [
+    ('postal'),
+    ('email'),
+    ('phone'),
+])
+def test_contact_form_wihtout_data_with_preferred_contact_method(contact_data, method):
+
+    contact_data.update({
+        'preferred_contact_method': method,
+    })
+
+    form = ContactForm(data=contact_data)
+
+    assert form.is_valid() is False
+
+
+def test_contact_form_with_email_and_preferred_contact_method(contact_data):
+
+    contact_data.update({
+        'email': 't@g.com',
+        'preferred_contact_method': 'email',
+    })
+
+    form = ContactForm(data=contact_data)
+
+    assert form.is_valid() is True
+
+
+def test_contact_form_with_email_and_wrong_preferred_contact_method(contact_data):
+
+    contact_data.update({
+        'email': 't@g.com',
+        'preferred_contact_method': 'phone',
+    })
+
+    form = ContactForm(data=contact_data)
+
+    assert form.is_valid() is False
+
+
+def test_contact_form_with_phone_and_preferred_contact_method(contact_data):
+
+    contact_data.update({
+        'phone_number': '+4917691232323',
+        'preferred_contact_method': 'phone',
+    })
+
+    form = ContactForm(data=contact_data)
+
+    assert form.is_valid() is True
+
+
+def test_contact_form_with_phone_and_wrong_preferred_contact_method(contact_data):
+
+    contact_data.update({
+        'phone_number': '+4917691232323',
+        'preferred_contact_method': 'email',
+    })
+
+    form = ContactForm(data=contact_data)
+
+    assert form.is_valid() is False
+
+
+@pytest.mark.django_db
+def test_contact_form_with_address_and_preferred_contact_method(full_data):
+
+    full_data.update({
+        'preferred_contact_method': 'postal',
+    })
+
+    form = ContactForm(data=full_data)
+
+    assert form.is_valid() is True
+
+
+@pytest.mark.django_db
+def test_contact_form_with_address_and_wrong_preferred_contact_method(full_data):
+
+    full_data.update({
+        'preferred_contact_method': 'email',
+    })
+
+    form = ContactForm(data=full_data)
+
+    assert form.is_valid() is False
