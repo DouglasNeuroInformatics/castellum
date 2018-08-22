@@ -68,8 +68,6 @@ class ContactForm(forms.ModelForm):
     house_number = forms.CharField(label=_('house number'), required=False)
     additional_information = forms.CharField(
         label=_('additional address information'), required=False)
-    preferred_contact_method = forms.ChoiceField(
-        label=_('preferred contact method'), choices=Contact.CONTACT_METHODS, required=False)
 
     class Meta:
         model = Contact
