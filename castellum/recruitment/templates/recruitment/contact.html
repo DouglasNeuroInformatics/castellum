@@ -14,19 +14,19 @@
         <table class="table">
             <tr>
                 <th>{{ study|verbose_name:'expense_allowance' }}</th>
-                <td>{{ study.expense_allowance }}</td>
+                <td>{{ study.expense_allowance|default:_('not provided') }}</td>
             </tr>
             <tr>
                 <th>{{ study|verbose_name:'sessions_count' }}</th>
-                <td>{{ study.sessions_count }}</td>
+                <td>{{ study.sessions_count|default:_('not provided') }}</td>
             </tr>
             <tr>
                 <th>{{ study|verbose_name:'sessions_start' }}</th>
-                <td>{{ study.sessions_start }}</td>
+                <td>{{ study.sessions_start|default:_('not provided') }}</td>
             </tr>
             <tr>
                 <th>{{ study|verbose_name:'sessions_end' }}</th>
-                <td>{{ study.sessions_end }}</td>
+                <td>{{ study.sessions_end|default:_('not provided') }}</td>
             </tr>
         </table>
     </details>
