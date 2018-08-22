@@ -120,9 +120,9 @@ class ContactForm(forms.ModelForm):
                 raise ValidationError(_("Either email, phone number"
                                         " or address should be provided."))
 
-        if not phone_number and contact_method == dict(CONTACT_METHODS).get('phone'):
+        if not phone_number and preferred_contact_method == dict(CONTACT_METHODS).get('phone'):
             self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
-        if not email and contact_method == dict(CONTACT_METHODS).get('email'):
+        if not email and preferred_contact_method == dict(CONTACT_METHODS).get('email'):
             self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
 
         return cleaned_data
