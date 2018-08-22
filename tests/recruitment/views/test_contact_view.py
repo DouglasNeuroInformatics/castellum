@@ -1,4 +1,5 @@
 from freezegun import freeze_time
+from model_mommy import mommy
 
 from castellum.recruitment.models import ParticipationRequest
 
@@ -62,6 +63,25 @@ def test_post_redirect_next_with_one_participation_request(client, user, partici
     response = client.post(url, {'status': 2, 'btn_next': 'value'})
     assert response.status_code == 302
     assert response.url == '/recruitment/{}/'.format(participation_request.study.pk)
+
+
+def test_post_redirect_next_with_multiple_participation_requests(client, user, published_study):
+    participation_requests = mommy.make(ParticipationRequest, study=published_study, _quantity=5)
+
+    client.force_login(user)
+
+    url = '/recruitment/{}/{}/'.format(published_study.pk, participation_requests[3].pseudonym)
+    response = client.post(url, {'status': 2, 'btn_next': 'value'})
+
+    assert response.status_code == 302
+    assert response.url == '/recruitment/{}/{}/'.format(published_study.pk,
+                                                        participation_requests[4].pseudonym)
+
+    response = client.post(response.url, {'status': 2, 'btn_next': 'value'})
+
+    assert response.status_code == 302
+    assert response.url == '/recruitment/{}/{}/'.format(published_study.pk,
+                                                        participation_requests[2].pseudonym)
 
 
 @freeze_time('2018-01-01')

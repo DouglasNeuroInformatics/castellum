@@ -172,7 +172,7 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
             redirect = reverse('recruitment:recruitment', args=[self.object.study.pk])
         else:
             next_pseudonym_idx = (current_pseudonym_idx + 1
-                                  if current_pseudonym_idx < len(pseudonyms) else
+                                  if current_pseudonym_idx + 1 < len(pseudonyms) else
                                   current_pseudonym_idx - 1)
             redirect = reverse('recruitment:contact', args=[self.object.study.pk,
                                                             pseudonyms[next_pseudonym_idx]])
