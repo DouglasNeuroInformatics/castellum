@@ -34,10 +34,10 @@ monitoring_logger = logging.getLogger('monitoring.auth')
 
 class User(AbstractUser):
     language = models.CharField(
-        _('Language'), max_length=5, choices=settings.LANGUAGES, blank=True)
-    expiration_date = models.DateTimeField(_('Expiration date'), blank=True, null=True)
+        _('language'), max_length=5, choices=settings.LANGUAGES, blank=True)
+    expiration_date = models.DateTimeField(_('expiration date'), blank=True, null=True)
     logout_timeout = models.DurationField(
-        _('Time until automatic logout'), default=settings.LOGOUT_TIMEOUT_DEFAULT)
+        _('time until automatic logout'), default=settings.LOGOUT_TIMEOUT_DEFAULT)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

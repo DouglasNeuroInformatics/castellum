@@ -58,13 +58,13 @@ class UserAdmin(BaseUserAdmin):
         (None, {
             'fields': ('username', 'password')
         }),
-        (_('Personal info'), {
+        (_('personal info'), {
             'fields': ('first_name', 'last_name', 'email', 'language')
         }),
-        (_('Permissions'), {
+        (_('permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')
         }),
-        (_('Important dates'), {
+        (_('important dates'), {
             'fields': ('last_login', 'date_joined', 'expiration_date', 'logout_timeout')
         }),
     )

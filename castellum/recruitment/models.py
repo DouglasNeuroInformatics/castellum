@@ -40,15 +40,15 @@ class AttributeSet(SubjectData):
         'date_of_birth': 'AgeFilterField',
     }
     filter_names = {
-        'date_of_birth': _('Age'),
+        'date_of_birth': _('age'),
     }
 
-    handedness = models.CharField(_('Handedness'), blank=True, max_length=10, choices=(
-        ('left', _('Left')),
-        ('right', _('Right')),
+    handedness = models.CharField(_('handedness'), blank=True, max_length=10, choices=(
+        ('left', _('left')),
+        ('right', _('right')),
     ))
-    first_language = models.CharField(_('First Language'), blank=True, max_length=5)
-    date_of_birth = DateField(_('Date of birth'), null=True, blank=True)
+    first_language = models.CharField(_('first Language'), blank=True, max_length=5)
+    date_of_birth = DateField(_('date of birth'), null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse('recruitment:attributes_detail', args=[self.pseudonym])
