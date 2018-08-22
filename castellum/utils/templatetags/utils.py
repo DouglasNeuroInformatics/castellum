@@ -26,6 +26,5 @@ register = template.Library()
 
 @register.filter(name='verbose_name')
 def verbose_name(instance, field_name):
-    model = instance.__class__
-    field = model._meta.get_field(field_name)
+    field = instance._meta.get_field(field_name)
     return field.verbose_name
