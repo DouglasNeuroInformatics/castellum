@@ -90,7 +90,7 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
     def get_queryset(self, queryset=None):
         if not queryset:
             queryset = ParticipationRequest.objects
-        return queryset.filter(study=self.study, status=ParticipationRequest.NOT_CONTACTED)
+        return queryset.filter_not_contacted(study=self.study)
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
@@ -137,9 +137,6 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
             queryset = ParticipationRequest.objects
         return queryset.filter(study=self.study)
 
-    def get_success_url(self):
-        return reverse('recruitment:recruitment', args=[self.object.study.pk])
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -158,16 +155,27 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        instance = form.save(commit=False)
-        instance.updated_at = timezone.now()
-        result = super(ContactView, self).form_valid(form)
+        qs = ParticipationRequest.objects.filter_not_contacted(study=self.study)
+        pseudonyms = list(qs.values_list("pseudonym", flat=True))
+        current_pseudonym_idx = pseudonyms.index(self.object.pseudonym)
+
+        self.object.updated_at = timezone.now()
+        self.object.save()
 
         monitoring_logger.info('ContactData update: {}:{} by {}'.format(
             self.study.domain,
             self.object.pseudonym,
             self.request.user.pk))
 
-        return result
+        if "btn_back" in form.data or 0 == len(pseudonyms) - 1:
+            url = reverse('recruitment:recruitment', args=[self.object.study.pk])
+        else:
+            next_pseudonym_idx = (current_pseudonym_idx + 1
+                                  if current_pseudonym_idx + 1 < len(pseudonyms) else
+                                  current_pseudonym_idx - 1)
+            url = reverse('recruitment:contact', args=[self.object.study.pk,
+                                                       pseudonyms[next_pseudonym_idx]])
+        return redirect(url)
 
 
 class AttributeSetDetailView(LoginRequiredMixin, DetailView):
