@@ -33,16 +33,15 @@ from . import Address
 
 
 class Contact(SubjectData):
-    CONTACT_METHODS = (
-        ("phone", _("phone")),
-        ("email", _("email")),
-        ("postal", _("postal")),
-    )
-
     GENDER = (
         ("f", _("female")),
         ("m", _("male")),
         ("*", _("diverse")),
+    )
+    CONTACT_METHODS = (
+        ("phone", _("phone")),
+        ("email", _("email")),
+        ("postal", _("postal")),
     )
 
     first_name = models.CharField(_("first name"), max_length=64)
