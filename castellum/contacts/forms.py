@@ -117,11 +117,14 @@ class ContactForm(forms.ModelForm):
                                         " or address should be provided."))
 
         if not is_address_data and preferred_contact_method == dict(contact_methods).get('postal'):
-            self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
+            self.add_error('preferred_contact_method', _("Chosen contact method can not be saved.")
+                           + str(" ") + str(_("No address provided.")))
         if not phone_number and preferred_contact_method == dict(contact_methods).get('phone'):
-            self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
+            self.add_error('preferred_contact_method', _("Chosen contact method can not be saved.")
+                           + str(" ") + str(_("No phone provided.")))
         if not email and preferred_contact_method == dict(contact_methods).get('email'):
-            self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
+            self.add_error('preferred_contact_method', _("Chosen contact method can not be saved.")
+                           + str(" ") + str(_("No email provided.")))
 
         return cleaned_data
 
