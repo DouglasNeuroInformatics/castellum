@@ -3,7 +3,8 @@
 
 # Castellum
 
-Castellum is a privacy-compliant recruiting database for scientific contexts.
+Castellum is a privacy-compliant subject database for scientific
+research.
 
 ## Status
 
