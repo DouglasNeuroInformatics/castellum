@@ -99,7 +99,7 @@ class ContactForm(forms.ModelForm):
         add_info = cleaned_data.get('additional_information', '')
         phone_number = cleaned_data.get('phone_number', '')
         email = cleaned_data.get('email', '')
-        contact_method = cleaned_data.get('preferred_contact_method', '')
+        preferred_contact_method = cleaned_data.get('preferred_contact_method', '')
 
         if any([country, city, zip_code, street, house_number, add_info]):
             address_form = AddressForm(data=cleaned_data)
@@ -109,7 +109,7 @@ class ContactForm(forms.ModelForm):
                     for field, errors in address_form.errors.items():
                         self.add_error(field, errors)
 
-                if contact_method == dict(CONTACT_METHODS).get('postal'):
+                if preferred_contact_method == dict(CONTACT_METHODS).get('postal'):
                     self.add_error('preferred_contact_method',
                                    _("Chosen contact method can not be saved."))
 
