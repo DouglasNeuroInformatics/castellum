@@ -114,16 +114,13 @@ class ContactForm(forms.ModelForm):
 
         if not is_address_data and preferred_contact_method == 'postal':
             self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
-            self.add_error(None, _("Please change the preferred contact method or provide a "
-                                   "complete address."))
+            self.add_error(None, _("Please provide a complete address."))
         if not phone_number and preferred_contact_method == 'phone':
             self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
-            self.add_error(None, _("Please change the preferred contact method or "
-                                   "provide a valid phone number."))
+            self.add_error(None, _("Please provide a phone number."))
         if not email and preferred_contact_method == 'email':
             self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
-            self.add_error(None, _("Please change the preferred contact method or provide "
-                                   "an email."))
+            self.add_error(None, _("Please provide an email."))
 
         return cleaned_data
 
