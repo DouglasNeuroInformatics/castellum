@@ -100,17 +100,14 @@ class ContactForm(forms.ModelForm):
 
         contact_methods = Contact.CONTACT_METHODS
 
-        if any([country, city, zip_code, street, house_number, add_info]):
+        is_address_data = any([country, city, zip_code, street, house_number, add_info])
+        if is_address_data:
             address_form = AddressForm(data=cleaned_data)
             if not address_form.is_valid():
 
                 if address_form.errors:
                     for field, errors in address_form.errors.items():
                         self.add_error(field, errors)
-
-                if preferred_contact_method == dict(contact_methods).get('postal'):
-                    self.add_error('preferred_contact_method',
-                                   _("Chosen contact method can not be saved."))
 
                 raise ValidationError(_("Provide more details for the address."))
 
@@ -119,6 +116,8 @@ class ContactForm(forms.ModelForm):
                 raise ValidationError(_("Either email, phone number"
                                         " or address should be provided."))
 
+        if not is_address_data and preferred_contact_method == dict(contact_methods).get('postal'):
+            self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
         if not phone_number and preferred_contact_method == dict(contact_methods).get('phone'):
             self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
         if not email and preferred_contact_method == dict(contact_methods).get('email'):
