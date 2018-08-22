@@ -104,13 +104,11 @@ class ContactForm(forms.ModelForm):
         if is_address_data:
             address_form = AddressForm(data=cleaned_data)
             if not address_form.is_valid():
-
                 if address_form.errors:
                     for field, errors in address_form.errors.items():
                         self.add_error(field, errors)
 
                 raise ValidationError(_("Provide more details for the address."))
-
         else:
             if not any([phone_number, email]):
                 raise ValidationError(_("Either email, phone number"
