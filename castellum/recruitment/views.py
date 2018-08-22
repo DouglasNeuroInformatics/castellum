@@ -29,7 +29,6 @@ from django.core.exceptions import PermissionDenied
 from django.forms import BaseModelFormSet
 from django.forms import ValidationError
 from django.http import Http404
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -169,14 +168,14 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
             self.request.user.pk))
 
         if "btn_back" in form.data or 0 == len(pseudonyms) - 1:
-            redirect = reverse('recruitment:recruitment', args=[self.object.study.pk])
+            url = reverse('recruitment:recruitment', args=[self.object.study.pk])
         else:
             next_pseudonym_idx = (current_pseudonym_idx + 1
                                   if current_pseudonym_idx + 1 < len(pseudonyms) else
                                   current_pseudonym_idx - 1)
-            redirect = reverse('recruitment:contact', args=[self.object.study.pk,
-                                                            pseudonyms[next_pseudonym_idx]])
-        return HttpResponseRedirect(redirect)
+            url = reverse('recruitment:contact', args=[self.object.study.pk,
+                                                       pseudonyms[next_pseudonym_idx]])
+        return redirect(url)
 
 
 class AttributeSetDetailView(LoginRequiredMixin, DetailView):
