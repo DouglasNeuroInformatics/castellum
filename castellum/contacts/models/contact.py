@@ -31,14 +31,14 @@ from castellum.utils import PhoneNumberField
 
 from . import Address
 
-CONTACT_METHODS = (
-    ("phone", _("phone")),
-    ("email", _("email")),
-    ("postal", _("postal")),
-)
-
 
 class Contact(SubjectData):
+    CONTACT_METHODS = (
+        ("phone", _("phone")),
+        ("email", _("email")),
+        ("postal", _("postal")),
+    )
+
     GENDER = (
         ("f", _("female")),
         ("m", _("male")),

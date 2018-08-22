@@ -28,7 +28,6 @@ from .models import Address
 from .models import City
 from .models import Contact
 from .models import Country
-from .models.contact import CONTACT_METHODS
 
 
 class DatalistWidget(TextInput):
@@ -70,7 +69,7 @@ class ContactForm(forms.ModelForm):
     additional_information = forms.CharField(
         label=_('additional address information'), required=False)
     preferred_contact_method = forms.ChoiceField(
-        label=_('preferred contact method'), choices=CONTACT_METHODS, required=False)
+        label=_('preferred contact method'), choices=Contact.CONTACT_METHODS, required=False)
 
     class Meta:
         model = Contact
