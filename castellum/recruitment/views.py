@@ -91,7 +91,7 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
     def get_queryset(self, queryset=None):
         if not queryset:
             queryset = ParticipationRequest.objects
-        return queryset.filter(study=self.study, status=ParticipationRequest.NOT_CONTACTED)
+        return queryset.filter_not_contacted(study=self.study)
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
@@ -156,8 +156,7 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        qs = ParticipationRequest.objects.filter(study=self.study,
-                                                 status=ParticipationRequest.NOT_CONTACTED)
+        qs = ParticipationRequest.objects.filter_not_contacted(study=self.study)
         pseudonyms = list(qs.values_list("pseudonym", flat=True))
         current_pseudonym_idx = pseudonyms.index(self.object.pseudonym)
 

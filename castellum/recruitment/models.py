@@ -63,6 +63,11 @@ class AttributeSet(SubjectData):
         return queryset.filter(q)
 
 
+class ParticipationRequestManager(models.Manager):
+    def filter_not_contacted(self, **kwargs):
+        return self.get_queryset().filter(status=ParticipationRequest.NOT_CONTACTED, **kwargs)
+
+
 class ParticipationRequest(SubjectData):
     NOT_CONTACTED = 0
     NOT_REACHED = 1
@@ -74,6 +79,8 @@ class ParticipationRequest(SubjectData):
         (UNSUITABLE, _('unsuitable')),
         (INVITED, _('invited')),
     )
+
+    objects = ParticipationRequestManager()
 
     study = models.ForeignKey(Study, verbose_name=_('study'), on_delete=models.CASCADE)
 
