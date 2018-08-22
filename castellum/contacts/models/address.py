@@ -31,8 +31,8 @@ class Country(models.Model):
 
     class Meta:
         ordering = "name",
-        verbose_name = _("Country")
-        verbose_name_plural = _("Countries")
+        verbose_name = _("country")
+        verbose_name_plural = _("countries")
 
 
 class City(models.Model):
@@ -45,8 +45,8 @@ class City(models.Model):
     class Meta:
         ordering = "country__name", "name"
         unique_together = "name", "country"
-        verbose_name = _("City")
-        verbose_name_plural = _("Cities")
+        verbose_name = _("city")
+        verbose_name_plural = _("cities")
 
 
 class Address(models.Model):
@@ -64,5 +64,5 @@ class Address(models.Model):
     class Meta:
         ordering = ("city__country__name", "city__name", "zip_code", "street", "house_number",
                     "additional_information")
-        verbose_name = _("Address")
-        verbose_name_plural = _("Addresses")
+        verbose_name = _("address")
+        verbose_name_plural = _("addresses")

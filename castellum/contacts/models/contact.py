@@ -52,7 +52,7 @@ class Contact(SubjectData):
 
     birthday = DateField(_("birthday"))
 
-    address = models.ForeignKey(Address, blank=True, null=True, verbose_name=_("Address"),
+    address = models.ForeignKey(Address, blank=True, null=True, verbose_name=_("address"),
                                 on_delete=models.SET_NULL)
     email = models.EmailField(_("email"), max_length=128, blank=True)
     phone_number = PhoneNumberField(_("phone number"), max_length=32, blank=True)
