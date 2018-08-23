@@ -29,7 +29,7 @@
             <td>{{ contact.phone_number_alternative|default:_('not provided') }}</td>
         </tr>
         <tr>
-            <th>{% trans 'Preferred contact method:' %}</th>
+            <th>{{ contact|verbose_name:'preferred_contact_method' }}</th>
             <td>{{ contact.preferred_contact_method|default:_('not provided') }}</td>
         </tr>
     </table>
