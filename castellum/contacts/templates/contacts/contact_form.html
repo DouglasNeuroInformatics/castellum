@@ -53,6 +53,33 @@
         {% bootstrap_field form.additional_information %}
         {% bootstrap_field form.preferred_contact_method %}
 
+        <label>{% trans "Availability" %}</label>
+
+        <table class="table js-availability">
+            <thead>
+                <tr>
+                    <th scope="col">{% trans "Monday" %}</th>
+                    <th scope="col">{% trans "Tuesday" %}</th>
+                    <th scope="col">{% trans "Wednesday" %}</th>
+                    <th scope="col">{% trans "Thursday" %}</th>
+                    <th scope="col">{% trans "Friday" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for weekday, hours in availabilities.items %}
+                    <td>
+                        <select multiple class="form-control" name="weekday-{{ weekday }}" size="15">
+                            {% for hour, value in hours.items %}
+                            <option {% if value is True %}selected{% endif %}>{{ hour }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+
         <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
     </form>

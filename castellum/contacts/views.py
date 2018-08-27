@@ -34,6 +34,7 @@ from django.views.generic import ListView
 from castellum.pseudonyms.helpers import resolve_pseudonym
 
 from .forms import ContactForm
+from .models import Availability
 from .models import Contact
 
 monitoring_logger = logging.getLogger('monitoring.contact_data')
@@ -74,18 +75,44 @@ class ContactUpdateView(LoginRequiredMixin, View):
     def get(self, request, slug):
         contact = get_object_or_404(Contact, pseudonym=slug)
         context = {
+            'availabilities': self.get_availabilities(contact),
             'form': ContactForm(instance=contact),
         }
         return render(request, self.template_name, context)
+
+    def get_availabilities(self, contact):
+        weekday = dict.fromkeys(range(6, 21), False)
+        availabilities = dict([(i, weekday.copy()) for i in range(5)])
+
+        qs = (Availability.objects.filter(contact=contact)
+                                  .order_by("weekday", "hour")
+                                  .values_list("weekday", "hour"))
+
+        for weekday, hour in qs:
+            availabilities[weekday][hour] = True
+        return availabilities
 
     def post(self, request, slug):
         contact = get_object_or_404(Contact, pseudonym=slug)
         form = ContactForm(data=request.POST, instance=contact)
         if form.is_valid():
             form.save()
+            self.save_availability(request.POST, contact)
             msg = 'ContactData update: {}:{} by {}'.format(settings.DOMAINS['contact'], slug,
                                                            self.request.user.pk)
             monitoring_logger.info(msg)
             return redirect(contact.get_absolute_url())
         else:
             return render(request, self.template_name, {'form': form})
+
+    def save_availability(self, post_data, contact):
+        self.delete_availability_items(contact)
+
+        availabilities = []
+        for weekday in range(5):
+            for hour in post_data.getlist("weekday-{}".format(weekday), []):
+                availabilities.append(Availability(contact=contact, weekday=weekday, hour=hour))
+        Availability.objects.bulk_create(availabilities)
+
+    def delete_availability_items(self, contact):
+        Availability.objects.filter(contact=contact).delete()
