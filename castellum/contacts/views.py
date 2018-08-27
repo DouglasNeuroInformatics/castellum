@@ -23,10 +23,13 @@ import logging
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+from django.shortcuts import render
+from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
-from django.views.generic import UpdateView
 
 from castellum.pseudonyms.helpers import resolve_pseudonym
 
@@ -65,15 +68,24 @@ class ContactCreateView(LoginRequiredMixin, CreateView):
         return result
 
 
-class ContactUpdateView(LoginRequiredMixin, UpdateView):
-    model = Contact
-    form_class = ContactForm
-    slug_field = 'pseudonym'
+class ContactUpdateView(LoginRequiredMixin, View):
+    template_name = 'contacts/contact_form.html'
 
-    def form_valid(self, form):
-        result = super().form_valid(form)
-        monitoring_logger.info('ContactData update: {}:{} by {}'.format(
-            settings.DOMAINS['contact'],
-            self.object.pseudonym,
-            self.request.user.pk))
-        return result
+    def get(self, request, slug):
+        contact = get_object_or_404(Contact, pseudonym=slug)
+        context = {
+            'form': ContactForm(instance=contact),
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, slug):
+        contact = get_object_or_404(Contact, pseudonym=slug)
+        form = ContactForm(data=request.POST, instance=contact)
+        if form.is_valid():
+            form.save()
+            msg = 'ContactData update: {}:{} by {}'.format(settings.DOMAINS['contact'], slug,
+                                                           self.request.user.pk)
+            monitoring_logger.info(msg)
+            return redirect(contact.get_absolute_url())
+        else:
+            return render(request, self.template_name, {'form': form})
