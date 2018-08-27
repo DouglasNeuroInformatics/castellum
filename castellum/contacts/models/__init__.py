@@ -22,6 +22,7 @@
 from .address import Address
 from .address import City
 from .address import Country
+from .availability import Availability
 from .contact import Contact
 
-__all__ = Address, City, Country, Contact
+__all__ = Address, Availability, City, Country, Contact
