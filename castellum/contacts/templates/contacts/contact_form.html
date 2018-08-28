@@ -68,13 +68,13 @@
             <tbody>
                 <tr>
                     {% for weekday, hours in availabilities.items %}
-                    <td>
-                        <select multiple class="form-control" name="weekday-{{ weekday }}" size="15">
-                            {% for hour, value in hours.items %}
-                            <option {% if value is True %}selected{% endif %}>{{ hour }}</option>
-                            {% endfor %}
-                        </select>
-                    </td>
+                        <td>
+                            <select multiple class="form-control" name="weekday-{{ weekday }}" size="15">
+                                {% for hour, value in hours.items %}
+                                    <option {% if value is True %}selected{% endif %}>{{ hour }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
                     {% endfor %}
                 </tr>
             </tbody>
