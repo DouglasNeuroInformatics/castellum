@@ -80,7 +80,7 @@
             </tbody>
         </table>
 
-        <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+        <a href="{{ view.get_cancel_url }}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
     </form>
 {% endblock %}

@@ -26,6 +26,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import DetailView
@@ -71,6 +72,9 @@ class ContactCreateView(LoginRequiredMixin, CreateView):
 
 class ContactUpdateView(LoginRequiredMixin, View):
     template_name = 'contacts/contact_form.html'
+
+    def get_cancel_url(self):
+        return reverse('contacts:index')
 
     def get(self, request, slug):
         contact = get_object_or_404(Contact, pseudonym=slug)

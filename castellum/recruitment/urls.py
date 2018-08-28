@@ -23,6 +23,7 @@ from django.urls import path
 
 from .views import AttributeSetDetailView
 from .views import AttributeSetUpdateView
+from .views import ContactUpdateView
 from .views import ContactView
 from .views import FilterCreateView
 from .views import FilterDeleteView
@@ -57,4 +58,5 @@ urlpatterns = [
 
     path('<study_pk>/', RecruitmentView.as_view(), name='recruitment'),
     path('<study_pk>/<slug>/', ContactView.as_view(), name='contact'),
+    path('<study_pk>/<slug>/update-contact/', ContactUpdateView.as_view(), name='contact-update'),
 ]

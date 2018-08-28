@@ -43,6 +43,7 @@ from django.views.generic import View
 from extra_views import ModelFormSetView
 
 from castellum.contacts.models import Contact
+from castellum.contacts.views import ContactUpdateView as _ContactUpdateView
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.studies.models import Study
 
@@ -176,6 +177,26 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
             url = reverse('recruitment:contact', args=[self.object.study.pk,
                                                        pseudonyms[next_pseudonym_idx]])
         return redirect(url)
+
+
+class ContactUpdateView(PublishedStudyMixin, _ContactUpdateView):
+    def get_object(self):
+        participation_request = get_object_or_404(
+            ParticipationRequest, study=self.study, pseudonym=self.kwargs['slug'])
+
+        contact_pseudonym = resolve_pseudonym(
+            self.study.domain,
+            participation_request.pseudonym,
+            settings.DOMAINS['contact'])
+        contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
+
+        return contact
+
+    def get_success_url(self):
+        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['slug']])
+
+    def get_cancel_url(self):
+        return self.get_success_url()
 
 
 class AttributeSetDetailView(LoginRequiredMixin, DetailView):
