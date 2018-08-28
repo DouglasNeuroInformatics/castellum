@@ -23,6 +23,7 @@ import logging
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
@@ -69,6 +70,9 @@ class ContactUpdateView(LoginRequiredMixin, UpdateView):
     model = Contact
     form_class = ContactForm
     slug_field = 'pseudonym'
+
+    def get_cancel_url(self):
+        return reverse('contacts:index')
 
     def form_valid(self, form):
         result = super().form_valid(form)
