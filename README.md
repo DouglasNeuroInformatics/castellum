@@ -12,14 +12,6 @@ This project is still in development. There may be severe vulnerabilities
 in the code. It is strongly recommended not to use this in production
 yet.
 
-## Usage
-
-Example setup:
-
-    docker-compose -f docker-compose.yml -f docker-compose.manage.yml up
-
-For more details, see `docs/deployment.md`.
-
 ## Development
 
 The following commands will install everything and start a local testserver (on ubuntu):
