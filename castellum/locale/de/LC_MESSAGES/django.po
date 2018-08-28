@@ -433,8 +433,8 @@ msgid "Submit"
 msgstr "Absenden"
 
 #: castellum/recruitment/templates/recruitment/filters.html:69
-msgid "Delete"
-msgstr "Löschen"
+msgid "Delete all filters"
+msgstr "Alle Filter löschen"
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:8
 msgid "Statistics"
