@@ -54,12 +54,28 @@ class ContactDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
+def save_availability(post_data, contact):
+    Availability.objects.filter(contact=contact).delete()
+
+    availabilities = []
+    for weekday in range(5):
+        for hour in post_data.getlist("weekday-{}".format(weekday), []):
+            availabilities.append(Availability(contact=contact, weekday=weekday, hour=hour))
+    Availability.objects.bulk_create(availabilities)
+
+
 class ContactCreateView(LoginRequiredMixin, CreateView):
     model = Contact
     form_class = ContactForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['availabilities'] = {i: {j: False for j in range(6, 21)} for i in range(5)}
+        return context
+
     def form_valid(self, form):
         result = super().form_valid(form)
+        save_availability(self.request.POST, self.object)
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             settings.DOMAINS['contact'],
             self.object.pseudonym,
@@ -88,15 +104,3 @@ class ContactUpdateView(LoginRequiredMixin, UpdateView):
             self.object.pseudonym,
             self.request.user.pk))
         return result
-
-    def save_availability(self, post_data, contact):
-        self.delete_availability_items(contact)
-
-        availabilities = []
-        for weekday in range(5):
-            for hour in post_data.getlist("weekday-{}".format(weekday), []):
-                availabilities.append(Availability(contact=contact, weekday=weekday, hour=hour))
-        Availability.objects.bulk_create(availabilities)
-
-    def delete_availability_items(self, contact):
-        Availability.objects.filter(contact=contact).delete()
