@@ -32,6 +32,13 @@ from castellum.utils.fields import PhoneNumberField
 from . import Address
 
 
+class TimeSlot(models.Model):
+    hour = models.PositiveSmallIntegerField(_('hour'))
+
+    def __str__(self):
+        return str(self.hour)
+
+
 class Contact(SubjectData):
     GENDER = (
         ("f", _("female")),
