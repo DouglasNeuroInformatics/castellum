@@ -69,6 +69,17 @@ class Contact(SubjectData):
     preferred_contact_method = models.CharField(
         _("preferred contact method"), max_length=16, blank=True, choices=CONTACT_METHODS)
 
+    availability_monday = models.ManyToManyField(
+        TimeSlot, verbose_name=_("monday"), blank=True, related_name='+')
+    availability_tuesday = models.ManyToManyField(
+        TimeSlot, verbose_name=_("tuesday"), blank=True, related_name='+')
+    availability_wednesday = models.ManyToManyField(
+        TimeSlot, verbose_name=_("wednesday"), blank=True, related_name='+')
+    availability_thursday = models.ManyToManyField(
+        TimeSlot, verbose_name=_("thursday"), blank=True, related_name='+')
+    availability_friday = models.ManyToManyField(
+        TimeSlot, verbose_name=_("friday"), blank=True, related_name='+')
+
     def save(self, *args, **kwargs):
         if not self.pseudonym:
             self.pseudonym = create_pseudonym(settings.DOMAINS['contact'])
