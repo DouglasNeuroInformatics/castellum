@@ -75,3 +75,7 @@ class Contact(SubjectData):
         if self.title:
             name = self.title + ' ' + name
         return name
+
+    def get_availabilities(self):
+        qs = self.availability_set.values_list("weekday", "hour")
+        return {i: {j: (i, j) in qs for j in range(6, 21)} for i in range(5)}

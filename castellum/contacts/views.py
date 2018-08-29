@@ -79,22 +79,10 @@ class ContactUpdateView(LoginRequiredMixin, View):
     def get(self, request, slug):
         contact = get_object_or_404(Contact, pseudonym=slug)
         context = {
-            'availabilities': self.get_availabilities(contact),
+            'availabilities': contact.get_availabilities(),
             'form': ContactForm(instance=contact),
         }
         return render(request, self.template_name, context)
-
-    def get_availabilities(self, contact):
-        weekday = dict.fromkeys(range(6, 21), False)
-        availabilities = dict([(i, weekday.copy()) for i in range(5)])
-
-        qs = (Availability.objects.filter(contact=contact)
-                                  .order_by("weekday", "hour")
-                                  .values_list("weekday", "hour"))
-
-        for weekday, hour in qs:
-            availabilities[weekday][hour] = True
-        return availabilities
 
     def post(self, request, slug):
         contact = get_object_or_404(Contact, pseudonym=slug)
