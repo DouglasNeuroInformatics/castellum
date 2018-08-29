@@ -23,14 +23,11 @@ import logging
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
-from django.shortcuts import render
 from django.urls import reverse
-from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
+from django.views.generic import UpdateView
 
 from castellum.pseudonyms.helpers import resolve_pseudonym
 
@@ -70,32 +67,27 @@ class ContactCreateView(LoginRequiredMixin, CreateView):
         return result
 
 
-class ContactUpdateView(LoginRequiredMixin, View):
-    template_name = 'contacts/contact_form.html'
+class ContactUpdateView(LoginRequiredMixin, UpdateView):
+    model = Contact
+    form_class = ContactForm
+    slug_field = 'pseudonym'
 
     def get_cancel_url(self):
         return reverse('contacts:index')
 
-    def get(self, request, slug):
-        contact = get_object_or_404(Contact, pseudonym=slug)
-        context = {
-            'availabilities': contact.get_availabilities(),
-            'form': ContactForm(instance=contact),
-        }
-        return render(request, self.template_name, context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['availabilities'] = self.object.get_availabilities()
+        return context
 
-    def post(self, request, slug):
-        contact = get_object_or_404(Contact, pseudonym=slug)
-        form = ContactForm(data=request.POST, instance=contact)
-        if form.is_valid():
-            form.save()
-            self.save_availability(request.POST, contact)
-            msg = 'ContactData update: {}:{} by {}'.format(settings.DOMAINS['contact'], slug,
-                                                           self.request.user.pk)
-            monitoring_logger.info(msg)
-            return redirect(contact.get_absolute_url())
-        else:
-            return render(request, self.template_name, {'form': form})
+    def form_valid(self, form):
+        result = super().form_valid(form)
+        save_availability(self.request.POST, self.object)
+        monitoring_logger.info('ContactData update: {}:{} by {}'.format(
+            settings.DOMAINS['contact'],
+            self.object.pseudonym,
+            self.request.user.pk))
+        return result
 
     def save_availability(self, post_data, contact):
         self.delete_availability_items(contact)
