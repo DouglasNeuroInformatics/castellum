@@ -57,6 +57,9 @@ class ContactCreateView(LoginRequiredMixin, CreateView):
     model = Contact
     form_class = ContactForm
 
+    def get_cancel_url(self):
+        return reverse('contacts:index')
+
     def form_valid(self, form):
         result = super().form_valid(form)
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
