@@ -6,7 +6,7 @@
     <table class="table">
         <tr>
             <th>{{ contact|verbose_name:'gender' }}</th>
-            <td>{{ contact.gender|default:_('not provided') }}</td>
+            <td>{{ contact.get_gender_display|default:_('not provided') }}</td>
         </tr>
         <tr>
             <th>{{ contact|verbose_name:'birthday' }}</th>
@@ -30,7 +30,7 @@
         </tr>
         <tr>
             <th>{{ contact|verbose_name:'preferred_contact_method' }}</th>
-            <td>{{ contact.preferred_contact_method|default:_('not provided') }}</td>
+            <td>{{ contact.get_preferred_contact_method_display|default:_('not provided') }}</td>
         </tr>
     </table>
     <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
