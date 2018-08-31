@@ -75,10 +75,9 @@ class Contact(SubjectData):
     def get_age(self):
         if self.birthday:
             today = date.today()
-            return today.year - self.birthday.year - \
-                   ((today.month, today.day) < (self.birthday.month, self.birthday.day))
+            return today.year - self.birthday.year - ((today.month, today.day)
+                                                      < (self.birthday.month, self.birthday.day))
         return None
-
 
     def full_name(self):
         name = self.first_name + ' ' + self.last_name
