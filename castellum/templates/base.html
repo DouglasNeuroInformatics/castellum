@@ -10,6 +10,9 @@
     <title>{% block title %}Castellum{% endblock %}</title>
     <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" />
+    {% bootstrap_javascript jquery='full' %}
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'" />
 </head>
 <body {% if user.is_authenticated %}data-logout-timeout="{{ user.logout_timeout.total_seconds }}"{% endif %}>
     <header class="bg-dark">
