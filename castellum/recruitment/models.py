@@ -101,6 +101,9 @@ class SubjectFilterGroup(models.Model):
             q &= f.to_q()
         return q
 
+    def get_subject_count(self):
+        return AttributeSet.objects.filter(self.to_q()).count()
+
     def __str__(self):
         return ' AND '.join(str(f) for f in self.subjectfilter_set.all())
 
@@ -114,6 +117,9 @@ class SubjectFilter(models.Model):
     def to_q(self):
         filter_field = get_filter_field(self.field_name)
         return filter_field.to_q(self.field_name, self.operator, self.value)
+
+    def get_subject_count(self):
+        return AttributeSet.objects.filter(self.to_q()).count()
 
     def __str__(self):
         return '{}__{}={}'.format(self.field_name, self.operator, self.value)

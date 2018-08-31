@@ -6,11 +6,22 @@
 
     <p>{% trans 'The subjects for the study will be picked from any of these groups:' %}</p>
 
-    <ul>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>{% trans 'Filter group' %}</th>
+            <th>{% trans 'Statistics' %}</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for group in object_list %}
-            <li><a href={% url 'recruitment:filter_update' study.pk group.pk %}>{{ group }}</a></li>
+            <tr>
+                <td><a href={% url 'recruitment:filter_update' study.pk group.pk %}>{{ group }}</a></td>
+                <td>{{ group.get_subject_count }} / {{ total_count }}</td>
+            </tr>
         {% endfor %}
-    </ul>
+    </tbody>
+    </table>
 
     <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
 
