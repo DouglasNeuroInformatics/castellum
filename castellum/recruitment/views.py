@@ -171,7 +171,7 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        qs = ParticipationRequest.objects.filter_not_contacted(study=self.study)
+        qs = ParticipationRequest.objects.filter_not_contacted_and_not_reached(study=self.study)
         pseudonyms = list(qs.values_list("pseudonym", flat=True))
         current_pseudonym_idx = pseudonyms.index(self.object.pseudonym)
 
