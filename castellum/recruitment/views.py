@@ -98,6 +98,7 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
 
         queryset = ParticipationRequest.objects.filter(study=self.study)
 
+<<<<<<< HEAD
         participation_contact_list = []
         for participation in queryset:
             contact_pseudonym = resolve_pseudonym(
@@ -108,11 +109,14 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
             participation_contact_list.append((participation, contact))
 
         context['participation_contact_list'] = participation_contact_list
+=======
+        context['not_reached_participants'] = queryset.filter(
+            status=ParticipationRequest.NOT_REACHED)
+
+>>>>>>> pass quersy instead of count, modified templates
         context['all_count'] = queryset.count()
         context['invited_count'] = queryset.filter(
             status=ParticipationRequest.INVITED).count()
-        context['not_reached_count'] = queryset.filter(
-            status=ParticipationRequest.NOT_REACHED).count()
         context['unsuitable_count'] = queryset.filter(
             status=ParticipationRequest.UNSUITABLE).count()
         context['study'] = self.study
