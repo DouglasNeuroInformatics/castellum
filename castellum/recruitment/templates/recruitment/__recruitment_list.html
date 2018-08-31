@@ -1,0 +1,21 @@
+{% load i18n %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>{% trans 'Pseudonym' %}</th>
+            <th>{% trans 'Action' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for request in participation_requests %}
+            {% for participation, contact in participation_contact_list %}
+            <tr>
+                <td>{{ participation.pseudonym|truncatechars:11 }}</td>
+                <td>{{ contact.age }}</td>
+                <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk participation.pseudonym %}">{% trans 'Call' %}</a></td>
+            </tr>
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
