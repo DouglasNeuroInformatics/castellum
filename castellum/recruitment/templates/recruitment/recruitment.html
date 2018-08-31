@@ -4,52 +4,57 @@
 
 {% block content %}
     <h1>{{ study.name }}</h1>
+    <h3>{% trans 'Contacts' %}</h3>
 
-    <h2>{% trans 'Statistics' %}</h2>
-    <table class="table">
-    <thead>
-        <tr>
-            <th>{% trans 'All' %}</th>
-            <th>{% trans 'Invited' %}</th>
-            <th>{% trans 'Not reached' %}</th>
-            <th>{% trans 'Unsuitable' %}</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>{{ all_count }}</td>
-            <td>{{ invited_count }}</td>
-            <td>{{ not_reached_count }}</td>
-            <td>{{ unsuitable_count }}</td>
-        </tr>
-    </tbody>
-    </table>
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#all">{% trans 'All'%} <span class="badge badge-light">{{all_count}}</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" data-toggle="tab" href="#invited">{% trans 'Invited' %} <span class="badge badge-light">{{invited_count}}</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#not_reached">{% trans 'Not reached' %} <span class="badge badge-light">{{not_reached_count}}</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" data-toggle="tab" href="#unsuitable">{% trans 'Unsuitable' %} <span class="badge badge-light">{{unsuitable_count}}</span></a>
+        </li>
+    </ul>
 
-    <h2>{% trans 'Contacts' %}</h2>
-    <table class="table">
-    <thead>
-        <tr>
-            <th>{% trans 'Pseudonym' %}</th>
-            <th>{% trans 'Age' %}</th>
-            <th>{% trans 'Action' %}</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for participation, contact in participation_contact_list %}
-        <tr>
-            <td>{{ participation.pseudonym|truncatechars:11 }}</td>
-            <td>{{ contact.age }}</td>
-            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk participation.pseudonym %}">{% trans 'Call' %}</a></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-    </table>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane container active" id="all">
+            <table class="table">
+            <thead>
+                <tr>
+                    <th>{% trans 'Pseudonym' %}</th>
+                    <th>{% trans 'Action' %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in participation_requests %}
+                    {% for participation, contact in participation_contact_list %}
+                    <tr>
+                        <td>{{ participation.pseudonym|truncatechars:11 }}</td>
+                        <td>{{ contact.age }}</td>
+                        <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk participation.pseudonym %}">{% trans 'Call' %}</a></td>
+                    </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+            </table>
 
-    <div class="mb-3">
-        <a href="{% url 'recruitment:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-        <form method="post" class="d-inline">
-            {% csrf_token %}
-            <button class="btn btn-primary">{% trans 'Add' %}</button>
-        </form>
+            <div class="mb-3">
+                <a href="{% url 'recruitment:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+                <form method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button class="btn btn-primary">{% trans 'Add' %}</button>
+                </form>
+            </div>
+
+        </div>
+        <div class="tab-pane container fade" id="invited">Invited</div>
+        <div class="tab-pane container fade" id="not_reached">Not reached</div>
+        <div class="tab-pane container fade" id="unsuitable">Unsuitable</div>
     </div>
 {% endblock %}
