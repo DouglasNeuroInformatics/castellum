@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from datetime import date
+
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
@@ -69,6 +71,14 @@ class Contact(SubjectData):
 
     def get_absolute_url(self):
         return reverse('contacts:detail', args=[self.pseudonym])
+
+    def get_age(self):
+        if self.birthday:
+            today = date.today()
+            return today.year - self.birthday.year - \
+                   ((today.month, today.day) < (self.birthday.month, self.birthday.day))
+        return None
+
 
     def full_name(self):
         name = self.first_name + ' ' + self.last_name

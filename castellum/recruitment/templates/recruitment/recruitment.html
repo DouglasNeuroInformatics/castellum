@@ -30,14 +30,16 @@
     <thead>
         <tr>
             <th>{% trans 'Pseudonym' %}</th>
+            <th>{% trans 'Age' %}</th>
             <th>{% trans 'Action' %}</th>
         </tr>
     </thead>
     <tbody>
-        {% for request in participation_requests %}
+        {% for key, value in dict_pseudonyms.items %}
         <tr>
-            <td>{{ request.pseudonym }}</td>
-            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk request.pseudonym %}">{% trans 'Call' %}</a></td> </tr>
+            <td>{{ key|truncatechars:11 }}</td>
+            <td>{{ value }}</td>
+            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk key%}">{% trans 'Call' %}</a></td> </tr>
         </tr>
         {% endfor %}
     </tbody>
