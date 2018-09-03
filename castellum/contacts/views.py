@@ -33,6 +33,7 @@ from castellum.pseudonyms.helpers import resolve_pseudonym
 
 from .forms import ContactForm
 from .models import Contact
+from .models import TimeSlot
 
 monitoring_logger = logging.getLogger('monitoring.contact_data')
 
@@ -48,8 +49,21 @@ class ContactDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         context['attributeset_pseudonym'] = resolve_pseudonym(
             settings.DOMAINS['contact'], self.object.pseudonym, settings.DOMAINS['attributeset'])
+
+        timeslots = TimeSlot.objects.all()
+        days = [
+            self.object.availability_monday.all(),
+            self.object.availability_tuesday.all(),
+            self.object.availability_wednesday.all(),
+            self.object.availability_thursday.all(),
+            self.object.availability_friday.all(),
+        ]
+        context['availability'] = [
+            [(timeslot.hour, timeslot in day) for timeslot in timeslots] for day in days]
+
         return context
 
 
