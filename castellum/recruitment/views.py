@@ -243,6 +243,7 @@ class FilterListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['study'] = self.study
+        data['total_count'] = AttributeSet.objects.count()
         return data
 
 
@@ -300,9 +301,6 @@ class FilterUpdateView(LoginRequiredMixin, UnpublishedStudyMixin, ModelFormSetVi
         self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['pk'])
         return super().dispatch(*args, **kwargs)
 
-    def get_subject_count(self, group):
-        return AttributeSet.objects.filter(group.to_q()).count()
-
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
         return qs.filter(group=self.group)
@@ -314,6 +312,5 @@ class FilterUpdateView(LoginRequiredMixin, UnpublishedStudyMixin, ModelFormSetVi
         data = super().get_context_data(**kwargs)
         data['study'] = self.study
         data['group'] = self.group
-        data['count'] = self.get_subject_count(self.group)
         data['total_count'] = AttributeSet.objects.count()
         return data
