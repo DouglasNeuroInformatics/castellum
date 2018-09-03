@@ -328,11 +328,11 @@ class FilterUpdateView(LoginRequiredMixin, UnpublishedStudyMixin, ModelFormSetVi
 
 
 class FilterGroupDuplicateView(LoginRequiredMixin, View):
-    def post(self, request, *args, **kwargs):
-        study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
+    def post(self, request, *args, study_pk=None, pk=None):
+        study = get_object_or_404(Study, pk=study_pk)
         if study.published:
             raise PermissionDenied
-        original = get_object_or_404(SubjectFilterGroup, study=study, pk=self.kwargs['pk'])
+        original = get_object_or_404(SubjectFilterGroup, study=study, pk=pk)
         clone = original.duplicate()
         messages.success(request, _(
             'The filters have been duplicated. You can now edit the duplicate.'))
