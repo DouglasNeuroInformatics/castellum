@@ -39,6 +39,9 @@ from . import Address
 class TimeSlot(models.Model):
     hour = models.PositiveSmallIntegerField(_('hour'))
 
+    class Meta:
+        ordering = ['hour']
+
     def __str__(self):
         return str(self.hour)
 
