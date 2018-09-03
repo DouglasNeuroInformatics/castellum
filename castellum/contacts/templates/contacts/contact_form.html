@@ -76,7 +76,9 @@
             </tbody>
         </table>
 
-        <a href="{{ view.get_cancel_url }}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-        <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+        <div class="mb-3">
+            <a href="{{ view.get_cancel_url }}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+            <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+        </div>
     </form>
 {% endblock %}
