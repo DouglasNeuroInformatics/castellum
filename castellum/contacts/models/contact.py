@@ -19,10 +19,14 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from datetime import date
+
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+
+from dateutil.relativedelta import relativedelta
 
 from castellum.pseudonyms.helpers import create_pseudonym
 from castellum.pseudonyms.models import SubjectData
@@ -79,6 +83,13 @@ class Contact(SubjectData):
         TimeSlot, verbose_name=_("thursday"), blank=True, related_name='+')
     availability_friday = models.ManyToManyField(
         TimeSlot, verbose_name=_("friday"), blank=True, related_name='+')
+
+    @property
+    def age(self):
+        if self.birthday:
+            delta = relativedelta(date.today(), self.birthday)
+            return delta.years
+        return None
 
     def save(self, *args, **kwargs):
         if not self.pseudonym:

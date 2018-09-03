@@ -97,6 +97,17 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
         context = super(ListView, self).get_context_data(**kwargs)
 
         queryset = ParticipationRequest.objects.filter(study=self.study)
+
+        participation_contact_list = []
+        for participation in queryset:
+            contact_pseudonym = resolve_pseudonym(
+                self.study.domain,
+                participation.pseudonym,
+                settings.DOMAINS['contact'])
+            contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
+            participation_contact_list.append((participation, contact))
+
+        context['participation_contact_list'] = participation_contact_list
         context['all_count'] = queryset.count()
         context['invited_count'] = queryset.filter(
             status=ParticipationRequest.INVITED).count()
@@ -243,6 +254,7 @@ class FilterListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['study'] = self.study
+        data['total_count'] = AttributeSet.objects.count()
         return data
 
 
@@ -300,9 +312,6 @@ class FilterUpdateView(LoginRequiredMixin, UnpublishedStudyMixin, ModelFormSetVi
         self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['pk'])
         return super().dispatch(*args, **kwargs)
 
-    def get_subject_count(self, group):
-        return AttributeSet.objects.filter(group.to_q()).count()
-
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
         return qs.filter(group=self.group)
@@ -314,6 +323,5 @@ class FilterUpdateView(LoginRequiredMixin, UnpublishedStudyMixin, ModelFormSetVi
         data = super().get_context_data(**kwargs)
         data['study'] = self.study
         data['group'] = self.group
-        data['count'] = self.get_subject_count(self.group)
         data['total_count'] = AttributeSet.objects.count()
         return data
