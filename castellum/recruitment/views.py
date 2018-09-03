@@ -341,4 +341,6 @@ class FilterGroupDuplicateView(LoginRequiredMixin, View):
             raise PermissionDenied
         original = get_object_or_404(SubjectFilterGroup, study=study, pk=self.kwargs['pk'])
         clone = self.duplicate(original)
+        messages.success(request, _(
+            'The filters have been duplicated. You can now edit the duplicate.'))
         return redirect('recruitment:filter_update', study.pk, clone.pk)
