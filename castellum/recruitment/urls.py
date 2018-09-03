@@ -27,6 +27,7 @@ from .views import ContactUpdateView
 from .views import ContactView
 from .views import FilterCreateView
 from .views import FilterDeleteView
+from .views import FilterGroupDuplicateView
 from .views import FilterListView
 from .views import FilterUpdateView
 from .views import RecruitmentView
@@ -55,6 +56,10 @@ urlpatterns = [
         'filter/<int:study_pk>/<int:pk>/delete/',
         FilterDeleteView.as_view(),
         name='filter_delete'),
+    path(
+        'filter/<int:study_pk>/<int:pk>/duplicate/',
+        FilterGroupDuplicateView.as_view(),
+        name='filter_duplicate'),
 
     path('<study_pk>/', RecruitmentView.as_view(), name='recruitment'),
     path('<study_pk>/<slug>/', ContactView.as_view(), name='contact'),

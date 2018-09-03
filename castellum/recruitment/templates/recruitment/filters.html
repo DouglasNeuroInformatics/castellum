@@ -65,6 +65,7 @@
         <a href="{% url 'recruitment:filter_index' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
 
         {% if not study.published %}
+            <input type="submit" class="btn btn-secondary" value="{% trans 'Duplicate' %}" formaction="{% url "recruitment:filter_duplicate" study.pk group.pk %}"/>
             <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}"/>
             <a href={% url "recruitment:filter_delete" study.pk group.pk %} class="btn btn-danger">{% trans "Delete all filters" %}</a>
         {% endif %}

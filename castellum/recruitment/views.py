@@ -325,3 +325,20 @@ class FilterUpdateView(LoginRequiredMixin, UnpublishedStudyMixin, ModelFormSetVi
         data['group'] = self.group
         data['total_count'] = AttributeSet.objects.count()
         return data
+
+
+class FilterGroupDuplicateView(LoginRequiredMixin, View):
+    def duplicate(self, original):
+        clone = SubjectFilterGroup.objects.create(study=original.study)
+        for f in original.subjectfilter_set.all():
+            SubjectFilter.objects.create(
+                group=clone, field_name=f.field_name, operator=f.operator, value=f.value)
+        return clone
+
+    def post(self, request, *args, **kwargs):
+        study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
+        if study.published:
+            raise PermissionDenied
+        original = get_object_or_404(SubjectFilterGroup, study=study, pk=self.kwargs['pk'])
+        clone = self.duplicate(original)
+        return redirect('recruitment:filter_update', study.pk, clone.pk)
