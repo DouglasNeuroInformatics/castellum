@@ -104,6 +104,13 @@ class SubjectFilterGroup(models.Model):
     def get_subject_count(self):
         return AttributeSet.objects.filter(self.to_q()).count()
 
+    def duplicate(self):
+        clone = SubjectFilterGroup.objects.create(study=self.study)
+        for f in self.subjectfilter_set.all():
+            SubjectFilter.objects.create(
+                group=clone, field_name=f.field_name, operator=f.operator, value=f.value)
+        return clone
+
     def __str__(self):
         return ' AND '.join(str(f) for f in self.subjectfilter_set.all())
 
