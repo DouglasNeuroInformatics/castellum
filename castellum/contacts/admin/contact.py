@@ -44,4 +44,13 @@ class ContactAdmin(admin.ModelAdmin):
                 "preferred_contact_method",
             )
         }),
+        ("Availability", {
+            "fields": (
+                "availability_monday",
+                "availability_tuesday",
+                "availability_wednesday",
+                "availability_thursday",
+                "availability_friday",
+            )
+        }),
     )

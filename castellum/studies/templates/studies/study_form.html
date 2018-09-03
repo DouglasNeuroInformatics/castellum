@@ -24,7 +24,9 @@
         </div>
         {% bootstrap_field form.min_subjects_count %}
 
-        <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Cancel" %}</a>
-        <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+        <div class="mb-3">
+            <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Cancel" %}</a>
+            <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+        </div>
     </form>
 {% endblock %}

@@ -53,7 +53,32 @@
         {% bootstrap_field form.additional_information %}
         {% bootstrap_field form.preferred_contact_method %}
 
-        <a href="{{ view.get_cancel_url }}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-        <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+        <label>{% trans "Availability" %}</label>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{{ form.availability_monday.label }}</th>
+                    <th>{{ form.availability_tuesday.label }}</th>
+                    <th>{{ form.availability_wednesday.label }}</th>
+                    <th>{{ form.availability_thursday.label }}</th>
+                    <th>{{ form.availability_friday.label }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{% bootstrap_field form.availability_monday show_label=False %}</td>
+                    <td>{% bootstrap_field form.availability_tuesday show_label=False %}</td>
+                    <td>{% bootstrap_field form.availability_wednesday show_label=False %}</td>
+                    <td>{% bootstrap_field form.availability_thursday show_label=False %}</td>
+                    <td>{% bootstrap_field form.availability_friday show_label=False %}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="mb-3">
+            <a href="{{ view.get_cancel_url }}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+            <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+        </div>
     </form>
 {% endblock %}
