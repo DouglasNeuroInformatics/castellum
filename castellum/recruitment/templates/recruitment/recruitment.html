@@ -39,7 +39,7 @@
         <tr>
             <td>{{ participation.pseudonym|truncatechars:11 }}</td>
             <td>{{ contact.age }}</td>
-            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk participation.pseudonym%}">{% trans 'Call' %}</a></td>
+            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk participation.pseudonym %}">{% trans 'Call' %}</a></td>
         </tr>
         {% endfor %}
     </tbody>
