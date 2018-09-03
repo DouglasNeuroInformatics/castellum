@@ -328,7 +328,7 @@ class FilterUpdateView(LoginRequiredMixin, UnpublishedStudyMixin, ModelFormSetVi
 
 
 class FilterGroupDuplicateView(LoginRequiredMixin, View):
-    def post(self, request, *args, study_pk=None, pk=None):
+    def post(self, request, study_pk, pk):
         study = get_object_or_404(Study, pk=study_pk)
         if study.published:
             raise PermissionDenied
