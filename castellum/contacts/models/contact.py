@@ -20,12 +20,13 @@
 # <http://www.gnu.org/licenses/>.
 
 from datetime import date
-from dateutil.relativedelta import relativedelta
 
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+
+from dateutil.relativedelta import relativedelta
 
 from castellum.pseudonyms.helpers import create_pseudonym
 from castellum.pseudonyms.models import SubjectData
