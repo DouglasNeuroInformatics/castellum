@@ -23,5 +23,6 @@ from .address import Address
 from .address import City
 from .address import Country
 from .contact import Contact
+from .contact import TimeSlot
 
-__all__ = Address, City, Country, Contact
+__all__ = Address, City, Country, Contact, TimeSlot

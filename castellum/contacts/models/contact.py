@@ -36,6 +36,16 @@ from castellum.utils.fields import PhoneNumberField
 from . import Address
 
 
+class TimeSlot(models.Model):
+    hour = models.PositiveSmallIntegerField(_('hour'))
+
+    class Meta:
+        ordering = ['hour']
+
+    def __str__(self):
+        return str(self.hour)
+
+
 class Contact(SubjectData):
     GENDER = (
         ("f", _("female")),
@@ -65,6 +75,17 @@ class Contact(SubjectData):
 
     preferred_contact_method = models.CharField(
         _("preferred contact method"), max_length=16, blank=True, choices=CONTACT_METHODS)
+
+    availability_monday = models.ManyToManyField(
+        TimeSlot, verbose_name=_("monday"), blank=True, related_name='+')
+    availability_tuesday = models.ManyToManyField(
+        TimeSlot, verbose_name=_("tuesday"), blank=True, related_name='+')
+    availability_wednesday = models.ManyToManyField(
+        TimeSlot, verbose_name=_("wednesday"), blank=True, related_name='+')
+    availability_thursday = models.ManyToManyField(
+        TimeSlot, verbose_name=_("thursday"), blank=True, related_name='+')
+    availability_friday = models.ManyToManyField(
+        TimeSlot, verbose_name=_("friday"), blank=True, related_name='+')
 
     @property
     def age(self):

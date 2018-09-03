@@ -146,6 +146,7 @@ class ContactForm(forms.ModelForm):
 
         if commit:
             contact.save()
+            self.save_m2m()
 
             if not self.cleaned_data.get('city') and contact.address:
                 contact.address.delete()
