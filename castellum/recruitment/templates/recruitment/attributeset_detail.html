@@ -18,6 +18,8 @@
         </tr>
         <tr>
     </table>
-    <a href="{% url 'contacts:detail' contact_pseudonym %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-    <a href="{% url 'recruitment:attributes_update' attributeset.pseudonym %}" class="btn btn-outline-primary">{% trans "Modify" %}</a>
+    <div class="mb-3">
+        <a href="{% url 'contacts:detail' contact_pseudonym %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+        <a href="{% url 'recruitment:attributes_update' attributeset.pseudonym %}" class="btn btn-secondary">{% trans "Modify" %}</a>
+    </div>
 {% endblock %}

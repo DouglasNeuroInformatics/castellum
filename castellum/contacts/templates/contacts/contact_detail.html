@@ -33,6 +33,8 @@
             <td>{{ contact.get_preferred_contact_method_display|default:_('not provided') }}</td>
         </tr>
     </table>
-    <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-    <a href="{% url 'recruitment:attributes_detail' attributeset_pseudonym %}" class="btn btn-outline-primary">{% trans 'View attributes' %}</a>
+    <div class="mb-3">
+        <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+        <a href="{% url 'recruitment:attributes_detail' attributeset_pseudonym %}" class="btn btn-secondary">{% trans 'View attributes' %}</a>
+    </div>
 {% endblock %}
