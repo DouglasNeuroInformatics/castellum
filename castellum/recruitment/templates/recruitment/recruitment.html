@@ -30,14 +30,16 @@
     <thead>
         <tr>
             <th>{% trans 'Pseudonym' %}</th>
+            <th>{% trans 'Age' %}</th>
             <th>{% trans 'Action' %}</th>
         </tr>
     </thead>
     <tbody>
-        {% for request in participation_requests %}
+        {% for participation, contact in participation_contact_list %}
         <tr>
-            <td>{{ request.pseudonym }}</td>
-            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk request.pseudonym %}">{% trans 'Call' %}</a></td> </tr>
+            <td>{{ participation.pseudonym|truncatechars:11 }}</td>
+            <td>{{ contact.age }}</td>
+            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk participation.pseudonym %}">{% trans 'Call' %}</a></td>
         </tr>
         {% endfor %}
     </tbody>

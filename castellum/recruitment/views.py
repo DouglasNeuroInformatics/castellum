@@ -97,6 +97,17 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
         context = super(ListView, self).get_context_data(**kwargs)
 
         queryset = ParticipationRequest.objects.filter(study=self.study)
+
+        participation_contact_list = []
+        for participation in queryset:
+            contact_pseudonym = resolve_pseudonym(
+                self.study.domain,
+                participation.pseudonym,
+                settings.DOMAINS['contact'])
+            contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
+            participation_contact_list.append((participation, contact))
+
+        context['participation_contact_list'] = participation_contact_list
         context['all_count'] = queryset.count()
         context['invited_count'] = queryset.filter(
             status=ParticipationRequest.INVITED).count()
