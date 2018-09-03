@@ -34,6 +34,7 @@ remove_all_migration_files:
 	find castellum -name 0*.py -delete
 
 reset_databases: remove_sqlite_databases remove_all_migration_files migrate createsuperuser
+	$(MANAGEPY) loaddata timeslots --database=contacts
 	$(MANAGEPY) populate
 
 install:
