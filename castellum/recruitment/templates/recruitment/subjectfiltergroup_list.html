@@ -19,7 +19,13 @@
             <tr>
                 <td>{{ group }}</td>
                 <td>{{ group.get_subject_count }} / {{ total_count }}</td>
-                <td><a href="{% url 'recruitment:filter_update' study.pk group.pk %}" class="btn btn-outline-primary">{% trans "Update" %}</a></td>
+                <td>
+                    <form class="d-inline" method="post" action="{% url 'recruitment:filter_duplicate' study.pk group.pk %}">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-outline-primary" value="{% trans "Duplicate" %}">
+                    </form>
+                    <a href="{% url 'recruitment:filter_update' study.pk group.pk %}" class="btn btn-outline-primary">{% trans "Update" %}</a>
+                </td>
             </tr>
         {% endfor %}
     </tbody>
