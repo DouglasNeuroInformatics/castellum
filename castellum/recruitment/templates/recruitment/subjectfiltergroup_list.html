@@ -11,13 +11,15 @@
         <tr>
             <th>{% trans 'Filter group' %}</th>
             <th>{% trans 'Statistics' %}</th>
+            <th>{% trans 'Actions' %}</th>
         </tr>
     </thead>
     <tbody>
         {% for group in object_list %}
             <tr>
-                <td><a href={% url 'recruitment:filter_update' study.pk group.pk %}>{{ group }}</a></td>
+                <td>{{ group }}</td>
                 <td>{{ group.get_subject_count }} / {{ total_count }}</td>
+                <td><a href="{% url 'recruitment:filter_update' study.pk group.pk %}" class="btn btn-outline-primary">{% trans "Update" %}</a></td>
             </tr>
         {% endfor %}
     </tbody>
