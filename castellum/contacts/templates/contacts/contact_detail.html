@@ -32,6 +32,35 @@
             <th>{{ contact|verbose_name:'preferred_contact_method' }}</th>
             <td>{{ contact.get_preferred_contact_method_display|default:_('not provided') }}</td>
         </tr>
+        <tr>
+            <th>{% trans 'Availability' %}
+            <td>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{{ contact|verbose_name:'availability_monday' }}</th>
+                            <th>{{ contact|verbose_name:'availability_tuesday' }}</th>
+                            <th>{{ contact|verbose_name:'availability_wednesday' }}</th>
+                            <th>{{ contact|verbose_name:'availability_thursday' }}</th>
+                            <th>{{ contact|verbose_name:'availability_friday' }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% for day in availability %}
+                                <td>
+                                    <select class="form-control" multiple disabled>
+                                        {% for hour, selected in day %}
+                                            <option {% if selected %}selected{% endif %}>{{ hour }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
     </table>
     <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
     <a href="{% url 'recruitment:attributes_detail' attributeset_pseudonym %}" class="btn btn-outline-primary">{% trans 'View attributes' %}</a>
