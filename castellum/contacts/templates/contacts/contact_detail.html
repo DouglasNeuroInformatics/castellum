@@ -49,7 +49,7 @@
                         <tr>
                             {% for day in availability %}
                                 <td>
-                                    <select class="form-control" multiple disabled>
+                                    <select class="form-control" multiple disabled size="{{ day|length }}">
                                         {% for hour, selected in day %}
                                             <option {% if selected %}selected{% endif %}>{{ hour }}</option>
                                         {% endfor %}
