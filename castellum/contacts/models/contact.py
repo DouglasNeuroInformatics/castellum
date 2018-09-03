@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from datetime import date
+from dateutil.relativedelta import relativedelta
 
 from django.conf import settings
 from django.db import models
@@ -64,6 +65,13 @@ class Contact(SubjectData):
     preferred_contact_method = models.CharField(
         _("preferred contact method"), max_length=16, blank=True, choices=CONTACT_METHODS)
 
+    @property
+    def age(self):
+        if self.birthday:
+            delta = relativedelta(date.today(), self.birthday)
+            return delta.years
+        return None
+
     def save(self, *args, **kwargs):
         if not self.pseudonym:
             self.pseudonym = create_pseudonym(settings.DOMAINS['contact'])
@@ -71,13 +79,6 @@ class Contact(SubjectData):
 
     def get_absolute_url(self):
         return reverse('contacts:detail', args=[self.pseudonym])
-
-    def get_age(self):
-        if self.birthday:
-            today = date.today()
-            return today.year - self.birthday.year - ((today.month, today.day)
-                                                      < (self.birthday.month, self.birthday.day))
-        return None
 
     def full_name(self):
         name = self.first_name + ' ' + self.last_name
