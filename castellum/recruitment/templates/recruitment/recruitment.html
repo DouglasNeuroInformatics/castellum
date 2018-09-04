@@ -11,35 +11,30 @@
             <a class="nav-link disabled" data-toggle="tab">{% trans 'Invited' %} <span class="badge badge-light">{{invited_count}}</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#not_reached">{% trans 'Not reached' %} <span class="badge badge-light">{{not_reached_list|length}}</span></a>
+            <a class="nav-link {% if not_reached_view %} active {% endif %}" data-toggle="tab" href="{% url 'recruitment:recruitment_not_reached' study.pk %}">{% trans 'Not reached' %} <span class="badge badge-light">{{not_reached_count}}</span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link disabled" data-toggle="tab">{% trans 'Unsuitable' %} <span class="badge badge-light">{{unsuitable_count}}</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#not_contacted">{% trans 'Not contacted'%} <span class="badge badge-light">{{not_contacted_list|length}}</span></a>
+            <a class="nav-link {% if not_contacted_view %} active {% endif %}" data-toggle="tab" href="{% url 'recruitment:recruitment_not_contacted' study.pk %}">{% trans 'Not contacted'%} <span class="badge badge-light">{{not_contacted_count}}</span></a>
         </li>
     </ul>
 
     <!-- Tab panes -->
     <div class="tab-content">
-        <div class="tab-pane container fade" id="not_reached">
-            {% with not_reached_list as participations_list %}
+        <div class="tab-pane container active">
                 {% include "recruitment/__recruitment_list.html" %}
-            {% endwith %}
-        </div>
-        <div class="tab-pane container active" id="not_contacted">
-            {% with not_contacted_list as participations_list %}
-                {% include "recruitment/__recruitment_list.html" %}
-            {% endwith %}
         </div>
     </div>
 
     <div class="mb-3">
         <a href="{% url 'recruitment:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-        <form method="post" class="d-inline">
-            {% csrf_token %}
-            <button class="btn btn-primary">{% trans 'Add' %}</button>
-        </form>
+        {% if not_contacted_view %}
+            <form method="post" class="d-inline">
+                {% csrf_token %}
+                <button class="btn btn-primary">{% trans 'Add' %}</button>
+            </form>
+        {% endif %}
     </div>
 {% endblock %}
