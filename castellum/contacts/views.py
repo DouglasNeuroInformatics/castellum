@@ -24,8 +24,10 @@ from urllib.parse import urlencode
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import FormView
@@ -81,8 +83,18 @@ class ContactCreatePreludeView(LoginRequiredMixin, FormView):
     template_name = 'contacts/contact_create_prelude.html'
 
     def form_valid(self, form):
-        url = reverse('contacts:create-form') + '?' + urlencode(form.cleaned_data)
+        url = reverse('contacts:create-matches') + '?' + urlencode(form.cleaned_data)
         return redirect(url)
+
+
+class ContactCreateMatchesView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        form = PreludeForm(request.GET)
+        if not form.is_valid():
+            return HttpResponseBadRequest()
+
+        form_url = reverse('contacts:create-form') + '?' + urlencode(form.cleaned_data)
+        return redirect(form_url)
 
 
 class ContactCreateView(LoginRequiredMixin, CreateView):
