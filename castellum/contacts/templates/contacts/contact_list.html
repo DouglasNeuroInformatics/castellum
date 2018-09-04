@@ -25,8 +25,9 @@
     </tbody>
     </table>
 
-    <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-    <a href="{% url 'contacts:create' %}" class="btn btn-primary">{% trans "Create new contact"%}</a>
+    <div class="mb-3">
+        <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+    </div>
 
     {% if is_paginated %}
         <div class="container">

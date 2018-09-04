@@ -27,6 +27,7 @@ from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
+from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
 from castellum.pseudonyms.helpers import resolve_pseudonym
@@ -38,7 +39,11 @@ from .models import TimeSlot
 monitoring_logger = logging.getLogger('monitoring.contact_data')
 
 
-class ContactListView(LoginRequiredMixin, ListView):
+class ContactIndexView(LoginRequiredMixin, TemplateView):
+    template_name = 'contacts/contact_index.html'
+
+
+class ContactSearchView(LoginRequiredMixin, ListView):
     model = Contact
     paginate_by = 20
 
