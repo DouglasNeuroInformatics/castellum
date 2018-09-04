@@ -61,6 +61,10 @@
                 </table>
             </td>
         </tr>
+        <tr>
+            <th>{{ contact|verbose_name:'not_available_until' }}</th>
+            <td>{{ contact.not_available_until|default:'-' }}</td>
+        </tr>
     </table>
     <div class="mb-3">
         <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
