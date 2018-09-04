@@ -30,6 +30,7 @@ class DateInput(forms.DateInput):
     def __init__(self, attrs=None):
         defaults = {
             'placeholder': _('yyyy-mm-dd, e.g. 2018-07-21'),
+            'data-widget': 'datepicker',
         }
         if attrs:
             defaults.update(attrs)
