@@ -98,7 +98,7 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
 
         queryset = ParticipationRequest.objects.filter(study=self.study)
 
-        not_reached = queryset.filter(status = ParticipationRequest.NOT_REACHED)
+        not_reached = queryset.filter(status=ParticipationRequest.NOT_REACHED)
         not_reached_list = []
         for participation in not_reached:
             contact_pseudonym = resolve_pseudonym(
