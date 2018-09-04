@@ -98,17 +98,30 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
 
         queryset = ParticipationRequest.objects.filter(study=self.study)
 
-        participation_contact_list = []
-        for participation in queryset:
+        not_reached = queryset.filter(status = ParticipationRequest.NOT_REACHED)
+        not_reached_list = []
+        for participation in not_reached:
             contact_pseudonym = resolve_pseudonym(
                 self.study.domain,
                 participation.pseudonym,
                 settings.DOMAINS['contact'])
             contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
-            participation_contact_list.append((participation, contact))
+            not_reached_list.append((participation, contact))
 
-        context['participation_contact_list'] = participation_contact_list
-        context['all_count'] = queryset.count()
+        context['not_reached_list'] = not_reached_list
+
+        not_contacted = queryset.filter(status=ParticipationRequest.NOT_CONTACTED)
+        not_contacted_list = []
+        for participation in not_contacted:
+            contact_pseudonym = resolve_pseudonym(
+                self.study.domain,
+                participation.pseudonym,
+                settings.DOMAINS['contact'])
+            contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
+            not_contacted_list.append((participation, contact))
+
+        context['not_contacted_list'] = not_contacted_list
+
         context['invited_count'] = queryset.filter(
             status=ParticipationRequest.INVITED).count()
         context['unsuitable_count'] = queryset.filter(
