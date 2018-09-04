@@ -13,7 +13,7 @@
         {% for participation, contact in participations_list %}
         <tr>
             <td>{{ participation.pseudonym|truncatechars:11 }}</td>
-            <td>{{ contact.gender }}</td>
+            <td>{{ contact.get_gender_display }}</td>
             <td>{{ contact.age }}</td>
             <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk participation.pseudonym %}">{% trans 'Call' %}</a></td>
         </tr>
