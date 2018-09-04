@@ -280,6 +280,10 @@ msgstr "Merkmale betrachten"
 msgid "Save"
 msgstr "Speichern"
 
+#: castellum/contacts/templates/contacts/contact_index.html:7
+msgid "Create new contact"
+msgstr "Neuen Probanden anlegen"
+
 #: castellum/contacts/templates/contacts/contact_list.html:5
 #: castellum/recruitment/templates/recruitment/recruitment.html:28
 msgid "Contacts"
@@ -300,14 +304,12 @@ msgid "View details"
 msgstr "Details ansehen"
 
 #: castellum/contacts/templates/contacts/contact_list.html:21
+#: castellum/recruitment/templates/recruitment/attributeset_detail.html:23
 #: castellum/recruitment/templates/recruitment/subjectfiltergroup_list.html:28
 #: castellum/recruitment/templates/recruitment/subjectfiltergroup_list.html:31
-msgid "Update"
-msgstr "Aktualisieren"
-
-#: castellum/contacts/templates/contacts/contact_list.html:29
-msgid "Create new contact"
-msgstr "Neuen Probanden anlegen"
+#: castellum/studies/templates/studies/study_list.html:21
+msgid "Edit"
+msgstr "Bearbeiten"
 
 #: castellum/recruitment/fields.py:33
 msgid "years"
@@ -425,10 +427,6 @@ msgstr "jünger als"
 msgid "Attribute set"
 msgstr "Merkmale"
 
-#: castellum/recruitment/templates/recruitment/attributeset_detail.html:23
-msgid "Modify"
-msgstr "Bearbeiten"
-
 #: castellum/recruitment/templates/recruitment/contact.html:8
 msgid "Study details"
 msgstr "Studiendetails"
@@ -538,11 +536,6 @@ msgstr ""
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: castellum/recruitment/templates/recruitment/subjectfiltergroup_confirm_delete.html:12
-#: castellum/studies/templates/studies/study_form.html:28
-msgid "Cancel"
-msgstr "Abbrechen"
-
 #: castellum/recruitment/templates/recruitment/subjectfiltergroup_list.html:5
 msgid "Filter Groups"
 msgstr "Filtergruppen"
@@ -631,10 +624,6 @@ msgstr "EUR"
 #: castellum/studies/templates/studies/study_list.html:10
 msgid "Contact person"
 msgstr "Kontaktperson"
-
-#: castellum/studies/templates/studies/study_list.html:21
-msgid "Edit"
-msgstr "Bearbeiten"
 
 #: castellum/studies/templates/studies/study_list.html:23
 msgid "view Filter"
