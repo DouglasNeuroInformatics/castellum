@@ -63,7 +63,11 @@
         {% bootstrap_field form.status %}
 
         <div class="mb-3">
-            <a class="btn btn-secondary" href="{% url 'recruitment:contact-update' study.pk object.pseudonym %}">{% trans 'Update contact data'%}</a>
+            {% if not_reached_view %}
+                <a class="btn btn-secondary" href="{% url 'recruitment:contact-update' study.pk object.pseudonym 'not_reached'%}">{% trans 'Update contact data'%}</a>
+            {% elif not_contacted_view %}
+                <a class="btn btn-secondary" href="{% url 'recruitment:contact-update' study.pk object.pseudonym 'not_contacted'%}">{% trans 'Update contact data'%}</a>
+            {% endif %}
             <input type="submit" class="btn btn-primary" name="btn_back" value="{% trans 'Save and go back' %}" />
             <input type="submit" class="btn btn-primary" name="btn_next" value="{% trans 'Save and show next' %}" />
         </div>

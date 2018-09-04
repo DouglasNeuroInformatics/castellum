@@ -10,12 +10,16 @@
         </tr>
     </thead>
     <tbody>
-        {% for participation, contact in participations_list %}
+        {% for participation, contact in participants %}
         <tr>
             <td>{{ participation.pseudonym|truncatechars:11 }}</td>
             <td>{{ contact.get_gender_display }}</td>
             <td>{{ contact.age }}</td>
-            <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk participation.pseudonym %}">{% trans 'Call' %}</a></td>
+            {% if not_contacted_view %}
+                <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact_not_contacted' study.pk participation.pseudonym %}">{% trans 'Call' %}</a></td>
+            {% elif not_reached_view %}
+                <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact_not_reached' study.pk participation.pseudonym %}">{% trans 'Call' %}</a></td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>
