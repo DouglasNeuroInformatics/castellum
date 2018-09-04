@@ -20,9 +20,11 @@
 # <http://www.gnu.org/licenses/>.
 
 import logging
+from urllib.parse import urlencode
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic import DetailView
@@ -77,6 +79,10 @@ class ContactDetailView(LoginRequiredMixin, DetailView):
 class ContactCreatePreludeView(LoginRequiredMixin, FormView):
     form_class = PreludeForm
     template_name = 'contacts/contact_create_prelude.html'
+
+    def form_valid(self, form):
+        url = reverse('contacts:create-form') + '?' + urlencode(form.cleaned_data)
+        return redirect(url)
 
 
 class ContactCreateView(LoginRequiredMixin, CreateView):
