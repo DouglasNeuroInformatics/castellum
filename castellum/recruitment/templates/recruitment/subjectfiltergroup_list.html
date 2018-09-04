@@ -25,10 +25,10 @@
                             {% csrf_token %}
                             <input type="submit" class="btn btn-outline-primary" value="{% trans "Duplicate" %}">
                         </form>
-                        <a href="{% url 'recruitment:filter_update' study.pk group.pk %}" class="btn btn-outline-primary">{% trans "Update" %}</a>
+                        <a href="{% url 'recruitment:filter_update' study.pk group.pk %}" class="btn btn-outline-primary">{% trans "Edit" %}</a>
                     {% else %}
                         <span class="btn btn-outline-primary disabled">{% trans "Duplicate" %}</span>
-                        <span class="btn btn-outline-primary disabled">{% trans "Update" %}</span>
+                        <span class="btn btn-outline-primary disabled">{% trans "Edit" %}</span>
                     {% endif %}
                 </td>
             </tr>
