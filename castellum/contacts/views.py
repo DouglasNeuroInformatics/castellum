@@ -79,6 +79,13 @@ class ContactCreateView(LoginRequiredMixin, CreateView):
     def get_cancel_url(self):
         return reverse('contacts:index')
 
+    def get_initial(self):
+        initial = super().get_initial()
+        for key in ['first_name', 'last_name', 'birthday']:
+            if key in self.request.GET:
+                initial[key] = self.request.GET[key]
+        return initial
+
     def form_valid(self, form):
         result = super().form_valid(form)
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
