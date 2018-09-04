@@ -149,7 +149,7 @@ msgstr "Adressen"
 
 #: castellum/contacts/models/contact.py:40
 msgid "hour"
-msgstr ""
+msgstr "Stunde"
 
 #: castellum/contacts/models/contact.py:51
 msgid "female"
@@ -210,23 +210,23 @@ msgstr "Bevorzugte Kontaktmöglichkeit"
 
 #: castellum/contacts/models/contact.py:80
 msgid "monday"
-msgstr ""
+msgstr "Montag"
 
 #: castellum/contacts/models/contact.py:82
 msgid "tuesday"
-msgstr ""
+msgstr "Dienstag"
 
 #: castellum/contacts/models/contact.py:84
 msgid "wednesday"
-msgstr ""
+msgstr "Mittwoch"
 
 #: castellum/contacts/models/contact.py:86
 msgid "thursday"
-msgstr ""
+msgstr "Donnerstag"
 
 #: castellum/contacts/models/contact.py:88
 msgid "friday"
-msgstr ""
+msgstr "Freitag"
 
 #: castellum/contacts/templates/contacts/contact_detail.html:9
 #: castellum/contacts/templates/contacts/contact_detail.html:13
@@ -255,7 +255,7 @@ msgstr "nicht angegeben"
 #: castellum/contacts/templates/contacts/contact_detail.html:36
 #: castellum/contacts/templates/contacts/contact_form.html:56
 msgid "Availability"
-msgstr ""
+msgstr "Verfügbarkeit"
 
 #: castellum/contacts/templates/contacts/contact_detail.html:66
 #: castellum/contacts/templates/contacts/contact_form.html:80
@@ -467,7 +467,7 @@ msgstr "Filter hinzufügen"
 #: castellum/recruitment/templates/recruitment/subjectfiltergroup_list.html:26
 #: castellum/recruitment/templates/recruitment/subjectfiltergroup_list.html:30
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplizieren"
 
 #: castellum/recruitment/templates/recruitment/filters.html:70
 msgid "Submit"
@@ -503,8 +503,6 @@ msgid "Pseudonym"
 msgstr "Pseudonym"
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:33
-#, fuzzy
-#| msgid "age"
 msgid "Age"
 msgstr "Alter"
 
@@ -555,8 +553,6 @@ msgstr ""
 "Die Probanden für die Studie werden aus einer dieser Gruppen ausgewählt:"
 
 #: castellum/recruitment/templates/recruitment/subjectfiltergroup_list.html:12
-#, fuzzy
-#| msgid "Filter Groups"
 msgid "Filter group"
 msgstr "Filtergruppen"
 
@@ -586,7 +582,7 @@ msgstr ""
 
 #: castellum/recruitment/views.py:338
 msgid "The filters have been duplicated. You can now edit the duplicate."
-msgstr ""
+msgstr "Die Filter wurden dupliziert. Sie können jetzt das Duplikat bearbeiten."
 
 #: castellum/settings/default.py:111
 msgid "German"
