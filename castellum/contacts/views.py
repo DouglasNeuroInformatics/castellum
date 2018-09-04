@@ -26,6 +26,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic import DetailView
+from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
@@ -33,6 +34,7 @@ from django.views.generic import UpdateView
 from castellum.pseudonyms.helpers import resolve_pseudonym
 
 from .forms import ContactForm
+from .forms import PreludeForm
 from .models import Contact
 from .models import TimeSlot
 
@@ -70,6 +72,11 @@ class ContactDetailView(LoginRequiredMixin, DetailView):
             [(timeslot.hour, timeslot in day) for timeslot in timeslots] for day in days]
 
         return context
+
+
+class ContactCreatePreludeView(LoginRequiredMixin, FormView):
+    form_class = PreludeForm
+    template_name = 'contacts/contact_create_prelude.html'
 
 
 class ContactCreateView(LoginRequiredMixin, CreateView):

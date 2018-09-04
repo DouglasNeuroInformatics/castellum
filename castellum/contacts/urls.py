@@ -21,6 +21,7 @@
 
 from django.urls import path
 
+from .views import ContactCreatePreludeView
 from .views import ContactCreateView
 from .views import ContactDetailView
 from .views import ContactIndexView
@@ -31,7 +32,8 @@ app_name = 'contacts'
 urlpatterns = [
     path('', ContactIndexView.as_view(), name='index'),
     path('search/', ContactSearchView.as_view(), name='search'),
-    path('create/', ContactCreateView.as_view(), name='create'),
+    path('create/', ContactCreatePreludeView.as_view(), name='create'),
+    path('create/form/', ContactCreateView.as_view(), name='create-form'),
     path('<slug>/', ContactDetailView.as_view(), name='detail'),
     path('<slug>/update/', ContactUpdateView.as_view(), name='update'),
 
