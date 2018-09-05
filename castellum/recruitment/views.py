@@ -102,6 +102,7 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
         context['participants'] = participants
 
         queryset = ParticipationRequest.objects.filter(study=self.study)
+        context['all_count'] = queryset.count()
         context['invited_count'] = queryset.filter(
             status=ParticipationRequest.INVITED).count()
         context['unsuitable_count'] = queryset.filter(
