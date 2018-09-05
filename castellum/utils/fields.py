@@ -24,12 +24,19 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField as _PhoneNumberField
 
 from .forms import DateField as DateFormField
+from .forms import DateTimeField as DateTimeFormField
 from .forms import PhoneNumberField as PhoneNumberFormField
 
 
 class DateField(models.DateField):
     def formfield(self, **kwargs):
         kwargs.setdefault('form_class', DateFormField)
+        return super().formfield(**kwargs)
+
+
+class DateTimeField(models.DateTimeField):
+    def formfield(self, **kwargs):
+        kwargs.setdefault('form_class', DateTimeFormField)
         return super().formfield(**kwargs)
 
 
