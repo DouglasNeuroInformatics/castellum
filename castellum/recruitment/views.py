@@ -210,7 +210,7 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
         self.object.updated_at = timezone.now()
         self.object.save()
 
-        monitoring_logger.info('ContactData update: {}:{} by {}'.format(
+        monitoring_logger.info('ParticipationRequest update: {}:{} by {}'.format(
             self.study.domain,
             self.object.pseudonym,
             self.request.user.pk))
