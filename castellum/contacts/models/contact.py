@@ -24,6 +24,7 @@ from datetime import date
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from dateutil.relativedelta import relativedelta
@@ -95,6 +96,23 @@ class Contact(SubjectData):
             delta = relativedelta(date.today(), self.birthday)
             return delta.years
         return None
+
+    @property
+    def available(self):
+        now = timezone.now()
+        if self.not_available_until and self.not_available_until >= now:
+            return False
+        days = [
+            self.availability_monday,
+            self.availability_tuesday,
+            self.availability_wednesday,
+            self.availability_thursday,
+            self.availability_friday,
+        ]
+        if now.weekday() < len(days):
+            hours = days[now.weekday()]
+            return hours.filter(hour=now.hour).exists()
+        return False
 
     def save(self, *args, **kwargs):
         if not self.pseudonym:
