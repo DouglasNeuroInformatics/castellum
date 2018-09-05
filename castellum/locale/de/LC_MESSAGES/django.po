@@ -230,7 +230,7 @@ msgstr "Freitag"
 
 #: castellum/contacts/models/contact.py:91
 msgid "not available until"
-msgstr ""
+msgstr "nicht erreichbar bis"
 
 #: castellum/contacts/templates/contacts/contact_detail.html:9
 #: castellum/contacts/templates/contacts/contact_detail.html:13
@@ -293,11 +293,11 @@ msgstr "Neuen Probanden anlegen"
 
 #: castellum/contacts/templates/contacts/contact_index.html:8
 msgid "Search"
-msgstr ""
+msgstr "Suchen"
 
 #: castellum/contacts/templates/contacts/contact_index.html:9
 msgid "GDPR request"
-msgstr ""
+msgstr "DSGVO-Anfrage"
 
 #: castellum/contacts/templates/contacts/contact_list.html:5
 #: castellum/recruitment/templates/recruitment/recruitment.html:7
@@ -443,8 +443,6 @@ msgid "Pseudonym"
 msgstr "Pseudonym"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:7
-#, fuzzy
-#| msgid "gender"
 msgid "Gender"
 msgstr "Geschlecht"
 
@@ -473,11 +471,11 @@ msgstr "Name"
 
 #: castellum/recruitment/templates/recruitment/contact.html:56
 msgid "Currently available"
-msgstr ""
+msgstr "Aktuell erreichbar"
 
 #: castellum/recruitment/templates/recruitment/contact.html:57
 msgid "Yes,No"
-msgstr ""
+msgstr "Ja,Nein"
 
 #: castellum/recruitment/templates/recruitment/contact.html:71
 #: castellum/recruitment/templates/recruitment/contact.html:73
@@ -519,8 +517,6 @@ msgid "Delete all filters"
 msgstr "Alle Filter löschen"
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:11
-#, fuzzy
-#| msgid "not contacted"
 msgid "Not contacted"
 msgstr "nicht erreicht"
 
