@@ -146,8 +146,6 @@ NPM_ROOT_PATH = os.path.dirname(BASE_DIR)
 
 NPM_FILE_PATTERNS = {
     'bootstrap': ['dist/css/bootstrap.min.css','dist/js/bootstrap.min.js'],
-    'jquery': ['dist/jquery.min.js'],
-    'popper.js': ['dist/popper.min.js'],
 }
 
 # adapt message classes for bootstrap
