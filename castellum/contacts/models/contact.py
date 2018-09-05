@@ -31,6 +31,7 @@ from dateutil.relativedelta import relativedelta
 from castellum.pseudonyms.helpers import create_pseudonym
 from castellum.pseudonyms.models import SubjectData
 from castellum.utils.fields import DateField
+from castellum.utils.fields import DateTimeField
 from castellum.utils.fields import PhoneNumberField
 
 from . import Address
@@ -87,7 +88,7 @@ class Contact(SubjectData):
     availability_friday = models.ManyToManyField(
         TimeSlot, verbose_name=_("friday"), blank=True, related_name='+')
 
-    not_available_until = models.DateTimeField(_("not available until"), blank=True, null=True)
+    not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
 
     @property
     def age(self):

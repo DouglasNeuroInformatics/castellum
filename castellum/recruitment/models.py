@@ -31,6 +31,7 @@ from picklefield.fields import PickledObjectField
 from castellum.pseudonyms.models import SubjectData
 from castellum.studies.models import Study
 from castellum.utils.fields import DateField
+from castellum.utils.fields import DateTimeField
 
 from .fields import AgeField
 
@@ -86,7 +87,7 @@ class ParticipationRequest(SubjectData):
 
     status = models.IntegerField(
         _('status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
-    updated_at = models.DateTimeField(_('last updated at'), blank=True, null=True)
+    updated_at = DateTimeField(_('last updated at'), blank=True, null=True)
 
 
 class SubjectFilterGroup(models.Model):
