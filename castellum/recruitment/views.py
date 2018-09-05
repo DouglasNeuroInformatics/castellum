@@ -174,6 +174,8 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
             return queryset.filter_not_contacted(study=self.study)
         elif self.kwargs['path'] == 'not-reached':
             return queryset.filter_not_reached(study=self.study)
+        else:
+            raise Http404
 
         return queryset
 
@@ -194,6 +196,8 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
             context['not_contacted_view'] = True
         elif self.kwargs['path'] == 'not-reached':
             context['not_reached_view'] = True
+        else:
+            raise Http404
 
         context['study'] = self.study
         context['contact'] = contact
