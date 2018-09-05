@@ -24,8 +24,7 @@ from django.urls import path
 from .views import AttributeSetDetailView
 from .views import AttributeSetUpdateView
 from .views import ContactUpdateView
-from .views import ContactViewNotContacted
-from .views import ContactViewNotReached
+from .views import ContactView
 from .views import FilterCreateView
 from .views import FilterDeleteView
 from .views import FilterListView
@@ -59,13 +58,10 @@ urlpatterns = [
         name='filter_delete'),
 
     path('<study_pk>/not-contacted/', RecruitmentViewNotContacted.as_view(),
-         name='recruitment_not_contacted'),
+         name='recruitment_not-contacted'),
     path('<study_pk>/not-reached/', RecruitmentViewNotReached.as_view(),
-         name='recruitment_not_reached'),
-    path('<study_pk>/<slug>/not-contacted/', ContactViewNotContacted.as_view(),
-         name='contact_not_contacted'),
-    path('<study_pk>/<slug>/not-reached', ContactViewNotReached.as_view(),
-         name='contact_not_reached'),
+         name='recruitment_not-reached'),
+    path('<study_pk>/<slug>/<path>/', ContactView.as_view(), name='contact'),
     path('<study_pk>/<slug>/<path>/update-contact/', ContactUpdateView.as_view(),
          name='contact-update'),
 ]
