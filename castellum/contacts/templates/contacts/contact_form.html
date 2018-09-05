@@ -76,26 +76,11 @@
             </tbody>
         </table>
 
-        {% bootstrap_field form.not_available_until field_class="datepicker" %}
+        {% bootstrap_field form.not_available_until %}
 
         <div class="mb-3">
             <a href="{{ view.get_cancel_url }}" class="btn btn-outline-primary">{% trans "Back" %}</a>
             <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
         </div>
     </form>
-{% endblock %}
-
-
-{% block extra-js %}
-    <script nonce="2726c7f26c">
-        $('.datepicker input').datepicker({
-            autoclose: true,
-            calendarWeeks: true,
-            daysOfWeekHighlighted: "0,6",
-            format: "yyyy-mm-dd",
-            todayBtn: true,
-            todayHighlight: true,
-            weekStart: 1
-        });
-    </script>
 {% endblock %}

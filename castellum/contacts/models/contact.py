@@ -87,7 +87,7 @@ class Contact(SubjectData):
     availability_friday = models.ManyToManyField(
         TimeSlot, verbose_name=_("friday"), blank=True, related_name='+')
 
-    not_available_until = models.DateField(_("not available until"), blank=True, null=True)
+    not_available_until = models.DateTimeField(_("not available until"), blank=True, null=True)
 
     @property
     def age(self):
