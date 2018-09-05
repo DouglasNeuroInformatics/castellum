@@ -52,6 +52,10 @@
             <th>{{ contact|verbose_name:'preferred_contact_method' }}</th>
             <td>{{ contact.get_preferred_contact_method_display|default:_('not provided') }}</td>
         </tr>
+        <tr>
+            <th>{% trans "Currently available" %}</th>
+            <td>{{ contact.available|yesno:_("Yes,No") }}</td>
+        </tr>
     </table>
 
     <form method="post">
