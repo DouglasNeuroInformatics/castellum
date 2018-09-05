@@ -16,7 +16,7 @@
             {% if study.published %}
                 <tr>
                     <td>{{ study.name|default:_('not provided') }}</td>
-                    <td><a class='btn btn-outline-primary' href="{% url 'recruitment:recruitment_not_contacted' study.pk %}">{% trans 'Find subjects' %}</a></td>
+                    <td><a class='btn btn-outline-primary' href="{% url 'recruitment:recruitment_not-contacted' study.pk %}">{% trans 'Find subjects' %}</a></td>
                 </tr>
             {% endif %}
         {% endfor %}
