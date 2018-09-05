@@ -8,16 +8,16 @@
 
     <ul class="nav nav-pills">
         <li class="nav-item">
-            <a class="nav-link disabled">{% trans 'Invited' %} <span class="badge badge-light">{{invited_count}}</span></a>
+            <a class="nav-link {% if not_contacted_view %} active {% endif %}" data-toggle="tab" href="{% url 'recruitment:recruitment_not-contacted' study.pk %}">{% trans 'Not contacted'%} <span class="badge badge-light">{{not_contacted_count}}</span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link {% if not_reached_view %} active {% endif %}" data-toggle="tab" href="{% url 'recruitment:recruitment_not-reached' study.pk %}">{% trans 'Not reached' %} <span class="badge badge-light">{{not_reached_count}}</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link disabled">{% trans 'Unsuitable' %} <span class="badge badge-light">{{unsuitable_count}}</span></a>
+            <a class="nav-link disabled">{% trans 'Invited' %} <span class="badge badge-light">{{invited_count}}</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {% if not_contacted_view %} active {% endif %}" data-toggle="tab" href="{% url 'recruitment:recruitment_not-contacted' study.pk %}">{% trans 'Not contacted'%} <span class="badge badge-light">{{not_contacted_count}}</span></a>
+            <a class="nav-link disabled">{% trans 'Unsuitable' %} <span class="badge badge-light">{{unsuitable_count}}</span></a>
         </li>
     </ul>
 
