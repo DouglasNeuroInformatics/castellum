@@ -91,6 +91,16 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
 
+        participants = []
+        for participation in self.get_queryset():
+            contact_pseudonym = resolve_pseudonym(
+                self.study.domain,
+                participation.pseudonym,
+                settings.DOMAINS['contact'])
+            contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
+            participants.append((participation, contact))
+        context['participants'] = participants
+
         queryset = ParticipationRequest.objects.filter(study=self.study)
         context['invited_count'] = queryset.filter(
             status=ParticipationRequest.INVITED).count()
@@ -113,17 +123,6 @@ class RecruitmentViewNotReached(RecruitmentView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        participants = []
-        for participation in self.get_queryset():
-            contact_pseudonym = resolve_pseudonym(
-                self.study.domain,
-                participation.pseudonym,
-                settings.DOMAINS['contact'])
-            contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
-            participants.append((participation, contact))
-
-        context['participants'] = participants
         context['not_reached_view'] = True
         return context
 
@@ -141,17 +140,6 @@ class RecruitmentViewNotContacted(RecruitmentView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        participants = []
-        for participation in self.get_queryset():
-            contact_pseudonym = resolve_pseudonym(
-                self.study.domain,
-                participation.pseudonym,
-                settings.DOMAINS['contact'])
-            contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
-            participants.append((participation, contact))
-
-        context['participants'] = participants
         context['not_contacted_view'] = True
         return context
 
