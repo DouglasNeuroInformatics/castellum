@@ -30,7 +30,8 @@ from .views import FilterDeleteView
 from .views import FilterGroupDuplicateView
 from .views import FilterListView
 from .views import FilterUpdateView
-from .views import RecruitmentView
+from .views import RecruitmentViewNotContacted
+from .views import RecruitmentViewNotReached
 from .views import StudyChoiceView
 
 app_name = 'recruitment'
@@ -61,7 +62,11 @@ urlpatterns = [
         FilterGroupDuplicateView.as_view(),
         name='filter_duplicate'),
 
-    path('<study_pk>/', RecruitmentView.as_view(), name='recruitment'),
-    path('<study_pk>/<slug>/', ContactView.as_view(), name='contact'),
-    path('<study_pk>/<slug>/update-contact/', ContactUpdateView.as_view(), name='contact-update'),
+    path('<study_pk>/not-contacted/', RecruitmentViewNotContacted.as_view(),
+         name='recruitment_not-contacted'),
+    path('<study_pk>/not-reached/', RecruitmentViewNotReached.as_view(),
+         name='recruitment_not-reached'),
+    path('<study_pk>/<slug>/<path>/', ContactView.as_view(), name='contact'),
+    path('<study_pk>/<slug>/<path>/update-contact/', ContactUpdateView.as_view(),
+         name='contact-update'),
 ]

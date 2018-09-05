@@ -88,39 +88,61 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
     context_object_name = 'participation_requests'
     template_name = 'recruitment/recruitment.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(ListView, self).get_context_data(**kwargs)
+
+        participants = []
+        for participation in self.get_queryset():
+            contact_pseudonym = resolve_pseudonym(
+                self.study.domain,
+                participation.pseudonym,
+                settings.DOMAINS['contact'])
+            contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
+            participants.append((participation, contact))
+        context['participants'] = participants
+
+        queryset = ParticipationRequest.objects.filter(study=self.study)
+        context['all_count'] = queryset.count()
+        context['invited_count'] = queryset.filter(
+            status=ParticipationRequest.INVITED).count()
+        context['unsuitable_count'] = queryset.filter(
+            status=ParticipationRequest.UNSUITABLE).count()
+        context['not_reached_count'] = queryset.filter(
+            status=ParticipationRequest.NOT_REACHED).count()
+        context['not_contacted_count'] = queryset.filter(
+            status=ParticipationRequest.NOT_CONTACTED).count()
+        context['study'] = self.study
+        return context
+
+
+class RecruitmentViewNotReached(RecruitmentView):
+
+    def get_queryset(self, queryset=None):
+        if not queryset:
+            queryset = ParticipationRequest.objects
+        return queryset.filter_not_reached(study=self.study)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['not_reached_view'] = True
+        return context
+
+
+class RecruitmentViewNotContacted(RecruitmentView):
+
+    def pick_random(self, qs):
+        random_index = random.randint(0, qs.count() - 1)
+        return qs.all()[random_index]
+
     def get_queryset(self, queryset=None):
         if not queryset:
             queryset = ParticipationRequest.objects
         return queryset.filter_not_contacted(study=self.study)
 
     def get_context_data(self, **kwargs):
-        context = super(ListView, self).get_context_data(**kwargs)
-
-        queryset = ParticipationRequest.objects.filter(study=self.study)
-
-        participation_contact_list = []
-        for participation in queryset:
-            contact_pseudonym = resolve_pseudonym(
-                self.study.domain,
-                participation.pseudonym,
-                settings.DOMAINS['contact'])
-            contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
-            participation_contact_list.append((participation, contact))
-
-        context['participation_contact_list'] = participation_contact_list
-        context['all_count'] = queryset.count()
-        context['invited_count'] = queryset.filter(
-            status=ParticipationRequest.INVITED).count()
-        context['not_reached_count'] = queryset.filter(
-            status=ParticipationRequest.NOT_REACHED).count()
-        context['unsuitable_count'] = queryset.filter(
-            status=ParticipationRequest.UNSUITABLE).count()
-        context['study'] = self.study
+        context = super().get_context_data(**kwargs)
+        context['not_contacted_view'] = True
         return context
-
-    def pick_random(self, qs):
-        random_index = random.randint(0, qs.count() - 1)
-        return qs.all()[random_index]
 
     def post(self, request, *args, **kwargs):
         attributeset = self.pick_random(AttributeSet.apply_study_filter(self.study))
@@ -147,7 +169,15 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
     def get_queryset(self, queryset=None):
         if not queryset:
             queryset = ParticipationRequest.objects
-        return queryset.filter(study=self.study)
+
+        if self.kwargs['path'] == 'not-contacted':
+            return queryset.filter_not_contacted(study=self.study)
+        elif self.kwargs['path'] == 'not-reached':
+            return queryset.filter_not_reached(study=self.study)
+        else:
+            raise Http404
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -162,13 +192,19 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
             settings.DOMAINS['contact'])
         contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
 
+        if self.kwargs['path'] == 'not-contacted':
+            context['not_contacted_view'] = True
+        elif self.kwargs['path'] == 'not-reached':
+            context['not_reached_view'] = True
+        else:
+            raise Http404
+
         context['study'] = self.study
         context['contact'] = contact
         return context
 
     def form_valid(self, form):
-        qs = ParticipationRequest.objects.filter_not_contacted(study=self.study)
-        pseudonyms = list(qs.values_list("pseudonym", flat=True))
+        pseudonyms = list(self.get_queryset().values_list("pseudonym", flat=True))
         current_pseudonym_idx = pseudonyms.index(self.object.pseudonym)
 
         self.object.updated_at = timezone.now()
@@ -180,13 +216,15 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
             self.request.user.pk))
 
         if "btn_back" in form.data or 0 == len(pseudonyms) - 1:
-            url = reverse('recruitment:recruitment', args=[self.object.study.pk])
+            url = reverse('recruitment:recruitment_'+self.kwargs['path'],
+                          args=[self.object.study.pk])
         else:
             next_pseudonym_idx = (current_pseudonym_idx + 1
                                   if current_pseudonym_idx + 1 < len(pseudonyms) else
                                   current_pseudonym_idx - 1)
-            url = reverse('recruitment:contact', args=[self.object.study.pk,
-                                                       pseudonyms[next_pseudonym_idx]])
+
+            url = reverse('recruitment:contact', args=[
+                self.object.study.pk, pseudonyms[next_pseudonym_idx], self.kwargs['path']])
         return redirect(url)
 
 
@@ -204,7 +242,8 @@ class ContactUpdateView(PublishedStudyMixin, _ContactUpdateView):
         return contact
 
     def get_success_url(self):
-        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['slug']])
+        return reverse('recruitment:contact',
+                       args=[self.kwargs['study_pk'], self.kwargs['slug'], self.kwargs['path']])
 
     def get_cancel_url(self):
         return self.get_success_url()

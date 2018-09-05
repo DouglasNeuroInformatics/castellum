@@ -1,0 +1,26 @@
+{% load i18n %}
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>{% trans 'Pseudonym' %}</th>
+            <th>{% trans 'Gender' %}</th>
+            <th>{% trans 'Age' %}</th>
+            <th>{% trans 'Action' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for participation, contact in participants %}
+        <tr>
+            <td>{{ participation.pseudonym|truncatechars:11 }}</td>
+            <td>{{ contact.get_gender_display }}</td>
+            <td>{{ contact.age }}</td>
+            {% if not_contacted_view %}
+                <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk participation.pseudonym 'not-contacted' %}">{% trans 'Call' %}</a></td>
+            {% elif not_reached_view %}
+                <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk participation.pseudonym 'not-reached' %}">{% trans 'Call' %}</a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
