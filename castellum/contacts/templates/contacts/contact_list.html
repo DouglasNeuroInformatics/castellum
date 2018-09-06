@@ -25,15 +25,14 @@
     </tbody>
     </table>
 
+    {% if is_paginated %}
+        <nav aria-label="{% trans 'Page navigation' %}">
+            {% bootstrap_pagination page_obj %}
+        </nav>
+    {% endif %}
+
     <div class="mb-3">
         <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
     </div>
 
-    {% if is_paginated %}
-        <div class="container">
-            <div class="row">
-                {% bootstrap_pagination page_obj %}
-            </div>
-        </div>
-    {% endif %}
 {% endblock %}
