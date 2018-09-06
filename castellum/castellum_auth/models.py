@@ -29,13 +29,15 @@ from django.db import models
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 
+from castellum.utils.fields import DateTimeField
+
 monitoring_logger = logging.getLogger('monitoring.auth')
 
 
 class User(AbstractUser):
     language = models.CharField(
         _('language'), max_length=5, choices=settings.LANGUAGES, blank=True)
-    expiration_date = models.DateTimeField(_('expiration date'), blank=True, null=True)
+    expiration_date = DateTimeField(_('expiration date'), blank=True, null=True)
     logout_timeout = models.DurationField(
         _('time until automatic logout'), default=settings.LOGOUT_TIMEOUT_DEFAULT)
 

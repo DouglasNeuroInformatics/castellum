@@ -36,8 +36,22 @@ class DateInput(forms.DateInput):
         super().__init__(attrs=defaults)
 
 
+class DateTimeInput(forms.DateTimeInput):
+    def __init__(self, attrs=None):
+        defaults = {
+            'placeholder': _('yyyy-mm-dd HH:MM, e.g. 2018-07-21 13:00'),
+        }
+        if attrs:
+            defaults.update(attrs)
+        super().__init__(attrs=defaults)
+
+
 class DateField(forms.DateField):
     widget = DateInput
+
+
+class DateTimeField(forms.DateTimeField):
+    widget = DateTimeInput
 
 
 class PhoneNumberWidget(PhoneNumberInternationalFallbackWidget):
