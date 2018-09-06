@@ -26,7 +26,7 @@
     </table>
 
     {% if is_paginated %}
-        <nav class="mr-auto ml-auto" aria-label="{% trans 'Page navigation' %}">
+        <nav aria-label="{% trans 'Page navigation' %}">
             {% bootstrap_pagination page_obj %}
         </nav>
     {% endif %}
