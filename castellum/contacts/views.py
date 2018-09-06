@@ -20,12 +20,18 @@
 # <http://www.gnu.org/licenses/>.
 
 import logging
+from urllib.parse import urlencode
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseBadRequest
+from django.shortcuts import redirect
+from django.shortcuts import render
 from django.urls import reverse
+from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import DetailView
+from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
@@ -33,6 +39,7 @@ from django.views.generic import UpdateView
 from castellum.pseudonyms.helpers import resolve_pseudonym
 
 from .forms import ContactForm
+from .forms import PreludeForm
 from .models import Contact
 from .models import TimeSlot
 
@@ -72,12 +79,48 @@ class ContactDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
+class ContactCreatePreludeView(LoginRequiredMixin, FormView):
+    form_class = PreludeForm
+    template_name = 'contacts/contact_create_prelude.html'
+
+    def form_valid(self, form):
+        url = reverse('contacts:create-matches') + '?' + urlencode(form.cleaned_data)
+        return redirect(url)
+
+
+class ContactCreateMatchesView(LoginRequiredMixin, View):
+    template_name = 'contacts/contact_create_matches.html'
+
+    def get(self, request, *args, **kwargs):
+        form = PreludeForm(request.GET)
+        if not form.is_valid():
+            return HttpResponseBadRequest()
+
+        form_url = reverse('contacts:create-form') + '?' + urlencode(form.cleaned_data)
+        matches = Contact.objects.filter(**form.cleaned_data).all()
+
+        if matches:
+            return render(self.request, self.template_name, context={
+                'form_url': form_url,
+                'object_list': matches,
+            })
+        else:
+            return redirect(form_url)
+
+
 class ContactCreateView(LoginRequiredMixin, CreateView):
     model = Contact
     form_class = ContactForm
 
     def get_cancel_url(self):
         return reverse('contacts:index')
+
+    def get_initial(self):
+        initial = super().get_initial()
+        for key in ['first_name', 'last_name', 'birthday']:
+            if key in self.request.GET:
+                initial[key] = self.request.GET[key]
+        return initial
 
     def form_valid(self, form):
         result = super().form_valid(form)

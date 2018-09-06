@@ -152,3 +152,13 @@ class ContactForm(forms.ModelForm):
                 contact.address.delete()
 
         return contact
+
+
+class PreludeForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = [
+            'first_name',
+            'last_name',
+            'birthday',
+        ]

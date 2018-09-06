@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n bootstrap4 %}
+
+{% block content %}
+    <form method="post">
+        {% for error in form.non_field_errors %}
+            <p class="alert alert-danger" role="alert">{{ error }}</p>
+        {% endfor %}
+
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-md-6">
+                {% bootstrap_field form.first_name %}
+            </div>
+            <div class="col-md-6">
+                {% bootstrap_field form.last_name %}
+            </div>
+        </div>
+        {% bootstrap_field form.birthday %}
+
+        <div class="mb-3">
+            <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+            <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}" />
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n bootstrap4 %}
+
+{% block content %}
+    <h1>{% trans 'Contacts' %}</h1>
+
+    <table class="table">
+    <thead>
+        <tr>
+            <th>{% trans 'Full name' %}</th>
+            <th>{% trans 'Address' %}</th>
+            <th>{% trans 'Email' %}</th>
+            <th>{% trans 'Action' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for contact in object_list %}
+            <tr>
+                <td>{{ contact.full_name }}</td>
+                <td>{{ contact.address }}</td>
+                <td>{{ contact.email }}</td>
+                <td>
+                    <a class='btn btn-outline-primary' href="{% url 'contacts:update' contact.pseudonym %}">{% trans 'Update' %}</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+    <a href="{% url 'contacts:create' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+    <a href="{{ form_url }}" class="btn btn-primary">{% trans "Create new contact" %}</a>
+{% endblock %}
