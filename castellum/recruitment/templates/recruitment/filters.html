@@ -14,9 +14,9 @@
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
 
-        {% if not study.published %}
-            {% for form in formset %}
-                {% if not form.field_name.value %}
+        {% for form in formset reversed %}
+            {% if not form.field_name.value %}
+                {% if not study.published %}
                     <h2>{% trans "Add Filter" %}</h2>
                     <formset class="row">
                         {{ form.id.as_hidden }}
@@ -30,11 +30,7 @@
                     </formset>
                     <hr>
                 {% endif %}
-            {% endfor %}
-        {% endif %}
-
-        {% for form in formset %}
-            {% if form.field_name.value %}
+            {% else %}
                 <formset class="row">
                     {{ form.id.as_hidden }}
                     <input type="hidden" name="{{ form.prefix }}-group" value="{{ group.id }}" />
