@@ -20,15 +20,16 @@
                 <td>{{ group }}</td>
                 <td>{{ group.get_subject_count }} / {{ total_count }}</td>
                 <td>
-                    {% if not study.published %}
+                    {% if study.published %}
+                        <span class="btn btn-outline-primary disabled">{% trans "Duplicate" %}</span>
+                        <span class="btn btn-outline-primary disabled">{% trans "Edit" %}</span>
+                    {% else %}
                         <form class="d-inline" method="post" action="{% url 'recruitment:filter_duplicate' study.pk group.pk %}">
                             {% csrf_token %}
                             <input type="submit" class="btn btn-outline-primary" value="{% trans "Duplicate" %}">
                         </form>
                         <a href="{% url 'recruitment:filter_update' study.pk group.pk %}" class="btn btn-outline-primary">{% trans "Edit" %}</a>
-                    {% else %}
-                        <span class="btn btn-outline-primary disabled">{% trans "Duplicate" %}</span>
-                        <a href="{% url 'recruitment:filter_update' study.pk group.pk %}" class="btn btn-outline-primary">{% trans "View" %}</a>
+                        <a href="{% url 'recruitment:filter_delete' study.pk group.pk %}" class="btn btn-danger">{% trans "Delete" %}</a>
                     {% endif %}
                 </td>
             </tr>
@@ -40,11 +41,11 @@
         <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
 
         <form class="d-inline" action="{% url 'recruitment:filter_create' study.pk %}" method="post">
-            {% if not study.published %}
+            {% if study.published %}
+                <button class="btn btn-primary" disabled>{% trans 'Add new' %}</button>
+            {% else %}
                 {% csrf_token %}
                 <button class="btn btn-primary">{% trans 'Add new' %}</button>
-            {% else %}
-                <button class="btn btn-primary" disabled>{% trans 'Add new' %}</button>
             {% endif %}
         </form>
     </div>
