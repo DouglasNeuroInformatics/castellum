@@ -204,8 +204,8 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
         return context
 
     def form_valid(self, form):
+        # needs to be executed before object.save()
         pseudonyms = list(self.get_queryset().values_list("pseudonym", flat=True))
-        current_pseudonym_idx = pseudonyms.index(self.object.pseudonym)
 
         self.object.updated_at = timezone.now()
         self.object.save()
@@ -215,17 +215,23 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
             self.object.pseudonym,
             self.request.user.pk))
 
-        if "btn_back" in form.data or 0 == len(pseudonyms) - 1:
-            url = reverse('recruitment:recruitment_'+self.kwargs['path'],
-                          args=[self.object.study.pk])
-        else:
-            next_pseudonym_idx = (current_pseudonym_idx + 1
-                                  if current_pseudonym_idx + 1 < len(pseudonyms) else
-                                  current_pseudonym_idx - 1)
+        next_pseudonym_idx = None
+        if "btn_back" not in form.data and len(pseudonyms) - 1 != 0:
+            current_pseudonym_idx = pseudonyms.index(self.object.pseudonym)
+            if current_pseudonym_idx + 1 < len(pseudonyms):
+                next_pseudonym_idx = current_pseudonym_idx + 1
+            elif self.kwargs['path'] == 'not-contacted':
+                next_pseudonym_idx = current_pseudonym_idx - 1
 
-            url = reverse('recruitment:contact', args=[
-                self.object.study.pk, pseudonyms[next_pseudonym_idx], self.kwargs['path']])
-        return redirect(url)
+        if next_pseudonym_idx is None:
+            url = 'recruitment:recruitment_' + self.kwargs['path']
+            return redirect(url, self.object.study.pk)
+        else:
+            return redirect(
+                'recruitment:contact',
+                self.object.study.pk,
+                pseudonyms[next_pseudonym_idx],
+                self.kwargs['path'])
 
 
 class ContactUpdateView(PublishedStudyMixin, _ContactUpdateView):
