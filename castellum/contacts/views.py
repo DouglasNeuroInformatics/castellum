@@ -114,6 +114,8 @@ class ContactCreateView(LoginRequiredMixin, CreateView):
     form_class = ContactForm
 
     def get_cancel_url(self):
+        if self.request.GET.get('matches'):
+            return reverse('contacts:create-matches') + '?' + self.request.META['QUERY_STRING']
         return reverse('contacts:index')
 
     def get_initial(self):
@@ -138,6 +140,8 @@ class ContactUpdateView(LoginRequiredMixin, UpdateView):
     slug_field = 'pseudonym'
 
     def get_cancel_url(self):
+        if self.request.GET.get('matches'):
+            return reverse('contacts:create-matches') + '?' + self.request.META['QUERY_STRING']
         return reverse('contacts:index')
 
     def form_valid(self, form):

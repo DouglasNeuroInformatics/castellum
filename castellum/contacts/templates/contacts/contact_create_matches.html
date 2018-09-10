@@ -20,7 +20,7 @@
                 <td>{{ contact.address }}</td>
                 <td>{{ contact.email }}</td>
                 <td>
-                    <a class='btn btn-outline-primary' href="{% url 'contacts:update' contact.pseudonym %}{{ query }}">{% trans 'Edit' %}</a>
+                    <a class='btn btn-outline-primary' href="{% url 'contacts:update' contact.pseudonym %}{{ query }}&matches=1">{% trans 'Edit' %}</a>
                 </td>
             </tr>
         {% endfor %}
@@ -28,5 +28,5 @@
     </table>
 
     <a href="{% url 'contacts:create' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-    <a href="{% url 'contacts:create-form' %}{{ query }}" class="btn btn-primary">{% trans "Create new contact" %}</a>
+    <a href="{% url 'contacts:create-form' %}{{ query }}&matches=1" class="btn btn-primary">{% trans "Create new contact" %}</a>
 {% endblock %}
