@@ -96,16 +96,17 @@ class ContactCreateMatchesView(LoginRequiredMixin, View):
         if not form.is_valid():
             return HttpResponseBadRequest()
 
-        form_url = reverse('contacts:create-form') + '?' + urlencode(form.cleaned_data)
+        query = '?' + urlencode(form.cleaned_data)
         matches = Contact.objects.filter(**form.cleaned_data).all()
 
         if matches:
             return render(self.request, self.template_name, context={
-                'form_url': form_url,
+                'query': query,
                 'object_list': matches,
             })
         else:
-            return redirect(form_url)
+            url = reverse('contacts:create-form') + query
+            return redirect(url)
 
 
 class ContactCreateView(LoginRequiredMixin, CreateView):
