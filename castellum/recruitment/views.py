@@ -312,6 +312,7 @@ class FilterGroupCreateView(LoginRequiredMixin, UnpublishedStudyMixin, View):
 
 class FilterGroupDeleteView(LoginRequiredMixin, UnpublishedStudyMixin, DeleteView):
     model = SubjectFilterGroup
+    template_name = 'recruitment/filtergroup_confirm_delete.html'
 
     def get_context_data(self, **kwargs):
         if self.study != self.object.study:
