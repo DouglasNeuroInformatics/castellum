@@ -38,7 +38,7 @@ reset_databases: remove_sqlite_databases remove_all_migration_files migrate crea
 	$(MANAGEPY) populate
 
 install:
-	pip install tox ipdb watchdog
+	pip install tox ipdb watchdog django-debug-toolbar
 	pip install -e .
 	npm install
 
