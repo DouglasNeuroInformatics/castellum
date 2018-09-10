@@ -3,6 +3,14 @@
 
 {% block content %}
     <div class="mb-3">
+
+        {% if total_number_subjects %}
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">{% trans 'Total number of subjects' %}</h4>
+                <p>{% trans 'Our database has following number of subjects:' %} {{ total_number_subjects}}</p>
+            </div>
+        {% endif %}
+
         <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         <a href="{% url 'contacts:create' %}" class="btn btn-primary">{% trans "Create new contact" %}</a>
         <a href="{% url 'contacts:search' %}" class="btn btn-primary">{% trans "Search"%}</a>
