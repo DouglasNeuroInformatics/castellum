@@ -162,5 +162,7 @@ class Command(BaseCommand):
     help = 'Populate database with sample data.'
 
     def handle(self, *args, **options):
-        generate_studies(5)
-        generate_subjects(2000)
+        if not Study.objects.exists():
+            generate_studies(5)
+        if not Contact.objects.exists():
+            generate_subjects(2000)
