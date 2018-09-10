@@ -119,7 +119,7 @@ class SubjectFilterGroup(models.Model):
         if self.subjectfilter_set.count() > 0:
             return ' AND '.join(str(f) for f in self.subjectfilter_set.all())
         else:
-            return str(_('Filter group wihtout filters'))
+            return str(_('Filter group without filters'))
 
 
 class SubjectFilter(models.Model):
