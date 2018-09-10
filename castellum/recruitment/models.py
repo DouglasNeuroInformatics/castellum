@@ -97,7 +97,7 @@ class SubjectFilterGroup(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
 
     def get_absolute_url(self):
-        return reverse('recruitment:filter_update', args=[self.study.pk, self.pk])
+        return reverse('recruitment:filtergroup_update', args=[self.study.pk, self.pk])
 
     def to_q(self):
         q = models.Q()

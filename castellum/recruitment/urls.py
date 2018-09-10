@@ -25,11 +25,11 @@ from .views import AttributeSetDetailView
 from .views import AttributeSetUpdateView
 from .views import ContactUpdateView
 from .views import ContactView
-from .views import FilterCreateView
-from .views import FilterDeleteView
+from .views import FilterGroupCreateView
+from .views import FilterGroupDeleteView
 from .views import FilterGroupDuplicateView
-from .views import FilterListView
-from .views import FilterUpdateView
+from .views import FilterGroupListView
+from .views import FilterGroupUpdateView
 from .views import RecruitmentViewNotContacted
 from .views import RecruitmentViewNotReached
 from .views import StudyChoiceView
@@ -43,24 +43,24 @@ urlpatterns = [
 
     path(
         'filter/<int:study_pk>/',
-        FilterListView.as_view(),
-        name='filter_index'),
+        FilterGroupListView.as_view(),
+        name='filtergroup_index'),
     path(
         'filter/<int:study_pk>/create/',
-        FilterCreateView.as_view(),
-        name='filter_create'),
-    path(
-        'filter/<int:study_pk>/<int:pk>/',
-        FilterUpdateView.as_view(),
-        name='filter_update'),
+        FilterGroupCreateView.as_view(),
+        name='filtergroup_create'),
     path(
         'filter/<int:study_pk>/<int:pk>/delete/',
-        FilterDeleteView.as_view(),
-        name='filter_delete'),
+        FilterGroupDeleteView.as_view(),
+        name='filtergroup_delete'),
+    path(
+        'filter/<int:study_pk>/<int:pk>/',
+        FilterGroupUpdateView.as_view(),
+        name='filtergroup_update'),
     path(
         'filter/<int:study_pk>/<int:pk>/duplicate/',
         FilterGroupDuplicateView.as_view(),
-        name='filter_duplicate'),
+        name='filtergroup_duplicate'),
 
     path('<study_pk>/not-contacted/', RecruitmentViewNotContacted.as_view(),
          name='recruitment_not-contacted'),

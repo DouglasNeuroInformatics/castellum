@@ -9,7 +9,7 @@
         <p>{% trans "Are you sure you want to delete this filter group and all of its filters?" %}</p>
         <div class="mb-3">
             <input type="submit" class="btn btn-danger" value="{% trans 'Confirm' %}" />
-            <a href="{% url 'recruitment:filter_update' object.study.pk object.pk %}" class="btn btn-light">{% trans 'Back' %}</a>
+            <a href="{% url 'recruitment:filtergroup_update' object.study.pk object.pk %}" class="btn btn-light">{% trans 'Back' %}</a>
         </div>
     </form>
 {% endblock %}

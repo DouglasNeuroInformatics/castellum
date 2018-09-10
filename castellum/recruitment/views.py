@@ -285,7 +285,7 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
         return result
 
 
-class FilterListView(LoginRequiredMixin, ListView):
+class FilterGroupListView(LoginRequiredMixin, ListView):
     model = SubjectFilterGroup
 
     def dispatch(self, *args, **kwargs):
@@ -303,13 +303,13 @@ class FilterListView(LoginRequiredMixin, ListView):
         return data
 
 
-class FilterCreateView(LoginRequiredMixin, UnpublishedStudyMixin, View):
+class FilterGroupCreateView(LoginRequiredMixin, UnpublishedStudyMixin, View):
     def post(self, *args, **kwargs):
         group = SubjectFilterGroup.objects.create(study=self.study)
         return redirect(group.get_absolute_url())
 
 
-class FilterDeleteView(LoginRequiredMixin, UnpublishedStudyMixin, DeleteView):
+class FilterGroupDeleteView(LoginRequiredMixin, UnpublishedStudyMixin, DeleteView):
     model = SubjectFilterGroup
 
     def get_context_data(self, **kwargs):
@@ -321,7 +321,7 @@ class FilterDeleteView(LoginRequiredMixin, UnpublishedStudyMixin, DeleteView):
         return data
 
     def get_success_url(self):
-        return reverse('recruitment:filter_index', args=[self.study.pk])
+        return reverse('recruitment:filtergroup_index', args=[self.study.pk])
 
 
 class FilterFormSet(BaseModelFormSet):
@@ -344,7 +344,7 @@ class FilterFormSet(BaseModelFormSet):
                                     'delete filter!'))
 
 
-class FilterUpdateView(LoginRequiredMixin, UnpublishedStudyMixin, ModelFormSetView):
+class FilterGroupUpdateView(LoginRequiredMixin, UnpublishedStudyMixin, ModelFormSetView):
     model = SubjectFilter
     form_class = forms.SubjectFilterForm
     formset_class = FilterFormSet
@@ -381,4 +381,4 @@ class FilterGroupDuplicateView(LoginRequiredMixin, View):
         clone = original.duplicate()
         messages.success(request, _(
             'The filters have been duplicated. You can now edit the duplicate.'))
-        return redirect('recruitment:filter_update', study.pk, clone.pk)
+        return redirect('recruitment:filtergroup_update', study.pk, clone.pk)
