@@ -17,7 +17,7 @@ services:
     image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
     environment:
       DJANGO_SETTINGS_MODULE: castellum.settings.deployment
-    command: "uwsgi uwsgi.ini"
+    command: "uwsgi uwsgi.ini --die-on-term"
     ports:
       - "8000:8000"
     volumes:
