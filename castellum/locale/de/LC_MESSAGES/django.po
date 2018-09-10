@@ -360,7 +360,7 @@ msgstr "Geburtsdatum"
 
 #: castellum/recruitment/models.py:80
 msgid "not contacted"
-msgstr "nicht erreicht"
+msgstr "nicht kontaktiert"
 
 #: castellum/recruitment/models.py:81
 msgid "not reached"
