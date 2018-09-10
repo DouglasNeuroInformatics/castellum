@@ -116,7 +116,7 @@ class ContactCreateView(LoginRequiredMixin, CreateView):
     def get_cancel_url(self):
         if self.request.GET.get('matches'):
             return reverse('contacts:create-matches') + '?' + self.request.META['QUERY_STRING']
-        return reverse('contacts:index')
+        return reverse('contacts:create')
 
     def get_initial(self):
         initial = super().get_initial()
