@@ -42,6 +42,7 @@ from .forms import ContactForm
 from .forms import PreludeForm
 from .models import Contact
 from .models import TimeSlot
+from .models.contact import phonetic
 
 monitoring_logger = logging.getLogger('monitoring.contact_data')
 
@@ -102,7 +103,11 @@ class ContactCreateMatchesView(LoginRequiredMixin, View):
             return HttpResponseBadRequest()
 
         query = '?' + urlencode(form.cleaned_data)
-        matches = Contact.objects.filter(**form.cleaned_data).all()
+        matches = Contact.objects.filter(
+            first_name_phonetic=phonetic(form.cleaned_data['first_name']),
+            last_name_phonetic=phonetic(form.cleaned_data['last_name']),
+            birthday=form.cleaned_data['birthday'],
+        ).all()
 
         if matches:
             return render(self.request, self.template_name, context={
