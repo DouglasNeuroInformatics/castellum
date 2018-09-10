@@ -287,6 +287,7 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
 
 class FilterGroupListView(LoginRequiredMixin, ListView):
     model = SubjectFilterGroup
+    template_name = 'recruitment/filtergroup_list.html'
 
     def dispatch(self, *args, **kwargs):
         self.study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
@@ -351,7 +352,7 @@ class FilterGroupUpdateView(LoginRequiredMixin, UnpublishedStudyMixin, ModelForm
     factory_kwargs = {
         'can_delete': True,
     }
-    template_name = "recruitment/filters.html"
+    template_name = "recruitment/filtergroup.html"
 
     def dispatch(self, *args, **kwargs):
         self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['pk'])
