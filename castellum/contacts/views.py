@@ -24,6 +24,7 @@ from urllib.parse import urlencode
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import models
 from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -103,11 +104,13 @@ class ContactCreateMatchesView(LoginRequiredMixin, View):
             return HttpResponseBadRequest()
 
         query = '?' + urlencode(form.cleaned_data)
-        matches = Contact.objects.filter(
-            first_name_phonetic=phonetic(form.cleaned_data['first_name']),
-            last_name_phonetic=phonetic(form.cleaned_data['last_name']),
-            birthday=form.cleaned_data['birthday'],
-        ).all()
+
+        q = models.Q(birthday=form.cleaned_data['birthday'])
+        for code in phonetic(form.cleaned_data['first_name'], encode=False):
+            q &= models.Q(first_name_phonetic__contains=':{}:'.format(code))
+        for code in phonetic(form.cleaned_data['last_name'], encode=False):
+            q &= models.Q(last_name_phonetic__contains=':{}:'.format(code))
+        matches = Contact.objects.filter(q).all()
 
         if matches:
             return render(self.request, self.template_name, context={

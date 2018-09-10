@@ -39,9 +39,12 @@ from castellum.utils.fields import PhoneNumberField
 from . import Address
 
 
-def phonetic(s):
-    for __, code in cologne_phonetics.encode(s, concat=True):
-        return code
+def phonetic(s, encode=True):
+    codes = [code for __, code in cologne_phonetics.encode(s)]
+    if encode:
+        return ':' + ':'.join(codes) + ':'
+    else:
+        return codes
 
 
 class TimeSlot(models.Model):
