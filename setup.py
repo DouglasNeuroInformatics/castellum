@@ -20,6 +20,7 @@ setup(
     entry_points=entry_points,
 
     install_requires=[
+        "cologne-phonetics==1.2.3",
         "Django==2.1.1",
         "django-auth-ldap==1.7.0",
         "django-bootstrap4==0.0.7",
