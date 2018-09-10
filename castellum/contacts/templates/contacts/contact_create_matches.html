@@ -20,7 +20,7 @@
                 <td>{{ contact.address }}</td>
                 <td>{{ contact.email }}</td>
                 <td>
-                    <a class='btn btn-outline-primary' href="{% url 'contacts:update' contact.pseudonym %}">{% trans 'Update' %}</a>
+                    <a class='btn btn-outline-primary' href="{% url 'contacts:update' contact.pseudonym %}">{% trans 'Edit' %}</a>
                 </td>
             </tr>
         {% endfor %}
