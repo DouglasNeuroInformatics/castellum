@@ -116,7 +116,10 @@ class SubjectFilterGroup(models.Model):
         return clone
 
     def __str__(self):
-        return ' AND '.join(str(f) for f in self.subjectfilter_set.all())
+        if self.subjectfilter_set.count() > 0:
+            return ' AND '.join(str(f) for f in self.subjectfilter_set.all())
+        else:
+            return str(_('Filter group wihtout filters'))
 
 
 class SubjectFilter(models.Model):
