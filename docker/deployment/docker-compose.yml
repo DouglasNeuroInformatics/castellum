@@ -6,7 +6,6 @@ services:
   db_contacts:
     image: postgres
   ldap:
-    container_name: ldap
     image: osixia/openldap
     ports:
       - "389:389"
