@@ -49,6 +49,11 @@ monitoring_logger = logging.getLogger('monitoring.contact_data')
 class ContactIndexView(LoginRequiredMixin, TemplateView):
     template_name = 'contacts/contact_index.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_number_subjects'] = Contact.objects.all().count()
+        return context
+
 
 class ContactSearchView(LoginRequiredMixin, ListView):
     model = Contact
