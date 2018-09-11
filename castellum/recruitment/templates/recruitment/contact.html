@@ -68,9 +68,9 @@
 
         <div class="mb-3">
             {% if not_reached_view %}
-                <a class="btn btn-secondary" href="{% url 'recruitment:contact-update' study.pk object.pseudonym 'not-reached'%}">{% trans 'Update contact data'%}</a>
+                <a class="btn btn-secondary" href="{% url 'recruitment:contact-update' study.pk object.pseudonym 'not-reached'%}">{% trans 'Edit contact data'%}</a>
             {% elif not_contacted_view %}
-                <a class="btn btn-secondary" href="{% url 'recruitment:contact-update' study.pk object.pseudonym 'not-contacted'%}">{% trans 'Update contact data'%}</a>
+                <a class="btn btn-secondary" href="{% url 'recruitment:contact-update' study.pk object.pseudonym 'not-contacted'%}">{% trans 'Edit contact data'%}</a>
             {% endif %}
             <input type="submit" class="btn btn-primary" name="btn_back" value="{% trans 'Save and go back' %}" />
             <input type="submit" class="btn btn-primary" name="btn_next" value="{% trans 'Save and show next' %}" />

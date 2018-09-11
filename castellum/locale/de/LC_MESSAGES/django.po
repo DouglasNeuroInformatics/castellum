@@ -510,8 +510,8 @@ msgstr "Ja,Nein"
 
 #: castellum/recruitment/templates/recruitment/contact.html:71
 #: castellum/recruitment/templates/recruitment/contact.html:73
-msgid "Update contact data"
-msgstr "Kontaktdaten aktualisieren"
+msgid "Edit contact data"
+msgstr "Kontaktdaten bearbeiten"
 
 #: castellum/recruitment/templates/recruitment/contact.html:75
 msgid "Save and go back"
