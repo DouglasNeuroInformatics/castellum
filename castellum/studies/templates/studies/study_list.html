@@ -20,7 +20,7 @@
                 <div class="btn-group">
                     <a class="btn btn-outline-primary" href="{% url 'studies:update' study.pk %}">{% trans 'Edit' %}</a>
                     <a class='btn btn-outline-primary'
-                       href="{% url 'recruitment:filter_index' study.pk %}">{% if study.published %}{% trans 'view Filters' %}{%else%}{% trans 'add Filters' %}{%endif%}</a>
+                       href="{% url 'recruitment:filtergroup_index' study.pk %}">{% if study.published %}{% trans 'view Filters' %}{%else%}{% trans 'add Filters' %}{%endif%}</a>
                     <form class="btn-group" method="post" action="{% url 'studies:publish' study.pk %}">
                         {% csrf_token %}
 

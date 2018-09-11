@@ -97,7 +97,7 @@ class SubjectFilterGroup(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
 
     def get_absolute_url(self):
-        return reverse('recruitment:filter_update', args=[self.study.pk, self.pk])
+        return reverse('recruitment:filtergroup_update', args=[self.study.pk, self.pk])
 
     def to_q(self):
         q = models.Q()
@@ -116,7 +116,10 @@ class SubjectFilterGroup(models.Model):
         return clone
 
     def __str__(self):
-        return ' AND '.join(str(f) for f in self.subjectfilter_set.all())
+        if self.subjectfilter_set.count() > 0:
+            return ' AND '.join(str(f) for f in self.subjectfilter_set.all())
+        else:
+            return str(_('Filter group without filters'))
 
 
 class SubjectFilter(models.Model):

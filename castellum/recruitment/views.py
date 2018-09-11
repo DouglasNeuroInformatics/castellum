@@ -285,8 +285,9 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
         return result
 
 
-class FilterListView(LoginRequiredMixin, ListView):
+class FilterGroupListView(LoginRequiredMixin, ListView):
     model = SubjectFilterGroup
+    template_name = 'recruitment/filtergroup_list.html'
 
     def dispatch(self, *args, **kwargs):
         self.study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
@@ -303,14 +304,15 @@ class FilterListView(LoginRequiredMixin, ListView):
         return data
 
 
-class FilterCreateView(LoginRequiredMixin, UnpublishedStudyMixin, View):
+class FilterGroupCreateView(LoginRequiredMixin, UnpublishedStudyMixin, View):
     def post(self, *args, **kwargs):
         group = SubjectFilterGroup.objects.create(study=self.study)
         return redirect(group.get_absolute_url())
 
 
-class FilterDeleteView(LoginRequiredMixin, UnpublishedStudyMixin, DeleteView):
+class FilterGroupDeleteView(LoginRequiredMixin, UnpublishedStudyMixin, DeleteView):
     model = SubjectFilterGroup
+    template_name = 'recruitment/filtergroup_confirm_delete.html'
 
     def get_context_data(self, **kwargs):
         if self.study != self.object.study:
@@ -321,7 +323,7 @@ class FilterDeleteView(LoginRequiredMixin, UnpublishedStudyMixin, DeleteView):
         return data
 
     def get_success_url(self):
-        return reverse('recruitment:filter_index', args=[self.study.pk])
+        return reverse('recruitment:filtergroup_index', args=[self.study.pk])
 
 
 class FilterFormSet(BaseModelFormSet):
@@ -344,14 +346,14 @@ class FilterFormSet(BaseModelFormSet):
                                     'delete filter!'))
 
 
-class FilterUpdateView(LoginRequiredMixin, UnpublishedStudyMixin, ModelFormSetView):
+class FilterGroupUpdateView(LoginRequiredMixin, UnpublishedStudyMixin, ModelFormSetView):
     model = SubjectFilter
     form_class = forms.SubjectFilterForm
     formset_class = FilterFormSet
     factory_kwargs = {
         'can_delete': True,
     }
-    template_name = "recruitment/filters.html"
+    template_name = "recruitment/filtergroup.html"
 
     def dispatch(self, *args, **kwargs):
         self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['pk'])
@@ -381,4 +383,4 @@ class FilterGroupDuplicateView(LoginRequiredMixin, View):
         clone = original.duplicate()
         messages.success(request, _(
             'The filters have been duplicated. You can now edit the duplicate.'))
-        return redirect('recruitment:filter_update', study.pk, clone.pk)
+        return redirect('recruitment:filtergroup_update', study.pk, clone.pk)
