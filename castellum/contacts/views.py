@@ -96,16 +96,17 @@ class ContactCreateMatchesView(LoginRequiredMixin, View):
         if not form.is_valid():
             return HttpResponseBadRequest()
 
-        form_url = reverse('contacts:create-form') + '?' + urlencode(form.cleaned_data)
+        query = '?' + urlencode(form.cleaned_data)
         matches = Contact.objects.filter(**form.cleaned_data).all()
 
         if matches:
             return render(self.request, self.template_name, context={
-                'form_url': form_url,
+                'query': query,
                 'object_list': matches,
             })
         else:
-            return redirect(form_url)
+            url = reverse('contacts:create-form') + query
+            return redirect(url)
 
 
 class ContactCreateView(LoginRequiredMixin, CreateView):
@@ -113,7 +114,9 @@ class ContactCreateView(LoginRequiredMixin, CreateView):
     form_class = ContactForm
 
     def get_cancel_url(self):
-        return reverse('contacts:index')
+        if self.request.GET.get('matches'):
+            return reverse('contacts:create-matches') + '?' + self.request.META['QUERY_STRING']
+        return reverse('contacts:create')
 
     def get_initial(self):
         initial = super().get_initial()
@@ -137,6 +140,8 @@ class ContactUpdateView(LoginRequiredMixin, UpdateView):
     slug_field = 'pseudonym'
 
     def get_cancel_url(self):
+        if self.request.GET.get('matches'):
+            return reverse('contacts:create-matches') + '?' + self.request.META['QUERY_STRING']
         return reverse('contacts:index')
 
     def form_valid(self, form):
