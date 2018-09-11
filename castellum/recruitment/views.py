@@ -383,4 +383,4 @@ class FilterGroupDuplicateView(LoginRequiredMixin, View):
         clone = original.duplicate()
         messages.success(request, _(
             'The filters have been duplicated. You can now edit the duplicate.'))
-        return redirect('recruitment:filtergroup_update', study.pk, clone.pk)
+        return redirect('recruitment:filtergroup_index', study.pk)
