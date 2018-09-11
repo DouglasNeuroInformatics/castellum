@@ -17,8 +17,8 @@
     <tbody>
         {% for group in object_list %}
             <tr>
-                <td class="col-md-6">{{ group }}</td>
-                <td>{{ group.get_subject_count }} / {{ total_count }}</td>
+                <td class="col-md-5">{{ group }}</td>
+                <td class="col-md-2">{{ group.get_subject_count }} / {{ total_count }}</td>
                 <td>
                     {% if study.published %}
                         <span class="btn btn-outline-primary disabled">{% trans "Duplicate" %}</span>
