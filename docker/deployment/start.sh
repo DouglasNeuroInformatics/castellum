@@ -11,8 +11,9 @@ set -m
 docker-compose pull
 docker-compose up &
 sleep 5  # wait until the server is running
-docker-compose -f docker-compose.yml -f docker-compose.manage.yml up migrate_default
-docker-compose -f docker-compose.yml -f docker-compose.manage.yml up migrate_contacts
-docker-compose -f docker-compose.yml -f docker-compose.manage.yml up createsuperuser
-docker-compose -f docker-compose.yml -f docker-compose.manage.yml up populate
+docker-compose run web django-admin migrate
+docker-compose run web django-admin migrate --database=contacts
+docker-compose run web django-admin create_castellum_admin
+docker-compose run web django-admin loaddata timeslots
+docker-compose run web django-admin populate
 fg
