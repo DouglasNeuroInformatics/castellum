@@ -241,7 +241,7 @@ msgstr "Probanden"
 #: castellum/contacts/templates/contacts/contact_create_matches.html:10
 #: castellum/contacts/templates/contacts/contact_list.html:11
 msgid "Full name"
-msgstr "Voller Name"
+msgstr "Vollständiger Name"
 
 #: castellum/contacts/templates/contacts/contact_create_matches.html:11
 msgid "Address"
@@ -415,7 +415,7 @@ msgstr "Zuletzt aktualisiert"
 
 #: castellum/recruitment/models.py:122
 msgid "Filter group without filters"
-msgstr "Filtergruppen ohne Filter"
+msgstr "Filtergruppe ohne Filter"
 
 #: castellum/recruitment/models.py:163
 msgid "before"
@@ -565,7 +565,7 @@ msgstr ""
 
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:12
 msgid "Filter group"
-msgstr "Filtergruppen"
+msgstr "Filtergruppe"
 
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:13
 msgid "Statistics"
