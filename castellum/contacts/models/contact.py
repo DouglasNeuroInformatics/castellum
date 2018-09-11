@@ -100,7 +100,7 @@ class Contact(SubjectData):
 
     @property
     def available(self):
-        now = timezone.now()
+        now = timezone.localtime()
         if self.not_available_until and self.not_available_until >= now:
             return False
         days = [
