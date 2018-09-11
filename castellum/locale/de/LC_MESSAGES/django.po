@@ -244,14 +244,10 @@ msgid "Full name"
 msgstr "Voller Name"
 
 #: castellum/contacts/templates/contacts/contact_create_matches.html:11
-#, fuzzy
-#| msgid "address"
 msgid "Address"
 msgstr "Adresse"
 
 #: castellum/contacts/templates/contacts/contact_create_matches.html:12
-#, fuzzy
-#| msgid "email"
 msgid "Email"
 msgstr "E-Mail"
 
@@ -338,10 +334,8 @@ msgid "Save"
 msgstr "Speichern"
 
 #: castellum/contacts/templates/contacts/contact_index.html:5
-#, fuzzy
-#| msgid "required number of subjects"
 msgid "Total number of subjects"
-msgstr "Benötigte Anzahl von Probanden"
+msgstr "Gesamtzahl von Probanden"
 
 #: castellum/contacts/templates/contacts/contact_index.html:10
 msgid "Search"
@@ -357,7 +351,7 @@ msgstr "Details ansehen"
 
 #: castellum/contacts/templates/contacts/contact_list.html:29
 msgid "Page navigation"
-msgstr ""
+msgstr "Seitennavigation"
 
 #: castellum/recruitment/fields.py:33
 msgid "years"
@@ -420,10 +414,8 @@ msgid "last updated at"
 msgstr "Zuletzt aktualisiert"
 
 #: castellum/recruitment/models.py:122
-#, fuzzy
-#| msgid "Filter group"
 msgid "Filter group without filters"
-msgstr "Filtergruppen"
+msgstr "Filtergruppen ohne Filter"
 
 #: castellum/recruitment/models.py:163
 msgid "before"
@@ -586,12 +578,12 @@ msgstr "Aktionen"
 
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:25
 msgid "View"
-msgstr ""
+msgstr "Ansehen"
 
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:26
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:33
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:46
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:49
@@ -699,14 +691,10 @@ msgid "Contact person"
 msgstr "Kontaktperson"
 
 #: castellum/studies/templates/studies/study_list.html:23
-#, fuzzy
-#| msgid "view Filter"
 msgid "view Filters"
 msgstr "Filter einsehen"
 
 #: castellum/studies/templates/studies/study_list.html:23
-#, fuzzy
-#| msgid "add Filter"
 msgid "add Filters"
 msgstr "Filter hinzufügen"
 
@@ -775,14 +763,9 @@ msgid "yyyy-mm-dd, e.g. 2018-07-21"
 msgstr "jjjj-mm-tt, z.B. 2018-07-21"
 
 #: castellum/utils/forms.py:42
-#, fuzzy
-#| msgid "yyyy-mm-dd, e.g. 2018-07-21"
 msgid "yyyy-mm-dd HH:MM, e.g. 2018-07-21 13:00"
-msgstr "jjjj-mm-tt, z.B. 2018-07-21"
+msgstr "jjjj-mm-tt SS:MM, z.B. 2018-07-21 13:00"
 
 #: castellum/utils/forms.py:60
 msgid "e.g. 030 123456"
 msgstr "z.B. 030 123456"
-
-#~ msgid "Delete all filters"
-#~ msgstr "Alle Filter löschen"
