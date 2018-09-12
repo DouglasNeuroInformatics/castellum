@@ -321,7 +321,7 @@ msgstr "nicht angegeben"
 #: castellum/contacts/templates/contacts/contact_detail.html:36
 #: castellum/contacts/templates/contacts/contact_form.html:56
 msgid "Availability"
-msgstr "Verfügbarkeit"
+msgstr "Erreichbarkeit"
 
 #: castellum/contacts/templates/contacts/contact_detail.html:71
 msgid "View attributes"
