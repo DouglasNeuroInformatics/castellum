@@ -1,5 +1,6 @@
 from freezegun import freeze_time
 from model_mommy import mommy
+from django.contrib.messages import get_messages
 
 from castellum.recruitment.models import ParticipationRequest
 
@@ -54,6 +55,20 @@ def test_post_redirect(client, user, participation_request):
     assert response.url == '/recruitment/{}/not-contacted/'.format(participation_request.study.pk)
 
 
+def test_post_redirect_from_not_reached(client, user, participation_request):
+    participation_request.study.published = True
+    participation_request.study.save()
+    participation_request.status = 1
+    participation_request.save()
+
+    client.force_login(user)
+    url = '/recruitment/{}/{}/not-reached/'.format(participation_request.study.pk,
+                                                   participation_request.pseudonym)
+    response = client.post(url, {'status': 2, 'btn_back': 'value'})
+    assert response.status_code == 302
+    assert response.url == '/recruitment/{}/not-reached/'.format(participation_request.study.pk)
+
+
 def test_post_redirect_next_with_one_participation_request(client, user, participation_request):
     participation_request.study.published = True
     participation_request.study.save()
@@ -64,6 +79,22 @@ def test_post_redirect_next_with_one_participation_request(client, user, partici
     response = client.post(url, {'status': 2, 'btn_next': 'value'})
     assert response.status_code == 302
     assert response.url == '/recruitment/{}/not-contacted/'.format(participation_request.study.pk)
+
+
+def test_post_redirect_next_with_one_participation_request_from_not_reached(client,
+                                                                            user,
+                                                                            participation_request):
+    participation_request.study.published = True
+    participation_request.study.save()
+    participation_request.status = 1
+    participation_request.save()
+
+    client.force_login(user)
+    url = '/recruitment/{}/{}/not-reached/'.format(participation_request.study.pk,
+                                                   participation_request.pseudonym)
+    response = client.post(url, {'status': 2, 'btn_next': 'value'})
+    assert response.status_code == 302
+    assert response.url == '/recruitment/{}/not-reached/'.format(participation_request.study.pk)
 
 
 def test_post_redirect_next_with_multiple_participation_requests(client, user, published_study):
@@ -87,6 +118,34 @@ def test_post_redirect_next_with_multiple_participation_requests(client, user, p
     assert response.url == '/recruitment/{}/{}/not-contacted/'.format(
         published_study.pk,
         participation_requests[2].pseudonym
+    )
+
+
+def test_post_redirect_next_with_multiple_participation_requests_from_not_reached(client,
+                                                                                  user,
+                                                                                  published_study):
+    participation_requests = mommy.make(ParticipationRequest,
+                                        status=1,
+                                        study=published_study,
+                                        _quantity=5)
+
+    client.force_login(user)
+
+    url = '/recruitment/{}/{}/not-reached/'.format(published_study.pk,
+                                                   participation_requests[3].pseudonym)
+    response = client.post(url, {'status': 2, 'btn_next': 'value'})
+
+    assert response.status_code == 302
+    assert response.url == '/recruitment/{}/{}/not-reached/'.format(
+        published_study.pk,
+        participation_requests[4].pseudonym
+    )
+
+    response = client.post(response.url, {'status': 2, 'btn_next': 'value'})
+
+    assert response.status_code == 302
+    assert response.url == '/recruitment/{}/not-reached/'.format(
+        published_study.pk,
     )
 
 
