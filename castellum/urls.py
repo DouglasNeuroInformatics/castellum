@@ -49,3 +49,11 @@ urlpatterns = [
     path('studies/', include('castellum.studies.urls', namespace='studies')),
     path('subjects/', include('castellum.contacts.urls', namespace='contacts')),
 ]
+
+try:
+    import debug_toolbar
+    urlpatterns += [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ]
+except ImportError:
+    pass

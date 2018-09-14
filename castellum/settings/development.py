@@ -6,6 +6,24 @@ SECRET_KEY = 'i#$kwk(s24ysn+l%+c!*z9u4+45)oex!-s#!bux#wf2pv2cc0d'
 DEBUG = True
 
 
+# setup debug toolbar
+
+try:
+    import debug_toolbar
+
+    INTERNAL_IPS = ['127.0.0.1', 'localhost']
+
+    INSTALLED_APPS += [
+        'debug_toolbar',
+    ]
+
+    MIDDLEWARE = [
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    ] + MIDDLEWARE
+except ImportError:
+    pass
+
+
 # Database
 
 DATABASES = {
