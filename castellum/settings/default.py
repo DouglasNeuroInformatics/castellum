@@ -242,6 +242,15 @@ LOGGING = {
     },
 }
 
+# used to show the warning message when
+# number of users exceeds the number of subjects
+# in the contact list of recruitment app
+CASTELLUM_WARNING_NUMBER_IN_CONTACT_LIST = 20
+
+# variable used to define max number of subjects
+# in the contact list of the recruitment app
+# max_number_of_subjects = study.min_subjects_count * CASTELLUM_MULTIPLE_FACTOR
+CASTELLUM_MULTIPLE_FACTOR = 2
 
 CASTELLUM_LOCK_USER_CONTACT = 'admin@example.com'
 CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT = '[Castellum] Verdächtige Aktivität / Suspicious activity'

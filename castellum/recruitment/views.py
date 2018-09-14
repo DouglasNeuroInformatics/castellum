@@ -45,6 +45,8 @@ from extra_views import ModelFormSetView
 from castellum.contacts.models import Contact
 from castellum.contacts.views import ContactUpdateView as _ContactUpdateView
 from castellum.pseudonyms.helpers import resolve_pseudonym
+from castellum.settings import CASTELLUM_MULTIPLE_FACTOR
+from castellum.settings import CASTELLUM_WARNING_NUMBER_IN_CONTACT_LIST
 from castellum.studies.models import Study
 
 from . import forms
@@ -152,13 +154,13 @@ class RecruitmentViewNotContacted(RecruitmentView):
         if self.study.min_subjects_count:
 
             number_of_not_contacted = self.get_queryset().count()
-            if number_of_not_contacted >= self.study.min_subjects_count*2:
+            if number_of_not_contacted >= self.study.min_subjects_count*CASTELLUM_MULTIPLE_FACTOR:
                 messages.error(request, _(
                     'Application privacy does not allow you to add more subjects. '
                     'Please contact provided subjects before adding new ones.'
                     ))
             else:
-                if number_of_not_contacted >= 40:
+                if number_of_not_contacted >= CASTELLUM_WARNING_NUMBER_IN_CONTACT_LIST:
                     messages.error(request, _(
                         'Such workflow is not intended due to privacy reasons. '
                         'Please contact provided subjects before adding new ones.'
