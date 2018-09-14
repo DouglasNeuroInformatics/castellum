@@ -592,7 +592,7 @@ msgstr "Hinzufügen"
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:11
 msgid "Not contacted"
-msgstr "nicht erreicht"
+msgstr "nicht kontaktiert"
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:14
 msgid "Not reached"
