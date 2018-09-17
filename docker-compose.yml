@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  db_default:
+    image: postgres
+    ports:
+      - "6670:5432"
+  db_contacts:
+    image: postgres
+    ports:
+      - "6671:5432"
