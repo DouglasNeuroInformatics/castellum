@@ -39,7 +39,7 @@ def test_create_pseudonym():
     pseudonym = Pseudonym.objects.select_related("subject").get(domain="domain")
 
     assert result == str(pseudonym.pseudonym)
-    assert 1 == pseudonym.subject.id
+    assert 1 == len(Pseudonym.objects.all())
 
 
 @pytest.mark.django_db
