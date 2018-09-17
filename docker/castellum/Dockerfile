@@ -21,8 +21,8 @@ RUN pip3 install -U pip && \
     pip3 install -e . && \
     npm install
 
-RUN castellum-admin makemigrations --settings=castellum.settings && \
-    castellum-admin collectstatic --no-input --settings=castellum.settings && \
-    castellum-admin compilemessages -l de
+RUN django-admin makemigrations --settings=castellum.settings && \
+    django-admin collectstatic --no-input --settings=castellum.settings && \
+    django-admin compilemessages -l de
 
 RUN apk del $BUILDPKGS

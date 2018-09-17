@@ -7,7 +7,7 @@ services:
         image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
         environment:
             DJANGO_SETTINGS_MODULE: castellum.settings.deployment
-        command: "python3 manage.py migrate"
+        command: "django-admin migrate"
         volumes:
             - ./settings.py:/code/castellum/settings/deployment.py
         depends_on:
@@ -17,7 +17,7 @@ services:
         image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
         environment:
             DJANGO_SETTINGS_MODULE: castellum.settings.deployment
-        command: "python3 manage.py migrate --database=contacts"
+        command: "django-admin migrate --database=contacts"
         volumes:
             - ./settings.py:/code/castellum/settings/deployment.py
         depends_on:
@@ -29,7 +29,7 @@ services:
             DJANGO_SETTINGS_MODULE: castellum.settings.deployment
         volumes:
             - ./settings.py:/code/castellum/settings/deployment.py
-        command: "python3 manage.py create_castellum_admin"
+        command: "django-admin create_castellum_admin"
         depends_on:
             - db_default
 
@@ -39,7 +39,7 @@ services:
             DJANGO_SETTINGS_MODULE: castellum.settings.deployment
         volumes:
             - ./settings.py:/code/castellum/settings/deployment.py
-        command: "/bin/sh -c 'python3 manage.py loaddata timeslots --database=contacts && python3 manage.py populate'"
+        command: "/bin/sh -c 'django-admin loaddata timeslots --database=contacts && django-admin populate'"
         depends_on:
             - migrate_default
             - migrate_contacts

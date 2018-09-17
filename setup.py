@@ -1,13 +1,6 @@
 from setuptools import find_packages, setup
 
 
-entry_points = {
-    "console_scripts": [
-        "castellum-admin = django.core.management:execute_from_command_line",
-    ],
-}
-
-
 setup(
     name="castellum",
     version="0.0.1",
@@ -16,8 +9,6 @@ setup(
     license="AGPL-3.0-or-later",
 
     packages=find_packages(),
-
-    entry_points=entry_points,
 
     install_requires=[
         "Django==2.1.1",
