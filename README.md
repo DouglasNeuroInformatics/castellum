@@ -16,13 +16,14 @@ yet.
 
 The following commands will install everything and start a local testserver (on ubuntu):
 
-    sudo apt install python3 npm python3-dev libldap2-dev libsasl2-dev
+    sudo apt install python3 npm python3-dev libldap2-dev libsasl2-dev docker-compose
     cd castellum
     python3 -m venv .env
     . .env/bin/activate
     make install-githooks
     make bootstrap
-    make run
+    docker-compose up  # start postgres
+    make run  # start castellum
 
 You can login with user "admin" and password "123".
 
@@ -32,7 +33,7 @@ After pulling new changes it is recommended to rebuild the databases and migrati
 
 ## Testing
 
-The command `tox` will execute all tests.
+The command `tox` will execute all tests. (postgres needs to be running)
 
 ## Links
 
