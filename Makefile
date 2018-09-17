@@ -30,7 +30,8 @@ remove_databases:
 	psql postgres postgres -h localhost -p 6671 -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public; GRANT ALL ON SCHEMA public TO postgres; GRANT ALL ON SCHEMA public TO public;"
 
 remove_all_migration_files:
-	find castellum -name 0*.py -delete
+	find castellum -name 0001_initial.py -delete
+	find castellum -name *_auto_*.py -delete
 
 reset_databases: remove_databases remove_all_migration_files migrate createsuperuser
 	$(MANAGEPY) loaddata timeslots --database=contacts

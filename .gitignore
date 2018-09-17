@@ -8,7 +8,8 @@ dist/
 htmlcov/
 node_modules/
 collected_static/
-castellum/*/migrations/0*.py
+castellum/*/migrations/0001_initial.py
+castellum/*/migrations/*_auto_*.py
 
 *.pyc
 *.sqlite3
