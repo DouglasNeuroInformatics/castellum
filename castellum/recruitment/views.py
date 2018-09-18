@@ -150,7 +150,7 @@ class RecruitmentViewNotContacted(RecruitmentView):
 
     def post(self, request, *args, **kwargs):
 
-        if self.study.min_subjects_count:
+        if self.study.min_subjects_count > 0:
 
             number_of_not_contacted = self.get_queryset().count()
             if number_of_not_contacted >= \
@@ -181,6 +181,10 @@ class RecruitmentViewNotContacted(RecruitmentView):
                 else:
                     messages.error(request, _(
                         'We cannot find participants for this study.'))
+        elif self.study.min_subjects_count == 0:
+            messages.error(request, _(
+                'This study does not require participants. '
+                'Please, contact the responsible person who can set it up.'))
         else:
             messages.error(request, _(
                 'The minimal number of subjects is not set for this study. '
