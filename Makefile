@@ -38,7 +38,8 @@ reset_databases: remove_sqlite_databases remove_all_migration_files migrate crea
 
 install:
 	pip install tox ipdb watchdog django-debug-toolbar
-	pip install -e .
+	pip install --require-hashes -r requirements.txt
+	pip install --no-deps -e .
 	npm install
 
 install-githooks: .git/hooks/pre-commit

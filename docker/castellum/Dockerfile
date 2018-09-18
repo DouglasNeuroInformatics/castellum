@@ -18,7 +18,8 @@ RUN echo 'python3 /code/manage.py clear_sessions' > /etc/periodic/daily/castellu
 RUN chmod 755 /etc/periodic/daily/castellum_clear_sessions
 
 RUN pip3 install -U pip && \
-    pip3 install -e . && \
+    pip3 install --require-hashes -r requirements.txt && \
+    pip3 install --no-deps -e . && \
     npm install
 
 RUN django-admin makemigrations --settings=castellum.settings && \
