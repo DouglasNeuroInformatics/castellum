@@ -178,6 +178,9 @@ class RecruitmentViewNotContacted(RecruitmentView):
                             'Picked person already participates in the study. You can '
                             'just try again. But this might indicate that there are not '
                             'many matches left.'))
+                else:
+                    messages.error(request, _(
+                        'We cannot find participants for this study.'))
         else:
             messages.error(request, _(
                 'The minimal number of subjects is not set for this study. '
