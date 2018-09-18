@@ -133,10 +133,10 @@ class RecruitmentViewNotReached(RecruitmentView):
 class RecruitmentViewNotContacted(RecruitmentView):
 
     def pick_random(self, qs):
-        items = qs.all()
-        if not items:
-            return None
-        return random.choice(items)
+        count = qs.count()
+        if count != 0:
+            random_index = random.randint(0, count - 1)
+            return qs.all()[random_index]
 
     def get_queryset(self, queryset=None):
         if not queryset:
