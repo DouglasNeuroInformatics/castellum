@@ -300,7 +300,7 @@ class FilterGroupListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['study'] = self.study
-        data['total_count'] = AttributeSet.objects.count()
+        data['total_count'] = AttributeSet.apply_study_filter(self.study).count()
         return data
 
 
