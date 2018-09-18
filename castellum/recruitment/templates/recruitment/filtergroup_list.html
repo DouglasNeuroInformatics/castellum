@@ -3,6 +3,7 @@
 
 {% block content %}
     <h1>{{ study.name }} &mdash; {% trans 'Filter Groups' %}</h1>
+    <p>{% trans "required number of subjects" %}: {{ study.min_subjects_count }}</p>
 
     <p>{% trans 'The subjects for the study will be picked from any of these groups:' %}</p>
 
@@ -18,7 +19,7 @@
         {% for group in object_list %}
             <tr>
                 <td class="col-md-6">{{ group }}</td>
-                <td>{{ group.get_subject_count }} / {{ total_count }}</td>
+                <td>{{ group.get_subject_count }}</td>
                 <td>
                     {% if study.published %}
                         <span class="btn btn-outline-primary disabled">{% trans "Duplicate" %}</span>
