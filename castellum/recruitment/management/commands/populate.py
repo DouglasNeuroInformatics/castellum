@@ -19,9 +19,10 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from random import randint
+
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from random import randint
 
 from faker import Faker
 
@@ -70,7 +71,7 @@ def fake_date_of_birth():
 def fake_study():
     return Study(name=fake.word().upper(),
                  contact_person=fake.name(),
-                 min_subjects_count=randint(0,40))
+                 min_subjects_count=randint(0, 40))
 
 
 def fake_cities(country, count):

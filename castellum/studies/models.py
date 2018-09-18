@@ -39,7 +39,8 @@ class Study(models.Model):
     sessions_start = DateField(_('start of test sessions'), blank=True, null=True)
     sessions_end = DateField(_('end of test sessions'), blank=True, null=True)
     min_subjects_count = models.PositiveIntegerField(_('required number of subjects'),
-                                             blank=True, null=True)
+                                                     blank=True,
+                                                     null=True)
 
     def __str__(self):
         return self.name
