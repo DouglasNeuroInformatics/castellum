@@ -33,13 +33,14 @@ class Study(models.Model):
     contact_person = models.CharField(_('responsible contact person'), max_length=512)
     published = models.BooleanField(_('published'), default=False)
     description = models.TextField(_('description'), blank=True)
-    expense_allowance = models.IntegerField(_('expense allowance'), blank=True, null=True)
-    sessions_count = models.IntegerField(
+    expense_allowance = models.PositiveIntegerField(_('expense allowance'), blank=True, null=True)
+    sessions_count = models.PositiveIntegerField(
         _('number of test sessions per subject'), blank=True, null=True)
     sessions_start = DateField(_('start of test sessions'), blank=True, null=True)
     sessions_end = DateField(_('end of test sessions'), blank=True, null=True)
-    min_subjects_count = models.IntegerField(_('required number of subjects'),
-                                             blank=True, null=True)
+    min_subjects_count = models.PositiveIntegerField(_('required number of subjects'),
+                                                     blank=True,
+                                                     null=True)
 
     def __str__(self):
         return self.name

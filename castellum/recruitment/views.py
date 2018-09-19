@@ -45,6 +45,8 @@ from extra_views import ModelFormSetView
 from castellum.contacts.models import Contact
 from castellum.contacts.views import ContactUpdateView as _ContactUpdateView
 from castellum.pseudonyms.helpers import resolve_pseudonym
+from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
+from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.studies.models import Study
 
 from . import forms
@@ -131,8 +133,10 @@ class RecruitmentViewNotReached(RecruitmentView):
 class RecruitmentViewNotContacted(RecruitmentView):
 
     def pick_random(self, qs):
-        random_index = random.randint(0, qs.count() - 1)
-        return qs.all()[random_index]
+        count = qs.count()
+        if count != 0:
+            random_index = random.randint(0, count - 1)
+            return qs.all()[random_index]
 
     def get_queryset(self, queryset=None):
         if not queryset:
@@ -145,18 +149,47 @@ class RecruitmentViewNotContacted(RecruitmentView):
         return context
 
     def post(self, request, *args, **kwargs):
-        attributeset = self.pick_random(AttributeSet.apply_study_filter(self.study))
-        participation_request_pseudonym = resolve_pseudonym(
-            settings.DOMAINS['attributeset'],
-            attributeset.pseudonym,
-            self.study.domain)
-        __, created = ParticipationRequest.objects.get_or_create(
-            study=self.study, pseudonym=participation_request_pseudonym)
-        if not created:
+
+        if self.study.min_subjects_count is not None:
+            if self.study.min_subjects_count > 0:
+                number_of_not_contacted = self.get_queryset().count()
+                if number_of_not_contacted >= \
+                   self.study.min_subjects_count*CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR:
+                    messages.error(request, _(
+                        'Application privacy does not allow you to add more subjects. '
+                        'Please contact provided subjects before adding new ones.'
+                        ))
+                else:
+                    if number_of_not_contacted >= CASTELLUM_RECRUITMENT_SOFT_LIMIT:
+                        messages.error(request, _(
+                            'Such workflow is not intended due to privacy reasons. '
+                            'Please contact provided subjects before adding new ones.'
+                        ))
+                    attributeset = self.pick_random(AttributeSet.apply_study_filter(self.study))
+                    if attributeset:
+                        participation_request_pseudonym = resolve_pseudonym(
+                            settings.DOMAINS['attributeset'],
+                            attributeset.pseudonym,
+                            self.study.domain)
+                        __, created = ParticipationRequest.objects.get_or_create(
+                            study=self.study, pseudonym=participation_request_pseudonym)
+                        if not created:
+                            messages.error(request, _(
+                                'Picked person already participates in the study. You can '
+                                'just try again. But this might indicate that there are not '
+                                'many matches left.'))
+                    else:
+                        messages.error(request, _(
+                            'We cannot find participants for this study.'))
+            else:
+                messages.error(request, _(
+                    'This study does not require participants. '
+                    'Please, contact the responsible person who can set it up.'))
+        else:
             messages.error(request, _(
-                'Picked person already participates in the study. You can '
-                'just try again. But this might indicate that there are not '
-                'many matches left.'))
+                'The minimal number of subjects is not set for this study. '
+                'Please, contact the responsible person who can set it up.'))
+
         return self.get(request, *args, **kwargs)
 
 

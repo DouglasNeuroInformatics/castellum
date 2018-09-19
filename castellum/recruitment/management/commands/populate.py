@@ -67,7 +67,9 @@ def fake_date_of_birth():
 
 
 def fake_study():
-    return Study(name=fake.word().upper(), contact_person=fake.name())
+    return Study(name=fake.word().upper(),
+                 contact_person=fake.name(),
+                 min_subjects_count=fake.random.randint(0, 50))
 
 
 def fake_cities(country, count):
