@@ -2,11 +2,13 @@ import uuid
 from itertools import cycle
 
 from django.contrib.messages import get_messages
+from django.conf import settings
 
 import pytest
 from freezegun import freeze_time
 from model_mommy import mommy
 
+from castellum.contacts.models import Contact
 from castellum.pseudonyms.models import Pseudonym
 from castellum.pseudonyms.models import Subject
 from castellum.recruitment.models import ParticipationRequest
@@ -188,11 +190,16 @@ def test_post_when_more_then_double_minimal_subject_count(client, user, publishe
     published_study.min_subjects_count = 2
     published_study.save()
 
-    p = [uuid.uuid4() for _ in range(4)]
+    uuids = [uuid.uuid4() for _ in range(4)]
     mommy.make(Subject, id=1)
+    contact_pseudonym = mommy.make(Pseudonym,
+                                   subject_id=1,
+                                   pseudonym=uuid.uuid4(),
+                                   domain=settings.DOMAINS['contact'])
+    mommy.make(Contact, pseudonym=contact_pseudonym)
     pseudonyms = mommy.make(Pseudonym,
                             subject_id=1,
-                            pseudonym=cycle(p),
+                            pseudonym=cycle(uuids),
                             domain=published_study.domain,
                             _quantity=4)
     mommy.make(ParticipationRequest,
@@ -204,7 +211,7 @@ def test_post_when_more_then_double_minimal_subject_count(client, user, publishe
     url = '/recruitment/{}/not-contacted/'.format(published_study.pk)
 
     response = client.post(url)
-    # assert response.status_code == 200
+    assert response.status_code == 200
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
     assert str(messages[0]) == 'Application privacy does not allow you to add more subjects. ' \
