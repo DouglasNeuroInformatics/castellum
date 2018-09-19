@@ -24,6 +24,7 @@ from urllib.parse import urlencode
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.postgres.search import TrigramSimilarity
 from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -93,6 +94,17 @@ class ContactCreatePreludeView(LoginRequiredMixin, FormView):
         return redirect(url)
 
 
+def get_matches(first_name, last_name, birthday):
+    return Contact.objects.annotate(
+        first_name_similarity=TrigramSimilarity('first_name', first_name),
+        last_name_similarity=TrigramSimilarity('last_name', last_name),
+    ).filter(
+        first_name_similarity__gt=0.1,
+        last_name_similarity__gt=0.1,
+        birthday=birthday,
+    ).all()
+
+
 class ContactCreateMatchesView(LoginRequiredMixin, View):
     template_name = 'contacts/contact_create_matches.html'
 
@@ -102,7 +114,7 @@ class ContactCreateMatchesView(LoginRequiredMixin, View):
             return HttpResponseBadRequest()
 
         query = '?' + urlencode(form.cleaned_data)
-        matches = Contact.objects.filter(**form.cleaned_data).all()
+        matches = get_matches(**form.cleaned_data)
 
         if matches:
             return render(self.request, self.template_name, context={
