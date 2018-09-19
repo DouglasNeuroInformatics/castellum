@@ -94,7 +94,6 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
         context = super(ListView, self).get_context_data(**kwargs)
 
         participants = []
-        print(locals())
         for participation in self.get_queryset():
             contact_pseudonym = resolve_pseudonym(
                 self.study.domain,
