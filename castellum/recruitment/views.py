@@ -45,8 +45,8 @@ from extra_views import ModelFormSetView
 from castellum.contacts.models import Contact
 from castellum.contacts.views import ContactUpdateView as _ContactUpdateView
 from castellum.pseudonyms.helpers import resolve_pseudonym
-from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT
-from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT_FACTOR
+from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
+from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.studies.models import Study
 
 from . import forms
@@ -154,13 +154,13 @@ class RecruitmentViewNotContacted(RecruitmentView):
             if self.study.min_subjects_count > 0:
                 number_of_not_contacted = self.get_queryset().count()
                 if number_of_not_contacted >= \
-                   self.study.min_subjects_count*CASTELLUM_RECRUITMENT_SOFT_LIMIT_FACTOR:
+                   self.study.min_subjects_count*CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR:
                     messages.error(request, _(
                         'Application privacy does not allow you to add more subjects. '
                         'Please contact provided subjects before adding new ones.'
                         ))
                 else:
-                    if number_of_not_contacted >= CASTELLUM_RECRUITMENT_HARD_LIMIT:
+                    if number_of_not_contacted >= CASTELLUM_RECRUITMENT_SOFT_LIMIT:
                         messages.error(request, _(
                             'Such workflow is not intended due to privacy reasons. '
                             'Please contact provided subjects before adding new ones.'
@@ -181,7 +181,7 @@ class RecruitmentViewNotContacted(RecruitmentView):
                     else:
                         messages.error(request, _(
                             'We cannot find participants for this study.'))
-            elif self.study.min_subjects_count == 0:
+            else:
                 messages.error(request, _(
                     'This study does not require participants. '
                     'Please, contact the responsible person who can set it up.'))
