@@ -45,8 +45,8 @@ from extra_views import ModelFormSetView
 from castellum.contacts.models import Contact
 from castellum.contacts.views import ContactUpdateView as _ContactUpdateView
 from castellum.pseudonyms.helpers import resolve_pseudonym
-from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
+from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.studies.models import Study
 
 from . import forms
