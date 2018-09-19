@@ -11,7 +11,8 @@ VOLUME /log
 
 RUN apk update && echo $BUILDPKGS $RUNTIMEPKGS && apk add $BUILDPKGS $RUNTIMEPKGS
 
-COPY . code/
+COPY castellum/ code/castellum/
+COPY setup.py package.json LICENSE uwsgi.ini code/
 WORKDIR code/
 
 RUN echo 'python3 /code/manage.py clear_sessions' > /etc/periodic/daily/castellum_clear_sessions
