@@ -95,14 +95,13 @@ class ContactCreatePreludeView(LoginRequiredMixin, FormView):
 
 
 def get_matches(first_name, last_name, birthday):
-    return Contact.objects.annotate(
-        first_name_similarity=TrigramSimilarity('first_name', first_name),
-        last_name_similarity=TrigramSimilarity('last_name', last_name),
-    ).filter(
-        first_name_similarity__gt=0.1,
-        last_name_similarity__gt=0.1,
-        birthday=birthday,
-    ).all()
+    MIN_SIMILARITY = 0.04  # value was discovered by trial and error.
+    return Contact.objects.annotate(similarity=(
+        TrigramSimilarity('first_name', first_name) * TrigramSimilarity('last_name', last_name)
+    )).filter(
+        similarity__gt=MIN_SIMILARITY,
+        birthday=birthday
+    ).order_by('-similarity')[:10]
 
 
 class ContactCreateMatchesView(LoginRequiredMixin, View):
