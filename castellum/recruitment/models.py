@@ -72,7 +72,7 @@ class ParticipationRequestManager(models.Manager):
         return self.get_queryset().filter(status=ParticipationRequest.NOT_REACHED, **kwargs)
 
 
-class ParticipationRequest(SubjectData):
+class ParticipationRequest(models.Model):
     NOT_CONTACTED = 0
     NOT_REACHED = 1
     UNSUITABLE = 2
@@ -86,8 +86,8 @@ class ParticipationRequest(SubjectData):
 
     objects = ParticipationRequestManager()
 
+    pseudonym = models.CharField(max_length=64, editable=False)
     study = models.ForeignKey(Study, verbose_name=_('study'), on_delete=models.CASCADE)
-
     status = models.IntegerField(
         _('status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
     updated_at = DateTimeField(_('last updated at'), blank=True, null=True)
