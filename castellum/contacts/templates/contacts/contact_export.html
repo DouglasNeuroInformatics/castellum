@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load i18n bootstrap4 utils %}
+
+{% block content %}
+    <h1>{{ contact.full_name }}</h1>
+    <table class="table">
+        <tr>
+            <th>{{ contact|verbose_name:'gender' }}</th>
+            <td>{{ contact.get_gender_display|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{{ contact|verbose_name:'birthday' }}</th>
+            <td>{{ contact.birthday|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{{ contact|verbose_name:'address' }}</th>
+            <td>{{ contact.address|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{{ contact|verbose_name:'email' }}</th>
+            <td>{{ contact.email|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{{ contact|verbose_name:'phone_number' }}</th>
+            <td>{{ contact.phone_number|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{{ contact|verbose_name:'phone_number_alternative' }}</th>
+            <td>{{ contact.phone_number_alternative|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{{ contact|verbose_name:'preferred_contact_method' }}</th>
+            <td>{{ contact.get_preferred_contact_method_display|default:_('not provided') }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Availability' %}
+            <td>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{{ contact|verbose_name:'availability_monday' }}</th>
+                            <th>{{ contact|verbose_name:'availability_tuesday' }}</th>
+                            <th>{{ contact|verbose_name:'availability_wednesday' }}</th>
+                            <th>{{ contact|verbose_name:'availability_thursday' }}</th>
+                            <th>{{ contact|verbose_name:'availability_friday' }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% for day in availability %}
+                                <td>
+                                    <select class="form-control" multiple disabled size="{{ day|length }}">
+                                        {% for hour, selected in day %}
+                                            <option {% if selected %}selected{% endif %}>{{ hour }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th>{{ contact|verbose_name:'not_available_until' }}</th>
+            <td>{{ contact.not_available_until|default:'-' }}</td>
+        </tr>
+    </table>
+{% endblock %}

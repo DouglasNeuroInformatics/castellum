@@ -156,3 +156,25 @@ class ContactUpdateView(LoginRequiredMixin, UpdateView):
             self.object.pseudonym,
             self.request.user.pk))
         return result
+
+
+class ContactExportView(LoginRequiredMixin, DetailView):
+    model = Contact
+    slug_field = 'pseudonym'
+    template_name = 'contacts/contact_export.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        timeslots = TimeSlot.objects.all()
+        days = [
+            self.object.availability_monday.all(),
+            self.object.availability_tuesday.all(),
+            self.object.availability_wednesday.all(),
+            self.object.availability_thursday.all(),
+            self.object.availability_friday.all(),
+        ]
+        context['availability'] = [
+            [(timeslot.hour, timeslot in day) for timeslot in timeslots] for day in days]
+
+        return context

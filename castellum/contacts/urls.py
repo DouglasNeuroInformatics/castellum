@@ -25,6 +25,7 @@ from .views import ContactCreateMatchesView
 from .views import ContactCreatePreludeView
 from .views import ContactCreateView
 from .views import ContactDetailView
+from .views import ContactExportView
 from .views import ContactIndexView
 from .views import ContactSearchView
 from .views import ContactUpdateView
@@ -38,5 +39,5 @@ urlpatterns = [
     path('create/form/', ContactCreateView.as_view(), name='create-form'),
     path('<slug>/', ContactDetailView.as_view(), name='detail'),
     path('<slug>/update/', ContactUpdateView.as_view(), name='update'),
-
+    path('<slug>/export/', ContactExportView.as_view(), name='export'),
 ]
