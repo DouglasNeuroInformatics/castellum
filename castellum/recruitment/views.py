@@ -174,6 +174,7 @@ class RecruitmentViewNotContacted(RecruitmentView):
                 'Such workflow is not intended due to privacy reasons. '
                 'Please contact provided subjects before adding new ones.'
             ))
+
         attributeset = self.pick_random(AttributeSet.apply_study_filter(self.study))
         if attributeset:
             participation_request_pseudonym = resolve_pseudonym(

@@ -41,16 +41,7 @@ def test_not_contacted_count_is_gte_to_hard_limit(client, user, published_study,
     published_study.save()
 
     for i in range(subject_count):
-        subject = mommy.make('pseudonyms.Subject')
-
-        contact = mommy.make('contacts.Contact')
-        mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["contact"],
-                   pseudonym=contact.pseudonym)
-
-        participation_request = mommy.make(ParticipationRequest, study=published_study,
-                                           status=ParticipationRequest.NOT_CONTACTED)
-        mommy.make('pseudonyms.Pseudonym', subject=subject, domain=published_study.domain,
-                   pseudonym=participation_request.pseudonym)
+        create_participation_request(published_study)
 
     client.force_login(user)
     url = "/recruitment/{}/not-contacted/".format(published_study.pk)
@@ -61,3 +52,38 @@ def test_not_contacted_count_is_gte_to_hard_limit(client, user, published_study,
 
     assert response.status_code == 200
     assert expected_msg in str(response.content)
+
+
+@pytest.mark.parametrize("subject_count", [
+    settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT,
+    settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT + 1,
+])
+def test_not_contacted_count_is_gte_to_soft_limit(client, user, published_study, subject_count):
+    published_study.min_subjects_count = 2 * settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT
+    published_study.save()
+
+    for i in range(subject_count):
+        create_participation_request(published_study)
+
+    client.force_login(user)
+    url = "/recruitment/{}/not-contacted/".format(published_study.pk)
+    response = client.post(url)
+
+    expected_msg = ("Such workflow is not intended due to privacy reasons. "
+                    "Please contact provided subjects before adding new ones.")
+
+    assert response.status_code == 200
+    assert expected_msg in str(response.content)
+
+
+def create_participation_request(study):
+    subject = mommy.make('pseudonyms.Subject')
+
+    contact = mommy.make('contacts.Contact')
+    mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["contact"],
+               pseudonym=contact.pseudonym)
+
+    participation_request = mommy.make(ParticipationRequest, study=study,
+                                       status=ParticipationRequest.NOT_CONTACTED)
+    mommy.make('pseudonyms.Pseudonym', subject=subject, domain=study.domain,
+               pseudonym=participation_request.pseudonym)
