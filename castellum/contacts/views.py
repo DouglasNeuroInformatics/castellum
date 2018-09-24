@@ -37,9 +37,8 @@ from django.views.generic import UpdateView
 
 from castellum.pseudonyms.helpers import list_pseudonyms
 from castellum.pseudonyms.helpers import resolve_pseudonym
+from castellum.pseudonyms.registry import subject_data_models
 from castellum.recruitment.models import AttributeSet
-from castellum.recruitment.models import ParticipationRequest
-from castellum.studies.models import Study
 
 from .forms import ContactForm
 from .forms import PreludeForm
@@ -174,21 +173,11 @@ class ContactExportView(LoginRequiredMixin, DetailView):
         for domain, pseudonym in pseudonyms:
             if domain == Contact.domain:
                 continue
-            elif domain == AttributeSet.domain:
+            for model in subject_data_models:
                 try:
-                    attributeset = AttributeSet.objects.get(pseudonym=pseudonym)
-                    context['dataset_list'].append(attributeset)
-                except AttributeSet.DoesNotExist:
-                    continue
-            else:
-                try:
-                    study = Study.objects.get(domain=domain)
-                except Study.DoesNotExist:
-                    continue
-                try:
-                    p = ParticipationRequest.objects.get(study=study, pseudonym=pseudonym)
-                    context['dataset_list'].append(p)
-                except ParticipationRequest.DoesNotExist:
+                    instance = model.get_by_pseudonym(domain, pseudonym)
+                    context['dataset_list'].append(instance)
+                except model.DoesNotExist:
                     continue
 
         return context
