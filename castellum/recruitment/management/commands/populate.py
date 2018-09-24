@@ -69,12 +69,14 @@ def fake_date_of_birth():
 
 def fake_phone_number():
     number = fake.phone_number()
-    parsed = phonenumbers.parse(number, settings.PHONENUMBER_DEFAULT_REGION)
-    if phonenumbers.is_valid_number(parsed):
-        return number
-    else:
-        # Just try again
-        return fake_phone_number()
+    try:
+        parsed = phonenumbers.parse(number, settings.PHONENUMBER_DEFAULT_REGION)
+        if phonenumbers.is_valid_number(parsed):
+            return number
+    except phonenumbers.NumberParseException:
+        pass
+    # Just try again
+    return fake_phone_number()
 
 
 def fake_study():
