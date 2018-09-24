@@ -35,10 +35,18 @@ class Subject(models.Model):
 
 
 class SubjectData(models.Model):
+    domain = None
+
     pseudonym = models.CharField(max_length=64, unique=True, editable=False)
 
     class Meta:
         abstract = True
+
+    @classmethod
+    def get_by_pseudonym(cls, domain, pseudonym):
+        if domain != cls.domain:
+            raise cls.DoesNotExist
+        return cls.objects.get(pseudonym=pseudonym)
 
 
 class Pseudonym(models.Model):
