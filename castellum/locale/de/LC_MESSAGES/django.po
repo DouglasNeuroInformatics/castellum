@@ -559,21 +559,21 @@ msgstr "Benötigte Anzahl von Probanden"
 
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:10
 msgid "Any of these"
-msgstr ""
+msgstr "Mindestens eins von diesen"
 
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:11
 #, python-format
 msgid "%(count)s potential subjects in total"
-msgstr ""
+msgstr "insgesamt %(count)s potentielle Probanden"
 
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:17
 msgid "All of these"
-msgstr ""
+msgstr "Alle von diesen"
 
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:18
 #, python-format
 msgid "%(count)s potential subjects"
-msgstr ""
+msgstr "%(count)s potentielle Probanden"
 
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:23
 #, python-format
@@ -585,8 +585,8 @@ msgid_plural ""
 "\n"
 "                                    %(count)s filters\n"
 "                                "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\n%(count)s Filter"
+msgstr[1] "\n%(count)s Filter"
 
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:37
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:43
@@ -645,12 +645,16 @@ msgid ""
 "Application privacy does not allow you to add more subjects. Please contact "
 "provided subjects before adding new ones."
 msgstr ""
+"Aus Datenschutzgründen ist es nicht erlaubt, weitere Probanden hinzuzufügen. "
+"Bitte kontaktieren Sie die existierenden Probanden bevor Sie weitere hinzuzufügen."
 
 #: castellum/recruitment/views.py:165
 msgid ""
 "Such workflow is not intended due to privacy reasons. Please contact "
 "provided subjects before adding new ones."
 msgstr ""
+"Aus Datenschutzgründen wird dieses Vorgehen nicht empfohlen. "
+"Bitte kontaktieren Sie die existierenden Probanden bevor Sie weitere hinzuzufügen."
 
 #: castellum/recruitment/views.py:178
 msgid ""
@@ -663,19 +667,23 @@ msgstr ""
 
 #: castellum/recruitment/views.py:183
 msgid "We cannot find participants for this study."
-msgstr ""
+msgstr "Wir können keine Teilnehmenden für diese Studie finden."
 
 #: castellum/recruitment/views.py:186
 msgid ""
 "This study does not require participants. Please, contact the responsible "
 "person who can set it up."
 msgstr ""
+"Diese Studie braucht keine Teilnehmenden. "
+"Bitte kontaktieren sie die verantwortliche Person, damit dies eingerichtet wird."
 
 #: castellum/recruitment/views.py:190
 msgid ""
 "The minimal number of subjects is not set for this study. Please, contact "
 "the responsible person who can set it up."
 msgstr ""
+"Die Mindestanzahl von Probanden wurde für diese Studie nicht eingerichtet. "
+"Bitte kontaktieren sie die verantwortliche Person, damit dies eingerichtet wird."
 
 #: castellum/recruitment/views.py:378
 msgid "There are duplicates in filters. Please change or delete filter!"
@@ -713,7 +721,7 @@ msgstr "Aufwandsentschädigung"
 
 #: castellum/studies/models.py:38
 msgid "number of test sessions per subject"
-msgstr "Anzahl der Testsitzungen pro Person"
+msgstr "Anzahl der Testsitzungen pro Proband"
 
 #: castellum/studies/models.py:39
 msgid "start of test sessions"
@@ -814,13 +822,3 @@ msgstr "jjjj-mm-tt SS:MM, z.B. 2018-07-21 13:00"
 #: castellum/utils/forms.py:60
 msgid "e.g. 030 123456"
 msgstr "z.B. 030 123456"
-
-#~ msgid "The subjects for the study will be picked from any of these groups:"
-#~ msgstr ""
-#~ "Die Probanden für die Studie werden aus einer dieser Gruppen ausgewählt:"
-
-#~ msgid "Filter group"
-#~ msgstr "Filtergruppe"
-
-#~ msgid "Statistics"
-#~ msgstr "Statistik"
