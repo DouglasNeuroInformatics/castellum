@@ -22,6 +22,7 @@
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
+import phonenumbers
 from faker import Faker
 
 from castellum.contacts.models import Address
@@ -66,6 +67,16 @@ def fake_date_of_birth():
     return fake.date_between(start_date=start_date, end_date=end_date)
 
 
+def fake_phone_number():
+    number = fake.phone_number()
+    parsed = phonenumbers.parse(number, settings.PHONENUMBER_DEFAULT_REGION)
+    if phonenumbers.is_valid_number(parsed):
+        return number
+    else:
+        # Just try again
+        return fake_phone_number()
+
+
 def fake_study():
     return Study(name=fake.word().upper(),
                  contact_person=fake.name(),
@@ -103,7 +114,8 @@ def fake_contact(pseudonym, address):
 
     if fake.random.random() < 0.67:
         contact.email = fake.email()
-        contact.phone_number = fake_data.phone_number_by_probability(0.75)
+        if fake.random.random() < 0.75:
+            contact.phone_number = fake_phone_number()
 
     contact.pseudonym = pseudonym.pseudonym
     contact.address = address

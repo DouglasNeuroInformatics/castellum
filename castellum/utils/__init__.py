@@ -22,8 +22,6 @@
 from collections import namedtuple
 from itertools import chain
 from random import choice
-from random import randint
-from random import random
 
 LanguageDistribution = namedtuple("LanguageDistribution", ["name", "percentage"])
 
@@ -46,35 +44,9 @@ class RandomLanguage:
         return choice(list(languages))
 
 
-class RandomPhoneNumber:
-
-    def create(self):
-        country_code = "+49"
-        prefix = self._create_random_number(max_length=4)
-        #  smaller cities with longer prefix numbers usually have shorter numbers
-        number = self._create_random_number(min_length=5, max_length=9-len(prefix))
-
-        return "{}{}{}".format(country_code, prefix, number)
-
-    def _create_random_number(self, min_length=2, max_length=10):
-        number_len = randint(min_length, max_length)
-        #  number mustn't start with "0"
-        random_number = chain([randint(1, 9)], [randint(0, 9) for _ in range(number_len-1)])
-        return "".join(map(str, random_number))
-
-
 class FakeData:
     def __init__(self):
-        self._phone_number = RandomPhoneNumber()
         self._language = RandomLanguage()
 
     def language(self):
         return self._language.get()
-
-    def phone_number(self):
-        return self._phone_number.create()
-
-    def phone_number_by_probability(self, probability=1):
-        if random() <= probability:
-            return self._phone_number.create()
-        return ""
