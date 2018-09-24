@@ -638,7 +638,7 @@ msgstr "Studien"
 
 #: castellum/recruitment/templates/recruitment/studies_list.html:19
 msgid "Find subjects"
-msgstr "Teilnehmende finden"
+msgstr "Probanden finden"
 
 #: castellum/recruitment/views.py:159
 msgid ""
