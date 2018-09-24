@@ -159,35 +159,37 @@ class RecruitmentViewNotContacted(RecruitmentView):
                                       'Please, contact the responsible person who can set it up.'))
             return self.get(request, *args, **kwargs)
 
-        number_of_not_contacted = self.get_queryset().count()
-        if number_of_not_contacted >= \
+        not_contacted_count = self.get_queryset().count()
+
+        if not_contacted_count >= \
            self.study.min_subjects_count*CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR:
             messages.error(request, _(
                 'Application privacy does not allow you to add more subjects. '
                 'Please contact provided subjects before adding new ones.'
                 ))
+            return self.get(request, *args, **kwargs)
+
+        if not_contacted_count >= CASTELLUM_RECRUITMENT_SOFT_LIMIT:
+            messages.error(request, _(
+                'Such workflow is not intended due to privacy reasons. '
+                'Please contact provided subjects before adding new ones.'
+            ))
+        attributeset = self.pick_random(AttributeSet.apply_study_filter(self.study))
+        if attributeset:
+            participation_request_pseudonym = resolve_pseudonym(
+                settings.DOMAINS['attributeset'],
+                attributeset.pseudonym,
+                self.study.domain)
+            __, created = ParticipationRequest.objects.get_or_create(
+                study=self.study, pseudonym=participation_request_pseudonym)
+            if not created:
+                messages.error(request, _(
+                    'Picked person already participates in the study. You can '
+                    'just try again. But this might indicate that there are not '
+                    'many matches left.'))
         else:
-            if number_of_not_contacted >= CASTELLUM_RECRUITMENT_SOFT_LIMIT:
-                messages.error(request, _(
-                    'Such workflow is not intended due to privacy reasons. '
-                    'Please contact provided subjects before adding new ones.'
-                ))
-            attributeset = self.pick_random(AttributeSet.apply_study_filter(self.study))
-            if attributeset:
-                participation_request_pseudonym = resolve_pseudonym(
-                    settings.DOMAINS['attributeset'],
-                    attributeset.pseudonym,
-                    self.study.domain)
-                __, created = ParticipationRequest.objects.get_or_create(
-                    study=self.study, pseudonym=participation_request_pseudonym)
-                if not created:
-                    messages.error(request, _(
-                        'Picked person already participates in the study. You can '
-                        'just try again. But this might indicate that there are not '
-                        'many matches left.'))
-            else:
-                messages.error(request, _(
-                    'We cannot find participants for this study.'))
+            messages.error(request, _(
+                'We cannot find participants for this study.'))
 
         return self.get(request, *args, **kwargs)
 
