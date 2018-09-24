@@ -76,12 +76,37 @@ def test_not_contacted_count_is_gte_to_soft_limit(client, user, published_study,
     assert expected_msg in str(response.content)
 
 
+def test_no_matching_attribute_sets(client, user, published_study):
+    published_study.min_subjects_count = 5
+    published_study.save()
+
+    for i in range(5):
+        create_participation_request(published_study)
+
+    subject_filter_group = mommy.make('recruitment.SubjectFilterGroup', study=published_study)
+    mommy.make('recruitment.SubjectFilter', group=subject_filter_group,
+               field_name="handedness", operator="exact", value="left")
+
+    client.force_login(user)
+    url = "/recruitment/{}/not-contacted/".format(published_study.pk)
+    response = client.post(url)
+
+    expected_msg = "We cannot find participants for this study."
+
+    assert response.status_code == 200
+    assert expected_msg in str(response.content)
+
+
 def create_participation_request(study):
     subject = mommy.make('pseudonyms.Subject')
 
     contact = mommy.make('contacts.Contact')
     mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["contact"],
                pseudonym=contact.pseudonym)
+
+    attribute_set = mommy.make('recruitment.AttributeSet', handedness='right')
+    mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["attributeset"],
+               pseudonym=attribute_set.pseudonym)
 
     participation_request = mommy.make(ParticipationRequest, study=study,
                                        status=ParticipationRequest.NOT_CONTACTED)

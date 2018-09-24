@@ -176,21 +176,23 @@ class RecruitmentViewNotContacted(RecruitmentView):
             ))
 
         attributeset = self.pick_random(AttributeSet.apply_study_filter(self.study))
-        if attributeset:
-            participation_request_pseudonym = resolve_pseudonym(
-                settings.DOMAINS['attributeset'],
-                attributeset.pseudonym,
-                self.study.domain)
-            __, created = ParticipationRequest.objects.get_or_create(
-                study=self.study, pseudonym=participation_request_pseudonym)
-            if not created:
-                messages.error(request, _(
-                    'Picked person already participates in the study. You can '
-                    'just try again. But this might indicate that there are not '
-                    'many matches left.'))
-        else:
+
+        if attributeset is None:
+            messages.error(request, _('We cannot find participants for this study.'))
+            return self.get(request, *args, **kwargs)
+
+        participation_request_pseudonym = resolve_pseudonym(
+            settings.DOMAINS['attributeset'],
+            attributeset.pseudonym,
+            self.study.domain)
+
+        __, created = ParticipationRequest.objects.get_or_create(
+            study=self.study, pseudonym=participation_request_pseudonym)
+        if not created:
             messages.error(request, _(
-                'We cannot find participants for this study.'))
+                'Picked person already participates in the study. You can '
+                'just try again. But this might indicate that there are not '
+                'many matches left.'))
 
         return self.get(request, *args, **kwargs)
 
