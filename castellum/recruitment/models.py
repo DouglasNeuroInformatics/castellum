@@ -51,6 +51,10 @@ class AttributeSet(SubjectData):
     first_language = models.CharField(_('first Language'), blank=True, max_length=5)
     date_of_birth = DateField(_('date of birth'), null=True, blank=True)
 
+    class Meta:
+        verbose_name = _('attribute set')
+        verbose_name_plural = _('attribute sets')
+
     def get_absolute_url(self):
         return reverse('recruitment:attributes_detail', args=[self.pseudonym])
 
@@ -91,6 +95,10 @@ class ParticipationRequest(SubjectData):
     status = models.IntegerField(
         _('status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
     updated_at = DateTimeField(_('last updated at'), blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('participation request')
+        verbose_name_plural = _('participation requests')
 
 
 class SubjectFilterGroup(models.Model):

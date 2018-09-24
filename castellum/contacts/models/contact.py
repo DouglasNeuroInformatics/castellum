@@ -114,6 +114,10 @@ class Contact(SubjectData):
 
     objects = ContactManager()
 
+    class Meta:
+        verbose_name = _('contact')
+        verbose_name_plural = _('contacts')
+
     @property
     def age(self):
         if self.birthday:
