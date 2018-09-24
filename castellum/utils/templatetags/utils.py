@@ -28,3 +28,25 @@ register = template.Library()
 def verbose_name(instance, field_name):
     field = instance._meta.get_field(field_name)
     return field.verbose_name
+
+
+@register.filter(name='model_verbose_name')
+def model_verbose_name(instance, plural=False):
+    if plural:
+        return instance._meta.verbose_name_plural
+    else:
+        return instance._meta.verbose_name
+
+
+@register.filter(name='display')
+def display(instance, field_name):
+    getter = getattr(instance, 'get_{}_display'.format(field_name), None)
+    if getter:
+        return getter()
+    else:
+        return getattr(instance, field_name)
+
+
+@register.filter(name='field_names')
+def field_names(instance):
+    return [field.name for field in instance._meta.get_fields()]
