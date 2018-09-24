@@ -68,6 +68,8 @@ class ContactManager(models.Manager):
 
 
 class Contact(SubjectData):
+    domain = settings.DOMAINS['contact']
+
     GENDER = (
         ("f", _("female")),
         ("m", _("male")),

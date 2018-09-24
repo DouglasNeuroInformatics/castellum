@@ -21,6 +21,7 @@
 
 import datetime
 
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -37,6 +38,8 @@ from .fields import AgeField
 
 
 class AttributeSet(SubjectData):
+    domain = settings.DOMAINS['attributeset']
+
     filter_fields = {
         'date_of_birth': 'AgeFilterField',
     }
