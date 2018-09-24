@@ -161,7 +161,7 @@ class Contact(SubjectData):
 
     def save(self, *args, **kwargs):
         if not self.pseudonym:
-            self.pseudonym = create_pseudonym(settings.DOMAINS['contact'])
+            self.pseudonym = create_pseudonym(Contact.domain)
 
         self.first_name_phonetic = phonetic(self.first_name)
         self.last_name_phonetic = phonetic(self.last_name)

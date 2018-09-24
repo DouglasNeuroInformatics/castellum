@@ -22,7 +22,6 @@
 import logging
 from urllib.parse import urlencode
 
-from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect
@@ -72,7 +71,7 @@ class ContactDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
 
         context['attributeset_pseudonym'] = resolve_pseudonym(
-            settings.DOMAINS['contact'], self.object.pseudonym, settings.DOMAINS['attributeset'])
+            Contact.domain, self.object.pseudonym, AttributeSet.domain)
 
         timeslots = TimeSlot.objects.all()
         days = [
@@ -137,7 +136,7 @@ class ContactCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         result = super().form_valid(form)
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
-            settings.DOMAINS['contact'],
+            Contact.domain,
             self.object.pseudonym,
             self.request.user.pk))
         return result
@@ -156,7 +155,7 @@ class ContactUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         result = super().form_valid(form)
         monitoring_logger.info('ContactData update: {}:{} by {}'.format(
-            settings.DOMAINS['contact'],
+            Contact.domain,
             self.object.pseudonym,
             self.request.user.pk))
         return result
@@ -171,11 +170,11 @@ class ContactExportView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['dataset_list'] = [self.object]
 
-        pseudonyms = list_pseudonyms(settings.DOMAINS['contact'], self.object.pseudonym)
+        pseudonyms = list_pseudonyms(Contact.domain, self.object.pseudonym)
         for domain, pseudonym in pseudonyms:
-            if domain == settings.DOMAINS['contact']:
+            if domain == Contact.domain:
                 continue
-            elif domain == settings.DOMAINS['attributeset']:
+            elif domain == AttributeSet.domain:
                 try:
                     attributeset = AttributeSet.objects.get(pseudonym=pseudonym)
                     context['dataset_list'].append(attributeset)

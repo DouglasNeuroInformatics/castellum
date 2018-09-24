@@ -22,7 +22,6 @@
 import logging
 import random
 
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -98,7 +97,7 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
             contact_pseudonym = resolve_pseudonym(
                 self.study.domain,
                 participation.pseudonym,
-                settings.DOMAINS['contact'])
+                Contact.domain)
             contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
             participants.append((participation, contact))
         context['participants'] = participants
@@ -182,7 +181,7 @@ class RecruitmentViewNotContacted(RecruitmentView):
             return self.get(request, *args, **kwargs)
 
         participation_request_pseudonym = resolve_pseudonym(
-            settings.DOMAINS['attributeset'],
+            AttributeSet.domain,
             attributeset.pseudonym,
             self.study.domain)
 
@@ -226,7 +225,7 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
         contact_pseudonym = resolve_pseudonym(
             self.study.domain,
             self.object.pseudonym,
-            settings.DOMAINS['contact'])
+            Contact.domain)
         contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
 
         if self.kwargs['path'] == 'not-contacted':
@@ -279,7 +278,7 @@ class ContactUpdateView(PublishedStudyMixin, _ContactUpdateView):
         contact_pseudonym = resolve_pseudonym(
             self.study.domain,
             participation_request.pseudonym,
-            settings.DOMAINS['contact'])
+            Contact.domain)
         contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
 
         return contact
@@ -304,7 +303,7 @@ class AttributeSetDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['contact_pseudonym'] = resolve_pseudonym(
-            settings.DOMAINS['attributeset'], self.object.pseudonym, settings.DOMAINS['contact'])
+            AttributeSet.domain, self.object.pseudonym, Contact.domain)
         return context
 
 
@@ -316,7 +315,7 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         result = super().form_valid(form)
         monitoring_logger.info('ContactData update: {}:{} by {}'.format(
-            settings.DOMAINS['attributeset'],
+            AttributeSet.domain,
             self.object.pseudonym,
             self.request.user.pk))
         return result
