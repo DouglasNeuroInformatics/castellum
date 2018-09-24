@@ -36,7 +36,11 @@ from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
+from castellum.pseudonyms.helpers import list_pseudonyms
 from castellum.pseudonyms.helpers import resolve_pseudonym
+from castellum.recruitment.models import AttributeSet
+from castellum.recruitment.models import ParticipationRequest
+from castellum.studies.models import Study
 
 from .forms import ContactForm
 from .forms import PreludeForm
@@ -165,16 +169,27 @@ class ContactExportView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['dataset_list'] = [self.object]
 
-        timeslots = TimeSlot.objects.all()
-        days = [
-            self.object.availability_monday.all(),
-            self.object.availability_tuesday.all(),
-            self.object.availability_wednesday.all(),
-            self.object.availability_thursday.all(),
-            self.object.availability_friday.all(),
-        ]
-        context['availability'] = [
-            [(timeslot.hour, timeslot in day) for timeslot in timeslots] for day in days]
+        pseudonyms = list_pseudonyms(settings.DOMAINS['contact'], self.object.pseudonym)
+        for domain, pseudonym in pseudonyms:
+            if domain == settings.DOMAINS['contact']:
+                continue
+            elif domain == settings.DOMAINS['attributeset']:
+                try:
+                    attributeset = AttributeSet.objects.get(pseudonym=pseudonym)
+                    context['dataset_list'].append(attributeset)
+                except AttributeSet.DoesNotExist:
+                    continue
+            else:
+                try:
+                    study = Study.objects.get(domain=domain)
+                except Study.DoesNotExist:
+                    continue
+                try:
+                    p = ParticipationRequest.objects.get(study=study, pseudonym=pseudonym)
+                    context['dataset_list'].append(p)
+                except ParticipationRequest.DoesNotExist:
+                    continue
 
         return context
