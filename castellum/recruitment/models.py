@@ -90,7 +90,7 @@ class ParticipationRequest(models.Model):
     study = models.ForeignKey(Study, verbose_name=_('study'), on_delete=models.CASCADE)
     status = models.IntegerField(
         _('status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
-    updated_at = DateTimeField(_('last updated at'), blank=True, null=True)
+    created_at = DateTimeField(_('last updated at'), blank=True, auto_now_add=True)
 
 
 class SubjectFilterGroup(models.Model):
