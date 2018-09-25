@@ -2,5 +2,32 @@
 {% load i18n %}
 
 {% block content %}
-    {{ object }}
+    <h1>{% trans 'Contacts' %}</h1>
+
+    {% if matches %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{% trans 'Full name' %}</th>
+                    <th>{% trans 'Address' %}</th>
+                    <th>{% trans 'Email' %}</th>
+                    <th>{% trans 'Action' %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contact in matches %}
+                    <tr>
+                        <td>{{ contact.full_name }}</td>
+                        <td>{{ contact.address }}</td>
+                        <td>{{ contact.email }}</td>
+                        <td>
+                            <a class='btn btn-outline-primary' href="{% url 'contacts:request-export' object.pk contact.pseudonym %}">{% trans 'Export' %}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="alert alert-warning" role="alert">{% trans 'No matches found' %}</p>
+    {% endif %}
 {% endblock %}

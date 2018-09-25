@@ -167,6 +167,14 @@ class RequestCreateView(LoginRequiredMixin, CreateView):
 class RequestDetailView(LoginRequiredMixin, DetailView):
     model = SubjectExportRequest
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['matches'] = Contact.objects.filter(
+            first_name=self.object.first_name,
+            last_name=self.object.last_name,
+            birthday=self.object.birthday)
+        return context
+
 
 class RequestExportView(LoginRequiredMixin, DetailView):
     model = SubjectExportRequest
