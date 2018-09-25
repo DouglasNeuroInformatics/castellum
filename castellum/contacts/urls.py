@@ -28,15 +28,26 @@ from .views import ContactDetailView
 from .views import ContactIndexView
 from .views import ContactSearchView
 from .views import ContactUpdateView
+from .views import RequestCreateView
+from .views import RequestDetailView
+from .views import RequestExportView
 
 app_name = 'contacts'
 urlpatterns = [
     path('', ContactIndexView.as_view(), name='index'),
     path('search/', ContactSearchView.as_view(), name='search'),
+
     path('create/', ContactCreatePreludeView.as_view(), name='create'),
     path('create/matches/', ContactCreateMatchesView.as_view(), name='create-matches'),
     path('create/form/', ContactCreateView.as_view(), name='create-form'),
+
+    path('requests/create/', RequestCreateView.as_view(), name='request-create'),
+    path('requests/<int:pk>/', RequestDetailView.as_view(), name='request-detail'),
+    path(
+        'requests/<int:pk>/<contact_pseudonym>/',
+        RequestExportView.as_view(),
+        name='request-export'),
+
     path('<slug>/', ContactDetailView.as_view(), name='detail'),
     path('<slug>/update/', ContactUpdateView.as_view(), name='update'),
-
 ]

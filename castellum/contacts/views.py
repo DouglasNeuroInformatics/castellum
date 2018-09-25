@@ -41,6 +41,7 @@ from castellum.pseudonyms.helpers import resolve_pseudonym
 from .forms import ContactForm
 from .forms import PreludeForm
 from .models import Contact
+from .models import SubjectExportRequest
 from .models import TimeSlot
 
 monitoring_logger = logging.getLogger('monitoring.contact_data')
@@ -156,3 +157,16 @@ class ContactUpdateView(LoginRequiredMixin, UpdateView):
             self.object.pseudonym,
             self.request.user.pk))
         return result
+
+
+class RequestCreateView(LoginRequiredMixin, CreateView):
+    model = SubjectExportRequest
+    fields = '__all__'
+
+
+class RequestDetailView(LoginRequiredMixin, DetailView):
+    model = SubjectExportRequest
+
+
+class RequestExportView(LoginRequiredMixin, DetailView):
+    model = SubjectExportRequest

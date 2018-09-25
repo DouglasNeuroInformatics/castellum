@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from castellum.utils.fields import DateField
@@ -29,3 +30,6 @@ class SubjectExportRequest(models.Model):
     first_name = models.CharField(_("first name"), max_length=64)
     last_name = models.CharField(_("last name"), max_length=64)
     birthday = DateField(_("birthday"))
+
+    def get_absolute_url(self):
+        return reverse('contacts:request-detail', args=[self.pk])
