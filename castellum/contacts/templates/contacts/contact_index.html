@@ -8,6 +8,6 @@
         <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         <a href="{% url 'contacts:create' %}" class="btn btn-primary">{% trans "Create new contact" %}</a>
         <a href="{% url 'contacts:search' %}" class="btn btn-primary">{% trans "Search"%}</a>
-        <a href="#TODO" class="btn btn-primary">{% trans "GDPR request" %}</a>
+        <a href="{% url 'contacts:request' %}" class="btn btn-primary">{% trans "GDPR request" %}</a>
     </div>
 {% endblock %}

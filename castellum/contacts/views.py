@@ -160,6 +160,18 @@ class ContactUpdateView(LoginRequiredMixin, UpdateView):
         return result
 
 
+class RequestCreateView(LoginRequiredMixin, FormView):
+    form_class = PreludeForm
+    template_name = 'contacts/subjectexportrequest_form.html'
+
+    def form_valid(self, form):
+        return self.render_to_response({
+            'form': form,
+            'query': '?' + urlencode(form.cleaned_data),
+            'matches': Contact.objects.fuzzy_filter(**form.cleaned_data),
+        })
+
+
 class ContactExportView(LoginRequiredMixin, DetailView):
     model = Contact
     slug_field = 'pseudonym'
