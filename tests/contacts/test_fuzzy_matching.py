@@ -13,15 +13,23 @@ BIRTHDAY = '1970-01-01'
     ('Schmidt', 'Schmitt', True),
 
     # combinations
-    ('Meier Schmidt', 'Mayer', True),
-    ('Meier-Schmidt', 'Mayer', True),
+    ('Meier Schmidt', 'Meier', True),
+    ('Meier Schmidt', 'Schmidt', True),
+    ('Meier-Schmidt', 'Meier', True),
+    ('Meier Schmidt-Mankowski', 'Meier', True),
 
     # typos
     ('Meier', 'Neier', True),
     ('Meier', 'Mier', True),
+    # ('Meier', 'Meiek', True),  # fails
+
+    # more than one category
+    ('Meier Schmidt', 'Mayer', True),
+    ('Meier Schmidt', 'Mier', True),
 
     # not matches
     ('Meier', 'Schulze', False),
+    ('Meier', 'Michel', False),
 ))
 def test_user_expiration_date(right, wrong, expected):
     contact = Contact.objects.create(first_name=FIRST_NAME, last_name=right, birthday=BIRTHDAY)
