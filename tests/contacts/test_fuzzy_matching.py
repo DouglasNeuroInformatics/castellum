@@ -1,7 +1,6 @@
 import pytest
 
 from castellum.contacts.models import Contact
-from castellum.contacts.views import get_matches
 
 FIRST_NAME = 'Eve'
 BIRTHDAY = '1970-01-01'
@@ -26,7 +25,7 @@ BIRTHDAY = '1970-01-01'
 ))
 def test_user_expiration_date(right, wrong, expected):
     contact = Contact.objects.create(first_name=FIRST_NAME, last_name=right, birthday=BIRTHDAY)
-    matches = get_matches(FIRST_NAME, wrong, BIRTHDAY)
+    matches = Contact.objects.fuzzy_filter(FIRST_NAME, wrong, BIRTHDAY)
     if expected:
         assert contact in matches
     else:
