@@ -24,11 +24,8 @@ from urllib.parse import urlencode
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseBadRequest
-from django.shortcuts import redirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import FormView
@@ -89,29 +86,11 @@ class ContactCreatePreludeView(LoginRequiredMixin, FormView):
     template_name = 'contacts/contact_create_prelude.html'
 
     def form_valid(self, form):
-        url = reverse('contacts:create-matches') + '?' + urlencode(form.cleaned_data)
-        return redirect(url)
-
-
-class ContactCreateMatchesView(LoginRequiredMixin, View):
-    template_name = 'contacts/contact_create_matches.html'
-
-    def get(self, request, *args, **kwargs):
-        form = PreludeForm(request.GET)
-        if not form.is_valid():
-            return HttpResponseBadRequest()
-
-        query = '?' + urlencode(form.cleaned_data)
-        matches = Contact.objects.fuzzy_filter(**form.cleaned_data)
-
-        if matches:
-            return render(self.request, self.template_name, context={
-                'query': query,
-                'object_list': matches,
-            })
-        else:
-            url = reverse('contacts:create-form') + query
-            return redirect(url)
+        return render(self.request, self.template_name, context={
+            'form': form,
+            'query': '?' + urlencode(form.cleaned_data),
+            'matches': Contact.objects.fuzzy_filter(**form.cleaned_data),
+        })
 
 
 class ContactCreateView(LoginRequiredMixin, CreateView):

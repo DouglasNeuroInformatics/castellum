@@ -24,4 +24,35 @@
             <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}" />
         </div>
     </form>
+
+    {% if form.is_valid %}
+        {% if matches %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>{% trans 'Full name' %}</th>
+                        <th>{% trans 'Address' %}</th>
+                        <th>{% trans 'Email' %}</th>
+                        <th>{% trans 'Action' %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contact in matches %}
+                        <tr>
+                            <td>{{ contact.full_name }}</td>
+                            <td>{{ contact.address }}</td>
+                            <td>{{ contact.email }}</td>
+                            <td>
+                                <a class='btn btn-outline-primary' href="{% url 'contacts:update' contact.pseudonym %}{{ query }}&matches=1">{% trans 'Edit' %}</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="alert alert-warning" role="alert">{% trans 'No matches found' %}</p>
+        {% endif %}
+
+        <a href="{% url 'contacts:create-form' %}{{ query }}&matches=1" class="btn btn-primary">{% trans "Create new contact" %}</a>
+    {% endif %}
 {% endblock %}
