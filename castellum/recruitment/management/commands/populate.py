@@ -29,6 +29,7 @@ from castellum.contacts.models import Address
 from castellum.contacts.models import City
 from castellum.contacts.models import Contact
 from castellum.contacts.models import Country
+from castellum.contacts.models.contact import phonetic
 from castellum.pseudonyms.models import Pseudonym
 from castellum.pseudonyms.models import Subject
 from castellum.recruitment.models import AttributeSet
@@ -102,17 +103,21 @@ def fake_address(cities):
 
 def fake_contact(pseudonym, address):
     if fake.random.random() < 0.5:
-        contact = Contact(
-            gender='f',
-            first_name=fake.first_name_female(),
-            last_name=fake.last_name_female(),
-            birthday=fake_date_of_birth())
+        gender = 'f'
+        first_name = fake.first_name_female()
+        last_name = fake.last_name_female()
     else:
-        contact = Contact(
-            gender='m',
-            first_name=fake.first_name_male(),
-            last_name=fake.last_name_male(),
-            birthday=fake_date_of_birth())
+        gender = 'm'
+        first_name = fake.first_name_male()
+        last_name = fake.last_name_male()
+
+    contact = Contact(
+        gender=gender,
+        first_name=first_name,
+        first_name_phonetic=phonetic(first_name),
+        last_name=last_name,
+        last_name_phonetic=phonetic(last_name),
+        birthday=fake_date_of_birth())
 
     if fake.random.random() < 0.67:
         contact.email = fake.email()

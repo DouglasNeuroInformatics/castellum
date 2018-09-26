@@ -27,6 +27,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+import cologne_phonetics
 from dateutil.relativedelta import relativedelta
 
 from castellum.pseudonyms.helpers import create_pseudonym
@@ -36,6 +37,14 @@ from castellum.utils.fields import DateTimeField
 from castellum.utils.fields import PhoneNumberField
 
 from . import Address
+
+
+def phonetic(s, encode=True):
+    codes = [code for __, code in cologne_phonetics.encode(s)]
+    if encode:
+        return ':' + ':'.join(codes) + ':'
+    else:
+        return codes
 
 
 class TimeSlot(models.Model):
@@ -61,7 +70,9 @@ class Contact(SubjectData):
     )
 
     first_name = models.CharField(_("first name"), max_length=64)
+    first_name_phonetic = models.CharField(max_length=16, editable=False)
     last_name = models.CharField(_("last name"), max_length=64)
+    last_name_phonetic = models.CharField(max_length=16, editable=False)
     title = models.CharField(_("title"), max_length=64, blank=True)
 
     gender = models.CharField(_("gender"), max_length=1, choices=GENDER, default="f")
@@ -118,6 +129,10 @@ class Contact(SubjectData):
     def save(self, *args, **kwargs):
         if not self.pseudonym:
             self.pseudonym = create_pseudonym(settings.DOMAINS['contact'])
+
+        self.first_name_phonetic = phonetic(self.first_name)
+        self.last_name_phonetic = phonetic(self.last_name)
+
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
