@@ -37,21 +37,30 @@ class DateInput(forms.DateInput):
         super().__init__(attrs=defaults)
 
 
-class DateTimeInput(forms.DateTimeInput):
-    def __init__(self, attrs=None):
-        defaults = {
-            'placeholder': _('yyyy-mm-dd HH:MM, e.g. 2018-07-21 13:00'),
+class DateTimeInput(forms.SplitDateTimeWidget):
+    template_name = 'utils/widgets/splitdatetime.html'
+
+    def __init__(self, date_attrs=None, time_attrs=None):
+        date_defaults = {
+            'placeholder': _('yyyy-mm-dd, e.g. 2018-07-21'),
         }
-        if attrs:
-            defaults.update(attrs)
-        super().__init__(attrs=defaults)
+        if date_attrs:
+            date_defaults.update(date_attrs)
+
+        time_defaults = {
+            'placeholder': _('HH:MM, e.g. 13:00'),
+        }
+        if time_attrs:
+            time_defaults.update(time_attrs)
+
+        super().__init__(date_attrs=date_defaults, time_attrs=time_defaults)
 
 
 class DateField(forms.DateField):
     widget = DateInput
 
 
-class DateTimeField(forms.DateTimeField):
+class DateTimeField(forms.SplitDateTimeField):
     widget = DateTimeInput
 
 
