@@ -1,5 +1,9 @@
 import pytest
+import random
+from unittest.mock import MagicMock
+
 from django.conf import settings
+from django.contrib.messages import get_messages
 from model_mommy import mommy
 
 from castellum.recruitment.models import ParticipationRequest
@@ -97,7 +101,33 @@ def test_no_matching_attribute_sets(client, user, published_study):
     assert expected_msg in str(response.content)
 
 
-def create_participation_request(study):
+def test_subject_was_already_contacted(client, user, published_study):
+    published_study.min_subjects_count = 5
+    published_study.save()
+
+    for i in range(5):
+        create_participation_request(published_study, status=ParticipationRequest.INVITED)
+    ParticipationRequest.objects.filter(pk=4).update(status=ParticipationRequest.NOT_CONTACTED)
+
+    subject_filter_group = mommy.make('recruitment.SubjectFilterGroup', study=published_study)
+    mommy.make('recruitment.SubjectFilter', group=subject_filter_group,
+               field_name="handedness", operator="exact", value="right")
+
+    random.randint = MagicMock(return_value=4)
+
+    client.force_login(user)
+    url = "/recruitment/{}/not-contacted/".format(published_study.pk)
+    response = client.post(url)
+
+    messages = list(get_messages(response.wsgi_request))
+    assert len(messages) == 1
+    assert str(messages[0]) == ("Picked person already participates in the study. You can "
+                                "just try again. But this might indicate that there are not "
+                                "many matches left.")
+    assert response.status_code == 200
+
+
+def create_participation_request(study, status=ParticipationRequest.NOT_CONTACTED):
     subject = mommy.make('pseudonyms.Subject')
 
     contact = mommy.make('contacts.Contact')
@@ -108,7 +138,6 @@ def create_participation_request(study):
     mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["attributeset"],
                pseudonym=attribute_set.pseudonym)
 
-    participation_request = mommy.make(ParticipationRequest, study=study,
-                                       status=ParticipationRequest.NOT_CONTACTED)
+    participation_request = mommy.make(ParticipationRequest, study=study, status=status)
     mommy.make('pseudonyms.Pseudonym', subject=subject, domain=study.domain,
                pseudonym=participation_request.pseudonym)
