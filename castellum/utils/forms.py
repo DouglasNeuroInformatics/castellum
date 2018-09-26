@@ -20,7 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import forms
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 from phonenumber_field.formfields import PhoneNumberField as _PhoneNumberFormField
 from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
