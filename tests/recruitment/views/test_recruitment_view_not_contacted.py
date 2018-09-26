@@ -14,11 +14,11 @@ def test_min_subjects_count_is_none(client, user, published_study):
     url = "/recruitment/{}/not-contacted/".format(published_study.pk)
     response = client.post(url)
 
-    expected_msg = ("The minimal number of subjects is not set for this study. "
-                    "Please, contact the responsible person who can set it up.")
-
+    messages = list(get_messages(response.wsgi_request))
+    assert len(messages) == 1
+    assert str(messages[0]) == ("The minimal number of subjects is not set for this study. "
+                                "Please, contact the responsible person who can set it up.")
     assert response.status_code == 200
-    assert expected_msg in str(response.content)
 
 
 def test_min_subjects_count_is_zero(client, user, published_study):
@@ -29,11 +29,11 @@ def test_min_subjects_count_is_zero(client, user, published_study):
     url = "/recruitment/{}/not-contacted/".format(published_study.pk)
     response = client.post(url)
 
-    expected_msg = ("This study does not require participants. "
-                    "Please, contact the responsible person who can set it up.")
-
+    messages = list(get_messages(response.wsgi_request))
+    assert len(messages) == 1
+    assert str(messages[0]) == ("This study does not require participants. "
+                                "Please, contact the responsible person who can set it up.")
     assert response.status_code == 200
-    assert expected_msg in str(response.content)
 
 
 @pytest.mark.parametrize("subject_count", [
@@ -51,11 +51,11 @@ def test_not_contacted_count_is_gte_to_hard_limit(client, user, published_study,
     url = "/recruitment/{}/not-contacted/".format(published_study.pk)
     response = client.post(url)
 
-    expected_msg = ("Application privacy does not allow you to add more subjects. "
-                    "Please contact provided subjects before adding new ones.")
-
+    messages = list(get_messages(response.wsgi_request))
+    assert len(messages) == 1
+    assert str(messages[0]) == ("Application privacy does not allow you to add more subjects. "
+                                "Please contact provided subjects before adding new ones.")
     assert response.status_code == 200
-    assert expected_msg in str(response.content)
 
 
 @pytest.mark.parametrize("subject_count", [
@@ -73,11 +73,14 @@ def test_not_contacted_count_is_gte_to_soft_limit(client, user, published_study,
     url = "/recruitment/{}/not-contacted/".format(published_study.pk)
     response = client.post(url)
 
-    expected_msg = ("Such workflow is not intended due to privacy reasons. "
-                    "Please contact provided subjects before adding new ones.")
-
+    messages = list(get_messages(response.wsgi_request))
+    assert len(messages) == 2
+    assert str(messages[0]) == ("Such workflow is not intended due to privacy reasons. "
+                                "Please contact provided subjects before adding new ones.")
+    assert str(messages[1]) == ("Picked person already participates in the study. You can "
+                                "just try again. But this might indicate that there are not "
+                                "many matches left.")
     assert response.status_code == 200
-    assert expected_msg in str(response.content)
 
 
 def test_no_matching_attribute_sets(client, user, published_study):
@@ -95,10 +98,10 @@ def test_no_matching_attribute_sets(client, user, published_study):
     url = "/recruitment/{}/not-contacted/".format(published_study.pk)
     response = client.post(url)
 
-    expected_msg = "We cannot find participants for this study."
-
+    messages = list(get_messages(response.wsgi_request))
+    assert len(messages) == 1
+    assert str(messages[0]) == "We cannot find participants for this study."
     assert response.status_code == 200
-    assert expected_msg in str(response.content)
 
 
 def test_subject_was_already_contacted(client, user, published_study):
