@@ -24,7 +24,6 @@ from urllib.parse import urlencode
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db import models
 from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -43,7 +42,6 @@ from .forms import ContactForm
 from .forms import PreludeForm
 from .models import Contact
 from .models import TimeSlot
-from .models.contact import phonetic
 
 monitoring_logger = logging.getLogger('monitoring.contact_data')
 
@@ -95,15 +93,6 @@ class ContactCreatePreludeView(LoginRequiredMixin, FormView):
         return redirect(url)
 
 
-def get_matches(first_name, last_name, birthday):
-    q = models.Q(birthday=birthday)
-    for code in phonetic(first_name, encode=False):
-        q &= models.Q(first_name_phonetic__contains=':{}:'.format(code))
-    for code in phonetic(last_name, encode=False):
-        q &= models.Q(last_name_phonetic__contains=':{}:'.format(code))
-    return Contact.objects.filter(q).all()
-
-
 class ContactCreateMatchesView(LoginRequiredMixin, View):
     template_name = 'contacts/contact_create_matches.html'
 
@@ -113,7 +102,7 @@ class ContactCreateMatchesView(LoginRequiredMixin, View):
             return HttpResponseBadRequest()
 
         query = '?' + urlencode(form.cleaned_data)
-        matches = get_matches(**form.cleaned_data)
+        matches = Contact.objects.fuzzy_filter(**form.cleaned_data)
 
         if matches:
             return render(self.request, self.template_name, context={

@@ -57,6 +57,16 @@ class TimeSlot(models.Model):
         return str(self.hour)
 
 
+class ContactManager(models.Manager):
+    def fuzzy_filter(self, first_name, last_name, birthday):
+        q = models.Q(birthday=birthday)
+        for code in phonetic(first_name, encode=False):
+            q &= models.Q(first_name_phonetic__contains=':{}:'.format(code))
+        for code in phonetic(last_name, encode=False):
+            q &= models.Q(last_name_phonetic__contains=':{}:'.format(code))
+        return self.filter(q)
+
+
 class Contact(SubjectData):
     GENDER = (
         ("f", _("female")),
@@ -101,6 +111,8 @@ class Contact(SubjectData):
         TimeSlot, verbose_name=_("friday"), blank=True, related_name='+')
 
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
+
+    objects = ContactManager()
 
     @property
     def age(self):
