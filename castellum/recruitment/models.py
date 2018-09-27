@@ -210,7 +210,10 @@ class AgeFilterField(BaseFilterField):
 
     def to_q(self, field_name, operator, value):
         period, scale = value
-        date = datetime.date.today() - relativedelta(**{scale: period})
+        try:
+            date = datetime.date.today() - relativedelta(**{scale: period})
+        except (ValueError, OverflowError):
+            date = datetime.date.min
         return super().to_q(field_name, operator, date)
 
     def to_str(self, field_name, operator, value):
