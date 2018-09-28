@@ -10,20 +10,27 @@ from model_mommy.recipe import Recipe
 from castellum.recruitment.models import ParticipationRequest
 
 
+STUDY_PK = 1
+
+URL = "/recruitment/{}/not-contacted/".format(STUDY_PK)
+
 study_recipe = Recipe(
     'studies.Study',
-    pk=1,
+    pk=STUDY_PK,
     published=True,
     min_subjects_count=5,
 )
 
 
-def test_min_subjects_count_is_none(client, user):
-    study = study_recipe.make(min_subjects_count=None)
-
+@pytest.fixture(autouse=True)
+def login(client, user):
     client.force_login(user)
-    url = "/recruitment/{}/not-contacted/".format(study.pk)
-    response = client.post(url)
+
+
+def test_min_subjects_count_is_none(client):
+    study_recipe.make(min_subjects_count=None)
+
+    response = client.post(URL)
 
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
@@ -32,12 +39,10 @@ def test_min_subjects_count_is_none(client, user):
     assert response.status_code == 200
 
 
-def test_min_subjects_count_is_zero(client, user):
-    study = study_recipe.make(min_subjects_count=0)
+def test_min_subjects_count_is_zero(client):
+    study_recipe.make(min_subjects_count=0)
 
-    client.force_login(user)
-    url = "/recruitment/{}/not-contacted/".format(study.pk)
-    response = client.post(url)
+    response = client.post(URL)
 
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
@@ -50,15 +55,13 @@ def test_min_subjects_count_is_zero(client, user):
     5 * settings.CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR,
     5 * settings.CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR + 1,
 ])
-def test_not_contacted_count_is_gte_to_hard_limit(client, user, subject_count):
+def test_not_contacted_count_is_gte_to_hard_limit(client, subject_count):
     study = study_recipe.make()
 
     for i in range(subject_count):
         create_participation_request(study)
 
-    client.force_login(user)
-    url = "/recruitment/{}/not-contacted/".format(study.pk)
-    response = client.post(url)
+    response = client.post(URL)
 
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
@@ -71,15 +74,13 @@ def test_not_contacted_count_is_gte_to_hard_limit(client, user, subject_count):
     settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT,
     settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT + 1,
 ])
-def test_not_contacted_count_is_gte_to_soft_limit(client, user, subject_count):
+def test_not_contacted_count_is_gte_to_soft_limit(client, subject_count):
     study = study_recipe.make(min_subjects_count=2*settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT)
 
     for i in range(subject_count):
         create_participation_request(study)
 
-    client.force_login(user)
-    url = "/recruitment/{}/not-contacted/".format(study.pk)
-    response = client.post(url)
+    response = client.post(URL)
 
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
@@ -88,7 +89,7 @@ def test_not_contacted_count_is_gte_to_soft_limit(client, user, subject_count):
     assert response.status_code == 200
 
 
-def test_no_matching_attribute_sets(client, user):
+def test_no_matching_attribute_sets(client):
     study = study_recipe.make()
 
     for i in range(5):
@@ -98,9 +99,7 @@ def test_no_matching_attribute_sets(client, user):
     mommy.make('recruitment.SubjectFilter', group=subject_filter_group,
                field_name="handedness", operator="exact", value="left")
 
-    client.force_login(user)
-    url = "/recruitment/{}/not-contacted/".format(study.pk)
-    response = client.post(url)
+    response = client.post(URL)
 
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
@@ -108,7 +107,7 @@ def test_no_matching_attribute_sets(client, user):
     assert response.status_code == 200
 
 
-def test_subject_was_already_contacted(client, user):
+def test_subject_was_already_contacted(client):
     study = study_recipe.make()
 
     for i in range(5):
@@ -121,9 +120,7 @@ def test_subject_was_already_contacted(client, user):
 
     random.randint = MagicMock(return_value=4)
 
-    client.force_login(user)
-    url = "/recruitment/{}/not-contacted/".format(study.pk)
-    response = client.post(url)
+    response = client.post(URL)
 
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
@@ -133,7 +130,7 @@ def test_subject_was_already_contacted(client, user):
     assert response.status_code == 200
 
 
-def test_create_participation_request_for_each_contact_trial(client, user):
+def test_create_participation_request_for_each_contact_trial(client):
     study = study_recipe.make()
 
     for i in range(20):
@@ -153,22 +150,18 @@ def test_create_participation_request_for_each_contact_trial(client, user):
 
     assert ParticipationRequest.objects.count() == 0
 
-    client.force_login(user)
-    url = "/recruitment/{}/not-contacted/".format(study.pk)
-    response = client.post(url)
+    response = client.post(URL)
 
     assert ParticipationRequest.objects.count() == 1
     assert response.status_code == 200
 
-    client.force_login(user)
-    url = "/recruitment/{}/not-contacted/".format(study.pk)
-    response = client.post(url)
+    response = client.post(URL)
 
     assert ParticipationRequest.objects.count() == 2
     assert response.status_code == 200
 
 
-def test_create_new_participation_request_if_subject_was_not_reached(client, user):
+def test_create_new_participation_request_if_subject_was_not_reached(client):
     study = study_recipe.make()
 
     for i in range(20):
@@ -197,9 +190,7 @@ def test_create_new_participation_request_if_subject_was_not_reached(client, use
 
     random.randint = MagicMock(return_value=19)
 
-    client.force_login(user)
-    url = "/recruitment/{}/not-contacted/".format(study.pk)
-    response = client.post(url)
+    response = client.post(URL)
 
     assert ParticipationRequest.objects.filter(pseudonym=pseudonym).count() == 2
     assert response.status_code == 200
