@@ -30,24 +30,24 @@ def login(client, user):
 def test_min_subjects_count_is_none(client):
     study_recipe.make(min_subjects_count=None)
 
+    expected_message_text = ("The minimal number of subjects is not set for this study. "
+                             "Please, contact the responsible person who can set it up.")
+
     response = client.post(URL)
 
-    messages = list(get_messages(response.wsgi_request))
-    assert len(messages) == 1
-    assert str(messages[0]) == ("The minimal number of subjects is not set for this study. "
-                                "Please, contact the responsible person who can set it up.")
+    assert_message_text(response, expected_message_text)
     assert response.status_code == 200
 
 
 def test_min_subjects_count_is_zero(client):
     study_recipe.make(min_subjects_count=0)
 
+    expected_message_text = ("This study does not require participants. "
+                             "Please, contact the responsible person who can set it up.")
+
     response = client.post(URL)
 
-    messages = list(get_messages(response.wsgi_request))
-    assert len(messages) == 1
-    assert str(messages[0]) == ("This study does not require participants. "
-                                "Please, contact the responsible person who can set it up.")
+    assert_message_text(response, expected_message_text)
     assert response.status_code == 200
 
 
@@ -61,12 +61,12 @@ def test_not_contacted_count_is_gte_to_hard_limit(client, subject_count):
     for i in range(subject_count):
         create_participation_request(study)
 
+    expected_message_text = ("Application privacy does not allow you to add more subjects. "
+                             "Please contact provided subjects before adding new ones.")
+
     response = client.post(URL)
 
-    messages = list(get_messages(response.wsgi_request))
-    assert len(messages) == 1
-    assert str(messages[0]) == ("Application privacy does not allow you to add more subjects. "
-                                "Please contact provided subjects before adding new ones.")
+    assert_message_text(response, expected_message_text)
     assert response.status_code == 200
 
 
@@ -80,12 +80,12 @@ def test_not_contacted_count_is_gte_to_soft_limit(client, subject_count):
     for i in range(subject_count):
         create_participation_request(study)
 
+    expected_message_text = ("Such workflow is not intended due to privacy reasons. "
+                             "Please contact provided subjects before adding new ones.")
+
     response = client.post(URL)
 
-    messages = list(get_messages(response.wsgi_request))
-    assert len(messages) == 1
-    assert str(messages[0]) == ("Such workflow is not intended due to privacy reasons. "
-                                "Please contact provided subjects before adding new ones.")
+    assert_message_text(response, expected_message_text)
     assert response.status_code == 200
 
 
@@ -99,11 +99,11 @@ def test_no_matching_attribute_sets(client):
     mommy.make('recruitment.SubjectFilter', group=subject_filter_group,
                field_name="handedness", operator="exact", value="left")
 
+    expected_message_text = "We cannot find participants for this study."
+
     response = client.post(URL)
 
-    messages = list(get_messages(response.wsgi_request))
-    assert len(messages) == 1
-    assert str(messages[0]) == "We cannot find participants for this study."
+    assert_message_text(response, expected_message_text)
     assert response.status_code == 200
 
 
@@ -120,13 +120,13 @@ def test_subject_was_already_contacted(client):
 
     random.randint = MagicMock(return_value=4)
 
+    expected_message_text = ("Picked person already participates in the study. You can "
+                             "just try again. But this might indicate that there are not "
+                             "many matches left.")
+
     response = client.post(URL)
 
-    messages = list(get_messages(response.wsgi_request))
-    assert len(messages) == 1
-    assert str(messages[0]) == ("Picked person already participates in the study. You can "
-                                "just try again. But this might indicate that there are not "
-                                "many matches left.")
+    assert_message_text(response, expected_message_text)
     assert response.status_code == 200
 
 
@@ -210,3 +210,10 @@ def create_participation_request(study, status=ParticipationRequest.NOT_CONTACTE
     participation_request = mommy.make(ParticipationRequest, study=study, status=status)
     mommy.make('pseudonyms.Pseudonym', subject=subject, domain=study.domain,
                pseudonym=participation_request.pseudonym)
+
+
+def assert_message_text(response, expected_message_text):
+    messages = list(get_messages(response.wsgi_request))
+
+    assert len(messages) == 1
+    assert str(messages[0]) == expected_message_text
