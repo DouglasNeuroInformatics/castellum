@@ -94,10 +94,7 @@ def test_no_matching_attribute_sets(client):
 
     for i in range(5):
         create_participation_request(study)
-
-    subject_filter_group = mommy.make('recruitment.SubjectFilterGroup', study=study)
-    mommy.make('recruitment.SubjectFilter', group=subject_filter_group,
-               field_name="handedness", operator="exact", value="left")
+    create_subject_filter(study, handedness="left")
 
     expected_message_text = "We cannot find participants for this study."
 
@@ -113,10 +110,7 @@ def test_subject_was_already_contacted(client):
     for i in range(5):
         create_participation_request(study, status=ParticipationRequest.INVITED)
     ParticipationRequest.objects.filter(pk=4).update(status=ParticipationRequest.NOT_CONTACTED)
-
-    subject_filter_group = mommy.make('recruitment.SubjectFilterGroup', study=study)
-    mommy.make('recruitment.SubjectFilter', group=subject_filter_group,
-               field_name="handedness", operator="exact", value="right")
+    create_subject_filter(study)
 
     random.randint = MagicMock(return_value=4)
 
@@ -135,18 +129,9 @@ def test_create_participation_request_for_each_contact_trial(client):
 
     for i in range(20):
         subject = mommy.make('pseudonyms.Subject')
-
-        contact = mommy.make('contacts.Contact')
-        mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["contact"],
-                   pseudonym=contact.pseudonym)
-
-        attribute_set = mommy.make('recruitment.AttributeSet', handedness='right')
-        mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["attributeset"],
-                   pseudonym=attribute_set.pseudonym)
-
-    subject_filter_group = mommy.make('recruitment.SubjectFilterGroup', study=study)
-    mommy.make('recruitment.SubjectFilter', group=subject_filter_group,
-               field_name="handedness", operator="exact", value="right")
+        create_contact(subject)
+        create_attributeset(subject)
+    create_subject_filter(study)
 
     assert ParticipationRequest.objects.count() == 0
 
@@ -166,14 +151,8 @@ def test_create_new_participation_request_if_subject_was_not_reached(client):
 
     for i in range(20):
         subject = mommy.make('pseudonyms.Subject')
-
-        contact = mommy.make('contacts.Contact')
-        mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["contact"],
-                   pseudonym=contact.pseudonym)
-
-        attribute_set = mommy.make('recruitment.AttributeSet', handedness='right')
-        mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["attributeset"],
-                   pseudonym=attribute_set.pseudonym)
+        create_contact(subject)
+        create_attributeset(subject)
 
     subject_filter_group = mommy.make('recruitment.SubjectFilterGroup', study=study)
     mommy.make('recruitment.SubjectFilter', group=subject_filter_group,
@@ -198,18 +177,34 @@ def test_create_new_participation_request_if_subject_was_not_reached(client):
 
 def create_participation_request(study, status=ParticipationRequest.NOT_CONTACTED):
     subject = mommy.make('pseudonyms.Subject')
-
-    contact = mommy.make('contacts.Contact')
-    mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["contact"],
-               pseudonym=contact.pseudonym)
-
-    attribute_set = mommy.make('recruitment.AttributeSet', handedness='right')
-    mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["attributeset"],
-               pseudonym=attribute_set.pseudonym)
+    create_contact(subject)
+    create_attributeset(subject)
 
     participation_request = mommy.make(ParticipationRequest, study=study, status=status)
     mommy.make('pseudonyms.Pseudonym', subject=subject, domain=study.domain,
                pseudonym=participation_request.pseudonym)
+
+
+def create_contact(subject):
+    contact = mommy.make('contacts.Contact')
+    mommy.make('pseudonyms.Pseudonym',
+               subject=subject,
+               domain=settings.DOMAINS["contact"],
+               pseudonym=contact.pseudonym)
+
+
+def create_attributeset(subject):
+    attribute_set = mommy.make('recruitment.AttributeSet', handedness='right')
+    mommy.make('pseudonyms.Pseudonym',
+               subject=subject,
+               domain=settings.DOMAINS["attributeset"],
+               pseudonym=attribute_set.pseudonym)
+
+
+def create_subject_filter(study, handedness="right"):
+    subject_filter_group = mommy.make('recruitment.SubjectFilterGroup', study=study)
+    mommy.make('recruitment.SubjectFilter', group=subject_filter_group,
+               field_name="handedness", operator="exact", value=handedness)
 
 
 def assert_message_text(response, expected_message_text):
