@@ -74,12 +74,9 @@ def test_not_contacted_count_is_gte_to_soft_limit(client, user, published_study,
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
-    assert len(messages) == 2
+    assert len(messages) == 1
     assert str(messages[0]) == ("Such workflow is not intended due to privacy reasons. "
                                 "Please contact provided subjects before adding new ones.")
-    assert str(messages[1]) == ("Picked person already participates in the study. You can "
-                                "just try again. But this might indicate that there are not "
-                                "many matches left.")
     assert response.status_code == 200
 
 
@@ -127,6 +124,80 @@ def test_subject_was_already_contacted(client, user, published_study):
     assert str(messages[0]) == ("Picked person already participates in the study. You can "
                                 "just try again. But this might indicate that there are not "
                                 "many matches left.")
+    assert response.status_code == 200
+
+
+def test_create_participation_request_for_each_contact_trial(client, user, published_study):
+    published_study.min_subjects_count = 5
+    published_study.save()
+
+    for i in range(20):
+        subject = mommy.make('pseudonyms.Subject')
+
+        contact = mommy.make('contacts.Contact')
+        mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["contact"],
+                   pseudonym=contact.pseudonym)
+
+        attribute_set = mommy.make('recruitment.AttributeSet', handedness='right')
+        mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["attributeset"],
+                   pseudonym=attribute_set.pseudonym)
+
+    subject_filter_group = mommy.make('recruitment.SubjectFilterGroup', study=published_study)
+    mommy.make('recruitment.SubjectFilter', group=subject_filter_group,
+               field_name="handedness", operator="exact", value="right")
+
+    assert ParticipationRequest.objects.count() == 0
+
+    client.force_login(user)
+    url = "/recruitment/{}/not-contacted/".format(published_study.pk)
+    response = client.post(url)
+
+    assert ParticipationRequest.objects.count() == 1
+    assert response.status_code == 200
+
+    client.force_login(user)
+    url = "/recruitment/{}/not-contacted/".format(published_study.pk)
+    response = client.post(url)
+
+    assert ParticipationRequest.objects.count() == 2
+    assert response.status_code == 200
+
+
+def test_create_new_participation_request_if_subject_was_not_reached(client, user, published_study):
+    published_study.min_subjects_count = 5
+    published_study.save()
+
+    for i in range(20):
+        subject = mommy.make('pseudonyms.Subject')
+
+        contact = mommy.make('contacts.Contact')
+        mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["contact"],
+                   pseudonym=contact.pseudonym)
+
+        attribute_set = mommy.make('recruitment.AttributeSet', handedness='right')
+        mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["attributeset"],
+                   pseudonym=attribute_set.pseudonym)
+
+    subject_filter_group = mommy.make('recruitment.SubjectFilterGroup', study=published_study)
+    mommy.make('recruitment.SubjectFilter', group=subject_filter_group,
+               field_name="handedness", operator="exact", value="right")
+
+    participation_request = mommy.make(ParticipationRequest,
+                                       status=ParticipationRequest.NOT_REACHED)
+    mommy.make('pseudonyms.Pseudonym', subject=subject, domain=published_study.domain,
+               pseudonym=participation_request.pseudonym)
+
+    pseudonym = participation_request.pseudonym
+
+    assert ParticipationRequest.objects.filter(pseudonym=pseudonym).count() == 1
+
+    random.randint = MagicMock(return_value=19)
+
+    client.force_login(user)
+    url = "/recruitment/{}/not-contacted/".format(published_study.pk)
+    response = client.post(url)
+
+    assert ParticipationRequest.objects.filter(pseudonym=pseudonym).count() == 2
     assert response.status_code == 200
 
 

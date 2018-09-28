@@ -185,13 +185,17 @@ class RecruitmentViewNotContacted(RecruitmentView):
             attributeset.pseudonym,
             self.study.domain)
 
-        __, created = ParticipationRequest.objects.get_or_create(
+        participation_requests = ParticipationRequest.objects.filter_contacted(
             study=self.study, pseudonym=participation_request_pseudonym)
-        if not created:
+        if participation_requests:
             messages.error(request, _(
                 'Picked person already participates in the study. You can '
                 'just try again. But this might indicate that there are not '
                 'many matches left.'))
+            return self.get(request, *args, **kwargs)
+
+        ParticipationRequest.objects.create(study=self.study,
+                                            pseudonym=participation_request_pseudonym)
 
         return self.get(request, *args, **kwargs)
 

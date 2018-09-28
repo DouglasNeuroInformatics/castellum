@@ -71,6 +71,10 @@ class ParticipationRequestManager(models.Manager):
     def filter_not_reached(self, **kwargs):
         return self.get_queryset().filter(status=ParticipationRequest.NOT_REACHED, **kwargs)
 
+    def filter_contacted(self, **kwargs):
+        return self.get_queryset().filter(status__in=[ParticipationRequest.UNSUITABLE,
+                                                      ParticipationRequest.INVITED], **kwargs)
+
 
 class ParticipationRequest(models.Model):
     NOT_CONTACTED = 0
