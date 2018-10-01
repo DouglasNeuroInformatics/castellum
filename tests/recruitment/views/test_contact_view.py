@@ -1,4 +1,4 @@
-from freezegun import freeze_time
+import pytest
 from model_mommy import mommy
 
 from castellum.recruitment.models import ParticipationRequest
@@ -148,7 +148,7 @@ def test_post_redirect_next_with_multiple_participation_requests_from_not_reache
     )
 
 
-@freeze_time('2018-01-01')
+@pytest.mark.freeze_time('2018-01-01')
 def test_post_updated_at(client, user, participation_request):
     participation_request.study.published = True
     participation_request.study.save()
