@@ -97,7 +97,22 @@ class ParticipationRequest(SubjectData):
 
     status = models.IntegerField(
         _('status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
-    updated_at = DateTimeField(_('last updated at'), blank=True, null=True)
+
+    @property
+    def latest(self):
+        return self.revisions.order_by('-created_at')[0]
+
+    @property
+    def updated_at(self):
+        return self.latest.created_at
+
+
+class ParticipationRequestRevision(models.Model):
+    current = models.ForeignKey(
+        ParticipationRequest, related_name='revisions', on_delete=models.CASCADE)
+    status = models.IntegerField(
+        choices=ParticipationRequest.STATUS_OPTIONS, default=ParticipationRequest.NOT_CONTACTED)
+    created_at = DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = _('participation request')

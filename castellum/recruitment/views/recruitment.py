@@ -27,7 +27,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
-from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView
 from django.views.generic import UpdateView
@@ -210,8 +209,7 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
         # needs to be executed before object.save()
         pseudonyms = list(self.get_queryset().values_list("pseudonym", flat=True))
 
-        self.object.updated_at = timezone.now()
-        self.object.save()
+        self.object = form.save()
 
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             self.study.domain,
