@@ -1,6 +1,5 @@
 import pytest
-import random
-from unittest.mock import MagicMock
+from unittest.mock import patch
 
 from django.conf import settings
 from django.contrib.messages import get_messages
@@ -116,11 +115,12 @@ def test_subject_was_already_contacted(client, user, published_study):
     mommy.make('recruitment.SubjectFilter', group=subject_filter_group,
                field_name="handedness", operator="exact", value="right")
 
-    random.randint = MagicMock(return_value=4)
-
     client.force_login(user)
     url = "/recruitment/{}/not-contacted/".format(published_study.pk)
-    response = client.post(url)
+
+    with patch('random.randint') as mock_randint:
+        mock_randint.return_value = 4
+        response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
