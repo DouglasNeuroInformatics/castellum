@@ -106,6 +106,10 @@ class ParticipationRequest(SubjectData):
     def updated_at(self):
         return self.latest.created_at
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        ParticipationRequestRevision.objects.create(current=self, status=self.status)
+
 
 class ParticipationRequestRevision(models.Model):
     current = models.ForeignKey(
