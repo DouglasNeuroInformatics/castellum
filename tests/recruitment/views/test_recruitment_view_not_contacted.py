@@ -6,6 +6,7 @@ from django.contrib.messages import get_messages
 from model_mommy import mommy
 
 from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import ParticipationRequestRevision
 
 
 def test_min_subjects_count_is_none(client, user, published_study):
@@ -128,6 +129,17 @@ def test_subject_was_already_contacted(client, user, published_study):
                                 "just try again. But this might indicate that there are not "
                                 "many matches left.")
     assert response.status_code == 200
+
+
+def test_create_revision_on_create(client, user, attributeset, published_study):
+    published_study.min_subjects_count = 5
+    published_study.save()
+
+    client.force_login(user)
+    url = "/recruitment/{}/not-contacted/".format(published_study.pk)
+    client.post(url)
+
+    assert ParticipationRequestRevision.objects.count() == 1
 
 
 def create_participation_request(study, status=ParticipationRequest.NOT_CONTACTED):

@@ -2,6 +2,7 @@ import pytest
 from model_mommy import mommy
 
 from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import ParticipationRequestRevision
 
 
 def test_404_page_returned_if_study_is_not_provided(client, user, participation_request):
@@ -162,3 +163,15 @@ def test_post_updated_at(client, user, participation_request):
     client.post(url, {'status': ParticipationRequest.UNSUITABLE})
     participation_request = ParticipationRequest.objects.get()
     assert participation_request.updated_at.strftime('%Y-%m-%d') == '2018-01-01'
+
+
+def test_create_revision_on_update(client, user, participation_request):
+    participation_request.study.published = True
+    participation_request.study.save()
+
+    client.force_login(user)
+    url = '/recruitment/{}/{}/not-contacted/'.format(participation_request.study.pk,
+                                                     participation_request.pseudonym)
+    client.post(url, {'status': 2})
+
+    assert ParticipationRequestRevision.objects.count() == 2
