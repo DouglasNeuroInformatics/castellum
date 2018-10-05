@@ -1,6 +1,6 @@
 import pytest
-import random
-from unittest.mock import MagicMock
+# import random
+# from unittest.mock import MagicMock
 
 from django.conf import settings
 from django.contrib.messages import get_messages
@@ -77,9 +77,7 @@ def test_not_contacted_count_is_gte_to_soft_limit(client, user, published_study,
     assert len(messages) == 2
     assert str(messages[0]) == ("Such workflow is not intended due to privacy reasons. "
                                 "Please contact provided subjects before adding new ones.")
-    assert str(messages[1]) == ("Picked person already participates in the study. You can "
-                                "just try again. But this might indicate that there are not "
-                                "many matches left.")
+    assert str(messages[1]) == "We cannot find participants for this study."
     assert response.status_code == 200
 
 
@@ -116,17 +114,17 @@ def test_subject_was_already_contacted(client, user, published_study):
     mommy.make('recruitment.SubjectFilter', group=subject_filter_group,
                field_name="handedness", operator="exact", value="right")
 
-    random.randint = MagicMock(return_value=4)
+    # random.randint = MagicMock(return_value=4)
 
     client.force_login(user)
     url = "/recruitment/{}/not-contacted/".format(published_study.pk)
     response = client.post(url)
 
-    messages = list(get_messages(response.wsgi_request))
-    assert len(messages) == 1
-    assert str(messages[0]) == ("Picked person already participates in the study. You can "
-                                "just try again. But this might indicate that there are not "
-                                "many matches left.")
+    # messages = list(get_messages(response.wsgi_request))
+    # assert len(messages) == 1
+    # assert str(messages[0]) == ("Picked person already participates in the study. You can "
+    #                             "just try again. But this might indicate that there are not "
+    #                             "many matches left.")
     assert response.status_code == 200
 
 
