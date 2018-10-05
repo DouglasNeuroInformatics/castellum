@@ -103,6 +103,31 @@ class RecruitmentViewNotContacted(RecruitmentView):
             random_index = random.randint(0, count - 1)
             return qs.all()[random_index]
 
+    def get_participation_request(self):
+
+        attributesets = AttributeSet.apply_study_filter(self.study)
+
+        while attributesets.count() > 0:
+
+            attributeset = self.pick_random(attributesets)
+
+            participation_request_pseudonym = resolve_pseudonym(
+                settings.DOMAINS['attributeset'],
+                attributeset.pseudonym,
+                self.study.domain)
+
+            __, created = ParticipationRequest.objects.get_or_create(
+                study=self.study, pseudonym=participation_request_pseudonym)
+
+            if created:
+                break
+            else:
+                attributesets = attributesets.exclude(pk=attributeset.pk)
+
+        if attributesets.count() == 0:
+            return False
+        return True
+
     def get_queryset(self, queryset=None):
         if not queryset:
             queryset = ParticipationRequest.objects
@@ -135,24 +160,8 @@ class RecruitmentViewNotContacted(RecruitmentView):
                 'Please contact provided subjects before adding new ones.'
             ))
 
-        attributeset = self.pick_random(AttributeSet.apply_study_filter(self.study))
-
-        if attributeset is None:
+        if not self.get_participation_request():
             messages.error(request, _('We cannot find participants for this study.'))
-            return self.get(request, *args, **kwargs)
-
-        participation_request_pseudonym = resolve_pseudonym(
-            AttributeSet.domain,
-            attributeset.pseudonym,
-            self.study.domain)
-
-        __, created = ParticipationRequest.objects.get_or_create(
-            study=self.study, pseudonym=participation_request_pseudonym)
-        if not created:
-            messages.error(request, _(
-                'Picked person already participates in the study. You can '
-                'just try again. But this might indicate that there are not '
-                'many matches left.'))
 
         return self.get(request, *args, **kwargs)
 
