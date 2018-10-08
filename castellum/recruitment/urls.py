@@ -23,6 +23,7 @@ from django.urls import path
 
 from .views.attributesets import AttributeSetDetailView
 from .views.attributesets import AttributeSetUpdateView
+from .views.contacts import ContactStudiesView
 from .views.contacts import ContactUpdateView
 from .views.filters import FilterGroupCreateView
 from .views.filters import FilterGroupDeleteView
@@ -38,6 +39,8 @@ app_name = 'recruitment'
 urlpatterns = [
     path('attributes/<slug>/', AttributeSetDetailView.as_view(), name='attributes_detail'),
     path('attributes/<slug>/update/', AttributeSetUpdateView.as_view(), name='attributes_update'),
+
+    path('contacts/<slug>/studies/', ContactStudiesView.as_view(), name='contacts_studies'),
 
     path('', StudyChoiceView.as_view(), name='index'),
 

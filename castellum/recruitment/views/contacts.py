@@ -20,8 +20,10 @@
 # <http://www.gnu.org/licenses/>.
 
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.views.generic import DetailView
 
 from castellum.contacts.models import Contact
 from castellum.contacts.views import ContactUpdateView as _ContactUpdateView
@@ -50,3 +52,17 @@ class ContactUpdateView(PublishedStudyMixin, _ContactUpdateView):
 
     def get_cancel_url(self):
         return self.get_success_url()
+
+
+class ContactStudiesView(LoginRequiredMixin, DetailView):
+    model = Contact
+    slug_field = 'pseudonym'
+    template_name = 'recruitment/contact_studies.html'
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+
+        data['attributeset'] = None
+        data['studies'] = []
+
+        return data

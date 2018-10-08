@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+    <h1>{% trans 'Studies' %}</h1>
+
+    {% if not attributeset %}
+        <div class="alert alert-danger" role="alert">
+            <h2 class="alert-heading">{% trans 'No attributes provided' %}</h2>
+            <p>{% trans 'Please first provide attributes so we can check whether this person meets the study filters.' %}</p>
+        </div>
+    {% elif not studies %}
+        <div class="alert alert-danger" role="alert">
+            <h2 class="alert-heading">{% trans 'No matching studies found' %}</h2>
+            <p>{% trans 'This person does not meet the filters of the currently active studies.' %}</p>
+        </div>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{% trans 'Name' %}</th>
+                    <th>{% trans 'Actions' %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for study in studies %}
+                    <tr>
+                        <td>{{ study}}</td>
+                        <td><a href="#TODO" class="btn btn-outline-primary">{% trans 'Add' %}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <div class="mb-3">
+        <a href="{% url 'contacts:detail' object.pseudonym %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+    </div>
+{% endblock %}
