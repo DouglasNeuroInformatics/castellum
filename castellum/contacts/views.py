@@ -24,7 +24,6 @@ from urllib.parse import urlencode
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic import DetailView
@@ -86,7 +85,7 @@ class ContactCreatePreludeView(LoginRequiredMixin, FormView):
     template_name = 'contacts/contact_create_prelude.html'
 
     def form_valid(self, form):
-        return render(self.request, self.template_name, context={
+        return self.render_to_response({
             'form': form,
             'query': '?' + urlencode(form.cleaned_data),
             'matches': Contact.objects.fuzzy_filter(**form.cleaned_data),
