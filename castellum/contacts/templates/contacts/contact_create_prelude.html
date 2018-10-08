@@ -53,6 +53,6 @@
             <p class="alert alert-warning" role="alert">{% trans 'No matches found' %}</p>
         {% endif %}
 
-        <a href="{% url 'contacts:create-form' %}{{ query }}&matches=1" class="btn btn-primary">{% trans "Create new contact" %}</a>
+        <a href="{% url 'contacts:create-form' %}{{ query }}" class="btn btn-primary">{% trans "Create new contact" %}</a>
     {% endif %}
 {% endblock %}
