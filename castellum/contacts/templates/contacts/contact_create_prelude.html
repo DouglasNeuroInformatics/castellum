@@ -2,12 +2,10 @@
 {% load i18n bootstrap4 %}
 
 {% block content %}
-    <form method="post">
+    <form method="get">
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
-
-        {% csrf_token %}
 
         <div class="row">
             <div class="col-md-6">

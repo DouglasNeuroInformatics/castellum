@@ -27,7 +27,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic import DetailView
-from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
@@ -80,16 +79,25 @@ class ContactDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class ContactCreatePreludeView(LoginRequiredMixin, FormView):
-    form_class = PreludeForm
+class ContactCreatePreludeView(LoginRequiredMixin, TemplateView):
     template_name = 'contacts/contact_create_prelude.html'
 
-    def form_valid(self, form):
-        return self.render_to_response({
-            'form': form,
-            'query': '?' + urlencode(form.cleaned_data),
-            'matches': Contact.objects.fuzzy_filter(**form.cleaned_data),
-        })
+    def get(self, request, *args, **kwargs):
+        form_kwargs = {}
+        if request.GET:
+            form_kwargs['data'] = request.GET
+        form = PreludeForm(**form_kwargs)
+
+        if form.is_valid():
+            return self.render_to_response({
+                'form': form,
+                'query': '?' + urlencode(form.cleaned_data),
+                'matches': Contact.objects.fuzzy_filter(**form.cleaned_data),
+            })
+        else:
+            return self.render_to_response({
+                'form': form,
+            })
 
 
 class ContactCreateView(LoginRequiredMixin, CreateView):
