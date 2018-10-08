@@ -28,8 +28,11 @@ from django.views.generic import DetailView
 from castellum.contacts.models import Contact
 from castellum.contacts.views import ContactUpdateView as _ContactUpdateView
 from castellum.pseudonyms.helpers import resolve_pseudonym
+from castellum.studies.models import Study
 
+from ..models import AttributeSet
 from ..models import ParticipationRequest
+from ..models import get_study_filter_q
 from .mixins import PublishedStudyMixin
 
 
@@ -59,10 +62,30 @@ class ContactStudiesView(LoginRequiredMixin, DetailView):
     slug_field = 'pseudonym'
     template_name = 'recruitment/contact_studies.html'
 
+    def has_participation_request(self, attributeset, study):
+        pseudonym = resolve_pseudonym(
+            AttributeSet.domain, attributeset.pseudonym, study.domain)
+        return ParticipationRequest.objects.filter(study=study, pseudonym=pseudonym).exists()
+
+    def get_studies(self, attributeset):
+        qs = AttributeSet.objects.filter(pk=attributeset.pk)
+        for study in Study.objects.filter(published=True):
+            if qs.filter(get_study_filter_q(study)).exists():
+                if not self.has_participation_request(attributeset, study):
+                    yield study
+
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
 
-        data['attributeset'] = None
-        data['studies'] = []
+        attributeset_pseudonym = resolve_pseudonym(
+            Contact.domain, self.object.pseudonym, AttributeSet.domain)
+        try:
+            attributeset = AttributeSet.objects.get(pseudonym=attributeset_pseudonym)
+        except AttributeSet.DoesNotExist:
+            attributeset = None
+        data['attributeset'] = attributeset
+
+        if attributeset:
+            data['studies'] = list(self.get_studies(attributeset))
 
         return data
