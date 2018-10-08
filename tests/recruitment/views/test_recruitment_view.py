@@ -1,7 +1,6 @@
 import uuid
 from itertools import cycle
 
-from django.conf import settings
 from django.contrib.messages import get_messages
 
 import pytest
@@ -50,7 +49,7 @@ def test_post_when_more_then_double_minimal_subject_count(client, user, publishe
     contact_pseudonym = mommy.make(Pseudonym,
                                    subject_id=1,
                                    pseudonym=uuid.uuid4(),
-                                   domain=settings.DOMAINS['contact'])
+                                   domain=Contact.domain)
     mommy.make(Contact, pseudonym=contact_pseudonym)
     pseudonyms = mommy.make(Pseudonym,
                             subject_id=1,

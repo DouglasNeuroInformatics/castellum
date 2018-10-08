@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n bootstrap4 utils %}
+
+{% block content %}
+    {% for dataset in dataset_list %}
+        <h1>{{ dataset|model_verbose_name }}</h1>
+        <table class="table">
+            {% for field_name in dataset|field_names %}
+                {% if field_name != 'id' and field_name != 'pseudonym' %}
+                    <tr>
+                        <th>{{ dataset|verbose_name:field_name }}</th>
+                        <td>{{ dataset|display:field_name|default:_('not provided') }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    {% endfor %}
+{% endblock %}

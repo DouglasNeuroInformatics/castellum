@@ -68,6 +68,8 @@ class ContactManager(models.Manager):
 
 
 class Contact(SubjectData):
+    domain = settings.DOMAINS['contact']
+
     GENDER = (
         ("f", _("female")),
         ("m", _("male")),
@@ -114,6 +116,10 @@ class Contact(SubjectData):
 
     objects = ContactManager()
 
+    class Meta:
+        verbose_name = _('contact')
+        verbose_name_plural = _('contacts')
+
     @property
     def age(self):
         if self.birthday:
@@ -138,9 +144,24 @@ class Contact(SubjectData):
             return hours.filter(hour=now.hour).exists()
         return False
 
+    def get_availability_monday_display(self):
+        return ', '.join(str(ts.hour) for ts in self.availability_monday.all())
+
+    def get_availability_tuesday_display(self):
+        return ', '.join(str(ts.hour) for ts in self.availability_tuesday.all())
+
+    def get_availability_wednesday_display(self):
+        return ', '.join(str(ts.hour) for ts in self.availability_wednesday.all())
+
+    def get_availability_thursday_display(self):
+        return ', '.join(str(ts.hour) for ts in self.availability_thursday.all())
+
+    def get_availability_friday_display(self):
+        return ', '.join(str(ts.hour) for ts in self.availability_friday.all())
+
     def save(self, *args, **kwargs):
         if not self.pseudonym:
-            self.pseudonym = create_pseudonym(settings.DOMAINS['contact'])
+            self.pseudonym = create_pseudonym(Contact.domain)
 
         self.first_name_phonetic = phonetic(self.first_name)
         self.last_name_phonetic = phonetic(self.last_name)

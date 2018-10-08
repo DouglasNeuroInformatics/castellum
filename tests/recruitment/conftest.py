@@ -11,7 +11,7 @@ from castellum.recruitment.models import ParticipationRequest
 @pytest.fixture
 def attributeset(contact):
     pseudonym = resolve_pseudonym(
-        settings.DOMAINS['contact'], contact.pseudonym, settings.DOMAINS['attributeset'])
+        settings.DOMAINS['contact'], contact.pseudonym, AttributeSet.domain)
     return mommy.make(AttributeSet, pseudonym=pseudonym)
 
 

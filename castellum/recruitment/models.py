@@ -21,6 +21,7 @@
 
 import datetime
 
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -37,6 +38,8 @@ from .fields import AgeField
 
 
 class AttributeSet(SubjectData):
+    domain = settings.DOMAINS['attributeset']
+
     filter_fields = {
         'date_of_birth': 'AgeFilterField',
     }
@@ -50,6 +53,10 @@ class AttributeSet(SubjectData):
     ))
     first_language = models.CharField(_('first Language'), blank=True, max_length=5)
     date_of_birth = DateField(_('date of birth'), null=True, blank=True)
+
+    class Meta:
+        verbose_name = _('attribute set')
+        verbose_name_plural = _('attribute sets')
 
     def get_absolute_url(self):
         return reverse('recruitment:attributes_detail', args=[self.pseudonym])
@@ -91,6 +98,14 @@ class ParticipationRequest(SubjectData):
     status = models.IntegerField(
         _('status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
     updated_at = DateTimeField(_('last updated at'), blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('participation request')
+        verbose_name_plural = _('participation requests')
+
+    @classmethod
+    def get_by_pseudonym(cls, domain, pseudonym):
+        return cls.objects.get(study__domain=domain, pseudonym=pseudonym)
 
 
 class SubjectFilterGroup(models.Model):
