@@ -103,6 +103,10 @@ class ParticipationRequest(SubjectData):
         return self.revisions.order_by('-created_at')[0]
 
     @property
+    def tries(self):
+        return self.revisions.count() - 1
+
+    @property
     def updated_at(self):
         return self.latest.created_at
 
