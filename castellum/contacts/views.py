@@ -160,16 +160,24 @@ class ContactUpdateView(LoginRequiredMixin, UpdateView):
         return result
 
 
-class RequestCreateView(LoginRequiredMixin, FormView):
-    form_class = PreludeForm
+class RequestCreateView(LoginRequiredMixin, TemplateView):
     template_name = 'contacts/subjectexportrequest_form.html'
 
-    def form_valid(self, form):
-        return self.render_to_response({
-            'form': form,
-            'query': '?' + urlencode(form.cleaned_data),
-            'matches': Contact.objects.fuzzy_filter(**form.cleaned_data),
-        })
+    def get(self, request, *args, **kwargs):
+        form_kwargs = {}
+        if request.GET:
+            form_kwargs['data'] = request.GET
+        form = PreludeForm(**form_kwargs)
+
+        if form.is_valid():
+            return self.render_to_response({
+                'form': form,
+                'matches': Contact.objects.fuzzy_filter(**form.cleaned_data),
+            })
+        else:
+            return self.render_to_response({
+                'form': form,
+            })
 
 
 class ContactExportView(LoginRequiredMixin, DetailView):
