@@ -45,7 +45,7 @@ class AgeField(forms.MultiValueField):
 
     def __init__(self, **kwargs):
         fields = [
-            forms.IntegerField(error_messages={}, max_value=1000),
+            forms.IntegerField(error_messages={}, min_value=0, max_value=1000),
             forms.CharField(error_messages={}),
         ]
         super().__init__(fields=fields, **kwargs)
