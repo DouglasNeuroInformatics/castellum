@@ -12,7 +12,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" />
-
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css' %}" />
 </head>
 <body {% if user.is_authenticated %}data-logout-timeout="{{ user.logout_timeout.total_seconds }}"{% endif %}>
     <header class="bg-dark">
@@ -71,5 +71,10 @@
     {% if user.is_authenticated %}
         <script src="{% static 'autologout.js' %}"></script>
     {% endif %}
+
+    <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'bootstrap-datepicker/dist/locales/bootstrap-datepicker.de.min.js' %}"></script>
+    <script src="{% static 'js/datepicker.js' %}"></script>
 </body>
 </html>

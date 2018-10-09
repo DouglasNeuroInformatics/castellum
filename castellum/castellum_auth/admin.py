@@ -22,7 +22,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils import timezone
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 from .forms import UserCreationAdminForm
 from .models import User
