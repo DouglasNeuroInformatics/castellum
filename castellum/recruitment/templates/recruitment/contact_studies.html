@@ -23,10 +23,10 @@
                 </tr>
             </thead>
             <tbody>
-                {% for study in studies %}
+                {% for study, pseudonym in studies %}
                     <tr>
                         <td>{{ study}}</td>
-                        <td><a href="#TODO" class="btn btn-outline-primary">{% trans 'Add' %}</a></td>
+                        <td><a href="{% url 'recruitment:contact' study.pk pseudonym 'contacts' %}" class="btn btn-outline-primary">{% trans 'Add' %}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

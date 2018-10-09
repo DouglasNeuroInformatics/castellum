@@ -62,17 +62,15 @@ class ContactStudiesView(LoginRequiredMixin, DetailView):
     slug_field = 'pseudonym'
     template_name = 'recruitment/contact_studies.html'
 
-    def has_participation_request(self, attributeset, study):
-        pseudonym = resolve_pseudonym(
-            AttributeSet.domain, attributeset.pseudonym, study.domain)
-        return ParticipationRequest.objects.filter(study=study, pseudonym=pseudonym).exists()
-
     def get_studies(self, attributeset):
         qs = AttributeSet.objects.filter(pk=attributeset.pk)
         for study in Study.objects.filter(published=True):
             if qs.filter(get_study_filter_q(study)).exists():
-                if not self.has_participation_request(attributeset, study):
-                    yield study
+                pseudonym = resolve_pseudonym(
+                    AttributeSet.domain, attributeset.pseudonym, study.domain)
+                request = ParticipationRequest.objects.filter(study=study, pseudonym=pseudonym)
+                if not request.exists():
+                    yield study, pseudonym
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
