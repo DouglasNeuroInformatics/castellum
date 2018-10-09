@@ -176,7 +176,7 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
             return queryset.filter_not_contacted(study=self.study)
         elif self.kwargs['path'] == 'not-reached':
             return queryset.filter_not_reached(study=self.study)
-        else:
+        elif self.kwargs['path'] != 'contacts':
             raise Http404
 
         return queryset
@@ -199,16 +199,19 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
         context['contact'] = contact
         return context
 
-    def form_valid(self, form):
-        # needs to be executed before object.save()
-        pseudonyms = list(self.get_queryset().values_list("pseudonym", flat=True))
-
+    def save(self, form):
         self.object = form.save()
 
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             self.study.domain,
             self.object.pseudonym,
             self.request.user.pk))
+
+    def form_valid_recruitment(self, form):
+        # needs to be executed before object.save()
+        pseudonyms = list(self.get_queryset().values_list("pseudonym", flat=True))
+
+        self.save(form)
 
         next_pseudonym_idx = None
         if "btn_back" not in form.data and len(pseudonyms) - 1 != 0:
@@ -227,3 +230,14 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
                 self.object.study.pk,
                 pseudonyms[next_pseudonym_idx],
                 self.kwargs['path'])
+
+    def form_valid(self, form):
+        if self.kwargs['path'] == 'contacts':
+            self.save(form)
+            contact_pseudonym = resolve_pseudonym(
+                self.study.domain,
+                self.object.pseudonym,
+                Contact.domain)
+            return redirect('contacts:detail', contact_pseudonym)
+        else:
+            return self.form_valid_recruitment(form)
