@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load i18n bootstrap4 %}
+
+{% block content %}
+    <form method="get">
+        {% for error in form.non_field_errors %}
+            <p class="alert alert-danger" role="alert">{{ error }}</p>
+        {% endfor %}
+
+        <div class="row">
+            <div class="col-md-6">
+                {% bootstrap_field form.first_name %}
+            </div>
+            <div class="col-md-6">
+                {% bootstrap_field form.last_name %}
+            </div>
+        </div>
+        {% bootstrap_field form.birthday %}
+
+        <div class="mb-3">
+            <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+            <input type="submit" class="btn btn-primary" value="{% trans 'Find' %}" />
+        </div>
+    </form>
+
+    {% if form.is_valid %}
+        {% if matches %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>{% trans 'Full name' %}</th>
+                        <th>{% trans 'Address' %}</th>
+                        <th>{% trans 'Email' %}</th>
+                        <th>{% trans 'Action' %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contact in matches %}
+                        <tr>
+                            <td>{{ contact.full_name }}</td>
+                            <td>{{ contact.address }}</td>
+                            <td>{{ contact.email }}</td>
+                            <td>
+                                <a class='btn btn-outline-primary' href="{% url 'contacts:export' contact.pseudonym %}">{% trans 'Export' %}</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="alert alert-warning" role="alert">{% trans 'No matches found' %}</p>
+        {% endif %}
+    {% endif %}
+{% endblock %}
