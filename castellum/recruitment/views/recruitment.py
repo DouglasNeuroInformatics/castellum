@@ -194,13 +194,7 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
             Contact.domain)
         contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
 
-        if self.kwargs['path'] == 'not-contacted':
-            context['not_contacted_view'] = True
-        elif self.kwargs['path'] == 'not-reached':
-            context['not_reached_view'] = True
-        else:
-            raise Http404
-
+        context['path'] = self.kwargs['path']
         context['study'] = self.study
         context['contact'] = contact
         return context
