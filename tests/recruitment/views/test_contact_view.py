@@ -175,3 +175,28 @@ def test_create_revision_on_update(client, user, participation_request):
     client.post(url, {'status': 2})
 
     assert ParticipationRequestRevision.objects.count() == 2
+
+
+def test_post_redirect_from_contacts(client, user, participation_request):
+    participation_request.study.published = True
+    participation_request.study.save()
+    participation_request.status = 1
+    participation_request.save()
+
+    client.force_login(user)
+    url = '/recruitment/{}/{}/contacts/'.format(participation_request.study.pk,
+                                                participation_request.pseudonym)
+    response = client.post(url, {'status': 2})
+    assert response.status_code == 302
+    assert response.url.startswith('/subjects/')
+
+
+def test_404_on_invalid_path(client, user, participation_request):
+    participation_request.study.published = True
+    participation_request.study.save()
+
+    client.force_login(user)
+    url = '/recruitment/{}/{}/foo/'.format(participation_request.study.pk,
+                                           participation_request.pseudonym)
+    response = client.get(url)
+    assert response.status_code == 404
