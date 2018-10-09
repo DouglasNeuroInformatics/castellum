@@ -2,8 +2,12 @@ import pytest
 
 
 @pytest.mark.parametrize('age,expected', (
-    (2, True),
-    (-2, False),
+    (-1, False),
+    (0, True),
+    (1, True),
+    (999, True),
+    (1000, True),
+    (1001, False),
 ))
 def test_error_if_age_out_of_limits(client, user, filter_group, age, expected):
     client.force_login(user)
