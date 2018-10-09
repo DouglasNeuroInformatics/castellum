@@ -23,14 +23,9 @@ import logging
 from urllib.parse import urlencode
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseBadRequest
-from django.shortcuts import redirect
-from django.shortcuts import render
 from django.urls import reverse
-from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import DetailView
-from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
@@ -86,34 +81,25 @@ class ContactDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class ContactCreatePreludeView(LoginRequiredMixin, FormView):
-    form_class = PreludeForm
+class ContactCreatePreludeView(LoginRequiredMixin, TemplateView):
     template_name = 'contacts/contact_create_prelude.html'
 
-    def form_valid(self, form):
-        url = reverse('contacts:create-matches') + '?' + urlencode(form.cleaned_data)
-        return redirect(url)
-
-
-class ContactCreateMatchesView(LoginRequiredMixin, View):
-    template_name = 'contacts/contact_create_matches.html'
-
     def get(self, request, *args, **kwargs):
-        form = PreludeForm(request.GET)
-        if not form.is_valid():
-            return HttpResponseBadRequest()
+        form_kwargs = {}
+        if request.GET:
+            form_kwargs['data'] = request.GET
+        form = PreludeForm(**form_kwargs)
 
-        query = '?' + urlencode(form.cleaned_data)
-        matches = Contact.objects.fuzzy_filter(**form.cleaned_data)
-
-        if matches:
-            return render(self.request, self.template_name, context={
-                'query': query,
-                'object_list': matches,
+        if form.is_valid():
+            return self.render_to_response({
+                'form': form,
+                'query': '?' + urlencode(form.cleaned_data),
+                'matches': Contact.objects.fuzzy_filter(**form.cleaned_data),
             })
         else:
-            url = reverse('contacts:create-form') + query
-            return redirect(url)
+            return self.render_to_response({
+                'form': form,
+            })
 
 
 class ContactCreateView(LoginRequiredMixin, CreateView):
@@ -121,9 +107,7 @@ class ContactCreateView(LoginRequiredMixin, CreateView):
     form_class = ContactForm
 
     def get_cancel_url(self):
-        if self.request.GET.get('matches'):
-            return reverse('contacts:create-matches') + '?' + self.request.META['QUERY_STRING']
-        return reverse('contacts:create')
+        return reverse('contacts:create') + '?' + self.request.META['QUERY_STRING']
 
     def get_initial(self):
         initial = super().get_initial()
@@ -147,9 +131,7 @@ class ContactUpdateView(LoginRequiredMixin, UpdateView):
     slug_field = 'pseudonym'
 
     def get_cancel_url(self):
-        if self.request.GET.get('matches'):
-            return reverse('contacts:create-matches') + '?' + self.request.META['QUERY_STRING']
-        return reverse('contacts:index')
+        return reverse('contacts:create') + '?' + self.request.META['QUERY_STRING']
 
     def form_valid(self, form):
         result = super().form_valid(form)
