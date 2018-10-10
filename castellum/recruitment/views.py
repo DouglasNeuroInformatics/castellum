@@ -339,6 +339,13 @@ class FilterGroupListView(LoginRequiredMixin, ListView):
         data['total_count'] = AttributeSet.apply_study_filter(self.study).count()
         return data
 
+    def get(self, request, *args, **kwargs):
+        if self.get_queryset().exists():
+            return super().get(request, *args, **kwargs)
+        else:
+            group = SubjectFilterGroup.objects.create(study=self.study)
+            return redirect(group.get_absolute_url())
+
 
 class FilterGroupCreateView(LoginRequiredMixin, UnpublishedStudyMixin, View):
     def post(self, *args, **kwargs):
