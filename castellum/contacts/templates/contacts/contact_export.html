@@ -6,7 +6,7 @@
         <h1>{{ dataset|model_verbose_name }}</h1>
         <table class="table">
             {% for field_name in dataset|field_names %}
-                {% if field_name != 'id' and field_name != 'pseudonym' %}
+                {% if field_name != 'id' %}
                     <tr>
                         <th>{{ dataset|verbose_name:field_name }}</th>
                         <td>{{ dataset|display:field_name|default:_('not provided') }}</td>

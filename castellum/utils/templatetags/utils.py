@@ -49,4 +49,4 @@ def display(instance, field_name):
 
 @register.filter(name='field_names')
 def field_names(instance):
-    return [field.name for field in instance._meta.get_fields()]
+    return [field.name for field in instance._meta.get_fields() if field.editable]
