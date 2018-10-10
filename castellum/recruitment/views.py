@@ -54,7 +54,7 @@ from .models import ParticipationRequest
 from .models import SubjectFilter
 from .models import SubjectFilterGroup
 
-monitoring_logger = logging.getLogger('monitoring.contact_data')
+monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
 class PublishedStudyMixin:
@@ -246,7 +246,7 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
         self.object.updated_at = timezone.now()
         self.object.save()
 
-        monitoring_logger.info('ParticipationRequest update: {}:{} by {}'.format(
+        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             self.study.domain,
             self.object.pseudonym,
             self.request.user.pk))
@@ -314,7 +314,7 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         result = super().form_valid(form)
-        monitoring_logger.info('ContactData update: {}:{} by {}'.format(
+        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             AttributeSet.domain,
             self.object.pseudonym,
             self.request.user.pk))

@@ -40,7 +40,7 @@ from .forms import PreludeForm
 from .models import Contact
 from .models import TimeSlot
 
-monitoring_logger = logging.getLogger('monitoring.contact_data')
+monitoring_logger = logging.getLogger('monitoring.contacts')
 
 
 class ContactIndexView(LoginRequiredMixin, TemplateView):
@@ -135,7 +135,7 @@ class ContactUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         result = super().form_valid(form)
-        monitoring_logger.info('ContactData update: {}:{} by {}'.format(
+        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             Contact.domain,
             self.object.pseudonym,
             self.request.user.pk))
