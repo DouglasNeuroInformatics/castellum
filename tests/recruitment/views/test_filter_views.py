@@ -36,8 +36,15 @@ def test_delete_other_study(client, user, subject_filter_group, study):
     assert response.status_code == 404
 
 
-def test_list_200(client, user, unpublished_study):
+def test_nonempty_list_200(client, user, subject_filter_group, unpublished_study):
     client.force_login(user)
     url = '/recruitment/filter/{}/'.format(unpublished_study.pk)
     response = client.get(url)
     assert response.status_code == 200
+
+
+def test_empty_list_302(client, user, unpublished_study):
+    client.force_login(user)
+    url = '/recruitment/filter/{}/'.format(unpublished_study.pk)
+    response = client.get(url)
+    assert response.status_code == 302
