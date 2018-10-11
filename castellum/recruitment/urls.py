@@ -21,18 +21,18 @@
 
 from django.urls import path
 
-from .views import AttributeSetDetailView
-from .views import AttributeSetUpdateView
-from .views import ContactUpdateView
-from .views import ContactView
-from .views import FilterGroupCreateView
-from .views import FilterGroupDeleteView
-from .views import FilterGroupDuplicateView
-from .views import FilterGroupListView
-from .views import FilterGroupUpdateView
-from .views import RecruitmentViewNotContacted
-from .views import RecruitmentViewNotReached
-from .views import StudyChoiceView
+from .views.attributesets import AttributeSetDetailView
+from .views.attributesets import AttributeSetUpdateView
+from .views.contacts import ContactUpdateView
+from .views.filters import FilterGroupCreateView
+from .views.filters import FilterGroupDeleteView
+from .views.filters import FilterGroupDuplicateView
+from .views.filters import FilterGroupListView
+from .views.filters import FilterGroupUpdateView
+from .views.recruitment import ContactView
+from .views.recruitment import RecruitmentViewNotContacted
+from .views.recruitment import RecruitmentViewNotReached
+from .views.recruitment import StudyChoiceView
 
 app_name = 'recruitment'
 urlpatterns = [

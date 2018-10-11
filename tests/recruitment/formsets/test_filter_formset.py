@@ -1,4 +1,4 @@
-from castellum.recruitment.views import FilterFormSet
+from castellum.recruitment.views.filters import FilterFormSet
 from castellum.recruitment.models import SubjectFilter
 from django.forms import modelformset_factory
 
