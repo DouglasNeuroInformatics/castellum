@@ -19,7 +19,7 @@
             <td>
                 <a class="btn btn-outline-primary" href="{% url 'studies:update' study.pk %}">{% trans 'Edit' %}</a>
                 <a class='btn btn-outline-primary'
-                   href="{% url 'recruitment:filtergroup_index' study.pk %}">{% if study.published %}{% trans 'view Filters' %}{%else%}{% trans 'add Filters' %}{%endif%}</a>
+                   href="{% url 'recruitment:filtergroup_index' study.pk %}">{% if study.published %}{% trans 'view Filters' %}{%else%}{% trans 'edit Filters' %}{%endif%}</a>
                 <form class="d-inline" method="post" action="{% url 'studies:publish' study.pk %}">
                     {% csrf_token %}
 
