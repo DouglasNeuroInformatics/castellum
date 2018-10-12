@@ -38,10 +38,7 @@ def model_verbose_name(instance, plural=False):
 @register.filter(name='display')
 def display(instance, field_name):
     getter = getattr(instance, 'get_{}_display'.format(field_name), None)
-    if getter:
-        return getter()
-    else:
-        return getattr(instance, field_name)
+    return getter() if getter else getattr(instance, field_name)
 
 
 @register.filter(name='field_names')
