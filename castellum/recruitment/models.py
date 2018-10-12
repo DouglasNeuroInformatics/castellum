@@ -130,12 +130,6 @@ class SubjectFilterGroup(models.Model):
                 group=clone, field_name=f.field_name, operator=f.operator, value=f.value)
         return clone
 
-    def __str__(self):
-        if self.subjectfilter_set.count() > 0:
-            return ' AND '.join(str(f) for f in self.subjectfilter_set.all())
-        else:
-            return str(_('Filter group without filters'))
-
 
 class SubjectFilter(models.Model):
     group = models.ForeignKey(SubjectFilterGroup, on_delete=models.CASCADE)
