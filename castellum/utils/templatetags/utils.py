@@ -32,10 +32,7 @@ def verbose_name(instance, field_name):
 
 @register.filter(name='model_verbose_name')
 def model_verbose_name(instance, plural=False):
-    if plural:
-        return instance._meta.verbose_name_plural
-    else:
-        return instance._meta.verbose_name
+    return instance._meta.verbose_name_plural if plural else instance._meta.verbose_name
 
 
 @register.filter(name='display')
