@@ -122,10 +122,7 @@ class Contact(SubjectData):
 
     @property
     def age(self):
-        if self.birthday:
-            delta = relativedelta(date.today(), self.birthday)
-            return delta.years
-        return None
+        return relativedelta(date.today(), self.birthday).years
 
     @property
     def available(self):
