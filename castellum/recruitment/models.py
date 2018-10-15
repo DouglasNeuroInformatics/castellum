@@ -108,8 +108,22 @@ class ParticipationRequest(SubjectData):
         return cls.objects.get(study__domain=domain, pseudonym=pseudonym)
 
 
+class SubjectFilterGroupManager(models.Manager):
+    def clone(self, original_group):
+        cloned_group = SubjectFilterGroup.objects.create(study=original_group.study)
+        SubjectFilter.objects.bulk_create(self.clone_filters(original_group, cloned_group))
+        return cloned_group
+
+    def clone_filters(self, original_group, cloned_group):
+        for f in original_group.subjectfilter_set.all():
+            yield SubjectFilter(group=cloned_group, field_name=f.field_name, operator=f.operator,
+                                value=f.value)
+
+
 class SubjectFilterGroup(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
+
+    objects = SubjectFilterGroupManager()
 
     def get_absolute_url(self):
         return reverse('recruitment:filtergroup_update', args=[self.study.pk, self.pk])
@@ -122,13 +136,6 @@ class SubjectFilterGroup(models.Model):
 
     def get_subject_count(self):
         return AttributeSet.objects.filter(self.to_q()).count()
-
-    def duplicate(self):
-        clone = SubjectFilterGroup.objects.create(study=self.study)
-        for f in self.subjectfilter_set.all():
-            SubjectFilter.objects.create(
-                group=clone, field_name=f.field_name, operator=f.operator, value=f.value)
-        return clone
 
 
 class SubjectFilter(models.Model):
