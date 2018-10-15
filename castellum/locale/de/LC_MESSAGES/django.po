@@ -233,18 +233,14 @@ msgid "not available until"
 msgstr "nicht erreichbar bis"
 
 #: castellum/contacts/models/contact.py:120
-#, fuzzy
-#| msgid "Contacts"
 msgid "contact"
-msgstr "Probanden"
+msgstr "Kontakt"
 
 #: castellum/contacts/models/contact.py:121
 #: castellum/contacts/templates/contacts/contact_list.html:5
 #: castellum/recruitment/templates/recruitment/recruitment.html:7
-#, fuzzy
-#| msgid "Contacts"
 msgid "contacts"
-msgstr "Probanden"
+msgstr "Kontakte"
 
 #: castellum/contacts/templates/contacts/contact_create_prelude.html:21
 #: castellum/contacts/templates/contacts/contact_detail.html:70
@@ -303,10 +299,8 @@ msgstr "Bearbeiten"
 
 #: castellum/contacts/templates/contacts/contact_create_prelude.html:51
 #: castellum/contacts/templates/contacts/subjectexportrequest_form.html:51
-#, fuzzy
-#| msgid "matches"
 msgid "No matches found"
-msgstr "Treffer"
+msgstr "Keine Treffer gefunden"
 
 #: castellum/contacts/templates/contacts/contact_create_prelude.html:54
 #: castellum/contacts/templates/contacts/contact_index.html:9
@@ -375,11 +369,11 @@ msgstr "Seitennavigation"
 
 #: castellum/contacts/templates/contacts/subjectexportrequest_form.html:22
 msgid "Find"
-msgstr ""
+msgstr "Finden"
 
 #: castellum/contacts/templates/contacts/subjectexportrequest_form.html:44
 msgid "Export"
-msgstr ""
+msgstr "Exportieren"
 
 #: castellum/recruitment/fields.py:33 castellum/recruitment/models.py:207
 msgid "years"
@@ -415,14 +409,10 @@ msgstr "Geburtsdatum"
 
 #: castellum/recruitment/models.py:58
 #: castellum/recruitment/templates/recruitment/attributeset_detail.html:5
-#, fuzzy
-#| msgid "Attribute set"
 msgid "attribute set"
 msgstr "Merkmale"
 
 #: castellum/recruitment/models.py:59
-#, fuzzy
-#| msgid "Attribute set"
 msgid "attribute sets"
 msgstr "Merkmale"
 
@@ -455,16 +445,12 @@ msgid "last updated at"
 msgstr "Zuletzt aktualisiert"
 
 #: castellum/recruitment/models.py:103
-#, fuzzy
-#| msgid "status of participation request"
 msgid "participation request"
-msgstr "Teilnahmestatus"
+msgstr "Teilnahmeanfrage"
 
 #: castellum/recruitment/models.py:104
-#, fuzzy
-#| msgid "status of participation request"
 msgid "participation requests"
-msgstr "Teilnahmestatus"
+msgstr "Teilnahmeanfragen"
 
 #: castellum/recruitment/models.py:181
 msgid "before"
@@ -873,6 +859,3 @@ msgstr "SS:MM, z.B. 13:00"
 #: castellum/utils/forms.py:73
 msgid "e.g. 030 123456"
 msgstr "z.B. 030 123456"
-
-#~ msgid "Filter group without filters"
-#~ msgstr "Filtergruppe ohne Filter"
