@@ -31,7 +31,7 @@ BIRTHDAY = '1970-01-01'
     ('Meier', 'Schulze', False),
     ('Meier', 'Michel', False),
 ))
-def test_user_expiration_date(right, wrong, expected):
+def test_fuzzy_filter(right, wrong, expected):
     contact = Contact.objects.create(first_name=FIRST_NAME, last_name=right, birthday=BIRTHDAY)
     matches = Contact.objects.fuzzy_filter(FIRST_NAME, wrong, BIRTHDAY)
     if expected:
