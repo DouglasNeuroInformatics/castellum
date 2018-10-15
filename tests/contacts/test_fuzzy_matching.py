@@ -11,6 +11,8 @@ BIRTHDAY = '1970-01-01'
     # phonetic
     ('Meier', 'Mayer', True),
     ('Schmidt', 'Schmitt', True),
+    ('Hoffmann', 'Hofmann', True),
+    ('Sassen', 'Saaßen', True),
 
     # combinations
     ('Meier Schmidt', 'Meier', True),
@@ -21,11 +23,20 @@ BIRTHDAY = '1970-01-01'
     # typos
     ('Meier', 'Neier', True),
     ('Meier', 'Mier', True),
+    ('Meier', 'MEIER', True),
+    ('Meier', 'mEIER', True),
+    ('Jäger', 'Jaeger', True),
+    ('Böhm', 'B;hm', True),
+    ('Jäger', "J'ger", True),
+    ('Müller', 'M[ller', True),
+    # ('Mayer', 'Mazer', True), # fails
+    # ('Meier', 'Mei er', True), # fails
     # ('Meier', 'Meiek', True),  # fails
 
     # more than one category
     ('Meier Schmidt', 'Mayer', True),
     ('Meier Schmidt', 'Mier', True),
+    ('Sassen Schmidt', 'Saaßen', True),
 
     # not matches
     ('Meier', 'Schulze', False),
