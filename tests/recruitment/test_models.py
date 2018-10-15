@@ -16,8 +16,8 @@ def subject_filter_group(study):
 
 
 @pytest.mark.django_db
-def test_duplicate_with_empty_filter_group(subject_filter_group, study):
-    clone = subject_filter_group.duplicate()
+def test_clone_with_empty_filter_group(subject_filter_group, study):
+    clone = SubjectFilterGroup.objects.clone(subject_filter_group)
 
     assert subject_filter_group.id != clone.id
     assert study == clone.study
@@ -25,13 +25,13 @@ def test_duplicate_with_empty_filter_group(subject_filter_group, study):
 
 
 @pytest.mark.django_db
-def test_duplicate_with_multiple_filters(subject_filter_group, study):
+def test_clone_with_multiple_filters(subject_filter_group, study):
     SubjectFilter.objects.create(group=subject_filter_group, field_name="field1",
                                  operator="operator1", value="value1")
     SubjectFilter.objects.create(group=subject_filter_group, field_name="field2",
                                  operator="operator2", value="value2")
 
-    clone = subject_filter_group.duplicate()
+    clone = SubjectFilterGroup.objects.clone(subject_filter_group)
 
     assert subject_filter_group.id != clone.id
     assert study == clone.study

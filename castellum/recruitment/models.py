@@ -137,9 +137,6 @@ class SubjectFilterGroup(models.Model):
     def get_subject_count(self):
         return AttributeSet.objects.filter(self.to_q()).count()
 
-    def duplicate(self):
-        return SubjectFilterGroup.objects.clone(self)
-
 
 class SubjectFilter(models.Model):
     group = models.ForeignKey(SubjectFilterGroup, on_delete=models.CASCADE)
