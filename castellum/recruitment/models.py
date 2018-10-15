@@ -71,15 +71,53 @@ class AttributeSet(SubjectData):
         return queryset.filter(q)
 
 
+class ParticipationRequestQuerySet(models.QuerySet):
+
+    def filter_not_contacted(self):
+        return self.filter(status=ParticipationRequest.NOT_CONTACTED)
+
+    def filter_not_reached(self):
+        return self.filter(status=ParticipationRequest.NOT_REACHED)
+
+    def filter_unsuitable(self):
+        return self.filter(status=ParticipationRequest.UNSUITABLE)
+
+    def filter_invited(self):
+        return self.filter(status=ParticipationRequest.INVITED)
+
+    def filter_contacted(self):
+        return self.filter(status__in=[ParticipationRequest.UNSUITABLE,
+                                                      ParticipationRequest.INVITED])
+
+    def filter_distinct(self):
+        return self.order_by('pseudonym', '-created_at').distinct('pseudonym')
+
+
 class ParticipationRequestManager(models.Manager):
-    def filter_not_contacted(self, **kwargs):
-        return self.get_queryset().filter(status=ParticipationRequest.NOT_CONTACTED, **kwargs)
 
-    def filter_not_reached(self, **kwargs):
-        return self.get_queryset().filter(status=ParticipationRequest.NOT_REACHED, **kwargs)
+    def get_queryset(self):
+        return ParticipationRequestQuerySet(self.model, using=self._db)
+
+    def filter_not_contacted(self):
+        return self.get_queryset().filter_not_contacted()
+
+    def filter_not_reached(self):
+        return self.get_queryset().filter_not_reached()
+
+    def filter_unsuitable(self):
+        return self.get_queryset().filter_unsuitable()
+
+    def filter_invited(self):
+        return self.get_queryset().filter_invited()
+
+    def filter_contacted(self):
+        return self.get_queryset().filter_not_contacted()
+
+    def filter_distinct(self):
+        return self.get_queryset().filter_distinct()
 
 
-class ParticipationRequest(SubjectData):
+class ParticipationRequest(models.Model):
     NOT_CONTACTED = 0
     NOT_REACHED = 1
     UNSUITABLE = 2
@@ -93,11 +131,13 @@ class ParticipationRequest(SubjectData):
 
     objects = ParticipationRequestManager()
 
+    pseudonym = models.CharField(max_length=64, editable=False)
+
     study = models.ForeignKey(Study, verbose_name=_('study'), on_delete=models.CASCADE)
 
     status = models.IntegerField(
         _('status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
-    updated_at = DateTimeField(_('last updated at'), blank=True, null=True)
+    created_at = DateTimeField(_('created at'), blank=True, auto_now_add=True)
 
     class Meta:
         verbose_name = _('participation request')

@@ -27,7 +27,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
-from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView
 from django.views.generic import UpdateView
@@ -69,16 +68,17 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
             participants.append((participation, contact))
         context['participants'] = participants
 
-        queryset = ParticipationRequest.objects.filter(study=self.study)
-        context['all_count'] = queryset.count()
-        context['invited_count'] = queryset.filter(
-            status=ParticipationRequest.INVITED).count()
-        context['unsuitable_count'] = queryset.filter(
-            status=ParticipationRequest.UNSUITABLE).count()
-        context['not_reached_count'] = queryset.filter(
-            status=ParticipationRequest.NOT_REACHED).count()
-        context['not_contacted_count'] = queryset.filter(
-            status=ParticipationRequest.NOT_CONTACTED).count()
+        p = ParticipationRequest.objects
+        study_requests = p.filter(study=self.study)
+        context['all_count'] =  p.filter(study=self.study).filter_distinct().count()
+        context['invited_count'] = p.filter(study=self.study).\
+            filter_distinct().filter_invited().count()
+        context['unsuitable_count'] = p.filter(study=self.study).\
+            filter_distinct().filter_unsuitable().count()
+        context['not_reached_count'] = p.filter(study=self.study).\
+            filter_distinct().filter_not_reached().count()
+        context['not_contacted_count'] = p.filter(study=self.study).\
+            filter_distinct().filter_not_contacted().count()
         context['study'] = self.study
         return context
 
@@ -87,8 +87,8 @@ class RecruitmentViewNotReached(RecruitmentView):
 
     def get_queryset(self, queryset=None):
         if not queryset:
-            queryset = ParticipationRequest.objects
-        return queryset.filter_not_reached(study=self.study)
+            queryset = ParticipationRequest.objects.filter(study=self.study)
+        return queryset.filter_distinct().filter_not_reached()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -106,8 +106,8 @@ class RecruitmentViewNotContacted(RecruitmentView):
 
     def get_queryset(self, queryset=None):
         if not queryset:
-            queryset = ParticipationRequest.objects
-        return queryset.filter_not_contacted(study=self.study)
+            queryset = ParticipationRequest.objects.filter(study=self.study)
+        return queryset.filter_not_contacted()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -152,13 +152,18 @@ class RecruitmentViewNotContacted(RecruitmentView):
             attributeset.pseudonym,
             self.study.domain)
 
-        __, created = ParticipationRequest.objects.get_or_create(
-            study=self.study, pseudonym=participation_request_pseudonym)
-        if not created:
+        participation_requests = ParticipationRequest.objects.filter(
+            study=self.study, pseudonym=participation_request_pseudonym).filter_not_contacted()
+
+        if participation_requests:
             messages.error(request, _(
                 'Picked person already participates in the study. You can '
                 'just try again. But this might indicate that there are not '
                 'many matches left.'))
+            return self.get(request, *args, **kwargs)
+
+        ParticipationRequest.objects.create(study=self.study,
+                                            pseudonym=participation_request_pseudonym)
 
         return self.get(request, *args, **kwargs)
 
@@ -172,14 +177,12 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
     def get_queryset(self, queryset=None):
         if not queryset:
             queryset = ParticipationRequest.objects
-
         if self.kwargs['path'] == 'not-contacted':
-            return queryset.filter_not_contacted(study=self.study)
+            return queryset.filter(study=self.study).filter_distinct().filter_not_contacted()
         elif self.kwargs['path'] == 'not-reached':
-            return queryset.filter_not_reached(study=self.study)
+            return queryset.filter(study=self.study).filter_distinct().filter_not_reached()
         else:
             raise Http404
-
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -210,9 +213,7 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
         # needs to be executed before object.save()
         pseudonyms = list(self.get_queryset().values_list("pseudonym", flat=True))
 
-        self.object.updated_at = timezone.now()
         self.object.save()
-
         monitoring_logger.info('ParticipationRequest update: {}:{} by {}'.format(
             self.study.domain,
             self.object.pseudonym,

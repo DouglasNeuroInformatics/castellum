@@ -25,17 +25,36 @@ except ImportError:
 
 
 # Database
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'castellum_db',
+        'USER': 'castellum1',
+        'PASSWORD': 'castellum1',
+        'HOST': 'localhost',
+        'PORT': '',
     },
     'contacts': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'contacts.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'castellum_contacts_db',
+        'USER': 'castellum1',
+        'PASSWORD': 'castellum1',
+        'HOST': 'localhost',
+        'PORT': '',
     },
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     },
+#     'contacts': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'contacts.sqlite3'),
+#     },
+# }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
