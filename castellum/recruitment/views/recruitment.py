@@ -42,7 +42,7 @@ from ..models import AttributeSet
 from ..models import ParticipationRequest
 from .mixins import PublishedStudyMixin
 
-monitoring_logger = logging.getLogger('monitoring.contact_data')
+monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
 class StudyChoiceView(LoginRequiredMixin, ListView):
@@ -213,7 +213,7 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
         self.object.updated_at = timezone.now()
         self.object.save()
 
-        monitoring_logger.info('ParticipationRequest update: {}:{} by {}'.format(
+        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             self.study.domain,
             self.object.pseudonym,
             self.request.user.pk))

@@ -40,7 +40,7 @@ from .forms import PreludeForm
 from .models import Contact
 from .models import TimeSlot
 
-monitoring_logger = logging.getLogger('monitoring.contact_data')
+monitoring_logger = logging.getLogger('monitoring.contacts')
 
 
 class ContactIndexView(LoginRequiredMixin, TemplateView):
@@ -135,7 +135,7 @@ class ContactUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         result = super().form_valid(form)
-        monitoring_logger.info('ContactData update: {}:{} by {}'.format(
+        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             Contact.domain,
             self.object.pseudonym,
             self.request.user.pk))
@@ -152,6 +152,11 @@ class RequestCreateView(LoginRequiredMixin, TemplateView):
         form = PreludeForm(**form_kwargs)
 
         if form.is_valid():
+            monitoring_logger.info((
+                'GDPR-Request: {{first_name: "{first_name}"; last_name: "{last_name}"; '
+                'birthday: "{birthday}"}} by {user}'
+            ).format(user=request.user.pk, **form.cleaned_data))
+
             return self.render_to_response({
                 'form': form,
                 'matches': Contact.objects.fuzzy_filter(**form.cleaned_data),
@@ -169,6 +174,10 @@ class ContactExportView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        monitoring_logger.info('GDPR-Request export: {}:{} by {}'.format(
+            Contact.domain, self.object.pseudonym, self.request.user.pk))
+
         context['dataset_list'] = [self.object]
 
         pseudonyms = list_pseudonyms(Contact.domain, self.object.pseudonym)

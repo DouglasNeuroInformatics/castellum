@@ -30,7 +30,7 @@ from castellum.pseudonyms.helpers import resolve_pseudonym
 
 from ..models import AttributeSet
 
-monitoring_logger = logging.getLogger('monitoring.contact_data')
+monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
 class AttributeSetDetailView(LoginRequiredMixin, DetailView):
@@ -56,7 +56,7 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         result = super().form_valid(form)
-        monitoring_logger.info('ContactData update: {}:{} by {}'.format(
+        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             AttributeSet.domain,
             self.object.pseudonym,
             self.request.user.pk))
