@@ -28,6 +28,14 @@ def test_not_available_until_is_in_the_future():
     assert False is contact.available
 
 
+@pytest.mark.freeze_time("2020-10-31")
+@pytest.mark.django_db
+def test_contact_is_not_available_at_the_weekend():
+    contact = mommy.make(Contact)
+
+    assert False is contact.available
+
+
 @pytest.mark.parametrize('title,expected', (
     ('Dr.', 'Dr. Max Planck'),
     (None, 'Max Planck'),
