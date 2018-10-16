@@ -118,6 +118,9 @@ class ParticipationRequest(SubjectData):
     def updated_at(self):
         return self.latest.created_at
 
+    def get_revisions_display(self):
+        return ', '.join(str(r) for r in self.revisions.all())
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         ParticipationRequestRevision.objects.create(current=self, status=self.status)
@@ -141,6 +144,9 @@ class ParticipationRequestRevision(models.Model):
     status = models.IntegerField(
         choices=ParticipationRequest.STATUS_OPTIONS, default=ParticipationRequest.NOT_CONTACTED)
     created_at = DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '{}: {}'.format(self.created_at, self.get_status_display())
 
 
 class SubjectFilterGroupManager(models.Manager):
