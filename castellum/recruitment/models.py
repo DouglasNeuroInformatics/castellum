@@ -116,6 +116,18 @@ class ParticipationRequest(SubjectData):
 
 
 class ParticipationRequestRevision(models.Model):
+    """Revision history for ParticipationRequest.
+
+    Each time a ParticipationRequest is saved, an instance of ParticipationRequestRevision
+    if created. This way, we have a history of the ParticipationRequest.
+
+    The history is saved in separate model because of these reasons:
+
+    -   ``ParticipationRequest.pseudonym`` is unique.
+    -   Saving the history in the same ParticipationRequest model would degrade
+        performance because the table would be filled up with old revision.
+    """
+
     current = models.ForeignKey(
         ParticipationRequest, related_name='revisions', on_delete=models.CASCADE)
     status = models.IntegerField(
