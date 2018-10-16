@@ -104,7 +104,7 @@ class ParticipationRequest(SubjectData):
 
     @property
     def tries(self):
-        return self.revisions.count() - 1
+        return self.revisions.filter(status=ParticipationRequest.NOT_REACHED).count()
 
     @property
     def updated_at(self):
