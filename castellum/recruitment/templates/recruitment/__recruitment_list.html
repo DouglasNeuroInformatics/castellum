@@ -6,6 +6,10 @@
             <th>{% trans 'Pseudonym' %}</th>
             <th>{% trans 'Gender' %}</th>
             <th>{% trans 'Age' %}</th>
+            {% if not_reached_view %}
+                <th>{% trans 'Last contacted' %}</th>
+                <th>{% trans 'Tries' %}</th>
+            {% endif %}
             <th>{% trans 'Action' %}</th>
         </tr>
     </thead>
@@ -18,6 +22,8 @@
             {% if not_contacted_view %}
                 <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk participation.pseudonym 'not-contacted' %}">{% trans 'Call' %}</a></td>
             {% elif not_reached_view %}
+                <td>{{ participation.updated_at }}</td>
+                <td>{{ participation.tries }}</td>
                 <td><a class='btn btn-outline-primary' href="{% url 'recruitment:contact' study.pk participation.pseudonym 'not-reached' %}">{% trans 'Call' %}</a></td>
             {% endif %}
         </tr>

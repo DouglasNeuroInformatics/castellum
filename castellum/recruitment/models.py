@@ -97,7 +97,42 @@ class ParticipationRequest(SubjectData):
 
     status = models.IntegerField(
         _('status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
-    updated_at = DateTimeField(_('last updated at'), blank=True, null=True)
+
+    @property
+    def latest(self):
+        return self.revisions.order_by('-created_at')[0]
+
+    @property
+    def tries(self):
+        return self.revisions.filter(status=ParticipationRequest.NOT_REACHED).count()
+
+    @property
+    def updated_at(self):
+        return self.latest.created_at
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        ParticipationRequestRevision.objects.create(current=self, status=self.status)
+
+
+class ParticipationRequestRevision(models.Model):
+    """Revision history for ParticipationRequest.
+
+    Each time a ParticipationRequest is saved, an instance of ParticipationRequestRevision
+    if created. This way, we have a history of the ParticipationRequest.
+
+    The history is saved in separate model because of these reasons:
+
+    -   ``ParticipationRequest.pseudonym`` is unique.
+    -   Saving the history in the same ParticipationRequest model would degrade
+        performance because the table would be filled up with old revision.
+    """
+
+    current = models.ForeignKey(
+        ParticipationRequest, related_name='revisions', on_delete=models.CASCADE)
+    status = models.IntegerField(
+        choices=ParticipationRequest.STATUS_OPTIONS, default=ParticipationRequest.NOT_CONTACTED)
+    created_at = DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = _('participation request')

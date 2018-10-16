@@ -23,10 +23,12 @@ from django.contrib import admin
 
 from .models import AttributeSet
 from .models import ParticipationRequest
+from .models import ParticipationRequestRevision
 from .models import SubjectFilter
 from .models import SubjectFilterGroup
 
 admin.site.register(AttributeSet)
 admin.site.register(ParticipationRequest)
+admin.site.register(ParticipationRequestRevision)
 admin.site.register(SubjectFilter)
 admin.site.register(SubjectFilterGroup)
