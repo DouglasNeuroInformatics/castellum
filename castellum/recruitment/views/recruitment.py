@@ -169,6 +169,11 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
     slug_field = 'pseudonym'
     template_name = 'recruitment/contact.html'
 
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['status'] = None
+        return initial
+
     def get_queryset(self, queryset=None):
         if not queryset:
             queryset = ParticipationRequest.objects
