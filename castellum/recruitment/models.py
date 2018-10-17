@@ -98,6 +98,14 @@ class ParticipationRequest(SubjectData):
     status = models.IntegerField(
         _('status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
 
+    class Meta:
+        verbose_name = _('participation request')
+        verbose_name_plural = _('participation requests')
+
+    @classmethod
+    def get_by_pseudonym(cls, domain, pseudonym):
+        return cls.objects.get(study__domain=domain, pseudonym=pseudonym)
+
     @property
     def latest(self):
         return self.revisions.order_by('-created_at')[0]
@@ -109,6 +117,9 @@ class ParticipationRequest(SubjectData):
     @property
     def updated_at(self):
         return self.latest.created_at
+
+    def get_revisions_display(self):
+        return ', '.join(str(r) for r in self.revisions.all())
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -134,13 +145,8 @@ class ParticipationRequestRevision(models.Model):
         choices=ParticipationRequest.STATUS_OPTIONS, default=ParticipationRequest.NOT_CONTACTED)
     created_at = DateTimeField(auto_now_add=True)
 
-    class Meta:
-        verbose_name = _('participation request')
-        verbose_name_plural = _('participation requests')
-
-    @classmethod
-    def get_by_pseudonym(cls, domain, pseudonym):
-        return cls.objects.get(study__domain=domain, pseudonym=pseudonym)
+    def __str__(self):
+        return '{}: {}'.format(self.created_at, self.get_status_display())
 
 
 class SubjectFilterGroupManager(models.Manager):

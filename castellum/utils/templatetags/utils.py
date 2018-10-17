@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import template
+from django.db import models
 
 register = template.Library()
 
@@ -27,7 +28,11 @@ register = template.Library()
 @register.filter(name='verbose_name')
 def verbose_name(instance, field_name):
     field = instance._meta.get_field(field_name)
-    return field.verbose_name
+    if isinstance(field, models.Field):
+        return field.verbose_name
+    else:
+        # FIXME: backrefs do not have a verbose_name
+        return field.name
 
 
 @register.filter(name='model_verbose_name')
