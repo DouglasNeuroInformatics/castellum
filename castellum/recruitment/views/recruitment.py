@@ -97,11 +97,23 @@ class RecruitmentViewNotReached(RecruitmentView):
 
 class RecruitmentViewNotContacted(RecruitmentView):
 
-    def pick_random(self, qs):
-        count = qs.count()
-        if count != 0:
-            random_index = random.randint(0, count - 1)
-            return qs.all()[random_index]
+    def try_create_participation_request(self):
+        attributesets = list(AttributeSet.apply_study_filter(self.study))
+        random.shuffle(attributesets)
+
+        for attributeset in attributesets:
+            participation_request_pseudonym = resolve_pseudonym(
+                AttributeSet.domain,
+                attributeset.pseudonym,
+                self.study.domain)
+
+            __, created = ParticipationRequest.objects.get_or_create(
+                study=self.study, pseudonym=participation_request_pseudonym)
+
+            if created:
+                return True
+
+        return False
 
     def get_queryset(self, queryset=None):
         if not queryset:
@@ -140,24 +152,8 @@ class RecruitmentViewNotContacted(RecruitmentView):
                 'Please contact provided subjects before adding new ones.'
             ))
 
-        attributeset = self.pick_random(AttributeSet.apply_study_filter(self.study))
-
-        if attributeset is None:
+        if not self.try_create_participation_request():
             messages.error(request, _('We cannot find participants for this study.'))
-            return self.get(request, *args, **kwargs)
-
-        participation_request_pseudonym = resolve_pseudonym(
-            AttributeSet.domain,
-            attributeset.pseudonym,
-            self.study.domain)
-
-        __, created = ParticipationRequest.objects.get_or_create(
-            study=self.study, pseudonym=participation_request_pseudonym)
-        if not created:
-            messages.error(request, _(
-                'Picked person already participates in the study. You can '
-                'just try again. But this might indicate that there are not '
-                'many matches left.'))
 
         return self.get(request, *args, **kwargs)
 
