@@ -3,21 +3,21 @@
 
 {% block content %}
     <h2>{% trans 'Studies' %}</h2>
+    <div class="card-columns">
 
         {% for study in object_list %}
             <div class="card mb-3">
                 <div class="card-body">
-                    <h3 class="mb-0 card-title">{{ study.name|default:_('not provided') }}</h3>
+                    <h3 class="mb-0 card-title h4">{{ study.name|default:_('not provided') }}</h3>
                     <div class ="mb-2">{{ study|verbose_name:"contact_person" }}: {{ study.contact_person|default:_('not provided') }}</div>
-                    <div class="row mt-1">
-                        <div class="col-md-4 mt-1">
+                        <div class="mt-1">
                             <a class="btn btn-outline-primary btn-block btn-sm" href="{% url 'studies:update' study.pk %}">{% trans 'Edit' %}</a>
                         </div>
-                        <div class="col-md-4 mt-1">
+                        <div class="mt-1">
                             <a class='btn btn-outline-primary btn-block btn-sm text-truncate'
                                 href="{% url 'recruitment:filtergroup_index' study.pk %}">{% if study.published %}{% trans 'view Filters' %}{%else%}{% trans 'edit Filters' %}{%endif%}</a>
                         </div>
-                        <form class="col-md-4 mt-1" method="post" action="{% url 'studies:publish' study.pk %}">
+                        <form class="mt-1" method="post" action="{% url 'studies:publish' study.pk %}">
                             {% csrf_token %}
 
                             {% if study.published %}
@@ -30,11 +30,11 @@
                                 </button>
                             {% endif %}
                         </form>
-                    </div>
                 </div>
             </div>
         {% endfor %}
 
-    <a href="{% url 'index' %}" class="btn btn-outline-primary mr-3">{% trans "Back" %}</a>
+    </div>
+    <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
     <a href="{% url 'studies:create' %}" class="btn btn-primary">{% trans "Create new study" %}</a>
 {% endblock %}
