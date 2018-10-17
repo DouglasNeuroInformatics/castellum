@@ -97,23 +97,19 @@ class RecruitmentViewNotReached(RecruitmentView):
 
 class RecruitmentViewNotContacted(RecruitmentView):
 
-    def pick_random(self, qs):
-        count = qs.count()
-        if count != 0:
-            random_index = random.randint(0, count - 1)
-            return qs.all()[random_index]
-
     def get_participation_request(self):
 
-        attributesets = AttributeSet.apply_study_filter(self.study)
+        attributesets = list(AttributeSet.apply_study_filter(self.study).values_list('pseudonym',
+                                                                                     flat=True))
 
-        while attributesets.count() > 0:
+        while len(attributesets) > 0:
 
-            attributeset = self.pick_random(attributesets)
+            random_index = random.randint(0, len(attributesets) - 1)
+            pseudonym = attributesets[random_index]
 
             participation_request_pseudonym = resolve_pseudonym(
                 settings.DOMAINS['attributeset'],
-                attributeset.pseudonym,
+                pseudonym,
                 self.study.domain)
 
             __, created = ParticipationRequest.objects.get_or_create(
@@ -122,9 +118,9 @@ class RecruitmentViewNotContacted(RecruitmentView):
             if created:
                 break
             else:
-                attributesets = attributesets.exclude(pk=attributeset.pk)
+                attributesets.remove(pseudonym)
 
-        if attributesets.count() == 0:
+        if len(attributesets) == 0:
             return False
         return True
 
@@ -136,6 +132,7 @@ class RecruitmentViewNotContacted(RecruitmentView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['not_contacted_view'] = True
+        context['not_reached_view'] = False
         return context
 
     def post(self, request, *args, **kwargs):
