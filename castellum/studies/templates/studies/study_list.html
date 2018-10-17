@@ -3,13 +3,14 @@
 
 {% block content %}
     <h2>{% trans 'Studies' %}</h2>
-    <div class="card-columns">
+    <div class="row row-eq-height">
 
         {% for study in object_list %}
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h3 class="mb-0 card-title h4">{{ study.name|default:_('not provided') }}</h3>
-                    <div class ="mb-2">{{ study|verbose_name:"contact_person" }}: {{ study.contact_person|default:_('not provided') }}</div>
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h3 class="mb-0 card-title h4">{{ study.name|default:_('not provided') }}</h3>
+                        <div class ="mb-2">{{ study|verbose_name:"contact_person" }}: {{ study.contact_person|default:_('not provided') }}</div>
                         <div class="mt-1">
                             <a class="btn btn-outline-primary btn-block btn-sm" href="{% url 'studies:update' study.pk %}">{% trans 'Edit' %}</a>
                         </div>
@@ -30,6 +31,7 @@
                                 </button>
                             {% endif %}
                         </form>
+                    </div>
                 </div>
             </div>
         {% endfor %}
