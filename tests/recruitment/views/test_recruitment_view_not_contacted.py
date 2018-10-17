@@ -1,10 +1,13 @@
 import pytest
 <<<<<<< HEAD
+<<<<<<< HEAD
 from unittest.mock import patch
 =======
 # import random
 # from unittest.mock import MagicMock
 >>>>>>> random participation requets in while loop
+=======
+>>>>>>> removed test
 
 from django.conf import settings
 from django.contrib.messages import get_messages
@@ -92,33 +95,6 @@ def test_no_matching_attribute_sets(client, user, published_study):
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
     assert str(messages[0]) == "We cannot find participants for this study."
-    assert response.status_code == 200
-
-
-def test_subject_was_already_contacted(client, user, published_study):
-    published_study.min_subjects_count = 5
-    published_study.save()
-
-    for i in range(5):
-        create_participation_request(published_study, status=ParticipationRequest.INVITED)
-    ParticipationRequest.objects.filter(pk=4).update(status=ParticipationRequest.NOT_CONTACTED)
-
-    subject_filter_group = mommy.make('recruitment.SubjectFilterGroup', study=published_study)
-    mommy.make('recruitment.SubjectFilter', group=subject_filter_group,
-               field_name="handedness", operator="exact", value="right")
-
-    client.force_login(user)
-    url = "/recruitment/{}/not-contacted/".format(published_study.pk)
-
-    with patch('random.randint') as mock_randint:
-        mock_randint.return_value = 4
-        response = client.post(url)
-
-    # messages = list(get_messages(response.wsgi_request))
-    # assert len(messages) == 1
-    # assert str(messages[0]) == ("Picked person already participates in the study. You can "
-    #                             "just try again. But this might indicate that there are not "
-    #                             "many matches left.")
     assert response.status_code == 200
 
 
