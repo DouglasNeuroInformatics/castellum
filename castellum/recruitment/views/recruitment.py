@@ -97,21 +97,30 @@ class RecruitmentViewNotReached(RecruitmentView):
 
 class RecruitmentViewNotContacted(RecruitmentView):
 
-    def try_create_participation_request(self):
-        attributesets = list(AttributeSet.apply_study_filter(self.study))
-        random.shuffle(attributesets)
+    def try_create_participation_request(self, chunk_size=100):
+        start = 0
+        end = chunk_size
+        while True:
+            attributesets = list(AttributeSet.apply_study_filter(self.study)[start:end])
+            if not attributesets:
+                break
 
-        for attributeset in attributesets:
-            participation_request_pseudonym = resolve_pseudonym(
-                AttributeSet.domain,
-                attributeset.pseudonym,
-                self.study.domain)
+            random.shuffle(attributesets)
 
-            __, created = ParticipationRequest.objects.get_or_create(
-                study=self.study, pseudonym=participation_request_pseudonym)
+            for attributeset in attributesets:
+                participation_request_pseudonym = resolve_pseudonym(
+                    AttributeSet.domain,
+                    attributeset.pseudonym,
+                    self.study.domain)
 
-            if created:
-                return True
+                __, created = ParticipationRequest.objects.get_or_create(
+                    study=self.study, pseudonym=participation_request_pseudonym)
+
+                if created:
+                    return True
+
+            start = end
+            end += chunk_size
 
         return False
 
