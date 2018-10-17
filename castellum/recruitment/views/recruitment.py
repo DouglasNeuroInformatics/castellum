@@ -97,7 +97,7 @@ class RecruitmentViewNotReached(RecruitmentView):
 
 class RecruitmentViewNotContacted(RecruitmentView):
 
-    def get_participation_request(self):
+    def create_participation_request(self):
 
         attributesets = list(AttributeSet.apply_study_filter(self.study).values_list('pseudonym',
                                                                                      flat=True))
@@ -157,7 +157,7 @@ class RecruitmentViewNotContacted(RecruitmentView):
                 'Please contact provided subjects before adding new ones.'
             ))
 
-        if not self.get_participation_request():
+        if not self.create_participation_request():
             messages.error(request, _('We cannot find participants for this study.'))
 
         return self.get(request, *args, **kwargs)
