@@ -22,22 +22,18 @@
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 
-from .models import AttributeSet
+from .models import AttributeField
 from .models import SubjectFilter
-from .models import get_filter_field
 
 
 def get_field_name_choices():
     yield '', '---'
-    for field in AttributeSet._meta.get_fields()[2:]:
-        if field.name in AttributeSet.filter_names:
-            yield field.name, AttributeSet.filter_names[field.name]
-        else:
-            yield field.name, field.verbose_name
+    for field in AttributeField.objects.all():
+        yield field.name, field.filter_label
 
 
 class SubjectFilterForm(forms.ModelForm):
-    field_name = forms.ChoiceField(choices=get_field_name_choices())
+    field_name = forms.ChoiceField(choices=get_field_name_choices)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -47,7 +43,8 @@ class SubjectFilterForm(forms.ModelForm):
         if not selected_field_name:
             return
 
-        filter_field = get_filter_field(selected_field_name)
+        attribute_field = AttributeField.objects.get(name=selected_field_name)
+        filter_field = attribute_field.get_filter_field()
 
         self.fields["field_name"].widget.attrs["disabled"] = True
 
