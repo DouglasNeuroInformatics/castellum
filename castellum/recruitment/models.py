@@ -21,6 +21,7 @@
 
 import datetime
 
+from django import forms
 from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 from django.core.serializers.json import DjangoJSONEncoder
@@ -34,6 +35,7 @@ from picklefield.fields import PickledObjectField
 from castellum.pseudonyms.models import SubjectData
 from castellum.studies.models import Study
 from castellum.utils.fields import DateTimeField
+from castellum.utils.forms import DateField as DateFormField
 
 from .fields import AgeField
 
@@ -69,6 +71,38 @@ class AttributeSet(SubjectData):
         if not queryset:
             queryset = cls.objects
         return queryset.filter(get_study_filter_q(study))
+
+
+class AttributeField(models.Model):
+    FIELD_TYPE_CHOICES = (
+        ('CharField', _('CharField')),
+        ('IntegerField', _('IntegerField')),
+        ('DateField', _('DateField')),
+        ('AgeField', _('AgeField')),
+    )
+
+    name = models.CharField(max_length=64, unique=True)
+    label = models.CharField(max_length=64)
+    field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
+    weight = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['weight']
+
+    def __str__(self):
+        return self.label
+
+    def get_form_field(self, form_class=None):
+        if form_class:
+            return form_class(label=self.label, required=False)
+        else:
+            MAPPING = {
+                'CharField': forms.CharField,
+                'IntegerField': forms.IntegerField,
+                'DateField': DateFormField,
+                'AgeField': DateFormField,
+            }
+            return MAPPING[self.field_type](label=self.label, required=False)
 
 
 class ParticipationRequestManager(models.Manager):
