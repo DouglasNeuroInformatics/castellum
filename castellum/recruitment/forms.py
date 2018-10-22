@@ -77,3 +77,21 @@ class SubjectFilterForm(forms.ModelForm):
     class Meta:
         model = SubjectFilter
         fields = "__all__"
+
+
+class AttributeSetForm(forms.Form):
+    def __init__(self, instance=None, **kwargs):
+        self.instance = instance
+        if not kwargs.get('initial'):
+            kwargs['initial'] = instance.data
+        super().__init__(**kwargs)
+
+    def save(self):
+        self.instance.data = self.cleaned_data
+        self.instance.save()
+        return self.instance
+
+    @classmethod
+    def factory(cls):
+        fields = {field.name: field.get_form_field() for field in AttributeField.objects.all()}
+        return type('AttributeSetForm', (cls,), fields)
