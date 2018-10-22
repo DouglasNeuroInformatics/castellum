@@ -43,13 +43,6 @@ from .fields import AgeField
 class AttributeSet(SubjectData):
     domain = settings.DOMAINS['attributeset']
 
-    filter_fields = {
-        'date_of_birth': 'AgeFilterField',
-    }
-    filter_names = {
-        'date_of_birth': _('age'),
-    }
-
     data = JSONField(encoder=DjangoJSONEncoder)
 
     class Meta:
@@ -79,6 +72,7 @@ class AttributeField(models.Model):
 
     name = models.CharField(max_length=64, unique=True)
     label = models.CharField(max_length=64)
+    _filter_label = models.CharField(max_length=64, blank=True, default='')
     field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
     weight = models.IntegerField(default=0)
 
@@ -87,6 +81,10 @@ class AttributeField(models.Model):
 
     def __str__(self):
         return self.label
+
+    @property
+    def filter_label(self):
+        return self._filter_label or self.label
 
     def get_form_field(self, form_class=None):
         if form_class:
@@ -99,6 +97,15 @@ class AttributeField(models.Model):
                 'AgeField': DateFormField,
             }
             return MAPPING[self.field_type](label=self.label, required=False)
+
+    def get_filter_field(self):
+        MAPPING = {
+            'CharField': TextFilterField,
+            'IntegerField': NumberFilterField,
+            'DateField': DateFilterField,
+            'AgeField': AgeFilterField,
+        }
+        return MAPPING[self.field_type]()
 
 
 class ParticipationRequestManager(models.Manager):
@@ -216,7 +223,8 @@ class SubjectFilter(models.Model):
     value = PickledObjectField(editable=True)
 
     def to_q(self):
-        filter_field = get_filter_field(self.field_name)
+        attribute_field = AttributeField.objects.get(name=self.field_name)
+        filter_field = attribute_field.get_filter_field()
         return filter_field.to_q(self.field_name, self.operator, self.value)
 
     def get_subject_count(self):
@@ -227,18 +235,18 @@ class BaseFilterField:
     available_operators = NotImplemented
 
     def formfield(self, field_name, **kwargs):
-        model_field = AttributeSet._meta.get_field(field_name)
-        return model_field.formfield(**kwargs)
+        attribute_field = AttributeField.objects.get(name=field_name)
+        return attribute_field.get_form_field(**kwargs)
 
     def to_q(self, field_name, operator, value):
         if operator.startswith('!'):
-            key = '{}__{}'.format(field_name, operator[1:])
+            key = 'data__{}__{}'.format(field_name, operator[1:])
             q = models.Q(**{key: value})
             q_empty = models.Q(**{field_name: ''})
             q_null = models.Q(**{field_name: None})
             return ~q & ~q_empty & ~q_null
         else:
-            key = '{}__{}'.format(field_name, operator)
+            key = 'data__{}__{}'.format(field_name, operator)
             return models.Q(**{key: value})
 
 
@@ -290,27 +298,3 @@ class AgeFilterField(BaseFilterField):
         except (ValueError, OverflowError):
             date = datetime.date.min
         return super().to_q(field_name, operator, date)
-
-
-def get_filter_field(field_name):
-    if field_name in AttributeSet.filter_fields:
-        FILTERS = {
-            "DateFilterField": DateFilterField(),
-            "NumberFilterField": NumberFilterField(),
-            "TextFilterField": TextFilterField(),
-            "AgeFilterField": AgeFilterField(),
-        }
-
-        overwrite = AttributeSet.filter_fields[field_name]
-        return FILTERS[overwrite]
-    else:
-        FILTER_MAPPING = {
-            "CharField": TextFilterField(),
-            "DateField": DateFilterField(),
-            "FloatField": NumberFilterField(),
-            "IntegerField": NumberFilterField(),
-        }
-
-        model_field = AttributeSet._meta.get_field(field_name)
-        model_type = model_field.get_internal_type()
-        return FILTER_MAPPING[model_type]
