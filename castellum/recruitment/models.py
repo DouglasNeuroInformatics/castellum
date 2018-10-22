@@ -22,6 +22,8 @@
 import datetime
 
 from django.conf import settings
+from django.contrib.postgres.fields import JSONField
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -31,7 +33,6 @@ from picklefield.fields import PickledObjectField
 
 from castellum.pseudonyms.models import SubjectData
 from castellum.studies.models import Study
-from castellum.utils.fields import DateField
 from castellum.utils.fields import DateTimeField
 
 from .fields import AgeField
@@ -54,12 +55,7 @@ class AttributeSet(SubjectData):
         'date_of_birth': _('age'),
     }
 
-    handedness = models.CharField(_('handedness'), blank=True, max_length=10, choices=(
-        ('left', _('left')),
-        ('right', _('right')),
-    ))
-    first_language = models.CharField(_('first Language'), blank=True, max_length=5)
-    date_of_birth = DateField(_('date of birth'), null=True, blank=True)
+    data = JSONField(encoder=DjangoJSONEncoder)
 
     class Meta:
         verbose_name = _('attribute set')
