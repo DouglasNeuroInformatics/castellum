@@ -65,6 +65,22 @@ class AttributeSet(SubjectData):
             queryset = cls.objects
         return queryset.filter(get_study_filter_q(study))
 
+    def get_verbose_name(self, field_name):
+        field = AttributeField.objects.get(name=field_name)
+        return field.label
+
+    def get_display(self, field_name):
+        value = self.data.get(field_name)
+        field = AttributeField.objects.get(name=field_name)
+        if value and field.field_type == 'ChoiceField':
+            choice = AttributeChoice.objects.get(field=field, name=value)
+            return choice.label
+        else:
+            return value
+
+    def get_field_names(self):
+        return AttributeField.objects.values_list('name', flat=True)
+
 
 class AttributeField(models.Model):
     FIELD_TYPE_CHOICES = (

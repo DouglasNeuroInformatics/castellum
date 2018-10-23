@@ -27,12 +27,15 @@ register = template.Library()
 
 @register.filter(name='verbose_name')
 def verbose_name(instance, field_name):
-    field = instance._meta.get_field(field_name)
-    if isinstance(field, models.Field):
-        return field.verbose_name
+    if hasattr(instance, 'get_verbose_name'):
+        return instance.get_verbose_name(field_name)
     else:
-        # FIXME: backrefs do not have a verbose_name
-        return field.name
+        field = instance._meta.get_field(field_name)
+        if isinstance(field, models.Field):
+            return field.verbose_name
+        else:
+            # FIXME: backrefs do not have a verbose_name
+            return field.name
 
 
 @register.filter(name='model_verbose_name')
@@ -42,10 +45,16 @@ def model_verbose_name(instance, plural=False):
 
 @register.filter(name='display')
 def display(instance, field_name):
-    getter = getattr(instance, 'get_{}_display'.format(field_name), None)
-    return getter() if getter else getattr(instance, field_name)
+    if hasattr(instance, 'get_display'):
+        return instance.get_display(field_name)
+    else:
+        getter = getattr(instance, 'get_{}_display'.format(field_name), None)
+        return getter() if getter else getattr(instance, field_name)
 
 
 @register.filter(name='field_names')
 def field_names(instance):
-    return [field.name for field in instance._meta.get_fields()]
+    if hasattr(instance, 'get_field_names'):
+        return instance.get_field_names()
+    else:
+        return [field.name for field in instance._meta.get_fields()]
