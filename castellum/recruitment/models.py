@@ -192,10 +192,6 @@ class SubjectFilter(models.Model):
     def get_subject_count(self):
         return AttributeSet.objects.filter(self.to_q()).count()
 
-    def __str__(self):
-        filter_field = get_filter_field(self.field_name)
-        return filter_field.to_str(self.field_name, self.operator, self.value)
-
 
 class BaseFilterField:
     available_operators = NotImplemented
@@ -214,14 +210,6 @@ class BaseFilterField:
         else:
             key = '{}__{}'.format(field_name, operator)
             return models.Q(**{key: value})
-
-    def to_str(self, field_name, operator, value):
-        model_field = AttributeSet._meta.get_field(field_name)
-        filter_name = AttributeSet.filter_names.get(field_name, model_field.verbose_name)
-        operator = dict(self.available_operators)[operator]
-        if model_field.choices:
-            value = dict(model_field.choices)[value]
-        return '{} {} {}'.format(filter_name, operator, value)
 
 
 class DateFilterField(BaseFilterField):
@@ -272,11 +260,6 @@ class AgeFilterField(BaseFilterField):
         except (ValueError, OverflowError):
             date = datetime.date.min
         return super().to_q(field_name, operator, date)
-
-    def to_str(self, field_name, operator, value):
-        period, scale = value
-        value = '{} {}'.format(period, self.SCALES[scale])
-        return super().to_str(field_name, operator, value)
 
 
 def get_filter_field(field_name):
