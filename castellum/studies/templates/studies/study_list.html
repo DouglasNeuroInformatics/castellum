@@ -6,8 +6,8 @@
 
     <ul class="list-group mb-3">
         {% for study in object_list %}
-            <li class="list-group-item">
-                <h3 class="mb-0">{{ study.name|default:_('not provided') }}</h3>
+            <li class="list-group-item mb-2">
+                <h3 class="mb-0 h4">{{ study.name|default:_('not provided') }}</h3>
                 <div class ="mb-1">{{ study|verbose_name:"contact_person" }}: {{ study.contact_person|default:_('not provided') }}</div>
                 <div class="row mt-1">
                     <div class="col-md-4 mt-1">
