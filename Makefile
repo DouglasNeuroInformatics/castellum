@@ -34,6 +34,7 @@ remove_all_migration_files:
 
 reset_databases: remove_databases remove_all_migration_files migrate createsuperuser
 	$(MANAGEPY) loaddata timeslots --database=contacts
+	$(MANAGEPY) loaddata attribute_fields --database=default
 	$(MANAGEPY) populate
 
 install:

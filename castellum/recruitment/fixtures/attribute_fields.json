@@ -1,0 +1,30 @@
+[
+    {
+        "model": "recruitment.AttributeField",
+        "pk": 1,
+        "fields": {
+            "name": "handedness",
+            "label": "Händigkeit",
+            "field_type": "CharField"
+        }
+    },
+    {
+        "model": "recruitment.AttributeField",
+        "pk": 2,
+        "fields": {
+            "name": "first_language",
+            "label": "Muttersprache",
+            "field_type": "CharField"
+        }
+    },
+    {
+        "model": "recruitment.AttributeField",
+        "pk": 3,
+        "fields": {
+            "name": "date_of_birth",
+            "label": "Geburtsdatum",
+            "_filter_label": "Alter",
+            "field_type": "AgeField"
+        }
+    }
+]
