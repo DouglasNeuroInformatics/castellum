@@ -5,7 +5,7 @@
         "fields": {
             "name": "handedness",
             "label": "Händigkeit",
-            "field_type": "CharField"
+            "field_type": "ChoiceField"
         }
     },
     {
@@ -25,6 +25,24 @@
             "label": "Geburtsdatum",
             "_filter_label": "Alter",
             "field_type": "AgeField"
+        }
+    },
+    {
+        "model": "recruitment.AttributeChoice",
+        "pk": 1,
+        "fields": {
+            "field": 1,
+            "name": "right",
+            "label": "Rechts"
+        }
+    },
+    {
+        "model": "recruitment.AttributeChoice",
+        "pk": 2,
+        "fields": {
+            "field": 1,
+            "name": "left",
+            "label": "Links"
         }
     }
 ]

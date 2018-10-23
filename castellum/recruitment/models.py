@@ -65,6 +65,7 @@ class AttributeSet(SubjectData):
 class AttributeField(models.Model):
     FIELD_TYPE_CHOICES = (
         ('CharField', _('CharField')),
+        ('ChoiceField', _('ChoiceField')),
         ('IntegerField', _('IntegerField')),
         ('DateField', _('DateField')),
         ('AgeField', _('AgeField')),
@@ -87,25 +88,41 @@ class AttributeField(models.Model):
         return self._filter_label or self.label
 
     def get_form_field(self, form_class=None):
-        if form_class:
-            return form_class(label=self.label, required=False)
-        else:
+        kwargs = {
+            'label': self.label,
+            'required': False,
+        }
+
+        if not form_class:
             MAPPING = {
                 'CharField': forms.CharField,
+                'ChoiceField': forms.ChoiceField,
                 'IntegerField': forms.IntegerField,
                 'DateField': DateFormField,
                 'AgeField': DateFormField,
             }
-            return MAPPING[self.field_type](label=self.label, required=False)
+            form_class = MAPPING[self.field_type]
+
+        if self.field_type == 'ChoiceField':
+            kwargs['choices'] = list(self.attributechoice_set.values_list('name', 'label'))
+
+        return form_class(**kwargs)
 
     def get_filter_field(self):
         MAPPING = {
             'CharField': TextFilterField,
+            'ChoiceField': TextFilterField,
             'IntegerField': NumberFilterField,
             'DateField': DateFilterField,
             'AgeField': AgeFilterField,
         }
         return MAPPING[self.field_type]()
+
+
+class AttributeChoice(models.Model):
+    field = models.ForeignKey(AttributeField, on_delete=models.CASCADE)
+    name = models.CharField(max_length=64)
+    label = models.CharField(max_length=64)
 
 
 class ParticipationRequestManager(models.Manager):
