@@ -5,9 +5,9 @@
     <h2>{% trans 'Studies' %}</h2>
 
         {% for study in object_list %}
-            <div class="card mb-3">
+            <div class="card mb-2">
                 <div class="card-body">
-                    <h3 class="mb-0 card-title">{{ study.name|default:_('not provided') }}</h3>
+                    <h3 class="mb-0 card-title h4">{{ study.name|default:_('not provided') }}</h3>
                     <div class ="mb-2">{{ study|verbose_name:"contact_person" }}: {{ study.contact_person|default:_('not provided') }}</div>
                     <div class="row mt-1">
                         <div class="col-md-4 mt-1">
