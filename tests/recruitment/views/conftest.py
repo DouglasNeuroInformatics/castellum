@@ -11,9 +11,9 @@ def subject_filter_group(db, unpublished_study):
 
 
 @pytest.fixture
-def subject_filter(subject_filter_group):
+def subject_filter(subject_filter_group, attribute_field):
     return SubjectFilter.objects.create(
-        field_name='handedness',
+        field=attribute_field,
         operator='exact',
         value='left',
         group=subject_filter_group)
