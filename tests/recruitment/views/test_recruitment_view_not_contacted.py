@@ -83,7 +83,7 @@ def test_not_contacted_count_is_gte_to_soft_limit(client, user, published_study,
     assert response.status_code == 200
 
 
-def test_no_matching_attribute_sets(client, user, published_study):
+def test_no_matching_attribute_sets(client, user, published_study, attribute_field):
     published_study.min_subjects_count = 5
     published_study.save()
 
@@ -92,7 +92,7 @@ def test_no_matching_attribute_sets(client, user, published_study):
 
     subject_filter_group = mommy.make('recruitment.SubjectFilterGroup', study=published_study)
     mommy.make('recruitment.SubjectFilter', group=subject_filter_group,
-               field_name="handedness", operator="exact", value="left")
+               field=attribute_field, operator="exact", value="left")
 
     client.force_login(user)
     url = "/recruitment/{}/not-contacted/".format(published_study.pk)
@@ -104,7 +104,7 @@ def test_no_matching_attribute_sets(client, user, published_study):
     assert response.status_code == 200
 
 
-def test_subject_was_already_contacted(client, user, published_study):
+def test_subject_was_already_contacted(client, user, published_study, attribute_field):
     published_study.min_subjects_count = 5
     published_study.save()
 
@@ -114,7 +114,7 @@ def test_subject_was_already_contacted(client, user, published_study):
 
     subject_filter_group = mommy.make('recruitment.SubjectFilterGroup', study=published_study)
     mommy.make('recruitment.SubjectFilter', group=subject_filter_group,
-               field_name="handedness", operator="exact", value="right")
+               field=attribute_field, operator="exact", value="right")
 
     client.force_login(user)
     url = "/recruitment/{}/not-contacted/".format(published_study.pk)
