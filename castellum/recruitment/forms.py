@@ -27,30 +27,28 @@ from .models import SubjectFilter
 
 
 def get_field_name_choices():
-    yield '', '---'
+    yield None, '---'
     for field in AttributeField.objects.all():
-        yield field.name, field.filter_label
+        yield field.pk, field.filter_label
 
 
 class SubjectFilterForm(forms.ModelForm):
-    field_name = forms.ChoiceField(choices=get_field_name_choices)
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        selected_field_name = self._get_selected_field_name(**kwargs)
+        selected_field = self._get_selected_field(**kwargs)
 
-        if not selected_field_name:
+        if not selected_field:
             return
 
-        attribute_field = AttributeField.objects.get(name=selected_field_name)
-        filter_field = attribute_field.get_filter_field()
+        filter_field = selected_field.get_filter_field()
 
-        self.fields["field_name"].widget.attrs["disabled"] = True
+        self.fields["field"].widget.attrs["disabled"] = True
+        self.fields["field"].choices = get_field_name_choices()
 
         self.fields["operator"] = forms.ChoiceField(choices=filter_field.available_operators)
 
-        self.fields["value"] = filter_field.formfield(selected_field_name)
+        self.fields["value"] = filter_field.formfield(selected_field.name)
         self.fields["value"].required = True
 
         # disable fields when study is not published
@@ -62,14 +60,13 @@ class SubjectFilterForm(forms.ModelForm):
         except ObjectDoesNotExist:
             pass
 
-    def _get_selected_field_name(self, instance=None, data=None, prefix=None, **kwargs):
+    def _get_selected_field(self, instance=None, data=None, prefix=None, **kwargs):
         if instance:
-            return instance.field_name
+            return instance.field
         elif data:
-            if prefix:
-                return data[prefix + '-field_name']
-            else:
-                return data['field_name']
+            pk = data[prefix + '-field' if prefix else 'field']
+            if pk:
+                return AttributeField.objects.get(pk=pk)
 
     class Meta:
         model = SubjectFilter

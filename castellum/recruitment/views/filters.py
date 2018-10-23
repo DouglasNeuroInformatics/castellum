@@ -121,7 +121,7 @@ class FilterFormSet(BaseModelFormSet):
         for form in self.forms:
             if not form.cleaned_data.get('DELETE', False):
                 values.append((
-                    form.cleaned_data.get('field_name'),
+                    form.cleaned_data.get('field'),
                     form.cleaned_data.get('operator'),
                     form.cleaned_data.get('value'),
                 ))
