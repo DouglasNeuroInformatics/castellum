@@ -194,7 +194,7 @@ class SubjectFilterGroupManager(models.Manager):
 
     def clone_filters(self, original_group, cloned_group):
         for f in original_group.subjectfilter_set.all():
-            yield SubjectFilter(group=cloned_group, field_name=f.field_name, operator=f.operator,
+            yield SubjectFilter(group=cloned_group, field=f.field, operator=f.operator,
                                 value=f.value)
 
 
@@ -218,14 +218,13 @@ class SubjectFilterGroup(models.Model):
 
 class SubjectFilter(models.Model):
     group = models.ForeignKey(SubjectFilterGroup, on_delete=models.CASCADE)
-    field_name = models.CharField(max_length=256)
+    field = models.ForeignKey(AttributeField, on_delete=models.CASCADE)
     operator = models.CharField(max_length=64)
     value = PickledObjectField(editable=True)
 
     def to_q(self):
-        attribute_field = AttributeField.objects.get(name=self.field_name)
-        filter_field = attribute_field.get_filter_field()
-        return filter_field.to_q(self.field_name, self.operator, self.value)
+        filter_field = self.field.get_filter_field()
+        return filter_field.to_q(self.field.name, self.operator, self.value)
 
     def get_subject_count(self):
         return AttributeSet.objects.filter(self.to_q()).count()
