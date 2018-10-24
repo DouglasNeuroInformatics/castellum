@@ -1,0 +1,9 @@
+.table-list {
+    list-style: none;
+    padding: 0;
+}
+
+.table-list-item {
+    border-bottom: 1px solid #dee2e6;
+    padding: 0.5rem 0;
+}
