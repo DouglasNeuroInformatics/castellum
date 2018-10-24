@@ -32,11 +32,23 @@ from . import models
 class IndexView(LoginRequiredMixin, generic.ListView):
     model = models.Study
     ordering = 'name'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["titles"] = ["short","Lorem Ipsum is simply dummy text of the printing and typesetting industry."]
-        context["metas"] = [[],["Tobias Bengfort"],["Taib Hayat", "Tobias Brian Wulfric Percival Albus Bengfort"]]
-        context["buttons"] = [[],["edit"],["edit", "Filter verwalten", "Veröffentlichung zurücknehmen"]]
+        context["titles"] = [
+            "short",
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        ]
+        context["metas"] = [
+            [],
+            ["Tobias Bengfort"],
+            ["Taib Hayat", "Tobias Brian Wulfric Percival Albus Bengfort"],
+        ]
+        context["buttons"] = [
+            [],
+            ["edit"],
+            ["edit", "Filter verwalten", "Veröffentlichung zurücknehmen"],
+        ]
         return context
 
 
