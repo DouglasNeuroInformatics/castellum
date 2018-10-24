@@ -20,7 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import DetailView
@@ -57,10 +57,11 @@ class ContactUpdateView(PublishedStudyMixin, _ContactUpdateView):
         return self.get_success_url()
 
 
-class ContactStudiesView(LoginRequiredMixin, DetailView):
+class ContactStudiesView(PermissionRequiredMixin, DetailView):
     model = Contact
     slug_field = 'pseudonym'
     template_name = 'recruitment/contact_studies.html'
+    permission_required = 'recruitment.view_participationrequest'
 
     def get_studies(self, attributeset):
         qs = AttributeSet.objects.filter(pk=attributeset.pk)

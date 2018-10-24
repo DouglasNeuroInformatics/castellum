@@ -21,7 +21,7 @@
 
 import logging
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
 
@@ -33,8 +33,9 @@ from ..models import AttributeSet
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
-class AttributeSetDetailView(LoginRequiredMixin, DetailView):
+class AttributeSetDetailView(PermissionRequiredMixin, DetailView):
     model = AttributeSet
+    permission_required = 'recruitment.view_attributeset'
 
     def get_object(self, queryset=None):
         if queryset is None:
@@ -49,10 +50,11 @@ class AttributeSetDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
+class AttributeSetUpdateView(PermissionRequiredMixin, UpdateView):
     model = AttributeSet
     fields = '__all__'
     slug_field = 'pseudonym'
+    permission_required = 'recruitment.change_attributeset'
 
     def form_valid(self, form):
         result = super().form_valid(form)
