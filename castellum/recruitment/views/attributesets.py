@@ -21,9 +21,10 @@
 
 import logging
 
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
+
+from guardian.mixins import PermissionRequiredMixin
 
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import resolve_pseudonym

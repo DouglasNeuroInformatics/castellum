@@ -22,13 +22,14 @@
 import logging
 from urllib.parse import urlencode
 
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
+
+from guardian.mixins import PermissionRequiredMixin
 
 from castellum.pseudonyms.helpers import list_pseudonyms
 from castellum.pseudonyms.helpers import resolve_pseudonym
