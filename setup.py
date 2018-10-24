@@ -16,6 +16,7 @@ setup(
         "django-auth-ldap==1.7.0",
         "django-bootstrap4==0.0.7",
         "django-extra-views==0.11.0",
+        "django-guardian==1.4.9",
         "django-npm==1.0.0",
         "django-phonenumber-field==2.0.1",
         "django-picklefield==1.1.0",
