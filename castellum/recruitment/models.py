@@ -37,6 +37,13 @@ from castellum.utils.fields import DateTimeField
 from .fields import AgeField
 
 
+def get_study_filter_q(study):
+    q = models.Q()
+    for group in study.subjectfiltergroup_set.all():
+        q |= group.to_q()
+    return q
+
+
 class AttributeSet(SubjectData):
     domain = settings.DOMAINS['attributeset']
 
@@ -65,10 +72,7 @@ class AttributeSet(SubjectData):
     def apply_study_filter(cls, study, queryset=None):
         if not queryset:
             queryset = cls.objects
-        q = models.Q()
-        for group in study.subjectfiltergroup_set.all():
-            q |= group.to_q()
-        return queryset.filter(q)
+        return queryset.filter(get_study_filter_q(study))
 
 
 class ParticipationRequestManager(models.Manager):

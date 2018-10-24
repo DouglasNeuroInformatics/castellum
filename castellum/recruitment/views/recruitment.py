@@ -181,10 +181,18 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
             return queryset.filter_not_contacted(study=self.study)
         elif self.kwargs['path'] == 'not-reached':
             return queryset.filter_not_reached(study=self.study)
-        else:
+        elif self.kwargs['path'] != 'contacts':
             raise Http404
 
         return queryset
+
+    def get_object(self, queryset=None):
+        if self.kwargs['path'] != 'contacts':
+            return super().get_object(queryset=queryset)
+        if not queryset:
+            queryset = self.get_queryset()
+        obj, __ = queryset.get_or_create(pseudonym=self.kwargs['slug'], study=self.study)
+        return obj
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -199,27 +207,24 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
             Contact.domain)
         contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
 
-        if self.kwargs['path'] == 'not-contacted':
-            context['not_contacted_view'] = True
-        elif self.kwargs['path'] == 'not-reached':
-            context['not_reached_view'] = True
-        else:
-            raise Http404
-
+        context['path'] = self.kwargs['path']
         context['study'] = self.study
         context['contact'] = contact
         return context
 
-    def form_valid(self, form):
-        # needs to be executed before object.save()
-        pseudonyms = list(self.get_queryset().values_list("pseudonym", flat=True))
-
+    def save(self, form):
         self.object = form.save()
 
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             self.study.domain,
             self.object.pseudonym,
             self.request.user.pk))
+
+    def form_valid_recruitment(self, form):
+        # needs to be executed before object.save()
+        pseudonyms = list(self.get_queryset().values_list("pseudonym", flat=True))
+
+        self.save(form)
 
         next_pseudonym_idx = None
         if "btn_back" not in form.data and len(pseudonyms) - 1 != 0:
@@ -238,3 +243,14 @@ class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
                 self.object.study.pk,
                 pseudonyms[next_pseudonym_idx],
                 self.kwargs['path'])
+
+    def form_valid(self, form):
+        if self.kwargs['path'] == 'contacts':
+            self.save(form)
+            contact_pseudonym = resolve_pseudonym(
+                self.study.domain,
+                self.object.pseudonym,
+                Contact.domain)
+            return redirect('contacts:detail', contact_pseudonym)
+        else:
+            return self.form_valid_recruitment(form)
