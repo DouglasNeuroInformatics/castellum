@@ -52,7 +52,7 @@ class StudyChoiceView(PermissionRequiredMixin, ListView):
     permission_required = 'recruitment.view_participationrequest'
 
 
-class RecruitmentView(PermissionRequiredMixin, PublishedStudyMixin, ListView):
+class RecruitmentView(PublishedStudyMixin, PermissionRequiredMixin, ListView):
     model = ParticipationRequest
     context_object_name = 'participation_requests'
     template_name = 'recruitment/recruitment.html'
@@ -167,7 +167,7 @@ class RecruitmentViewNotContacted(RecruitmentView):
         return self.get(request, *args, **kwargs)
 
 
-class ContactView(PermissionRequiredMixin, PublishedStudyMixin, UpdateView):
+class ContactView(PublishedStudyMixin, PermissionRequiredMixin, UpdateView):
     model = ParticipationRequest
     fields = ['status']
     slug_field = 'pseudonym'
