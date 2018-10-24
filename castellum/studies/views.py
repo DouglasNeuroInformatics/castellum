@@ -19,7 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -29,12 +29,13 @@ from django.views import generic
 from . import models
 
 
-class IndexView(LoginRequiredMixin, generic.ListView):
+class IndexView(PermissionRequiredMixin, generic.ListView):
     model = models.Study
     ordering = 'name'
+    permission_required = 'studies.view_study'
 
 
-class CreateView(LoginRequiredMixin, generic.CreateView):
+class CreateView(PermissionRequiredMixin, generic.CreateView):
     model = models.Study
     fields = (
         'name',
@@ -46,12 +47,13 @@ class CreateView(LoginRequiredMixin, generic.CreateView):
         'sessions_end',
         'min_subjects_count',
     )
+    permission_required = 'studies.add_study'
 
     def get_success_url(self):
         return reverse('studies:index')
 
 
-class UpdateView(LoginRequiredMixin, generic.UpdateView):
+class UpdateView(PermissionRequiredMixin, generic.UpdateView):
     model = models.Study
     fields = (
         'name',
@@ -63,12 +65,15 @@ class UpdateView(LoginRequiredMixin, generic.UpdateView):
         'sessions_end',
         'min_subjects_count',
     )
+    permission_required = 'studies.change_study'
 
     def get_success_url(self):
         return reverse('studies:index')
 
 
-class PublishView(LoginRequiredMixin, View):
+class PublishView(PermissionRequiredMixin, View):
+    permission_required = 'studies.change_study'
+
     def post(self, request, study_pk):
         study = get_object_or_404(models.Study, pk=study_pk)
         study.published = not study.published

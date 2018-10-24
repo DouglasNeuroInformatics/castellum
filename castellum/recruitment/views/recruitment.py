@@ -23,7 +23,7 @@ import logging
 import random
 
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -44,16 +44,18 @@ from .mixins import PublishedStudyMixin
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
-class StudyChoiceView(LoginRequiredMixin, ListView):
+class StudyChoiceView(PermissionRequiredMixin, ListView):
     model = Study
     context_object_name = 'studies'
     template_name = 'recruitment/studies_list.html'
+    permission_required = 'recruitment.view_participationrequest'
 
 
-class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
+class RecruitmentView(PermissionRequiredMixin, PublishedStudyMixin, ListView):
     model = ParticipationRequest
     context_object_name = 'participation_requests'
     template_name = 'recruitment/recruitment.html'
+    permission_required = 'recruitment.view_participationrequest'
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
@@ -83,6 +85,7 @@ class RecruitmentView(LoginRequiredMixin, PublishedStudyMixin, ListView):
 
 
 class RecruitmentViewNotReached(RecruitmentView):
+    permission_required = 'recruitment.view_participationrequest'
 
     def get_queryset(self, queryset=None):
         if not queryset:
@@ -96,6 +99,7 @@ class RecruitmentViewNotReached(RecruitmentView):
 
 
 class RecruitmentViewNotContacted(RecruitmentView):
+    permission_required = 'recruitment.view_participationrequest'
 
     def pick_random(self, qs):
         count = qs.count()
@@ -162,11 +166,12 @@ class RecruitmentViewNotContacted(RecruitmentView):
         return self.get(request, *args, **kwargs)
 
 
-class ContactView(LoginRequiredMixin, PublishedStudyMixin, UpdateView):
+class ContactView(PermissionRequiredMixin, PublishedStudyMixin, UpdateView):
     model = ParticipationRequest
     fields = ['status']
     slug_field = 'pseudonym'
     template_name = 'recruitment/contact.html'
+    permission_required = 'recruitment.view_participationrequest'
 
     def get_initial(self):
         initial = super().get_initial()

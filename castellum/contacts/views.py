@@ -22,7 +22,7 @@
 import logging
 from urllib.parse import urlencode
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic import DetailView
@@ -43,8 +43,9 @@ from .models import TimeSlot
 monitoring_logger = logging.getLogger('monitoring.contacts')
 
 
-class ContactIndexView(LoginRequiredMixin, TemplateView):
+class ContactIndexView(PermissionRequiredMixin, TemplateView):
     template_name = 'contacts/contact_index.html'
+    permission_required = 'contacts.view_contact'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -52,14 +53,16 @@ class ContactIndexView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class ContactSearchView(LoginRequiredMixin, ListView):
+class ContactSearchView(PermissionRequiredMixin, ListView):
     model = Contact
     paginate_by = 20
+    permission_required = 'contacts.view_contact'
 
 
-class ContactDetailView(LoginRequiredMixin, DetailView):
+class ContactDetailView(PermissionRequiredMixin, DetailView):
     model = Contact
     slug_field = 'pseudonym'
+    permission_required = 'contacts.view_contact'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -81,8 +84,9 @@ class ContactDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class ContactCreatePreludeView(LoginRequiredMixin, TemplateView):
+class ContactCreatePreludeView(PermissionRequiredMixin, TemplateView):
     template_name = 'contacts/contact_create_prelude.html'
+    permission_required = 'contacts.add_contact'
 
     def get(self, request, *args, **kwargs):
         form_kwargs = {}
@@ -102,9 +106,10 @@ class ContactCreatePreludeView(LoginRequiredMixin, TemplateView):
             })
 
 
-class ContactCreateView(LoginRequiredMixin, CreateView):
+class ContactCreateView(PermissionRequiredMixin, CreateView):
     model = Contact
     form_class = ContactForm
+    permission_required = 'contacts.add_contact'
 
     def get_cancel_url(self):
         return reverse('contacts:create') + '?' + self.request.META['QUERY_STRING']
@@ -125,10 +130,11 @@ class ContactCreateView(LoginRequiredMixin, CreateView):
         return result
 
 
-class ContactUpdateView(LoginRequiredMixin, UpdateView):
+class ContactUpdateView(PermissionRequiredMixin, UpdateView):
     model = Contact
     form_class = ContactForm
     slug_field = 'pseudonym'
+    permission_required = 'contacts.change_contact'
 
     def get_cancel_url(self):
         return reverse('contacts:create') + '?' + self.request.META['QUERY_STRING']
@@ -142,8 +148,9 @@ class ContactUpdateView(LoginRequiredMixin, UpdateView):
         return result
 
 
-class RequestCreateView(LoginRequiredMixin, TemplateView):
+class RequestCreateView(PermissionRequiredMixin, TemplateView):
     template_name = 'contacts/subjectexportrequest_form.html'
+    permission_required = 'contacts.view_contact'
 
     def get(self, request, *args, **kwargs):
         form_kwargs = {}
@@ -167,10 +174,11 @@ class RequestCreateView(LoginRequiredMixin, TemplateView):
             })
 
 
-class ContactExportView(LoginRequiredMixin, DetailView):
+class ContactExportView(PermissionRequiredMixin, DetailView):
     model = Contact
     slug_field = 'pseudonym'
     template_name = 'contacts/contact_export.html'
+    permission_required = 'contacts.view_contact'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
