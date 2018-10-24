@@ -29,12 +29,14 @@ from django.db import models
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 
+from guardian.mixins import GuardianUserMixin
+
 from castellum.utils.fields import DateTimeField
 
 monitoring_logger = logging.getLogger('monitoring.auth')
 
 
-class User(AbstractUser):
+class User(GuardianUserMixin, AbstractUser):
     language = models.CharField(
         _('language'), max_length=5, choices=settings.LANGUAGES, blank=True)
     expiration_date = DateTimeField(_('expiration date'), blank=True, null=True)
