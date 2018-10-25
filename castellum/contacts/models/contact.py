@@ -125,7 +125,7 @@ class Contact(SubjectData):
         return relativedelta(date.today(), self.birthday).years
 
     @property
-    def available(self):
+    def is_available(self):
         now = timezone.localtime()
         if self.not_available_until and self.not_available_until > now:
             return False
