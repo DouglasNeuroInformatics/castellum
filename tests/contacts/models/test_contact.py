@@ -1,5 +1,6 @@
 from datetime import date
 from datetime import datetime
+from itertools import cycle
 
 import pytest
 from django.utils import timezone
@@ -34,6 +35,26 @@ def test_contact_is_not_available_at_the_weekend():
     contact = mommy.make(Contact)
 
     assert False is contact.available
+
+
+@pytest.mark.freeze_time("2020-10-27 15:00")
+@pytest.mark.django_db
+def test_contact_is_currently_not_available():
+    contact = mommy.make(Contact)
+    timeslots = mommy.make('contacts.TimeSlot', hour=cycle([10, 11, 12]), _quantity=3)
+    contact.availability_tuesday.add(*timeslots)
+
+    assert False is contact.available
+
+
+@pytest.mark.freeze_time("2020-10-27 15:00")
+@pytest.mark.django_db
+def test_contact_is_available():
+    contact = mommy.make(Contact)
+    timeslots = mommy.make('contacts.TimeSlot', hour=cycle(range(20)), _quantity=20)
+    contact.availability_tuesday.add(*timeslots)
+
+    assert True is contact.available
 
 
 @pytest.mark.parametrize('title,expected', (
