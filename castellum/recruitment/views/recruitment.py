@@ -105,8 +105,7 @@ class RecruitmentViewNotContacted(RecruitmentView):
 
         while len(attributesets) > 0:
 
-            random_index = random.randint(0, len(attributesets) - 1)
-            pseudonym = attributesets[random_index]
+            pseudonym = random.choice(attributesets)
 
             participation_request_pseudonym = resolve_pseudonym(
                 settings.DOMAINS['attributeset'],
