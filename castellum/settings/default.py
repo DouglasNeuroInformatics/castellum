@@ -92,6 +92,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
+    "castellum.studies.backends.StudyPermissionBackend",
 ]
 
 AUTH_USER_MODEL = 'castellum_auth.User'
