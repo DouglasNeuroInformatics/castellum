@@ -34,12 +34,18 @@ class PublishedStudyMixin:
             raise Http404
         return super().dispatch(request, *args, **kwargs)
 
+    def get_permission_object(self):
+        return self.study
+
 
 class UnpublishedStudyMixin:
     def dispatch(self, request, *args, **kwargs):
         study_pk = self.kwargs.get('study_pk')
         self.study = get_object_or_404(Study, pk=study_pk)
         return super().dispatch(request, *args, **kwargs)
+
+    def get_permission_object(self):
+        return self.study
 
     def post(self, request, *args, **kwargs):
         if self.study.published:
