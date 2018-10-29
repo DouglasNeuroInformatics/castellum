@@ -21,9 +21,11 @@
 
 import uuid
 
+from django.contrib.auth.models import Group
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from castellum.castellum_auth.models import User
 from castellum.utils.fields import DateField
 
 
@@ -44,3 +46,9 @@ class Study(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class StudyPosition(models.Model):
+    study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
