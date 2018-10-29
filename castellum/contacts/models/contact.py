@@ -122,15 +122,12 @@ class Contact(SubjectData):
 
     @property
     def age(self):
-        if self.birthday:
-            delta = relativedelta(date.today(), self.birthday)
-            return delta.years
-        return None
+        return relativedelta(date.today(), self.birthday).years
 
     @property
-    def available(self):
+    def is_available(self):
         now = timezone.localtime()
-        if self.not_available_until and self.not_available_until >= now:
+        if self.not_available_until and self.not_available_until > now:
             return False
         days = [
             self.availability_monday,
@@ -139,10 +136,10 @@ class Contact(SubjectData):
             self.availability_thursday,
             self.availability_friday,
         ]
-        if now.weekday() < len(days):
-            hours = days[now.weekday()]
-            return hours.filter(hour=now.hour).exists()
-        return False
+        if now.weekday() >= len(days):
+            return False
+        hours = days[now.weekday()]
+        return hours.filter(hour=now.hour).exists()
 
     def get_availability_monday_display(self):
         return ', '.join(str(ts.hour) for ts in self.availability_monday.all())

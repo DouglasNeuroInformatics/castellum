@@ -54,7 +54,7 @@
         </tr>
         <tr>
             <th>{% trans "Currently available" %}</th>
-            <td>{{ contact.available|yesno:_("Yes,No") }}</td>
+            <td>{{ contact.is_available|yesno:_("Yes,No") }}</td>
         </tr>
     </table>
 
