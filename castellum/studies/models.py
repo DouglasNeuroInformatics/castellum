@@ -21,9 +21,11 @@
 
 import uuid
 
+from django.contrib.auth.models import Permission
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from castellum.castellum_auth.models import User
 from castellum.utils.fields import DateField
 
 
@@ -44,3 +46,23 @@ class Study(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class StudyGroup(models.Model):
+    name = models.CharField(_('name'), max_length=80)
+    study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    users = models.ManyToManyField(User, blank=True)
+    permissions = models.ManyToManyField(Permission, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_permissions(self):
+        perms = self.permissions.values_list(
+            'content_type__app_label',
+            'codename'
+        )
+        return ['{}.{}'.format(ct, name) for ct, name in perms]
+
+    def has_perm(self, perm):
+        return perm in self.get_permissions()
