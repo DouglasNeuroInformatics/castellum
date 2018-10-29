@@ -23,6 +23,8 @@ import datetime
 
 from django import forms
 from django.conf import settings
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from django.contrib.postgres.fields import JSONField
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
@@ -86,6 +88,10 @@ class AttributeField(models.Model):
         ('DateField', _('DateField')),
         ('AgeField', _('AgeField')),
     )
+    ACTIONS = (
+        ('view', 'Can view attribute "{}"'),
+        ('change', 'Can change attribute "{}"'),
+    )
 
     name = models.CharField(max_length=64, unique=True)
     label = models.CharField(max_length=64)
@@ -98,6 +104,25 @@ class AttributeField(models.Model):
 
     def __str__(self):
         return self.label
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        content_type = ContentType.objects.get_for_model(AttributeSet)
+        for action, template in self.ACTIONS:
+            codename = '{}_{}_{}'.format(action, content_type.model, self.name)
+            name = template.format(self.label)
+
+            if not Permission.objects.filter(content_type=content_type, codename=codename).exists():
+                Permission.objects.create(name=name, content_type=content_type, codename=codename)
+
+    def delete(self, *args, **kwargs):
+        content_type = ContentType.objects.get_for_model(AttributeSet)
+        for action, template in self.ACTIONS:
+            codename = '{}_{}_{}'.format(action, content_type.model, self.name)
+            Permission.objects.filter(content_type=content_type, codename=codename).delete()
+
+        super().delete(*args, **kwargs)
 
     @property
     def filter_label(self):
