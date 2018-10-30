@@ -48,6 +48,10 @@ class AttributeSet(SubjectData):
     class Meta:
         verbose_name = _('attribute set')
         verbose_name_plural = _('attribute sets')
+        permissions = (
+            ('view_attributeset_sensitive', _('Can view sensitive attributes')),
+            ('change_attributeset_sensitive', _('Can change sensitive attributes')),
+        )
 
     def get_absolute_url(self):
         return reverse('recruitment:attributes_detail', args=[self.pseudonym])
@@ -91,6 +95,7 @@ class AttributeField(models.Model):
     label = models.CharField(max_length=64)
     _filter_label = models.CharField(max_length=64, blank=True, default='')
     field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
+    is_sensitive = models.BooleanField(default=False)
     weight = models.IntegerField(default=0)
 
     class Meta:
