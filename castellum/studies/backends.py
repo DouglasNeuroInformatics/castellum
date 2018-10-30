@@ -37,13 +37,17 @@ class StudyPermissionBackend:
         return ('{}.{}'.format(ct, name) for ct, name in tuples)
 
     def _get_group_permissions(self, user, obj=None):
-        perms = set()
         if user.is_active and isinstance(obj, Study):
-            positions = StudyPosition.objects.filter(user=user, study=obj)
-            for position in positions:
-                permissions = Permission.objects.filter(group=position.group)
-                perms.update(self._permissions_to_strings(permissions))
-        return perms
+            perm_cache_name = '_study:{}_perm_cache'.format(obj.pk)
+            if not hasattr(user, perm_cache_name):
+                perms = set()
+                positions = StudyPosition.objects.filter(user=user, study=obj)
+                for position in positions:
+                    permissions = Permission.objects.filter(group=position.group)
+                    perms.update(self._permissions_to_strings(permissions))
+                setattr(user, perm_cache_name, perms)
+            return getattr(user, perm_cache_name)
+        return set()
 
     def get_group_permissions(self, user, obj=None):
         perms = set()
