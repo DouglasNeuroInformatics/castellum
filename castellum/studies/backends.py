@@ -28,12 +28,16 @@ class StudyPermissionBackend:
         return None
 
     def _get_group_permissions(self, user, obj=None):
-        perms = set()
         if user.is_active and isinstance(obj, Study):
-            groups = StudyGroup.objects.filter(study=obj, users=user)
-            for group in groups:
-                perms.update(group.get_permissions())
-        return perms
+            perm_cache_name = '_study:{}_perm_cache'.format(obj.pk)
+            if not hasattr(user, perm_cache_name):
+                perms = set()
+                groups = StudyGroup.objects.filter(study=obj, users=user)
+                for group in groups:
+                    perms.update(group.get_permissions())
+                setattr(user, perm_cache_name, perms)
+            return getattr(user, perm_cache_name)
+        return set()
 
     def get_group_permissions(self, user, obj=None):
         perms = set()
