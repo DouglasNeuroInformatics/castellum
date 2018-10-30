@@ -75,11 +75,29 @@ class SubjectFilterForm(forms.ModelForm):
 
 
 class AttributeSetForm(forms.Form):
-    def __init__(self, instance=None, **kwargs):
+    def __init__(self, instance=None, user=None, obj=None, **kwargs):
         self.instance = instance
+
         if not kwargs.get('initial'):
             kwargs['initial'] = instance.data
+
         super().__init__(**kwargs)
+
+        self.allowed_fields = [f.name for f in AttributeSet.allowed_fields('change', user, obj=obj)]
+        for name, field in self.fields.items():
+            if name not in self.allowed_fields:
+                field.widget.attrs['disabled'] = ''
+                field.required = False
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        for field_name in cleaned_data:
+            if field_name not in self.allowed_fields:
+                # TODO: raise ValidationError if field was changed
+                cleaned_data[field_name] = self.instance.data[field_name]
+
+        return cleaned_data
 
     def save(self):
         self.instance.data = self.cleaned_data

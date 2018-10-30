@@ -56,6 +56,11 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
     model = AttributeSet
     slug_field = 'pseudonym'
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
     def get_form_class(self):
         return AttributeSetForm.factory(self.request.user)
 
