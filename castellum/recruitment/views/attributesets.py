@@ -47,6 +47,8 @@ class AttributeSetDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['contact_pseudonym'] = resolve_pseudonym(
             AttributeSet.domain, self.object.pseudonym, Contact.domain)
+        allowed_fields = AttributeSet.allowed_fields('view', self.request.user)
+        context['allowed_fields'] = [field.name for field in allowed_fields]
         return context
 
 

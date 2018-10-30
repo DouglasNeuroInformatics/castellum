@@ -79,6 +79,16 @@ class AttributeSet(SubjectData):
     def get_field_names(self):
         return AttributeField.objects.values_list('name', flat=True)
 
+    @classmethod
+    def allowed_fields(cls, action, user, obj=None):
+        content_type = ContentType.objects.get_for_model(AttributeSet)
+        fields = AttributeField.objects.all()
+        for field in fields:
+            perm = '{}.{}_{}_{}'.format(
+                content_type.app_label, action, content_type.model, field.name)
+            if user.has_perm(perm, obj=obj):
+                yield field
+
 
 class AttributeField(models.Model):
     FIELD_TYPE_CHOICES = (
