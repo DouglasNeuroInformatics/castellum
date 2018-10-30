@@ -81,6 +81,15 @@ class AttributeSet(SubjectData):
     def get_field_names(self):
         return AttributeField.objects.values_list('name', flat=True)
 
+    @classmethod
+    def allowed_fields(cls, action, user, obj=None):
+        perm = 'recruitment.{}_attributeset_sensitive'.format(action)
+        qs = AttributeField.objects
+        if user.has_perm(perm, obj=obj):
+            return qs.all()
+        else:
+            return qs.filter(is_sensitive=False)
+
 
 class AttributeField(models.Model):
     FIELD_TYPE_CHOICES = (

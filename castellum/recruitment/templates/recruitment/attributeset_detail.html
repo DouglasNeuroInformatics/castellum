@@ -4,7 +4,7 @@
 {% block content %}
     <h1>{% trans 'attribute set' %}</h1>
     <table class="table">
-        {% for field_name in object|field_names %}
+        {% for field_name in allowed_fields %}
             {% if field_name != 'id' and field_name != 'pseudonym' %}
                 <tr>
                     <th>{{ object|verbose_name:field_name }}</th>
