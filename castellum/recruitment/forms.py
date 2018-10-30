@@ -23,6 +23,7 @@ from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 
 from .models import AttributeField
+from .models import AttributeSet
 from .models import SubjectFilter
 
 
@@ -86,6 +87,7 @@ class AttributeSetForm(forms.Form):
         return self.instance
 
     @classmethod
-    def factory(cls):
-        fields = {field.name: field.get_form_field() for field in AttributeField.objects.all()}
-        return type('AttributeSetForm', (cls,), fields)
+    def factory(cls, user, obj=None):
+        allowed_fields = AttributeSet.allowed_fields('view', user, obj=obj)
+        form_fields = {field.name: field.get_form_field() for field in allowed_fields}
+        return type('AttributeSetForm', (cls,), form_fields)

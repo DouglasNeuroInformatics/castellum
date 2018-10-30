@@ -57,7 +57,7 @@ class AttributeSetUpdateView(LoginRequiredMixin, UpdateView):
     slug_field = 'pseudonym'
 
     def get_form_class(self):
-        return AttributeSetForm.factory()
+        return AttributeSetForm.factory(self.request.user)
 
     def form_valid(self, form):
         result = super().form_valid(form)
