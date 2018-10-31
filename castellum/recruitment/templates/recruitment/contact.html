@@ -32,32 +32,25 @@
         </dl>
     </details>
 
-    <table class="table">
-        <tr>
-            <th>{% trans 'Name' %}</th>
-            <td>{{ contact.full_name }}</td>
-        </tr>
-        <tr>
-            <th>{{ contact|verbose_name:'email' }}</th>
-            <td>{{ contact.email|default:_('not provided') }}</td>
-        </tr>
-        <tr>
-            <th>{{ contact|verbose_name:'phone_number' }}</th>
-            <td>{{ contact.phone_number|default:_('not provided') }}</td>
-        </tr>
-        <tr>
-            <th>{{ contact|verbose_name:'phone_number_alternative' }}</th>
-            <td>{{ contact.phone_number_alternative|default:_('not provided') }}</td>
-        </tr>
-        <tr>
-            <th>{{ contact|verbose_name:'preferred_contact_method' }}</th>
-            <td>{{ contact.get_preferred_contact_method_display|default:_('not provided') }}</td>
-        </tr>
-        <tr>
-            <th>{% trans "Currently available" %}</th>
-            <td>{{ contact.is_available|yesno:_("Yes,No") }}</td>
-        </tr>
-    </table>
+    <dl class="row">
+        <dt class="col-sm-6">{% trans 'Name' %}</dt>
+        <dd class="col-sm-6">{{ contact.full_name }}</dd>
+
+        <dt class="col-sm-6">{{ contact|verbose_name:'email' }}</dt>
+        <dd class="col-sm-6">{{ contact.email|default:_('not provided') }}</dd>
+
+        <dt class="col-sm-6">{{ contact|verbose_name:'phone_number' }}</dt>
+        <dd class="col-sm-6">{{ contact.phone_number|default:_('not provided') }}</dd>
+
+        <dt class="col-sm-6">{{ contact|verbose_name:'phone_number_alternative' }}</dt>
+        <dd class="col-sm-6">{{ contact.phone_number_alternative|default:_('not provided') }}</dd>
+
+        <dt class="col-sm-6">{{ contact|verbose_name:'preferred_contact_method' }}</dt>
+        <dd class="col-sm-6">{{ contact.get_preferred_contact_method_display|default:_('not provided') }}</dd>
+
+        <dt class="col-sm-6">{% trans "Currently available" %}</dt>
+        <dd class="col-sm-6">{{ contact.is_available|yesno:_("Yes,No") }}</dd>
+    </dl>
 
     <form method="post">
         {% for error in form.non_field_errors %}
