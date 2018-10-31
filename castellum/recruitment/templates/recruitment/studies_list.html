@@ -7,10 +7,10 @@
     <ul class="table-list mb-3">
         {% for study in studies %}
             {% if study.published %}
-                <li class="table-list-item d-sm-flex flex-wrap align-items-center">
+                <li class="table-list-item">
                     <h3 class="h4 mb-1 mt-1 mr-2">{{ study.name|default:_('not provided') }}</h3>
-                    <div class="text-right flex-grow-1 mb-1 mt-1">
-                        <a class="btn btn-outline-primary btn-block d-sm-inline" href="{% url 'recruitment:recruitment_not-contacted' study.pk %}">{% trans 'Find subjects' %}</a>
+                    <div class="table-list-item-actions">
+                        <a class="btn btn-outline-primary btn-sm-inline mb-1 mt-1" href="{% url 'recruitment:recruitment_not-contacted' study.pk %}">{% trans 'Find subjects' %}</a>
                     </div>
                 </li>
             {% endif %}
