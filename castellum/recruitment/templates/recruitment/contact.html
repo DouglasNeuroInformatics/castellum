@@ -14,7 +14,13 @@
         <table class="table">
             <tr>
                 <th>{{ study|verbose_name:'expense_allowance' }}</th>
-                <td>{{ study.expense_allowance|default:_('not provided') }}€</td>
+                <td>
+                    {% if study.expense_allowance %}
+                        {{ study.expense_allowance }}€
+                    {% else %}
+                        {% trans 'not provided' %}
+                    {% endif %}
+                </td>
             </tr>
             <tr>
                 <th>{{ study|verbose_name:'sessions_count' }}</th>
