@@ -25,28 +25,22 @@
 
     {% if form.is_valid %}
         {% if matches %}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>{% trans 'Full name' %}</th>
-                        <th>{% trans 'Address' %}</th>
-                        <th>{% trans 'Email' %}</th>
-                        <th>{% trans 'Action' %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for contact in matches %}
-                        <tr>
-                            <td>{{ contact.full_name }}</td>
-                            <td>{{ contact.address }}</td>
-                            <td>{{ contact.email }}</td>
-                            <td>
-                                <a class='btn btn-outline-primary' href="{% url 'contacts:update' contact.pseudonym %}{{ query }}&matches=1">{% trans 'Edit' %}</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <ul class="table-list mb-3">
+                {% for contact in matches %}
+                    <li class="table-list-item">
+                        <div>
+                            <h3 class="h4 d-inline-block mb-1 mt-1 mr-2">{{ contact.full_name }}</h3>
+                            <div class="d-inline-block">
+                                <div class="d-inline-block mb-1 mt-1 mr-2">{{ contact.address }}</div>
+                                <div class="d-inline-block mb-1 mt-1 mr-2">{{ contact.email }}</div>
+                            </div>
+                        </div>
+                        <div class="table-list-item-actions">
+                            <a class="btn btn-outline-primary btn-sm-inline mb-1 mt-1" href="{% url 'contacts:update' contact.pseudonym %}{{ query }}&matches=1">{% trans 'Edit' %}</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
         {% else %}
             <p class="alert alert-warning" role="alert">{% trans 'No matches found' %}</p>
         {% endif %}
