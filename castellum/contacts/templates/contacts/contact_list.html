@@ -4,26 +4,17 @@
 {% block content %}
     <h1>{% trans 'contacts' %}</h1>
 
-
-    <table class="table">
-    <thead>
-        <tr>
-            <th>{% trans 'Full name' %}</th>
-            <th>{% trans 'Action' %}</th>
-        </tr>
-    </thead>
-    <tbody>
+    <ul class="table-list">
         {% for contact in object_list %}
-        <tr>
-            <td>{{ contact.full_name }}</td>
-            <td>
-                <a class='btn btn-outline-primary' href="{% url 'contacts:detail' contact.pseudonym %}">{% trans 'View details' %}</a>
-                <a class='btn btn-outline-primary' href="{% url 'contacts:update' contact.pseudonym %}">{% trans 'Edit' %}</a>
-            </td>
-        </tr>
+            <li class="table-list-item d-sm-flex flex-wrap align-items-center">
+                <h2 class="h4 mb-1 mt-1 mr-2">{{ contact.full_name }}</h2>
+                <div class="text-right flex-grow-1 mb-1 mt-1">
+                    <a class="btn btn-outline-primary btn-block d-sm-inline" href="{% url 'contacts:detail' contact.pseudonym %}">{% trans 'View details' %}</a>
+                    <a class="btn btn-outline-primary btn-block d-sm-inline" href="{% url 'contacts:update' contact.pseudonym %}">{% trans 'Edit' %}</a>
+                </div>
+            </li>
         {% endfor %}
-    </tbody>
-    </table>
+    </ul>
 
     {% if is_paginated %}
         <nav aria-label="{% trans 'Page navigation' %}">
