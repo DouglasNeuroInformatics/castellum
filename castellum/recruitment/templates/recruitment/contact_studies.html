@@ -15,22 +15,16 @@
             <p>{% trans 'This person does not meet the filters of the currently active studies.' %}</p>
         </div>
     {% else %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>{% trans 'Name' %}</th>
-                    <th>{% trans 'Actions' %}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for study, pseudonym in studies %}
-                    <tr>
-                        <td>{{ study}}</td>
-                        <td><a href="{% url 'recruitment:contact' study.pk pseudonym 'contacts' %}" class="btn btn-outline-primary">{% trans 'Add' %}</a></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <ul class="table-list mb-3">
+            {% for study, pseudonym in studies %}
+                <li class="table-list-item">
+                    <h2 class ="h4 d-inline-block mb-1 mt-1 mr-2">{{ study }}</h2>
+                    <div class ="table-list-item-actions">
+                        <a href="{% url 'recruitment:contact' study.pk pseudonym 'contacts' %}" class="btn btn-outline-primary btn-sm-inline mb-1 mt-1">{% trans 'Add' %}</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
     {% endif %}
 
     <div class="mb-3">
