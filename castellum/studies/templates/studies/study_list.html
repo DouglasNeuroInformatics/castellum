@@ -32,6 +32,8 @@
         {% endfor %}
     </ul>
 
-    <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-    <a href="{% url 'studies:create' %}" class="btn btn-primary">{% trans "Create new study" %}</a>
+    <div class="mb-3">
+        <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+        <a href="{% url 'studies:create' %}" class="btn btn-primary">{% trans "Create new study" %}</a>
+    </div>
 {% endblock %}
