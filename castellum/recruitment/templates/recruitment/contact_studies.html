@@ -18,9 +18,9 @@
         <ul class="table-list mb-3">
             {% for study, pseudonym in studies %}
                 <li class="table-list-item">
-                    <h2 class ="h4 d-inline-block mb-1 mt-1 mr-2">{{ study }}</h2>
+                    <h2 class ="h4 d-inline-block my-1 mr-2">{{ study }}</h2>
                     <div class ="table-list-item-actions">
-                        <a href="{% url 'recruitment:contact' study.pk pseudonym 'contacts' %}" class="btn btn-outline-primary btn-sm-inline mb-1 mt-1">{% trans 'Add' %}</a>
+                        <a href="{% url 'recruitment:contact' study.pk pseudonym 'contacts' %}" class="btn btn-outline-primary btn-sm-inline my-1 ">{% trans 'Add' %}</a>
                     </div>
                 </li>
             {% endfor %}

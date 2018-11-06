@@ -7,10 +7,10 @@
     <ul class="table-list">
         {% for contact in object_list %}
             <li class="table-list-item">
-                <h2 class="h4 mb-1 mt-1 mr-2">{{ contact.full_name }}</h2>
+                <h2 class="h4 my-1 mr-2">{{ contact.full_name }}</h2>
                 <div class="table-list-item-actions">
-                    <a class="btn btn-outline-primary btn-sm-inline mb-1 mt-1" href="{% url 'contacts:detail' contact.pseudonym %}">{% trans 'View details' %}</a>
-                    <a class="btn btn-outline-primary btn-sm-inline mb-1 mt-1" href="{% url 'contacts:update' contact.pseudonym %}">{% trans 'Edit' %}</a>
+                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:detail' contact.pseudonym %}">{% trans 'View details' %}</a>
+                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:update' contact.pseudonym %}">{% trans 'Edit' %}</a>
                 </div>
             </li>
         {% endfor %}

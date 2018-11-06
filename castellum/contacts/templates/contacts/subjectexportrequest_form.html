@@ -29,14 +29,14 @@
                 {% for contact in matches %}
                     <li class="table-list-item">
                         <div>
-                            <h3 class="h4 d-inline-block mb-1 mt-1 mr-2">{{ contact.full_name }}</h3>
+                            <h3 class="h4 d-inline-block my-1 mr-2">{{ contact.full_name }}</h3>
                             <div class="d-inline-block">
-                                <div class="d-inline-block mb-1 mt-1 mr-2">{{ contact.address }}</div>
-                                <div class="d-inline-block mb-1 mt-1 mr-2">{{ contact.email }}</div>
+                                <div class="d-inline-block my-1 mr-2">{{ contact.address }}</div>
+                                <div class="d-inline-block my-1 mr-2">{{ contact.email }}</div>
                             </div>
                         </div>
                         <div class="table-list-item-actions">
-                            <a class="btn btn-outline-primary btn-sm-inline mb-1 mt-1" href="{% url 'contacts:export' contact.pseudonym %}">{% trans 'Export' %}</a>
+                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:export' contact.pseudonym %}">{% trans 'Export' %}</a>
                         </div>
                     </li>
                 {% endfor %}
