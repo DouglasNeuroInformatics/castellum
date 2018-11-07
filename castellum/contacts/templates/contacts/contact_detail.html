@@ -3,38 +3,30 @@
 
 {% block content %}
     <h1>{{ contact.full_name }}</h1>
-    <table class="table">
-        <tr>
-            <th>{{ contact|verbose_name:'gender' }}</th>
-            <td>{{ contact.get_gender_display|default:_('not provided') }}</td>
-        </tr>
-        <tr>
-            <th>{{ contact|verbose_name:'birthday' }}</th>
-            <td>{{ contact.birthday|default:_('not provided') }}</td>
-        </tr>
-        <tr>
-            <th>{{ contact|verbose_name:'address' }}</th>
-            <td>{{ contact.address|default:_('not provided') }}</td>
-        </tr>
-        <tr>
-            <th>{{ contact|verbose_name:'email' }}</th>
-            <td>{{ contact.email|default:_('not provided') }}</td>
-        </tr>
-        <tr>
-            <th>{{ contact|verbose_name:'phone_number' }}</th>
-            <td>{{ contact.phone_number|default:_('not provided') }}</td>
-        </tr>
-        <tr>
-            <th>{{ contact|verbose_name:'phone_number_alternative' }}</th>
-            <td>{{ contact.phone_number_alternative|default:_('not provided') }}</td>
-        </tr>
-        <tr>
-            <th>{{ contact|verbose_name:'preferred_contact_method' }}</th>
-            <td>{{ contact.get_preferred_contact_method_display|default:_('not provided') }}</td>
-        </tr>
-        <tr>
-            <th>{% trans 'Availability' %}
-            <td>
+    <dl class="row">
+            <dt class="col-sm-6">{{ contact|verbose_name:'gender' }}</dt>
+            <dd class="col-sm-6">{{ contact.get_gender_display|default:_('not provided') }}</dd>
+
+            <dt class="col-sm-6">{{ contact|verbose_name:'birthday' }}</dt>
+            <dd class="col-sm-6">{{ contact.birthday|default:_('not provided') }}</dd>
+
+            <dt class="col-sm-6">{{ contact|verbose_name:'address' }}</dt>
+            <dd class="col-sm-6">{{ contact.address|default:_('not provided') }}</dd>
+
+            <dt class="col-sm-6">{{ contact|verbose_name:'email' }}</dt>
+            <dd class="col-sm-6">{{ contact.email|default:_('not provided') }}</dd>
+
+            <dt class="col-sm-6">{{ contact|verbose_name:'phone_number' }}</dt>
+            <dd class="col-sm-6">{{ contact.phone_number|default:_('not provided') }}</dd>
+
+            <dt class="col-sm-6">{{ contact|verbose_name:'phone_number_alternative' }}</dt>
+            <dd class="col-sm-6">{{ contact.phone_number_alternative|default:_('not provided') }}</dd>
+
+            <dt class="col-sm-6">{{ contact|verbose_name:'preferred_contact_method' }}</dt>
+            <dd class="col-sm-6">{{ contact.get_preferred_contact_method_display|default:_('not provided') }}</dd>
+
+            <dt class="col-sm-6">{% trans 'Availability' %}</dt>
+            <dd class="col-sm-6">
                 <table class="table">
                     <thead>
                         <tr>
@@ -59,13 +51,12 @@
                         </tr>
                     </tbody>
                 </table>
-            </td>
-        </tr>
-        <tr>
-            <th>{{ contact|verbose_name:'not_available_until' }}</th>
-            <td>{{ contact.not_available_until|default:'-' }}</td>
-        </tr>
-    </table>
+            </dd class="col-sm-6">
+
+            <dt class="col-sm-6">{{ contact|verbose_name:'not_available_until' }}</dt>
+            <dd class="col-sm-6">{{ contact.not_available_until|default:'-' }}</dd>
+
+    </dl>
     <div class="mb-3">
         <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         <a href="{% url 'recruitment:attributes_detail' attributeset_pseudonym %}" class="btn btn-secondary">{% trans 'View attributes' %}</a>
