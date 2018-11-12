@@ -24,7 +24,10 @@ from .models import StudyGroup
 
 
 class StudyPermissionBackend:
-    def authenticate(self, username, password):
+    def authenticate(self, request, **kwargs):
+        return None
+
+    def get_user(self, user_id):
         return None
 
     def _get_group_permissions(self, user, obj=None):
