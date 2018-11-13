@@ -82,9 +82,9 @@ class Contact(SubjectData):
     )
 
     first_name = models.CharField(_("first name"), max_length=64)
-    first_name_phonetic = models.CharField(max_length=16, editable=False)
+    first_name_phonetic = models.CharField(max_length=128, editable=False)
     last_name = models.CharField(_("last name"), max_length=64)
-    last_name_phonetic = models.CharField(max_length=16, editable=False)
+    last_name_phonetic = models.CharField(max_length=128, editable=False)
     title = models.CharField(_("title"), max_length=64, blank=True)
 
     gender = models.CharField(_("gender"), max_length=1, choices=GENDER, default="f")
