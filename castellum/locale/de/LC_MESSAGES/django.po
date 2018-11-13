@@ -344,7 +344,7 @@ msgstr "Merkmale betrachten"
 
 #: castellum/contacts/templates/contacts/contact_detail.html:72
 msgid "Add to study"
-msgstr ""
+msgstr "Zur Studie hinzufügen"
 
 #: castellum/contacts/templates/contacts/contact_form.html:83
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:18
@@ -519,14 +519,12 @@ msgid "Age"
 msgstr "Alter"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:10
-#, fuzzy
-#| msgid "not contacted"
 msgid "Last contacted"
-msgstr "nicht kontaktiert"
+msgstr "Zuletzt kontaktiert"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:11
 msgid "Tries"
-msgstr ""
+msgstr "Versuche"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:23
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:27
@@ -571,26 +569,23 @@ msgid "Studies"
 msgstr "Studien"
 
 #: castellum/recruitment/templates/recruitment/contact_studies.html:9
-#, fuzzy
-#| msgid "not provided"
 msgid "No attributes provided"
-msgstr "nicht angegeben"
+msgstr "Keine Attribute angegeben"
 
 #: castellum/recruitment/templates/recruitment/contact_studies.html:10
 msgid ""
 "Please first provide attributes so we can check whether this person meets "
 "the study filters."
-msgstr ""
+msgstr "Bitte geben Sie zuerst Attribute an, sodass überprüft werden kann, "
+"ob diese Person die Filterbedingungen der Studie erfüllt."
 
 #: castellum/recruitment/templates/recruitment/contact_studies.html:14
-#, fuzzy
-#| msgid "No matches found"
 msgid "No matching studies found"
-msgstr "Keine Treffer gefunden"
+msgstr "Keine passenden Studien gefunden"
 
 #: castellum/recruitment/templates/recruitment/contact_studies.html:15
 msgid "This person does not meet the filters of the currently active studies."
-msgstr ""
+msgstr "Diese Person erfüllt die Filterbedingungen der gegenwärtig aktiven Studien nicht."
 
 #: castellum/recruitment/templates/recruitment/contact_studies.html:22
 #: castellum/studies/templates/studies/study_list.html:11
