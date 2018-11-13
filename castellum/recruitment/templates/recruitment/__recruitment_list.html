@@ -13,7 +13,13 @@
                 </div>
                 {% if not_reached_view %}
                     <div class="d-inline-block">
-                        <div class="d-inline-block my-1 mr-2">{{ participation.tries }} {% trans 'Tries' %}</div>
+                        <div class="d-inline-block my-1 mr-2">
+                            {% blocktrans count tries=participation.tries %}
+                            {{ tries }} try
+                            {% plural %}
+                            {{ tries }} tries
+                            {% endblocktrans %}
+                        </div>
                         <div class="d-inline-block my-1 mr-2">{% trans 'last' %}: {{ participation.updated_at }}</div>
                     </div>
                 {% endif %}
@@ -28,3 +34,5 @@
         </li>
     {% endfor %}
 </ul>
+
+
