@@ -4,15 +4,14 @@
 {% block content %}
     <h1>{% trans 'attribute set' %}</h1>
     <dl class="row">
-            <dt class="col-sm-6">{{ attributeset|verbose_name:'handedness' }}</dt>
-            <dd class="col-sm-6">{{ attributeset.get_handedness_display|default:_('not provided') }}</dd>
+        <dt class="col-sm-6">{{ attributeset|verbose_name:'handedness' }}</dt>
+        <dd class="col-sm-6">{{ attributeset.get_handedness_display|default:_('not provided') }}</dd>
 
-            <dt class="col-sm-6">{{ attributeset|verbose_name:'first_language' }}</dt>
-            <dd class="col-sm-6">{{ attributeset.first_language|default:_('not provided') }}</dd>
+        <dt class="col-sm-6">{{ attributeset|verbose_name:'first_language' }}</dt>
+        <dd class="col-sm-6">{{ attributeset.first_language|default:_('not provided') }}</dd>
 
-            <dt class="col-sm-6">{{ attributeset|verbose_name:'date_of_birth' }}</dt>
-            <dd class="col-sm-6">{{ attributeset.date_of_birth|default:_('not provided') }}</dd>
-
+        <dt class="col-sm-6">{{ attributeset|verbose_name:'date_of_birth' }}</dt>
+        <dd class="col-sm-6">{{ attributeset.date_of_birth|default:_('not provided') }}</dd>
     </dl>
     <div class="mb-3">
         <a href="{% url 'contacts:detail' contact_pseudonym %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
