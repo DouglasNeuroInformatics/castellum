@@ -114,11 +114,6 @@ class RecruitmentViewNotContacted(RecruitmentView):
         return context
 
     def post(self, request, *args, **kwargs):
-        if self.study.min_subjects_count is None:
-            messages.error(request, _('The minimal number of subjects is not set for this study. '
-                                      'Please, contact the responsible person who can set it up.'))
-            return self.get(request, *args, **kwargs)
-
         if self.study.min_subjects_count == 0:
             messages.error(request, _('This study does not require participants. '
                                       'Please, contact the responsible person who can set it up.'))
