@@ -9,18 +9,6 @@ from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import ParticipationRequestRevision
 
 
-def test_min_subjects_count_is_none(client, user, published_study):
-    client.force_login(user)
-    url = "/recruitment/{}/not-contacted/".format(published_study.pk)
-    response = client.post(url)
-
-    messages = list(get_messages(response.wsgi_request))
-    assert len(messages) == 1
-    assert str(messages[0]) == ("The minimal number of subjects is not set for this study. "
-                                "Please, contact the responsible person who can set it up.")
-    assert response.status_code == 200
-
-
 def test_min_subjects_count_is_zero(client, user, published_study):
     published_study.min_subjects_count = 0
     published_study.save()

@@ -12,17 +12,6 @@ from castellum.pseudonyms.models import Subject
 from castellum.recruitment.models import ParticipationRequest
 
 
-def test_post_when_study_has_no_minimal_subject_count_set(client, user, published_study):
-    client.force_login(user)
-    url = '/recruitment/{}/not-contacted/'.format(published_study.pk)
-    response = client.post(url)
-    assert response.status_code == 200
-    messages = list(get_messages(response.wsgi_request))
-    assert len(messages) == 1
-    assert str(messages[0]) == 'The minimal number of subjects is not set for this study. ' \
-                               'Please, contact the responsible person who can set it up.'
-
-
 @pytest.mark.django_db
 def test_post_when_study_has_zero_subject_count_set(client, user, published_study):
 
