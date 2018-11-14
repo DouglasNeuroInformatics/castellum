@@ -6,7 +6,7 @@
             <div>
                 <div>
                     <h3 class="h4 d-inline-block my-1 mr-2">{{ participation.pseudonym|truncatechars:11 }}</h3>
-                    <div class="d-inline-block my-1 mr-2">{{ contact.get_gender_display }}, {{ contact.age }}{% trans 'Y.' %}</div>
+                    <div class="d-inline-block my-1 mr-2">{{ contact.get_gender_display }}, {{ contact.age }}<abbr title="{% trans 'years' %}">{% trans 'Y.' %}</abbr></div>
                 </div>
                 {% if not_reached_view %}
                     <div class="mr-2">
