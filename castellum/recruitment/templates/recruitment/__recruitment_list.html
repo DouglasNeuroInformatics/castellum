@@ -4,23 +4,20 @@
     {% for participation, contact in participants %}
         <li class="table-list-item">
             <div>
-                <div class="d-inline-block">
+                <div>
                     <h3 class="h4 d-inline-block my-1 mr-2">{{ participation.pseudonym|truncatechars:11 }}</h3>
-                    <div class="d-inline-block">
-                        <div class="d-inline-block my-1 mr-2">{{ contact.get_gender_display }},</div>
-                        <div class="d-inline-block my-1 mr-2">{{ contact.age }}{% trans 'Y.' %}</div>
-                    </div>
+                    <div class="d-inline-block my-1 mr-2">{{ contact.get_gender_display }}, {{ contact.age }}{% trans 'Y.' %}</div>
                 </div>
                 {% if not_reached_view %}
-                    <div class="d-inline-block">
-                        <div class="d-inline-block my-1 mr-2">
+                    <div class="mr-2">
+                        <div class="d-inline-block my-1">
                             {% blocktrans count tries=participation.tries %}
-                            {{ tries }} try
+                                {{ tries }} try
                             {% plural %}
-                            {{ tries }} tries
+                                {{ tries }} tries
                             {% endblocktrans %}
-                        </div>
-                        <div class="d-inline-block my-1 mr-2">{% trans 'last' %}: {{ participation.updated_at }}</div>
+                        </div>,
+                        <div class="d-inline-block my-1">{% trans 'last' %}: {{ participation.updated_at }}</div>
                     </div>
                 {% endif %}
             </div>
