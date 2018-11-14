@@ -22,33 +22,33 @@
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 
-from .models import AttributeField
+from .models import AttributeDescription
 from .models import SubjectFilter
 
 
 def get_field_name_choices():
     yield None, '---'
-    for field in AttributeField.objects.all():
-        yield field.pk, field.filter_label
+    for description in AttributeDescription.objects.all():
+        yield description.pk, description.filter_label
 
 
 class SubjectFilterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        selected_field = self._get_selected_field(**kwargs)
+        selected_description = self._get_selected_description(**kwargs)
 
-        if not selected_field:
+        if not selected_description:
             return
 
-        filter_field = selected_field.get_filter_field()
+        filter_field = selected_description.get_filter_field()
 
-        self.fields["field"].widget.attrs["disabled"] = True
-        self.fields["field"].choices = get_field_name_choices()
+        self.fields["description"].widget.attrs["disabled"] = True
+        self.fields["description"].choices = get_field_name_choices()
 
         self.fields["operator"] = forms.ChoiceField(choices=filter_field.available_operators)
 
-        self.fields["value"] = filter_field.formfield(selected_field.name)
+        self.fields["value"] = filter_field.formfield(selected_description.name)
         self.fields["value"].required = True
 
         # disable fields when study is not published
@@ -60,13 +60,13 @@ class SubjectFilterForm(forms.ModelForm):
         except ObjectDoesNotExist:
             pass
 
-    def _get_selected_field(self, instance=None, data=None, prefix=None, **kwargs):
+    def _get_selected_description(self, instance=None, data=None, prefix=None, **kwargs):
         if instance:
-            return instance.field
+            return instance.description
         elif data:
-            pk = data[prefix + '-field' if prefix else 'field']
+            pk = data[prefix + '-description' if prefix else 'description']
             if pk:
-                return AttributeField.objects.get(pk=pk)
+                return AttributeDescription.objects.get(pk=pk)
 
     class Meta:
         model = SubjectFilter
@@ -87,5 +87,8 @@ class AttributeSetForm(forms.Form):
 
     @classmethod
     def factory(cls):
-        fields = {field.name: field.get_form_field() for field in AttributeField.objects.all()}
+        fields = {
+            description.name: description.get_form_field()
+            for description in AttributeDescription.objects.all()
+        }
         return type('AttributeSetForm', (cls,), fields)

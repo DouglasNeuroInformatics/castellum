@@ -66,23 +66,23 @@ class AttributeSet(SubjectData):
         return queryset.filter(get_study_filter_q(study))
 
     def get_verbose_name(self, field_name):
-        field = AttributeField.objects.get(name=field_name)
-        return field.label
+        description = AttributeDescription.objects.get(name=field_name)
+        return description.label
 
     def get_display(self, field_name):
         value = self.data.get(field_name)
-        field = AttributeField.objects.get(name=field_name)
-        if value and field.field_type == 'ChoiceField':
-            choice = AttributeChoice.objects.get(field=field, name=value)
+        description = AttributeDescription.objects.get(name=field_name)
+        if value and description.field_type == 'ChoiceField':
+            choice = AttributeChoice.objects.get(description=description, name=value)
             return choice.label
         else:
             return value
 
     def get_field_names(self):
-        return AttributeField.objects.values_list('name', flat=True)
+        return AttributeDescription.objects.values_list('name', flat=True)
 
 
-class AttributeField(models.Model):
+class AttributeDescription(models.Model):
     FIELD_TYPE_CHOICES = (
         ('CharField', _('CharField')),
         ('ChoiceField', _('ChoiceField')),
@@ -140,7 +140,7 @@ class AttributeField(models.Model):
 
 
 class AttributeChoice(models.Model):
-    field = models.ForeignKey(AttributeField, on_delete=models.CASCADE)
+    description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
     label = models.CharField(max_length=64)
 
@@ -231,7 +231,7 @@ class SubjectFilterGroupManager(models.Manager):
 
     def clone_filters(self, original_group, cloned_group):
         for f in original_group.subjectfilter_set.all():
-            yield SubjectFilter(group=cloned_group, field=f.field, operator=f.operator,
+            yield SubjectFilter(group=cloned_group, description=f.description, operator=f.operator,
                                 value=f.value)
 
 
@@ -255,13 +255,13 @@ class SubjectFilterGroup(models.Model):
 
 class SubjectFilter(models.Model):
     group = models.ForeignKey(SubjectFilterGroup, on_delete=models.CASCADE)
-    field = models.ForeignKey(AttributeField, on_delete=models.CASCADE)
+    description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
     operator = models.CharField(max_length=64)
     value = PickledObjectField(editable=True)
 
     def to_q(self):
-        filter_field = self.field.get_filter_field()
-        return filter_field.to_q(self.field.name, self.operator, self.value)
+        filter_field = self.description.get_filter_field()
+        return filter_field.to_q(self.description.name, self.operator, self.value)
 
     def get_subject_count(self):
         return AttributeSet.objects.filter(self.to_q()).count()
@@ -271,8 +271,8 @@ class BaseFilterField:
     available_operators = NotImplemented
 
     def formfield(self, field_name, **kwargs):
-        attribute_field = AttributeField.objects.get(name=field_name)
-        return attribute_field.get_form_field(**kwargs)
+        attribute_description = AttributeDescription.objects.get(name=field_name)
+        return attribute_description.get_form_field(**kwargs)
 
     def to_q(self, field_name, operator, value):
         if operator.startswith('!'):

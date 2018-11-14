@@ -1,6 +1,6 @@
 [
     {
-        "model": "recruitment.AttributeField",
+        "model": "recruitment.AttributeDescription",
         "pk": 1,
         "fields": {
             "name": "handedness",
@@ -9,7 +9,7 @@
         }
     },
     {
-        "model": "recruitment.AttributeField",
+        "model": "recruitment.AttributeDescription",
         "pk": 2,
         "fields": {
             "name": "first_language",
@@ -18,7 +18,7 @@
         }
     },
     {
-        "model": "recruitment.AttributeField",
+        "model": "recruitment.AttributeDescription",
         "pk": 3,
         "fields": {
             "name": "date_of_birth",
@@ -31,7 +31,7 @@
         "model": "recruitment.AttributeChoice",
         "pk": 1,
         "fields": {
-            "field": 1,
+            "description": 1,
             "name": "right",
             "label": "Rechts"
         }
@@ -40,7 +40,7 @@
         "model": "recruitment.AttributeChoice",
         "pk": 2,
         "fields": {
-            "field": 1,
+            "description": 1,
             "name": "left",
             "label": "Links"
         }
