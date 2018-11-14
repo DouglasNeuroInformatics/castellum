@@ -20,7 +20,7 @@ setup(
         "django-phonenumber-field==2.0.1",
         "django-picklefield==1.1.0",
         "Faker==0.9.2",
-        "psycopg2-binary==2.7.5",
+        "psycopg2==2.7.5",
         "python-dateutil==2.7.3",
     ],
 )
