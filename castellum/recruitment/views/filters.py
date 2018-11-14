@@ -35,8 +35,8 @@ from django.views.generic import View
 
 from extra_views import ModelFormSetView
 
-from castellum.studies.models import Study
 from castellum.settings import CASTELLUM_FILTERS_LIMIT
+from castellum.studies.models import Study
 
 from .. import forms
 from ..models import AttributeSet
@@ -61,19 +61,23 @@ class FilterGroupListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['study'] = self.study
         context['total_count'] = AttributeSet.apply_study_filter(self.study).count()
-
-        if self.study.min_subjects_count == 0:
-            messages.error(self.request, _(
-                'Weak recruitment process. The number of subjects is not defined for this study.'))
-        elif context['total_count'] < self.study.min_subjects_count*CASTELLUM_FILTERS_LIMIT:
-            messages.error(self.request, _(
-                'The number of potential subjects is probably not sufficient for this study.'))
-
         return context
 
     def get(self, request, *args, **kwargs):
         if self.get_queryset().exists():
-            return super().get(request, *args, **kwargs)
+            self.object_list = self.get_queryset()
+            context = self.get_context_data()
+
+            if self.study.min_subjects_count == 0:
+                messages.error(self.request, _(
+                    'Weak recruitment process. '
+                    'The number of subjects is not defined for this study.'))
+            elif context['total_count'] < self.study.min_subjects_count*CASTELLUM_FILTERS_LIMIT:
+                messages.error(self.request, _(
+                    'The number of potential subjects is probably not sufficient for this study.'))
+
+            return self.render_to_response(context)
+
         else:
             group = SubjectFilterGroup.objects.create(study=self.study)
             return redirect(group.get_absolute_url())
