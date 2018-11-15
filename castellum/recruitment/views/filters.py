@@ -35,6 +35,7 @@ from django.views.generic import View
 
 from extra_views import ModelFormSetView
 
+from castellum.settings import CASTELLUM_EXPECTED_SUBJECT_FACTOR
 from castellum.studies.models import Study
 
 from .. import forms
@@ -57,14 +58,28 @@ class FilterGroupListView(LoginRequiredMixin, ListView):
         return qs.filter(study=self.study)
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data['study'] = self.study
-        data['total_count'] = AttributeSet.apply_study_filter(self.study).count()
-        return data
+        context = super().get_context_data(**kwargs)
+        context['study'] = self.study
+        context['potential_subjects_count'] = AttributeSet.apply_study_filter(self.study).count()
+        return context
 
     def get(self, request, *args, **kwargs):
         if self.get_queryset().exists():
-            return super().get(request, *args, **kwargs)
+            self.object_list = self.get_queryset()
+            context = self.get_context_data()
+
+            if self.study.min_subjects_count == 0:
+                messages.error(self.request, _(
+                    'Weak recruitment process. '
+                    'Please, define the number of subjects for this study.'))
+            elif context['potential_subjects_count'] < self.study.min_subjects_count\
+                    * CASTELLUM_EXPECTED_SUBJECT_FACTOR:
+                        messages.error(self.request, _(
+                            'The number of potential subjects is probably '
+                            'not sufficient for this study.'))
+
+            return self.render_to_response(context)
+
         else:
             group = SubjectFilterGroup.objects.create(study=self.study)
             return redirect(group.get_absolute_url())

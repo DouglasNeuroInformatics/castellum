@@ -261,6 +261,11 @@ CASTELLUM_RECRUITMENT_SOFT_LIMIT = 40
 # max_number_of_subjects = study.min_subjects_count * CASTELLUM_MULTIPLE_FACTOR
 CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR = 2
 
+# variable is used to define the minimal number of subjects
+# required for a normal recruitment process. The variable
+# is used to show messages when user creates filters for studies.
+CASTELLUM_EXPECTED_SUBJECT_FACTOR = 10
+
 CASTELLUM_LOCK_USER_CONTACT = 'admin@example.com'
 CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT = '[Castellum] Verdächtige Aktivität / Suspicious activity'
 CASTELLUM_LOCK_USER_NOTIFICATION_TEXT = """(English version below)
