@@ -60,7 +60,7 @@ class FilterGroupListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['study'] = self.study
-        context['total_count'] = AttributeSet.apply_study_filter(self.study).count()
+        context['potential_subjects_count'] = AttributeSet.apply_study_filter(self.study).count()
         return context
 
     def get(self, request, *args, **kwargs):
@@ -72,7 +72,7 @@ class FilterGroupListView(LoginRequiredMixin, ListView):
                 messages.error(self.request, _(
                     'Weak recruitment process. '
                     'Please, define the number of subjects for this study.'))
-            elif context['total_count'] < self.study.min_subjects_count\
+            elif context['potential_subjects_count'] < self.study.min_subjects_count\
                     * CASTELLUM_EXPECTED_SUBJECT_FACTOR:
                         messages.error(self.request, _(
                             'The number of potential subjects is probably '

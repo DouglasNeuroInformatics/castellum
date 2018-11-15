@@ -8,7 +8,7 @@
     <div class="card mb-3">
         <div class="card-header d-flex justify-content-between">
             {% trans 'Any of these' %}
-            <span class="text-right">{% blocktrans with count=total_count %}{{ count }} potential subjects in total{% endblocktrans %}</span>
+            <span class="text-right">{% blocktrans with count=potential_subjects_count %}{{ count }} potential subjects in total{% endblocktrans %}</span>
         </div>
         <div class="card-body">
             {% for group in object_list %}
