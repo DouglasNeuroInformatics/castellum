@@ -67,8 +67,8 @@ def test_get_when_study_has_minimal_subject_count_set_to_zero(client, user, subj
     assert response.status_code == 200
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
-    assert str(messages[0]) == 'Weak recruitment process. The number of subjects is ' \
-                               'not defined for this study.'
+    assert str(messages[0]) == 'Weak recruitment process. Please, define the number of subjects ' \
+                               'for this study.'
 
 
 @pytest.mark.django_db

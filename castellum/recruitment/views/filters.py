@@ -71,7 +71,7 @@ class FilterGroupListView(LoginRequiredMixin, ListView):
             if self.study.min_subjects_count == 0:
                 messages.error(self.request, _(
                     'Weak recruitment process. '
-                    'The number of subjects is not defined for this study.'))
+                    'Please, define the number of subjects for this study.'))
             elif context['total_count'] < self.study.min_subjects_count\
                     * CASTELLUM_EXPECTED_SUBJECT_FACTOR:
                         messages.error(self.request, _(
