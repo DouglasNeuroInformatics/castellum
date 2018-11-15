@@ -35,7 +35,7 @@ from django.views.generic import View
 
 from extra_views import ModelFormSetView
 
-from castellum.settings import CASTELLUM_FILTERS_LIMIT
+from castellum.settings import CASTELLUM_EXPECTED_SUBJECT_FACTOR
 from castellum.studies.models import Study
 
 from .. import forms
@@ -72,9 +72,11 @@ class FilterGroupListView(LoginRequiredMixin, ListView):
                 messages.error(self.request, _(
                     'Weak recruitment process. '
                     'The number of subjects is not defined for this study.'))
-            elif context['total_count'] < self.study.min_subjects_count*CASTELLUM_FILTERS_LIMIT:
-                messages.error(self.request, _(
-                    'The number of potential subjects is probably not sufficient for this study.'))
+            elif context['total_count'] < self.study.min_subjects_count\
+                    * CASTELLUM_EXPECTED_SUBJECT_FACTOR:
+                        messages.error(self.request, _(
+                            'The number of potential subjects is probably '
+                            'not sufficient for this study.'))
 
             return self.render_to_response(context)
 
