@@ -3,7 +3,7 @@ MANAGEPY = python manage.py
 
 .PHONY: bootstrap createsuperuser install makemigrations migrate run makemessages
 
-run:
+run: start_database_containers
 	$(MANAGEPY) runserver
 
 bootstrap: install migrate createsuperuser castellum/locale/de/LC_MESSAGES/django.mo

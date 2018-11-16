@@ -22,7 +22,6 @@ The following commands will install everything and start a local testserver (on 
     . .env/bin/activate
     make install-githooks
     make bootstrap
-    docker-compose up  # start postgres
     make run  # start castellum
 
 You can login with user "admin" and password "123".
