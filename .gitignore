@@ -1,20 +1,21 @@
-.tox/
-.pytest_cache/
-
 .idea/
+.pytest_cache/
+.tox/
 
 castellum.egg-info/
+collected_static/
 dist/
 htmlcov/
 node_modules/
-collected_static/
-castellum/*/migrations/0*.py
 
+*.log
+*.mo
 *.pyc
 *.sqlite3
-*.mo
+
+castellum/*/migrations/0*.py
 castellum/locale/en/LC_MESSAGES/*.po
-*.log
 
 .coverage
+
 package-lock.json
