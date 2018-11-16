@@ -1,12 +1,26 @@
+########################
+# hidden directories
+########################
+
 .idea/
 .pytest_cache/
 .tox/
+
+
+########################
+# directories
+########################
 
 castellum.egg-info/
 collected_static/
 dist/
 htmlcov/
 node_modules/
+
+
+########################
+# file types
+########################
 
 *.log
 *.mo
@@ -16,7 +30,18 @@ node_modules/
 castellum/*/migrations/0*.py
 castellum/locale/en/LC_MESSAGES/*.po
 
+
+########################
+# dotfiles
+########################
+
 .coverage
 
+
+########################
+# other files
+########################
+
+# custom makefile; make first looks for makefile with lowercase m and then for uppercase M
 makefile
 package-lock.json
