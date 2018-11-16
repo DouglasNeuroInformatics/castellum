@@ -31,14 +31,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'HOST': 'localhost',
+        'HOST': os.environ.get('DB_DEFAULT_HOST', 'localhost'),
         'PORT': '6670',
     },
     'contacts': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'HOST': 'localhost',
+        'HOST': os.environ.get('DB_CONTACTS_HOST', 'localhost'),
         'PORT': '6671',
     }
 }
