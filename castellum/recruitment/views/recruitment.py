@@ -102,6 +102,8 @@ class RecruitmentViewNotContacted(RecruitmentView):
 
         attributesets = list(AttributeSet.apply_study_filter(self.study).values_list('pseudonym',
                                                                                      flat=True))
+
+        participation_request = None
         while len(attributesets) > 0:
 
             pseudonym = random.choice(attributesets)
@@ -111,7 +113,7 @@ class RecruitmentViewNotContacted(RecruitmentView):
                 pseudonym,
                 self.study.domain)
 
-            __, created = ParticipationRequest.objects.get_or_create(
+            participation_request, created = ParticipationRequest.objects.get_or_create(
                 study=self.study, pseudonym=participation_request_pseudonym)
 
             if created:
@@ -119,9 +121,7 @@ class RecruitmentViewNotContacted(RecruitmentView):
             else:
                 attributesets.remove(pseudonym)
 
-        if len(attributesets) == 0:
-            return False
-        return True
+        return participation_request
 
     def get_queryset(self, queryset=None):
         if not queryset:
@@ -155,7 +155,7 @@ class RecruitmentViewNotContacted(RecruitmentView):
                 'Please contact provided subjects before adding new ones.'
             ))
 
-        if not self.create_participation_request():
+        if self.create_participation_request() is None:
             messages.error(request, _('We cannot find participants for this study.'))
 
         return self.get(request, *args, **kwargs)
