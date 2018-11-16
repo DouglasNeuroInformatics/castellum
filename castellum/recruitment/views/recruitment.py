@@ -103,7 +103,6 @@ class RecruitmentViewNotContacted(RecruitmentView):
         attributesets = list(AttributeSet.apply_study_filter(self.study).values_list('pseudonym',
                                                                                      flat=True))
 
-        participation_request = None
         while len(attributesets) > 0:
 
             pseudonym = random.choice(attributesets)
@@ -117,11 +116,11 @@ class RecruitmentViewNotContacted(RecruitmentView):
                 study=self.study, pseudonym=participation_request_pseudonym)
 
             if created:
-                break
+                return participation_request
             else:
                 attributesets.remove(pseudonym)
 
-        return participation_request
+        return None
 
     def get_queryset(self, queryset=None):
         if not queryset:

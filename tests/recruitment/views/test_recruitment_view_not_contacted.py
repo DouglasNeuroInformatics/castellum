@@ -61,9 +61,10 @@ def test_not_contacted_count_is_gte_to_soft_limit(client, user, published_study,
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
-    assert len(messages) == 1
+    assert len(messages) == 2
     assert str(messages[0]) == ("Such workflow is not intended due to privacy reasons. "
                                 "Please contact provided subjects before adding new ones.")
+    assert str(messages[1]) == "We cannot find participants for this study."
 
     assert response.status_code == 200
 
