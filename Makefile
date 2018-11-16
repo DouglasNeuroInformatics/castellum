@@ -26,13 +26,17 @@ makemessages:
 	$(MANAGEPY) compilemessages -l de
 
 remove_databases:
-	psql postgres postgres -h localhost -p 6670 -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public; GRANT ALL ON SCHEMA public TO postgres; GRANT ALL ON SCHEMA public TO public;"
-	psql postgres postgres -h localhost -p 6671 -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public; GRANT ALL ON SCHEMA public TO postgres; GRANT ALL ON SCHEMA public TO public;"
+	docker-compose stop db_contacts db_default
+	docker-compose rm -f db_contacts db_default
 
 remove_all_migration_files:
 	find castellum -name 0*.py -delete
 
-reset_databases: remove_databases remove_all_migration_files migrate createsuperuser
+start_database_containers:
+	docker-compose up -d db_contacts db_default
+	sleep 2
+
+reset_databases: remove_databases remove_all_migration_files start_database_containers migrate createsuperuser
 	$(MANAGEPY) loaddata timeslots --database=contacts
 	$(MANAGEPY) populate
 
