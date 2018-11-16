@@ -18,4 +18,5 @@ castellum/locale/en/LC_MESSAGES/*.po
 
 .coverage
 
+makefile
 package-lock.json
