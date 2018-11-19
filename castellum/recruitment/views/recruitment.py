@@ -102,10 +102,9 @@ class RecruitmentViewNotContacted(RecruitmentView):
 
         attributesets = list(AttributeSet.apply_study_filter(self.study).values_list('pseudonym',
                                                                                      flat=True))
+        random.shuffle(attributesets)
 
-        while len(attributesets) > 0:
-
-            pseudonym = random.choice(attributesets)
+        for pseudonym in attributesets:
 
             participation_request_pseudonym = resolve_pseudonym(
                 settings.DOMAINS['attributeset'],
@@ -117,8 +116,6 @@ class RecruitmentViewNotContacted(RecruitmentView):
 
             if created:
                 return participation_request
-            else:
-                attributesets.remove(pseudonym)
 
         return None
 
