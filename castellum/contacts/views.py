@@ -24,6 +24,7 @@ from urllib.parse import urlencode
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
@@ -68,6 +69,7 @@ class ContactDetailView(LoginRequiredMixin, DetailView):
             Contact.domain, self.object.pseudonym, AttributeSet.domain)
 
         timeslots = TimeSlot.objects.all()
+
         days = [
             self.object.availability_monday.all(),
             self.object.availability_tuesday.all(),
@@ -75,8 +77,20 @@ class ContactDetailView(LoginRequiredMixin, DetailView):
             self.object.availability_thursday.all(),
             self.object.availability_friday.all(),
         ]
+
+        weekdays = [
+            _("monday"),
+            _("tuesday"),
+            _("wednesday"),
+            _("thursday"),
+            _("friday"),
+        ]
+
         context['availability'] = [
-            [(timeslot.hour, timeslot in day) for timeslot in timeslots] for day in days]
+            (weekdays[i], [
+                (timeslot.hour, timeslot in days[i])
+                for timeslot in timeslots
+            ]) for i in range(5)]
 
         return context
 
