@@ -22,7 +22,7 @@
 from django.contrib.auth.models import Permission
 
 from .models import Study
-from .models import StudyPosition
+from .models import StudyMembership
 
 
 class StudyPermissionBackend:
@@ -41,7 +41,7 @@ class StudyPermissionBackend:
             perm_cache_name = '_study:{}_perm_cache'.format(obj.pk)
             if not hasattr(user, perm_cache_name):
                 perms = set()
-                positions = StudyPosition.objects.filter(user=user, study=obj)
+                positions = StudyMembership.objects.filter(user=user, study=obj)
                 for position in positions:
                     permissions = Permission.objects.filter(group=position.group)
                     perms.update(self._permissions_to_strings(permissions))

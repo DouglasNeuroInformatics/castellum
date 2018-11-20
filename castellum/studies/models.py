@@ -48,7 +48,7 @@ class Study(models.Model):
         return self.name
 
 
-class StudyPosition(models.Model):
+class StudyMembership(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
