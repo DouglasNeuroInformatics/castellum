@@ -43,6 +43,7 @@ class StudyPermissionBackend:
                 perms = set()
                 try:
                     membership = StudyMembership.objects.get(user=user, study=obj)
+                    perms.add('studies.view_study')
                     for group in membership.groups:
                         permissions = Permission.objects.filter(group=group)
                         perms.update(self._permissions_to_strings(permissions))
