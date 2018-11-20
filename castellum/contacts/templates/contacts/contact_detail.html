@@ -27,30 +27,18 @@
 
         <dt class="col-sm-6">{% trans 'Availability' %}</dt>
         <dd class="col-sm-6">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>{{ contact|verbose_name:'availability_monday' }}</th>
-                        <th>{{ contact|verbose_name:'availability_tuesday' }}</th>
-                        <th>{{ contact|verbose_name:'availability_wednesday' }}</th>
-                        <th>{{ contact|verbose_name:'availability_thursday' }}</th>
-                        <th>{{ contact|verbose_name:'availability_friday' }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        {% for day in availability %}
-                            <td>
-                                <select class="form-control" multiple disabled size="{{ day|length }}">
-                                    {% for hour, selected in day %}
-                                        <option {% if selected %}selected{% endif %}>{{ hour }}</option>
-                                    {% endfor %}
-                                </select>
-                            </td>
-                        {% endfor %}
-                    </tr>
-                </tbody>
-            </table>
+            <div class="row">
+                {% for label, day in availability %}
+                    <div class="col-sm-6 col-md-4 mb-3">
+                        <h2 class="h5">{{ label }}</h2>
+                        <select class="form-control" multiple disabled size="{{ day|length }}">
+                            {% for hour, selected in day %}
+                                <option {% if selected %}selected{% endif %}>{{ hour }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endfor %}
+            </div>
         </dd class="col-sm-6">
 
         <dt class="col-sm-6">{{ contact|verbose_name:'not_available_until' }}</dt>
