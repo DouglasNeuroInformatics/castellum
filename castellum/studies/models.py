@@ -51,4 +51,7 @@ class Study(models.Model):
 class StudyMembership(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    groups = models.ManyToManyField(Group, blank=True, related_name='+')
+
+    class Meta:
+        unique_together = ('study', 'user')

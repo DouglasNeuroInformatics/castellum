@@ -41,10 +41,13 @@ class StudyPermissionBackend:
             perm_cache_name = '_study:{}_perm_cache'.format(obj.pk)
             if not hasattr(user, perm_cache_name):
                 perms = set()
-                positions = StudyMembership.objects.filter(user=user, study=obj)
-                for position in positions:
-                    permissions = Permission.objects.filter(group=position.group)
-                    perms.update(self._permissions_to_strings(permissions))
+                try:
+                    membership = StudyMembership.objects.get(user=user, study=obj)
+                    for group in membership.groups:
+                        permissions = Permission.objects.filter(group=group)
+                        perms.update(self._permissions_to_strings(permissions))
+                except StudyMembership.DoesNotExist:
+                    pass
                 setattr(user, perm_cache_name, perms)
             return getattr(user, perm_cache_name)
         return set()
