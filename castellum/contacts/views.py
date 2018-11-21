@@ -38,6 +38,7 @@ from castellum.recruitment.models import AttributeSet
 
 from .forms import ContactForm
 from .forms import PreludeForm
+from .mixins import SubjectMixin
 from .models import Contact
 from .models import TimeSlot
 
@@ -60,7 +61,7 @@ class ContactSearchView(PermissionRequiredMixin, ListView):
     permission_required = 'contacts.view_contact'
 
 
-class ContactDetailView(PermissionRequiredMixin, DetailView):
+class ContactDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Contact
     slug_field = 'pseudonym'
     permission_required = 'contacts.view_contact'
@@ -188,7 +189,7 @@ class RequestCreateView(PermissionRequiredMixin, TemplateView):
             })
 
 
-class ContactExportView(PermissionRequiredMixin, DetailView):
+class ContactExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Contact
     slug_field = 'pseudonym'
     template_name = 'contacts/contact_export.html'
