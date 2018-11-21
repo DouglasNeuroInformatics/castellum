@@ -32,3 +32,7 @@
         width: auto;
     }
 }
+
+.navbar-dark .navbar-toggler-icon {
+    background-image: url("images/hamburger.svg");
+}
