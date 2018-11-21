@@ -5,15 +5,6 @@
 
 {% block content %}
     {% if request.user.is_authenticated %}
-        <div class="alert alert-success" role="alert">
-            {% if request.user.is_superuser %}
-                <h4 class="alert-heading">{% trans 'You are logged in as admin!' %}</h4>
-            {% else %}
-                <h4 class="alert-heading">{% trans 'You are not listed as admin!' %}</h4>
-            {% endif %}
-            <p>{% trans 'You are registered since' %} {{ request.user.date_joined|timesince}}</p>
-        </div>
-
         <div class="row">
             <div class="col-sm-6 col-md-4 mb-4">
                 <div class="card">
