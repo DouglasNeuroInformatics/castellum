@@ -34,6 +34,7 @@ class ContactAdmin(admin.ModelAdmin):
                 ("first_name", "last_name", "title"),
                 "gender",
                 "birthday",
+                "privacy_level",
             ),
         }),
         ("Contact Data", {

@@ -117,7 +117,8 @@ def fake_contact(pseudonym, address):
         first_name_phonetic=phonetic(first_name),
         last_name=last_name,
         last_name_phonetic=phonetic(last_name),
-        birthday=fake_date_of_birth())
+        birthday=fake_date_of_birth(),
+        privacy_level=0)
 
     if fake.random.random() < 0.67:
         contact.email = fake.email()
