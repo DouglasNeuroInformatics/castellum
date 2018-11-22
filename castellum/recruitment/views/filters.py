@@ -20,7 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.forms import BaseModelFormSet
 from django.forms import ValidationError
@@ -45,9 +45,10 @@ from ..models import SubjectFilterGroup
 from .mixins import UnpublishedStudyMixin
 
 
-class FilterGroupListView(LoginRequiredMixin, ListView):
+class FilterGroupListView(PermissionRequiredMixin, ListView):
     model = SubjectFilterGroup
     template_name = 'recruitment/filtergroup_list.html'
+    permission_required = 'recruitment.view_subjectfilter'
 
     def dispatch(self, *args, **kwargs):
         self.study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
@@ -85,15 +86,18 @@ class FilterGroupListView(LoginRequiredMixin, ListView):
             return redirect(group.get_absolute_url())
 
 
-class FilterGroupCreateView(LoginRequiredMixin, UnpublishedStudyMixin, View):
+class FilterGroupCreateView(PermissionRequiredMixin, UnpublishedStudyMixin, View):
+    permission_required = 'recruitment.add_subjectfilter'
+
     def post(self, *args, **kwargs):
         group = SubjectFilterGroup.objects.create(study=self.study)
         return redirect(group.get_absolute_url())
 
 
-class FilterGroupDeleteView(LoginRequiredMixin, UnpublishedStudyMixin, DeleteView):
+class FilterGroupDeleteView(PermissionRequiredMixin, UnpublishedStudyMixin, DeleteView):
     model = SubjectFilterGroup
     template_name = 'recruitment/filtergroup_confirm_delete.html'
+    permission_required = 'recruitment.add_subjectfilter'
 
     def get_context_data(self, **kwargs):
         if self.study != self.object.study:
@@ -127,7 +131,7 @@ class FilterFormSet(BaseModelFormSet):
                                     'delete filter!'))
 
 
-class FilterGroupUpdateView(LoginRequiredMixin, UnpublishedStudyMixin, ModelFormSetView):
+class FilterGroupUpdateView(PermissionRequiredMixin, UnpublishedStudyMixin, ModelFormSetView):
     model = SubjectFilter
     form_class = forms.SubjectFilterForm
     formset_class = FilterFormSet
@@ -135,6 +139,7 @@ class FilterGroupUpdateView(LoginRequiredMixin, UnpublishedStudyMixin, ModelForm
         'can_delete': True,
     }
     template_name = "recruitment/filtergroup.html"
+    permission_required = 'recruitment.view_subjectfilter'
 
     def dispatch(self, *args, **kwargs):
         self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['pk'])
@@ -155,7 +160,9 @@ class FilterGroupUpdateView(LoginRequiredMixin, UnpublishedStudyMixin, ModelForm
         return data
 
 
-class FilterGroupDuplicateView(LoginRequiredMixin, View):
+class FilterGroupDuplicateView(PermissionRequiredMixin, View):
+    permission_required = 'recruitment.add_subjectfilter'
+
     def post(self, request, study_pk, pk):
         study = get_object_or_404(Study, pk=study_pk)
         if study.published:

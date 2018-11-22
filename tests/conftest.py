@@ -15,7 +15,7 @@ mommy.generators.add(
 @pytest.fixture
 def user(db):
     future = timezone.now() + timezone.timedelta(days=10000)
-    return User.objects.create(expiration_date=future)
+    return User.objects.create(expiration_date=future, is_superuser=True)
 
 
 @pytest.fixture
