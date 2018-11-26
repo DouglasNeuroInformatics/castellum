@@ -55,3 +55,6 @@ class StudyMembership(models.Model):
 
     class Meta:
         unique_together = ('study', 'user')
+
+    def __str__(self):
+        return '{}:{}'.format(self.study, self.user)
