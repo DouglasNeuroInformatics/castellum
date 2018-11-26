@@ -6,38 +6,44 @@
 {% block content %}
     {% if request.user.is_authenticated %}
         <div class="row">
-            <div class="col-sm-6 col-md-4 mb-4">
-                <div class="card">
-                    <a href="{% url 'studies:index' %}" class="card-header" tabindex="-1">
-                        <img class="w-100" src="{% static 'images/study_management.png' %}" alt="">
-                    </a>
-                    <div class="card-body">
-                        <a href="{% url 'studies:index' %}" class="btn btn-primary btn-block">{% trans "Studies" %}</a>
+            {% if perms.studies.view_study %}
+                <div class="col-sm-6 col-md-4 mb-4">
+                    <div class="card">
+                        <a href="{% url 'studies:index' %}" class="card-header" tabindex="-1">
+                            <img class="w-100" src="{% static 'images/study_management.png' %}" alt="">
+                        </a>
+                        <div class="card-body">
+                            <a href="{% url 'studies:index' %}" class="btn btn-primary btn-block">{% trans "Studies" %}</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
 
-            <div class="col-sm-6 col-md-4 mb-4">
-                <div class="card">
-                    <a href="{% url 'contacts:index' %}" class="card-header" tabindex="-1">
-                        <img class="w-100" src="{% static 'images/subject_management.png' %}" alt="">
-                    </a>
-                    <div class="card-body">
-                        <a href="{% url 'contacts:index' %}" class="btn btn-primary btn-block">{% trans "Subjects" %}</a>
+            {% if perms.contacts.view_contact %}
+                <div class="col-sm-6 col-md-4 mb-4">
+                    <div class="card">
+                        <a href="{% url 'contacts:index' %}" class="card-header" tabindex="-1">
+                            <img class="w-100" src="{% static 'images/subject_management.png' %}" alt="">
+                        </a>
+                        <div class="card-body">
+                            <a href="{% url 'contacts:index' %}" class="btn btn-primary btn-block">{% trans "Subjects" %}</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
 
-            <div class="col-sm-6 col-md-4 mb-4">
-                <div class="card">
-                    <a href="{% url 'recruitment:index' %}" class="card-header" tabindex="-1">
-                        <img class="w-100" src="{% static 'images/recruitment.png' %}" alt="">
-                    </a>
-                    <div class="card-body">
-                        <a href="{% url 'recruitment:index' %}" class="btn btn-primary btn-block">{% trans "Recruitment" %}</a>
+            {% if perms.recruitment.view_participationrequest %}
+                <div class="col-sm-6 col-md-4 mb-4">
+                    <div class="card">
+                        <a href="{% url 'recruitment:index' %}" class="card-header" tabindex="-1">
+                            <img class="w-100" src="{% static 'images/recruitment.png' %}" alt="">
+                        </a>
+                        <div class="card-body">
+                            <a href="{% url 'recruitment:index' %}" class="btn btn-primary btn-block">{% trans "Recruitment" %}</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
      {% else %}
         <p>{% trans 'Not logged in' %}</p>

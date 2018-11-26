@@ -11,22 +11,28 @@
                     <div class="d-inline-block my-1 mr-2">{{ study.contact_person|default:_('not provided') }}</div>
                 </div>
                 <div class="table-list-item-actions">
-                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:update' study.pk %}">{% trans 'Edit' %}</a>
-                    <a class='btn btn-outline-primary btn-sm-inline my-1'
-                       href="{% url 'recruitment:filtergroup_index' study.pk %}">{% if study.published %}{% trans 'view Filters' %}{%else%}{% trans 'edit Filters' %}{%endif%}</a>
-                    <form class="d-sm-inline" method="post" action="{% url 'studies:publish' study.pk %}">
-                        {% csrf_token %}
+                    {% if perms.studies.change_study %}
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:update' study.pk %}">{% trans 'Edit' %}</a>
+                    {% endif %}
+                    {% if perms.recruitment.change_subjectfilter %}
+                        <a class='btn btn-outline-primary btn-sm-inline my-1'
+                           href="{% url 'recruitment:filtergroup_index' study.pk %}">{% if study.published %}{% trans 'view Filters' %}{%else%}{% trans 'edit Filters' %}{%endif%}</a>
+                    {% endif %}
+                    {% if perms.studies.change_study %}
+                        <form class="d-sm-inline" method="post" action="{% url 'studies:publish' study.pk %}">
+                            {% csrf_token %}
 
-                        {% if study.published %}
-                            <button class='btn btn-outline-primary active btn-sm-inline my-1'>
-                                {% trans 'unpublish' %}
-                            </button>
-                        {% else %}
-                            <button class='btn btn-outline-primary btn-sm-inline my-1'>
-                                {% trans 'publish' %}
-                            </button>
-                        {% endif %}
-                    </form>
+                            {% if study.published %}
+                                <button class='btn btn-outline-primary active btn-sm-inline my-1'>
+                                    {% trans 'unpublish' %}
+                                </button>
+                            {% else %}
+                                <button class='btn btn-outline-primary btn-sm-inline my-1'>
+                                    {% trans 'publish' %}
+                                </button>
+                            {% endif %}
+                        </form>
+                    {% endif %}
                 </div>
             </li>
         {% endfor %}
@@ -34,6 +40,8 @@
 
     <div class="mb-3">
         <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-        <a href="{% url 'studies:create' %}" class="btn btn-primary">{% trans "Create new study" %}</a>
+        {% if perms.studies.add_study %}
+            <a href="{% url 'studies:create' %}" class="btn btn-primary">{% trans "Create new study" %}</a>
+        {% endif %}
     </div>
 {% endblock %}

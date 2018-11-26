@@ -34,10 +34,12 @@
     <div class="mb-3">
         <a href="{% url 'recruitment:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         {% if not_contacted_view %}
-            <form method="post" class="d-inline">
-                {% csrf_token %}
-                <button class="btn btn-primary">{% trans 'Add' %}</button>
-            </form>
+            {% if perms.recruitment.add_participationrequest %}
+                <form method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button class="btn btn-primary">{% trans 'Add' %}</button>
+                </form>
+            {% endif %}
         {% endif %}
     </div>
 {% endblock %}
