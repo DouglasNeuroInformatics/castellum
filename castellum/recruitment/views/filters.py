@@ -21,7 +21,6 @@
 
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.core.exceptions import PermissionDenied
 from django.forms import BaseModelFormSet
 from django.forms import ValidationError
 from django.http import Http404
@@ -36,23 +35,19 @@ from django.views.generic import View
 from extra_views import ModelFormSetView
 
 from castellum.settings import CASTELLUM_EXPECTED_SUBJECT_FACTOR
-from castellum.studies.models import Study
 
 from .. import forms
 from ..models import AttributeSet
 from ..models import SubjectFilter
 from ..models import SubjectFilterGroup
+from .mixins import StudyMixin
 from .mixins import UnpublishedStudyMixin
 
 
-class FilterGroupListView(PermissionRequiredMixin, ListView):
+class FilterGroupListView(StudyMixin, PermissionRequiredMixin, ListView):
     model = SubjectFilterGroup
     template_name = 'recruitment/filtergroup_list.html'
     permission_required = 'recruitment.view_subjectfilter'
-
-    def dispatch(self, *args, **kwargs):
-        self.study = get_object_or_404(Study, pk=self.kwargs['study_pk'])
-        return super().dispatch(*args, **kwargs)
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
@@ -160,15 +155,12 @@ class FilterGroupUpdateView(UnpublishedStudyMixin, PermissionRequiredMixin, Mode
         return data
 
 
-class FilterGroupDuplicateView(PermissionRequiredMixin, View):
+class FilterGroupDuplicateView(UnpublishedStudyMixin, PermissionRequiredMixin, View):
     permission_required = 'recruitment.add_subjectfilter'
 
     def post(self, request, study_pk, pk):
-        study = get_object_or_404(Study, pk=study_pk)
-        if study.published:
-            raise PermissionDenied
-        original = get_object_or_404(SubjectFilterGroup, study=study, pk=pk)
+        original = get_object_or_404(SubjectFilterGroup, study=self.study, pk=pk)
         SubjectFilterGroup.objects.clone(original)
         messages.success(request, _(
             'The filters have been duplicated. You can now edit the duplicate.'))
-        return redirect('recruitment:filtergroup_index', study.pk)
+        return redirect('recruitment:filtergroup_index', self.study.pk)
