@@ -6,7 +6,6 @@ services:
   db_contacts:
     image: postgres
   ldap:
-    container_name: ldap
     image: osixia/openldap
     ports:
       - "389:389"
@@ -14,7 +13,10 @@ services:
     volumes:
       - ./dummy_data.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif
   web:
+    ## use the latest pre-built image
     image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
+    ## use the local copy
+    # build: ../../
     environment:
       DJANGO_SETTINGS_MODULE: castellum.settings.deployment
     command: "uwsgi uwsgi.ini --die-on-term"
@@ -22,6 +24,7 @@ services:
       - "8000:8000"
     volumes:
       - ./settings.py:/code/castellum/settings/deployment.py
+      - ./uwsgi.ini:/code/uwsgi.ini
     depends_on:
       - db_default
       - db_contacts

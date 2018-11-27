@@ -55,7 +55,7 @@ build:
     - git fetch origin master
     - git merge origin/master --no-ff
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
-    - docker build -t $CONTAINER_TEST_IMAGE -f ./docker/castellum/Dockerfile .
+    - docker build -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
 
 selenium:
