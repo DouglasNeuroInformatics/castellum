@@ -86,7 +86,7 @@ class FilterGroupListView(PermissionRequiredMixin, ListView):
             return redirect(group.get_absolute_url())
 
 
-class FilterGroupCreateView(PermissionRequiredMixin, UnpublishedStudyMixin, View):
+class FilterGroupCreateView(UnpublishedStudyMixin, PermissionRequiredMixin, View):
     permission_required = 'recruitment.add_subjectfilter'
 
     def post(self, *args, **kwargs):
@@ -94,7 +94,7 @@ class FilterGroupCreateView(PermissionRequiredMixin, UnpublishedStudyMixin, View
         return redirect(group.get_absolute_url())
 
 
-class FilterGroupDeleteView(PermissionRequiredMixin, UnpublishedStudyMixin, DeleteView):
+class FilterGroupDeleteView(UnpublishedStudyMixin, PermissionRequiredMixin, DeleteView):
     model = SubjectFilterGroup
     template_name = 'recruitment/filtergroup_confirm_delete.html'
     permission_required = 'recruitment.add_subjectfilter'
@@ -131,7 +131,7 @@ class FilterFormSet(BaseModelFormSet):
                                     'delete filter!'))
 
 
-class FilterGroupUpdateView(PermissionRequiredMixin, UnpublishedStudyMixin, ModelFormSetView):
+class FilterGroupUpdateView(UnpublishedStudyMixin, PermissionRequiredMixin, ModelFormSetView):
     model = SubjectFilter
     form_class = forms.SubjectFilterForm
     formset_class = FilterFormSet
