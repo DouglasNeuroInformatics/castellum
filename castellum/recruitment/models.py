@@ -25,6 +25,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 from django.core.serializers.json import DjangoJSONEncoder
+from django.core.validators import MaxValueValidator
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -82,6 +83,12 @@ class AttributeSet(SubjectData):
         return AttributeDescription.objects.values_list('name', flat=True)
 
 
+class AttributeDescriptionManager(models.Manager):
+    def allowed(self, user, obj=None):
+        privacy_level = user.get_privacy_level(obj=obj)
+        return self.filter(privacy_level__lte=privacy_level)
+
+
 class AttributeDescription(models.Model):
     FIELD_TYPE_CHOICES = (
         ('CharField', _('CharField')),
@@ -95,7 +102,10 @@ class AttributeDescription(models.Model):
     label = models.CharField(max_length=64)
     _filter_label = models.CharField(max_length=64, blank=True, default='')
     field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
+    privacy_level = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(2)])
     weight = models.IntegerField(default=0)
+
+    objects = AttributeDescriptionManager()
 
     class Meta:
         ordering = ['weight']
