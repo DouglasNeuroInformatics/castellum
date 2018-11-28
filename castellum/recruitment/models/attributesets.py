@@ -172,9 +172,8 @@ class AttributeChoice(models.Model):
 class BaseFilterField:
     available_operators = NotImplemented
 
-    def formfield(self, field_name, **kwargs):
-        attribute_description = AttributeDescription.objects.get(name=field_name)
-        return attribute_description.get_form_field(**kwargs)
+    def formfield(self, description, **kwargs):
+        return description.get_form_field(**kwargs)
 
     def to_q(self, field_name, operator, value):
         if operator.startswith('!'):
@@ -225,9 +224,9 @@ class AgeFilterField(BaseFilterField):
         ("gt", _("younger than")),
     ]
 
-    def formfield(self, field_name, **kwargs):
+    def formfield(self, description, **kwargs):
         kwargs.setdefault('form_class', AgeField)
-        return super().formfield(field_name, **kwargs)
+        return super().formfield(description, **kwargs)
 
     def to_q(self, field_name, operator, value):
         period, scale = value
