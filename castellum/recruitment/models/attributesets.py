@@ -175,15 +175,16 @@ class BaseFilterField:
     def formfield(self, description, **kwargs):
         return description.get_form_field(**kwargs)
 
-    def to_q(self, field_name, operator, value):
+    def to_q(self, description, operator, value):
+        field_name = 'data__' + description.name
         if operator.startswith('!'):
-            key = 'data__{}__{}'.format(field_name, operator[1:])
+            key = '{}__{}'.format(field_name, operator[1:])
             q = models.Q(**{key: value})
             q_empty = models.Q(**{field_name: ''})
             q_null = models.Q(**{field_name: None})
             return ~q & ~q_empty & ~q_null
         else:
-            key = 'data__{}__{}'.format(field_name, operator)
+            key = '{}__{}'.format(field_name, operator)
             return models.Q(**{key: value})
 
 
@@ -228,10 +229,10 @@ class AgeFilterField(BaseFilterField):
         kwargs.setdefault('form_class', AgeField)
         return super().formfield(description, **kwargs)
 
-    def to_q(self, field_name, operator, value):
+    def to_q(self, description, operator, value):
         period, scale = value
         try:
             date = datetime.date.today() - relativedelta(**{scale: period})
         except (ValueError, OverflowError):
             date = datetime.date.min
-        return super().to_q(field_name, operator, date)
+        return super().to_q(description, operator, date)
