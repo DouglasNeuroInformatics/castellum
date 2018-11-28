@@ -67,13 +67,13 @@ class AttributeSet(SubjectData):
             queryset = cls.objects
         return queryset.filter(get_study_filter_q(study))
 
-    def get_verbose_name(self, field_name):
-        description = AttributeDescription.objects.get(name=field_name)
+    def get_verbose_name(self, pk):
+        description = AttributeDescription.objects.get(pk=pk)
         return description.label
 
-    def get_display(self, field_name):
-        description = AttributeDescription.objects.get(name=field_name)
-        value = description.from_json(self.data.get(field_name))
+    def get_display(self, pk):
+        description = AttributeDescription.objects.get(pk=pk)
+        value = description.from_json(self.data.get(description.name))
         if value and description.field_type == 'ChoiceField':
             choice = AttributeChoice.objects.get(description=description, pk=value)
             return choice.label
@@ -81,7 +81,7 @@ class AttributeSet(SubjectData):
             return value
 
     def get_field_names(self):
-        return AttributeDescription.objects.values_list('name', flat=True)
+        return AttributeDescription.objects.values_list('pk', flat=True)
 
 
 class AttributeDescriptionManager(models.Manager):
