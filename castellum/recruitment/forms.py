@@ -86,9 +86,7 @@ class AttributeSetForm(forms.Form):
         return self.instance
 
     @classmethod
-    def factory(cls):
-        fields = {
-            description.name: description.get_form_field()
-            for description in AttributeDescription.objects.all()
-        }
-        return type('AttributeSetForm', (cls,), fields)
+    def factory(cls, user, obj=None):
+        allowed_descriptions = AttributeDescription.objects.allowed(user, obj=obj)
+        form_fields = {desc.name: desc.get_form_field() for desc in allowed_descriptions}
+        return type('AttributeSetForm', (cls,), form_fields)

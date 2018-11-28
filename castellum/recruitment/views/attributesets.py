@@ -29,6 +29,7 @@ from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import resolve_pseudonym
 
 from ..forms import AttributeSetForm
+from ..models import AttributeDescription
 from ..models import AttributeSet
 
 monitoring_logger = logging.getLogger('monitoring.recruitment')
@@ -48,6 +49,8 @@ class AttributeSetDetailView(PermissionRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['contact_pseudonym'] = resolve_pseudonym(
             AttributeSet.domain, self.object.pseudonym, Contact.domain)
+        allowed_descriptions = AttributeDescription.objects.allowed(self.request.user)
+        context['allowed_fields'] = [desc.name for desc in allowed_descriptions]
         return context
 
 
@@ -57,7 +60,7 @@ class AttributeSetUpdateView(PermissionRequiredMixin, UpdateView):
     permission_required = 'recruitment.change_attributeset'
 
     def get_form_class(self):
-        return AttributeSetForm.factory()
+        return AttributeSetForm.factory(self.request.user)
 
     def form_valid(self, form):
         result = super().form_valid(form)
