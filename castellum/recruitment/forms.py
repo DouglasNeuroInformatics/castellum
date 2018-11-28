@@ -22,38 +22,33 @@
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 
-from .models import AttributeSet
+from .models import AttributeDescription
 from .models import SubjectFilter
-from .models import get_filter_field
 
 
-def get_field_name_choices():
-    yield '', '---'
-    for field in AttributeSet._meta.get_fields()[2:]:
-        if field.name in AttributeSet.filter_names:
-            yield field.name, AttributeSet.filter_names[field.name]
-        else:
-            yield field.name, field.verbose_name
+def get_description_choices():
+    yield None, '---'
+    for description in AttributeDescription.objects.all():
+        yield description.pk, description.filter_label
 
 
 class SubjectFilterForm(forms.ModelForm):
-    field_name = forms.ChoiceField(choices=get_field_name_choices())
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        selected_field_name = self._get_selected_field_name(**kwargs)
+        selected_description = self._get_selected_description(**kwargs)
 
-        if not selected_field_name:
+        if not selected_description:
             return
 
-        filter_field = get_filter_field(selected_field_name)
+        filter_field = selected_description.get_filter_field()
 
-        self.fields["field_name"].widget.attrs["disabled"] = True
+        self.fields["description"].widget.attrs["disabled"] = True
+        self.fields["description"].choices = get_description_choices()
 
         self.fields["operator"] = forms.ChoiceField(choices=filter_field.available_operators)
 
-        self.fields["value"] = filter_field.formfield(selected_field_name)
+        self.fields["value"] = filter_field.formfield(selected_description.name)
         self.fields["value"].required = True
 
         # disable fields when study is not published
@@ -65,15 +60,35 @@ class SubjectFilterForm(forms.ModelForm):
         except ObjectDoesNotExist:
             pass
 
-    def _get_selected_field_name(self, instance=None, data=None, prefix=None, **kwargs):
+    def _get_selected_description(self, instance=None, data=None, prefix=None, **kwargs):
         if instance:
-            return instance.field_name
+            return instance.description
         elif data:
-            if prefix:
-                return data[prefix + '-field_name']
-            else:
-                return data['field_name']
+            pk = data[prefix + '-description' if prefix else 'description']
+            if pk:
+                return AttributeDescription.objects.get(pk=pk)
 
     class Meta:
         model = SubjectFilter
         fields = "__all__"
+
+
+class AttributeSetForm(forms.Form):
+    def __init__(self, instance=None, **kwargs):
+        self.instance = instance
+        if not kwargs.get('initial'):
+            kwargs['initial'] = instance.data
+        super().__init__(**kwargs)
+
+    def save(self):
+        self.instance.data = self.cleaned_data
+        self.instance.save()
+        return self.instance
+
+    @classmethod
+    def factory(cls):
+        fields = {
+            description.name: description.get_form_field()
+            for description in AttributeDescription.objects.all()
+        }
+        return type('AttributeSetForm', (cls,), fields)

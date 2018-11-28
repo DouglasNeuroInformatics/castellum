@@ -1,0 +1,48 @@
+[
+    {
+        "model": "recruitment.AttributeDescription",
+        "pk": 1,
+        "fields": {
+            "name": "handedness",
+            "label": "Händigkeit",
+            "field_type": "ChoiceField"
+        }
+    },
+    {
+        "model": "recruitment.AttributeDescription",
+        "pk": 2,
+        "fields": {
+            "name": "first_language",
+            "label": "Muttersprache",
+            "field_type": "CharField"
+        }
+    },
+    {
+        "model": "recruitment.AttributeDescription",
+        "pk": 3,
+        "fields": {
+            "name": "date_of_birth",
+            "label": "Geburtsdatum",
+            "_filter_label": "Alter",
+            "field_type": "AgeField"
+        }
+    },
+    {
+        "model": "recruitment.AttributeChoice",
+        "pk": 1,
+        "fields": {
+            "description": 1,
+            "name": "right",
+            "label": "Rechts"
+        }
+    },
+    {
+        "model": "recruitment.AttributeChoice",
+        "pk": 2,
+        "fields": {
+            "description": 1,
+            "name": "left",
+            "label": "Links"
+        }
+    }
+]

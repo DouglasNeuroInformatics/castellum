@@ -21,7 +21,10 @@
 
 import datetime
 
+from django import forms
 from django.conf import settings
+from django.contrib.postgres.fields import JSONField
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -31,8 +34,8 @@ from picklefield.fields import PickledObjectField
 
 from castellum.pseudonyms.models import SubjectData
 from castellum.studies.models import Study
-from castellum.utils.fields import DateField
 from castellum.utils.fields import DateTimeField
+from castellum.utils.forms import DateField as DateFormField
 
 from .fields import AgeField
 
@@ -47,19 +50,7 @@ def get_study_filter_q(study):
 class AttributeSet(SubjectData):
     domain = settings.DOMAINS['attributeset']
 
-    filter_fields = {
-        'date_of_birth': 'AgeFilterField',
-    }
-    filter_names = {
-        'date_of_birth': _('age'),
-    }
-
-    handedness = models.CharField(_('handedness'), blank=True, max_length=10, choices=(
-        ('left', _('left')),
-        ('right', _('right')),
-    ))
-    first_language = models.CharField(_('first Language'), blank=True, max_length=5)
-    date_of_birth = DateField(_('date of birth'), null=True, blank=True)
+    data = JSONField(encoder=DjangoJSONEncoder)
 
     class Meta:
         verbose_name = _('attribute set')
@@ -73,6 +64,85 @@ class AttributeSet(SubjectData):
         if not queryset:
             queryset = cls.objects
         return queryset.filter(get_study_filter_q(study))
+
+    def get_verbose_name(self, field_name):
+        description = AttributeDescription.objects.get(name=field_name)
+        return description.label
+
+    def get_display(self, field_name):
+        value = self.data.get(field_name)
+        description = AttributeDescription.objects.get(name=field_name)
+        if value and description.field_type == 'ChoiceField':
+            choice = AttributeChoice.objects.get(description=description, name=value)
+            return choice.label
+        else:
+            return value
+
+    def get_field_names(self):
+        return AttributeDescription.objects.values_list('name', flat=True)
+
+
+class AttributeDescription(models.Model):
+    FIELD_TYPE_CHOICES = (
+        ('CharField', _('CharField')),
+        ('ChoiceField', _('ChoiceField')),
+        ('IntegerField', _('IntegerField')),
+        ('DateField', _('DateField')),
+        ('AgeField', _('AgeField')),
+    )
+
+    name = models.CharField(max_length=64, unique=True)
+    label = models.CharField(max_length=64)
+    _filter_label = models.CharField(max_length=64, blank=True, default='')
+    field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
+    weight = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['weight']
+
+    def __str__(self):
+        return self.label
+
+    @property
+    def filter_label(self):
+        return self._filter_label or self.label
+
+    def get_form_field(self, form_class=None):
+        kwargs = {
+            'label': self.label,
+            'required': False,
+        }
+
+        if not form_class:
+            MAPPING = {
+                'CharField': forms.CharField,
+                'ChoiceField': forms.ChoiceField,
+                'IntegerField': forms.IntegerField,
+                'DateField': DateFormField,
+                'AgeField': DateFormField,
+            }
+            form_class = MAPPING[self.field_type]
+
+        if self.field_type == 'ChoiceField':
+            kwargs['choices'] = list(self.attributechoice_set.values_list('name', 'label'))
+
+        return form_class(**kwargs)
+
+    def get_filter_field(self):
+        MAPPING = {
+            'CharField': TextFilterField,
+            'ChoiceField': TextFilterField,
+            'IntegerField': NumberFilterField,
+            'DateField': DateFilterField,
+            'AgeField': AgeFilterField,
+        }
+        return MAPPING[self.field_type]()
+
+
+class AttributeChoice(models.Model):
+    description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
+    name = models.CharField(max_length=64)
+    label = models.CharField(max_length=64)
 
 
 class ParticipationRequestManager(models.Manager):
@@ -161,7 +231,7 @@ class SubjectFilterGroupManager(models.Manager):
 
     def clone_filters(self, original_group, cloned_group):
         for f in original_group.subjectfilter_set.all():
-            yield SubjectFilter(group=cloned_group, field_name=f.field_name, operator=f.operator,
+            yield SubjectFilter(group=cloned_group, description=f.description, operator=f.operator,
                                 value=f.value)
 
 
@@ -185,13 +255,13 @@ class SubjectFilterGroup(models.Model):
 
 class SubjectFilter(models.Model):
     group = models.ForeignKey(SubjectFilterGroup, on_delete=models.CASCADE)
-    field_name = models.CharField(max_length=256)
+    description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
     operator = models.CharField(max_length=64)
     value = PickledObjectField(editable=True)
 
     def to_q(self):
-        filter_field = get_filter_field(self.field_name)
-        return filter_field.to_q(self.field_name, self.operator, self.value)
+        filter_field = self.description.get_filter_field()
+        return filter_field.to_q(self.description.name, self.operator, self.value)
 
     def get_subject_count(self):
         return AttributeSet.objects.filter(self.to_q()).count()
@@ -201,18 +271,18 @@ class BaseFilterField:
     available_operators = NotImplemented
 
     def formfield(self, field_name, **kwargs):
-        model_field = AttributeSet._meta.get_field(field_name)
-        return model_field.formfield(**kwargs)
+        attribute_description = AttributeDescription.objects.get(name=field_name)
+        return attribute_description.get_form_field(**kwargs)
 
     def to_q(self, field_name, operator, value):
         if operator.startswith('!'):
-            key = '{}__{}'.format(field_name, operator[1:])
+            key = 'data__{}__{}'.format(field_name, operator[1:])
             q = models.Q(**{key: value})
             q_empty = models.Q(**{field_name: ''})
             q_null = models.Q(**{field_name: None})
             return ~q & ~q_empty & ~q_null
         else:
-            key = '{}__{}'.format(field_name, operator)
+            key = 'data__{}__{}'.format(field_name, operator)
             return models.Q(**{key: value})
 
 
@@ -264,27 +334,3 @@ class AgeFilterField(BaseFilterField):
         except (ValueError, OverflowError):
             date = datetime.date.min
         return super().to_q(field_name, operator, date)
-
-
-def get_filter_field(field_name):
-    if field_name in AttributeSet.filter_fields:
-        FILTERS = {
-            "DateFilterField": DateFilterField(),
-            "NumberFilterField": NumberFilterField(),
-            "TextFilterField": TextFilterField(),
-            "AgeFilterField": AgeFilterField(),
-        }
-
-        overwrite = AttributeSet.filter_fields[field_name]
-        return FILTERS[overwrite]
-    else:
-        FILTER_MAPPING = {
-            "CharField": TextFilterField(),
-            "DateField": DateFilterField(),
-            "FloatField": NumberFilterField(),
-            "IntegerField": NumberFilterField(),
-        }
-
-        model_field = AttributeSet._meta.get_field(field_name)
-        model_type = model_field.get_internal_type()
-        return FILTER_MAPPING[model_type]

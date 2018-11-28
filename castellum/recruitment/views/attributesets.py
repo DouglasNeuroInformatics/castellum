@@ -28,6 +28,7 @@ from django.views.generic import UpdateView
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import resolve_pseudonym
 
+from ..forms import AttributeSetForm
 from ..models import AttributeSet
 
 monitoring_logger = logging.getLogger('monitoring.recruitment')
@@ -52,9 +53,11 @@ class AttributeSetDetailView(PermissionRequiredMixin, DetailView):
 
 class AttributeSetUpdateView(PermissionRequiredMixin, UpdateView):
     model = AttributeSet
-    fields = '__all__'
     slug_field = 'pseudonym'
     permission_required = 'recruitment.change_attributeset'
+
+    def get_form_class(self):
+        return AttributeSetForm.factory()
 
     def form_valid(self, form):
         result = super().form_valid(form)

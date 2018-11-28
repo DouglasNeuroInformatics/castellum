@@ -133,9 +133,11 @@ def fake_contact(pseudonym, address):
 def fake_attributeset(pseudonym, contact):
     return AttributeSet(
         pseudonym=pseudonym.pseudonym,
-        date_of_birth=contact.birthday,
-        handedness='left' if fake.random.random() < 0.15 else 'right',
-        first_language=fake_data.language())
+        data={
+            'date_of_birth': contact.birthday,
+            'handedness': 'left' if fake.random.random() < 0.15 else 'right',
+            'first_language': fake_data.language(),
+        })
 
 
 def generate_studies(count):

@@ -9,11 +9,12 @@ import pytest
     (1000, True),
     (1001, False),
 ))
-def test_error_if_age_out_of_limits(client, user, filter_group, age, expected):
+def test_error_if_age_out_of_limits(
+        client, attribute_descriptions, user, filter_group, age, expected):
     client.force_login(user)
     url = '/recruitment/filter/{}/{}/'.format(filter_group.study.pk, filter_group.pk)
     response = client.post(url,  {
-        "form-0-field_name": "date_of_birth",
+        "form-0-description": 3,
         "form-0-group": filter_group.pk,
         "form-0-id": 1,
         "form-0-operator": "gt",

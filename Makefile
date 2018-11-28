@@ -38,6 +38,7 @@ start_database_containers:
 
 reset_databases: remove_databases remove_all_migration_files start_database_containers migrate createsuperuser
 	$(MANAGEPY) loaddata timeslots --database=contacts
+	$(MANAGEPY) loaddata attribute_descriptions --database=default
 	$(MANAGEPY) populate
 
 install:

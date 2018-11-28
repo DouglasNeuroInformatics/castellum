@@ -21,12 +21,26 @@
 
 from django.contrib import admin
 
+from .models import AttributeChoice
+from .models import AttributeDescription
 from .models import AttributeSet
 from .models import ParticipationRequest
 from .models import ParticipationRequestRevision
 from .models import SubjectFilter
 from .models import SubjectFilterGroup
 
+
+class AttributeChoiceInline(admin.TabularInline):
+    model = AttributeChoice
+
+
+class AttributeDescriptionAdmin(admin.ModelAdmin):
+    inlines = [
+        AttributeChoiceInline,
+    ]
+
+
+admin.site.register(AttributeDescription, AttributeDescriptionAdmin)
 admin.site.register(AttributeSet)
 admin.site.register(ParticipationRequest)
 admin.site.register(ParticipationRequestRevision)

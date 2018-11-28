@@ -16,7 +16,7 @@
 
         {% if not study.published %}
             {% for form in formset %}
-                {% if not form.field_name.value %}
+                {% if not form.description.value %}
                     <h2>{% trans "Add Filter" %}</h2>
                     <formset class="row">
                         {{ form.id.as_hidden }}
@@ -25,7 +25,7 @@
                         {{ form.value.as_hidden }}
 
                         <div class="col-sm-4">
-                            {% bootstrap_field form.field_name show_label=False %}
+                            {% bootstrap_field form.description show_label=False %}
                         </div>
                     </formset>
                     <hr>
@@ -34,15 +34,15 @@
         {% endif %}
 
         {% for form in formset %}
-            {% if form.field_name.value %}
+            {% if form.description.value %}
                 <formset class="row">
                     {{ form.id.as_hidden }}
                     <input type="hidden" name="{{ form.prefix }}-group" value="{{ group.id }}" />
 
                     <div class="col-sm-4">
                         {# duplicated because disabled fields are not posted to the server #}
-                        {% bootstrap_field form.field_name show_label=False%}
-                        {{ form.field_name.as_hidden }}
+                        {% bootstrap_field form.description show_label=False%}
+                        {{ form.description.as_hidden }}
                     </div>
                     {% if form.operator.field.choices|length > 1 %}
                         <div class="col-sm">

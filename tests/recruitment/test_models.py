@@ -1,7 +1,8 @@
 import pytest
 from model_mommy import mommy
 
-from castellum.recruitment.models import SubjectFilter, SubjectFilterGroup
+from castellum.recruitment.models import SubjectFilter
+from castellum.recruitment.models import SubjectFilterGroup
 from castellum.studies.models import Study
 
 
@@ -25,10 +26,10 @@ def test_clone_with_empty_filter_group(subject_filter_group, study):
 
 
 @pytest.mark.django_db
-def test_clone_with_multiple_filters(subject_filter_group, study):
-    SubjectFilter.objects.create(group=subject_filter_group, field_name="field1",
+def test_clone_with_multiple_filters(subject_filter_group, attribute_description, study):
+    SubjectFilter.objects.create(group=subject_filter_group, description=attribute_description,
                                  operator="operator1", value="value1")
-    SubjectFilter.objects.create(group=subject_filter_group, field_name="field2",
+    SubjectFilter.objects.create(group=subject_filter_group, description=attribute_description,
                                  operator="operator2", value="value2")
 
     clone = SubjectFilterGroup.objects.clone(subject_filter_group)
