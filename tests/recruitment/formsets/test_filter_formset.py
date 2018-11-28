@@ -48,13 +48,13 @@ def test_formset_with_valid_data(attribute_description):
         {
             'description': attribute_description.pk,
             'operator': 'contains',
-            'value': 'left',
+            'value': 2,
             'DELETE': 'False',
         },
         {
             'description': attribute_description.pk,
             'operator': 'contains',
-            'value': 'right',
+            'value': 1,
             'DELETE': 'False',
         },
     ])
@@ -71,13 +71,13 @@ def test_two_identical_filters(attribute_description):
         {
             'description': attribute_description.pk,
             'operator': 'contains',
-            'value': 'left',
+            'value': 2,
             'DELETE': False,
         },
         {
             'description': attribute_description.pk,
             'operator': 'contains',
-            'value': 'left',
+            'value': 2,
             'DELETE': False,
         },
     ])
@@ -94,13 +94,13 @@ def test_two_identical_filters_with_delete(attribute_description):
         {
             'description': attribute_description.pk,
             'operator': 'contains',
-            'value': 'left',
+            'value': 2,
             'DELETE': False,
         },
         {
             'description': attribute_description.pk,
             'operator': 'contains',
-            'value': 'left',
+            'value': 2,
             'DELETE': True,
         },
     ])

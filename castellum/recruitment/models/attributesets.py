@@ -39,6 +39,12 @@ from ..fields import AgeField
 from ..utils import get_study_filter_q
 
 
+class IntegerChoiceField(forms.TypedChoiceField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('coerce', int)
+        super().__init__(*args, **kwargs)
+
+
 class AttributeSet(SubjectData):
     domain = settings.DOMAINS['attributeset']
 
@@ -69,7 +75,7 @@ class AttributeSet(SubjectData):
         description = AttributeDescription.objects.get(name=field_name)
         value = description.from_json(self.data.get(field_name))
         if value and description.field_type == 'ChoiceField':
-            choice = AttributeChoice.objects.get(description=description, name=value)
+            choice = AttributeChoice.objects.get(description=description, pk=value)
             return choice.label
         else:
             return value
@@ -126,7 +132,7 @@ class AttributeDescription(models.Model):
         if not form_class:
             MAPPING = {
                 'CharField': forms.CharField,
-                'ChoiceField': forms.ChoiceField,
+                'ChoiceField': IntegerChoiceField,
                 'IntegerField': forms.IntegerField,
                 'DateField': DateFormField,
                 'AgeField': DateFormField,
@@ -134,7 +140,7 @@ class AttributeDescription(models.Model):
             form_class = MAPPING[self.field_type]
 
         if self.field_type == 'ChoiceField':
-            kwargs['choices'] = list(self.attributechoice_set.values_list('name', 'label'))
+            kwargs['choices'] = list(self.attributechoice_set.values_list('pk', 'label'))
 
         return form_class(**kwargs)
 
@@ -160,7 +166,6 @@ class AttributeDescription(models.Model):
 
 class AttributeChoice(models.Model):
     description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
-    name = models.CharField(max_length=64)
     label = models.CharField(max_length=64)
 
 

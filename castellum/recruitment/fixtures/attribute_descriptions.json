@@ -32,7 +32,6 @@
         "pk": 1,
         "fields": {
             "description": 1,
-            "name": "right",
             "label": "Rechts"
         }
     },
@@ -41,7 +40,6 @@
         "pk": 2,
         "fields": {
             "description": 1,
-            "name": "left",
             "label": "Links"
         }
     }
