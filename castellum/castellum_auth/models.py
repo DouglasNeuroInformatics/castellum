@@ -41,6 +41,12 @@ class User(AbstractUser):
     logout_timeout = models.DurationField(
         _('time until automatic logout'), default=settings.LOGOUT_TIMEOUT_DEFAULT)
 
+    class Meta:
+        permissions = (
+            ('privacy_level_1', _('Can access privacy level 1')),
+            ('privacy_level_2', _('Can access privacy level 2')),
+        )
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.__initial_is_active = self.is_active
@@ -69,6 +75,16 @@ class User(AbstractUser):
         for group in self.groups.all():
             permissions.update(group.permissions.all())
         return sorted(permissions, key=lambda p: p.codename)
+
+    def get_privacy_level(self, obj=None):
+        privacy_level = 0
+        for level in range(1, 3):
+            perm = 'castellum_auth.privacy_level_{}'.format(level)
+            if self.has_perm(perm, obj=obj):
+                privacy_level = level
+            else:
+                break
+        return privacy_level
 
 
 @receiver(user_logged_in)

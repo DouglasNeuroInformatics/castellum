@@ -22,6 +22,7 @@
 from datetime import date
 
 from django.conf import settings
+from django.core.validators import MaxValueValidator
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -113,6 +114,9 @@ class Contact(SubjectData):
         TimeSlot, verbose_name=_("friday"), blank=True, related_name='+')
 
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
+
+    privacy_level = models.PositiveIntegerField(
+        _("privacy level"), validators=[MaxValueValidator(2)])
 
     objects = ContactManager()
 
