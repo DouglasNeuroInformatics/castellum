@@ -1,0 +1,33 @@
+.table-list {
+    list-style: none;
+    padding: 0;
+}
+
+.table-list-item {
+    border-bottom: 1px solid #dee2e6;
+    padding: 0.5rem 0;
+}
+
+@media (min-width: 576px) {
+    .table-list-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .table-list-item-actions {
+        flex-grow: 1;
+        text-align: right;
+    }
+}
+
+.btn-sm-inline {
+    display: block;
+    width: 100%;
+}
+
+@media (min-width: 576px) {
+    .btn-sm-inline {
+        display: inline-block;
+        width: auto;
+    }
+}

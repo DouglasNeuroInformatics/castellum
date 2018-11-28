@@ -4,24 +4,18 @@
 {% block content %}
     <h2>{% trans 'Studies' %}</h2>
 
-    <table class="table">
-    <thead>
-        <tr>
-            <th>{% trans 'Name' %}</th>
-            <th>{% trans 'Action' %}</th>
-        </tr>
-    </thead>
-    <tbody>
+    <ul class="table-list mb-3">
         {% for study in studies %}
             {% if study.published %}
-                <tr>
-                    <td>{{ study.name|default:_('not provided') }}</td>
-                    <td><a class='btn btn-outline-primary' href="{% url 'recruitment:recruitment_not-contacted' study.pk %}">{% trans 'Find subjects' %}</a></td>
-                </tr>
+                <li class="table-list-item">
+                    <h3 class="h4 my-1 mr-2">{{ study.name|default:_('not provided') }}</h3>
+                    <div class="table-list-item-actions">
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment_not-contacted' study.pk %}">{% trans 'Find subjects' %}</a>
+                    </div>
+                </li>
             {% endif %}
         {% endfor %}
-    </tbody>
-    </table>
+    </ul>
 
     <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
 {% endblock %}
