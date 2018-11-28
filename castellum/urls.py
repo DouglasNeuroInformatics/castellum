@@ -48,6 +48,7 @@ urlpatterns = [
     path('recruitment/', include('castellum.recruitment.urls', namespace='recruitment')),
     path('studies/', include('castellum.studies.urls', namespace='studies')),
     path('subjects/', include('castellum.contacts.urls', namespace='contacts')),
+    path('dynamic/', include('castellum.dynamicforms.urls', namespace='dynamic')),
 ]
 
 try:

@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'castellum.recruitment',
     'castellum.studies',
     'castellum.contacts',
+    'castellum.dynamicforms',
 ]
 
 MIDDLEWARE = [
