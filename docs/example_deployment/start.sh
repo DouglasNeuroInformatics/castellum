@@ -22,7 +22,8 @@ done
 
 docker-compose run web django-admin migrateall
 docker-compose run web django-admin create_castellum_admin
-docker-compose run web django-admin loaddata timeslots
+docker-compose run web django-admin loaddata timeslots --database=contacts
+docker-compose run web django-admin loaddata attribute_descriptions --database=default
 docker-compose run web django-admin populate
 
 fg
