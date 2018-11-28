@@ -59,7 +59,7 @@ class AttributeSet(SubjectData):
 
     def get_data(self):
         qs = AttributeDescription.objects.all()
-        return {desc.name: desc.from_json(self.data.get(desc.name)) for desc in qs}
+        return {desc.json_key: desc.from_json(self.data.get(desc.json_key)) for desc in qs}
 
     @classmethod
     def apply_study_filter(cls, study, queryset=None):
@@ -73,7 +73,7 @@ class AttributeSet(SubjectData):
 
     def get_display(self, pk):
         description = AttributeDescription.objects.get(pk=pk)
-        value = description.from_json(self.data.get(description.name))
+        value = description.from_json(self.data.get(description.json_key))
         if value and description.field_type == 'ChoiceField':
             choice = AttributeChoice.objects.get(description=description, pk=value)
             return choice.label
@@ -104,7 +104,6 @@ class AttributeDescription(models.Model):
         ('AgeField', _('AgeField')),
     )
 
-    name = models.CharField(max_length=64, unique=True)
     label = models.CharField(max_length=64)
     _filter_label = models.CharField(max_length=64, blank=True, default='')
     field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
@@ -118,6 +117,11 @@ class AttributeDescription(models.Model):
 
     def __str__(self):
         return self.label
+
+    @property
+    def json_key(self):
+        # can not be a number because then queries like `data__8` would expect an array.
+        return 'd{}'.format(self.pk)
 
     @property
     def filter_label(self):
@@ -176,7 +180,7 @@ class BaseFilterField:
         return description.get_form_field(**kwargs)
 
     def to_q(self, description, operator, value):
-        field_name = 'data__' + description.name
+        field_name = 'data__' + description.json_key
         if operator.startswith('!'):
             key = '{}__{}'.format(field_name, operator[1:])
             q = models.Q(**{key: value})

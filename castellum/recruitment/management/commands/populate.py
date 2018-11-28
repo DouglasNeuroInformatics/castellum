@@ -135,9 +135,9 @@ def fake_attributeset(pseudonym, contact):
     return AttributeSet(
         pseudonym=pseudonym.pseudonym,
         data={
-            'date_of_birth': contact.birthday,
-            'handedness': 2 if fake.random.random() < 0.15 else 1,
-            'first_language': fake_data.language(),
+            'd1': 2 if fake.random.random() < 0.15 else 1,
+            'd2': fake_data.language(),
+            'd3': contact.birthday,
         })
 
 

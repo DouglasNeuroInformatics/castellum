@@ -88,5 +88,5 @@ class AttributeSetForm(forms.Form):
     @classmethod
     def factory(cls, user, obj=None):
         allowed_descriptions = AttributeDescription.objects.allowed(user, obj=obj)
-        form_fields = {desc.name: desc.get_form_field() for desc in allowed_descriptions}
+        form_fields = {desc.json_key: desc.get_form_field() for desc in allowed_descriptions}
         return type('AttributeSetForm', (cls,), form_fields)
