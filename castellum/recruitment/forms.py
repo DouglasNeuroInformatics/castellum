@@ -26,7 +26,7 @@ from .models import AttributeDescription
 from .models import SubjectFilter
 
 
-def get_field_name_choices():
+def get_description_choices():
     yield None, '---'
     for description in AttributeDescription.objects.all():
         yield description.pk, description.filter_label
@@ -44,7 +44,7 @@ class SubjectFilterForm(forms.ModelForm):
         filter_field = selected_description.get_filter_field()
 
         self.fields["description"].widget.attrs["disabled"] = True
-        self.fields["description"].choices = get_field_name_choices()
+        self.fields["description"].choices = get_description_choices()
 
         self.fields["operator"] = forms.ChoiceField(choices=filter_field.available_operators)
 
