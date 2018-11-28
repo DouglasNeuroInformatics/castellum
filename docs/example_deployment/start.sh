@@ -5,11 +5,8 @@
 #
 # See https://docs.docker.com/compose/startup-order/
 
-# activate job control so we can use fg
-set -m
-
 docker-compose pull
-docker-compose up &
+docker-compose up -d
 
 # wait until the server is running
 for i in `seq 10` ; do
@@ -25,4 +22,7 @@ docker-compose run web django-admin create_castellum_admin
 docker-compose run web django-admin loaddata timeslots
 docker-compose run web django-admin populate
 
-fg
+echo ''
+echo 'castellum is running in the background.'
+echo 'run `docker-compose up` to attach to the running process.'
+echo 'run `docker-compose stop` to stop the running process.'
