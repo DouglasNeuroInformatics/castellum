@@ -26,21 +26,30 @@ from django.shortcuts import get_object_or_404
 from castellum.studies.models import Study
 
 
-class PublishedStudyMixin:
+class StudyMixin:
+    def check_study(self):
+        pass
+
     def dispatch(self, request, *args, **kwargs):
         study_pk = self.kwargs.get('study_pk')
         self.study = get_object_or_404(Study, pk=study_pk)
+        self.check_study()
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_permission_required(self):
+        """If used together with PermissionRequiredMixin, require view_study permission."""
+        permission_required = {'studies.view_study'}
+        permission_required.update(super().get_permission_required())
+        return permission_required
+
+
+class PublishedStudyMixin(StudyMixin):
+    def check_study(self):
         if not self.study.published:
             raise Http404
-        return super().dispatch(request, *args, **kwargs)
 
 
-class UnpublishedStudyMixin:
-    def dispatch(self, request, *args, **kwargs):
-        study_pk = self.kwargs.get('study_pk')
-        self.study = get_object_or_404(Study, pk=study_pk)
-        return super().dispatch(request, *args, **kwargs)
-
+class UnpublishedStudyMixin(StudyMixin):
     def post(self, request, *args, **kwargs):
         if self.study.published:
             raise PermissionDenied
