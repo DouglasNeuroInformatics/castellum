@@ -27,34 +27,32 @@ from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
 
 
 class DateInput(forms.DateInput):
-    def __init__(self, attrs=None):
+    def __init__(self, attrs={}):
         defaults = {
             'placeholder': _('yyyy-mm-dd, e.g. 2018-07-21'),
             'autocomplete': 'off',
             'data-widget': 'datepicker',
         }
-        if attrs:
-            defaults.update(attrs)
+        defaults.update(attrs)
+
         super().__init__(attrs=defaults)
 
 
 class DateTimeInput(forms.SplitDateTimeWidget):
     template_name = 'utils/widgets/splitdatetime.html'
 
-    def __init__(self, date_attrs=None, time_attrs=None):
+    def __init__(self, date_attrs={}, time_attrs={}):
         date_defaults = {
             'placeholder': _('yyyy-mm-dd, e.g. 2018-07-21'),
             'autocomplete': 'off',
             'data-widget': 'datepicker',
         }
-        if date_attrs:
-            date_defaults.update(date_attrs)
+        date_defaults.update(date_attrs)
 
         time_defaults = {
             'placeholder': _('HH:MM, e.g. 13:00'),
         }
-        if time_attrs:
-            time_defaults.update(time_attrs)
+        time_defaults.update(time_attrs)
 
         super().__init__(date_attrs=date_defaults, time_attrs=time_defaults)
 
@@ -68,12 +66,12 @@ class DateTimeField(forms.SplitDateTimeField):
 
 
 class PhoneNumberWidget(PhoneNumberInternationalFallbackWidget):
-    def __init__(self, attrs=None):
+    def __init__(self, attrs={}):
         defaults = {
             'placeholder': _('e.g. 030 123456'),
         }
-        if attrs:
-            defaults.update(defaults)
+        defaults.update(defaults)
+
         super().__init__(attrs=defaults)
 
 
