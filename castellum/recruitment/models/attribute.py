@@ -35,8 +35,8 @@ from dateutil.relativedelta import relativedelta
 from castellum.pseudonyms.models import SubjectData
 from castellum.utils.forms import DateField as DateFormField
 
-from ..utils import get_study_filter_q
 from ..fields import AgeField
+from ..utils import get_study_filter_q
 
 
 class AttributeSet(SubjectData):

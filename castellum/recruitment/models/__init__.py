@@ -19,12 +19,13 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from .attribute import AttributeChoice
+from .attribute import AttributeDescription
+from .attribute import AttributeSet
 from .participation import ParticipationRequest
 from .participation import ParticipationRequestRevision
-from .attribute import AttributeSet
-from .attribute import AttributeDescription
-from .attribute import AttributeChoice
-from .subjectfilter import SubjectFilter, SubjectFilterGroup
+from .subjectfilter import SubjectFilter
+from .subjectfilter import SubjectFilterGroup
 
 __all__ = ParticipationRequest, ParticipationRequestRevision, AttributeSet, AttributeDescription, \
           AttributeChoice, SubjectFilter, SubjectFilterGroup

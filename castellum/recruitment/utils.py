@@ -21,6 +21,7 @@
 
 from django.db import models
 
+
 def get_study_filter_q(study):
     q = models.Q()
     for group in study.subjectfiltergroup_set.all():
