@@ -32,7 +32,7 @@ from castellum.studies.models import Study
 
 from ..models import AttributeSet
 from ..models import ParticipationRequest
-from ..models import get_study_filter_q
+from ..utils import get_study_filter_q
 from .mixins import PublishedStudyMixin
 
 
