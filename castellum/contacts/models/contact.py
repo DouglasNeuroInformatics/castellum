@@ -28,7 +28,6 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-import cologne_phonetics
 from dateutil.relativedelta import relativedelta
 
 from castellum.pseudonyms.helpers import create_pseudonym
@@ -36,16 +35,9 @@ from castellum.pseudonyms.models import SubjectData
 from castellum.utils.fields import DateField
 from castellum.utils.fields import DateTimeField
 from castellum.utils.fields import PhoneNumberField
+from castellum.utils.misc import phonetic
 
 from . import Address
-
-
-def phonetic(s, encode=True):
-    codes = [code for __, code in cologne_phonetics.encode(s)]
-    if encode:
-        return ':' + ':'.join(codes) + ':'
-    else:
-        return codes
 
 
 class TimeSlot(models.Model):
