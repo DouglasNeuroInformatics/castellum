@@ -35,19 +35,10 @@ from castellum.pseudonyms.models import SubjectData
 from castellum.utils.fields import DateField
 from castellum.utils.fields import DateTimeField
 from castellum.utils.fields import PhoneNumberField
-from castellum.utils.misc import phonetic
 
 from . import Address
-
-
-class TimeSlot(models.Model):
-    hour = models.PositiveSmallIntegerField(_('hour'))
-
-    class Meta:
-        ordering = ['hour']
-
-    def __str__(self):
-        return str(self.hour)
+from castellum.contacts.models import TimeSlot
+from ..utils import phonetic
 
 
 class ContactManager(models.Manager):
