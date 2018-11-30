@@ -63,4 +63,4 @@ def test_contact_is_available():
 ))
 def test_full_name(title, expected):
     contact = mommy.prepare(Contact, first_name='Max', last_name='Planck', title=title)
-    assert contact.full_name() == expected
+    assert contact.full_name == expected

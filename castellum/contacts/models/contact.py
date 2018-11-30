@@ -125,6 +125,10 @@ class Contact(SubjectData):
         verbose_name_plural = _('contacts')
 
     @property
+    def full_name(self):
+        return " ".join(filter(None, [self.title, self.first_name, self.last_name]))
+
+    @property
     def age(self):
         return relativedelta(date.today(), self.birthday).years
 
@@ -171,9 +175,3 @@ class Contact(SubjectData):
 
     def get_absolute_url(self):
         return reverse('contacts:detail', args=[self.pseudonym])
-
-    def full_name(self):
-        name = self.first_name + ' ' + self.last_name
-        if self.title:
-            name = self.title + ' ' + name
-        return name
