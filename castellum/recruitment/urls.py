@@ -25,15 +25,15 @@ from .views.attributesets import AttributeSetDetailView
 from .views.attributesets import AttributeSetUpdateView
 from .views.contacts import ContactStudiesView
 from .views.contacts import ContactUpdateView
-from .views.filters import FilterGroupCreateView
-from .views.filters import FilterGroupDeleteView
-from .views.filters import FilterGroupDuplicateView
-from .views.filters import FilterGroupListView
-from .views.filters import FilterGroupUpdateView
 from .views.recruitment import ContactView
 from .views.recruitment import RecruitmentViewNotContacted
 from .views.recruitment import RecruitmentViewNotReached
 from .views.recruitment import StudyChoiceView
+from .views.subjectfilters import FilterGroupCreateView
+from .views.subjectfilters import FilterGroupDeleteView
+from .views.subjectfilters import FilterGroupDuplicateView
+from .views.subjectfilters import FilterGroupListView
+from .views.subjectfilters import FilterGroupUpdateView
 
 app_name = 'recruitment'
 urlpatterns = [
