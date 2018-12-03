@@ -25,6 +25,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import DetailView
 
+from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
 from castellum.contacts.views import ContactUpdateView as _ContactUpdateView
 from castellum.pseudonyms.helpers import resolve_pseudonym
@@ -57,7 +58,7 @@ class ContactUpdateView(PublishedStudyMixin, _ContactUpdateView):
         return self.get_success_url()
 
 
-class ContactStudiesView(PermissionRequiredMixin, DetailView):
+class ContactStudiesView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Contact
     slug_field = 'pseudonym'
     template_name = 'recruitment/contact_studies.html'

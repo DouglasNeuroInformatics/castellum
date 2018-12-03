@@ -145,7 +145,7 @@ class ContactCreateView(PermissionRequiredMixin, CreateView):
         return result
 
 
-class ContactUpdateView(PermissionRequiredMixin, UpdateView):
+class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = Contact
     form_class = ContactForm
     slug_field = 'pseudonym'
