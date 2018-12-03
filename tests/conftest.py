@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Permission
 from django.db.models import DateField
 from django.utils import timezone
 
@@ -15,7 +16,10 @@ mommy.generators.add(
 @pytest.fixture
 def user(db):
     future = timezone.now() + timezone.timedelta(days=10000)
-    return User.objects.create(expiration_date=future, is_superuser=True)
+    user = User.objects.create(expiration_date=future)
+    user.user_permissions.set(Permission.objects.all())
+    user.user_permissions.remove(Permission.objects.get(codename='privacy_level_2'))
+    return user
 
 
 @pytest.fixture
