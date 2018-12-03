@@ -81,7 +81,7 @@ class AttributeSetForm(forms.Form):
         super().__init__(**kwargs)
 
     def save(self):
-        self.instance.data = self.cleaned_data
+        self.instance.data.update(self.cleaned_data)
         self.instance.save()
         return self.instance
 
