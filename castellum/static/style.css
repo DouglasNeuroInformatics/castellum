@@ -12,6 +12,7 @@
     .table-list-item {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
     }
 
     .table-list-item-actions {
