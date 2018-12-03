@@ -205,15 +205,9 @@ class ContactView(PublishedStudyMixin, SubjectMixin, PermissionRequiredMixin, Up
         status_field = context['form'].fields['status']
         status_field.widget.choices = choices
 
-        contact_pseudonym = resolve_pseudonym(
-            self.study.domain,
-            self.object.pseudonym,
-            Contact.domain)
-        contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
-
         context['path'] = self.kwargs['path']
         context['study'] = self.study
-        context['contact'] = contact
+        context['contact'] = self.contact
         return context
 
     def save(self, form):
