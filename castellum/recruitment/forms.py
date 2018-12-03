@@ -77,7 +77,7 @@ class AttributeSetForm(forms.Form):
     def __init__(self, instance=None, **kwargs):
         self.instance = instance
         if not kwargs.get('initial'):
-            kwargs['initial'] = instance.data
+            kwargs['initial'] = instance.get_data()
         super().__init__(**kwargs)
 
     def save(self):

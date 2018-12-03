@@ -51,6 +51,10 @@ class AttributeSet(SubjectData):
     def get_absolute_url(self):
         return reverse('recruitment:attributes_detail', args=[self.pseudonym])
 
+    def get_data(self):
+        qs = AttributeDescription.objects.all()
+        return {desc.name: desc.from_json(self.data.get(desc.name)) for desc in qs}
+
     @classmethod
     def apply_study_filter(cls, study, queryset=None):
         if not queryset:
@@ -62,8 +66,8 @@ class AttributeSet(SubjectData):
         return description.label
 
     def get_display(self, field_name):
-        value = self.data.get(field_name)
         description = AttributeDescription.objects.get(name=field_name)
+        value = description.from_json(self.data.get(field_name))
         if value and description.field_type == 'ChoiceField':
             choice = AttributeChoice.objects.get(description=description, name=value)
             return choice.label
@@ -78,6 +82,11 @@ class AttributeDescriptionManager(models.Manager):
     def allowed(self, user, obj=None):
         privacy_level = user.get_privacy_level(obj=obj)
         return self.filter(privacy_level__lte=privacy_level)
+
+
+def date_from_json(value):
+    dt = datetime.datetime.strptime(value, '%Y-%m-%d')
+    return dt.date()
 
 
 class AttributeDescription(models.Model):
@@ -138,6 +147,15 @@ class AttributeDescription(models.Model):
             'AgeField': AgeFilterField,
         }
         return MAPPING[self.field_type]()
+
+    def from_json(self, value):
+        MAPPING = {
+            'DateField': date_from_json,
+            'AgeField': date_from_json,
+        }
+        if value is not None and self.field_type in MAPPING:
+            return MAPPING[self.field_type](value)
+        return value
 
 
 class AttributeChoice(models.Model):
