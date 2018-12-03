@@ -21,15 +21,15 @@
                     </div>
                 {% endif %}
             </div>
-            <div class="table-list-item-actions">
-                {% if not_contacted_view %}
-                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pseudonym 'not-contacted' %}">{% trans 'Call' %}</a>
-                {% elif not_reached_view %}
-                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pseudonym 'not-reached' %}">{% trans 'Call' %}</a>
-                {% endif %}
-            </div>
+            {% if perms.recruitment.change_participationrequest %}
+                <div class="table-list-item-actions">
+                    {% if not_contacted_view %}
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pseudonym 'not-contacted' %}">{% trans 'Call' %}</a>
+                    {% elif not_reached_view %}
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pseudonym 'not-reached' %}">{% trans 'Call' %}</a>
+                    {% endif %}
+                </div>
+            {% endif %}
         </li>
     {% endfor %}
 </ul>
-
-

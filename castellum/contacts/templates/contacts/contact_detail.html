@@ -46,7 +46,11 @@
     </dl>
     <div class="mb-3">
         <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-        <a href="{% url 'recruitment:attributes_detail' attributeset_pseudonym %}" class="btn btn-secondary">{% trans 'View attributes' %}</a>
-        <a href="{% url 'recruitment:contacts_studies' contact.pseudonym %}" class="btn btn-secondary">{% trans 'Add to study' %}</a>
+        {% if perms.recruitment.view_attributeset %}
+            <a href="{% url 'recruitment:attributes_detail' attributeset_pseudonym %}" class="btn btn-secondary">{% trans 'View attributes' %}</a>
+        {% endif %}
+        {% if perms.recruitment.add_participationrequest %}
+            <a href="{% url 'recruitment:contacts_studies' contact.pseudonym %}" class="btn btn-secondary">{% trans 'Add to study' %}</a>
+        {% endif %}
     </div>
 {% endblock %}

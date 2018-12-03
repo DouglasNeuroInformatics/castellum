@@ -6,7 +6,9 @@
 
     <div class="mb-3">
         <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-        <a href="{% url 'contacts:create' %}" class="btn btn-primary">{% trans "Create new contact" %}</a>
+        {% if perms.contacts.add_contact %}
+            <a href="{% url 'contacts:create' %}" class="btn btn-primary">{% trans "Create new contact" %}</a>
+        {% endif %}
         <a href="{% url 'contacts:search' %}" class="btn btn-primary">{% trans "Search"%}</a>
         <a href="{% url 'contacts:request' %}" class="btn btn-primary">{% trans "GDPR request" %}</a>
     </div>

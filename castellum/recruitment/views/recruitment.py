@@ -25,6 +25,7 @@ import random
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -137,6 +138,9 @@ class RecruitmentViewNotContacted(RecruitmentView):
         return context
 
     def post(self, request, *args, **kwargs):
+        if not request.user.has_perm('recruitment.add_participationrequest'):
+            raise PermissionDenied
+
         if self.study.min_subjects_count == 0:
             messages.error(request, _('This study does not require participants. '
                                       'Please, contact the responsible person who can set it up.'))
@@ -169,7 +173,7 @@ class ContactView(PublishedStudyMixin, PermissionRequiredMixin, UpdateView):
     fields = ['status']
     slug_field = 'pseudonym'
     template_name = 'recruitment/contact.html'
-    permission_required = 'recruitment.view_participationrequest'
+    permission_required = 'recruitment.change_participationrequest'
 
     def get_initial(self):
         initial = super().get_initial()

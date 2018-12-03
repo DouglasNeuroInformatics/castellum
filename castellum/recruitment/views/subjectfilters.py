@@ -82,7 +82,7 @@ class FilterGroupListView(StudyMixin, PermissionRequiredMixin, ListView):
 
 
 class FilterGroupCreateView(UnpublishedStudyMixin, PermissionRequiredMixin, View):
-    permission_required = 'recruitment.add_subjectfilter'
+    permission_required = 'recruitment.change_subjectfilter'
 
     def post(self, *args, **kwargs):
         group = SubjectFilterGroup.objects.create(study=self.study)
@@ -92,7 +92,7 @@ class FilterGroupCreateView(UnpublishedStudyMixin, PermissionRequiredMixin, View
 class FilterGroupDeleteView(UnpublishedStudyMixin, PermissionRequiredMixin, DeleteView):
     model = SubjectFilterGroup
     template_name = 'recruitment/filtergroup_confirm_delete.html'
-    permission_required = 'recruitment.add_subjectfilter'
+    permission_required = 'recruitment.change_subjectfilter'
 
     def get_context_data(self, **kwargs):
         if self.study != self.object.study:
@@ -134,7 +134,7 @@ class FilterGroupUpdateView(UnpublishedStudyMixin, PermissionRequiredMixin, Mode
         'can_delete': True,
     }
     template_name = "recruitment/filtergroup.html"
-    permission_required = 'recruitment.view_subjectfilter'
+    permission_required = 'recruitment.change_subjectfilter'
 
     def dispatch(self, *args, **kwargs):
         self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['pk'])
@@ -156,7 +156,7 @@ class FilterGroupUpdateView(UnpublishedStudyMixin, PermissionRequiredMixin, Mode
 
 
 class FilterGroupDuplicateView(UnpublishedStudyMixin, PermissionRequiredMixin, View):
-    permission_required = 'recruitment.add_subjectfilter'
+    permission_required = 'recruitment.change_subjectfilter'
 
     def post(self, request, study_pk, pk):
         original = get_object_or_404(SubjectFilterGroup, study=self.study, pk=pk)

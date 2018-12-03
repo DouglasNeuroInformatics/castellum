@@ -61,7 +61,7 @@ class ContactStudiesView(PermissionRequiredMixin, DetailView):
     model = Contact
     slug_field = 'pseudonym'
     template_name = 'recruitment/contact_studies.html'
-    permission_required = 'recruitment.view_participationrequest'
+    permission_required = 'recruitment.add_participationrequest'
 
     def get_studies(self, attributeset):
         qs = AttributeSet.objects.filter(pk=attributeset.pk)
