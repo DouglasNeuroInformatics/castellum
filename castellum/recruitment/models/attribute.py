@@ -31,21 +31,12 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from dateutil.relativedelta import relativedelta
-from picklefield.fields import PickledObjectField
 
 from castellum.pseudonyms.models import SubjectData
-from castellum.studies.models import Study
-from castellum.utils.fields import DateTimeField
 from castellum.utils.forms import DateField as DateFormField
 
-from .fields import AgeField
-
-
-def get_study_filter_q(study):
-    q = models.Q()
-    for group in study.subjectfiltergroup_set.all():
-        q |= group.to_q()
-    return q
+from ..fields import AgeField
+from ..utils import get_study_filter_q
 
 
 class AttributeSet(SubjectData):
@@ -153,128 +144,6 @@ class AttributeChoice(models.Model):
     description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
     label = models.CharField(max_length=64)
-
-
-class ParticipationRequestManager(models.Manager):
-    def filter_not_contacted(self, **kwargs):
-        return self.get_queryset().filter(status=ParticipationRequest.NOT_CONTACTED, **kwargs)
-
-    def filter_not_reached(self, **kwargs):
-        return self.get_queryset().filter(status=ParticipationRequest.NOT_REACHED, **kwargs)
-
-
-class ParticipationRequest(SubjectData):
-    NOT_CONTACTED = 0
-    NOT_REACHED = 1
-    UNSUITABLE = 2
-    INVITED = 3
-    STATUS_OPTIONS = (
-        (NOT_CONTACTED, _('not contacted')),
-        (NOT_REACHED, _('not reached')),
-        (UNSUITABLE, _('unsuitable')),
-        (INVITED, _('invited')),
-    )
-
-    objects = ParticipationRequestManager()
-
-    study = models.ForeignKey(Study, verbose_name=_('study'), on_delete=models.CASCADE)
-
-    status = models.IntegerField(
-        _('status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
-
-    class Meta:
-        verbose_name = _('participation request')
-        verbose_name_plural = _('participation requests')
-
-    @classmethod
-    def get_by_pseudonym(cls, domain, pseudonym):
-        return cls.objects.get(study__domain=domain, pseudonym=pseudonym)
-
-    @property
-    def latest(self):
-        return self.revisions.order_by('-created_at')[0]
-
-    @property
-    def tries(self):
-        return self.revisions.filter(status=ParticipationRequest.NOT_REACHED).count()
-
-    @property
-    def updated_at(self):
-        return self.latest.created_at
-
-    def get_revisions_display(self):
-        return ', '.join(str(r) for r in self.revisions.all())
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        ParticipationRequestRevision.objects.create(current=self, status=self.status)
-
-
-class ParticipationRequestRevision(models.Model):
-    """Revision history for ParticipationRequest.
-
-    Each time a ParticipationRequest is saved, an instance of ParticipationRequestRevision
-    if created. This way, we have a history of the ParticipationRequest.
-
-    The history is saved in separate model because of these reasons:
-
-    -   ``ParticipationRequest.pseudonym`` is unique.
-    -   Saving the history in the same ParticipationRequest model would degrade
-        performance because the table would be filled up with old revision.
-    """
-
-    current = models.ForeignKey(
-        ParticipationRequest, related_name='revisions', on_delete=models.CASCADE)
-    status = models.IntegerField(
-        choices=ParticipationRequest.STATUS_OPTIONS, default=ParticipationRequest.NOT_CONTACTED)
-    created_at = DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return '{}: {}'.format(self.created_at, self.get_status_display())
-
-
-class SubjectFilterGroupManager(models.Manager):
-    def clone(self, original_group):
-        cloned_group = SubjectFilterGroup.objects.create(study=original_group.study)
-        SubjectFilter.objects.bulk_create(self.clone_filters(original_group, cloned_group))
-        return cloned_group
-
-    def clone_filters(self, original_group, cloned_group):
-        for f in original_group.subjectfilter_set.all():
-            yield SubjectFilter(group=cloned_group, description=f.description, operator=f.operator,
-                                value=f.value)
-
-
-class SubjectFilterGroup(models.Model):
-    study = models.ForeignKey(Study, on_delete=models.CASCADE)
-
-    objects = SubjectFilterGroupManager()
-
-    def get_absolute_url(self):
-        return reverse('recruitment:filtergroup_update', args=[self.study.pk, self.pk])
-
-    def to_q(self):
-        q = models.Q()
-        for f in self.subjectfilter_set.all():
-            q &= f.to_q()
-        return q
-
-    def get_subject_count(self):
-        return AttributeSet.objects.filter(self.to_q()).count()
-
-
-class SubjectFilter(models.Model):
-    group = models.ForeignKey(SubjectFilterGroup, on_delete=models.CASCADE)
-    description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
-    operator = models.CharField(max_length=64)
-    value = PickledObjectField(editable=True)
-
-    def to_q(self):
-        filter_field = self.description.get_filter_field()
-        return filter_field.to_q(self.description.name, self.operator, self.value)
-
-    def get_subject_count(self):
-        return AttributeSet.objects.filter(self.to_q()).count()
 
 
 class BaseFilterField:
