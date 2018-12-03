@@ -1,6 +1,8 @@
 import pytest
 from model_mommy import mommy
 
+from castellum.contacts.models import Contact
+from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import ParticipationRequestRevision
 
@@ -98,7 +100,15 @@ def test_post_redirect_next_with_one_participation_request_from_not_reached(clie
 
 
 def test_post_redirect_next_with_multiple_participation_requests(client, user, published_study):
-    participation_requests = mommy.make(ParticipationRequest, study=published_study, _quantity=5)
+    participation_requests = []
+    for i in range(5):
+        contact = mommy.make(Contact, pseudonym=None, privacy_level=0)
+        pseudonym = resolve_pseudonym(Contact.domain, contact.pseudonym, published_study.domain)
+        participation_requests.append(mommy.make(
+            ParticipationRequest,
+            study=published_study,
+            pseudonym=pseudonym,
+        ))
 
     client.force_login(user)
 
@@ -125,10 +135,16 @@ def test_post_redirect_next_with_multiple_participation_requests(client, user, p
 def test_post_redirect_next_with_multiple_participation_requests_from_not_reached(client,
                                                                                   user,
                                                                                   published_study):
-    participation_requests = mommy.make(ParticipationRequest,
-                                        status=ParticipationRequest.NOT_REACHED,
-                                        study=published_study,
-                                        _quantity=5)
+    participation_requests = []
+    for i in range(5):
+        contact = mommy.make(Contact, pseudonym=None, privacy_level=0)
+        pseudonym = resolve_pseudonym(Contact.domain, contact.pseudonym, published_study.domain)
+        participation_requests.append(mommy.make(
+            ParticipationRequest,
+            study=published_study,
+            pseudonym=pseudonym,
+            status=ParticipationRequest.NOT_REACHED,
+        ))
 
     client.force_login(user)
 
