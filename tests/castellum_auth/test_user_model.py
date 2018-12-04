@@ -12,6 +12,8 @@ def test_castellum_user_is_django_user(user):
 
 
 def test_user_get_all_permission_objects(user):
+    user.user_permissions.clear()
+
     perm1 = Permission.objects.all()[0]
     user.user_permissions.add(perm1)
 
@@ -24,6 +26,8 @@ def test_user_get_all_permission_objects(user):
 
 
 def test_user_get_all_permission_objects_unique(user):
+    user.user_permissions.clear()
+
     perm1 = Permission.objects.all()[0]
     user.user_permissions.add(perm1)
 
