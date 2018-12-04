@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.contrib.auth.models import Permission
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
@@ -29,7 +30,13 @@ class Command(BaseCommand):
     help = 'Create a superuser with fixed credentials'
 
     def handle(self, *args, **options):
+        expiration_date = timezone.now() + timezone.timedelta(days=1000)
         if not User.objects.filter(username='admin').exists():
-            expiration_date = timezone.now() + timezone.timedelta(days=1000)
             User.objects.create_superuser(
                 'admin', 'admin@example.com', '123', expiration_date=expiration_date)
+
+        if not User.objects.filter(username='test').exists():
+            user = User.objects.create_user(
+                'test', 'test@example.com', '123', expiration_date=expiration_date)
+            user.user_permissions.set(Permission.objects.all())
+            user.user_permissions.remove(Permission.objects.get(codename='privacy_level_2'))
