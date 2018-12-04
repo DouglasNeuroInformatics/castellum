@@ -13,6 +13,7 @@
                 <div class="table-list-item-actions">
                     {% if perms.studies.change_study %}
                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:update' study.pk %}">{% trans 'Edit' %}</a>
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:members' study.pk %}">{% trans 'manage members' %}</a>
                     {% endif %}
                     {% if perms.recruitment.change_subjectfilter %}
                         <a class='btn btn-outline-primary btn-sm-inline my-1'
