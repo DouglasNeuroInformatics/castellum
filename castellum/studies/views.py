@@ -28,6 +28,7 @@ from django.views import generic
 
 from . import models
 from .forms import AddMemberForm
+from .forms import MemberForm
 
 
 class IndexView(PermissionRequiredMixin, generic.ListView):
@@ -104,3 +105,12 @@ class MembersView(PermissionRequiredMixin, generic.detail.SingleObjectMixin, gen
         models.StudyMembership.objects.get_or_create(
             user=form.cleaned_data['user'], study=self.object)
         return super().form_valid(form)
+
+
+class MemberView(PermissionRequiredMixin, generic.UpdateView):
+    model = models.StudyMembership
+    form_class = MemberForm
+    permission_required = 'studies.change_study'
+
+    def get_success_url(self):
+        return reverse('studies:members', args=[self.object.study.pk])

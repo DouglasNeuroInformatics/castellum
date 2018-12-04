@@ -23,6 +23,17 @@ from django import forms
 
 from castellum.castellum_auth.models import User
 
+from . import models
+
 
 class AddMemberForm(forms.Form):
     user = forms.ModelChoiceField(queryset=User.objects.all())
+
+
+class MemberForm(forms.ModelForm):
+    class Meta:
+        model = models.StudyMembership
+        fields = ('groups',)
+        widgets = {
+            'groups': forms.CheckboxSelectMultiple(),
+        }

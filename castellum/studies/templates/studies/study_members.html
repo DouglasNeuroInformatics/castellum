@@ -18,7 +18,7 @@
                         <div class="d-inline-block my-1 mr-2">{% trans 'groups in this study' %}: {{ membership.groups.all|join:', ' }}</div>
                     </div>
                     <div class="table-list-item-actions">
-                        <a href="#" class="btn btn-primary">{% trans 'edit' %}</a>
+                        <a href="{% url 'studies:member' object.pk membership.pk %}" class="btn btn-primary">{% trans 'edit' %}</a>
                     </div>
                 </li>
             {% endfor %}

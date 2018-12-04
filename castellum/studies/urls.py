@@ -24,6 +24,7 @@ from django.urls import path
 from .views import CreateView
 from .views import IndexView
 from .views import MembersView
+from .views import MemberView
 from .views import PublishView
 from .views import UpdateView
 
@@ -34,4 +35,5 @@ urlpatterns = [
     path('<int:pk>/update/', UpdateView.as_view(), name='update'),
     path('<int:study_pk>/publish/', PublishView.as_view(), name='publish'),
     path('<int:pk>/members/', MembersView.as_view(), name='members'),
+    path('<int:study_pk>/members/<int:pk>', MemberView.as_view(), name='member'),
 ]
