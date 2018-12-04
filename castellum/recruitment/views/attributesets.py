@@ -50,7 +50,7 @@ class AttributeSetDetailView(PermissionRequiredMixin, DetailView):
         context['contact_pseudonym'] = resolve_pseudonym(
             AttributeSet.domain, self.object.pseudonym, Contact.domain)
         allowed_descriptions = AttributeDescription.objects.allowed(self.request.user)
-        context['allowed_fields'] = [desc.name for desc in allowed_descriptions]
+        context['allowed_fields'] = [desc.pk for desc in allowed_descriptions]
         return context
 
 

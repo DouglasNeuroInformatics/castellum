@@ -39,6 +39,12 @@ from ..fields import AgeField
 from ..utils import get_study_filter_q
 
 
+class IntegerChoiceField(forms.TypedChoiceField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('coerce', int)
+        super().__init__(*args, **kwargs)
+
+
 class AttributeSet(SubjectData):
     domain = settings.DOMAINS['attributeset']
 
@@ -53,7 +59,7 @@ class AttributeSet(SubjectData):
 
     def get_data(self):
         qs = AttributeDescription.objects.all()
-        return {desc.name: desc.from_json(self.data.get(desc.name)) for desc in qs}
+        return {desc.json_key: desc.from_json(self.data.get(desc.json_key)) for desc in qs}
 
     @classmethod
     def apply_study_filter(cls, study, queryset=None):
@@ -61,21 +67,21 @@ class AttributeSet(SubjectData):
             queryset = cls.objects
         return queryset.filter(get_study_filter_q(study))
 
-    def get_verbose_name(self, field_name):
-        description = AttributeDescription.objects.get(name=field_name)
+    def get_verbose_name(self, pk):
+        description = AttributeDescription.objects.get(pk=pk)
         return description.label
 
-    def get_display(self, field_name):
-        description = AttributeDescription.objects.get(name=field_name)
-        value = description.from_json(self.data.get(field_name))
+    def get_display(self, pk):
+        description = AttributeDescription.objects.get(pk=pk)
+        value = description.from_json(self.data.get(description.json_key))
         if value and description.field_type == 'ChoiceField':
-            choice = AttributeChoice.objects.get(description=description, name=value)
+            choice = AttributeChoice.objects.get(description=description, pk=value)
             return choice.label
         else:
             return value
 
     def get_field_names(self):
-        return AttributeDescription.objects.values_list('name', flat=True)
+        return AttributeDescription.objects.values_list('pk', flat=True)
 
 
 class AttributeDescriptionManager(models.Manager):
@@ -98,7 +104,6 @@ class AttributeDescription(models.Model):
         ('AgeField', _('AgeField')),
     )
 
-    name = models.CharField(max_length=64, unique=True)
     label = models.CharField(max_length=64)
     _filter_label = models.CharField(max_length=64, blank=True, default='')
     field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
@@ -114,6 +119,11 @@ class AttributeDescription(models.Model):
         return self.label
 
     @property
+    def json_key(self):
+        # can not be a number because then queries like `data__8` would expect an array.
+        return 'd{}'.format(self.pk)
+
+    @property
     def filter_label(self):
         return self._filter_label or self.label
 
@@ -126,7 +136,7 @@ class AttributeDescription(models.Model):
         if not form_class:
             MAPPING = {
                 'CharField': forms.CharField,
-                'ChoiceField': forms.ChoiceField,
+                'ChoiceField': IntegerChoiceField,
                 'IntegerField': forms.IntegerField,
                 'DateField': DateFormField,
                 'AgeField': DateFormField,
@@ -134,7 +144,7 @@ class AttributeDescription(models.Model):
             form_class = MAPPING[self.field_type]
 
         if self.field_type == 'ChoiceField':
-            kwargs['choices'] = list(self.attributechoice_set.values_list('name', 'label'))
+            kwargs['choices'] = list(self.attributechoice_set.values_list('pk', 'label'))
 
         return form_class(**kwargs)
 
@@ -160,26 +170,25 @@ class AttributeDescription(models.Model):
 
 class AttributeChoice(models.Model):
     description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
-    name = models.CharField(max_length=64)
     label = models.CharField(max_length=64)
 
 
 class BaseFilterField:
     available_operators = NotImplemented
 
-    def formfield(self, field_name, **kwargs):
-        attribute_description = AttributeDescription.objects.get(name=field_name)
-        return attribute_description.get_form_field(**kwargs)
+    def formfield(self, description, **kwargs):
+        return description.get_form_field(**kwargs)
 
-    def to_q(self, field_name, operator, value):
+    def to_q(self, description, operator, value):
+        field_name = 'data__' + description.json_key
         if operator.startswith('!'):
-            key = 'data__{}__{}'.format(field_name, operator[1:])
+            key = '{}__{}'.format(field_name, operator[1:])
             q = models.Q(**{key: value})
             q_empty = models.Q(**{field_name: ''})
             q_null = models.Q(**{field_name: None})
             return ~q & ~q_empty & ~q_null
         else:
-            key = 'data__{}__{}'.format(field_name, operator)
+            key = '{}__{}'.format(field_name, operator)
             return models.Q(**{key: value})
 
 
@@ -220,14 +229,14 @@ class AgeFilterField(BaseFilterField):
         ("gt", _("younger than")),
     ]
 
-    def formfield(self, field_name, **kwargs):
+    def formfield(self, description, **kwargs):
         kwargs.setdefault('form_class', AgeField)
-        return super().formfield(field_name, **kwargs)
+        return super().formfield(description, **kwargs)
 
-    def to_q(self, field_name, operator, value):
+    def to_q(self, description, operator, value):
         period, scale = value
         try:
             date = datetime.date.today() - relativedelta(**{scale: period})
         except (ValueError, OverflowError):
             date = datetime.date.min
-        return super().to_q(field_name, operator, date)
+        return super().to_q(description, operator, date)
