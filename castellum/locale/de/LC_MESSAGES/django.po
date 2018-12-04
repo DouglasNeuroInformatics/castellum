@@ -68,11 +68,11 @@ msgstr "Zeit bis zur automatischen Abmeldung"
 
 #: castellum/castellum_auth/models.py:46
 msgid "Can access privacy level 1"
-msgstr ""
+msgstr "Hat Zugriff auf Vertraulichkeitsstufe 1"
 
 #: castellum/castellum_auth/models.py:47
 msgid "Can access privacy level 2"
-msgstr ""
+msgstr "Hat Zugriff auf Vertraulichkeitsstufe 2"
 
 #: castellum/castellum_auth/templates/admin/castellum_auth/user/change_form.html:9
 msgid "Permissions"
@@ -131,7 +131,7 @@ msgstr "Bitte geben Sie eine E-Mail Adresse an."
 
 #: castellum/contacts/mixins.py:44
 msgid "insufficient privacy level"
-msgstr ""
+msgstr "Vertraulichkeitsstufe nicht ausreichend"
 
 #: castellum/contacts/models/address.py:27
 #: castellum/contacts/models/address.py:39 castellum/studies/models.py:31
@@ -242,7 +242,7 @@ msgstr "nicht erreichbar bis"
 
 #: castellum/contacts/models/contact.py:102
 msgid "privacy level"
-msgstr ""
+msgstr "Vertraulichkeitsstufe"
 
 #: castellum/contacts/models/contact.py:107
 msgid "contact"
@@ -497,7 +497,7 @@ msgstr "Teilnahmeanfragen"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:9
 msgid "Y."
-msgstr ""
+msgstr "J."
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:14
 #, fuzzy, python-format
@@ -525,10 +525,8 @@ msgstr[1] ""
 "%(count)s Filter"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:20
-#, fuzzy
-#| msgid "last name"
 msgid "last"
-msgstr "Nachname"
+msgstr "zuletzt"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:27
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:29
@@ -716,7 +714,7 @@ msgid ""
 "This study does not require participants. Please, contact the responsible "
 "person who can set it up."
 msgstr ""
-"Diese Studie braucht keine Teilnehmenden. Bitte kontaktieren sie die "
+"Diese Studie benötigt keine Teilnehmenden. Bitte kontaktieren sie die "
 "verantwortliche Person, damit dies eingerichtet wird."
 
 #: castellum/recruitment/views/recruitment.py:154
@@ -744,12 +742,14 @@ msgstr "Wir können keine Teilnehmenden für diese Studie finden."
 msgid ""
 "Weak recruitment process. Please, define the number of subjects for this "
 "study."
-msgstr ""
+msgstr "Fehleranfälliger Rekrutierungsprozess. Bitte geben Sie die Anzahl "
+"der Probanden an."
 
 #: castellum/recruitment/views/subjectfilters.py:74
 msgid ""
 "The number of potential subjects is probably not sufficient for this study."
-msgstr ""
+msgstr "Die Anzahl der geeigneten Probanden ist voraussichtlich nicht "
+"ausreichend für diese Studie."
 
 #: castellum/recruitment/views/subjectfilters.py:125
 msgid "There are duplicates in filters. Please change or delete filter!"
@@ -838,10 +838,8 @@ msgid "Start"
 msgstr "Start"
 
 #: castellum/templates/index.html:29
-#, fuzzy
-#| msgid "Find subjects"
 msgid "Subjects"
-msgstr "Probanden finden"
+msgstr "Probanden"
 
 #: castellum/templates/index.html:42
 msgid "Recruitment"
