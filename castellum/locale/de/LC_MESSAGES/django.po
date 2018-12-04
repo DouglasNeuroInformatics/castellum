@@ -500,15 +500,6 @@ msgid "Y."
 msgstr "J."
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:14
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                    %(count)s filter\n"
-#| "                                "
-#| msgid_plural ""
-#| "\n"
-#| "                                    %(count)s filters\n"
-#| "                                "
 msgid ""
 "\n"
 "                                %(tries)s try\n"
@@ -519,10 +510,10 @@ msgid_plural ""
 "                            "
 msgstr[0] ""
 "\n"
-"%(count)s Filter"
+"%(tries)s Versuch"
 msgstr[1] ""
 "\n"
-"%(count)s Filter"
+"%(tries)s Versuche"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:20
 msgid "last"
