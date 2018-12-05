@@ -19,17 +19,35 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.contrib.auth.models import Group
+from django.contrib.auth.models import Permission
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
 from castellum.castellum_auth.models import User
 
+USERS = {
+    'nogroups': [],
+    'study-coordinator': ['Study coordinator'],
+    'subject-manager': ['Subject manager'],
+    'recruiter': ['Recruiter'],
+    'full-recruiter': ['Subject manager', 'Recruiter'],
+}
+
 
 class Command(BaseCommand):
-    help = 'Create a superuser with fixed credentials'
+    help = 'Create a set of predefined users as examples'
 
     def handle(self, *args, **options):
+        expiration_date = timezone.now() + timezone.timedelta(days=1000)
+
         if not User.objects.filter(username='admin').exists():
-            expiration_date = timezone.now() + timezone.timedelta(days=1000)
             User.objects.create_superuser(
                 'admin', 'admin@example.com', '123', expiration_date=expiration_date)
+
+        for name, groups in USERS.items():
+            if not User.objects.filter(username=name).exists():
+                user = User.objects.create_user(
+                    name, name + '@example.com', '123', expiration_date=expiration_date)
+                user.user_permissions.add(Permission.objects.get(codename='privacy_level_1'))
+                user.groups.set(Group.objects.filter(name__in=groups))
