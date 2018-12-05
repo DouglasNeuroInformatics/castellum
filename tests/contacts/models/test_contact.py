@@ -10,13 +10,13 @@ from castellum.contacts.models import Contact
 
 
 @pytest.mark.freeze_time("2020, 10, 31")
-@pytest.mark.parametrize("birthday,age", [
+@pytest.mark.parametrize("date_of_birth,age", [
     ((2000, 10, 30), 20),
     ((2000, 10, 31), 20),
     ((2000, 11, 1), 19),
 ])
-def test_age_property(birthday, age):
-    contact = mommy.prepare(Contact, birthday=date(*birthday))
+def test_age_property(date_of_birth, age):
+    contact = mommy.prepare(Contact, date_of_birth=date(*date_of_birth))
     assert contact.age == age
 
 

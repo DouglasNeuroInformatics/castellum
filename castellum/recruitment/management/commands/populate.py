@@ -117,7 +117,7 @@ def fake_contact(pseudonym, address):
         first_name_phonetic=phonetic(first_name),
         last_name=last_name,
         last_name_phonetic=phonetic(last_name),
-        birthday=fake_date_of_birth(),
+        date_of_birth=fake_date_of_birth(),
         privacy_level=0)
 
     if fake.random.random() < 0.67:
@@ -137,7 +137,7 @@ def fake_attributeset(pseudonym, contact):
         data={
             'd1': 2 if fake.random.random() < 0.15 else 1,
             'd2': fake_data.language(),
-            'd3': contact.birthday,
+            'd3': contact.date_of_birth,
         })
 
 
