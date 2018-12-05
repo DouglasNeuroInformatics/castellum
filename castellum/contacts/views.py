@@ -60,6 +60,17 @@ class ContactSearchView(PermissionRequiredMixin, ListView):
     paginate_by = 20
     permission_required = 'contacts.view_contact'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        contacts = []
+        privacy_level_user = self.request.user.get_privacy_level()
+        for contact in context['object_list']:
+            can_access = privacy_level_user >= contact.privacy_level
+            contacts.append((contact, can_access))
+        context['contacts'] = contacts
+        return context
+
 
 class ContactDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Contact
