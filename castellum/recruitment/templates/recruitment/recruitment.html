@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
-{% load bootstrap4%}
+{% load i18n auth %}
 
 {% block content %}
     <h1>{{ study.name }}</h1>
@@ -34,7 +33,8 @@
     <div class="mb-3">
         <a href="{% url 'recruitment:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         {% if not_contacted_view %}
-            {% if perms.recruitment.add_participationrequest %}
+            {% has_perm 'recruitment.add_participationrequest' user as can_add_participationrequest %}
+            {% if can_add_participationrequest %}
                 <form method="post" class="d-inline">
                     {% csrf_token %}
                     <button class="btn btn-primary">{% trans 'Add' %}</button>

@@ -1,12 +1,13 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n auth %}
 
 {% block content %}
     <p>{% trans 'Total number of subjects' %}: {{ total_number_subjects }}</p>
 
     <div class="mb-3">
         <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-        {% if perms.contacts.add_contact %}
+        {% has_perm 'contacts.add_contact' user as can_add_contact %}
+        {% if can_add_contact %}
             <a href="{% url 'contacts:create' %}" class="btn btn-primary">{% trans "Create new contact" %}</a>
         {% endif %}
         <a href="{% url 'contacts:search' %}" class="btn btn-primary">{% trans "Search"%}</a>

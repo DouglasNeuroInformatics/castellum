@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n auth %}
 
 {% block content %}
     <h1>{{ study.name }} &mdash; {% trans 'Filter Groups' %}</h1>
@@ -11,6 +11,7 @@
             <span class="text-right">{% blocktrans with count=potential_subjects_count %}{{ count }} potential subjects in total{% endblocktrans %}</span>
         </div>
         <div class="card-body">
+            {% has_perm 'recruitment.change_subjectfilter' user as can_change_subjectfilter %}
             {% for group in object_list %}
                 <div class="card mb-3">
                     <div class="card-header d-flex justify-content-between">
@@ -33,7 +34,7 @@
                             </ul>
                         </details>
                         <div>
-                            {% if perms.recruitment.change_subjectfilter %}
+                            {% if can_change_subjectfilter %}
                                 {% if study.published %}
                                     <span class="btn btn-outline-primary disabled">{% trans "Duplicate" %}</span>
                                     <a href="{% url 'recruitment:filtergroup_update' study.pk group.pk %}" class="btn btn-outline-primary">{% trans "View" %}</a>
@@ -52,7 +53,7 @@
                 </div>
             {% endfor %}
 
-            {% if perms.recruitment.change_subjectfilter %}
+            {% if can_change_subjectfilter %}
                 <form action="{% url 'recruitment:filtergroup_create' study.pk %}" method="post">
                     {% if study.published %}
                         <button class="btn btn-primary" disabled>{% trans 'Add new' %}</button>

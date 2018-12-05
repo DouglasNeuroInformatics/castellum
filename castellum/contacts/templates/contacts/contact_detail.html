@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n bootstrap4 utils %}
+{% load i18n bootstrap4 utils auth %}
 
 {% block content %}
     <h1>{{ contact.full_name }}</h1>
@@ -46,13 +46,16 @@
     </dl>
     <div class="mb-3">
         <a href="{% url 'contacts:search' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-        {% if perms.contacts.change_contact %}
+        {% has_perm 'contacts.change_contact' user as can_change_contact %}
+        {% if can_change_contact %}
             <a class="btn btn-secondary" href="{% url 'contacts:update' contact.pseudonym %}">{% trans 'Edit contact' %}</a>
         {% endif %}
-        {% if perms.recruitment.change_attributeset %}
+        {% has_perm 'recruitment.change_attributeset' user as can_change_attributeset %}
+        {% if can_change_attributeset %}
             <a href="{% url 'recruitment:attributes_update' attributeset_pseudonym %}" class="btn btn-secondary">{% trans "Edit attributes" %}</a>
         {% endif %}
-        {% if perms.recruitment.add_participationrequest %}
+        {% has_perm 'recruitment.add_participationrequest' user as can_add_participationrequest %}
+        {% if can_add_participationrequest %}
             <a href="{% url 'recruitment:contacts_studies' contact.pseudonym %}" class="btn btn-secondary">{% trans 'Add to study' %}</a>
         {% endif %}
     </div>
