@@ -1,7 +1,7 @@
 {% load i18n auth %}
 
 <ul class="table-list mt-3">
-    {% has_perm 'recruitment.change_participationrequest' user as can_change_participationrequest %}
+    {% has_perm 'recruitment.change_participationrequest' user view.study as can_change_participationrequest %}
     {% for participation, contact in participants %}
         <li class="table-list-item">
             <div>

@@ -33,7 +33,7 @@
     <div class="mb-3">
         <a href="{% url 'recruitment:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         {% if not_contacted_view %}
-            {% has_perm 'recruitment.add_participationrequest' user as can_add_participationrequest %}
+            {% has_perm 'recruitment.add_participationrequest' user view.study as can_add_participationrequest %}
             {% if can_add_participationrequest %}
                 <form method="post" class="d-inline">
                     {% csrf_token %}

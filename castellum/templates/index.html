@@ -20,7 +20,7 @@
                 </div>
             {% endif %}
 
-            {% has_perm 'contacts.view_contact' user as can_view_study %}
+            {% has_perm 'contacts.view_contact' user as can_view_contact %}
             {% if can_view_contact %}
                 <div class="col-sm-6 col-md-4 mb-4">
                     <div class="card">
@@ -34,7 +34,7 @@
                 </div>
             {% endif %}
 
-            {% has_perm 'recruitment.view_participationrequest' user as can_view_study %}
+            {% has_perm 'recruitment.view_participationrequest' user as can_view_participationrequest %}
             {% if can_view_participationrequest %}
                 <div class="col-sm-6 col-md-4 mb-4">
                     <div class="card">
