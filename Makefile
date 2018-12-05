@@ -13,6 +13,7 @@ migrate:
 	$(MANAGEPY) migrateall
 
 populate:
+	$(MANAGEPY) create_sample_groups
 	$(MANAGEPY) create_castellum_admin
 	$(MANAGEPY) loaddata timeslots --database=contacts
 	$(MANAGEPY) loaddata attribute_descriptions --database=default

@@ -18,6 +18,7 @@ for i in `seq 10` ; do
 done
 
 docker-compose run web django-admin migrateall
+docker-compose run web django-admin create_sample_groups
 docker-compose run web django-admin create_castellum_admin
 docker-compose run web django-admin loaddata timeslots --database=contacts
 docker-compose run web django-admin loaddata attribute_descriptions --database=default
