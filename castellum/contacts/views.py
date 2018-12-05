@@ -121,10 +121,16 @@ class ContactCreatePreludeView(PermissionRequiredMixin, TemplateView):
         form = PreludeForm(**form_kwargs)
 
         if form.is_valid():
+            privacy_level_user = request.user.get_privacy_level()
+            matches = []
+            for contact in Contact.objects.fuzzy_filter(**form.cleaned_data):
+                can_access = privacy_level_user >= contact.privacy_level
+                matches.append((contact, can_access))
+
             return self.render_to_response({
                 'form': form,
                 'query': '?' + urlencode(form.cleaned_data),
-                'matches': Contact.objects.fuzzy_filter(**form.cleaned_data),
+                'matches': matches,
             })
         else:
             return self.render_to_response({
