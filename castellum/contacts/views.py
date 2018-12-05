@@ -199,9 +199,15 @@ class RequestCreateView(PermissionRequiredMixin, TemplateView):
                 'date_of_birth: "{date_of_birth}"}} by {user}'
             ).format(user=request.user.pk, **form.cleaned_data))
 
+            privacy_level_user = request.user.get_privacy_level()
+            matches = []
+            for contact in Contact.objects.fuzzy_filter(**form.cleaned_data):
+                can_access = privacy_level_user >= contact.privacy_level
+                matches.append((contact, can_access))
+
             return self.render_to_response({
                 'form': form,
-                'matches': Contact.objects.fuzzy_filter(**form.cleaned_data),
+                'matches': matches,
             })
         else:
             return self.render_to_response({
