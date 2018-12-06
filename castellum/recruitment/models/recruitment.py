@@ -28,11 +28,7 @@ from castellum.utils.fields import DateTimeField
 
 
 class ParticipationRequestManager(models.Manager):
-    def filter_not_contacted(self, **kwargs):
-        return self.get_queryset().filter(status=ParticipationRequest.NOT_CONTACTED, **kwargs)
-
-    def filter_not_reached(self, **kwargs):
-        return self.get_queryset().filter(status=ParticipationRequest.NOT_REACHED, **kwargs)
+    pass
 
 
 class ParticipationRequest(SubjectData):
