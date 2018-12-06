@@ -131,7 +131,7 @@ class ContactCreateView(PermissionRequiredMixin, CreateView):
 
     def get_initial(self):
         initial = super().get_initial()
-        for key in ['first_name', 'last_name', 'birthday']:
+        for key in ['first_name', 'last_name', 'date_of_birth']:
             if key in self.request.GET:
                 initial[key] = self.request.GET[key]
         return initial
@@ -176,7 +176,7 @@ class RequestCreateView(PermissionRequiredMixin, TemplateView):
         if form.is_valid():
             monitoring_logger.info((
                 'GDPR-Request: {{first_name: "{first_name}"; last_name: "{last_name}"; '
-                'birthday: "{birthday}"}} by {user}'
+                'date_of_birth: "{date_of_birth}"}} by {user}'
             ).format(user=request.user.pk, **form.cleaned_data))
 
             return self.render_to_response({

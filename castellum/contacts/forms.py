@@ -160,5 +160,5 @@ class PreludeForm(forms.ModelForm):
         fields = [
             'first_name',
             'last_name',
-            'birthday',
+            'date_of_birth',
         ]

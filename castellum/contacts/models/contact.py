@@ -42,8 +42,8 @@ from .timeslot import TimeSlot
 
 
 class ContactManager(models.Manager):
-    def fuzzy_filter(self, first_name, last_name, birthday):
-        q = models.Q(birthday=birthday)
+    def fuzzy_filter(self, first_name, last_name, date_of_birth):
+        q = models.Q(date_of_birth=date_of_birth)
         for code in phonetic(first_name, encode=False):
             q &= models.Q(first_name_phonetic__contains=':{}:'.format(code))
         for code in phonetic(last_name, encode=False):
@@ -73,7 +73,7 @@ class Contact(SubjectData):
 
     gender = models.CharField(_("gender"), max_length=1, choices=GENDER, default="f")
 
-    birthday = DateField(_("birthday"))
+    date_of_birth = DateField(_("date of birth"))
 
     address = models.ForeignKey(Address, blank=True, null=True, verbose_name=_("address"),
                                 on_delete=models.SET_NULL)
@@ -113,7 +113,7 @@ class Contact(SubjectData):
 
     @property
     def age(self):
-        return relativedelta(date.today(), self.birthday).years
+        return relativedelta(date.today(), self.date_of_birth).years
 
     @property
     def is_available(self):

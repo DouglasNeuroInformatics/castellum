@@ -3,8 +3,8 @@ from model_mommy import mommy
 
 from castellum.contacts.models import Contact
 
+DATE_OF_BIRTH = '1970-01-01'
 FIRST_NAME = 'Eve'
-BIRTHDAY = '1970-01-01'
 
 
 @pytest.mark.django_db
@@ -44,8 +44,9 @@ BIRTHDAY = '1970-01-01'
     ('Meier', 'Michel', False),
 ))
 def test_fuzzy_filter(right, wrong, expected):
-    contact = mommy.make(Contact, first_name=FIRST_NAME, last_name=right, birthday=BIRTHDAY)
-    matches = Contact.objects.fuzzy_filter(FIRST_NAME, wrong, BIRTHDAY)
+    contact = mommy.make(
+        Contact, first_name=FIRST_NAME, last_name=right, date_of_birth=DATE_OF_BIRTH)
+    matches = Contact.objects.fuzzy_filter(FIRST_NAME, wrong, DATE_OF_BIRTH)
     if expected:
         assert contact in matches
     else:

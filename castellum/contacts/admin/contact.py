@@ -33,7 +33,7 @@ class ContactAdmin(admin.ModelAdmin):
             "fields": (
                 ("first_name", "last_name", "title"),
                 "gender",
-                "birthday",
+                "date_of_birth",
                 "privacy_level",
             ),
         }),
