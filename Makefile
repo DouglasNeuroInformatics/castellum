@@ -1,19 +1,23 @@
 MANAGEPY = python manage.py
 
 
-.PHONY: bootstrap createsuperuser install makemigrations migrate run makemessages
+.PHONY: bootstrap populate install makemigrations migrate run makemessages
 
 run: start_database_containers
 	$(MANAGEPY) runserver
 
-bootstrap: install migrate createsuperuser castellum/locale/de/LC_MESSAGES/django.mo
+bootstrap: install migrate populate castellum/locale/de/LC_MESSAGES/django.mo
 
 migrate:
 	$(MANAGEPY) makemigrations
 	$(MANAGEPY) migrateall
 
-createsuperuser:
-	$(MANAGEPY) create_castellum_admin
+populate:
+	$(MANAGEPY) create_sample_groups
+	$(MANAGEPY) create_sample_users
+	$(MANAGEPY) loaddata timeslots --database=contacts
+	$(MANAGEPY) loaddata attribute_descriptions --database=default
+	$(MANAGEPY) populate
 
 collectstatic:
 	$(MANAGEPY) collectstatic
@@ -36,10 +40,7 @@ start_database_containers:
 	docker-compose up -d db_contacts db_default
 	sleep 2
 
-reset_databases: remove_databases remove_all_migration_files start_database_containers migrate createsuperuser
-	$(MANAGEPY) loaddata timeslots --database=contacts
-	$(MANAGEPY) loaddata attribute_descriptions --database=default
-	$(MANAGEPY) populate
+reset_databases: remove_databases remove_all_migration_files start_database_containers migrate populate
 
 install:
 	pip install tox ipdb watchdog django-debug-toolbar
