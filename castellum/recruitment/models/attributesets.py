@@ -106,6 +106,7 @@ class AttributeDescription(models.Model):
 
     label = models.CharField(max_length=64)
     _filter_label = models.CharField(max_length=64, blank=True, default='')
+    help_text = models.TextField(blank=True, default='')
     field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
     privacy_level = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(2)])
     weight = models.IntegerField(default=0)
@@ -130,6 +131,7 @@ class AttributeDescription(models.Model):
     def get_form_field(self, form_class=None):
         kwargs = {
             'label': self.label,
+            'help_text': self.help_text,
             'required': False,
         }
 
