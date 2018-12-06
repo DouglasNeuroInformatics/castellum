@@ -18,36 +18,41 @@
 <body {% if user.is_authenticated %}data-logout-timeout="{{ user.logout_timeout.total_seconds }}"{% endif %}>
     <header class="bg-dark">
         <div class="container">
-            <div class="row navbar navbar-dark">
+            <div class="row navbar navbar-expand-sm navbar-dark">
                 <a href="/" rel="home" class="navbar-brand">Castellum</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="{% trans 'Toggle navigation' %}">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                {% if user.is_authenticated %}
-                    <div class="btn-group" role="region" aria-label="{% trans 'Set language' %}">
-                        {% for lang, label in LANGUAGES %}
-                            <form class="btn-group" action="{% url 'set_language' %}" method="post">
-                                {# Bootstrap uses :firstchild for styling #}
-                                {% if forloop.first %}
-                                    <input type="submit" value="{{ lang }}" title="{{ label }}" class="btn btn-secondary" />
-                                {% endif %}
-                                {% csrf_token %}
-                                <input name="next" type="hidden" value="{{ request.get_full_path }}" />
-                                <input name="language" type="hidden" value="{{ lang }}" />
-                                {% if not forloop.first %}
-                                    <input type="submit" value="{{ lang }}" title="{{ label }}" class="btn btn-secondary" />
-                                {% endif %}
-                            </form>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <div class="collapse navbar-collapse justify-content-end" id="navbarToggler">
+                    {% if user.is_authenticated %}
+                        <div class="btn-group mr-5" role="region" aria-label="{% trans 'Set language' %}">
+                            {% for lang, label in LANGUAGES %}
+                                <form class="btn-group" action="{% url 'set_language' %}" method="post">
+                                    {# Bootstrap uses :firstchild for styling #}
+                                    {% if forloop.first %}
+                                        <input type="submit" value="{{ lang }}" title="{{ label }}" class="btn btn-secondary mb-2 mb-sm-0" />
+                                    {% endif %}
+                                    {% csrf_token %}
+                                    <input name="next" type="hidden" value="{{ request.get_full_path }}" />
+                                    <input name="language" type="hidden" value="{{ lang }}" />
+                                    {% if not forloop.first %}
+                                        <input type="submit" value="{{ lang }}" title="{{ label }}" class="btn btn-secondary mb-2 mb-sm-0" />
+                                    {% endif %}
+                                </form>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
 
-                {% if request.user.is_authenticated %}
-                    <div>
-                        <span class="navbar-text">{{ request.user }}</span>
-                        <a href="{% url 'logout' %}?next={{ request.get_full_path|iriencode }}" class="btn btn-secondary">{% trans 'Logout' %}</a>
-                    </div>
-                {% else %}
-                    <a href="{% url 'login' %}?next={{ request.get_full_path|iriencode }}" class="btn btn-primary">{% trans 'Login' %}</a>
-                {% endif %}
+                    {% if request.user.is_authenticated %}
+                        <div>
+                            <span class="navbar-text">{{ request.user }}</span>
+                            <a href="{% url 'logout' %}?next={{ request.get_full_path|iriencode }}" class="btn btn-secondary">{% trans 'Logout' %}</a>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'login' %}?next={{ request.get_full_path|iriencode }}" class="btn btn-primary">{% trans 'Login' %}</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </header>
@@ -74,6 +79,7 @@
     {% endif %}
 
     <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
     <script src="{% static 'bootstrap-datepicker/dist/locales/bootstrap-datepicker.de.min.js' %}"></script>
     <script src="{% static 'js/datepicker.js' %}"></script>
