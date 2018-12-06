@@ -14,10 +14,10 @@
             <a class="nav-link {% if not_reached_view %} active {% endif %}" href="{% url 'recruitment:recruitment_not-reached' study.pk %}">{% trans 'Not reached' %} <span class="badge badge-light">{{not_reached_count}}</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link disabled">{% trans 'Invited' %} <span class="badge badge-light">{{invited_count}}</span></a>
+            <a class="nav-link {% if invited_view %} active {% endif %}" href="{% url 'recruitment:recruitment_invited' study.pk %}">{% trans 'Invited' %} <span class="badge badge-light">{{invited_count}}</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link disabled">{% trans 'Unsuitable' %} <span class="badge badge-light">{{unsuitable_count}}</span></a>
+            <a class="nav-link {% if unsuitable_view %} active {% endif %}" href="{% url 'recruitment:recruitment_unsuitable' study.pk %}">{% trans 'Unsuitable' %} <span class="badge badge-light">{{unsuitable_count}}</span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link disabled">{% trans 'All' %} <span class="badge badge-light">{{all_count}}</span></a>
