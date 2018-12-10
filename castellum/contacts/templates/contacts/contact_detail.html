@@ -49,8 +49,8 @@
         {% if perms.contacts.change_contact %}
             <a class="btn btn-secondary" href="{% url 'contacts:update' contact.pseudonym %}">{% trans 'Edit contact' %}</a>
         {% endif %}
-        {% if perms.recruitment.view_attributeset %}
-            <a href="{% url 'recruitment:attributes_detail' attributeset_pseudonym %}" class="btn btn-secondary">{% trans 'View attributes' %}</a>
+        {% if perms.recruitment.change_attributeset %}
+            <a href="{% url 'recruitment:attributes_update' attributeset_pseudonym %}" class="btn btn-secondary">{% trans "Edit attributes" %}</a>
         {% endif %}
         {% if perms.recruitment.add_participationrequest %}
             <a href="{% url 'recruitment:contacts_studies' contact.pseudonym %}" class="btn btn-secondary">{% trans 'Add to study' %}</a>
