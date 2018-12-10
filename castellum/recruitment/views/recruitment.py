@@ -64,7 +64,7 @@ class RecruitmentView(PublishedStudyMixin, PermissionRequiredMixin, ListView):
         if not queryset:
             queryset = self.model.objects
 
-        if self.shown_status:
+        if self.shown_status is not None:
             return queryset.filter(status=self.shown_status, study=self.study)
         else:
             return queryset.filter(study=self.study)
