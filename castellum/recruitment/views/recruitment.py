@@ -58,6 +58,16 @@ class RecruitmentView(PublishedStudyMixin, PermissionRequiredMixin, ListView):
     context_object_name = 'participation_requests'
     template_name = 'recruitment/recruitment.html'
     permission_required = 'recruitment.view_participationrequest'
+    shown_status = None
+
+    def get_queryset(self, queryset=None):
+        if not queryset:
+            queryset = self.model.objects
+
+        if self.shown_status is not None:
+            return queryset.filter(status=self.shown_status, study=self.study)
+        else:
+            return queryset.filter(study=self.study)
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
@@ -83,25 +93,37 @@ class RecruitmentView(PublishedStudyMixin, PermissionRequiredMixin, ListView):
         context['not_contacted_count'] = queryset.filter(
             status=ParticipationRequest.NOT_CONTACTED).count()
         context['study'] = self.study
+
+        if self.shown_status == self.model.NOT_REACHED:
+            context['not_reached_view'] = True
+        elif self.shown_status == self.model.NOT_CONTACTED:
+            context['not_contacted_view'] = True
+        elif self.shown_status == self.model.UNSUITABLE:
+            context['unsuitable_view'] = True
+        elif self.shown_status == self.model.INVITED:
+            context['invited_view'] = True
+
         return context
 
 
 class RecruitmentViewNotReached(RecruitmentView):
-    permission_required = 'recruitment.view_participationrequest'
 
-    def get_queryset(self, queryset=None):
-        if not queryset:
-            queryset = ParticipationRequest.objects
-        return queryset.filter_not_reached(study=self.study)
+    shown_status = ParticipationRequest.NOT_REACHED
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['not_reached_view'] = True
-        return context
+
+class RecruitmentViewInvited(RecruitmentView):
+
+    shown_status = ParticipationRequest.INVITED
+
+
+class RecruitmentViewUnsuitable(RecruitmentView):
+
+    shown_status = ParticipationRequest.UNSUITABLE
 
 
 class RecruitmentViewNotContacted(RecruitmentView):
-    permission_required = 'recruitment.view_participationrequest'
+
+    shown_status = ParticipationRequest.NOT_CONTACTED
 
     def create_participation_request(self):
 
@@ -126,16 +148,6 @@ class RecruitmentViewNotContacted(RecruitmentView):
                 attributesets.remove(pseudonym)
 
         return None
-
-    def get_queryset(self, queryset=None):
-        if not queryset:
-            queryset = ParticipationRequest.objects
-        return queryset.filter_not_contacted(study=self.study)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['not_contacted_view'] = True
-        return context
 
     def post(self, request, *args, **kwargs):
         if not request.user.has_perm('recruitment.add_participationrequest'):
@@ -185,9 +197,9 @@ class ContactView(PublishedStudyMixin, PermissionRequiredMixin, UpdateView):
             queryset = ParticipationRequest.objects
 
         if self.kwargs['path'] == 'not-contacted':
-            return queryset.filter_not_contacted(study=self.study)
+            return queryset.filter(status=ParticipationRequest.NOT_CONTACTED, study=self.study)
         elif self.kwargs['path'] == 'not-reached':
-            return queryset.filter_not_reached(study=self.study)
+            return queryset.filter(status=ParticipationRequest.NOT_REACHED, study=self.study)
         elif self.kwargs['path'] != 'contacts':
             raise Http404
 
