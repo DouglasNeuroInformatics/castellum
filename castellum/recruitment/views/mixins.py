@@ -42,6 +42,9 @@ class StudyMixin:
         permission_required.update(super().get_permission_required())
         return permission_required
 
+    def get_permission_object(self):
+        return self.study
+
 
 class PublishedStudyMixin(StudyMixin):
     def check_study(self):
