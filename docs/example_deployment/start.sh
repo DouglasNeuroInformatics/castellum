@@ -9,13 +9,7 @@ docker-compose pull
 docker-compose up -d
 
 # wait until the server is running
-for i in `seq 10` ; do
-    nc -z "localhost" "8000" > /dev/null 2>&1
-
-    if [ $? -ne 0 ] ; then
-        sleep 1
-    fi
-done
+sleep 5
 
 docker-compose run web django-admin migrateall
 docker-compose run web django-admin create_sample_groups
