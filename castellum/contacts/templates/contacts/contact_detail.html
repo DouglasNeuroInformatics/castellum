@@ -46,6 +46,9 @@
     </dl>
     <div class="mb-3">
         <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+        {% if perms.contacts.change_contact %}
+            <a class="btn btn-secondary" href="{% url 'contacts:update' contact.pseudonym %}">{% trans 'Edit contact' %}</a>
+        {% endif %}
         {% if perms.recruitment.view_attributeset %}
             <a href="{% url 'recruitment:attributes_detail' attributeset_pseudonym %}" class="btn btn-secondary">{% trans 'View attributes' %}</a>
         {% endif %}

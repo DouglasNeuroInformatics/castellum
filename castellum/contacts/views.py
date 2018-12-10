@@ -152,7 +152,10 @@ class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'contacts.change_contact'
 
     def get_cancel_url(self):
-        return reverse('contacts:create') + '?' + self.request.META['QUERY_STRING']
+        if self.request.META['QUERY_STRING']:
+            return reverse('contacts:create') + '?' + self.request.META['QUERY_STRING']
+        else:
+            return reverse('contacts:detail', args=[self.object.pseudonym])
 
     def form_valid(self, form):
         result = super().form_valid(form)
