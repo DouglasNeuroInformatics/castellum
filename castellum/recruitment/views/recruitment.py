@@ -158,7 +158,7 @@ class RecruitmentViewNotContacted(RecruitmentView):
                                       'Please, contact the responsible person who can set it up.'))
             return self.get(request, *args, **kwargs)
 
-        not_contacted_count = super().get_queryset().count()
+        not_contacted_count = self.get_queryset().count()
 
         if not_contacted_count >= \
            self.study.min_subjects_count*CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR:
