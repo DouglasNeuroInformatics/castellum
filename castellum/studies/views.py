@@ -27,6 +27,8 @@ from django.views import View
 from django.views import generic
 
 from . import models
+from .forms import AddMemberForm
+from .forms import MemberForm
 
 
 class IndexView(PermissionRequiredMixin, generic.ListView):
@@ -80,3 +82,35 @@ class PublishView(PermissionRequiredMixin, View):
         study.save()
 
         return redirect(reverse('studies:index'))
+
+
+class MembersView(PermissionRequiredMixin, generic.detail.SingleObjectMixin, generic.FormView):
+    model = models.Study
+    form_class = AddMemberForm
+    template_name = 'studies/study_members.html'
+    permission_required = 'studies.change_study'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().post(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('studies:members', args=[self.object.pk])
+
+    def form_valid(self, form):
+        models.StudyMembership.objects.get_or_create(
+            user=form.cleaned_data['user'], study=self.object)
+        return super().form_valid(form)
+
+
+class MemberView(PermissionRequiredMixin, generic.UpdateView):
+    model = models.StudyMembership
+    form_class = MemberForm
+    permission_required = 'studies.change_study'
+
+    def get_success_url(self):
+        return reverse('studies:members', args=[self.object.study.pk])
