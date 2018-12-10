@@ -53,6 +53,10 @@ class ParticipationRequest(SubjectData):
         return cls.objects.get(study__domain=domain, pseudonym=pseudonym)
 
     @property
+    def domain(self):
+        return self.study.domain
+
+    @property
     def latest(self):
         return self.revisions.order_by('-created_at')[0]
 

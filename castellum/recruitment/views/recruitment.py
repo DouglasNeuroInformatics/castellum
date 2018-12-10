@@ -33,6 +33,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
+from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
@@ -180,7 +181,7 @@ class RecruitmentViewNotContacted(RecruitmentView):
         return self.get(request, *args, **kwargs)
 
 
-class ContactView(PublishedStudyMixin, PermissionRequiredMixin, UpdateView):
+class ContactView(PublishedStudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = ParticipationRequest
     fields = ['status']
     slug_field = 'pseudonym'
@@ -220,15 +221,9 @@ class ContactView(PublishedStudyMixin, PermissionRequiredMixin, UpdateView):
         status_field = context['form'].fields['status']
         status_field.widget.choices = choices
 
-        contact_pseudonym = resolve_pseudonym(
-            self.study.domain,
-            self.object.pseudonym,
-            Contact.domain)
-        contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
-
         context['path'] = self.kwargs['path']
         context['study'] = self.study
-        context['contact'] = contact
+        context['contact'] = self.contact
         return context
 
     def save(self, form):
