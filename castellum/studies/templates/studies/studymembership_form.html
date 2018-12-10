@@ -2,6 +2,17 @@
 {% load i18n bootstrap4 %}
 
 {% block content %}
+    <h1>{{ object.user }}</h1>
+
+    <h2>{% trans 'Global groups' %}</h2>
+    <ul class="p-0">
+        {% for group in object.user.groups.all %}
+            <li class="badge badge-secondary my-1 mr-2">{{ group }}</li>
+        {% empty %}
+            <li class="text-secondary d-block">{% trans 'no global groups' %}</li>
+        {% endfor %}
+    </ul>
+
     <form method="post">
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
@@ -9,7 +20,8 @@
 
         {% csrf_token %}
 
-        {% bootstrap_field form.groups %}
+        <h2>{% trans "Additional groups in this study" %}</h2>
+        {% bootstrap_field form.groups show_label=False %}
 
         <div class="mb-3">
             <a href="{% url 'studies:members' object.study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
