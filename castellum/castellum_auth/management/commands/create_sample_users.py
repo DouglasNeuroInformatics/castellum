@@ -27,11 +27,11 @@ from django.utils import timezone
 from castellum.castellum_auth.models import User
 
 USERS = {
-    'nogroups': [],
-    'study-coordinator': ['Study coordinator'],
-    'subject-manager': ['Subject manager'],
-    'recruiter': ['Recruiter'],
-    'full-recruiter': ['Subject manager', 'Recruiter'],
+    'Andreas-nogroups': [],
+    'Anna-study-coordinator': ['Study coordinator'],
+    'Karl-subject-manager': ['Subject manager'],
+    'Emma-recruiter': ['Recruiter'],
+    'Sofia-full-recruiter': ['Subject manager', 'Recruiter'],
 }
 
 
