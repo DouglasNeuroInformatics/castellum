@@ -21,38 +21,15 @@
 
 import logging
 
-from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.views.generic import DetailView
 from django.views.generic import UpdateView
 
+from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
-from castellum.contacts.models import Contact
-from castellum.pseudonyms.helpers import resolve_pseudonym
 
 from ..forms import AttributeSetForm
-from ..models import AttributeDescription
 from ..models import AttributeSet
 
 monitoring_logger = logging.getLogger('monitoring.recruitment')
-
-
-class AttributeSetDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
-    model = AttributeSet
-    permission_required = 'recruitment.view_attributeset'
-
-    def get_object(self, queryset=None):
-        if queryset is None:
-            queryset = self.get_queryset()
-        attributeset, __ = queryset.get_or_create(pseudonym=self.kwargs['slug'])
-        return attributeset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['contact_pseudonym'] = resolve_pseudonym(
-            AttributeSet.domain, self.object.pseudonym, Contact.domain)
-        allowed_descriptions = AttributeDescription.objects.allowed(self.request.user)
-        context['allowed_fields'] = [desc.pk for desc in allowed_descriptions]
-        return context
 
 
 class AttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):

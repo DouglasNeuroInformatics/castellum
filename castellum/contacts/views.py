@@ -22,7 +22,6 @@
 import logging
 from urllib.parse import urlencode
 
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView
@@ -31,6 +30,7 @@ from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
+from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.helpers import list_pseudonyms
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.pseudonyms.registry import subject_data_models
@@ -152,7 +152,10 @@ class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'contacts.change_contact'
 
     def get_cancel_url(self):
-        return reverse('contacts:create') + '?' + self.request.META['QUERY_STRING']
+        if self.request.META['QUERY_STRING']:
+            return reverse('contacts:create') + '?' + self.request.META['QUERY_STRING']
+        else:
+            return reverse('contacts:detail', args=[self.object.pseudonym])
 
     def form_valid(self, form):
         result = super().form_valid(form)

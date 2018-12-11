@@ -10,9 +10,6 @@
                 <h2 class="h4 my-1 mr-2">{{ contact.full_name }}</h2>
                 <div class="table-list-item-actions">
                     <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:detail' contact.pseudonym %}">{% trans 'View details' %}</a>
-                    {% if perms.contacts.change_contact %}
-                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:update' contact.pseudonym %}">{% trans 'Edit' %}</a>
-                    {% endif %}
                 </div>
             </li>
         {% endfor %}
