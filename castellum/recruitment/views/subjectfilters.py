@@ -20,7 +20,6 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib import messages
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.forms import BaseModelFormSet
 from django.forms import ValidationError
 from django.http import Http404
@@ -34,6 +33,7 @@ from django.views.generic import View
 
 from extra_views import ModelFormSetView
 
+from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.settings import CASTELLUM_EXPECTED_SUBJECT_FACTOR
 
 from .. import forms
