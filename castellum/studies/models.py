@@ -43,6 +43,7 @@ class Study(models.Model):
     min_subjects_count = models.PositiveIntegerField(_('required number of subjects'),
                                                      blank=True,
                                                      default=0)
+    members = models.ManyToManyField(User, through='StudyMembership')
 
     def __str__(self):
         return self.name

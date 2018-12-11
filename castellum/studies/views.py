@@ -26,6 +26,7 @@ from django.views import View
 from django.views import generic
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.castellum_auth.models import User
 
 from . import models
 from .forms import AddMemberForm
@@ -98,6 +99,12 @@ class MembersView(PermissionRequiredMixin, generic.detail.SingleObjectMixin, gen
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().post(request, *args, **kwargs)
+
+    def get_form(self):
+        form = super().get_form()
+        form.fields['user'].choices = [(None, '---')] + [
+            (user.pk, str(user)) for user in User.objects.exclude(pk__in=self.object.members.all())]
+        return form
 
     def get_success_url(self):
         return reverse('studies:members', args=[self.object.pk])
