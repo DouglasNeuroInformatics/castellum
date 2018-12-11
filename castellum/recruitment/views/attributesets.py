@@ -21,9 +21,9 @@
 
 import logging
 
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import UpdateView
 
+from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
 
 from ..forms import AttributeSetForm
