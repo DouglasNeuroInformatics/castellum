@@ -28,10 +28,10 @@ from castellum.castellum_auth.models import User
 
 USERS = {
     'Andreas-nogroups': [],
-    'Anna-study-coordinator': ['Study coordinator'],
-    'Karl-subject-manager': ['Subject manager'],
+    'Vera-study-coordinator': ['Study coordinator'],
+    'Arne-subject-manager': ['Subject manager'],
     'Emma-recruiter': ['Recruiter'],
-    'Sofia-full-recruiter': ['Subject manager', 'Recruiter'],
+    'Edwin-full-recruiter': ['Subject manager', 'Recruiter'],
 }
 
 
