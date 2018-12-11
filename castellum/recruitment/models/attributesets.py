@@ -32,6 +32,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from dateutil.relativedelta import relativedelta
 
+from castellum.contacts.models import Contact
+from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.pseudonyms.models import SubjectData
 from castellum.utils.forms import DateField as DateFormField
 
@@ -55,7 +57,8 @@ class AttributeSet(SubjectData):
         verbose_name_plural = _('attribute sets')
 
     def get_absolute_url(self):
-        return reverse('recruitment:attributes_detail', args=[self.pseudonym])
+        contact_pseudonym = resolve_pseudonym(self.domain, self.pseudonym, Contact.domain)
+        return reverse('contacts:detail', args=[contact_pseudonym])
 
     def get_data(self):
         qs = AttributeDescription.objects.all()
