@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load i18n auth %}
 
+{% block title %}{% trans "Recruitment" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
+
 {% block content %}
     <h1>{{ study.name }}</h1>
     <h2>{% trans 'contacts' %}</h2>

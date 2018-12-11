@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load i18n auth %}
 
+{% block title %}{% trans "Subjects" %} &middot; {{ block.super }}{% endblock %}
+
 {% block content %}
     <p>{% trans 'Total number of subjects' %}: {{ total_number_subjects }}</p>
 

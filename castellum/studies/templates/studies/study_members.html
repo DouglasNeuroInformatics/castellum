@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load i18n bootstrap4 %}
 
+{% block title %}{% trans "manage members" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
+
 {% block content %}
     <form method="post">
         {% for error in form.non_field_errors %}

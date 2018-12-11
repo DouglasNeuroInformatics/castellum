@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load i18n bootstrap4 %}
 
+{% block title %}{% trans "contacts" %} &middot; {{ block.super }}{% endblock %}
+
 {% block content %}
     <h1>{% trans 'contacts' %}</h1>
 
