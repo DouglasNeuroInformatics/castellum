@@ -63,12 +63,12 @@ class ContactSearchView(PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        contacts = []
         privacy_level_user = self.request.user.get_privacy_level()
-        for contact in context['object_list']:
-            can_access = privacy_level_user >= contact.privacy_level
-            contacts.append((contact, can_access))
-        context['contacts'] = contacts
+        context['contacts'] = [
+            (contact, privacy_level_user >= contact.privacy_level)
+            for contact in context['object_list']
+        ]
+
         return context
 
 
@@ -122,10 +122,10 @@ class ContactCreatePreludeView(PermissionRequiredMixin, TemplateView):
 
         if form.is_valid():
             privacy_level_user = request.user.get_privacy_level()
-            matches = []
-            for contact in Contact.objects.fuzzy_filter(**form.cleaned_data):
-                can_access = privacy_level_user >= contact.privacy_level
-                matches.append((contact, can_access))
+            matches = [
+                (contact, privacy_level_user >= contact.privacy_level)
+                for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
+            ]
 
             return self.render_to_response({
                 'form': form,
@@ -200,10 +200,10 @@ class RequestCreateView(PermissionRequiredMixin, TemplateView):
             ).format(user=request.user.pk, **form.cleaned_data))
 
             privacy_level_user = request.user.get_privacy_level()
-            matches = []
-            for contact in Contact.objects.fuzzy_filter(**form.cleaned_data):
-                can_access = privacy_level_user >= contact.privacy_level
-                matches.append((contact, can_access))
+            matches = [
+                (contact, privacy_level_user >= contact.privacy_level)
+                for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
+            ]
 
             return self.render_to_response({
                 'form': form,
