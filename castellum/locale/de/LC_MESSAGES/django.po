@@ -528,11 +528,6 @@ msgstr "zuletzt"
 msgid "Call"
 msgstr "Anrufen"
 
-#: castellum/recruitment/templates/recruitment/__recruitment_list.html:31
-#: castellum/recruitment/templates/recruitment/__recruitment_list.html:33
-msgid "Update"
-msgstr "Aktualisieren"
-
 #: castellum/recruitment/templates/recruitment/contact.html:8
 msgid "Study details"
 msgstr "Studiendetails"
