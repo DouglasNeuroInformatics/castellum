@@ -26,6 +26,7 @@ from .views import IndexView
 from .views import MembersView
 from .views import MemberView
 from .views import PublishView
+from .views import RemoveMemberView
 from .views import UpdateView
 
 app_name = 'studies'
@@ -36,4 +37,5 @@ urlpatterns = [
     path('<int:study_pk>/publish/', PublishView.as_view(), name='publish'),
     path('<int:pk>/members/', MembersView.as_view(), name='members'),
     path('<int:study_pk>/members/<int:pk>', MemberView.as_view(), name='member'),
+    path('<int:study_pk>/remove_members/<int:pk>', RemoveMemberView.as_view(), name='remove_member'),
 ]
