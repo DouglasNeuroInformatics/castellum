@@ -60,7 +60,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for name, perms in GROUPS.items():
-            if not Group.objects.filter(name=name).exists():
-                group = Group.objects.create(name=name)
+            group, created = Group.objects.get_or_create(name=name)
+            if created:
                 permissions = Permission.objects.filter(codename__in=perms)
                 group.permissions.set(permissions)
