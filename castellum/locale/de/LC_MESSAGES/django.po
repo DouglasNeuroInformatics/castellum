@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-04 11:50+0100\n"
+"POT-Creation-Date: 2018-12-12 17:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -273,8 +273,8 @@ msgstr "Stunde"
 #: castellum/recruitment/templates/recruitment/studies_list.html:20
 #: castellum/studies/templates/studies/study_form.html:28
 #: castellum/studies/templates/studies/study_list.html:43
-#: castellum/studies/templates/studies/study_members.html:30
-#: castellum/studies/templates/studies/studymembership_form.html:15
+#: castellum/studies/templates/studies/study_members.html:38
+#: castellum/studies/templates/studies/studymembership_form.html:27
 msgid "Back"
 msgstr "Zurück"
 
@@ -286,7 +286,7 @@ msgstr "Absenden"
 #: castellum/contacts/templates/contacts/contact_create_prelude.html:39
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:46
 #: castellum/studies/templates/studies/study_list.html:15
-#: castellum/studies/templates/studies/study_members.html:21
+#: castellum/studies/templates/studies/study_members.html:29
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -343,7 +343,7 @@ msgstr "Zur Studie hinzufügen"
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:18
 #: castellum/recruitment/templates/recruitment/contact.html:65
 #: castellum/studies/templates/studies/study_form.html:29
-#: castellum/studies/templates/studies/studymembership_form.html:16
+#: castellum/studies/templates/studies/studymembership_form.html:28
 msgid "Save"
 msgstr "Speichern"
 
@@ -592,7 +592,7 @@ msgstr ""
 
 #: castellum/recruitment/templates/recruitment/contact_studies.html:23
 #: castellum/recruitment/templates/recruitment/recruitment.html:40
-#: castellum/studies/templates/studies/study_members.html:31
+#: castellum/studies/templates/studies/study_members.html:39
 msgid "Add"
 msgstr "Hinzufügen"
 
@@ -829,12 +829,16 @@ msgstr "Veröffentlichen"
 msgid "Create new study"
 msgstr "Neue Studie anlegen"
 
-#: castellum/studies/templates/studies/study_members.html:17
-msgid "global groups"
+#: castellum/studies/templates/studies/studymembership_form.html:7
+msgid "Global groups"
 msgstr ""
 
-#: castellum/studies/templates/studies/study_members.html:18
-msgid "groups in this study"
+#: castellum/studies/templates/studies/studymembership_form.html:12
+msgid "no global groups"
+msgstr ""
+
+#: castellum/studies/templates/studies/studymembership_form.html:23
+msgid "Additional groups in this study"
 msgstr ""
 
 #: castellum/templates/base.html:23
