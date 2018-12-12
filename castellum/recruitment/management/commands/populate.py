@@ -111,6 +111,8 @@ def fake_contact(pseudonym, address):
         first_name = fake.first_name_male()
         last_name = fake.last_name_male()
 
+    privacy_level = fake.random.randint(0, 2)
+
     contact = Contact(
         gender=gender,
         first_name=first_name,
@@ -118,7 +120,7 @@ def fake_contact(pseudonym, address):
         last_name=last_name,
         last_name_phonetic=phonetic(last_name),
         date_of_birth=fake_date_of_birth(),
-        privacy_level=0)
+        privacy_level=privacy_level)
 
     if fake.random.random() < 0.67:
         contact.email = fake.email()
