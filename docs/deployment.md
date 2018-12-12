@@ -28,5 +28,4 @@ These are some additional security measures we strongly recommend:
 -   [Restrict access by IP address](https://nginx.org/en/docs/http/ngx_http_access_module.html)
 -   Authentication (e.g. LDAP) is typically only checked on login. To force regular
     re-authentication we recommend to logout all users regulary, e.g. every night. We provide the
-    command `manage.py clear_sessions` for that. If you use the provided docker image is already
-    included.
+    command `manage.py clear_sessions` for that.
