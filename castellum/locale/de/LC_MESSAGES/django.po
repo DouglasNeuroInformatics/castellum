@@ -834,7 +834,7 @@ msgstr "keine globalen Gruppe"
 
 #: castellum/studies/templates/studies/studymembership_form.html:23
 msgid "Additional groups in this study"
-msgstr "zusätzliche Gruppen in dieser Studie"
+msgstr "Zusätzliche Gruppen in dieser Studie"
 
 #: castellum/templates/base.html:23
 msgid "Toggle navigation"
