@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-12 17:57+0100\n"
+"POT-Creation-Date: 2018-12-12 17:41+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -531,7 +531,7 @@ msgstr "Anrufen"
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:31
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:33
 msgid "Update"
-msgstr ""
+msgstr "Aktualisieren"
 
 #: castellum/recruitment/templates/recruitment/contact.html:8
 msgid "Study details"
@@ -831,20 +831,19 @@ msgstr "Neue Studie anlegen"
 
 #: castellum/studies/templates/studies/studymembership_form.html:7
 msgid "Global groups"
-msgstr ""
+msgstr "Globale Gruppen"
 
 #: castellum/studies/templates/studies/studymembership_form.html:12
 msgid "no global groups"
-msgstr ""
+msgstr "keine globalen Gruppe"
 
 #: castellum/studies/templates/studies/studymembership_form.html:23
 msgid "Additional groups in this study"
-msgstr ""
+msgstr "zusätzliche Gruppen in dieser Studie"
 
 #: castellum/templates/base.html:23
-#, fuzzy
 msgid "Toggle navigation"
-msgstr "Seitennavigation"
+msgstr "Navigation umschalten"
 
 #: castellum/templates/base.html:29
 msgid "Set language"
