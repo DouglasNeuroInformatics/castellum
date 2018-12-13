@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -58,10 +59,16 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
     )
     permission_required = 'studies.add_study'
 
-    def get_success_url(self):
+    def form_valid(self, form):
+
+        self.object = form.save()
+
         StudyMembership.objects.get_or_create(
             user=self.request.user, study=self.object)
 
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
         return reverse('studies:index')
 
 
