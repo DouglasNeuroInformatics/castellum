@@ -37,6 +37,6 @@ urlpatterns = [
     path('<int:study_pk>/publish/', PublishView.as_view(), name='publish'),
     path('<int:pk>/members/', MembersView.as_view(), name='members'),
     path('<int:study_pk>/members/<int:pk>', MemberView.as_view(), name='member'),
-    path('<int:study_pk>/remove_members/<int:pk>', RemoveMemberView.as_view(),
+    path('<int:study_pk>/members/<int:pk>/remove', RemoveMemberView.as_view(),
          name='remove_member'),
 ]
