@@ -123,7 +123,7 @@ class StudyMembersView(PermissionRequiredMixin, SingleObjectMixin, FormView):
         return super().form_valid(form)
 
 
-class StudyMemberView(PermissionRequiredMixin, UpdateView):
+class StudyMemberUpdateView(PermissionRequiredMixin, UpdateView):
     model = StudyMembership
     form_class = MemberForm
     permission_required = 'studies.change_study'
