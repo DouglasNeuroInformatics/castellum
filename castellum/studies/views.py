@@ -23,7 +23,11 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import View
-from django.views import generic
+from django.views.generic import CreateView
+from django.views.generic import FormView
+from django.views.generic import ListView
+from django.views.generic import UpdateView
+from django.views.generic.detail import SingleObjectMixin
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.castellum_auth.models import User
@@ -33,13 +37,13 @@ from .forms import AddMemberForm
 from .forms import MemberForm
 
 
-class IndexView(PermissionRequiredMixin, generic.ListView):
+class StudyIndexView(PermissionRequiredMixin, ListView):
     model = models.Study
     ordering = 'name'
     permission_required = 'studies.view_study'
 
 
-class CreateView(PermissionRequiredMixin, generic.CreateView):
+class StudyCreateView(PermissionRequiredMixin, CreateView):
     model = models.Study
     fields = (
         'name',
@@ -57,7 +61,7 @@ class CreateView(PermissionRequiredMixin, generic.CreateView):
         return reverse('studies:index')
 
 
-class UpdateView(PermissionRequiredMixin, generic.UpdateView):
+class StudyUpdateView(PermissionRequiredMixin, UpdateView):
     model = models.Study
     fields = (
         'name',
@@ -75,7 +79,7 @@ class UpdateView(PermissionRequiredMixin, generic.UpdateView):
         return reverse('studies:index')
 
 
-class PublishView(PermissionRequiredMixin, View):
+class StudyPublishView(PermissionRequiredMixin, View):
     permission_required = 'studies.change_study'
 
     def post(self, request, study_pk):
@@ -86,7 +90,7 @@ class PublishView(PermissionRequiredMixin, View):
         return redirect(reverse('studies:index'))
 
 
-class MembersView(PermissionRequiredMixin, generic.detail.SingleObjectMixin, generic.FormView):
+class StudyMembersView(PermissionRequiredMixin, SingleObjectMixin, FormView):
     model = models.Study
     form_class = AddMemberForm
     template_name = 'studies/study_members.html'
@@ -115,7 +119,7 @@ class MembersView(PermissionRequiredMixin, generic.detail.SingleObjectMixin, gen
         return super().form_valid(form)
 
 
-class MemberView(PermissionRequiredMixin, generic.UpdateView):
+class StudyMemberView(PermissionRequiredMixin, UpdateView):
     model = models.StudyMembership
     form_class = MemberForm
     permission_required = 'studies.change_study'
