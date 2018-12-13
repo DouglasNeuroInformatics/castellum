@@ -59,6 +59,9 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
     permission_required = 'studies.add_study'
 
     def get_success_url(self):
+        StudyMembership.objects.get_or_create(
+            user=self.request.user, study=self.object)
+
         return reverse('studies:index')
 
 
