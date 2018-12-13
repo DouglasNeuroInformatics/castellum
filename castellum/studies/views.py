@@ -32,19 +32,20 @@ from django.views.generic.detail import SingleObjectMixin
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.castellum_auth.models import User
 
-from . import models
 from .forms import AddMemberForm
 from .forms import MemberForm
+from .models import Study
+from .models import StudyMembership
 
 
 class StudyIndexView(PermissionRequiredMixin, ListView):
-    model = models.Study
+    model = Study
     ordering = 'name'
     permission_required = 'studies.view_study'
 
 
 class StudyCreateView(PermissionRequiredMixin, CreateView):
-    model = models.Study
+    model = Study
     fields = (
         'name',
         'contact_person',
@@ -62,7 +63,7 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
 
 
 class StudyUpdateView(PermissionRequiredMixin, UpdateView):
-    model = models.Study
+    model = Study
     fields = (
         'name',
         'contact_person',
@@ -83,7 +84,7 @@ class StudyPublishView(PermissionRequiredMixin, View):
     permission_required = 'studies.change_study'
 
     def post(self, request, study_pk):
-        study = get_object_or_404(models.Study, pk=study_pk)
+        study = get_object_or_404(Study, pk=study_pk)
         study.published = not study.published
         study.save()
 
@@ -91,7 +92,7 @@ class StudyPublishView(PermissionRequiredMixin, View):
 
 
 class StudyMembersView(PermissionRequiredMixin, SingleObjectMixin, FormView):
-    model = models.Study
+    model = Study
     form_class = AddMemberForm
     template_name = 'studies/study_members.html'
     permission_required = 'studies.change_study'
@@ -114,13 +115,13 @@ class StudyMembersView(PermissionRequiredMixin, SingleObjectMixin, FormView):
         return reverse('studies:members', args=[self.object.pk])
 
     def form_valid(self, form):
-        models.StudyMembership.objects.get_or_create(
+        StudyMembership.objects.get_or_create(
             user=form.cleaned_data['user'], study=self.object)
         return super().form_valid(form)
 
 
 class StudyMemberView(PermissionRequiredMixin, UpdateView):
-    model = models.StudyMembership
+    model = StudyMembership
     form_class = MemberForm
     permission_required = 'studies.change_study'
 
