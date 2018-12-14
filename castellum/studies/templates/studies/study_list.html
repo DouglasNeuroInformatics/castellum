@@ -31,31 +31,19 @@
 
                     {% endif %}
                     {% if perms.studies.change_study %}
-                        {% if is_member %}
                             <form class="d-sm-inline" method="post" action="{% url 'studies:publish' study.pk %}">
                                 {% csrf_token %}
 
                                 {% if study.published %}
-                                    <button class='btn btn-outline-primary active btn-sm-inline my-1'>
+                                    <button class='btn btn-outline-primary active btn-sm-inline my-1 {% if not is_member %}disabled{% endif %}'>
                                         {% trans 'Unpublish' %}
                                     </button>
                                 {% else %}
-                                    <button class='btn btn-outline-primary btn-sm-inline my-1'>
+                                    <button class='btn btn-outline-primary btn-sm-inline my-1 {% if not is_member %}disabled{% endif %}'>
                                         {% trans 'Publish' %}
                                     </button>
                                 {% endif %}
                             </form>
-                        {% else %}
-                            {% if study.published %}
-                                <button class='btn btn-outline-primary active btn-sm-inline my-1 disabled'>
-                                    {% trans 'Unpublish' %}
-                                </button>
-                            {% else %}
-                                <button class='btn btn-outline-primary btn-sm-inline my-1 disabled'>
-                                    {% trans 'Publish' %}
-                                </button>
-                            {% endif %}
-                        {% endif %}
                     {% endif %}
                 </div>
             </li>
