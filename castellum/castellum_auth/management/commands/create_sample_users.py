@@ -27,11 +27,28 @@ from django.utils import timezone
 from castellum.castellum_auth.models import User
 
 USERS = {
-    'nogroups': [],
-    'study-coordinator': ['Study coordinator'],
-    'subject-manager': ['Subject manager'],
-    'recruiter': ['Recruiter'],
-    'full-recruiter': ['Subject manager', 'Recruiter'],
+    'Andreas': [],
+    'Emma': ['Recruiter'],
+
+    # first testing group
+    'Vera': ['Study coordinator'],
+    'Arne': ['Subject manager'],
+    'Edwin': ['Subject manager', 'Recruiter'],
+
+    # second testing group
+    'Anna': ['Study coordinator'],
+    'Max': ['Subject manager'],
+    'Sonja': ['Subject manager', 'Recruiter'],
+
+    # third testing group
+    'Claus': ['Study coordinator'],
+    'Flora': ['Subject manager'],
+    'Oskar': ['Subject manager', 'Recruiter'],
+
+    # fourth testing group
+    'Hans': ['Study coordinator'],
+    'Nina': ['Subject manager'],
+    'Pia': ['Subject manager', 'Recruiter'],
 }
 
 
@@ -46,8 +63,10 @@ class Command(BaseCommand):
                 'admin', 'admin@example.com', '123', expiration_date=expiration_date)
 
         for name, groups in USERS.items():
-            if not User.objects.filter(username=name).exists():
-                user = User.objects.create_user(
-                    name, name + '@example.com', '123', expiration_date=expiration_date)
+            defaults = {'email': name + '@example.com', 'expiration_date': expiration_date}
+            user, created = User.objects.get_or_create(username=name, defaults=defaults)
+            if created:
+                user.set_password('123')
                 user.user_permissions.add(Permission.objects.get(codename='privacy_level_1'))
                 user.groups.set(Group.objects.filter(name__in=groups))
+                user.save()
