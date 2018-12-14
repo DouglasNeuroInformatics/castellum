@@ -146,3 +146,9 @@ class StudyMemberRemoveView(PermissionRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse('studies:members', args=[self.object.study.pk])
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.user.pk != request.user.pk:
+            self.object.delete()
+        return HttpResponseRedirect(self.get_success_url())
