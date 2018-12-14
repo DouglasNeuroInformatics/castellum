@@ -23,6 +23,7 @@ from django.urls import path
 
 from .views import StudyCreateView
 from .views import StudyIndexView
+from .views import StudyMemberRemoveView
 from .views import StudyMembersView
 from .views import StudyMemberUpdateView
 from .views import StudyPublishView
@@ -36,4 +37,6 @@ urlpatterns = [
     path('<int:study_pk>/publish/', StudyPublishView.as_view(), name='publish'),
     path('<int:pk>/members/', StudyMembersView.as_view(), name='members'),
     path('<int:study_pk>/members/<int:pk>', StudyMemberUpdateView.as_view(), name='member'),
+    path('<int:study_pk>/members/<int:pk>/remove', StudyMemberRemoveView.as_view(),
+         name="remove-study-member")
 ]

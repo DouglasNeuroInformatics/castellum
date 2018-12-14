@@ -25,6 +25,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import View
 from django.views.generic import CreateView
+from django.views.generic import DeleteView
 from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
@@ -133,6 +134,14 @@ class StudyMembersView(PermissionRequiredMixin, SingleObjectMixin, FormView):
 class StudyMemberUpdateView(PermissionRequiredMixin, UpdateView):
     model = StudyMembership
     form_class = MemberForm
+    permission_required = 'studies.change_study'
+
+    def get_success_url(self):
+        return reverse('studies:members', args=[self.object.study.pk])
+
+
+class StudyMemberRemoveView(PermissionRequiredMixin, DeleteView):
+    model = StudyMembership
     permission_required = 'studies.change_study'
 
     def get_success_url(self):
