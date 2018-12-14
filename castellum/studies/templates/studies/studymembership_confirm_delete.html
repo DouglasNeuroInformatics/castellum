@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<form method="post">{% csrf_token %}
+    <p>Are you sure you want to delete "{{ object.user.username }}"?</p>
+    <input type="submit" class="btn btn-primary" value="{% trans 'Confirm' %}" />
+</form>
+{% endblock %}
