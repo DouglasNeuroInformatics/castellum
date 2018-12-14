@@ -44,6 +44,19 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
     ordering = 'name'
     permission_required = 'studies.view_study'
 
+    def get_context_data(self, **kwargs):
+
+        data = super().get_context_data(**kwargs)
+
+        studies = {}
+        for study in self.get_queryset():
+            if self.request.user.studymembership_set.filter(study=study).exists():
+                studies[study] = True
+            else:
+                studies[study] = False
+        data['studies'] = studies
+        return data
+
 
 class StudyCreateView(PermissionRequiredMixin, CreateView):
     model = Study
