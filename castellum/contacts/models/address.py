@@ -51,7 +51,7 @@ class City(models.Model):
 
 class AddressManager(models.Manager):
     def get_queryset(self):
-        return super(AddressManager, self).get_queryset().select_related('city')
+        return super().get_queryset().select_related('city')
 
 
 class Address(models.Model):
