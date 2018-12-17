@@ -824,6 +824,11 @@ msgstr "Veröffentlichen"
 msgid "Create new study"
 msgstr "Neue Studie anlegen"
 
+#: castellum/studies/templates/studies/study_members.html:31
+#: castellum/studies/templates/studies/study_members.html:33
+msgid "Remove"
+msgstr "Entfernen"
+
 #: castellum/studies/templates/studies/studymembership_form.html:7
 msgid "Global groups"
 msgstr "Globale Gruppen"
