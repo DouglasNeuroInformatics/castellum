@@ -41,6 +41,24 @@ from .models import Study
 from .models import StudyMembership
 
 
+class StudyAccessMixin(PermissionRequiredMixin):
+    def get_permission_object(self):
+        if hasattr(self, 'object'):
+            return self.object
+        else:
+            return self.get_object()
+
+    def get_permission_required(self):
+        permission_required = {'studies.access_study'}
+        permission_required.update(super().get_permission_required())
+        return permission_required
+
+
+class StudyMembershipAccessMixin(StudyAccessMixin):
+    def get_permission_object(self):
+        return super().get_permission_object().study
+
+
 class StudyIndexView(PermissionRequiredMixin, ListView):
     model = Study
     ordering = 'name'
@@ -74,7 +92,7 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
         return reverse('studies:index')
 
 
-class StudyUpdateView(PermissionRequiredMixin, UpdateView):
+class StudyUpdateView(StudyAccessMixin, UpdateView):
     model = Study
     fields = (
         'name',
@@ -92,18 +110,21 @@ class StudyUpdateView(PermissionRequiredMixin, UpdateView):
         return reverse('studies:index')
 
 
-class StudyPublishView(PermissionRequiredMixin, View):
+class StudyPublishView(StudyAccessMixin, View):
     permission_required = 'studies.change_study'
 
+    def dispatch(self, request, study_pk):
+        self.object = get_object_or_404(Study, pk=study_pk)
+        return super().dispatch(request, study_pk)
+
     def post(self, request, study_pk):
-        study = get_object_or_404(Study, pk=study_pk)
-        study.published = not study.published
-        study.save()
+        self.object.published = not self.object.published
+        self.object.save()
 
         return redirect(reverse('studies:index'))
 
 
-class StudyMembersView(PermissionRequiredMixin, SingleObjectMixin, FormView):
+class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
     model = Study
     form_class = AddMemberForm
     template_name = 'studies/study_members.html'
@@ -132,7 +153,7 @@ class StudyMembersView(PermissionRequiredMixin, SingleObjectMixin, FormView):
         return super().form_valid(form)
 
 
-class StudyMemberUpdateView(PermissionRequiredMixin, UpdateView):
+class StudyMemberUpdateView(StudyMembershipAccessMixin, UpdateView):
     model = StudyMembership
     form_class = MemberForm
     permission_required = 'studies.change_study'
@@ -141,7 +162,7 @@ class StudyMemberUpdateView(PermissionRequiredMixin, UpdateView):
         return reverse('studies:members', args=[self.object.study.pk])
 
 
-class StudyMemberRemoveView(PermissionRequiredMixin, DeleteView):
+class StudyMemberRemoveView(StudyMembershipAccessMixin, DeleteView):
     model = StudyMembership
     permission_required = 'studies.change_study'
 
