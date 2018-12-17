@@ -13,7 +13,6 @@ def test_user_cannot_remove_himself_from_study(client, user, study):
 
     response = client.post('/studies/{}/members/{}/remove/'.format(study.pk, membership.pk))
 
-    assert response.status_code == 302
-    assert response.url == '/studies/{}/members/'.format(study.pk)
+    assert response.status_code == 400
 
     assert StudyMembership.objects.last().user.username == user.username
