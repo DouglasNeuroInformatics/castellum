@@ -25,7 +25,6 @@ from django.core.management.base import BaseCommand
 import phonenumbers
 from faker import Faker
 
-from castellum.castellum_auth.models import User
 from castellum.contacts.models import Address
 from castellum.contacts.models import City
 from castellum.contacts.models import Contact
@@ -35,7 +34,6 @@ from castellum.pseudonyms.models import Pseudonym
 from castellum.pseudonyms.models import Subject
 from castellum.recruitment.models import AttributeSet
 from castellum.studies.models import Study
-from castellum.studies.models import StudyMembership
 from castellum.utils import FakeData
 
 fake = Faker('de_DE')
@@ -192,15 +190,3 @@ class Command(BaseCommand):
             generate_studies(5)
         if not Contact.objects.exists():
             generate_subjects(2000)
-
-        STUDIES = {
-            'Preatoria': 'Claus',
-            'Principalis Sinistra': 'Vera',
-            'Principalis Dextra': 'Anna',
-            'Decumana': 'Hans',
-        }
-
-        for name, creator in STUDIES.items():
-            study, __ = Study.objects.get_or_create(name=name, defaults={'contact_person': creator})
-            user = User.objects.get(username=creator)
-            StudyMembership.objects.get_or_create(user=user, study=study)
