@@ -154,5 +154,4 @@ class StudyMemberRemoveView(PermissionRequiredMixin, DeleteView):
             self.object.delete()
         else:
             return HttpResponseBadRequest()
-
         return HttpResponseRedirect(self.get_success_url())
