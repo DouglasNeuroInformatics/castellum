@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -151,4 +152,7 @@ class StudyMemberRemoveView(PermissionRequiredMixin, DeleteView):
         self.object = self.get_object()
         if self.object.user.pk != request.user.pk:
             self.object.delete()
+        else:
+            return HttpResponseBadRequest()
+
         return HttpResponseRedirect(self.get_success_url())
