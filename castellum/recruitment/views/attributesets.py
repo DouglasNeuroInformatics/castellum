@@ -37,6 +37,13 @@ class AttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     slug_field = 'pseudonym'
     permission_required = 'recruitment.change_attributeset'
 
+    def get_object(self, queryset=None):
+        if queryset is None:
+            queryset = self.get_queryset()
+        attributeset, __ = queryset.get_or_create(
+            pseudonym=self.kwargs['slug'], defaults={'data': {}})
+        return attributeset
+
     def get_form_class(self):
         return AttributeSetForm.factory(self.request.user)
 
