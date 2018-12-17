@@ -11,7 +11,7 @@ def test_user_cannot_remove_himself_from_study(client, user, study):
 
     client.force_login(user)
 
-    response = client.post('/studies/{}/members/{}/remove/'.format(study.pk, membership.pk))
+    response = client.post('/studies/{}/members/{}/delete/'.format(study.pk, membership.pk))
 
     assert response.status_code == 400
 
