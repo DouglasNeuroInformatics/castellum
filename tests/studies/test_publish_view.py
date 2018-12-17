@@ -1,5 +1,5 @@
-def test_publish(client, user, study):
-    client.force_login(user)
+def test_publish(client, member, study):
+    client.force_login(member)
     study.published = False
     study.save()
 
@@ -10,8 +10,8 @@ def test_publish(client, user, study):
     assert study.published is True
 
 
-def test_unpublish(client, user, study):
-    client.force_login(user)
+def test_unpublish(client, member, study):
+    client.force_login(member)
     study.published = True
     study.save()
 

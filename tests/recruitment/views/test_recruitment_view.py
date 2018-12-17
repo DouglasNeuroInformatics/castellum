@@ -13,11 +13,11 @@ from castellum.recruitment.models import ParticipationRequest
 
 
 @pytest.mark.django_db
-def test_post_when_study_has_zero_subject_count_set(client, user, published_study):
+def test_post_when_study_has_zero_subject_count_set(client, member, published_study):
 
     published_study.min_subjects_count = 0
     published_study.save()
-    client.force_login(user)
+    client.force_login(member)
     url = '/recruitment/{}/not-contacted/'.format(published_study.pk)
     response = client.post(url)
     assert response.status_code == 200
@@ -28,7 +28,7 @@ def test_post_when_study_has_zero_subject_count_set(client, user, published_stud
 
 
 @pytest.mark.django_db
-def test_post_when_more_then_double_minimal_subject_count(client, user, published_study):
+def test_post_when_more_then_double_minimal_subject_count(client, member, published_study):
 
     published_study.min_subjects_count = 2
     published_study.save()
@@ -50,7 +50,7 @@ def test_post_when_more_then_double_minimal_subject_count(client, user, publishe
                pseudonym=cycle(pseudonyms),
                _quantity=4)
 
-    client.force_login(user)
+    client.force_login(member)
     url = '/recruitment/{}/not-contacted/'.format(published_study.pk)
 
     response = client.post(url)

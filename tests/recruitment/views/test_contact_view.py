@@ -7,49 +7,49 @@ from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import ParticipationRequestRevision
 
 
-def test_404_page_returned_if_study_is_not_provided(client, user, participation_request):
-    client.force_login(user)
+def test_404_page_returned_if_study_is_not_provided(client, member, participation_request):
+    client.force_login(member)
     url = '/recruitment/3/{}/not-contacted/'.format(participation_request.pseudonym)
     response = client.get(url)
     assert response.status_code == 404
 
 
-def test_404_page_returned_if_wrong_study_is_provided(client, user, participation_request,
+def test_404_page_returned_if_wrong_study_is_provided(client, member, participation_request,
                                                       published_study):
-    client.force_login(user)
+    client.force_login(member)
     url = '/recruitment/{}/{}/not-contacted/'.format(published_study.pk,
                                                      participation_request.pseudonym)
     response = client.get(url)
     assert response.status_code == 404
 
 
-def test_200_page_returned_if_published_study_is_provided(client, user, participation_request):
+def test_200_page_returned_if_published_study_is_provided(client, member, participation_request):
     participation_request.study.published = True
     participation_request.study.save()
 
-    client.force_login(user)
+    client.force_login(member)
     url = '/recruitment/{}/{}/not-contacted/'.format(participation_request.study.pk,
                                                      participation_request.pseudonym)
     response = client.get(url)
     assert response.status_code == 200
 
 
-def test_404_page_returned_if_unpublished_study_is_provided(client, user, participation_request):
+def test_404_page_returned_if_unpublished_study_is_provided(client, member, participation_request):
     participation_request.study.published = False
     participation_request.study.save()
 
-    client.force_login(user)
+    client.force_login(member)
     url = '/recruitment/{}/{}/not-contacted/'.format(participation_request.study.pk,
                                                      participation_request.pseudonym)
     response = client.get(url)
     assert response.status_code == 404
 
 
-def test_post_redirect(client, user, participation_request):
+def test_post_redirect(client, member, participation_request):
     participation_request.study.published = True
     participation_request.study.save()
 
-    client.force_login(user)
+    client.force_login(member)
     url = '/recruitment/{}/{}/not-contacted/'.format(participation_request.study.pk,
                                                      participation_request.pseudonym)
     response = client.post(url, {'status': ParticipationRequest.UNSUITABLE, 'btn_back': 'value'})
@@ -57,13 +57,13 @@ def test_post_redirect(client, user, participation_request):
     assert response.url == '/recruitment/{}/not-contacted/'.format(participation_request.study.pk)
 
 
-def test_post_redirect_from_not_reached(client, user, participation_request):
+def test_post_redirect_from_not_reached(client, member, participation_request):
     participation_request.study.published = True
     participation_request.study.save()
     participation_request.status = ParticipationRequest.NOT_REACHED
     participation_request.save()
 
-    client.force_login(user)
+    client.force_login(member)
     url = '/recruitment/{}/{}/not-reached/'.format(participation_request.study.pk,
                                                    participation_request.pseudonym)
     response = client.post(url, {'status': ParticipationRequest.UNSUITABLE, 'btn_back': 'value'})
@@ -71,11 +71,11 @@ def test_post_redirect_from_not_reached(client, user, participation_request):
     assert response.url == '/recruitment/{}/not-reached/'.format(participation_request.study.pk)
 
 
-def test_post_redirect_next_with_one_participation_request(client, user, participation_request):
+def test_post_redirect_next_with_one_participation_request(client, member, participation_request):
     participation_request.study.published = True
     participation_request.study.save()
 
-    client.force_login(user)
+    client.force_login(member)
     url = '/recruitment/{}/{}/not-contacted/'.format(participation_request.study.pk,
                                                      participation_request.pseudonym)
     response = client.post(url, {'status': ParticipationRequest.UNSUITABLE, 'btn_next': 'value'})
@@ -84,14 +84,14 @@ def test_post_redirect_next_with_one_participation_request(client, user, partici
 
 
 def test_post_redirect_next_with_one_participation_request_from_not_reached(client,
-                                                                            user,
+                                                                            member,
                                                                             participation_request):
     participation_request.study.published = True
     participation_request.study.save()
     participation_request.status = ParticipationRequest.NOT_REACHED
     participation_request.save()
 
-    client.force_login(user)
+    client.force_login(member)
     url = '/recruitment/{}/{}/not-reached/'.format(participation_request.study.pk,
                                                    participation_request.pseudonym)
     response = client.post(url, {'status': ParticipationRequest.UNSUITABLE, 'btn_next': 'value'})
@@ -99,7 +99,7 @@ def test_post_redirect_next_with_one_participation_request_from_not_reached(clie
     assert response.url == '/recruitment/{}/not-reached/'.format(participation_request.study.pk)
 
 
-def test_post_redirect_next_with_multiple_participation_requests(client, user, published_study):
+def test_post_redirect_next_with_multiple_participation_requests(client, member, published_study):
     participation_requests = []
     for i in range(5):
         contact = mommy.make(Contact, pseudonym=None, privacy_level=0)
@@ -110,7 +110,7 @@ def test_post_redirect_next_with_multiple_participation_requests(client, user, p
             pseudonym=pseudonym,
         ))
 
-    client.force_login(user)
+    client.force_login(member)
 
     url = '/recruitment/{}/{}/not-contacted/'.format(published_study.pk,
                                                      participation_requests[3].pseudonym)
@@ -133,7 +133,7 @@ def test_post_redirect_next_with_multiple_participation_requests(client, user, p
 
 
 def test_post_redirect_next_with_multiple_participation_requests_from_not_reached(client,
-                                                                                  user,
+                                                                                  member,
                                                                                   published_study):
     participation_requests = []
     for i in range(5):
@@ -146,7 +146,7 @@ def test_post_redirect_next_with_multiple_participation_requests_from_not_reache
             status=ParticipationRequest.NOT_REACHED,
         ))
 
-    client.force_login(user)
+    client.force_login(member)
 
     url = '/recruitment/{}/{}/not-reached/'.format(published_study.pk,
                                                    participation_requests[3].pseudonym)
@@ -169,11 +169,11 @@ def test_post_redirect_next_with_multiple_participation_requests_from_not_reache
 
 
 @pytest.mark.freeze_time('2018-01-01')
-def test_post_updated_at(client, user, participation_request):
+def test_post_updated_at(client, member, participation_request):
     participation_request.study.published = True
     participation_request.study.save()
 
-    client.force_login(user)
+    client.force_login(member)
     url = '/recruitment/{}/{}/not-contacted/'.format(participation_request.study.pk,
                                                      participation_request.pseudonym)
     client.post(url, {'status': ParticipationRequest.UNSUITABLE})
@@ -181,11 +181,11 @@ def test_post_updated_at(client, user, participation_request):
     assert participation_request.updated_at.strftime('%Y-%m-%d') == '2018-01-01'
 
 
-def test_create_revision_on_update(client, user, participation_request):
+def test_create_revision_on_update(client, member, participation_request):
     participation_request.study.published = True
     participation_request.study.save()
 
-    client.force_login(user)
+    client.force_login(member)
     url = '/recruitment/{}/{}/not-contacted/'.format(participation_request.study.pk,
                                                      participation_request.pseudonym)
     client.post(url, {'status': 2})
@@ -193,13 +193,13 @@ def test_create_revision_on_update(client, user, participation_request):
     assert ParticipationRequestRevision.objects.count() == 2
 
 
-def test_post_redirect_from_contacts(client, user, participation_request):
+def test_post_redirect_from_contacts(client, member, participation_request):
     participation_request.study.published = True
     participation_request.study.save()
     participation_request.status = 1
     participation_request.save()
 
-    client.force_login(user)
+    client.force_login(member)
     url = '/recruitment/{}/{}/contacts/'.format(participation_request.study.pk,
                                                 participation_request.pseudonym)
     response = client.post(url, {'status': 2})
@@ -207,11 +207,11 @@ def test_post_redirect_from_contacts(client, user, participation_request):
     assert response.url.startswith('/subjects/')
 
 
-def test_404_on_invalid_path(client, user, participation_request):
+def test_404_on_invalid_path(client, member, participation_request):
     participation_request.study.published = True
     participation_request.study.save()
 
-    client.force_login(user)
+    client.force_login(member)
     url = '/recruitment/{}/{}/foo/'.format(participation_request.study.pk,
                                            participation_request.pseudonym)
     response = client.get(url)
