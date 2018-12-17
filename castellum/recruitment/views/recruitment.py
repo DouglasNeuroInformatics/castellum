@@ -243,10 +243,26 @@ class ContactView(PublishedStudyMixin, SubjectMixin, PermissionRequiredMixin, Up
         next_pseudonym_idx = None
         if "btn_back" not in form.data and len(pseudonyms) - 1 != 0:
             current_pseudonym_idx = pseudonyms.index(self.object.pseudonym)
-            if current_pseudonym_idx + 1 < len(pseudonyms):
-                next_pseudonym_idx = current_pseudonym_idx + 1
-            elif self.kwargs['path'] == 'not-contacted':
-                next_pseudonym_idx = current_pseudonym_idx - 1
+            user_privacy_level = self.request.user.get_privacy_level()
+
+            idx = current_pseudonym_idx + 1
+            while idx < len(pseudonyms):
+                contact = Contact.objects.get(pseudonym=resolve_pseudonym(
+                    self.study.domain, pseudonyms[idx], Contact.domain))
+                if contact.privacy_level <= user_privacy_level:
+                    next_pseudonym_idx = idx
+                    break
+                idx += 1
+
+            if next_pseudonym_idx is None and self.kwargs['path'] == 'not-contacted':
+                idx = current_pseudonym_idx - 1
+                while idx >= 0:
+                    contact = Contact.objects.get(pseudonym=resolve_pseudonym(
+                        self.study.domain, pseudonyms[idx], Contact.domain))
+                    if contact.privacy_level <= user_privacy_level:
+                        next_pseudonym_idx = idx
+                        break
+                    idx -= 1
 
         if next_pseudonym_idx is None:
             url = 'recruitment:recruitment_' + self.kwargs['path']
