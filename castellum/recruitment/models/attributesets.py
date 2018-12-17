@@ -196,6 +196,13 @@ class BaseFilterField:
             key = '{}__{}'.format(field_name, operator)
             return models.Q(**{key: value})
 
+    def to_str(self, description, operator, value):
+        operator = dict(self.available_operators)[operator]
+        if description.field_type == 'ChoiceField':
+            choice = AttributeChoice.objects.get(description=description, pk=value)
+            value = choice.label
+        return '{} {} {}'.format(description.filter_label, operator, value)
+
 
 class DateFilterField(BaseFilterField):
     available_operators = [
@@ -245,3 +252,8 @@ class AgeFilterField(BaseFilterField):
         except (ValueError, OverflowError):
             date = datetime.date.min
         return super().to_q(description, operator, date)
+
+    def to_str(self, description, operator, value):
+        period, scale = value
+        value = '{} {}'.format(period, self.SCALES[scale])
+        return super().to_str(description, operator, value)
