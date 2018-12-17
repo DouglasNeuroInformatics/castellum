@@ -1,6 +1,7 @@
-{% load i18n %}
+{% load i18n auth %}
 
 <ul class="table-list mt-3">
+    {% has_perm 'recruitment.change_participationrequest' user view.study as can_change_participationrequest %}
     {% for participation, contact in participants %}
         <li class="table-list-item">
             <div>
@@ -21,7 +22,7 @@
                     </div>
                 {% endif %}
             </div>
-            {% if perms.recruitment.change_participationrequest %}
+            {% if can_change_participationrequest %}
                 <div class="table-list-item-actions">
                     {% if not_contacted_view %}
                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pseudonym 'not-contacted' %}">{% trans 'Call' %}</a>

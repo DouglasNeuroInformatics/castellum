@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n auth %}
 
 {% block content %}
     <h2>{% trans 'Studies' %}</h2>
@@ -11,15 +11,17 @@
                     <div class="d-inline-block my-1 mr-2">{{ study.contact_person|default:_('not provided') }}</div>
                 </div>
                 <div class="table-list-item-actions">
-                    {% if perms.studies.change_study %}
+                    {% has_perm 'studies.change_study' user study as can_change_study %}
+                    {% has_perm 'recruitment.change_subjectfilter' user study as can_change_subjectfilter %}
+                    {% if can_change_study %}
                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:update' study.pk %}">{% trans 'Edit' %}</a>
                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:members' study.pk %}">{% trans 'Manage members' %}</a>
                     {% endif %}
-                    {% if perms.recruitment.change_subjectfilter %}
+                    {% if can_change_subjectfilter %}
                         <a class='btn btn-outline-primary btn-sm-inline my-1'
                            href="{% url 'recruitment:filtergroup_index' study.pk %}">{% if study.published %}{% trans 'View filters' %}{%else%}{% trans 'Edit filters' %}{%endif%}</a>
                     {% endif %}
-                    {% if perms.studies.change_study %}
+                    {% if can_change_study %}
                         <form class="d-sm-inline" method="post" action="{% url 'studies:publish' study.pk %}">
                             {% csrf_token %}
 
@@ -41,7 +43,8 @@
 
     <div class="mb-3">
         <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-        {% if perms.studies.add_study %}
+        {% has_perm 'studies.add_study' user as can_add_study %}
+        {% if can_add_study %}
             <a href="{% url 'studies:create' %}" class="btn btn-primary">{% trans "Create new study" %}</a>
         {% endif %}
     </div>
