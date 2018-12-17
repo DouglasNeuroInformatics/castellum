@@ -37,8 +37,8 @@ class StudyMixin:
         return super().dispatch(request, *args, **kwargs)
 
     def get_permission_required(self):
-        """If used together with PermissionRequiredMixin, require view_study permission."""
-        permission_required = {'studies.view_study'}
+        """If used together with PermissionRequiredMixin, require access_study permission."""
+        permission_required = {'studies.access_study'}
         permission_required.update(super().get_permission_required())
         return permission_required
 

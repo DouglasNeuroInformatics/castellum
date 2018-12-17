@@ -8,6 +8,7 @@ from model_mommy import mommy
 from castellum.castellum_auth.models import User
 from castellum.contacts.models import Contact
 from castellum.studies.models import Study
+from castellum.studies.models import StudyMembership
 
 mommy.generators.add(
     'castellum.utils.fields.DateField', mommy.generators.default_mapping[DateField])
@@ -35,6 +36,14 @@ def published_study(db):
 @pytest.fixture
 def unpublished_study(db):
     return mommy.make(Study, published=False)
+
+
+@pytest.fixture
+def member(user, study, published_study, unpublished_study):
+    StudyMembership.objects.create(user=user, study=study)
+    StudyMembership.objects.create(user=user, study=published_study)
+    StudyMembership.objects.create(user=user, study=unpublished_study)
+    return user
 
 
 @pytest.fixture
