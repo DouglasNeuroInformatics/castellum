@@ -49,6 +49,11 @@ class City(models.Model):
         verbose_name_plural = _("cities")
 
 
+class AddressManager(models.Manager):
+    def get_queryset(self):
+        return super(AddressManager, self).get_queryset().select_related('city')
+
+
 class Address(models.Model):
     city = models.ForeignKey(City, verbose_name=_("city"), on_delete=models.CASCADE)
     zip_code = models.CharField(_("zip code"), max_length=5)
@@ -56,6 +61,8 @@ class Address(models.Model):
     house_number = models.CharField(_("house number"), max_length=5)
     additional_information = models.CharField(_("additional information"), max_length=32,
                                               blank=True)
+
+    objects = AddressManager()
 
     def __str__(self):
         street = " ".join([self.street, self.house_number, self.additional_information]).strip()
