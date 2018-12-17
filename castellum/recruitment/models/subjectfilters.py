@@ -66,6 +66,10 @@ class SubjectFilter(models.Model):
     operator = models.CharField(max_length=64)
     value = PickledObjectField(editable=True)
 
+    def __str__(self):
+        filter_field = self.description.get_filter_field()
+        return filter_field.to_str(self.description, self.operator, self.value)
+
     def to_q(self):
         filter_field = self.description.get_filter_field()
         return filter_field.to_q(self.description, self.operator, self.value)
