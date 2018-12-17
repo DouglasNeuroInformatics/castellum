@@ -38,13 +38,14 @@ class SubjectFilterForm(forms.ModelForm):
 
         selected_description = self._get_selected_description(**kwargs)
 
+        self.fields["description"].choices = get_description_choices()
+
         if not selected_description:
             return
 
         filter_field = selected_description.get_filter_field()
 
         self.fields["description"].widget.attrs["disabled"] = True
-        self.fields["description"].choices = get_description_choices()
 
         self.fields["operator"] = forms.ChoiceField(choices=filter_field.available_operators)
 
