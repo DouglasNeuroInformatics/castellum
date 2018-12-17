@@ -20,11 +20,11 @@
 # <http://www.gnu.org/licenses/>.
 
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import DetailView
 
-from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
 from castellum.contacts.views import ContactUpdateView as _ContactUpdateView
@@ -58,16 +58,19 @@ class ContactUpdateView(PublishedStudyMixin, _ContactUpdateView):
         return self.get_success_url()
 
 
-class ContactStudiesView(SubjectMixin, PermissionRequiredMixin, DetailView):
+class ContactStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):
     model = Contact
     slug_field = 'pseudonym'
     template_name = 'recruitment/contact_studies.html'
-    permission_required = 'recruitment.add_participationrequest'
 
     def get_studies(self, attributeset):
         qs = AttributeSet.objects.filter(pk=attributeset.pk)
         for study in Study.objects.filter(published=True):
-            if qs.filter(get_study_filter_q(study)).exists():
+            if (
+                self.request.user.has_perm('recruitment.add_participationrequest', obj=study) and
+                self.request.user.has_perm('studies.access_study', obj=study) and
+                qs.filter(get_study_filter_q(study)).exists()
+            ):
                 pseudonym = resolve_pseudonym(
                     AttributeSet.domain, attributeset.pseudonym, study.domain)
                 request = ParticipationRequest.objects.filter(study=study, pseudonym=pseudonym)
