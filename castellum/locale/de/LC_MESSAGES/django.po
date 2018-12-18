@@ -258,6 +258,13 @@ msgstr "Kontakte"
 msgid "hour"
 msgstr "Stunde"
 
+#: castellum/contacts/templates/contacts/contact_create_prelude.html:4
+#: castellum/contacts/templates/contacts/contact_create_prelude.html:50
+#: castellum/contacts/templates/contacts/contact_form.html:8
+#: castellum/contacts/templates/contacts/contact_index.html:13
+msgid "Create new subject"
+msgstr "Neue ProbandIn anlegen"
+
 #: castellum/contacts/templates/contacts/contact_create_prelude.html:21
 #: castellum/contacts/templates/contacts/contact_detail.html:48
 #: castellum/contacts/templates/contacts/contact_form.html:76
