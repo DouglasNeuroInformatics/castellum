@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% load i18n bootstrap4 %}
 
-{% block title %}{% trans "contacts" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% trans "Subjects" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>{% trans 'contacts' %}</h1>
+    <h1>{% trans 'Subjects' %}</h1>
 
     <ul class="table-list">
         {% for contact in object_list %}
