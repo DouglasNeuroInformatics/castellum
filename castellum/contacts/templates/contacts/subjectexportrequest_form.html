@@ -31,8 +31,12 @@
                         <div>
                             <h3 class="h4 d-inline-block my-1 mr-2">{{ contact.full_name }}</h3>
                             <div class="d-inline-block">
-                                <div class="d-inline-block my-1 mr-2">{{ contact.address }}</div>
-                                <div class="d-inline-block my-1 mr-2">{{ contact.email }}</div>
+                                {% if contact.address %}
+                                    <div class="d-inline-block my-1 mr-2">{{ contact.address }}</div>
+                                {% endif %}
+                                {% if contact.email %}
+                                    <div class="d-inline-block my-1 mr-2">{{ contact.email }}</div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="table-list-item-actions">
