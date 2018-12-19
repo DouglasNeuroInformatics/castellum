@@ -879,7 +879,7 @@ msgstr "Anmelden"
 
 #: castellum/utils/forms.py:32 castellum/utils/forms.py:46
 msgid "yyyy-mm-dd, e.g. 2018-07-21"
-msgstr "tt.mm.jjjj, z.B. 21.07.2018"
+msgstr "jjjj-mm-tt, z.B. 2018-07-21"
 
 #: castellum/utils/forms.py:54
 msgid "HH:MM, e.g. 13:00"

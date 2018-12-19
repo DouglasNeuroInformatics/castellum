@@ -3,10 +3,7 @@ $(function() {
         e.type = 'date';
         if (e.type !== 'date') {
             $(e).datepicker({
-                format: django.formats.DATE_INPUT_FORMATS[0]
-                    .replace('%Y', 'yyyy')
-                    .replace('%m', 'mm')
-                    .replace('%d', 'dd'),
+                format: 'yyyy-mm-dd',
                 language: document.documentElement.lang,
                 autoclose: true,
                 calendarWeeks: true,
