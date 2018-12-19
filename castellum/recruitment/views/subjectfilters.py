@@ -70,9 +70,9 @@ class FilterGroupListView(StudyMixin, PermissionRequiredMixin, ListView):
                     'Please, define the number of subjects for this study.'))
             elif context['potential_subjects_count'] < self.study.min_subjects_count\
                     * CASTELLUM_EXPECTED_SUBJECT_FACTOR:
-                        messages.error(self.request, _(
-                            'The number of potential subjects is probably '
-                            'not sufficient for this study.'))
+                messages.error(self.request, _(
+                    'The number of potential subjects is probably not sufficient. '
+                    'Note that not all potential subjects will participate in the study.'))
 
             return self.render_to_response(context)
 
