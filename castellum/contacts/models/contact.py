@@ -104,6 +104,7 @@ class Contact(SubjectData):
     objects = ContactManager()
 
     class Meta:
+        ordering = ('last_name', 'first_name')
         verbose_name = _('contact')
         verbose_name_plural = _('contacts')
 
