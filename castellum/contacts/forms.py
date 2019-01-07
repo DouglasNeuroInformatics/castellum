@@ -100,6 +100,10 @@ class ContactForm(forms.ModelForm):
         email = cleaned_data.get('email', '')
         preferred_contact_method = cleaned_data.get('preferred_contact_method', '')
 
+        privacy_level = cleaned_data.get('privacy_level', '')
+        if self.user.get_privacy_level() < privacy_level:
+            raise ValidationError(_("Please choose lower privacy level for the subject."))
+
         is_address_data = any([country, city, zip_code, street, house_number, add_info])
         if is_address_data:
             address_form = AddressForm(data=cleaned_data)
