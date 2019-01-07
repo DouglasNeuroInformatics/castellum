@@ -1,6 +1,5 @@
 $(function() {
-    $('[data-widget="datepicker"]').each(function(i, e) {
-        e.type = 'date';
+    $('[type="date"]').each(function(i, e) {
         if (e.type !== 'date') {
             $(e).datepicker({
                 format: 'yyyy-mm-dd',
