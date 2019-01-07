@@ -22,6 +22,7 @@
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.shortcuts import get_object_or_404
+from django.utils.translation import ugettext_lazy as _
 
 from castellum.studies.models import Study
 
@@ -55,5 +56,5 @@ class PublishedStudyMixin(StudyMixin):
 class UnpublishedStudyMixin(StudyMixin):
     def post(self, request, *args, **kwargs):
         if self.study.published:
-            raise PermissionDenied
+            raise PermissionDenied(_('study is published'))
         return super().post(request, *args, **kwargs)
