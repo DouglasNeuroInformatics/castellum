@@ -65,12 +65,12 @@ class FilterGroupListView(StudyMixin, PermissionRequiredMixin, ListView):
             context = self.get_context_data()
 
             if self.study.min_subjects_count == 0:
-                messages.error(self.request, _(
+                messages.warning(self.request, _(
                     'Weak recruitment process. '
                     'Please, define the number of subjects for this study.'))
             elif context['potential_subjects_count'] < self.study.min_subjects_count\
                     * CASTELLUM_EXPECTED_SUBJECT_FACTOR:
-                messages.error(self.request, _(
+                messages.warning(self.request, _(
                     'The number of potential subjects is probably not sufficient. '
                     'Note that not all potential subjects will participate in the study.'))
 
