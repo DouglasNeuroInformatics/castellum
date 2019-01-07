@@ -774,7 +774,7 @@ msgstr "Verantwortliche Kontaktperson"
 
 #: castellum/studies/models.py:36
 msgid "published"
-msgstr "veröffentlicht"
+msgstr "freigegeben"
 
 #: castellum/studies/models.py:37
 msgid "description"
@@ -814,11 +814,11 @@ msgstr "Filter bearbeiten"
 
 #: castellum/studies/templates/studies/study_list.html:28
 msgid "Unpublish"
-msgstr "Veröffentlichung zurücknehmen"
+msgstr "Zurücknehmen"
 
 #: castellum/studies/templates/studies/study_list.html:32
 msgid "Publish"
-msgstr "Veröffentlichen"
+msgstr "Freigeben"
 
 #: castellum/studies/templates/studies/study_list.html:45
 msgid "Create new study"
