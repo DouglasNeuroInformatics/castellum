@@ -24,6 +24,7 @@ import random
 
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.shortcuts import get_object_or_404
@@ -47,11 +48,17 @@ from .mixins import PublishedStudyMixin
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
-class StudyChoiceView(PermissionRequiredMixin, ListView):
+class StudyChoiceView(LoginRequiredMixin, ListView):
     model = Study
     context_object_name = 'studies'
     template_name = 'recruitment/studies_list.html'
-    permission_required = 'recruitment.view_participationrequest'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return [study for study in qs.filter(published=True) if (
+            self.request.user.has_perm('recruitment.add_participationrequest', obj=study) and
+            self.request.user.has_perm('studies.access_study', obj=study)
+        )]
 
 
 class RecruitmentView(PublishedStudyMixin, PermissionRequiredMixin, ListView):
