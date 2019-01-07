@@ -73,7 +73,9 @@ class ContactForm(forms.ModelForm):
         model = Contact
         exclude = ('address',)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
+
+        self.user = user
         super().__init__(*args, **kwargs)
 
         if self.instance.address:
