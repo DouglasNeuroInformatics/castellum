@@ -73,7 +73,9 @@ class ContactForm(forms.ModelForm):
         model = Contact
         exclude = ('address',)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
+
+        self.user = user
         super().__init__(*args, **kwargs)
 
         if self.instance.address:
@@ -97,6 +99,10 @@ class ContactForm(forms.ModelForm):
         phone_number = cleaned_data.get('phone_number', '')
         email = cleaned_data.get('email', '')
         preferred_contact_method = cleaned_data.get('preferred_contact_method', '')
+
+        privacy_level = cleaned_data.get('privacy_level', '')
+        if self.user.get_privacy_level() < privacy_level:
+            raise ValidationError(_("Please choose lower privacy level for the subject."))
 
         is_address_data = any([country, city, zip_code, street, house_number, add_info])
         if is_address_data:
