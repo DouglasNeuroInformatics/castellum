@@ -22,5 +22,8 @@ setup(
         "Faker==0.9.2",
         "psycopg2==2.7.5",
         "python-dateutil==2.7.3",
+        "django-modeltranslation @ "
+        "https://github.com/deschler/django-modeltranslation/archive/0.13-beta1.tar.gz",
     ],
+
 )
