@@ -22,8 +22,13 @@
 import json
 
 from django.contrib import admin
+from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse
+from django.urls import path
 from django.utils.translation import ugettext_lazy as _
+from django.views.generic import TemplateView
+
+from castellum.castellum_auth.mixins import PermissionRequiredMixin
 
 from .models import AttributeChoice
 from .models import AttributeDescription
@@ -32,6 +37,16 @@ from .models import ParticipationRequest
 from .models import ParticipationRequestRevision
 from .models import SubjectFilter
 from .models import SubjectFilterGroup
+
+
+class ImportView(PermissionRequiredMixin, TemplateView):
+    template_name = 'admin/recruitment/attributedescription_import.html'
+    permission_required = ['recruitment.view_attributeset', 'recruitment.add_attributeset']
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['opts'] = AttributeDescription._meta
+        return context
 
 
 class AttributeChoiceInline(admin.TabularInline):
@@ -50,6 +65,14 @@ class AttributeDescriptionAdmin(admin.ModelAdmin):
         json.dump(data, response)
         return response
     export_json.short_description = _('Export as JSON')
+
+    def get_urls(self):
+        return [
+            path(
+                'import/',
+                staff_member_required(ImportView.as_view()),
+                name='recruitment_attributedescription_import'),
+        ] + super().get_urls()
 
 
 admin.site.register(AttributeDescription, AttributeDescriptionAdmin)
