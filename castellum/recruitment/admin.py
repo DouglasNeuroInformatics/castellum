@@ -22,7 +22,9 @@
 import json
 
 from django.contrib import admin
+from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
+from django.forms.models import modelform_factory
 from django.http import HttpResponse
 from django.urls import path
 from django.utils.translation import ugettext_lazy as _
@@ -47,6 +49,32 @@ class ImportView(PermissionRequiredMixin, TemplateView):
         context = super().get_context_data()
         context['opts'] = AttributeDescription._meta
         return context
+
+    def get_items(self):
+        fh = self.request.FILES['file']
+        if not fh:
+            return
+        try:
+            items = json.load(fh)
+            if isinstance(items, list):
+                return items
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            pass
+        messages.error(self.request, _('Uploaded file does not contain a JSON list.'))
+
+    def post(self, request, *args, **kwargs):
+        items = self.get_items()
+        if items:
+            form_cls = modelform_factory(AttributeDescription, fields='__all__')
+            forms = [form_cls(item) for item in items]
+            # TODO: validate and create choices
+            if all(form.is_valid() for form in forms):
+                for form in forms:
+                    form.save()
+                messages.success(
+                    self.request,
+                    _('Successfully imported %i attribute descriptions.' % len(forms)))
+        return self.render_to_response(self.get_context_data())
 
 
 class AttributeChoiceInline(admin.TabularInline):
