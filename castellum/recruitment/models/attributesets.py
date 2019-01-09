@@ -172,10 +172,27 @@ class AttributeDescription(models.Model):
             return MAPPING[self.field_type](value)
         return value
 
+    def export(self):
+        data = {
+            'label': self.label,
+            '_filter_label': self._filter_label,
+            'help_text': self.help_text,
+            'field_type': self.field_type,
+            'privacy_level': self.privacy_level,
+            'weight': self.weight,
+            'choices': [choice.export() for choice in self.attributechoice_set.all()],
+        }
+        return data
+
 
 class AttributeChoice(models.Model):
     description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
     label = models.CharField(max_length=64)
+
+    def export(self):
+        return {
+            'label': self.label,
+        }
 
 
 class BaseFilterField:

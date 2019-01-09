@@ -19,7 +19,11 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import json
+
 from django.contrib import admin
+from django.http import HttpResponse
+from django.utils.translation import ugettext_lazy as _
 
 from .models import AttributeChoice
 from .models import AttributeDescription
@@ -38,6 +42,14 @@ class AttributeDescriptionAdmin(admin.ModelAdmin):
     inlines = [
         AttributeChoiceInline,
     ]
+    actions = ['export_json']
+
+    def export_json(self, request, queryset):
+        response = HttpResponse(content_type="application/json")
+        data = [description.export() for description in queryset.all()]
+        json.dump(data, response)
+        return response
+    export_json.short_description = _('Export as JSON')
 
 
 admin.site.register(AttributeDescription, AttributeDescriptionAdmin)
