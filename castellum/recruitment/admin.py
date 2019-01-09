@@ -29,12 +29,15 @@ from .models import ParticipationRequestRevision
 from .models import SubjectFilter
 from .models import SubjectFilterGroup
 
+from parler.admin import TranslatableAdmin
+from parler.admin import TranslatableTabularInline
 
-class AttributeChoiceInline(admin.TabularInline):
+
+class AttributeChoiceInline(TranslatableTabularInline):
     model = AttributeChoice
 
 
-class AttributeDescriptionAdmin(admin.ModelAdmin):
+class AttributeDescriptionAdmin(TranslatableAdmin):
     inlines = [
         AttributeChoiceInline,
     ]

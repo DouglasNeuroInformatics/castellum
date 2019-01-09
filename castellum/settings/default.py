@@ -21,6 +21,7 @@ INSTALLED_APPS = [
 
     'bootstrap4',
     'phonenumber_field',
+    'parler',
 
     'castellum.utils',
     'castellum.castellum_auth',
@@ -112,6 +113,19 @@ LANGUAGES = [
   ('de', _('German')),
   ('en', _('English')),
 ]
+
+PARLER_LANGUAGES = {
+    None: (
+        {'code': 'de', },
+        {'code': 'en',},
+    ),
+    'default': {
+        'fallback': 'de',             # defaults to PARLER_DEFAULT_LANGUAGE_CODE
+        'hide_untranslated': False,   # the default; let .active_translations() return fallbacks too.
+    }
+}
+
+PARLER_DEFAULT_LANGUAGE_CODE = 'de'
 
 TIME_ZONE = 'Europe/Berlin'
 

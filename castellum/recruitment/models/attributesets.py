@@ -36,6 +36,9 @@ from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.pseudonyms.models import SubjectData
 from castellum.utils.forms import DateField as DateFormField
+from parler.models import TranslatableModel
+from parler.models import TranslatedFields
+from parler.managers import TranslatableManager
 
 from ..fields import AgeField
 from ..utils import get_study_filter_q
@@ -87,7 +90,7 @@ class AttributeSet(SubjectData):
         return AttributeDescription.objects.values_list('pk', flat=True)
 
 
-class AttributeDescriptionManager(models.Manager):
+class AttributeDescriptionManager(TranslatableManager):
     def allowed(self, user, obj=None):
         privacy_level = user.get_privacy_level(obj=obj)
         return self.filter(privacy_level__lte=privacy_level)
@@ -98,7 +101,7 @@ def date_from_json(value):
     return dt.date()
 
 
-class AttributeDescription(models.Model):
+class AttributeDescription(TranslatableModel):
     FIELD_TYPE_CHOICES = (
         ('CharField', _('CharField')),
         ('ChoiceField', _('ChoiceField')),
@@ -107,8 +110,11 @@ class AttributeDescription(models.Model):
         ('AgeField', _('AgeField')),
     )
 
-    label = models.CharField(max_length=64)
-    _filter_label = models.CharField(max_length=64, blank=True, default='')
+    translations = TranslatedFields(
+        label = models.CharField(max_length=64),
+        _filter_label=models.CharField(max_length=64, blank=True, default='')
+    )
+
     help_text = models.TextField(blank=True, default='')
     field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
     privacy_level = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(2)])
@@ -173,9 +179,11 @@ class AttributeDescription(models.Model):
         return value
 
 
-class AttributeChoice(models.Model):
+class AttributeChoice(TranslatableModel):
     description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
-    label = models.CharField(max_length=64)
+    translations = TranslatedFields(
+        label=models.CharField(max_length=64)
+    )
 
 
 class BaseFilterField:
