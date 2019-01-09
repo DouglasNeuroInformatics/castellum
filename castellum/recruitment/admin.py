@@ -62,15 +62,30 @@ class ImportView(PermissionRequiredMixin, TemplateView):
             pass
         messages.error(self.request, _('Uploaded file does not contain a JSON list.'))
 
+    def get_forms(self, items):
+        form_cls = modelform_factory(AttributeDescription, fields='__all__')
+        choice_form_cls = modelform_factory(AttributeChoice, fields=['label'])
+        return [(
+            form_cls(item),
+            [choice_form_cls(choice) for choice in item.get('choices', [])],
+        ) for item in items]
+
+    def is_valid(self, forms):
+        return all(
+            form.is_valid() and all(choice_form.is_valid() for choice_form in choice_forms)
+            for form, choice_forms in forms
+        )
+
     def post(self, request, *args, **kwargs):
         items = self.get_items()
         if items:
-            form_cls = modelform_factory(AttributeDescription, fields='__all__')
-            forms = [form_cls(item) for item in items]
-            # TODO: validate and create choices
-            if all(form.is_valid() for form in forms):
-                for form in forms:
-                    form.save()
+            forms = self.get_forms(items)
+            if self.is_valid(forms):
+                for form, choice_forms in forms:
+                    instance = form.save()
+                    for choice_form in choice_forms:
+                        choice_form.instance.description = instance
+                        choice_form.save()
                 messages.success(
                     self.request,
                     _('Successfully imported %i attribute descriptions.' % len(forms)))
