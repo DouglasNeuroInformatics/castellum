@@ -745,12 +745,14 @@ msgstr ""
 
 #: castellum/recruitment/views/subjectfilters.py:74
 msgid ""
-"The number of potential subjects is probably not sufficient. Note that not "
-"all potential subjects will participate in the study."
+"For a smooth recruitment process, your institution recommends at least "
+"%(count)sx more potential than required subjects "
+"(i.e. %(count)s  for this study). Current amount "
+"of potential subjects: %(count)s "
 msgstr ""
-"Die Anzahl der geeigneten ProbandInnen ist voraussichtlich nicht "
-"ausreichend. Beachten Sie, dass nicht alle geeigneten ProbandInnen an der "
-"Studie teilnehmen werden."
+"Für einen reibungslosen Rekrutierungsablauf empfiehlt ihre Einrichtung mindestens "
+"%(count)s mehr portentielle als benötige ProbandInnen (d.h. %(count)s für diese "
+"Studie). Gegenwärtige Anzahl potentieller ProbandInnen: %(count)s "
 
 #: castellum/recruitment/views/subjectfilters.py:125
 msgid "There are duplicates in filters. Please change or delete filter!"
