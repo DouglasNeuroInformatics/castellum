@@ -34,19 +34,16 @@
                 </div>
             {% endif %}
 
-            {% has_perm 'recruitment.view_participationrequest' user as can_view_participationrequest %}
-            {% if can_view_participationrequest %}
-                <div class="col-sm-6 col-md-4 mb-4">
-                    <div class="card">
-                        <a href="{% url 'recruitment:index' %}" class="card-header" tabindex="-1">
-                            <img class="w-100" src="{% static 'images/recruitment.png' %}" alt="">
-                        </a>
-                        <div class="card-body">
-                            <a href="{% url 'recruitment:index' %}" class="btn btn-primary btn-block">{% trans "Recruitment" %}</a>
-                        </div>
+            <div class="col-sm-6 col-md-4 mb-4">
+                <div class="card">
+                    <a href="{% url 'recruitment:index' %}" class="card-header" tabindex="-1">
+                        <img class="w-100" src="{% static 'images/recruitment.png' %}" alt="">
+                    </a>
+                    <div class="card-body">
+                        <a href="{% url 'recruitment:index' %}" class="btn btn-primary btn-block">{% trans "Recruitment" %}</a>
                     </div>
                 </div>
-            {% endif %}
+            </div>
         </div>
      {% else %}
         <p>{% trans 'Not logged in' %}</p>

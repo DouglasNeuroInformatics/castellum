@@ -4,18 +4,20 @@
 {% block content %}
     <h2>{% trans 'Studies' %}</h2>
 
-    <ul class="table-list mb-3">
-        {% for study in studies %}
-            {% if study.published %}
+    {% if studies %}
+        <ul class="table-list mb-3">
+            {% for study in studies %}
                 <li class="table-list-item">
                     <h3 class="h4 my-1 mr-2">{{ study.name|default:_('not provided') }}</h3>
                     <div class="table-list-item-actions">
                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment_not-contacted' study.pk %}">{% trans 'Find subjects' %}</a>
                     </div>
                 </li>
-            {% endif %}
-        {% endfor %}
-    </ul>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="alert alert-warning" role="alert">{% trans 'There are currently no studies you can recruit for.' %}</p>
+    {% endif %}
 
     <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
 {% endblock %}
