@@ -12,6 +12,15 @@
 
 {% block content %}
   <div id="content-main">
+    {% if errors %}
+        <div class="errornote">
+            <p>{% trans 'There were errors while importing the data. The process was aborted. Nothing was written to the database.' %}</p>
+            {% for key, errors in errors.items %}
+                <strong>{{ key }}</strong>
+                {{ errors }}
+            {% endfor %}
+        </div>
+    {% endif %}
     <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
         <input type="file" name="file" required>

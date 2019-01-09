@@ -76,8 +76,19 @@ class ImportView(PermissionRequiredMixin, TemplateView):
             for form, choice_forms in forms
         )
 
+    def get_errors(self, forms):
+        errors = {}
+        for i, (form, choice_forms) in enumerate(forms):
+            for field, msg in form.errors.items():
+                errors['item %i: %s' % (i, field)] = msg
+            for j, choice_form in enumerate(choice_forms):
+                for field, msg in choice_form.errors.items():
+                    errors['item %i: choice[%i].%s' % (i, j, field)] = msg
+        return errors
+
     def post(self, request, *args, **kwargs):
         items = self.get_items()
+        forms = []
         if items:
             forms = self.get_forms(items)
             if self.is_valid(forms):
@@ -89,7 +100,10 @@ class ImportView(PermissionRequiredMixin, TemplateView):
                 messages.success(
                     self.request,
                     _('Successfully imported %i attribute descriptions.' % len(forms)))
-        return self.render_to_response(self.get_context_data())
+
+        context = self.get_context_data()
+        context['errors'] = self.get_errors(forms)
+        return self.render_to_response(context)
 
 
 class AttributeChoiceInline(admin.TabularInline):
