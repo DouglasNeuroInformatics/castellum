@@ -31,6 +31,9 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from dateutil.relativedelta import relativedelta
+from hvad.manager import TranslationManager
+from hvad.models import TranslatableModel
+from hvad.models import TranslatedFields
 
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import resolve_pseudonym
@@ -87,7 +90,7 @@ class AttributeSet(SubjectData):
         return AttributeDescription.objects.values_list('pk', flat=True)
 
 
-class AttributeDescriptionManager(models.Manager):
+class AttributeDescriptionManager(TranslationManager):
     def allowed(self, user, obj=None):
         privacy_level = user.get_privacy_level(obj=obj)
         return self.filter(privacy_level__lte=privacy_level)
@@ -98,7 +101,7 @@ def date_from_json(value):
     return dt.date()
 
 
-class AttributeDescription(models.Model):
+class AttributeDescription(TranslatableModel):
     FIELD_TYPE_CHOICES = (
         ('CharField', _('CharField')),
         ('ChoiceField', _('ChoiceField')),
@@ -107,9 +110,12 @@ class AttributeDescription(models.Model):
         ('AgeField', _('AgeField')),
     )
 
-    label = models.CharField(max_length=64)
-    _filter_label = models.CharField(max_length=64, blank=True, default='')
-    help_text = models.TextField(blank=True, default='')
+
+    translations = TranslatedFields(
+        label = models.CharField(max_length=64),
+        _filter_label = models.CharField(max_length=64, blank=True, default=''),
+        help_text = models.TextField(blank=True, default=''),
+    )
     field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
     privacy_level = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(2)])
     weight = models.IntegerField(default=0)
@@ -173,9 +179,12 @@ class AttributeDescription(models.Model):
         return value
 
 
-class AttributeChoice(models.Model):
+class AttributeChoice(TranslatableModel):
+
+    translations = TranslatedFields(
+        label=models.CharField(max_length=64)
+    )
     description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
-    label = models.CharField(max_length=64)
 
 
 class BaseFilterField:

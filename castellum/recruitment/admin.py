@@ -21,6 +21,9 @@
 
 from django.contrib import admin
 
+from hvad.admin import TranslatableAdmin
+from hvad.admin import TranslatableTabularInline
+
 from .models import AttributeChoice
 from .models import AttributeDescription
 from .models import AttributeSet
@@ -30,11 +33,11 @@ from .models import SubjectFilter
 from .models import SubjectFilterGroup
 
 
-class AttributeChoiceInline(admin.TabularInline):
+class AttributeChoiceInline(TranslatableTabularInline):
     model = AttributeChoice
 
 
-class AttributeDescriptionAdmin(admin.ModelAdmin):
+class AttributeDescriptionAdmin(TranslatableAdmin):
     inlines = [
         AttributeChoiceInline,
     ]
