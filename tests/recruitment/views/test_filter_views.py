@@ -85,6 +85,7 @@ def test_get_when_study_has_not_enough_subjects_in_filter_group(client, member, 
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
     assert str(messages[0]) == (
-        'Current study requires 100 subjects, but only 0 were filtered. '
-        'The number of potential subjects is probably not sufficient. '
+        'For a smooth recruitment process, your institution recommends at least '
+        '10x more potential than required subjects (i.e. 1000 for this study). '
+        'Current amount of potential subjects: 0'
     )
