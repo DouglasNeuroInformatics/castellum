@@ -22,5 +22,6 @@ setup(
         "Faker==0.9.2",
         "psycopg2==2.7.5",
         "python-dateutil==2.7.3",
+        "django-hvad @ https://github.com/KristianOellegaard/django-hvad/archive/2.0.0-beta.tar.gz",
     ],
 )
