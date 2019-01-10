@@ -3,41 +3,27 @@
         "model": "recruitment.AttributeDescription",
         "pk": 1,
         "fields": {
-            "label": "Händigkeit",
             "field_type": "ChoiceField"
         }
     },
     {
-        "model": "recruitment.AttributeDescription",
-        "pk": 2,
-        "fields": {
-            "label": "Muttersprache",
-            "field_type": "CharField"
-        }
-    },
-    {
-        "model": "recruitment.AttributeDescription",
-        "pk": 3,
-        "fields": {
-            "label": "Geburtsdatum",
-            "_filter_label": "Alter",
-            "field_type": "AgeField"
-        }
-    },
-    {
-        "model": "recruitment.AttributeChoice",
+        "model": "recruitment.AttributeDescription_translation",
         "pk": 1,
         "fields": {
-            "description": 1,
-            "label": "Rechts"
+            "label": "Handedness",
+            "_filter_label": "handedness",
+            "help_text": "Subject handedness",
+            "master_id": 1
         }
     },
     {
-        "model": "recruitment.AttributeChoice",
+        "model": "recruitment.AttributeDescription_translation",
         "pk": 2,
         "fields": {
-            "description": 1,
-            "label": "Links"
+            "label": "Händigkeit",
+            "_filter_label": "händigkeit",
+            "help_text": "Probanden händigkeit",
+            "master_id": 1
         }
     }
 ]
