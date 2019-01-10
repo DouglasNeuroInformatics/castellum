@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load i18n bootstrap4 %}
 
+{% block title %}{% trans "Create new subject" %} &middot; {{ block.super }}{% endblock %}
+
 {% block content %}
     <form method="get">
         {% for error in form.non_field_errors %}
@@ -49,6 +51,6 @@
             <p class="alert alert-warning" role="alert">{% trans 'No matches found' %}</p>
         {% endif %}
 
-        <a href="{% url 'contacts:create-form' %}{{ query }}" class="btn btn-primary">{% trans "Create new contact" %}</a>
+        <a href="{% url 'contacts:create-form' %}{{ query }}" class="btn btn-primary">{% trans "Create new subject" %}</a>
     {% endif %}
 {% endblock %}

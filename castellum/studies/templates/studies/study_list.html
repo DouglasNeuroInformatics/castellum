@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load i18n auth %}
 
+{% block title %}{% trans "Studies" %} &middot; {{ block.super }}{% endblock %}
+
 {% block content %}
     <h2>{% trans 'Studies' %}</h2>
     <ul class="table-list mb-3">
