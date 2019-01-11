@@ -32,6 +32,8 @@ from castellum.contacts.models import Country
 from castellum.contacts.models.contact import phonetic
 from castellum.pseudonyms.models import Pseudonym
 from castellum.pseudonyms.models import Subject
+from castellum.recruitment.models import AttributeChoice
+from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.studies.models import Study
 from castellum.utils import FakeData
@@ -143,6 +145,50 @@ def fake_attributeset(pseudonym, contact):
         })
 
 
+def generate_attribute_descriptions():
+    print('Generating attribute descriptions')
+    attr_description_1 = AttributeDescription()
+    attr_description_1.field_type = 'ChoiceField'
+    attr_description_1.set_current_language('de')
+    attr_description_1.label = 'Händigkeit'
+    attr_description_1.set_current_language('en')
+    attr_description_1.label = 'Handedness'
+    attr_description_1.save()
+
+    attr_choice_1 = AttributeChoice(description=attr_description_1)
+    attr_choice_1.set_current_language('de')
+    attr_choice_1.label = 'Rechts'
+    attr_choice_1.set_current_language('en')
+    attr_choice_1.label = 'Right'
+    attr_choice_1.save()
+
+    attr_choice_2 = AttributeChoice(description=attr_description_1)
+    attr_choice_2.set_current_language('de')
+    attr_choice_2.label = 'Links'
+    attr_choice_2.set_current_language('en')
+    attr_choice_2.label = 'Left'
+    attr_choice_2.save()
+    attr_choice_2.save()
+
+    attr_description_2 = AttributeDescription()
+    attr_description_2.field_type = 'CharField'
+    attr_description_2.set_current_language('de')
+    attr_description_2.label = 'Muttersprache'
+    attr_description_2.set_current_language('en')
+    attr_description_2.label = 'Language'
+    attr_description_2.save()
+
+    attr_description_3 = AttributeDescription()
+    attr_description_3.field_type = 'AgeField'
+    attr_description_3.set_current_language('de')
+    attr_description_3.label = 'Geburtsdatum'
+    attr_description_3._filter_label = 'Alter'
+    attr_description_3.set_current_language('en')
+    attr_description_3.label = 'Date of birth'
+    attr_description_3._filter_label = 'Age'
+    attr_description_3.save()
+
+
 def generate_studies(count):
     print('Generating studies')
     Study.objects.bulk_create(fake_study() for i in range(count))
@@ -188,6 +234,7 @@ class Command(BaseCommand):
     help = 'Populate database with sample data.'
 
     def handle(self, *args, **options):
+        generate_attribute_descriptions()
         if not Study.objects.exists():
             generate_studies(5)
         if not Contact.objects.exists():
