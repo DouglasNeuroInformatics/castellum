@@ -1,10 +1,10 @@
-from django.core.management import call_command
 from django.conf import settings
 
 import pytest
 from model_mommy import mommy
 
 from castellum.pseudonyms.helpers import resolve_pseudonym
+from castellum.recruitment.management.commands import populate
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
@@ -33,7 +33,7 @@ def filter_group(unpublished_study):
 @pytest.fixture(scope='session')
 def attribute_descriptions(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
-        call_command('loaddata', 'attribute_descriptions.json')
+        populate.generate_attribute_descriptions()
 
 
 @pytest.fixture
