@@ -21,6 +21,9 @@
 
 from django.contrib import admin
 
+from parler.admin import TranslatableAdmin
+from parler.admin import TranslatableTabularInline
+
 from .models import AttributeChoice
 from .models import AttributeDescription
 from .models import AttributeSet
@@ -28,9 +31,6 @@ from .models import ParticipationRequest
 from .models import ParticipationRequestRevision
 from .models import SubjectFilter
 from .models import SubjectFilterGroup
-
-from parler.admin import TranslatableAdmin
-from parler.admin import TranslatableTabularInline
 
 
 class AttributeChoiceInline(TranslatableTabularInline):

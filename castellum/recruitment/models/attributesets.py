@@ -31,14 +31,14 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from dateutil.relativedelta import relativedelta
+from parler.managers import TranslatableManager
+from parler.models import TranslatableModel
+from parler.models import TranslatedFields
 
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.pseudonyms.models import SubjectData
 from castellum.utils.forms import DateField as DateFormField
-from parler.models import TranslatableModel
-from parler.models import TranslatedFields
-from parler.managers import TranslatableManager
 
 from ..fields import AgeField
 from ..utils import get_study_filter_q
@@ -111,7 +111,7 @@ class AttributeDescription(TranslatableModel):
     )
 
     translations = TranslatedFields(
-        label = models.CharField(max_length=64),
+        label=models.CharField(max_length=64),
         _filter_label=models.CharField(max_length=64, blank=True, default=''),
         help_text=models.TextField(blank=True, default=''),
     )
