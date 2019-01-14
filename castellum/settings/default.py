@@ -107,7 +107,7 @@ LOGOUT_TIMEOUT_DEFAULT = timezone.timedelta(seconds=15 * 60)
 
 # Internationalization
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
 LANGUAGES = [
   ('de', _('German')),
@@ -116,16 +116,13 @@ LANGUAGES = [
 
 PARLER_LANGUAGES = {
     None: (
-        {'code': 'de', },
-        {'code': 'en',},
+        {'code': 'de'},
+        {'code': 'en'},
     ),
     'default': {
-        'fallback': 'de',             # defaults to PARLER_DEFAULT_LANGUAGE_CODE
-        'hide_untranslated': False,   # the default; let .active_translations() return fallbacks too.
-    }
+        'fallback': LANGUAGE_CODE,
+    },
 }
-
-PARLER_DEFAULT_LANGUAGE_CODE = 'de'
 
 TIME_ZONE = 'Europe/Berlin'
 
