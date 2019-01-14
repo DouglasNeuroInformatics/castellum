@@ -19,18 +19,18 @@
                 {% if study.expense_allowance %}
                     {{ study.expense_allowance }}€
                 {% else %}
-                    {% trans 'not provided' %}
+                    &mdash;
                 {% endif %}
             </dd>
 
             <dt class="col-sm-6">{{ study|verbose_name:'sessions_count' }}</dt>
-            <dd class="col-sm-6">{{ study.sessions_count|default:_('not provided') }}</dd>
+            <dd class="col-sm-6">{{ study.sessions_count|default:'—' }}</dd>
 
             <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
-            <dd class="col-sm-6">{{ study.sessions_start|default:_('not provided') }}</dd>
+            <dd class="col-sm-6">{{ study.sessions_start|default:'—' }}</dd>
 
             <dt class="col-sm-6">{{ study|verbose_name:'sessions_end' }}</dt>
-            <dd class="col-sm-6">{{ study.sessions_end|default:_('not provided') }}</dd>
+            <dd class="col-sm-6">{{ study.sessions_end|default:'—' }}</dd>
         </dl>
     </details>
 
@@ -39,16 +39,16 @@
         <dd class="col-sm-6">{{ contact.full_name }}</dd>
 
         <dt class="col-sm-6">{{ contact|verbose_name:'email' }}</dt>
-        <dd class="col-sm-6">{{ contact.email|default:_('not provided') }}</dd>
+        <dd class="col-sm-6">{{ contact.email|default:'—' }}</dd>
 
         <dt class="col-sm-6">{{ contact|verbose_name:'phone_number' }}</dt>
-        <dd class="col-sm-6">{{ contact.phone_number|default:_('not provided') }}</dd>
+        <dd class="col-sm-6">{{ contact.phone_number|default:'—' }}</dd>
 
         <dt class="col-sm-6">{{ contact|verbose_name:'phone_number_alternative' }}</dt>
-        <dd class="col-sm-6">{{ contact.phone_number_alternative|default:_('not provided') }}</dd>
+        <dd class="col-sm-6">{{ contact.phone_number_alternative|default:'—' }}</dd>
 
         <dt class="col-sm-6">{{ contact|verbose_name:'preferred_contact_method' }}</dt>
-        <dd class="col-sm-6">{{ contact.get_preferred_contact_method_display|default:_('not provided') }}</dd>
+        <dd class="col-sm-6">{{ contact.get_preferred_contact_method_display|default:'—' }}</dd>
 
         <dt class="col-sm-6">{% trans "Currently available" %}</dt>
         <dd class="col-sm-6">{{ contact.is_available|yesno:_("Yes,No") }}</dd>
