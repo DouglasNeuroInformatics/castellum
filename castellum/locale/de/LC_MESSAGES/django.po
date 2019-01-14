@@ -107,6 +107,7 @@ msgstr "Zusätzliche Adressinformationen"
 #: castellum/contacts/forms.py:105
 msgid "Please choose lower privacy level for the subject."
 msgstr ""
+"Bitte wählen Sie eine niedrigere Vertraulichkeitsstufe für diese ProbandIn."
 
 #: castellum/contacts/forms.py:115
 msgid "Provide more details for the address."
@@ -503,15 +504,7 @@ msgid "Y."
 msgstr "J."
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                %(tries)s try\n"
-#| "                            "
-#| msgid_plural ""
-#| "\n"
-#| "                                %(tries)s tries\n"
-#| "                            "
+#, python-format
 msgid ""
 "\n"
 "                                    %(tries)s try\n"
@@ -721,13 +714,11 @@ msgstr "ProbandInnen finden"
 
 #: castellum/recruitment/templates/recruitment/studies_list.html:21
 msgid "There are currently no studies you can recruit for."
-msgstr ""
+msgstr "Es gibt aktuell keine Studien, für die Sie rekrutieren können."
 
 #: castellum/recruitment/views/mixins.py:59
-#, fuzzy
-#| msgid "published"
 msgid "study is published"
-msgstr "freigegeben"
+msgstr "Die Studie ist freigegeben"
 
 #: castellum/recruitment/views/recruitment.py:167
 msgid ""
@@ -768,11 +759,7 @@ msgstr ""
 "ProbandInnen an."
 
 #: castellum/recruitment/views/subjectfilters.py:76
-#, fuzzy, python-format
-#| msgid ""
-#| "For a smooth recruitment process, your institution recommends at least "
-#| "%(count)sx more potential than required subjects (i.e. %(count)s  for "
-#| "this study). Current amount of potential subjects: %(count)s "
+#, python-format
 msgid ""
 "For a smooth recruitment process, your institution recommends at least "
 "%(castellum_factor)dx more potential than required subjects (i.e. "
@@ -780,9 +767,9 @@ msgid ""
 "%(potential_count)d"
 msgstr ""
 "Für einen reibungslosen Rekrutierungsablauf empfiehlt ihre Einrichtung "
-"mindestens %(count)s mehr portentielle als benötige ProbandInnen (d.h. "
-"%(count)s für diese Studie). Gegenwärtige Anzahl potentieller ProbandInnen: "
-"%(count)s "
+"mindestens %(castellum_factor)dx mehr portentielle als benötige ProbandInnen "
+"(d.h. %(recommended_count)d für diese Studie). Gegenwärtige Anzahl "
+"potentieller ProbandInnen: %(potential_count)d"
 
 #: castellum/recruitment/views/subjectfilters.py:134
 msgid "There are duplicates in filters. Please change or delete filter!"
@@ -867,8 +854,6 @@ msgstr "Freigeben"
 
 #: castellum/studies/templates/studies/study_members.html:4
 #: castellum/studies/templates/studies/studymembership_form.html:4
-#, fuzzy
-#| msgid "Manage members"
 msgid "manage members"
 msgstr "Mitglieder verwalten"
 
@@ -891,13 +876,11 @@ msgstr "Zusätzliche Gruppen in dieser Studie"
 
 #: castellum/templates/403.html:4 castellum/templates/403.html:7
 msgid "Forbidden"
-msgstr ""
+msgstr "Verboten"
 
 #: castellum/templates/404.html:4 castellum/templates/404.html:7
-#, fuzzy
-#| msgid "No matches found"
 msgid "Not Found"
-msgstr "Keine Treffer gefunden"
+msgstr "Nicht gefunden"
 
 #: castellum/templates/base.html:23
 msgid "Toggle navigation"
