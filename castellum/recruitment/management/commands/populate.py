@@ -24,6 +24,7 @@ from django.core.management.base import BaseCommand
 
 import phonenumbers
 from faker import Faker
+from parler.utils.context import switch_language
 
 from castellum.contacts.models import Address
 from castellum.contacts.models import City
@@ -40,6 +41,37 @@ from castellum.utils import FakeData
 
 fake = Faker('de_DE')
 fake_data = FakeData()
+
+ATTRIBUTE_DESCRIPTIONS = [{
+    'field_type': 'ChoiceField',
+    'label': {
+        'de': 'Händigkeit',
+        'en': 'Handedness',
+    },
+    'choices': [{
+        'de': 'Rechts',
+        'en': 'Right',
+    }, {
+        'de': 'Links',
+        'en': 'Left',
+    }],
+}, {
+    'field_type': 'CharField',
+    'label': {
+        'de': 'Muttersprache',
+        'en': 'Language',
+    },
+}, {
+    'field_type': 'AgeField',
+    'label': {
+        'de': 'Geburtsdatum',
+        'en': 'Date of birth',
+    },
+    '_filter_label': {
+        'de': 'Alter',
+        'en': 'Age',
+    },
+}]
 
 
 def fake_date_of_birth():
@@ -147,46 +179,24 @@ def fake_attributeset(pseudonym, contact):
 
 def generate_attribute_descriptions():
     print('Generating attribute descriptions')
-    attr_description_1 = AttributeDescription()
-    attr_description_1.field_type = 'ChoiceField'
-    attr_description_1.set_current_language('de')
-    attr_description_1.label = 'Händigkeit'
-    attr_description_1.set_current_language('en')
-    attr_description_1.label = 'Handedness'
-    attr_description_1.save()
 
-    attr_choice_1 = AttributeChoice(description=attr_description_1)
-    attr_choice_1.set_current_language('de')
-    attr_choice_1.label = 'Rechts'
-    attr_choice_1.set_current_language('en')
-    attr_choice_1.label = 'Right'
-    attr_choice_1.save()
+    for data in ATTRIBUTE_DESCRIPTIONS:
+        attr_description = AttributeDescription()
+        for key in data:
+            if key in ['label', '_filter_label', 'help_text']:
+                for lang in ['de', 'en']:
+                    with switch_language(attr_description, lang):
+                        setattr(attr_description, key, data[key][lang])
+            elif key != 'choices':
+                setattr(attr_description, key, data[key])
+        attr_description.save()
 
-    attr_choice_2 = AttributeChoice(description=attr_description_1)
-    attr_choice_2.set_current_language('de')
-    attr_choice_2.label = 'Links'
-    attr_choice_2.set_current_language('en')
-    attr_choice_2.label = 'Left'
-    attr_choice_2.save()
-    attr_choice_2.save()
-
-    attr_description_2 = AttributeDescription()
-    attr_description_2.field_type = 'CharField'
-    attr_description_2.set_current_language('de')
-    attr_description_2.label = 'Muttersprache'
-    attr_description_2.set_current_language('en')
-    attr_description_2.label = 'Language'
-    attr_description_2.save()
-
-    attr_description_3 = AttributeDescription()
-    attr_description_3.field_type = 'AgeField'
-    attr_description_3.set_current_language('de')
-    attr_description_3.label = 'Geburtsdatum'
-    attr_description_3._filter_label = 'Alter'
-    attr_description_3.set_current_language('en')
-    attr_description_3.label = 'Date of birth'
-    attr_description_3._filter_label = 'Age'
-    attr_description_3.save()
+        for choice_data in data.get('choices', []):
+            attr_choice = AttributeChoice(description=attr_description)
+            for lang in ['de', 'en']:
+                with switch_language(attr_choice, lang):
+                    attr_choice.label = choice_data[lang]
+            attr_choice.save()
 
 
 def generate_studies(count):
