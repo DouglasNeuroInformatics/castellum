@@ -7,12 +7,16 @@
     <h1>{% trans 'Subjects' %}</h1>
 
     <ul class="table-list">
-        {% for contact in object_list %}
+        {% for contact, can_access in contacts %}
             <li class="table-list-item">
                 <h2 class="h4 my-1 mr-2">{{ contact.full_name }}</h2>
-                <div class="table-list-item-actions">
-                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:detail' contact.pseudonym %}">{% trans 'View details' %}</a>
-                </div>
+                    <div class="table-list-item-actions">
+                        {% if can_access %}
+                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:detail' contact.pseudonym %}">{% trans 'View details' %}</a>
+                        {% else %}
+                            <a class="btn btn-outline-primary disabled btn-sm-inline my-1" href="#" tabindex="-1" aria-disabled="true">{% trans 'View details' %}</a>
+                        {% endif %}
+                    </div>
             </li>
         {% endfor %}
     </ul>

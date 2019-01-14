@@ -28,21 +28,27 @@
     {% if form.is_valid %}
         {% if matches %}
             <ul class="table-list mb-3">
-                {% for contact in matches %}
+                {% for contact, can_access in matches %}
                     <li class="table-list-item">
                         <div>
                             <h3 class="h4 d-inline-block my-1 mr-2">{{ contact.full_name }}</h3>
-                            <div class="d-inline-block">
-                                {% if contact.address %}
-                                    <div class="d-inline-block my-1 mr-2">{{ contact.address }}</div>
-                                {% endif %}
-                                {% if contact.email %}
-                                    <div class="d-inline-block my-1 mr-2">{{ contact.email }}</div>
-                                {% endif %}
-                            </div>
+                            {% if can_access %}
+                                <div class="d-inline-block">
+                                    {% if contact.address %}
+                                        <div class="d-inline-block my-1 mr-2">{{ contact.address }}</div>
+                                    {% endif %}
+                                    {% if contact.email %}
+                                        <div class="d-inline-block my-1 mr-2">{{ contact.email }}</div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="table-list-item-actions">
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:export' contact.pseudonym %}">{% trans 'Export' %}</a>
+                            {% if can_access %}
+                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:export' contact.pseudonym %}">{% trans 'Export' %}</a>
+                            {% else %}
+                                <a class="btn btn-outline-primary disabled btn-sm-inline my-1" href="#" tabindex="-1" aria-disabled="true">{% trans 'Export' %}</a>
+                            {% endif %}
                         </div>
                     </li>
                 {% endfor %}

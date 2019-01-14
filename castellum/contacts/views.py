@@ -60,6 +60,17 @@ class ContactSearchView(PermissionRequiredMixin, ListView):
     paginate_by = 20
     permission_required = 'contacts.view_contact'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        privacy_level_user = self.request.user.get_privacy_level()
+        context['contacts'] = [
+            (contact, privacy_level_user >= contact.privacy_level)
+            for contact in context['object_list']
+        ]
+
+        return context
+
 
 class ContactDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Contact
@@ -110,10 +121,16 @@ class ContactCreatePreludeView(PermissionRequiredMixin, TemplateView):
         form = PreludeForm(**form_kwargs)
 
         if form.is_valid():
+            privacy_level_user = request.user.get_privacy_level()
+            matches = [
+                (contact, privacy_level_user >= contact.privacy_level)
+                for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
+            ]
+
             return self.render_to_response({
                 'form': form,
                 'query': '?' + urlencode(form.cleaned_data),
-                'matches': Contact.objects.fuzzy_filter(**form.cleaned_data),
+                'matches': matches,
             })
         else:
             return self.render_to_response({
@@ -187,9 +204,15 @@ class RequestCreateView(PermissionRequiredMixin, TemplateView):
                 'date_of_birth: "{date_of_birth}"}} by {user}'
             ).format(user=request.user.pk, **form.cleaned_data))
 
+            privacy_level_user = request.user.get_privacy_level()
+            matches = [
+                (contact, privacy_level_user >= contact.privacy_level)
+                for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
+            ]
+
             return self.render_to_response({
                 'form': form,
-                'matches': Contact.objects.fuzzy_filter(**form.cleaned_data),
+                'matches': matches,
             })
         else:
             return self.render_to_response({
