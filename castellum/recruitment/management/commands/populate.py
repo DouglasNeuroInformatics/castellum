@@ -244,7 +244,8 @@ class Command(BaseCommand):
     help = 'Populate database with sample data.'
 
     def handle(self, *args, **options):
-        generate_attribute_descriptions()
+        if not AttributeDescription.objects.exists():
+            generate_attribute_descriptions()
         if not Study.objects.exists():
             generate_studies(5)
         if not Contact.objects.exists():
