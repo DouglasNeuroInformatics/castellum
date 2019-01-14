@@ -31,11 +31,11 @@ class DateInput(forms.DateInput):
         defaults = {
             'placeholder': _('yyyy-mm-dd, e.g. 2018-07-21'),
             'autocomplete': 'off',
-            'data-widget': 'datepicker',
+            'type': 'date',
         }
         if attrs:
             defaults.update(attrs)
-        super().__init__(attrs=defaults)
+        super().__init__(format='%Y-%m-%d', attrs=defaults)
 
 
 class DateTimeInput(forms.SplitDateTimeWidget):
@@ -45,7 +45,7 @@ class DateTimeInput(forms.SplitDateTimeWidget):
         date_defaults = {
             'placeholder': _('yyyy-mm-dd, e.g. 2018-07-21'),
             'autocomplete': 'off',
-            'data-widget': 'datepicker',
+            'type': 'date',
         }
         if date_attrs:
             date_defaults.update(date_attrs)
@@ -56,7 +56,7 @@ class DateTimeInput(forms.SplitDateTimeWidget):
         if time_attrs:
             time_defaults.update(time_attrs)
 
-        super().__init__(date_attrs=date_defaults, time_attrs=time_defaults)
+        super().__init__(date_format='%Y-%m-%d', date_attrs=date_defaults, time_attrs=time_defaults)
 
 
 class DateField(forms.DateField):
