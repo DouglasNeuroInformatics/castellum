@@ -307,28 +307,6 @@ msgstr "Keine Treffer gefunden"
 msgid "Create new contact"
 msgstr "Neue ProbandIn anlegen"
 
-#: castellum/contacts/templates/contacts/contact_detail.html:8
-#: castellum/contacts/templates/contacts/contact_detail.html:11
-#: castellum/contacts/templates/contacts/contact_detail.html:14
-#: castellum/contacts/templates/contacts/contact_detail.html:17
-#: castellum/contacts/templates/contacts/contact_detail.html:20
-#: castellum/contacts/templates/contacts/contact_detail.html:23
-#: castellum/contacts/templates/contacts/contact_detail.html:26
-#: castellum/contacts/templates/contacts/contact_export.html:11
-#: castellum/recruitment/templates/recruitment/contact.html:20
-#: castellum/recruitment/templates/recruitment/contact.html:25
-#: castellum/recruitment/templates/recruitment/contact.html:28
-#: castellum/recruitment/templates/recruitment/contact.html:31
-#: castellum/recruitment/templates/recruitment/contact.html:40
-#: castellum/recruitment/templates/recruitment/contact.html:43
-#: castellum/recruitment/templates/recruitment/contact.html:46
-#: castellum/recruitment/templates/recruitment/contact.html:49
-#: castellum/recruitment/templates/recruitment/studies_list.html:11
-#: castellum/studies/templates/studies/study_list.html:10
-#: castellum/studies/templates/studies/study_list.html:11
-msgid "not provided"
-msgstr "nicht angegeben"
-
 #: castellum/contacts/templates/contacts/contact_detail.html:28
 #: castellum/contacts/templates/contacts/contact_form.html:56
 msgid "Availability"
