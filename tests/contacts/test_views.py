@@ -5,13 +5,6 @@ def test_detail_200(client, user, contact):
     assert response.status_code == 200
 
 
-def test_search_200(client, user):
-    client.force_login(user)
-    url = '/subjects/search/'
-    response = client.get(url)
-    assert response.status_code == 200
-
-
 def test_prelude_200(client, user, contact):
     client.force_login(user)
     url = '/subjects/create/'
