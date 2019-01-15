@@ -25,7 +25,7 @@ from django.contrib import admin
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.forms.models import modelform_factory
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.urls import path
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView
@@ -55,12 +55,9 @@ class ImportView(PermissionRequiredMixin, TemplateView):
         if not fh:
             return
         try:
-            items = json.load(fh)
-            if isinstance(items, list):
-                return items
+            return json.load(fh)['descriptions']
         except (json.JSONDecodeError, UnicodeDecodeError):
-            pass
-        messages.error(self.request, _('Uploaded file does not contain a JSON list.'))
+            messages.error(self.request, _('Uploaded file does not contain valid JSON.'))
 
     def get_forms(self, items):
         form_cls = modelform_factory(AttributeDescription, fields='__all__')
@@ -117,10 +114,9 @@ class AttributeDescriptionAdmin(admin.ModelAdmin):
     actions = ['export_json']
 
     def export_json(self, request, queryset):
-        response = HttpResponse(content_type="application/json")
-        data = [description.export() for description in queryset.all()]
-        json.dump(data, response)
-        return response
+        return JsonResponse({
+            'descriptions': [description.export() for description in queryset.all()],
+        })
     export_json.short_description = _('Export as JSON')
 
     def get_urls(self):
