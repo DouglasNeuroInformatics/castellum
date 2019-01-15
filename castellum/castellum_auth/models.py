@@ -77,14 +77,11 @@ class User(AbstractUser):
         return sorted(permissions, key=lambda p: p.codename)
 
     def get_privacy_level(self, obj=None):
-        privacy_level = 0
-        for level in range(1, 3):
+        for level in range(2, 0, -1):
             perm = 'castellum_auth.privacy_level_{}'.format(level)
             if self.has_perm(perm, obj=obj):
-                privacy_level = level
-            else:
-                break
-        return privacy_level
+                return level
+        return 0
 
 
 @receiver(user_logged_in)
