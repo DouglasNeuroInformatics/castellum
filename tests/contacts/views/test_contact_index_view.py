@@ -3,13 +3,6 @@ from unittest.mock import patch
 from django.urls import reverse
 from django.db.models import QuerySet
 
-import pytest
-
-
-@pytest.fixture
-def authenticated_user(client, user):
-    client.force_login(user)
-
 
 URL = reverse('contacts:index')
 
