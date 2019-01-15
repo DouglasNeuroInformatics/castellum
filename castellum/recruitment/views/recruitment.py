@@ -160,7 +160,7 @@ class RecruitmentViewNotContacted(RecruitmentView):
         return None
 
     def post(self, request, *args, **kwargs):
-        if not request.user.has_perm('recruitment.add_participationrequest'):
+        if not request.user.has_perm('recruitment.add_participationrequest', obj=self.study):
             raise PermissionDenied
 
         if self.study.min_subjects_count == 0:
