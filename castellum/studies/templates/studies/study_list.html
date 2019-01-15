@@ -9,8 +9,8 @@
         {% for study in object_list %}
             <li class="table-list-item">
                 <div>
-                    <h3 class="h4 d-inline-block my-1 mr-2">{{ study.name|default:_('not provided') }}</h3>
-                    <div class="d-inline-block my-1 mr-2">{{ study.contact_person|default:_('not provided') }}</div>
+                    <h3 class="h4 d-inline-block my-1 mr-2">{{ study.name|default:'—' }}</h3>
+                    <div class="d-inline-block my-1 mr-2">{{ study.contact_person|default:'—' }}</div>
                 </div>
                 <div class="table-list-item-actions">
                     {% has_perm 'studies.access_study' user study as can_access_study %}
