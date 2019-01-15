@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-14 12:25+0100\n"
+"POT-Creation-Date: 2019-01-15 16:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -262,7 +262,7 @@ msgid "hour"
 msgstr "Stunde"
 
 #: castellum/contacts/templates/contacts/contact_create_prelude.html:4
-#: castellum/contacts/templates/contacts/contact_create_prelude.html:62
+#: castellum/contacts/templates/contacts/contact_create_prelude.html:65
 #: castellum/contacts/templates/contacts/contact_form.html:8
 #: castellum/contacts/templates/contacts/contact_index.html:13
 msgid "Create new subject"
@@ -272,7 +272,7 @@ msgstr "Neue ProbandIn anlegen"
 #: castellum/contacts/templates/contacts/contact_detail.html:50
 #: castellum/contacts/templates/contacts/contact_form.html:85
 #: castellum/contacts/templates/contacts/contact_index.html:10
-#: castellum/contacts/templates/contacts/contact_list.html:31
+#: castellum/contacts/templates/contacts/contact_list.html:35
 #: castellum/contacts/templates/contacts/subjectexportrequest_form.html:23
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:19
 #: castellum/recruitment/templates/recruitment/contact_studies.html:33
@@ -293,8 +293,15 @@ msgstr "Zurück"
 msgid "Submit"
 msgstr "Absenden"
 
-#: castellum/contacts/templates/contacts/contact_create_prelude.html:48
-#: castellum/contacts/templates/contacts/contact_create_prelude.html:52
+#: castellum/contacts/templates/contacts/contact_create_prelude.html:46
+#: castellum/contacts/templates/contacts/contact_list.html:19
+#: castellum/contacts/templates/contacts/subjectexportrequest_form.html:46
+#: castellum/recruitment/templates/recruitment/__recruitment_list.html:39
+msgid "access denied"
+msgstr ""
+
+#: castellum/contacts/templates/contacts/contact_create_prelude.html:51
+#: castellum/contacts/templates/contacts/contact_create_prelude.html:55
 #: castellum/contacts/templates/contacts/contact_form.html:6
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:49
 #: castellum/studies/templates/studies/study_form.html:6
@@ -303,8 +310,8 @@ msgstr "Absenden"
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: castellum/contacts/templates/contacts/contact_create_prelude.html:59
-#: castellum/contacts/templates/contacts/subjectexportrequest_form.html:57
+#: castellum/contacts/templates/contacts/contact_create_prelude.html:62
+#: castellum/contacts/templates/contacts/subjectexportrequest_form.html:60
 msgid "No matches found"
 msgstr "Keine Treffer gefunden"
 
@@ -359,11 +366,11 @@ msgid "Search"
 msgstr "Suchen"
 
 #: castellum/contacts/templates/contacts/contact_list.html:15
-#: castellum/contacts/templates/contacts/contact_list.html:17
+#: castellum/contacts/templates/contacts/contact_list.html:21
 msgid "View details"
 msgstr "Details ansehen"
 
-#: castellum/contacts/templates/contacts/contact_list.html:25
+#: castellum/contacts/templates/contacts/contact_list.html:29
 msgid "Page navigation"
 msgstr "Seitennavigation"
 
@@ -371,19 +378,34 @@ msgstr "Seitennavigation"
 msgid "Find"
 msgstr "Finden"
 
-#: castellum/contacts/templates/contacts/subjectexportrequest_form.html:48
-#: castellum/contacts/templates/contacts/subjectexportrequest_form.html:50
+#: castellum/contacts/templates/contacts/subjectexportrequest_form.html:51
+#: castellum/contacts/templates/contacts/subjectexportrequest_form.html:53
 msgid "Export"
 msgstr "Exportieren"
 
+#: castellum/recruitment/admin.py:60
+msgid "Uploaded file does not contain valid JSON."
+msgstr ""
+
+#: castellum/recruitment/admin.py:99
+#, python-format
+msgid "Successfully imported %i attribute descriptions."
+msgstr ""
+
+#: castellum/recruitment/admin.py:120
+#, fuzzy
+#| msgid "Export"
+msgid "Export as JSON"
+msgstr "Exportieren"
+
 #: castellum/recruitment/fields.py:33
-#: castellum/recruitment/models/attributesets.py:235
+#: castellum/recruitment/models/attributesets.py:252
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:11
 msgid "years"
 msgstr "Jahre"
 
 #: castellum/recruitment/fields.py:34
-#: castellum/recruitment/models/attributesets.py:236
+#: castellum/recruitment/models/attributesets.py:253
 msgid "days"
 msgstr "Tage"
 
@@ -415,55 +437,55 @@ msgstr ""
 msgid "AgeField"
 msgstr ""
 
-#: castellum/recruitment/models/attributesets.py:209
+#: castellum/recruitment/models/attributesets.py:226
 msgid "before"
 msgstr "vor"
 
-#: castellum/recruitment/models/attributesets.py:210
+#: castellum/recruitment/models/attributesets.py:227
 msgid "after"
 msgstr "nach"
 
-#: castellum/recruitment/models/attributesets.py:216
+#: castellum/recruitment/models/attributesets.py:233
 msgid "<"
 msgstr "<"
 
-#: castellum/recruitment/models/attributesets.py:217
+#: castellum/recruitment/models/attributesets.py:234
 msgid ">"
 msgstr ">"
 
-#: castellum/recruitment/models/attributesets.py:218
+#: castellum/recruitment/models/attributesets.py:235
 msgid "=="
 msgstr "=="
 
-#: castellum/recruitment/models/attributesets.py:219
+#: castellum/recruitment/models/attributesets.py:236
 msgid "!="
 msgstr "!="
 
-#: castellum/recruitment/models/attributesets.py:220
+#: castellum/recruitment/models/attributesets.py:237
 msgid "<="
 msgstr "<="
 
-#: castellum/recruitment/models/attributesets.py:221
+#: castellum/recruitment/models/attributesets.py:238
 msgid ">="
 msgstr ">="
 
-#: castellum/recruitment/models/attributesets.py:227
+#: castellum/recruitment/models/attributesets.py:244
 msgid "is"
 msgstr "ist"
 
-#: castellum/recruitment/models/attributesets.py:228
+#: castellum/recruitment/models/attributesets.py:245
 msgid "is not"
 msgstr "ist nicht"
 
-#: castellum/recruitment/models/attributesets.py:229
+#: castellum/recruitment/models/attributesets.py:246
 msgid "contains"
 msgstr "enthält"
 
-#: castellum/recruitment/models/attributesets.py:240
+#: castellum/recruitment/models/attributesets.py:257
 msgid "older than"
 msgstr "älter als"
 
-#: castellum/recruitment/models/attributesets.py:241
+#: castellum/recruitment/models/attributesets.py:258
 msgid "younger than"
 msgstr "jünger als"
 
@@ -499,6 +521,24 @@ msgstr "Teilnahmeanfrage"
 msgid "participation requests"
 msgstr "Teilnahmeanfragen"
 
+#: castellum/recruitment/templates/admin/recruitment/attributedescription_import.html:6
+msgid "Home"
+msgstr ""
+
+#: castellum/recruitment/templates/admin/recruitment/attributedescription_import.html:9
+#: castellum/recruitment/templates/admin/recruitment/attributedescription_import.html:27
+#: castellum/recruitment/templates/admin/recruitment/change_list.html:7
+#, fuzzy
+#| msgid "Export"
+msgid "Import"
+msgstr "Exportieren"
+
+#: castellum/recruitment/templates/admin/recruitment/attributedescription_import.html:17
+msgid ""
+"There were errors while importing the data. The process was aborted. Nothing "
+"was written to the database."
+msgstr ""
+
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:11
 msgid "Y."
 msgstr "J."
@@ -527,7 +567,7 @@ msgstr "zuletzt"
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:29
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:31
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:33
-#: castellum/recruitment/templates/recruitment/__recruitment_list.html:41
+#: castellum/recruitment/templates/recruitment/__recruitment_list.html:42
 msgid "Call"
 msgstr "Anrufen"
 
