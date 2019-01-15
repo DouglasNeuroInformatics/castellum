@@ -31,8 +31,8 @@
                 {% for contact, can_access in matches %}
                     <li class="table-list-item">
                         <div>
-                            <h3 class="h4 d-inline-block my-1 mr-2">{{ contact.full_name }}</h3>
                             {% if can_access %}
+                                <h3 class="h4 d-inline-block my-1 mr-2">{{ contact.full_name }}</h3>
                                 <div class="d-inline-block">
                                     {% if contact.address %}
                                         <div class="d-inline-block my-1 mr-2">{{ contact.address }}</div>
@@ -41,6 +41,9 @@
                                         <div class="d-inline-block my-1 mr-2">{{ contact.email }}</div>
                                     {% endif %}
                                 </div>
+                            {% else %}
+                                <h3 class="h4 d-inline-block text-muted my-1 mr-2">{{ contact.full_name }}</h3>
+                                <div class="d-inline-block text-muted my-1 mr-2">{% trans 'restricted access' %}</div>
                             {% endif %}
                         </div>
                         {% if can_access %}
