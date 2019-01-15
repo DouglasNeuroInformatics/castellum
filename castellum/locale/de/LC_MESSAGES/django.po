@@ -298,7 +298,7 @@ msgstr "Absenden"
 #: castellum/contacts/templates/contacts/subjectexportrequest_form.html:46
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:39
 msgid "access denied"
-msgstr ""
+msgstr "Zugriff verweigert"
 
 #: castellum/contacts/templates/contacts/contact_create_prelude.html:51
 #: castellum/contacts/templates/contacts/contact_create_prelude.html:55
@@ -385,18 +385,16 @@ msgstr "Exportieren"
 
 #: castellum/recruitment/admin.py:60
 msgid "Uploaded file does not contain valid JSON."
-msgstr ""
+msgstr "Die hochgeladene Datei enthält kein valides JSON."
 
 #: castellum/recruitment/admin.py:99
 #, python-format
 msgid "Successfully imported %i attribute descriptions."
-msgstr ""
+msgstr "%i Attributbeschreibungen erfolgreich importiert."
 
 #: castellum/recruitment/admin.py:120
-#, fuzzy
-#| msgid "Export"
 msgid "Export as JSON"
-msgstr "Exportieren"
+msgstr "Als JSON exportieren"
 
 #: castellum/recruitment/fields.py:33
 #: castellum/recruitment/models/attributesets.py:252
@@ -523,21 +521,21 @@ msgstr "Teilnahmeanfragen"
 
 #: castellum/recruitment/templates/admin/recruitment/attributedescription_import.html:6
 msgid "Home"
-msgstr ""
+msgstr "Start"
 
 #: castellum/recruitment/templates/admin/recruitment/attributedescription_import.html:9
 #: castellum/recruitment/templates/admin/recruitment/attributedescription_import.html:27
 #: castellum/recruitment/templates/admin/recruitment/change_list.html:7
-#, fuzzy
-#| msgid "Export"
 msgid "Import"
-msgstr "Exportieren"
+msgstr "Importieren"
 
 #: castellum/recruitment/templates/admin/recruitment/attributedescription_import.html:17
 msgid ""
 "There were errors while importing the data. The process was aborted. Nothing "
 "was written to the database."
 msgstr ""
+"Während des Datenimports sind Fehler aufgetreten. Der Prozess wurde abgebrochen. "
+"Die Datenbank wurde nicht verändert."
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:11
 msgid "Y."
@@ -961,6 +959,9 @@ msgstr "SS:MM, z.B. 13:00"
 #: castellum/utils/forms.py:73
 msgid "e.g. 030 123456"
 msgstr "z.B. 030 123456"
+
+#~ msgid "restricted access"
+#~ msgstr "beschränkter Zugriff"
 
 #~ msgid "Create new contact"
 #~ msgstr "Neue ProbandIn anlegen"
