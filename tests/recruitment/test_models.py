@@ -3,6 +3,8 @@ from model_mommy import mommy
 
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
+from castellum.recruitment.models import AttributeDescription
+from castellum.recruitment.models import AttributeCategory
 from castellum.studies.models import Study
 
 
@@ -14,6 +16,11 @@ def study():
 @pytest.fixture
 def subject_filter_group(study):
     return mommy.make(SubjectFilterGroup, study=study)
+
+
+@pytest.fixture
+def attribute_category():
+    return mommy.make(AttributeCategory)
 
 
 @pytest.mark.django_db
@@ -37,3 +44,32 @@ def test_clone_with_multiple_filters(subject_filter_group, attribute_description
     assert subject_filter_group.id != clone.id
     assert study == clone.study
     assert 2 == clone.subjectfilter_set.count()
+
+
+@pytest.mark.django_db
+def test_attribute_description_by_category(attribute_descriptions):
+    uncategorized, categories = AttributeDescription.objects.by_category()
+    assert len(uncategorized) == 3
+    assert len(categories) == 0
+
+
+@pytest.mark.django_db
+def test_attribute_description_by_category_with_categories(
+    attribute_descriptions, attribute_category
+):
+    description = AttributeDescription.objects.first()
+    description.category = attribute_category
+    description.save()
+
+    uncategorized, categories = AttributeDescription.objects.by_category()
+    assert len(uncategorized) == 2
+    assert len(categories) == 1
+
+
+@pytest.mark.django_db
+def test_attribute_description_by_category_with_qs(attribute_descriptions):
+    qs = AttributeDescription.objects.all()[:2]
+
+    uncategorized, categories = AttributeDescription.objects.by_category(qs=qs)
+    assert len(uncategorized) == 2
+    assert len(categories) == 0
