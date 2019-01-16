@@ -3,8 +3,10 @@
 
 {# See https://docs.djangoproject.com/en/2.0/ref/contrib/admin/#overriding-vs-replacing-an-admin-template #}
 {% block object-tools-items %}
-    <li>
-        <a href="{% url opts|admin_urlname:'import' %}">{% trans 'Import' %}</a>
-    </li>
+    {% if opts.label == 'recruitment.AttributeDescription' %}
+        <li>
+            <a href="{% url opts|admin_urlname:'import' %}">{% trans 'Import' %}</a>
+        </li>
+    {% endif %}
     {{ block.super }}
 {% endblock %}
