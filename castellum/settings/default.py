@@ -21,6 +21,7 @@ INSTALLED_APPS = [
 
     'bootstrap4',
     'phonenumber_field',
+    'parler',
 
     'castellum.utils',
     'castellum.castellum_auth',
@@ -106,12 +107,22 @@ LOGOUT_TIMEOUT_DEFAULT = timezone.timedelta(seconds=15 * 60)
 
 # Internationalization
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
 LANGUAGES = [
   ('de', _('German')),
   ('en', _('English')),
 ]
+
+PARLER_LANGUAGES = {
+    None: (
+        {'code': 'de'},
+        {'code': 'en'},
+    ),
+    'default': {
+        'fallback': LANGUAGE_CODE,
+    },
+}
 
 TIME_ZONE = 'Europe/Berlin'
 

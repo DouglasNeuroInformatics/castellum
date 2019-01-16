@@ -16,7 +16,6 @@ populate:
 	$(MANAGEPY) create_sample_groups
 	$(MANAGEPY) create_sample_users
 	$(MANAGEPY) loaddata timeslots --database=contacts
-	$(MANAGEPY) loaddata attribute_descriptions --database=default
 	$(MANAGEPY) populate
 
 collectstatic:

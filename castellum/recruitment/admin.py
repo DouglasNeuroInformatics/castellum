@@ -30,6 +30,9 @@ from django.urls import path
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView
 
+from parler.admin import TranslatableAdmin
+from parler.admin import TranslatableTabularInline
+
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 
 from .models import AttributeChoice
@@ -103,11 +106,11 @@ class ImportView(PermissionRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
 
-class AttributeChoiceInline(admin.TabularInline):
+class AttributeChoiceInline(TranslatableTabularInline):
     model = AttributeChoice
 
 
-class AttributeDescriptionAdmin(admin.ModelAdmin):
+class AttributeDescriptionAdmin(TranslatableAdmin):
     inlines = [
         AttributeChoiceInline,
     ]

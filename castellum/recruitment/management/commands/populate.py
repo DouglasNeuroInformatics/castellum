@@ -24,6 +24,7 @@ from django.core.management.base import BaseCommand
 
 import phonenumbers
 from faker import Faker
+from parler.utils.context import switch_language
 
 from castellum.contacts.models import Address
 from castellum.contacts.models import City
@@ -32,12 +33,45 @@ from castellum.contacts.models import Country
 from castellum.contacts.models.contact import phonetic
 from castellum.pseudonyms.models import Pseudonym
 from castellum.pseudonyms.models import Subject
+from castellum.recruitment.models import AttributeChoice
+from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.studies.models import Study
 from castellum.utils import FakeData
 
 fake = Faker('de_DE')
 fake_data = FakeData()
+
+ATTRIBUTE_DESCRIPTIONS = [{
+    'field_type': 'ChoiceField',
+    'label': {
+        'de': 'Händigkeit',
+        'en': 'Handedness',
+    },
+    'choices': [{
+        'de': 'Rechts',
+        'en': 'Right',
+    }, {
+        'de': 'Links',
+        'en': 'Left',
+    }],
+}, {
+    'field_type': 'CharField',
+    'label': {
+        'de': 'Muttersprache',
+        'en': 'Language',
+    },
+}, {
+    'field_type': 'AgeField',
+    'label': {
+        'de': 'Geburtsdatum',
+        'en': 'Date of birth',
+    },
+    '_filter_label': {
+        'de': 'Alter',
+        'en': 'Age',
+    },
+}]
 
 
 def fake_date_of_birth():
@@ -143,6 +177,28 @@ def fake_attributeset(pseudonym, contact):
         })
 
 
+def generate_attribute_descriptions():
+    print('Generating attribute descriptions')
+
+    for data in ATTRIBUTE_DESCRIPTIONS:
+        attr_description = AttributeDescription()
+        for key in data:
+            if key in ['label', '_filter_label', 'help_text']:
+                for lang in ['de', 'en']:
+                    with switch_language(attr_description, lang):
+                        setattr(attr_description, key, data[key][lang])
+            elif key != 'choices':
+                setattr(attr_description, key, data[key])
+        attr_description.save()
+
+        for choice_data in data.get('choices', []):
+            attr_choice = AttributeChoice(description=attr_description)
+            for lang in ['de', 'en']:
+                with switch_language(attr_choice, lang):
+                    attr_choice.label = choice_data[lang]
+            attr_choice.save()
+
+
 def generate_studies(count):
     print('Generating studies')
     Study.objects.bulk_create(fake_study() for i in range(count))
@@ -188,6 +244,8 @@ class Command(BaseCommand):
     help = 'Populate database with sample data.'
 
     def handle(self, *args, **options):
+        if not AttributeDescription.objects.exists():
+            generate_attribute_descriptions()
         if not Study.objects.exists():
             generate_studies(5)
         if not Contact.objects.exists():
