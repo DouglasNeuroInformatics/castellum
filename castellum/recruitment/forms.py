@@ -28,8 +28,13 @@ from .models import SubjectFilter
 
 def get_description_choices():
     yield None, '---'
-    for description in AttributeDescription.objects.all():
+    uncategorized, categories = AttributeDescription.objects.by_category()
+    for description in uncategorized:
         yield description.pk, description.filter_label
+    for category, descriptions in categories.items():
+        yield category.label, [
+            (description.pk, description.filter_label) for description in descriptions
+        ]
 
 
 class SubjectFilterForm(forms.ModelForm):
