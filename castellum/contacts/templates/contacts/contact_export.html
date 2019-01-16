@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n bootstrap4 utils %}
 
-{% block title %}{{ object.full_name}} &middot; {% trans "GDPR request" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% trans "GDPR request" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     {% for dataset in dataset_list %}
