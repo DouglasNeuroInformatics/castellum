@@ -27,6 +27,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
 
 from ..forms import AttributeSetForm
+from ..models import AttributeDescription
 from ..models import AttributeSet
 
 monitoring_logger = logging.getLogger('monitoring.recruitment')
@@ -54,3 +55,23 @@ class AttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
             self.object.pseudonym,
             self.request.user.pk))
         return result
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = context['form']
+
+        def get_bound_fields(descriptions):
+            for description in descriptions:
+                try:
+                    yield form['d%i' % description.pk]
+                except KeyError:
+                    pass
+
+        uncategorized, categories = AttributeDescription.objects.by_category()
+        context['uncategorized'] = get_bound_fields(uncategorized)
+        context['categories'] = {
+            category: get_bound_fields(descriptions)
+            for category, descriptions in categories.items()
+        }
+
+        return context
