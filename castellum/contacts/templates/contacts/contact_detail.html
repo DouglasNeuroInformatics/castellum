@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n bootstrap4 utils auth %}
 
-{% block title %}{{ contact.full_name }} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% trans "Subject details" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     <h1>{{ contact.full_name }}</h1>
