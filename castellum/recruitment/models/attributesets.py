@@ -90,10 +90,32 @@ class AttributeSet(SubjectData):
         return AttributeDescription.objects.values_list('pk', flat=True)
 
 
+class AttributeCategory(TranslatableModel):
+    translations = TranslatedFields(
+        label=models.CharField(max_length=64)
+    )
+
+    def __str__(self):
+        return self.label
+
+
 class AttributeDescriptionManager(TranslatableManager):
     def allowed(self, user, obj=None):
         privacy_level = user.get_privacy_level(obj=obj)
         return self.filter(privacy_level__lte=privacy_level)
+
+    def by_category(self, qs=None):
+        if qs is None:
+            qs = self.all()
+        uncategorized = []
+        categories = {}
+        for description in qs:
+            if description.category:
+                categories.setdefault(description.category, [])
+                categories[description.category].append(description)
+            else:
+                uncategorized.append(description)
+        return uncategorized, categories
 
 
 def date_from_json(value):
@@ -119,6 +141,8 @@ class AttributeDescription(TranslatableModel):
     field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
     privacy_level = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(2)])
     weight = models.IntegerField(default=0)
+    category = models.ForeignKey(
+        AttributeCategory, on_delete=models.SET_NULL, null=True, blank=True)
 
     objects = AttributeDescriptionManager()
 
