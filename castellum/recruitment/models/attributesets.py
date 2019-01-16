@@ -181,14 +181,18 @@ class AttributeDescription(TranslatableModel):
 
     def export(self):
         data = {
-            'label': self.label,
-            '_filter_label': self._filter_label,
-            'help_text': self.help_text,
             'field_type': self.field_type,
             'privacy_level': self.privacy_level,
             'weight': self.weight,
+            'translations': {},
             'choices': [choice.export() for choice in self.attributechoice_set.all()],
         }
+        for translation in self.translations.all():
+            data['translations'][translation.language_code] = {
+                'label': translation.label,
+                '_filter_label': translation._filter_label,
+                'help_text': translation.help_text,
+            }
         return data
 
 
@@ -199,9 +203,14 @@ class AttributeChoice(TranslatableModel):
     )
 
     def export(self):
-        return {
-            'label': self.label,
+        data = {
+            'translations': {},
         }
+        for translation in self.translations.all():
+            data['translations'][translation.language_code] = {
+                'label': translation.label,
+            }
+        return data
 
 
 class BaseFilterField:
