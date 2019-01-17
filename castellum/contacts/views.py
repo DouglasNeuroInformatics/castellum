@@ -115,10 +115,7 @@ class ContactCreatePreludeView(PermissionRequiredMixin, TemplateView):
     permission_required = 'contacts.add_contact'
 
     def get(self, request, *args, **kwargs):
-        form_kwargs = {}
-        if request.GET:
-            form_kwargs['data'] = request.GET
-        form = PreludeForm(**form_kwargs)
+        form = PreludeForm(data=request.GET)
 
         if form.is_valid():
             privacy_level_user = request.user.get_privacy_level()
