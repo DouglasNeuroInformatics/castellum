@@ -62,7 +62,7 @@
             <div class="col-lg-8 col-md-10">
                 {% if messages %}
                     {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}" role="alert">
+                        <div class="{{ message|bootstrap_message_classes }}" role="alert">
                             {{ message }}
                         </div>
                     {% endfor %}
