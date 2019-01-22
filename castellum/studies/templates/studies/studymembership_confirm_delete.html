@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+{% block title %}{% trans "Delete member" %} &middot; {{ object.study }} &middot; {{ block.super }}{% endblock %}
+
 {% block content %}
 <form method="post">{% csrf_token %}
     <p>Are you sure you want to delete "{{ object.user.username }}"?</p>

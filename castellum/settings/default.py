@@ -169,18 +169,6 @@ NPM_FILE_PATTERNS = {
     'jquery': ['dist/jquery.min.js'],
 }
 
-# adapt message classes for bootstrap
-
-from django.contrib.messages import constants as messages
-
-MESSAGE_TAGS = {
-    messages.DEBUG: 'debug light',
-    messages.INFO: 'info',
-    messages.SUCCESS: 'success',
-    messages.WARNING: 'warning',
-    messages.ERROR: 'error danger',
-}
-
 BOOTSTRAP4 = {
     'set_placeholder': False,
 }

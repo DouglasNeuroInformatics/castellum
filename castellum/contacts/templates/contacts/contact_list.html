@@ -9,14 +9,18 @@
     <ul class="table-list">
         {% for contact, can_access in contacts %}
             <li class="table-list-item">
-                <h2 class="h4 my-1 mr-2">{{ contact.full_name }}</h2>
+                {% if can_access %}
+                    <h2 class="h4 my-1 mr-2">{{ contact.full_name }}</h2>
                     <div class="table-list-item-actions">
-                        {% if can_access %}
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:detail' contact.pseudonym %}">{% trans 'View details' %}</a>
-                        {% else %}
-                            <a class="btn btn-outline-primary disabled btn-sm-inline my-1" href="#" tabindex="-1" aria-disabled="true">{% trans 'View details' %}</a>
-                        {% endif %}
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:detail' contact.pseudonym %}">{% trans 'View details' %}</a>
                     </div>
+                {% else %}
+                    <h2 class="h4 text-muted my-1 mr-2">{{ contact.full_name }}</h2>
+                    <div class="d-inline-block text-muted my-1 mr-2">{% trans 'access denied' %}</div>
+                    <div class="table-list-item-actions">
+                        <a class="btn btn-outline-primary disabled btn-sm-inline my-1" href="#" tabindex="-1" aria-disabled="true">{% trans 'View details' %}</a>
+                    </div>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
