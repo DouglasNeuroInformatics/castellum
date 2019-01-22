@@ -12,8 +12,35 @@
 
 {% block content %}
     <div id="content-main">
+        <h1>{% trans 'Users' %}</h1>
+
         {% for user in users %}
-            {{ user }}
+            <h2>{{ user }}</h2>
+            <ul>
+                {% for group in user.groups.all %}
+                    <li>{{ group }}</li>
+                {% endfor %}
+            </ul>
+
+            {% for membership in user.studymembership_set.all %}
+                <h3>{% blocktrans with study=membership.study %}In {{ study }}{% endblocktrans %}</h3>
+                <ul>
+                    {% for group in membership.groups.all %}
+                        <li>{{ group }}</li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        {% endfor %}
+
+        <h1>{% trans 'Groups' %}</h1>
+
+        {% for group in groups %}
+            <h2>{{ group }}</h2>
+            <ul>
+                {% for permission in group.permissions.all %}
+                    <li>{{ permission.name }}</li>
+                {% endfor %}
+            </ul>
         {% endfor %}
     </div>
 {% endblock %}

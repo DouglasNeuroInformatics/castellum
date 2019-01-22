@@ -21,6 +21,7 @@
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import Group
 from django.shortcuts import render
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -75,5 +76,6 @@ class UserAdmin(BaseUserAdmin):
         return render(request, 'admin/castellum_auth/user_permissions.html', {
             'opts': User._meta,
             'users': queryset.all(),
+            'groups': Group.objects.all(),
         })
     list_permissions.short_description = _('List all permissions')
