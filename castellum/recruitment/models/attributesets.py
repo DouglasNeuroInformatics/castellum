@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+from collections import defaultdict
 
 from django import forms
 from django.conf import settings
@@ -108,10 +109,9 @@ class AttributeDescriptionManager(TranslatableManager):
         if qs is None:
             qs = self.all()
         uncategorized = []
-        categories = {}
+        categories = defaultdict(lambda: [])
         for description in qs:
             if description.category:
-                categories.setdefault(description.category, [])
                 categories[description.category].append(description)
             else:
                 uncategorized.append(description)
