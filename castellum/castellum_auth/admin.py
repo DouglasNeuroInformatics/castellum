@@ -21,6 +21,7 @@
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.shortcuts import render
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -54,6 +55,7 @@ expiration_date.admin_order_field = 'expiration_date'
 class UserAdmin(BaseUserAdmin):
     add_form = UserCreationAdminForm
     list_display = BaseUserAdmin.list_display + (expiration_date,)
+    actions = ['list_permissions']
     fieldsets = (
         (None, {
             'fields': ('username', 'password')
@@ -68,3 +70,10 @@ class UserAdmin(BaseUserAdmin):
             'fields': ('last_login', 'date_joined', 'expiration_date', 'logout_timeout')
         }),
     )
+
+    def list_permissions(self, request, queryset):
+        return render(request, 'admin/castellum_auth/user_permissions.html', {
+            'opts': User._meta,
+            'users': queryset.all(),
+        })
+    list_permissions.short_description = _('List all permissions')
