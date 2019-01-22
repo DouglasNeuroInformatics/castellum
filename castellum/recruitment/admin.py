@@ -117,9 +117,11 @@ class AttributeDescriptionAdmin(TranslatableAdmin):
     actions = ['export_json']
 
     def export_json(self, request, queryset):
-        return JsonResponse({
+        response = JsonResponse({
             'descriptions': [description.export() for description in queryset.all()],
         })
+        response['Content-Disposition'] = 'attachment; filename="castellum_attributes.json"'
+        return response
     export_json.short_description = _('Export as JSON')
 
     def get_urls(self):
