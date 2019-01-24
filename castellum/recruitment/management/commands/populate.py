@@ -184,18 +184,18 @@ def generate_attribute_descriptions():
         attr_description = AttributeDescription()
         for key in data:
             if key in ['label', '_filter_label', 'help_text']:
-                for lang in ['de', 'en']:
+                for lang, value in data[key].items():
                     with switch_language(attr_description, lang):
-                        setattr(attr_description, key, data[key][lang])
+                        setattr(attr_description, key, value)
             elif key != 'choices':
                 setattr(attr_description, key, data[key])
         attr_description.save()
 
-        for choice_data in data.get('choices', []):
+        for choices in data.get('choices', []):
             attr_choice = AttributeChoice(description=attr_description)
-            for lang in ['de', 'en']:
+            for lang, value in choices.items():
                 with switch_language(attr_choice, lang):
-                    attr_choice.label = choice_data[lang]
+                    attr_choice.label = value
             attr_choice.save()
 
 
