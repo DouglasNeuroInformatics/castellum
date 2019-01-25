@@ -115,27 +115,24 @@ class ContactCreatePreludeView(PermissionRequiredMixin, TemplateView):
     permission_required = 'contacts.add_contact'
 
     def get(self, request, *args, **kwargs):
-        form_kwargs = {}
-        if request.GET:
-            form_kwargs['data'] = request.GET
-        form = PreludeForm(**form_kwargs)
+        form = PreludeForm(data=request.GET)
 
         if form.is_valid():
-            privacy_level_user = request.user.get_privacy_level()
-            matches = [
-                (contact, privacy_level_user >= contact.privacy_level)
-                for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
-            ]
+            return self.render_to_valid_form_response(request.user, form)
+        return self.render_to_response({'form': form})
 
-            return self.render_to_response({
-                'form': form,
-                'query': '?' + urlencode(form.cleaned_data),
-                'matches': matches,
-            })
-        else:
-            return self.render_to_response({
-                'form': form,
-            })
+    def render_to_valid_form_response(self, user, form):
+        privacy_level_user = user.get_privacy_level()
+        matches = [
+            (contact, privacy_level_user >= contact.privacy_level)
+            for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
+        ]
+
+        return self.render_to_response({
+            'form': form,
+            'query': '?' + urlencode(form.cleaned_data),
+            'matches': matches,
+        })
 
 
 class ContactCreateView(PermissionRequiredMixin, CreateView):

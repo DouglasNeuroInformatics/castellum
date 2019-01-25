@@ -5,13 +5,6 @@ def test_detail_200(client, user, contact):
     assert response.status_code == 200
 
 
-def test_prelude_200(client, user, contact):
-    client.force_login(user)
-    url = '/subjects/create/'
-    response = client.get(url)
-    assert response.status_code == 200
-
-
 def test_create_200(client, user, contact):
     client.force_login(user)
     url = '/subjects/create/form/'
