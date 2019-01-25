@@ -55,6 +55,7 @@ class ImportView(PermissionRequiredMixin, TemplateView):
 
     def get_items(self):
         fh = self.request.FILES['file']
+
         if not fh:
             return
         try:
@@ -64,26 +65,54 @@ class ImportView(PermissionRequiredMixin, TemplateView):
 
     def get_forms(self, items):
         form_cls = modelform_factory(AttributeDescription, fields='__all__')
-        choice_form_cls = modelform_factory(AttributeChoice, fields=['label'])
-        return [(
-            form_cls(item),
-            [choice_form_cls(choice) for choice in item.get('choices', [])],
+        translation_model = AttributeDescription._parler_meta.root_model
+        translation_form_cls = modelform_factory(translation_model, exclude=['language_code'])
+
+        choice_translation_model = AttributeChoice._parler_meta.root_model
+        choice_translation_form_cls = modelform_factory(
+            choice_translation_model, exclude=['language_code'])
+
+        data = [(
+            form_cls(item), {
+                lang: translation_form_cls({k: translation})
+                for k, v in item.items() if isinstance(v, dict)
+                for lang, translation in v.items() if translation
+            }, [
+                {
+                    lang: choice_translation_form_cls({k: translation})
+                    for k, v in choice.items()
+                    for lang, translation in v.items() if translation
+                }
+                for choice in item.get('choices', [])
+            ],
         ) for item in items]
+
+        return data
 
     def is_valid(self, forms):
         return all(
-            form.is_valid() and all(choice_form.is_valid() for choice_form in choice_forms)
-            for form, choice_forms in forms
+            form.is_valid()
+            and all(form.is_valid() for form in translation_forms.values())
+            and all(all(form.is_valid() for form in choice.values()) for choice in choices)
+            for form, translation_forms, choices in forms
         )
 
     def get_errors(self, forms):
         errors = {}
-        for i, (form, choice_forms) in enumerate(forms):
+        for i, (form, translation_forms, choices) in enumerate(forms):
             for field, msg in form.errors.items():
                 errors['item %i: %s' % (i, field)] = msg
-            for j, choice_form in enumerate(choice_forms):
-                for field, msg in choice_form.errors.items():
-                    errors['item %i: choice[%i].%s' % (i, j, field)] = msg
+
+            for lang, translation_form in translation_forms.items():
+                for field, msg in translation_form.errors.items():
+                    errors['item %i: translations[%s].%s' % (i, lang, field)] = msg
+
+            for j, choice in enumerate(choices):
+                for lang, choice_form in choice.items():
+                    for field, msg in choice_form.errors.items():
+                        key = 'item %i: choice[%i].translations[%s].%s' % (i, j, lang, field)
+                        errors[key] = msg
+
         return errors
 
     def post(self, request, *args, **kwargs):
@@ -92,11 +121,20 @@ class ImportView(PermissionRequiredMixin, TemplateView):
         if items:
             forms = self.get_forms(items)
             if self.is_valid(forms):
-                for form, choice_forms in forms:
+                for form, translation_forms, choices in forms:
                     instance = form.save()
-                    for choice_form in choice_forms:
-                        choice_form.instance.description = instance
-                        choice_form.save()
+
+                    for lang, translation_form in translation_forms.items():
+                        translation_form.instance.language_code = lang
+                        translation_form.instance.master = instance
+                        translation_form.save()
+
+                    for choice in choices:
+                        choice_instance = AttributeChoice.objects.create(description=instance)
+                        for lang, choice_form in choice.items():
+                            choice_form.instance.language_code = lang
+                            choice_form.instance.master = choice_instance
+                            choice_form.save()
                 messages.success(
                     self.request,
                     _('Successfully imported %i attribute descriptions.' % len(forms)))
