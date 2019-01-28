@@ -59,7 +59,7 @@ class ImportView(PermissionRequiredMixin, TemplateView):
         if not fh:
             return
         try:
-            return json.load(fh)['descriptions']
+            return json.load(fh, encoding='utf-8')['descriptions']
         except (json.JSONDecodeError, UnicodeDecodeError):
             messages.error(self.request, _('Uploaded file does not contain valid JSON.'))
 
