@@ -19,7 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-
+import codecs
 import json
 
 from django.contrib import admin
@@ -28,7 +28,6 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.forms.models import modelform_factory
 from django.http import JsonResponse
 from django.urls import path
-from django.utils.encoding import smart_str
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView
 
@@ -57,10 +56,11 @@ class ImportView(PermissionRequiredMixin, TemplateView):
 
     def get_items(self):
         fh = self.request.FILES['file']
+        reader = codecs.getreader("utf-8")
         if not fh:
             return
         try:
-            return json.loads(smart_str(fh))['descriptions']
+            return json.load(reader(fh))['descriptions']
         except (json.JSONDecodeError, UnicodeDecodeError):
             messages.error(self.request, _('Uploaded file does not contain valid JSON.'))
 
