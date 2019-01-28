@@ -51,6 +51,13 @@ def recruiter(db):
 
 
 @pytest.fixture
+def admin(user):
+    user.is_staff = True
+    user.save()
+    return user
+
+
+@pytest.fixture
 def study(db):
     return mommy.make(Study)
 
