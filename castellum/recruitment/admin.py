@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import codecs
 import json
 
 from django.contrib import admin
@@ -59,7 +60,8 @@ class ImportView(PermissionRequiredMixin, TemplateView):
         if not fh:
             return
         try:
-            return json.load(fh, encoding='utf-8')['descriptions']
+            reader = codecs.getreader("utf-8")
+            return json.load(reader(fh))['descriptions']
         except (json.JSONDecodeError, UnicodeDecodeError):
             messages.error(self.request, _('Uploaded file does not contain valid JSON.'))
 
