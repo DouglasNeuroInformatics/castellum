@@ -44,32 +44,38 @@ fake_data = FakeData()
 
 ATTRIBUTE_DESCRIPTIONS = [{
     'field_type': 'ChoiceField',
-    'label': {
-        'de': 'Händigkeit',
-        'en': 'Handedness',
+    'translations': {
+        'en': {'label': 'Handedness'},
+        'de': {'label': 'Händigkeit'},
     },
     'choices': [{
-        'de': 'Rechts',
-        'en': 'Right',
+        'translations': {
+            'en': {'label': 'Right'},
+            'de': {'label': 'Rechts'},
+        },
     }, {
-        'de': 'Links',
-        'en': 'Left',
+        'translations': {
+            'en': {'label': 'Left'},
+            'de': {'label': 'Links'},
+        },
     }],
 }, {
     'field_type': 'CharField',
-    'label': {
-        'de': 'Muttersprache',
-        'en': 'Language',
+    'translations': {
+        'en': {'label': 'Language'},
+        'de': {'label': 'Muttersprache'},
     },
 }, {
     'field_type': 'AgeField',
-    'label': {
-        'de': 'Geburtsdatum',
-        'en': 'Date of birth',
-    },
-    '_filter_label': {
-        'de': 'Alter',
-        'en': 'Age',
+    'translations': {
+        'en': {
+            'label': 'Date of birth',
+            '_filter_label': 'Age',
+        },
+        'de': {
+            'label': 'Geburtsdatum',
+            '_filter_label': 'Alter',
+        },
     },
 }]
 
@@ -180,22 +186,28 @@ def fake_attributeset(pseudonym, contact):
 def generate_attribute_descriptions():
     print('Generating attribute descriptions')
 
+    def generate_translations(obj, translations):
+        for lang, translation in translations.items():
+            with switch_language(obj, lang):
+                for key in translation:
+                    setattr(obj, key, translation[key])
+
     for data in ATTRIBUTE_DESCRIPTIONS:
         attr_description = AttributeDescription()
-        for key in data:
-            if key in ['label', '_filter_label', 'help_text']:
-                for lang, value in data[key].items():
-                    with switch_language(attr_description, lang):
-                        setattr(attr_description, key, value)
+        for key, value in data.items():
+            if key == 'translations':
+                generate_translations(attr_description, value)
             elif key != 'choices':
-                setattr(attr_description, key, data[key])
+                setattr(attr_description, key, value)
         attr_description.save()
 
-        for choices in data.get('choices', []):
+        for choice_data in data.get('choices', []):
             attr_choice = AttributeChoice(description=attr_description)
-            for lang, value in choices.items():
-                with switch_language(attr_choice, lang):
-                    attr_choice.label = value
+            for key, value in choice_data.items():
+                if key == 'translations':
+                    generate_translations(attr_choice, value)
+                else:
+                    setattr(attr_choice, key, value)
             attr_choice.save()
 
 

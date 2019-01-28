@@ -74,14 +74,12 @@ class ImportView(PermissionRequiredMixin, TemplateView):
 
         data = [(
             form_cls(item), {
-                lang: translation_form_cls({k: translation})
-                for k, v in item.items() if isinstance(v, dict)
-                for lang, translation in v.items() if translation
+                lang: translation_form_cls(translation)
+                for lang, translation in item.get('translations', {}).items()
             }, [
                 {
-                    lang: choice_translation_form_cls({k: translation})
-                    for k, v in choice.items()
-                    for lang, translation in v.items() if translation
+                    lang: choice_translation_form_cls(translation)
+                    for lang, translation in choice.get('translations').items()
                 }
                 for choice in item.get('choices', [])
             ],
@@ -139,7 +137,6 @@ class ImportView(PermissionRequiredMixin, TemplateView):
                         translation_form.instance.language_code = lang
                         translation_form.instance.master = instance
                         translation_form.save()
-
                     for choice in choices:
                         choice_instance = AttributeChoice.objects.create(description=instance)
                         for lang, choice_form in choice.items():

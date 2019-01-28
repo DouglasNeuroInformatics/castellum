@@ -8,12 +8,21 @@ data = {
     "descriptions": [
         {
             "field_type": "AgeField",
-            "_filter_label": {"en": "Age", "de": "Alter"},
-            "help_text": {"en": "", "de": ""},
-            "label": {"en": "Date of birth", "de": "Geburtsdatum"},
             "weight": 1000,
             "choices": [],
-            "privacy_level": 0
+            "privacy_level": 0,
+            "translations": {
+                "en": {
+                    "_filter_label": "Age",
+                    "help_text": "",
+                    "label": "Date of birth",
+                },
+                "de": {
+                    "_filter_label": "Alter",
+                    "help_text": "",
+                    "label": "Geburtsdatum",
+                }
+            },
         }
     ]
 }
