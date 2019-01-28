@@ -96,11 +96,11 @@ class ImportView(PermissionRequiredMixin, TemplateView):
         )
 
     def is_form_and_related_data_valid(self, form, translations_forms, choices):
-        return all(
+        return all([
             form.is_valid(),
             self.are_translation_forms_valid(translations_forms),
             self.are_choices_valid(choices)
-        )
+        ])
 
     def are_translation_forms_valid(self, forms):
         return all(form.is_valid() for form in forms.values())
