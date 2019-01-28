@@ -11,8 +11,17 @@
 
         {% csrf_token %}
 
-        {% for field in form %}
+        {% for field in uncategorized %}
             {% bootstrap_field field %}
+        {% endfor %}
+
+        {% for category, fields in categories.items %}
+            <fieldset>
+                <legend>{{ category }}</legend>
+                {% for field in fields %}
+                    {% bootstrap_field field %}
+                {% endfor %}
+            </fieldset>
         {% endfor %}
 
         <div class="mb-3">

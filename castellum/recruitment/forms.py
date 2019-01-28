@@ -24,12 +24,21 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from .models import AttributeDescription
 from .models import SubjectFilter
+from .models.attributesets import UNCATEGORIZED
 
 
 def get_description_choices():
     yield None, '---'
-    for description in AttributeDescription.objects.all():
+
+    categories = AttributeDescription.objects.by_category()
+
+    for description in categories.pop(UNCATEGORIZED):
         yield description.pk, description.filter_label
+
+    for category, descriptions in categories.items():
+        yield category.label, [
+            (description.pk, description.filter_label) for description in descriptions
+        ]
 
 
 class SubjectFilterForm(forms.ModelForm):

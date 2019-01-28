@@ -35,6 +35,7 @@ from parler.admin import TranslatableTabularInline
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 
+from .models import AttributeCategory
 from .models import AttributeChoice
 from .models import AttributeDescription
 from .models import AttributeSet
@@ -155,6 +156,10 @@ class ImportView(PermissionRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
 
+class AttributeCategoryAdmin(TranslatableAdmin):
+    model = AttributeCategory
+
+
 class AttributeChoiceInline(TranslatableTabularInline):
     model = AttributeChoice
 
@@ -182,6 +187,7 @@ class AttributeDescriptionAdmin(TranslatableAdmin):
         ] + super().get_urls()
 
 
+admin.site.register(AttributeCategory, AttributeCategoryAdmin)
 admin.site.register(AttributeDescription, AttributeDescriptionAdmin)
 admin.site.register(AttributeSet)
 admin.site.register(ParticipationRequest)

@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+from collections import defaultdict
 
 from django import forms
 from django.conf import settings
@@ -42,6 +43,8 @@ from castellum.utils.forms import DateField as DateFormField
 
 from ..fields import AgeField
 from ..utils import get_study_filter_q
+
+UNCATEGORIZED = "UNCATEGORIZED"
 
 
 class IntegerChoiceField(forms.TypedChoiceField):
@@ -90,10 +93,28 @@ class AttributeSet(SubjectData):
         return AttributeDescription.objects.values_list('pk', flat=True)
 
 
+class AttributeCategory(TranslatableModel):
+    translations = TranslatedFields(
+        label=models.CharField(max_length=64)
+    )
+
+    def __str__(self):
+        return self.label
+
+
 class AttributeDescriptionManager(TranslatableManager):
     def allowed(self, user, obj=None):
         privacy_level = user.get_privacy_level(obj=obj)
         return self.filter(privacy_level__lte=privacy_level)
+
+    def by_category(self, qs=None):
+        qs = qs or self.all()
+
+        categories = defaultdict(list)
+        for description in qs:
+            category = description.category or UNCATEGORIZED
+            categories[category].append(description)
+        return categories
 
 
 def date_from_json(value):
@@ -119,6 +140,8 @@ class AttributeDescription(TranslatableModel):
     field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
     privacy_level = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(2)])
     weight = models.IntegerField(default=0)
+    category = models.ForeignKey(
+        AttributeCategory, on_delete=models.SET_NULL, null=True, blank=True)
 
     objects = AttributeDescriptionManager()
 
