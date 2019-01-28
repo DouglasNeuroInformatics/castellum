@@ -62,8 +62,10 @@ class ImportView(PermissionRequiredMixin, TemplateView):
         try:
             reader = codecs.getreader("utf-8")
             return json.load(reader(fh))['descriptions']
-        except (json.JSONDecodeError, UnicodeDecodeError):
+        except json.JSONDecodeError:
             messages.error(self.request, _('Uploaded file does not contain valid JSON.'))
+        except UnicodeDecodeError:
+            messages.error(self.request, _('Uploaded file must be UTF-8 encoded.'))
 
     def get_forms(self, items):
         form_cls = modelform_factory(AttributeDescription, fields='__all__')
