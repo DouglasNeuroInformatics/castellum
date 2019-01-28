@@ -15,9 +15,9 @@ def test_admin_import_attributedescriptions(client, user, tmpdir):
                 "descriptions": [
                     {
                         "field_type": "AgeField",
-                        "_filter_label": "Age",
-                        "help_text": "",
-                        "label": "Date of birth",
+                        "_filter_label": {"en": "Age", "de": "Alter"},
+                        "help_text": {"en": "", "de": ""},
+                        "label": {"en": "Date of birth", "de": "Geburtsdatum"},
                         "weight": 0,
                         "choices": [],
                         "privacy_level": 0
