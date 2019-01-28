@@ -85,13 +85,17 @@ class ImportView(PermissionRequiredMixin, TemplateView):
             ],
         ) for item in items]
 
-    def is_valid(self, forms):
-        return all(
-            form.is_valid()
-            and all(form.is_valid() for form in translation_forms.values())
-            and all(all(form.is_valid() for form in choice.values()) for choice in choices)
-            for form, translation_forms, choices in forms
-        )
+    def is_valid(self, form, translation_forms, choices):
+        if not form.is_valid():
+            return False
+        for translation_form in translation_forms.values():
+            if not translation_form.is_valid():
+                return False
+        for choice in choices:
+            for choice_form in choice.values():
+                if not choice_form.is_valid():
+                    return False
+        return True
 
     def get_errors(self, forms):
         errors = {}
@@ -115,7 +119,7 @@ class ImportView(PermissionRequiredMixin, TemplateView):
         forms = []
         if items:
             forms = self.get_forms(items)
-            if self.is_valid(forms):
+            if all(self.is_valid(*args) for args in forms):
                 for form, translation_forms, choices in forms:
                     instance = form.save()
                     for lang, translation_form in translation_forms.items():
