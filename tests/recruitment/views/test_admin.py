@@ -1,5 +1,6 @@
 import json
 
+
 def test_admin_import_attributedescriptions(client, user, tmpdir):
 
     user.is_staff = True
