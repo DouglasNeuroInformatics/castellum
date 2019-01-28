@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import json
+from collections import defaultdict
 
 from django.contrib import admin
 from django.contrib import messages
@@ -73,11 +74,11 @@ class ImportView(PermissionRequiredMixin, TemplateView):
             choice_translation_model, exclude=['language_code'])
 
         data = [(
-            form_cls(item), {
-                lang: translation_form_cls({k: translation})
-                for k, v in item.items() if isinstance(v, dict)
-                for lang, translation in v.items() if translation
-            }, [
+            form_cls(item),{
+                lang: translation_form_cls(translations)
+                for lang, translations in self.convert_item(item).items()
+            },
+            [
                 {
                     lang: choice_translation_form_cls({k: translation})
                     for k, v in choice.items()
@@ -88,6 +89,15 @@ class ImportView(PermissionRequiredMixin, TemplateView):
         ) for item in items]
 
         return data
+
+    def convert_item(self, item):
+        d = defaultdict(dict)
+        for k, v in item.items():
+            if isinstance(v, dict):
+                for lang, translation in v.items():
+                    if translation:
+                        d[lang][k]=translation
+        return d
 
     def is_valid(self, forms):
         return all(
