@@ -56,10 +56,10 @@ class ImportView(PermissionRequiredMixin, TemplateView):
 
     def get_items(self):
         fh = self.request.FILES['file']
-        reader = codecs.getreader("utf-8")
         if not fh:
             return
         try:
+            reader = codecs.getreader("utf-8")
             return json.load(reader(fh))['descriptions']
         except (json.JSONDecodeError, UnicodeDecodeError):
             messages.error(self.request, _('Uploaded file does not contain valid JSON.'))
