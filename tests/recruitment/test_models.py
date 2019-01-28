@@ -5,6 +5,7 @@ from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeCategory
+from castellum.recruitment.models.attributesets import UNCATEGORIZED
 from castellum.studies.models import Study
 
 
@@ -48,9 +49,9 @@ def test_clone_with_multiple_filters(subject_filter_group, attribute_description
 
 @pytest.mark.django_db
 def test_attribute_description_by_category(attribute_descriptions):
-    uncategorized, categories = AttributeDescription.objects.by_category()
-    assert len(uncategorized) == 3
-    assert len(categories) == 0
+    categories = AttributeDescription.objects.by_category()
+    assert len(categories[UNCATEGORIZED]) == 3
+    assert len(categories) == 1
 
 
 @pytest.mark.django_db
@@ -61,15 +62,15 @@ def test_attribute_description_by_category_with_categories(
     description.category = attribute_category
     description.save()
 
-    uncategorized, categories = AttributeDescription.objects.by_category()
-    assert len(uncategorized) == 2
-    assert len(categories) == 1
+    categories = AttributeDescription.objects.by_category()
+    assert len(categories[UNCATEGORIZED]) == 2
+    assert len(categories) == 2
 
 
 @pytest.mark.django_db
 def test_attribute_description_by_category_with_qs(attribute_descriptions):
     qs = AttributeDescription.objects.all()[:2]
 
-    uncategorized, categories = AttributeDescription.objects.by_category(qs=qs)
-    assert len(uncategorized) == 2
-    assert len(categories) == 0
+    categories = AttributeDescription.objects.by_category(qs=qs)
+    assert len(categories[UNCATEGORIZED]) == 2
+    assert len(categories) == 1

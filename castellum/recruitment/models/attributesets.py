@@ -44,6 +44,8 @@ from castellum.utils.forms import DateField as DateFormField
 from ..fields import AgeField
 from ..utils import get_study_filter_q
 
+UNCATEGORIZED = "UNCATEGORIZED"
+
 
 class IntegerChoiceField(forms.TypedChoiceField):
     def __init__(self, *args, **kwargs):
@@ -106,16 +108,13 @@ class AttributeDescriptionManager(TranslatableManager):
         return self.filter(privacy_level__lte=privacy_level)
 
     def by_category(self, qs=None):
-        if qs is None:
-            qs = self.all()
-        uncategorized = []
+        qs = qs or self.all()
+
         categories = defaultdict(list)
         for description in qs:
-            if description.category:
-                categories[description.category].append(description)
-            else:
-                uncategorized.append(description)
-        return uncategorized, categories
+            category = description.category or UNCATEGORIZED
+            categories[category].append(description)
+        return categories
 
 
 def date_from_json(value):

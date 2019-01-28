@@ -29,6 +29,7 @@ from castellum.contacts.mixins import SubjectMixin
 from ..forms import AttributeSetForm
 from ..models import AttributeDescription
 from ..models import AttributeSet
+from ..models.attributesets import UNCATEGORIZED
 
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 
@@ -67,8 +68,8 @@ class AttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
                 except KeyError:
                     pass
 
-        uncategorized, categories = AttributeDescription.objects.by_category()
-        context['uncategorized'] = get_bound_fields(uncategorized)
+        categories = AttributeDescription.objects.by_category()
+        context['uncategorized'] = get_bound_fields(categories.pop(UNCATEGORIZED))
         context['categories'] = {
             category: get_bound_fields(descriptions)
             for category, descriptions in categories.items()
