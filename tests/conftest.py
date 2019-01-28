@@ -9,7 +9,7 @@ from castellum.castellum_auth.models import User
 from castellum.contacts.models import Contact
 from castellum.studies.models import Study
 from castellum.studies.models import StudyMembership
-from castellum.castellum_auth.management.commands.create_sample_groups import GROUPS
+from castellum.castellum_auth.sample_data import GROUPS
 
 mommy.generators.add(
     'castellum.utils.fields.DateField', mommy.generators.default_mapping[DateField])
