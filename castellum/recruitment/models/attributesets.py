@@ -109,7 +109,7 @@ class AttributeDescriptionManager(TranslatableManager):
         if qs is None:
             qs = self.all()
         uncategorized = []
-        categories = defaultdict(lambda: [])
+        categories = defaultdict(list)
         for description in qs:
             if description.category:
                 categories[description.category].append(description)
