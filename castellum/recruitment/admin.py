@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import codecs
 import json
 from collections import defaultdict
 
@@ -62,9 +63,12 @@ class ImportView(PermissionRequiredMixin, TemplateView):
         if not fh:
             return
         try:
-            return json.load(fh)['descriptions']
-        except (json.JSONDecodeError, UnicodeDecodeError):
+            reader = codecs.getreader("utf-8")
+            return json.load(reader(fh))['descriptions']
+        except json.JSONDecodeError:
             messages.error(self.request, _('Uploaded file does not contain valid JSON.'))
+        except UnicodeDecodeError:
+            messages.error(self.request, _('Uploaded file must be UTF-8 encoded.'))
 
     def get_forms(self, items):
         form_cls = modelform_factory(AttributeDescription, fields='__all__')
