@@ -37,12 +37,8 @@ def test_admin_import_attributedescriptions(client, admin, tmpdir, encoding):
     client.force_login(admin)
     url = '/admin/recruitment/attributedescription/import/'
 
-    # json_file = tmpdir.join("attrs.json")
-    # json_file.write_text(json.dumps(data), encoding)
-
-    json_file = BytesIO()
-    json_file.write(json.dumps(data).encode(encoding))
-    json_file.seek(0)
+    json_file = tmpdir.join("attrs.json")
+    json_file.write_text(json.dumps(data), encoding)
 
     response = client.post(url, {'file': json_file})
     assert response.status_code == 200
