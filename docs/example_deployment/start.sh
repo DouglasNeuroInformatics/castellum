@@ -15,7 +15,6 @@ docker-compose run web django-admin migrateall
 docker-compose run web django-admin create_sample_groups
 docker-compose run web django-admin create_sample_users
 docker-compose run web django-admin loaddata timeslots --database=contacts
-docker-compose run web django-admin loaddata attribute_descriptions --database=default
 docker-compose run web django-admin populate
 
 echo ''
