@@ -118,12 +118,12 @@ class ImportView(PermissionRequiredMixin, TemplateView):
 
             for lang, translation_form in translation_forms.items():
                 for field, msg in translation_form.errors.items():
-                    errors['item %i: translations[%s].%s' % (i, lang, field)] = msg
+                    errors['item %i: %s[%s]' % (field, lang)] = msg
 
             for j, choice in enumerate(choices):
                 for lang, choice_form in choice.items():
                     for field, msg in choice_form.errors.items():
-                        key = 'item %i: choice[%i].translations[%s].%s' % (i, j, lang, field)
+                        key = 'item %i: choices[%i].%s[%s]' % (i, j, field, lang)
                         errors[key] = msg
 
         return errors
