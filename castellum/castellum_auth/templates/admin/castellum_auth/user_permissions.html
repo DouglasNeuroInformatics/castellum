@@ -20,6 +20,9 @@
                 {% for group in user.groups.all %}
                     <li>{{ group }}</li>
                 {% endfor %}
+                {% for permission in user.user_permissions.all %}
+                    <li>{{ permission.name }}</li>
+                {% endfor %}
             </ul>
 
             {% for membership in user.studymembership_set.all %}
