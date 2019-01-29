@@ -52,6 +52,7 @@ class ImportView(PermissionRequiredMixin, TemplateView):
     def get_context_data(self):
         context = super().get_context_data()
         context['opts'] = AttributeDescription._meta
+        context['title'] = _('Import')
         return context
 
     def get_items(self):
