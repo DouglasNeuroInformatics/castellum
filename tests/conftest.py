@@ -9,18 +9,45 @@ from castellum.castellum_auth.models import User
 from castellum.contacts.models import Contact
 from castellum.studies.models import Study
 from castellum.studies.models import StudyMembership
+from castellum.castellum_auth.sample_data import GROUPS
 
 mommy.generators.add(
     'castellum.utils.fields.DateField', mommy.generators.default_mapping[DateField])
 
 
-@pytest.fixture
-def user(db):
+def create_user(codenames):
     future = timezone.now() + timezone.timedelta(days=10000)
     user = User.objects.create(expiration_date=future)
-    user.user_permissions.set(Permission.objects.all())
+
+    perms = Permission.objects.all()
+    if codenames:
+        perms = perms.filter(codename__in=codenames)
+    user.user_permissions.set(perms)
+
+    user.user_permissions.add(Permission.objects.get(codename='privacy_level_1'))
     user.user_permissions.remove(Permission.objects.get(codename='privacy_level_2'))
+
     return user
+
+
+@pytest.fixture
+def user(db):
+    return create_user([])
+
+
+@pytest.fixture
+def study_coordinator(db):
+    return create_user(GROUPS['Study coordinator'])
+
+
+@pytest.fixture
+def subject_manager(db):
+    return create_user(GROUPS['Subject manager'])
+
+
+@pytest.fixture
+def recruiter(db):
+    return create_user(GROUPS['Subject manager'])
 
 
 @pytest.fixture
