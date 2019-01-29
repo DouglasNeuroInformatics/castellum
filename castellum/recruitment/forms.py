@@ -46,6 +46,7 @@ class SubjectFilterForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         selected_description = self._get_selected_description(**kwargs)
+        self.fields["group"].required = False
 
         self.fields["description"].choices = get_description_choices()
 

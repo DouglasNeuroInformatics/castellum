@@ -86,8 +86,7 @@ class FilterGroupListView(StudyMixin, PermissionRequiredMixin, ListView):
             return self.render_to_response(context)
 
         else:
-            group = SubjectFilterGroup.objects.create(study=self.study)
-            return redirect(group.get_absolute_url())
+            return redirect('recruitment:filtergroup_update', self.study.pk, 0)
 
 
 class FilterGroupCreateView(UnpublishedStudyMixin, PermissionRequiredMixin, View):
@@ -146,7 +145,10 @@ class FilterGroupUpdateView(UnpublishedStudyMixin, PermissionRequiredMixin, Mode
     permission_required = 'recruitment.change_subjectfilter'
 
     def dispatch(self, *args, **kwargs):
-        self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['pk'])
+        if self.kwargs['pk'] == 0:
+            self.group = None
+        else:
+            self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['pk'])
         return super().dispatch(*args, **kwargs)
 
     def get_queryset(self, *args, **kwargs):
@@ -154,7 +156,10 @@ class FilterGroupUpdateView(UnpublishedStudyMixin, PermissionRequiredMixin, Mode
         return qs.filter(group=self.group)
 
     def get_context_data(self, **kwargs):
-        if self.study != self.group.study:
+        if self.kwargs['pk'] == 0:
+            self.group = SubjectFilterGroup(study=self.study)
+            self.group.pk = 0
+        elif self.study != self.group.study:
             raise Http404
 
         data = super().get_context_data(**kwargs)
@@ -162,6 +167,19 @@ class FilterGroupUpdateView(UnpublishedStudyMixin, PermissionRequiredMixin, Mode
         data['group'] = self.group
         data['total_count'] = AttributeSet.objects.count()
         return data
+
+    def get_success_url(self):
+        if self.kwargs['pk'] == 0:
+            return reverse('recruitment:filtergroup_update', args=[self.study.pk, self.group.pk])
+        else:
+            return super().get_success_url()
+
+    def formset_valid(self, formset):
+        if self.kwargs['pk'] == 0:
+            self.group = SubjectFilterGroup.objects.create(study=self.study)
+            for form in formset.forms:
+                form.instance.group = self.group
+        return super().formset_valid(formset)
 
 
 class FilterGroupDuplicateView(UnpublishedStudyMixin, PermissionRequiredMixin, View):
