@@ -43,10 +43,8 @@ msgid "important dates"
 msgstr "Wichtige Daten"
 
 #: castellum/castellum_auth/admin.py:81
-#, fuzzy
-#| msgid "permissions"
 msgid "List all permissions"
-msgstr "Rechte"
+msgstr "Aller Berechtigungen auflisten"
 
 #: castellum/castellum_auth/middlewares.py:41
 msgid "Your account is not activated."
@@ -92,18 +90,16 @@ msgstr "Start"
 
 #: castellum/castellum_auth/templates/admin/castellum_auth/user_permissions.html:15
 msgid "Users"
-msgstr ""
+msgstr "NutzerInnen"
 
 #: castellum/castellum_auth/templates/admin/castellum_auth/user_permissions.html:26
 #, python-format
 msgid "In %(study)s"
-msgstr ""
+msgstr "In %(study)s"
 
 #: castellum/castellum_auth/templates/admin/castellum_auth/user_permissions.html:35
-#, fuzzy
-#| msgid "Filter Groups"
 msgid "Groups"
-msgstr "Filtergruppen"
+msgstr "Gruppen"
 
 #: castellum/contacts/forms.py:62 castellum/contacts/models/address.py:34
 #: castellum/contacts/models/address.py:40
@@ -342,10 +338,8 @@ msgid "No matches found"
 msgstr "Keine Treffer gefunden"
 
 #: castellum/contacts/templates/contacts/contact_detail.html:4
-#, fuzzy
-#| msgid "Study details"
 msgid "Subject details"
-msgstr "Studiendetails"
+msgstr "ProbandInnendetails"
 
 #: castellum/contacts/templates/contacts/contact_detail.html:30
 #: castellum/contacts/templates/contacts/contact_form.html:65
@@ -374,10 +368,8 @@ msgid "GDPR request"
 msgstr "DSGVO-Anfrage"
 
 #: castellum/contacts/templates/contacts/contact_form.html:6
-#, fuzzy
-#| msgid "Find subjects"
 msgid "Edit subject"
-msgstr "ProbandInnen finden"
+msgstr "ProbandIn bearbeiten"
 
 #: castellum/contacts/templates/contacts/contact_form.html:86
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:29
@@ -936,10 +928,8 @@ msgid "Remove"
 msgstr "Entfernen"
 
 #: castellum/studies/templates/studies/studymembership_confirm_delete.html:4
-#, fuzzy
-#| msgid "Delete"
 msgid "Delete member"
-msgstr "Löschen"
+msgstr "Mitglied löschen"
 
 #: castellum/studies/templates/studies/studymembership_form.html:9
 msgid "Global groups"
