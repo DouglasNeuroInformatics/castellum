@@ -75,6 +75,7 @@ class UserAdmin(BaseUserAdmin):
     def list_permissions(self, request, queryset):
         return render(request, 'admin/castellum_auth/user_permissions.html', {
             'opts': User._meta,
+            'title': _('Permission list'),
             'users': queryset.all(),
             'groups': Group.objects.all(),
         })
