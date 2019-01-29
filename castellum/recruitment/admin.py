@@ -19,7 +19,9 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import codecs
 import json
+from collections import defaultdict
 
 from django.contrib import admin
 from django.contrib import messages
@@ -61,9 +63,12 @@ class ImportView(PermissionRequiredMixin, TemplateView):
         if not fh:
             return
         try:
-            return json.load(fh)['descriptions']
-        except (json.JSONDecodeError, UnicodeDecodeError):
+            reader = codecs.getreader("utf-8")
+            return json.load(reader(fh))['descriptions']
+        except json.JSONDecodeError:
             messages.error(self.request, _('Uploaded file does not contain valid JSON.'))
+        except UnicodeDecodeError:
+            messages.error(self.request, _('Uploaded file must be UTF-8 encoded.'))
 
     def get_forms(self, items):
         form_cls = modelform_factory(AttributeDescription, fields='__all__')
@@ -75,11 +80,12 @@ class ImportView(PermissionRequiredMixin, TemplateView):
             choice_translation_model, exclude=['language_code'])
 
         data = [(
-            form_cls(item), {
-                lang: translation_form_cls({k: translation})
-                for k, v in item.items() if isinstance(v, dict)
-                for lang, translation in v.items() if translation
-            }, [
+            form_cls(item),
+            {
+                lang: translation_form_cls(translations)
+                for lang, translations in self.convert_item(item).items()
+            },
+            [
                 {
                     lang: choice_translation_form_cls({k: translation})
                     for k, v in choice.items()
@@ -90,6 +96,15 @@ class ImportView(PermissionRequiredMixin, TemplateView):
         ) for item in items]
 
         return data
+
+    def convert_item(self, item):
+        d = defaultdict(dict)
+        for k, v in item.items():
+            if isinstance(v, dict):
+                for lang, translation in v.items():
+                    if translation:
+                        d[lang][k] = translation
+        return d
 
     def is_valid(self, forms):
         return all(
