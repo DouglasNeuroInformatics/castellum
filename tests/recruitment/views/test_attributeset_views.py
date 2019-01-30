@@ -23,7 +23,7 @@ def test_update_post(client, user, attributeset, attribute_description):
 
 
 def test_update_blocked(client, user, attributeset, attribute_description):
-    attribute_description.privacy_level = 2
+    attribute_description.privacy_level_write = 2
     attribute_description.save()
 
     client.force_login(user)
@@ -35,7 +35,7 @@ def test_update_blocked(client, user, attributeset, attribute_description):
 
 
 def test_update_blocked_post(client, user, attributeset, attribute_description):
-    attribute_description.privacy_level = 2
+    attribute_description.privacy_level_write = 2
     attribute_description.save()
     attributeset.data[attribute_description.json_key] = 'old'
     attributeset.save()

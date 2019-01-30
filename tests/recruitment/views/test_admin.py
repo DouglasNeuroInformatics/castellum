@@ -17,7 +17,8 @@ DATA = {
             "label": {"en": "Date of birth", "de": "Geburtsdatum"},
             "weight": 1000,
             "choices": [],
-            "privacy_level": 0
+            "privacy_level_read": 0,
+            "privacy_level_write": 0,
         }
     ]
 }
