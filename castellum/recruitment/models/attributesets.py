@@ -94,9 +94,14 @@ class AttributeSet(SubjectData):
 
 
 class AttributeCategory(TranslatableModel):
+    weight = models.IntegerField(default=0)
+
     translations = TranslatedFields(
         label=models.CharField(max_length=64)
     )
+
+    class Meta:
+        ordering = ['weight']
 
     def __str__(self):
         return self.label
