@@ -69,7 +69,7 @@ def test_attribute_description_by_category_with_categories(
 
 @pytest.mark.django_db
 def test_attribute_description_by_category_with_qs(attribute_descriptions):
-    qs = AttributeDescription.objects.all()[:2]
+    qs = AttributeDescription.objects.filter(weight__lte=1)
 
     categories = AttributeDescription.objects.by_category(qs=qs)
     assert len(categories[UNCATEGORIZED]) == 2

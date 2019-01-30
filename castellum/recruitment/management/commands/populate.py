@@ -44,6 +44,7 @@ fake_data = FakeData()
 
 ATTRIBUTE_DESCRIPTIONS = [{
     'field_type': 'ChoiceField',
+    'weight': 0,
     'label': {
         'de': 'Händigkeit',
         'en': 'Handedness',
@@ -57,12 +58,14 @@ ATTRIBUTE_DESCRIPTIONS = [{
     }],
 }, {
     'field_type': 'CharField',
+    'weight': 1,
     'label': {
         'de': 'Muttersprache',
         'en': 'Language',
     },
 }, {
     'field_type': 'AgeField',
+    'weight': 2,
     'label': {
         'de': 'Geburtsdatum',
         'en': 'Date of birth',
