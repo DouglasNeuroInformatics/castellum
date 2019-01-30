@@ -20,7 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
-from collections import defaultdict
+from collections import OrderedDict
 
 from django import forms
 from django.conf import settings
@@ -115,10 +115,12 @@ class AttributeDescriptionManager(TranslatableManager):
     def by_category(self, qs=None):
         qs = qs or self.all()
 
-        categories = defaultdict(list)
-        for description in qs:
-            category = description.category or UNCATEGORIZED
-            categories[category].append(description)
+        categories = OrderedDict()
+        categories[UNCATEGORIZED] = list(qs.filter(category__isnull=True))
+        for category in AttributeCategory.objects.all():
+            descriptions = list(qs.filter(category=category))
+            if descriptions:
+                categories[category] = descriptions
         return categories
 
 
