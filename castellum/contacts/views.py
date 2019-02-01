@@ -26,6 +26,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView
 from django.views.generic import DetailView
+from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
@@ -110,19 +111,13 @@ class ContactDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
-class ContactCreatePreludeView(PermissionRequiredMixin, TemplateView):
+class ContactCreatePreludeView(PermissionRequiredMixin, FormView):
     template_name = 'contacts/contact_create_prelude.html'
     permission_required = 'contacts.add_contact'
+    form_class = PreludeForm
 
-    def get(self, request, *args, **kwargs):
-        form = PreludeForm(data=request.GET)
-
-        if form.is_valid():
-            return self.render_to_valid_form_response(request.user, form)
-        return self.render_to_response({'form': form})
-
-    def render_to_valid_form_response(self, user, form):
-        privacy_level_user = user.get_privacy_level()
+    def form_valid(self, form):
+        privacy_level_user = self.request.user.get_privacy_level()
         matches = [
             (contact, privacy_level_user >= contact.privacy_level)
             for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
