@@ -29,17 +29,24 @@ from .models import SubjectFilter
 from .models.attributesets import UNCATEGORIZED
 
 
+def create_choice(user, description):
+    if user.get_privacy_level() >= description.privacy_level_read:
+        return description.pk, description.filter_label
+    else:
+        return -description.pk, description.filter_label
+
+
 def get_description_choices(user):
     yield None, '---'
 
     categories = AttributeDescription.objects.by_category()
 
     for description in categories.pop(UNCATEGORIZED):
-        yield description.pk, description.filter_label
+        yield create_choice(user, description)
 
     for category, descriptions in categories.items():
         yield category.label, [
-            (description.pk, description.filter_label) for description in descriptions
+            create_choice(user, description) for description in descriptions
         ]
 
 
