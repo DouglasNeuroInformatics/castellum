@@ -4,8 +4,7 @@
 {% block title %}{% trans "Create new subject" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
+    <form method="get">
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}

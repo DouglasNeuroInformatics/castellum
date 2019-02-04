@@ -17,10 +17,10 @@ def test_status_code_200(client, authenticated_user):
     assert 200 == response.status_code
 
 
-def test_post_request_with_incomplete_params(client, authenticated_user):
+def test_get_request_with_incomplete_params(client, authenticated_user):
     get_params = {'first_name': 'Adre', 'last_name': 'Nalin'}
 
-    response = client.post(URL, get_params)
+    response = client.get(URL, get_params)
 
     assert 200 == response.status_code
 
@@ -31,12 +31,12 @@ def test_post_request_with_incomplete_params(client, authenticated_user):
     assert "matches" not in response.context
 
 
-def test_post_request_with_complete_params(client, authenticated_user):
+def test_get_request_with_complete_params(client, authenticated_user):
     contacts = mommy.prepare(Contact, privacy_level=cycle([0, 1, 2]), _quantity=3)
     get_params = {'first_name': 'Adre', 'last_name': 'Nalin', 'date_of_birth': '2000-01-01'}
 
     with patch.object(Contact.objects, 'fuzzy_filter', return_value=contacts):
-        response = client.post(URL, get_params)
+        response = client.get(URL, get_params)
 
     assert 200 == response.status_code
 
