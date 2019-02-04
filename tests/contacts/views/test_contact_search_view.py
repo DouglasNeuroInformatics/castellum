@@ -4,6 +4,7 @@ from unittest.mock import patch
 from django.urls import reverse
 from django.db.models import QuerySet
 
+import pytest
 from model_mommy import mommy
 
 from castellum.contacts.models import Contact
@@ -12,7 +13,14 @@ from castellum.contacts.models import Contact
 URL = reverse('contacts:search')
 
 
-def test_status_code_200(client, authenticated_user):
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    'subject_manager',
+])
+def test_status_code_200(request, client, user_fixture):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
     response = client.get(URL)
     assert 200 == response.status_code
 
