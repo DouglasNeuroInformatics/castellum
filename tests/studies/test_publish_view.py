@@ -1,5 +1,19 @@
-def test_publish(client, member, study):
-    client.force_login(member)
+import pytest
+from model_mommy import mommy
+
+from castellum.studies.models import StudyMembership
+
+
+@pytest.mark.parametrize('user_fixture', [
+    'study_coordinator',
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
+])
+def test_publish(request, client, user_fixture, study):
+    user = request.getfixturevalue(user_fixture)
+    mommy.make(StudyMembership, user=user, study=study)
+    client.force_login(user)
+
     study.published = False
     study.save()
 
@@ -10,8 +24,16 @@ def test_publish(client, member, study):
     assert study.published is True
 
 
-def test_unpublish(client, member, study):
-    client.force_login(member)
+@pytest.mark.parametrize('user_fixture', [
+    'study_coordinator',
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
+])
+def test_unpublish(request, client, user_fixture, study):
+    user = request.getfixturevalue(user_fixture)
+    mommy.make(StudyMembership, user=user, study=study)
+    client.force_login(user)
+
     study.published = True
     study.save()
 
