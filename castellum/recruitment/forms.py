@@ -76,7 +76,10 @@ class SubjectFilterForm(forms.ModelForm):
         elif data:
             pk = data[prefix + '-description' if prefix else 'description']
             if pk:
-                return AttributeDescription.objects.get(pk=pk)
+                try:
+                    return AttributeDescription.objects.get(pk=pk)
+                except AttributeDescription.DoesNotExist:
+                    pass
 
     class Meta:
         model = SubjectFilter
