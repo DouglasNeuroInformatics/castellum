@@ -47,7 +47,7 @@ def subject_manager(db):
 
 @pytest.fixture
 def recruiter(db):
-    return create_user(GROUPS['Subject manager'])
+    return create_user(GROUPS['Recruiter'])
 
 
 @pytest.fixture
