@@ -22,6 +22,8 @@
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 
+from castellum.utils.forms import DisabledModelChoiceField
+
 from .models import AttributeDescription
 from .models import SubjectFilter
 from .models.attributesets import UNCATEGORIZED
@@ -47,6 +49,7 @@ class SubjectFilterForm(forms.ModelForm):
 
         selected_description = self._get_selected_description(**kwargs)
 
+        self.fields["description"] = DisabledModelChoiceField(AttributeDescription.objects.all())
         self.fields["description"].choices = get_description_choices(user)
 
         if not selected_description:
