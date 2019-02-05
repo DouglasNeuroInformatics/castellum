@@ -59,7 +59,7 @@
 
                     {% if not study.published %}
                         <div class="col-sm flex-grow-0">
-                            <button name="{{ form.prefix }}-DELETE" value="on" class="btn btn-danger">{% trans 'Delete' %}</button>
+                            <button name="{{ form.prefix }}-DELETE" value="on" class="btn btn-danger" data-js="delete">{% trans 'Delete' %}</button>
                         </div>
                     {% endif %}
                 </formset>
