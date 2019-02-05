@@ -75,6 +75,12 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
             qs = qs.filter(studymembership__user=self.request.user)
         return qs
 
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['q'] = self.request.GET.get('q', '')
+        context['own'] = 'own' in self.request.GET
+        return context
+
 
 class StudyCreateView(PermissionRequiredMixin, CreateView):
     model = Study

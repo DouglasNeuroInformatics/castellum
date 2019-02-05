@@ -5,6 +5,25 @@
 
 {% block content %}
     <h2>{% trans 'Studies' %}</h2>
+
+    <div>
+        <div>
+            <a href="?q={{ q }}">{% trans 'All Studies' %}</a>
+            <a href="?q={{ q }}&own=1">{% trans 'My Studies' %}</a>
+        </div>
+        <form method="get">
+            <div class="input-group">
+                <input type="search" class="form-control" name="q" value="{{ q }}" placeholder="{% trans 'Search' %}">
+                {% if own %}
+                    <input type="hidden" name="own" value="1">
+                {% endif %}
+                <div class="input-group-append">
+                    <input type="submit" class="btn btn-outline-primary" value="{% trans 'Go' %}">
+                </div>
+            </div>
+        </form>
+    </div>
+
     <ul class="table-list mb-3">
         {% for study in object_list %}
             <li class="table-list-item">
