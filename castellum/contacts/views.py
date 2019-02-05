@@ -26,7 +26,6 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView
 from django.views.generic import DetailView
-from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
@@ -36,6 +35,7 @@ from castellum.pseudonyms.helpers import list_pseudonyms
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.pseudonyms.registry import subject_data_models
 from castellum.recruitment.models import AttributeSet
+from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
 from .forms import PreludeForm
@@ -111,7 +111,7 @@ class ContactDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
-class ContactCreatePreludeView(PermissionRequiredMixin, FormView):
+class ContactCreatePreludeView(PermissionRequiredMixin, GetFormView):
     template_name = 'contacts/contact_create_prelude.html'
     permission_required = 'contacts.add_contact'
     form_class = PreludeForm
@@ -185,36 +185,27 @@ class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         return result
 
 
-class RequestCreateView(PermissionRequiredMixin, TemplateView):
+class RequestCreateView(PermissionRequiredMixin, GetFormView):
     template_name = 'contacts/subjectexportrequest_form.html'
     permission_required = 'contacts.view_contact'
+    form_class = PreludeForm
 
-    def get(self, request, *args, **kwargs):
-        form_kwargs = {}
-        if request.GET:
-            form_kwargs['data'] = request.GET
-        form = PreludeForm(**form_kwargs)
+    def form_valid(self, form):
+        monitoring_logger.info((
+            'GDPR-Request: {{first_name: "{first_name}"; last_name: "{last_name}"; '
+            'date_of_birth: "{date_of_birth}"}} by {user}'
+        ).format(user=self.request.user.pk, **form.cleaned_data))
 
-        if form.is_valid():
-            monitoring_logger.info((
-                'GDPR-Request: {{first_name: "{first_name}"; last_name: "{last_name}"; '
-                'date_of_birth: "{date_of_birth}"}} by {user}'
-            ).format(user=request.user.pk, **form.cleaned_data))
+        privacy_level_user = self.request.user.get_privacy_level()
+        matches = [
+            (contact, privacy_level_user >= contact.privacy_level)
+            for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
+        ]
 
-            privacy_level_user = request.user.get_privacy_level()
-            matches = [
-                (contact, privacy_level_user >= contact.privacy_level)
-                for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
-            ]
-
-            return self.render_to_response({
-                'form': form,
-                'matches': matches,
-            })
-        else:
-            return self.render_to_response({
-                'form': form,
-            })
+        return self.render_to_response({
+            'form': form,
+            'matches': matches,
+        })
 
 
 class ContactExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
