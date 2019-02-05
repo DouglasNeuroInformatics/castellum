@@ -48,7 +48,7 @@
 
     {% if is_paginated %}
         <nav aria-label="{% trans 'Page navigation' %}">
-            {% bootstrap_pagination page_obj %}
+            {% bootstrap_pagination page_obj url=request.get_full_path %}
         </nav>
     {% endif %}
 
