@@ -103,9 +103,13 @@ class AttributeCategory(TranslatableModel):
 
 
 class AttributeDescriptionManager(TranslatableManager):
-    def allowed(self, user, obj=None):
+    def allowed_read(self, user, obj=None):
         privacy_level = user.get_privacy_level(obj=obj)
-        return self.filter(privacy_level__lte=privacy_level)
+        return self.filter(privacy_level_read__lte=privacy_level)
+
+    def allowed_write(self, user, obj=None):
+        privacy_level = user.get_privacy_level(obj=obj)
+        return self.filter(privacy_level_write__lte=privacy_level)
 
     def by_category(self, qs=None):
         qs = qs or self.all()
@@ -138,7 +142,8 @@ class AttributeDescription(TranslatableModel):
     )
 
     field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
-    privacy_level = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(2)])
+    privacy_level_read = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(2)])
+    privacy_level_write = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(2)])
     weight = models.IntegerField(default=0)
     category = models.ForeignKey(
         AttributeCategory, on_delete=models.SET_NULL, null=True, blank=True)
@@ -208,7 +213,8 @@ class AttributeDescription(TranslatableModel):
             '_filter_label': {},
             'help_text': {},
             'field_type': self.field_type,
-            'privacy_level': self.privacy_level,
+            'privacy_level_read': self.privacy_level_read,
+            'privacy_level_write': self.privacy_level_write,
             'weight': self.weight,
             'choices': [choice.export() for choice in self.attributechoice_set.all()],
         }
