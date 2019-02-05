@@ -40,8 +40,23 @@ class AgeWidget(forms.MultiWidget):
         return list(value)
 
 
+class HiddenAgeWidget(forms.MultiWidget):
+    template_name = 'django/forms/widgets/multiwidget.html'
+
+    def __init__(self, attrs=None):
+        widgets = [
+            forms.HiddenInput(),
+            forms.HiddenInput(),
+        ]
+        super().__init__(widgets, attrs)
+
+    def decompress(self, value):
+        return list(value)
+
+
 class AgeField(forms.MultiValueField):
     widget = AgeWidget
+    hidden_widget = HiddenAgeWidget
 
     def __init__(self, **kwargs):
         fields = [
