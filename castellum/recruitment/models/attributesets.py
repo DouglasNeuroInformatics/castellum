@@ -114,13 +114,14 @@ class AttributeDescriptionManager(TranslatableManager):
 
     def by_category(self, qs=None):
         qs = qs or self.all()
+        qs = qs.select_related('category').order_by('category__weight', 'weight')
 
         categories = OrderedDict()
-        categories[UNCATEGORIZED] = list(qs.filter(category__isnull=True))
-        for category in AttributeCategory.objects.all():
-            descriptions = list(qs.filter(category=category))
-            if descriptions:
-                categories[category] = descriptions
+        categories[UNCATEGORIZED] = []
+        for description in qs:
+            category = description.category or UNCATEGORIZED
+            categories.setdefault(category, [])
+            categories[category].append(description)
         return categories
 
 
