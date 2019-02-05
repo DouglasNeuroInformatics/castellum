@@ -131,6 +131,7 @@ class AttributeDescription(TranslatableModel):
         ('CharField', _('CharField')),
         ('ChoiceField', _('ChoiceField')),
         ('IntegerField', _('IntegerField')),
+        ('BooleanField', _('BooleanField')),
         ('DateField', _('DateField')),
         ('AgeField', _('AgeField')),
     )
@@ -179,6 +180,7 @@ class AttributeDescription(TranslatableModel):
                 'CharField': forms.CharField,
                 'ChoiceField': IntegerChoiceField,
                 'IntegerField': forms.IntegerField,
+                'BooleanField': forms.NullBooleanField,
                 'DateField': DateFormField,
                 'AgeField': DateFormField,
             }
@@ -195,6 +197,7 @@ class AttributeDescription(TranslatableModel):
             'CharField': TextFilterField,
             'ChoiceField': TextFilterField,
             'IntegerField': NumberFilterField,
+            'BooleanField': BooleanFilterField,
             'DateField': DateFilterField,
             'AgeField': AgeFilterField,
         }
@@ -283,6 +286,12 @@ class NumberFilterField(BaseFilterField):
         ("!exact", _("!=")),
         ("lte", _("<=")),
         ("gte", _(">=")),
+    ]
+
+
+class BooleanFilterField(BaseFilterField):
+    available_operators = [
+        ("exact", _("is")),
     ]
 
 
