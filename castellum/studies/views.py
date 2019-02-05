@@ -63,6 +63,7 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
     model = Study
     ordering = 'name'
     permission_required = 'studies.view_study'
+    paginate_by = 15
 
 
 class StudyCreateView(PermissionRequiredMixin, CreateView):

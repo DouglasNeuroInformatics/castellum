@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n auth %}
+{% load i18n auth bootstrap4 %}
 
 {% block title %}{% trans "Studies" %} &middot; {{ block.super }}{% endblock %}
 
@@ -45,6 +45,12 @@
             </li>
         {% endfor %}
     </ul>
+
+    {% if is_paginated %}
+        <nav aria-label="{% trans 'Page navigation' %}">
+            {% bootstrap_pagination page_obj %}
+        </nav>
+    {% endif %}
 
     <div class="mb-3">
         <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
