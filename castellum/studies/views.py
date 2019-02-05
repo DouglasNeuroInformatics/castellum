@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.db.models import Q
 from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -64,6 +65,15 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
     ordering = 'name'
     permission_required = 'studies.view_study'
     paginate_by = 15
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        q = self.request.GET.get('q')
+        if q:
+            qs = qs.filter(Q(name__icontains=q) | Q(contact_person__icontains=q))
+        if 'own' in self.request.GET:
+            qs = qs.filter(studymembership__user=self.request.user)
+        return qs
 
 
 class StudyCreateView(PermissionRequiredMixin, CreateView):
