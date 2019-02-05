@@ -58,7 +58,9 @@
                     </div>
 
                     {% if not study.published %}
-                        {% bootstrap_field form.DELETE %}
+                        <div class="col-sm flex-grow-0">
+                            <button name="{{ form.prefix }}-DELETE" value="on" class="btn btn-danger">{% trans 'Delete' %}</button>
+                        </div>
                     {% endif %}
                 </formset>
             {% endif %}
