@@ -29,11 +29,27 @@
                         <div class="col-sm-4">
                             {% bootstrap_field form.description show_label=False %}
                         </div>
+                        <div class="col-sm-8">
+                            <input type="submit" class="btn btn-primary" value="{% trans 'Add' %}"/>
+                        </div>
                     </formset>
                     <hr>
+                {% else %}
+                    <formset>
+                        {{ form.id.as_hidden }}
+                        {{ form.group.as_hidden }}
+                        {{ form.operator.as_hidden }}
+                        {{ form.value.as_hidden }}
+                        {{ form.description.as_hidden }}
+                    </formset>
                 {% endif %}
             {% endfor %}
         {% endif %}
+    </form>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ formset.management_form }}
 
         {% for form in formset %}
             {% if form.description.value %}
@@ -61,6 +77,14 @@
                         {% bootstrap_field form.DELETE %}
                     {% endif %}
                 </formset>
+            {% else %}
+                <formset>
+                    {{ form.id.as_hidden }}
+                    {{ form.group.as_hidden }}
+                    {{ form.operator.as_hidden }}
+                    {{ form.value.as_hidden }}
+                    {{ form.description.as_hidden }}
+                </formset>
             {% endif %}
         {% endfor %}
 
@@ -68,7 +92,7 @@
             <a href="{% url 'recruitment:filtergroup_index' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
 
             {% if not study.published %}
-                <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}"/>
+                <input type="submit" class="btn btn-primary" value="{% trans 'Apply Filters' %}"/>
             {% endif %}
         </div>
     </form>
