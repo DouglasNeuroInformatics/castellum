@@ -12,7 +12,7 @@ def test_index_200(client, user):
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
 ])
-def test_studies_availablea(request, client, user_fixture):
+def test_studies_available(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     response = client.get('/')

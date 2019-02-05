@@ -1,11 +1,26 @@
-def test_detail_200(client, user, contact):
+import pytest
+
+
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    'subject_manager',
+])
+def test_detail_200(request, client, user_fixture, contact):
+    user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     url = '/subjects/{}/'.format(contact.pseudonym)
     response = client.get(url)
     assert response.status_code == 200
 
 
-def test_create_200(client, user, contact):
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    'subject_manager',
+])
+def test_create_200(request, client, user_fixture, contact):
+    user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     url = '/subjects/create/form/'
     response = client.get(url)
@@ -19,7 +34,13 @@ def test_create_with_parameter_200(client, user, contact):
     assert response.status_code == 200
 
 
-def test_update_200(client, user, contact):
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    'subject_manager',
+])
+def test_update_200(request, client, user_fixture, contact):
+    user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     url = '/subjects/{}/update/'.format(contact.pseudonym)
     response = client.get(url)
@@ -33,7 +54,13 @@ def test_update_with_parameter_200(client, user, contact):
     assert response.status_code == 200
 
 
-def test_requestcreate_200(client, user, contact):
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    'subject_manager',
+])
+def test_requestcreate_200(request, client, user_fixture, contact):
+    user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     url = '/subjects/request/'
     response = client.get(url)
@@ -47,7 +74,13 @@ def test_requestcreate_with_parameters_200(client, user, contact):
     assert response.status_code == 200
 
 
-def test_export_200(client, user, contact):
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    'subject_manager',
+])
+def test_export_200(request, client, user_fixture, contact):
+    user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     url = '/subjects/{}/export/'.format(contact.pseudonym)
     response = client.get(url)

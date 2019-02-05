@@ -1,4 +1,13 @@
-def test_update_200(client, user, attributeset, attribute_description):
+import pytest
+
+
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    'subject_manager',
+])
+def test_update_200(request, client, user_fixture, attributeset, attribute_description):
+    user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     url = '/recruitment/attributes/{}/update/'.format(attributeset.pseudonym)
     response = client.get(url)

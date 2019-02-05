@@ -14,10 +14,15 @@ def test_redirect_to_studies_after_post(client, study_coordinator):
     assert response.url == '/studies/'
 
 
-@pytest.mark.django_db
-def test_create_study_on_post(client, study_coordinator):
+@pytest.mark.parametrize('user_fixture', [
+    'study_coordinator',
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
+])
+def test_create_study_on_post(request, client, user_fixture):
 
-    client.force_login(study_coordinator)
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
     client.post('/studies/create/', {'name': 'Test study', 'contact_person': 'Mustermann'})
 
     assert Study.objects.all().count() == 1
