@@ -8,15 +8,15 @@
 
     <p>{% trans 'matches' %}: {{ group.get_subject_count }} / {{ total_count }}</p>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ formset.management_form }}
+    {% if not study.published %}
+        <form method="post">
+            {% csrf_token %}
+            {{ formset.management_form }}
 
-        {% for error in formset.non_form_errors %}
-            <p class="alert alert-danger" role="alert">{{ error }}</p>
-        {% endfor %}
+            {% for error in formset.non_form_errors %}
+                <p class="alert alert-danger" role="alert">{{ error }}</p>
+            {% endfor %}
 
-        {% if not study.published %}
             {% for form in formset %}
                 {% if not form.description.value %}
                     <h2>{% trans "Add Filter" %}</h2>
@@ -44,8 +44,8 @@
                     </formset>
                 {% endif %}
             {% endfor %}
-        {% endif %}
-    </form>
+        </form>
+    {% endif %}
 
     <form method="post">
         {% csrf_token %}
