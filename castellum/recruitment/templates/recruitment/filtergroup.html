@@ -17,6 +17,13 @@
         {% endfor %}
 
         {% if not study.published %}
+            {# If the form is submitted (e.g. by using the return key on an #}
+            {# input) it will use the first submit button. This one ensures #}
+            {# that the first one is not a delete button. #}
+            <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}" hidden />
+        {% endif %}
+
+        {% if not study.published %}
             {% for form in formset %}
                 {% if not form.description.value %}
                     <h2>{% trans "Add Filter" %}</h2>
