@@ -20,7 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
-from collections import defaultdict
+from collections import OrderedDict
 
 from django import forms
 from django.conf import settings
@@ -94,9 +94,14 @@ class AttributeSet(SubjectData):
 
 
 class AttributeCategory(TranslatableModel):
+    weight = models.IntegerField(default=0)
+
     translations = TranslatedFields(
         label=models.CharField(max_length=64)
     )
+
+    class Meta:
+        ordering = ['weight']
 
     def __str__(self):
         return self.label
@@ -113,10 +118,13 @@ class AttributeDescriptionManager(TranslatableManager):
 
     def by_category(self, qs=None):
         qs = qs or self.all()
+        qs = qs.select_related('category').order_by('category__weight', 'weight')
 
-        categories = defaultdict(list)
+        categories = OrderedDict()
+        categories[UNCATEGORIZED] = []
         for description in qs:
             category = description.category or UNCATEGORIZED
+            categories.setdefault(category, [])
             categories[category].append(description)
         return categories
 
