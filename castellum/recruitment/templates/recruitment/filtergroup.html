@@ -37,7 +37,7 @@
 
         {% for form in formset %}
             {% if form.description.value and not form.description.errors %}
-                <formset class="row">
+                <fieldset class="row">
                     {{ form.id.as_hidden }}
                     <input type="hidden" name="{{ form.prefix }}-group" value="{{ group.id }}" />
 
@@ -60,7 +60,7 @@
                     {% if not study.published %}
                         {% bootstrap_field form.DELETE %}
                     {% endif %}
-                </formset>
+                </fieldset>
             {% endif %}
         {% endfor %}
 
