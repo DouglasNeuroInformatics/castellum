@@ -171,6 +171,7 @@ NPM_FILE_PATTERNS = {
 
 BOOTSTRAP4 = {
     'set_placeholder': False,
+    'success_css_class': None,
 }
 
 
