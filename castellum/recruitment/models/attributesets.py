@@ -25,6 +25,7 @@ from collections import OrderedDict
 from django import forms
 from django.conf import settings
 from django.contrib.postgres.fields import JSONField
+from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MaxValueValidator
 from django.db import models
@@ -166,6 +167,11 @@ class AttributeDescription(TranslatableModel):
 
     def __str__(self):
         return self.label
+
+    def clean(self):
+        if self.privacy_level_read > self.privacy_level_write:
+            raise ValidationError(
+                _('Privacy level for reading may not be larger than for writing.'))
 
     @property
     def json_key(self):
