@@ -8,6 +8,17 @@
 
     <p>{% trans 'matches' %}: {{ group.get_subject_count }} / {{ total_count }}</p>
 
+    <h2>{% trans "Add Filter" %}</h2>
+    <form class="row">
+        <div class="col-sm-4">
+            {% bootstrap_field add_form.description show_label=False %}
+        </div>
+        <div class="col-sm">
+            <button type="button" class="btn btn-primary" data-js="filter-add">{% trans "Add" %}</button>
+        </div>
+    </form>
+    <hr>
+
     <form method="post" data-js="unsaved-changes">
         {% csrf_token %}
         {{ formset.management_form }}
@@ -16,27 +27,7 @@
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
 
-        {% if not study.published %}
-            {% for form in formset %}
-                {% if not form.description.value or form.description.errors %}
-                    <h2>{% trans "Add Filter" %}</h2>
-                    <formset class="row">
-                        {{ form.id.as_hidden }}
-                        {{ form.group.as_hidden }}
-                        {{ form.operator.as_hidden }}
-                        {{ form.value.as_hidden }}
-
-                        <div class="col-sm-4">
-                            {% bootstrap_field form.description show_label=False %}
-                        </div>
-                    </formset>
-                    <hr>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
-
         {% for form in formset %}
-            {% if form.description.value and not form.description.errors %}
                 <fieldset class="row">
                     {{ form.id.as_hidden }}
                     <input type="hidden" name="{{ form.prefix }}-group" value="{{ group.id }}" />
@@ -61,7 +52,6 @@
                         {% bootstrap_field form.DELETE %}
                     {% endif %}
                 </fieldset>
-            {% endif %}
         {% endfor %}
 
         <div class="mb-3">

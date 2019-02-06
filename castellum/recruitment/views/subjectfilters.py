@@ -140,6 +140,7 @@ class FilterGroupUpdateView(UnpublishedStudyMixin, PermissionRequiredMixin, Mode
     form_class = forms.SubjectFilterForm
     formset_class = FilterFormSet
     factory_kwargs = {
+        'extra': 0,
         'can_delete': True,
     }
     template_name = "recruitment/filtergroup.html"
@@ -168,6 +169,7 @@ class FilterGroupUpdateView(UnpublishedStudyMixin, PermissionRequiredMixin, Mode
         data['study'] = self.study
         data['group'] = self.group
         data['total_count'] = AttributeSet.objects.count()
+        data['add_form'] = forms.SubjectFilterForm(user=self.request.user)
         return data
 
 
