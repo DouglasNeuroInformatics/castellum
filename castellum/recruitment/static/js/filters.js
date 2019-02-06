@@ -16,4 +16,26 @@ $(function() {
     .on('submit', function(event) {
         submitted = true;
     });
+
+    var $totalForms = $('#id_form-TOTAL_FORMS');
+    var $container = $('#filter-forms');
+
+    $(document).on('click', '[data-js="filter-add"]', function(event) {
+        var pk = event.target.form.description.value;
+        var $template = $('#template-' + pk);
+        if ($template.length) {
+            var html = $template.html().replace(/{prefix}/g, 'form-' + $totalForms.val());
+            var $fieldset = $('<fieldset class="row">').html(html);
+            $container.append($fieldset);
+            $totalForms.val(parseInt($totalForms.val(), 10) + 1);
+            registerBeforeUnload();
+        }
+    });
+
+    $(document).on('click', '[data-js="filter-delete"]', function(event) {
+        $fieldset = $(event.target).closest('fieldset');
+        $fieldset.append($('<input type="hidden" name="form-' + $fieldset.index() + '-DELETE" value="on">'));
+        $fieldset.attr('hidden', true);
+        registerBeforeUnload();
+    });
 });
