@@ -37,7 +37,10 @@ class AgeWidget(forms.MultiWidget):
         super().__init__(widgets, attrs)
 
     def decompress(self, value):
-        return list(value)
+        if value:
+            return list(value)
+        else:
+            return [None, None]
 
 
 class AgeField(forms.MultiValueField):

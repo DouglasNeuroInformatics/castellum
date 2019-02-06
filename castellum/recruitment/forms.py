@@ -88,6 +88,8 @@ class SubjectFilterForm(forms.ModelForm):
             pk = data[prefix + '-description' if prefix else 'description']
             if pk:
                 return get_object_or_none(AttributeDescription, pk=pk)
+        elif kwargs.get('initial') and kwargs['initial'].get('description'):
+            return kwargs['initial']['description']
 
     class Meta:
         model = SubjectFilter

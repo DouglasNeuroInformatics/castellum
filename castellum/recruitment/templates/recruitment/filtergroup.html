@@ -19,6 +19,35 @@
     </form>
     <hr>
 
+    {% for pk, form in templates.items %}
+        <template id="template-{{ pk }}">
+            {{ form.id.as_hidden }}
+            <input type="hidden" name="{{ form.prefix }}-group" value="{{ group.id }}" />
+
+            <div class="col-sm-4">
+                {# duplicated because disabled fields are not posted to the server #}
+                {% bootstrap_field form.description show_label=False%}
+                {{ form.description.as_hidden }}
+            </div>
+            {% if form.operator.field.choices|length > 1 %}
+                <div class="col-sm">
+                    {% bootstrap_field form.operator show_label=False %}
+                </div>
+            {% else %}
+                <input type="hidden" name="{{ form.prefix }}-operator" value="exact" />
+            {% endif %}
+            <div class="col-sm">
+                {% bootstrap_field form.value show_label=False%}
+            </div>
+
+            {% if not study.published %}
+                <div class="col-sm flex-grow-0">
+                    <button type="button" class="btn btn-danger" data-js="filter-delete">{% trans 'Delete' %}</button>
+                </div>
+            {% endif %}
+        </template>
+    {% endfor %}
+
     <form method="post" data-js="unsaved-changes">
         {% csrf_token %}
         {{ formset.management_form }}

@@ -37,6 +37,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.settings import CASTELLUM_EXPECTED_SUBJECT_FACTOR
 
 from .. import forms
+from ..models import AttributeDescription
 from ..models import AttributeSet
 from ..models import SubjectFilter
 from ..models import SubjectFilterGroup
@@ -170,6 +171,14 @@ class FilterGroupUpdateView(UnpublishedStudyMixin, PermissionRequiredMixin, Mode
         data['group'] = self.group
         data['total_count'] = AttributeSet.objects.count()
         data['add_form'] = forms.SubjectFilterForm(user=self.request.user)
+
+        data['templates'] = {}
+        for description in AttributeDescription.objects.all():
+            data['templates'][description.pk] = forms.SubjectFilterForm(
+                user=self.request.user,
+                initial={'description': description},
+                prefix='{prefix}')
+
         return data
 
 
