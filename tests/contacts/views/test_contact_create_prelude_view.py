@@ -2,18 +2,15 @@ from itertools import cycle
 from unittest.mock import patch
 from urllib.parse import urlencode
 
-from django.urls import reverse
-
 import pytest
 from model_mommy import mommy
+
+from django.urls import reverse
 
 from castellum.contacts.forms import PreludeForm
 from castellum.contacts.models import Contact
 from castellum.contacts.models.contact import ContactManager
 from castellum.contacts.views import ContactCreatePreludeView
-
-
-URL = reverse('contacts:create')
 
 
 @pytest.fixture
@@ -35,18 +32,6 @@ def form(data):
     form = PreludeForm(data)
     form.is_valid()
     return form
-
-
-@pytest.mark.parametrize('user_fixture', [
-    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
-    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
-    'subject_manager',
-])
-def test_status_code_200(request, client, user_fixture):
-    user = request.getfixturevalue(user_fixture)
-    client.force_login(user)
-    response = client.get(URL)
-    assert 200 == response.status_code
 
 
 @pytest.mark.unittest
