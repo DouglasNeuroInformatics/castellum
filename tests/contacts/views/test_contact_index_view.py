@@ -1,17 +1,29 @@
 from unittest.mock import patch
 
-from django.urls import reverse
-from django.db.models import QuerySet
-
 import pytest
 
+from django.db.models import QuerySet
+from django.test import RequestFactory
+from django.urls import reverse
 
-URL = reverse('contacts:index')
+from castellum.contacts.views import ContactIndexView
 
 
-def test_get_context_data(client, authenticated_user):
+@pytest.fixture
+def request_factory():
+    return RequestFactory()
+
+
+@pytest.fixture
+def view():
+    return ContactIndexView()
+
+
+@pytest.mark.unittest
+def test_get_context_data(view, request_factory):
+    view.request = request_factory.get(reverse('contacts:index'))
+
     with patch.object(QuerySet, 'count', return_value=5):
-        response = client.get(URL)
+        context = view.get_context_data()
 
-    assert "total_number_subjects" in response.context
-    assert 5 == response.context["total_number_subjects"]
+    assert 5 == context["total_number_subjects"]
