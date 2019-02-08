@@ -1,6 +1,5 @@
 import pytest
 
-from django.test import RequestFactory
 from django.urls import reverse
 
 from castellum.contacts.views import ContactCreateView
@@ -8,11 +7,6 @@ from castellum.contacts.views import ContactCreateView
 
 CONTACT_CREATE_PRELUDE_URL = reverse("contacts:create")
 CONTACT_CREATE_URL = reverse("contacts:create-form")
-
-
-@pytest.fixture
-def request_factory():
-    return RequestFactory()
 
 
 @pytest.fixture

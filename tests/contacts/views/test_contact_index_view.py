@@ -3,15 +3,9 @@ from unittest.mock import patch
 import pytest
 
 from django.db.models import QuerySet
-from django.test import RequestFactory
 from django.urls import reverse
 
 from castellum.contacts.views import ContactIndexView
-
-
-@pytest.fixture
-def request_factory():
-    return RequestFactory()
 
 
 @pytest.fixture
