@@ -52,4 +52,4 @@ install-githooks: .git/hooks/pre-commit
 	cp $< $@
 
 tdd:
-	watchmedo shell-command . --drop --patterns='*.py' --recursive --command='clear && tox -e py35,py36 -- --disable-warnings'
+	watchmedo shell-command . --drop --patterns='*.py' --recursive --command='clear && tox -e py35,py36 -- --disable-warnings -m unittest'

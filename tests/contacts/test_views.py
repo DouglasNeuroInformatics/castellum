@@ -1,5 +1,19 @@
 import pytest
 
+from django.urls import reverse
+
+
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    'subject_manager',
+])
+def test_status_code_200_for_contact_index_view(request, client, user_fixture):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    response = client.get(reverse('contacts:index'))
+    assert 200 == response.status_code
+
 
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
@@ -12,6 +26,18 @@ def test_detail_200(request, client, user_fixture, contact):
     url = '/subjects/{}/'.format(contact.pseudonym)
     response = client.get(url)
     assert response.status_code == 200
+
+
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    'subject_manager',
+])
+def test_status_code_200(request, client, user_fixture):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    response = client.get(reverse('contacts:create'))
+    assert 200 == response.status_code
 
 
 @pytest.mark.parametrize('user_fixture', [
