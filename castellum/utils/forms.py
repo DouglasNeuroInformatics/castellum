@@ -79,3 +79,20 @@ class PhoneNumberWidget(PhoneNumberInternationalFallbackWidget):
 
 class PhoneNumberField(_PhoneNumberFormField):
     widget = PhoneNumberWidget
+
+
+class DisabledSelect(forms.Select):
+    def create_option(self, name, value, *args, **kwargs):
+        option = super().create_option(name, value, *args, **kwargs)
+        if str(value).startswith('-'):
+            option['attrs']['disabled'] = True
+        return option
+
+
+class DisabledModelChoiceField(forms.ModelChoiceField):
+    widget = DisabledSelect
+
+    def valid_value(self, value):
+        if str(value).startswith('-'):
+            return False
+        return super().valid_value(value)

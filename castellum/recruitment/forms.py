@@ -22,32 +22,42 @@
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 
+from castellum.utils.forms import DisabledModelChoiceField
+
 from .models import AttributeDescription
 from .models import SubjectFilter
 from .models.attributesets import UNCATEGORIZED
 
 
-def get_description_choices():
+def create_choice(user, description):
+    if user.get_privacy_level() >= description.privacy_level_read:
+        return description.pk, description.filter_label
+    else:
+        return -description.pk, description.filter_label
+
+
+def get_description_choices(user):
     yield None, '---'
 
     categories = AttributeDescription.objects.by_category()
 
     for description in categories.pop(UNCATEGORIZED):
-        yield description.pk, description.filter_label
+        yield create_choice(user, description)
 
     for category, descriptions in categories.items():
         yield category.label, [
-            (description.pk, description.filter_label) for description in descriptions
+            create_choice(user, description) for description in descriptions
         ]
 
 
 class SubjectFilterForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         selected_description = self._get_selected_description(**kwargs)
 
-        self.fields["description"].choices = get_description_choices()
+        self.fields["description"] = DisabledModelChoiceField(AttributeDescription.objects.all())
+        self.fields["description"].choices = get_description_choices(user)
 
         if not selected_description:
             return
@@ -76,7 +86,10 @@ class SubjectFilterForm(forms.ModelForm):
         elif data:
             pk = data[prefix + '-description' if prefix else 'description']
             if pk:
-                return AttributeDescription.objects.get(pk=pk)
+                try:
+                    return AttributeDescription.objects.get(pk=pk)
+                except AttributeDescription.DoesNotExist:
+                    pass
 
     class Meta:
         model = SubjectFilter

@@ -153,6 +153,13 @@ class FilterGroupUpdateView(UnpublishedStudyMixin, PermissionRequiredMixin, Mode
         qs = super().get_queryset(*args, **kwargs)
         return qs.filter(group=self.group)
 
+    def get_formset_kwargs(self):
+        kwargs = super().get_formset_kwargs()
+        if 'form_kwargs' not in kwargs:
+            kwargs['form_kwargs'] = {}
+        kwargs['form_kwargs']['user'] = self.request.user
+        return kwargs
+
     def get_context_data(self, **kwargs):
         if self.study != self.group.study:
             raise Http404
