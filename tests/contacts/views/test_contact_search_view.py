@@ -23,13 +23,3 @@ def test_get_context_data(client, authenticated_user):
     assert "contacts" in response.context
     contact1, contact2, contact3 = contacts
     assert [(contact1, True), (contact2, True), (contact3, False)] == response.context["contacts"]
-
-
-def test_pagination_in_get_context_data(client, authenticated_user):
-    contacts = mommy.prepare(Contact, _quantity=50)
-
-    with patch.object(QuerySet, 'all', return_value=contacts):
-        response = client.get(URL)
-
-    assert "contacts" in response.context
-    assert 20 == len(response.context["contacts"])
