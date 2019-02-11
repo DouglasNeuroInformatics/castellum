@@ -12,10 +12,9 @@ $(function() {
         $(el).one('change', function() {
             $(window).on('beforeunload', function(event) {
                 if (!submitted) {
-                    // NOTE: Most browsers will ignore the custom message and show their own instead.
-                    var msg = django.gettext('If you leave this page changes you made will not be saved.');
-                    event.returnValue = msg;
-                    return msg;
+                    event.preventDefault();
+                    // Chrome requires returnValue to be set.
+                    event.returnValue = '';
                 }
             });
         }).on('submit', function(event) {
