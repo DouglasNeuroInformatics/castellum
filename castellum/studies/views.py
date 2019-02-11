@@ -70,7 +70,8 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
         qs = super().get_queryset()
         q = self.request.GET.get('q')
         if q:
-            qs = qs.filter(Q(name__icontains=q) | Q(contact_person__icontains=q))
+            for part in q.split():
+                qs = qs.filter(Q(name__icontains=part) | Q(contact_person__icontains=part))
         if 'own' in self.request.GET:
             qs = qs.filter(studymembership__user=self.request.user)
         return qs
