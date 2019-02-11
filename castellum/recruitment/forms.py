@@ -23,6 +23,7 @@ from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 
 from castellum.utils.forms import DisabledModelChoiceField
+from castellum.utils.helpers import get_object_or_none
 
 from .models import AttributeDescription
 from .models import SubjectFilter
@@ -86,10 +87,7 @@ class SubjectFilterForm(forms.ModelForm):
         elif data:
             pk = data[prefix + '-description' if prefix else 'description']
             if pk:
-                try:
-                    return AttributeDescription.objects.get(pk=pk)
-                except AttributeDescription.DoesNotExist:
-                    pass
+                return get_object_or_none(AttributeDescription, pk=pk)
 
     class Meta:
         model = SubjectFilter

@@ -30,6 +30,7 @@ from castellum.contacts.models import Contact
 from castellum.contacts.views import ContactUpdateView as _ContactUpdateView
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.studies.models import Study
+from castellum.utils.helpers import get_object_or_none
 
 from ..models import AttributeSet
 from ..models import ParticipationRequest
@@ -82,10 +83,8 @@ class ContactStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):
 
         attributeset_pseudonym = resolve_pseudonym(
             Contact.domain, self.object.pseudonym, AttributeSet.domain)
-        try:
-            attributeset = AttributeSet.objects.get(pseudonym=attributeset_pseudonym)
-        except AttributeSet.DoesNotExist:
-            attributeset = None
+
+        attributeset = get_object_or_none(AttributeSet, pseudonym=attributeset_pseudonym)
         data['attributeset'] = attributeset
 
         if attributeset:
