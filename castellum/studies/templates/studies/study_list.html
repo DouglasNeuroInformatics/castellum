@@ -13,7 +13,7 @@
         </div>
         <form class="my-1" method="get" aria-label="{% trans 'Search' %}">
             <div class="input-group">
-                <input type="search" class="form-control" name="q" value="{{ q }}" placeholder="{% trans 'Search' %}">
+                <input type="search" class="form-control" name="q" value="{{ q }}" placeholder="{% trans 'Search' %}" title="{% trans 'Search for title or contact person' %}">
                 {% if own %}
                     <input type="hidden" name="own" value="1">
                 {% endif %}
