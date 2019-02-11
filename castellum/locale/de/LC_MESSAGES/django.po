@@ -43,10 +43,8 @@ msgid "important dates"
 msgstr "Wichtige Daten"
 
 #: castellum/castellum_auth/admin.py:78
-#, fuzzy
-#| msgid "Permissions"
 msgid "Permission list"
-msgstr "Rechte"
+msgstr "Liste der Rechte"
 
 #: castellum/castellum_auth/admin.py:82
 msgid "List all permissions"
@@ -435,7 +433,7 @@ msgstr "Die hochgeladene Datei enthält kein valides JSON."
 
 #: castellum/recruitment/admin.py:71
 msgid "Uploaded file must be UTF-8 encoded."
-msgstr ""
+msgstr "Die Datei muss mit UTF-8 kodiert sein."
 
 #: castellum/recruitment/admin.py:168
 #, python-format
@@ -492,6 +490,8 @@ msgstr ""
 #: castellum/recruitment/models/attributesets.py:174
 msgid "Privacy level for reading may not be larger than for writing."
 msgstr ""
+"Die Vertraulichkeitsstufe zum Lesen darf nicht kleiner sein als die zum "
+"Schreiben."
 
 #: castellum/recruitment/models/attributesets.py:290
 msgid "before"
@@ -920,26 +920,20 @@ msgid "Studies"
 msgstr "Studien"
 
 #: castellum/studies/templates/studies/study_list.html:11
-#, fuzzy
-#| msgid "Studies"
 msgid "All Studies"
-msgstr "Studien"
+msgstr "Alle Studien"
 
 #: castellum/studies/templates/studies/study_list.html:12
-#, fuzzy
-#| msgid "Studies"
 msgid "My Studies"
-msgstr "Studien"
+msgstr "Meine Studien"
 
 #: castellum/studies/templates/studies/study_list.html:16
-#, fuzzy
-#| msgid "responsible contact person"
 msgid "Search for title or contact person"
-msgstr "Verantwortliche Kontaktperson"
+msgstr "Suche nach Titel oder verantwortlicher Kontaktperson"
 
 #: castellum/studies/templates/studies/study_list.html:21
 msgid "Go"
-msgstr ""
+msgstr "Los"
 
 #: castellum/studies/templates/studies/study_list.html:41
 msgid "Manage members"
@@ -962,10 +956,8 @@ msgid "Publish"
 msgstr "Freigeben"
 
 #: castellum/studies/templates/studies/study_list.html:66
-#, fuzzy
-#| msgid "No matches found"
 msgid "No results found."
-msgstr "Keine Treffer gefunden"
+msgstr "Keine Treffer gefunden."
 
 #: castellum/studies/templates/studies/study_members.html:4
 #: castellum/studies/templates/studies/studymembership_form.html:4
