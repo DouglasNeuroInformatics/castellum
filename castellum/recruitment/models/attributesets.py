@@ -36,6 +36,7 @@ from dateutil.relativedelta import relativedelta
 from parler.managers import TranslatableManager
 from parler.models import TranslatableModel
 from parler.models import TranslatedFields
+from parler.utils.context import switch_language
 
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import resolve_pseudonym
@@ -128,6 +129,26 @@ class AttributeDescriptionManager(TranslatableManager):
             categories.setdefault(category, [])
             categories[category].append(description)
         return categories
+
+    def _import(self, data):
+        attr_description = AttributeDescription()
+        for key in data:
+            if key in ['label', '_filter_label', 'help_text']:
+                for lang, value in data[key].items():
+                    with switch_language(attr_description, lang):
+                        setattr(attr_description, key, value)
+            elif key != 'choices':
+                setattr(attr_description, key, data[key])
+        attr_description.save()
+
+        for choice in data.get('choices', []):
+            attr_choice = AttributeChoice(description=attr_description)
+            for lang, value in choice['label'].items():
+                with switch_language(attr_choice, lang):
+                    attr_choice.label = value
+            attr_choice.save()
+
+        return attr_description
 
 
 def date_from_json(value):
