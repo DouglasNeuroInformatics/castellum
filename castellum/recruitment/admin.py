@@ -182,7 +182,10 @@ class BaseImportView(PermissionRequiredMixin, TemplateView):
 
 
 class DescriptionImportView(BaseImportView):
-    permission_required = ['recruitment.view_attributeset', 'recruitment.add_attributeset']
+    permission_required = [
+        'recruitment.view_attributedescription',
+        'recruitment.add_attributedescription',
+    ]
     schema_ref = '#/definitions/AttributeDescriptionExport'
     model = AttributeDescription
 
