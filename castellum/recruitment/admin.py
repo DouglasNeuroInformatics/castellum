@@ -64,6 +64,40 @@ EXPORT_SCHEMA = {
             ],
             "title": "AttributeDescriptionExport"
         },
+        "AttributeCategoryExport": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Category"
+                    }
+                }
+            },
+            "required": [
+                "categories"
+            ],
+            "title": "AttributeCategoryExport"
+        },
+        "Category": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "weight": {
+                    "type": "integer"
+                },
+                "label": {
+                    "$ref": "#/definitions/TranslatedString"
+                },
+                "descriptions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Description"
+                    }
+                }
+            },
+        },
         "Description": {
             "type": "object",
             "additionalProperties": False,
@@ -181,6 +215,22 @@ class BaseImportView(PermissionRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
 
+class CategoryImportView(BaseImportView):
+    permission_required = [
+        'recruitment.view_attributecategory',
+        'recruitment.add_attributecategory',
+    ]
+    schema_ref = '#/definitions/AttributeCategoryExport'
+    model = AttributeCategory
+
+    def json_valid(self, json):
+        for data in json['categories']:
+            AttributeCategory._import(data)
+        messages.success(
+            self.request,
+            _('Successfully imported %i attribute categories.' % len(json['categories'])))
+
+
 class DescriptionImportView(BaseImportView):
     permission_required = [
         'recruitment.view_attributedescription',
@@ -209,6 +259,13 @@ class AttributeCategoryAdmin(TranslatableAdmin):
         return response
     export_json.short_description = _('Export as JSON')
 
+    def get_urls(self):
+        return [
+            path(
+                'import/',
+                staff_member_required(CategoryImportView.as_view()),
+                name='recruitment_attributecategory_import'),
+        ] + super().get_urls()
 
 
 class AttributeChoiceInline(TranslatableTabularInline):
