@@ -186,7 +186,7 @@ def generate_attribute_descriptions():
     print('Generating attribute descriptions')
 
     for data in ATTRIBUTE_DESCRIPTIONS:
-        AttributeDescription.objects._import(data)
+        AttributeDescription._import(data)
 
 
 def generate_studies(count):

@@ -178,7 +178,7 @@ class ImportView(PermissionRequiredMixin, TemplateView):
         context['errors'] = list(validator.iter_errors(json))
         if not context['errors']:
             for data in json['descriptions']:
-                AttributeDescription.objects._import(data)
+                AttributeDescription._import(data)
             messages.success(
                 self.request,
                 _('Successfully imported %i attribute descriptions.' % len(json['descriptions'])))

@@ -49,6 +49,32 @@ from ..utils import get_study_filter_q
 UNCATEGORIZED = "UNCATEGORIZED"
 
 
+class ImportMixin:
+    def export(self):
+        data = {}
+        for field in self.import_fields:
+            data[field] = getattr(self, field)
+        for field in self.import_translated_fields:
+            data[field] = {}
+        for translation in self.translations.all():
+            for field in self.import_translated_fields:
+                data[field][translation.language_code] = getattr(translation, field)
+        return data
+
+    @classmethod
+    def _import(cls, data, **kwargs):
+        obj = cls(**kwargs)
+        for key in data:
+            if key in cls.import_translated_fields:
+                for lang, value in data[key].items():
+                    with switch_language(obj, lang):
+                        setattr(obj, key, value)
+            elif key in cls.import_fields:
+                setattr(obj, key, data[key])
+        obj.save()
+        return obj
+
+
 class IntegerChoiceField(forms.TypedChoiceField):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('coerce', int)
@@ -130,33 +156,13 @@ class AttributeDescriptionManager(TranslatableManager):
             categories[category].append(description)
         return categories
 
-    def _import(self, data):
-        attr_description = AttributeDescription()
-        for key in data:
-            if key in ['label', '_filter_label', 'help_text']:
-                for lang, value in data[key].items():
-                    with switch_language(attr_description, lang):
-                        setattr(attr_description, key, value)
-            elif key != 'choices':
-                setattr(attr_description, key, data[key])
-        attr_description.save()
-
-        for choice in data.get('choices', []):
-            attr_choice = AttributeChoice(description=attr_description)
-            for lang, value in choice['label'].items():
-                with switch_language(attr_choice, lang):
-                    attr_choice.label = value
-            attr_choice.save()
-
-        return attr_description
-
 
 def date_from_json(value):
     dt = datetime.datetime.strptime(value, '%Y-%m-%d')
     return dt.date()
 
 
-class AttributeDescription(TranslatableModel):
+class AttributeDescription(ImportMixin, TranslatableModel):
     FIELD_TYPE_CHOICES = (
         ('CharField', _('CharField')),
         ('ChoiceField', _('ChoiceField')),
@@ -165,6 +171,9 @@ class AttributeDescription(TranslatableModel):
         ('DateField', _('DateField')),
         ('AgeField', _('AgeField')),
     )
+
+    import_fields = ['field_type', 'privacy_level_read', 'privacy_level_write', 'weight']
+    import_translated_fields = ['label', '_filter_label', 'help_text']
 
     translations = TranslatedFields(
         label=models.CharField(max_length=64),
@@ -248,36 +257,26 @@ class AttributeDescription(TranslatableModel):
         return value
 
     def export(self):
-        data = {
-            'label': {},
-            '_filter_label': {},
-            'help_text': {},
-            'field_type': self.field_type,
-            'privacy_level_read': self.privacy_level_read,
-            'privacy_level_write': self.privacy_level_write,
-            'weight': self.weight,
-            'choices': [choice.export() for choice in self.attributechoice_set.all()],
-        }
-        for translation in self.translations.all():
-            data['label'][translation.language_code] = translation.label
-            data['_filter_label'][translation.language_code] = translation._filter_label
-            data['help_text'][translation.language_code] = translation.help_text
+        data = super().export()
+        data['choices'] = [choice.export() for choice in self.attributechoice_set.all()]
         return data
 
+    @classmethod
+    def _import(cls, data, category=None):
+        description = super()._import(data, category=category)
+        for choice in data.get('choices', []):
+            AttributeChoice._import(choice, description=description)
+        return description
 
-class AttributeChoice(TranslatableModel):
+
+class AttributeChoice(ImportMixin, TranslatableModel):
+    import_fields = []
+    import_translated_fields = ['label']
+
     description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
     translations = TranslatedFields(
         label=models.CharField(max_length=64)
     )
-
-    def export(self):
-        data = {
-            'label': {},
-        }
-        for translation in self.translations.all():
-            data['label'][translation.language_code] = translation.label
-        return data
 
 
 class BaseFilterField:
