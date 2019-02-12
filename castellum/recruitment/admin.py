@@ -21,12 +21,10 @@
 
 import codecs
 import json
-from collections import defaultdict
 
 from django.contrib import admin
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
-from django.forms.models import modelform_factory
 from django.http import JsonResponse
 from django.urls import path
 from django.utils.translation import ugettext_lazy as _
@@ -57,118 +55,27 @@ class ImportView(PermissionRequiredMixin, TemplateView):
         context['title'] = _('Import')
         return context
 
-    def get_items(self):
+    def get_json(self):
         fh = self.request.FILES['file']
 
         if not fh:
             return
         try:
             reader = codecs.getreader("utf-8")
-            return json.load(reader(fh))['descriptions']
+            return json.load(reader(fh))
         except json.JSONDecodeError:
             messages.error(self.request, _('Uploaded file does not contain valid JSON.'))
         except UnicodeDecodeError:
             messages.error(self.request, _('Uploaded file must be UTF-8 encoded.'))
 
-    def get_forms(self, items):
-        form_cls = modelform_factory(AttributeDescription, fields='__all__')
-        translation_model = AttributeDescription._parler_meta.root_model
-        translation_form_cls = modelform_factory(translation_model, exclude=['language_code'])
-
-        choice_translation_model = AttributeChoice._parler_meta.root_model
-        choice_translation_form_cls = modelform_factory(
-            choice_translation_model, exclude=['language_code'])
-
-        data = [(
-            form_cls(item),
-            {
-                lang: translation_form_cls(translations)
-                for lang, translations in self.convert_item(item).items()
-            },
-            [
-                {
-                    lang: choice_translation_form_cls({k: translation})
-                    for k, v in choice.items()
-                    for lang, translation in v.items() if translation
-                }
-                for choice in item.get('choices', [])
-            ],
-        ) for item in items]
-
-        return data
-
-    def convert_item(self, item):
-        d = defaultdict(dict)
-        for k, v in item.items():
-            if isinstance(v, dict):
-                for lang, translation in v.items():
-                    if translation:
-                        d[lang][k] = translation
-        return d
-
-    def is_valid(self, forms):
-        return all(
-            self.is_form_and_related_data_valid(form, translation_forms, choices)
-            for form, translation_forms, choices in forms
-        )
-
-    def is_form_and_related_data_valid(self, form, translations_forms, choices):
-        return all([
-            form.is_valid(),
-            self.are_translation_forms_valid(translations_forms),
-            self.are_choices_valid(choices)
-        ])
-
-    def are_translation_forms_valid(self, forms):
-        return all(form.is_valid() for form in forms.values())
-
-    def are_choices_valid(self, choices):
-        return all(all(form.is_valid() for form in choice.values()) for choice in choices)
-
-    def get_errors(self, forms):
-        errors = {}
-        for i, (form, translation_forms, choices) in enumerate(forms):
-            for field, msg in form.errors.items():
-                errors['item %i: %s' % (i, field)] = msg
-
-            for lang, translation_form in translation_forms.items():
-                for field, msg in translation_form.errors.items():
-                    errors['item %i: %s[%s]' % (field, lang)] = msg
-
-            for j, choice in enumerate(choices):
-                for lang, choice_form in choice.items():
-                    for field, msg in choice_form.errors.items():
-                        key = 'item %i: choices[%i].%s[%s]' % (i, j, field, lang)
-                        errors[key] = msg
-
-        return errors
-
     def post(self, request, *args, **kwargs):
-        items = self.get_items()
-        forms = []
-        if items:
-            forms = self.get_forms(items)
-            if self.is_valid(forms):
-                for form, translation_forms, choices in forms:
-                    instance = form.save()
-
-                    for lang, translation_form in translation_forms.items():
-                        translation_form.instance.language_code = lang
-                        translation_form.instance.master = instance
-                        translation_form.save()
-
-                    for choice in choices:
-                        choice_instance = AttributeChoice.objects.create(description=instance)
-                        for lang, choice_form in choice.items():
-                            choice_form.instance.language_code = lang
-                            choice_form.instance.master = choice_instance
-                            choice_form.save()
-                messages.success(
-                    self.request,
-                    _('Successfully imported %i attribute descriptions.' % len(forms)))
-
+        json = self.get_json()
         context = self.get_context_data()
-        context['errors'] = self.get_errors(forms)
+        for data in json['descriptions']:
+            AttributeDescription.objects._import(data)
+        messages.success(
+            self.request,
+            _('Successfully imported %i attribute descriptions.' % len(json['descriptions'])))
         return self.render_to_response(context)
 
 
