@@ -79,7 +79,7 @@ class ContactForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         if self.instance.address:
-            self.fields['country'].initial = self.instance.address.city.country
+            self.fields['country'].initial = self.instance.address.city.country.name
             self.fields['city'].initial = self.instance.address.city.name
             self.fields['zip_code'].initial = self.instance.address.zip_code
             self.fields['street'].initial = self.instance.address.street
