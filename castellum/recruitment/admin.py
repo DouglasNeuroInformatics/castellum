@@ -47,7 +47,6 @@ from .models import SubjectFilterGroup
 
 EXPORT_SCHEMA = {
     "$schema": "http://json-schema.org/draft-06/schema#",
-    "$ref": "#/definitions/AttributeDescriptionExport",
     "definitions": {
         "AttributeDescriptionExport": {
             "type": "object",
@@ -148,13 +147,12 @@ EXPORT_SCHEMA = {
 }
 
 
-class ImportView(PermissionRequiredMixin, TemplateView):
+class BaseImportView(PermissionRequiredMixin, TemplateView):
     template_name = 'admin/recruitment/attributedescription_import.html'
-    permission_required = ['recruitment.view_attributeset', 'recruitment.add_attributeset']
 
     def get_context_data(self):
         context = super().get_context_data()
-        context['opts'] = AttributeDescription._meta
+        context['opts'] = self.model._meta
         context['title'] = _('Import')
         return context
 
@@ -173,16 +171,27 @@ class ImportView(PermissionRequiredMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         json = self.get_json()
-        validator = jsonschema.Draft4Validator(EXPORT_SCHEMA)
+        schema = {'$ref': self.schema_ref}
+        schema.update(EXPORT_SCHEMA)
+        validator = jsonschema.Draft4Validator(schema)
         context = self.get_context_data()
         context['errors'] = list(validator.iter_errors(json))
         if not context['errors']:
-            for data in json['descriptions']:
-                AttributeDescription._import(data)
-            messages.success(
-                self.request,
-                _('Successfully imported %i attribute descriptions.' % len(json['descriptions'])))
+            self.json_valid(json)
         return self.render_to_response(context)
+
+
+class DescriptionImportView(BaseImportView):
+    permission_required = ['recruitment.view_attributeset', 'recruitment.add_attributeset']
+    schema_ref = '#/definitions/AttributeDescriptionExport'
+    model = AttributeDescription
+
+    def json_valid(self, json):
+        for data in json['descriptions']:
+            AttributeDescription._import(data)
+        messages.success(
+            self.request,
+            _('Successfully imported %i attribute descriptions.' % len(json['descriptions'])))
 
 
 class AttributeCategoryAdmin(TranslatableAdmin):
@@ -211,7 +220,7 @@ class AttributeDescriptionAdmin(TranslatableAdmin):
         return [
             path(
                 'import/',
-                staff_member_required(ImportView.as_view()),
+                staff_member_required(DescriptionImportView.as_view()),
                 name='recruitment_attributedescription_import'),
         ] + super().get_urls()
 
