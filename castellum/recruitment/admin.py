@@ -30,6 +30,7 @@ from django.urls import path
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView
 
+import jsonschema
 from parler.admin import TranslatableAdmin
 from parler.admin import TranslatableTabularInline
 
@@ -43,6 +44,97 @@ from .models import ParticipationRequest
 from .models import ParticipationRequestRevision
 from .models import SubjectFilter
 from .models import SubjectFilterGroup
+
+EXPORT_SCHEMA = {
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/AttributeDescriptionExport",
+    "definitions": {
+        "AttributeDescriptionExport": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "descriptions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Description"
+                    }
+                }
+            },
+            "required": [
+                "descriptions"
+            ],
+            "title": "AttributeDescriptionExport"
+        },
+        "Description": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "field_type": {
+                    "type": "string",
+                    "enum": [
+                        "CharField",
+                        "ChoiceField",
+                        "IntegerField",
+                        "BooleanField",
+                        "DateField",
+                        "AgeField"
+                    ]
+                },
+                "privacy_level_read": {
+                    "type": "integer"
+                },
+                "privacy_level_write": {
+                    "type": "integer"
+                },
+                "weight": {
+                    "type": "integer"
+                },
+                "label": {
+                    "$ref": "#/definitions/TranslatedString"
+                },
+                "choices": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Choice"
+                    }
+                },
+                "_filter_label": {
+                    "$ref": "#/definitions/TranslatedString"
+                },
+                "help_text": {
+                    "$ref": "#/definitions/TranslatedString"
+                }
+            },
+            "required": [
+                "field_type",
+                "label"
+            ],
+            "title": "Description"
+        },
+        "Choice": {
+            "type": "object",
+            "properties": {
+                "label": {
+                    "$ref": "#/definitions/TranslatedString"
+                }
+            },
+            "required": [
+                "label"
+            ],
+            "title": "Choice"
+        },
+        "TranslatedString": {
+            "type": "object",
+            "additionalProperties": False,
+            "patternProperties": {
+                "..": {
+                    "type": "string"
+                }
+            },
+            "title": "Label"
+        }
+    }
+}
 
 
 class ImportView(PermissionRequiredMixin, TemplateView):
@@ -70,12 +162,15 @@ class ImportView(PermissionRequiredMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         json = self.get_json()
+        validator = jsonschema.Draft4Validator(EXPORT_SCHEMA)
         context = self.get_context_data()
-        for data in json['descriptions']:
-            AttributeDescription.objects._import(data)
-        messages.success(
-            self.request,
-            _('Successfully imported %i attribute descriptions.' % len(json['descriptions'])))
+        context['errors'] = list(validator.iter_errors(json))
+        if not context['errors']:
+            for data in json['descriptions']:
+                AttributeDescription.objects._import(data)
+            messages.success(
+                self.request,
+                _('Successfully imported %i attribute descriptions.' % len(json['descriptions'])))
         return self.render_to_response(context)
 
 
