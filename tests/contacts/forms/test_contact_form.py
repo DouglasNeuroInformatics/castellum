@@ -1,10 +1,14 @@
 import pytest
+from model_mommy import mommy
 
+from castellum.castellum_auth.models import User
 from castellum.contacts.forms import ContactForm, AddressForm
 from castellum.contacts.models import Address
 
 
-def test_contact_form_empty(user):
+@pytest.mark.unittest
+def test_empty_contact_form():
+    user = mommy.prepare(User)
     form = ContactForm(user=user)
     assert form.is_valid() is False
 
