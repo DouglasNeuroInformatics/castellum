@@ -199,6 +199,16 @@ class DescriptionImportView(BaseImportView):
 
 class AttributeCategoryAdmin(TranslatableAdmin):
     model = AttributeCategory
+    actions = ['export_json']
+
+    def export_json(self, request, queryset):
+        response = JsonResponse({
+            'categories': [category.export() for category in queryset.all()],
+        })
+        response['Content-Disposition'] = 'attachment; filename="castellum_categories.json"'
+        return response
+    export_json.short_description = _('Export as JSON')
+
 
 
 class AttributeChoiceInline(TranslatableTabularInline):

@@ -121,7 +121,10 @@ class AttributeSet(SubjectData):
         return AttributeDescription.objects.values_list('pk', flat=True)
 
 
-class AttributeCategory(TranslatableModel):
+class AttributeCategory(ImportMixin, TranslatableModel):
+    import_fields = ['weight']
+    import_translated_fields = ['label']
+
     weight = models.IntegerField(default=0)
 
     translations = TranslatedFields(
@@ -133,6 +136,18 @@ class AttributeCategory(TranslatableModel):
 
     def __str__(self):
         return self.label
+
+    def export(self):
+        data = super().export()
+        data['descriptions'] = [desc.export() for desc in self.attributedescription_set.all()]
+        return data
+
+    @classmethod
+    def _import(cls, data):
+        category = super()._import(data)
+        for description in data.get('descriptions', []):
+            AttributeDescription._import(description, category=category)
+        return category
 
 
 class AttributeDescriptionManager(TranslatableManager):
