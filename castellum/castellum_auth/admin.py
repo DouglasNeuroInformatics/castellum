@@ -30,7 +30,7 @@ from .forms import UserCreationAdminForm
 from .models import User
 
 
-def expiration_date(obj):
+def expiration_date_repr(obj):
     if not obj.expiration_date:
         return
 
@@ -49,13 +49,14 @@ def expiration_date(obj):
     return "{} ({})".format(formatted_expiration_date, formatted_expires_in)
 
 
-expiration_date.admin_order_field = 'expiration_date'
+expiration_date_repr.admin_order_field = 'expiration_date'
+expiration_date_repr.short_description = _('expiration date')
 
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
     add_form = UserCreationAdminForm
-    list_display = BaseUserAdmin.list_display + (expiration_date,)
+    list_display = BaseUserAdmin.list_display + (expiration_date_repr,)
     actions = ['list_permissions']
     fieldsets = (
         (None, {
