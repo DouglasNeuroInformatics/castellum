@@ -61,6 +61,10 @@ class ParticipationRequest(SubjectData):
         verbose_name = _('participation request')
         verbose_name_plural = _('participation requests')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__initial_status = self.status
+
     @classmethod
     def get_by_pseudonym(cls, domain, pseudonym):
         return cls.objects.get(study__domain=domain, pseudonym=pseudonym)
@@ -98,6 +102,11 @@ class ParticipationRequest(SubjectData):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         ParticipationRequestRevision.objects.create(current=self, status=self.status)
+        if self.status != self.__initial_status:
+            if self.status == ParticipationRequest.INVITED:
+                self.update_statistics(1)
+            elif self.__initial_status == ParticipationRequest.INVITED:
+                self.update_statistics(-1)
 
 
 class ParticipationRequestRevision(models.Model):
