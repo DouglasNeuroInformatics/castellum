@@ -102,7 +102,7 @@ EXPORT_SCHEMA = {
                     "$ref": "#/definitions/TranslatedString"
                 },
                 "help_text": {
-                    "$ref": "#/definitions/TranslatedString"
+                    "$ref": "#/definitions/TranslatedText"
                 }
             },
             "required": [
@@ -124,6 +124,17 @@ EXPORT_SCHEMA = {
             "title": "Choice"
         },
         "TranslatedString": {
+            "type": "object",
+            "additionalProperties": False,
+            "patternProperties": {
+                "..": {
+                    "type": "string",
+                    "maxLength": 64
+                }
+            },
+            "title": "Label"
+        },
+        "TranslatedText": {
             "type": "object",
             "additionalProperties": False,
             "patternProperties": {
