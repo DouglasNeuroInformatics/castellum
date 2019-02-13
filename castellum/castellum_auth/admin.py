@@ -50,7 +50,7 @@ def expiration_date_repr(obj):
 
 
 expiration_date_repr.admin_order_field = 'expiration_date'
-expiration_date_repr.short_description = 'expiration date'
+expiration_date_repr.short_description = _('expiration date')
 
 
 @admin.register(User)
