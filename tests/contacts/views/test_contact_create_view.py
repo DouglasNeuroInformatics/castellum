@@ -1,7 +1,9 @@
 import pytest
+from model_mommy import mommy
 
 from django.urls import reverse
 
+from castellum.castellum_auth.models import User
 from castellum.contacts.views import ContactCreateView
 
 
@@ -42,7 +44,7 @@ def test_get_initial_with_unknown_keys(view, request_factory, initial_data):
 
 
 @pytest.mark.unittest
-def test_get_form_kwargs(view, user, request_factory):
+def test_get_form_kwargs(view, request_factory):
     data = {
         "first_name": "Anna",
         "last_name": "Bolika",
@@ -50,6 +52,7 @@ def test_get_form_kwargs(view, user, request_factory):
         "gender": "m",
         "privacy_level": "0",
     }
+    user = mommy.prepare(User)
     view.request = request_factory.post(CONTACT_CREATE_URL, data)
     view.request.user = user
 
