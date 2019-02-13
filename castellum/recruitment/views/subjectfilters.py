@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib import messages
+from django.db import models
 from django.forms import BaseModelFormSet
 from django.forms import ValidationError
 from django.http import Http404
@@ -45,7 +46,21 @@ from .mixins import StudyMixin
 from .mixins import UnpublishedStudyMixin
 
 
-class FilterGroupListView(StudyMixin, PermissionRequiredMixin, ListView):
+class FilterMixin:
+    def get_permission_required(self):
+        permission_required = set()
+        permission_required.update(super().get_permission_required())
+
+        key = 'subjectfilter__description__privacy_level_read'
+        result = self.study.subjectfiltergroup_set.aggregate(models.Max(key))
+        max_privacy_level = result[key + '__max']
+        if max_privacy_level:
+            permission_required.add('castellum_auth.privacy_level_{}'.format(max_privacy_level))
+
+        return permission_required
+
+
+class FilterGroupListView(FilterMixin, StudyMixin, PermissionRequiredMixin, ListView):
     model = SubjectFilterGroup
     template_name = 'recruitment/filtergroup_list.html'
     permission_required = 'recruitment.view_subjectfilter'
@@ -91,7 +106,7 @@ class FilterGroupListView(StudyMixin, PermissionRequiredMixin, ListView):
             return redirect(group.get_absolute_url())
 
 
-class FilterGroupCreateView(UnpublishedStudyMixin, PermissionRequiredMixin, View):
+class FilterGroupCreateView(FilterMixin, UnpublishedStudyMixin, PermissionRequiredMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
 
     def post(self, *args, **kwargs):
@@ -99,7 +114,9 @@ class FilterGroupCreateView(UnpublishedStudyMixin, PermissionRequiredMixin, View
         return redirect(group.get_absolute_url())
 
 
-class FilterGroupDeleteView(UnpublishedStudyMixin, PermissionRequiredMixin, DeleteView):
+class FilterGroupDeleteView(
+    FilterMixin, UnpublishedStudyMixin, PermissionRequiredMixin, DeleteView
+):
     model = SubjectFilterGroup
     template_name = 'recruitment/filtergroup_confirm_delete.html'
     permission_required = 'recruitment.change_subjectfilter'
@@ -136,7 +153,9 @@ class FilterFormSet(BaseModelFormSet):
                                     'delete filter!'))
 
 
-class FilterGroupUpdateView(UnpublishedStudyMixin, PermissionRequiredMixin, ModelFormSetView):
+class FilterGroupUpdateView(
+    FilterMixin, UnpublishedStudyMixin, PermissionRequiredMixin, ModelFormSetView
+):
     model = SubjectFilter
     form_class = forms.SubjectFilterForm
     formset_class = FilterFormSet
@@ -182,7 +201,7 @@ class FilterGroupUpdateView(UnpublishedStudyMixin, PermissionRequiredMixin, Mode
         return data
 
 
-class FilterGroupDuplicateView(UnpublishedStudyMixin, PermissionRequiredMixin, View):
+class FilterGroupDuplicateView(FilterMixin, UnpublishedStudyMixin, PermissionRequiredMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
 
     def post(self, request, study_pk, pk):
