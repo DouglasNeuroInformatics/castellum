@@ -27,6 +27,16 @@ from castellum.studies.models import Study
 from castellum.utils.fields import DateTimeField
 
 
+class ParticipationStatistics(models.Model):
+    study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    bucket1 = models.CharField(max_length=32, blank=True, null=True)
+    bucket2 = models.CharField(max_length=32, blank=True, null=True)
+    count = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        unique_together = ('study', 'bucket1', 'bucket2')
+
+
 class ParticipationRequest(SubjectData):
     NOT_CONTACTED = 0
     NOT_REACHED = 1

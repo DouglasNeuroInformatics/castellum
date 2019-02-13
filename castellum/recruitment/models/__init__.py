@@ -25,8 +25,18 @@ from .attributesets import AttributeDescription
 from .attributesets import AttributeSet
 from .recruitment import ParticipationRequest
 from .recruitment import ParticipationRequestRevision
+from .recruitment import ParticipationStatistics
 from .subjectfilters import SubjectFilter
 from .subjectfilters import SubjectFilterGroup
 
-__all__ = ParticipationRequest, ParticipationRequestRevision, AttributeSet, AttributeDescription, \
-          AttributeCategory, AttributeChoice, SubjectFilter, SubjectFilterGroup
+__all__ = (
+    AttributeCategory,
+    AttributeChoice,
+    AttributeDescription,
+    AttributeSet,
+    ParticipationRequest,
+    ParticipationRequestRevision,
+    ParticipationStatistics,
+    SubjectFilter,
+    SubjectFilterGroup,
+)

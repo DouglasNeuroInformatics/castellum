@@ -42,6 +42,7 @@ from .models import AttributeDescription
 from .models import AttributeSet
 from .models import ParticipationRequest
 from .models import ParticipationRequestRevision
+from .models import ParticipationStatistics
 from .models import SubjectFilter
 from .models import SubjectFilterGroup
 
@@ -298,6 +299,7 @@ class AttributeDescriptionAdmin(TranslatableAdmin):
 admin.site.register(AttributeCategory, AttributeCategoryAdmin)
 admin.site.register(AttributeDescription, AttributeDescriptionAdmin)
 admin.site.register(AttributeSet)
+admin.site.register(ParticipationStatistics)
 admin.site.register(ParticipationRequest)
 admin.site.register(ParticipationRequestRevision)
 admin.site.register(SubjectFilter)
