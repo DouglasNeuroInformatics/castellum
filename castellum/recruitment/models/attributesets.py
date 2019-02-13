@@ -30,6 +30,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MaxValueValidator
 from django.db import models
 from django.urls import reverse
+from django.utils.text import format_lazy
 from django.utils.translation import ugettext_lazy as _
 
 from dateutil.relativedelta import relativedelta
@@ -144,6 +145,11 @@ class AttributeDescription(TranslatableModel):
         ('DateField', _('DateField')),
         ('AgeField', _('AgeField')),
     )
+    STATISTICS_RANK_CHOICES = (
+        ('primary', _('primary')),
+        ('secondary', _('secondary')),
+    )
+    STATISTICS_TYPES = ['ChoiceField', 'BooleanField', 'AgeField']
 
     translations = TranslatedFields(
         label=models.CharField(max_length=64),
@@ -159,6 +165,8 @@ class AttributeDescription(TranslatableModel):
     weight = models.IntegerField(default=0)
     category = models.ForeignKey(
         AttributeCategory, on_delete=models.SET_NULL, null=True, blank=True)
+    statistics_rank = models.CharField(
+        max_length=16, choices=STATISTICS_RANK_CHOICES, null=True, blank=True, unique=True)
 
     objects = AttributeDescriptionManager()
 
@@ -172,6 +180,10 @@ class AttributeDescription(TranslatableModel):
         if self.privacy_level_read > self.privacy_level_write:
             raise ValidationError(
                 _('Privacy level for reading may not be larger than for writing.'))
+
+        if self.statistics_rank and self.field_type not in self.STATISTICS_TYPES:
+            msg = 'Statistics rank can only be set for the following field types: {}'
+            raise ValidationError(format_lazy(msg, ', '.join(self.STATISTICS_TYPES)))
 
     @property
     def json_key(self):
