@@ -94,6 +94,29 @@ class AttributeSet(SubjectData):
     def get_field_names(self):
         return AttributeDescription.objects.values_list('pk', flat=True)
 
+    def get_statistics_bucket(self, rank):
+        description = AttributeDescription.objects.get(statistics_rank=rank)
+        value = description.from_json(self.data.get(description.json_key))
+
+        if value is None:
+            return (None, _('Unknown'))
+        elif description.field_type == 'ChoiceField':
+            choice = AttributeChoice.objects.get(description=description, pk=value)
+            return (str(value), choice.label)
+        elif description.field_type == 'AgeField':
+            today = datetime.date.today()
+            if today < value + relativedelta(years=18):
+                return ('<18', '<18')
+            if today < value + relativedelta(years=25):
+                return ('18-25', '18-25')
+            for y in range(26, 70, 5):
+                if today < value + relativedelta(years=y):
+                    k = '{}-{}'.format(y, y + 4)
+                    return (k, k)
+            return ('>70', '>70')
+        elif description.field_type == 'BooleanField':
+            return (str(value), _('Yes') if value else _('No'))
+
 
 class AttributeCategory(TranslatableModel):
     weight = models.IntegerField(default=0)
