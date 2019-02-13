@@ -7,6 +7,7 @@ from model_mommy import mommy
 
 from django.urls import reverse
 
+from castellum.castellum_auth.models import User
 from castellum.contacts.forms import PreludeForm
 from castellum.contacts.models import Contact
 from castellum.contacts.models.contact import ContactManager
@@ -35,13 +36,16 @@ def form(data):
 
 
 @pytest.mark.unittest
+@patch.object(User, "has_privacy_level")
 @patch.object(ContactManager, "fuzzy_filter")
 @patch.object(ContactCreatePreludeView, "render_to_response")
-def test_form_valid(render_to_response, fuzzy_filter, view, form, user, request_factory):
+def test_form_valid(render_to_response, fuzzy_filter, has_privacy_level,
+                    view, form, request_factory):
     contacts = mommy.prepare(Contact, privacy_level=cycle([0, 1, 2]), _quantity=3)
 
     view.request = request_factory.post(reverse("contacts:create"))
-    view.request.user = user
+    view.request.user = mommy.prepare(User)
+    has_privacy_level.side_effect = [True, True, False]
     fuzzy_filter.return_value = contacts
 
     expected_called_with = {

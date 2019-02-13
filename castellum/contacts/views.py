@@ -117,9 +117,8 @@ class ContactCreatePreludeView(PermissionRequiredMixin, GetFormView):
     form_class = PreludeForm
 
     def form_valid(self, form):
-        privacy_level_user = self.request.user.get_privacy_level()
         matches = [
-            (contact, privacy_level_user >= contact.privacy_level)
+            (contact, self.request.user.has_privacy_level(contact.privacy_level))
             for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
         ]
 
