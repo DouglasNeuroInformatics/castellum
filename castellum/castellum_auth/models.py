@@ -83,6 +83,9 @@ class User(AbstractUser):
                 return level
         return 0
 
+    def has_privacy_level(self, level, obj=None):
+        return self.get_privacy_level(obj) >= level
+
 
 @receiver(user_logged_in)
 def log_login(sender, user, request, **kwargs):

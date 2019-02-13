@@ -1,12 +1,52 @@
-import pytest
+from unittest.mock import patch
 
+import pytest
+from model_mommy import mommy
+
+from django.forms import ValidationError
+
+from castellum.castellum_auth.models import User
 from castellum.contacts.forms import ContactForm, AddressForm
 from castellum.contacts.models import Address
 
 
-def test_contact_form_empty(user):
+@pytest.mark.unittest
+def test_empty_contact_form():
+    user = mommy.prepare(User)
     form = ContactForm(user=user)
     assert form.is_valid() is False
+
+
+@pytest.mark.unittest
+def test_form_with_initial_address():
+    user = mommy.prepare(User)
+    country = mommy.prepare('contacts.Country')
+    city = mommy.prepare('contacts.City', country=country)
+    address = mommy.prepare('contacts.Address', city=city)
+    contact = mommy.prepare('contacts.Contact', address=address)
+
+    form = ContactForm(user=user, instance=contact)
+
+    assert form.fields['country'].initial == country.name
+    assert form.fields['city'].initial == city.name
+    assert form.fields['zip_code'].initial == address.zip_code
+    assert form.fields['street'].initial == address.street
+    assert form.fields['house_number'].initial == address.house_number
+    assert form.fields['additional_information'].initial == address.additional_information
+
+
+@pytest.mark.unittest
+@patch.object(User, 'has_privacy_level')
+def test_clean_with_privacy_level_too_low(has_privacy_level, contact_data):
+    user = mommy.prepare(User)
+
+    contact_data["email"] = "my@mail.com"
+    form = ContactForm(user=user, data=contact_data)
+    form.is_valid()
+
+    has_privacy_level.return_value = False
+    with pytest.raises(ValidationError):
+        form.clean()
 
 
 def test_contact_form_with_contact_data_except_email_phone_address(user, contact_data):
@@ -106,18 +146,6 @@ def test_contact_form_contact_is_saved_correctly(user, full_data, address):
     assert contact.email == 't@g.com'
     assert contact.phone_number == '+4917691232323'
     assert contact.phone_number_alternative == ''
-
-
-@pytest.mark.django_db
-def test_contact_form_init_address_from_contact_instance(user, contact, address):
-
-    form = ContactForm(user=user, instance=contact)
-
-    assert form.fields['city'].initial == address.city.name
-    assert form.fields['zip_code'].initial == address.zip_code
-    assert form.fields['street'].initial == address.street
-    assert form.fields['house_number'].initial == address.house_number
-    assert form.fields['additional_information'].initial == address.additional_information
 
 
 @pytest.mark.django_db
