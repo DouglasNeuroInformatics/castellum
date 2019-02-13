@@ -22,9 +22,12 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.pseudonyms.models import SubjectData
 from castellum.studies.models import Study
 from castellum.utils.fields import DateTimeField
+
+from .attributesets import AttributeSet
 
 
 class ParticipationStatistics(models.Model):
@@ -80,6 +83,17 @@ class ParticipationRequest(SubjectData):
 
     def get_revisions_display(self):
         return ', '.join(str(r) for r in self.revisions.all())
+
+    def update_statistics(self, value):
+        pseudonym = resolve_pseudonym(self.study.domain, self.pseudonym, AttributeSet.domain)
+        attributeset = AttributeSet.objects.get(pseudonym=pseudonym)
+        bucket1 = attributeset.get_statistics_bucket('primary')
+        bucket2 = attributeset.get_statistics_bucket('secondary')
+
+        statistics, __ = ParticipationStatistics.objects.get_or_create(
+            study=self.study, bucket1=bucket1, bucket2=bucket2)
+        statistics.count = models.F('count') + value
+        statistics.save()
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
