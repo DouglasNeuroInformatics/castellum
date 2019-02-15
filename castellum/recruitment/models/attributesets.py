@@ -213,8 +213,8 @@ class AttributeDescription(TranslatableModel):
             form_class = MAPPING[self.field_type]
 
         if self.field_type == 'ChoiceField':
-            kwargs['choices'] = list(self.attributechoice_set.
-                                     translated().values_list('pk', 'translations__label'))
+            kwargs['choices'] = [(None, _('Unknown'))] + list(
+                self.attributechoice_set.translated().values_list('pk', 'translations__label'))
 
         return form_class(**kwargs)
 
