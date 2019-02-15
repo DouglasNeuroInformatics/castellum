@@ -63,7 +63,17 @@
                 </div>
             </li>
         {% empty %}
-            <li class="alert alert-warning">{% trans 'No results found.' %}</li>
+            <li class="table-list-item alert alert-warning">
+            {% if q %}
+                {% trans 'No results found.' %}
+            {% else %}
+                {% if own %}
+                    {% trans 'No personal studies' %}
+                {% else %}
+                    {% trans 'No studies' %}
+                {% endif %}
+            {% endif %}
+            </li>
         {% endfor %}
     </ul>
 
