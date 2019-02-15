@@ -64,9 +64,8 @@ class ContactSearchView(PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        privacy_level_user = self.request.user.get_privacy_level()
         context['contacts'] = [
-            (contact, privacy_level_user >= contact.privacy_level)
+            (contact, self.request.user.has_privacy_level(contact.privacy_level))
             for contact in context['object_list']
         ]
 
