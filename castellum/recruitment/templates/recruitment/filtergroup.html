@@ -8,7 +8,47 @@
 
     <p>{% trans 'matches' %}: {{ group.get_subject_count }} / {{ total_count }}</p>
 
-    <form method="post">
+    <h2>{% trans "Add Filter" %}</h2>
+    <form class="row">
+        <div class="col-sm-4">
+            {% bootstrap_field add_form.description show_label=False %}
+        </div>
+        <div class="col-sm">
+            <button type="button" class="btn btn-primary" data-js="filter-add">{% trans "Add" %}</button>
+        </div>
+    </form>
+    <hr>
+
+    {% for pk, form in templates.items %}
+        <template id="template-{{ pk }}">
+            {{ form.id.as_hidden }}
+            <input type="hidden" name="{{ form.prefix }}-group" value="{{ group.id }}" />
+
+            <div class="col-sm-4">
+                {# duplicated because disabled fields are not posted to the server #}
+                {% bootstrap_field form.description show_label=False%}
+                {{ form.description.as_hidden }}
+            </div>
+            {% if form.operator.field.choices|length > 1 %}
+                <div class="col-sm">
+                    {% bootstrap_field form.operator show_label=False %}
+                </div>
+            {% else %}
+                <input type="hidden" name="{{ form.prefix }}-operator" value="exact" />
+            {% endif %}
+            <div class="col-sm">
+                {% bootstrap_field form.value show_label=False%}
+            </div>
+
+            {% if not study.published %}
+                <div class="col-sm flex-grow-0">
+                    <button type="button" class="btn btn-danger" data-js="filter-delete">{% trans 'Delete' %}</button>
+                </div>
+            {% endif %}
+        </template>
+    {% endfor %}
+
+    <form method="post" data-js="unsaved-changes">
         {% csrf_token %}
         {{ formset.management_form }}
 
@@ -16,29 +56,11 @@
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
 
-        {% if not study.published %}
+        <div id="filter-forms">
             {% for form in formset %}
-                {% if not form.description.value or form.description.errors %}
-                    <h2>{% trans "Add Filter" %}</h2>
-                    <formset class="row">
-                        {{ form.id.as_hidden }}
-                        {{ form.group.as_hidden }}
-                        {{ form.operator.as_hidden }}
-                        {{ form.value.as_hidden }}
-
-                        <div class="col-sm-4">
-                            {% bootstrap_field form.description show_label=False %}
-                        </div>
-                    </formset>
-                    <hr>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
-
-        {% for form in formset %}
-            {% if form.description.value and not form.description.errors %}
-                <formset class="row">
+                <fieldset class="row" {% if form.DELETE.value %}hidden{% endif %}>
                     {{ form.id.as_hidden }}
+                    {{ form.DELETE.as_hidden }}
                     <input type="hidden" name="{{ form.prefix }}-group" value="{{ group.id }}" />
 
                     <div class="col-sm-4">
@@ -58,17 +80,19 @@
                     </div>
 
                     {% if not study.published %}
-                        {% bootstrap_field form.DELETE %}
+                        <div class="col-sm flex-grow-0">
+                            <button type="button" class="btn btn-danger" data-js="filter-delete">{% trans 'Delete' %}</button>
+                        </div>
                     {% endif %}
-                </formset>
-            {% endif %}
-        {% endfor %}
+                </fieldset>
+            {% endfor %}
+        </div>
 
         <div class="mb-3">
             <a href="{% url 'recruitment:filtergroup_index' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
 
             {% if not study.published %}
-                <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}"/>
+                <input type="submit" class="btn btn-primary" value="{% trans 'Apply Filters' %}"/>
             {% endif %}
         </div>
     </form>
