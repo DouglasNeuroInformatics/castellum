@@ -7,6 +7,32 @@
     <h1>{{ study.name }}</h1>
     <h2>{% trans 'Subjects' %}</h2>
 
+    {% if statistics %}
+        <details class="mb-4">
+            <summary class="mb-2">{% trans 'Statistics' %}</summary>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        {% for label in statistics.secondary %}
+                            <th>{{ label|default:_('Total') }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for label, row in statistics.data %}
+                        <tr>
+                            <th>{{ label }}</th>
+                            {% for value in row %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </details>
+    {% endif %}
+
     <ul class="nav nav-pills">
         <li class="nav-item">
             <a class="nav-link {% if not_contacted_view %} active {% endif %}" href="{% url 'recruitment:recruitment_not-contacted' study.pk %}">{% trans 'Not contacted'%} <span class="badge badge-light">{{not_contacted_count}}</span></a>
