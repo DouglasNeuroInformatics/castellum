@@ -31,4 +31,7 @@ def can_manage_filters(user, study):
     result = study.subjectfiltergroup_set.aggregate(models.Max(key))
     max_privacy_level = result[key + '__max']
 
-    return max_privacy_level and max_privacy_level <= user.get_privacy_level()
+    if max_privacy_level is None:
+        return True
+
+    return user.has_privacy_level(max_privacy_level)
