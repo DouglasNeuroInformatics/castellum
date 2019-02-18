@@ -44,11 +44,13 @@
                             {% can_manage_filters user study as sufficient_privacy_level %}
                             {% if sufficient_privacy_level %}
                                 <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:filtergroup_index' study.pk %}">
+                                    {% if study.published %}{% trans 'View filters' %}{% else %}{% trans 'Edit filters' %}{% endif %}
+                                </a>
                             {% else %}
-                                <a class="btn btn-outline-primary disabled btn-sm-inline my-1" href="#" tabindex="-1" aria-disabled="true">
+                                <button class="btn btn-outline-primary btn-sm-inline my-1" title="{% trans 'Insufficient privacy level' %}" disabled>
+                                    {% if study.published %}{% trans 'View filters' %}{% else %}{% trans 'Edit filters' %}{% endif %}
+                                </button>
                             {% endif %}
-                                {% if study.published %}{% trans 'View filters' %}{% else %}{% trans 'Edit filters' %}{% endif %}
-                            </a>
                         {% endif %}
                         {% if can_change_study %}
                             <form class="d-sm-inline" method="post" action="{% url 'studies:publish' study.pk %}">
