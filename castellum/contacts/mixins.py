@@ -40,6 +40,6 @@ class SubjectMixin:
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            if request.user.get_privacy_level() < self.contact.privacy_level:
+            if not request.user.has_privacy_level(self.contact.privacy_level):
                 raise PermissionDenied(_('insufficient privacy level'))
         return super().dispatch(request, *args, **kwargs)
