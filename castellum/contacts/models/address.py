@@ -50,7 +50,7 @@ class City(models.Model):
 
 
 class AddressManager(models.Manager):
-    def get_queryset(self):
+    def get_queryset(self):  # pragma: no cover
         return super().get_queryset().select_related('city')
 
 
