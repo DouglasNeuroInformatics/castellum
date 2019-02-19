@@ -21,17 +21,16 @@
 
 import codecs
 import json
-from collections import defaultdict
 
 from django.contrib import admin
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
-from django.forms.models import modelform_factory
 from django.http import JsonResponse
 from django.urls import path
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView
 
+import jsonschema
 from parler.admin import TranslatableAdmin
 from parler.admin import TranslatableTabularInline
 
@@ -46,134 +45,227 @@ from .models import ParticipationRequestRevision
 from .models import SubjectFilter
 from .models import SubjectFilterGroup
 
+EXPORT_SCHEMA = {
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "definitions": {
+        "AttributeDescriptionExport": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "descriptions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Description"
+                    }
+                }
+            },
+            "required": [
+                "descriptions"
+            ],
+            "title": "AttributeDescriptionExport"
+        },
+        "AttributeCategoryExport": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Category"
+                    }
+                }
+            },
+            "required": [
+                "categories"
+            ],
+            "title": "AttributeCategoryExport"
+        },
+        "Category": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "weight": {
+                    "type": "integer"
+                },
+                "label": {
+                    "$ref": "#/definitions/TranslatedString"
+                },
+                "descriptions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Description"
+                    }
+                }
+            },
+        },
+        "Description": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "field_type": {
+                    "type": "string",
+                    "enum": [
+                        "CharField",
+                        "ChoiceField",
+                        "IntegerField",
+                        "BooleanField",
+                        "DateField",
+                        "AgeField"
+                    ]
+                },
+                "privacy_level_read": {
+                    "type": "integer"
+                },
+                "privacy_level_write": {
+                    "type": "integer"
+                },
+                "weight": {
+                    "type": "integer"
+                },
+                "label": {
+                    "$ref": "#/definitions/TranslatedString"
+                },
+                "choices": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Choice"
+                    }
+                },
+                "_filter_label": {
+                    "$ref": "#/definitions/TranslatedString"
+                },
+                "help_text": {
+                    "$ref": "#/definitions/TranslatedText"
+                }
+            },
+            "required": [
+                "field_type",
+                "label"
+            ],
+            "title": "Description"
+        },
+        "Choice": {
+            "type": "object",
+            "properties": {
+                "label": {
+                    "$ref": "#/definitions/TranslatedString"
+                }
+            },
+            "required": [
+                "label"
+            ],
+            "title": "Choice"
+        },
+        "TranslatedString": {
+            "type": "object",
+            "additionalProperties": False,
+            "patternProperties": {
+                "..": {
+                    "type": "string",
+                    "maxLength": 64
+                }
+            },
+            "title": "Label"
+        },
+        "TranslatedText": {
+            "type": "object",
+            "additionalProperties": False,
+            "patternProperties": {
+                "..": {
+                    "type": "string"
+                }
+            },
+            "title": "Label"
+        }
+    }
+}
 
-class ImportView(PermissionRequiredMixin, TemplateView):
+
+class BaseImportView(PermissionRequiredMixin, TemplateView):
     template_name = 'admin/recruitment/attributedescription_import.html'
-    permission_required = ['recruitment.view_attributeset', 'recruitment.add_attributeset']
 
     def get_context_data(self):
         context = super().get_context_data()
-        context['opts'] = AttributeDescription._meta
+        context['opts'] = self.model._meta
         context['title'] = _('Import')
         return context
 
-    def get_items(self):
+    def get_json(self):
         fh = self.request.FILES['file']
 
         if not fh:
             return
         try:
             reader = codecs.getreader("utf-8")
-            return json.load(reader(fh))['descriptions']
+            return json.load(reader(fh))
         except json.JSONDecodeError:
             messages.error(self.request, _('Uploaded file does not contain valid JSON.'))
         except UnicodeDecodeError:
             messages.error(self.request, _('Uploaded file must be UTF-8 encoded.'))
 
-    def get_forms(self, items):
-        form_cls = modelform_factory(AttributeDescription, fields='__all__')
-        translation_model = AttributeDescription._parler_meta.root_model
-        translation_form_cls = modelform_factory(translation_model, exclude=['language_code'])
-
-        choice_translation_model = AttributeChoice._parler_meta.root_model
-        choice_translation_form_cls = modelform_factory(
-            choice_translation_model, exclude=['language_code'])
-
-        data = [(
-            form_cls(item),
-            {
-                lang: translation_form_cls(translations)
-                for lang, translations in self.convert_item(item).items()
-            },
-            [
-                {
-                    lang: choice_translation_form_cls({k: translation})
-                    for k, v in choice.items()
-                    for lang, translation in v.items() if translation
-                }
-                for choice in item.get('choices', [])
-            ],
-        ) for item in items]
-
-        return data
-
-    def convert_item(self, item):
-        d = defaultdict(dict)
-        for k, v in item.items():
-            if isinstance(v, dict):
-                for lang, translation in v.items():
-                    if translation:
-                        d[lang][k] = translation
-        return d
-
-    def is_valid(self, forms):
-        return all(
-            self.is_form_and_related_data_valid(form, translation_forms, choices)
-            for form, translation_forms, choices in forms
-        )
-
-    def is_form_and_related_data_valid(self, form, translations_forms, choices):
-        return all([
-            form.is_valid(),
-            self.are_translation_forms_valid(translations_forms),
-            self.are_choices_valid(choices)
-        ])
-
-    def are_translation_forms_valid(self, forms):
-        return all(form.is_valid() for form in forms.values())
-
-    def are_choices_valid(self, choices):
-        return all(all(form.is_valid() for form in choice.values()) for choice in choices)
-
-    def get_errors(self, forms):
-        errors = {}
-        for i, (form, translation_forms, choices) in enumerate(forms):
-            for field, msg in form.errors.items():
-                errors['item %i: %s' % (i, field)] = msg
-
-            for lang, translation_form in translation_forms.items():
-                for field, msg in translation_form.errors.items():
-                    errors['item %i: %s[%s]' % (field, lang)] = msg
-
-            for j, choice in enumerate(choices):
-                for lang, choice_form in choice.items():
-                    for field, msg in choice_form.errors.items():
-                        key = 'item %i: choices[%i].%s[%s]' % (i, j, field, lang)
-                        errors[key] = msg
-
-        return errors
-
     def post(self, request, *args, **kwargs):
-        items = self.get_items()
-        forms = []
-        if items:
-            forms = self.get_forms(items)
-            if self.is_valid(forms):
-                for form, translation_forms, choices in forms:
-                    instance = form.save()
-
-                    for lang, translation_form in translation_forms.items():
-                        translation_form.instance.language_code = lang
-                        translation_form.instance.master = instance
-                        translation_form.save()
-
-                    for choice in choices:
-                        choice_instance = AttributeChoice.objects.create(description=instance)
-                        for lang, choice_form in choice.items():
-                            choice_form.instance.language_code = lang
-                            choice_form.instance.master = choice_instance
-                            choice_form.save()
-                messages.success(
-                    self.request,
-                    _('Successfully imported %i attribute descriptions.' % len(forms)))
-
+        json = self.get_json()
+        schema = {'$ref': self.schema_ref}
+        schema.update(EXPORT_SCHEMA)
+        validator = jsonschema.Draft4Validator(schema)
         context = self.get_context_data()
-        context['errors'] = self.get_errors(forms)
+        context['errors'] = list(validator.iter_errors(json))
+        if not context['errors']:
+            self.json_valid(json)
         return self.render_to_response(context)
+
+
+class CategoryImportView(BaseImportView):
+    permission_required = [
+        'recruitment.view_attributecategory',
+        'recruitment.add_attributecategory',
+    ]
+    schema_ref = '#/definitions/AttributeCategoryExport'
+    model = AttributeCategory
+
+    def json_valid(self, json):
+        for data in json['categories']:
+            AttributeCategory._import(data)
+        messages.success(
+            self.request,
+            _('Successfully imported %i attribute categories.' % len(json['categories'])))
+
+
+class DescriptionImportView(BaseImportView):
+    permission_required = [
+        'recruitment.view_attributedescription',
+        'recruitment.add_attributedescription',
+    ]
+    schema_ref = '#/definitions/AttributeDescriptionExport'
+    model = AttributeDescription
+
+    def json_valid(self, json):
+        for data in json['descriptions']:
+            AttributeDescription._import(data)
+        messages.success(
+            self.request,
+            _('Successfully imported %i attribute descriptions.' % len(json['descriptions'])))
 
 
 class AttributeCategoryAdmin(TranslatableAdmin):
     model = AttributeCategory
+    actions = ['export_json']
+
+    def export_json(self, request, queryset):
+        response = JsonResponse({
+            'categories': [category.export() for category in queryset.all()],
+        })
+        response['Content-Disposition'] = 'attachment; filename="castellum_categories.json"'
+        return response
+    export_json.short_description = _('Export as JSON')
+
+    def get_urls(self):
+        return [
+            path(
+                'import/',
+                staff_member_required(CategoryImportView.as_view()),
+                name='recruitment_attributecategory_import'),
+        ] + super().get_urls()
 
 
 class AttributeChoiceInline(TranslatableTabularInline):
@@ -198,7 +290,7 @@ class AttributeDescriptionAdmin(TranslatableAdmin):
         return [
             path(
                 'import/',
-                staff_member_required(ImportView.as_view()),
+                staff_member_required(DescriptionImportView.as_view()),
                 name='recruitment_attributedescription_import'),
         ] + super().get_urls()
 

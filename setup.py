@@ -24,5 +24,6 @@ setup(
         "psycopg2==2.7.6.1",
         "python-dateutil==2.7.5",
         "django-parler==1.9.2",
+        "jsonschema==2.6.0",
     ],
 )

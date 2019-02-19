@@ -24,7 +24,6 @@ from django.core.management.base import BaseCommand
 
 import phonenumbers
 from faker import Faker
-from parler.utils.context import switch_language
 
 from castellum.contacts.models import Address
 from castellum.contacts.models import City
@@ -33,7 +32,6 @@ from castellum.contacts.models import Country
 from castellum.contacts.models.contact import phonetic
 from castellum.pseudonyms.models import Pseudonym
 from castellum.pseudonyms.models import Subject
-from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.studies.models import Study
@@ -50,11 +48,15 @@ ATTRIBUTE_DESCRIPTIONS = [{
         'en': 'Handedness',
     },
     'choices': [{
-        'de': 'Rechts',
-        'en': 'Right',
+        'label': {
+            'de': 'Rechts',
+            'en': 'Right',
+        }
     }, {
-        'de': 'Links',
-        'en': 'Left',
+        'label': {
+            'de': 'Links',
+            'en': 'Left',
+        }
     }],
 }, {
     'field_type': 'CharField',
@@ -184,22 +186,7 @@ def generate_attribute_descriptions():
     print('Generating attribute descriptions')
 
     for data in ATTRIBUTE_DESCRIPTIONS:
-        attr_description = AttributeDescription()
-        for key in data:
-            if key in ['label', '_filter_label', 'help_text']:
-                for lang, value in data[key].items():
-                    with switch_language(attr_description, lang):
-                        setattr(attr_description, key, value)
-            elif key != 'choices':
-                setattr(attr_description, key, data[key])
-        attr_description.save()
-
-        for choices in data.get('choices', []):
-            attr_choice = AttributeChoice(description=attr_description)
-            for lang, value in choices.items():
-                with switch_language(attr_choice, lang):
-                    attr_choice.label = value
-            attr_choice.save()
+        AttributeDescription._import(data)
 
 
 def generate_studies(count):

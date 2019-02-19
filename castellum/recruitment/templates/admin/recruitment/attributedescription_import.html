@@ -15,9 +15,11 @@
     {% if errors %}
         <div class="errornote">
             <p>{% trans 'There were errors while importing the data. The process was aborted. Nothing was written to the database.' %}</p>
-            {% for key, errors in errors.items %}
-                <strong>{{ key }}</strong>
-                {{ errors }}
+            {% for error in errors %}
+                <p>
+                    <strong>{{ error.path|join:'.' }}:</strong>
+                    {{ error.message }}
+                </p>
             {% endfor %}
         </div>
     {% endif %}
