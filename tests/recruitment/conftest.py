@@ -8,6 +8,7 @@ from castellum.recruitment.management.commands import populate
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 
 
@@ -25,11 +26,6 @@ def participation_request(contact, study):
     return mommy.make(ParticipationRequest, study=study, pseudonym=pseudonym)
 
 
-@pytest.fixture
-def filter_group(unpublished_study):
-    return mommy.make(SubjectFilterGroup, study=unpublished_study)
-
-
 @pytest.fixture(scope='session')
 def attribute_descriptions(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
@@ -39,3 +35,17 @@ def attribute_descriptions(django_db_setup, django_db_blocker):
 @pytest.fixture
 def attribute_description(db, attribute_descriptions):
     return AttributeDescription.objects.get(pk=1)
+
+
+@pytest.fixture
+def subject_filter_group(db, unpublished_study):
+    return mommy.make(SubjectFilterGroup, study=unpublished_study)
+
+
+@pytest.fixture
+def subject_filter(subject_filter_group, attribute_description):
+    return SubjectFilter.objects.create(
+        description=attribute_description,
+        operator='exact',
+        value='left',
+        group=subject_filter_group)
