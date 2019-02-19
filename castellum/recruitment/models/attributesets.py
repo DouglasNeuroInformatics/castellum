@@ -219,6 +219,8 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         ordering = ['weight']
 
     def __str__(self):
+        if self.category:
+            return '{}:{}'.format(self.category, self.label)
         return self.label
 
     def clean(self):
