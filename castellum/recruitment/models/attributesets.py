@@ -245,6 +245,10 @@ class AttributeDescription(ImportMixin, TranslatableModel):
     class Meta:
         ordering = ['weight']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__initial_statistics_rank = self.statistics_rank
+
     def __str__(self):
         if self.category:
             return '{}:{}'.format(self.category, self.label)
@@ -258,6 +262,16 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         if self.statistics_rank and self.field_type not in self.STATISTICS_TYPES:
             msg = 'Statistics rank can only be set for the following field types: {}'
             raise ValidationError(format_lazy(msg, ', '.join(self.STATISTICS_TYPES)))
+
+    def save(self, *args, **kwargs):
+        from .recruitment import ParticipationRequest
+        from .recruitment import ParticipationStatistics
+
+        super().save(*args, **kwargs)
+        if self.statistics_rank != self.__initial_statistics_rank:
+            ParticipationStatistics.objects.all().delete()
+            for participation_request in ParticipationRequest.objects.all():
+                participation_request.update_statistics(1)
 
     @property
     def json_key(self):
