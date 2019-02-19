@@ -21,7 +21,6 @@
 
 import logging
 import random
-from collections import defaultdict
 
 from django.conf import settings
 from django.contrib import messages
@@ -47,6 +46,7 @@ from .mixins import PublishedStudyMixin
 from ..models import AttributeDescription
 from ..models import AttributeSet
 from ..models import ParticipationRequest
+from ..models import ParticipationStatistics
 
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 
@@ -81,28 +81,24 @@ class RecruitmentView(PublishedStudyMixin, PermissionRequiredMixin, ListView):
             return queryset.filter(study=self.study)
 
     def get_statistics(self):
-        participation_requests = ParticipationRequest.objects.filter(
-            study=self.study, status=ParticipationRequest.INVITED)
-
         buckets1 = AttributeDescription.get_statistics_buckets('primary')
         buckets2 = AttributeDescription.get_statistics_buckets('secondary')
 
         if len(buckets1) == 1:
             return None
 
-        statistics = defaultdict(lambda: defaultdict(lambda: 0))
-        for participation_request in participation_requests:
-            pseudonym = resolve_pseudonym(
-                self.study.domain, participation_request.pseudonym, AttributeSet.domain)
-            attributeset = AttributeSet.objects.get(pseudonym=pseudonym)
-            key1 = attributeset.get_statistics_bucket('primary')
-            key2 = attributeset.get_statistics_bucket('secondary')
-            statistics[key1][key2] += 1
+        def get_count(key1, key2):
+            try:
+                stats = ParticipationStatistics.objects.get(
+                    study=self.study, bucket1=key1, bucket2=key2)
+                return stats.count
+            except ParticipationStatistics.DoesNotExist:
+                return 0
 
         data = {
             'rows': [{
                 'label': str(label1),
-                'values': [statistics[key1][key2] for key2, label2 in buckets2]
+                'values': [get_count(key1, key2) for key2, label2 in buckets2]
             } for key1, label1 in buckets1],
         }
 
