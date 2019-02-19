@@ -41,6 +41,7 @@ from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.studies.models import Study
+from castellum.utils.chart import ChartRenderer
 
 from .mixins import PublishedStudyMixin
 from ..models import AttributeDescription
@@ -98,13 +99,18 @@ class RecruitmentView(PublishedStudyMixin, PermissionRequiredMixin, ListView):
             key2 = attributeset.get_statistics_bucket('secondary')
             statistics[key1][key2] += 1
 
-        return {
-            'secondary': [label2 for key2, label2 in buckets2],
-            'data': [
-                (label1, [statistics[key1][key2] for key2, label2 in buckets2])
-                for key1, label1 in buckets1
-            ],
+        data = {
+            'rows': [{
+                'label': str(label1),
+                'values': [statistics[key1][key2] for key2, label2 in buckets2]
+            } for key1, label1 in buckets1],
         }
+
+        if len(buckets2) > 1:
+            data['legend'] = [str(label2) for key2, label2 in buckets2]
+
+        renderer = ChartRenderer(width=760, height=320)
+        return renderer.render(data)
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)

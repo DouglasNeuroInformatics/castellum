@@ -10,26 +10,7 @@
     {% if statistics %}
         <details class="mb-4">
             <summary class="mb-2">{% trans 'Statistics' %}</summary>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th></th>
-                        {% for label in statistics.secondary %}
-                            <th>{{ label|default:_('Total') }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for label, row in statistics.data %}
-                        <tr>
-                            <th>{{ label }}</th>
-                            {% for value in row %}
-                                <td>{{ value }}</td>
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            {{ statistics|safe }}
         </details>
     {% endif %}
 
