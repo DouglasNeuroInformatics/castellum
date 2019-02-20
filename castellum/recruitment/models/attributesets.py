@@ -40,7 +40,7 @@ from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.pseudonyms.models import SubjectData
 
-from .. import filter_fields
+from .. import attribute_fields
 from ..utils import get_study_filter_q
 
 UNCATEGORIZED = "UNCATEGORIZED"
@@ -225,12 +225,12 @@ class AttributeDescription(ImportMixin, TranslatableModel):
     @property
     def field(self):
         MAPPING = {
-            'CharField': filter_fields.TextFilterField,
-            'ChoiceField': filter_fields.ChoiceFilterField,
-            'IntegerField': filter_fields.NumberFilterField,
-            'BooleanField': filter_fields.BooleanFilterField,
-            'DateField': filter_fields.DateFilterField,
-            'AgeField': filter_fields.AgeFilterField,
+            'CharField': attribute_fields.TextAttributeField,
+            'ChoiceField': attribute_fields.ChoiceAttributeField,
+            'IntegerField': attribute_fields.NumberAttributeField,
+            'BooleanField': attribute_fields.BooleanAttributeField,
+            'DateField': attribute_fields.DateAttributeField,
+            'AgeField': attribute_fields.AgeAttributeField,
         }
         return MAPPING[self.field_type](self)
 

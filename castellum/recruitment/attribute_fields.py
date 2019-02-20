@@ -33,7 +33,7 @@ from castellum.utils.forms import IntegerChoiceField
 from .fields import AgeField
 
 
-class BaseFilterField:
+class BaseAttributeField:
     available_operators = NotImplemented
     form_class = NotImplemented
     filter_form_class = None
@@ -77,7 +77,7 @@ class BaseFilterField:
         return '{} {} {}'.format(self.description.filter_label, operator, value)
 
 
-class DateFilterField(BaseFilterField):
+class DateAttributeField(BaseAttributeField):
     form_class = DateField
     available_operators = [
         ("lt", _("before")),
@@ -91,7 +91,7 @@ class DateFilterField(BaseFilterField):
         return dt.date()
 
 
-class NumberFilterField(BaseFilterField):
+class NumberAttributeField(BaseAttributeField):
     form_class = forms.IntegerField
     available_operators = [
         ("lt", _("<")),
@@ -103,14 +103,14 @@ class NumberFilterField(BaseFilterField):
     ]
 
 
-class BooleanFilterField(BaseFilterField):
+class BooleanAttributeField(BaseAttributeField):
     form_class = forms.NullBooleanField
     available_operators = [
         ("exact", _("is")),
     ]
 
 
-class TextFilterField(BaseFilterField):
+class TextAttributeField(BaseAttributeField):
     form_class = forms.CharField
     available_operators = [
         ("exact", _("is")),
@@ -119,7 +119,7 @@ class TextFilterField(BaseFilterField):
     ]
 
 
-class ChoiceFilterField(BaseFilterField):
+class ChoiceAttributeField(BaseAttributeField):
     form_class = IntegerChoiceField
     available_operators = [
         ("exact", _("is")),
@@ -142,7 +142,7 @@ class ChoiceFilterField(BaseFilterField):
         return super().get_filter_display(operator, value)
 
 
-class AgeFilterField(DateFilterField):
+class AgeAttributeField(DateAttributeField):
     SCALES = {
         'years': _('years'),
         'days': _('days'),
