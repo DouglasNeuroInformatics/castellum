@@ -34,7 +34,7 @@ class StudyPermissionBackend:
 
     def _permissions_to_strings(self, qs):
         tuples = qs.values_list('content_type__app_label', 'codename')
-        return ('{}.{}'.format(ct, name) for ct, name in tuples)
+        return ('{}.{}'.format(app_label, name) for app_label, name in tuples)
 
     def _get_group_permissions(self, user, obj=None):
         if user.is_active and isinstance(obj, Study):
