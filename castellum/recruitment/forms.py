@@ -69,7 +69,7 @@ class SubjectFilterForm(forms.ModelForm):
 
         self.fields["operator"] = forms.ChoiceField(choices=filter_field.available_operators)
 
-        self.fields["value"] = filter_field.formfield(selected_description)
+        self.fields["value"] = filter_field.formfield()
         self.fields["value"].required = True
 
         # disable fields when study is not published

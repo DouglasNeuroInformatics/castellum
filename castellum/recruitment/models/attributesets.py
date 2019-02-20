@@ -268,7 +268,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
             'DateField': filter_fields.DateFilterField,
             'AgeField': filter_fields.AgeFilterField,
         }
-        return MAPPING[self.field_type]()
+        return MAPPING[self.field_type](self)
 
     def from_json(self, value):
         MAPPING = {

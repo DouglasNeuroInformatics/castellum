@@ -32,11 +32,14 @@ from .fields import AgeField
 class BaseFilterField:
     available_operators = NotImplemented
 
-    def formfield(self, description, **kwargs):
-        return description.get_form_field(**kwargs)
+    def __init__(self, description):
+        self.description = description
 
-    def to_q(self, description, operator, value):
-        field_name = 'data__' + description.json_key
+    def formfield(self, **kwargs):
+        return self.description.get_form_field(**kwargs)
+
+    def to_q(self, operator, value):
+        field_name = 'data__' + self.description.json_key
         if operator.startswith('!'):
             key = '{}__{}'.format(field_name, operator[1:])
             q = models.Q(**{key: value})
@@ -47,12 +50,12 @@ class BaseFilterField:
             key = '{}__{}'.format(field_name, operator)
             return models.Q(**{key: value})
 
-    def to_str(self, description, operator, value):
+    def to_str(self, operator, value):
         operator = dict(self.available_operators)[operator]
-        if description.field_type == 'ChoiceField':
-            choice = description.attributechoice_set.get(pk=value)
+        if self.description.field_type == 'ChoiceField':
+            choice = self.description.attributechoice_set.get(pk=value)
             value = choice.label
-        return '{} {} {}'.format(description.filter_label, operator, value)
+        return '{} {} {}'.format(self.description.filter_label, operator, value)
 
 
 class DateFilterField(BaseFilterField):
@@ -98,19 +101,19 @@ class AgeFilterField(BaseFilterField):
         ("gt", _("younger than")),
     ]
 
-    def formfield(self, description, **kwargs):
+    def formfield(self, **kwargs):
         kwargs.setdefault('form_class', AgeField)
-        return super().formfield(description, **kwargs)
+        return super().formfield(**kwargs)
 
-    def to_q(self, description, operator, value):
+    def to_q(self, operator, value):
         period, scale = value
         try:
             date = datetime.date.today() - relativedelta(**{scale: period})
         except (ValueError, OverflowError):
             date = datetime.date.min
-        return super().to_q(description, operator, date)
+        return super().to_q(operator, date)
 
-    def to_str(self, description, operator, value):
+    def to_str(self, operator, value):
         period, scale = value
         value = '{} {}'.format(period, self.SCALES[scale])
-        return super().to_str(description, operator, value)
+        return super().to_str(operator, value)

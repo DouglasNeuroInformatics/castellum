@@ -68,11 +68,11 @@ class SubjectFilter(models.Model):
 
     def __str__(self):
         filter_field = self.description.get_filter_field()
-        return filter_field.to_str(self.description, self.operator, self.value)
+        return filter_field.to_str(self.operator, self.value)
 
     def to_q(self):
         filter_field = self.description.get_filter_field()
-        return filter_field.to_q(self.description, self.operator, self.value)
+        return filter_field.to_q(self.operator, self.value)
 
     def get_subject_count(self):
         return AttributeSet.objects.filter(self.to_q()).count()
