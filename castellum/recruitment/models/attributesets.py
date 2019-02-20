@@ -324,7 +324,7 @@ class BaseFilterField:
     def to_str(self, description, operator, value):
         operator = dict(self.available_operators)[operator]
         if description.field_type == 'ChoiceField':
-            choice = AttributeChoice.objects.get(description=description, pk=value)
+            choice = description.attributechoice_set.get(pk=value)
             value = choice.label
         return '{} {} {}'.format(description.filter_label, operator, value)
 
