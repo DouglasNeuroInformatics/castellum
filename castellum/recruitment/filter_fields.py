@@ -124,7 +124,6 @@ class ChoiceFilterField(BaseFilterField):
     available_operators = [
         ("exact", _("is")),
         ("!exact", _("is not")),
-        ("contains", _("contains")),
     ]
 
     def formfield(self, form_class=None, **kwargs):
