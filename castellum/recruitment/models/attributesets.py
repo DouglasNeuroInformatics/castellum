@@ -259,7 +259,8 @@ class AttributeDescription(ImportMixin, TranslatableModel):
 
         return form_class(**kwargs)
 
-    def get_filter_field(self):
+    @property
+    def field(self):
         MAPPING = {
             'CharField': filter_fields.TextFilterField,
             'ChoiceField': filter_fields.TextFilterField,

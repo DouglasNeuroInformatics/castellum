@@ -63,13 +63,12 @@ class SubjectFilterForm(forms.ModelForm):
         if not selected_description:
             return
 
-        filter_field = selected_description.get_filter_field()
-
         self.fields["description"].widget.attrs["disabled"] = True
 
-        self.fields["operator"] = forms.ChoiceField(choices=filter_field.available_operators)
+        self.fields["operator"] = forms.ChoiceField(
+            choices=selected_description.field.available_operators)
 
-        self.fields["value"] = filter_field.formfield()
+        self.fields["value"] = selected_description.field.formfield()
         self.fields["value"].required = True
 
         # disable fields when study is not published
