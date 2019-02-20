@@ -33,7 +33,6 @@ from django.urls import reverse
 from django.utils.text import format_lazy
 from django.utils.translation import ugettext_lazy as _
 
-from dateutil.relativedelta import relativedelta
 from parler.managers import TranslatableManager
 from parler.models import TranslatableModel
 from parler.models import TranslatedFields
@@ -45,7 +44,7 @@ from castellum.pseudonyms.models import SubjectData
 from castellum.utils.forms import DateField as DateFormField
 from castellum.utils.forms import IntegerChoiceField
 
-from ..fields import AgeField
+from .. import filter_fields
 from ..utils import get_study_filter_q
 
 UNCATEGORIZED = "UNCATEGORIZED"
@@ -262,12 +261,12 @@ class AttributeDescription(ImportMixin, TranslatableModel):
 
     def get_filter_field(self):
         MAPPING = {
-            'CharField': TextFilterField,
-            'ChoiceField': TextFilterField,
-            'IntegerField': NumberFilterField,
-            'BooleanField': BooleanFilterField,
-            'DateField': DateFilterField,
-            'AgeField': AgeFilterField,
+            'CharField': filter_fields.TextFilterField,
+            'ChoiceField': filter_fields.TextFilterField,
+            'IntegerField': filter_fields.NumberFilterField,
+            'BooleanField': filter_fields.BooleanFilterField,
+            'DateField': filter_fields.DateFilterField,
+            'AgeField': filter_fields.AgeFilterField,
         }
         return MAPPING[self.field_type]()
 
@@ -301,90 +300,3 @@ class AttributeChoice(ImportMixin, TranslatableModel):
     translations = TranslatedFields(
         label=models.CharField(max_length=64)
     )
-
-
-class BaseFilterField:
-    available_operators = NotImplemented
-
-    def formfield(self, description, **kwargs):
-        return description.get_form_field(**kwargs)
-
-    def to_q(self, description, operator, value):
-        field_name = 'data__' + description.json_key
-        if operator.startswith('!'):
-            key = '{}__{}'.format(field_name, operator[1:])
-            q = models.Q(**{key: value})
-            q_empty = models.Q(**{field_name: ''})
-            q_null = models.Q(**{field_name: None})
-            return ~q & ~q_empty & ~q_null
-        else:
-            key = '{}__{}'.format(field_name, operator)
-            return models.Q(**{key: value})
-
-    def to_str(self, description, operator, value):
-        operator = dict(self.available_operators)[operator]
-        if description.field_type == 'ChoiceField':
-            choice = description.attributechoice_set.get(pk=value)
-            value = choice.label
-        return '{} {} {}'.format(description.filter_label, operator, value)
-
-
-class DateFilterField(BaseFilterField):
-    available_operators = [
-        ("lt", _("before")),
-        ("gt", _("after")),
-    ]
-
-
-class NumberFilterField(BaseFilterField):
-    available_operators = [
-        ("lt", _("<")),
-        ("gt", _(">")),
-        ("exact", _("==")),
-        ("!exact", _("!=")),
-        ("lte", _("<=")),
-        ("gte", _(">=")),
-    ]
-
-
-class BooleanFilterField(BaseFilterField):
-    available_operators = [
-        ("exact", _("is")),
-    ]
-
-
-class TextFilterField(BaseFilterField):
-    available_operators = [
-        ("exact", _("is")),
-        ("!exact", _("is not")),
-        ("contains", _("contains")),
-    ]
-
-
-class AgeFilterField(BaseFilterField):
-    SCALES = {
-        'years': _('years'),
-        'days': _('days'),
-    }
-
-    available_operators = [
-        ("lt", _("older than")),
-        ("gt", _("younger than")),
-    ]
-
-    def formfield(self, description, **kwargs):
-        kwargs.setdefault('form_class', AgeField)
-        return super().formfield(description, **kwargs)
-
-    def to_q(self, description, operator, value):
-        period, scale = value
-        try:
-            date = datetime.date.today() - relativedelta(**{scale: period})
-        except (ValueError, OverflowError):
-            date = datetime.date.min
-        return super().to_q(description, operator, date)
-
-    def to_str(self, description, operator, value):
-        period, scale = value
-        value = '{} {}'.format(period, self.SCALES[scale])
-        return super().to_str(description, operator, value)
