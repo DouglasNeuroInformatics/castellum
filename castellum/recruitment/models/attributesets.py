@@ -19,10 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import datetime
 from collections import OrderedDict
 
-from django import forms
 from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import ValidationError
@@ -41,8 +39,6 @@ from parler.utils.context import switch_language
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.pseudonyms.models import SubjectData
-from castellum.utils.forms import DateField as DateFormField
-from castellum.utils.forms import IntegerChoiceField
 
 from .. import filter_fields
 from ..utils import get_study_filter_q
@@ -91,7 +87,7 @@ class AttributeSet(SubjectData):
 
     def get_data(self):
         qs = AttributeDescription.objects.all()
-        return {desc.json_key: desc.from_json(self.data.get(desc.json_key)) for desc in qs}
+        return {desc.json_key: desc.field.from_json(self.data.get(desc.json_key)) for desc in qs}
 
     @classmethod
     def apply_study_filter(cls, study, queryset=None):
@@ -105,12 +101,8 @@ class AttributeSet(SubjectData):
 
     def get_display(self, pk):
         description = AttributeDescription.objects.get(pk=pk)
-        value = description.from_json(self.data.get(description.json_key))
-        if value and description.field_type == 'ChoiceField':
-            choice = AttributeChoice.objects.get(description=description, pk=value)
-            return choice.label
-        else:
-            return value
+        value = self.data.get(description.json_key)
+        return description.field.get_display(value)
 
     def get_field_names(self):
         return AttributeDescription.objects.values_list('pk', flat=True)
@@ -165,11 +157,6 @@ class AttributeDescriptionManager(TranslatableManager):
             categories.setdefault(category, [])
             categories[category].append(description)
         return categories
-
-
-def date_from_json(value):
-    dt = datetime.datetime.strptime(value, '%Y-%m-%d')
-    return dt.date()
 
 
 class AttributeDescription(ImportMixin, TranslatableModel):
@@ -235,50 +222,17 @@ class AttributeDescription(ImportMixin, TranslatableModel):
     def filter_label(self):
         return self._filter_label or self.label
 
-    def get_form_field(self, form_class=None):
-        kwargs = {
-            'label': self.label,
-            'help_text': self.help_text,
-            'required': False,
-        }
-
-        if not form_class:
-            MAPPING = {
-                'CharField': forms.CharField,
-                'ChoiceField': IntegerChoiceField,
-                'IntegerField': forms.IntegerField,
-                'BooleanField': forms.NullBooleanField,
-                'DateField': DateFormField,
-                'AgeField': DateFormField,
-            }
-            form_class = MAPPING[self.field_type]
-
-        if self.field_type == 'ChoiceField':
-            kwargs['choices'] = [(None, _('Unknown'))] + list(
-                self.attributechoice_set.translated().values_list('pk', 'translations__label'))
-
-        return form_class(**kwargs)
-
     @property
     def field(self):
         MAPPING = {
             'CharField': filter_fields.TextFilterField,
-            'ChoiceField': filter_fields.TextFilterField,
+            'ChoiceField': filter_fields.ChoiceFilterField,
             'IntegerField': filter_fields.NumberFilterField,
             'BooleanField': filter_fields.BooleanFilterField,
             'DateField': filter_fields.DateFilterField,
             'AgeField': filter_fields.AgeFilterField,
         }
         return MAPPING[self.field_type](self)
-
-    def from_json(self, value):
-        MAPPING = {
-            'DateField': date_from_json,
-            'AgeField': date_from_json,
-        }
-        if value is not None and self.field_type in MAPPING:
-            return MAPPING[self.field_type](value)
-        return value
 
     def export(self):
         data = super().export()

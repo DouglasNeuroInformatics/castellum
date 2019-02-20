@@ -67,10 +67,10 @@ class SubjectFilter(models.Model):
     value = PickledObjectField(editable=True)
 
     def __str__(self):
-        return self.description.field.to_str(self.operator, self.value)
+        return self.description.field.get_filter_display(self.operator, self.value)
 
     def to_q(self):
-        return self.description.field.to_q(self.operator, self.value)
+        return self.description.field.filter_to_q(self.operator, self.value)
 
     def get_subject_count(self):
         return AttributeSet.objects.filter(self.to_q()).count()

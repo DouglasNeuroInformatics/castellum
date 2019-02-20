@@ -21,24 +21,40 @@
 
 import datetime
 
+from django import forms
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from dateutil.relativedelta import relativedelta
+
+from castellum.utils.forms import DateField
+from castellum.utils.forms import IntegerChoiceField
 
 from .fields import AgeField
 
 
 class BaseFilterField:
     available_operators = NotImplemented
+    form_class = NotImplemented
+    filter_form_class = None
 
     def __init__(self, description):
         self.description = description
 
-    def formfield(self, **kwargs):
-        return self.description.get_form_field(**kwargs)
+    def formfield(self, form_class=None, **kwargs):
+        form_class = form_class or self.form_class
+        defaults = {
+            'label': self.description.label,
+            'help_text': self.description.help_text,
+            'required': False,
+        }
+        defaults.update(kwargs)
+        return form_class(**defaults)
 
-    def to_q(self, operator, value):
+    def filter_formfield(self, **kwargs):
+        return self.formfield(self.filter_form_class, **kwargs)
+
+    def filter_to_q(self, operator, value):
         field_name = 'data__' + self.description.json_key
         if operator.startswith('!'):
             key = '{}__{}'.format(field_name, operator[1:])
@@ -50,22 +66,33 @@ class BaseFilterField:
             key = '{}__{}'.format(field_name, operator)
             return models.Q(**{key: value})
 
-    def to_str(self, operator, value):
+    def from_json(self, value):
+        return value
+
+    def get_display(self, value):
+        return self.from_json(value)
+
+    def get_filter_display(self, operator, value):
         operator = dict(self.available_operators)[operator]
-        if self.description.field_type == 'ChoiceField':
-            choice = self.description.attributechoice_set.get(pk=value)
-            value = choice.label
         return '{} {} {}'.format(self.description.filter_label, operator, value)
 
 
 class DateFilterField(BaseFilterField):
+    form_class = DateField
     available_operators = [
         ("lt", _("before")),
         ("gt", _("after")),
     ]
 
+    def from_json(self, value):
+        if value is None:
+            return None
+        dt = datetime.datetime.strptime(value, '%Y-%m-%d')
+        return dt.date()
+
 
 class NumberFilterField(BaseFilterField):
+    form_class = forms.IntegerField
     available_operators = [
         ("lt", _("<")),
         ("gt", _(">")),
@@ -77,12 +104,14 @@ class NumberFilterField(BaseFilterField):
 
 
 class BooleanFilterField(BaseFilterField):
+    form_class = forms.NullBooleanField
     available_operators = [
         ("exact", _("is")),
     ]
 
 
 class TextFilterField(BaseFilterField):
+    form_class = forms.CharField
     available_operators = [
         ("exact", _("is")),
         ("!exact", _("is not")),
@@ -90,30 +119,51 @@ class TextFilterField(BaseFilterField):
     ]
 
 
-class AgeFilterField(BaseFilterField):
+class ChoiceFilterField(BaseFilterField):
+    form_class = IntegerChoiceField
+    available_operators = [
+        ("exact", _("is")),
+        ("!exact", _("is not")),
+        ("contains", _("contains")),
+    ]
+
+    def formfield(self, form_class=None, **kwargs):
+        qs = self.description.attributechoice_set.translated()
+        choices = [(None, _('Unknown'))] + list(qs.values_list('pk', 'translations__label'))
+        return super().formfield(form_class=form_class, choices=choices, **kwargs)
+
+    def get_display(self, value):
+        if value is None:
+            return None
+        choice = self.description.attributechoice_set.get(pk=value)
+        return choice.label
+
+    def get_filter_display(self, operator, value):
+        value = self.get_display(value)
+        return super().get_filter_display(operator, value)
+
+
+class AgeFilterField(DateFilterField):
     SCALES = {
         'years': _('years'),
         'days': _('days'),
     }
 
+    filter_form_class = AgeField
     available_operators = [
         ("lt", _("older than")),
         ("gt", _("younger than")),
     ]
 
-    def formfield(self, **kwargs):
-        kwargs.setdefault('form_class', AgeField)
-        return super().formfield(**kwargs)
-
-    def to_q(self, operator, value):
+    def filter_to_q(self, operator, value):
         period, scale = value
         try:
             date = datetime.date.today() - relativedelta(**{scale: period})
         except (ValueError, OverflowError):
             date = datetime.date.min
-        return super().to_q(operator, date)
+        return super().filter_to_q(operator, date)
 
-    def to_str(self, operator, value):
+    def get_filter_display(self, operator, value):
         period, scale = value
         value = '{} {}'.format(period, self.SCALES[scale])
-        return super().to_str(operator, value)
+        return super().get_filter_display(operator, value)
