@@ -43,6 +43,7 @@ from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.pseudonyms.models import SubjectData
 from castellum.utils.forms import DateField as DateFormField
+from castellum.utils.forms import IntegerChoiceField
 
 from ..fields import AgeField
 from ..utils import get_study_filter_q
@@ -74,12 +75,6 @@ class ImportMixin:
                 setattr(obj, key, data[key])
         obj.save()
         return obj
-
-
-class IntegerChoiceField(forms.TypedChoiceField):
-    def __init__(self, *args, **kwargs):
-        kwargs.setdefault('coerce', int)
-        super().__init__(*args, **kwargs)
 
 
 class AttributeSet(SubjectData):
