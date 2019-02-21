@@ -153,7 +153,9 @@ class FilterGroupUpdateView(UnpublishedStudyMixin, PermissionRequiredMixin, Mode
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
-        return qs.filter(group=self.group)
+        print(self.request.user.get_privacy_level())
+        return qs.filter(group=self.group,
+                         description__privacy_level_read__lte=self.request.user.get_privacy_level())
 
     def get_formset_kwargs(self):
         kwargs = super().get_formset_kwargs()
