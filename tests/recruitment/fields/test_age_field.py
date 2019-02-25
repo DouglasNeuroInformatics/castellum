@@ -10,12 +10,13 @@ import pytest
     (1001, False),
 ))
 def test_error_if_age_out_of_limits(
-        client, attribute_descriptions, member, filter_group, age, expected):
+        client, attribute_descriptions, member, subject_filter_group, age, expected):
     client.force_login(member)
-    url = '/recruitment/filter/{}/{}/'.format(filter_group.study.pk, filter_group.pk)
+    url = '/recruitment/filter/{}/{}/'.format(
+        subject_filter_group.study.pk, subject_filter_group.pk)
     response = client.post(url,  {
         "form-0-description": 3,
-        "form-0-group": filter_group.pk,
+        "form-0-group": subject_filter_group.pk,
         "form-0-id": 1,
         "form-0-operator": "gt",
         "form-0-value_0": age,
