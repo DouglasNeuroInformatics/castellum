@@ -37,13 +37,13 @@ from extra_views import ModelFormSetView
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.settings import CASTELLUM_EXPECTED_SUBJECT_FACTOR
 
+from .mixins import StudyMixin
+from .mixins import UnpublishedStudyMixin
 from .. import forms
 from ..models import AttributeDescription
 from ..models import AttributeSet
 from ..models import SubjectFilter
 from ..models import SubjectFilterGroup
-from .mixins import StudyMixin
-from .mixins import UnpublishedStudyMixin
 
 
 class FilterMixin:

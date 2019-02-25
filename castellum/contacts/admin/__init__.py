@@ -21,15 +21,15 @@
 
 from django.contrib import admin
 
+from .address import AddressAdmin
+from .address import CityAdmin
+from .address import CountryAdmin
+from .contact import ContactAdmin
 from ..models import Address
 from ..models import City
 from ..models import Contact
 from ..models import Country
 from ..models import TimeSlot
-from .address import AddressAdmin
-from .address import CityAdmin
-from .address import CountryAdmin
-from .contact import ContactAdmin
 
 admin.site.register(Address, AddressAdmin)
 admin.site.register(City, CityAdmin)
