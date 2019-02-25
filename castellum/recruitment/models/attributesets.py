@@ -134,6 +134,8 @@ class AttributeCategory(ImportMixin, TranslatableModel):
 
     class Meta:
         ordering = ['weight']
+        verbose_name = _('attribute category')
+        verbose_name_plural = _('attribute categories')
 
     def __str__(self):
         return self.label
