@@ -9,6 +9,7 @@ setup(
     license="AGPL-3.0-or-later",
 
     packages=find_packages(),
+    include_package_data=True,
 
     install_requires=[
         "cologne-phonetics==1.2.3",
