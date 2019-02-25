@@ -140,7 +140,7 @@ class AttributeSet(SubjectData):
             if today < value + relativedelta(years=25):
                 return '18-25'
             for y in range(26, 70, 5):
-                if today < value + relativedelta(years=y):
+                if today < value + relativedelta(years=y + 5):
                     return '{}-{}'.format(y, y + 4)
             return '>70'
         elif description.field_type == 'BooleanField':
