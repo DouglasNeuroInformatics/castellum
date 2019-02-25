@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-25 11:10+0100\n"
+"POT-Creation-Date: 2019-02-25 11:27+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -434,10 +434,9 @@ msgid "Uploaded file must be UTF-8 encoded."
 msgstr "Die Datei muss mit UTF-8 kodiert sein."
 
 #: castellum/recruitment/admin.py:231
-#, fuzzy, python-format
-#| msgid "Successfully imported %i attribute descriptions."
+#, python-format
 msgid "Successfully imported %i attribute categories."
-msgstr "%i Attributbeschreibungen erfolgreich importiert."
+msgstr "%i Attributkategorien erfolgreich importiert."
 
 #: castellum/recruitment/admin.py:247
 #, python-format
@@ -493,25 +492,20 @@ msgstr ""
 
 #: castellum/recruitment/models/attributesets.py:191
 msgid "primary"
-msgstr ""
+msgstr "primär"
 
 #: castellum/recruitment/models/attributesets.py:192
-#, fuzzy
-#| msgid "monday"
 msgid "secondary"
-msgstr "Montag"
+msgstr "sekundär"
 
 #: castellum/recruitment/models/attributesets.py:229
-#, fuzzy
-#| msgid "Privacy level for reading may not be larger than for writing."
 msgid "Privacy level for reading may not be higher than for writing."
 msgstr ""
-"Die Vertraulichkeitsstufe zum Lesen darf nicht kleiner sein als die zum "
-"Schreiben."
+"Die Vertraulichkeitsstufe zum Lesen darf nicht höher sein als zum Schreiben."
 
 #: castellum/recruitment/models/attributesets.py:263
 msgid "Unknown"
-msgstr ""
+msgstr "Unbekannt"
 
 #: castellum/recruitment/models/attributesets.py:339
 msgid "before"
@@ -724,10 +718,8 @@ msgid "Delete"
 msgstr "Löschen"
 
 #: castellum/recruitment/templates/recruitment/filtergroup.html:95
-#, fuzzy
-#| msgid "Filters"
 msgid "Apply Filters"
-msgstr "Filter"
+msgstr "Filter anwenden"
 
 #: castellum/recruitment/templates/recruitment/filtergroup_confirm_delete.html:4
 msgid "Delete Filter Group"
@@ -989,16 +981,12 @@ msgid "No results found."
 msgstr "Keine Treffer gefunden."
 
 #: castellum/studies/templates/studies/study_list.html:71
-#, fuzzy
-#| msgid "personal info"
 msgid "No personal studies"
-msgstr "Persönliche Informationen"
+msgstr "Keine eigenen Studien"
 
 #: castellum/studies/templates/studies/study_list.html:73
-#, fuzzy
-#| msgid "Studies"
 msgid "No studies"
-msgstr "Studien"
+msgstr "Keine Studien"
 
 #: castellum/studies/templates/studies/study_members.html:4
 #: castellum/studies/templates/studies/studymembership_form.html:4
