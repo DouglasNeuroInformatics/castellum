@@ -151,6 +151,10 @@ class FilterGroupUpdateView(UnpublishedStudyMixin, PermissionRequiredMixin, Mode
         self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['pk'])
         return super().dispatch(*args, **kwargs)
 
+    def formset_valid(self, formset):
+        messages.success(self.request, _('Filter update successfull!'))
+        return super().formset_valid(formset)
+
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
         return qs.filter(group=self.group)
