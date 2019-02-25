@@ -41,9 +41,9 @@ from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.studies.models import Study
 
+from .mixins import PublishedStudyMixin
 from ..models import AttributeSet
 from ..models import ParticipationRequest
-from .mixins import PublishedStudyMixin
 
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 

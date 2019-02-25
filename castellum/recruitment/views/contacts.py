@@ -32,10 +32,10 @@ from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.studies.models import Study
 from castellum.utils.helpers import get_object_or_none
 
+from .mixins import PublishedStudyMixin
 from ..models import AttributeSet
 from ..models import ParticipationRequest
 from ..utils import get_study_filter_q
-from .mixins import PublishedStudyMixin
 
 
 class ContactUpdateView(PublishedStudyMixin, _ContactUpdateView):
