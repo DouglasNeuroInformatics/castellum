@@ -81,14 +81,13 @@ class RecruitmentView(PublishedStudyMixin, PermissionRequiredMixin, ListView):
         context = super(ListView, self).get_context_data(**kwargs)
 
         participants = []
-        privacy_level_user = self.request.user.get_privacy_level()
         for participation in self.get_queryset():
             contact_pseudonym = resolve_pseudonym(
                 self.study.domain,
                 participation.pseudonym,
                 Contact.domain)
             contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
-            can_access = privacy_level_user >= contact.privacy_level
+            can_access = self.request.user.has_privacy_level(contact.privacy_level)
             participants.append((participation, contact, can_access))
         context['participants'] = participants
 

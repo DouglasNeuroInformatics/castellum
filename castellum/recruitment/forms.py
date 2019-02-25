@@ -31,7 +31,7 @@ from .models.attributesets import UNCATEGORIZED
 
 
 def create_choice(user, description):
-    if user.get_privacy_level() >= description.privacy_level_read:
+    if user.has_privacy_level(description.privacy_level_read):
         return description.pk, description.filter_label
     else:
         return -description.pk, description.filter_label
