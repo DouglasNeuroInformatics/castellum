@@ -18,8 +18,8 @@ The following commands will install everything and start a local testserver (on 
 
     sudo apt install python3 npm python3-dev libldap2-dev libsasl2-dev docker-compose
     cd castellum
-    python3 -m venv .env
-    . .env/bin/activate
+    python3 -m venv .venv
+    . .venv/bin/activate
     make install-githooks
     make bootstrap
     make run  # start castellum
