@@ -185,16 +185,35 @@ class FilterGroupUpdateView(
         kwargs['form_kwargs']['user'] = self.request.user
         return kwargs
 
+    def get_inaccessible_attributedescriptions(self):
+        min_privacy_level = 2
+        for member in self.study.members.all():
+            if member.has_perm('recruitment.view_subjectfilter', obj=self.study):
+                privacy_level = member.get_privacy_level(obj=self.study)
+                if privacy_level < min_privacy_level:
+                    min_privacy_level = privacy_level
+
+        return AttributeDescription.objects.filter(
+            subjectfilter__group__study=self.study,
+            privacy_level_read__gt=min_privacy_level,
+        )
+
     def get_context_data(self, **kwargs):
         if self.study != self.group.study:
             raise Http404
+
+        inaccessible = list(self.get_inaccessible_attributedescriptions())
+        if inaccessible:
+            messages.warning(self.request, _(
+                'At least one member of this study with access to filters does not have a '
+                'sufficient privacy level to view the following attributes: %s'
+            ) % ', '.join(description.label for description in inaccessible))
 
         data = super().get_context_data(**kwargs)
         data['study'] = self.study
         data['group'] = self.group
         data['total_count'] = AttributeSet.objects.count()
         data['add_form'] = forms.SubjectFilterForm(user=self.request.user)
-
         data['templates'] = {}
         for description in AttributeDescription.objects.all():
             data['templates'][description.pk] = forms.SubjectFilterForm(
