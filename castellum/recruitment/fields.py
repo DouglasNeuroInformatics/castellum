@@ -23,17 +23,21 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 
+def _get_age_fields():
+    return [
+        forms.IntegerField(error_messages={}, min_value=0, max_value=1000),
+        forms.ChoiceField(choices=[
+            ('years', _('years')),
+            ('days', _('days')),
+        ]),
+    ]
+
+
 class AgeWidget(forms.MultiWidget):
     template_name = 'recruitment/age_widget.html'
 
     def __init__(self, attrs=None):
-        widgets = [
-            forms.NumberInput(),
-            forms.Select(choices=[
-                ('years', _('years')),
-                ('days', _('days')),
-            ]),
-        ]
+        widgets = [field.widget for field in _get_age_fields()]
         super().__init__(widgets, attrs)
 
     def decompress(self, value):
@@ -47,11 +51,7 @@ class AgeField(forms.MultiValueField):
     widget = AgeWidget
 
     def __init__(self, **kwargs):
-        fields = [
-            forms.IntegerField(error_messages={}, min_value=0, max_value=1000),
-            forms.CharField(error_messages={}),
-        ]
-        super().__init__(fields=fields, **kwargs)
+        super().__init__(fields=_get_age_fields(), **kwargs)
 
     def compress(self, value):
         return tuple(value)
