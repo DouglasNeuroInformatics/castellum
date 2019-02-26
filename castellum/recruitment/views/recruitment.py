@@ -21,6 +21,7 @@
 
 import logging
 import random
+from collections import defaultdict
 
 from django.conf import settings
 from django.contrib import messages
@@ -40,8 +41,10 @@ from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.studies.models import Study
+from castellum.utils.chart import ChartRenderer
 
 from .mixins import PublishedStudyMixin
+from ..models import AttributeDescription
 from ..models import AttributeSet
 from ..models import ParticipationRequest
 
@@ -77,6 +80,38 @@ class RecruitmentView(PublishedStudyMixin, PermissionRequiredMixin, ListView):
         else:
             return queryset.filter(study=self.study)
 
+    def get_statistics(self):
+        participation_requests = ParticipationRequest.objects.filter(
+            study=self.study, status=ParticipationRequest.INVITED)
+
+        buckets1 = AttributeDescription.get_statistics_buckets('primary')
+        buckets2 = AttributeDescription.get_statistics_buckets('secondary')
+
+        if len(buckets1) == 1:
+            return None
+
+        statistics = defaultdict(lambda: defaultdict(lambda: 0))
+        for participation_request in participation_requests:
+            pseudonym = resolve_pseudonym(
+                self.study.domain, participation_request.pseudonym, AttributeSet.domain)
+            attributeset = AttributeSet.objects.get(pseudonym=pseudonym)
+            key1 = attributeset.get_statistics_bucket('primary')
+            key2 = attributeset.get_statistics_bucket('secondary')
+            statistics[key1][key2] += 1
+
+        data = {
+            'rows': [{
+                'label': str(label1),
+                'values': [statistics[key1][key2] for key2, label2 in buckets2]
+            } for key1, label1 in buckets1],
+        }
+
+        if len(buckets2) > 1:
+            data['legend'] = [str(label2) for key2, label2 in buckets2]
+
+        renderer = ChartRenderer(width=760, height=320)
+        return renderer.render(data)
+
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
 
@@ -90,6 +125,8 @@ class RecruitmentView(PublishedStudyMixin, PermissionRequiredMixin, ListView):
             can_access = self.request.user.has_privacy_level(contact.privacy_level)
             participants.append((participation, contact, can_access))
         context['participants'] = participants
+
+        context['statistics'] = self.get_statistics()
 
         queryset = ParticipationRequest.objects.filter(study=self.study)
         context['all_count'] = queryset.count()

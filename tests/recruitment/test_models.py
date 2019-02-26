@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import pytest
 from model_mommy import mommy
 
@@ -5,6 +7,7 @@ from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeCategory
+from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models.attributesets import UNCATEGORIZED
 from castellum.studies.models import Study
 
@@ -45,6 +48,25 @@ def test_clone_with_multiple_filters(subject_filter_group, attribute_description
     assert subject_filter_group.id != clone.id
     assert study == clone.study
     assert 2 == clone.subjectfilter_set.count()
+
+
+@pytest.mark.django_db
+@pytest.mark.freeze_time('2018-01-10')
+@patch.object(AttributeDescription.objects, 'get')
+@pytest.mark.parametrize('date,bucket', (
+    ('1985-01-01', '31-35'),
+    ('1982-01-11', '31-35'),
+    ('1982-01-10', '36-40'),
+    ('1900-01-01', '>70'),
+))
+def test_attribute_set_get_statistics_bucket_age(get, date, bucket):
+    attributeset = mommy.prepare(AttributeSet)
+    attributeset.data['d1'] = date
+
+    description = mommy.prepare(AttributeDescription, field_type='AgeField', pk=1)
+    get.return_value = description
+
+    assert attributeset.get_statistics_bucket('__mock__') == bucket
 
 
 @pytest.mark.django_db
