@@ -8,11 +8,11 @@ run: start_database_containers
 
 bootstrap: install migrate populate castellum/locale/de/LC_MESSAGES/django.mo
 
-migrate:
+migrate: start_database_containers
 	$(MANAGEPY) makemigrations
 	$(MANAGEPY) migrateall
 
-populate:
+populate: start_database_containers
 	$(MANAGEPY) create_sample_groups
 	$(MANAGEPY) create_sample_users
 	$(MANAGEPY) loaddata timeslots --database=contacts
