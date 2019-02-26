@@ -162,8 +162,6 @@ msgstr "Bitte geben Sie eine E-Mail Adresse an."
 
 #: castellum/contacts/mixins.py:44
 #: castellum/studies/templates/studies/study_list.html:50
-#, fuzzy
-#| msgid "insufficient privacy level"
 msgid "Insufficient privacy level"
 msgstr "Vertraulichkeitsstufe nicht ausreichend"
 
@@ -476,16 +474,12 @@ msgid "Unknown"
 msgstr "Unbekannt"
 
 #: castellum/recruitment/models/attributesets.py:162
-#, fuzzy
-#| msgid "attribute set"
 msgid "attribute category"
-msgstr "Merkmale"
+msgstr "Merkmalskategorie"
 
 #: castellum/recruitment/models/attributesets.py:163
-#, fuzzy
-#| msgid "attribute sets"
 msgid "attribute categories"
-msgstr "Merkmale"
+msgstr "Merkmalskategorien"
 
 #: castellum/recruitment/models/attributesets.py:210
 msgid "CharField"
@@ -525,14 +519,12 @@ msgstr ""
 "Die Vertraulichkeitsstufe zum Lesen darf nicht höher sein als zum Schreiben."
 
 #: castellum/recruitment/models/attributesets.py:343
-#, fuzzy
-#| msgid "Yes,No"
 msgid "Yes"
-msgstr "Ja,Nein"
+msgstr "Ja"
 
 #: castellum/recruitment/models/attributesets.py:344
 msgid "No"
-msgstr ""
+msgstr "Nein"
 
 #: castellum/recruitment/models/attributesets.py:402
 msgid "before"
@@ -825,7 +817,7 @@ msgstr "Hinzufügen"
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:12
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiken"
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:19
 msgid "Not contacted"
@@ -917,7 +909,7 @@ msgstr ""
 
 #: castellum/recruitment/views/subjectfilters.py:174
 msgid "Filter update successfull!"
-msgstr ""
+msgstr "Filteraktualisierung erfolgreich!"
 
 #: castellum/recruitment/views/subjectfilters.py:208
 #, python-format
