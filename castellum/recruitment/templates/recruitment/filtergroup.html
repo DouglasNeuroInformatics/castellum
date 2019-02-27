@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n bootstrap4 %}
+{% load static i18n bootstrap4 %}
 
 {% block title %}{% trans "Filters" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
 
@@ -97,4 +97,8 @@
         </div>
     </form>
 
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/filters.js' %}"></script>
 {% endblock %}
