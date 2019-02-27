@@ -196,7 +196,7 @@ class FilterGroupUpdateView(
         return AttributeDescription.objects.filter(
             subjectfilter__group__study=self.study,
             privacy_level_read__gt=min_privacy_level,
-        )
+        ).distinct()
 
     def get_context_data(self, **kwargs):
         if self.study != self.group.study:
