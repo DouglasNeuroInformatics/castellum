@@ -38,7 +38,7 @@ def test_user_who_created_study_is_study_member(client, study_coordinator):
     client.force_login(study_coordinator)
     response = client.post('/studies/create/', {'name': 'Test study',
                                                 'contact_person': 'Mustermann',
-                                                'study_type': (0, 'Online')})
+                                                'study_type': 0})
 
     assert response.status_code == 302
     assert StudyMembership.objects.last().study.name == 'Test study'

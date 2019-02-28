@@ -20,13 +20,12 @@
 # <http://www.gnu.org/licenses/>.
 
 import uuid
+from enum import Enum
 
 from django.contrib.auth.models import Group
 from django.db import models
 from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
-
-from enum import Enum
 
 from castellum.castellum_auth.models import User
 from castellum.utils.fields import DateField
@@ -34,22 +33,17 @@ from castellum.utils.fields import DateField
 
 class Study(models.Model):
 
-    class StudyTypeEnum(Enum):
-        ONLINE = 0
-        BEHAVIORAL_LAB = 1
-        FMRI = 2
-        SIMULATION = 3
-        EEG = 4
-        THIRD_PARTY = 5
+    class StudyType(Enum):
+        online = (0, _('Online'))
+        behavioral = (1, _('Behavioral lab'))
+        fmri = (2, 'FMRI')
+        simulation = (3, _('Simulation'))
+        eeg = (4, _('EEG'))
+        third_party = (5, _('3rd Party'))
 
-    STUDY_TYPES = [
-        (StudyTypeEnum(0), _('Online')),
-        (StudyTypeEnum(1), _('Behavioral lab')),
-        (StudyTypeEnum(2), 'FMRI'),
-        (StudyTypeEnum(3), _('Simulation')),
-        (StudyTypeEnum(4), _('EEG')),
-        (StudyTypeEnum(5), _('3rd Party')),
-    ]
+        @classmethod
+        def get_value(cls, member):
+            return cls[member].value[0]
 
     name = models.CharField(_('name'), max_length=254)
     contact_person = models.CharField(_('responsible contact person'), max_length=512)
@@ -60,8 +54,8 @@ class Study(models.Model):
         _('Affiliated Research Assistants'), max_length=254, blank=True)
     description = models.TextField(_('description'), blank=True)
     keywords = models.CharField(_('keywords'), max_length=254, blank=True)
-    study_type = models.IntegerField(
-        _('Type of study'), choices=STUDY_TYPES, null=True)
+    study_type = models.PositiveIntegerField(_('Type of study'), null=True,
+                                             choices=[x.value for x in StudyType])
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
     min_subjects_count = models.PositiveIntegerField(_('required number of subjects'),
                                                      blank=True,
@@ -82,7 +76,8 @@ class Study(models.Model):
         return self.name
 
     def clean(self):
-        if self.study_type == repr(self.StudyTypeEnum.FMRI) and not self.data_sensitivity:
+        fmri_study = self.StudyType.get_value('fmri')
+        if self.study_type == fmri_study and not self.data_sensitivity:
             self.data_sensitivity = True
             raise ValidationError(
                 _('Data collected by this type of study is always considered sensitive!'))
