@@ -26,25 +26,29 @@ from django.db import models
 from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
+from enum import Enum
+
 from castellum.castellum_auth.models import User
 from castellum.utils.fields import DateField
 
 
 class Study(models.Model):
-    ONLINE = 0
-    BEHAVIORAL_LAB = 1
-    FMRI = 2
-    SIMULATION = 3
-    EEG = 4
-    THIRD_PARTY = 5
+
+    class StudyTypeEnum(Enum):
+        ONLINE = 0
+        BEHAVIORAL_LAB = 1
+        FMRI = 2
+        SIMULATION = 3
+        EEG = 4
+        THIRD_PARTY = 5
 
     STUDY_TYPES = [
-        (ONLINE, _('Online')),
-        (BEHAVIORAL_LAB, _('Behavioral lab')),
-        (FMRI, 'FMRI'),
-        (SIMULATION, _('Simulation')),
-        (EEG, _('EEG')),
-        (THIRD_PARTY, _('3rd Party')),
+        (StudyTypeEnum(0), _('Online')),
+        (StudyTypeEnum(1), _('Behavioral lab')),
+        (StudyTypeEnum(2), 'FMRI'),
+        (StudyTypeEnum(3), _('Simulation')),
+        (StudyTypeEnum(4), _('EEG')),
+        (StudyTypeEnum(5), _('3rd Party')),
     ]
 
     name = models.CharField(_('name'), max_length=254)
@@ -78,7 +82,7 @@ class Study(models.Model):
         return self.name
 
     def clean(self):
-        if self.study_type == self.FMRI and not self.data_sensitivity:
+        if self.study_type == repr(self.StudyTypeEnum.FMRI) and not self.data_sensitivity:
             self.data_sensitivity = True
             raise ValidationError(
                 _('Data collected by this type of study is always considered sensitive!'))
