@@ -8,7 +8,8 @@ def test_redirect_to_studies_after_post(client, study_coordinator):
 
     client.force_login(study_coordinator)
     response = client.post('/studies/create/', {'name': 'Test study',
-                                                'contact_person': 'Mustermann'})
+                                                'contact_person': 'Mustermann',
+                                                'study_type': 0})
 
     assert response.status_code == 302
     assert response.url == '/studies/'
@@ -23,7 +24,9 @@ def test_create_study_on_post(request, client, user_fixture):
 
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    client.post('/studies/create/', {'name': 'Test study', 'contact_person': 'Mustermann'})
+    client.post('/studies/create/', {'name': 'Test study',
+                                     'contact_person': 'Mustermann',
+                                     'study_type': 0})
 
     assert Study.objects.all().count() == 1
     assert Study.objects.last().name == 'Test study'
@@ -34,7 +37,8 @@ def test_user_who_created_study_is_study_member(client, study_coordinator):
 
     client.force_login(study_coordinator)
     response = client.post('/studies/create/', {'name': 'Test study',
-                                                'contact_person': 'Mustermann'})
+                                                'contact_person': 'Mustermann',
+                                                'study_type': 0})
 
     assert response.status_code == 302
     assert StudyMembership.objects.last().study.name == 'Test study'
