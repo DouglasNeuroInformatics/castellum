@@ -88,12 +88,19 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
     fields = (
         'name',
         'contact_person',
+        'principal_investigator',
+        'affiliated_scientists',
+        'affiliated_research_assistants',
         'description',
+        'keywords',
+        'study_type',
+        'data_sensitivity',
+        'min_subjects_count',
         'expense_allowance',
         'sessions_count',
+        'session_duration',
         'sessions_start',
         'sessions_end',
-        'min_subjects_count',
     )
     permission_required = 'studies.add_study'
 
@@ -115,12 +122,19 @@ class StudyUpdateView(StudyAccessMixin, UpdateView):
     fields = (
         'name',
         'contact_person',
+        'principal_investigator',
+        'affiliated_scientists',
+        'affiliated_research_assistants',
         'description',
+        'keywords',
+        'study_type',
+        'data_sensitivity',
+        'min_subjects_count',
         'expense_allowance',
         'sessions_count',
+        'session_duration',
         'sessions_start',
         'sessions_end',
-        'min_subjects_count',
     )
     permission_required = 'studies.change_study'
 
