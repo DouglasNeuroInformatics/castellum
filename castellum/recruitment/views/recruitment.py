@@ -115,15 +115,31 @@ class RecruitmentView(PublishedStudyMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
 
+        buckets1 = dict(AttributeDescription.get_statistics_buckets('primary'))
+        buckets2 = dict(AttributeDescription.get_statistics_buckets('secondary'))
+
         participants = []
         for participation in self.get_queryset():
+            attributeset_pseudonym = resolve_pseudonym(
+                self.study.domain,
+                participation.pseudonym,
+                AttributeSet.domain)
+            try:
+                attributeset = AttributeSet.objects.get(pseudonym=attributeset_pseudonym)
+                bucket1 = buckets1[attributeset.get_statistics_bucket('primary')]
+                bucket2 = buckets2[attributeset.get_statistics_bucket('secondary')]
+                buckets = ', '.join(str(bucket) for bucket in [bucket1, bucket2] if bucket)
+            except AttributeSet.DoesNotExist:
+                buckets = ''
+
             contact_pseudonym = resolve_pseudonym(
                 self.study.domain,
                 participation.pseudonym,
                 Contact.domain)
             contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
             can_access = self.request.user.has_privacy_level(contact.privacy_level)
-            participants.append((participation, contact, can_access))
+
+            participants.append((participation, buckets, can_access))
         context['participants'] = participants
 
         context['statistics'] = self.get_statistics()
