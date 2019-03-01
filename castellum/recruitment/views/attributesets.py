@@ -21,10 +21,13 @@
 
 import logging
 
+from django.shortcuts import get_object_or_404
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
+from castellum.contacts.models import Contact
+from castellum.pseudonyms.helpers import resolve_pseudonym
 
 from ..forms import AttributeSetForm
 from ..models import AttributeDescription
@@ -42,8 +45,11 @@ class AttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     def get_object(self, queryset=None):
         if queryset is None:
             queryset = self.get_queryset()
+        contact = get_object_or_404(Contact, pseudonym=self.kwargs['slug'])
+        attributeset_pseudonym = resolve_pseudonym(
+            Contact.domain, contact.pseudonym, AttributeSet.domain)
         attributeset, __ = queryset.get_or_create(
-            pseudonym=self.kwargs['slug'], defaults={'data': {}})
+            pseudonym=attributeset_pseudonym, defaults={'data': {}})
         return attributeset
 
     def get_form_class(self):
