@@ -96,3 +96,9 @@ class DisabledModelChoiceField(forms.ModelChoiceField):
         if str(value).startswith('-'):
             return False
         return super().valid_value(value)
+
+
+class IntegerChoiceField(forms.TypedChoiceField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('coerce', int)
+        super().__init__(*args, **kwargs)

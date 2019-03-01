@@ -19,10 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import datetime
 from collections import OrderedDict
 
-from django import forms
 from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import ValidationError
@@ -33,7 +31,6 @@ from django.urls import reverse
 from django.utils.text import format_lazy
 from django.utils.translation import ugettext_lazy as _
 
-from dateutil.relativedelta import relativedelta
 from parler.managers import TranslatableManager
 from parler.models import TranslatableModel
 from parler.models import TranslatedFields
@@ -42,9 +39,8 @@ from parler.utils.context import switch_language
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.pseudonyms.models import SubjectData
-from castellum.utils.forms import DateField as DateFormField
 
-from ..fields import AgeField
+from .. import attribute_fields
 from ..utils import get_study_filter_q
 
 UNCATEGORIZED = "UNCATEGORIZED"
@@ -76,12 +72,6 @@ class ImportMixin:
         return obj
 
 
-class IntegerChoiceField(forms.TypedChoiceField):
-    def __init__(self, *args, **kwargs):
-        kwargs.setdefault('coerce', int)
-        super().__init__(*args, **kwargs)
-
-
 class AttributeSet(SubjectData):
     domain = settings.DOMAINS['attributeset']
 
@@ -97,7 +87,7 @@ class AttributeSet(SubjectData):
 
     def get_data(self):
         qs = AttributeDescription.objects.all()
-        return {desc.json_key: desc.from_json(self.data.get(desc.json_key)) for desc in qs}
+        return {desc.json_key: desc.field.from_json(self.data.get(desc.json_key)) for desc in qs}
 
     @classmethod
     def apply_study_filter(cls, study, queryset=None):
@@ -111,12 +101,8 @@ class AttributeSet(SubjectData):
 
     def get_display(self, pk):
         description = AttributeDescription.objects.get(pk=pk)
-        value = description.from_json(self.data.get(description.json_key))
-        if value and description.field_type == 'ChoiceField':
-            choice = AttributeChoice.objects.get(description=description, pk=value)
-            return choice.label
-        else:
-            return value
+        value = self.data.get(description.json_key)
+        return description.field.get_display(value)
 
     def get_field_names(self):
         return AttributeDescription.objects.values_list('pk', flat=True)
@@ -200,11 +186,6 @@ class AttributeDescriptionManager(TranslatableManager):
         return categories
 
 
-def date_from_json(value):
-    dt = datetime.datetime.strptime(value, '%Y-%m-%d')
-    return dt.date()
-
-
 class AttributeDescription(ImportMixin, TranslatableModel):
     FIELD_TYPE_CHOICES = (
         ('CharField', _('CharField')),
@@ -268,49 +249,17 @@ class AttributeDescription(ImportMixin, TranslatableModel):
     def filter_label(self):
         return self._filter_label or self.label
 
-    def get_form_field(self, form_class=None):
-        kwargs = {
-            'label': self.label,
-            'help_text': self.help_text,
-            'required': False,
-        }
-
-        if not form_class:
-            MAPPING = {
-                'CharField': forms.CharField,
-                'ChoiceField': IntegerChoiceField,
-                'IntegerField': forms.IntegerField,
-                'BooleanField': forms.NullBooleanField,
-                'DateField': DateFormField,
-                'AgeField': DateFormField,
-            }
-            form_class = MAPPING[self.field_type]
-
-        if self.field_type == 'ChoiceField':
-            kwargs['choices'] = [(None, _('Unknown'))] + list(
-                self.attributechoice_set.translated().values_list('pk', 'translations__label'))
-
-        return form_class(**kwargs)
-
-    def get_filter_field(self):
+    @property
+    def field(self):
         MAPPING = {
-            'CharField': TextFilterField,
-            'ChoiceField': TextFilterField,
-            'IntegerField': NumberFilterField,
-            'BooleanField': BooleanFilterField,
-            'DateField': DateFilterField,
-            'AgeField': AgeFilterField,
+            'CharField': attribute_fields.TextAttributeField,
+            'ChoiceField': attribute_fields.ChoiceAttributeField,
+            'IntegerField': attribute_fields.NumberAttributeField,
+            'BooleanField': attribute_fields.BooleanAttributeField,
+            'DateField': attribute_fields.DateAttributeField,
+            'AgeField': attribute_fields.AgeAttributeField,
         }
-        return MAPPING[self.field_type]()
-
-    def from_json(self, value):
-        MAPPING = {
-            'DateField': date_from_json,
-            'AgeField': date_from_json,
-        }
-        if value is not None and self.field_type in MAPPING:
-            return MAPPING[self.field_type](value)
-        return value
+        return MAPPING[self.field_type](self)
 
     @classmethod
     def get_statistics_buckets(cls, rank):
@@ -369,90 +318,3 @@ class AttributeChoice(ImportMixin, TranslatableModel):
     translations = TranslatedFields(
         label=models.CharField(max_length=64)
     )
-
-
-class BaseFilterField:
-    available_operators = NotImplemented
-
-    def formfield(self, description, **kwargs):
-        return description.get_form_field(**kwargs)
-
-    def to_q(self, description, operator, value):
-        field_name = 'data__' + description.json_key
-        if operator.startswith('!'):
-            key = '{}__{}'.format(field_name, operator[1:])
-            q = models.Q(**{key: value})
-            q_empty = models.Q(**{field_name: ''})
-            q_null = models.Q(**{field_name: None})
-            return ~q & ~q_empty & ~q_null
-        else:
-            key = '{}__{}'.format(field_name, operator)
-            return models.Q(**{key: value})
-
-    def to_str(self, description, operator, value):
-        operator = dict(self.available_operators)[operator]
-        if description.field_type == 'ChoiceField':
-            choice = AttributeChoice.objects.get(description=description, pk=value)
-            value = choice.label
-        return '{} {} {}'.format(description.filter_label, operator, value)
-
-
-class DateFilterField(BaseFilterField):
-    available_operators = [
-        ("lt", _("before")),
-        ("gt", _("after")),
-    ]
-
-
-class NumberFilterField(BaseFilterField):
-    available_operators = [
-        ("lt", _("<")),
-        ("gt", _(">")),
-        ("exact", _("==")),
-        ("!exact", _("!=")),
-        ("lte", _("<=")),
-        ("gte", _(">=")),
-    ]
-
-
-class BooleanFilterField(BaseFilterField):
-    available_operators = [
-        ("exact", _("is")),
-    ]
-
-
-class TextFilterField(BaseFilterField):
-    available_operators = [
-        ("exact", _("is")),
-        ("!exact", _("is not")),
-        ("contains", _("contains")),
-    ]
-
-
-class AgeFilterField(BaseFilterField):
-    SCALES = {
-        'years': _('years'),
-        'days': _('days'),
-    }
-
-    available_operators = [
-        ("lt", _("older than")),
-        ("gt", _("younger than")),
-    ]
-
-    def formfield(self, description, **kwargs):
-        kwargs.setdefault('form_class', AgeField)
-        return super().formfield(description, **kwargs)
-
-    def to_q(self, description, operator, value):
-        period, scale = value
-        try:
-            date = datetime.date.today() - relativedelta(**{scale: period})
-        except (ValueError, OverflowError):
-            date = datetime.date.min
-        return super().to_q(description, operator, date)
-
-    def to_str(self, description, operator, value):
-        period, scale = value
-        value = '{} {}'.format(period, self.SCALES[scale])
-        return super().to_str(description, operator, value)

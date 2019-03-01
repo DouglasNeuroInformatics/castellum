@@ -63,13 +63,12 @@ class SubjectFilterForm(forms.ModelForm):
         if not selected_description:
             return
 
-        filter_field = selected_description.get_filter_field()
-
         self.fields["description"].widget.attrs["disabled"] = True
 
-        self.fields["operator"] = forms.ChoiceField(choices=filter_field.available_operators)
+        self.fields["operator"] = forms.ChoiceField(
+            choices=selected_description.field.available_operators)
 
-        self.fields["value"] = filter_field.formfield(selected_description)
+        self.fields["value"] = selected_description.field.filter_formfield()
         self.fields["value"].required = True
 
         # disable fields when study is not published
@@ -111,5 +110,5 @@ class AttributeSetForm(forms.Form):
     @classmethod
     def factory(cls, user, obj=None):
         allowed_descriptions = AttributeDescription.objects.allowed_write(user, obj=obj)
-        form_fields = {desc.json_key: desc.get_form_field() for desc in allowed_descriptions}
+        form_fields = {desc.json_key: desc.field.formfield() for desc in allowed_descriptions}
         return type('AttributeSetForm', (cls,), form_fields)
