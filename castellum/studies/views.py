@@ -103,12 +103,43 @@ class StudyFormMixin:
         'sessions_end',
     )
 
+    def get_session_formset(self):
+        formset_class = forms.modelformset_factory(StudySession, fields=('duration',))
+        kwargs = self.get_form_kwargs()
+        study = kwargs.pop('instance', None)
+        return formset_class(queryset=StudySession.objects.filter(study=study), **kwargs)
+
+    def get_context_data(self, **kwargs):
+        if 'session_formset' not in kwargs:
+            kwargs['session_formset'] = self.get_session_formset()
+        return super().get_context_data(**kwargs)
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        session_formset = self.get_session_formset()
+        if form.is_valid() and session_formset.is_valid():
+            return self.form_valid(form, session_formset)
+        else:
+            return self.form_invalid(form, session_formset)
+
+    def form_invalid(self, form, session_formset):
+        return self.render_to_response(
+            self.get_context_data(form=form, session_formset=session_formset)
+        )
+
+    def form_valid(self, form, session_formset):
+        response = super().form_valid(form)
+        for subform in session_formset:
+            subform.instance.study = form.instance
+        session_formset.save()
+        return response
+
 
 class StudyCreateView(PermissionRequiredMixin, StudyFormMixin, CreateView):
     permission_required = 'studies.add_study'
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
+    def form_valid(self, form, session_formset):
+        response = super().form_valid(form, session_formset)
 
         StudyMembership.objects.get_or_create(
             user=self.request.user, study=self.object)
@@ -124,6 +155,10 @@ class StudyUpdateView(StudyAccessMixin, StudyFormMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('studies:index')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().post(request, *args, **kwargs)
 
 
 class StudyPublishView(StudyAccessMixin, View):
