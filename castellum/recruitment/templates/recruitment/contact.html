@@ -23,8 +23,12 @@
                 {% endif %}
             </dd>
 
-            <dt class="col-sm-6">{{ study|verbose_name:'sessions_count' }}</dt>
-            <dd class="col-sm-6">{{ study.sessions_count|default:'—' }}</dd>
+            <dt class="col-sm-6">{% trans 'Duration of sessions in minutes' %}</dt>
+            <dd class="col-sm-6">
+                {% for session in study.studysession_set.all %}
+                    {{ session.duration }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </dd>
 
             <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
             <dd class="col-sm-6">{{ study.sessions_start|default:'—' }}</dd>

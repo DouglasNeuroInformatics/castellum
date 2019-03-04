@@ -63,10 +63,6 @@ class Study(models.Model):
                                                      blank=True,
                                                      default=0)
     expense_allowance = models.PositiveIntegerField(_('expense allowance'), blank=True, null=True)
-    sessions_count = models.PositiveIntegerField(
-        _('number of test sessions per subject'), blank=True, null=True)
-    session_duration = models.PositiveIntegerField(
-        _('Duration of a session in minutes'), blank=True, null=True)
     sessions_start = DateField(_('start of test sessions'), blank=True, null=True)
     sessions_end = DateField(_('end of test sessions'), blank=True, null=True)
 
@@ -94,3 +90,8 @@ class StudyMembership(models.Model):
 
     def __str__(self):
         return '{}:{}'.format(self.study, self.user)
+
+
+class StudySession(models.Model):
+    study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    duration = models.PositiveIntegerField(_('Duration of a session in minutes'))

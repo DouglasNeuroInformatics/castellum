@@ -97,8 +97,6 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
         'data_sensitivity',
         'min_subjects_count',
         'expense_allowance',
-        'sessions_count',
-        'session_duration',
         'sessions_start',
         'sessions_end',
     )
@@ -131,8 +129,6 @@ class StudyUpdateView(StudyAccessMixin, UpdateView):
         'data_sensitivity',
         'min_subjects_count',
         'expense_allowance',
-        'sessions_count',
-        'session_duration',
         'sessions_start',
         'sessions_end',
     )

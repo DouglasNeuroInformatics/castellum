@@ -23,5 +23,16 @@ from django.contrib import admin
 
 from . import models
 
-admin.site.register(models.Study)
+
+class StudySessionInline(admin.TabularInline):
+    model = models.StudySession
+
+
+class StudyAdmin(admin.ModelAdmin):
+    inlines = [
+        StudySessionInline,
+    ]
+
+
+admin.site.register(models.Study, StudyAdmin)
 admin.site.register(models.StudyMembership)
