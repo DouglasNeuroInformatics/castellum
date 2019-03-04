@@ -37,6 +37,7 @@ class BaseAttributeField:
     available_operators = NotImplemented
     form_class = NotImplemented
     filter_form_class = None
+    statistics_buckets = []
 
     def __init__(self, description):
         self.description = description
@@ -76,6 +77,12 @@ class BaseAttributeField:
         operator = dict(self.available_operators)[operator]
         return '{} {} {}'.format(self.description.filter_label, operator, value)
 
+    def get_statistics_buckets(self):
+        return self.statistics_buckets
+
+    def get_statistics_bucket(self, value):
+        return value
+
 
 class DateAttributeField(BaseAttributeField):
     form_class = DateField
@@ -107,6 +114,10 @@ class BooleanAttributeField(BaseAttributeField):
     form_class = forms.NullBooleanField
     available_operators = [
         ("exact", _("is")),
+    ]
+    statistics_buckets = [
+        (True, _('Yes')),
+        (False, _('No')),
     ]
 
 
@@ -141,6 +152,11 @@ class ChoiceAttributeField(BaseAttributeField):
         value = self.get_display(value)
         return super().get_filter_display(operator, value)
 
+    def get_statistics_buckets(self):
+        return [
+            (choice.pk, choice.label) for choice in self.description.attributechoice_set.all()
+        ]
+
 
 class AgeAttributeField(DateAttributeField):
     SCALES = {
@@ -152,6 +168,20 @@ class AgeAttributeField(DateAttributeField):
     available_operators = [
         ("lt", _("older than")),
         ("gt", _("younger than")),
+    ]
+    statistics_buckets = [
+        ('<18', '<18'),
+        ('18-25', '18-25'),
+        ('26-30', '26-30'),
+        ('31-35', '31-35'),
+        ('36-40', '36-40'),
+        ('41-45', '41-45'),
+        ('46-50', '46-50'),
+        ('51-55', '51-55'),
+        ('56-60', '56-60'),
+        ('61-65', '61-65'),
+        ('66-70', '66-70'),
+        ('>70', '>70'),
     ]
 
     def filter_to_q(self, operator, value):
@@ -166,3 +196,14 @@ class AgeAttributeField(DateAttributeField):
         period, scale = value
         value = '{} {}'.format(period, self.SCALES[scale])
         return super().get_filter_display(operator, value)
+
+    def get_statistics_bucket(self, value):
+        today = datetime.date.today()
+        if today < value + relativedelta(years=18):
+            return '<18'
+        if today < value + relativedelta(years=25):
+            return '18-25'
+        for y in range(26, 70, 5):
+            if today < value + relativedelta(years=y + 5):
+                return '{}-{}'.format(y, y + 4)
+        return '>70'

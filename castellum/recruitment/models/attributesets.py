@@ -112,25 +112,12 @@ class AttributeSet(SubjectData):
             description = AttributeDescription.objects.get(statistics_rank=rank)
         except AttributeDescription.DoesNotExist:
             return None
-        value = description.from_json(self.data.get(description.json_key))
+        value = description.field.from_json(self.data.get(description.json_key))
 
         if value is None:
-            return (None, _('Unknown'))
-        elif description.field_type == 'ChoiceField':
-            choice = AttributeChoice.objects.get(description=description, pk=value)
-            return choice.pk
-        elif description.field_type == 'AgeField':
-            today = datetime.date.today()
-            if today < value + relativedelta(years=18):
-                return '<18'
-            if today < value + relativedelta(years=25):
-                return '18-25'
-            for y in range(26, 70, 5):
-                if today < value + relativedelta(years=y + 5):
-                    return '{}-{}'.format(y, y + 4)
-            return '>70'
-        elif description.field_type == 'BooleanField':
-            return value
+            return None
+
+        return description.field.get_statistics_bucket(value)
 
 
 class AttributeCategory(ImportMixin, TranslatableModel):
@@ -268,32 +255,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         except cls.DoesNotExist:
             return [(None, None)]
 
-        if description.field_type == 'ChoiceField':
-            buckets = [
-                (choice.pk, choice.label) for choice in description.attributechoice_set.all()
-            ]
-        elif description.field_type == 'AgeField':
-            buckets = [
-                ('<18', '<18'),
-                ('18-25', '18-25'),
-                ('26-30', '26-30'),
-                ('31-35', '31-35'),
-                ('36-40', '36-40'),
-                ('41-45', '41-45'),
-                ('46-50', '46-50'),
-                ('51-55', '51-55'),
-                ('56-60', '56-60'),
-                ('61-65', '61-65'),
-                ('66-70', '66-70'),
-                ('>70', '>70'),
-            ]
-        elif description.field_type == 'BooleanField':
-            buckets = [
-                (True, _('Yes')),
-                (False, _('No')),
-            ]
-
-        return buckets + [
+        return description.field.get_statistics_buckets() + [
             (None, _('Unknown'))
         ]
 
