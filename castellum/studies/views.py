@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django import forms
 from django.db.models import Q
 from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
@@ -40,6 +41,7 @@ from .forms import AddMemberForm
 from .forms import MemberForm
 from .models import Study
 from .models import StudyMembership
+from .models import StudySession
 
 
 class StudyAccessMixin(PermissionRequiredMixin):
@@ -83,7 +85,7 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
         return context
 
 
-class StudyCreateView(PermissionRequiredMixin, CreateView):
+class StudyFormMixin:
     model = Study
     fields = (
         'name',
@@ -100,38 +102,24 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
         'sessions_start',
         'sessions_end',
     )
+
+
+class StudyCreateView(PermissionRequiredMixin, StudyFormMixin, CreateView):
     permission_required = 'studies.add_study'
 
     def form_valid(self, form):
-
-        self.object = form.save()
+        response = super().form_valid(form)
 
         StudyMembership.objects.get_or_create(
             user=self.request.user, study=self.object)
 
-        return HttpResponseRedirect(self.get_success_url())
+        return response
 
     def get_success_url(self):
         return reverse('studies:index')
 
 
-class StudyUpdateView(StudyAccessMixin, UpdateView):
-    model = Study
-    fields = (
-        'name',
-        'contact_person',
-        'principal_investigator',
-        'affiliated_scientists',
-        'affiliated_research_assistants',
-        'description',
-        'keywords',
-        'study_type',
-        'data_sensitivity',
-        'min_subjects_count',
-        'expense_allowance',
-        'sessions_start',
-        'sessions_end',
-    )
+class StudyUpdateView(StudyAccessMixin, StudyFormMixin, UpdateView):
     permission_required = 'studies.change_study'
 
     def get_success_url(self):
