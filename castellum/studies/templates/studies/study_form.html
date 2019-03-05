@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n bootstrap4 %}
+{% load static i18n bootstrap4 %}
 
 {% block title %}
     {% if object %}
@@ -27,6 +27,7 @@
         {% bootstrap_field form.keywords %}
         {% bootstrap_field form.study_type %}
         {% bootstrap_field form.data_sensitivity %}
+        <input type="hidden" name="{{ form.data_sensitivity.name }}" id="{{ form.data_sensitivity.auto_id }}_hidden" value="on" disabled>
         {% bootstrap_field form.min_subjects_count %}
         {% bootstrap_field form.expense_allowance addon_after=_('EUR') %}
         {% bootstrap_field form.sessions_count %}
@@ -45,4 +46,8 @@
             <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
         </div>
     </form>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'study_form.js' %}"></script>
 {% endblock %}
