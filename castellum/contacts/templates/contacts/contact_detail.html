@@ -54,7 +54,7 @@
         {% endif %}
         {% has_perm 'recruitment.change_attributeset' user as can_change_attributeset %}
         {% if can_change_attributeset %}
-            <a href="{% url 'recruitment:attributes_update' attributeset_pseudonym %}" class="btn btn-secondary">{% trans "Edit attributes" %}</a>
+            <a href="{% url 'recruitment:attributes_update' contact.pseudonym %}" class="btn btn-secondary">{% trans "Edit attributes" %}</a>
         {% endif %}
         <a href="{% url 'recruitment:contacts_studies' contact.pseudonym %}" class="btn btn-secondary">{% trans 'Add to study' %}</a>
     </div>
