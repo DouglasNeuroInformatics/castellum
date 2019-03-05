@@ -21,7 +21,9 @@
 
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import DetailView
 
@@ -91,3 +93,13 @@ class ContactStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):
             data['studies'] = list(self.get_studies(attributeset))
 
         return data
+
+    def post(self, request, *args, **kwargs):
+        study = get_object_or_404(Study, pk=request.POST['study'], published=True)
+
+        for perm in ['recruitment.add_participationrequest', 'studies.access_study']:
+            if not request.user.has_perm(perm, obj=study):
+                raise PermissionDenied
+
+        return redirect(
+            'recruitment:contact', study.pk, request.POST['pseudonym'], 'not-contacted')
