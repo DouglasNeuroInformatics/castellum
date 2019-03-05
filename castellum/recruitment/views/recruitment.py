@@ -111,10 +111,8 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
 
         statistics = defaultdict(lambda: defaultdict(lambda: 0))
         for participation_request in participation_requests:
-            pseudonym = resolve_pseudonym(
-                self.study.domain, participation_request.pseudonym, AttributeSet.domain)
             try:
-                attributeset = AttributeSet.objects.get(pseudonym=pseudonym)
+                attributeset = participation_request.subject.attributeset
                 key1 = attributeset.get_statistics_bucket('primary')
                 key2 = attributeset.get_statistics_bucket('secondary')
                 statistics[key1][key2] += 1
@@ -142,12 +140,8 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
 
         participants = []
         for participation in self.get_queryset():
-            attributeset_pseudonym = resolve_pseudonym(
-                self.study.domain,
-                participation.pseudonym,
-                AttributeSet.domain)
             try:
-                attributeset = AttributeSet.objects.get(pseudonym=attributeset_pseudonym)
+                attributeset = participation.subject.attributeset
                 bucket1 = buckets1[attributeset.get_statistics_bucket('primary')]
                 bucket2 = buckets2[attributeset.get_statistics_bucket('secondary')]
                 buckets = ', '.join(str(bucket) for bucket in [bucket1, bucket2] if bucket)
