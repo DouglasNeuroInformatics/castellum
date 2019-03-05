@@ -18,13 +18,12 @@
         </div>
     {% else %}
         <ul class="table-list mb-3">
-            {% for study, pseudonym in studies %}
+            {% for study in studies %}
                 <li class="table-list-item">
                     <h2 class ="h4 d-inline-block my-1 mr-2">{{ study }}</h2>
                     <form class ="table-list-item-actions" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="study" value="{{ study.pk }}">
-                        <input type="hidden" name="pseudonym" value="{{ pseudonym }}">
                         <button class="btn btn-outline-primary btn-sm-inline my-1 ">{% trans 'Add' %}</button>
                     </form>
                 </li>
