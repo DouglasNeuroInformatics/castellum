@@ -251,14 +251,6 @@ class ContactView(PublishedStudyMixin, SubjectMixin, PermissionRequiredMixin, Up
 
         return queryset
 
-    def get_object(self, queryset=None):
-        if self.kwargs['path'] != 'contacts':
-            return super().get_object(queryset=queryset)
-        if not queryset:
-            queryset = self.get_queryset()
-        obj, __ = queryset.get_or_create(pseudonym=self.kwargs['slug'], study=self.study)
-        return obj
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
