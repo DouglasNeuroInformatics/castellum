@@ -38,6 +38,7 @@ from parler.utils.context import switch_language
 
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import resolve_pseudonym
+from castellum.pseudonyms.models import Subject
 from castellum.pseudonyms.models import SubjectData
 
 from .. import attribute_fields
@@ -75,6 +76,7 @@ class ImportMixin:
 class AttributeSet(SubjectData):
     domain = settings.DOMAINS['attributeset']
 
+    subject = models.OneToOneField(Subject, on_delete=models.CASCADE, editable=False)
     data = JSONField(encoder=DjangoJSONEncoder)
 
     class Meta:
