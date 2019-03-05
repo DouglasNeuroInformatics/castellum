@@ -27,6 +27,7 @@ from django.views.generic import UpdateView
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
+from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.helpers import resolve_pseudonym
 
 from ..forms import AttributeSetForm
@@ -46,10 +47,11 @@ class AttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         if queryset is None:
             queryset = self.get_queryset()
         contact = get_object_or_404(Contact, pseudonym=self.kwargs['slug'])
+        subject = get_subject(Contact.domain, contact.pseudonym)
         attributeset_pseudonym = resolve_pseudonym(
             Contact.domain, contact.pseudonym, AttributeSet.domain)
         attributeset, __ = queryset.get_or_create(
-            pseudonym=attributeset_pseudonym, defaults={'data': {}})
+            pseudonym=attributeset_pseudonym, subject=subject, defaults={'data': {}})
         return attributeset
 
     def get_form_class(self):

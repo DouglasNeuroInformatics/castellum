@@ -34,7 +34,7 @@ def test_post_when_more_then_double_minimal_subject_count(client, member, publis
     published_study.save()
 
     uuids = [uuid.uuid4() for _ in range(4)]
-    mommy.make(Subject, id=1)
+    subject = mommy.make(Subject, id=1)
     contact_pseudonym = mommy.make(Pseudonym,
                                    subject_id=1,
                                    pseudonym=uuid.uuid4(),
@@ -47,6 +47,7 @@ def test_post_when_more_then_double_minimal_subject_count(client, member, publis
                             _quantity=4)
     mommy.make(ParticipationRequest,
                study=published_study,
+               subject=subject,
                pseudonym=cycle(pseudonyms),
                _quantity=4)
 
