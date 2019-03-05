@@ -4,6 +4,7 @@ import pytest
 from model_mommy import mommy
 
 from castellum.pseudonyms.helpers import resolve_pseudonym
+from castellum.pseudonyms.helpers import get_subject
 from castellum.recruitment.management.commands import populate
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
@@ -16,14 +17,16 @@ from castellum.recruitment.models import SubjectFilterGroup
 def attributeset(contact):
     pseudonym = resolve_pseudonym(
         settings.DOMAINS['contact'], contact.pseudonym, AttributeSet.domain)
-    return mommy.make(AttributeSet, pseudonym=pseudonym)
+    subject = get_subject(settings.DOMAINS['contact'], contact.pseudonym)
+    return mommy.make(AttributeSet, pseudonym=pseudonym, subject=subject)
 
 
 @pytest.fixture
 def participation_request(contact, study):
     pseudonym = resolve_pseudonym(
         settings.DOMAINS['contact'], contact.pseudonym, study.domain)
-    return mommy.make(ParticipationRequest, study=study, pseudonym=pseudonym)
+    subject = get_subject(settings.DOMAINS['contact'], contact.pseudonym)
+    return mommy.make(ParticipationRequest, study=study, subject=subject, pseudonym=pseudonym)
 
 
 @pytest.fixture(scope='session')

@@ -37,6 +37,7 @@ from django.views.generic import UpdateView
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
+from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
@@ -201,8 +202,9 @@ class RecruitmentViewNotContacted(RecruitmentView):
                 pseudonym,
                 self.study.domain)
 
+            subject = get_subject(settings.DOMAINS['attributeset'], pseudonym)
             participation_request, created = ParticipationRequest.objects.get_or_create(
-                study=self.study, pseudonym=participation_request_pseudonym)
+                study=self.study, subject=subject, pseudonym=participation_request_pseudonym)
 
             if created:
                 return participation_request
