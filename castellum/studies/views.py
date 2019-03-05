@@ -168,8 +168,8 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
         response = super().dispatch(*args, **kwargs)
         if self.has_unprivileged_members():
             messages.warning(self.request, _(
-                'Some members may be blocked from managing filters due to an '
-                'insufficient privacy level.'
+                'Some members of this study with access to filters may be blocked from managing '
+                'filters due to an insufficient privacy level.'
             ))
         return response
 
