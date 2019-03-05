@@ -101,5 +101,8 @@ class ContactStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):
             if not request.user.has_perm(perm, obj=study):
                 raise PermissionDenied
 
+        participation_request = ParticipationRequest.objects.create(
+            pseudonym=request.POST['pseudonym'], study=study)
+
         return redirect(
-            'recruitment:contact', study.pk, request.POST['pseudonym'], 'not-contacted')
+            'recruitment:contact', study.pk, participation_request.pseudonym, 'not-contacted')
