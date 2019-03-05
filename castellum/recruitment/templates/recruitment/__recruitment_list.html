@@ -2,13 +2,13 @@
 
 <ul class="table-list mt-3">
     {% has_perm 'recruitment.change_participationrequest' user view.study as can_change_participationrequest %}
-    {% for participation, contact, can_access in participants %}
+    {% for participation, buckets, can_access in participants %}
         <li class="table-list-item">
             {% if can_access %}
                 <div>
                     <div>
                         <h3 class="h4 d-inline-block my-1 mr-2">{{ participation.pseudonym|truncatechars:11 }}</h3>
-                        <div class="d-inline-block my-1 mr-2">{{ contact.get_gender_display }}, {{ contact.age }}<abbr title="{% trans 'years' %}">{% trans 'Y.' %}</abbr></div>
+                        <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
                     </div>
                     {% if not_reached_view %}
                         <div class="mr-2">
