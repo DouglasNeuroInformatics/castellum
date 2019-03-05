@@ -23,6 +23,11 @@ from .models import Pseudonym
 from .models import Subject
 
 
+def get_subject(domain, pseudonym):
+    origin = Pseudonym.objects.get(domain=domain, pseudonym=pseudonym)
+    return origin.subject
+
+
 def resolve_pseudonym(domain, pseudonym, target_domain):
     origin = Pseudonym.objects.get(domain=domain, pseudonym=pseudonym)
     target, __ = Pseudonym.objects.get_or_create(

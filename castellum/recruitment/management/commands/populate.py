@@ -179,9 +179,10 @@ def fake_contact(pseudonym, address):
     return contact
 
 
-def fake_attributeset(pseudonym, contact):
+def fake_attributeset(pseudonym, subject, contact):
     return AttributeSet(
         pseudonym=pseudonym.pseudonym,
+        subject=subject,
         data={
             'd1': 2 if fake.random.random() < 0.15 else 1,
             'd2': fake_data.language(),
@@ -247,7 +248,9 @@ def generate_subjects(count):
 
     print('Generating attributesets')
     attributesets = [
-        fake_attributeset(attributeset_pseudonyms[i], contacts[i]) for i in range(count)]
+        fake_attributeset(attributeset_pseudonyms[i], subjects[i], contacts[i])
+        for i in range(count)
+    ]
     AttributeSet.objects.bulk_create(attributesets)
 
 
