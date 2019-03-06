@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django import forms
 from django.contrib import messages
 from django.db.models import Q
 from django.http import HttpResponseBadRequest
@@ -42,6 +43,7 @@ from .forms import AddMemberForm
 from .forms import MemberForm
 from .models import Study
 from .models import StudyMembership
+from .models import StudySession
 
 
 class StudyAccessMixin(PermissionRequiredMixin):
@@ -85,7 +87,7 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
         return context
 
 
-class StudyCreateView(PermissionRequiredMixin, CreateView):
+class StudyFormMixin:
     model = Study
     fields = (
         'name',
@@ -99,49 +101,66 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
         'data_sensitivity',
         'min_subjects_count',
         'expense_allowance',
-        'sessions_count',
-        'session_duration',
         'sessions_start',
         'sessions_end',
     )
+
+    def get_session_formset(self):
+        formset_class = forms.modelformset_factory(StudySession, fields=('duration',))
+        kwargs = self.get_form_kwargs()
+        study = kwargs.pop('instance', None)
+        return formset_class(queryset=StudySession.objects.filter(study=study), **kwargs)
+
+    def get_context_data(self, **kwargs):
+        if 'session_formset' not in kwargs:
+            kwargs['session_formset'] = self.get_session_formset()
+        return super().get_context_data(**kwargs)
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        session_formset = self.get_session_formset()
+        if form.is_valid() and session_formset.is_valid():
+            return self.form_valid(form, session_formset)
+        else:
+            return self.form_invalid(form, session_formset)
+
+    def form_invalid(self, form, session_formset):
+        return self.render_to_response(
+            self.get_context_data(form=form, session_formset=session_formset)
+        )
+
+    def form_valid(self, form, session_formset):
+        response = super().form_valid(form)
+        for subform in session_formset:
+            subform.instance.study = form.instance
+        session_formset.save()
+        return response
+
+
+class StudyCreateView(PermissionRequiredMixin, StudyFormMixin, CreateView):
     permission_required = 'studies.add_study'
 
-    def form_valid(self, form):
-
-        self.object = form.save()
+    def form_valid(self, form, session_formset):
+        response = super().form_valid(form, session_formset)
 
         StudyMembership.objects.get_or_create(
             user=self.request.user, study=self.object)
 
-        return HttpResponseRedirect(self.get_success_url())
+        return response
 
     def get_success_url(self):
         return reverse('studies:index')
 
 
-class StudyUpdateView(StudyAccessMixin, UpdateView):
-    model = Study
-    fields = (
-        'name',
-        'contact_person',
-        'principal_investigator',
-        'affiliated_scientists',
-        'affiliated_research_assistants',
-        'description',
-        'keywords',
-        'study_type',
-        'data_sensitivity',
-        'min_subjects_count',
-        'expense_allowance',
-        'sessions_count',
-        'session_duration',
-        'sessions_start',
-        'sessions_end',
-    )
+class StudyUpdateView(StudyAccessMixin, StudyFormMixin, UpdateView):
     permission_required = 'studies.change_study'
 
     def get_success_url(self):
         return reverse('studies:index')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().post(request, *args, **kwargs)
 
 
 class StudyPublishView(StudyAccessMixin, View):
