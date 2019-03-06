@@ -283,42 +283,42 @@ class ContactView(PublishedStudyMixin, SubjectMixin, PermissionRequiredMixin, Up
 
     def form_valid_recruitment(self, form):
         # needs to be executed before object.save()
-        pseudonyms = list(self.get_queryset().values_list("pseudonym", flat=True))
+        participation_requests = list(self.get_queryset())
 
         self.save(form)
 
-        next_pseudonym_idx = None
-        if "btn_back" not in form.data and len(pseudonyms) - 1 != 0:
-            current_pseudonym_idx = pseudonyms.index(self.object.pseudonym)
+        next_index = None
+        if "btn_back" not in form.data and len(participation_requests) - 1 != 0:
+            current_index = [p.pk for p in participation_requests].index(self.object.pk)
             user_privacy_level = self.request.user.get_privacy_level()
 
-            idx = current_pseudonym_idx + 1
-            while idx < len(pseudonyms):
-                contact = Contact.objects.get(pseudonym=resolve_pseudonym(
-                    self.study.domain, pseudonyms[idx], Contact.domain))
+            index = current_index + 1
+            while index < len(participation_requests):
+                contact = Contact.objects.get(pseudonym=get_pseudonym(
+                    participation_requests[index].subject, Contact.domain))
                 if contact.privacy_level <= user_privacy_level:
-                    next_pseudonym_idx = idx
+                    next_index = index
                     break
-                idx += 1
+                index += 1
 
-            if next_pseudonym_idx is None and self.kwargs['path'] == 'not-contacted':
-                idx = current_pseudonym_idx - 1
-                while idx >= 0:
-                    contact = Contact.objects.get(pseudonym=resolve_pseudonym(
-                        self.study.domain, pseudonyms[idx], Contact.domain))
+            if next_index is None and self.kwargs['path'] == 'not-contacted':
+                index = current_index - 1
+                while index >= 0:
+                    contact = Contact.objects.get(pseudonym=get_pseudonym(
+                        participation_requests[index].subject, Contact.domain))
                     if contact.privacy_level <= user_privacy_level:
-                        next_pseudonym_idx = idx
+                        next_index = index
                         break
-                    idx -= 1
+                    index -= 1
 
-        if next_pseudonym_idx is None:
+        if next_index is None:
             url = 'recruitment:recruitment_' + self.kwargs['path']
             return redirect(url, self.object.study.pk)
         else:
             return redirect(
                 'recruitment:contact',
                 self.object.study.pk,
-                pseudonyms[next_pseudonym_idx],
+                participation_requests[next_index].pseudonym,
                 self.kwargs['path'])
 
     def form_valid(self, form):
