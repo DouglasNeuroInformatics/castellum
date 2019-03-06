@@ -43,7 +43,7 @@ from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.studies.models import Study
 from castellum.utils.chart import ChartRenderer
 
-from .mixins import PublishedStudyMixin
+from .mixins import StudyMixin
 from ..models import AttributeDescription
 from ..models import AttributeSet
 from ..models import ParticipationRequest
@@ -64,12 +64,15 @@ class StudyChoiceView(LoginRequiredMixin, ListView):
         )]
 
 
-class RecruitmentView(PublishedStudyMixin, PermissionRequiredMixin, ListView):
+class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     model = ParticipationRequest
     context_object_name = 'participation_requests'
     template_name = 'recruitment/recruitment.html'
     permission_required = 'recruitment.view_participationrequest'
     shown_status = None
+
+    def check_study(self):
+        self.study.raise_404_error_if_study_is_not_published()
 
     def get_queryset(self, queryset=None):
         if not queryset:
@@ -242,12 +245,15 @@ class RecruitmentViewNotContacted(RecruitmentView):
         return self.get(request, *args, **kwargs)
 
 
-class ContactView(PublishedStudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
+class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = ParticipationRequest
     fields = ['status']
     slug_field = 'pseudonym'
     template_name = 'recruitment/contact.html'
     permission_required = 'recruitment.change_participationrequest'
+
+    def check_study(self):
+        self.study.raise_404_error_if_study_is_not_published()
 
     def get_initial(self):
         initial = super().get_initial()

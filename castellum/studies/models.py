@@ -25,6 +25,7 @@ from django.contrib.auth.models import Group
 from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.forms import ValidationError
+from django.http import Http404
 from django.utils.translation import ugettext_lazy as _
 
 from castellum.castellum_auth.models import User
@@ -88,6 +89,10 @@ class Study(models.Model):
     def raise_permission_denied_if_study_is_published(self, msg=_("study_is_published")):
         if self.published:
             raise PermissionDenied(msg)
+
+    def raise_404_error_if_study_is_not_published(self):
+        if not self.published:
+            raise Http404
 
 
 class StudyMembership(models.Model):

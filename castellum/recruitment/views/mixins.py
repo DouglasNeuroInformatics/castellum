@@ -19,7 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.http import Http404
 from django.shortcuts import get_object_or_404
 
 from castellum.studies.models import Study
@@ -43,9 +42,3 @@ class StudyMixin:
 
     def get_permission_object(self):
         return self.study
-
-
-class PublishedStudyMixin(StudyMixin):
-    def check_study(self):
-        if not self.study.published:
-            raise Http404
