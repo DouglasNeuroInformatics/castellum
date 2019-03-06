@@ -102,7 +102,7 @@ def test_post_redirect_next_with_one_participation_request_from_not_reached(clie
 def test_post_redirect_next_with_multiple_participation_requests(client, member, published_study):
     participation_requests = []
     for i in range(5):
-        contact = mommy.make(Contact, pseudonym=None, privacy_level=0)
+        contact = mommy.make(Contact, pseudonym=None)
         pseudonym = resolve_pseudonym(Contact.domain, contact.pseudonym, published_study.domain)
         participation_requests.append(mommy.make(
             ParticipationRequest,
@@ -137,7 +137,7 @@ def test_post_redirect_next_with_multiple_participation_requests_from_not_reache
                                                                                   published_study):
     participation_requests = []
     for i in range(5):
-        contact = mommy.make(Contact, pseudonym=None, privacy_level=0)
+        contact = mommy.make(Contact, pseudonym=None)
         pseudonym = resolve_pseudonym(Contact.domain, contact.pseudonym, published_study.domain)
         participation_requests.append(mommy.make(
             ParticipationRequest,

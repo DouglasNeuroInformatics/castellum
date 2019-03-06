@@ -50,7 +50,6 @@ def test_get_form_kwargs(view, request_factory):
         "last_name": "Bolika",
         "date_of_birth": "2000-01-01",
         "gender": "m",
-        "privacy_level": "0",
     }
     user = mommy.prepare(User)
     view.request = request_factory.post(CONTACT_CREATE_URL, data)
