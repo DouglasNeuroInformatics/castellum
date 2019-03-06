@@ -52,8 +52,3 @@ def delete_pseudonym(domain, pseudonym, delete_related=False):
         p.subject.delete()
     else:
         p.delete()
-
-
-def list_pseudonyms(domain, pseudonym):
-    origin = Pseudonym.objects.get(domain=domain, pseudonym=pseudonym)
-    return Pseudonym.objects.filter(subject=origin.subject).values_list('domain', 'pseudonym')

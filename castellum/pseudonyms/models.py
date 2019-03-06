@@ -42,12 +42,6 @@ class SubjectData(models.Model):
     class Meta:
         abstract = True
 
-    @classmethod
-    def get_by_pseudonym(cls, domain, pseudonym):
-        if domain != cls.domain:
-            raise cls.DoesNotExist
-        return cls.objects.get(pseudonym=pseudonym)
-
 
 class Pseudonym(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
