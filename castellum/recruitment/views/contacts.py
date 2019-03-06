@@ -30,6 +30,7 @@ from django.views.generic import DetailView
 from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
 from castellum.contacts.views import ContactUpdateView as _ContactUpdateView
+from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.studies.models import Study
@@ -45,10 +46,7 @@ class ContactUpdateView(PublishedStudyMixin, _ContactUpdateView):
         participation_request = get_object_or_404(
             ParticipationRequest, study=self.study, pseudonym=self.kwargs['slug'])
 
-        contact_pseudonym = resolve_pseudonym(
-            self.study.domain,
-            participation_request.pseudonym,
-            Contact.domain)
+        contact_pseudonym = get_pseudonym(participation_request.subject, Contact.domain)
         contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
 
         return contact

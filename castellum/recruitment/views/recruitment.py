@@ -37,6 +37,7 @@ from django.views.generic import UpdateView
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
+from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
@@ -326,10 +327,7 @@ class ContactView(PublishedStudyMixin, SubjectMixin, PermissionRequiredMixin, Up
     def form_valid(self, form):
         if self.kwargs['path'] == 'contacts':
             self.save(form)
-            contact_pseudonym = resolve_pseudonym(
-                self.study.domain,
-                self.object.pseudonym,
-                Contact.domain)
+            contact_pseudonym = get_pseudonym(self.object.subject, Contact.domain)
             return redirect('contacts:detail', contact_pseudonym)
         else:
             return self.form_valid_recruitment(form)
