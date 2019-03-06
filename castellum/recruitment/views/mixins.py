@@ -19,10 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.shortcuts import get_object_or_404
-from django.utils.translation import ugettext_lazy as _
 
 from castellum.studies.models import Study
 
@@ -51,10 +49,3 @@ class PublishedStudyMixin(StudyMixin):
     def check_study(self):
         if not self.study.published:
             raise Http404
-
-
-class UnpublishedStudyMixin(StudyMixin):
-    def post(self, request, *args, **kwargs):
-        if self.study.published:
-            raise PermissionDenied(_('study is published'))
-        return super().post(request, *args, **kwargs)
