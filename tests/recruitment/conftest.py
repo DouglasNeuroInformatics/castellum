@@ -15,10 +15,8 @@ from castellum.recruitment.models import SubjectFilterGroup
 
 @pytest.fixture
 def attributeset(contact):
-    pseudonym = resolve_pseudonym(
-        settings.DOMAINS['contact'], contact.pseudonym, AttributeSet.domain)
     subject = get_subject(settings.DOMAINS['contact'], contact.pseudonym)
-    return mommy.make(AttributeSet, pseudonym=pseudonym, subject=subject)
+    return mommy.make(AttributeSet, subject=subject)
 
 
 @pytest.fixture
