@@ -34,15 +34,6 @@ class Subject(models.Model):
     """
 
 
-class SubjectData(models.Model):
-    domain = None
-
-    pseudonym = models.CharField(max_length=64, unique=True, editable=False)
-
-    class Meta:
-        abstract = True
-
-
 class Pseudonym(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     domain = models.CharField(max_length=50)

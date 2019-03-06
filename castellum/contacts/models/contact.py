@@ -31,7 +31,6 @@ from django.utils.translation import ugettext_lazy as _
 from dateutil.relativedelta import relativedelta
 
 from castellum.pseudonyms.helpers import create_pseudonym
-from castellum.pseudonyms.models import SubjectData
 from castellum.utils.fields import DateField
 from castellum.utils.fields import DateTimeField
 from castellum.utils.fields import PhoneNumberField
@@ -51,7 +50,7 @@ class ContactManager(models.Manager):
         return self.filter(q)
 
 
-class Contact(SubjectData):
+class Contact(models.Model):
     domain = settings.DOMAINS['contact']
 
     GENDER = (
@@ -64,6 +63,8 @@ class Contact(SubjectData):
         ("email", _("email")),
         ("postal", _("postal")),
     )
+
+    pseudonym = models.CharField(max_length=64, unique=True, editable=False)
 
     first_name = models.CharField(_("first name"), max_length=64)
     first_name_phonetic = models.CharField(max_length=128, editable=False)
