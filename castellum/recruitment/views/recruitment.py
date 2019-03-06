@@ -23,7 +23,6 @@ import logging
 import random
 from collections import defaultdict
 
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -38,7 +37,6 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_pseudonym
-from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
@@ -185,26 +183,22 @@ class RecruitmentViewNotContacted(RecruitmentView):
 
     def create_participation_request(self):
 
-        attributesets = list(AttributeSet.apply_study_filter(self.study).values_list('pseudonym',
-                                                                                     flat=True))
+        attributesets = list(AttributeSet.apply_study_filter(self.study))
 
         while len(attributesets) > 0:
 
-            pseudonym = random.choice(attributesets)
+            attributeset = random.choice(attributesets)
+            participation_request_pseudonym = get_pseudonym(attributeset.subject, self.study.domain)
 
-            participation_request_pseudonym = resolve_pseudonym(
-                settings.DOMAINS['attributeset'],
-                pseudonym,
-                self.study.domain)
-
-            subject = get_subject(settings.DOMAINS['attributeset'], pseudonym)
             participation_request, created = ParticipationRequest.objects.get_or_create(
-                study=self.study, subject=subject, pseudonym=participation_request_pseudonym)
+                study=self.study,
+                subject=attributeset.subject,
+                pseudonym=participation_request_pseudonym)
 
             if created:
                 return participation_request
             else:
-                attributesets.remove(pseudonym)
+                attributesets.remove(attributeset)
 
         return None
 
