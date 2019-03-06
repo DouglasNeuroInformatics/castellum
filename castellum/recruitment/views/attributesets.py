@@ -25,7 +25,6 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import resolve_pseudonym
 
@@ -37,7 +36,7 @@ from ..models.attributesets import UNCATEGORIZED
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
-class AttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
+class AttributeSetUpdateView(PermissionRequiredMixin, UpdateView):
     model = AttributeSet
     slug_field = 'pseudonym'
     permission_required = 'recruitment.change_attributeset'
