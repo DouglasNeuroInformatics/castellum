@@ -37,7 +37,6 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_pseudonym
-from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.studies.models import Study
@@ -129,10 +128,7 @@ class RecruitmentView(PublishedStudyMixin, PermissionRequiredMixin, ListView):
             except AttributeSet.DoesNotExist:
                 buckets = ''
 
-            contact_pseudonym = resolve_pseudonym(
-                self.study.domain,
-                participation.pseudonym,
-                Contact.domain)
+            contact_pseudonym = get_pseudonym(participation.subject, Contact.domain)
             contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
             can_access = self.request.user.has_privacy_level(contact.privacy_level)
 
@@ -191,12 +187,8 @@ class RecruitmentViewNotContacted(RecruitmentView):
         while len(attributesets) > 0:
 
             attributeset = random.choice(attributesets)
-            participation_request_pseudonym = get_pseudonym(attributeset.subject, self.study.domain)
-
             participation_request, created = ParticipationRequest.objects.get_or_create(
-                study=self.study,
-                subject=attributeset.subject,
-                pseudonym=participation_request_pseudonym)
+                study=self.study, subject=attributeset.subject)
 
             if created:
                 return participation_request
@@ -275,10 +267,8 @@ class ContactView(PublishedStudyMixin, SubjectMixin, PermissionRequiredMixin, Up
     def save(self, form):
         self.object = form.save()
 
-        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
-            self.study.domain,
-            self.object.pseudonym,
-            self.request.user.pk))
+        monitoring_logger.info('ParticipationRequest update: {} by {}'.format(
+            self.object.pk, self.request.user.pk))
 
     def form_valid_recruitment(self, form):
         # needs to be executed before object.save()
