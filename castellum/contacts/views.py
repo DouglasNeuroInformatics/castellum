@@ -58,16 +58,6 @@ class ContactSearchView(PermissionRequiredMixin, ListView):
     paginate_by = 20
     permission_required = 'contacts.view_contact'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        context['contacts'] = [
-            (contact, self.request.user.has_privacy_level(contact.privacy_level))
-            for contact in context['object_list']
-        ]
-
-        return context
-
 
 class ContactDetailView(PermissionRequiredMixin, DetailView):
     model = Contact
@@ -110,10 +100,7 @@ class ContactCreatePreludeView(PermissionRequiredMixin, GetFormView):
     form_class = PreludeForm
 
     def form_valid(self, form):
-        matches = [
-            (contact, self.request.user.has_privacy_level(contact.privacy_level))
-            for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
-        ]
+        matches = Contact.objects.fuzzy_filter(**form.cleaned_data)
 
         return self.render_to_response({
             'form': form,
@@ -188,10 +175,7 @@ class RequestCreateView(PermissionRequiredMixin, GetFormView):
             'date_of_birth: "{date_of_birth}"}} by {user}'
         ).format(user=self.request.user.pk, **form.cleaned_data))
 
-        matches = [
-            (contact, self.request.user.has_privacy_level(contact.privacy_level))
-            for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
-        ]
+        matches = Contact.objects.fuzzy_filter(**form.cleaned_data)
 
         return self.render_to_response({
             'form': form,

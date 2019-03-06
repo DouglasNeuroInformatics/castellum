@@ -28,7 +28,6 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
-from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView
@@ -131,14 +130,7 @@ class RecruitmentView(PublishedStudyMixin, PermissionRequiredMixin, ListView):
             except AttributeSet.DoesNotExist:
                 buckets = ''
 
-            contact_pseudonym = resolve_pseudonym(
-                self.study.domain,
-                participation.pseudonym,
-                Contact.domain)
-            contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
-            can_access = self.request.user.has_privacy_level(contact.privacy_level)
-
-            participants.append((participation, buckets, can_access))
+            participants.append((participation, buckets))
         context['participants'] = participants
 
         context['statistics'] = self.get_statistics()

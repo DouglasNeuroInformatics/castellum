@@ -2,46 +2,36 @@
 
 <ul class="table-list mt-3">
     {% has_perm 'recruitment.change_participationrequest' user view.study as can_change_participationrequest %}
-    {% for participation, buckets, can_access in participants %}
+    {% for participation, buckets in participants %}
         <li class="table-list-item">
-            {% if can_access %}
+            <div>
                 <div>
-                    <div>
-                        <h3 class="h4 d-inline-block my-1 mr-2">{{ participation.pseudonym|truncatechars:11 }}</h3>
-                        <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
+                    <h3 class="h4 d-inline-block my-1 mr-2">{{ participation.pseudonym|truncatechars:11 }}</h3>
+                    <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
+                </div>
+                {% if not_reached_view %}
+                    <div class="mr-2">
+                        <div class="d-inline-block my-1">
+                            {% blocktrans count tries=participation.tries %}
+                                {{ tries }} try
+                            {% plural %}
+                                {{ tries }} tries
+                            {% endblocktrans %}
+                        </div>,
+                        <div class="d-inline-block my-1">{% trans 'last' %}: {{ participation.updated_at|date:"SHORT_DATETIME_FORMAT" }}</div>
                     </div>
-                    {% if not_reached_view %}
-                        <div class="mr-2">
-                            <div class="d-inline-block my-1">
-                                {% blocktrans count tries=participation.tries %}
-                                    {{ tries }} try
-                                {% plural %}
-                                    {{ tries }} tries
-                                {% endblocktrans %}
-                            </div>,
-                            <div class="d-inline-block my-1">{% trans 'last' %}: {{ participation.updated_at|date:"SHORT_DATETIME_FORMAT" }}</div>
-                        </div>
+                {% endif %}
+            </div>
+            {% if can_change_participationrequest %}
+                <div class="table-list-item-actions">
+                    {% if not_contacted_view %}
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pseudonym 'not-contacted' %}">{% trans 'Call' %}</a>
+                    {% elif not_reached_view %}
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pseudonym 'not-reached' %}">{% trans 'Call' %}</a>
+                    {% else %}
+                        <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Call' %}</a>
                     {% endif %}
                 </div>
-                {% if can_change_participationrequest %}
-                    <div class="table-list-item-actions">
-                        {% if not_contacted_view %}
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pseudonym 'not-contacted' %}">{% trans 'Call' %}</a>
-                        {% elif not_reached_view %}
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pseudonym 'not-reached' %}">{% trans 'Call' %}</a>
-                        {% else %}
-                            <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Call' %}</a>
-                        {% endif %}
-                    </div>
-                {% endif %}
-            {% else %}
-                <h3 class="h4 d-inline-block text-muted my-1 mr-2">{{ participation.pseudonym|truncatechars:11 }}</h3>
-                <div class="d-inline-block text-muted my-1 mr-2">{% trans 'access denied' %}</div>
-                {% if can_change_participationrequest %}
-                    <div class="table-list-item-actions">
-                        <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Call' %}</a>
-                    </div>
-                {% endif %}
             {% endif %}
         </li>
     {% endfor %}
