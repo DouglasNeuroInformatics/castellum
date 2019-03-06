@@ -34,13 +34,13 @@ from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.studies.models import Study
 from castellum.utils.helpers import get_object_or_none
 
-from .mixins import StudyMixin
+from .mixins import StudyPermissionMixin
 from ..models import AttributeSet
 from ..models import ParticipationRequest
 from ..utils import get_study_filter_q
 
 
-class ContactUpdateView(StudyMixin, _ContactUpdateView):
+class ContactUpdateView(StudyPermissionMixin, _ContactUpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))

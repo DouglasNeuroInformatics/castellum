@@ -43,7 +43,7 @@ from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.studies.models import Study
 from castellum.utils.chart import ChartRenderer
 
-from .mixins import StudyMixin
+from .mixins import StudyPermissionMixin
 from ..models import AttributeDescription
 from ..models import AttributeSet
 from ..models import ParticipationRequest
@@ -64,7 +64,7 @@ class StudyChoiceView(LoginRequiredMixin, ListView):
         )]
 
 
-class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
+class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
     model = ParticipationRequest
     context_object_name = 'participation_requests'
     template_name = 'recruitment/recruitment.html'
@@ -247,7 +247,7 @@ class RecruitmentViewNotContacted(RecruitmentView):
         return self.get(request, *args, **kwargs)
 
 
-class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
+class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = ParticipationRequest
     fields = ['status']
     slug_field = 'pseudonym'

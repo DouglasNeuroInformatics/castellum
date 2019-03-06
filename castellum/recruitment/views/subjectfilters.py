@@ -37,7 +37,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.settings import CASTELLUM_EXPECTED_SUBJECT_FACTOR
 from castellum.studies.models import Study
 
-from .mixins import StudyMixin
+from .mixins import StudyPermissionMixin
 from .. import forms
 from ..models import AttributeDescription
 from ..models import AttributeSet
@@ -57,7 +57,7 @@ class FilterMixin:
         return permission_required
 
 
-class FilterGroupListView(FilterMixin, StudyMixin, PermissionRequiredMixin, ListView):
+class FilterGroupListView(FilterMixin, StudyPermissionMixin, PermissionRequiredMixin, ListView):
     model = SubjectFilterGroup
     template_name = 'recruitment/filtergroup_list.html'
     permission_required = 'recruitment.view_subjectfilter'
@@ -107,7 +107,7 @@ class FilterGroupListView(FilterMixin, StudyMixin, PermissionRequiredMixin, List
             return redirect(group.get_absolute_url())
 
 
-class FilterGroupCreateView(FilterMixin, StudyMixin, PermissionRequiredMixin, View):
+class FilterGroupCreateView(FilterMixin, StudyPermissionMixin, PermissionRequiredMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
 
     def dispatch(self, request, *args, **kwargs):
@@ -120,7 +120,7 @@ class FilterGroupCreateView(FilterMixin, StudyMixin, PermissionRequiredMixin, Vi
         return redirect(group.get_absolute_url())
 
 
-class FilterGroupDeleteView(FilterMixin, StudyMixin, PermissionRequiredMixin, DeleteView):
+class FilterGroupDeleteView(FilterMixin, StudyPermissionMixin, PermissionRequiredMixin, DeleteView):
     model = SubjectFilterGroup
     template_name = 'recruitment/filtergroup_confirm_delete.html'
     permission_required = 'recruitment.change_subjectfilter'
@@ -165,7 +165,8 @@ class FilterFormSet(BaseModelFormSet):
                                     'delete filter!'))
 
 
-class FilterGroupUpdateView(FilterMixin, StudyMixin, PermissionRequiredMixin, ModelFormSetView):
+class FilterGroupUpdateView(FilterMixin, StudyPermissionMixin, PermissionRequiredMixin,
+                            ModelFormSetView):
     model = SubjectFilter
     form_class = forms.SubjectFilterForm
     formset_class = FilterFormSet
@@ -239,7 +240,7 @@ class FilterGroupUpdateView(FilterMixin, StudyMixin, PermissionRequiredMixin, Mo
         return data
 
 
-class FilterGroupDuplicateView(FilterMixin, StudyMixin, PermissionRequiredMixin, View):
+class FilterGroupDuplicateView(FilterMixin, StudyPermissionMixin, PermissionRequiredMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
 
     def dispatch(self, request, *args, **kwargs):

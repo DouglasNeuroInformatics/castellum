@@ -20,7 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 
-class StudyMixin:
+class StudyPermissionMixin:
     def get_permission_required(self):
         """If used together with PermissionRequiredMixin, require access_study permission."""
         permission_required = {'studies.access_study'}
