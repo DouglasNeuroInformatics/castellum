@@ -239,7 +239,6 @@ class RecruitmentViewNotContacted(RecruitmentView):
 class ContactView(PublishedStudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = ParticipationRequest
     fields = ['status']
-    slug_field = 'pseudonym'
     template_name = 'recruitment/contact.html'
     permission_required = 'recruitment.change_participationrequest'
 
@@ -318,7 +317,7 @@ class ContactView(PublishedStudyMixin, SubjectMixin, PermissionRequiredMixin, Up
             return redirect(
                 'recruitment:contact',
                 self.object.study.pk,
-                participation_requests[next_index].pseudonym,
+                participation_requests[next_index].pk,
                 self.kwargs['path'])
 
     def form_valid(self, form):

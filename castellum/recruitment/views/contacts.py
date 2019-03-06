@@ -44,7 +44,7 @@ from ..utils import get_study_filter_q
 class ContactUpdateView(PublishedStudyMixin, _ContactUpdateView):
     def get_object(self):
         participation_request = get_object_or_404(
-            ParticipationRequest, study=self.study, pseudonym=self.kwargs['slug'])
+            ParticipationRequest, study=self.study, pk=self.kwargs['pk'])
 
         contact_pseudonym = get_pseudonym(participation_request.subject, Contact.domain)
         contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
@@ -53,7 +53,7 @@ class ContactUpdateView(PublishedStudyMixin, _ContactUpdateView):
 
     def get_success_url(self):
         return reverse('recruitment:contact',
-                       args=[self.kwargs['study_pk'], self.kwargs['slug'], self.kwargs['path']])
+                       args=[self.kwargs['study_pk'], self.kwargs['pk'], self.kwargs['path']])
 
     def get_cancel_url(self):
         return self.get_success_url()
@@ -102,4 +102,4 @@ class ContactStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):
             pseudonym=pseudonym, subject=subject, study=study)
 
         return redirect(
-            'recruitment:contact', study.pk, participation_request.pseudonym, 'not-contacted')
+            'recruitment:contact', study.pk, participation_request.pk, 'not-contacted')
