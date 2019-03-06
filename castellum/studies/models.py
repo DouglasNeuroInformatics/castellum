@@ -26,6 +26,7 @@ from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.forms import ValidationError
 from django.http import Http404
+from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 
 from castellum.castellum_auth.models import User
@@ -93,6 +94,10 @@ class Study(models.Model):
     def raise_404_error_if_study_is_not_published(self):
         if not self.published:
             raise Http404
+
+    @classmethod
+    def get_by_pk_or_404(cls, pk):
+        return get_object_or_404(cls, pk=pk)
 
 
 class StudyMembership(models.Model):

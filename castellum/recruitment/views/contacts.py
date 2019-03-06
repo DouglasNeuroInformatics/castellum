@@ -42,8 +42,10 @@ from ..utils import get_study_filter_q
 
 class ContactUpdateView(StudyMixin, _ContactUpdateView):
 
-    def check_study(self):
+    def dispatch(self, request, *args, **kwargs):
+        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
         self.study.raise_404_error_if_study_is_not_published()
+        return super().dispatch(request, *args, **kwargs)
 
     def get_object(self):
         participation_request = get_object_or_404(

@@ -71,8 +71,10 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     permission_required = 'recruitment.view_participationrequest'
     shown_status = None
 
-    def check_study(self):
+    def dispatch(self, request, *args, **kwargs):
+        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
         self.study.raise_404_error_if_study_is_not_published()
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self, queryset=None):
         if not queryset:
@@ -252,8 +254,10 @@ class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView)
     template_name = 'recruitment/contact.html'
     permission_required = 'recruitment.change_participationrequest'
 
-    def check_study(self):
+    def dispatch(self, request, *args, **kwargs):
+        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
         self.study.raise_404_error_if_study_is_not_published()
+        return super().dispatch(request, *args, **kwargs)
 
     def get_initial(self):
         initial = super().get_initial()
