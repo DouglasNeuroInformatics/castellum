@@ -32,9 +32,7 @@ from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.helpers import list_pseudonyms
-from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.pseudonyms.registry import subject_data_models
-from castellum.recruitment.models import AttributeSet
 from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
@@ -79,9 +77,6 @@ class ContactDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        context['attributeset_pseudonym'] = resolve_pseudonym(
-            Contact.domain, self.object.pseudonym, AttributeSet.domain)
 
         timeslots = TimeSlot.objects.all()
 

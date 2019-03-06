@@ -20,7 +20,6 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib import messages
-from django.db import models
 from django.forms import BaseModelFormSet
 from django.forms import ValidationError
 from django.http import Http404
@@ -51,9 +50,7 @@ class FilterMixin:
         permission_required = set()
         permission_required.update(super().get_permission_required())
 
-        key = 'subjectfilter__description__privacy_level_read'
-        result = self.study.subjectfiltergroup_set.aggregate(models.Max(key))
-        max_privacy_level = result[key + '__max']
+        max_privacy_level = self.study.get_filter_max_privacy_level()
         if max_privacy_level:
             permission_required.add('castellum_auth.privacy_level_{}'.format(max_privacy_level))
 

@@ -20,16 +20,13 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import template
-from django.db import models
 
 register = template.Library()
 
 
 @register.simple_tag
 def can_manage_filters(user, study):
-    key = 'subjectfilter__description__privacy_level_read'
-    result = study.subjectfiltergroup_set.aggregate(models.Max(key))
-    max_privacy_level = result[key + '__max']
+    max_privacy_level = study.get_filter_max_privacy_level()
 
     if max_privacy_level is None:
         return True

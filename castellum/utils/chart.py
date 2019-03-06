@@ -56,7 +56,7 @@ class ChartRenderer:
     def attrs(self, **kwargs):
         return ''.join(
             ' {}="{}"'.format(key.replace('_', '-'), escape(str(value)))
-            for key, value in kwargs.items()
+            for key, value in sorted(kwargs.items())
         )
 
     def element(self, tag, content=None, **attrs):
