@@ -3,7 +3,6 @@ from model_mommy import mommy
 
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_subject
-from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import ParticipationRequestRevision
 
@@ -104,13 +103,11 @@ def test_post_redirect_next_with_multiple_participation_requests(client, member,
     participation_requests = []
     for i in range(5):
         contact = mommy.make(Contact, pseudonym=None, privacy_level=0)
-        pseudonym = resolve_pseudonym(Contact.domain, contact.pseudonym, published_study.domain)
         subject = get_subject(Contact.domain, contact.pseudonym)
         participation_requests.append(mommy.make(
             ParticipationRequest,
             study=published_study,
             subject=subject,
-            pseudonym=pseudonym,
         ))
 
     client.force_login(member)
@@ -141,13 +138,11 @@ def test_post_redirect_next_with_multiple_participation_requests_from_not_reache
     participation_requests = []
     for i in range(5):
         contact = mommy.make(Contact, pseudonym=None, privacy_level=0)
-        pseudonym = resolve_pseudonym(Contact.domain, contact.pseudonym, published_study.domain)
         subject = get_subject(Contact.domain, contact.pseudonym)
         participation_requests.append(mommy.make(
             ParticipationRequest,
             study=published_study,
             subject=subject,
-            pseudonym=pseudonym,
             status=ParticipationRequest.NOT_REACHED,
         ))
 
