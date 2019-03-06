@@ -83,6 +83,11 @@ class Study(models.Model):
             raise ValidationError(
                 _('Data collected by this type of study is always considered sensitive!'))
 
+    def get_filter_max_privacy_level(self):
+        key = 'subjectfilter__description__privacy_level_read'
+        result = self.subjectfiltergroup_set.aggregate(models.Max(key))
+        return result[key + '__max']
+
 
 class StudyMembership(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)

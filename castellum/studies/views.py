@@ -19,12 +19,14 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.contrib import messages
 from django.db.models import Q
 from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.translation import ugettext_lazy as _
 from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
@@ -162,6 +164,15 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
     template_name = 'studies/study_members.html'
     permission_required = 'studies.change_study'
 
+    def dispatch(self, *args, **kwargs):
+        response = super().dispatch(*args, **kwargs)
+        if self.has_unprivileged_members():
+            messages.warning(self.request, _(
+                'Some members of this study with access to filters may be blocked from managing '
+                'filters due to an insufficient privacy level.'
+            ))
+        return response
+
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().get(request, *args, **kwargs)
@@ -183,6 +194,16 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
         StudyMembership.objects.get_or_create(
             user=form.cleaned_data['user'], study=self.object)
         return super().form_valid(form)
+
+    def has_unprivileged_members(self):
+        max_privacy_level = self.object.get_filter_max_privacy_level()
+
+        for user in self.object.members.all():
+            if user.has_perm('recruitment.view_subjectfilter', obj=self.object):
+                if user.get_privacy_level() < max_privacy_level:
+                    return True
+
+        return False
 
 
 class StudyMemberUpdateView(StudyMembershipAccessMixin, UpdateView):
