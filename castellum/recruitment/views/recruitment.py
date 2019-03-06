@@ -92,10 +92,13 @@ class RecruitmentView(PublishedStudyMixin, PermissionRequiredMixin, ListView):
 
         statistics = defaultdict(lambda: defaultdict(lambda: 0))
         for participation_request in participation_requests:
-            attributeset = participation_request.subject.attributeset
-            key1 = attributeset.get_statistics_bucket('primary')
-            key2 = attributeset.get_statistics_bucket('secondary')
-            statistics[key1][key2] += 1
+            try:
+                attributeset = participation_request.subject.attributeset
+                key1 = attributeset.get_statistics_bucket('primary')
+                key2 = attributeset.get_statistics_bucket('secondary')
+                statistics[key1][key2] += 1
+            except AttributeSet.DoesNotExist:
+                pass
 
         data = {
             'rows': [{
