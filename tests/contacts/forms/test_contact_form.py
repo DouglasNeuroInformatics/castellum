@@ -1,9 +1,5 @@
-from unittest.mock import patch
-
 import pytest
 from model_mommy import mommy
-
-from django.forms import ValidationError
 
 from castellum.castellum_auth.models import User
 from castellum.contacts.forms import ContactForm, AddressForm
@@ -33,20 +29,6 @@ def test_form_with_initial_address():
     assert form.fields['street'].initial == address.street
     assert form.fields['house_number'].initial == address.house_number
     assert form.fields['additional_information'].initial == address.additional_information
-
-
-@pytest.mark.unittest
-@patch.object(User, 'has_privacy_level')
-def test_clean_with_privacy_level_too_low(has_privacy_level, contact_data):
-    user = mommy.prepare(User)
-
-    contact_data["email"] = "my@mail.com"
-    form = ContactForm(user=user, data=contact_data)
-    form.is_valid()
-
-    has_privacy_level.return_value = False
-    with pytest.raises(ValidationError):
-        form.clean()
 
 
 def test_contact_form_with_contact_data_except_email_phone_address(user, contact_data):
