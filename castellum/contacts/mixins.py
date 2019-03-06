@@ -23,7 +23,7 @@ from django.core.exceptions import PermissionDenied
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from castellum.pseudonyms.helpers import resolve_pseudonym
+from castellum.pseudonyms.helpers import get_pseudonym
 
 from .models import Contact
 
@@ -35,7 +35,7 @@ class SubjectMixin:
         if isinstance(obj, Contact):
             return obj
         else:
-            pseudonym = resolve_pseudonym(obj.domain, obj.pseudonym, Contact.domain)
+            pseudonym = get_pseudonym(obj.subject, Contact.domain)
             return Contact.objects.get(pseudonym=pseudonym)
 
     def dispatch(self, request, *args, **kwargs):

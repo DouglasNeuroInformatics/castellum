@@ -37,7 +37,7 @@ from parler.models import TranslatedFields
 from parler.utils.context import switch_language
 
 from castellum.contacts.models import Contact
-from castellum.pseudonyms.helpers import resolve_pseudonym
+from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.models import Subject
 from castellum.pseudonyms.models import SubjectData
 
@@ -84,7 +84,7 @@ class AttributeSet(SubjectData):
         verbose_name_plural = _('attribute sets')
 
     def get_absolute_url(self):
-        contact_pseudonym = resolve_pseudonym(self.domain, self.pseudonym, Contact.domain)
+        contact_pseudonym = get_pseudonym(self.subject, Contact.domain)
         return reverse('contacts:detail', args=[contact_pseudonym])
 
     def get_data(self):

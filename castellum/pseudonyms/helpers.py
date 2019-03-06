@@ -28,6 +28,11 @@ def get_subject(domain, pseudonym):
     return origin.subject
 
 
+def get_pseudonym(subject, target_domain):
+    target, __ = Pseudonym.objects.get_or_create(subject=subject, domain=target_domain)
+    return str(target.pseudonym)
+
+
 def resolve_pseudonym(domain, pseudonym, target_domain):
     origin = Pseudonym.objects.get(domain=domain, pseudonym=pseudonym)
     target, __ = Pseudonym.objects.get_or_create(
