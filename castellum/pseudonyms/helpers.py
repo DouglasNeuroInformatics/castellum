@@ -23,25 +23,22 @@ from .models import Pseudonym
 from .models import Subject
 
 
-def get_subject(domain, pseudonym):
-    origin = Pseudonym.objects.get(domain=domain, pseudonym=pseudonym)
+def get_subject(pseudonym):
+    origin = Pseudonym.objects.get(pseudonym=pseudonym)
     return origin.subject
 
 
-def get_pseudonym(subject, target_domain):
-    target, __ = Pseudonym.objects.get_or_create(subject=subject, domain=target_domain)
+def get_pseudonym(subject):
+    target, __ = Pseudonym.objects.get_or_create(subject=subject)
     return str(target.pseudonym)
 
 
-def create_pseudonym(domain):
+def create_pseudonym():
     subject = Subject.objects.create()
-    pseudonym = Pseudonym.objects.create(subject=subject, domain=domain)
+    pseudonym = Pseudonym.objects.create(subject=subject)
     return str(pseudonym.pseudonym)
 
 
-def delete_pseudonym(domain, pseudonym, delete_related=False):
-    p = Pseudonym.objects.get(domain=domain, pseudonym=pseudonym)
-    if delete_related:
-        p.subject.delete()
-    else:
-        p.delete()
+def delete_pseudonym(pseudonym):
+    p = Pseudonym.objects.get(pseudonym=pseudonym)
+    p.delete()
