@@ -21,7 +21,6 @@
 
 from datetime import date
 
-from django.conf import settings
 from django.core.validators import MaxValueValidator
 from django.db import models
 from django.urls import reverse
@@ -51,7 +50,6 @@ class ContactManager(models.Manager):
 
 
 class Contact(models.Model):
-    domain = settings.DOMAINS['contact']
 
     GENDER = (
         ("f", _("female")),
