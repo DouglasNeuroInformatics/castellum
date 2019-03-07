@@ -52,7 +52,7 @@ msgstr "Liste der Rechte"
 
 #: castellum/castellum_auth/admin.py:83
 msgid "List all permissions"
-msgstr "Aller Berechtigungen auflisten"
+msgstr "Alle Berechtigungen auflisten"
 
 #: castellum/castellum_auth/middlewares.py:41
 msgid "Your account is not activated."
@@ -860,7 +860,7 @@ msgid ""
 "This study does not require participants. Please, contact the responsible "
 "person who can set it up."
 msgstr ""
-"Diese Studie benötigt keine Teilnehmenden. Bitte kontaktieren sie die "
+"Diese Studie benötigt keine Teilnehmenden. Bitte kontaktieren Sie die "
 "verantwortliche Person, damit dies eingerichtet wird."
 
 #: castellum/recruitment/views/recruitment.py:228
@@ -901,7 +901,7 @@ msgid ""
 "%(recommended_count)d for this study). Current amount of potential subjects: "
 "%(potential_count)d"
 msgstr ""
-"Für einen reibungslosen Rekrutierungsablauf empfiehlt ihre Einrichtung "
+"Für einen reibungslosen Rekrutierungsablauf empfiehlt Ihre Einrichtung "
 "mindestens %(castellum_factor)dx mehr portentielle als benötige ProbandInnen "
 "(d.h. %(recommended_count)d für diese Studie). Gegenwärtige Anzahl "
 "potentieller ProbandInnen: %(potential_count)d"
@@ -1229,7 +1229,7 @@ msgstr "z.B. 030 123456"
 #~ "the responsible person who can set it up."
 #~ msgstr ""
 #~ "Die Mindestanzahl von ProbandInnen wurde für diese Studie nicht "
-#~ "eingerichtet. Bitte kontaktieren sie die verantwortliche Person, damit "
+#~ "eingerichtet. Bitte kontaktieren Sie die verantwortliche Person, damit "
 #~ "dies eingerichtet wird."
 
 #~ msgid ""
