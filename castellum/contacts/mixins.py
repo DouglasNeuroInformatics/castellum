@@ -35,7 +35,7 @@ class SubjectMixin:
         if isinstance(obj, Contact):
             return obj
         else:
-            pseudonym = get_pseudonym(obj.subject, Contact.domain)
+            pseudonym = get_pseudonym(obj.subject)
             return Contact.objects.get(pseudonym=pseudonym)
 
     def dispatch(self, request, *args, **kwargs):

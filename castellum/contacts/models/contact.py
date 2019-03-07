@@ -149,7 +149,7 @@ class Contact(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.pseudonym:
-            self.pseudonym = create_pseudonym(Contact.domain)
+            self.pseudonym = create_pseudonym()
 
         self.first_name_phonetic = phonetic(self.first_name)
         self.last_name_phonetic = phonetic(self.last_name)

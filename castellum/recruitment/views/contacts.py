@@ -45,7 +45,7 @@ class ContactUpdateView(PublishedStudyMixin, _ContactUpdateView):
         participation_request = get_object_or_404(
             ParticipationRequest, study=self.study, pk=self.kwargs['pk'])
 
-        contact_pseudonym = get_pseudonym(participation_request.subject, Contact.domain)
+        contact_pseudonym = get_pseudonym(participation_request.subject)
         contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
 
         return contact
@@ -77,7 +77,7 @@ class ContactStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        subject = get_subject(Contact.domain, self.object.pseudonym)
+        subject = get_subject(self.object.pseudonym)
 
         try:
             data['attributeset'] = subject.attributeset
@@ -94,7 +94,7 @@ class ContactStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):
             if not request.user.has_perm(perm, obj=study):
                 raise PermissionDenied
 
-        subject = get_subject(study.domain, request.POST['pseudonym'])
+        subject = get_subject(request.POST['pseudonym'])
         participation_request = ParticipationRequest.objects.create(subject=subject, study=study)
 
         return redirect(

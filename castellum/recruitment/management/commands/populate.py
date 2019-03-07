@@ -210,9 +210,7 @@ def generate_subjects(count):
     Subject.objects.bulk_create([Subject() for i in range(count)], batch_size=200)
     subjects = Subject.objects.all()[:count]
 
-    contact_pseudonyms = [Pseudonym(
-        subject=subjects[i], domain=Contact.domain
-    ) for i in range(count)]
+    contact_pseudonyms = [Pseudonym(subject=subjects[i]) for i in range(count)]
     Pseudonym.objects.bulk_create(contact_pseudonyms)
 
     print('Generating contacts')

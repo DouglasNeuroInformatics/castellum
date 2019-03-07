@@ -46,7 +46,7 @@ class AttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         if queryset is None:
             queryset = self.get_queryset()
         contact = get_object_or_404(Contact, pseudonym=self.kwargs['slug'])
-        subject = get_subject(Contact.domain, contact.pseudonym)
+        subject = get_subject(contact.pseudonym)
         attributeset, __ = queryset.get_or_create(subject=subject, defaults={'data': {}})
         return attributeset
 

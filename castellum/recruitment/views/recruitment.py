@@ -128,7 +128,7 @@ class RecruitmentView(PublishedStudyMixin, PermissionRequiredMixin, ListView):
             except AttributeSet.DoesNotExist:
                 buckets = ''
 
-            contact_pseudonym = get_pseudonym(participation.subject, Contact.domain)
+            contact_pseudonym = get_pseudonym(participation.subject)
             contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
             can_access = self.request.user.has_privacy_level(contact.privacy_level)
 
@@ -284,7 +284,7 @@ class ContactView(PublishedStudyMixin, SubjectMixin, PermissionRequiredMixin, Up
             index = current_index + 1
             while index < len(participation_requests):
                 contact = Contact.objects.get(pseudonym=get_pseudonym(
-                    participation_requests[index].subject, Contact.domain))
+                    participation_requests[index].subject))
                 if contact.privacy_level <= user_privacy_level:
                     next_index = index
                     break
@@ -294,7 +294,7 @@ class ContactView(PublishedStudyMixin, SubjectMixin, PermissionRequiredMixin, Up
                 index = current_index - 1
                 while index >= 0:
                     contact = Contact.objects.get(pseudonym=get_pseudonym(
-                        participation_requests[index].subject, Contact.domain))
+                        participation_requests[index].subject))
                     if contact.privacy_level <= user_privacy_level:
                         next_index = index
                         break
@@ -313,7 +313,7 @@ class ContactView(PublishedStudyMixin, SubjectMixin, PermissionRequiredMixin, Up
     def form_valid(self, form):
         if self.kwargs['path'] == 'contacts':
             self.save(form)
-            contact_pseudonym = get_pseudonym(self.object.subject, Contact.domain)
+            contact_pseudonym = get_pseudonym(self.object.subject)
             return redirect('contacts:detail', contact_pseudonym)
         else:
             return self.form_valid_recruitment(form)
