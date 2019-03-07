@@ -105,8 +105,7 @@ def create_participation_request(study, status=ParticipationRequest.NOT_CONTACTE
     subject = mommy.make('pseudonyms.Subject')
 
     contact = mommy.make('contacts.Contact')
-    mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["contact"],
-               pseudonym=contact.pseudonym)
+    mommy.make('pseudonyms.Pseudonym', subject=subject, pseudonym=contact.pseudonym)
 
     mommy.make('recruitment.AttributeSet', data={'d1': 1}, subject=subject)
 

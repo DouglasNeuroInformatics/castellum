@@ -35,8 +35,7 @@ def test_post_when_more_then_double_minimal_subject_count(client, member, publis
     subject = mommy.make(Subject, id=1)
     contact_pseudonym = mommy.make(Pseudonym,
                                    subject_id=1,
-                                   pseudonym=uuid.uuid4(),
-                                   domain=Contact.domain)
+                                   pseudonym=uuid.uuid4())
     mommy.make(Contact, pseudonym=contact_pseudonym)
     mommy.make(ParticipationRequest,
                study=published_study,
