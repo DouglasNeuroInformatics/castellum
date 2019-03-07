@@ -145,8 +145,7 @@ class ContactCreateView(PermissionRequiredMixin, CreateView):
 
     def form_valid(self, form):
         result = super().form_valid(form)
-        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
-            Contact.domain,
+        monitoring_logger.info('SubjectData update: {} by {}'.format(
             self.object.pseudonym,
             self.request.user.pk))
         return result
@@ -171,8 +170,7 @@ class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         result = super().form_valid(form)
-        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
-            Contact.domain,
+        monitoring_logger.info('SubjectData update: {} by {}'.format(
             self.object.pseudonym,
             self.request.user.pk))
         return result
@@ -209,12 +207,12 @@ class ContactExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        monitoring_logger.info('GDPR-Request export: {}:{} by {}'.format(
-            Contact.domain, self.object.pseudonym, self.request.user.pk))
+        monitoring_logger.info('GDPR-Request export: {} by {}'.format(
+            self.object.pseudonym, self.request.user.pk))
 
         context['dataset_list'] = [self.object]
 
-        subject = get_subject(Contact.domain, self.object.pseudonym)
+        subject = get_subject(self.object.pseudonym)
         try:
             context['dataset_list'].append(subject.attributeset)
         except ObjectDoesNotExist:
