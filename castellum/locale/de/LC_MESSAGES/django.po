@@ -656,18 +656,16 @@ msgid "Recruitment"
 msgstr "Rekrutierung"
 
 #: castellum/recruitment/templates/recruitment/contact.html:10
-#, fuzzy
-#| msgid "Study details"
 msgid "Talking points: Study details"
-msgstr "Studiendetails"
+msgstr "Gesprächspunkte: Studiendetails"
 
 #: castellum/recruitment/templates/recruitment/contact.html:23
 msgid "Check exclusion criteria"
-msgstr ""
+msgstr "Ausschlusskriterien überprüfen"
 
 #: castellum/recruitment/templates/recruitment/contact.html:36
 msgid "Duration of sessions in minutes"
-msgstr ""
+msgstr "Sitzungsdauer in Minuten"
 
 #: castellum/recruitment/templates/recruitment/contact.html:54
 msgid "Name"
@@ -942,23 +940,23 @@ msgstr "Englisch"
 
 #: castellum/studies/models.py:42
 msgid "Online"
-msgstr ""
+msgstr "Online"
 
 #: castellum/studies/models.py:43
 msgid "Behavioral lab"
-msgstr ""
+msgstr "Verhaltenslabor"
 
 #: castellum/studies/models.py:45
 msgid "Simulation"
-msgstr ""
+msgstr "Simulation"
 
 #: castellum/studies/models.py:46
 msgid "EEG"
-msgstr ""
+msgstr "EEG"
 
 #: castellum/studies/models.py:47
 msgid "3rd Party"
-msgstr ""
+msgstr "Verarbeitung externer Daten"
 
 #: castellum/studies/models.py:51
 msgid "responsible contact person"
@@ -966,15 +964,15 @@ msgstr "Verantwortliche Kontaktperson"
 
 #: castellum/studies/models.py:53
 msgid "Principal Investigator"
-msgstr ""
+msgstr "StudienleiterIn"
 
 #: castellum/studies/models.py:54
 msgid "Affiliated Scientists"
-msgstr ""
+msgstr "Zugehörige WissenschaftlerInnen"
 
 #: castellum/studies/models.py:56
 msgid "Affiliated Research Assistants"
-msgstr ""
+msgstr "Zugehörige ForschungsassistentInnen"
 
 #: castellum/studies/models.py:57
 msgid "description"
@@ -982,17 +980,15 @@ msgstr "Beschreibung"
 
 #: castellum/studies/models.py:58
 msgid "keywords"
-msgstr ""
+msgstr "Schlagworte"
 
 #: castellum/studies/models.py:60
-#, fuzzy
-#| msgid "Add to study"
 msgid "Type of study"
-msgstr "Zur Studie hinzufügen"
+msgstr "Studientyp"
 
 #: castellum/studies/models.py:61
 msgid "Contains sensitive data"
-msgstr ""
+msgstr "Enthält sensible Daten"
 
 #: castellum/studies/models.py:65
 msgid "expense allowance"
@@ -1012,11 +1008,13 @@ msgstr "freigegeben"
 
 #: castellum/studies/models.py:80
 msgid "Data collected by this type of study is always considered sensitive!"
-msgstr ""
+msgstr
+"Bei diesem Studientyp erhobene Daten werden automatisch als "
+"sensibel eingestuft!"
 
 #: castellum/studies/models.py:102
 msgid "Duration of a session in minutes"
-msgstr ""
+msgstr "Sitzungsdauer in Minuten"
 
 #: castellum/studies/templates/studies/study_form.html:8
 #: castellum/studies/templates/studies/study_list.html:98
@@ -1110,17 +1108,13 @@ msgid "Additional groups in this study"
 msgstr "Zusätzliche Gruppen in dieser Studie"
 
 #: castellum/studies/views.py:190
-#, fuzzy
-#| msgid ""
-#| "At least one member of this study with access to filters does not have a "
-#| "sufficient privacy level to view the following attributes: %s"
 msgid ""
 "Some members of this study with access to filters may be blocked from "
 "managing filters due to an insufficient privacy level."
 msgstr ""
-"Mindestens ein weiteres Mitglied dieser Studie mit Zugriff auf die Filter "
-"verfügt nicht über die nötige Vertraulichkeitsstufe, um die folgenden "
-"Attribute sehen zu dürfen: %s"
+"Einige Mitglieder dieser Studie mit Zugriff auf die Filter dürfen diese "
+"möglicherweise aufgrund ihrer unzureichenden Vertraulichkeitsstufe nicht "
+"bearbeiten. "
 
 #: castellum/templates/403.html:4 castellum/templates/403.html:7
 msgid "Forbidden"
