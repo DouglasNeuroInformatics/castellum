@@ -35,17 +35,11 @@ class Subject(models.Model):
 
 
 class Pseudonym(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    domain = models.CharField(max_length=50)
+    subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
     pseudonym = models.CharField(
         max_length=64,
         default=uuid.uuid4
     )
-
-    class Meta:
-        unique_together = (
-            ('domain', 'pseudonym'),
-        )
 
     def __str__(self):
         return str(self.pseudonym)
