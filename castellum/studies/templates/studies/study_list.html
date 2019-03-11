@@ -8,8 +8,8 @@
 
     <div class="d-flex flex-column flex-md-row justify-content-between">
         <div class="my-1">
-            <a href="?q={{ q }}" class="btn {{ own|yesno:'btn-link,btn-primary' }}">{% trans 'All Studies' %}</a>
             <a href="?q={{ q }}&own=1" class="btn {{ own|yesno:'btn-primary,btn-link' }}">{% trans 'My Studies' %}</a>
+            <a href="?q={{ q }}" class="btn {{ own|yesno:'btn-link,btn-primary' }}">{% trans 'All Studies' %}</a>
         </div>
         <form class="my-1" method="get" aria-label="{% trans 'Search' %}">
             <div class="input-group">
