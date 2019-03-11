@@ -43,7 +43,7 @@ from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.studies.models import Study
 from castellum.utils.chart import ChartRenderer
 
-from .mixins import PublishedStudyMixin
+from .mixins import StudyPermissionMixin
 from ..models import AttributeDescription
 from ..models import AttributeSet
 from ..models import ParticipationRequest
@@ -64,12 +64,17 @@ class StudyChoiceView(LoginRequiredMixin, ListView):
         )]
 
 
-class RecruitmentView(PublishedStudyMixin, PermissionRequiredMixin, ListView):
+class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
     model = ParticipationRequest
     context_object_name = 'participation_requests'
     template_name = 'recruitment/recruitment.html'
     permission_required = 'recruitment.view_participationrequest'
     shown_status = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
+        self.study.raise_404_error_if_study_is_not_published()
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self, queryset=None):
         if not queryset:
@@ -242,12 +247,17 @@ class RecruitmentViewNotContacted(RecruitmentView):
         return self.get(request, *args, **kwargs)
 
 
-class ContactView(PublishedStudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
+class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = ParticipationRequest
     fields = ['status']
     slug_field = 'pseudonym'
     template_name = 'recruitment/contact.html'
     permission_required = 'recruitment.change_participationrequest'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
+        self.study.raise_404_error_if_study_is_not_published()
+        return super().dispatch(request, *args, **kwargs)
 
     def get_initial(self):
         initial = super().get_initial()

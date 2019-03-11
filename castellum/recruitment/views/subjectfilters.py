@@ -35,9 +35,9 @@ from extra_views import ModelFormSetView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.settings import CASTELLUM_EXPECTED_SUBJECT_FACTOR
+from castellum.studies.models import Study
 
-from .mixins import StudyMixin
-from .mixins import UnpublishedStudyMixin
+from .mixins import StudyPermissionMixin
 from .. import forms
 from ..models import AttributeDescription
 from ..models import AttributeSet
@@ -57,10 +57,14 @@ class FilterMixin:
         return permission_required
 
 
-class FilterGroupListView(FilterMixin, StudyMixin, PermissionRequiredMixin, ListView):
+class FilterGroupListView(FilterMixin, StudyPermissionMixin, PermissionRequiredMixin, ListView):
     model = SubjectFilterGroup
     template_name = 'recruitment/filtergroup_list.html'
     permission_required = 'recruitment.view_subjectfilter'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
@@ -103,20 +107,31 @@ class FilterGroupListView(FilterMixin, StudyMixin, PermissionRequiredMixin, List
             return redirect(group.get_absolute_url())
 
 
-class FilterGroupCreateView(FilterMixin, UnpublishedStudyMixin, PermissionRequiredMixin, View):
+class FilterGroupCreateView(FilterMixin, StudyPermissionMixin, PermissionRequiredMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
 
+    def dispatch(self, request, *args, **kwargs):
+        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
+        return super().dispatch(request, *args, **kwargs)
+
     def post(self, *args, **kwargs):
+        self.study.raise_permission_denied_if_study_is_published()
         group = SubjectFilterGroup.objects.create(study=self.study)
         return redirect(group.get_absolute_url())
 
 
-class FilterGroupDeleteView(
-    FilterMixin, UnpublishedStudyMixin, PermissionRequiredMixin, DeleteView
-):
+class FilterGroupDeleteView(FilterMixin, StudyPermissionMixin, PermissionRequiredMixin, DeleteView):
     model = SubjectFilterGroup
     template_name = 'recruitment/filtergroup_confirm_delete.html'
     permission_required = 'recruitment.change_subjectfilter'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.study.raise_permission_denied_if_study_is_published()
+        return super().post(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         if self.study != self.object.study:
@@ -150,9 +165,8 @@ class FilterFormSet(BaseModelFormSet):
                                     'delete filter!'))
 
 
-class FilterGroupUpdateView(
-    FilterMixin, UnpublishedStudyMixin, PermissionRequiredMixin, ModelFormSetView
-):
+class FilterGroupUpdateView(FilterMixin, StudyPermissionMixin, PermissionRequiredMixin,
+                            ModelFormSetView):
     model = SubjectFilter
     form_class = forms.SubjectFilterForm
     formset_class = FilterFormSet
@@ -164,8 +178,13 @@ class FilterGroupUpdateView(
     permission_required = 'recruitment.change_subjectfilter'
 
     def dispatch(self, *args, **kwargs):
+        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
         self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['pk'])
         return super().dispatch(*args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.study.raise_permission_denied_if_study_is_published()
+        return super().post(request, *args, **kwargs)
 
     def formset_valid(self, formset):
         messages.success(self.request, _('Filter update successfull!'))
@@ -221,10 +240,15 @@ class FilterGroupUpdateView(
         return data
 
 
-class FilterGroupDuplicateView(FilterMixin, UnpublishedStudyMixin, PermissionRequiredMixin, View):
+class FilterGroupDuplicateView(FilterMixin, StudyPermissionMixin, PermissionRequiredMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
 
+    def dispatch(self, request, *args, **kwargs):
+        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
+        return super().dispatch(request, *args, **kwargs)
+
     def post(self, request, study_pk, pk):
+        self.study.raise_permission_denied_if_study_is_published()
         original = get_object_or_404(SubjectFilterGroup, study=self.study, pk=pk)
         SubjectFilterGroup.objects.clone(original)
         messages.success(request, _(

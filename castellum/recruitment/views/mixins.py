@@ -19,24 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.core.exceptions import PermissionDenied
-from django.http import Http404
-from django.shortcuts import get_object_or_404
-from django.utils.translation import ugettext_lazy as _
 
-from castellum.studies.models import Study
-
-
-class StudyMixin:
-    def check_study(self):
-        pass
-
-    def dispatch(self, request, *args, **kwargs):
-        study_pk = self.kwargs.get('study_pk')
-        self.study = get_object_or_404(Study, pk=study_pk)
-        self.check_study()
-        return super().dispatch(request, *args, **kwargs)
-
+class StudyPermissionMixin:
     def get_permission_required(self):
         """If used together with PermissionRequiredMixin, require access_study permission."""
         permission_required = {'studies.access_study'}
@@ -45,16 +29,3 @@ class StudyMixin:
 
     def get_permission_object(self):
         return self.study
-
-
-class PublishedStudyMixin(StudyMixin):
-    def check_study(self):
-        if not self.study.published:
-            raise Http404
-
-
-class UnpublishedStudyMixin(StudyMixin):
-    def post(self, request, *args, **kwargs):
-        if self.study.published:
-            raise PermissionDenied(_('study is published'))
-        return super().post(request, *args, **kwargs)
