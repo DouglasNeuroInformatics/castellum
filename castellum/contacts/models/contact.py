@@ -24,7 +24,6 @@ from datetime import date
 from django.conf import settings
 from django.core.validators import MaxValueValidator
 from django.db import models
-from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -156,6 +155,3 @@ class Contact(SubjectData):
         self.last_name_phonetic = phonetic(self.last_name)
 
         return super().save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return reverse('contacts:detail', args=[self.pseudonym])

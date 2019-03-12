@@ -22,6 +22,7 @@
 import logging
 
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -62,6 +63,9 @@ class AttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
             self.object.pseudonym,
             self.request.user.pk))
         return result
+
+    def get_success_url(self):
+        return reverse('contacts:index')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

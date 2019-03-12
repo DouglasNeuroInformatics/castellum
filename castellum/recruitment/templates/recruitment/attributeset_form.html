@@ -25,7 +25,7 @@
         {% endfor %}
 
         <div class="mb-3">
-            <a href="{{ object.get_absolute_url }}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+            <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
             <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
         </div>
     </form>

@@ -74,8 +74,11 @@ class ContactCreateView(PermissionRequiredMixin, CreateView):
         kwargs['user'] = self.request.user
         return kwargs
 
-    def get_cancel_url(self):
+    def get_success_url(self):
         return reverse('contacts:index') + '?' + self.request.META['QUERY_STRING']
+
+    def get_cancel_url(self):
+        return self.get_success_url()
 
     def get_initial(self):
         initial = super().get_initial()
@@ -104,11 +107,11 @@ class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         kwargs['user'] = self.request.user
         return kwargs
 
+    def get_success_url(self):
+        return reverse('contacts:index') + '?' + self.request.META['QUERY_STRING']
+
     def get_cancel_url(self):
-        if self.request.META['QUERY_STRING']:
-            return reverse('contacts:index') + '?' + self.request.META['QUERY_STRING']
-        else:
-            return reverse('contacts:detail', args=[self.object.pseudonym])
+        return self.get_success_url()
 
     def form_valid(self, form):
         result = super().form_valid(form)

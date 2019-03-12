@@ -343,10 +343,6 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
     def form_valid(self, form):
         if self.kwargs['path'] == 'contacts':
             self.save(form)
-            contact_pseudonym = resolve_pseudonym(
-                self.study.domain,
-                self.object.pseudonym,
-                Contact.domain)
-            return redirect('contacts:detail', contact_pseudonym)
+            return redirect('contacts:index')
         else:
             return self.form_valid_recruitment(form)

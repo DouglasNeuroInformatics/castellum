@@ -27,7 +27,6 @@ from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MaxValueValidator
 from django.db import models
-from django.urls import reverse
 from django.utils.text import format_lazy
 from django.utils.translation import ugettext_lazy as _
 
@@ -36,8 +35,6 @@ from parler.models import TranslatableModel
 from parler.models import TranslatedFields
 from parler.utils.context import switch_language
 
-from castellum.contacts.models import Contact
-from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.pseudonyms.models import SubjectData
 
 from .. import attribute_fields
@@ -80,10 +77,6 @@ class AttributeSet(SubjectData):
     class Meta:
         verbose_name = _('attribute set')
         verbose_name_plural = _('attribute sets')
-
-    def get_absolute_url(self):
-        contact_pseudonym = resolve_pseudonym(self.domain, self.pseudonym, Contact.domain)
-        return reverse('contacts:detail', args=[contact_pseudonym])
 
     def get_data(self):
         qs = AttributeDescription.objects.all()
