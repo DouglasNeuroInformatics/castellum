@@ -10,11 +10,11 @@
             {% if can_view_study %}
                 <div class="col-sm-6 col-md-4 mb-4">
                     <div class="card">
-                        <a href="{% url 'studies:index' %}?q=&own=1" class="card-header" tabindex="-1">
+                        <a href="{% url 'studies:index' %}" class="card-header" tabindex="-1">
                             <img class="w-100" src="{% static 'images/study_management.png' %}" alt="">
                         </a>
                         <div class="card-body">
-                            <a href="{% url 'studies:index' %}?q=&own=1" class="btn btn-primary btn-block">{% trans "Studies" %}</a>
+                            <a href="{% url 'studies:index' %}" class="btn btn-primary btn-block">{% trans "Studies" %}</a>
                         </div>
                     </div>
                 </div>

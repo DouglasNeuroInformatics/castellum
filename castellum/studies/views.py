@@ -76,14 +76,14 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
         if q:
             for part in q.split():
                 qs = qs.filter(Q(name__icontains=part) | Q(contact_person__icontains=part))
-        if 'own' in self.request.GET:
+        if 'all' not in self.request.GET:
             qs = qs.filter(studymembership__user=self.request.user)
         return qs
 
     def get_context_data(self):
         context = super().get_context_data()
         context['q'] = self.request.GET.get('q', '')
-        context['own'] = 'own' in self.request.GET
+        context['all'] = 'all' in self.request.GET
         return context
 
 
