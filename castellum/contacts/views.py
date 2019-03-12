@@ -178,28 +178,6 @@ class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         return result
 
 
-class RequestCreateView(PermissionRequiredMixin, GetFormView):
-    template_name = 'contacts/subjectexportrequest_form.html'
-    permission_required = 'contacts.view_contact'
-    form_class = PreludeForm
-
-    def form_valid(self, form):
-        monitoring_logger.info((
-            'GDPR-Request: {{first_name: "{first_name}"; last_name: "{last_name}"; '
-            'date_of_birth: "{date_of_birth}"}} by {user}'
-        ).format(user=self.request.user.pk, **form.cleaned_data))
-
-        matches = [
-            (contact, self.request.user.has_privacy_level(contact.privacy_level))
-            for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
-        ]
-
-        return self.render_to_response({
-            'form': form,
-            'matches': matches,
-        })
-
-
 class ContactExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Contact
     slug_field = 'pseudonym'
