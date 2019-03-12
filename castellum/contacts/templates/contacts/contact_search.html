@@ -52,7 +52,7 @@
                             {% has_perm 'contacts.change_contact' user as can_change_contact %}
                             {% if can_change_contact %}
                                 {% if can_access %}
-                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:update' contact.pseudonym %}{{ query }}&matches=1">{% trans 'Edit contact' %}</a>
+                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:update' contact.pseudonym %}{{ query }}">{% trans 'Edit contact' %}</a>
                                 {% else %}
                                     <a class="btn btn-outline-primary disabled btn-sm-inline my-1" href="#" tabindex="-1" aria-disabled="true">{% trans 'Edit contact' %}</a>
                                 {% endif %}
@@ -70,7 +70,7 @@
                             {% has_perm 'contacts.view_contact' user as can_view_contact %}
                             {% if can_view_contact %}
                                 {% if can_access %}
-                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:export' contact.pseudonym %}{{ query }}&matches=1">{% trans 'Export' %}</a>
+                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:export' contact.pseudonym %}{{ query }}">{% trans 'Export' %}</a>
                                 {% else %}
                                     <a class="btn btn-outline-primary disabled btn-sm-inline my-1" href="#" tabindex="-1" aria-disabled="true">{% trans 'Export' %}</a>
                                 {% endif %}
