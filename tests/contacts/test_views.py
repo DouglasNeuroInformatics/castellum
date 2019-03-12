@@ -20,19 +20,6 @@ def test_status_code_200_for_contact_index_view(request, client, user_fixture):
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
 ])
-def test_detail_200(request, client, user_fixture, contact):
-    user = request.getfixturevalue(user_fixture)
-    client.force_login(user)
-    url = '/subjects/{}/'.format(contact.pseudonym)
-    response = client.get(url)
-    assert response.status_code == 200
-
-
-@pytest.mark.parametrize('user_fixture', [
-    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
-    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
-    'subject_manager',
-])
 def test_status_code_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)

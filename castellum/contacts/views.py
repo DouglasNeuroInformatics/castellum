@@ -23,7 +23,6 @@ import logging
 from urllib.parse import urlencode
 
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
@@ -37,44 +36,8 @@ from .forms import ContactForm
 from .forms import PreludeForm
 from .mixins import SubjectMixin
 from .models import Contact
-from .models import TimeSlot
 
 monitoring_logger = logging.getLogger('monitoring.contacts')
-
-
-class ContactDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
-    model = Contact
-    slug_field = 'pseudonym'
-    permission_required = 'contacts.view_contact'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        timeslots = TimeSlot.objects.all()
-
-        days = [
-            self.object.availability_monday.all(),
-            self.object.availability_tuesday.all(),
-            self.object.availability_wednesday.all(),
-            self.object.availability_thursday.all(),
-            self.object.availability_friday.all(),
-        ]
-
-        weekdays = [
-            _("monday"),
-            _("tuesday"),
-            _("wednesday"),
-            _("thursday"),
-            _("friday"),
-        ]
-
-        context['availability'] = [
-            (weekdays[i], [
-                (timeslot.hour, timeslot in days[i])
-                for timeslot in timeslots
-            ]) for i in range(5)]
-
-        return context
 
 
 class ContactCreatePreludeView(PermissionRequiredMixin, GetFormView):
