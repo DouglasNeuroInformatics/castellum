@@ -34,12 +34,30 @@ from castellum.pseudonyms.registry import subject_data_models
 from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
-from .forms import PreludeForm
+from .forms import SearchForm
 from .mixins import SubjectMixin
 from .models import Contact
 from .models import TimeSlot
 
 monitoring_logger = logging.getLogger('monitoring.contacts')
+
+
+class ContactSearchView(PermissionRequiredMixin, GetFormView):
+    template_name = 'contacts/contact_search.html'
+    permission_required = 'contacts.add_contact'
+    form_class = SearchForm
+
+    def form_valid(self, form):
+        matches = [
+            (contact, self.request.user.has_privacy_level(contact.privacy_level))
+            for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
+        ]
+
+        return self.render_to_response({
+            'form': form,
+            'query': '?' + urlencode(form.cleaned_data),
+            'matches': matches,
+        })
 
 
 class ContactDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
@@ -77,24 +95,6 @@ class ContactDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
-class ContactCreatePreludeView(PermissionRequiredMixin, GetFormView):
-    template_name = 'contacts/contact_create_prelude.html'
-    permission_required = 'contacts.add_contact'
-    form_class = PreludeForm
-
-    def form_valid(self, form):
-        matches = [
-            (contact, self.request.user.has_privacy_level(contact.privacy_level))
-            for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
-        ]
-
-        return self.render_to_response({
-            'form': form,
-            'query': '?' + urlencode(form.cleaned_data),
-            'matches': matches,
-        })
-
-
 class ContactCreateView(PermissionRequiredMixin, CreateView):
     model = Contact
     form_class = ContactForm
@@ -106,7 +106,7 @@ class ContactCreateView(PermissionRequiredMixin, CreateView):
         return kwargs
 
     def get_cancel_url(self):
-        return reverse('contacts:create') + '?' + self.request.META['QUERY_STRING']
+        return reverse('contacts:index') + '?' + self.request.META['QUERY_STRING']
 
     def get_initial(self):
         initial = super().get_initial()
@@ -137,7 +137,7 @@ class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
 
     def get_cancel_url(self):
         if self.request.META['QUERY_STRING']:
-            return reverse('contacts:create') + '?' + self.request.META['QUERY_STRING']
+            return reverse('contacts:index') + '?' + self.request.META['QUERY_STRING']
         else:
             return reverse('contacts:detail', args=[self.object.pseudonym])
 

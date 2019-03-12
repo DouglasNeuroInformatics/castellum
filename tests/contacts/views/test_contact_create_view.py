@@ -7,8 +7,8 @@ from castellum.castellum_auth.models import User
 from castellum.contacts.views import ContactCreateView
 
 
-CONTACT_CREATE_PRELUDE_URL = reverse("contacts:create")
-CONTACT_CREATE_URL = reverse("contacts:create-form")
+CONTACT_SEARCH_URL = reverse("contacts:index")
+CONTACT_CREATE_URL = reverse("contacts:create")
 
 
 @pytest.fixture
@@ -19,7 +19,7 @@ def view():
 @pytest.mark.unittest
 def test_get_cancel_url(view, request_factory):
     view.request = request_factory.get(CONTACT_CREATE_URL, {"first_name": "Anna"})
-    assert CONTACT_CREATE_PRELUDE_URL + "?first_name=Anna" == view.get_cancel_url()
+    assert CONTACT_SEARCH_URL + "?first_name=Anna" == view.get_cancel_url()
 
 
 @pytest.mark.unittest
