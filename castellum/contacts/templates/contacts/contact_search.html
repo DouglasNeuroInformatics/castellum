@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n bootstrap4 %}
+{% load i18n auth bootstrap4 %}
 
 {% block title %}{% trans "Subjects" %} &middot; {{ block.super }}{% endblock %}
 
@@ -48,15 +48,40 @@
                                 <div class="d-inline-block text-muted my-1 mr-2">{% trans 'access denied' %}</div>
                             {% endif %}
                         </div>
-                        {% if can_access %}
-                            <div class="table-list-item-actions">
-                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:update' contact.pseudonym %}{{ query }}&matches=1">{% trans 'Edit' %}</a>
-                            </div>
-                        {% else %}
-                            <div class="table-list-item-actions">
-                                <a class="btn btn-outline-primary disabled btn-sm-inline my-1" href="#" tabindex="-1" aria-disabled="true">{% trans 'Edit' %}</a>
-                            </div>
-                        {% endif %}
+                        <div class="table-list-item-actions">
+                            {% has_perm 'contacts.change_contact' user as can_change_contact %}
+                            {% if can_change_contact %}
+                                {% if can_access %}
+                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:update' contact.pseudonym %}{{ query }}&matches=1">{% trans 'Edit contact' %}</a>
+                                {% else %}
+                                    <a class="btn btn-outline-primary disabled btn-sm-inline my-1" href="#" tabindex="-1" aria-disabled="true">{% trans 'Edit contact' %}</a>
+                                {% endif %}
+                            {% endif %}
+
+                            {% has_perm 'recruitment.change_attributeset' user as can_change_attributeset %}
+                            {% if can_change_attributeset %}
+                                {% if can_access %}
+                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:attributes_update' contact.pseudonym %}">{% trans 'Edit attributes' %}</a>
+                                {% else %}
+                                    <a class="btn btn-outline-primary disabled btn-sm-inline my-1" href="#" tabindex="-1" aria-disabled="true">{% trans 'Edit attributes' %}</a>
+                                {% endif %}
+                            {% endif %}
+
+                            {% has_perm 'contacts.view_contact' user as can_view_contact %}
+                            {% if can_view_contact %}
+                                {% if can_access %}
+                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:export' contact.pseudonym %}{{ query }}&matches=1">{% trans 'Export' %}</a>
+                                {% else %}
+                                    <a class="btn btn-outline-primary disabled btn-sm-inline my-1" href="#" tabindex="-1" aria-disabled="true">{% trans 'Export' %}</a>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if can_access %}
+                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contacts_studies' contact.pseudonym %}">{% trans 'Add to study' %}</a>
+                            {% else %}
+                                <a class="btn btn-outline-primary disabled btn-sm-inline my-1" href="#" tabindex="-1" aria-disabled="true">{% trans 'Add to study' %}</a>
+                            {% endif %}
+                        </div>
                     </li>
                 {% endfor %}
             </ul>
