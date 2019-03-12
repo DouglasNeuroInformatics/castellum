@@ -26,7 +26,6 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView
 from django.views.generic import DetailView
-from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -41,16 +40,6 @@ from .models import Contact
 from .models import TimeSlot
 
 monitoring_logger = logging.getLogger('monitoring.contacts')
-
-
-class ContactIndexView(PermissionRequiredMixin, TemplateView):
-    template_name = 'contacts/contact_index.html'
-    permission_required = 'contacts.view_contact'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['total_number_subjects'] = Contact.objects.all().count()
-        return context
 
 
 class ContactDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
