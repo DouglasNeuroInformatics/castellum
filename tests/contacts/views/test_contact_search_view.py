@@ -38,8 +38,9 @@ def form(data):
 @pytest.mark.unittest
 @patch.object(User, "has_privacy_level")
 @patch.object(ContactManager, "fuzzy_filter")
+@patch.object(ContactManager, "count")
 @patch.object(ContactSearchView, "render_to_response")
-def test_form_valid(render_to_response, fuzzy_filter, has_privacy_level,
+def test_form_valid(render_to_response, count, fuzzy_filter, has_privacy_level,
                     view, form, request_factory):
     contacts = mommy.prepare(Contact, privacy_level=cycle([0, 1, 2]), _quantity=3)
 
@@ -47,11 +48,14 @@ def test_form_valid(render_to_response, fuzzy_filter, has_privacy_level,
     view.request.user = mommy.prepare(User)
     has_privacy_level.side_effect = [True, True, False]
     fuzzy_filter.return_value = contacts
+    count.return_value = 100
 
     expected_called_with = {
+        "view": view,
         "form": form,
         "query": "?" + urlencode(form.cleaned_data),
-        "matches": [(contacts[0], True), (contacts[1], True), (contacts[2], False)]
+        "matches": [(contacts[0], True), (contacts[1], True), (contacts[2], False)],
+        "total_number_subjects": 100,
     }
     view.form_valid(form)
     render_to_response.assert_called_with(expected_called_with)

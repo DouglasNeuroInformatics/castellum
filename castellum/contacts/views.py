@@ -47,17 +47,24 @@ class ContactSearchView(PermissionRequiredMixin, GetFormView):
     permission_required = 'contacts.add_contact'
     form_class = SearchForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_number_subjects'] = Contact.objects.count()
+        return context
+
     def form_valid(self, form):
+        monitoring_logger.info((
+            'Subject search: {{first_name: "{first_name}"; last_name: "{last_name}"; '
+            'date_of_birth: "{date_of_birth}"}} by {user}'
+        ).format(user=self.request.user.pk, **form.cleaned_data))
+
         matches = [
             (contact, self.request.user.has_privacy_level(contact.privacy_level))
             for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
         ]
 
-        return self.render_to_response({
-            'form': form,
-            'query': '?' + urlencode(form.cleaned_data),
-            'matches': matches,
-        })
+        return self.render_to_response(self.get_context_data(
+            form=form, query='?' + urlencode(form.cleaned_data), matches=matches))
 
 
 class ContactDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):

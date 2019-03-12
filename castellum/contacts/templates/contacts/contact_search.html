@@ -4,6 +4,8 @@
 {% block title %}{% trans "Subjects" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    <p>{% trans 'Total number of subjects' %}: {{ total_number_subjects }}</p>
+
     <form method="get">
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
