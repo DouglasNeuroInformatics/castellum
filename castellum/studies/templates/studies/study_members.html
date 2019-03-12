@@ -9,6 +9,11 @@
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
 
+        {% if unprivileged_members_warning %}
+            <p class="alert alert-warning" role="alert">
+                {% trans 'Some members of this study with access to filters may be blocked from managing filters due to an insufficient privacy level.' %}</p>
+        {% endif %}
+
         {% csrf_token %}
 
         <ul class="table-list mt-3">

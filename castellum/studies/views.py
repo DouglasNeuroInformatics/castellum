@@ -20,14 +20,12 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import forms
-from django.contrib import messages
 from django.db.models import Q
 from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
 from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
@@ -183,15 +181,6 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
     template_name = 'studies/study_members.html'
     permission_required = 'studies.change_study'
 
-    def dispatch(self, *args, **kwargs):
-        response = super().dispatch(*args, **kwargs)
-        if self.has_unprivileged_members():
-            messages.warning(self.request, _(
-                'Some members of this study with access to filters may be blocked from managing '
-                'filters due to an insufficient privacy level.'
-            ))
-        return response
-
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().get(request, *args, **kwargs)
@@ -223,6 +212,11 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
                     return True
 
         return False
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['unprivileged_members_warning'] = self.has_unprivileged_members()
+        return context
 
 
 class StudyMemberUpdateView(StudyMembershipAccessMixin, UpdateView):
