@@ -35,14 +35,14 @@ def test_status_code_200(request, client, user_fixture):
 def test_create_200(request, client, user_fixture, contact):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/create/form/'
+    url = '/subjects/create/'
     response = client.get(url)
     assert response.status_code == 200
 
 
 def test_create_with_parameter_200(client, user, contact):
     client.force_login(user)
-    url = '/subjects/create/form/?first_name=test'
+    url = '/subjects/create/?first_name=test'
     response = client.get(url)
     assert response.status_code == 200
 
