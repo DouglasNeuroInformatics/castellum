@@ -76,7 +76,7 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
         if q:
             for part in q.split():
                 qs = qs.filter(Q(name__icontains=part) | Q(contact_person__icontains=part))
-        if not 'all' in self.request.GET:
+        if 'all' not in self.request.GET:
             qs = qs.filter(studymembership__user=self.request.user)
         return qs
 
