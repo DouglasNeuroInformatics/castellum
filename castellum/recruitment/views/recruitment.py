@@ -99,10 +99,13 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
         for participation_request in participation_requests:
             pseudonym = resolve_pseudonym(
                 self.study.domain, participation_request.pseudonym, AttributeSet.domain)
-            attributeset = AttributeSet.objects.get(pseudonym=pseudonym)
-            key1 = attributeset.get_statistics_bucket('primary')
-            key2 = attributeset.get_statistics_bucket('secondary')
-            statistics[key1][key2] += 1
+            try:
+                attributeset = AttributeSet.objects.get(pseudonym=pseudonym)
+                key1 = attributeset.get_statistics_bucket('primary')
+                key2 = attributeset.get_statistics_bucket('secondary')
+                statistics[key1][key2] += 1
+            except AttributeSet.DoesNotExist:
+                pass
 
         data = {
             'rows': [{
