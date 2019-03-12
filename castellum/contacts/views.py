@@ -26,7 +26,6 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView
 from django.views.generic import DetailView
-from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
@@ -51,22 +50,6 @@ class ContactIndexView(PermissionRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['total_number_subjects'] = Contact.objects.all().count()
-        return context
-
-
-class ContactSearchView(PermissionRequiredMixin, ListView):
-    model = Contact
-    paginate_by = 20
-    permission_required = 'contacts.view_contact'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        context['contacts'] = [
-            (contact, self.request.user.has_privacy_level(contact.privacy_level))
-            for contact in context['object_list']
-        ]
-
         return context
 
 

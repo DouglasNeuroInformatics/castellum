@@ -26,13 +26,11 @@ from .views import ContactCreateView
 from .views import ContactDetailView
 from .views import ContactExportView
 from .views import ContactIndexView
-from .views import ContactSearchView
 from .views import ContactUpdateView
 
 app_name = 'contacts'
 urlpatterns = [
     path('', ContactIndexView.as_view(), name='index'),
-    path('search/', ContactSearchView.as_view(), name='search'),
 
     path('create/', ContactCreatePreludeView.as_view(), name='create'),
     path('create/form/', ContactCreateView.as_view(), name='create-form'),
