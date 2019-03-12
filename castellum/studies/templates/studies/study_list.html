@@ -72,15 +72,15 @@
             </li>
         {% empty %}
             <li class="table-list-item alert alert-warning">
-            {% if q %}
-                {% trans 'No results found.' %}
-            {% else %}
-                {% if all %}
-                    {% trans 'No studies' %}
+                {% if q %}
+                    {% trans 'No results found.' %}
                 {% else %}
-                    {% trans 'No personal studies' %}
+                    {% if all %}
+                        {% trans 'No studies' %}
+                    {% else %}
+                        {% trans 'No personal studies' %}
+                    {% endif %}
                 {% endif %}
-            {% endif %}
             </li>
         {% endfor %}
     </ul>
