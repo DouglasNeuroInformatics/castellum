@@ -50,11 +50,11 @@
                         </div>
                         {% if can_access %}
                             <div class="table-list-item-actions">
-                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:update' contact.pseudonym %}{{ query }}&matches=1">{% trans 'Edit' %}</a>
+                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:detail' contact.pseudonym %}">{% trans 'Details' %}</a>
                             </div>
                         {% else %}
                             <div class="table-list-item-actions">
-                                <a class="btn btn-outline-primary disabled btn-sm-inline my-1" href="#" tabindex="-1" aria-disabled="true">{% trans 'Edit' %}</a>
+                                <a class="btn btn-outline-primary disabled btn-sm-inline my-1" href="#" tabindex="-1" aria-disabled="true">{% trans 'Details' %}</a>
                             </div>
                         {% endif %}
                     </li>
