@@ -106,8 +106,13 @@ class StudyFormMixin:
         'sessions_end',
     )
 
+    def get_session_form(self):
+        form_class = forms.modelform_factory(StudySession, fields=('duration',))
+        return form_class(prefix='{prefix}')
+
     def get_session_formset(self):
-        formset_class = forms.modelformset_factory(StudySession, fields=('duration',))
+        formset_class = forms.modelformset_factory(StudySession, fields=('duration',),
+                                                   extra=0, can_delete=True)
         kwargs = self.get_form_kwargs()
         study = kwargs.pop('instance', None)
         return formset_class(queryset=StudySession.objects.filter(study=study), **kwargs)
@@ -115,6 +120,7 @@ class StudyFormMixin:
     def get_context_data(self, **kwargs):
         if 'session_formset' not in kwargs:
             kwargs['session_formset'] = self.get_session_formset()
+        kwargs["template_form"] = self.get_session_form()
         return super().get_context_data(**kwargs)
 
     def post(self, request, *args, **kwargs):

@@ -20,4 +20,15 @@ $(function() {
 
     $(document).on('change', '#id_study_type', setSensitivity);
     setSensitivity();
+
+    var $totalForms = $('#id_form-TOTAL_FORMS');
+    var $sessions_container = $('#sessions-container');
+
+    $(document).on('click', '[data-js="session-add"]', function(event) {
+        var $template = $('#session-data-template');
+        var html = $template.html().replace(/{prefix}/g, 'form-' + $totalForms.val());
+        var $fieldset = $(html);
+        $sessions_container.append($fieldset);
+        $totalForms.val(parseInt($totalForms.val(), 10) + 1);
+    });
 });
