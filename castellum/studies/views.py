@@ -186,12 +186,11 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
     def dispatch(self, *args, **kwargs):
         response = super().dispatch(*args, **kwargs)
 
-        message_text =_(
+        message_text = _(
                 'Some members of this study with access to filters may be blocked from managing '
                 'filters due to an insufficient privacy level.')
 
         storage = messages.get_messages(self.request)
-        
         # if no such message in messages
         if len(list(filter(lambda x: x.message == message_text, storage))) == 0:
             if self.has_unprivileged_members():
