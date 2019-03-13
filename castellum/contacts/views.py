@@ -143,10 +143,7 @@ class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         return kwargs
 
     def get_cancel_url(self):
-        if self.request.META['QUERY_STRING']:
-            return reverse('contacts:index') + '?' + self.request.META['QUERY_STRING']
-        else:
-            return reverse('contacts:detail', args=[self.object.pseudonym])
+        return reverse('contacts:detail', args=[self.object.pseudonym])
 
     def form_valid(self, form):
         result = super().form_valid(form)
