@@ -57,5 +57,6 @@
             <a href="{% url 'recruitment:attributes_update' contact.pseudonym %}" class="btn btn-secondary">{% trans "Edit attributes" %}</a>
         {% endif %}
         <a href="{% url 'recruitment:contacts_studies' contact.pseudonym %}" class="btn btn-secondary">{% trans 'Add to study' %}</a>
+        <a href="{% url 'contacts:export' contact.pseudonym %}" class="btn btn-secondary">{% trans 'Export' %}</a>
     </div>
 {% endblock %}
