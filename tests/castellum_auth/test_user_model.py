@@ -39,7 +39,8 @@ def test_unlock_notification(send_mail, user):
 @pytest.mark.unittest
 @patch.object(User, 'has_perm')
 @pytest.mark.parametrize('privacy_level, has_perm_return_value', [
-    (2, [True]),
+    (2, [True, True]),
+    (2, [True, False]),
     (1, [False, True]),
     (0, [False, False]),
 ])
