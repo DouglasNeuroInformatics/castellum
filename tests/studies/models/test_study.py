@@ -21,7 +21,7 @@ def test_clean_with_data_sensitivity_is_true(study_type):
 
 
 @pytest.mark.unittest
-def test_clean_failes_if_type_is_fmri_and_data_sensitivity_is_false():
+def test_clean_fails_if_type_is_fmri_and_data_sensitivity_is_false():
     study = mommy.prepare(Study, study_type=Study.FMRI, data_sensitivity=False)
     with pytest.raises(ValidationError):
         study.clean()
