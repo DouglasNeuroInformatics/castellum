@@ -56,14 +56,17 @@ def test_delete_other_study(client, member, subject_filter_group, study):
     assert response.status_code == 404
 
 
-def test_nonempty_list_200(client, member, subject_filter_group, unpublished_study):
+def test_advanced_filtering_200(client, member, subject_filter_group, unpublished_study):
+    unpublished_study.advanced_filtering = True
+    unpublished_study.save()
+
     client.force_login(member)
     url = '/recruitment/filter/{}/'.format(unpublished_study.pk)
     response = client.get(url)
     assert response.status_code == 200
 
 
-def test_empty_list_302(client, member, unpublished_study):
+def test_basic_filtering_302(client, member, unpublished_study):
     client.force_login(member)
     url = '/recruitment/filter/{}/'.format(unpublished_study.pk)
     response = client.get(url)
@@ -72,6 +75,9 @@ def test_empty_list_302(client, member, unpublished_study):
 
 def test_get_when_study_has_minimal_subject_count_set_to_zero(client, member, subject_filter_group,
                                                               unpublished_study):
+    unpublished_study.advanced_filtering = True
+    unpublished_study.save()
+
     client.force_login(member)
     url = '/recruitment/filter/{}/'.format(unpublished_study.pk)
     response = client.get(url)
@@ -87,6 +93,7 @@ def test_get_when_study_has_not_enough_subjects_in_filter_group(client, member, 
     client.force_login(member)
 
     unpublished_study.min_subjects_count = 100
+    unpublished_study.advanced_filtering = True
     unpublished_study.save()
 
     mommy.make(SubjectFilterGroup, study=unpublished_study)

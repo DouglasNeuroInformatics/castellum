@@ -77,7 +77,7 @@ class FilterGroupListView(FilterMixin, StudyPermissionMixin, PermissionRequiredM
         return context
 
     def get(self, request, *args, **kwargs):
-        if self.get_queryset().exists():
+        if self.study.advanced_filtering:
             self.object_list = self.get_queryset()
             context = self.get_context_data()
 
@@ -103,7 +103,7 @@ class FilterGroupListView(FilterMixin, StudyPermissionMixin, PermissionRequiredM
             return self.render_to_response(context)
 
         else:
-            group = SubjectFilterGroup.objects.create(study=self.study)
+            group, __ = SubjectFilterGroup.objects.get_or_create(study=self.study)
             return redirect(group.get_absolute_url())
 
 
