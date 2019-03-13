@@ -72,6 +72,7 @@ class Study(models.Model):
     members = models.ManyToManyField(User, through='StudyMembership')
     domain = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     published = models.BooleanField(_('published'), default=False)
+    advanced_filtering = models.BooleanField(_('use advanced filtering'), default=False)
 
     def __str__(self):
         return self.name
