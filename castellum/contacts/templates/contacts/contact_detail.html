@@ -26,25 +26,6 @@
 
         <dt class="col-sm-6">{{ contact|verbose_name:'preferred_contact_method' }}</dt>
         <dd class="col-sm-6">{{ contact.get_preferred_contact_method_display|default:'—' }}</dd>
-
-        <dt class="col-sm-6">{% trans 'Availability' %}</dt>
-        <dd class="col-sm-6">
-            <div class="row">
-                {% for label, day in availability %}
-                    <div class="col-sm-6 col-md-4 mb-3">
-                        <h2 class="h5">{{ label }}</h2>
-                        <select class="form-control" multiple disabled size="{{ day|length }}">
-                            {% for hour, selected in day %}
-                                <option {% if selected %}selected{% endif %}>{{ hour }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                {% endfor %}
-            </div>
-        </dd class="col-sm-6">
-
-        <dt class="col-sm-6">{{ contact|verbose_name:'not_available_until' }}</dt>
-        <dd class="col-sm-6">{{ contact.not_available_until|default:'-' }}</dd>
     </dl>
     <div class="mb-3">
         <a href="{% url 'contacts:search' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
