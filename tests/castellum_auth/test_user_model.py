@@ -1,9 +1,9 @@
 from unittest.mock import patch
 
 import pytest
+from model_mommy import mommy
 
 from django.contrib.auth.models import AbstractUser as DjangoUser
-from django.contrib.auth.models import Permission
 
 from castellum.castellum_auth.models import User
 
@@ -36,16 +36,16 @@ def test_unlock_notification(send_mail, user):
     assert send_mail.called
 
 
-def test_get_privacy_level(user):
-    permissions = list(Permission.objects.filter(codename__startswith='privacy_level'))
-    user.user_permissions.remove(*permissions)
-
-    assert user.get_privacy_level() == 0
-
-
-@pytest.mark.parametrize("privacy_level", [1, 2])
-def test_get_privacy_level_with_level_greater_than_zero(user, privacy_level):
-    permission = Permission.objects.get(codename="privacy_level_{}".format(privacy_level))
-    user.user_permissions.add(permission)
+@pytest.mark.unittest
+@patch.object(User, 'has_perm')
+@pytest.mark.parametrize('privacy_level, has_perm_return_value', [
+    (2, [True, True]),
+    (2, [True, False]),
+    (1, [False, True]),
+    (0, [False, False]),
+])
+def test_get_privacy_level(has_perm, privacy_level, has_perm_return_value):
+    user = mommy.prepare(User)
+    has_perm.side_effect = has_perm_return_value
 
     assert user.get_privacy_level() == privacy_level
