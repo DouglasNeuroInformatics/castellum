@@ -99,6 +99,7 @@ class StudyFormMixin:
         'keywords',
         'study_type',
         'data_sensitivity',
+        'advanced_filtering',
         'min_subjects_count',
         'expense_allowance',
         'sessions_start',
