@@ -186,22 +186,17 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
     def dispatch(self, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(*args, **kwargs)
-        response = super().dispatch(*args, **kwargs)
-
-        message_text = _(
-                'Some members of this study with access to filters may be blocked from managing '
-                'filters due to an insufficient privacy level.')
-
-        storage = messages.get_messages(self.request)
-        # if no such message in messages
-        if len(list(filter(lambda x: x.message == message_text, storage))) == 0:
-            if self.has_unprivileged_members():
-                messages.warning(self.request, message_text)
-
-        return response
 
     def get(self, request, *args, **kwargs):
+        unprivileged_members = self.get_unprivileged_members()
+        if unprivileged_members:
+            messages.warning(self.request, _(
+                'Some members of current study with access to filters are blocked from '
+                'managing filters due to an insufficient privacy level.\n'
+                'Blocked users are: '
+            ) + ', '.join(unprivileged_members))
 
+        return super().get(request, *args, **kwargs)
 
     def get_form(self):
         form = super().get_form()
