@@ -202,9 +202,6 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
         self.object = self.get_object()
         return super().get(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().post(request, *args, **kwargs)
 
     def get_form(self):
         form = super().get_form()
