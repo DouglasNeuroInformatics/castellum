@@ -185,21 +185,17 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
     permission_required = 'studies.change_study'
 
     def dispatch(self, *args, **kwargs):
-        response = super().dispatch(*args, **kwargs)
-        if self.has_unprivileged_members():
-            messages.warning(self.request, _(
-                'Some members of this study with access to filters may be blocked from managing '
-                'filters due to an insufficient privacy level.'
-            ))
-        return response
+        self.object = self.get_object()
+        return super().dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
+        unprivileged_users = list(self.get_unprivileged_members())
+        if unprivileged_users:
+            messages.warning(self.request, _(
+                'One or more study coordinators are blocked from managing filters '
+                'due to an insufficient privacy level.\nBlocked users are: '
+            ) + ', '.join(user for user in unprivileged_users))
         return super().get(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().post(request, *args, **kwargs)
 
     def get_form(self):
         form = super().get_form()
@@ -215,15 +211,13 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
             user=form.cleaned_data['user'], study=self.object)
         return super().form_valid(form)
 
-    def has_unprivileged_members(self):
+    def get_unprivileged_members(self):
         max_privacy_level = self.object.get_filter_max_privacy_level()
 
         for user in self.object.members.all():
             if user.has_perm('recruitment.view_subjectfilter', obj=self.object):
                 if user.get_privacy_level() < max_privacy_level:
-                    return True
-
-        return False
+                    yield user.username
 
 
 class StudyMemberUpdateView(StudyMembershipAccessMixin, UpdateView):
