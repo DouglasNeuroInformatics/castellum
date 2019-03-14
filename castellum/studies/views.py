@@ -193,7 +193,7 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
             messages.warning(self.request, _(
                 'Some members of current study with access to filters are blocked from '
                 'managing filters due to an insufficient privacy level.\nBlocked users are: '
-            ) + ', '.join(user for user in users))
+            ) + ', '.join(user for user in unprivileged_users))
         return super().get(request, *args, **kwargs)
 
     def get_form(self):
