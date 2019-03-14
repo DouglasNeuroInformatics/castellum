@@ -89,7 +89,11 @@
         </div>
 
         <div class="mb-3">
-            <a href="{% url 'recruitment:filtergroup_index' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+            {% if study.advanced_filtering %}
+                <a href="{% url 'recruitment:filtergroup_index' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+            {% else %}
+                <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+            {% endif %}
 
             {% if not study.published %}
                 <input type="submit" class="btn btn-primary" value="{% trans 'Apply Filters' %}"/>
