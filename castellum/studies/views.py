@@ -184,6 +184,8 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
     permission_required = 'studies.change_study'
 
     def dispatch(self, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(*args, **kwargs)
         response = super().dispatch(*args, **kwargs)
 
         message_text = _(
@@ -199,8 +201,6 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
         return response
 
     def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().get(request, *args, **kwargs)
 
 
     def get_form(self):
