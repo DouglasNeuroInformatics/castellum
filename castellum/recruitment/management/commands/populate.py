@@ -221,7 +221,16 @@ def generate_subjects(count):
     Pseudonym.objects.bulk_create(attributeset_pseudonyms)
 
     print('Generating contacts')
-    contacts = [fake_contact(contact_pseudonyms[i], addresses[i]) for i in range(count)]
+    contacts = [fake_contact(contact_pseudonyms[i], addresses[i]) for i in range(count-1)]
+    testcontact = Contact(
+        gender='*',
+        first_name='Muhammad',
+        last_name='Nguyen',
+        date_of_birth='2000-12-13',
+        privacy_level=0)
+    contacts.append(testcontact)
+    testcontact.pseudonym = contact_pseudonyms[-1]
+
     Contact.objects.bulk_create(contacts)
 
     print('Generating attributesets')
