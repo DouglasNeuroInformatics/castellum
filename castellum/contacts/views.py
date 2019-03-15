@@ -73,6 +73,7 @@ class ContactDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
     def get_cancel_url(self):
         return reverse('contacts:search') + '?' + self.request.META['QUERY_STRING']
 
+
 class ContactCreateView(PermissionRequiredMixin, CreateView):
     model = Contact
     form_class = ContactForm
