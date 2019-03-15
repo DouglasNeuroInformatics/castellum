@@ -82,7 +82,7 @@ class ContactCreateView(PermissionRequiredMixin, CreateView):
         return kwargs
 
     def get_cancel_url(self):
-        return reverse('contacts:index') + '?' + self.request.META['QUERY_STRING']
+        return reverse('contacts:search') + '?' + self.request.META['QUERY_STRING']
 
     def get_initial(self):
         initial = super().get_initial()

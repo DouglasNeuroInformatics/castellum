@@ -29,7 +29,7 @@ from .views import ContactUpdateView
 
 app_name = 'contacts'
 urlpatterns = [
-    path('', ContactSearchView.as_view(), name='index'),
+    path('', ContactSearchView.as_view(), name='search'),
     path('create/', ContactCreateView.as_view(), name='create'),
     path('<slug>/', ContactDetailView.as_view(), name='detail'),
     path('<slug>/update/', ContactUpdateView.as_view(), name='update'),
