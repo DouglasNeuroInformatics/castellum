@@ -70,6 +70,8 @@ class ContactDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
     slug_field = 'pseudonym'
     permission_required = 'contacts.view_contact'
 
+    def get_cancel_url(self):
+        return reverse('contacts:search') + '?' + self.request.META['QUERY_STRING']
 
 class ContactCreateView(PermissionRequiredMixin, CreateView):
     model = Contact

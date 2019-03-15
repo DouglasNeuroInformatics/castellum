@@ -50,7 +50,7 @@
                         </div>
                         {% if can_access %}
                             <div class="table-list-item-actions">
-                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:detail' contact.pseudonym %}">{% trans 'Details' %}</a>
+                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:detail' contact.pseudonym %}{{ query }}">{% trans 'Details' %}</a>
                             </div>
                         {% else %}
                             <div class="table-list-item-actions">

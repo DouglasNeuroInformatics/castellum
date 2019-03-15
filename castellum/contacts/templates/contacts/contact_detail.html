@@ -28,7 +28,7 @@
         <dd class="col-sm-6">{{ contact.get_preferred_contact_method_display|default:'—' }}</dd>
     </dl>
     <div class="mb-3">
-        <a href="{% url 'contacts:search' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+        <a href="{{ view.get_cancel_url }}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         {% has_perm 'contacts.change_contact' user as can_change_contact %}
         {% if can_change_contact %}
             <a class="btn btn-secondary" href="{% url 'contacts:update' contact.pseudonym %}">{% trans 'Edit contact' %}</a>
