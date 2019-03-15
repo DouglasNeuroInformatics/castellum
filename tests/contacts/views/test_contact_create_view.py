@@ -7,7 +7,7 @@ from castellum.castellum_auth.models import User
 from castellum.contacts.views import ContactCreateView
 
 
-CONTACT_SEARCH_URL = reverse("contacts:index")
+CONTACT_SEARCH_URL = reverse("contacts:search")
 CONTACT_CREATE_URL = reverse("contacts:create")
 
 

@@ -44,7 +44,7 @@ def test_form_valid(render_to_response, count, fuzzy_filter, has_privacy_level,
                     view, form, request_factory):
     contacts = mommy.prepare(Contact, privacy_level=cycle([0, 1, 2]), _quantity=3)
 
-    view.request = request_factory.post(reverse("contacts:index"))
+    view.request = request_factory.post(reverse("contacts:search"))
     view.request.user = mommy.prepare(User)
     has_privacy_level.side_effect = [True, True, False]
     fuzzy_filter.return_value = contacts

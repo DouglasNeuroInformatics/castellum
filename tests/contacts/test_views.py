@@ -8,10 +8,10 @@ from django.urls import reverse
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
 ])
-def test_status_code_200_for_contact_index_view(request, client, user_fixture):
+def test_status_code_200_for_contact_search_view(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    response = client.get(reverse('contacts:index'))
+    response = client.get(reverse('contacts:search'))
     assert 200 == response.status_code
 
 
