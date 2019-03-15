@@ -21,25 +21,16 @@
 
 from django.urls import path
 
-from .views import ContactCreatePreludeView
 from .views import ContactCreateView
 from .views import ContactDetailView
 from .views import ContactExportView
-from .views import ContactIndexView
 from .views import ContactSearchView
 from .views import ContactUpdateView
-from .views import RequestCreateView
 
 app_name = 'contacts'
 urlpatterns = [
-    path('', ContactIndexView.as_view(), name='index'),
-    path('search/', ContactSearchView.as_view(), name='search'),
-
-    path('create/', ContactCreatePreludeView.as_view(), name='create'),
-    path('create/form/', ContactCreateView.as_view(), name='create-form'),
-
-    path('request/', RequestCreateView.as_view(), name='request'),
-
+    path('', ContactSearchView.as_view(), name='index'),
+    path('create/', ContactCreateView.as_view(), name='create'),
     path('<slug>/', ContactDetailView.as_view(), name='detail'),
     path('<slug>/update/', ContactUpdateView.as_view(), name='update'),
     path('<slug>/export/', ContactExportView.as_view(), name='export'),

@@ -28,7 +28,7 @@
         <dd class="col-sm-6">{{ contact.get_preferred_contact_method_display|default:'—' }}</dd>
     </dl>
     <div class="mb-3">
-        <a href="{% url 'contacts:search' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+        <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         {% has_perm 'contacts.change_contact' user as can_change_contact %}
         {% if can_change_contact %}
             <a class="btn btn-secondary" href="{% url 'contacts:update' contact.pseudonym %}">{% trans 'Edit contact' %}</a>
@@ -38,5 +38,6 @@
             <a href="{% url 'recruitment:attributes_update' contact.pseudonym %}" class="btn btn-secondary">{% trans "Edit attributes" %}</a>
         {% endif %}
         <a href="{% url 'recruitment:contacts_studies' contact.pseudonym %}" class="btn btn-secondary">{% trans 'Add to study' %}</a>
+        <a href="{% url 'contacts:export' contact.pseudonym %}" class="btn btn-secondary">{% trans 'Export' %}</a>
     </div>
 {% endblock %}

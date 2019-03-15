@@ -160,7 +160,7 @@ class ContactForm(forms.ModelForm):
         return contact
 
 
-class PreludeForm(forms.ModelForm):
+class SearchForm(forms.ModelForm):
     class Meta:
         model = Contact
         fields = [

@@ -25,8 +25,6 @@ from urllib.parse import urlencode
 from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic import DetailView
-from django.views.generic import ListView
-from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -35,61 +33,42 @@ from castellum.pseudonyms.registry import subject_data_models
 from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
-from .forms import PreludeForm
+from .forms import SearchForm
 from .mixins import SubjectMixin
 from .models import Contact
 
 monitoring_logger = logging.getLogger('monitoring.contacts')
 
 
-class ContactIndexView(PermissionRequiredMixin, TemplateView):
-    template_name = 'contacts/contact_index.html'
-    permission_required = 'contacts.view_contact'
+class ContactSearchView(PermissionRequiredMixin, GetFormView):
+    template_name = 'contacts/contact_search.html'
+    permission_required = 'contacts.add_contact'
+    form_class = SearchForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_number_subjects'] = Contact.objects.all().count()
+        context['total_number_subjects'] = Contact.objects.count()
         return context
 
+    def form_valid(self, form):
+        monitoring_logger.info((
+            'Subject search: {{first_name: "{first_name}"; last_name: "{last_name}"; '
+            'date_of_birth: "{date_of_birth}"}} by {user}'
+        ).format(user=self.request.user.pk, **form.cleaned_data))
 
-class ContactSearchView(PermissionRequiredMixin, ListView):
-    model = Contact
-    paginate_by = 20
-    permission_required = 'contacts.view_contact'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        context['contacts'] = [
+        matches = [
             (contact, self.request.user.has_privacy_level(contact.privacy_level))
-            for contact in context['object_list']
+            for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
         ]
 
-        return context
+        return self.render_to_response(self.get_context_data(
+            form=form, query='?' + urlencode(form.cleaned_data), matches=matches))
 
 
 class ContactDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Contact
     slug_field = 'pseudonym'
     permission_required = 'contacts.view_contact'
-
-
-class ContactCreatePreludeView(PermissionRequiredMixin, GetFormView):
-    template_name = 'contacts/contact_create_prelude.html'
-    permission_required = 'contacts.add_contact'
-    form_class = PreludeForm
-
-    def form_valid(self, form):
-        matches = [
-            (contact, self.request.user.has_privacy_level(contact.privacy_level))
-            for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
-        ]
-
-        return self.render_to_response({
-            'form': form,
-            'query': '?' + urlencode(form.cleaned_data),
-            'matches': matches,
-        })
 
 
 class ContactCreateView(PermissionRequiredMixin, CreateView):
@@ -103,7 +82,7 @@ class ContactCreateView(PermissionRequiredMixin, CreateView):
         return kwargs
 
     def get_cancel_url(self):
-        return reverse('contacts:create') + '?' + self.request.META['QUERY_STRING']
+        return reverse('contacts:index') + '?' + self.request.META['QUERY_STRING']
 
     def get_initial(self):
         initial = super().get_initial()
@@ -133,10 +112,7 @@ class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         return kwargs
 
     def get_cancel_url(self):
-        if self.request.META['QUERY_STRING']:
-            return reverse('contacts:create') + '?' + self.request.META['QUERY_STRING']
-        else:
-            return reverse('contacts:detail', args=[self.object.pseudonym])
+        return reverse('contacts:detail', args=[self.object.pseudonym])
 
     def form_valid(self, form):
         result = super().form_valid(form)
@@ -145,28 +121,6 @@ class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
             self.object.pseudonym,
             self.request.user.pk))
         return result
-
-
-class RequestCreateView(PermissionRequiredMixin, GetFormView):
-    template_name = 'contacts/subjectexportrequest_form.html'
-    permission_required = 'contacts.view_contact'
-    form_class = PreludeForm
-
-    def form_valid(self, form):
-        monitoring_logger.info((
-            'GDPR-Request: {{first_name: "{first_name}"; last_name: "{last_name}"; '
-            'date_of_birth: "{date_of_birth}"}} by {user}'
-        ).format(user=self.request.user.pk, **form.cleaned_data))
-
-        matches = [
-            (contact, self.request.user.has_privacy_level(contact.privacy_level))
-            for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
-        ]
-
-        return self.render_to_response({
-            'form': form,
-            'matches': matches,
-        })
 
 
 class ContactExportView(SubjectMixin, PermissionRequiredMixin, DetailView):

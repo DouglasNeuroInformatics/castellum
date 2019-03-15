@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% load i18n bootstrap4 %}
 
-{% block title %}{% trans "GDPR request" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% trans "Subjects" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    <p>{% trans 'Total number of subjects' %}: {{ total_number_subjects }}</p>
+
     <form method="get">
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
@@ -21,7 +23,7 @@
 
         <div class="mb-3">
             <a href="{% url 'contacts:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-            <input type="submit" class="btn btn-primary" value="{% trans 'Find' %}" />
+            <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}" />
         </div>
     </form>
 
@@ -46,18 +48,22 @@
                                 <div class="d-inline-block text-muted my-1 mr-2">{% trans 'access denied' %}</div>
                             {% endif %}
                         </div>
-                        <div class="table-list-item-actions">
-                            {% if can_access %}
-                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:export' contact.pseudonym %}">{% trans 'Export' %}</a>
-                            {% else %}
-                                <a class="btn btn-outline-primary disabled btn-sm-inline my-1" href="#" tabindex="-1" aria-disabled="true">{% trans 'Export' %}</a>
-                            {% endif %}
-                        </div>
+                        {% if can_access %}
+                            <div class="table-list-item-actions">
+                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:detail' contact.pseudonym %}">{% trans 'Details' %}</a>
+                            </div>
+                        {% else %}
+                            <div class="table-list-item-actions">
+                                <a class="btn btn-outline-primary disabled btn-sm-inline my-1" href="#" tabindex="-1" aria-disabled="true">{% trans 'Details' %}</a>
+                            </div>
+                        {% endif %}
                     </li>
                 {% endfor %}
             </ul>
         {% else %}
             <p class="alert alert-warning" role="alert">{% trans 'No matches found' %}</p>
         {% endif %}
+
+        <a href="{% url 'contacts:create' %}{{ query }}" class="btn btn-primary">{% trans "Create new subject" %}</a>
     {% endif %}
 {% endblock %}
