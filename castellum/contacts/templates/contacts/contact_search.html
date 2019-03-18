@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n bootstrap4 %}
+{% load i18n bootstrap4 auth %}
 
 {% block title %}{% trans "Subjects" %} &middot; {{ block.super }}{% endblock %}
 
@@ -64,6 +64,9 @@
             <p class="alert alert-warning" role="alert">{% trans 'No matches found' %}</p>
         {% endif %}
 
-        <a href="{% url 'contacts:create' %}{{ query }}" class="btn btn-primary">{% trans "Create new subject" %}</a>
+        {% has_perm 'contacts.add_contact' user as can_add_contact %}
+        {% if can_add_contact %}
+            <a href="{% url 'contacts:create' %}{{ query }}" class="btn btn-primary">{% trans "Create new subject" %}</a>
+        {% endif %}
     {% endif %}
 {% endblock %}
