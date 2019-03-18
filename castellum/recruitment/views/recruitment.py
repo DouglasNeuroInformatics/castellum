@@ -255,7 +255,10 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
     fields = ['status']
     slug_field = 'pseudonym'
     template_name = 'recruitment/contact.html'
-    permission_required = 'recruitment.change_participationrequest'
+    permission_required = (
+        'contacts.view_contact',
+        'recruitment.change_participationrequest',
+    )
 
     def dispatch(self, request, *args, **kwargs):
         self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
