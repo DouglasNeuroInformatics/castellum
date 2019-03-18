@@ -33,6 +33,7 @@ GROUPS = {
         'delete_subjectfilter',
     ],
     'Subject manager': [
+        'view_subject',
         'add_contact',
         'view_contact',
         'change_contact',

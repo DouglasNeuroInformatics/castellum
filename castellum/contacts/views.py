@@ -127,7 +127,7 @@ class ContactExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Contact
     slug_field = 'pseudonym'
     template_name = 'contacts/contact_export.html'
-    permission_required = 'contacts.view_contact'
+    permission_required = 'pseudonyms.view_subject'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
