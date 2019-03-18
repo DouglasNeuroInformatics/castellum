@@ -29,4 +29,4 @@
 
     document.addEventListener('mousemove', setActive);
     document.addEventListener('keydown', setActive);
-})()
+})();
