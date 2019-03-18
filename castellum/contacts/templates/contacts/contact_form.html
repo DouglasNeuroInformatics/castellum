@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n bootstrap4 %}
+{% load i18n static bootstrap4 %}
 
 {% block title %}
     {% if object %}
@@ -64,17 +64,19 @@
 
         <label>{% trans "Availability" %}</label>
 
-        <div class="row">
-            <div class="col-6 col-sm-2 mb-3">
-                {% bootstrap_field form.availability_monday %}</div>
-            <div class="col-6 col-sm-2 mb-3">
-                {% bootstrap_field form.availability_tuesday %}</div>
-            <div class="col-6 col-sm-2 mb-3">
-                {% bootstrap_field form.availability_wednesday %}</div>
-            <div class="col-6 col-sm-2 mb-3">
-                {% bootstrap_field form.availability_thursday %}</div>
-            <div class="col-6 col-sm-2 mb-3">
-                {% bootstrap_field form.availability_friday %}</div>
+        <div data-js="availability" class="mb-3">
+            <div class="row">
+                <div class="col-6 col-sm-2">
+                    {% bootstrap_field form.availability_monday %}</div>
+                <div class="col-6 col-sm-2">
+                    {% bootstrap_field form.availability_tuesday %}</div>
+                <div class="col-6 col-sm-2">
+                    {% bootstrap_field form.availability_wednesday %}</div>
+                <div class="col-6 col-sm-2">
+                    {% bootstrap_field form.availability_thursday %}</div>
+                <div class="col-6 col-sm-2">
+                    {% bootstrap_field form.availability_friday %}</div>
+            </div>
         </div>
 
         {% bootstrap_field form.not_available_until %}
@@ -86,4 +88,8 @@
             <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
         </div>
     </form>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/availability.js' %}"></script>
 {% endblock %}
