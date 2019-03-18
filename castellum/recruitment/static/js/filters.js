@@ -33,7 +33,7 @@ $(function() {
     });
 
     $(document).on('click', '[data-js="filter-delete"]', function(event) {
-        $fieldset = $(event.target).closest('fieldset');
+        var $fieldset = $(event.target).closest('fieldset');
         $fieldset.find('[name^="form-' + $fieldset.index() + '-value"]').remove();
         $fieldset.append($('<input type="hidden" name="form-' + $fieldset.index() + '-DELETE" value="on">'));
         $fieldset.attr('hidden', true);
