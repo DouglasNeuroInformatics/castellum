@@ -1,19 +1,23 @@
-$(function() {
+onReady(function() {
     var setVisibility = function() {
-        var $status = $('[name="status"]');
-        var $appointmentInputs = $('[name^="appointment"]');
-        var $appointment = $appointmentInputs.closest('.form-group');
+        var $status = document.querySelector('[name="status"]');
+        var $appointmentInputs = document.querySelectorAll('[name^="appointment"]');
+        var $appointment = $appointmentInputs[0].closest('.form-group');
 
-        if ($status.val() === "4") {
-            $appointment.prop('hidden', false);
-            $appointmentInputs.prop('required', true);
+        if ($status.value === "4") {
+            $appointment.hidden = false;
+            $appointmentInputs.forEach(function($e) {
+                $e.required = true;
+            });
         } else {
-            $appointment.prop('hidden', true);
-            $appointmentInputs.prop('required', false);
-            $appointmentInputs.val('');
+            $appointment.hidden = true;
+            $appointmentInputs.forEach(function($e) {
+                $e.required = false;
+                $e.value = '';
+            });
         }
     };
 
-    $(document).on('change', '[name="status"]', setVisibility);
+    on(document, 'change', '[name="status"]', setVisibility);
     setVisibility();
 });
