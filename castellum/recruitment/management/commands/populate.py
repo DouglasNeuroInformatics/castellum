@@ -225,7 +225,9 @@ def generate_subjects(count):
     testcontact = Contact(
         gender='*',
         first_name='Muhammad',
+        first_name_phonetic=phonetic('Muhammad'),
         last_name='Nguyen',
+        last_name_phonetic=phonetic('Nguyen'),
         date_of_birth='2000-12-13',
         privacy_level=0)
     contacts.append(testcontact)
