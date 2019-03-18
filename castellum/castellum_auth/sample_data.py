@@ -44,6 +44,7 @@ GROUPS = {
         'delete_attributeset',
     ],
     'Recruiter': [
+        'view_contact',
         'add_participationrequest',
         'view_participationrequest',
         'change_participationrequest',
