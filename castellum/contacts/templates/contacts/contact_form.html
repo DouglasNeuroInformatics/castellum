@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n bootstrap4 %}
+{% load i18n static bootstrap4 %}
 
 {% block title %}
     {% if object %}
@@ -64,7 +64,7 @@
 
         <label>{% trans "Availability" %}</label>
 
-        <div class="row">
+        <div class="row" data-js="availability">
             <div class="col-6 col-sm-2 mb-3">
                 {% bootstrap_field form.availability_monday %}</div>
             <div class="col-6 col-sm-2 mb-3">
@@ -86,4 +86,8 @@
             <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
         </div>
     </form>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/availability.js' %}"></script>
 {% endblock %}
