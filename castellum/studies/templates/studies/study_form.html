@@ -11,6 +11,14 @@
 {% endblock %}
 
 {% block content %}
+    <template id="session-data-template">
+        <fieldset>
+            {{ template_form.id.as_hidden }}
+            {{ template_form.DELETE.as_hidden }}
+            {% bootstrap_field template_form.duration %}
+        </fieldset>
+    </template>
+
     <form method="post">
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
@@ -32,14 +40,22 @@
         {% bootstrap_field form.min_subjects_count %}
         {% bootstrap_field form.expense_allowance addon_after=_('EUR') %}
 
-        {{ session_formset.management_form }}
-        {% for subform in session_formset %}
-            <fieldset>
-                {{ subform.id.as_hidden }}
-                {{ subform.DELETE.as_hidden }}
-                {% bootstrap_field subform.duration %}
-            </fieldset>
-        {% endfor %}
+        <div id='sessions-container'>
+            {{ session_formset.management_form }}
+            {% for subform in session_formset %}
+                <fieldset>
+                    {{ subform.id.as_hidden }}
+                    {{ subform.DELETE.as_hidden }}
+                    {% bootstrap_field subform.duration %}
+                </fieldset>
+            {% endfor %}
+        </div>
+
+        <div class="text-right">
+            <button type="button" class="btn btn-primary" data-js="session-add">
+                {% trans "Add session" %}
+            </button>
+        </div>
 
         <div class="row">
             <div class="col-md-6">
