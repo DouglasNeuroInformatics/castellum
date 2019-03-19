@@ -69,7 +69,7 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
     context_object_name = 'participation_requests'
     template_name = 'recruitment/recruitment.html'
     permission_required = 'recruitment.view_participationrequest'
-    shown_status = None
+    shown_status = []
     tab = None
 
     def dispatch(self, request, *args, **kwargs):
@@ -80,11 +80,7 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
     def get_queryset(self, queryset=None):
         if not queryset:
             queryset = self.model.objects
-
-        if self.shown_status is not None:
-            return queryset.filter(status=self.shown_status, study=self.study)
-        else:
-            return queryset.filter(study=self.study)
+        return queryset.filter(status__in=self.shown_status, study=self.study)
 
     def get_statistics(self):
         participation_requests = ParticipationRequest.objects.filter(
@@ -170,25 +166,25 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
 
 class RecruitmentViewNotReached(RecruitmentView):
 
-    shown_status = ParticipationRequest.NOT_REACHED
+    shown_status = [ParticipationRequest.NOT_REACHED]
     tab = 'not-reached'
 
 
 class RecruitmentViewInvited(RecruitmentView):
 
-    shown_status = ParticipationRequest.INVITED
+    shown_status = [ParticipationRequest.INVITED]
     tab = 'invited'
 
 
 class RecruitmentViewUnsuitable(RecruitmentView):
 
-    shown_status = ParticipationRequest.UNSUITABLE
+    shown_status = [ParticipationRequest.UNSUITABLE]
     tab = 'unsuitable'
 
 
 class RecruitmentViewNotContacted(RecruitmentView):
 
-    shown_status = ParticipationRequest.NOT_CONTACTED
+    shown_status = [ParticipationRequest.NOT_CONTACTED]
     tab = 'not-contacted'
 
     def create_participation_request(self):
