@@ -181,6 +181,7 @@ NPM_FILE_PATTERNS = {
         'webfonts/fa-solid-900.ttf',
         'webfonts/fa-solid-900.svg',
     ],
+    'vue': ['dist/vue.min.js'],
 }
 
 BOOTSTRAP4 = {
