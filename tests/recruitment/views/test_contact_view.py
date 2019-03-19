@@ -84,7 +84,8 @@ def test_post_redirect_next_with_multiple_participation_requests(client,
 
     client.force_login(member)
 
-    url = '/recruitment/{}/{}/open/'.format(published_study.pk, participation_requests[3].pseudonym)
+    url = '/recruitment/{}/{}/open/'.format(published_study.pk,
+                                            participation_requests[3].pseudonym)
     response = client.post(url, {'status': ParticipationRequest.UNSUITABLE,
                                  'btn_next': 'value'})
 

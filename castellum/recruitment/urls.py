@@ -64,7 +64,7 @@ urlpatterns = [
         FilterGroupDuplicateView.as_view(),
         name='filtergroup_duplicate'),
 
-    path('<study_pk>/open/', RecruitmentViewOpen.as_view(), name='recruitment_open'),
+    path('<study_pk>/', RecruitmentViewOpen.as_view(), name='recruitment_open'),
     path('<study_pk>/invited/', RecruitmentViewInvited.as_view(),
          name='recruitment_invited'),
     path('<study_pk>/unsuitable/', RecruitmentViewUnsuitable.as_view(),

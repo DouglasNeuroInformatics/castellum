@@ -18,7 +18,7 @@ def test_post_when_study_has_zero_subject_count_set(client, member, published_st
     published_study.min_subjects_count = 0
     published_study.save()
     client.force_login(member)
-    url = '/recruitment/{}/open/'.format(published_study.pk)
+    url = '/recruitment/{}/'.format(published_study.pk)
     response = client.post(url)
     assert response.status_code == 200
     messages = list(get_messages(response.wsgi_request))
@@ -51,7 +51,7 @@ def test_post_when_more_then_double_minimal_subject_count(client, member, publis
                _quantity=4)
 
     client.force_login(member)
-    url = '/recruitment/{}/open/'.format(published_study.pk)
+    url = '/recruitment/{}/'.format(published_study.pk)
 
     response = client.post(url)
     assert response.status_code == 200
