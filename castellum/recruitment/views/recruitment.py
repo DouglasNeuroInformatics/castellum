@@ -312,16 +312,6 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
                     break
                 idx += 1
 
-            if next_pseudonym_idx is None and self.kwargs['path'] == 'not-contacted':
-                idx = current_pseudonym_idx - 1
-                while idx >= 0:
-                    contact = Contact.objects.get(pseudonym=resolve_pseudonym(
-                        self.study.domain, pseudonyms[idx], Contact.domain))
-                    if contact.privacy_level <= user_privacy_level:
-                        next_pseudonym_idx = idx
-                        break
-                    idx -= 1
-
         if next_pseudonym_idx is None:
             url = 'recruitment:recruitment_' + self.kwargs['path']
             return redirect(url, self.object.study.pk)

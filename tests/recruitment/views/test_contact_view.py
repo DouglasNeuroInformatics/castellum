@@ -99,39 +99,6 @@ def test_post_redirect_next_with_one_participation_request_from_not_reached(clie
     assert response.url == '/recruitment/{}/not-reached/'.format(participation_request.study.pk)
 
 
-def test_post_redirect_next_with_multiple_participation_requests(client, member, published_study):
-    participation_requests = []
-    for i in range(5):
-        contact = mommy.make(Contact, pseudonym=None, privacy_level=0)
-        pseudonym = resolve_pseudonym(Contact.domain, contact.pseudonym, published_study.domain)
-        participation_requests.append(mommy.make(
-            ParticipationRequest,
-            study=published_study,
-            pseudonym=pseudonym,
-        ))
-
-    client.force_login(member)
-
-    url = '/recruitment/{}/{}/not-contacted/'.format(published_study.pk,
-                                                     participation_requests[3].pseudonym)
-    response = client.post(url, {'status': ParticipationRequest.UNSUITABLE, 'btn_next': 'value'})
-
-    assert response.status_code == 302
-    assert response.url == '/recruitment/{}/{}/not-contacted/'.format(
-        published_study.pk,
-        participation_requests[4].pseudonym
-    )
-
-    response = client.post(response.url, {'status': ParticipationRequest.UNSUITABLE,
-                                          'btn_next': 'value'})
-
-    assert response.status_code == 302
-    assert response.url == '/recruitment/{}/{}/not-contacted/'.format(
-        published_study.pk,
-        participation_requests[2].pseudonym
-    )
-
-
 def test_post_redirect_next_with_multiple_participation_requests_from_not_reached(client,
                                                                                   member,
                                                                                   published_study):
