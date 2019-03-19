@@ -192,8 +192,8 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
         unprivileged_users = list(self.get_unprivileged_members())
         if unprivileged_users:
             messages.warning(self.request, _(
-                'One or more study coordinators are blocked from managing filters '
-                'due to an insufficient privacy level.\nBlocked users are: '
+                'Some members of this study with access to filters are blocked from managing '
+                'filters due to an insufficient privacy level.\nBlocked users are: '
             ) + ', '.join(user for user in unprivileged_users))
         return super().get(request, *args, **kwargs)
 
