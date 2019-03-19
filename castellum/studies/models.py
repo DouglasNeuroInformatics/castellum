@@ -87,11 +87,12 @@ class Study(models.Model):
         if self.study_type == self.FMRI and not self.data_sensitivity:
             self.data_sensitivity = True
             raise ValidationError(
-                _('Data collected by this type of study is always considered sensitive!'))
+                _('Data collected by this type of study is always considered sensitive!'),
+                code='invalid')
         if self.subjectfiltergroup_set.count() > 1 and not self.advanced_filtering:
             raise ValidationError(_(
                 'Studies with more than one filtergroup can\'t be transformed back to basic '
-                'filtering. Delete all but one filtergroup first!'))
+                'filtering. Delete all but one filtergroup first!'), code='invalid')
 
     def get_filter_max_privacy_level(self):
         key = 'subjectfilter__description__privacy_level_read'
