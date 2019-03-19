@@ -88,6 +88,10 @@ class Study(models.Model):
             self.data_sensitivity = True
             raise ValidationError(
                 _('Data collected by this type of study is always considered sensitive!'))
+        if self.subjectfiltergroup_set.count() > 1 and not self.advanced_filtering:
+            raise ValidationError(_(
+                'Studies with more than one filtergroup can\'t be transformed back to basic '
+                'filtering. Delete all but one filtergroup first!'))
 
     def get_filter_max_privacy_level(self):
         key = 'subjectfilter__description__privacy_level_read'
