@@ -16,16 +16,16 @@
 
     <ul class="nav nav-pills">
         <li class="nav-item">
-            <a class="nav-link {% if not_contacted_view %} active {% endif %}" href="{% url 'recruitment:recruitment_not-contacted' study.pk %}">{% trans 'Not contacted'%} <span class="badge badge-light">{{not_contacted_count}}</span></a>
+            <a class="nav-link {% if view.tab == 'not-contacted' %} active {% endif %}" href="{% url 'recruitment:recruitment_not-contacted' study.pk %}">{% trans 'Not contacted'%} <span class="badge badge-light">{{not_contacted_count}}</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {% if not_reached_view %} active {% endif %}" href="{% url 'recruitment:recruitment_not-reached' study.pk %}">{% trans 'Not reached' %} <span class="badge badge-light">{{not_reached_count}}</span></a>
+            <a class="nav-link {% if view.tab == 'not-reached' %} active {% endif %}" href="{% url 'recruitment:recruitment_not-reached' study.pk %}">{% trans 'Not reached' %} <span class="badge badge-light">{{not_reached_count}}</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {% if invited_view %} active {% endif %}" href="{% url 'recruitment:recruitment_invited' study.pk %}">{% trans 'Invited' %} <span class="badge badge-light">{{invited_count}}</span></a>
+            <a class="nav-link {% if view.tab == 'invited' %} active {% endif %}" href="{% url 'recruitment:recruitment_invited' study.pk %}">{% trans 'Invited' %} <span class="badge badge-light">{{invited_count}}</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {% if unsuitable_view %} active {% endif %}" href="{% url 'recruitment:recruitment_unsuitable' study.pk %}">{% trans 'Unsuitable' %} <span class="badge badge-light">{{unsuitable_count}}</span></a>
+            <a class="nav-link {% if view.tab == 'unsuitable' %} active {% endif %}" href="{% url 'recruitment:recruitment_unsuitable' study.pk %}">{% trans 'Unsuitable' %} <span class="badge badge-light">{{unsuitable_count}}</span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link disabled">{% trans 'All' %} <span class="badge badge-light">{{all_count}}</span></a>
@@ -41,7 +41,7 @@
 
     <div class="mb-3">
         <a href="{% url 'recruitment:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-        {% if not_contacted_view %}
+        {% if view.tab == 'not-contacted' %}
             {% has_perm 'recruitment.add_participationrequest' user view.study as can_add_participationrequest %}
             {% if can_add_participationrequest %}
                 <form method="post" class="d-inline">

@@ -70,6 +70,7 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
     template_name = 'recruitment/recruitment.html'
     permission_required = 'recruitment.view_participationrequest'
     shown_status = None
+    tab = None
 
     def dispatch(self, request, *args, **kwargs):
         self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
@@ -164,36 +165,31 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
             status=ParticipationRequest.NOT_CONTACTED).count()
         context['study'] = self.study
 
-        if self.shown_status == self.model.NOT_REACHED:
-            context['not_reached_view'] = True
-        elif self.shown_status == self.model.NOT_CONTACTED:
-            context['not_contacted_view'] = True
-        elif self.shown_status == self.model.UNSUITABLE:
-            context['unsuitable_view'] = True
-        elif self.shown_status == self.model.INVITED:
-            context['invited_view'] = True
-
         return context
 
 
 class RecruitmentViewNotReached(RecruitmentView):
 
     shown_status = ParticipationRequest.NOT_REACHED
+    tab = 'not-reached'
 
 
 class RecruitmentViewInvited(RecruitmentView):
 
     shown_status = ParticipationRequest.INVITED
+    tab = 'invited'
 
 
 class RecruitmentViewUnsuitable(RecruitmentView):
 
     shown_status = ParticipationRequest.UNSUITABLE
+    tab = 'unsuitable'
 
 
 class RecruitmentViewNotContacted(RecruitmentView):
 
     shown_status = ParticipationRequest.NOT_CONTACTED
+    tab = 'not-contacted'
 
     def create_participation_request(self):
 
