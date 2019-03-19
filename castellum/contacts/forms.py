@@ -102,7 +102,9 @@ class ContactForm(forms.ModelForm):
 
         privacy_level = cleaned_data.get('privacy_level', 0)
         if not self.user.has_privacy_level(privacy_level):
-            raise ValidationError(_("Please choose lower privacy level for the subject."))
+            raise ValidationError(_(
+                "Please choose lower privacy level for the subject."),
+                code='invalid')
 
         is_address_data = any([country, city, zip_code, street, house_number, add_info])
         if is_address_data:
@@ -112,11 +114,11 @@ class ContactForm(forms.ModelForm):
                     for field, errors in address_form.errors.items():
                         self.add_error(field, errors)
 
-                raise ValidationError(_("Provide more details for the address."))
+                raise ValidationError(_("Provide more details for the address."), code='invalid')
         else:
             if not any([phone_number, email]):
                 raise ValidationError(_("Either email, phone number"
-                                        " or address should be provided."))
+                                        " or address should be provided."), code='invalid')
 
         if not is_address_data and preferred_contact_method == 'postal':
             self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))

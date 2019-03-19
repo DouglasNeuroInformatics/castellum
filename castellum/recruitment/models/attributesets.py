@@ -221,11 +221,12 @@ class AttributeDescription(ImportMixin, TranslatableModel):
     def clean(self):
         if self.privacy_level_read > self.privacy_level_write:
             raise ValidationError(
-                _('Privacy level for reading may not be higher than for writing.'))
+                _('Privacy level for reading may not be higher than for writing.'), code='invalid')
 
         if self.statistics_rank and self.field_type not in self.STATISTICS_TYPES:
             msg = 'Statistics rank can only be set for the following field types: {}'
-            raise ValidationError(format_lazy(msg, ', '.join(self.STATISTICS_TYPES)))
+            raise ValidationError(format_lazy(msg, ', '.join(self.STATISTICS_TYPES)),
+                                  code='invalid')
 
     @property
     def json_key(self):

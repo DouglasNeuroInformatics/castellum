@@ -162,7 +162,7 @@ class FilterFormSet(BaseModelFormSet):
 
         if len(set(values)) != len(values):
             raise ValidationError(_('There are duplicates in filters. Please change or '
-                                    'delete filter!'))
+                                    'delete filter!'), code='invalid')
 
 
 class FilterGroupUpdateView(FilterMixin, StudyPermissionMixin, PermissionRequiredMixin,
