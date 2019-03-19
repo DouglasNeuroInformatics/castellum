@@ -16,10 +16,7 @@
 
     <ul class="nav nav-pills">
         <li class="nav-item">
-            <a class="nav-link {% if view.tab == 'not-contacted' %} active {% endif %}" href="{% url 'recruitment:recruitment_not-contacted' study.pk %}">{% trans 'Not contacted'%} <span class="badge badge-light">{{not_contacted_count}}</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {% if view.tab == 'not-reached' %} active {% endif %}" href="{% url 'recruitment:recruitment_not-reached' study.pk %}">{% trans 'Not reached' %} <span class="badge badge-light">{{not_reached_count}}</span></a>
+            <a class="nav-link {% if view.tab == 'open' %} active {% endif %}" href="{% url 'recruitment:recruitment_open' study.pk %}">{% trans 'Open' %} <span class="badge badge-light">{{open_count}}</span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link {% if view.tab == 'invited' %} active {% endif %}" href="{% url 'recruitment:recruitment_invited' study.pk %}">{% trans 'Invited' %} <span class="badge badge-light">{{invited_count}}</span></a>
@@ -41,7 +38,7 @@
 
     <div class="mb-3">
         <a href="{% url 'recruitment:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-        {% if view.tab == 'not-contacted' %}
+        {% if view.tab == 'open' %}
             {% has_perm 'recruitment.add_participationrequest' user view.study as can_add_participationrequest %}
             {% if can_add_participationrequest %}
                 <form method="post" class="d-inline">

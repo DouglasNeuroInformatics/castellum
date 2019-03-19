@@ -26,8 +26,7 @@ from .views.contacts import ContactStudiesView
 from .views.contacts import ContactUpdateView
 from .views.recruitment import ContactView
 from .views.recruitment import RecruitmentViewInvited
-from .views.recruitment import RecruitmentViewNotContacted
-from .views.recruitment import RecruitmentViewNotReached
+from .views.recruitment import RecruitmentViewOpen
 from .views.recruitment import RecruitmentViewUnsuitable
 from .views.recruitment import StudyChoiceView
 from .views.subjectfilters import FilterGroupCreateView
@@ -65,10 +64,7 @@ urlpatterns = [
         FilterGroupDuplicateView.as_view(),
         name='filtergroup_duplicate'),
 
-    path('<study_pk>/not-contacted/', RecruitmentViewNotContacted.as_view(),
-         name='recruitment_not-contacted'),
-    path('<study_pk>/not-reached/', RecruitmentViewNotReached.as_view(),
-         name='recruitment_not-reached'),
+    path('<study_pk>/open/', RecruitmentViewOpen.as_view(), name='recruitment_open'),
     path('<study_pk>/invited/', RecruitmentViewInvited.as_view(),
          name='recruitment_invited'),
     path('<study_pk>/unsuitable/', RecruitmentViewUnsuitable.as_view(),

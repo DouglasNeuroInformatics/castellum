@@ -155,19 +155,13 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
             status=ParticipationRequest.INVITED).count()
         context['unsuitable_count'] = queryset.filter(
             status=ParticipationRequest.UNSUITABLE).count()
-        context['not_reached_count'] = queryset.filter(
-            status=ParticipationRequest.NOT_REACHED).count()
-        context['not_contacted_count'] = queryset.filter(
-            status=ParticipationRequest.NOT_CONTACTED).count()
+        context['open_count'] = queryset.filter(status__in=[
+            ParticipationRequest.NOT_CONTACTED,
+            ParticipationRequest.NOT_REACHED,
+        ]).count()
         context['study'] = self.study
 
         return context
-
-
-class RecruitmentViewNotReached(RecruitmentView):
-
-    shown_status = [ParticipationRequest.NOT_REACHED]
-    tab = 'not-reached'
 
 
 class RecruitmentViewInvited(RecruitmentView):
@@ -182,10 +176,13 @@ class RecruitmentViewUnsuitable(RecruitmentView):
     tab = 'unsuitable'
 
 
-class RecruitmentViewNotContacted(RecruitmentView):
+class RecruitmentViewOpen(RecruitmentView):
 
-    shown_status = [ParticipationRequest.NOT_CONTACTED]
-    tab = 'not-contacted'
+    shown_status = [
+        ParticipationRequest.NOT_CONTACTED,
+        ParticipationRequest.NOT_REACHED,
+    ]
+    tab = 'open'
 
     def create_participation_request(self):
 
@@ -263,10 +260,11 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
         if not queryset:
             queryset = ParticipationRequest.objects
 
-        if self.kwargs['path'] == 'not-contacted':
-            return queryset.filter(status=ParticipationRequest.NOT_CONTACTED, study=self.study)
-        elif self.kwargs['path'] == 'not-reached':
-            return queryset.filter(status=ParticipationRequest.NOT_REACHED, study=self.study)
+        if self.kwargs['path'] == 'open':
+            return queryset.filter(status__in=[
+                ParticipationRequest.NOT_CONTACTED,
+                ParticipationRequest.NOT_REACHED,
+            ], study=self.study)
         elif self.kwargs['path'] != 'contacts':
             raise Http404
 

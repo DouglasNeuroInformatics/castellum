@@ -12,7 +12,7 @@
                 <li class="table-list-item">
                     <h3 class="h4 my-1 mr-2">{{ study.name|default:'—' }}</h3>
                     <div class="table-list-item-actions">
-                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment_not-contacted' study.pk %}">{% trans 'Find subjects' %}</a>
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment_open' study.pk %}">{% trans 'Find subjects' %}</a>
                     </div>
                 </li>
             {% endfor %}

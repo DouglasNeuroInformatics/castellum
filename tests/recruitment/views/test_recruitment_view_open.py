@@ -13,7 +13,7 @@ def test_min_subjects_count_is_zero(client, member, published_study):
     published_study.save()
 
     client.force_login(member)
-    url = "/recruitment/{}/not-contacted/".format(published_study.pk)
+    url = "/recruitment/{}/open/".format(published_study.pk)
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -35,7 +35,7 @@ def test_not_contacted_count_is_gte_to_hard_limit(client, member, published_stud
         create_participation_request(published_study)
 
     client.force_login(member)
-    url = "/recruitment/{}/not-contacted/".format(published_study.pk)
+    url = "/recruitment/{}/open/".format(published_study.pk)
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -57,7 +57,7 @@ def test_not_contacted_count_is_gte_to_soft_limit(client, member, published_stud
         create_participation_request(published_study)
 
     client.force_login(member)
-    url = "/recruitment/{}/not-contacted/".format(published_study.pk)
+    url = "/recruitment/{}/open/".format(published_study.pk)
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -81,7 +81,7 @@ def test_no_matching_attribute_sets(client, member, published_study, attribute_d
                description=attribute_description, operator="exact", value="left")
 
     client.force_login(member)
-    url = "/recruitment/{}/not-contacted/".format(published_study.pk)
+    url = "/recruitment/{}/open/".format(published_study.pk)
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -95,7 +95,7 @@ def test_create_revision_on_create(client, member, attributeset, published_study
     published_study.save()
 
     client.force_login(member)
-    url = "/recruitment/{}/not-contacted/".format(published_study.pk)
+    url = "/recruitment/{}/open/".format(published_study.pk)
     client.post(url)
 
     assert ParticipationRequestRevision.objects.count() == 1
