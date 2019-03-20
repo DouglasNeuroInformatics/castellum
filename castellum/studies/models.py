@@ -73,10 +73,10 @@ class Study(models.Model):
     domain = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     published = models.BooleanField(_('published'), default=False)
     advanced_filtering = models.BooleanField(
-        _('uses advanced filtering for Castellum recruitment'), help_text=_(
-            'Advanced filtering means using different groups of filters to fill up the potential '
-            'subject list in study recruitment. Each filter group represents a different subgroup '
-            'of your potential subjects.'
+        _('uses advanced filtering for recruitment'), help_text=_(
+            'By default you can create only one filtergroup in which all the filters are joint by '
+            'AND operator. Advanced filtering allows you to create multiple filtergroups which are '
+            'joint by OR operator.'
         ),
         default=False)
 
