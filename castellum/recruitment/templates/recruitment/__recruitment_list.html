@@ -21,6 +21,14 @@
                             </div>,
                             <div class="d-inline-block my-1">{% trans 'last' %}: {{ participation.updated_at|date:"SHORT_DATETIME_FORMAT" }}</div>
                         </div>
+                    {% elif participation.status == participation.RECALL_APPOINTED %}
+                        <div class="mr-2">
+                            <div class="d-inline-block my-1">
+                                {% blocktrans with timeuntil=participation.appointment|timeuntil time=participation.appointment|time %}
+                                    recall in {{ timeuntil }} at {{ time }}
+                                {% endblocktrans %}
+                            </div>
+                        </div>
                     {% endif %}
                 </div>
                 {% if can_change_participationrequest %}
