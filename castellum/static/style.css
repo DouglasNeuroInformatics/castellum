@@ -36,3 +36,17 @@
 .navbar-dark .navbar-toggler-icon {
     background-image: url("images/hamburger.svg");
 }
+
+.appointment {
+    display: inline-block;
+    width: 1.8rem;
+    height: 1.8rem;
+    vertical-align: middle;
+    content: "";
+    border-radius: 50%;
+    background: no-repeat center center;
+    background-color: #ff65b2;
+    background-image: url("images/bell.svg");
+    background-size: auto;
+    background-size: 70% 70%;
+}
