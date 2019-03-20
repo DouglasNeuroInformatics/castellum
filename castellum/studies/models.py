@@ -74,7 +74,7 @@ class Study(models.Model):
     published = models.BooleanField(_('published'), default=False)
     advanced_filtering = models.BooleanField(
         _('uses advanced filtering for recruitment'), help_text=_(
-            'By default you can create only one filtergroup in which all the filters are joint by '
+            'By default you can create only one filtergroup in which all the filters are joined by '
             'AND operator. Advanced filtering allows you to create multiple filtergroups which are '
             'joined by OR operator.'
         ),
