@@ -25,7 +25,7 @@ $(function() {
         var $template = $('#template-' + pk);
         if ($template.length) {
             var html = $template.html().replace(/{prefix}/g, 'form-' + $totalForms.val());
-            var $fieldset = $('<fieldset class="row">').html(html);
+            var $fieldset = $('<fieldset class="row mb-3">').html(html);
             $container.append($fieldset);
             $totalForms.val(parseInt($totalForms.val(), 10) + 1);
             registerBeforeUnload();

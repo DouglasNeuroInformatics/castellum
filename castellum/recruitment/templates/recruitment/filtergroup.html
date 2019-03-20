@@ -58,7 +58,7 @@
 
         <div id="filter-forms">
             {% for form in formset %}
-                <fieldset class="row" {% if form.DELETE.value %}hidden{% endif %}>
+                <fieldset class="row mb-3" {% if form.DELETE.value %}hidden{% endif %}>
                     {{ form.id.as_hidden }}
                     {{ form.DELETE.as_hidden }}
                     <input type="hidden" name="{{ form.prefix }}-group" value="{{ group.id }}" />
