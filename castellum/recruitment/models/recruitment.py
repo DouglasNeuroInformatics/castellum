@@ -51,6 +51,8 @@ class ParticipationRequest(SubjectData):
     status = models.IntegerField(
         _('status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
 
+    appointment = DateTimeField(_('appointment'), blank=True, null=True)
+
     objects = ParticipationRequestManager()
 
     class Meta:
@@ -78,7 +80,8 @@ class ParticipationRequest(SubjectData):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        ParticipationRequestRevision.objects.create(current=self, status=self.status)
+        ParticipationRequestRevision.objects.create(
+            current=self, status=self.status, appointment=self.appointment)
 
 
 class ParticipationRequestRevision(models.Model):
@@ -98,6 +101,7 @@ class ParticipationRequestRevision(models.Model):
         ParticipationRequest, related_name='revisions', on_delete=models.CASCADE)
     status = models.IntegerField(
         choices=ParticipationRequest.STATUS_OPTIONS, default=ParticipationRequest.NOT_CONTACTED)
+    appointment = DateTimeField(blank=True, null=True)
     created_at = DateTimeField(auto_now_add=True)
 
     def __str__(self):

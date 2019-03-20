@@ -77,6 +77,7 @@
 
         {% csrf_token %}
         {% bootstrap_field form.status %}
+        {% bootstrap_field form.appointment %}
 
         <div class="mb-3">
             {% if path == 'contacts' %}

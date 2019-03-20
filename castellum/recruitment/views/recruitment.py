@@ -245,7 +245,7 @@ class RecruitmentViewOpen(RecruitmentView):
 
 class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = ParticipationRequest
-    fields = ['status']
+    fields = ['status', 'appointment']
     slug_field = 'pseudonym'
     template_name = 'recruitment/contact.html'
     permission_required = 'recruitment.change_participationrequest'
@@ -258,6 +258,7 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
     def get_initial(self):
         initial = super().get_initial()
         initial['status'] = None
+        initial['appointment'] = None
         return initial
 
     def get_queryset(self, queryset=None):
