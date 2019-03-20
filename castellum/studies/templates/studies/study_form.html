@@ -16,6 +16,9 @@
             {{ template_form.id.as_hidden }}
             {{ template_form.DELETE.as_hidden }}
             {% bootstrap_field template_form.duration %}
+            <button type="button" class="btn btn-danger" data-js="session-delete">
+                {% trans 'Delete' %}
+            </button>
         </fieldset>
     </template>
 
@@ -40,13 +43,16 @@
         {% bootstrap_field form.min_subjects_count %}
         {% bootstrap_field form.expense_allowance addon_after=_('EUR') %}
 
+        {{ session_formset.management_form }}
         <div id='sessions-container'>
-            {{ session_formset.management_form }}
             {% for subform in session_formset %}
                 <fieldset>
                     {{ subform.id.as_hidden }}
                     {{ subform.DELETE.as_hidden }}
                     {% bootstrap_field subform.duration %}
+                    <button type="button" class="btn btn-danger" data-js="session-delete">
+                        {% trans 'Delete' %}
+                    </button>
                 </fieldset>
             {% endfor %}
         </div>
