@@ -10,7 +10,7 @@
                         <h3 class="h4 d-inline-block my-1 mr-2">{{ participation.pseudonym|truncatechars:11 }}</h3>
                         <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
                     </div>
-                    {% if not_reached_view %}
+                    {% if participation.status == participation.NOT_REACHED %}
                         <div class="mr-2">
                             <div class="d-inline-block my-1">
                                 {% blocktrans count tries=participation.tries %}
@@ -25,10 +25,8 @@
                 </div>
                 {% if can_change_participationrequest %}
                     <div class="table-list-item-actions">
-                        {% if not_contacted_view %}
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pseudonym 'not-contacted' %}">{% trans 'Call' %}</a>
-                        {% elif not_reached_view %}
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pseudonym 'not-reached' %}">{% trans 'Call' %}</a>
+                        {% if participation.status == participation.NOT_CONTACTED or participation.status == participation.NOT_REACHED %}
+                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pseudonym 'open' %}">{% trans 'Call' %}</a>
                         {% else %}
                             <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Call' %}</a>
                         {% endif %}

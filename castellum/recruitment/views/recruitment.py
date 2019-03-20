@@ -69,7 +69,8 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
     context_object_name = 'participation_requests'
     template_name = 'recruitment/recruitment.html'
     permission_required = 'recruitment.view_participationrequest'
-    shown_status = None
+    shown_status = []
+    tab = None
 
     def dispatch(self, request, *args, **kwargs):
         self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
@@ -79,11 +80,7 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
     def get_queryset(self, queryset=None):
         if not queryset:
             queryset = self.model.objects
-
-        if self.shown_status is not None:
-            return queryset.filter(status=self.shown_status, study=self.study)
-        else:
-            return queryset.filter(study=self.study)
+        return queryset.filter(status__in=self.shown_status, study=self.study)
 
     def get_statistics(self):
         participation_requests = ParticipationRequest.objects.filter(
@@ -158,42 +155,34 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
             status=ParticipationRequest.INVITED).count()
         context['unsuitable_count'] = queryset.filter(
             status=ParticipationRequest.UNSUITABLE).count()
-        context['not_reached_count'] = queryset.filter(
-            status=ParticipationRequest.NOT_REACHED).count()
-        context['not_contacted_count'] = queryset.filter(
-            status=ParticipationRequest.NOT_CONTACTED).count()
+        context['open_count'] = queryset.filter(status__in=[
+            ParticipationRequest.NOT_CONTACTED,
+            ParticipationRequest.NOT_REACHED,
+        ]).count()
         context['study'] = self.study
-
-        if self.shown_status == self.model.NOT_REACHED:
-            context['not_reached_view'] = True
-        elif self.shown_status == self.model.NOT_CONTACTED:
-            context['not_contacted_view'] = True
-        elif self.shown_status == self.model.UNSUITABLE:
-            context['unsuitable_view'] = True
-        elif self.shown_status == self.model.INVITED:
-            context['invited_view'] = True
 
         return context
 
 
-class RecruitmentViewNotReached(RecruitmentView):
-
-    shown_status = ParticipationRequest.NOT_REACHED
-
-
 class RecruitmentViewInvited(RecruitmentView):
 
-    shown_status = ParticipationRequest.INVITED
+    shown_status = [ParticipationRequest.INVITED]
+    tab = 'invited'
 
 
 class RecruitmentViewUnsuitable(RecruitmentView):
 
-    shown_status = ParticipationRequest.UNSUITABLE
+    shown_status = [ParticipationRequest.UNSUITABLE]
+    tab = 'unsuitable'
 
 
-class RecruitmentViewNotContacted(RecruitmentView):
+class RecruitmentViewOpen(RecruitmentView):
 
-    shown_status = ParticipationRequest.NOT_CONTACTED
+    shown_status = [
+        ParticipationRequest.NOT_CONTACTED,
+        ParticipationRequest.NOT_REACHED,
+    ]
+    tab = 'open'
 
     def create_participation_request(self):
 
@@ -271,10 +260,11 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
         if not queryset:
             queryset = ParticipationRequest.objects
 
-        if self.kwargs['path'] == 'not-contacted':
-            return queryset.filter(status=ParticipationRequest.NOT_CONTACTED, study=self.study)
-        elif self.kwargs['path'] == 'not-reached':
-            return queryset.filter(status=ParticipationRequest.NOT_REACHED, study=self.study)
+        if self.kwargs['path'] == 'open':
+            return queryset.filter(status__in=[
+                ParticipationRequest.NOT_CONTACTED,
+                ParticipationRequest.NOT_REACHED,
+            ], study=self.study)
         elif self.kwargs['path'] != 'contacts':
             raise Http404
 
@@ -319,16 +309,6 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
                     next_pseudonym_idx = idx
                     break
                 idx += 1
-
-            if next_pseudonym_idx is None and self.kwargs['path'] == 'not-contacted':
-                idx = current_pseudonym_idx - 1
-                while idx >= 0:
-                    contact = Contact.objects.get(pseudonym=resolve_pseudonym(
-                        self.study.domain, pseudonyms[idx], Contact.domain))
-                    if contact.privacy_level <= user_privacy_level:
-                        next_pseudonym_idx = idx
-                        break
-                    idx -= 1
 
         if next_pseudonym_idx is None:
             url = 'recruitment:recruitment_' + self.kwargs['path']
