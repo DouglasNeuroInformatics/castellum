@@ -157,6 +157,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 NPM_ROOT_PATH = os.path.dirname(BASE_DIR)
 
 NPM_FILE_PATTERNS = {
+    'react': [
+        'umd/react.development.js',
+    ],
+    'react-dom': [
+        'umd/react-dom.development.js',
+    ],
     'bootstrap': [
         'dist/css/bootstrap.min.css',
         'dist/js/bootstrap.min.js'
