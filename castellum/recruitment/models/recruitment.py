@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -29,7 +31,11 @@ from castellum.utils.fields import DateTimeField
 
 class ParticipationRequestManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().annotate(updated_at=models.Max('revisions__created_at'))
+        return super().get_queryset().annotate(
+            updated_at=models.Max('revisions__created_at'),
+            appointment_today=models.Count(
+                'id', filter=models.Q(appointment__date=datetime.date.today())),
+        )
 
 
 class ParticipationRequest(SubjectData):

@@ -27,6 +27,9 @@
                                 {% blocktrans with timeuntil=participation.appointment|timeuntil time=participation.appointment|time %}
                                     recall in {{ timeuntil }} at {{ time }}
                                 {% endblocktrans %}
+                                {% if participation.appointment_today %}
+                                    <span class="appointment" title="{% trans 'appointment today' %}"></span>
+                                {% endif %}
                             </div>
                         </div>
                     {% endif %}
