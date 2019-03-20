@@ -24,9 +24,15 @@
                     {% elif participation.status == participation.RECALL_APPOINTED %}
                         <div class="mr-2">
                             <div class="d-inline-block my-1">
-                                {% blocktrans with timeuntil=participation.appointment|timeuntil time=participation.appointment|time %}
-                                    recall in {{ timeuntil }} at {{ time }}
-                                {% endblocktrans %}
+                                {% if participation.appointment_today %}
+                                    {% blocktrans with time=participation.appointment|time %}
+                                        recall today at {{ time }}
+                                    {% endblocktrans %}
+                                {% else %}
+                                    {% blocktrans with date=participation.appointment|date time=participation.appointment|time %}
+                                        recall on {{ date }} at {{ time }}
+                                    {% endblocktrans %}
+                                {% endif %}
                                 {% if participation.appointment_today %}
                                     <span class="appointment" title="{% trans 'appointment today' %}"></span>
                                 {% endif %}
