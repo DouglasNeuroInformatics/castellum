@@ -22,6 +22,7 @@
 import datetime
 
 from django.db import models
+from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from castellum.pseudonyms.models import SubjectData
@@ -83,6 +84,12 @@ class ParticipationRequest(SubjectData):
 
     def get_revisions_display(self):
         return ', '.join(str(r) for r in self.revisions.all())
+
+    def clean(self):
+        if self.status == self.RECALL_APPOINTED and not self.appointment:
+            raise ValidationError(_('No appointment set'), code='invalid')
+        if self.status != self.RECALL_APPOINTED and self.appointment:
+            raise ValidationError(_('Appointment cannot be set with this status'), code='invalid')
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
