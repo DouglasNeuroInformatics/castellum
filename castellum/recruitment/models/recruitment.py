@@ -37,11 +37,13 @@ class ParticipationRequest(SubjectData):
     NOT_REACHED = 1
     UNSUITABLE = 2
     INVITED = 3
+    RECALL_APPOINTED = 4
     STATUS_OPTIONS = (
         (NOT_CONTACTED, _('not contacted')),
         (NOT_REACHED, _('not reached')),
         (UNSUITABLE, _('unsuitable')),
         (INVITED, _('invited')),
+        (RECALL_APPOINTED, _('recall appointed')),
     )
 
     study = models.ForeignKey(Study, verbose_name=_('study'), on_delete=models.CASCADE)
