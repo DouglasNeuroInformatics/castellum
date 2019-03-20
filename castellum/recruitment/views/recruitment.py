@@ -160,6 +160,7 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
         context['open_count'] = queryset.filter(status__in=[
             ParticipationRequest.NOT_CONTACTED,
             ParticipationRequest.NOT_REACHED,
+            ParticipationRequest.RECALL_APPOINTED,
         ]).count()
         context['study'] = self.study
 
@@ -183,6 +184,7 @@ class RecruitmentViewOpen(RecruitmentView):
     shown_status = [
         ParticipationRequest.NOT_CONTACTED,
         ParticipationRequest.NOT_REACHED,
+        ParticipationRequest.RECALL_APPOINTED,
     ]
     tab = 'open'
 
@@ -266,6 +268,7 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
             return queryset.filter(status__in=[
                 ParticipationRequest.NOT_CONTACTED,
                 ParticipationRequest.NOT_REACHED,
+                ParticipationRequest.RECALL_APPOINTED,
             ], study=self.study)
         elif self.kwargs['path'] != 'contacts':
             raise Http404
