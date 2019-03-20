@@ -80,7 +80,9 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
     def get_queryset(self, queryset=None):
         if not queryset:
             queryset = self.model.objects
-        return queryset.filter(status__in=self.shown_status, study=self.study)
+        return queryset\
+            .filter(status__in=self.shown_status, study=self.study)\
+            .order_by('status', 'updated_at')
 
     def get_statistics(self):
         participation_requests = ParticipationRequest.objects.filter(

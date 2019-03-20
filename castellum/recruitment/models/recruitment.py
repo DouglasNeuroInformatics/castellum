@@ -27,6 +27,11 @@ from castellum.studies.models import Study
 from castellum.utils.fields import DateTimeField
 
 
+class ParticipationRequestManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().annotate(updated_at=models.Max('revisions__created_at'))
+
+
 class ParticipationRequest(SubjectData):
     NOT_CONTACTED = 0
     NOT_REACHED = 1
@@ -43,6 +48,8 @@ class ParticipationRequest(SubjectData):
 
     status = models.IntegerField(
         _('status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
+
+    objects = ParticipationRequestManager()
 
     class Meta:
         verbose_name = _('participation request')
@@ -63,10 +70,6 @@ class ParticipationRequest(SubjectData):
     @property
     def tries(self):
         return self.revisions.filter(status=ParticipationRequest.NOT_REACHED).count()
-
-    @property
-    def updated_at(self):
-        return self.latest.created_at
 
     def get_revisions_display(self):
         return ', '.join(str(r) for r in self.revisions.all())
