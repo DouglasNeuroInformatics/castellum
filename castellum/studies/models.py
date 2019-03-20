@@ -76,7 +76,7 @@ class Study(models.Model):
         _('uses advanced filtering for recruitment'), help_text=_(
             'By default you can create only one filtergroup in which all the filters are joint by '
             'AND operator. Advanced filtering allows you to create multiple filtergroups which are '
-            'joint by OR operator.'
+            'joined by OR operator.'
         ),
         default=False)
 
