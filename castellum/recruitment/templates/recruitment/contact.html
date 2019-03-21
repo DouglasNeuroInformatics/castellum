@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n bootstrap4 utils auth %}
+{% load i18n static bootstrap4 utils auth %}
 
 {% block title %}{% trans "Recruitment" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
 
@@ -77,6 +77,7 @@
 
         {% csrf_token %}
         {% bootstrap_field form.status %}
+        {% bootstrap_field form.appointment %}
 
         <div class="mb-3">
             {% if path == 'contacts' %}
@@ -92,4 +93,8 @@
         </div>
     </form>
 
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/contact.js' %}"></script>
 {% endblock %}

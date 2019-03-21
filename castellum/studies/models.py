@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
 import uuid
 
 from django.contrib.auth.models import Group
@@ -110,6 +111,11 @@ class Study(models.Model):
     @classmethod
     def get_by_pk_or_404(cls, pk):
         return get_object_or_404(cls, pk=pk)
+
+    @property
+    def appointment_today(self):
+        today = datetime.date.today()
+        return self.participationrequest_set.filter(appointment__date=today).exists()
 
 
 class StudyMembership(models.Model):

@@ -21,11 +21,28 @@
                             </div>,
                             <div class="d-inline-block my-1">{% trans 'last' %}: {{ participation.updated_at|date:"SHORT_DATETIME_FORMAT" }}</div>
                         </div>
+                    {% elif participation.status == participation.RECALL_APPOINTED %}
+                        <div class="mr-2">
+                            <div class="d-inline-block my-1">
+                                {% if participation.appointment_today %}
+                                    {% blocktrans with time=participation.appointment|time %}
+                                        recall today at {{ time }}
+                                    {% endblocktrans %}
+                                {% else %}
+                                    {% blocktrans with date=participation.appointment|date time=participation.appointment|time %}
+                                        recall on {{ date }} at {{ time }}
+                                    {% endblocktrans %}
+                                {% endif %}
+                                {% if participation.appointment_today %}
+                                    <span class="appointment" title="{% trans 'appointment today' %}"></span>
+                                {% endif %}
+                            </div>
+                        </div>
                     {% endif %}
                 </div>
                 {% if can_change_participationrequest %}
                     <div class="table-list-item-actions">
-                        {% if participation.status == participation.NOT_CONTACTED or participation.status == participation.NOT_REACHED %}
+                        {% if participation.status == participation.NOT_CONTACTED or participation.status == participation.NOT_REACHED or participation.status == participation.RECALL_APPOINTED %}
                             <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pseudonym 'open' %}">{% trans 'Call' %}</a>
                         {% else %}
                             <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Call' %}</a>

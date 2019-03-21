@@ -19,7 +19,10 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django.db import models
+from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from castellum.pseudonyms.models import SubjectData
@@ -29,7 +32,11 @@ from castellum.utils.fields import DateTimeField
 
 class ParticipationRequestManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().annotate(updated_at=models.Max('revisions__created_at'))
+        return super().get_queryset().annotate(
+            updated_at=models.Max('revisions__created_at'),
+            appointment_today=models.Count(
+                'id', filter=models.Q(appointment__date=datetime.date.today())),
+        )
 
 
 class ParticipationRequest(SubjectData):
@@ -37,17 +44,21 @@ class ParticipationRequest(SubjectData):
     NOT_REACHED = 1
     UNSUITABLE = 2
     INVITED = 3
+    RECALL_APPOINTED = 4
     STATUS_OPTIONS = (
         (NOT_CONTACTED, _('not contacted')),
         (NOT_REACHED, _('not reached')),
         (UNSUITABLE, _('unsuitable')),
         (INVITED, _('invited')),
+        (RECALL_APPOINTED, _('recall appointed')),
     )
 
     study = models.ForeignKey(Study, verbose_name=_('study'), on_delete=models.CASCADE)
 
     status = models.IntegerField(
         _('status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
+
+    appointment = DateTimeField(_('appointment'), blank=True, null=True)
 
     objects = ParticipationRequestManager()
 
@@ -74,9 +85,16 @@ class ParticipationRequest(SubjectData):
     def get_revisions_display(self):
         return ', '.join(str(r) for r in self.revisions.all())
 
+    def clean(self):
+        if self.status == self.RECALL_APPOINTED and not self.appointment:
+            raise ValidationError(_('No appointment set'), code='invalid')
+        if self.status != self.RECALL_APPOINTED and self.appointment:
+            raise ValidationError(_('Appointment cannot be set with this status'), code='invalid')
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        ParticipationRequestRevision.objects.create(current=self, status=self.status)
+        ParticipationRequestRevision.objects.create(
+            current=self, status=self.status, appointment=self.appointment)
 
 
 class ParticipationRequestRevision(models.Model):
@@ -96,6 +114,7 @@ class ParticipationRequestRevision(models.Model):
         ParticipationRequest, related_name='revisions', on_delete=models.CASCADE)
     status = models.IntegerField(
         choices=ParticipationRequest.STATUS_OPTIONS, default=ParticipationRequest.NOT_CONTACTED)
+    appointment = DateTimeField(blank=True, null=True)
     created_at = DateTimeField(auto_now_add=True)
 
     def __str__(self):
