@@ -37,6 +37,9 @@
             <a href="{% url 'recruitment:attributes_update' contact.pseudonym %}" class="btn btn-secondary">{% trans "Edit attributes" %}</a>
         {% endif %}
         <a href="{% url 'recruitment:contacts_studies' contact.pseudonym %}" class="btn btn-secondary">{% trans 'Add to study' %}</a>
-        <a href="{% url 'contacts:export' contact.pseudonym %}" class="btn btn-secondary">{% trans 'Export' %}</a>
+        {% has_perm 'pseudonyms.view_subject' user as can_view_subject %}
+        {% if can_view_subject %}
+            <a href="{% url 'contacts:export' contact.pseudonym %}" class="btn btn-secondary">{% trans 'Export' %}</a>
+        {% endif %}
     </div>
 {% endblock %}
