@@ -374,10 +374,8 @@ msgstr "Zugriff verweigert"
 
 #: castellum/contacts/templates/contacts/contact_search.html:53
 #: castellum/contacts/templates/contacts/contact_search.html:57
-#, fuzzy
-#| msgid "View details"
 msgid "Details"
-msgstr "Details ansehen"
+msgstr "Details"
 
 #: castellum/contacts/templates/contacts/contact_search.html:64
 msgid "No matches found"
@@ -561,7 +559,7 @@ msgstr "eingeladen"
 
 #: castellum/recruitment/models/recruitment.py:53
 msgid "recall appointed"
-msgstr ""
+msgstr "Rückruf vereinbart"
 
 #: castellum/recruitment/models/recruitment.py:56
 msgid "study"
@@ -573,7 +571,7 @@ msgstr "Teilnahmestatus"
 
 #: castellum/recruitment/models/recruitment.py:61
 msgid "appointment"
-msgstr ""
+msgstr "Terminvereinbarung"
 
 #: castellum/recruitment/models/recruitment.py:66
 msgid "participation request"
@@ -585,11 +583,11 @@ msgstr "Teilnahmeanfragen"
 
 #: castellum/recruitment/models/recruitment.py:90
 msgid "No appointment set"
-msgstr ""
+msgstr "Keine Terminvereinbarung"
 
 #: castellum/recruitment/models/recruitment.py:92
 msgid "Appointment cannot be set with this status"
-msgstr ""
+msgstr "Eine Terminvereinbarung kann mit diesem Status nicht gesetzt werden"
 
 #: castellum/recruitment/templates/admin/recruitment/attributedescription_import.html:17
 msgid ""
@@ -621,45 +619,23 @@ msgid "last"
 msgstr "zuletzt"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:28
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                    %(tries)s try\n"
-#| "                                "
-#| msgid_plural ""
-#| "\n"
-#| "                                    %(tries)s tries\n"
-#| "                                "
 msgid ""
 "\n"
 "                                        recall today at %(time)s\n"
 "                                    "
-msgstr ""
-"\n"
-"%(tries)s Versuch"
+msgstr "\nRückruf heute um %(time)s"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:32
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                    %(tries)s try\n"
-#| "                                "
-#| msgid_plural ""
-#| "\n"
-#| "                                    %(tries)s tries\n"
-#| "                                "
 msgid ""
 "\n"
 "                                        recall on %(date)s at %(time)s\n"
 "                                    "
-msgstr ""
-"\n"
-"%(tries)s Versuch"
+msgstr "\nRückruf am %(date)s um %(time)s"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:37
 #: castellum/recruitment/templates/recruitment/studies_list.html:16
 msgid "appointment today"
-msgstr ""
+msgstr "Terminvereinbarung heute"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:46
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:48
@@ -854,7 +830,7 @@ msgstr "Statistiken"
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:19
 msgid "Open"
-msgstr ""
+msgstr "Offen"
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:22
 msgid "Invited"
@@ -1029,7 +1005,7 @@ msgstr "freigegeben"
 
 #: castellum/studies/models.py:77
 msgid "uses advanced filtering for recruitment"
-msgstr ""
+msgstr "benutzt erweiterte Filterung für die Rekrutierung"
 
 #: castellum/studies/models.py:78
 msgid ""
@@ -1037,6 +1013,9 @@ msgid ""
 "joined by AND operator. Advanced filtering allows you to create multiple "
 "filtergroups which are joined by OR operator."
 msgstr ""
+"Standardmäßig wird nur eine Filtergruppe erstelt, in der alle Filter durch "
+"den UND Operator verbunden werden. Erweiterte Filterung erlaubt es, mehrere "
+"Filtergruppen anzulegen, die jeweils mit dem ODER Operator verbunden werden."
 
 #: castellum/studies/models.py:91
 msgid "Data collected by this type of study is always considered sensitive!"
@@ -1049,6 +1028,9 @@ msgid ""
 "Studies with more than one filtergroup can't be transformed back to basic "
 "filtering. Delete all but one filtergroup first!"
 msgstr ""
+"Studien mit mehr als einer Filtergruppe können nicht auf einfache Filterung "
+"zurückgesetzt werden. Bitte löschen Sie zunächst alle bis auf die erste "
+"Filtergruppe!"
 
 #: castellum/studies/models.py:103
 #, fuzzy
@@ -1071,7 +1053,7 @@ msgstr "EUR"
 
 #: castellum/studies/templates/studies/study_form.html:62
 msgid "Add session"
-msgstr ""
+msgstr "Sitzung hinzufügen"
 
 #: castellum/studies/templates/studies/study_list.html:4
 #: castellum/studies/templates/studies/study_list.html:7
@@ -1080,14 +1062,10 @@ msgid "Studies"
 msgstr "Studien"
 
 #: castellum/studies/templates/studies/study_list.html:11
-#, fuzzy
-#| msgid "My Studies"
 msgid "My studies"
 msgstr "Meine Studien"
 
 #: castellum/studies/templates/studies/study_list.html:12
-#, fuzzy
-#| msgid "All Studies"
 msgid "All studies"
 msgstr "Alle Studien"
 
@@ -1169,18 +1147,14 @@ msgid "Additional groups in this study"
 msgstr "Zusätzliche Gruppen in dieser Studie"
 
 #: castellum/studies/views.py:201
-#, fuzzy
-#| msgid ""
-#| "Some members of this study with access to filters may be blocked from "
-#| "managing filters due to an insufficient privacy level."
 msgid ""
 "Some members of this study with access to filters are blocked from managing "
 "filters due to an insufficient privacy level.\n"
 "Blocked users are: "
 msgstr ""
 "Einige Mitglieder dieser Studie mit Zugriff auf die Filter dürfen diese "
-"möglicherweise aufgrund ihrer unzureichenden Vertraulichkeitsstufe nicht "
-"bearbeiten. "
+"aufgrund ihrer unzureichenden Vertraulichkeitsstufe nicht bearbeiten.\n"
+"Blockierte NutzerInnen sind: "
 
 #: castellum/templates/403.html:4 castellum/templates/403.html:7
 msgid "Forbidden"
