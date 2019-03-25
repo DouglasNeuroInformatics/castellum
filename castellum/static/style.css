@@ -38,15 +38,10 @@
 }
 
 .appointment {
-    display: inline-block;
-    width: 1.8rem;
-    height: 1.8rem;
-    vertical-align: middle;
-    content: "";
+    font-size: 120%;
+    width: 1.5em;
+    line-height: 1.5;
+    text-align: center;
     border-radius: 50%;
-    background: no-repeat center center;
     background-color: #ff65b2;
-    background-image: url("images/bell.svg");
-    background-size: auto;
-    background-size: 70% 70%;
 }
