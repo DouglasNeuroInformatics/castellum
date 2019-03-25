@@ -9,67 +9,88 @@
 
     Vue.component('availability-group', {
         'props': ['group'],
-        'computed': {
-            'allDay': {
-                'get': function() {
-                    return this.group.selected.length === this.group.options.length;
-                },
-                'set': function(value) {
-                    setAll(this.group, value);
-                },
-            },
-            'allDayIndeterminate': function() {
-                return this.group.selected.length !== 0;
-            },
+        'render': function(h) {
+            return h('div', {'class': 'col-6 col-sm-2'}, [
+                h('div', {'class': 'form-group'}, [
+                    h('label', {'attrs': {'for': 'id_availability_monday'}}, this.group.label),
+                    h('label', {'class': 'd-block mb-0 mt-n1'}, [
+                        h('input', {
+                            'attrs': {
+                                'type': 'checkbox',
+                            },
+                            'domProps': {
+                                'checked': this.group.selected.length === this.group.options.length,
+                                'indeterminate': this.group.selected.length !== 0,
+                            },
+                            'on': {
+                                'change': event => {
+                                    setAll(this.group, event.target.checked);
+                                },
+                            },
+                        }),
+                        h('span', {'class': 'sr-only'}, django.gettext('All day')),
+                    ]),
+                    h('select', {
+                        'class': 'form-control',
+                        'attrs': {
+                            'multiple': '',
+                        },
+                        'domProps': {
+                            'name': this.group.name,
+                            'id': this.group.id,
+                        },
+                        'on': {
+                            'change': event => {
+                                this.group.selected = Array.prototype.filter.call(event.target.options, o => o.selected).map(o => o.value);
+                            },
+                        },
+                    }, this.group.options.map(option => {
+                        return h('option', {
+                            'key': option.value,
+                            'domProps': {
+                                'value': option.value,
+                                'selected': this.group.selected.includes(option.value),
+                            }
+                        }, option.label);
+                    })),
+                ]),
+            ]);
         },
-        'template': `
-            <div class="col-6 col-sm-2">
-                <div class="form-group">
-                    <label for="id_availability_monday">{{ group.label }}</label>
-                    <label class="d-block mb-0 mt-n1">
-                        <input type="checkbox" v-model="allDay" :indeterminate.prop="allDayIndeterminate">
-                        <span class="sr-only">{{ django.gettext('All day') }}</span>
-                    </label>
-                    <select :name="group.name" class="form-control" :id="group.id" multiple v-model="group.selected">
-                        <option v-for="option in group.options" :value="option.value">{{ option.label }}</option>
-                    </select>
-                </div>
-            </div>
-        `,
     });
 
     Vue.component('availability', {
         'props': ['groups'],
-        'computed': {
-            'allWeek': {
-                'get': function() {
-                    return this.groups.every(function(group) {
-                        return group.selected.length === group.options.length;
-                    });
-                },
-                'set': function(value) {
-                    this.groups.forEach(function(group) {
-                        setAll(group, value);
-                    });
-                },
-            },
-            'allWeekIndeterminate': function() {
-                return this.groups.some(function(group) {
-                    return group.selected.length !== 0;
-                });
-            },
+        'render': function(h) {
+            return h('div', {'class': 'mb-3'}, [
+                h('div', {'class': 'row'}, this.groups.map(function(group) {
+                    return h('availability-group', {'key': group.id, 'props': {'group': group}});
+                })),
+                h('label', {'class': 'form-check mb-0'}, [
+                    h('input', {
+                        'class': 'form-check-input',
+                        'attrs': {
+                            'type': 'checkbox',
+                        },
+                        'domProps': {
+                            'checked': this.groups.every(function(group) {
+                                return group.selected.length === group.options.length;
+                            }),
+                            'indeterminate': this.groups.some(function(group) {
+                                return group.selected.length !== 0;
+                            }),
+                        },
+                        'on': {
+                            'change': event => {
+                                this.groups.forEach(function(group) {
+                                    setAll(group, event.target.checked);
+                                });
+                            },
+                        },
+                    }),
+                    h('span', {'class': 'form-check-label'}, django.gettext('All week')),
+                ]),
+            ]);
         },
-        'template': `
-            <div class="mb-3">
-                <div class="row">
-                    <availability-group v-for="group in groups" :group="group"></availability-group>
-                </div>
-                <label class="form-check mb-0">
-                    <input type="checkbox" class="form-check-input" v-model="allWeek" :indeterminate.prop="allWeekIndeterminate">
-                    <span class="form-check-label">{{ django.gettext('All week') }}</span>
-                </label>
-            </div>
-        `,
     });
 
     var getInitialGroups = function($container) {
@@ -100,7 +121,9 @@
             'data': {
                 'groups': getInitialGroups($container),
             },
-            'template': '<availability :groups="groups"></availability>',
+            'render': function(h) {
+                return h('availability', {'props': {'groups': this.groups}});
+            },
         });
     });
 })();
