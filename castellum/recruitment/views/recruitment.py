@@ -27,7 +27,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.utils.translation import ugettext_lazy as _
@@ -268,16 +267,11 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
         if not queryset:
             queryset = ParticipationRequest.objects
 
-        if self.kwargs['path'] == 'open':
-            return queryset.filter(status__in=[
-                ParticipationRequest.NOT_CONTACTED,
-                ParticipationRequest.NOT_REACHED,
-                ParticipationRequest.RECALL_APPOINTED,
-            ], study=self.study)
-        elif self.kwargs['path'] != 'contacts':
-            raise Http404
-
-        return queryset
+        return queryset.filter(status__in=[
+            ParticipationRequest.NOT_CONTACTED,
+            ParticipationRequest.NOT_REACHED,
+            ParticipationRequest.RECALL_APPOINTED,
+        ], study=self.study)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -286,7 +280,7 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
         status_field = context['form'].fields['status']
         status_field.widget.choices = choices
 
-        context['path'] = self.kwargs['path']
+        context['is_contacts'] = 'contacts' in self.request.GET
         context['study'] = self.study
         context['contact'] = self.contact
         return context
@@ -320,17 +314,16 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
                 idx += 1
 
         if next_pseudonym_idx is None:
-            url = 'recruitment:recruitment_' + self.kwargs['path']
+            url = 'recruitment:recruitment_open'
             return redirect(url, self.object.study.pk)
         else:
             return redirect(
                 'recruitment:contact',
                 self.object.study.pk,
-                pseudonyms[next_pseudonym_idx],
-                self.kwargs['path'])
+                pseudonyms[next_pseudonym_idx])
 
     def form_valid(self, form):
-        if self.kwargs['path'] == 'contacts':
+        if 'contacts' in self.request.GET:
             self.save(form)
             contact_pseudonym = resolve_pseudonym(
                 self.study.domain,
