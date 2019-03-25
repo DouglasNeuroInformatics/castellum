@@ -58,6 +58,7 @@ ATTRIBUTE_DESCRIPTIONS = [{
             'en': 'Left',
         }
     }],
+    'statistics_rank': 'secondary',
 }, {
     'field_type': 'CharField',
     'weight': 1,
@@ -76,6 +77,7 @@ ATTRIBUTE_DESCRIPTIONS = [{
         'de': 'Alter',
         'en': 'Age',
     },
+    'statistics_rank': 'primary',
 }]
 
 
@@ -186,7 +188,10 @@ def generate_attribute_descriptions():
     print('Generating attribute descriptions')
 
     for data in ATTRIBUTE_DESCRIPTIONS:
-        AttributeDescription._import(data)
+        description = AttributeDescription._import(data)
+        if 'statistics_rank' in data:
+            description.statistics_rank = data['statistics_rank']
+            description.save()
 
 
 def generate_studies(count):
