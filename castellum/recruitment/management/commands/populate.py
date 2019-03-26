@@ -122,9 +122,14 @@ def fake_phone_number():
 
 
 def fake_study():
-    return Study(name=fake.word().upper(),
-                 contact_person=fake.name(),
-                 min_subjects_count=fake.random.randint(0, 50))
+    study = Study(
+        name=fake.word().upper(),
+        contact_person=fake.name(),
+        min_subjects_count=fake.random.randint(0, 50),
+        study_type=fake.random.choice(Study.STUDY_TYPES)[0])
+    if study.study_type == Study.FMRI:
+        study.data_sensitivity = True
+    return study
 
 
 def fake_cities(country, count):
