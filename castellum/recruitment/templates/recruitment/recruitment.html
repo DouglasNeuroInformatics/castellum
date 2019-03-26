@@ -6,7 +6,9 @@
 {% block content %}
     <div class="h1">
         <h1 class="d-inline">{{ study.name }}</h1>
-        <a href="{% url 'recruitment:appointments' study.pk %}" class="btn btn-sm btn-primary" title="{% trans 'Appointments' %}"><i class="far fa-calendar-plus"></i></a>
+        <a href="{% url 'recruitment:appointments' study.pk %}" class="btn btn-sm btn-primary" title="{% trans 'Appointments' %}">
+            <i class="far fa-calendar-plus" aria-label="{% trans 'Appointments' %}"></i>
+        </a>
     </div>
     <h2>{% trans 'Subjects' %}</h2>
 
