@@ -110,4 +110,5 @@ class ContactStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):
         participation_request = ParticipationRequest.objects.create(
             pseudonym=request.POST['pseudonym'], study=study)
 
-        return redirect('recruitment:contact', study.pk, participation_request.pseudonym, 'open')
+        return redirect(
+            'recruitment:contact', study.pk, participation_request.pseudonym, 'contacts')
