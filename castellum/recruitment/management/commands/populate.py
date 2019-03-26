@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import functools
+
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
@@ -32,6 +34,7 @@ from castellum.contacts.models import Country
 from castellum.contacts.models.contact import phonetic
 from castellum.pseudonyms.models import Pseudonym
 from castellum.pseudonyms.models import Subject
+from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.studies.models import Study
@@ -78,6 +81,49 @@ ATTRIBUTE_DESCRIPTIONS = [{
         'en': 'Age',
     },
     'statistics_rank': 'primary',
+}, {
+    'field_type': 'OrderedChoiceField',
+    'weight': 3,
+    'label': {
+        'de': 'Höchster Abschluss',
+        'en': 'Highest degree',
+    },
+    'choices': [{
+        'label': {
+            'de': 'Kein Abschluss',
+            'en': 'No degree',
+        }
+    }, {
+        'label': {
+            'de': 'Grundschule',
+            'en': 'Elementary school',
+        }
+    }, {
+        'label': {
+            'de': 'Hauptschule',
+            'en': 'Hauptschule',
+        }
+    }, {
+        'label': {
+            'de': 'Mittlere Reife',
+            'en': 'Mittlere Reife',
+        }
+    }, {
+        'label': {
+            'de': 'Abitur',
+            'en': 'Abitur',
+        }
+    }, {
+        'label': {
+            'de': 'Bachelor',
+            'en': 'Bachelor',
+        }
+    }, {
+        'label': {
+            'de': 'Master',
+            'en': 'Master',
+        }
+    }],
 }]
 
 
@@ -179,6 +225,11 @@ def fake_contact(pseudonym, address):
     return contact
 
 
+@functools.lru_cache(maxsize=1)
+def get_highest_degree_choices():
+    return AttributeChoice.objects.filter(description__pk=4).values_list('pk', flat=True)
+
+
 def fake_attributeset(subject, contact):
     return AttributeSet(
         subject=subject,
@@ -186,6 +237,7 @@ def fake_attributeset(subject, contact):
             'd1': 2 if fake.random.random() < 0.15 else 1,
             'd2': fake_data.language(),
             'd3': contact.date_of_birth,
+            'd4': fake.random.choice(get_highest_degree_choices()),
         })
 
 
