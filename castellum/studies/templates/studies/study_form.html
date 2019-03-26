@@ -14,7 +14,6 @@
     <template id="session-data-template">
         <fieldset>
             {{ template_form.id.as_hidden }}
-            {{ template_form.DELETE.as_hidden }}
             {% bootstrap_field template_form.duration %}
             <button type="button" class="btn btn-danger" data-js="session-delete">
                 {% trans 'Delete' %}
@@ -46,7 +45,7 @@
         {{ session_formset.management_form }}
         <div id='sessions-container'>
             {% for subform in session_formset %}
-                <fieldset>
+                <fieldset {% if subform.DELETE.value %}hidden{% endif %}>
                     {{ subform.id.as_hidden }}
                     {{ subform.DELETE.as_hidden }}
                     {% bootstrap_field subform.duration %}
