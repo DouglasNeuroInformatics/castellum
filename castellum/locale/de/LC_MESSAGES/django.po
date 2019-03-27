@@ -93,7 +93,7 @@ msgstr "Rechte"
 
 #: castellum/castellum_auth/templates/admin/castellum_auth/user_permissions.html:15
 msgid "Users"
-msgstr "NutzerInnen"
+msgstr "Nutzer*innen"
 
 #: castellum/castellum_auth/templates/admin/castellum_auth/user_permissions.html:29
 #, python-format
@@ -133,7 +133,7 @@ msgstr "Zusätzliche Adressinformationen"
 #: castellum/contacts/forms.py:106
 msgid "Please choose lower privacy level for the subject."
 msgstr ""
-"Bitte wählen Sie eine niedrigere Vertraulichkeitsstufe für diese ProbandIn."
+"Bitte wählen Sie eine niedrigere Vertraulichkeitsstufe für diese Proband*in."
 
 #: castellum/contacts/forms.py:117
 msgid "Provide more details for the address."
@@ -290,7 +290,7 @@ msgstr "Stunde"
 
 #: castellum/contacts/templates/contacts/contact_detail.html:4
 msgid "Subject details"
-msgstr "ProbandInnendetails"
+msgstr "Proband*innendetails"
 
 #: castellum/contacts/templates/contacts/contact_detail.html:33
 msgid "Edit contact"
@@ -317,12 +317,12 @@ msgstr "DSGVO-Anfrage"
 
 #: castellum/contacts/templates/contacts/contact_form.html:6
 msgid "Edit subject"
-msgstr "ProbandIn bearbeiten"
+msgstr "Proband*in bearbeiten"
 
 #: castellum/contacts/templates/contacts/contact_form.html:8
 #: castellum/contacts/templates/contacts/contact_search.html:69
 msgid "Create new subject"
-msgstr "Neue ProbandIn anlegen"
+msgstr "Neue Proband*in anlegen"
 
 #: castellum/contacts/templates/contacts/contact_form.html:65
 msgid "Availability"
@@ -357,11 +357,11 @@ msgstr "Speichern"
 #: castellum/recruitment/templates/recruitment/recruitment.html:8
 #: castellum/templates/index.html:31
 msgid "Subjects"
-msgstr "ProbandInnen"
+msgstr "Proband*innen"
 
 #: castellum/contacts/templates/contacts/contact_search.html:7
 msgid "Total number of subjects"
-msgstr "Gesamtzahl von ProbandInnen"
+msgstr "Gesamtzahl von Proband*innen"
 
 #: castellum/contacts/templates/contacts/contact_search.html:26
 msgid "Submit"
@@ -766,7 +766,7 @@ msgstr "Filtergruppen"
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:8
 #: castellum/studies/models.py:66
 msgid "required number of subjects"
-msgstr "Benötigte Anzahl von ProbandInnen"
+msgstr "Benötigte Anzahl von Proband*innen"
 
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:12
 msgid "Any of these"
@@ -775,7 +775,7 @@ msgstr "Mindestens eins von diesen"
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:13
 #, python-format
 msgid "%(count)s potential subjects in total"
-msgstr "insgesamt %(count)s potentielle ProbandInnen"
+msgstr "insgesamt %(count)s potentielle Proband*innen"
 
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:20
 msgid "All of these"
@@ -784,7 +784,7 @@ msgstr "Alle von diesen"
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:21
 #, python-format
 msgid "%(count)s potential subjects"
-msgstr "%(count)s potentielle ProbandInnen"
+msgstr "%(count)s potentielle Proband*innen"
 
 #: castellum/recruitment/templates/recruitment/filtergroup_list.html:26
 #, python-format
@@ -846,7 +846,7 @@ msgstr "Gesamt"
 
 #: castellum/recruitment/templates/recruitment/studies_list.html:20
 msgid "Find subjects"
-msgstr "ProbandInnen finden"
+msgstr "Proband*innen finden"
 
 #: castellum/recruitment/templates/recruitment/studies_list.html:26
 msgid "There are currently no studies you can recruit for."
@@ -857,7 +857,7 @@ msgid ""
 "This study does not require participants. Please, contact the responsible "
 "person who can set it up."
 msgstr ""
-"Diese Studie benötigt keine Teilnehmenden. Bitte kontaktieren Sie die "
+"Diese Studie benötigt keine Teilnehmer*innen. Bitte kontaktieren Sie die "
 "verantwortliche Person, damit dies eingerichtet wird."
 
 #: castellum/recruitment/views/recruitment.py:229
@@ -865,8 +865,8 @@ msgid ""
 "Application privacy does not allow you to add more subjects. Please contact "
 "provided subjects before adding new ones."
 msgstr ""
-"Aus Datenschutzgründen ist es nicht erlaubt, weitere ProbandInnen "
-"hinzuzufügen. Bitte kontaktieren Sie die existierenden ProbandInnen bevor "
+"Aus Datenschutzgründen ist es nicht erlaubt, weitere Proband*innen "
+"hinzuzufügen. Bitte kontaktieren Sie die existierenden Proband*innen bevor "
 "Sie weitere hinzuzufügen."
 
 #: castellum/recruitment/views/recruitment.py:236
@@ -875,12 +875,12 @@ msgid ""
 "provided subjects before adding new ones."
 msgstr ""
 "Aus Datenschutzgründen wird dieses Vorgehen nicht empfohlen. Bitte "
-"kontaktieren Sie die existierenden ProbandInnen bevor Sie weitere "
+"kontaktieren Sie die existierenden Proband*innen bevor Sie weitere "
 "hinzuzufügen."
 
 #: castellum/recruitment/views/recruitment.py:241
 msgid "We cannot find participants for this study."
-msgstr "Wir können keine Teilnehmenden für diese Studie finden."
+msgstr "Wir können keine Teilnehmer*innen für diese Studie finden."
 
 #: castellum/recruitment/views/subjectfilters.py:89
 msgid ""
@@ -888,7 +888,7 @@ msgid ""
 "study."
 msgstr ""
 "Fehleranfälliger Rekrutierungsprozess. Bitte geben Sie die Anzahl der "
-"ProbandInnen an."
+"Proband*innen an."
 
 #: castellum/recruitment/views/subjectfilters.py:93
 #, python-format
@@ -899,9 +899,9 @@ msgid ""
 "%(potential_count)d"
 msgstr ""
 "Für einen reibungslosen Rekrutierungsablauf empfiehlt Ihre Einrichtung "
-"mindestens %(castellum_factor)dx mehr portentielle als benötige ProbandInnen "
+"mindestens %(castellum_factor)dx mehr portentielle als benötige Proband*innen "
 "(d.h. %(recommended_count)d für diese Studie). Gegenwärtige Anzahl "
-"potentieller ProbandInnen: %(potential_count)d"
+"potentieller Proband*innen: %(potential_count)d"
 
 #: castellum/recruitment/views/subjectfilters.py:164
 msgid "There are duplicates in filters. Please change or delete filter!"
@@ -961,15 +961,15 @@ msgstr "Verantwortliche Kontaktperson"
 
 #: castellum/studies/models.py:57
 msgid "Principal Investigator"
-msgstr "StudienleiterIn"
+msgstr "Studienleiter*in"
 
 #: castellum/studies/models.py:58
 msgid "Affiliated Scientists"
-msgstr "Zugehörige WissenschaftlerInnen"
+msgstr "Zugehörige Wissenschaftler*innen"
 
 #: castellum/studies/models.py:60
 msgid "Affiliated Research Assistants"
-msgstr "Zugehörige ForschungsassistentInnen"
+msgstr "Zugehörige Forschungsassistent*innen"
 
 #: castellum/studies/models.py:61
 msgid "description"
@@ -1154,7 +1154,7 @@ msgid ""
 msgstr ""
 "Einige Mitglieder dieser Studie mit Zugriff auf die Filter dürfen diese "
 "aufgrund ihrer unzureichenden Vertraulichkeitsstufe nicht bearbeiten.\n"
-"Blockierte NutzerInnen sind: "
+"Blockierte Nutzer*innen sind: "
 
 #: castellum/templates/403.html:4 castellum/templates/403.html:7
 msgid "Forbidden"
@@ -1217,13 +1217,13 @@ msgstr "z.B. 030 123456"
 #~ msgstr "J."
 
 #~ msgid "number of test sessions per subject"
-#~ msgstr "Anzahl der Testsitzungen pro ProbandIn"
+#~ msgstr "Anzahl der Testsitzungen pro Proband*in"
 
 #~ msgid "restricted access"
 #~ msgstr "beschränkter Zugriff"
 
 #~ msgid "Create new contact"
-#~ msgstr "Neue ProbandIn anlegen"
+#~ msgstr "Neue Proband*in anlegen"
 
 #~ msgid "birthday"
 #~ msgstr "Geburtstag"
@@ -1277,7 +1277,7 @@ msgstr "z.B. 030 123456"
 #~ "The minimal number of subjects is not set for this study. Please, contact "
 #~ "the responsible person who can set it up."
 #~ msgstr ""
-#~ "Die Mindestanzahl von ProbandInnen wurde für diese Studie nicht "
+#~ "Die Mindestanzahl von Proband*innen wurde für diese Studie nicht "
 #~ "eingerichtet. Bitte kontaktieren Sie die verantwortliche Person, damit "
 #~ "dies eingerichtet wird."
 
@@ -1287,7 +1287,7 @@ msgstr "z.B. 030 123456"
 #~ msgstr ""
 #~ "Die ausgewählte Person nimmt bereits an der Studie teil. Sie können es "
 #~ "einfach nochmal versuchen. Das könnte aber ein Zeichen dafür sein, dass "
-#~ "nicht mehr viele passende ProbandInnen übrig sind."
+#~ "nicht mehr viele passende Proband*innen übrig sind."
 
 #~ msgid "Contact person"
 #~ msgstr "Kontaktperson"
@@ -1305,7 +1305,7 @@ msgstr "z.B. 030 123456"
 #~ msgstr "Studienverwaltung"
 
 #~ msgid "Subject management"
-#~ msgstr "ProbandInnenverwaltung"
+#~ msgstr "Proband*innenverwaltung"
 
 #~ msgid "last updated at"
 #~ msgstr "Zuletzt aktualisiert"
