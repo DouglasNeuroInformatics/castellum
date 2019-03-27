@@ -80,9 +80,20 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
     def get_queryset(self, queryset=None):
         if not queryset:
             queryset = self.model.objects
+
+        sort = self.request.GET.get('sort')
+        if sort == 'appointment':
+            order_by = ['appointment', '-updated_at']
+        elif sort == 'last_call_attempt':
+            order_by = ['-status_not_reached', '-updated_at']
+        elif sort == 'created':
+            order_by = ['-created_at']
+        else:
+            order_by = ['-appointment_today', 'status', 'appointment', '-updated_at']
+
         return queryset\
             .filter(status__in=self.shown_status, study=self.study)\
-            .order_by('-appointment_today', 'status', 'appointment', 'updated_at')
+            .order_by(*order_by)
 
     def get_statistics(self):
         participation_requests = ParticipationRequest.objects.filter(

@@ -34,6 +34,9 @@ class ParticipationRequestManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().annotate(
             updated_at=models.Max('revisions__created_at'),
+            created_at=models.Min('revisions__created_at'),
+            status_not_reached=models.Count(
+                'id', filter=models.Q(status=ParticipationRequest.NOT_REACHED)),
             appointment_today=models.Count(
                 'id', filter=models.Q(appointment__date=datetime.date.today())),
         )
