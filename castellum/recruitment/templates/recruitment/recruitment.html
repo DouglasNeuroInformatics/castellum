@@ -29,6 +29,19 @@
                 <a class="nav-link disabled">{% trans 'All' %} <span class="badge badge-light">{{all_count}}</span></a>
             </li>
         </ul>
+
+        {% if view.tab == 'open' %}
+            <form class="dropdown" method="get">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="sortDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ sort_label }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="sortDropdownButton">
+                    {% for key, label in sort_options %}
+                        <button class="dropdown-item" name="sort" value="{{ key }}">{{ label }}</button>
+                    {% endfor %}
+                </div>
+            </form>
+        {% endif %}
     </div>
 
     <!-- Tab panes -->

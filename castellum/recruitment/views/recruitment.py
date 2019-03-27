@@ -160,6 +160,15 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
             participants.append((participation, buckets, can_access))
         context['participants'] = participants
 
+        context['sort_options'] = [
+            ('appointment', _('Recall date')),
+            ('last_call_attempt', _('Last call attempt')),
+            ('created', _('Added to list')),
+            ('relevance', _('Relevance')),
+        ]
+        sort_options = dict(context['sort_options'])
+        context['sort_label'] = sort_options.get(self.request.GET.get('sort'), _('Relevance'))
+
         context['statistics'] = self.get_statistics()
 
         queryset = ParticipationRequest.objects.filter(study=self.study)
