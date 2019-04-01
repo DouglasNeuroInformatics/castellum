@@ -168,6 +168,19 @@ NPM_FILE_PATTERNS = {
     ],
     'jquery': ['dist/jquery.min.js'],
     'popper.js': ['dist/umd/popper.min.js'],
+    '@fortawesome/fontawesome-free': [
+        'css/all.min.css',
+        'webfonts/fa-regular-400.eot',
+        'webfonts/fa-regular-400.woff2',
+        'webfonts/fa-regular-400.woff',
+        'webfonts/fa-regular-400.ttf',
+        'webfonts/fa-regular-400.svg',
+        'webfonts/fa-solid-900.eot',
+        'webfonts/fa-solid-900.woff2',
+        'webfonts/fa-solid-900.woff',
+        'webfonts/fa-solid-900.ttf',
+        'webfonts/fa-solid-900.svg',
+    ],
 }
 
 BOOTSTRAP4 = {
