@@ -3,10 +3,13 @@ version: '2'
 services:
   db_default:
     image: postgres
+    restart: always
   db_contacts:
     image: postgres
+    restart: always
   ldap:
     image: osixia/openldap
+    restart: always
     ports:
       - "389:389"
     command: [--copy-service]
@@ -15,6 +18,7 @@ services:
   web:
     ## use the latest pre-built image
     image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
+    restart: always
     ## use the local copy
     # build: ../../
     environment:

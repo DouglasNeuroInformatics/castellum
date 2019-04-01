@@ -167,6 +167,7 @@ NPM_FILE_PATTERNS = {
         'dist/locales/bootstrap-datepicker.de.min.js',
     ],
     'jquery': ['dist/jquery.min.js'],
+    'popper.js': ['dist/umd/popper.min.js'],
 }
 
 BOOTSTRAP4 = {

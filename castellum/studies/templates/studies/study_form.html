@@ -12,13 +12,12 @@
 
 {% block content %}
     <template id="session-data-template">
-        <fieldset>
+        <fieldset class="rounded-lg border bg-light p-3 mb-2">
             {{ template_form.id.as_hidden }}
-            {{ template_form.DELETE.as_hidden }}
-            {% bootstrap_field template_form.duration %}
-            <button type="button" class="btn btn-danger" data-js="session-delete">
+            <button type="button" class="btn btn-sm btn-danger float-right mb-2" data-js="session-delete">
                 {% trans 'Delete' %}
             </button>
+            {% bootstrap_field template_form.duration %}
         </fieldset>
     </template>
 
@@ -43,34 +42,40 @@
         {% bootstrap_field form.min_subjects_count %}
         {% bootstrap_field form.expense_allowance addon_after=_('EUR') %}
 
-        {{ session_formset.management_form }}
-        <div id='sessions-container'>
-            {% for subform in session_formset %}
-                <fieldset>
-                    {{ subform.id.as_hidden }}
-                    {{ subform.DELETE.as_hidden }}
-                    {% bootstrap_field subform.duration %}
-                    <button type="button" class="btn btn-danger" data-js="session-delete">
-                        {% trans 'Delete' %}
-                    </button>
-                </fieldset>
-            {% endfor %}
-        </div>
+        <hr>
 
-        <div class="text-right">
-            <button type="button" class="btn btn-primary" data-js="session-add">
-                {% trans "Add session" %}
-            </button>
-        </div>
+        <fieldset>
+            <legend>{% trans 'Test sessions' %}</legend>
 
-        <div class="row">
-            <div class="col-md-6">
-                {% bootstrap_field form.sessions_start %}
+            {{ session_formset.management_form }}
+            <div id='sessions-container'>
+                {% for subform in session_formset %}
+                    <fieldset class="rounded-lg border bg-light p-3 mb-2" {% if subform.DELETE.value %}hidden{% endif %}>
+                        {{ subform.id.as_hidden }}
+                        {{ subform.DELETE.as_hidden }}
+                        <button type="button" class="btn btn-sm btn-danger float-right mb-2" data-js="session-delete">
+                            {% trans 'Delete' %}
+                        </button>
+                        {% bootstrap_field subform.duration %}
+                    </fieldset>
+                {% endfor %}
             </div>
-            <div class="col-md-6">
-                {% bootstrap_field form.sessions_end %}
+
+            <div class="mb-3">
+                <button type="button" class="btn btn-primary" data-js="session-add">
+                    {% trans "Add session" %}
+                </button>
             </div>
-        </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    {% bootstrap_field form.sessions_start %}
+                </div>
+                <div class="col-md-6">
+                    {% bootstrap_field form.sessions_end %}
+                </div>
+            </div>
+        </fieldset>
 
         <div class="mb-3">
             <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
