@@ -45,7 +45,7 @@ class Study(models.Model):
     STUDY_TYPES = [
         (ONLINE, _('Online')),
         (BEHAVIORAL_LAB, _('Behavioral lab')),
-        (FMRI, 'FMRI'),
+        (FMRI, _('FMRI')),
         (SIMULATION, _('Simulation')),
         (EEG, _('EEG')),
         (THIRD_PARTY, _('3rd Party')),
@@ -100,7 +100,7 @@ class Study(models.Model):
         result = self.subjectfiltergroup_set.aggregate(models.Max(key))
         return result[key + '__max'] or 0
 
-    def raise_permission_denied_if_study_is_published(self, msg=_("study_is_published")):
+    def raise_permission_denied_if_study_is_published(self, msg=_("study is published")):
         if self.published:
             raise PermissionDenied(msg)
 

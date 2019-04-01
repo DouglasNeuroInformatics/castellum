@@ -58,6 +58,7 @@ ATTRIBUTE_DESCRIPTIONS = [{
             'en': 'Left',
         }
     }],
+    'statistics_rank': 'secondary',
 }, {
     'field_type': 'CharField',
     'weight': 1,
@@ -76,6 +77,7 @@ ATTRIBUTE_DESCRIPTIONS = [{
         'de': 'Alter',
         'en': 'Age',
     },
+    'statistics_rank': 'primary',
 }]
 
 
@@ -120,9 +122,14 @@ def fake_phone_number():
 
 
 def fake_study():
-    return Study(name=fake.word().upper(),
-                 contact_person=fake.name(),
-                 min_subjects_count=fake.random.randint(0, 50))
+    study = Study(
+        name=fake.word().upper(),
+        contact_person=fake.name(),
+        min_subjects_count=fake.random.randint(0, 50),
+        study_type=fake.random.choice(Study.STUDY_TYPES)[0])
+    if study.study_type == Study.FMRI:
+        study.data_sensitivity = True
+    return study
 
 
 def fake_cities(country, count):
@@ -186,7 +193,10 @@ def generate_attribute_descriptions():
     print('Generating attribute descriptions')
 
     for data in ATTRIBUTE_DESCRIPTIONS:
-        AttributeDescription._import(data)
+        description = AttributeDescription._import(data)
+        if 'statistics_rank' in data:
+            description.statistics_rank = data['statistics_rank']
+            description.save()
 
 
 def generate_studies(count):

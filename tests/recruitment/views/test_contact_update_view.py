@@ -8,6 +8,6 @@ def test_200(client, member, participation_request):
     participation_request.save()
 
     client.force_login(member)
-    response = client.get('/recruitment/{}/{}/not-contacted/update-contact/'.format(
+    response = client.get('/recruitment/{}/{}/update-contact/'.format(
         participation_request.study.pk, participation_request.pseudonym))
     assert response.status_code == 200

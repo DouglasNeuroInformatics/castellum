@@ -27,7 +27,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -84,9 +83,20 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
     def get_queryset(self, queryset=None):
         if not queryset:
             queryset = self.model.objects
+
+        sort = self.request.GET.get('sort')
+        if sort == 'appointment':
+            order_by = ['appointment', '-updated_at']
+        elif sort == 'last_call_attempt':
+            order_by = ['-status_not_reached', '-updated_at']
+        elif sort == 'created':
+            order_by = ['-created_at']
+        else:
+            order_by = ['-appointment_today', 'status', 'appointment', '-updated_at']
+
         return queryset\
             .filter(status__in=self.shown_status, study=self.study)\
-            .order_by('-appointment_today', 'status', 'appointment', 'updated_at')
+            .order_by(*order_by)
 
     def get_statistics(self):
         participation_requests = ParticipationRequest.objects.filter(
@@ -152,6 +162,15 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
 
             participants.append((participation, buckets, can_access))
         context['participants'] = participants
+
+        context['sort_options'] = [
+            ('appointment', _('Recall date')),
+            ('last_call_attempt', _('Last call attempt')),
+            ('created', _('Added to list')),
+            ('relevance', _('Relevance')),
+        ]
+        sort_options = dict(context['sort_options'])
+        context['sort_label'] = sort_options.get(self.request.GET.get('sort'), _('Relevance'))
 
         context['statistics'] = self.get_statistics()
 
@@ -272,16 +291,11 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
         if not queryset:
             queryset = ParticipationRequest.objects
 
-        if self.kwargs['path'] == 'open':
-            return queryset.filter(status__in=[
-                ParticipationRequest.NOT_CONTACTED,
-                ParticipationRequest.NOT_REACHED,
-                ParticipationRequest.RECALL_APPOINTED,
-            ], study=self.study)
-        elif self.kwargs['path'] != 'contacts':
-            raise Http404
-
-        return queryset
+        return queryset.filter(status__in=[
+            ParticipationRequest.NOT_CONTACTED,
+            ParticipationRequest.NOT_REACHED,
+            ParticipationRequest.RECALL_APPOINTED,
+        ], study=self.study)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -290,7 +304,7 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
         status_field = context['form'].fields['status']
         status_field.widget.choices = choices
 
-        context['path'] = self.kwargs['path']
+        context['is_contacts'] = 'contacts' in self.request.GET
         context['study'] = self.study
         context['contact'] = self.contact
         return context
@@ -324,17 +338,16 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
                 idx += 1
 
         if next_pseudonym_idx is None:
-            url = 'recruitment:recruitment_' + self.kwargs['path']
+            url = 'recruitment:recruitment_open'
             return redirect(url, self.object.study.pk)
         else:
             return redirect(
                 'recruitment:contact',
                 self.object.study.pk,
-                pseudonyms[next_pseudonym_idx],
-                self.kwargs['path'])
+                pseudonyms[next_pseudonym_idx])
 
     def form_valid(self, form):
-        if self.kwargs['path'] == 'contacts':
+        if 'contacts' in self.request.GET:
             self.save(form)
             contact_pseudonym = resolve_pseudonym(
                 self.study.domain,

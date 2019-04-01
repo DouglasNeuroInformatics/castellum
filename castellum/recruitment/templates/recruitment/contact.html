@@ -80,12 +80,12 @@
         {% bootstrap_field form.appointment %}
 
         <div class="mb-3">
-            {% if path == 'contacts' %}
+            {% if is_contacts %}
                 <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
             {% else %}
                 {% has_perm 'contacts.change_contact' user view.study as can_change_contact %}
                 {% if can_change_contact %}
-                    <a class="btn btn-secondary" href="{% url 'recruitment:contact-update' study.pk object.pseudonym path %}">{% trans 'Edit contact data'%}</a>
+                    <a class="btn btn-secondary" href="{% url 'recruitment:contact-update' study.pk object.pseudonym %}">{% trans 'Edit contact data'%}</a>
                 {% endif %}
                 <input type="submit" class="btn btn-primary" name="btn_back" value="{% trans 'Save and go back' %}" />
                 <input type="submit" class="btn btn-primary" name="btn_next" value="{% trans 'Save and show next' %}" />

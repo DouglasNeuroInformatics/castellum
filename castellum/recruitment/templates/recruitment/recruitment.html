@@ -19,20 +19,35 @@
         </details>
     {% endif %}
 
-    <ul class="nav nav-pills">
-        <li class="nav-item">
-            <a class="nav-link {% if view.tab == 'open' %} active {% endif %}" href="{% url 'recruitment:recruitment_open' study.pk %}">{% trans 'Open' %} <span class="badge badge-light">{{open_count}}</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {% if view.tab == 'invited' %} active {% endif %}" href="{% url 'recruitment:recruitment_invited' study.pk %}">{% trans 'Invited' %} <span class="badge badge-light">{{invited_count}}</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {% if view.tab == 'unsuitable' %} active {% endif %}" href="{% url 'recruitment:recruitment_unsuitable' study.pk %}">{% trans 'Unsuitable' %} <span class="badge badge-light">{{unsuitable_count}}</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled">{% trans 'All' %} <span class="badge badge-light">{{all_count}}</span></a>
-        </li>
-    </ul>
+    <div class="d-flex justify-content-between">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link {% if view.tab == 'open' %} active {% endif %}" href="{% url 'recruitment:recruitment_open' study.pk %}">{% trans 'Open' %} <span class="badge badge-light">{{open_count}}</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if view.tab == 'invited' %} active {% endif %}" href="{% url 'recruitment:recruitment_invited' study.pk %}">{% trans 'Invited' %} <span class="badge badge-light">{{invited_count}}</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if view.tab == 'unsuitable' %} active {% endif %}" href="{% url 'recruitment:recruitment_unsuitable' study.pk %}">{% trans 'Unsuitable' %} <span class="badge badge-light">{{unsuitable_count}}</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled">{% trans 'All' %} <span class="badge badge-light">{{all_count}}</span></a>
+            </li>
+        </ul>
+
+        {% if view.tab == 'open' %}
+            <form class="dropdown" method="get">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="sortDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ sort_label }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="sortDropdownButton">
+                    {% for key, label in sort_options %}
+                        <button class="dropdown-item" name="sort" value="{{ key }}">{{ label }}</button>
+                    {% endfor %}
+                </div>
+            </form>
+        {% endif %}
+    </div>
 
     <!-- Tab panes -->
     <div class="tab-content">
