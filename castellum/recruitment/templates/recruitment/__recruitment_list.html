@@ -43,7 +43,7 @@
                 {% if can_change_participationrequest %}
                     <div class="table-list-item-actions">
                         {% if participation.status == participation.NOT_CONTACTED or participation.status == participation.NOT_REACHED or participation.status == participation.RECALL_APPOINTED %}
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pseudonym 'open' %}">{% trans 'Call' %}</a>
+                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pseudonym %}">{% trans 'Call' %}</a>
                         {% else %}
                             <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Call' %}</a>
                         {% endif %}

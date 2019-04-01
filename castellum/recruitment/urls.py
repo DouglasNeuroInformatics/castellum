@@ -69,7 +69,7 @@ urlpatterns = [
          name='recruitment_invited'),
     path('<study_pk>/unsuitable/', RecruitmentViewUnsuitable.as_view(),
          name='recruitment_unsuitable'),
-    path('<study_pk>/<slug>/<path>/', ContactView.as_view(), name='contact'),
-    path('<study_pk>/<slug>/<path>/update-contact/', ContactUpdateView.as_view(),
+    path('<study_pk>/<slug>/', ContactView.as_view(), name='contact'),
+    path('<study_pk>/<slug>/update-contact/', ContactUpdateView.as_view(),
          name='contact-update'),
 ]
