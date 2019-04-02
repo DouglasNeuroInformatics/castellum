@@ -70,8 +70,8 @@ urlpatterns = [
          name='recruitment_invited'),
     path('<study_pk>/unsuitable/', RecruitmentViewUnsuitable.as_view(),
          name='recruitment_unsuitable'),
+    path('<study_pk>/appointments/', AppointmentFeed(), name='appointments'),
     path('<study_pk>/<slug>/', ContactView.as_view(), name='contact'),
     path('<study_pk>/<slug>/update-contact/', ContactUpdateView.as_view(),
          name='contact-update'),
-    path('<study_pk>/appointments/', AppointmentFeed(), name='appointments'),
 ]
