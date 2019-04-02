@@ -27,7 +27,6 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import models
-from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.text import slugify
@@ -41,6 +40,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_pseudonym
+from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
@@ -148,12 +148,8 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
             except AttributeSet.DoesNotExist:
                 buckets = ''
 
-            contact_pseudonym = resolve_pseudonym(
-                self.study.domain,
-                participation.pseudonym,
-                Contact.domain)
-            contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
-            can_access = self.request.user.has_privacy_level(contact.privacy_level)
+            subject = get_subject(self.study.domain, participation.pseudonym)
+            can_access = self.request.user.has_privacy_level(subject.privacy_level)
 
             participants.append((participation, buckets, can_access))
         context['participants'] = participants
@@ -290,9 +286,13 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
         status_field = context['form'].fields['status']
         status_field.widget.choices = choices
 
+        contact_pseudonym = resolve_pseudonym(
+            self.study.domain, self.object.pseudonym, Contact.domain)
+        contact = Contact.objects.get(pseudonym=contact_pseudonym)
+
         context['is_contacts'] = 'contacts' in self.request.GET
         context['study'] = self.study
-        context['contact'] = self.contact
+        context['contact'] = contact
         return context
 
     def save(self, form):
@@ -316,9 +316,8 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
 
             idx = current_pseudonym_idx + 1
             while idx < len(pseudonyms):
-                contact = Contact.objects.get(pseudonym=resolve_pseudonym(
-                    self.study.domain, pseudonyms[idx], Contact.domain))
-                if contact.privacy_level <= user_privacy_level:
+                subject = get_subject(self.study.domain, pseudonyms[idx])
+                if subject.privacy_level <= user_privacy_level:
                     next_pseudonym_idx = idx
                     break
                 idx += 1
