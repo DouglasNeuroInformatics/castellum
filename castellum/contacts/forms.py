@@ -24,6 +24,8 @@ from django.forms import ValidationError
 from django.forms.widgets import TextInput
 from django.utils.translation import ugettext_lazy as _
 
+from castellum.pseudonyms.helpers import get_subject
+
 from .models import Address
 from .models import City
 from .models import Contact
@@ -69,6 +71,9 @@ class ContactForm(forms.ModelForm):
     additional_information = forms.CharField(
         label=_('additional address information'), required=False)
 
+    # fields required for subject
+    privacy_level = forms.IntegerField(label=_('privacy level'), min_value=0, max_value=2)
+
     class Meta:
         model = Contact
         exclude = ('address',)
@@ -86,6 +91,10 @@ class ContactForm(forms.ModelForm):
             self.fields['house_number'].initial = self.instance.address.house_number
             self.fields['additional_information'].initial = \
                 self.instance.address.additional_information
+
+        if self.instance.pseudonym:
+            subject = get_subject(self.instance.domain, self.instance.pseudonym)
+            self.fields['privacy_level'].initial = subject.privacy_level
 
     def clean(self):
         cleaned_data = super().clean()
@@ -158,6 +167,12 @@ class ContactForm(forms.ModelForm):
 
             if not self.cleaned_data.get('city') and contact.address:
                 contact.address.delete()
+
+        if contact.pseudonym:
+            subject = get_subject(contact.domain, contact.pseudonym)
+            subject.privacy_level = self.cleaned_data['privacy_level']
+            if commit:
+                subject.save()
 
         return contact
 
