@@ -28,8 +28,9 @@ from django.views.generic import DetailView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.pseudonyms.helpers import list_pseudonyms
-from castellum.pseudonyms.registry import subject_data_models
+from castellum.pseudonyms.helpers import get_subject
+from castellum.recruitment.models import AttributeSet
+from castellum.recruitment.models import ParticipationRequest
 from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
@@ -137,15 +138,14 @@ class ContactExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         context['dataset_list'] = [self.object]
 
-        pseudonyms = list_pseudonyms(Contact.domain, self.object.pseudonym)
-        for domain, pseudonym in pseudonyms:
-            if domain == Contact.domain:
-                continue
-            for model in subject_data_models:
-                try:
-                    instance = model.get_by_pseudonym(domain, pseudonym)
-                    context['dataset_list'].append(instance)
-                except model.DoesNotExist:
-                    continue
+        subject = get_subject(Contact.domain, self.object.pseudonym)
+
+        instances = AttributeSet.objects.filter(subject=subject)
+        for instance in instances:
+            context['dataset_list'].append(instance)
+
+        instances = ParticipationRequest.objects.filter(subject=subject)
+        for instance in instances:
+            context['dataset_list'].append(instance)
 
         return context
