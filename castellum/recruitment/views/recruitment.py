@@ -304,30 +304,20 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
 
     def form_valid_recruitment(self, form):
         # needs to be executed before object.save()
-        pseudonyms = list(self.get_queryset().values_list("pseudonym", flat=True))
+        user_privacy_level = self.request.user.get_privacy_level()
+        participation_requests = list(
+            self.get_queryset().filter(subject__privacy_level__lte=user_privacy_level))
 
         self.save(form)
 
-        next_pseudonym_idx = None
-        if "btn_back" not in form.data and len(pseudonyms) - 1 != 0:
-            current_pseudonym_idx = pseudonyms.index(self.object.pseudonym)
-            user_privacy_level = self.request.user.get_privacy_level()
+        if "btn_back" not in form.data:
+            current_index = [p.pk for p in participation_requests].index(self.object.pk)
+            if current_index + 1 < len(participation_requests):
+                participation_request = participation_requests[current_index + 1]
+                return redirect(
+                    'recruitment:contact', self.object.study.pk, participation_request.pk)
 
-            idx = current_pseudonym_idx + 1
-            while idx < len(pseudonyms):
-                subject = get_subject(self.study.domain, pseudonyms[idx])
-                if subject.privacy_level <= user_privacy_level:
-                    next_pseudonym_idx = idx
-                    break
-                idx += 1
-
-        if next_pseudonym_idx is None:
-            url = 'recruitment:recruitment_open'
-            return redirect(url, self.object.study.pk)
-        else:
-            pseudonym = pseudonyms[next_pseudonym_idx]
-            participation_request = ParticipationRequest.objects.get(pseudonym=pseudonym)
-            return redirect('recruitment:contact', self.object.study.pk, participation_request.pk)
+        return redirect('recruitment:recruitment_open', self.object.study.pk)
 
     def form_valid(self, form):
         if 'contacts' in self.request.GET:
