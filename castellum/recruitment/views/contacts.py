@@ -82,7 +82,7 @@ class ContactStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        subject = get_subject(Contact.domain, self.object.pseudonym)
+        subject = self.object.subject
 
         try:
             data['attributeset'] = subject.attributeset

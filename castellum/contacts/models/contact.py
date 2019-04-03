@@ -25,11 +25,13 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from dateutil.relativedelta import relativedelta
 
 from castellum.pseudonyms.helpers import create_pseudonym
+from castellum.pseudonyms.helpers import get_subject
 from castellum.utils.fields import DateField
 from castellum.utils.fields import DateTimeField
 from castellum.utils.fields import PhoneNumberField
@@ -104,6 +106,10 @@ class Contact(models.Model):
         ordering = ('last_name', 'first_name')
         verbose_name = _('contact')
         verbose_name_plural = _('contacts')
+
+    @cached_property
+    def subject(self):
+        return get_subject(self.domain, self.pseudonym)
 
     @property
     def full_name(self):

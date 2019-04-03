@@ -29,7 +29,6 @@ from django.views.generic import DetailView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.pseudonyms.helpers import get_subject
 from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
@@ -51,8 +50,7 @@ class ContactSearchView(PermissionRequiredMixin, GetFormView):
         return context
 
     def user_has_privacy_level(self, contact):
-        subject = get_subject(contact.domain, contact.pseudonym)
-        return self.request.user.has_privacy_level(subject.privacy_level)
+        return self.request.user.has_privacy_level(contact.subject.privacy_level)
 
     def form_valid(self, form):
         monitoring_logger.info((
@@ -141,7 +139,7 @@ class ContactExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         context['dataset_list'] = [self.object]
 
-        subject = get_subject(Contact.domain, self.object.pseudonym)
+        subject = self.object.subject
 
         try:
             context['dataset_list'].append(subject.attributeset)
