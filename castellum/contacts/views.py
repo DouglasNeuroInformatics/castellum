@@ -22,14 +22,14 @@
 import logging
 from urllib.parse import urlencode
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.pseudonyms.helpers import list_pseudonyms
-from castellum.pseudonyms.registry import subject_data_models
+from castellum.pseudonyms.helpers import get_subject
 from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
@@ -137,15 +137,14 @@ class ContactExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         context['dataset_list'] = [self.object]
 
-        pseudonyms = list_pseudonyms(Contact.domain, self.object.pseudonym)
-        for domain, pseudonym in pseudonyms:
-            if domain == Contact.domain:
-                continue
-            for model in subject_data_models:
-                try:
-                    instance = model.get_by_pseudonym(domain, pseudonym)
-                    context['dataset_list'].append(instance)
-                except model.DoesNotExist:
-                    continue
+        subject = get_subject(Contact.domain, self.object.pseudonym)
+
+        try:
+            context['dataset_list'].append(subject.attributeset)
+        except ObjectDoesNotExist:
+            pass
+
+        for participation in subject.participationrequest_set.all():
+            context['dataset_list'].append(participation)
 
         return context
