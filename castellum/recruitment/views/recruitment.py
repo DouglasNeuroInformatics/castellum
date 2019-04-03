@@ -297,10 +297,8 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
     def save(self, form):
         self.object = form.save()
 
-        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
-            self.study.domain,
-            self.object.pseudonym,
-            self.request.user.pk))
+        monitoring_logger.info('ParticipationRequest update: {} by {}'.format(
+            self.object.pk, self.request.user.pk))
 
     def form_valid_recruitment(self, form):
         # needs to be executed before object.save()
@@ -343,7 +341,7 @@ class AppointmentFeed(ICalFeed):
             .order_by('-appointment')
 
     def item_title(self, item):
-        return '{} - {}'.format(item.study.name, item.pseudonym[:8])
+        return '{} - {}'.format(item.study.name, item.pk)
 
     def item_start_datetime(self, item):
         return item.appointment
@@ -352,7 +350,7 @@ class AppointmentFeed(ICalFeed):
         return item.updated_at
 
     def item_description(self, item):
-        return item.pseudonym
+        return item.pk
 
     def item_link(self, item):
         return reverse('recruitment:contact', args=[item.study.pk, item.pk, 'open'])
