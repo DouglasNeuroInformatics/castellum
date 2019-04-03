@@ -30,9 +30,9 @@ from django.views.generic import DetailView
 from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
 from castellum.contacts.views import ContactUpdateView as _ContactUpdateView
+from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.studies.models import Study
-from castellum.utils.helpers import get_object_or_none
 
 from .mixins import StudyPermissionMixin
 from ..models import AttributeSet
@@ -79,23 +79,19 @@ class ContactStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):
                 self.request.user.has_perm('studies.access_study', obj=study) and
                 qs.filter(get_study_filter_q(study)).exists()
             ):
-                pseudonym = resolve_pseudonym(
-                    AttributeSet.domain, attributeset.pseudonym, study.domain)
-                request = ParticipationRequest.objects.filter(study=study, pseudonym=pseudonym)
+                request = attributeset.subject.participationrequest_set.filter(study=study)
                 if not request.exists():
-                    yield study, pseudonym
+                    yield study
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
+        subject = get_subject(Contact.domain, self.object.pseudonym)
 
-        attributeset_pseudonym = resolve_pseudonym(
-            Contact.domain, self.object.pseudonym, AttributeSet.domain)
-
-        attributeset = get_object_or_none(AttributeSet, pseudonym=attributeset_pseudonym)
-        data['attributeset'] = attributeset
-
-        if attributeset:
-            data['studies'] = list(self.get_studies(attributeset))
+        try:
+            data['attributeset'] = subject.attributeset
+            data['studies'] = list(self.get_studies(subject.attributeset))
+        except AttributeSet.DoesNotExist:
+            pass
 
         return data
 
@@ -106,8 +102,11 @@ class ContactStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):
             if not request.user.has_perm(perm, obj=study):
                 raise PermissionDenied
 
+        subject = get_subject(study.domain, request.POST['pseudonym'])
+        pseudonym = resolve_pseudonym(Contact.domain, self.object.pseudonym, study.domain)
+
         participation_request = ParticipationRequest.objects.create(
-            pseudonym=request.POST['pseudonym'], study=study)
+            pseudonym=pseudonym, subject=subject, study=study)
 
         url = reverse('recruitment:contact', args=[study.pk, participation_request.pseudonym])
         return redirect(url + '?contacts')

@@ -25,6 +25,7 @@ from django.db import models
 from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
+from castellum.pseudonyms.models import Subject
 from castellum.pseudonyms.models import SubjectData
 from castellum.studies.models import Study
 from castellum.utils.fields import DateTimeField
@@ -56,6 +57,7 @@ class ParticipationRequest(SubjectData):
         (RECALL_APPOINTED, _('recall appointed')),
     )
 
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, editable=False)
     study = models.ForeignKey(Study, verbose_name=_('study'), on_delete=models.CASCADE)
 
     status = models.IntegerField(
