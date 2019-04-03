@@ -33,8 +33,9 @@
     }
 }
 
+/* work around https://github.com/twbs/bootstrap/issues/25394 */
 .navbar-dark .navbar-toggler-icon {
-    background-image: url("images/hamburger.svg");
+    background-image: url("images/bootstrap/hamburger.svg");
 }
 
 .appointment {
