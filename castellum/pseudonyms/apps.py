@@ -24,7 +24,3 @@ from django.apps import AppConfig
 
 class PseudonymsConfig(AppConfig):
     name = 'castellum.pseudonyms'
-
-    def ready(self):
-        from django.utils.module_loading import autodiscover_modules
-        autodiscover_modules('subject_data')

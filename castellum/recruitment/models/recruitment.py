@@ -71,10 +71,6 @@ class ParticipationRequest(SubjectData):
         verbose_name = _('participation request')
         verbose_name_plural = _('participation requests')
 
-    @classmethod
-    def get_by_pseudonym(cls, domain, pseudonym):
-        return cls.objects.get(study__domain=domain, pseudonym=pseudonym)
-
     @property
     def domain(self):
         return self.study.domain

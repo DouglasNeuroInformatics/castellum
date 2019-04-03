@@ -22,6 +22,7 @@
 import logging
 from urllib.parse import urlencode
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic import DetailView
@@ -29,8 +30,6 @@ from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.helpers import get_subject
-from castellum.recruitment.models import AttributeSet
-from castellum.recruitment.models import ParticipationRequest
 from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
@@ -140,7 +139,10 @@ class ContactExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         subject = get_subject(Contact.domain, self.object.pseudonym)
 
-        context['dataset_list'].append(subject.attributeset)
+        try:
+            context['dataset_list'].append(subject.attributeset)
+        except ObjectDoesNotExist:
+            pass
 
         for participation in subject.participationrequest_set.all():
             context['dataset_list'].append(participation)
