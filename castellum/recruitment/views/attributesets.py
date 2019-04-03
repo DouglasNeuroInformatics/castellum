@@ -26,7 +26,7 @@ from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
-from castellum.contacts.models import Contact
+from castellum.pseudonyms.models import Subject
 
 from ..forms import AttributeSetForm
 from ..models import AttributeDescription
@@ -38,14 +38,13 @@ monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 class AttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = AttributeSet
-    slug_field = 'pseudonym'
     permission_required = 'recruitment.change_attributeset'
 
     def get_object(self, queryset=None):
         if queryset is None:
             queryset = self.get_queryset()
-        contact = get_object_or_404(Contact, pseudonym=self.kwargs['slug'])
-        attributeset, __ = queryset.get_or_create(subject=contact.subject, defaults={'data': {}})
+        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
+        attributeset, __ = queryset.get_or_create(subject=subject, defaults={'data': {}})
         return attributeset
 
     def get_form_class(self):

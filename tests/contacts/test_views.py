@@ -23,7 +23,7 @@ def test_status_code_200_for_contact_index_view(request, client, user_fixture):
 def test_detail_200(request, client, user_fixture, contact):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/'.format(contact.pseudonym)
+    url = '/subjects/{}/'.format(contact.subject.pk)
     response = client.get(url)
     assert response.status_code == 200
 
@@ -68,14 +68,14 @@ def test_create_with_parameter_200(client, user, contact):
 def test_update_200(request, client, user_fixture, contact):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/update/'.format(contact.pseudonym)
+    url = '/subjects/{}/update/'.format(contact.subject.pk)
     response = client.get(url)
     assert response.status_code == 200
 
 
 def test_update_with_parameter_200(client, user, contact):
     client.force_login(user)
-    url = '/subjects/{}/update/?first_name=test'.format(contact.pseudonym)
+    url = '/subjects/{}/update/?first_name=test'.format(contact.subject.pk)
     response = client.get(url)
     assert response.status_code == 200
 
@@ -88,6 +88,6 @@ def test_update_with_parameter_200(client, user, contact):
 def test_export_200(request, client, user_fixture, contact):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/export/'.format(contact.pseudonym)
+    url = '/subjects/{}/export/'.format(contact.subject.pk)
     response = client.get(url)
     assert response.status_code == 200

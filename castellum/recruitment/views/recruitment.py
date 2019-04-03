@@ -314,8 +314,7 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
     def form_valid(self, form):
         if 'contacts' in self.request.GET:
             self.save(form)
-            contact_pseudonym = get_pseudonym(self.object.subject, Contact.domain)
-            return redirect('contacts:detail', contact_pseudonym)
+            return redirect('contacts:detail', self.object.subject.pk)
         else:
             return self.form_valid_recruitment(form)
 
