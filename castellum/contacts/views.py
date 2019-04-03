@@ -140,12 +140,9 @@ class ContactExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         subject = get_subject(Contact.domain, self.object.pseudonym)
 
-        instances = AttributeSet.objects.filter(subject=subject)
-        for instance in instances:
-            context['dataset_list'].append(instance)
+        context['dataset_list'].append(subject.attributeset)
 
-        instances = ParticipationRequest.objects.filter(subject=subject)
-        for instance in instances:
-            context['dataset_list'].append(instance)
+        for participation in subject.participationrequest_set.all():
+            context['dataset_list'].append(participation)
 
         return context
