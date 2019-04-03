@@ -21,8 +21,6 @@
 
 from castellum.pseudonyms.registry import subject_data_models
 
-from .models import AttributeSet
 from .models import ParticipationRequest
 
-subject_data_models.append(AttributeSet)
 subject_data_models.append(ParticipationRequest)

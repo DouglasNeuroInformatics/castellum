@@ -23,10 +23,10 @@ import logging
 import random
 from collections import defaultdict
 
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.db import models
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -40,7 +40,7 @@ from django_ical.views import ICalFeed
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
-from castellum.pseudonyms.helpers import get_subject
+from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
@@ -207,29 +207,19 @@ class RecruitmentViewOpen(RecruitmentView):
     tab = 'open'
 
     def create_participation_request(self):
+        attributesets = list(
+            AttributeSet
+            .apply_study_filter(self.study)
+            .filter(~models.Q(subject__participationrequest__study=self.study))
+        )
 
-        attributesets = list(AttributeSet.apply_study_filter(self.study).values_list('pseudonym',
-                                                                                     flat=True))
+        if len(attributesets) == 0:
+            return None
 
-        while len(attributesets) > 0:
-
-            pseudonym = random.choice(attributesets)
-
-            participation_request_pseudonym = resolve_pseudonym(
-                settings.DOMAINS['attributeset'],
-                pseudonym,
-                self.study.domain)
-
-            subject = get_subject(settings.DOMAINS['attributeset'], pseudonym)
-            participation_request, created = ParticipationRequest.objects.get_or_create(
-                study=self.study, subject=subject, pseudonym=participation_request_pseudonym)
-
-            if created:
-                return participation_request
-            else:
-                attributesets.remove(pseudonym)
-
-        return None
+        attributeset = random.choice(attributesets)
+        pseudonym = get_pseudonym(attributeset.subject, self.study.domain)
+        return ParticipationRequest.objects.create(
+            study=self.study, subject=attributeset.subject, pseudonym=pseudonym)
 
     def post(self, request, *args, **kwargs):
         if not request.user.has_perm('recruitment.add_participationrequest', obj=self.study):
@@ -345,10 +335,7 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
     def form_valid(self, form):
         if 'contacts' in self.request.GET:
             self.save(form)
-            contact_pseudonym = resolve_pseudonym(
-                self.study.domain,
-                self.object.pseudonym,
-                Contact.domain)
+            contact_pseudonym = get_pseudonym(self.object.subject, Contact.domain)
             return redirect('contacts:detail', contact_pseudonym)
         else:
             return self.form_valid_recruitment(form)
