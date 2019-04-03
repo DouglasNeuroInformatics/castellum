@@ -37,6 +37,9 @@
 .navbar-dark .navbar-toggler-icon {
     background-image: url("images/bootstrap/hamburger.svg");
 }
+.was-validated .form-control:invalid, .form-control.is-invalid {
+    background-image: url("images/bootstrap/invalid.svg");
+}
 
 .appointment {
     font-size: 120%;
