@@ -21,7 +21,6 @@
 
 from collections import OrderedDict
 
-from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
@@ -39,7 +38,6 @@ from parler.utils.context import switch_language
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.models import Subject
-from castellum.pseudonyms.models import SubjectData
 
 from .. import attribute_fields
 from ..utils import get_study_filter_q
@@ -73,9 +71,7 @@ class ImportMixin:
         return obj
 
 
-class AttributeSet(SubjectData):
-    domain = settings.DOMAINS['attributeset']
-
+class AttributeSet(models.Model):
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE, editable=False)
     data = JSONField(encoder=DjangoJSONEncoder)
 
