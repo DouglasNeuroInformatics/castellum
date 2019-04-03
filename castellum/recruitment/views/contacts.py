@@ -32,7 +32,6 @@ from castellum.contacts.models import Contact
 from castellum.contacts.views import ContactUpdateView as _ContactUpdateView
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.helpers import get_subject
-from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.studies.models import Study
 
 from .mixins import StudyPermissionMixin
@@ -101,10 +100,7 @@ class ContactStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):
                 raise PermissionDenied
 
         subject = get_subject(study.domain, request.POST['pseudonym'])
-        pseudonym = resolve_pseudonym(Contact.domain, self.object.pseudonym, study.domain)
-
-        participation_request = ParticipationRequest.objects.create(
-            pseudonym=pseudonym, subject=subject, study=study)
+        participation_request = ParticipationRequest.objects.create(subject=subject, study=study)
 
         url = reverse('recruitment:contact', args=[study.pk, participation_request.pk])
         return redirect(url + '?contacts')

@@ -210,9 +210,7 @@ class RecruitmentViewOpen(RecruitmentView):
             return None
 
         attributeset = random.choice(attributesets)
-        pseudonym = get_pseudonym(attributeset.subject, self.study.domain)
-        return ParticipationRequest.objects.create(
-            study=self.study, subject=attributeset.subject, pseudonym=pseudonym)
+        return ParticipationRequest.objects.create(study=self.study, subject=attributeset.subject)
 
     def post(self, request, *args, **kwargs):
         if not request.user.has_perm('recruitment.add_participationrequest', obj=self.study):
