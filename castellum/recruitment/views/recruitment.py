@@ -40,7 +40,6 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_pseudonym
-from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
@@ -148,8 +147,7 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
             except AttributeSet.DoesNotExist:
                 buckets = ''
 
-            subject = get_subject(self.study.domain, participation.pseudonym)
-            can_access = self.request.user.has_privacy_level(subject.privacy_level)
+            can_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
 
             participants.append((participation, buckets, can_access))
         context['participants'] = participants
