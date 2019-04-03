@@ -27,25 +27,8 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class Subject(models.Model):
-    """Central model for test subjects.
-
-    Note that no data is stored in this model. Instead, the data is
-    split between different subclasses of `SubjectData`. The mapping
-    between instances of `SubjectData` and `Subject` is handled in the
-    `Pseudonym` model.
-    """
-
     privacy_level = models.PositiveIntegerField(
         _("privacy level"), default=0, validators=[MaxValueValidator(2)])
-
-
-class SubjectData(models.Model):
-    domain = None
-
-    pseudonym = models.CharField(max_length=64, unique=True, editable=False)
-
-    class Meta:
-        abstract = True
 
 
 class Pseudonym(models.Model):
