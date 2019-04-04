@@ -71,7 +71,7 @@ urlpatterns = [
     path('<study_pk>/unsuitable/', RecruitmentViewUnsuitable.as_view(),
          name='recruitment_unsuitable'),
     path('<study_pk>/appointments/', AppointmentFeed(), name='appointments'),
-    path('<study_pk>/<slug>/', ContactView.as_view(), name='contact'),
-    path('<study_pk>/<slug>/update-contact/', ContactUpdateView.as_view(),
+    path('<study_pk>/<int:pk>/', ContactView.as_view(), name='contact'),
+    path('<study_pk>/<int:pk>/update-contact/', ContactUpdateView.as_view(),
          name='contact-update'),
 ]

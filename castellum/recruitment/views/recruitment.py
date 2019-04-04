@@ -255,7 +255,6 @@ class RecruitmentViewOpen(RecruitmentView):
 class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = ParticipationRequest
     fields = ['status', 'appointment']
-    slug_field = 'pseudonym'
     template_name = 'recruitment/contact.html'
     permission_required = (
         'contacts.view_contact',
@@ -327,10 +326,9 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
             url = 'recruitment:recruitment_open'
             return redirect(url, self.object.study.pk)
         else:
-            return redirect(
-                'recruitment:contact',
-                self.object.study.pk,
-                pseudonyms[next_pseudonym_idx])
+            pseudonym = pseudonyms[next_pseudonym_idx]
+            participation_request = ParticipationRequest.objects.get(pseudonym=pseudonym)
+            return redirect('recruitment:contact', self.object.study.pk, participation_request.pk)
 
     def form_valid(self, form):
         if 'contacts' in self.request.GET:
@@ -368,4 +366,4 @@ class AppointmentFeed(ICalFeed):
         return item.pseudonym
 
     def item_link(self, item):
-        return reverse('recruitment:contact', args=[item.study.pk, item.pseudonym, 'open'])
+        return reverse('recruitment:contact', args=[item.study.pk, item.pk, 'open'])

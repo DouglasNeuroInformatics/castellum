@@ -50,7 +50,7 @@ class ContactUpdateView(StudyPermissionMixin, _ContactUpdateView):
 
     def get_object(self):
         participation_request = get_object_or_404(
-            ParticipationRequest, study=self.study, pseudonym=self.kwargs['slug'])
+            ParticipationRequest, study=self.study, pk=self.kwargs['pk'])
 
         contact_pseudonym = get_pseudonym(participation_request.subject, Contact.domain)
         contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
@@ -58,7 +58,7 @@ class ContactUpdateView(StudyPermissionMixin, _ContactUpdateView):
         return contact
 
     def get_success_url(self):
-        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['slug']])
+        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
 
     def get_cancel_url(self):
         return self.get_success_url()
@@ -106,5 +106,5 @@ class ContactStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):
         participation_request = ParticipationRequest.objects.create(
             pseudonym=pseudonym, subject=subject, study=study)
 
-        url = reverse('recruitment:contact', args=[study.pk, participation_request.pseudonym])
+        url = reverse('recruitment:contact', args=[study.pk, participation_request.pk])
         return redirect(url + '?contacts')
