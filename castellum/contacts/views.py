@@ -36,6 +36,7 @@ from .forms import ContactForm
 from .forms import SearchForm
 from .mixins import SubjectMixin
 from .models import Contact
+from .models import TimeSlot
 
 monitoring_logger = logging.getLogger('monitoring.contacts')
 
@@ -121,6 +122,11 @@ class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
             self.object.pseudonym,
             self.request.user.pk))
         return result
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['timeslots'] = TimeSlot.objects.order_by('hour')
+        return context
 
 
 class ContactExportView(SubjectMixin, PermissionRequiredMixin, DetailView):

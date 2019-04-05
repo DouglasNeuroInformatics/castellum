@@ -76,6 +76,9 @@
             <div class="col-6 col-sm-2 mb-3">
                 {% bootstrap_field form.availability_friday %}</div>
         </div>
+        <div id="availability-timeslots" data-js="availability-timeslots" hidden>
+            {% for timeslot in timeslots %}<div>{{ timeslot }}</div>{% endfor %}
+        </div>
         <div id="availability"> </div>
 
         {% bootstrap_field form.not_available_until %}
