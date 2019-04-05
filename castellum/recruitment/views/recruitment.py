@@ -216,21 +216,23 @@ class RecruitmentViewOpen(RecruitmentView):
             raise PermissionDenied
 
         if self.study.min_subjects_count == 0:
-            messages.error(request, _('This study does not require participants. '
-                                      'Please, contact the responsible person who can set it up.'))
+            messages.error(request, _(
+                'This study does not require participants. '
+                'Please, contact the responsible person who can set it up.'
+            ))
             return self.get(request, *args, **kwargs)
 
-        not_contacted_count = self.get_queryset().count()
+        open_count = self.get_queryset().count()
+        hard_limit = self.study.min_subjects_count * CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 
-        if not_contacted_count >= \
-           self.study.min_subjects_count*CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR:
+        if open_count >= hard_limit:
             messages.error(request, _(
                 'Application privacy does not allow you to add more subjects. '
                 'Please contact provided subjects before adding new ones.'
-                ))
+            ))
             return self.get(request, *args, **kwargs)
 
-        if not_contacted_count >= CASTELLUM_RECRUITMENT_SOFT_LIMIT:
+        if open_count >= CASTELLUM_RECRUITMENT_SOFT_LIMIT:
             messages.error(request, _(
                 'Such workflow is not intended due to privacy reasons. '
                 'Please contact provided subjects before adding new ones.'
