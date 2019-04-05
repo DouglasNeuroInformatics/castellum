@@ -26,7 +26,6 @@ from collections import defaultdict
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.db import models
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.text import slugify
@@ -206,7 +205,7 @@ class RecruitmentViewOpen(RecruitmentView):
         attributesets = list(
             AttributeSet
             .apply_study_filter(self.study)
-            .filter(~models.Q(subject__participationrequest__study=self.study))
+            .exclude(subject__participationrequest__study=self.study)
         )
 
         if len(attributesets) == 0:
