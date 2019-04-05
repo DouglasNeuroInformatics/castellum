@@ -48,6 +48,7 @@ def test_not_contacted_count_is_gte_to_hard_limit(client, member, published_stud
 @pytest.mark.parametrize("subject_count", [
     settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT,
     settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT + 1,
+    settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT - settings.CASTELLUM_RECRUITMENT_BATCH_SIZE + 1,
 ])
 def test_not_contacted_count_is_gte_to_soft_limit(client, member, published_study, subject_count):
     published_study.min_subjects_count = 2 * settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT
@@ -55,16 +56,17 @@ def test_not_contacted_count_is_gte_to_soft_limit(client, member, published_stud
 
     for i in range(subject_count):
         create_participation_request(published_study)
+    for i in range(settings.CASTELLUM_RECRUITMENT_BATCH_SIZE):
+        create_attributeset()
 
     client.force_login(member)
     url = "/recruitment/{}/".format(published_study.pk)
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
-    assert len(messages) == 2
+    assert len(messages) == 1
     assert str(messages[0]) == ("Such workflow is not intended due to privacy reasons. "
                                 "Please contact provided subjects before adding new ones.")
-    assert str(messages[1]) == "We cannot find participants for this study."
 
     assert response.status_code == 200
 
@@ -99,6 +101,16 @@ def test_create_revision_on_create(client, member, attributeset, published_study
     client.post(url)
 
     assert ParticipationRequestRevision.objects.count() == 1
+
+
+def create_attributeset():
+    subject = mommy.make('pseudonyms.Subject')
+
+    contact = mommy.make('contacts.Contact')
+    mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["contact"],
+               pseudonym=contact.pseudonym)
+
+    return mommy.make('recruitment.AttributeSet', data={'d1': 1}, subject=subject)
 
 
 def create_participation_request(study, status=ParticipationRequest.NOT_CONTACTED):
