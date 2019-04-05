@@ -23,23 +23,23 @@ from django.core.exceptions import PermissionDenied
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from castellum.pseudonyms.helpers import get_pseudonym
-
-from .models import Contact
+from castellum.pseudonyms.helpers import get_subject
+from castellum.pseudonyms.models import Subject
 
 
 class SubjectMixin:
     @cached_property
-    def contact(self):
+    def subject(self):
         obj = self.get_object()
-        if isinstance(obj, Contact):
+        if isinstance(obj, Subject):
             return obj
+        elif hasattr(obj, 'subject'):
+            return obj.subject
         else:
-            pseudonym = get_pseudonym(obj.subject, Contact.domain)
-            return Contact.objects.get(pseudonym=pseudonym)
+            return get_subject(obj.domain, obj.pseudonym)
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            if not request.user.has_privacy_level(self.contact.privacy_level):
+            if not request.user.has_privacy_level(self.subject.privacy_level):
                 raise PermissionDenied(_('Insufficient privacy level'))
         return super().dispatch(request, *args, **kwargs)

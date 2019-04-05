@@ -23,7 +23,7 @@ def test_form_with_initial_address():
     country = mommy.prepare('contacts.Country')
     city = mommy.prepare('contacts.City', country=country)
     address = mommy.prepare('contacts.Address', city=city)
-    contact = mommy.prepare('contacts.Contact', address=address)
+    contact = mommy.prepare('contacts.Contact', address=address, pseudonym=None)
 
     form = ContactForm(user=user, instance=contact)
 

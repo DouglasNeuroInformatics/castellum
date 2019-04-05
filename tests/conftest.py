@@ -82,4 +82,4 @@ def member(user, study, published_study, unpublished_study):
 
 @pytest.fixture
 def contact(db):
-    return mommy.make(Contact, pseudonym=None, privacy_level=0)
+    return mommy.make(Contact, pseudonym=None)

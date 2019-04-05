@@ -70,7 +70,7 @@ def test_post_redirect_next_with_multiple_participation_requests(client,
                                                                  published_study):
     participation_requests = []
     for i in range(5):
-        contact = mommy.make(Contact, pseudonym=None, privacy_level=0)
+        contact = mommy.make(Contact, pseudonym=None)
         pseudonym = resolve_pseudonym(Contact.domain, contact.pseudonym, published_study.domain)
         subject = get_subject(Contact.domain, contact.pseudonym)
         participation_requests.append(mommy.make(

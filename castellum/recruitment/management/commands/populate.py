@@ -121,6 +121,10 @@ def fake_phone_number():
     return fake_phone_number()
 
 
+def fake_subject():
+    return Subject(privacy_level=fake.random.randint(0, 2))
+
+
 def fake_study():
     study = Study(
         name=fake.word().upper(),
@@ -157,16 +161,13 @@ def fake_contact(pseudonym, address):
         first_name = fake.first_name_male()
         last_name = fake.last_name_male()
 
-    privacy_level = fake.random.randint(0, 2)
-
     contact = Contact(
         gender=gender,
         first_name=first_name,
         first_name_phonetic=phonetic(first_name),
         last_name=last_name,
         last_name_phonetic=phonetic(last_name),
-        date_of_birth=fake_date_of_birth(),
-        privacy_level=privacy_level)
+        date_of_birth=fake_date_of_birth())
 
     if fake.random.random() < 0.67:
         contact.email = fake.email()
@@ -217,7 +218,7 @@ def generate_subjects(count):
     addresses = Address.objects.all()[:count]
 
     print('Generating pseudonyms')
-    Subject.objects.bulk_create([Subject() for i in range(count)], batch_size=200)
+    Subject.objects.bulk_create([fake_subject() for i in range(count)], batch_size=200)
     subjects = Subject.objects.all()[:count]
 
     contact_pseudonyms = [Pseudonym(
@@ -233,8 +234,7 @@ def generate_subjects(count):
         first_name_phonetic=phonetic('Muhammad'),
         last_name='Nguyen',
         last_name_phonetic=phonetic('Nguyen'),
-        date_of_birth='2000-12-13',
-        privacy_level=0)
+        date_of_birth='2000-12-13')
     contacts.append(testcontact)
     testcontact.pseudonym = contact_pseudonyms[-1]
 

@@ -21,7 +21,9 @@
 
 import uuid
 
+from django.core.validators import MaxValueValidator
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 
 class Subject(models.Model):
@@ -32,6 +34,9 @@ class Subject(models.Model):
     between instances of `SubjectData` and `Subject` is handled in the
     `Pseudonym` model.
     """
+
+    privacy_level = models.PositiveIntegerField(
+        _("privacy level"), default=0, validators=[MaxValueValidator(2)])
 
 
 class SubjectData(models.Model):
