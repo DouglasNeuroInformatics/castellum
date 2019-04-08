@@ -40,6 +40,18 @@ class Checkbox extends React.Component {
     }
 }
 
+class Select extends React.Component {
+    render() {
+        const {onListSelectionChanged, selectedTimeslots} = this.props;
+
+        return e('select',
+            {className: 'form-control', multiple: {}, value: selectedTimeslots,
+                onChange: onListSelectionChanged},
+            this.props.children
+        );
+    }
+}
+
 class FormGroup extends React.Component {
     constructor(props) {
         super(props);
@@ -75,13 +87,11 @@ class FormGroup extends React.Component {
                 this.props.children
             ),
             e(
-                'select',
+                Select,
                 {
                     key: 'select',
-                    className: 'form-control',
-                    multiple: {},
-                    value: this.state.selectedTimeslots,
-                    onChange: this.onListSelectionChanged,
+                    selectedTimeslots: this.state.selectedTimeslots,
+                    onListSelectionChanged: this.onListSelectionChanged,
                 },
                 timeslots.map(timeslot => e('option', {key: timeslot, value: timeslot}, timeslot))
             ),
