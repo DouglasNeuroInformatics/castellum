@@ -23,7 +23,6 @@ from django.core.exceptions import PermissionDenied
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.models import Subject
 
 
@@ -33,10 +32,8 @@ class SubjectMixin:
         obj = self.get_object()
         if isinstance(obj, Subject):
             return obj
-        elif hasattr(obj, 'subject'):
-            return obj.subject
         else:
-            return get_subject(obj.domain, obj.pseudonym)
+            return obj.subject
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:

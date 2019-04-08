@@ -17,15 +17,15 @@ def pseudonym2(pseudonym):
 
 
 @pytest.mark.django_db
-def test_resolve_pseudonym(pseudonym, pseudonym2):
-    result = helpers.resolve_pseudonym(pseudonym.domain, pseudonym.pseudonym, pseudonym2.domain)
+def test_get_pseudonym(pseudonym, pseudonym2):
+    result = helpers.get_pseudonym(pseudonym.subject, pseudonym2.domain)
 
     assert result == str(pseudonym2.pseudonym)
 
 
 @pytest.mark.django_db
-def test_resovle_pseudonym_that_does_not_exist(pseudonym):
-    result = helpers.resolve_pseudonym(pseudonym.domain, pseudonym.pseudonym, "another_domain")
+def test_get_pseudonym_that_does_not_exist(pseudonym):
+    result = helpers.get_pseudonym(pseudonym.subject, "another_domain")
 
     new_pseudonym = Pseudonym.objects.get(domain="another_domain")
 
