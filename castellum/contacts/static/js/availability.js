@@ -43,7 +43,8 @@ class Checkbox extends React.Component {
 class FormGroup extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {selectedTimeslots: []};
+
+        this.state = {selectedTimeslots: this.props.selected};
         this.onCheckboxSelectionChanged = this.onCheckboxSelectionChanged.bind(this);
         this.onListSelectionChanged = this.onListSelectionChanged.bind(this);
     }
@@ -90,7 +91,8 @@ class FormGroup extends React.Component {
 
 class Availability extends React.Component {
     render() {
-        const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+        const availability = document.querySelector('[data-js="availability-selected-timeslots"]');
+        const weekdays = [...availability.querySelectorAll('[data-js="weekdays"] div')].map(wd => wd.textContent);
 
         return e(
             'div',
@@ -98,7 +100,13 @@ class Availability extends React.Component {
             weekdays.map(wd => e(
                 'div',
                 {key: wd, className: 'col-6 col-sm-2 mb-3'},
-                e(FormGroup, {}, wd))
+                e(
+                    FormGroup,
+                    {
+                        selected: [...availability.querySelectorAll(`[data-js="selected"] [data-js="${wd}"] div`)].map(s => s.textContent),
+                    },
+                    wd
+                ))
             )
         );
     }

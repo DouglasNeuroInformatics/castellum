@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n bootstrap4 static %}
+{% load i18n bootstrap4 static utils %}
 
 {% block title %}
     {% if object %}
@@ -79,6 +79,42 @@
         <div id="availability-timeslots" data-js="availability-timeslots" hidden>
             {% for timeslot in timeslots %}<div>{{ timeslot }}</div>{% endfor %}
         </div>
+		<div id="availability-selected-timeslots" data-js="availability-selected-timeslots" hidden>
+			<div data-js="weekdays">
+				<div>{{ object|verbose_name:'availability_monday' }}</div>
+				<div>{{ object|verbose_name:'availability_tuesday' }}</div>
+				<div>{{ object|verbose_name:'availability_wednesday' }}</div>
+				<div>{{ object|verbose_name:'availability_thursday' }}</div>
+				<div>{{ object|verbose_name:'availability_friday' }}</div>
+			</div>
+			<div data-js="selected">
+				<div data-js="{{ object|verbose_name:'availability_monday' }}">
+					{% for timeslot in object.availability_monday.all %}
+					<div>{{ timeslot }}</div>
+					{% endfor %}
+				</div>
+				<div data-js="{{ object|verbose_name:'availability_tuesday' }}">
+					{% for timeslot in object.availability_tuesday.all %}
+					<div>{{ timeslot }}</div>
+					{% endfor %}
+				</div>
+				<div data-js="{{ object|verbose_name:'availability_wednesday' }}">
+					{% for timeslot in object.availability_wednesday.all %}
+					<div>{{ timeslot }}</div>
+					{% endfor %}
+				</div>
+				<div data-js="{{ object|verbose_name:'availability_thursday' }}">
+					{% for timeslot in object.availability_thursday.all %}
+					<div>{{ timeslot }}</div>
+					{% endfor %}
+				</div>
+				<div data-js="{{ object|verbose_name:'availability_friday' }}">
+					{% for timeslot in object.availability_friday.all %}
+					<div>{{ timeslot }}</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
         <div id="availability"> </div>
 
         {% bootstrap_field form.not_available_until %}
