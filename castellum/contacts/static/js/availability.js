@@ -46,7 +46,9 @@ class Select extends React.Component {
 
         return e('select',
             {className: 'form-control', multiple: {}, value: selectedTimeslots,
-                onChange: onListSelectionChanged},
+                onChange: onListSelectionChanged,
+                name: `availability_${this.props.name.toLowerCase()}`,
+            },
             this.props.children
         );
     }
@@ -56,7 +58,7 @@ class FormGroup extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {selectedTimeslots: this.props.selected};
+        this.state = {selectedTimeslots: this.props.selectedTimeslots};
         this.onCheckboxSelectionChanged = this.onCheckboxSelectionChanged.bind(this);
         this.onListSelectionChanged = this.onListSelectionChanged.bind(this);
     }
@@ -67,33 +69,32 @@ class FormGroup extends React.Component {
 
     onListSelectionChanged(event) {
         const {options} = event.target;
-        const selectedTimeslots = [...options].filter(o => o.selected).map(o => o.value);
+        const {allTimeslots} = this.props;
+        const selectedTimeslots = [...options].filter(o => o.selected).map(o => (
+            allTimeslots[o.value - 1]));
         this.setState({selectedTimeslots});
     }
 
     render() {
-        const selectorString = '[data-js="availability-timeslots"] div';
-        const timeslots = [...document.querySelectorAll(selectorString)].map(t => t.textContent);
+        const {allTimeslots, selectedTimeslots} = this.props;
 
         return e('div', {className: 'form-group'}, [
-            e(
-                Checkbox,
-                {
+            e(Checkbox, {
                     key: 'checkbox',
                     onSelectionChanged: this.onCheckboxSelectionChanged,
-                    allTimeslots: timeslots,
+                    allTimeslots: allTimeslots,
                     selectedTimeslots: this.state.selectedTimeslots,
                 },
                 this.props.children
             ),
-            e(
-                Select,
-                {
+            e(Select, {
                     key: 'select',
-                    selectedTimeslots: this.state.selectedTimeslots,
+                    selectedTimeslots: this.state.selectedTimeslots.map(i => (
+                        i - allTimeslots.length + 1)),
                     onListSelectionChanged: this.onListSelectionChanged,
+                    name: this.props.children,
                 },
-                timeslots.map(timeslot => e('option', {key: timeslot, value: timeslot}, timeslot))
+                allTimeslots.map((ts, idx) => e('option', {key: idx, value: idx+1}, ts))
             ),
         ]);
     }
@@ -101,6 +102,9 @@ class FormGroup extends React.Component {
 
 class Availability extends React.Component {
     render() {
+        const selectorString = '[data-js="availability-timeslots"] div';
+        const timeslots = [...document.querySelectorAll(selectorString)].map(t => t.textContent);
+
         const availability = document.querySelector('[data-js="availability-selected-timeslots"]');
         const weekdays = [...availability.querySelectorAll('[data-js="weekdays"] div')].map(wd => wd.textContent);
 
@@ -108,7 +112,8 @@ class Availability extends React.Component {
             'div',
             {key: wd, className: 'col-6 col-sm-2 mb-3'},
             e(FormGroup, {
-                selected: [...availability.querySelectorAll(`[data-js="selected"] [data-js="${wd}"] div`)].map(s => s.textContent),
+                allTimeslots: timeslots,
+                selectedTimeslots: [...availability.querySelectorAll(`[data-js="selected"] [data-js="${wd}"] div`)].map(s => s.textContent),
             },
             wd)))
         );
