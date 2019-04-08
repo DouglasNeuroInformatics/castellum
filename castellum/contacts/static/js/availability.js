@@ -104,20 +104,13 @@ class Availability extends React.Component {
         const availability = document.querySelector('[data-js="availability-selected-timeslots"]');
         const weekdays = [...availability.querySelectorAll('[data-js="weekdays"] div')].map(wd => wd.textContent);
 
-        return e(
+        return e(React.Fragment, {}, weekdays.map(wd => e(
             'div',
-            {className: 'row', style: {width: '100%'}},
-            weekdays.map(wd => e(
-                'div',
-                {key: wd, className: 'col-6 col-sm-2 mb-3'},
-                e(
-                    FormGroup,
-                    {
-                        selected: [...availability.querySelectorAll(`[data-js="selected"] [data-js="${wd}"] div`)].map(s => s.textContent),
-                    },
-                    wd
-                ))
-            )
+            {key: wd, className: 'col-6 col-sm-2 mb-3'},
+            e(FormGroup, {
+                selected: [...availability.querySelectorAll(`[data-js="selected"] [data-js="${wd}"] div`)].map(s => s.textContent),
+            },
+            wd)))
         );
     }
 }
