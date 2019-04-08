@@ -26,7 +26,6 @@ from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from castellum.pseudonyms.models import Subject
-from castellum.pseudonyms.models import SubjectData
 from castellum.studies.models import Study
 from castellum.utils.fields import DateTimeField
 
@@ -43,7 +42,7 @@ class ParticipationRequestManager(models.Manager):
         )
 
 
-class ParticipationRequest(SubjectData):
+class ParticipationRequest(models.Model):
     NOT_CONTACTED = 0
     NOT_REACHED = 1
     UNSUITABLE = 2
@@ -70,10 +69,6 @@ class ParticipationRequest(SubjectData):
     class Meta:
         verbose_name = _('participation request')
         verbose_name_plural = _('participation requests')
-
-    @property
-    def domain(self):
-        return self.study.domain
 
     @property
     def latest(self):

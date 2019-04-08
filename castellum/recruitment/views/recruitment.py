@@ -40,8 +40,6 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_pseudonym
-from castellum.pseudonyms.helpers import get_subject
-from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.studies.models import Study
@@ -148,8 +146,7 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
             except AttributeSet.DoesNotExist:
                 buckets = ''
 
-            subject = get_subject(self.study.domain, participation.pseudonym)
-            can_access = self.request.user.has_privacy_level(subject.privacy_level)
+            can_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
 
             participants.append((participation, buckets, can_access))
         context['participants'] = participants
@@ -213,9 +210,7 @@ class RecruitmentViewOpen(RecruitmentView):
             return None
 
         attributeset = random.choice(attributesets)
-        pseudonym = get_pseudonym(attributeset.subject, self.study.domain)
-        return ParticipationRequest.objects.create(
-            study=self.study, subject=attributeset.subject, pseudonym=pseudonym)
+        return ParticipationRequest.objects.create(study=self.study, subject=attributeset.subject)
 
     def post(self, request, *args, **kwargs):
         if not request.user.has_perm('recruitment.add_participationrequest', obj=self.study):
@@ -285,8 +280,7 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
         status_field = context['form'].fields['status']
         status_field.widget.choices = choices
 
-        contact_pseudonym = resolve_pseudonym(
-            self.study.domain, self.object.pseudonym, Contact.domain)
+        contact_pseudonym = get_pseudonym(self.object.subject, Contact.domain)
         contact = Contact.objects.get(pseudonym=contact_pseudonym)
 
         context['is_contacts'] = 'contacts' in self.request.GET
@@ -297,10 +291,8 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
     def save(self, form):
         self.object = form.save()
 
-        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
-            self.study.domain,
-            self.object.pseudonym,
-            self.request.user.pk))
+        monitoring_logger.info('ParticipationRequest update: {} by {}'.format(
+            self.object.pk, self.request.user.pk))
 
     def form_valid_recruitment(self, form):
         # needs to be executed before object.save()
@@ -343,7 +335,7 @@ class AppointmentFeed(ICalFeed):
             .order_by('-appointment')
 
     def item_title(self, item):
-        return '{} - {}'.format(item.study.name, item.pseudonym[:8])
+        return '{} - {}'.format(item.study.name, item.pk)
 
     def item_start_datetime(self, item):
         return item.appointment
@@ -352,7 +344,7 @@ class AppointmentFeed(ICalFeed):
         return item.updated_at
 
     def item_description(self, item):
-        return item.pseudonym
+        return item.pk
 
     def item_link(self, item):
         return reverse('recruitment:contact', args=[item.study.pk, item.pk, 'open'])

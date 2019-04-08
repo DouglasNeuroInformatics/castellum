@@ -3,7 +3,6 @@ from django.conf import settings
 import pytest
 from model_mommy import mommy
 
-from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.pseudonyms.helpers import get_subject
 from castellum.recruitment.management.commands import populate
 from castellum.recruitment.models import AttributeDescription
@@ -21,10 +20,8 @@ def attributeset(contact):
 
 @pytest.fixture
 def participation_request(contact, study):
-    pseudonym = resolve_pseudonym(
-        settings.DOMAINS['contact'], contact.pseudonym, study.domain)
     subject = get_subject(settings.DOMAINS['contact'], contact.pseudonym)
-    return mommy.make(ParticipationRequest, study=study, subject=subject, pseudonym=pseudonym)
+    return mommy.make(ParticipationRequest, study=study, subject=subject)
 
 
 @pytest.fixture(scope='session')
