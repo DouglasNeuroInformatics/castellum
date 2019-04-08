@@ -23,12 +23,15 @@ import logging
 from urllib.parse import urlencode
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.pseudonyms.helpers import get_pseudonym
+from castellum.pseudonyms.models import Subject
 from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
@@ -68,9 +71,15 @@ class ContactSearchView(PermissionRequiredMixin, GetFormView):
 
 
 class ContactDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
-    model = Contact
-    slug_field = 'pseudonym'
+    model = Subject
     permission_required = 'contacts.view_contact'
+    template_name = 'contacts/contact_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pseudonym = get_pseudonym(self.object, Contact.domain)
+        context['contact'] = Contact.objects.get(pseudonym=pseudonym)
+        return context
 
 
 class ContactCreateView(PermissionRequiredMixin, CreateView):
@@ -105,8 +114,12 @@ class ContactCreateView(PermissionRequiredMixin, CreateView):
 class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = Contact
     form_class = ContactForm
-    slug_field = 'pseudonym'
     permission_required = 'contacts.change_contact'
+
+    def get_object(self):
+        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
+        pseudonym = get_pseudonym(subject, Contact.domain)
+        return get_object_or_404(Contact, pseudonym=pseudonym)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -114,7 +127,7 @@ class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         return kwargs
 
     def get_cancel_url(self):
-        return reverse('contacts:detail', args=[self.object.pseudonym])
+        return reverse('contacts:detail', args=[self.object.subject.pk])
 
     def form_valid(self, form):
         result = super().form_valid(form)
@@ -126,27 +139,27 @@ class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
 
 
 class ContactExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
-    model = Contact
-    slug_field = 'pseudonym'
+    model = Subject
     template_name = 'contacts/contact_export.html'
     permission_required = 'pseudonyms.view_subject'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        monitoring_logger.info('GDPR-Request export: {}:{} by {}'.format(
-            Contact.domain, self.object.pseudonym, self.request.user.pk))
+        monitoring_logger.info('GDPR-Request export: {} by {}'.format(
+            self.object.pk, self.request.user.pk))
 
-        context['dataset_list'] = [self.object]
+        context['dataset_list'] = []
 
-        subject = self.object.subject
+        pseudonym = get_pseudonym(self.object, Contact.domain)
+        context['dataset_list'].append(Contact.objects.get(pseudonym=pseudonym))
 
         try:
-            context['dataset_list'].append(subject.attributeset)
+            context['dataset_list'].append(self.object.attributeset)
         except ObjectDoesNotExist:
             pass
 
-        for participation in subject.participationrequest_set.all():
+        for participation in self.object.participationrequest_set.all():
             context['dataset_list'].append(participation)
 
         return context

@@ -31,7 +31,7 @@ app_name = 'contacts'
 urlpatterns = [
     path('', ContactSearchView.as_view(), name='index'),
     path('create/', ContactCreateView.as_view(), name='create'),
-    path('<slug>/', ContactDetailView.as_view(), name='detail'),
-    path('<slug>/update/', ContactUpdateView.as_view(), name='update'),
-    path('<slug>/export/', ContactExportView.as_view(), name='export'),
+    path('<int:pk>/', ContactDetailView.as_view(), name='detail'),
+    path('<int:pk>/update/', ContactUpdateView.as_view(), name='update'),
+    path('<int:pk>/export/', ContactExportView.as_view(), name='export'),
 ]

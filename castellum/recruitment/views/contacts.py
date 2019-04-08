@@ -31,7 +31,7 @@ from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
 from castellum.contacts.views import ContactUpdateView as _ContactUpdateView
 from castellum.pseudonyms.helpers import get_pseudonym
-from castellum.pseudonyms.helpers import get_subject
+from castellum.pseudonyms.models import Subject
 from castellum.studies.models import Study
 
 from .mixins import StudyPermissionMixin
@@ -64,8 +64,7 @@ class ContactUpdateView(StudyPermissionMixin, _ContactUpdateView):
 
 
 class ContactStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):
-    model = Contact
-    slug_field = 'pseudonym'
+    model = Subject
     template_name = 'recruitment/contact_studies.html'
 
     def get_studies(self, attributeset):
@@ -82,11 +81,10 @@ class ContactStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        subject = self.object.subject
 
         try:
-            data['attributeset'] = subject.attributeset
-            data['studies'] = list(self.get_studies(subject.attributeset))
+            data['attributeset'] = self.object.attributeset
+            data['studies'] = list(self.get_studies(self.object.attributeset))
         except AttributeSet.DoesNotExist:
             pass
 
@@ -99,8 +97,8 @@ class ContactStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):
             if not request.user.has_perm(perm, obj=study):
                 raise PermissionDenied
 
-        subject = get_subject(study.domain, request.POST['pseudonym'])
-        participation_request = ParticipationRequest.objects.create(subject=subject, study=study)
+        participation_request = ParticipationRequest.objects.create(
+            subject=self.object, study=study)
 
         url = reverse('recruitment:contact', args=[study.pk, participation_request.pk])
         return redirect(url + '?contacts')

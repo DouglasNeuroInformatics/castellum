@@ -38,9 +38,9 @@ from .views.subjectfilters import FilterGroupUpdateView
 
 app_name = 'recruitment'
 urlpatterns = [
-    path('attributes/<slug>/update/', AttributeSetUpdateView.as_view(), name='attributes_update'),
+    path('attributes/<int:pk>/update/', AttributeSetUpdateView.as_view(), name='attributes_update'),
 
-    path('contacts/<slug>/studies/', ContactStudiesView.as_view(), name='contacts_studies'),
+    path('contacts/<int:pk>/studies/', ContactStudiesView.as_view(), name='contacts_studies'),
 
     path('', StudyChoiceView.as_view(), name='index'),
 
