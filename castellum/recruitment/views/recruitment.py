@@ -40,7 +40,6 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_pseudonym
-from castellum.pseudonyms.helpers import resolve_pseudonym
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.studies.models import Study
@@ -283,8 +282,7 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
         status_field = context['form'].fields['status']
         status_field.widget.choices = choices
 
-        contact_pseudonym = resolve_pseudonym(
-            self.study.domain, self.object.pseudonym, Contact.domain)
+        contact_pseudonym = get_pseudonym(self.object.subject, Contact.domain)
         contact = Contact.objects.get(pseudonym=contact_pseudonym)
 
         context['is_contacts'] = 'contacts' in self.request.GET
