@@ -832,10 +832,8 @@ msgstr "Hinzufügen"
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:9
 #: castellum/recruitment/templates/recruitment/recruitment.html:10
-#, fuzzy
-#| msgid "appointment"
 msgid "Appointments"
-msgstr "Terminvereinbarung"
+msgstr "Terminvereinbarungen"
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:17
 msgid "Statistics"
@@ -866,25 +864,21 @@ msgid "There are currently no studies you can recruit for."
 msgstr "Es gibt aktuell keine Studien, für die Sie rekrutieren können."
 
 #: castellum/recruitment/views/recruitment.py:158
-#, fuzzy
-#| msgid "recall appointed"
 msgid "Recall date"
-msgstr "Rückruf vereinbart"
+msgstr "Rückrufdatum"
 
 #: castellum/recruitment/views/recruitment.py:159
 msgid "Last call attempt"
-msgstr ""
+msgstr "Letzter Kontaktversuch"
 
 #: castellum/recruitment/views/recruitment.py:160
-#, fuzzy
-#| msgid "Add to study"
 msgid "Added to list"
-msgstr "Zur Studie hinzufügen"
+msgstr "Zur Liste hinzugefügt"
 
 #: castellum/recruitment/views/recruitment.py:161
 #: castellum/recruitment/views/recruitment.py:164
 msgid "Relevance"
-msgstr ""
+msgstr "Relevanz"
 
 #: castellum/recruitment/views/recruitment.py:225
 msgid ""
@@ -979,7 +973,7 @@ msgstr "Verhaltenslabor"
 
 #: castellum/studies/models.py:48
 msgid "FMRI"
-msgstr ""
+msgstr "fMRI"
 
 #: castellum/studies/models.py:49
 msgid "Simulation"
@@ -1071,8 +1065,6 @@ msgstr ""
 "Filtergruppe!"
 
 #: castellum/studies/models.py:103
-#, fuzzy
-#| msgid "study is published"
 msgid "study is published"
 msgstr "Die Studie ist freigegeben"
 
@@ -1090,10 +1082,8 @@ msgid "EUR"
 msgstr "EUR"
 
 #: castellum/studies/templates/studies/study_form.html:48
-#, fuzzy
-#| msgid "end of test sessions"
 msgid "Test sessions"
-msgstr "Ende der Testsitzungen"
+msgstr "Testsitzungen"
 
 #: castellum/studies/templates/studies/study_form.html:66
 msgid "Add session"
