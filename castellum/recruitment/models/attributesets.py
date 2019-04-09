@@ -116,17 +116,17 @@ class AttributeSet(models.Model):
 
 
 class AttributeCategory(ImportMixin, TranslatableModel):
-    import_fields = ['weight']
+    import_fields = ['order']
     import_translated_fields = ['label']
 
-    weight = models.IntegerField(default=0)
+    order = models.IntegerField(default=0)
 
     translations = TranslatedFields(
         label=models.CharField(max_length=64)
     )
 
     class Meta:
-        ordering = ['weight']
+        ordering = ['order']
         verbose_name = _('attribute category')
         verbose_name_plural = _('attribute categories')
 
@@ -157,7 +157,7 @@ class AttributeDescriptionManager(TranslatableManager):
 
     def by_category(self, qs=None):
         qs = qs or self.all()
-        qs = qs.select_related('category').order_by('category__weight', 'weight')
+        qs = qs.select_related('category').order_by('category__order', 'order')
 
         categories = OrderedDict()
         categories[UNCATEGORIZED] = []
@@ -184,7 +184,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
     )
     STATISTICS_TYPES = ['ChoiceField', 'OrderedChoiceField', 'BooleanField', 'AgeField']
 
-    import_fields = ['field_type', 'privacy_level_read', 'privacy_level_write', 'weight']
+    import_fields = ['field_type', 'privacy_level_read', 'privacy_level_write', 'order']
     import_translated_fields = ['label', '_filter_label', 'help_text']
 
     translations = TranslatedFields(
@@ -198,7 +198,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
                                                           validators=[MaxValueValidator(2)])
     privacy_level_write = models.PositiveSmallIntegerField(default=0,
                                                            validators=[MaxValueValidator(2)])
-    weight = models.IntegerField(default=0)
+    order = models.IntegerField(default=0)
     category = models.ForeignKey(
         AttributeCategory, on_delete=models.SET_NULL, null=True, blank=True)
     statistics_rank = models.CharField(
@@ -207,7 +207,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
     objects = AttributeDescriptionManager()
 
     class Meta:
-        ordering = ['weight']
+        ordering = ['order']
 
     def __str__(self):
         if self.category:
