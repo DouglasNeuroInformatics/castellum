@@ -275,6 +275,10 @@ class AttributeChoice(ImportMixin, TranslatableModel):
     import_translated_fields = ['label']
 
     description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
+    order = models.IntegerField(default=0)
     translations = TranslatedFields(
         label=models.CharField(max_length=64)
     )
+
+    class Meta:
+        ordering = ['order']
