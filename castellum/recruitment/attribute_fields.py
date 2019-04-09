@@ -159,16 +159,23 @@ class ChoiceAttributeField(BaseAttributeField):
 
 
 class OrderedChoiceAttributeField(ChoiceAttributeField):
-    """
-    The values of ChoiceAttributeFields are the integers that are
-    used for AttributeChoice.pk. They are ordered and monotonous,
-    but not necessarily continuous. (e.g. ``[11, 12, 31]``)
-    """
-
     available_operators = ChoiceAttributeField.available_operators + [
         ("gte", _("is at least")),
         ("lte", _("is at most")),
     ]
+
+    def filter_to_q(self, operator, value):
+        if operator in ['gte', 'lte']:
+            threshold = self.description.attributechoice_set.get(pk=value)
+            allowed_choices = self.description.attributechoice_set.filter(**{
+                'order__' + operator: threshold.order
+            })
+            # JSONField cannot use `in` lookups
+            q = models.Q()
+            for choice in allowed_choices:
+                q |= models.Q(**{'data__' + self.description.json_key: choice.pk})
+            return q
+        return super().filter_to_q(operator, value)
 
 
 class AgeAttributeField(DateAttributeField):
