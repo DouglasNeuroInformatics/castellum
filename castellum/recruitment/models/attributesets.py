@@ -172,6 +172,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
     FIELD_TYPE_CHOICES = (
         ('CharField', _('CharField')),
         ('ChoiceField', _('ChoiceField')),
+        ('OrderedChoiceField', _('OrderedChoiceField')),
         ('IntegerField', _('IntegerField')),
         ('BooleanField', _('BooleanField')),
         ('DateField', _('DateField')),
@@ -181,7 +182,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         ('primary', _('primary')),
         ('secondary', _('secondary')),
     )
-    STATISTICS_TYPES = ['ChoiceField', 'BooleanField', 'AgeField']
+    STATISTICS_TYPES = ['ChoiceField', 'OrderedChoiceField', 'BooleanField', 'AgeField']
 
     import_fields = ['field_type', 'privacy_level_read', 'privacy_level_write', 'weight']
     import_translated_fields = ['label', '_filter_label', 'help_text']
@@ -237,6 +238,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         MAPPING = {
             'CharField': attribute_fields.TextAttributeField,
             'ChoiceField': attribute_fields.ChoiceAttributeField,
+            'OrderedChoiceField': attribute_fields.OrderedChoiceAttributeField,
             'IntegerField': attribute_fields.NumberAttributeField,
             'BooleanField': attribute_fields.BooleanAttributeField,
             'DateField': attribute_fields.DateAttributeField,

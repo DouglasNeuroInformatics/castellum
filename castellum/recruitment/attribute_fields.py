@@ -158,6 +158,19 @@ class ChoiceAttributeField(BaseAttributeField):
         ]
 
 
+class OrderedChoiceAttributeField(ChoiceAttributeField):
+    """
+    The values of ChoiceAttributeFields are the integers that are
+    used for AttributeChoice.pk. They are ordered and monotonous,
+    but not necessarily continuous. (e.g. ``[11, 12, 31]``)
+    """
+
+    available_operators = ChoiceAttributeField.available_operators + [
+        ("gte", _("is at least")),
+        ("lte", _("is at most")),
+    ]
+
+
 class AgeAttributeField(DateAttributeField):
     SCALES = {
         'years': _('years'),

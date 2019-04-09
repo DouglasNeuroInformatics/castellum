@@ -72,7 +72,7 @@ def test_attribute_set_get_statistics_bucket_age(get, date, bucket):
 @pytest.mark.django_db
 def test_attribute_description_by_category(attribute_descriptions):
     categories = AttributeDescription.objects.by_category()
-    assert len(categories[UNCATEGORIZED]) == 3
+    assert len(categories[UNCATEGORIZED]) == 4
     assert len(categories) == 1
 
 
@@ -85,7 +85,7 @@ def test_attribute_description_by_category_with_categories(
     description.save()
 
     categories = AttributeDescription.objects.by_category()
-    assert len(categories[UNCATEGORIZED]) == 2
+    assert len(categories[UNCATEGORIZED]) == 3
     assert len(categories) == 2
 
 
