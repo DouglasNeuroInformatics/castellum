@@ -20,11 +20,11 @@ msgstr ""
 
 #: castellum/contacts/static/js/availability.js:19
 msgid "All week"
-msgstr ""
+msgstr "Ganze Woche"
 
 #: castellum/contacts/static/js/availability.js:26
 msgid "All day"
-msgstr ""
+msgstr "Ganzer Tag"
 
 #: castellum/static/autologout.js:20
 msgid "If you do nothing your session will expire"

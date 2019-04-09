@@ -472,11 +472,11 @@ msgstr "Unbekannt"
 
 #: castellum/recruitment/attribute_fields.py:169
 msgid "is at least"
-msgstr ""
+msgstr "ist mindestens"
 
 #: castellum/recruitment/attribute_fields.py:170
 msgid "is at most"
-msgstr ""
+msgstr "ist höchstens"
 
 #: castellum/recruitment/attribute_fields.py:176
 #: castellum/recruitment/fields.py:30
