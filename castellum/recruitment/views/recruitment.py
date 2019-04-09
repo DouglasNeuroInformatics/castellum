@@ -356,4 +356,4 @@ class AppointmentFeed(ICalFeed):
         return item.pk
 
     def item_link(self, item):
-        return reverse('recruitment:contact', args=[item.study.pk, item.pk, 'open'])
+        return reverse('recruitment:contact', args=[item.study.pk, item.pk])
