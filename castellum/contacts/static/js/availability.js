@@ -37,7 +37,7 @@ $(function() {
         var $wrapperDay = $(event.target);
         var $wholeDay = $(event.target).closest('.form-group').find('[data-js="toggle-day"]');
         setCheckbox($wrapperDay, $wholeDay);
-        
+
         // hours --> week
         setCheckbox($availability, $wholeWeek);
     });
@@ -47,7 +47,7 @@ $(function() {
         var $wholeDay = $(event.target);
         var $select = $wholeDay.closest('.form-group').find('select');
         $select.find('option').prop('selected', $wholeDay.prop('checked'));
-        
+
         // day --> week
         setCheckbox($availability, $wholeWeek);
     });
