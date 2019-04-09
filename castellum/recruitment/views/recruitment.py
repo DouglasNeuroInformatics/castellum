@@ -151,10 +151,10 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
         context['participants'] = participants
 
         context['sort_options'] = [
+            ('relevance', _('Relevance')),
             ('appointment', _('Recall date')),
             ('last_call_attempt', _('Last call attempt')),
             ('created', _('Added to list')),
-            ('relevance', _('Relevance')),
         ]
         sort_options = dict(context['sort_options'])
         context['sort_label'] = sort_options.get(self.request.GET.get('sort'), _('Relevance'))
