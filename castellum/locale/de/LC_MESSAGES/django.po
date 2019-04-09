@@ -399,12 +399,12 @@ msgstr "Die Datei muss mit UTF-8 kodiert sein."
 #: castellum/recruitment/admin.py:231
 #, python-format
 msgid "Successfully imported %i attribute categories."
-msgstr "%i Attributkategorien erfolgreich importiert."
+msgstr "%i Merkmalskategorien erfolgreich importiert."
 
 #: castellum/recruitment/admin.py:247
 #, python-format
 msgid "Successfully imported %i attribute descriptions."
-msgstr "%i Attributbeschreibungen erfolgreich importiert."
+msgstr "%i Merkmalsbeschreibungen erfolgreich importiert."
 
 #: castellum/recruitment/admin.py:260 castellum/recruitment/admin.py:287
 msgid "Export as JSON"
@@ -695,14 +695,14 @@ msgstr "Speichern und weiter"
 
 #: castellum/recruitment/templates/recruitment/contact_studies.html:11
 msgid "No attributes provided"
-msgstr "Keine Attribute angegeben"
+msgstr "Keine Merkmale angegeben"
 
 #: castellum/recruitment/templates/recruitment/contact_studies.html:12
 msgid ""
 "Please first provide attributes so we can check whether this person meets "
 "the study filters."
 msgstr ""
-"Bitte geben Sie zuerst Attribute an, sodass überprüft werden kann, ob diese "
+"Bitte geben Sie zuerst Merkmale an, sodass überprüft werden kann, ob diese "
 "Person die Filterbedingungen der Studie erfüllt."
 
 #: castellum/recruitment/templates/recruitment/contact_studies.html:16
@@ -948,7 +948,7 @@ msgid ""
 msgstr ""
 "Mindestens ein weiteres Mitglied dieser Studie mit Zugriff auf die Filter "
 "verfügt nicht über die nötige Vertraulichkeitsstufe, um die folgenden "
-"Attribute sehen zu dürfen: %s"
+"Merkmale sehen zu dürfen: %s"
 
 #: castellum/recruitment/views/subjectfilters.py:255
 msgid "The filters have been duplicated. You can now edit the duplicate."
