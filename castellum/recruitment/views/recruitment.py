@@ -23,6 +23,7 @@ import logging
 import random
 from collections import defaultdict
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -198,7 +199,7 @@ class RecruitmentViewOpen(RecruitmentView):
     ]
     tab = 'open'
 
-    def create_participation_request(self):
+    def create_participation_requests(self, batch_size):
         attributesets = list(
             AttributeSet
             .apply_study_filter(self.study)
@@ -206,37 +207,47 @@ class RecruitmentViewOpen(RecruitmentView):
         )
 
         if len(attributesets) == 0:
-            return None
+            return 0
 
-        attributeset = random.choice(attributesets)
-        return ParticipationRequest.objects.create(study=self.study, subject=attributeset.subject)
+        added = min(batch_size, len(attributesets))
+        for attributeset in random.sample(attributesets, k=added):
+            ParticipationRequest.objects.create(study=self.study, subject=attributeset.subject)
+
+        return added
 
     def post(self, request, *args, **kwargs):
         if not request.user.has_perm('recruitment.add_participationrequest', obj=self.study):
             raise PermissionDenied
 
         if self.study.min_subjects_count == 0:
-            messages.error(request, _('This study does not require participants. '
-                                      'Please, contact the responsible person who can set it up.'))
+            messages.error(request, _(
+                'This study does not require participants. '
+                'Please, contact the responsible person who can set it up.'
+            ))
             return self.get(request, *args, **kwargs)
 
-        not_contacted_count = self.get_queryset().count()
+        open_count = self.get_queryset().count()
+        hard_limit = self.study.min_subjects_count * CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 
-        if not_contacted_count >= \
-           self.study.min_subjects_count*CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR:
+        if open_count >= hard_limit:
             messages.error(request, _(
                 'Application privacy does not allow you to add more subjects. '
                 'Please contact provided subjects before adding new ones.'
-                ))
+            ))
             return self.get(request, *args, **kwargs)
 
-        if not_contacted_count >= CASTELLUM_RECRUITMENT_SOFT_LIMIT:
+        # Silently trim down to respect hard limit.
+        # In many cases, the soft limit warning will already be shown in that case.
+        batch_size = min(settings.CASTELLUM_RECRUITMENT_BATCH_SIZE, hard_limit - open_count)
+        added = self.create_participation_requests(batch_size)
+
+        if open_count + added > CASTELLUM_RECRUITMENT_SOFT_LIMIT:
             messages.error(request, _(
                 'Such workflow is not intended due to privacy reasons. '
                 'Please contact provided subjects before adding new ones.'
             ))
 
-        if self.create_participation_request() is None:
+        if added < batch_size:
             messages.error(request, _('We cannot find participants for this study.'))
 
         return self.get(request, *args, **kwargs)
