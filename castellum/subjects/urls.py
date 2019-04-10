@@ -19,24 +19,19 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.core.exceptions import PermissionDenied
-from django.utils.functional import cached_property
-from django.utils.translation import ugettext_lazy as _
+from django.urls import path
 
-from castellum.subjects.models import Subject
+from .views import ContactUpdateView
+from .views import SubjectCreateView
+from .views import SubjectDetailView
+from .views import SubjectExportView
+from .views import SubjectSearchView
 
-
-class SubjectMixin:
-    @cached_property
-    def subject(self):
-        obj = self.get_object()
-        if isinstance(obj, Subject):
-            return obj
-        else:
-            return obj.subject
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            if not request.user.has_privacy_level(self.subject.privacy_level):
-                raise PermissionDenied(_('Insufficient privacy level'))
-        return super().dispatch(request, *args, **kwargs)
+app_name = 'subjects'
+urlpatterns = [
+    path('', SubjectSearchView.as_view(), name='index'),
+    path('create/', SubjectCreateView.as_view(), name='create'),
+    path('<int:pk>/', SubjectDetailView.as_view(), name='detail'),
+    path('<int:pk>/update/', ContactUpdateView.as_view(), name='update'),
+    path('<int:pk>/export/', SubjectExportView.as_view(), name='export'),
+]
