@@ -21,27 +21,14 @@
 
 from django import forms
 from django.forms import ValidationError
-from django.forms.widgets import TextInput
 from django.utils.translation import ugettext_lazy as _
+
+from castellum.utils.forms import DatalistWidget
 
 from .models import Address
 from .models import City
 from .models import Contact
 from .models import Country
-
-
-class DatalistWidget(TextInput):
-    template_name = 'contacts/widgets/datalist.html'
-
-    def __init__(self, *args, datalist=[], **kwargs):
-        self.datalist = datalist
-        super().__init__(*args, **kwargs)
-
-    def get_context(self, name, value, attrs):
-        context = super().get_context(name, value, attrs)
-        context['widget']['attrs']['list'] = context['widget']['attrs']['id'] + '_list'
-        context['datalist'] = self.datalist
-        return context
 
 
 class AddressForm(forms.ModelForm):
