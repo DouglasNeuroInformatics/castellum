@@ -25,7 +25,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.contacts.mixins import SubjectMixin
+from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
 
 from ..forms import AttributeSetForm
