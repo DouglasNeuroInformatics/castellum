@@ -26,7 +26,7 @@ from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
-from castellum.pseudonyms.models import Subject
+from castellum.subjects.models import Subject
 
 from ..forms import AttributeSetForm
 from ..models import AttributeDescription

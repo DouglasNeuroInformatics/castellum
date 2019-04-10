@@ -23,7 +23,7 @@ from django.core.exceptions import PermissionDenied
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from castellum.pseudonyms.models import Subject
+from castellum.subjects.models import Subject
 
 
 class SubjectMixin:

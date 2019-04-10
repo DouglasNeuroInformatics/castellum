@@ -21,14 +21,9 @@
 
 import uuid
 
-from django.core.validators import MaxValueValidator
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
 
-
-class Subject(models.Model):
-    privacy_level = models.PositiveIntegerField(
-        _("privacy level"), default=0, validators=[MaxValueValidator(2)])
+from castellum.subjects.models import Subject
 
 
 class Pseudonym(models.Model):

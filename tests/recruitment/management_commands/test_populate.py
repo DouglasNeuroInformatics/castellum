@@ -1,7 +1,7 @@
 import pytest
 
 from castellum.studies.models import Study
-from castellum.pseudonyms.models import Subject
+from castellum.subjects.models import Subject
 from castellum.recruitment.management.commands.populate import generate_studies
 from castellum.recruitment.management.commands.populate import generate_subjects
 
