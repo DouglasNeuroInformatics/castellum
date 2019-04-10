@@ -29,13 +29,13 @@ from django.views.generic import CreateView
 from django.views.generic import DetailView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.contacts.views import BaseContactUpdateView
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.subjects.models import Subject
 from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
 from .forms import SearchForm
-from .mixins import BaseContactUpdateView
 from .mixins import SubjectMixin
 from .models import Contact
 

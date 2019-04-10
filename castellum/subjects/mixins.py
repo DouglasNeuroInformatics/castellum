@@ -19,19 +19,28 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.urls import path
+import logging
 
-from .views import ContactCreateView
-from .views import ContactDetailView
-from .views import ContactExportView
-from .views import ContactSearchView
-from .views import ContactUpdateView
+from django.core.exceptions import PermissionDenied
+from django.utils.functional import cached_property
+from django.utils.translation import ugettext_lazy as _
 
-app_name = 'contacts'
-urlpatterns = [
-    path('', ContactSearchView.as_view(), name='index'),
-    path('create/', ContactCreateView.as_view(), name='create'),
-    path('<int:pk>/', ContactDetailView.as_view(), name='detail'),
-    path('<int:pk>/update/', ContactUpdateView.as_view(), name='update'),
-    path('<int:pk>/export/', ContactExportView.as_view(), name='export'),
-]
+from .models import Subject
+
+monitoring_logger = logging.getLogger('monitoring.contacts')
+
+
+class SubjectMixin:
+    @cached_property
+    def subject(self):
+        obj = self.get_object()
+        if isinstance(obj, Subject):
+            return obj
+        else:
+            return obj.subject
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            if not request.user.has_privacy_level(self.subject.privacy_level):
+                raise PermissionDenied(_('Insufficient privacy level'))
+        return super().dispatch(request, *args, **kwargs)
