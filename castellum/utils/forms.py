@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import forms
+from django.forms.widgets import TextInput
 from django.utils.translation import ugettext_lazy as _
 
 from phonenumber_field.formfields import PhoneNumberField as _PhoneNumberFormField
@@ -102,3 +103,17 @@ class IntegerChoiceField(forms.TypedChoiceField):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('coerce', int)
         super().__init__(*args, **kwargs)
+
+
+class DatalistWidget(TextInput):
+    template_name = 'utils/widgets/datalist.html'
+
+    def __init__(self, *args, datalist=[], **kwargs):
+        self.datalist = datalist
+        super().__init__(*args, **kwargs)
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        context['widget']['attrs']['list'] = context['widget']['attrs']['id'] + '_list'
+        context['datalist'] = self.datalist
+        return context
