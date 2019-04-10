@@ -19,9 +19,24 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django import forms
 from django.contrib import admin
 
+from castellum.recruitment.filter_registry import custom_filters
+
 from . import models
+
+
+def custom_filter_choices():
+    return [(None, '---')] + [(k, k) for k in sorted(custom_filters.keys())]
+
+
+class StudyForm(forms.ModelForm):
+    custom_filter = forms.ChoiceField(choices=custom_filter_choices)
+
+    class Meta:
+        model = models.Study
+        fields = '__all__'
 
 
 class StudySessionInline(admin.TabularInline):
@@ -29,6 +44,7 @@ class StudySessionInline(admin.TabularInline):
 
 
 class StudyAdmin(admin.ModelAdmin):
+    form = StudyForm
     inlines = [
         StudySessionInline,
     ]

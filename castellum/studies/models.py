@@ -80,6 +80,7 @@ class Study(models.Model):
             'joined by OR operator.'
         ),
         default=False)
+    custom_filter = models.CharField(_('custom filter'), max_length=254, blank=True)
 
     def __str__(self):
         return self.name
