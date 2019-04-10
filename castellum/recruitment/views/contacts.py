@@ -29,7 +29,7 @@ from django.views.generic import DetailView
 
 from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
-from castellum.contacts.views import ContactUpdateView as _ContactUpdateView
+from castellum.contacts.views import BaseContactUpdateView
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.models import Subject
 from castellum.studies.models import Study
@@ -40,7 +40,7 @@ from ..models import ParticipationRequest
 from ..utils import get_study_filter_q
 
 
-class ContactUpdateView(StudyPermissionMixin, _ContactUpdateView):
+class ContactUpdateView(StudyPermissionMixin, BaseContactUpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
@@ -58,9 +58,6 @@ class ContactUpdateView(StudyPermissionMixin, _ContactUpdateView):
 
     def get_success_url(self):
         return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
-
-    def get_cancel_url(self):
-        return self.get_success_url()
 
 
 class ContactStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):

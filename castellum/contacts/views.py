@@ -111,15 +111,10 @@ class ContactCreateView(PermissionRequiredMixin, CreateView):
         return result
 
 
-class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
+class BaseContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = Contact
     form_class = ContactForm
     permission_required = 'contacts.change_contact'
-
-    def get_object(self):
-        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
-        pseudonym = get_pseudonym(subject, Contact.domain)
-        return get_object_or_404(Contact, pseudonym=pseudonym)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -127,7 +122,7 @@ class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         return kwargs
 
     def get_cancel_url(self):
-        return reverse('contacts:detail', args=[self.object.subject.pk])
+        return self.get_success_url()
 
     def form_valid(self, form):
         result = super().form_valid(form)
@@ -136,6 +131,13 @@ class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
             self.object.pseudonym,
             self.request.user.pk))
         return result
+
+
+class ContactUpdateView(BaseContactUpdateView):
+    def get_object(self):
+        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
+        pseudonym = get_pseudonym(subject, Contact.domain)
+        return get_object_or_404(Contact, pseudonym=pseudonym)
 
 
 class ContactExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
