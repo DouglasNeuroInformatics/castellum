@@ -32,6 +32,6 @@ urlpatterns = [
     path('', SubjectSearchView.as_view(), name='index'),
     path('create/', SubjectCreateView.as_view(), name='create'),
     path('<int:pk>/', SubjectDetailView.as_view(), name='detail'),
-    path('<int:pk>/update/', ContactUpdateView.as_view(), name='update'),
+    path('<int:pk>/contact/', ContactUpdateView.as_view(), name='contact'),
     path('<int:pk>/export/', SubjectExportView.as_view(), name='export'),
 ]
