@@ -20,7 +20,11 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.apps import AppConfig
+from django.utils.module_loading import autodiscover_modules
 
 
 class RecruitmentConfig(AppConfig):
     name = 'castellum.recruitment'
+
+    def ready(self):
+        autodiscover_modules('custom_filters')
