@@ -111,13 +111,6 @@ class SubjectCreateView(PermissionRequiredMixin, CreateView):
         return result
 
 
-class ContactUpdateView(BaseContactUpdateView):
-    def get_object(self):
-        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
-        pseudonym = get_pseudonym(subject, Contact.domain)
-        return get_object_or_404(Contact, pseudonym=pseudonym)
-
-
 class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_export.html'
@@ -143,3 +136,10 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
             context['dataset_list'].append(participation)
 
         return context
+
+
+class ContactUpdateView(BaseContactUpdateView):
+    def get_object(self):
+        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
+        pseudonym = get_pseudonym(subject, Contact.domain)
+        return get_object_or_404(Contact, pseudonym=pseudonym)
