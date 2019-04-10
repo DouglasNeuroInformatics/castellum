@@ -146,7 +146,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
-class SubjectStudiesView(SubjectMixin, LoginRequiredMixin, DetailView):
+class AddToStudyView(SubjectMixin, LoginRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_studies.html'
 

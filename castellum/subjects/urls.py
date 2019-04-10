@@ -21,13 +21,13 @@
 
 from django.urls import path
 
+from .views import AddToStudyView
 from .views import AttributeSetUpdateView
 from .views import ContactUpdateView
 from .views import SubjectCreateView
 from .views import SubjectDetailView
 from .views import SubjectExportView
 from .views import SubjectSearchView
-from .views import SubjectStudiesView
 
 app_name = 'subjects'
 urlpatterns = [
@@ -35,7 +35,7 @@ urlpatterns = [
     path('create/', SubjectCreateView.as_view(), name='create'),
     path('<int:pk>/', SubjectDetailView.as_view(), name='detail'),
     path('<int:pk>/export/', SubjectExportView.as_view(), name='export'),
-    path('<int:pk>/studies/', SubjectStudiesView.as_view(), name='studies'),
+    path('<int:pk>/add-to-study/', AddToStudyView.as_view(), name='add-to-study'),
     path('<int:pk>/contact/', ContactUpdateView.as_view(), name='contact'),
     path('<int:pk>/attributes/', AttributeSetUpdateView.as_view(), name='attributeset'),
 ]
