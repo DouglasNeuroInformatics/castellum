@@ -1,5 +1,6 @@
 from unittest.mock import patch
 
+from freezegun import freeze_time
 import pytest
 from model_mommy import mommy
 
@@ -99,19 +100,3 @@ def test_attribute_description_by_category_with_qs(attribute_descriptions):
     categories = AttributeDescription.objects.by_category(qs=qs)
     assert len(categories[UNCATEGORIZED]) == 2
     assert len(categories) == 1
-
-
-@pytest.mark.django_db
-@pytest.mark.freeze_time("2020-12-13 08:00")
-def test_last_contacted_elsewhere():
-    subject = mommy.make(Subject)
-
-    study_1 = mommy.make(Study)
-    study_2 = mommy.make(Study)
-
-    participationrequest_1 = mommy.make(ParticipationRequest, study=study_1, subject=subject)
-    mommy.make(ParticipationRequest, study=study_2, subject=subject)
-
-    revision_1 = mommy.make(ParticipationRequestRevision, current=participationrequest_1)
-
-    assert participationrequest_1.last_contacted_elsewhere == revision_2.created_at
