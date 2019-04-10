@@ -41,11 +41,9 @@
     background-image: url("images/bootstrap/invalid.svg");
 }
 
-.appointment {
-    font-size: 120%;
+.list-icon {
     width: 1.5em;
     line-height: 1.5;
     text-align: center;
     border-radius: 50%;
-    background-color: #ff65b2;
 }

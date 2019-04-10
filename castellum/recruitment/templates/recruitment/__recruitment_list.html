@@ -34,7 +34,7 @@
                                     {% endblocktrans %}
                                 {% endif %}
                                 {% if participation.appointment_today %}
-                                    <i class="far fa-bell appointment" title="{% trans 'appointment today' %}"></i>
+                                    <i class="far fa-bell list-icon bg-success text-light" title="{% trans 'appointment today' %}"></i>
                                 {% endif %}
                             </div>
                         </div>
@@ -51,7 +51,10 @@
                 {% endif %}
             {% else %}
                 <h3 class="h4 d-inline-block text-muted my-1 mr-2">{{ participation.pk }}</h3>
-                <div class="d-inline-block text-muted my-1 mr-2">{% trans 'access denied' %}</div>
+                <div class="d-inline-block text-muted my-1 mr-2">
+                    {% trans 'access denied' %}
+                    <i class="fas fa-ban list-icon bg-danger text-light" aria-hidden="true"></i>
+                </div>
                 {% if can_change_participationrequest %}
                     <div class="table-list-item-actions">
                         <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Call' %}</a>
