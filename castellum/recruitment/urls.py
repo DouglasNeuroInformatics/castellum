@@ -21,7 +21,6 @@
 
 from django.urls import path
 
-from .views.contacts import ContactStudiesView
 from .views.contacts import ContactUpdateView
 from .views.recruitment import AppointmentFeed
 from .views.recruitment import ContactView
@@ -37,8 +36,6 @@ from .views.subjectfilters import FilterGroupUpdateView
 
 app_name = 'recruitment'
 urlpatterns = [
-    path('contacts/<int:pk>/studies/', ContactStudiesView.as_view(), name='contacts_studies'),
-
     path('', StudyChoiceView.as_view(), name='index'),
 
     path(
