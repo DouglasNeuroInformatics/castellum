@@ -34,6 +34,8 @@ from castellum.contacts.forms import SearchForm
 from castellum.contacts.models import Contact
 from castellum.contacts.views import BaseContactUpdateView
 from castellum.pseudonyms.helpers import get_pseudonym
+from castellum.recruitment.models import AttributeSet
+from castellum.recruitment.views.attributesets import BaseAttributeSetUpdateView
 from castellum.utils.views import GetFormView
 
 from .mixins import SubjectMixin
@@ -143,3 +145,11 @@ class ContactUpdateView(BaseContactUpdateView):
         subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
         pseudonym = get_pseudonym(subject, Contact.domain)
         return get_object_or_404(Contact, pseudonym=pseudonym)
+
+
+class AttributeSetUpdateView(BaseAttributeSetUpdateView):
+    def get_object(self):
+        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
+        attributeset, __ = AttributeSet.objects.get_or_create(
+            subject=subject, defaults={'data': {}})
+        return attributeset

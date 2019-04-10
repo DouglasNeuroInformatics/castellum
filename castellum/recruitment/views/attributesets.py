@@ -21,12 +21,10 @@
 
 import logging
 
-from django.shortcuts import get_object_or_404
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.subjects.mixins import SubjectMixin
-from castellum.subjects.models import Subject
 
 from ..forms import AttributeSetForm
 from ..models import AttributeDescription
@@ -36,19 +34,15 @@ from ..models.attributesets import UNCATEGORIZED
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
-class AttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
+class BaseAttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = AttributeSet
     permission_required = 'recruitment.change_attributeset'
 
-    def get_object(self, queryset=None):
-        if queryset is None:
-            queryset = self.get_queryset()
-        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
-        attributeset, __ = queryset.get_or_create(subject=subject, defaults={'data': {}})
-        return attributeset
-
     def get_form_class(self):
         return AttributeSetForm.factory(self.request.user)
+
+    def get_cancel_url(self):
+        return self.get_success_url()
 
     def form_valid(self, form):
         result = super().form_valid(form)

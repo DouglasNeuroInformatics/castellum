@@ -21,7 +21,6 @@
 
 from django.urls import path
 
-from .views.attributesets import AttributeSetUpdateView
 from .views.contacts import ContactStudiesView
 from .views.contacts import ContactUpdateView
 from .views.recruitment import AppointmentFeed
@@ -38,8 +37,6 @@ from .views.subjectfilters import FilterGroupUpdateView
 
 app_name = 'recruitment'
 urlpatterns = [
-    path('attributes/<int:pk>/update/', AttributeSetUpdateView.as_view(), name='attributes_update'),
-
     path('contacts/<int:pk>/studies/', ContactStudiesView.as_view(), name='contacts_studies'),
 
     path('', StudyChoiceView.as_view(), name='index'),

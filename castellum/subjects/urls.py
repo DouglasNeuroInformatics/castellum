@@ -21,6 +21,7 @@
 
 from django.urls import path
 
+from .views import AttributeSetUpdateView
 from .views import ContactUpdateView
 from .views import SubjectCreateView
 from .views import SubjectDetailView
@@ -34,4 +35,5 @@ urlpatterns = [
     path('<int:pk>/', SubjectDetailView.as_view(), name='detail'),
     path('<int:pk>/export/', SubjectExportView.as_view(), name='export'),
     path('<int:pk>/contact/', ContactUpdateView.as_view(), name='contact'),
+    path('<int:pk>/attributes/', AttributeSetUpdateView.as_view(), name='attributeset'),
 ]
