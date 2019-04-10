@@ -25,6 +25,7 @@ INSTALLED_APPS = [
 
     'castellum.utils',
     'castellum.castellum_auth',
+    'castellum.subjects',
     'castellum.pseudonyms',
     'castellum.recruitment',
     'castellum.studies',
