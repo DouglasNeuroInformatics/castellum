@@ -23,7 +23,7 @@ import logging
 
 from django.shortcuts import get_object_or_404
 
-from castellum.pseudonyms.models import Subject
+from castellum.subjects.models import Subject
 
 from ..mixins import BaseAttributeSetUpdateView
 from ..models import AttributeSet

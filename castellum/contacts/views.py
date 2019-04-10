@@ -30,7 +30,7 @@ from django.views.generic import DetailView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.helpers import get_pseudonym
-from castellum.pseudonyms.models import Subject
+from castellum.subjects.models import Subject
 from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
@@ -121,7 +121,7 @@ class ContactUpdateView(BaseContactUpdateView):
 class ContactExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'contacts/contact_export.html'
-    permission_required = 'pseudonyms.view_subject'
+    permission_required = 'subjects.view_subject'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

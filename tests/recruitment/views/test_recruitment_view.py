@@ -7,7 +7,7 @@ from model_mommy import mommy
 
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.models import Pseudonym
-from castellum.pseudonyms.models import Subject
+from castellum.subjects.models import Subject
 from castellum.recruitment.models import ParticipationRequest
 
 

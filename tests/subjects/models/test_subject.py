@@ -5,8 +5,8 @@ import pytest
 from django.utils import timezone
 from model_mommy import mommy
 
-from castellum.pseudonyms.models import Subject
-from castellum.pseudonyms.models import TimeSlot
+from castellum.subjects.models import Subject
+from castellum.subjects.models import TimeSlot
 
 
 @pytest.mark.freeze_time("2020-10-31")

@@ -35,7 +35,7 @@ from parler.models import TranslatableModel
 from parler.models import TranslatedFields
 from parler.utils.context import switch_language
 
-from castellum.pseudonyms.models import Subject
+from castellum.subjects.models import Subject
 
 from .. import attribute_fields
 from ..utils import get_study_filter_q

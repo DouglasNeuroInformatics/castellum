@@ -27,7 +27,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.pseudonyms.models import Subject
+from castellum.subjects.models import Subject
 
 from .forms import ContactForm
 from .models import Contact

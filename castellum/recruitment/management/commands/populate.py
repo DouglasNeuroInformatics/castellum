@@ -33,11 +33,11 @@ from castellum.contacts.models import Contact
 from castellum.contacts.models import Country
 from castellum.contacts.models.contact import phonetic
 from castellum.pseudonyms.models import Pseudonym
-from castellum.pseudonyms.models import Subject
 from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.studies.models import Study
+from castellum.subjects.models import Subject
 from castellum.utils import FakeData
 
 fake = Faker('de_DE')

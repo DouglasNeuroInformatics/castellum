@@ -25,8 +25,8 @@ from django.db import models
 from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from castellum.pseudonyms.models import Subject
 from castellum.studies.models import Study
+from castellum.subjects.models import Subject
 from castellum.utils.fields import DateTimeField
 
 

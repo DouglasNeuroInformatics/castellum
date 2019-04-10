@@ -3,7 +3,8 @@ import pytest
 from model_mommy import mommy
 
 from castellum.pseudonyms import helpers
-from castellum.pseudonyms.models import Pseudonym, Subject
+from castellum.pseudonyms.models import Pseudonym
+from castellum.subjects.models import Subject
 
 
 @pytest.fixture
