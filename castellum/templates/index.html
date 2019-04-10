@@ -24,11 +24,11 @@
             {% if can_view_contact %}
                 <div class="col-sm-6 col-md-4 mb-4">
                     <div class="card">
-                        <a href="{% url 'contacts:index' %}" class="card-header" tabindex="-1">
+                        <a href="{% url 'subjects:index' %}" class="card-header" tabindex="-1">
                             <img class="w-100" src="{% static 'images/subject_management.png' %}" alt="">
                         </a>
                         <div class="card-body">
-                            <a href="{% url 'contacts:index' %}" class="btn btn-primary btn-block">{% trans "Subjects" %}</a>
+                            <a href="{% url 'subjects:index' %}" class="btn btn-primary btn-block">{% trans "Subjects" %}</a>
                         </div>
                     </div>
                 </div>

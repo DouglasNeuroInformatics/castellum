@@ -50,7 +50,7 @@
                         </div>
                         {% if can_access %}
                             <div class="table-list-item-actions">
-                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'contacts:detail' contact.subject.pk %}">{% trans 'Details' %}</a>
+                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:detail' contact.subject.pk %}">{% trans 'Details' %}</a>
                             </div>
                         {% else %}
                             <div class="table-list-item-actions">
@@ -66,7 +66,7 @@
 
         {% has_perm 'contacts.add_contact' user as can_add_contact %}
         {% if can_add_contact %}
-            <a href="{% url 'contacts:create' %}{{ query }}" class="btn btn-primary">{% trans "Create new subject" %}</a>
+            <a href="{% url 'subjects:create' %}{{ query }}" class="btn btn-primary">{% trans "Create new subject" %}</a>
         {% endif %}
     {% endif %}
 {% endblock %}

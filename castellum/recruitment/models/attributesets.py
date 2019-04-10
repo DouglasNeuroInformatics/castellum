@@ -78,7 +78,7 @@ class AttributeSet(models.Model):
         verbose_name_plural = _('attribute sets')
 
     def get_absolute_url(self):
-        return reverse('contacts:detail', args=[self.subject.pk])
+        return reverse('subjects:detail', args=[self.subject.pk])
 
     def get_data(self):
         qs = AttributeDescription.objects.all()
