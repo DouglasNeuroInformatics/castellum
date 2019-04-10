@@ -284,6 +284,10 @@ CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR = 2
 # is used to show messages when user creates filters for studies.
 CASTELLUM_EXPECTED_SUBJECT_FACTOR = 10
 
+# this constant defines the recommended timespan between one study recruitment call and another one
+# from a different study recruitment
+CASTELLUM_RECOMMENDED_TIMESPAN_BETWEEN_RECRUITMENT_ATTEMPTS_IN_DAYS = 14
+
 CASTELLUM_LOCK_USER_CONTACT = 'admin@example.com'
 CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT = '[Castellum] Verdächtige Aktivität / Suspicious activity'
 CASTELLUM_LOCK_USER_NOTIFICATION_TEXT = """(English version below)
