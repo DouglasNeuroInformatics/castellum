@@ -3,11 +3,14 @@ from unittest.mock import patch
 import pytest
 from model_mommy import mommy
 
+from castellum.pseudonyms.models import Subject
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeCategory
 from castellum.recruitment.models import AttributeSet
+from castellum.recruitment.models.recruitment import ParticipationRequest
+from castellum.recruitment.models.recruitment import ParticipationRequestRevision
 from castellum.recruitment.models.attributesets import UNCATEGORIZED
 from castellum.studies.models import Study
 
@@ -96,3 +99,19 @@ def test_attribute_description_by_category_with_qs(attribute_descriptions):
     categories = AttributeDescription.objects.by_category(qs=qs)
     assert len(categories[UNCATEGORIZED]) == 2
     assert len(categories) == 1
+
+
+@pytest.mark.django_db
+@pytest.mark.freeze_time("2020-12-13 08:00")
+def test_last_contacted_elsewhere():
+    subject = mommy.make(Subject)
+
+    study_1 = mommy.make(Study)
+    study_2 = mommy.make(Study)
+
+    participationrequest_1 = mommy.make(ParticipationRequest, study=study_1, subject=subject)
+    mommy.make(ParticipationRequest, study=study_2, subject=subject)
+
+    revision_1 = mommy.make(ParticipationRequestRevision, current=participationrequest_1)
+
+    assert participationrequest_1.last_contacted_elsewhere == revision_2.created_at
