@@ -161,4 +161,4 @@ class Contact(models.Model):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('contacts:detail', args=[self.pseudonym])
+        return reverse('contacts:detail', args=[self.subject.pk])
