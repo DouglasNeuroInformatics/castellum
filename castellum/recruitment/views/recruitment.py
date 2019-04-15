@@ -239,7 +239,13 @@ class RecruitmentViewOpen(RecruitmentView):
         # Silently trim down to respect hard limit.
         # In many cases, the soft limit warning will already be shown in that case.
         batch_size = min(settings.CASTELLUM_RECRUITMENT_BATCH_SIZE, hard_limit - open_count)
-        added = self.create_participation_requests(batch_size)
+        try:
+            added = self.create_participation_requests(batch_size)
+        except KeyError:
+            added = 0
+            messages.error(request, _(
+                'The custom filter that is set for this study does not exist.'
+            ))
 
         if open_count + added > CASTELLUM_RECRUITMENT_SOFT_LIMIT:
             messages.error(request, _(
