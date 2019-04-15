@@ -53,6 +53,7 @@ def recruiter(db):
 @pytest.fixture
 def admin(user):
     user.is_staff = True
+    user.is_superuser = True
     user.save()
     return user
 
