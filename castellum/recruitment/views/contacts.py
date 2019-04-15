@@ -26,9 +26,9 @@ from django.urls import reverse
 from castellum.contacts.models import Contact
 from castellum.contacts.views import BaseContactUpdateView
 from castellum.pseudonyms.helpers import get_pseudonym
+from castellum.studies.mixins import StudyPermissionMixin
 from castellum.studies.models import Study
 
-from .mixins import StudyPermissionMixin
 from ..models import ParticipationRequest
 
 
