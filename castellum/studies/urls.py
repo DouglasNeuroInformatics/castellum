@@ -21,13 +21,13 @@
 
 from django.urls import path
 
-from .views import StudyCreateView
-from .views import StudyIndexView
-from .views import StudyMemberRemoveView
-from .views import StudyMembersView
-from .views import StudyMemberUpdateView
-from .views import StudyPublishView
-from .views import StudyUpdateView
+from .views.studies import StudyCreateView
+from .views.studies import StudyIndexView
+from .views.studies import StudyMemberRemoveView
+from .views.studies import StudyMembersView
+from .views.studies import StudyMemberUpdateView
+from .views.studies import StudyPublishView
+from .views.studies import StudyUpdateView
 
 app_name = 'studies'
 urlpatterns = [
