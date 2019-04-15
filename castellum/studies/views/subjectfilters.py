@@ -20,8 +20,6 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib import messages
-from django.forms import BaseModelFormSet
-from django.forms import ValidationError
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -35,7 +33,8 @@ from django.views.generic import View
 from extra_views import ModelFormSetView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.recruitment import forms
+from castellum.recruitment.forms import SubjectFilterForm
+from castellum.recruitment.forms import SubjectFilterFormSet
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import SubjectFilter
@@ -155,30 +154,10 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
         return reverse('studies:filtergroup_index', args=[self.study.pk])
 
 
-class FilterFormSet(BaseModelFormSet):
-
-    def clean(self):
-
-        super().clean()
-
-        values = []
-        for form in self.forms:
-            if not form.cleaned_data.get('DELETE', False):
-                values.append((
-                    form.cleaned_data.get('description'),
-                    form.cleaned_data.get('operator'),
-                    form.cleaned_data.get('value'),
-                ))
-
-        if len(set(values)) != len(values):
-            raise ValidationError(_('There are duplicates in filters. Please change or '
-                                    'delete filter!'), code='invalid')
-
-
 class FilterGroupUpdateView(FilterMixin, ModelFormSetView):
     model = SubjectFilter
-    form_class = forms.SubjectFilterForm
-    formset_class = FilterFormSet
+    form_class = SubjectFilterForm
+    formset_class = SubjectFilterFormSet
     factory_kwargs = {
         'extra': 0,
         'can_delete': True,
@@ -237,10 +216,10 @@ class FilterGroupUpdateView(FilterMixin, ModelFormSetView):
         data['study'] = self.study
         data['group'] = self.group
         data['total_count'] = AttributeSet.objects.count()
-        data['add_form'] = forms.SubjectFilterForm(user=self.request.user)
+        data['add_form'] = SubjectFilterForm(user=self.request.user)
         data['templates'] = {}
         for description in AttributeDescription.objects.all():
-            data['templates'][description.pk] = forms.SubjectFilterForm(
+            data['templates'][description.pk] = SubjectFilterForm(
                 user=self.request.user,
                 initial={'description': description},
                 prefix='{prefix}')
