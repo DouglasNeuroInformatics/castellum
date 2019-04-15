@@ -25,6 +25,7 @@ from django.forms import ValidationError
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
+from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DeleteView
@@ -49,6 +50,17 @@ class FilterMixin:
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.study.custom_filter:
+            return TemplateResponse(
+                request=self.request,
+                template='recruitment/filtergroup_blocked.html',
+                context={
+                    'study': self.study,
+                },
+            )
+        return super().dispatch(request, *args, **kwargs)
 
     def get_permission_required(self):
         permission_required = set()

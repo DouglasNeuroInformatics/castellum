@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Filters" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h1>{{ study.name }} &mdash; {% trans 'Filters' %}</h1>
+
+    <p class="alert alert-warning">
+        {% trans "This study uses a custom filter. Regular filters are not available." %}
+    </p>
+
+    <div class="mb-3">
+        <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+    </div>
+{% endblock %}
