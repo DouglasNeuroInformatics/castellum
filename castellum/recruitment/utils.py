@@ -21,8 +21,13 @@
 
 from django.db import models
 
+from .filter_registry import custom_filters
+
 
 def get_study_filter_q(study):
+    if study.custom_filter:
+        return custom_filters[study.custom_filter]()
+
     q = models.Q()
     for group in study.subjectfiltergroup_set.all():
         q |= group.to_q()
