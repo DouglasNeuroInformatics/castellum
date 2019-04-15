@@ -34,13 +34,13 @@ from django.views.generic import DetailView
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import ContactForm
 from castellum.contacts.forms import SearchForm
+from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
-from castellum.contacts.views import BaseContactUpdateView
 from castellum.pseudonyms.helpers import get_pseudonym
+from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.utils import get_study_filter_q
-from castellum.recruitment.views.attributesets import BaseAttributeSetUpdateView
 from castellum.studies.models import Study
 from castellum.utils.views import GetFormView
 

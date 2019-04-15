@@ -26,10 +26,10 @@ from django.views.generic import UpdateView
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.subjects.mixins import SubjectMixin
 
-from ..forms import AttributeSetForm
-from ..models import AttributeDescription
-from ..models import AttributeSet
-from ..models.attributesets import UNCATEGORIZED
+from .forms import AttributeSetForm
+from .models import AttributeDescription
+from .models import AttributeSet
+from .models.attributesets import UNCATEGORIZED
 
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 

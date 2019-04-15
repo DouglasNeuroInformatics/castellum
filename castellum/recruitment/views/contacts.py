@@ -23,8 +23,8 @@
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 
+from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
-from castellum.contacts.views import BaseContactUpdateView
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.studies.mixins import StudyPermissionMixin
 from castellum.studies.models import Study
