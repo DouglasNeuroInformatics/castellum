@@ -22,7 +22,6 @@
 import datetime
 
 from django.db import models
-from django.db.models import Max
 from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
@@ -40,6 +39,10 @@ class ParticipationRequestManager(models.Manager):
                 'id', filter=models.Q(status=ParticipationRequest.NOT_REACHED)),
             appointment_today=models.Count(
                 'id', filter=models.Q(appointment__date=datetime.date.today())),
+            last_contacted_elsewhere=models.Max(
+                'subject__participationrequest__revisions__created_at',
+                filter=~models.Q(subject__participationrequest__study=models.F('study')),
+            ),
         )
 
 
@@ -78,13 +81,6 @@ class ParticipationRequest(models.Model):
     @property
     def tries(self):
         return self.revisions.filter(status=ParticipationRequest.NOT_REACHED).count()
-
-    @property
-    def last_contacted_elsewhere(self):
-        return ParticipationRequestRevision.objects\
-            .exclude(current__study=self.study)\
-            .filter(current__subject=self.subject)\
-            .aggregate(Max('created_at'))['created_at__max']
 
     def get_revisions_display(self):
         return ', '.join(str(r) for r in self.revisions.all())
