@@ -287,7 +287,7 @@ CASTELLUM_EXPECTED_SUBJECT_FACTOR = 10
 
 # this constant defines the recommended timespan between one study recruitment call and another one
 # from a different study recruitment
-CASTELLUM_RECOMMENDED_TIMESPAN_BETWEEN_RECRUITMENT_ATTEMPTS_IN_DAYS = 14
+CASTELLUM__DAYS_BETWEEN_CONTACT_ATTEMPTS = 14
 
 CASTELLUM_LOCK_USER_CONTACT = 'admin@example.com'
 CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT = '[Castellum] Verdächtige Aktivität / Suspicious activity'
