@@ -90,7 +90,7 @@
 
         <div class="mb-3">
             {% if study.advanced_filtering %}
-                <a href="{% url 'recruitment:filtergroup_index' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+                <a href="{% url 'studies:filtergroup_index' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
             {% else %}
                 <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
             {% endif %}

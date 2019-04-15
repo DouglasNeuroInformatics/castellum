@@ -28,6 +28,11 @@ from .views.studies import StudyMembersView
 from .views.studies import StudyMemberUpdateView
 from .views.studies import StudyPublishView
 from .views.studies import StudyUpdateView
+from .views.subjectfilters import FilterGroupCreateView
+from .views.subjectfilters import FilterGroupDeleteView
+from .views.subjectfilters import FilterGroupDuplicateView
+from .views.subjectfilters import FilterGroupListView
+from .views.subjectfilters import FilterGroupUpdateView
 
 app_name = 'studies'
 urlpatterns = [
@@ -38,5 +43,31 @@ urlpatterns = [
     path('<int:pk>/members/', StudyMembersView.as_view(), name='members'),
     path('<int:study_pk>/members/<int:pk>/', StudyMemberUpdateView.as_view(), name='member'),
     path('<int:study_pk>/members/<int:pk>/delete/', StudyMemberRemoveView.as_view(),
-         name="delete-member")
+         name="delete-member"),
+
+    path(
+        '<int:study_pk>/filters/',
+        FilterGroupListView.as_view(),
+        name='filtergroup_index',
+    ),
+    path(
+        '<int:study_pk>/filters/create/',
+        FilterGroupCreateView.as_view(),
+        name='filtergroup_create',
+    ),
+    path(
+        '<int:study_pk>/filters/<int:pk>/delete/',
+        FilterGroupDeleteView.as_view(),
+        name='filtergroup_delete',
+    ),
+    path(
+        '<int:study_pk>/filters/<int:pk>/',
+        FilterGroupUpdateView.as_view(),
+        name='filtergroup_update',
+    ),
+    path(
+        '<int:study_pk>/filters/<int:pk>/duplicate/',
+        FilterGroupDuplicateView.as_view(),
+        name='filtergroup_duplicate',
+    ),
 ]

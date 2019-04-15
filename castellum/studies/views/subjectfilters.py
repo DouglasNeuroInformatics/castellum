@@ -35,15 +35,15 @@ from django.views.generic import View
 from extra_views import ModelFormSetView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.recruitment import forms
+from castellum.recruitment.models import AttributeDescription
+from castellum.recruitment.models import AttributeSet
+from castellum.recruitment.models import SubjectFilter
+from castellum.recruitment.models import SubjectFilterGroup
 from castellum.settings import CASTELLUM_EXPECTED_SUBJECT_FACTOR
-from castellum.studies.mixins import StudyPermissionMixin
-from castellum.studies.models import Study
 
-from .. import forms
-from ..models import AttributeDescription
-from ..models import AttributeSet
-from ..models import SubjectFilter
-from ..models import SubjectFilterGroup
+from ..mixins import StudyPermissionMixin
+from ..models import Study
 
 
 class CustomFilterMixin:
@@ -57,7 +57,7 @@ class CustomFilterMixin:
         if self.study.custom_filter:
             return TemplateResponse(
                 request=self.request,
-                template='recruitment/filtergroup_blocked.html',
+                template='studies/filtergroup_blocked.html',
                 context={
                     'study': self.study,
                     'total_count': AttributeSet.objects.count(),
@@ -81,7 +81,7 @@ class FilterMixin(StudyPermissionMixin, PermissionRequiredMixin, CustomFilterMix
 
 class FilterGroupListView(FilterMixin, ListView):
     model = SubjectFilterGroup
-    template_name = 'recruitment/filtergroup_list.html'
+    template_name = 'studies/filtergroup_list.html'
     permission_required = 'recruitment.view_subjectfilter'
 
     def get_queryset(self, *args, **kwargs):
@@ -136,7 +136,7 @@ class FilterGroupCreateView(FilterMixin, View):
 
 class FilterGroupDeleteView(FilterMixin, DeleteView):
     model = SubjectFilterGroup
-    template_name = 'recruitment/filtergroup_confirm_delete.html'
+    template_name = 'studies/filtergroup_confirm_delete.html'
     permission_required = 'recruitment.change_subjectfilter'
 
     def post(self, request, *args, **kwargs):
@@ -152,7 +152,7 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
         return data
 
     def get_success_url(self):
-        return reverse('recruitment:filtergroup_index', args=[self.study.pk])
+        return reverse('studies:filtergroup_index', args=[self.study.pk])
 
 
 class FilterFormSet(BaseModelFormSet):
@@ -183,7 +183,7 @@ class FilterGroupUpdateView(FilterMixin, ModelFormSetView):
         'extra': 0,
         'can_delete': True,
     }
-    template_name = "recruitment/filtergroup.html"
+    template_name = "studies/filtergroup.html"
     permission_required = 'recruitment.change_subjectfilter'
 
     def setup(self, request, *args, **kwargs):
@@ -261,4 +261,4 @@ class FilterGroupDuplicateView(FilterMixin, View):
         SubjectFilterGroup.objects.clone(original)
         messages.success(request, _(
             'The filters have been duplicated. You can now edit the duplicate.'))
-        return redirect('recruitment:filtergroup_index', self.study.pk)
+        return redirect('studies:filtergroup_index', self.study.pk)
