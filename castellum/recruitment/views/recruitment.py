@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
 import logging
 import random
 from collections import defaultdict
@@ -40,6 +41,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_pseudonym
+from castellum.settings import CASTELLUM__DAYS_BETWEEN_CONTACT_ATTEMPTS
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.studies.models import Study
@@ -176,7 +178,11 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
             ParticipationRequest.NOT_REACHED,
             ParticipationRequest.RECALL_APPOINTED,
         ]).count()
+
         context['study'] = self.study
+        context['last_agreeable_contact_time'] = datetime.date.today() - datetime.timedelta(
+            days=CASTELLUM__DAYS_BETWEEN_CONTACT_ATTEMPTS
+        )
 
         return context
 
