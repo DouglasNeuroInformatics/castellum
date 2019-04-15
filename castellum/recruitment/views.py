@@ -27,6 +27,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.text import slugify
@@ -37,6 +38,7 @@ from django.views.generic import UpdateView
 from django_ical.views import ICalFeed
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
@@ -46,9 +48,9 @@ from castellum.studies.models import Study
 from castellum.subjects.mixins import SubjectMixin
 from castellum.utils.chart import ChartRenderer
 
-from ..models import AttributeDescription
-from ..models import AttributeSet
-from ..models import ParticipationRequest
+from .models import AttributeDescription
+from .models import AttributeSet
+from .models import ParticipationRequest
 
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 
@@ -357,3 +359,23 @@ class AppointmentFeed(ICalFeed):
 
     def item_link(self, item):
         return reverse('recruitment:contact', args=[item.study.pk, item.pk])
+
+
+class ContactUpdateView(StudyPermissionMixin, BaseContactUpdateView):
+
+    def dispatch(self, request, *args, **kwargs):
+        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
+        self.study.raise_404_error_if_study_is_not_published()
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_object(self):
+        participation_request = get_object_or_404(
+            ParticipationRequest, study=self.study, pk=self.kwargs['pk'])
+
+        contact_pseudonym = get_pseudonym(participation_request.subject, Contact.domain)
+        contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
+
+        return contact
+
+    def get_success_url(self):
+        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])

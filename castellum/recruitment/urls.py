@@ -21,13 +21,13 @@
 
 from django.urls import path
 
-from .views.contacts import ContactUpdateView
-from .views.recruitment import AppointmentFeed
-from .views.recruitment import ContactView
-from .views.recruitment import RecruitmentViewInvited
-from .views.recruitment import RecruitmentViewOpen
-from .views.recruitment import RecruitmentViewUnsuitable
-from .views.recruitment import StudyChoiceView
+from .views import AppointmentFeed
+from .views import ContactUpdateView
+from .views import ContactView
+from .views import RecruitmentViewInvited
+from .views import RecruitmentViewOpen
+from .views import RecruitmentViewUnsuitable
+from .views import StudyChoiceView
 
 app_name = 'recruitment'
 urlpatterns = [
