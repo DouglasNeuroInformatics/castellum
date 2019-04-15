@@ -43,7 +43,7 @@
                         {% if can_change_subjectfilter %}
                             {% can_manage_filters user study as sufficient_privacy_level %}
                             {% if sufficient_privacy_level %}
-                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:filtergroup_index' study.pk %}">
+                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:filtergroup_index' study.pk %}">
                                     {% if study.published %}{% trans 'View filters' %}{% else %}{% trans 'Edit filters' %}{% endif %}
                                 </a>
                             {% else %}

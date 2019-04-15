@@ -28,36 +28,10 @@ from .views.recruitment import RecruitmentViewInvited
 from .views.recruitment import RecruitmentViewOpen
 from .views.recruitment import RecruitmentViewUnsuitable
 from .views.recruitment import StudyChoiceView
-from .views.subjectfilters import FilterGroupCreateView
-from .views.subjectfilters import FilterGroupDeleteView
-from .views.subjectfilters import FilterGroupDuplicateView
-from .views.subjectfilters import FilterGroupListView
-from .views.subjectfilters import FilterGroupUpdateView
 
 app_name = 'recruitment'
 urlpatterns = [
     path('', StudyChoiceView.as_view(), name='index'),
-
-    path(
-        'filter/<int:study_pk>/',
-        FilterGroupListView.as_view(),
-        name='filtergroup_index'),
-    path(
-        'filter/<int:study_pk>/create/',
-        FilterGroupCreateView.as_view(),
-        name='filtergroup_create'),
-    path(
-        'filter/<int:study_pk>/<int:pk>/delete/',
-        FilterGroupDeleteView.as_view(),
-        name='filtergroup_delete'),
-    path(
-        'filter/<int:study_pk>/<int:pk>/',
-        FilterGroupUpdateView.as_view(),
-        name='filtergroup_update'),
-    path(
-        'filter/<int:study_pk>/<int:pk>/duplicate/',
-        FilterGroupDuplicateView.as_view(),
-        name='filtergroup_duplicate'),
 
     path('<study_pk>/', RecruitmentViewOpen.as_view(), name='recruitment_open'),
     path('<study_pk>/invited/', RecruitmentViewInvited.as_view(),
