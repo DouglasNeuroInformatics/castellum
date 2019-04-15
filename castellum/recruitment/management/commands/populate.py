@@ -45,7 +45,7 @@ fake_data = FakeData()
 
 ATTRIBUTE_DESCRIPTIONS = [{
     'field_type': 'ChoiceField',
-    'weight': 0,
+    'order': 0,
     'label': {
         'de': 'Händigkeit',
         'en': 'Handedness',
@@ -64,14 +64,14 @@ ATTRIBUTE_DESCRIPTIONS = [{
     'statistics_rank': 'secondary',
 }, {
     'field_type': 'CharField',
-    'weight': 1,
+    'order': 1,
     'label': {
         'de': 'Muttersprache',
         'en': 'Language',
     },
 }, {
     'field_type': 'AgeField',
-    'weight': 2,
+    'order': 2,
     'label': {
         'de': 'Geburtsdatum',
         'en': 'Date of birth',
@@ -83,7 +83,7 @@ ATTRIBUTE_DESCRIPTIONS = [{
     'statistics_rank': 'primary',
 }, {
     'field_type': 'OrderedChoiceField',
-    'weight': 3,
+    'order': 3,
     'label': {
         'de': 'Höchster Abschluss',
         'en': 'Highest degree',

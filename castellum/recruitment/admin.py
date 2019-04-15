@@ -84,7 +84,7 @@ EXPORT_SCHEMA = {
             "type": "object",
             "additionalProperties": False,
             "properties": {
-                "weight": {
+                "order": {
                     "type": "integer"
                 },
                 "label": {
@@ -119,7 +119,7 @@ EXPORT_SCHEMA = {
                 "privacy_level_write": {
                     "type": "integer"
                 },
-                "weight": {
+                "order": {
                     "type": "integer"
                 },
                 "label": {

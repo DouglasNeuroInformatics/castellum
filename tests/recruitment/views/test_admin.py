@@ -15,7 +15,7 @@ DATA = {
             "_filter_label": {"en": "Age", "de": "Älter"},  # non-ascii char
             "help_text": {"en": "", "de": ""},
             "label": {"en": "Date of birth", "de": "Geburtsdatum"},
-            "weight": 1000,
+            "order": 1000,
             "choices": [],
             "privacy_level_read": 0,
             "privacy_level_write": 0,
@@ -32,9 +32,9 @@ def test_admin_import_attributedescriptions(client, admin):
 
     assert response.status_code == 200
     assert b'UTF-8' not in response.content
-    assert AttributeDescription.objects.filter(weight=1000).exists()
+    assert AttributeDescription.objects.filter(order=1000).exists()
 
-    attr_description = AttributeDescription.objects.get(weight=1000)
+    attr_description = AttributeDescription.objects.get(order=1000)
     with switch_language(attr_description, 'en'):
         assert attr_description.label == 'Date of birth'
         assert attr_description.filter_label == 'Age'
@@ -52,4 +52,4 @@ def test_admin_import_attributedescriptions_bad_encoding(client, admin, encoding
 
     assert response.status_code == 200
     assert b'UTF-8' in response.content
-    assert not AttributeDescription.objects.filter(weight=1000).exists()
+    assert not AttributeDescription.objects.filter(order=1000).exists()
