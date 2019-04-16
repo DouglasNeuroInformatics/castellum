@@ -34,7 +34,15 @@
                 <dd class="col-sm-6">{{ contact.get_preferred_contact_method_display|default:'—' }}</dd>
 
                 <dt class="col-sm-6">{% trans "Currently available" %}</dt>
-                <dd class="col-sm-6">{{ contact.is_available|yesno:_("Yes,No") }}</dd>
+                <dd class="col-sm-6">
+                    {% if contact.is_available %}
+                        {% trans "Yes" %}
+                        <i class="fas fa-phone list-icon bg-success text-light" aria-hidden="true"></i>
+                    {% else %}
+                        {% trans "No" %}
+                        <i class="fas fa-phone-slash list-icon bg-warning text-dark" aria-hidden="true"></i>
+                    {% endif %}
+                </dd>
             </dl>
 
             {% has_perm 'contacts.change_contact' user view.study as can_change_contact %}
