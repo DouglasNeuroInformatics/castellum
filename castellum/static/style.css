@@ -47,3 +47,10 @@
     text-align: center;
     border-radius: 50%;
 }
+
+.square-sm {
+  width: 1.5rem !important;
+}
+.square-lg {
+  width: 3rem !important;
+}

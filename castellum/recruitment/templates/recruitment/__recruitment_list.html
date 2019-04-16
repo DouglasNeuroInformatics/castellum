@@ -7,7 +7,7 @@
             {% if can_access %}
                 <div>
                     <div>
-                        <h3 class="h4 d-inline-block my-1 mr-2">{{ participation.pk }}</h3>
+                        <svg class="square-lg my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
                         <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
                     </div>
                     {% if participation.status == participation.NOT_REACHED %}
