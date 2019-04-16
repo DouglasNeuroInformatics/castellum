@@ -36,6 +36,11 @@
                 <dt class="col-sm-6">{% trans "Currently available" %}</dt>
                 <dd class="col-sm-6">{{ contact.is_available|yesno:_("Yes,No") }}</dd>
             </dl>
+
+            {% has_perm 'contacts.change_contact' user view.study as can_change_contact %}
+            {% if can_change_contact %}
+                <a class="btn btn-secondary" href="{% url 'recruitment:contact-update' study.pk object.pk %}">{% trans 'Edit contact data'%}</a>
+            {% endif %}
         </div>
 
         <div class="tab-pane" id="study" role="tabpanel" aria-labelledby="study-tab">
@@ -90,10 +95,6 @@
             {% if is_contacts %}
                 <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
             {% else %}
-                {% has_perm 'contacts.change_contact' user view.study as can_change_contact %}
-                {% if can_change_contact %}
-                    <a class="btn btn-secondary" href="{% url 'recruitment:contact-update' study.pk object.pk %}">{% trans 'Edit contact data'%}</a>
-                {% endif %}
                 <input type="submit" class="btn btn-primary" name="btn_back" value="{% trans 'Save and go back' %}" />
                 <input type="submit" class="btn btn-primary" name="btn_next" value="{% trans 'Save and show next' %}" />
             {% endif %}
