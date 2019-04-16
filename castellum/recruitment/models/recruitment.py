@@ -79,6 +79,14 @@ class ParticipationRequest(models.Model):
         verbose_name = _('participation request')
         verbose_name_plural = _('participation requests')
 
+    @property
+    def status_open(self):
+        return self.status in [
+            ParticipationRequest.NOT_CONTACTED,
+            ParticipationRequest.NOT_REACHED,
+            ParticipationRequest.RECALL_APPOINTED,
+        ]
+
     def get_revisions_display(self):
         return ', '.join(str(r) for r in self.revisions.all())
 
