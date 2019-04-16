@@ -4,7 +4,10 @@
 {% block title %}{% trans "Recruitment" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>{{ study.name }}</h1>
+    <header class="mb-3">
+        <h1>{{ study.name }}</h1>
+        <div class="h5">{% trans "Recruiting:" %} <b>{{ contact.full_name }}</b></div>
+    </header>
 
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
@@ -18,9 +21,6 @@
     <div class="tab-content mb-3 border border-top-0 p-3">
         <div class="tab-pane active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
             <dl class="row">
-                <dt class="col-sm-6">{% trans 'Name' %}</dt>
-                <dd class="col-sm-6">{{ contact.full_name }}</dd>
-
                 <dt class="col-sm-6">{{ contact|verbose_name:'email' }}</dt>
                 <dd class="col-sm-6">{{ contact.email|default:'—' }}</dd>
 
