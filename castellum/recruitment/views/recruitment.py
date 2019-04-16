@@ -77,18 +77,21 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
     def dispatch(self, request, *args, **kwargs):
         self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
         self.study.raise_404_error_if_study_is_not_published()
+
+        self.sort = self.request.GET.get('sort', self.request.session.get('recruitment_sort'))
+        self.request.session['recruitment_sort'] = self.sort
+
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self, queryset=None):
         if not queryset:
             queryset = self.model.objects
 
-        sort = self.request.GET.get('sort')
-        if sort == 'appointment':
+        if self.sort == 'appointment':
             order_by = ['appointment', '-updated_at']
-        elif sort == 'last_call_attempt':
+        elif self.sort == 'last_call_attempt':
             order_by = ['-status_not_reached', '-updated_at']
-        elif sort == 'created':
+        elif self.sort == 'created':
             order_by = ['-created_at']
         else:
             order_by = ['-appointment_today', 'status', 'appointment', '-updated_at']
@@ -158,7 +161,7 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
             ('created', _('Added to list')),
         ]
         sort_options = dict(context['sort_options'])
-        context['sort_label'] = sort_options.get(self.request.GET.get('sort'), _('Relevance'))
+        context['sort_label'] = sort_options.get(self.sort, _('Relevance'))
 
         context['statistics'] = self.get_statistics()
 
