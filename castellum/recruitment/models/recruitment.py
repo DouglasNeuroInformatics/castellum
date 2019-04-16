@@ -75,10 +75,6 @@ class ParticipationRequest(models.Model):
         verbose_name_plural = _('participation requests')
 
     @property
-    def latest(self):
-        return self.revisions.order_by('-created_at')[0]
-
-    @property
     def tries(self):
         return self.revisions.filter(status=ParticipationRequest.NOT_REACHED).count()
 
