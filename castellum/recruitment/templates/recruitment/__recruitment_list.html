@@ -7,7 +7,7 @@
             {% if can_access %}
                 <div>
                     <div>
-                        <svg class="square-lg my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
+                        <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
                         <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
                     </div>
                     {% if participation.status == participation.NOT_REACHED %}
@@ -50,7 +50,7 @@
                     </div>
                 {% endif %}
             {% else %}
-                <svg class="square-lg my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
+                <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
                 <div class="d-inline-block text-muted my-1 mr-2">
                     {% trans 'access denied' %}
                     <i class="fas fa-ban list-icon bg-danger text-light" aria-hidden="true"></i>
