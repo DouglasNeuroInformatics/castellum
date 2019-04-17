@@ -40,7 +40,9 @@ class ParticipationRequestManager(models.Manager):
             appointment_today=models.Count(
                 'id', filter=models.Q(appointment__date=datetime.date.today())),
             tries=models.Count(
-                'revisions', filter=models.Q(status=ParticipationRequest.NOT_REACHED)
+                'revisions',
+                filter=models.Q(revisions__status=ParticipationRequest.NOT_REACHED),
+                distinct=True,
             ),
             last_contacted_elsewhere=models.Max(
                 'subject__participationrequest__revisions__created_at',
