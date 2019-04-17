@@ -25,6 +25,7 @@ from django.forms import ValidationError
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
+from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DeleteView
@@ -46,6 +47,21 @@ from ..models import SubjectFilterGroup
 
 
 class FilterMixin:
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.study.custom_filter:
+            return TemplateResponse(
+                request=self.request,
+                template='recruitment/filtergroup_blocked.html',
+                context={
+                    'study': self.study,
+                },
+            )
+        return super().dispatch(request, *args, **kwargs)
+
     def get_permission_required(self):
         permission_required = set()
         permission_required.update(super().get_permission_required())
@@ -61,10 +77,6 @@ class FilterGroupListView(FilterMixin, StudyPermissionMixin, PermissionRequiredM
     model = SubjectFilterGroup
     template_name = 'recruitment/filtergroup_list.html'
     permission_required = 'recruitment.view_subjectfilter'
-
-    def dispatch(self, request, *args, **kwargs):
-        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
-        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
@@ -110,10 +122,6 @@ class FilterGroupListView(FilterMixin, StudyPermissionMixin, PermissionRequiredM
 class FilterGroupCreateView(FilterMixin, StudyPermissionMixin, PermissionRequiredMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
 
-    def dispatch(self, request, *args, **kwargs):
-        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
-        return super().dispatch(request, *args, **kwargs)
-
     def post(self, *args, **kwargs):
         self.study.raise_permission_denied_if_study_is_published()
         group = SubjectFilterGroup.objects.create(study=self.study)
@@ -124,10 +132,6 @@ class FilterGroupDeleteView(FilterMixin, StudyPermissionMixin, PermissionRequire
     model = SubjectFilterGroup
     template_name = 'recruitment/filtergroup_confirm_delete.html'
     permission_required = 'recruitment.change_subjectfilter'
-
-    def dispatch(self, request, *args, **kwargs):
-        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
-        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         self.study.raise_permission_denied_if_study_is_published()
@@ -177,10 +181,9 @@ class FilterGroupUpdateView(FilterMixin, StudyPermissionMixin, PermissionRequire
     template_name = "recruitment/filtergroup.html"
     permission_required = 'recruitment.change_subjectfilter'
 
-    def dispatch(self, *args, **kwargs):
-        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
         self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['pk'])
-        return super().dispatch(*args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         self.study.raise_permission_denied_if_study_is_published()
