@@ -64,7 +64,7 @@
 
         <label>{% trans "Availability" %}</label>
 
-        <div data-js="availability" data-create="{{ object|yesno:',true' }}" class="mb-3">
+        <div data-js="availability" data-create="{% if not object and not form.is_bound %}true{% endif %}" class="mb-3">
             <div class="row">
                 <div class="col-6 col-sm-2">
                     {% bootstrap_field form.availability_monday %}
