@@ -24,7 +24,6 @@ from datetime import date
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
@@ -33,11 +32,9 @@ from dateutil.relativedelta import relativedelta
 from castellum.pseudonyms.helpers import create_pseudonym
 from castellum.pseudonyms.helpers import get_subject
 from castellum.utils.fields import DateField
-from castellum.utils.fields import DateTimeField
 from castellum.utils.fields import PhoneNumberField
 
 from . import Address
-from .timeslot import TimeSlot
 from ..utils import phonetic
 
 
@@ -87,19 +84,6 @@ class Contact(models.Model):
     preferred_contact_method = models.CharField(
         _("preferred contact method"), max_length=16, blank=True, choices=CONTACT_METHODS)
 
-    availability_monday = models.ManyToManyField(
-        TimeSlot, verbose_name=_("monday"), blank=True, related_name='+')
-    availability_tuesday = models.ManyToManyField(
-        TimeSlot, verbose_name=_("tuesday"), blank=True, related_name='+')
-    availability_wednesday = models.ManyToManyField(
-        TimeSlot, verbose_name=_("wednesday"), blank=True, related_name='+')
-    availability_thursday = models.ManyToManyField(
-        TimeSlot, verbose_name=_("thursday"), blank=True, related_name='+')
-    availability_friday = models.ManyToManyField(
-        TimeSlot, verbose_name=_("friday"), blank=True, related_name='+')
-
-    not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
-
     objects = ContactManager()
 
     class Meta:
@@ -118,38 +102,6 @@ class Contact(models.Model):
     @property
     def age(self):
         return relativedelta(date.today(), self.date_of_birth).years
-
-    @property
-    def is_available(self):
-        now = timezone.localtime()
-        if self.not_available_until and self.not_available_until > now:
-            return False
-        days = [
-            self.availability_monday,
-            self.availability_tuesday,
-            self.availability_wednesday,
-            self.availability_thursday,
-            self.availability_friday,
-        ]
-        if now.weekday() >= len(days):
-            return False
-        hours = days[now.weekday()]
-        return hours.filter(hour=now.hour).exists()
-
-    def get_availability_monday_display(self):
-        return ', '.join(str(ts.hour) for ts in self.availability_monday.all())
-
-    def get_availability_tuesday_display(self):
-        return ', '.join(str(ts.hour) for ts in self.availability_tuesday.all())
-
-    def get_availability_wednesday_display(self):
-        return ', '.join(str(ts.hour) for ts in self.availability_wednesday.all())
-
-    def get_availability_thursday_display(self):
-        return ', '.join(str(ts.hour) for ts in self.availability_thursday.all())
-
-    def get_availability_friday_display(self):
-        return ', '.join(str(ts.hour) for ts in self.availability_friday.all())
 
     def save(self, *args, **kwargs):
         if not self.pseudonym:

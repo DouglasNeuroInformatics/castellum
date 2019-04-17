@@ -15,7 +15,7 @@ migrate: start_database_containers
 populate: start_database_containers
 	$(MANAGEPY) create_sample_groups
 	$(MANAGEPY) create_sample_users
-	$(MANAGEPY) loaddata timeslots --database=contacts
+	$(MANAGEPY) loaddata timeslots
 	$(MANAGEPY) populate
 
 collectstatic:
