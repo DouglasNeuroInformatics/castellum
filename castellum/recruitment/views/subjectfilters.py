@@ -60,6 +60,8 @@ class CustomFilterMixin:
                 template='recruitment/filtergroup_blocked.html',
                 context={
                     'study': self.study,
+                    'total_count': AttributeSet.objects.count(),
+                    'potential_subjects_count': AttributeSet.apply_study_filter(self.study).count(),
                 },
             )
         return super().dispatch(request, *args, **kwargs)
