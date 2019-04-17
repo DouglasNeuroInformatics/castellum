@@ -22,56 +22,13 @@
 import logging
 
 from django.shortcuts import get_object_or_404
-from django.views.generic import UpdateView
 
-from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.contacts.mixins import SubjectMixin
 from castellum.pseudonyms.models import Subject
 
-from ..forms import AttributeSetForm
-from ..models import AttributeDescription
+from ..mixins import BaseAttributeSetUpdateView
 from ..models import AttributeSet
-from ..models.attributesets import UNCATEGORIZED
 
 monitoring_logger = logging.getLogger('monitoring.recruitment')
-
-
-class BaseAttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
-    model = AttributeSet
-    permission_required = 'recruitment.change_attributeset'
-
-    def get_form_class(self):
-        return AttributeSetForm.factory(self.request.user)
-
-    def get_cancel_url(self):
-        return self.get_success_url()
-
-    def form_valid(self, form):
-        result = super().form_valid(form)
-        monitoring_logger.info('AttributeSet update: {} by {}'.format(
-            self.object.pk,
-            self.request.user.pk))
-        return result
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        form = context['form']
-
-        def get_bound_fields(descriptions):
-            for description in descriptions:
-                try:
-                    yield form['d%i' % description.pk]
-                except KeyError:
-                    pass
-
-        categories = AttributeDescription.objects.by_category()
-        context['uncategorized'] = get_bound_fields(categories.pop(UNCATEGORIZED))
-        context['categories'] = {
-            category: get_bound_fields(descriptions)
-            for category, descriptions in categories.items()
-        }
-
-        return context
 
 
 class AttributeSetUpdateView(BaseAttributeSetUpdateView):
