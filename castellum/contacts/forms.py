@@ -23,12 +23,15 @@ from django import forms
 from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
+from castellum.pseudonyms.models import Subject
 from castellum.utils.forms import DatalistWidget
 
 from .models import Address
 from .models import City
 from .models import Contact
 from .models import Country
+
+DAYS = ['availability_' + day for day in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']]
 
 
 class AddressForm(forms.ModelForm):
@@ -57,7 +60,13 @@ class ContactForm(forms.ModelForm):
         label=_('additional address information'), required=False)
 
     # fields required for subject
-    privacy_level = forms.IntegerField(label=_('privacy level'), min_value=0, max_value=2)
+    privacy_level = Subject._meta.get_field('privacy_level').formfield()
+    availability_monday = Subject._meta.get_field('availability_monday').formfield()
+    availability_tuesday = Subject._meta.get_field('availability_tuesday').formfield()
+    availability_wednesday = Subject._meta.get_field('availability_wednesday').formfield()
+    availability_thursday = Subject._meta.get_field('availability_thursday').formfield()
+    availability_friday = Subject._meta.get_field('availability_friday').formfield()
+    not_available_until = Subject._meta.get_field('not_available_until').formfield()
 
     class Meta:
         model = Contact
@@ -79,6 +88,9 @@ class ContactForm(forms.ModelForm):
 
         if self.instance.pseudonym:
             self.fields['privacy_level'].initial = self.instance.subject.privacy_level
+            for day in DAYS:
+                self.fields[day].initial = getattr(self.instance.subject, day).all()
+            self.fields['not_available_until'].initial = self.instance.subject.not_available_until
 
     def clean(self):
         cleaned_data = super().clean()
@@ -154,6 +166,9 @@ class ContactForm(forms.ModelForm):
 
         if contact.pseudonym:
             contact.subject.privacy_level = self.cleaned_data['privacy_level']
+            for day in DAYS:
+                getattr(contact.subject, day).set(self.cleaned_data[day])
+            contact.subject.not_available_until = self.cleaned_data['not_available_until']
             if commit:
                 contact.subject.save()
 
