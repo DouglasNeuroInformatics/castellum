@@ -6,6 +6,8 @@
 {% block content %}
     <h1>{{ study.name }} &mdash; {% trans 'Filters' %}</h1>
 
+    <p>{% trans 'matches' %}: {{ potential_subjects_count }} / {{ total_count }}</p>
+
     <p class="alert alert-warning">
         {% trans "This study uses a custom filter. Regular filters are not available." %}
     </p>

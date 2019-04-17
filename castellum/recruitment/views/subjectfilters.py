@@ -46,7 +46,9 @@ from ..models import SubjectFilter
 from ..models import SubjectFilterGroup
 
 
-class FilterMixin:
+class CustomFilterMixin:
+    """Should be called *after* PermissionRequiredMixin."""
+
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
@@ -58,10 +60,14 @@ class FilterMixin:
                 template='recruitment/filtergroup_blocked.html',
                 context={
                     'study': self.study,
+                    'total_count': AttributeSet.objects.count(),
+                    'potential_subjects_count': AttributeSet.apply_study_filter(self.study).count(),
                 },
             )
         return super().dispatch(request, *args, **kwargs)
 
+
+class FilterMixin(StudyPermissionMixin, PermissionRequiredMixin, CustomFilterMixin):
     def get_permission_required(self):
         permission_required = set()
         permission_required.update(super().get_permission_required())
@@ -73,7 +79,7 @@ class FilterMixin:
         return permission_required
 
 
-class FilterGroupListView(FilterMixin, StudyPermissionMixin, PermissionRequiredMixin, ListView):
+class FilterGroupListView(FilterMixin, ListView):
     model = SubjectFilterGroup
     template_name = 'recruitment/filtergroup_list.html'
     permission_required = 'recruitment.view_subjectfilter'
@@ -119,7 +125,7 @@ class FilterGroupListView(FilterMixin, StudyPermissionMixin, PermissionRequiredM
             return redirect(group.get_absolute_url())
 
 
-class FilterGroupCreateView(FilterMixin, StudyPermissionMixin, PermissionRequiredMixin, View):
+class FilterGroupCreateView(FilterMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
 
     def post(self, *args, **kwargs):
@@ -128,7 +134,7 @@ class FilterGroupCreateView(FilterMixin, StudyPermissionMixin, PermissionRequire
         return redirect(group.get_absolute_url())
 
 
-class FilterGroupDeleteView(FilterMixin, StudyPermissionMixin, PermissionRequiredMixin, DeleteView):
+class FilterGroupDeleteView(FilterMixin, DeleteView):
     model = SubjectFilterGroup
     template_name = 'recruitment/filtergroup_confirm_delete.html'
     permission_required = 'recruitment.change_subjectfilter'
@@ -169,8 +175,7 @@ class FilterFormSet(BaseModelFormSet):
                                     'delete filter!'), code='invalid')
 
 
-class FilterGroupUpdateView(FilterMixin, StudyPermissionMixin, PermissionRequiredMixin,
-                            ModelFormSetView):
+class FilterGroupUpdateView(FilterMixin, ModelFormSetView):
     model = SubjectFilter
     form_class = forms.SubjectFilterForm
     formset_class = FilterFormSet
@@ -243,7 +248,7 @@ class FilterGroupUpdateView(FilterMixin, StudyPermissionMixin, PermissionRequire
         return data
 
 
-class FilterGroupDuplicateView(FilterMixin, StudyPermissionMixin, PermissionRequiredMixin, View):
+class FilterGroupDuplicateView(FilterMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
 
     def dispatch(self, request, *args, **kwargs):
