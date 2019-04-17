@@ -39,6 +39,9 @@ class ParticipationRequestManager(models.Manager):
                 'id', filter=models.Q(status=ParticipationRequest.NOT_REACHED)),
             appointment_today=models.Count(
                 'id', filter=models.Q(appointment__date=datetime.date.today())),
+            tries=models.Count(
+                'revisions', filter=models.Q(status=ParticipationRequest.NOT_REACHED)
+            ),
             last_contacted_elsewhere=models.Max(
                 'subject__participationrequest__revisions__created_at',
                 filter=~models.Q(subject__participationrequest__study=models.F('study')),
@@ -73,14 +76,6 @@ class ParticipationRequest(models.Model):
     class Meta:
         verbose_name = _('participation request')
         verbose_name_plural = _('participation requests')
-
-    @property
-    def latest(self):
-        return self.revisions.order_by('-created_at')[0]
-
-    @property
-    def tries(self):
-        return self.revisions.filter(status=ParticipationRequest.NOT_REACHED).count()
 
     def get_revisions_display(self):
         return ', '.join(str(r) for r in self.revisions.all())
