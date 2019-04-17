@@ -63,6 +63,11 @@ $(function() {
         $wholeDay.prop('indeterminate', false);
     });
 
+    // if this is create, set all options to selected
+    if ($availability.data('create')) {
+        $availability.find('option').prop('selected', true);
+    }
+
     // set initial state of day checkboxes
     $('[data-js="toggle-day"]').each(function(i, wholeDay) {
         var $wholeDay = $(wholeDay);
