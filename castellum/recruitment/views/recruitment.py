@@ -38,7 +38,6 @@ from django.views.generic import UpdateView
 from django_ical.views import ICalFeed
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.contacts.mixins import SubjectMixin
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.settings import CASTELLUM__DAYS_BETWEEN_CONTACT_ATTEMPTS
@@ -46,6 +45,7 @@ from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.studies.mixins import StudyPermissionMixin
 from castellum.studies.models import Study
+from castellum.subjects.mixins import SubjectMixin
 from castellum.utils.chart import ChartRenderer
 
 from ..models import AttributeDescription

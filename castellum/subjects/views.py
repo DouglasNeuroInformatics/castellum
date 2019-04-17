@@ -29,21 +29,21 @@ from django.views.generic import CreateView
 from django.views.generic import DetailView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.contacts.views import BaseContactUpdateView
+from castellum.contacts.forms import ContactForm
+from castellum.contacts.forms import SearchForm
+from castellum.contacts.mixins import BaseContactUpdateView
+from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_pseudonym
-from castellum.subjects.models import Subject
 from castellum.utils.views import GetFormView
 
-from .forms import ContactForm
-from .forms import SearchForm
 from .mixins import SubjectMixin
-from .models import Contact
+from .models import Subject
 
-monitoring_logger = logging.getLogger('monitoring.contacts')
+monitoring_logger = logging.getLogger('monitoring.subjects')
 
 
-class ContactSearchView(PermissionRequiredMixin, GetFormView):
-    template_name = 'contacts/contact_search.html'
+class SubjectSearchView(PermissionRequiredMixin, GetFormView):
+    template_name = 'subjects/subject_search.html'
     permission_required = 'contacts.view_contact'
     form_class = SearchForm
 
@@ -70,10 +70,10 @@ class ContactSearchView(PermissionRequiredMixin, GetFormView):
             form=form, query='?' + urlencode(form.cleaned_data), matches=matches))
 
 
-class ContactDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
+class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     permission_required = 'contacts.view_contact'
-    template_name = 'contacts/contact_detail.html'
+    template_name = 'subjects/subject_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -82,7 +82,7 @@ class ContactDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
-class ContactCreateView(PermissionRequiredMixin, CreateView):
+class SubjectCreateView(PermissionRequiredMixin, CreateView):
     model = Contact
     form_class = ContactForm
     permission_required = 'contacts.add_contact'
@@ -118,9 +118,9 @@ class ContactUpdateView(BaseContactUpdateView):
         return get_object_or_404(Contact, pseudonym=pseudonym)
 
 
-class ContactExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
+class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
-    template_name = 'contacts/contact_export.html'
+    template_name = 'subjects/subject_export.html'
     permission_required = 'subjects.view_subject'
 
     def get_context_data(self, **kwargs):

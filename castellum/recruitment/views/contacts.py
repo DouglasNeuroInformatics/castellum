@@ -27,12 +27,12 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import DetailView
 
-from castellum.contacts.mixins import SubjectMixin
+from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
-from castellum.contacts.views import BaseContactUpdateView
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.studies.mixins import StudyPermissionMixin
 from castellum.studies.models import Study
+from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
 
 from ..models import AttributeSet
