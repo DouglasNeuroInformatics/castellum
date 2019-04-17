@@ -4,71 +4,94 @@
 {% block title %}{% trans "Recruitment" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>{{ study.name }}</h1>
+    <header class="mb-3">
+        <h1>{{ study.name }}</h1>
+        <div class="h5">
+            {% trans "Recruiting:" %} <b>{{ contact.full_name }}
+            <svg class="square-sm" data-jdenticon-value="{{ object.pk }}" aria-hidden="true"></svg>
+        </b></div>
+    </header>
 
-    <details class="mb-4">
-        <summary class="mb-2">{% trans "Talking points: Study details" %}</summary>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="true">{% trans "Contacting details" %}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="study-tab" data-toggle="tab" href="#study" role="tab" aria-controls="study" aria-selected="false">{% trans "Talking points" %}</a>
+        </li>
+    </ul>
 
-        <div class="card border-dark">
-            <div class="card-body">
-                {% if study.description %}
-                    <p>{{ study.description }}</p>
-                {% endif %}
+    <div class="tab-content mb-3 border border-top-0 p-3">
+        <div class="tab-pane active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <dl class="row">
+                <dt class="col-sm-6">{{ contact|verbose_name:'email' }}</dt>
+                <dd class="col-sm-6">{{ contact.email|default:'—' }}</dd>
 
-                <dl class="row">
-                    <dt class="col-sm-6">{{ study|verbose_name:'study_type' }}</dt>
-                    <dd class="col-sm-6">
-                        {{ study.get_study_type_display|default:'—' }}
-                        {% if study.study_type == 2 %}
-                            <a href="#TODO" class="btn btn-warning">{% trans 'Check exclusion criteria' %}</a>
-                        {% endif %}
-                    </dd>
+                <dt class="col-sm-6">{{ contact|verbose_name:'phone_number' }}</dt>
+                <dd class="col-sm-6">{{ contact.phone_number|default:'—' }}</dd>
 
-                    <dt class="col-sm-6">{{ study|verbose_name:'expense_allowance' }}</dt>
-                    <dd class="col-sm-6">
-                        {% if study.expense_allowance %}
-                            {{ study.expense_allowance }}€
-                        {% else %}
-                            &mdash;
-                        {% endif %}
-                    </dd>
+                <dt class="col-sm-6">{{ contact|verbose_name:'phone_number_alternative' }}</dt>
+                <dd class="col-sm-6">{{ contact.phone_number_alternative|default:'—' }}</dd>
 
-                    <dt class="col-sm-6">{% trans 'Duration of sessions in minutes' %}</dt>
-                    <dd class="col-sm-6">
-                        {% for session in study.studysession_set.all %}
-                            {{ session.duration }}{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    </dd>
+                <dt class="col-sm-6">{{ contact|verbose_name:'preferred_contact_method' }}</dt>
+                <dd class="col-sm-6">{{ contact.get_preferred_contact_method_display|default:'—' }}</dd>
 
-                    <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
-                    <dd class="col-sm-6">{{ study.sessions_start|default:'—' }}</dd>
+                <dt class="col-sm-6">{% trans "Currently available" %}</dt>
+                <dd class="col-sm-6">
+                    {% if contact.is_available %}
+                        {% trans "Yes" %}
+                        <i class="fas fa-phone list-icon bg-success text-light" aria-hidden="true"></i>
+                    {% else %}
+                        {% trans "No" %}
+                        <i class="fas fa-phone-slash list-icon bg-warning text-dark" aria-hidden="true"></i>
+                    {% endif %}
+                </dd>
+            </dl>
 
-                    <dt class="col-sm-6">{{ study|verbose_name:'sessions_end' }}</dt>
-                    <dd class="col-sm-6">{{ study.sessions_end|default:'—' }}</dd>
-                </dl>
-            </div>
+            {% has_perm 'contacts.change_contact' user view.study as can_change_contact %}
+            {% if can_change_contact %}
+                <a class="btn btn-secondary" href="{% url 'recruitment:contact-update' study.pk object.pk %}">{% trans 'Edit contact data'%}</a>
+            {% endif %}
         </div>
-    </details>
 
-    <dl class="row">
-        <dt class="col-sm-6">{% trans 'Name' %}</dt>
-        <dd class="col-sm-6">{{ contact.full_name }}</dd>
+        <div class="tab-pane" id="study" role="tabpanel" aria-labelledby="study-tab">
+            {% if study.description %}
+                <p>{{ study.description }}</p>
+            {% endif %}
 
-        <dt class="col-sm-6">{{ contact|verbose_name:'email' }}</dt>
-        <dd class="col-sm-6">{{ contact.email|default:'—' }}</dd>
+            <dl class="row">
+                <dt class="col-sm-6">{{ study|verbose_name:'study_type' }}</dt>
+                <dd class="col-sm-6">
+                    {{ study.get_study_type_display|default:'—' }}
+                    {% if study.study_type == 2 %}
+                        <a href="#TODO" class="btn btn-warning">{% trans 'Check exclusion criteria' %}</a>
+                    {% endif %}
+                </dd>
 
-        <dt class="col-sm-6">{{ contact|verbose_name:'phone_number' }}</dt>
-        <dd class="col-sm-6">{{ contact.phone_number|default:'—' }}</dd>
+                <dt class="col-sm-6">{{ study|verbose_name:'expense_allowance' }}</dt>
+                <dd class="col-sm-6">
+                    {% if study.expense_allowance %}
+                        {{ study.expense_allowance }}€
+                    {% else %}
+                        &mdash;
+                    {% endif %}
+                </dd>
 
-        <dt class="col-sm-6">{{ contact|verbose_name:'phone_number_alternative' }}</dt>
-        <dd class="col-sm-6">{{ contact.phone_number_alternative|default:'—' }}</dd>
+                <dt class="col-sm-6">{% trans 'Duration of sessions in minutes' %}</dt>
+                <dd class="col-sm-6">
+                    {% for session in study.studysession_set.all %}
+                        {{ session.duration }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </dd>
 
-        <dt class="col-sm-6">{{ contact|verbose_name:'preferred_contact_method' }}</dt>
-        <dd class="col-sm-6">{{ contact.get_preferred_contact_method_display|default:'—' }}</dd>
+                <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
+                <dd class="col-sm-6">{{ study.sessions_start|default:'—' }}</dd>
 
-        <dt class="col-sm-6">{% trans "Currently available" %}</dt>
-        <dd class="col-sm-6">{{ contact.is_available|yesno:_("Yes,No") }}</dd>
-    </dl>
+                <dt class="col-sm-6">{{ study|verbose_name:'sessions_end' }}</dt>
+                <dd class="col-sm-6">{{ study.sessions_end|default:'—' }}</dd>
+            </dl>
+        </div>
+    </div>
 
     <form method="post">
         {% for error in form.non_field_errors %}
@@ -83,10 +106,6 @@
             {% if is_contacts %}
                 <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
             {% else %}
-                {% has_perm 'contacts.change_contact' user view.study as can_change_contact %}
-                {% if can_change_contact %}
-                    <a class="btn btn-secondary" href="{% url 'recruitment:contact-update' study.pk object.pk %}">{% trans 'Edit contact data'%}</a>
-                {% endif %}
                 <input type="submit" class="btn btn-primary" name="btn_back" value="{% trans 'Save and go back' %}" />
                 <input type="submit" class="btn btn-primary" name="btn_next" value="{% trans 'Save and show next' %}" />
             {% endif %}

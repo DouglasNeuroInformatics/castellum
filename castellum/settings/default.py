@@ -166,6 +166,7 @@ NPM_FILE_PATTERNS = {
         'dist/js/bootstrap-datepicker.min.js',
         'dist/locales/bootstrap-datepicker.de.min.js',
     ],
+    'jdenticon': ['dist/jdenticon.min.js'],
     'jquery': ['dist/jquery.min.js'],
     'popper.js': ['dist/umd/popper.min.js'],
     '@fortawesome/fontawesome-free': [
