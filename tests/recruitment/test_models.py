@@ -114,7 +114,11 @@ def test_last_contacted_elsewhere():
 
     with freeze_time("2011-11-11 11:11"):
         participationrequest_2 = mommy.make(ParticipationRequest, study=study_2, subject=subject)
-        revision_2 = mommy.make(ParticipationRequestRevision, current=participationrequest_2)
+        revision_2 = mommy.make(
+            ParticipationRequestRevision,
+            current=participationrequest_2,
+            status=ParticipationRequest.NOT_REACHED,
+        )
 
     participationrequest_1 = ParticipationRequest.objects.get(pk=participationrequest_1.pk)
     assert participationrequest_1.last_contacted_elsewhere == revision_2.created_at
@@ -132,11 +136,19 @@ def test_last_contacted_elsewhere_several_others():
 
     with freeze_time("2011-11-11 11:11"):
         participationrequest_2 = mommy.make(ParticipationRequest, study=study_2, subject=subject)
-        mommy.make(ParticipationRequestRevision, current=participationrequest_2)
+        mommy.make(
+            ParticipationRequestRevision,
+            current=participationrequest_2,
+            status=ParticipationRequest.NOT_REACHED,
+        )
 
     with freeze_time("2021-11-11 11:11"):
         participationrequest_3 = mommy.make(ParticipationRequest, study=study_2, subject=subject)
-        revision_3 = mommy.make(ParticipationRequestRevision, current=participationrequest_3)
+        revision_3 = mommy.make(
+            ParticipationRequestRevision,
+            current=participationrequest_3,
+            status=ParticipationRequest.NOT_REACHED,
+        )
 
     participationrequest_1 = ParticipationRequest.objects.get(pk=participationrequest_1.pk)
     assert participationrequest_1.last_contacted_elsewhere == revision_3.created_at
@@ -153,11 +165,19 @@ def test_last_contacted_elsewhere_no_others():
 
     with freeze_time("2011-11-11 11:11"):
         participationrequest_2 = mommy.make(ParticipationRequest, study=study_1, subject=subject)
-        mommy.make(ParticipationRequestRevision, current=participationrequest_2)
+        mommy.make(
+            ParticipationRequestRevision,
+            current=participationrequest_2,
+            status=ParticipationRequest.NOT_REACHED,
+        )
 
     with freeze_time("2021-11-11 11:11"):
         participationrequest_3 = mommy.make(ParticipationRequest, study=study_1, subject=subject)
-        mommy.make(ParticipationRequestRevision, current=participationrequest_3)
+        mommy.make(
+            ParticipationRequestRevision,
+            current=participationrequest_3,
+            status=ParticipationRequest.NOT_REACHED,
+        )
 
     participationrequest_1 = ParticipationRequest.objects.get(pk=participationrequest_1.pk)
     assert participationrequest_1.last_contacted_elsewhere is None
@@ -176,11 +196,41 @@ def test_last_contacted_elsewhere_several_studies():
 
     with freeze_time("2011-11-11 11:11"):
         participationrequest_2 = mommy.make(ParticipationRequest, study=study_2, subject=subject)
-        mommy.make(ParticipationRequestRevision, current=participationrequest_2)
+        mommy.make(
+            ParticipationRequestRevision,
+            current=participationrequest_2,
+            status=ParticipationRequest.NOT_REACHED,
+        )
 
     with freeze_time("2021-11-11 11:11"):
         participationrequest_3 = mommy.make(ParticipationRequest, study=study_3, subject=subject)
-        revision_3 = mommy.make(ParticipationRequestRevision, current=participationrequest_3)
+        revision_3 = mommy.make(
+            ParticipationRequestRevision,
+            current=participationrequest_3,
+            status=ParticipationRequest.NOT_REACHED,
+        )
 
     participationrequest_1 = ParticipationRequest.objects.get(pk=participationrequest_1.pk)
     assert participationrequest_1.last_contacted_elsewhere == revision_3.created_at
+
+
+@pytest.mark.django_db
+def test_last_contacted_elsewhere_not_contacted():
+    subject = mommy.make(Subject)
+    study_1 = mommy.make(Study)
+    study_2 = mommy.make(Study)
+
+    with freeze_time("2020-12-13 08:00"):
+        participationrequest_1 = mommy.make(ParticipationRequest, study=study_1, subject=subject)
+        mommy.make(ParticipationRequestRevision, current=participationrequest_1)
+
+    with freeze_time("2011-11-11 11:11"):
+        participationrequest_2 = mommy.make(ParticipationRequest, study=study_2, subject=subject)
+        mommy.make(
+            ParticipationRequestRevision,
+            current=participationrequest_2,
+            status=ParticipationRequest.NOT_CONTACTED,
+        )
+
+    participationrequest_1 = ParticipationRequest.objects.get(pk=participationrequest_1.pk)
+    assert participationrequest_1.last_contacted_elsewhere is None

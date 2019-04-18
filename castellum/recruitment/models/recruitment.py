@@ -46,7 +46,12 @@ class ParticipationRequestManager(models.Manager):
             ),
             last_contacted_elsewhere=models.Max(
                 'subject__participationrequest__revisions__created_at',
-                filter=~models.Q(subject__participationrequest__study=models.F('study')),
+                filter=(
+                    ~models.Q(subject__participationrequest__study=models.F('study'))
+                    & ~models.Q(
+                        subject__participationrequest__revisions__status=ParticipationRequest.NOT_CONTACTED # noqa
+                    )
+                ),
             ),
         )
 
