@@ -42,10 +42,10 @@ from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
+from castellum.studies.mixins import StudyPermissionMixin
 from castellum.studies.models import Study
 from castellum.utils.chart import ChartRenderer
 
-from .mixins import StudyPermissionMixin
 from ..models import AttributeDescription
 from ..models import AttributeSet
 from ..models import ParticipationRequest

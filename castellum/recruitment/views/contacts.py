@@ -32,9 +32,9 @@ from castellum.contacts.models import Contact
 from castellum.contacts.views import ContactUpdateView as _ContactUpdateView
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.models import Subject
+from castellum.studies.mixins import StudyPermissionMixin
 from castellum.studies.models import Study
 
-from .mixins import StudyPermissionMixin
 from ..models import AttributeSet
 from ..models import ParticipationRequest
 from ..utils import get_study_filter_q

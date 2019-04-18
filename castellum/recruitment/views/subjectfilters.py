@@ -36,9 +36,9 @@ from extra_views import ModelFormSetView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.settings import CASTELLUM_EXPECTED_SUBJECT_FACTOR
+from castellum.studies.mixins import StudyPermissionMixin
 from castellum.studies.models import Study
 
-from .mixins import StudyPermissionMixin
 from .. import forms
 from ..models import AttributeDescription
 from ..models import AttributeSet
