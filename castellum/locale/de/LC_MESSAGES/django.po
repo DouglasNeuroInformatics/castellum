@@ -673,22 +673,16 @@ msgid "Recruitment"
 msgstr "Rekrutierung"
 
 #: castellum/recruitment/templates/recruitment/contact.html:10
-#, fuzzy
-#| msgid "Recruitment"
 msgid "Recruiting:"
-msgstr "Rekrutierung"
+msgstr "Rekrutierung:"
 
 #: castellum/recruitment/templates/recruitment/contact.html:17
-#, fuzzy
-#| msgid "Subject details"
 msgid "Contacting details"
-msgstr "Proband*innendetails"
+msgstr "Kontaktdetails"
 
 #: castellum/recruitment/templates/recruitment/contact.html:20
-#, fuzzy
-#| msgid "Talking points: Study details"
 msgid "Talking points"
-msgstr "Gesprächspunkte: Studiendetails"
+msgstr "Gesprächspunkte"
 
 #: castellum/recruitment/templates/recruitment/contact.html:39
 msgid "Currently available"
@@ -775,6 +769,7 @@ msgstr "Filter anwenden"
 #: castellum/recruitment/templates/recruitment/filtergroup_blocked.html:12
 msgid "This study uses a custom filter. Regular filters are not available."
 msgstr ""
+"Diese Studie benutzt spezielle Filter. Normale Filter sind nicht verfügbar."
 
 #: castellum/recruitment/templates/recruitment/filtergroup_confirm_delete.html:4
 msgid "Delete Filter Group"
@@ -928,6 +923,7 @@ msgstr ""
 #: castellum/recruitment/views/recruitment.py:250
 msgid "The custom filter that is set for this study does not exist."
 msgstr ""
+"Der spezielle Filter, der für diese Studie gesetzt wurde, existiert nicht."
 
 #: castellum/recruitment/views/recruitment.py:255
 msgid ""
@@ -1082,10 +1078,8 @@ msgstr ""
 "Filtergruppen anzulegen, die jeweils mit dem ODER Operator verbunden werden."
 
 #: castellum/studies/models.py:83
-#, fuzzy
-#| msgid "Edit filters"
 msgid "custom filter"
-msgstr "Filter bearbeiten"
+msgstr "spezieller Filter"
 
 #: castellum/studies/models.py:92
 msgid "Data collected by this type of study is always considered sensitive!"
@@ -1275,9 +1269,3 @@ msgstr "SS:MM, z.B. 13:00"
 #: castellum/utils/forms.py:74
 msgid "e.g. 030 123456"
 msgstr "z.B. 030 123456"
-
-#~ msgid "Name"
-#~ msgstr "Name"
-
-#~ msgid "Yes,No"
-#~ msgstr "Ja,Nein"
