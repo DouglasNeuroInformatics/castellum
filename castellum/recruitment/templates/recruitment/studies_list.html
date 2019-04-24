@@ -10,12 +10,14 @@
         <ul class="table-list mb-3">
             {% for study in studies %}
                 <li class="table-list-item">
-                    <h3 class="h4 my-1 mr-2">
-                        {{ study.name|default:'—' }}
+                    <div class="my-1 mr-2">
+                        <h3 class="h4 d-inline">
+                            {{ study.name|default:'—' }}
+                        </h3>
                         {% if study.appointment_today %}
-                            <span class="appointment" title="{% trans 'appointment today' %}"></span>
+                            <i class="far fa-bell list-icon bg-success text-light" title="{% trans 'appointment today' %}"></i>
                         {% endif %}
-                    </h3>
+                    </div>
                     <div class="table-list-item-actions">
                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment_open' study.pk %}">{% trans 'Find subjects' %}</a>
                     </div>
