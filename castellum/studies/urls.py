@@ -39,4 +39,5 @@ urlpatterns = [
     path('<int:study_pk>/members/<int:pk>/', StudyMemberUpdateView.as_view(), name='member'),
     path('<int:study_pk>/members/<int:pk>/delete/', StudyMemberRemoveView.as_view(),
          name="delete-member")
+    path('<int:pk>/recruitmentsettings', RecruitmentSettingsViewas_view(), name='recruitmentsettings'),
 ]
