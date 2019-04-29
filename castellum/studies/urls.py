@@ -27,6 +27,7 @@ from .views import StudyMemberRemoveView
 from .views import StudyMembersView
 from .views import StudyMemberUpdateView
 from .views import StudyPublishView
+from .views import StudyRecruitmentSettingsView
 from .views import StudyUpdateView
 
 app_name = 'studies'
@@ -38,5 +39,7 @@ urlpatterns = [
     path('<int:pk>/members/', StudyMembersView.as_view(), name='members'),
     path('<int:study_pk>/members/<int:pk>/', StudyMemberUpdateView.as_view(), name='member'),
     path('<int:study_pk>/members/<int:pk>/delete/', StudyMemberRemoveView.as_view(),
-         name="delete-member")
+         name="delete-member"),
+    path('<int:pk>/recruitmentsettings/', StudyRecruitmentSettingsView.as_view(),
+         name='recruitmentsettings'),
 ]
