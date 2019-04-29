@@ -5,6 +5,7 @@
 
 {% block content %}
     <h2>{% trans 'Study Recruitment Settings' %}</h2>
+    {% has_perm 'recruitment.change_subjectfilter' user study as can_change_subjectfilter %}
     {% if can_change_subjectfilter %}
         {% can_manage_filters user study as sufficient_privacy_level %}
         {% if sufficient_privacy_level %}
