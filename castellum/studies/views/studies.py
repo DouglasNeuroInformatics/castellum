@@ -191,6 +191,16 @@ class StudyRecruitmentSettingsView(StudyAccessMixin, DetailView):
     template_name = 'studies/study_recruitmentsettings.html'
 
 
+class StudyExclusionCriteriaView(StudyAccessMixin, UpdateView):
+    model = Study
+    template_name = 'studies/study_exclusioncriteria.html'
+    fields = ('exclusion_criteria',)
+    permission_required = 'studies.change_study'
+
+    def get_success_url(self):
+        return reverse('studies:recruitmentsettings', args=[self.object.pk])
+
+
 class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
     model = Study
     form_class = AddMemberForm
