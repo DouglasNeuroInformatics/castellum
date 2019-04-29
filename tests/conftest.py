@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import Permission
 from django.db.models import DateField
 from django.utils import timezone
@@ -6,10 +7,17 @@ import pytest
 from model_mommy import mommy
 
 from castellum.castellum_auth.models import User
+from castellum.castellum_auth.sample_data import GROUPS
 from castellum.contacts.models import Contact
+from castellum.pseudonyms.helpers import get_subject
+from castellum.recruitment.management.commands import populate
+from castellum.recruitment.models import AttributeDescription
+from castellum.recruitment.models import AttributeSet
+from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import SubjectFilter
+from castellum.recruitment.models import SubjectFilterGroup
 from castellum.studies.models import Study
 from castellum.studies.models import StudyMembership
-from castellum.castellum_auth.sample_data import GROUPS
 
 mommy.generators.add(
     'castellum.utils.fields.DateField', mommy.generators.default_mapping[DateField])
@@ -84,3 +92,40 @@ def member(user, study, published_study, unpublished_study):
 @pytest.fixture
 def contact(db):
     return mommy.make(Contact, pseudonym=None)
+
+
+@pytest.fixture
+def attributeset(contact):
+    subject = get_subject(settings.DOMAINS['contact'], contact.pseudonym)
+    return mommy.make(AttributeSet, subject=subject)
+
+
+@pytest.fixture
+def participation_request(contact, study):
+    subject = get_subject(settings.DOMAINS['contact'], contact.pseudonym)
+    return mommy.make(ParticipationRequest, study=study, subject=subject)
+
+
+@pytest.fixture(scope='session')
+def attribute_descriptions(django_db_setup, django_db_blocker):
+    with django_db_blocker.unblock():
+        populate.generate_attribute_descriptions()
+
+
+@pytest.fixture
+def attribute_description(db, attribute_descriptions):
+    return AttributeDescription.objects.get(pk=1)
+
+
+@pytest.fixture
+def subject_filter_group(db, unpublished_study):
+    return mommy.make(SubjectFilterGroup, study=unpublished_study)
+
+
+@pytest.fixture
+def subject_filter(subject_filter_group, attribute_description):
+    return SubjectFilter.objects.create(
+        description=attribute_description,
+        operator='exact',
+        value='left',
+        group=subject_filter_group)
