@@ -5,23 +5,12 @@
     {% for participation, buckets, can_access in participants %}
         <li class="table-list-item">
             {% if can_access %}
-                <div>
+                {% if participation.status == participation.RECALL_APPOINTED %}
                     <div>
-                        <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
-                        <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
-                    </div>
-                    {% if participation.status == participation.NOT_REACHED %}
-                        <div class="mr-2">
-                            <div class="d-inline-block my-1">
-                                {% blocktrans count tries=participation.tries %}
-                                    {{ tries }} try
-                                {% plural %}
-                                    {{ tries }} tries
-                                {% endblocktrans %}
-                            </div>,
-                            <div class="d-inline-block my-1">{% trans 'last' %}: {{ participation.updated_at|date:"SHORT_DATETIME_FORMAT" }}</div>
+                        <div>
+                            <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
+                            <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
                         </div>
-                    {% elif participation.status == participation.RECALL_APPOINTED %}
                         <div class="mr-2">
                             <div class="d-inline-block my-1">
                                 {% if participation.appointment_today %}
@@ -38,11 +27,46 @@
                                 {% endif %}
                             </div>
                         </div>
-                    {% endif %}
-                </div>
+                    </div>
+                {% elif participation.status_open and participation.last_contacted_elsewhere.date > last_agreeable_contact_time %}
+                    <div class="text-muted">
+                        <div>
+                            <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
+                            <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
+                        </div>
+                        <div class="mr-2">
+                            {% trans 'recently contacted in another recruitment' %}
+                            <i class="fas fa-phone-slash list-icon bg-warning text-dark" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                {% elif participation.status == participation.NOT_REACHED %}
+                    <div>
+                        <div>
+                            <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
+                            <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
+                        </div>
+                        <div class="mr-2">
+                            <div class="d-inline-block my-1">
+                                {% blocktrans count tries=participation.tries %}
+                                    {{ tries }} try
+                                {% plural %}
+                                    {{ tries }} tries
+                                {% endblocktrans %}
+                            </div>,
+                            <div class="d-inline-block my-1">{% trans 'last' %}: {{ participation.updated_at|date:"SHORT_DATETIME_FORMAT" }}</div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div>
+                        <div>
+                            <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
+                            <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
+                        </div>
+                    </div>
+                {% endif %}
                 {% if can_change_participationrequest %}
                     <div class="table-list-item-actions">
-                        {% if participation.status == participation.NOT_CONTACTED or participation.status == participation.NOT_REACHED or participation.status == participation.RECALL_APPOINTED %}
+                        {% if participation.status_open %}
                             <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pk %}">{% trans 'Call' %}</a>
                         {% else %}
                             <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Call' %}</a>
@@ -50,10 +74,12 @@
                     </div>
                 {% endif %}
             {% else %}
-                <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
-                <div class="d-inline-block text-muted my-1 mr-2">
-                    {% trans 'access denied' %}
-                    <i class="fas fa-ban list-icon bg-danger text-light" aria-hidden="true"></i>
+                <div class="text-muted">
+                    <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
+                    <div class="d-inline-block my-1 mr-2">
+                        {% trans 'access denied' %}
+                        <i class="fas fa-ban list-icon bg-danger text-light" aria-hidden="true"></i>
+                    </div>
                 </div>
                 {% if can_change_participationrequest %}
                     <div class="table-list-item-actions">
