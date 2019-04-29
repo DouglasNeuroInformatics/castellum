@@ -17,5 +17,6 @@
             </button>
         {% endif %}
     {% endif %}
+    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:exclusioncriteria' study.pk %}">{% trans 'Manage Exclusion Criteria' %}</a>
 
 {% endblock %}
