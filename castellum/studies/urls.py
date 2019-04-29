@@ -22,6 +22,7 @@
 from django.urls import path
 
 from .views.studies import StudyCreateView
+from .views.studies import StudyExclusionCriteriaView
 from .views.studies import StudyIndexView
 from .views.studies import StudyMemberRemoveView
 from .views.studies import StudyMembersView
@@ -47,6 +48,8 @@ urlpatterns = [
          name="delete-member"),
     path('<int:pk>/recruitmentsettings/', StudyRecruitmentSettingsView.as_view(),
          name='recruitmentsettings'),
+    path('<int:pk>/exclusioncriteria/', StudyExclusionCriteriaView.as_view(),
+         name='exclusioncriteria'),
     path(
         '<int:study_pk>/filters/',
         FilterGroupListView.as_view(),
@@ -72,4 +75,5 @@ urlpatterns = [
         FilterGroupDuplicateView.as_view(),
         name='filtergroup_duplicate',
     ),
+
 ]
