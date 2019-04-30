@@ -34,7 +34,6 @@ class ContactAdmin(admin.ModelAdmin):
                 ("first_name", "last_name", "title"),
                 "gender",
                 "date_of_birth",
-                "privacy_level",
             ),
         }),
         ("Contact Data", {
@@ -43,15 +42,6 @@ class ContactAdmin(admin.ModelAdmin):
                 "email",
                 ("phone_number", "phone_number_alternative"),
                 "preferred_contact_method",
-            )
-        }),
-        ("Availability", {
-            "fields": (
-                "availability_monday",
-                "availability_tuesday",
-                "availability_wednesday",
-                "availability_thursday",
-                "availability_friday",
             )
         }),
     )
