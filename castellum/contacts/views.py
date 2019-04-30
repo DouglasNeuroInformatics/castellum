@@ -27,7 +27,6 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic import DetailView
-from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.helpers import get_pseudonym
@@ -36,6 +35,7 @@ from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
 from .forms import SearchForm
+from .mixins import BaseContactUpdateView
 from .mixins import SubjectMixin
 from .models import Contact
 
@@ -111,31 +111,11 @@ class ContactCreateView(PermissionRequiredMixin, CreateView):
         return result
 
 
-class ContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
-    model = Contact
-    form_class = ContactForm
-    permission_required = 'contacts.change_contact'
-
+class ContactUpdateView(BaseContactUpdateView):
     def get_object(self):
         subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
         pseudonym = get_pseudonym(subject, Contact.domain)
         return get_object_or_404(Contact, pseudonym=pseudonym)
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
-
-    def get_cancel_url(self):
-        return reverse('contacts:detail', args=[self.object.subject.pk])
-
-    def form_valid(self, form):
-        result = super().form_valid(form)
-        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
-            Contact.domain,
-            self.object.pseudonym,
-            self.request.user.pk))
-        return result
 
 
 class ContactExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
