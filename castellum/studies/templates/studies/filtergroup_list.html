@@ -39,15 +39,15 @@
                             {% if can_change_subjectfilter %}
                                 {% if study.published %}
                                     <span class="btn btn-outline-primary disabled">{% trans "Duplicate" %}</span>
-                                    <a href="{% url 'recruitment:filtergroup_update' study.pk group.pk %}" class="btn btn-outline-primary">{% trans "View" %}</a>
+                                    <a href="{% url 'studies:filtergroup_update' study.pk group.pk %}" class="btn btn-outline-primary">{% trans "View" %}</a>
                                     <span class="btn btn-danger disabled">{% trans "Delete" %}</span>
                                 {% else %}
-                                    <form class="d-inline" method="post" action="{% url 'recruitment:filtergroup_duplicate' study.pk group.pk %}">
+                                    <form class="d-inline" method="post" action="{% url 'studies:filtergroup_duplicate' study.pk group.pk %}">
                                         {% csrf_token %}
                                         <input type="submit" class="btn btn-outline-primary" value="{% trans "Duplicate" %}">
                                     </form>
-                                    <a href="{% url 'recruitment:filtergroup_update' study.pk group.pk %}" class="btn btn-outline-primary">{% trans "Edit" %}</a>
-                                    <a href="{% url 'recruitment:filtergroup_delete' study.pk group.pk %}" class="btn btn-danger">{% trans "Delete" %}</a>
+                                    <a href="{% url 'studies:filtergroup_update' study.pk group.pk %}" class="btn btn-outline-primary">{% trans "Edit" %}</a>
+                                    <a href="{% url 'studies:filtergroup_delete' study.pk group.pk %}" class="btn btn-danger">{% trans "Delete" %}</a>
                                 {% endif %}
                             {% endif %}
                         </div>
@@ -56,7 +56,7 @@
             {% endfor %}
 
             {% if can_change_subjectfilter %}
-                <form action="{% url 'recruitment:filtergroup_create' study.pk %}" method="post">
+                <form action="{% url 'studies:filtergroup_create' study.pk %}" method="post">
                     {% if study.published %}
                         <button class="btn btn-primary" disabled>{% trans 'Add new' %}</button>
                     {% else %}

@@ -21,6 +21,7 @@
 
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.translation import ugettext_lazy as _
 
 from castellum.utils.forms import DisabledModelChoiceField
 from castellum.utils.helpers import get_object_or_none
@@ -93,6 +94,25 @@ class SubjectFilterForm(forms.ModelForm):
     class Meta:
         model = SubjectFilter
         fields = "__all__"
+
+
+class SubjectFilterFormSet(forms.BaseModelFormSet):
+    def clean(self):
+        super().clean()
+
+        values = []
+        for form in self.forms:
+            if not form.cleaned_data.get('DELETE', False):
+                values.append((
+                    form.cleaned_data.get('description'),
+                    form.cleaned_data.get('operator'),
+                    form.cleaned_data.get('value'),
+                ))
+
+        if len(set(values)) != len(values):
+            raise forms.ValidationError(_(
+                'There are duplicates in filters. Please change or delete filters!'
+            ), code='invalid')
 
 
 class AttributeSetForm(forms.Form):

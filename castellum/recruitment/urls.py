@@ -21,49 +21,17 @@
 
 from django.urls import path
 
-from .views.attributesets import AttributeSetUpdateView
-from .views.contacts import ContactStudiesView
-from .views.contacts import ContactUpdateView
-from .views.recruitment import AppointmentFeed
-from .views.recruitment import ContactView
-from .views.recruitment import RecruitmentViewInvited
-from .views.recruitment import RecruitmentViewOpen
-from .views.recruitment import RecruitmentViewUnsuitable
-from .views.recruitment import StudyChoiceView
-from .views.subjectfilters import FilterGroupCreateView
-from .views.subjectfilters import FilterGroupDeleteView
-from .views.subjectfilters import FilterGroupDuplicateView
-from .views.subjectfilters import FilterGroupListView
-from .views.subjectfilters import FilterGroupUpdateView
+from .views import AppointmentFeed
+from .views import ContactUpdateView
+from .views import ContactView
+from .views import RecruitmentViewInvited
+from .views import RecruitmentViewOpen
+from .views import RecruitmentViewUnsuitable
+from .views import StudyChoiceView
 
 app_name = 'recruitment'
 urlpatterns = [
-    path('attributes/<int:pk>/update/', AttributeSetUpdateView.as_view(), name='attributes_update'),
-
-    path('contacts/<int:pk>/studies/', ContactStudiesView.as_view(), name='contacts_studies'),
-
     path('', StudyChoiceView.as_view(), name='index'),
-
-    path(
-        'filter/<int:study_pk>/',
-        FilterGroupListView.as_view(),
-        name='filtergroup_index'),
-    path(
-        'filter/<int:study_pk>/create/',
-        FilterGroupCreateView.as_view(),
-        name='filtergroup_create'),
-    path(
-        'filter/<int:study_pk>/<int:pk>/delete/',
-        FilterGroupDeleteView.as_view(),
-        name='filtergroup_delete'),
-    path(
-        'filter/<int:study_pk>/<int:pk>/',
-        FilterGroupUpdateView.as_view(),
-        name='filtergroup_update'),
-    path(
-        'filter/<int:study_pk>/<int:pk>/duplicate/',
-        FilterGroupDuplicateView.as_view(),
-        name='filtergroup_duplicate'),
 
     path('<study_pk>/', RecruitmentViewOpen.as_view(), name='recruitment_open'),
     path('<study_pk>/invited/', RecruitmentViewInvited.as_view(),

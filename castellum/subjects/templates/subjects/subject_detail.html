@@ -34,9 +34,9 @@
         {% endif %}
         {% has_perm 'recruitment.change_attributeset' user as can_change_attributeset %}
         {% if can_change_attributeset %}
-            <a href="{% url 'recruitment:attributes_update' subject.pk %}" class="btn btn-secondary">{% trans "Edit attributes" %}</a>
+            <a href="{% url 'subjects:attributeset' subject.pk %}" class="btn btn-secondary">{% trans "Edit attributes" %}</a>
         {% endif %}
-        <a href="{% url 'recruitment:contacts_studies' subject.pk %}" class="btn btn-secondary">{% trans 'Add to study' %}</a>
+        <a href="{% url 'subjects:add-to-study' subject.pk %}" class="btn btn-secondary">{% trans 'Add to study' %}</a>
         {% has_perm 'subjects.view_subject' user as can_view_subject %}
         {% if can_view_subject %}
             <a href="{% url 'subjects:export' subject.pk %}" class="btn btn-secondary">{% trans 'Export' %}</a>

@@ -1,4 +1,4 @@
-from castellum.recruitment.views.subjectfilters import FilterFormSet
+from castellum.recruitment.forms import SubjectFilterFormSet
 from castellum.recruitment.models import SubjectFilter
 from django.forms import modelformset_factory
 
@@ -24,8 +24,8 @@ def instantiate_formset(formset_class, data, instance=None, initial=None):
 
 def test_formset_with_arbitary_data(attribute_description):
     filterFormSet = modelformset_factory(SubjectFilter, fields=['description', 'operator', 'value'],
-                                         formset=FilterFormSet, extra=0, max_num=5, min_num=1,
-                                         can_delete=True)
+                                         formset=SubjectFilterFormSet, extra=0, max_num=5,
+                                         min_num=1, can_delete=True)
 
     formset = instantiate_formset(filterFormSet, [
         {
@@ -41,8 +41,8 @@ def test_formset_with_arbitary_data(attribute_description):
 
 def test_formset_with_valid_data(attribute_description):
     filterFormSet = modelformset_factory(SubjectFilter, fields=['description', 'operator', 'value'],
-                                         formset=FilterFormSet, extra=0, max_num=5, min_num=1,
-                                         can_delete=True)
+                                         formset=SubjectFilterFormSet, extra=0, max_num=5,
+                                         min_num=1, can_delete=True)
 
     formset = instantiate_formset(filterFormSet, [
         {
@@ -64,8 +64,8 @@ def test_formset_with_valid_data(attribute_description):
 
 def test_two_identical_filters(attribute_description):
     filterFormSet = modelformset_factory(SubjectFilter, fields=['description', 'operator', 'value'],
-                                         formset=FilterFormSet, extra=0, max_num=5, min_num=1,
-                                         can_delete=True)
+                                         formset=SubjectFilterFormSet, extra=0, max_num=5,
+                                         min_num=1, can_delete=True)
 
     formset = instantiate_formset(filterFormSet, [
         {
@@ -87,8 +87,8 @@ def test_two_identical_filters(attribute_description):
 
 def test_two_identical_filters_with_delete(attribute_description):
     filterFormSet = modelformset_factory(SubjectFilter, fields=['description', 'operator', 'value'],
-                                         formset=FilterFormSet, extra=0, max_num=5, min_num=1,
-                                         can_delete=True)
+                                         formset=SubjectFilterFormSet, extra=0, max_num=5,
+                                         min_num=1, can_delete=True)
 
     formset = instantiate_formset(filterFormSet, [
         {

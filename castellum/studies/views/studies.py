@@ -39,11 +39,11 @@ from django.views.generic.detail import SingleObjectMixin
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.castellum_auth.models import User
 
-from .forms import AddMemberForm
-from .forms import MemberForm
-from .models import Study
-from .models import StudyMembership
-from .models import StudySession
+from ..forms import AddMemberForm
+from ..forms import MemberForm
+from ..models import Study
+from ..models import StudyMembership
+from ..models import StudySession
 
 
 class StudyAccessMixin(PermissionRequiredMixin):
