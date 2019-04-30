@@ -104,7 +104,7 @@ def test_create_revision_on_create(client, member, attributeset, published_study
 
 
 def create_attributeset():
-    subject = mommy.make('pseudonyms.Subject')
+    subject = mommy.make('subjects.Subject')
 
     contact = mommy.make('contacts.Contact')
     mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["contact"],
@@ -114,7 +114,7 @@ def create_attributeset():
 
 
 def create_participation_request(study, status=ParticipationRequest.NOT_CONTACTED):
-    subject = mommy.make('pseudonyms.Subject')
+    subject = mommy.make('subjects.Subject')
 
     contact = mommy.make('contacts.Contact')
     mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["contact"],

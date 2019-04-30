@@ -21,34 +21,15 @@
 
 import logging
 
-from django.core.exceptions import PermissionDenied
-from django.utils.functional import cached_property
-from django.utils.translation import ugettext_lazy as _
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.pseudonyms.models import Subject
+from castellum.subjects.mixins import SubjectMixin
 
 from .forms import ContactForm
 from .models import Contact
 
 monitoring_logger = logging.getLogger('monitoring.contacts')
-
-
-class SubjectMixin:
-    @cached_property
-    def subject(self):
-        obj = self.get_object()
-        if isinstance(obj, Subject):
-            return obj
-        else:
-            return obj.subject
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            if not request.user.has_privacy_level(self.subject.privacy_level):
-                raise PermissionDenied(_('Insufficient privacy level'))
-        return super().dispatch(request, *args, **kwargs)
 
 
 class BaseContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):

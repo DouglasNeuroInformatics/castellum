@@ -30,16 +30,16 @@
     <div class="mb-3">
         {% has_perm 'contacts.change_contact' user as can_change_contact %}
         {% if can_change_contact %}
-            <a class="btn btn-secondary" href="{% url 'contacts:update' subject.pk %}">{% trans 'Edit contact' %}</a>
+            <a class="btn btn-secondary" href="{% url 'subjects:contact' subject.pk %}">{% trans 'Edit contact' %}</a>
         {% endif %}
         {% has_perm 'recruitment.change_attributeset' user as can_change_attributeset %}
         {% if can_change_attributeset %}
             <a href="{% url 'recruitment:attributes_update' subject.pk %}" class="btn btn-secondary">{% trans "Edit attributes" %}</a>
         {% endif %}
         <a href="{% url 'recruitment:contacts_studies' subject.pk %}" class="btn btn-secondary">{% trans 'Add to study' %}</a>
-        {% has_perm 'pseudonyms.view_subject' user as can_view_subject %}
+        {% has_perm 'subjects.view_subject' user as can_view_subject %}
         {% if can_view_subject %}
-            <a href="{% url 'contacts:export' subject.pk %}" class="btn btn-secondary">{% trans 'Export' %}</a>
+            <a href="{% url 'subjects:export' subject.pk %}" class="btn btn-secondary">{% trans 'Export' %}</a>
         {% endif %}
     </div>
 {% endblock %}

@@ -10,12 +10,12 @@ from castellum.castellum_auth.models import User
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.models import Contact
 from castellum.contacts.models.contact import ContactManager
-from castellum.contacts.views import ContactSearchView
+from castellum.subjects.views import SubjectSearchView
 
 
 @pytest.fixture
 def view():
-    return ContactSearchView()
+    return SubjectSearchView()
 
 
 @pytest.fixture
@@ -37,13 +37,13 @@ def form(data):
 @pytest.mark.unittest
 @patch.object(ContactManager, "fuzzy_filter")
 @patch.object(ContactManager, "count")
-@patch.object(ContactSearchView, "user_has_privacy_level")
-@patch.object(ContactSearchView, "render_to_response")
+@patch.object(SubjectSearchView, "user_has_privacy_level")
+@patch.object(SubjectSearchView, "render_to_response")
 def test_form_valid(render_to_response, user_has_privacy_level, count, fuzzy_filter,
                     view, form, request_factory):
     contacts = mommy.prepare(Contact, _quantity=3)
 
-    view.request = request_factory.post(reverse("contacts:index"))
+    view.request = request_factory.post(reverse("subjects:index"))
     view.request.user = mommy.prepare(User)
     user_has_privacy_level.side_effect = [True, True, False]
     fuzzy_filter.return_value = contacts

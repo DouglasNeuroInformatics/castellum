@@ -35,7 +35,7 @@ from parler.models import TranslatableModel
 from parler.models import TranslatedFields
 from parler.utils.context import switch_language
 
-from castellum.pseudonyms.models import Subject
+from castellum.subjects.models import Subject
 
 from .. import attribute_fields
 from ..utils import get_study_filter_q
@@ -78,7 +78,7 @@ class AttributeSet(models.Model):
         verbose_name_plural = _('attribute sets')
 
     def get_absolute_url(self):
-        return reverse('contacts:detail', args=[self.subject.pk])
+        return reverse('subjects:detail', args=[self.subject.pk])
 
     def get_data(self):
         qs = AttributeDescription.objects.all()

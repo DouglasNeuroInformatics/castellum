@@ -19,8 +19,9 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from castellum.subjects.models import Subject
+
 from .models import Pseudonym
-from .models import Subject
 
 
 def get_subject(domain, pseudonym):

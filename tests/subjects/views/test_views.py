@@ -11,7 +11,7 @@ from django.urls import reverse
 def test_status_code_200_for_contact_index_view(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    response = client.get(reverse('contacts:index'))
+    response = client.get(reverse('subjects:index'))
     assert 200 == response.status_code
 
 
@@ -36,7 +36,7 @@ def test_detail_200(request, client, user_fixture, contact):
 def test_status_code_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    response = client.get(reverse('contacts:create'))
+    response = client.get(reverse('subjects:create'))
     assert 200 == response.status_code
 
 
@@ -65,17 +65,17 @@ def test_create_with_parameter_200(client, user, contact):
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
 ])
-def test_update_200(request, client, user_fixture, contact):
+def test_contact_200(request, client, user_fixture, contact):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/update/'.format(contact.subject.pk)
+    url = '/subjects/{}/contact/'.format(contact.subject.pk)
     response = client.get(url)
     assert response.status_code == 200
 
 
-def test_update_with_parameter_200(client, user, contact):
+def test_contact_with_parameter_200(client, user, contact):
     client.force_login(user)
-    url = '/subjects/{}/update/?first_name=test'.format(contact.subject.pk)
+    url = '/subjects/{}/contact/?first_name=test'.format(contact.subject.pk)
     response = client.get(url)
     assert response.status_code == 200
 
