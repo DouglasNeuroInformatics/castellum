@@ -286,7 +286,9 @@ def generate_subjects(count):
         first_name_phonetic=phonetic('Muhammad'),
         last_name='Nguyen',
         last_name_phonetic=phonetic('Nguyen'),
-        date_of_birth='2000-12-13')
+        date_of_birth='2000-12-13',
+        email='muhammad@example.com',
+    )
     contacts.append(testcontact)
     testcontact.pseudonym = contact_pseudonyms[-1]
 
