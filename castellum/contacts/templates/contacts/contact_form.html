@@ -97,6 +97,14 @@
             </fieldset>
 
             {% bootstrap_field form.not_available_until %}
+
+            <fieldset>
+                <legend class="h5">{% trans "Notes" %}</legend>
+
+                {% bootstrap_field form.note_hard_of_hearing %}
+                {% bootstrap_field form.note_difficult_to_understand %}
+                {% bootstrap_field form.note_abusive_language %}
+            </fieldset>
         <fieldset>
 
         <div class="mb-3">
