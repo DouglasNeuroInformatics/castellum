@@ -74,9 +74,9 @@
 
             {% bootstrap_field form.preferred_contact_method %}
 
-            <label>{% trans "Availability" %}</label>
+            <fieldset data-js="availability" data-create="{% if not object and not form.is_bound %}true{% endif %}" class="mb-3">
+                <legend class="h5">{% trans "Availability" %}</legend>
 
-            <div data-js="availability" data-create="{% if not object and not form.is_bound %}true{% endif %}" class="mb-3">
                 <div class="row">
                     <div class="col-6 col-sm-2">
                         {% bootstrap_field form.availability_monday %}
@@ -94,7 +94,7 @@
                         {% bootstrap_field form.availability_friday %}
                     </div>
                 </div>
-            </div>
+            </fieldset>
 
             {% bootstrap_field form.not_available_until %}
         <fieldset>
