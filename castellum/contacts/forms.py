@@ -60,7 +60,7 @@ class ContactForm(forms.ModelForm):
         label=_('additional address information'), required=False)
 
     # fields required for subject
-    privacy_level = Subject._meta.get_field('privacy_level').formfield()
+    privacy_level = Subject._meta.get_field('privacy_level').formfield(widget=forms.RadioSelect)
     availability_monday = Subject._meta.get_field('availability_monday').formfield()
     availability_tuesday = Subject._meta.get_field('availability_tuesday').formfield()
     availability_wednesday = Subject._meta.get_field('availability_wednesday').formfield()

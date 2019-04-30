@@ -19,7 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.core.validators import MaxValueValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -39,7 +38,14 @@ class TimeSlot(models.Model):
 
 class Subject(models.Model):
     privacy_level = models.PositiveIntegerField(
-        _("privacy level"), default=0, validators=[MaxValueValidator(2)])
+        _("privacy level"),
+        default=0,
+        choices=[
+            (0, _('0 (regular)')),
+            (1, _('1 (increased)')),
+            (2, _('2 (high)'))
+        ],
+    )
 
     availability_monday = models.ManyToManyField(
         TimeSlot, verbose_name=_("monday"), blank=True, related_name='+')
