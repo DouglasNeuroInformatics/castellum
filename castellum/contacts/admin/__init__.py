@@ -29,10 +29,8 @@ from ..models import Address
 from ..models import City
 from ..models import Contact
 from ..models import Country
-from ..models import TimeSlot
 
 admin.site.register(Address, AddressAdmin)
 admin.site.register(City, CityAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Contact, ContactAdmin)
-admin.site.register(TimeSlot)

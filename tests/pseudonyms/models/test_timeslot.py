@@ -1,6 +1,6 @@
 import pytest
 
-from castellum.contacts.models import TimeSlot
+from castellum.pseudonyms.models import TimeSlot
 
 
 @pytest.mark.unittest
