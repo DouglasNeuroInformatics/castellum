@@ -45,12 +45,15 @@ from ..mixins import StudyPermissionMixin
 from ..models import Study
 
 
+class GetStudyMixin:
+    """Should be called in the beginning to populate self.study."""
+    def dispatch(self, request, *args, **kwargs):
+        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
+        return super().dispatch(request, *args, **kwargs)
+
+
 class CustomFilterMixin:
     """Should be called *after* PermissionRequiredMixin."""
-
-    def setup(self, request, *args, **kwargs):
-        super().setup(request, *args, **kwargs)
-        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
 
     def dispatch(self, request, *args, **kwargs):
         if self.study.custom_filter:
@@ -66,7 +69,7 @@ class CustomFilterMixin:
         return super().dispatch(request, *args, **kwargs)
 
 
-class FilterMixin(StudyPermissionMixin, PermissionRequiredMixin, CustomFilterMixin):
+class FilterMixin(GetStudyMixin, StudyPermissionMixin, PermissionRequiredMixin, CustomFilterMixin):
     def get_permission_required(self):
         permission_required = set()
         permission_required.update(super().get_permission_required())
@@ -165,9 +168,9 @@ class FilterGroupUpdateView(FilterMixin, ModelFormSetView):
     template_name = "studies/filtergroup.html"
     permission_required = 'recruitment.change_subjectfilter'
 
-    def setup(self, request, *args, **kwargs):
-        super().setup(request, *args, **kwargs)
+    def dispatch(self, request, *args, **kwargs):
         self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['pk'])
+        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         self.study.raise_permission_denied_if_study_is_published()
