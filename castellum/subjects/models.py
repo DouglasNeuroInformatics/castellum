@@ -47,6 +47,10 @@ class Subject(models.Model):
         ],
     )
 
+    note_hard_of_hearing = models.BooleanField(_('Hard of hearing'), default=False)
+    note_difficult_to_understand = models.BooleanField(_('Difficult to understand'), default=False)
+    note_abusive_language = models.BooleanField(_('Abusive language'), default=False)
+
     availability_monday = models.ManyToManyField(
         TimeSlot, verbose_name=_("monday"), blank=True, related_name='+')
     availability_tuesday = models.ManyToManyField(
