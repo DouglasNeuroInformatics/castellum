@@ -31,6 +31,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
+from django.views.generic import DetailView
 from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
@@ -182,6 +183,12 @@ class StudyPublishView(StudyAccessMixin, View):
         self.object.save()
 
         return redirect(reverse('studies:index'))
+
+
+class StudyRecruitmentSettingsView(StudyAccessMixin, DetailView):
+    model = Study
+    permission_required = 'studies.view_study'
+    template_name = 'studies/study_recruitmentsettings.html'
 
 
 class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
