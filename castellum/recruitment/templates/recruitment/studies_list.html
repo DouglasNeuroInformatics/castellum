@@ -4,7 +4,12 @@
 {% block title %}{% trans "Recruitment" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h2>{% trans 'Recruitment' %}</h2>
+    <div class="h2">
+        <h2 class="d-inline">{% trans 'Recruitment' %}</h2>
+        <a href="{% url 'recruitment:all-studies-appointments' request.user.pk %}" class="btn btn-sm btn-primary" title="{% trans 'Appointments' %}">
+            <i class="far fa-calendar-plus" aria-label="{% trans 'Appointments' %}"></i>
+        </a>
+    </div>
 
     {% if studies %}
         <ul class="table-list mb-3">

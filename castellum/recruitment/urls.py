@@ -22,6 +22,7 @@
 from django.urls import path
 
 from .views import AppointmentFeed
+from .views import AppointmentsForAllStudiesFeed
 from .views import ContactUpdateView
 from .views import ContactView
 from .views import RecruitmentViewInvited
@@ -33,6 +34,8 @@ app_name = 'recruitment'
 urlpatterns = [
     path('', StudyChoiceView.as_view(), name='index'),
 
+    path('appointments/<user_id>/', AppointmentsForAllStudiesFeed(),
+         name='all-studies-appointments'),
     path('<study_pk>/', RecruitmentViewOpen.as_view(), name='recruitment_open'),
     path('<study_pk>/invited/', RecruitmentViewInvited.as_view(),
          name='recruitment_invited'),
