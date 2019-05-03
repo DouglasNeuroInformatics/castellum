@@ -26,6 +26,7 @@ from collections import defaultdict
 
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
@@ -359,6 +360,39 @@ class AppointmentFeed(ICalFeed):
         return ParticipationRequest.objects\
             .filter(study=study, appointment__isnull=False)\
             .order_by('-appointment')
+
+    def item_title(self, item):
+        return '{} - {}'.format(item.study.name, item.pk)
+
+    def item_start_datetime(self, item):
+        return item.appointment
+
+    def item_updateddate(self, item):
+        return item.updated_at
+
+    def item_description(self, item):
+        return item.pk
+
+    def item_link(self, item):
+        return reverse('recruitment:contact', args=[item.study.pk, item.pk])
+
+
+class AppointmentsForAllStudiesFeed(ICalFeed):
+    def get_object(self, *args, **kwargs):
+        return get_object_or_404(get_user_model(), pk=kwargs.get('user_id'))
+
+    def items(self, user):
+        for study in Study.objects.filter(published=True):
+            if not (user.has_perm('recruitment.add_participationrequest', obj=study) and
+                    user.has_perm('studies.access_study', obj=study)):
+                continue
+            qs = (ParticipationRequest.objects.filter(study=study, appointment__isnull=False)
+                                              .order_by('-appointment'))
+            for participation_request in qs:
+                yield participation_request
+
+    def file_name(self, study):
+        return 'castellum-appointments.ics'
 
     def item_title(self, item):
         return '{} - {}'.format(item.study.name, item.pk)
