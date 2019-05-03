@@ -61,6 +61,11 @@ class ContactForm(forms.ModelForm):
 
     # fields required for subject
     privacy_level = Subject._meta.get_field('privacy_level').formfield(widget=forms.RadioSelect)
+    note_hard_of_hearing = Subject._meta.get_field('note_hard_of_hearing').formfield()
+    note_difficult_to_understand = (
+        Subject._meta.get_field('note_difficult_to_understand').formfield()
+    )
+    note_abusive_language = Subject._meta.get_field('note_abusive_language').formfield()
     availability_monday = Subject._meta.get_field('availability_monday').formfield()
     availability_tuesday = Subject._meta.get_field('availability_tuesday').formfield()
     availability_wednesday = Subject._meta.get_field('availability_wednesday').formfield()
@@ -88,6 +93,13 @@ class ContactForm(forms.ModelForm):
 
         if self.instance.pseudonym:
             self.fields['privacy_level'].initial = self.instance.subject.privacy_level
+            self.fields['note_hard_of_hearing'].initial = self.instance.subject.note_hard_of_hearing
+            self.fields['note_difficult_to_understand'].initial = (
+                self.instance.subject.note_difficult_to_understand
+            )
+            self.fields['note_abusive_language'].initial = (
+                self.instance.subject.note_abusive_language
+            )
             for day in DAYS:
                 self.fields[day].initial = getattr(self.instance.subject, day).all()
             self.fields['not_available_until'].initial = self.instance.subject.not_available_until
@@ -166,6 +178,11 @@ class ContactForm(forms.ModelForm):
 
         if contact.pseudonym:
             contact.subject.privacy_level = self.cleaned_data['privacy_level']
+            contact.subject.note_hard_of_hearing = self.cleaned_data['note_hard_of_hearing']
+            contact.subject.note_difficult_to_understand = (
+                self.cleaned_data['note_difficult_to_understand']
+            )
+            contact.subject.note_abusive_language = self.cleaned_data['note_abusive_language']
             for day in DAYS:
                 getattr(contact.subject, day).set(self.cleaned_data[day])
             contact.subject.not_available_until = self.cleaned_data['not_available_until']
