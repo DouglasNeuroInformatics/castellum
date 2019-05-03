@@ -27,7 +27,7 @@ from .views.studies import StudyMemberRemoveView
 from .views.studies import StudyMembersView
 from .views.studies import StudyMemberUpdateView
 from .views.studies import StudyPublishView
-from .views import StudyRecruitmentSettingsView
+from .views.studies import StudyRecruitmentSettingsView
 from .views.studies import StudyUpdateView
 from .views.subjectfilters import FilterGroupCreateView
 from .views.subjectfilters import FilterGroupDeleteView
