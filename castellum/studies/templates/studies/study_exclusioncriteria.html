@@ -10,10 +10,12 @@
         {% bootstrap_field form.exclusion_criteria %}
 
         {% if study_type == FMRI %}
-            <p>{% trans "As fMRI is used in this study, the following exclusion criteria are always included:" %}</p>
-            <blockquote class="blockquote">
-                {% include "studies/__exclusioncriteria_fmri.html" %}
-            </blockquote>
+            <details class="mb-3">
+                <summary class="mb-2">{% trans "fMRI-specific exclusion criteria" %}</summary>
+                <blockquote class="blockquote">
+                    {% include "studies/__exclusioncriteria_fmri.html" %}
+                </blockquote>
+            </details>
         {% endif %}
 
         <div class="mb-3">
