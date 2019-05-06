@@ -4,7 +4,7 @@
 {% block title %}{% trans "Study recruitment settings" %} &middot; {{ object }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h2>{% trans 'Study recruitment settings for' %} {{ object }}</h2>
+    <h2>{% blocktrans %} Recruitment settings for {{ object }} {% endblocktrans %}</h2>
     <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
     {% has_perm 'recruitment.change_subjectfilter' user study as can_change_subjectfilter %}
     {% if can_change_subjectfilter %}
