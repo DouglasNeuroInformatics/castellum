@@ -261,16 +261,12 @@ msgid "Create new subject"
 msgstr "Neue Proband*in anlegen"
 
 #: castellum/contacts/templates/contacts/contact_form.html:67
-#, fuzzy
-#| msgid "privacy level"
 msgid "Privacy level"
 msgstr "Vertraulichkeitsstufe"
 
 #: castellum/contacts/templates/contacts/contact_form.html:73
-#, fuzzy
-#| msgid "personal info"
 msgid "Operational hints"
-msgstr "Persönliche Informationen"
+msgstr "Verfahrenshinweise"
 
 #: castellum/contacts/templates/contacts/contact_form.html:78
 msgid "Availability"
@@ -278,7 +274,7 @@ msgstr "Erreichbarkeit"
 
 #: castellum/contacts/templates/contacts/contact_form.html:102
 msgid "Notes"
-msgstr ""
+msgstr "Notizen"
 
 #: castellum/contacts/templates/contacts/contact_form.html:111
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:28
@@ -427,8 +423,6 @@ msgid "younger than"
 msgstr "jünger als"
 
 #: castellum/recruitment/forms.py:114
-#, fuzzy
-#| msgid "There are duplicates in filters. Please change or delete filter!"
 msgid "There are duplicates in filters. Please change or delete filters!"
 msgstr ""
 "Es wurden Filter dupliziert. Bitte ändern oder löschen Sie diese Filter!"
@@ -520,7 +514,7 @@ msgstr "Teilnahmestatus"
 
 #: castellum/recruitment/models/recruitment.py:78
 msgid "subject may be suitable"
-msgstr ""
+msgstr "Proband*in ist potentiell geeignet"
 
 #: castellum/recruitment/models/recruitment.py:80
 msgid "appointment"
@@ -544,7 +538,7 @@ msgstr "Eine Terminvereinbarung kann mit diesem Status nicht gesetzt werden"
 
 #: castellum/recruitment/models/recruitment.py:109
 msgid "Exclusion criteria have not been checked"
-msgstr ""
+msgstr "Ausschlusskriterien wurden noch nicht überprüft"
 
 #: castellum/recruitment/templates/admin/recruitment/attributedescription_import.html:17
 msgid ""
@@ -580,10 +574,8 @@ msgid "appointment today"
 msgstr "Terminvereinbarung heute"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:38
-#, fuzzy
-#| msgid "uses advanced filtering for recruitment"
 msgid "recently contacted in another recruitment"
-msgstr "benutzt erweiterte Filterung für die Rekrutierung"
+msgstr "wurde vor kurzem in einer anderen Rekrutierung kontaktiert"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:50
 #, python-format
@@ -657,10 +649,8 @@ msgstr "Sitzungsdauer in Minuten"
 #: castellum/recruitment/templates/recruitment/contact.html:92
 #: castellum/studies/models.py:72
 #: castellum/studies/templates/studies/study_exclusioncriteria.html:4
-#, fuzzy
-#| msgid "Check exclusion criteria"
 msgid "Exclusion criteria"
-msgstr "Ausschlusskriterien überprüfen"
+msgstr "Ausschlusskriterien"
 
 #: castellum/recruitment/templates/recruitment/contact.html:110
 msgid "Save and go back"
@@ -1053,10 +1043,8 @@ msgid "Manage members"
 msgstr "Mitglieder verwalten"
 
 #: castellum/studies/templates/studies/study_list.html:43
-#, fuzzy
-#| msgid "Recruitment"
 msgid "Recruitment Settings"
-msgstr "Rekrutierung"
+msgstr "Rekrutierungseinstellungen"
 
 #: castellum/studies/templates/studies/study_list.html:50
 msgid "Unpublish"
@@ -1093,16 +1081,12 @@ msgid "Remove"
 msgstr "Entfernen"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:4
-#, fuzzy
-#| msgid "Recruitment"
 msgid "Recruitment settings"
-msgstr "Rekrutierung"
+msgstr "Rekrutierungseinstellungen"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:7
-#, fuzzy, python-format
-#| msgid "Recruitment"
 msgid "Recruitment settings for %(object)s"
-msgstr "Rekrutierung"
+msgstr "Rekrutierungseinstellungen für %(object)s"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:14
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:18
@@ -1120,10 +1104,8 @@ msgid "Insufficient privacy level"
 msgstr "Vertraulichkeitsstufe nicht ausreichend"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:24
-#, fuzzy
-#| msgid "Check exclusion criteria"
 msgid "Manage Exclusion Criteria"
-msgstr "Ausschlusskriterien überprüfen"
+msgstr "Ausschlusskriterien verwalten"
 
 #: castellum/studies/templates/studies/studymembership_confirm_delete.html:4
 msgid "Delete member"
@@ -1201,29 +1183,27 @@ msgstr "Vertraulichkeitsstufe"
 
 #: castellum/subjects/models.py:44
 msgid "0 (regular)"
-msgstr ""
+msgstr "0 (regulär)"
 
 #: castellum/subjects/models.py:45
 msgid "1 (increased)"
-msgstr ""
+msgstr "1 (erhöht)"
 
 #: castellum/subjects/models.py:46
 msgid "2 (high)"
-msgstr ""
+msgstr "2 (hoch)"
 
 #: castellum/subjects/models.py:50
 msgid "Hard of hearing"
-msgstr ""
+msgstr "Schwerhöhrig"
 
 #: castellum/subjects/models.py:51
 msgid "Difficult to understand"
-msgstr ""
+msgstr "Schwer zu verstehen"
 
 #: castellum/subjects/models.py:52
-#, fuzzy
-#| msgid "Set language"
 msgid "Abusive language"
-msgstr "Sprache festlegen"
+msgstr "Beleidigende Sprache"
 
 #: castellum/subjects/models.py:55
 msgid "monday"
@@ -1357,13 +1337,3 @@ msgstr "SS:MM, z.B. 13:00"
 #: castellum/utils/forms.py:74
 msgid "e.g. 030 123456"
 msgstr "z.B. 030 123456"
-
-#, fuzzy
-#~| msgid "Check exclusion criteria"
-#~ msgid "exclusion criteria"
-#~ msgstr "Ausschlusskriterien überprüfen"
-
-#, fuzzy
-#~| msgid "Check exclusion criteria"
-#~ msgid "Study Exclusion Criteria"
-#~ msgstr "Ausschlusskriterien überprüfen"
