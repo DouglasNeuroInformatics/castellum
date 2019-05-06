@@ -55,11 +55,10 @@
         </div>
 
         <div class="tab-pane" id="study" role="tabpanel" aria-labelledby="study-tab">
-            {% if study.description %}
-                <p>{{ study.description }}</p>
-            {% endif %}
-
             <dl class="row">
+                <dt class="col-sm-6">{{ study|verbose_name:'description' }}</dt>
+                <dd class="col-sm-6">{{ study.description|default:'—' }}</dd>
+
                 <dt class="col-sm-6">{{ study|verbose_name:'study_type' }}</dt>
                 <dd class="col-sm-6">
                     {{ study.get_study_type_display|default:'—' }}
