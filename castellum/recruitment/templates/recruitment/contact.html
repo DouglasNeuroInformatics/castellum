@@ -87,10 +87,15 @@
         </div>
     </div>
 
-    {% if study.exclusion_criteria %}
+    {% if study.has_exclusion_criteria %}
         <details class="mb-3">
             <summary class="h5">{% trans "Exclusion criteria" %}</summary>
-            <div class="markdown-light">{{ study.exclusion_criteria }}</div>
+            {% if study.exclusion_criteria %}
+                <div class="markdown-light mb-3">{{ study.exclusion_criteria }}</div>
+            {% endif %}
+            {% if study.study_type == study.FMRI %}
+                {% include "studies/__exclusioncriteria_fmri.html" %}
+            {% endif %}
         </details>
     {% endif %}
 
