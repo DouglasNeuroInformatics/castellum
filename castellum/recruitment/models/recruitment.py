@@ -75,6 +75,7 @@ class ParticipationRequest(models.Model):
 
     status = models.IntegerField(
         _('status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
+    exclusion_criteria_checked = models.BooleanField(_('subject may be suitable'), default=False)
 
     appointment = DateTimeField(_('appointment'), blank=True, null=True)
 
