@@ -119,6 +119,9 @@ class Study(models.Model):
         today = datetime.date.today()
         return self.participationrequest_set.filter(appointment__date=today).exists()
 
+    def has_exclusion_criteria(self):
+        return self.exclusion_criteria or self.study_type == self.FMRI
+
 
 class StudyMembership(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
