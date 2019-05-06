@@ -51,3 +51,7 @@
 .identicon {
   width: 2rem !important;
 }
+
+.markdown-light {
+    white-space: pre-line;
+}

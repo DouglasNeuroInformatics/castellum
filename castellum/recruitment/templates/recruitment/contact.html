@@ -93,6 +93,13 @@
         </div>
     </div>
 
+    {% if study.exclusion_criteria %}
+        <details class="mb-3">
+            <summary class="h5">{% trans "Exclusion criteria" %}</summary>
+            <div class="markdown-light">{{ study.exclusion_criteria }}</div>
+        </details>
+    {% endif %}
+
     <form method="post">
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
