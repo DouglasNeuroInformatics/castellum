@@ -69,6 +69,7 @@ class Study(models.Model):
     expense_allowance = models.PositiveIntegerField(_('expense allowance'), blank=True, null=True)
     sessions_start = DateField(_('start of test sessions'), blank=True, null=True)
     sessions_end = DateField(_('end of test sessions'), blank=True, null=True)
+    exclusion_criteria = models.TextField(_('exclusion criteria'), blank=True)
 
     members = models.ManyToManyField(User, through='StudyMembership')
     domain = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)

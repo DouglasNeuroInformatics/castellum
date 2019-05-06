@@ -19,4 +19,8 @@
             </button>
         {% endif %}
     {% endif %}
+    {% has_perm 'studies.change_study' user study as can_change_study %}
+    {% if can_change_study %}
+        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:exclusioncriteria' study.pk %}">{% trans 'Manage Exclusion Criteria' %}</a>
+    {% endif %}
 {% endblock %}

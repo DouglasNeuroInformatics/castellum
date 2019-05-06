@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n auth bootstrap4 subjectfilters %}
+
+{% block title %}{% trans "Study Exclusion Criteria" %} &middot; {{ object }}  &middot; {{ block.super }}{% endblock %}
+{% block content %}
+    <form method="post">
+
+        {% csrf_token %}
+
+        {% bootstrap_field form.exclusion_criteria %}
+        <div class="mb-3">
+            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:recruitmentsettings' study.pk %}">{% trans 'Back' %}</a>
+            <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+        </div>
+    </form>
+{% endblock %}
