@@ -9,7 +9,7 @@
 
         {% bootstrap_field form.exclusion_criteria %}
 
-        {% if study_type == FMRI %}
+        {% if study.study_type == study.FMRI %}
             <details class="mb-3">
                 <summary class="mb-2">{% trans "fMRI-specific exclusion criteria" %}</summary>
                 <blockquote class="blockquote">
