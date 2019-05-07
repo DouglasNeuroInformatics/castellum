@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-06 15:34+0200\n"
+"POT-Creation-Date: 2019-05-07 16:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -285,7 +285,7 @@ msgstr "Notizen"
 #: castellum/studies/templates/studies/filtergroup_blocked.html:16
 #: castellum/studies/templates/studies/filtergroup_confirm_delete.html:12
 #: castellum/studies/templates/studies/filtergroup_list.html:72
-#: castellum/studies/templates/studies/study_exclusioncriteria.html:12
+#: castellum/studies/templates/studies/study_exclusioncriteria.html:22
 #: castellum/studies/templates/studies/study_form.html:81
 #: castellum/studies/templates/studies/study_list.html:84
 #: castellum/studies/templates/studies/study_members.html:45
@@ -298,8 +298,8 @@ msgstr "Zurück"
 
 #: castellum/contacts/templates/contacts/contact_form.html:112
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:29
-#: castellum/recruitment/templates/recruitment/contact.html:108
-#: castellum/studies/templates/studies/study_exclusioncriteria.html:13
+#: castellum/recruitment/templates/recruitment/contact.html:116
+#: castellum/studies/templates/studies/study_exclusioncriteria.html:23
 #: castellum/studies/templates/studies/study_form.html:82
 #: castellum/studies/templates/studies/studymembership_form.html:30
 msgid "Save"
@@ -374,11 +374,13 @@ msgstr "ist"
 
 #: castellum/recruitment/attribute_fields.py:119
 #: castellum/recruitment/templates/recruitment/contact.html:42
+#: castellum/utils/templatetags/utils.py:55
 msgid "Yes"
 msgstr "Ja"
 
 #: castellum/recruitment/attribute_fields.py:120
 #: castellum/recruitment/templates/recruitment/contact.html:45
+#: castellum/utils/templatetags/utils.py:57
 msgid "No"
 msgstr "Nein"
 
@@ -646,17 +648,24 @@ msgstr "Kontaktdaten bearbeiten"
 msgid "Duration of sessions in minutes"
 msgstr "Sitzungsdauer in Minuten"
 
-#: castellum/recruitment/templates/recruitment/contact.html:92
+#: castellum/recruitment/templates/recruitment/contact.html:93
 #: castellum/studies/models.py:72
 #: castellum/studies/templates/studies/study_exclusioncriteria.html:4
 msgid "Exclusion criteria"
 msgstr "Ausschlusskriterien"
 
-#: castellum/recruitment/templates/recruitment/contact.html:110
+#: castellum/recruitment/templates/recruitment/contact.html:98
+#: castellum/studies/templates/studies/study_exclusioncriteria.html:14
+#, fuzzy
+#| msgid "Exclusion criteria"
+msgid "fMRI-specific exclusion criteria"
+msgstr "Ausschlusskriterien"
+
+#: castellum/recruitment/templates/recruitment/contact.html:118
 msgid "Save and go back"
 msgstr "Speichern und zurück"
 
-#: castellum/recruitment/templates/recruitment/contact.html:111
+#: castellum/recruitment/templates/recruitment/contact.html:119
 msgid "Save and show next"
 msgstr "Speichern und weiter"
 
@@ -1085,6 +1094,7 @@ msgid "Recruitment settings"
 msgstr "Rekrutierungseinstellungen"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:7
+#, python-format
 msgid "Recruitment settings for %(object)s"
 msgstr "Rekrutierungseinstellungen für %(object)s"
 
@@ -1228,6 +1238,12 @@ msgstr "Freitag"
 #: castellum/subjects/models.py:65
 msgid "not available until"
 msgstr "nicht erreichbar bis"
+
+#: castellum/subjects/models.py:68
+#, fuzzy
+#| msgid "Subjects"
+msgid "Subject"
+msgstr "Proband*innen"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:4
 msgid "Subject details"
