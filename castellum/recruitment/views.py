@@ -272,7 +272,7 @@ class RecruitmentViewOpen(RecruitmentView):
 
 class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = ParticipationRequest
-    fields = ['status', 'appointment']
+    fields = ['status', 'appointment', 'exclusion_criteria_checked']
     template_name = 'recruitment/contact.html'
     permission_required = (
         'contacts.view_contact',
