@@ -21,6 +21,7 @@
 
 from django import template
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
 
@@ -49,7 +50,13 @@ def display(instance, field_name):
         return instance.get_display(field_name)
     else:
         getter = getattr(instance, 'get_{}_display'.format(field_name), None)
-        return getter() if getter else getattr(instance, field_name)
+        value = getter() if getter else getattr(instance, field_name)
+        if value is True:
+            return _('Yes')
+        elif value is False:
+            return _('No')
+        else:
+            return value
 
 
 @register.filter(name='field_names')
