@@ -64,6 +64,20 @@ class Subject(models.Model):
 
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
 
+    class Meta:
+        verbose_name = _('Subject')
+
+    def get_field_names(self):
+        return [
+            'privacy_level',
+            'availability_monday',
+            'availability_tuesday',
+            'availability_wednesday',
+            'availability_thursday',
+            'availability_friday',
+            'not_available_until',
+        ]
+
     @property
     def is_available(self):
         now = timezone.localtime()

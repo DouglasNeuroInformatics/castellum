@@ -130,7 +130,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         monitoring_logger.info('GDPR-Request export: {} by {}'.format(
             self.object.pk, self.request.user.pk))
 
-        context['dataset_list'] = []
+        context['dataset_list'] = [self.object]
 
         pseudonym = get_pseudonym(self.object, Contact.domain)
         context['dataset_list'].append(Contact.objects.get(pseudonym=pseudonym))
