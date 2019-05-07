@@ -8,6 +8,16 @@
         {% csrf_token %}
 
         {% bootstrap_field form.exclusion_criteria %}
+
+        {% if study_type == FMRI %}
+            <details class="mb-3">
+                <summary class="mb-2">{% trans "fMRI-specific exclusion criteria" %}</summary>
+                <blockquote class="blockquote">
+                    {% include "studies/__exclusioncriteria_fmri.html" %}
+                </blockquote>
+            </details>
+        {% endif %}
+
         <div class="mb-3">
             <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:recruitmentsettings' study.pk %}">{% trans 'Back' %}</a>
             <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
