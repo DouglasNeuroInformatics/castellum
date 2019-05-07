@@ -97,6 +97,8 @@
                 {% if study.study_type == study.FMRI %}
                     {% include "studies/__exclusioncriteria_fmri.html" %}
                 {% endif %}
+
+                {% bootstrap_field form.exclusion_criteria_checked %}
             </details>
         {% endif %}
 
