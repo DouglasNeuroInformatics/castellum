@@ -76,6 +76,9 @@ class Subject(models.Model):
             'availability_thursday',
             'availability_friday',
             'not_available_until',
+            'note_hard_of_hearing',
+            'note_difficult_to_understand',
+            'note_abusive_language',
         ]
 
     @property
