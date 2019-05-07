@@ -34,13 +34,11 @@
                 <dd class="col-sm-6">{{ contact.phone_number_alternative|default:'—' }}</dd>
             </dl>
 
-            <div class="row">
-                <div class="col-sm-12">
-                    {% filter upper %}
-                        {% trans "Operational hints"%}
-                    {% endfilter %}
-                </div>
-            </div>
+            <h5>
+                {% filter upper %}
+                    {% trans "Operational hints"%}
+                {% endfilter %}
+            </h5>
 
             <dl class="row">
                 <dt class="col-sm-6">{{ contact|verbose_name:'preferred_contact_method'|title }}</dt>
