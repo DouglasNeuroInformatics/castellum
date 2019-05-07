@@ -656,10 +656,8 @@ msgstr "Ausschlusskriterien"
 
 #: castellum/recruitment/templates/recruitment/contact.html:98
 #: castellum/studies/templates/studies/study_exclusioncriteria.html:14
-#, fuzzy
-#| msgid "Exclusion criteria"
 msgid "fMRI-specific exclusion criteria"
-msgstr "Ausschlusskriterien"
+msgstr "fMRI-spezigische Ausschlusskriterien"
 
 #: castellum/recruitment/templates/recruitment/contact.html:118
 msgid "Save and go back"
@@ -1240,10 +1238,8 @@ msgid "not available until"
 msgstr "nicht erreichbar bis"
 
 #: castellum/subjects/models.py:68
-#, fuzzy
-#| msgid "Subjects"
 msgid "Subject"
-msgstr "Proband*innen"
+msgstr "Proband*in"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:4
 msgid "Subject details"
