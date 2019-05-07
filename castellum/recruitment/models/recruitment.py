@@ -111,7 +111,11 @@ class ParticipationRequest(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         ParticipationRequestRevision.objects.create(
-            current=self, status=self.status, appointment=self.appointment)
+            current=self,
+            status=self.status,
+            exclusion_criteria_checked=self.exclusion_criteria_checked,
+            appointment=self.appointment,
+        )
 
 
 class ParticipationRequestRevision(models.Model):
@@ -131,6 +135,7 @@ class ParticipationRequestRevision(models.Model):
         ParticipationRequest, related_name='revisions', on_delete=models.CASCADE)
     status = models.IntegerField(
         choices=ParticipationRequest.STATUS_OPTIONS, default=ParticipationRequest.NOT_CONTACTED)
+    exclusion_criteria_checked = models.BooleanField()
     appointment = DateTimeField(blank=True, null=True)
     created_at = DateTimeField(auto_now_add=True)
 
