@@ -48,7 +48,7 @@ class AppointmentFeed(ICalFeed):
         return reverse('recruitment:contact', args=[item.study.pk, item.pk])
 
 
-class AppointmentFeedForOneStudy(AppointmentFeed):
+class AppointmentFeedForStudy(AppointmentFeed):
     def get_object(self, *args, **kwargs):
         study = Study.get_by_pk_or_404(kwargs.get('study_pk'))
         study.raise_404_error_if_study_is_not_published()
@@ -63,7 +63,7 @@ class AppointmentFeedForOneStudy(AppointmentFeed):
             .order_by('-appointment')
 
 
-class AppointmentFeedForAllStudies(AppointmentFeed):
+class AppointmentFeedForUser(AppointmentFeed):
     def get_object(self, *args, **kwargs):
         return get_object_or_404(get_user_model(), pk=kwargs.get('user_id'))
 
