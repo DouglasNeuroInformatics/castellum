@@ -51,23 +51,26 @@
 
                 <dt class="col-sm-6 font-weight-normal">{% trans "General recruiting notes" %}</dt>
                 <dd class="col-sm-6">
-                    {% if subject.note_hard_of_hearing %}
-                        <span class="badge badge-primary">{% trans 'Hard of hearing' %}</span>
-                    {% else %}
-                        <span class="badge badge-secondary">{% trans 'Hard of hearing' %}</span>
-                    {% endif %}
+                    <span
+                          class="badge badge-{{ subject.note_hard_of_hearing|yesno:'primary,secondary' }}"
+                          role="checkbox"
+                          aria-disabled="true"
+                          aria-checked="{{ subject.note_hard_of_hearing|yesno:'true,false' }}"
+                        >{% trans 'Hard of hearing' %}</span>
 
-                    {% if subject.note_difficult_to_understand %}
-                        <span class="badge badge-primary">{% trans 'Difficult to understand' %}</span>
-                    {% else %}
-                        <span class="badge badge-secondary">{% trans 'Difficult to understand' %}</span>
-                    {% endif %}
+                    <span
+                          class="badge badge-{{ subject.note_difficult_to_understand|yesno:'primary,secondary' }}"
+                          role="checkbox"
+                          aria-disabled="true"
+                          aria-checked="{{ subject.note_difficult_to_understand|yesno:'true,false' }}"
+                        >{% trans 'Difficult to understand' %}</span>
 
-                    {% if subject.note_abusive_language %}
-                        <span class="badge badge-primary">{% trans 'Abusive language' %}</span>
-                    {% else %}
-                        <span class="badge badge-secondary">{% trans 'Abusive language' %}</span>
-                    {% endif %}
+                    <span
+                          class="badge badge-{{ subject.abusive_language|yesno:'primary,secondary' }}"
+                          role="checkbox"
+                          aria-disabled="true"
+                          aria-checked="{{ subject.abusive_language|yesno:'true,false' }}"
+                        >{% trans 'Abusive language' %}</span>
                 </dd>
             </dl>
 
