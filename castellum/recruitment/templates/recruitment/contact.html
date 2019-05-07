@@ -24,21 +24,29 @@
     <div class="tab-content mb-3 border border-top-0 p-3">
         <div class="tab-pane active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
             <dl class="row">
-                <dt class="col-sm-6 font-weight-normal">{{ contact|verbose_name:'email'|title }}</dt>
+                <dt class="col-sm-6">{{ contact|verbose_name:'email'|title }}</dt>
                 <dd class="col-sm-6">{{ contact.email|default:'—' }}</dd>
 
-                <dt class="col-sm-6 font-weight-normal">{{ contact|verbose_name:'phone_number'|title }}</dt>
+                <dt class="col-sm-6">{{ contact|verbose_name:'phone_number'|title }}</dt>
                 <dd class="col-sm-6">{{ contact.phone_number|default:'—' }}</dd>
 
-                <dt class="col-sm-6 font-weight-normal">{{ contact|verbose_name:'phone_number_alternative'|title }}</dt>
+                <dt class="col-sm-6">{{ contact|verbose_name:'phone_number_alternative'|title }}</dt>
                 <dd class="col-sm-6">{{ contact.phone_number_alternative|default:'—' }}</dd>
+            </dl>
 
-                <dt class="col-sm-6">{% trans "Operational hints" %}</dt><dd class="col-sm-6"></dd>
+            <div class="row">
+                <div class="col-sm-12">
+                    {% filter upper %}
+                        {% trans "Operational hints"%}
+                    {% endfilter %}
+                </div>
+            </div>
 
-                <dt class="col-sm-6 font-weight-normal">{{ contact|verbose_name:'preferred_contact_method'|title }}</dt>
+            <dl class="row">
+                <dt class="col-sm-6">{{ contact|verbose_name:'preferred_contact_method'|title }}</dt>
                 <dd class="col-sm-6">{{ contact.get_preferred_contact_method_display|default:'—' }}</dd>
 
-                <dt class="col-sm-6 font-weight-normal">{% trans "Currently available" %}</dt>
+                <dt class="col-sm-6">{% trans "Currently available" %}</dt>
                 <dd class="col-sm-6">
                     {% if subject.is_available %}
                         {% trans "Yes" %}
@@ -49,7 +57,7 @@
                     {% endif %}
                 </dd>
 
-                <dt class="col-sm-6 font-weight-normal">{% trans "General recruiting notes" %}</dt>
+                <dt class="col-sm-6">{% trans "General recruiting notes" %}</dt>
                 <dd class="col-sm-6">
                     <span
                           class="badge badge-{{ subject.note_hard_of_hearing|yesno:'primary,secondary' }}"
@@ -82,13 +90,13 @@
 
         <div class="tab-pane" id="study" role="tabpanel" aria-labelledby="study-tab">
             <dl class="row">
-                <dt class="col-sm-6 font-weight-normal">{{ study|verbose_name:'description'|title }}</dt>
+                <dt class="col-sm-6">{{ study|verbose_name:'description'|title }}</dt>
                 <dd class="col-sm-6">{{ study.description|default:'—' }}</dd>
 
-                <dt class="col-sm-6 font-weight-normal">{{ study|verbose_name:'study_type'|title }}</dt>
+                <dt class="col-sm-6">{{ study|verbose_name:'study_type'|title }}</dt>
                 <dd class="col-sm-6">{{ study.get_study_type_display|default:'—' }}</dd>
 
-                <dt class="col-sm-6 font-weight-normal">{{ study|verbose_name:'expense_allowance'|title }}</dt>
+                <dt class="col-sm-6">{{ study|verbose_name:'expense_allowance'|title }}</dt>
                 <dd class="col-sm-6">
                     {% if study.expense_allowance %}
                         {{ study.expense_allowance }}€
@@ -97,7 +105,7 @@
                     {% endif %}
                 </dd>
 
-                <dt class="col-sm-6 font-weight-normal">{% trans 'Duration of sessions in minutes' %}</dt>
+                <dt class="col-sm-6">{% trans 'Duration of sessions in minutes' %}</dt>
                 <dd class="col-sm-6">
                     {% if study.studysession_set.all %}
                         {% for session in study.studysession_set.all %}
@@ -109,10 +117,10 @@
 
                 </dd>
 
-                <dt class="col-sm-6 font-weight-normal">{{ study|verbose_name:'sessions_start'|title }}</dt>
+                <dt class="col-sm-6">{{ study|verbose_name:'sessions_start'|title }}</dt>
                 <dd class="col-sm-6">{{ study.sessions_start|default:'—' }}</dd>
 
-                <dt class="col-sm-6 font-weight-normal">{{ study|verbose_name:'sessions_end'|title }}</dt>
+                <dt class="col-sm-6">{{ study|verbose_name:'sessions_end'|title }}</dt>
                 <dd class="col-sm-6">{{ study.sessions_end|default:'—' }}</dd>
             </dl>
         </div>
