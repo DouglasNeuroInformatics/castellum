@@ -174,6 +174,7 @@ class AddToStudyView(SubjectMixin, LoginRequiredMixin, DetailView):
         return data
 
     def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
         study = get_object_or_404(Study, pk=request.POST['study'], published=True)
 
         for perm in ['recruitment.add_participationrequest', 'studies.access_study']:
