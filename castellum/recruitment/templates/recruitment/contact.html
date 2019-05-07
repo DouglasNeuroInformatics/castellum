@@ -48,6 +48,26 @@
                         <i class="fas fa-phone-slash list-icon bg-warning text-dark" aria-hidden="true"></i>
                     {% endif %}
                 </dd>
+                <dt class="col-sm-6 font-weight-normal">{% trans "General recruiting notes" %}</dt>
+                <dd class="col-sm-6">
+                    {% if subject.note_hard_of_hearing %}
+                        <span class="badge badge-primary">{% trans 'Hard of hearing' %}</span>
+                    {% else %}
+                        <span class="badge badge-secondary">{% trans 'Hard of hearing' %}</span>
+                    {% endif %}
+
+                    {% if subject.note_difficult_to_understand %}
+                        <span class="badge badge-primary">{% trans 'Difficult to understand' %}</span>
+                    {% else %}
+                        <span class="badge badge-secondary">{% trans 'Difficult to understand' %}</span>
+                    {% endif %}
+
+                    {% if subject.note_abusive_language %}
+                        <span class="badge badge-primary">{% trans 'Abusive language' %}</span>
+                    {% else %}
+                        <span class="badge badge-secondary">{% trans 'Abusive language' %}</span>
+                    {% endif %}
+                </dd>
             </dl>
 
             {% has_perm 'contacts.change_contact' user view.study as can_change_contact %}
