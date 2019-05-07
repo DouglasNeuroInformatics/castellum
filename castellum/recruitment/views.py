@@ -26,18 +26,14 @@ from collections import defaultdict
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView
 from django.views.generic import UpdateView
-
-from django_ical.views import ICalFeed
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
@@ -345,69 +341,6 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
             return redirect('subjects:detail', self.object.subject.pk)
         else:
             return self.form_valid_recruitment(form)
-
-
-class AppointmentFeed(ICalFeed):
-    def get_object(self, *args, **kwargs):
-        study = Study.get_by_pk_or_404(kwargs.get('study_pk'))
-        study.raise_404_error_if_study_is_not_published()
-        return study
-
-    def file_name(self, study):
-        return 'castellum-{}.ics'.format(slugify(study.name))
-
-    def items(self, study):
-        return ParticipationRequest.objects\
-            .filter(study=study, appointment__isnull=False)\
-            .order_by('-appointment')
-
-    def item_title(self, item):
-        return '{} - {}'.format(item.study.name, item.pk)
-
-    def item_start_datetime(self, item):
-        return item.appointment
-
-    def item_updateddate(self, item):
-        return item.updated_at
-
-    def item_description(self, item):
-        return item.pk
-
-    def item_link(self, item):
-        return reverse('recruitment:contact', args=[item.study.pk, item.pk])
-
-
-class AppointmentsForAllStudiesFeed(ICalFeed):
-    def get_object(self, *args, **kwargs):
-        return get_object_or_404(get_user_model(), pk=kwargs.get('user_id'))
-
-    def items(self, user):
-        for study in Study.objects.filter(published=True):
-            if not (user.has_perm('recruitment.add_participationrequest', obj=study) and
-                    user.has_perm('studies.access_study', obj=study)):
-                continue
-            qs = (ParticipationRequest.objects.filter(study=study, appointment__isnull=False)
-                                              .order_by('-appointment'))
-            for participation_request in qs:
-                yield participation_request
-
-    def file_name(self, study):
-        return 'castellum-appointments.ics'
-
-    def item_title(self, item):
-        return '{} - {}'.format(item.study.name, item.pk)
-
-    def item_start_datetime(self, item):
-        return item.appointment
-
-    def item_updateddate(self, item):
-        return item.updated_at
-
-    def item_description(self, item):
-        return item.pk
-
-    def item_link(self, item):
-        return reverse('recruitment:contact', args=[item.study.pk, item.pk])
 
 
 class ContactUpdateView(StudyPermissionMixin, BaseContactUpdateView):
