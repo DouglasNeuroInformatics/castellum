@@ -87,19 +87,19 @@
         </div>
     </div>
 
-    {% if study.has_exclusion_criteria %}
-        <details class="mb-3">
-            <summary class="h5">{% trans "Exclusion criteria" %}</summary>
-            {% if study.exclusion_criteria %}
-                <div class="markdown-light mb-3">{{ study.exclusion_criteria }}</div>
-            {% endif %}
-            {% if study.study_type == study.FMRI %}
-                {% include "studies/__exclusioncriteria_fmri.html" %}
-            {% endif %}
-        </details>
-    {% endif %}
-
     <form method="post">
+        {% if study.has_exclusion_criteria %}
+            <details class="mb-3">
+                <summary class="h5">{% trans "Exclusion criteria" %}</summary>
+                {% if study.exclusion_criteria %}
+                    <div class="markdown-light mb-3">{{ study.exclusion_criteria }}</div>
+                {% endif %}
+                {% if study.study_type == study.FMRI %}
+                    {% include "studies/__exclusioncriteria_fmri.html" %}
+                {% endif %}
+            </details>
+        {% endif %}
+
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
