@@ -18,6 +18,7 @@
 # You should have received a copy of the GNU Affero General Public
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
+import abc
 
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
@@ -31,7 +32,19 @@ from castellum.studies.models import Study
 from .models import ParticipationRequest
 
 
-class AppointmentFeed(ICalFeed):
+class BaseAppointmentFeed(abc.ABC, ICalFeed):
+    @abc.abstractmethod
+    def get_object(self, *args, **kwargs):
+        pass
+
+    @abc.abstractmethod
+    def items(self, study):
+        pass
+
+    @abc.abstractmethod
+    def file_name(self, study):
+        pass
+
     def item_title(self, item):
         return '{} - {}'.format(item.study.name, item.pk)
 
@@ -48,22 +61,22 @@ class AppointmentFeed(ICalFeed):
         return reverse('recruitment:contact', args=[item.study.pk, item.pk])
 
 
-class AppointmentFeedForStudy(AppointmentFeed):
+class AppointmentFeedForStudy(BaseAppointmentFeed):
     def get_object(self, *args, **kwargs):
         study = Study.get_by_pk_or_404(kwargs.get('study_pk'))
         study.raise_404_error_if_study_is_not_published()
         return study
-
-    def file_name(self, study):
-        return 'castellum-{}.ics'.format(slugify(study.name))
 
     def items(self, study):
         return ParticipationRequest.objects\
             .filter(study=study, appointment__isnull=False)\
             .order_by('-appointment')
 
+    def file_name(self, study):
+        return 'castellum-{}.ics'.format(slugify(study.name))
 
-class AppointmentFeedForUser(AppointmentFeed):
+
+class AppointmentFeedForUser(BaseAppointmentFeed):
     def get_object(self, *args, **kwargs):
         return get_object_or_404(get_user_model(), pk=kwargs.get('user_id'))
 
