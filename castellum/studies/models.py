@@ -83,6 +83,8 @@ class Study(models.Model):
         default=False)
     custom_filter = models.CharField(_('custom filter'), max_length=254, blank=True)
 
+    consent = models.FileField(_('consent'), blank=True, upload_to='studies/consent/')
+
     def __str__(self):
         return self.name
 
