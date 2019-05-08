@@ -57,26 +57,18 @@
 
                 <dt class="col-sm-6">{% trans "General recruiting notes" %}</dt>
                 <dd class="col-sm-6">
-                    <span
-                          class="badge badge-{{ subject.note_hard_of_hearing|yesno:'primary,secondary' }}"
-                          role="checkbox"
-                          aria-disabled="true"
-                          aria-checked="{{ subject.note_hard_of_hearing|yesno:'true,false' }}"
-                        >{% trans 'Hard of hearing' %}</span>
-
-                    <span
-                          class="badge badge-{{ subject.note_difficult_to_understand|yesno:'primary,secondary' }}"
-                          role="checkbox"
-                          aria-disabled="true"
-                          aria-checked="{{ subject.note_difficult_to_understand|yesno:'true,false' }}"
-                        >{% trans 'Difficult to understand' %}</span>
-
-                    <span
-                          class="badge badge-{{ subject.abusive_language|yesno:'primary,secondary' }}"
-                          role="checkbox"
-                          aria-disabled="true"
-                          aria-checked="{{ subject.abusive_language|yesno:'true,false' }}"
-                        >{% trans 'Abusive language' %}</span>
+                    <label class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" {% if subject.note_hard_of_hearing %}checked{% endif %} disabled>
+                        <span class="form-check-label">{{ subject|verbose_name:'note_hard_of_hearing' }}</span>
+                    </label>
+                    <label class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" {% if subject.note_difficult_to_understand %}checked{% endif %} disabled>
+                        <span class="form-check-label">{{ subject|verbose_name:'note_difficult_to_understand' }}</span>
+                    </label>
+                    <label class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" {% if subject.note_abusive_language %}checked{% endif %} disabled>
+                        <span class="form-check-label">{{ subject|verbose_name:'note_abusive_language' }}</span>
+                    </label>
                 </dd>
             </dl>
 
