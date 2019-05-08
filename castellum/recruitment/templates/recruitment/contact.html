@@ -110,9 +110,8 @@
                             {{ session.duration }}{% if not forloop.last %}, {% endif %}
                         {% endfor %}
                     {% else %}
-                        —
+                        &mdash;
                     {% endif %}
-
                 </dd>
 
                 <dt class="col-sm-6">{{ study|verbose_name:'sessions_start'|title }}</dt>
