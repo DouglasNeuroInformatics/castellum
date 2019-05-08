@@ -33,6 +33,7 @@ from castellum.pseudonyms.helpers import create_pseudonym
 from castellum.pseudonyms.helpers import get_subject
 from castellum.utils.fields import DateField
 from castellum.utils.fields import PhoneNumberField
+from castellum.utils.models import TimeStampedModel
 
 from . import Address
 from ..utils import phonetic
@@ -48,7 +49,7 @@ class ContactManager(models.Manager):
         return self.filter(q)
 
 
-class Contact(models.Model):
+class Contact(TimeStampedModel):
     domain = settings.DOMAINS['contact']
 
     GENDER = (
