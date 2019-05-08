@@ -15,6 +15,7 @@ castellum.egg-info/
 collected_static/
 dist/
 htmlcov/
+media/
 node_modules/
 
 
