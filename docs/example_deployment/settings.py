@@ -24,6 +24,8 @@ DATABASES = {
 
 ALLOWED_HOSTS = ['*']
 
+MEDIA_ROOT = '/media'
+
 # LDAP
 # See https://django-auth-ldap.readthedocs.io/
 AUTHENTICATION_BACKENDS.append("django_auth_ldap.backend.LDAPBackend")

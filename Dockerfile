@@ -8,6 +8,7 @@ RUN adduser -D -g '' uwsgi
 RUN mkdir -p /log
 RUN chown uwsgi /log
 VOLUME /log
+VOLUME /media
 
 RUN apk update && echo $BUILDPKGS $RUNTIMEPKGS && apk add $BUILDPKGS $RUNTIMEPKGS
 
