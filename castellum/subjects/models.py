@@ -24,6 +24,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from castellum.utils.fields import DateTimeField
+from castellum.utils.models import TimeStampedModel
 
 
 class TimeSlot(models.Model):
@@ -36,7 +37,7 @@ class TimeSlot(models.Model):
         return str(self.hour)
 
 
-class Subject(models.Model):
+class Subject(TimeStampedModel):
     privacy_level = models.PositiveIntegerField(
         _("privacy level"),
         default=0,

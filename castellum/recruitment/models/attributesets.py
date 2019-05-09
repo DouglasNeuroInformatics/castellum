@@ -36,6 +36,7 @@ from parler.models import TranslatedFields
 from parler.utils.context import switch_language
 
 from castellum.subjects.models import Subject
+from castellum.utils.models import TimeStampedModel
 
 from .. import attribute_fields
 from ..utils import get_study_filter_q
@@ -69,7 +70,7 @@ class ImportMixin:
         return obj
 
 
-class AttributeSet(models.Model):
+class AttributeSet(TimeStampedModel):
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE, editable=False)
     data = JSONField(encoder=DjangoJSONEncoder)
 
