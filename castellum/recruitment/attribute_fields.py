@@ -126,7 +126,7 @@ class TextAttributeField(BaseAttributeField):
     available_operators = [
         ("exact", _("is")),
         ("!exact", _("is not")),
-        ("contains", _("contains")),
+        ("icontains", _("contains")),
     ]
 
 
