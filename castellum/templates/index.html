@@ -45,6 +45,7 @@
                 </div>
             </div>
 
+            {% if user.is_staff or user.is_superuser %}
             <div class="col-sm-6 col-md-4 mb-4">
                 <div class="card">
                     <a href="{% url 'admin:index' %}" class="card-header" tabindex="-1">
@@ -57,6 +58,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
         </div>
      {% else %}
         <p>{% trans 'Not logged in' %}</p>
