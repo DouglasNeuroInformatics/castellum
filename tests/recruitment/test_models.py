@@ -74,6 +74,31 @@ def test_attribute_set_get_statistics_bucket_age(get, date, bucket):
 
 
 @pytest.mark.django_db
+def test_attribute_set_get_completeness_empty():
+    attributeset = AttributeSet(data={})
+    completed, total = attributeset.get_completeness()
+    assert completed == 0
+
+
+def test_attribute_set_get_completeness_empty_value(attribute_description):
+    attributeset = AttributeSet()
+    attributeset.data = {
+        attribute_description.json_key: None,
+    }
+    completed, total = attributeset.get_completeness()
+    assert completed == 0
+
+
+def test_attribute_set_get_completeness_non_empty(attribute_description):
+    attributeset = AttributeSet()
+    attributeset.data = {
+        attribute_description.json_key: 1,
+    }
+    completed, total = attributeset.get_completeness()
+    assert completed == 1
+
+
+@pytest.mark.django_db
 def test_attribute_description_by_category(attribute_descriptions):
     categories = AttributeDescription.objects.by_category()
     assert len(categories[UNCATEGORIZED]) == 4

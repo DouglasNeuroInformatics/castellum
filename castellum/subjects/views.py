@@ -85,8 +85,16 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         pseudonym = get_pseudonym(self.object, Contact.domain)
         context['contact'] = Contact.objects.get(pseudonym=pseudonym)
+
+        try:
+            completed, total = self.object.attributeset.get_completeness()
+            context['attributeset_completeness'] = '%i%%' % (100 * completed / total)
+        except AttributeSet.DoesNotExist:
+            pass
+
         return context
 
 

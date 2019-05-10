@@ -26,6 +26,9 @@
 
         <dt class="col-sm-6">{{ contact|verbose_name:'preferred_contact_method' }}</dt>
         <dd class="col-sm-6">{{ contact.get_preferred_contact_method_display|default:'—' }}</dd>
+
+        <dt class="col-sm-6">{% trans 'Attribute set completeness' %}</dt>
+        <dd class="col-sm-6">{{ attributeset_completeness|default:'—' }}</dd>
     </dl>
     <div class="mb-3">
         {% has_perm 'contacts.change_contact' user as can_change_contact %}
