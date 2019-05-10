@@ -7,23 +7,14 @@
     <h1>{{ contact.full_name }}</h1>
     <p>{{ contact.address|default:'—' }}</p>
     <dl class="row">
-        <dt class="col-sm-6">{{ contact|verbose_name:'gender' }}</dt>
-        <dd class="col-sm-6">{{ contact.get_gender_display|default:'—' }}</dd>
+        <dt class="col-sm-6">{% trans 'Subject data registered' %}</dt>
+        <dd class="col-sm-6">{{ subject.created_at }}</dd>
 
-        <dt class="col-sm-6">{{ contact|verbose_name:'date_of_birth' }}</dt>
-        <dd class="col-sm-6">{{ contact.date_of_birth|default:'—' }}</dd>
+        <dt class="col-sm-6">{% trans 'Last edited' %}</dt>
+        <dd class="col-sm-6">{{ subject.updated_at }}</dd>
 
-        <dt class="col-sm-6">{{ contact|verbose_name:'email' }}</dt>
-        <dd class="col-sm-6">{{ contact.email|default:'—' }}</dd>
-
-        <dt class="col-sm-6">{{ contact|verbose_name:'phone_number' }}</dt>
-        <dd class="col-sm-6">{{ contact.phone_number|default:'—' }}</dd>
-
-        <dt class="col-sm-6">{{ contact|verbose_name:'phone_number_alternative' }}</dt>
-        <dd class="col-sm-6">{{ contact.phone_number_alternative|default:'—' }}</dd>
-
-        <dt class="col-sm-6">{{ contact|verbose_name:'preferred_contact_method' }}</dt>
-        <dd class="col-sm-6">{{ contact.get_preferred_contact_method_display|default:'—' }}</dd>
+        <dt class="col-sm-6">{% trans 'Castellum consent' %}</dt>
+        <dd class="col-sm-6">—</dd>
 
         <dt class="col-sm-6">{% trans 'Attribute set completeness' %}</dt>
         <dd class="col-sm-6">{{ attributeset_completeness|default:'—' }}</dd>
