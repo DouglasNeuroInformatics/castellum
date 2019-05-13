@@ -32,6 +32,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from castellum.castellum_auth.models import User
 from castellum.utils.fields import DateField
+from castellum.utils.fields import RestrictedFileField
 
 
 class Study(models.Model):
@@ -83,7 +84,13 @@ class Study(models.Model):
         default=False)
     custom_filter = models.CharField(_('custom filter'), max_length=254, blank=True)
 
-    consent = models.FileField(_('consent'), blank=True, upload_to='studies/consent/')
+    consent = RestrictedFileField(
+        _('consent'),
+        blank=True,
+        upload_to='studies/consent/',
+        content_types=['application/pdf'],
+        max_upload_size=5000000,
+    )
 
     def __str__(self):
         return self.name

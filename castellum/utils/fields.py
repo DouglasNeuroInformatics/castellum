@@ -20,7 +20,10 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.db import models
+from django.forms import ValidationError
+from django.utils.translation import ugettext_lazy as _
 
+import magic
 from phonenumber_field.modelfields import PhoneNumberField as _PhoneNumberField
 
 from .forms import DateField as DateFormField
@@ -44,3 +47,22 @@ class PhoneNumberField(_PhoneNumberField):
     def formfield(self, **kwargs):
         kwargs.setdefault('form_class', PhoneNumberFormField)
         return super().formfield(**kwargs)
+
+
+class RestrictedFileField(models.FileField):
+    def __init__(self, *args, **kwargs):
+        self.content_types = kwargs.pop('content_types', [])
+        self.max_upload_size = kwargs.pop('max_upload_size', 0)
+        super().__init__(*args, **kwargs)
+
+    def clean(self, *args, **kwargs):
+        data = super().clean(*args, **kwargs)
+
+        if data.file.size > self.max_upload_size:
+            raise ValidationError(_('File is too big.'), code='size')
+
+        content_type = magic.from_buffer(data.file.read(1024), mime=True)
+        if content_type not in self.content_types:
+            raise ValidationError(_('Filetype not supported.'), code='content_type')
+
+        return data
