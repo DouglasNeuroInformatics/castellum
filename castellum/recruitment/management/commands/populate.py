@@ -199,9 +199,9 @@ def generate_studies(count):
 
 
 class FakeAddresses:
-    def __init__(self):
+    def __init__(self, address_count):
         self.city_count = 100
-        self.address_count = 2000
+        self.address_count = address_count
 
     def create(self):
         print('Generating addresses')
@@ -258,8 +258,8 @@ def fake_contact(pseudonym, address_id):
 
 
 class FakeSubjects:
-    def __init__(self):
-        self.subject_count = 2000
+    def __init__(self, subject_count):
+        self.subject_count = subject_count
 
         self.pseudonyms = []
         self.contacts = []
@@ -312,21 +312,26 @@ class FakeSubjects:
                                           for i in range(self.subject_count)])
 
 
-def generate_subjects(count):
-    fake_addresses = FakeAddresses()
-    fake_addresses.create()
-
-    fake_subjects = FakeSubjects()
-    fake_subjects.create()
-
-
 class Command(BaseCommand):
     help = 'Populate database with sample data.'
+
+    def add_arguments(self, parser):
+        parser.add_argument('--subject-count', action='store', nargs='?', default=2000)
 
     def handle(self, *args, **options):
         if not AttributeDescription.objects.exists():
             generate_attribute_descriptions()
         if not Study.objects.exists():
             generate_studies(5)
-        if not Contact.objects.exists():
-            generate_subjects(2000)
+
+        self.create_subjects(options['subject_count'])
+
+    def create_subjects(self, subject_count):
+        if Subject.objects.exists():
+            return
+
+        fake_addresses = FakeAddresses(address_count=subject_count)
+        fake_addresses.create()
+
+        fake_subjects = FakeSubjects(subject_count)
+        fake_subjects.create()
