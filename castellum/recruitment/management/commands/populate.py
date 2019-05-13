@@ -182,13 +182,6 @@ def fake_study():
     return study
 
 
-def fake_cities(country, count):
-    names = set()
-    while len(names) < count:
-        names.add(fake.city())
-    return [City(name=name, country=country) for name in names]
-
-
 def fake_address(cities):
     return Address(
         city=fake.random.choice(cities),
@@ -257,14 +250,34 @@ def generate_studies(count):
     Study.objects.bulk_create(fake_study() for i in range(count))
 
 
+class FakeAddresses:
+    def __init__(self):
+        self.city_count = 100
+
+    def create(self):
+        print('Generating addresses')
+        germany = self.get_or_create_germany()
+        self.create_cities(germany)
+
+    def get_or_create_germany(self):
+        country, _ = Country.objects.get_or_create(name='Deutschland')
+        return country
+
+    def create_cities(self, germany):
+        cities = set()
+        while len(cities) < self.city_count:
+            cities.add(fake.city())
+        City.objects.bulk_create([City(name=city_name, country=germany) for city_name in cities])
+
+
 def generate_subjects(count):
     # NOTE: We have ForeignKeys to Address and Subject. Unfortunately, bulk_create does not set
     # the id on the instances, so we have to get them from the database after bulk_create. This
     # assumes that the database was empty before.
 
-    print('Generating addresses')
-    country, __ = Country.objects.get_or_create(name='Deutschland')
-    City.objects.bulk_create(fake_cities(country, 100))
+    fake_addresses = FakeAddresses()
+    fake_addresses.create()
+
     cities = City.objects.all()[:100]
     Address.objects.bulk_create(fake_address(cities) for i in range(count))
     addresses = Address.objects.all()[:count]
