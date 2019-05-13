@@ -261,11 +261,14 @@ class FakeSubjects:
     def __init__(self):
         self.subject_count = 2000
 
+        self.pseudonyms = []
+        self.contacts = []
+
     def create(self):
         self.create_subjects()
-        pseudonyms = self.create_pseudonyms()
-        contacts = self.create_contacts(pseudonyms)
-        self.create_attributesets(contacts)
+        self.create_pseudonyms()
+        self.create_contacts()
+        self.create_attributesets()
 
     def create_subjects(self):
         print('Generating subjects')
@@ -275,16 +278,16 @@ class FakeSubjects:
 
     def create_pseudonyms(self):
         print('Generating pseudonyms')
-        pseudonyms = [Pseudonym(subject_id=subject_id, domain=Contact.domain)
-                                for subject_id in range(1, self.subject_count + 1)]
-        Pseudonym.objects.bulk_create(pseudonyms)
-        return pseudonyms
+        self.pseudonyms = [Pseudonym(subject_id=subject_id, domain=Contact.domain)
+                                     for subject_id in range(1, self.subject_count + 1)]
+        Pseudonym.objects.bulk_create(self.pseudonyms)
 
-    def create_contacts(self, pseudonyms):
+    def create_contacts(self):
         print('Generating contacts')
-        contacts = [fake_contact(pseudonyms[i], i + 1) for i in range(self.subject_count-1)]
-        contacts.append(Contact(
-            pseudonym=pseudonyms[-1].pseudonym,
+        self.contacts = [fake_contact(self.pseudonyms[i], i + 1)
+                         for i in range(self.subject_count-1)]
+        self.contacts.append(Contact(
+            pseudonym=self.pseudonyms[-1].pseudonym,
             gender='*',
             first_name='Muhammad',
             first_name_phonetic=phonetic('Muhammad'),
@@ -293,10 +296,9 @@ class FakeSubjects:
             date_of_birth='2000-12-13',
             email='muhammad@example.com',
         ))
-        Contact.objects.bulk_create(contacts)
-        return contacts
+        Contact.objects.bulk_create(self.contacts)
 
-    def create_attributesets(self, contacts):
+    def create_attributesets(self):
         print('Generating attributesets')
         fake_attributeset = lambda subject_id, date_of_birth: AttributeSet(
             subject_id=subject_id,
@@ -306,7 +308,7 @@ class FakeSubjects:
                 'd3': date_of_birth,
                 'd4': fake.random.choice(get_highest_degree_choices()),
             })
-        AttributeSet.objects.bulk_create([fake_attributeset(i + 1, contacts[i].date_of_birth)
+        AttributeSet.objects.bulk_create([fake_attributeset(i + 1, self.contacts[i].date_of_birth)
                                           for i in range(self.subject_count)])
 
 
