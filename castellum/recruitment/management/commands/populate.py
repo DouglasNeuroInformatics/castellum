@@ -167,10 +167,6 @@ def fake_phone_number():
     return fake_phone_number()
 
 
-def fake_subject():
-    return Subject(privacy_level=fake.random.randint(0, 2))
-
-
 def fake_study():
     study = Study(
         name=fake.word().upper(),
@@ -182,49 +178,9 @@ def fake_study():
     return study
 
 
-def fake_contact(pseudonym, address):
-    if fake.random.random() < 0.5:
-        gender = 'f'
-        first_name = fake.first_name_female()
-        last_name = fake.last_name_female()
-    else:
-        gender = 'm'
-        first_name = fake.first_name_male()
-        last_name = fake.last_name_male()
-
-    contact = Contact(
-        gender=gender,
-        first_name=first_name,
-        first_name_phonetic=phonetic(first_name),
-        last_name=last_name,
-        last_name_phonetic=phonetic(last_name),
-        date_of_birth=fake_date_of_birth())
-
-    if fake.random.random() < 0.67:
-        contact.email = fake.email()
-        if fake.random.random() < 0.75:
-            contact.phone_number = fake_phone_number()
-
-    contact.pseudonym = pseudonym.pseudonym
-    contact.address = address
-
-    return contact
-
-
 @functools.lru_cache(maxsize=1)
 def get_highest_degree_choices():
     return AttributeChoice.objects.filter(description__pk=4).values_list('pk', flat=True)
-
-
-def fake_attributeset(subject, contact):
-    return AttributeSet(
-        subject=subject,
-        data={
-            'd1': 2 if fake.random.random() < 0.15 else 1,
-            'd2': fake_data.language(),
-            'd3': contact.date_of_birth,
-            'd4': fake.random.choice(get_highest_degree_choices()),
-        })
 
 
 def generate_attribute_descriptions():
@@ -272,46 +228,94 @@ class FakeAddresses:
         Address.objects.bulk_create(list(map(fake_address, range(self.address_count))))
 
 
-def generate_subjects(count):
-    # NOTE: We have ForeignKeys to Address and Subject. Unfortunately, bulk_create does not set
-    # the id on the instances, so we have to get them from the database after bulk_create. This
-    # assumes that the database was empty before.
+def fake_contact(pseudonym, address_id):
+    if fake.random.random() < 0.5:
+        gender = 'f'
+        first_name = fake.first_name_female()
+        last_name = fake.last_name_female()
+    else:
+        gender = 'm'
+        first_name = fake.first_name_male()
+        last_name = fake.last_name_male()
 
+    contact = Contact(
+        gender=gender,
+        first_name=first_name,
+        first_name_phonetic=phonetic(first_name),
+        last_name=last_name,
+        last_name_phonetic=phonetic(last_name),
+        date_of_birth=fake_date_of_birth())
+
+    if fake.random.random() < 0.67:
+        contact.email = fake.email()
+        if fake.random.random() < 0.75:
+            contact.phone_number = fake_phone_number()
+
+    contact.pseudonym = pseudonym.pseudonym
+    contact.address_id = address_id
+
+    return contact
+
+
+class FakeSubjects:
+    def __init__(self):
+        self.subject_count = 2000
+
+    def create(self):
+        self.create_subjects()
+        pseudonyms = self.create_pseudonyms()
+        contacts = self.create_contacts(pseudonyms)
+        self.create_attributesets(contacts)
+
+    def create_subjects(self):
+        print('Generating subjects')
+        fake_subject = lambda _: Subject(privacy_level=fake.random.randint(0, 2))
+        Subject.objects.bulk_create(list(map(fake_subject, range(self.subject_count))),
+                                    batch_size=200)
+
+    def create_pseudonyms(self):
+        print('Generating pseudonyms')
+        pseudonyms = [Pseudonym(subject_id=subject_id, domain=Contact.domain)
+                                for subject_id in range(1, self.subject_count + 1)]
+        Pseudonym.objects.bulk_create(pseudonyms)
+        return pseudonyms
+
+    def create_contacts(self, pseudonyms):
+        print('Generating contacts')
+        contacts = [fake_contact(pseudonyms[i], i + 1) for i in range(self.subject_count-1)]
+        contacts.append(Contact(
+            pseudonym=pseudonyms[-1].pseudonym,
+            gender='*',
+            first_name='Muhammad',
+            first_name_phonetic=phonetic('Muhammad'),
+            last_name='Nguyen',
+            last_name_phonetic=phonetic('Nguyen'),
+            date_of_birth='2000-12-13',
+            email='muhammad@example.com',
+        ))
+        Contact.objects.bulk_create(contacts)
+        return contacts
+
+    def create_attributesets(self, contacts):
+        print('Generating attributesets')
+        fake_attributeset = lambda subject_id, date_of_birth: AttributeSet(
+            subject_id=subject_id,
+            data={
+                'd1': 2 if fake.random.random() < 0.15 else 1,
+                'd2': fake_data.language(),
+                'd3': date_of_birth,
+                'd4': fake.random.choice(get_highest_degree_choices()),
+            })
+        AttributeSet.objects.bulk_create([fake_attributeset(i + 1, contacts[i].date_of_birth)
+                                          for i in range(self.subject_count)])
+
+
+def generate_subjects(count):
     fake_addresses = FakeAddresses()
     fake_addresses.create()
 
-    print('Generating pseudonyms')
-    Subject.objects.bulk_create([fake_subject() for i in range(count)], batch_size=200)
-    subjects = Subject.objects.all()[:count]
-
-    contact_pseudonyms = [Pseudonym(
-        subject=subjects[i], domain=Contact.domain
-    ) for i in range(count)]
-    Pseudonym.objects.bulk_create(contact_pseudonyms)
-
-    print('Generating contacts')
-    addresses = Address.objects.all()[:count]
-    contacts = [fake_contact(contact_pseudonyms[i], addresses[i]) for i in range(count-1)]
-    testcontact = Contact(
-        gender='*',
-        first_name='Muhammad',
-        first_name_phonetic=phonetic('Muhammad'),
-        last_name='Nguyen',
-        last_name_phonetic=phonetic('Nguyen'),
-        date_of_birth='2000-12-13',
-        email='muhammad@example.com',
-    )
-    contacts.append(testcontact)
-    testcontact.pseudonym = contact_pseudonyms[-1]
-
-    Contact.objects.bulk_create(contacts)
-
-    print('Generating attributesets')
-    attributesets = [
-        fake_attributeset(subjects[i], contacts[i])
-        for i in range(count)
-    ]
-    AttributeSet.objects.bulk_create(attributesets)
+    fake_subjects = FakeSubjects()
+    fake_subjects.create()
 
 
 class Command(BaseCommand):
