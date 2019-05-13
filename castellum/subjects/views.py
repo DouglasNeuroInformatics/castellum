@@ -89,7 +89,11 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         pseudonym = get_pseudonym(self.object, Contact.domain)
         context['contact'] = Contact.objects.get(pseudonym=pseudonym)
 
+        context['updated_at'] = max(self.object.updated_at, context['contact'].updated_at)
+
         try:
+            context['updated_at'] = max(context['updated_at'], self.object.attributeset.updated_at)
+
             completed, total = self.object.attributeset.get_completeness()
             context['attributeset_completeness'] = '%i%%' % (100 * completed / total)
         except AttributeSet.DoesNotExist:
