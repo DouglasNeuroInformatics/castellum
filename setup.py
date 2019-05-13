@@ -27,5 +27,6 @@ setup(
         "phonenumberslite==8.10.10",
         "psycopg2-binary==2.8.2",
         "python-dateutil==2.8.0",
+        "python-magic==0.4.15",
     ],
 )
