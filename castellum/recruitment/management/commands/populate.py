@@ -182,14 +182,6 @@ def fake_study():
     return study
 
 
-def fake_address(cities):
-    return Address(
-        city=fake.random.choice(cities),
-        zip_code=fake.postcode(),
-        street=fake.street_name(),
-        house_number=fake.random.randint(1, 200))
-
-
 def fake_contact(pseudonym, address):
     if fake.random.random() < 0.5:
         gender = 'f'
@@ -253,11 +245,13 @@ def generate_studies(count):
 class FakeAddresses:
     def __init__(self):
         self.city_count = 100
+        self.address_count = 2000
 
     def create(self):
         print('Generating addresses')
         germany = self.get_or_create_germany()
         self.create_cities(germany)
+        self.create_addresses()
 
     def get_or_create_germany(self):
         country, _ = Country.objects.get_or_create(name='Deutschland')
@@ -269,6 +263,14 @@ class FakeAddresses:
             cities.add(fake.city())
         City.objects.bulk_create([City(name=city_name, country=germany) for city_name in cities])
 
+    def create_addresses(self):
+        fake_address = lambda city_index: Address(
+            city_id=fake.random.randint(1, self.city_count),
+            zip_code=fake.postcode(),
+            street=fake.street_name(),
+            house_number=fake.random.randint(1, 200))
+        Address.objects.bulk_create(list(map(fake_address, range(self.address_count))))
+
 
 def generate_subjects(count):
     # NOTE: We have ForeignKeys to Address and Subject. Unfortunately, bulk_create does not set
@@ -277,10 +279,6 @@ def generate_subjects(count):
 
     fake_addresses = FakeAddresses()
     fake_addresses.create()
-
-    cities = City.objects.all()[:100]
-    Address.objects.bulk_create(fake_address(cities) for i in range(count))
-    addresses = Address.objects.all()[:count]
 
     print('Generating pseudonyms')
     Subject.objects.bulk_create([fake_subject() for i in range(count)], batch_size=200)
@@ -292,6 +290,7 @@ def generate_subjects(count):
     Pseudonym.objects.bulk_create(contact_pseudonyms)
 
     print('Generating contacts')
+    addresses = Address.objects.all()[:count]
     contacts = [fake_contact(contact_pseudonyms[i], addresses[i]) for i in range(count-1)]
     testcontact = Contact(
         gender='*',
