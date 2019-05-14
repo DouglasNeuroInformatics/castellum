@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import functools
+from itertools import count
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -228,88 +229,56 @@ class FakeAddresses:
         Address.objects.bulk_create(list(map(fake_address, range(self.address_count))))
 
 
-def fake_contact(pseudonym, address_id):
-    if fake.random.random() < 0.5:
-        gender = 'f'
-        first_name = fake.first_name_female()
-        last_name = fake.last_name_female()
-    else:
-        gender = 'm'
-        first_name = fake.first_name_male()
-        last_name = fake.last_name_male()
-
-    contact = Contact(
-        gender=gender,
-        first_name=first_name,
-        first_name_phonetic=phonetic(first_name),
-        last_name=last_name,
-        last_name_phonetic=phonetic(last_name),
-        date_of_birth=fake_date_of_birth())
-
-    if fake.random.random() < 0.67:
-        contact.email = fake.email()
-        if fake.random.random() < 0.75:
-            contact.phone_number = fake_phone_number()
-
-    contact.pseudonym = pseudonym.pseudonym
-    contact.address_id = address_id
-
-    return contact
+class FakeSubject(Subject):
+    def __init__(self):
+        super().__init__(privacy_level=fake.random.randint(0, 2))
 
 
-class FakeSubjects:
-    def __init__(self, subject_count):
-        self.subject_count = subject_count
+class FakePseudonym(Pseudonym):
+    _id = count(1)
 
-        self.pseudonyms = []
-        self.contacts = []
+    def __init__(self):
+        super().__init__(subject_id=next(self._id), domain=Contact.domain)
 
-    def create(self):
-        self.create_subjects()
-        self.create_pseudonyms()
-        self.create_contacts()
-        self.create_attributesets()
 
-    def create_subjects(self):
-        print('Generating subjects')
-        fake_subject = lambda _: Subject(privacy_level=fake.random.randint(0, 2))
-        Subject.objects.bulk_create(list(map(fake_subject, range(self.subject_count))),
-                                    batch_size=200)
+class FakeContact(Contact):
+    _id = count(1)
 
-    def create_pseudonyms(self):
-        print('Generating pseudonyms')
-        self.pseudonyms = [Pseudonym(subject_id=subject_id, domain=Contact.domain)
-                                     for subject_id in range(1, self.subject_count + 1)]
-        Pseudonym.objects.bulk_create(self.pseudonyms)
+    def __init__(self, pseudonym):
+        self.contact_count = next(self._id)
+        gender = 'f' if fake.random.random() < 0.5 else 'm'
+        first_name = fake.first_name_female() if gender == 'f' else fake.first_name_male()
+        last_name = fake.last_name_female() if gender == 'f' else fake.last_name_male()
+        email = fake.email() if fake.random.random() else ''
+        phone_number = fake_phone_number() if email and fake.random.random() < 0.75 else ''
 
-    def create_contacts(self):
-        print('Generating contacts')
-        self.contacts = [fake_contact(self.pseudonyms[i], i + 1)
-                         for i in range(self.subject_count-1)]
-        self.contacts.append(Contact(
-            pseudonym=self.pseudonyms[-1].pseudonym,
-            gender='*',
-            first_name='Muhammad',
-            first_name_phonetic=phonetic('Muhammad'),
-            last_name='Nguyen',
-            last_name_phonetic=phonetic('Nguyen'),
-            date_of_birth='2000-12-13',
-            email='muhammad@example.com',
-        ))
-        Contact.objects.bulk_create(self.contacts)
+        super().__init__(
+            gender=gender,
+            first_name=first_name,
+            first_name_phonetic=phonetic(first_name),
+            last_name=last_name,
+            last_name_phonetic=phonetic(last_name),
+            date_of_birth=fake_date_of_birth(),
+            email=email,
+            phone_number=phone_number,
+            pseudonym=pseudonym.pseudonym,
+            address_id=self.contact_count,
+        )
 
-    def create_attributesets(self):
-        print('Generating attributesets')
-        fake_attributeset = lambda subject_id, date_of_birth: AttributeSet(
-            subject_id=subject_id,
+
+class FakeAttributeSet(AttributeSet):
+    _id = count(1)
+
+    def __init__(self, contact):
+        super().__init__(
+            subject_id=next(self._id),
             data={
                 'd1': 2 if fake.random.random() < 0.15 else 1,
                 'd2': fake_data.language(),
-                'd3': date_of_birth,
+                'd3': contact.date_of_birth,
                 'd4': fake.random.choice(get_highest_degree_choices()),
-            })
-        AttributeSet.objects.bulk_create([fake_attributeset(i + 1, self.contacts[i].date_of_birth)
-                                          for i in range(self.subject_count)])
+            }
+        )
 
 
 class Command(BaseCommand):
@@ -333,5 +302,27 @@ class Command(BaseCommand):
         fake_addresses = FakeAddresses(address_count=subject_count)
         fake_addresses.create()
 
-        fake_subjects = FakeSubjects(subject_count)
-        fake_subjects.create()
+        print('Generating subjects')
+        Subject.objects.bulk_create([FakeSubject() for _ in range(subject_count)])
+
+        print('Generating pseudonyms')
+        pseudonyms = [FakePseudonym() for _ in range(subject_count)]
+        Pseudonym.objects.bulk_create(pseudonyms)
+
+        print('Generating contacts')
+        contacts = [FakeContact(pseudonyms[i]) for i in range(subject_count-1)]
+        contacts.append(Contact(
+            pseudonym=pseudonyms[-1].pseudonym,
+            gender='*',
+            first_name='Muhammad',
+            first_name_phonetic=phonetic('Muhammad'),
+            last_name='Nguyen',
+            last_name_phonetic=phonetic('Nguyen'),
+            date_of_birth='2000-12-13',
+            email='muhammad@example.com',
+        ))
+        Contact.objects.bulk_create(contacts)
+
+        print('Generating attributesets')
+        attributesets = [FakeAttributeSet(contacts[i]) for i in range(subject_count)]
+        AttributeSet.objects.bulk_create(attributesets)
