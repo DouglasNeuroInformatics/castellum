@@ -215,10 +215,10 @@ class FakeAddresses:
         return country
 
     def create_cities(self, germany):
-        cities = set()
-        while len(cities) < self.city_count:
-            cities.add(fake.city())
-        City.objects.bulk_create([City(name=city_name, country=germany) for city_name in cities])
+        city_names = set()
+        while len(city_names) < self.city_count:
+            city_names.add(fake.city())
+        City.objects.bulk_create(City(name=city_name, country=germany) for city_name in city_names)
 
     def create_addresses(self):
         fake_address = lambda city_index: Address(
