@@ -3,7 +3,10 @@ from model_mommy import mommy
 
 from castellum.contacts.models import Contact
 
-DATE_OF_BIRTH = '1970-01-01'
+import datetime
+
+
+DATE_OF_BIRTH = datetime.datetime(1970, 1, 1)
 FIRST_NAME = 'Eve'
 
 
