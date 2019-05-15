@@ -128,17 +128,6 @@ ATTRIBUTE_DESCRIPTIONS = [{
 }]
 
 
-def fake_study():
-    study = Study(
-        name=fake.word().upper(),
-        contact_person=fake.name(),
-        min_subjects_count=fake.random.randint(0, 50),
-        study_type=fake.random.choice(Study.STUDY_TYPES)[0])
-    if study.study_type == Study.FMRI:
-        study.data_sensitivity = True
-    return study
-
-
 @functools.lru_cache(maxsize=1)
 def get_highest_degree_choices():
     return AttributeChoice.objects.filter(description__pk=4).values_list('pk', flat=True)
@@ -154,9 +143,17 @@ def generate_attribute_descriptions():
             description.save()
 
 
-def generate_studies(count):
-    print('Generating studies')
-    Study.objects.bulk_create(fake_study() for i in range(count))
+class FakeStudy(Study):
+    def __init__(self):
+        study_type = fake.random.choice(Study.STUDY_TYPES)[0]
+
+        super().__init__(
+            name=fake.word().upper(),
+            contact_person=fake.name(),
+            min_subjects_count=fake.random.randint(0, 50),
+            study_type=study_type,
+            data_sensitivity = study_type == Study.FMRI,
+        )
 
 
 class FakeAddresses:
@@ -283,15 +280,22 @@ class Command(BaseCommand):
     help = 'Populate database with sample data.'
 
     def add_arguments(self, parser):
+        parser.add_argument('--study-count', action='store', nargs='?', default=5)
         parser.add_argument('--subject-count', action='store', nargs='?', default=2000)
 
     def handle(self, *args, **options):
         if not AttributeDescription.objects.exists():
             generate_attribute_descriptions()
-        if not Study.objects.exists():
-            generate_studies(5)
 
+        self.create_studies(options['study_count'])
         self.create_subjects(options['subject_count'])
+
+    def create_studies(self, study_count):
+        if Study.objects.exists():
+            return
+
+        print('Generating studies')
+        Study.objects.bulk_create(FakeStudy() for _ in range(study_count))
 
     def create_subjects(self, subject_count):
         if Subject.objects.exists():
