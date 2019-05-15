@@ -128,46 +128,6 @@ ATTRIBUTE_DESCRIPTIONS = [{
 }]
 
 
-def fake_date_of_birth():
-    age_groups = [
-        # (start age, percentage)
-        (14, 0.06),
-        (20, 0.14),
-        (30, 0.14),
-        (40, 0.16),
-        (50, 0.19),
-        (60, 0.14),
-        (70, 0.16),
-    ]
-
-    r = fake.random.random()
-    percentage = 0
-
-    for i in range(len(age_groups) - 1):
-        percentage += age_groups[i][1]
-
-        if r < percentage:
-            start_date = '-{}y'.format(age_groups[i + 1][0])
-            end_date = '-{}y'.format(age_groups[i][0])
-            return fake.date_between(start_date=start_date, end_date=end_date)
-
-    start_date = '-{}y'.format(100)
-    end_date = '-{}y'.format(age_groups[-1][0])
-    return fake.date_between(start_date=start_date, end_date=end_date)
-
-
-def fake_phone_number():
-    number = fake.phone_number()
-    try:
-        parsed = phonenumbers.parse(number, settings.PHONENUMBER_DEFAULT_REGION)
-        if phonenumbers.is_valid_number(parsed):
-            return number
-    except phonenumbers.NumberParseException:
-        pass
-    # Just try again
-    return fake_phone_number()
-
-
 def fake_study():
     study = Study(
         name=fake.word().upper(),
@@ -250,7 +210,7 @@ class FakeContact(Contact):
         first_name = fake.first_name_female() if gender == 'f' else fake.first_name_male()
         last_name = fake.last_name_female() if gender == 'f' else fake.last_name_male()
         email = fake.email() if fake.random.random() else ''
-        phone_number = fake_phone_number() if email and fake.random.random() < 0.75 else ''
+        phone_number = self.fake_phone_number() if email and fake.random.random() < 0.75 else ''
 
         super().__init__(
             gender=gender,
@@ -258,12 +218,50 @@ class FakeContact(Contact):
             first_name_phonetic=phonetic(first_name),
             last_name=last_name,
             last_name_phonetic=phonetic(last_name),
-            date_of_birth=fake_date_of_birth(),
+            date_of_birth=self.fake_date_of_birth(),
             email=email,
             phone_number=phone_number,
             pseudonym=pseudonym.pseudonym,
             address_id=self.contact_count,
         )
+
+    def fake_date_of_birth(self):
+        age_groups = [
+            # (start age, percentage)
+            (14, 0.06),
+            (20, 0.14),
+            (30, 0.14),
+            (40, 0.16),
+            (50, 0.19),
+            (60, 0.14),
+            (70, 0.16),
+        ]
+
+        r = fake.random.random()
+        percentage = 0
+
+        for i in range(len(age_groups) - 1):
+            percentage += age_groups[i][1]
+
+            if r < percentage:
+                start_date = '-{}y'.format(age_groups[i + 1][0])
+                end_date = '-{}y'.format(age_groups[i][0])
+                return fake.date_between(start_date=start_date, end_date=end_date)
+
+        start_date = '-{}y'.format(100)
+        end_date = '-{}y'.format(age_groups[-1][0])
+        return fake.date_between(start_date=start_date, end_date=end_date)
+
+    def fake_phone_number(self):
+        number = fake.phone_number()
+        try:
+            parsed = phonenumbers.parse(number, settings.PHONENUMBER_DEFAULT_REGION)
+            if phonenumbers.is_valid_number(parsed):
+                return number
+        except phonenumbers.NumberParseException:
+            pass
+        # Just try again
+        return self.fake_phone_number()
 
 
 class FakeAttributeSet(AttributeSet):
