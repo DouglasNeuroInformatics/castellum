@@ -643,7 +643,7 @@ msgstr "Aktuell erreichbar"
 
 #: castellum/recruitment/templates/recruitment/contact.html:58
 msgid "General recruiting notes"
-msgstr ""
+msgstr "Allgemeine Rekrutierungs-Notizen"
 
 #: castellum/recruitment/templates/recruitment/contact.html:78
 msgid "Edit contact data"
@@ -712,10 +712,8 @@ msgstr "Hinzufügen"
 
 #: castellum/recruitment/templates/recruitment/studies_list.html:9
 #: castellum/recruitment/templates/recruitment/studies_list.html:10
-#, fuzzy
-#| msgid "recall appointed"
 msgid "My recall appointments"
-msgstr "Rückruf vereinbart"
+msgstr "Meine Terminvereinbarungen"
 
 #: castellum/recruitment/templates/recruitment/studies_list.html:27
 msgid "Find subjects"
@@ -881,7 +879,7 @@ msgstr "spezieller Filter"
 
 #: castellum/studies/models.py:88
 msgid "consent"
-msgstr ""
+msgstr "Einverständnis"
 
 #: castellum/studies/models.py:102
 msgid "Data collected by this type of study is always considered sensitive!"
@@ -1262,24 +1260,20 @@ msgid "Subject details"
 msgstr "Proband*innendetails"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:10
-#, fuzzy
-#| msgid "Subject details"
 msgid "Subject data registered"
-msgstr "Proband*innendetails"
+msgstr "Proband*innen-Daten registriert"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:13
 msgid "Last edited"
-msgstr ""
+msgstr "Zuletzt bearbeitet"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:16
 msgid "Castellum consent"
-msgstr ""
+msgstr "Castellum-Einverständnis"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:19
-#, fuzzy
-#| msgid "attribute sets"
 msgid "Attribute set completeness"
-msgstr "Merkmale"
+msgstr "Vollständnigkeit der Merkmale"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:25
 msgid "Edit contact"
@@ -1368,7 +1362,7 @@ msgstr "Start"
 
 #: castellum/templates/index.html:55
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: castellum/templates/index.html:62
 msgid "Not logged in"
@@ -1380,11 +1374,11 @@ msgstr "Anmelden"
 
 #: castellum/utils/fields.py:62
 msgid "File is too big."
-msgstr ""
+msgstr "Datei ist zu groß."
 
 #: castellum/utils/fields.py:66
 msgid "Filetype not supported."
-msgstr ""
+msgstr "Dateityp nicht unterstützt."
 
 #: castellum/utils/forms.py:33 castellum/utils/forms.py:47
 msgid "yyyy-mm-dd, e.g. 2018-07-21"
@@ -1400,7 +1394,7 @@ msgstr "z.B. 030 123456"
 
 #: castellum/utils/models.py:27
 msgid "created at"
-msgstr ""
+msgstr "erstellt am"
 
 #: castellum/utils/models.py:28
 msgid "updated at"
