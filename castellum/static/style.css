@@ -52,10 +52,6 @@
   width: 2rem !important;
 }
 
-.markdown-light {
-    white-space: pre-line;
-}
-
 .blockquote {
     font-size: inherit;
     border-left: 0.25rem solid #007bff;
