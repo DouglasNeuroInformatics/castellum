@@ -121,7 +121,7 @@
             <details class="mb-3">
                 <summary class="h4">{% trans "Exclusion criteria" %}</summary>
                 {% if study.exclusion_criteria %}
-                    <div class="markdown-light mb-3">{{ study.exclusion_criteria }}</div>
+                    {{ study.exclusion_criteria|linebreaks }}
                 {% endif %}
                 {% if study.study_type == study.FMRI %}
                     <h2 class="h5">{% trans "fMRI-specific exclusion criteria" %}</h2>
@@ -153,7 +153,5 @@
 {% endblock %}
 
 {% block extra_scripts %}
-    <script src="{% static 'markdown-it/dist/markdown-it.min.js' %}"></script>
-    <script src="{% static 'js/markdown.js' %}"></script>
     <script src="{% static 'js/contact.js' %}"></script>
 {% endblock %}
