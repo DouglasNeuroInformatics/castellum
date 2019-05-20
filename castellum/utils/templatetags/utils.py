@@ -26,7 +26,7 @@ from django.utils.translation import ugettext_lazy as _
 register = template.Library()
 
 
-@register.filter(name='verbose_name')
+@register.filter
 def verbose_name(instance, field_name):
     if hasattr(instance, 'get_verbose_name'):
         return instance.get_verbose_name(field_name)
@@ -39,12 +39,12 @@ def verbose_name(instance, field_name):
             return field.name
 
 
-@register.filter(name='model_verbose_name')
+@register.filter
 def model_verbose_name(instance, plural=False):
     return instance._meta.verbose_name_plural if plural else instance._meta.verbose_name
 
 
-@register.filter(name='display')
+@register.filter
 def display(instance, field_name):
     if hasattr(instance, 'get_display'):
         return instance.get_display(field_name)
@@ -59,7 +59,7 @@ def display(instance, field_name):
             return value
 
 
-@register.filter(name='field_names')
+@register.filter
 def field_names(instance):
     if hasattr(instance, 'get_field_names'):
         return instance.get_field_names()
