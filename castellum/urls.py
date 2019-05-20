@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import LogoutView
@@ -27,6 +28,7 @@ from django.urls import include
 from django.urls import path
 from django.views.generic import TemplateView
 from django.views.i18n import JavaScriptCatalog
+from django.views.static import serve
 
 from castellum.castellum_auth.views import set_language
 
@@ -49,6 +51,11 @@ urlpatterns = [
     path('studies/', include('castellum.studies.urls', namespace='studies')),
     path('subjects/', include('castellum.subjects.urls', namespace='subjects')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += [
+        path('media/<path:path>', serve, {'document_root': settings.MEDIA_ROOT}),
+    ]
 
 try:
     import debug_toolbar

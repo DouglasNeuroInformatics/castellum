@@ -23,6 +23,7 @@ setup(
         "django-phonenumber-field==2.3.1",
         "django-picklefield==2.0",
         "Faker==1.0.5",
+        "file-magic==0.4.0",
         "jsonschema==3.0.1",
         "phonenumberslite==8.10.10",
         "psycopg2-binary==2.8.2",

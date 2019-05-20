@@ -2,12 +2,13 @@ FROM alpine
 
 ENV PYTHONUNBUFFERED 1
 ENV BUILDPKGS gcc musl-dev postgresql-dev openldap-dev cyrus-sasl-dev python3-dev gettext
-ENV RUNTIMEPKGS uwsgi uwsgi-python3 python3 nodejs-npm openldap postgresql-libs libressl
+ENV RUNTIMEPKGS uwsgi uwsgi-python3 python3 nodejs-npm openldap postgresql-libs libressl libmagic
 
 RUN adduser -D -g '' uwsgi
 RUN mkdir -p /log
 RUN chown uwsgi /log
 VOLUME /log
+VOLUME /media
 
 RUN apk update && echo $BUILDPKGS $RUNTIMEPKGS && apk add $BUILDPKGS $RUNTIMEPKGS
 
