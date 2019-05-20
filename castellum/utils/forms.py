@@ -139,3 +139,9 @@ class RestrictedFileField(forms.FileField):
             raise forms.ValidationError(_('Filetype not supported.'), code='content_type')
 
         return f
+
+    def widget_attrs(self, widget):
+        attrs = super().widget_attrs(widget)
+        if self.content_types:
+            attrs.setdefault('accept', ','.join(self.content_types))
+        return attrs
