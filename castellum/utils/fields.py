@@ -61,7 +61,7 @@ class RestrictedFileField(models.FileField):
         if data.file.size > self.max_upload_size:
             raise ValidationError(_('File is too big.'), code='size')
 
-        content_type = magic.from_buffer(data.file.read(1024), mime=True)
+        content_type = magic.detect_from_content(data.file.read(1024)).mime_type
         if content_type not in self.content_types:
             raise ValidationError(_('Filetype not supported.'), code='content_type')
 
