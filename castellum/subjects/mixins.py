@@ -21,11 +21,13 @@
 
 import logging
 
+from django import forms
 from django.core.exceptions import PermissionDenied
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from .models import Subject
+from .models import SubjectNote
 
 monitoring_logger = logging.getLogger('monitoring.contacts')
 
@@ -44,3 +46,53 @@ class SubjectMixin:
             if not request.user.has_privacy_level(self.subject.privacy_level):
                 raise PermissionDenied(_('Insufficient privacy level'))
         return super().dispatch(request, *args, **kwargs)
+
+
+class SubjectNoteFormMixin:
+    def get_notes_form(self):
+        form_class = forms.modelform_factory(SubjectNote, fields=('content',))
+        return form_class(prefix='{prefix}')
+
+    def get_notes_formset(self):
+        formset_class = forms.modelformset_factory(SubjectNote, fields=('content',),
+                                                   extra=0, can_delete=True)
+        kwargs = self.get_form_kwargs()
+        kwargs.pop('user')
+        kwargs.pop('instance')
+        kwargs.pop('initial')
+        if self.object:
+            return formset_class(queryset=SubjectNote.objects.filter(
+                subject=self.object.subject), **kwargs)
+        return formset_class(queryset=SubjectNote.objects.none(), **kwargs)
+
+    def get_context_data(self, **kwargs):
+        if 'notes_formset' not in kwargs:
+            kwargs['notes_formset'] = self.get_notes_formset()
+        kwargs["template_form"] = self.get_notes_form()
+
+        return super().get_context_data(**kwargs)
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        notes_formset = self.get_notes_formset()
+
+        if form.is_valid() and notes_formset.is_valid():
+            return self.form_valid(form, notes_formset)
+        else:
+            return self.form_invalid(form, notes_formset)
+
+    def form_invalid(self, form, session_formset):
+        return self.render_to_response(
+            self.get_context_data(form=form, session_formset=session_formset)
+        )
+
+    def form_valid(self, form, contactnote_formset):
+
+        response = super().form_valid(form)
+
+        for subform in contactnote_formset:
+            print(self.object.subject)
+            subform.instance.subject = self.object.subject
+        contactnote_formset.save()
+
+        return response

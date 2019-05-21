@@ -42,6 +42,7 @@ from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.utils import get_study_filter_q
 from castellum.studies.models import Study
+from castellum.subjects.mixins import SubjectNoteFormMixin
 from castellum.utils.views import GetFormView
 
 from .mixins import SubjectMixin
@@ -102,7 +103,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
-class SubjectCreateView(PermissionRequiredMixin, CreateView):
+class SubjectCreateView(PermissionRequiredMixin, SubjectNoteFormMixin, CreateView):
     model = Contact
     form_class = ContactForm
     permission_required = 'contacts.add_contact'
@@ -122,13 +123,19 @@ class SubjectCreateView(PermissionRequiredMixin, CreateView):
                 initial[key] = self.request.GET[key]
         return initial
 
-    def form_valid(self, form):
-        result = super().form_valid(form)
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form, notes_formset):
+        response = super().form_valid(form, notes_formset)
+
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             Contact.domain,
             self.object.pseudonym,
             self.request.user.pk))
-        return result
+
+        return response
 
 
 class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
