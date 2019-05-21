@@ -317,10 +317,14 @@ def generate_subjects(count):
 class Command(BaseCommand):
     help = 'Populate database with sample data.'
 
+    def add_arguments(self, parser):
+        parser.add_argument('--study-count', default=5, type=int)
+        parser.add_argument('--subject-count', default=2000, type=int)
+
     def handle(self, *args, **options):
         if not AttributeDescription.objects.exists():
             generate_attribute_descriptions()
         if not Study.objects.exists():
-            generate_studies(5)
-        if not Contact.objects.exists():
-            generate_subjects(2000)
+            generate_studies(options['study_count'])
+        if not Subject.objects.exists():
+            generate_subjects(options['subject_count'])
