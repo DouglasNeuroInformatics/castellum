@@ -33,3 +33,11 @@ These are some additional security measures we strongly recommend:
     force regular re-authentication we recommend to logout all users
     regulary, e.g. every night. We provide the command `manage.py
     clear_sessions` for that.
+
+## Cron jobs
+
+There are some regular tasks that should be executed independently from
+user requests. We provide the following management commands for that:
+
+-   `clear_sessions`: Delete all sessions to force-logout expired users.
+-   `cleanup_media`: Delete unused uploaded files.
