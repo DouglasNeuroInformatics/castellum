@@ -332,3 +332,5 @@ Dear castellum user,
 
 your castellum account has been unlocked.
 """
+
+CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000

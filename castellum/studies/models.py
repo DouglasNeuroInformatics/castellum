@@ -30,6 +30,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 
+from castellum import settings
 from castellum.castellum_auth.models import User
 from castellum.utils.fields import DateField
 from castellum.utils.fields import RestrictedFileField
@@ -89,7 +90,7 @@ class Study(models.Model):
         blank=True,
         upload_to='studies/consent/',
         content_types=['application/pdf'],
-        max_upload_size=5000000,
+        max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
 
     def __str__(self):
