@@ -39,7 +39,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_pseudonym
-from castellum.settings import CASTELLUM__DAYS_BETWEEN_CONTACT_ATTEMPTS
+from castellum.settings import CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.studies.mixins import StudyPermissionMixin
@@ -180,7 +180,7 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
 
         context['study'] = self.study
         context['last_agreeable_contact_time'] = datetime.date.today() - datetime.timedelta(
-            days=CASTELLUM__DAYS_BETWEEN_CONTACT_ATTEMPTS
+            days=CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS
         )
 
         return context
