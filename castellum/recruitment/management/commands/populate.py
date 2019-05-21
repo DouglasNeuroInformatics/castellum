@@ -128,6 +128,11 @@ ATTRIBUTE_DESCRIPTIONS = [{
 }]
 
 
+@functools.lru_cache(maxsize=1)
+def get_highest_degree_choices():
+    return AttributeChoice.objects.filter(description__pk=4).values_list('pk', flat=True)
+
+
 def fake_date_of_birth():
     age_groups = [
         # (start age, percentage)
@@ -168,12 +173,12 @@ def fake_phone_number():
     return fake_phone_number()
 
 
-def fake_studysession(study):
-    return StudySession(study=study, duration=fake.random.randrange(10, 120, 10))
-
-
 def fake_subject():
     return Subject(privacy_level=fake.random.randint(0, 2))
+
+
+def fake_studysession(study):
+    return StudySession(study=study, duration=fake.random.randrange(10, 120, 10))
 
 
 def fake_study():
@@ -186,7 +191,8 @@ def fake_study():
         description=description,
         expense_allowance=fake.random.randint(20, 50),
         sessions_start=fake.past_date(start_date="-30d"),
-        sessions_end=fake.future_date(end_date="+30d"))
+        sessions_end=fake.future_date(end_date="+30d"),
+    )
     if study.study_type == Study.FMRI:
         study.data_sensitivity = True
     return study
@@ -204,7 +210,8 @@ def fake_address(cities):
         city=fake.random.choice(cities),
         zip_code=fake.postcode(),
         street=fake.street_name(),
-        house_number=fake.random.randint(1, 200))
+        house_number=fake.random.randint(1, 200),
+    )
 
 
 def fake_contact(pseudonym, address):
@@ -223,22 +230,17 @@ def fake_contact(pseudonym, address):
         first_name_phonetic=phonetic(first_name),
         last_name=last_name,
         last_name_phonetic=phonetic(last_name),
-        date_of_birth=fake_date_of_birth())
+        date_of_birth=fake_date_of_birth(),
+        pseudonym=pseudonym.pseudonym,
+        address=address,
+    )
 
     if fake.random.random() < 0.67:
         contact.email = fake.email()
         if fake.random.random() < 0.75:
             contact.phone_number = fake_phone_number()
 
-    contact.pseudonym = pseudonym.pseudonym
-    contact.address = address
-
     return contact
-
-
-@functools.lru_cache(maxsize=1)
-def get_highest_degree_choices():
-    return AttributeChoice.objects.filter(description__pk=4).values_list('pk', flat=True)
 
 
 def fake_attributeset(subject, contact):
@@ -249,7 +251,8 @@ def fake_attributeset(subject, contact):
             'd2': fake_data.language(),
             'd3': contact.date_of_birth,
             'd4': fake.random.choice(get_highest_degree_choices()),
-        })
+        },
+    )
 
 
 def generate_attribute_descriptions():
@@ -269,15 +272,15 @@ def generate_studies(count):
     StudySession.objects.bulk_create(fake_studysession(study) for study in studies)
 
 
-def generate_subjects(count):
+def generate_subjects(count, city_count=100):
     # NOTE: We have ForeignKeys to Address and Subject. Unfortunately, bulk_create does not set
     # the id on the instances, so we have to get them from the database after bulk_create. This
     # assumes that the database was empty before.
 
     print('Generating addresses')
     country, __ = Country.objects.get_or_create(name='Deutschland')
-    City.objects.bulk_create(fake_cities(country, 100))
-    cities = City.objects.all()[:100]
+    City.objects.bulk_create(fake_cities(country, city_count))
+    cities = City.objects.all()[:city_count]
     Address.objects.bulk_create(fake_address(cities) for i in range(count))
     addresses = Address.objects.all()[:count]
 
@@ -307,10 +310,7 @@ def generate_subjects(count):
     Contact.objects.bulk_create(contacts)
 
     print('Generating attributesets')
-    attributesets = [
-        fake_attributeset(subjects[i], contacts[i])
-        for i in range(count)
-    ]
+    attributesets = [fake_attributeset(subjects[i], contacts[i]) for i in range(count)]
     AttributeSet.objects.bulk_create(attributesets)
 
 
