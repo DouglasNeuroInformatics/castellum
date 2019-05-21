@@ -294,8 +294,9 @@ class Command(BaseCommand):
             return
 
         print('Generating addresses')
-        City.objects.bulk_create(fake_cities(fake_country(), 100))
-        Address.objects.bulk_create(fake_address(subject_count) for i in range(subject_count))
+        city_count = 100
+        City.objects.bulk_create(fake_cities(fake_country(), city_count))
+        Address.objects.bulk_create(fake_address(city_count) for i in range(subject_count))
 
         print('Generating subjects')
         Subject.objects.bulk_create([fake_subject() for _ in range(subject_count)])
