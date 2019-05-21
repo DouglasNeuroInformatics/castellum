@@ -179,8 +179,9 @@ def fake_address(city_count):
     )
 
 
-def fake_subject():
+def fake_subject(_id=count(1)):
     return Subject(
+        id=next(_id),
         privacy_level=fake.random.randint(0, 2)
     )
 
