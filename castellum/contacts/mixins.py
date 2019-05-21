@@ -25,6 +25,7 @@ from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.subjects.mixins import SubjectMixin
+from castellum.subjects.mixins import SubjectNoteFormMixin
 
 from .forms import ContactForm
 from .models import Contact
@@ -32,7 +33,8 @@ from .models import Contact
 monitoring_logger = logging.getLogger('monitoring.contacts')
 
 
-class BaseContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
+class BaseContactUpdateView(SubjectMixin, PermissionRequiredMixin,
+                            SubjectNoteFormMixin, UpdateView):
     model = Contact
     form_class = ContactForm
     permission_required = 'contacts.change_contact'
@@ -45,10 +47,14 @@ class BaseContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     def get_cancel_url(self):
         return self.get_success_url()
 
-    def form_valid(self, form):
-        result = super().form_valid(form)
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form, formset):
+        response = super().form_valid(form, formset)
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             Contact.domain,
             self.object.pseudonym,
             self.request.user.pk))
-        return result
+        return response
