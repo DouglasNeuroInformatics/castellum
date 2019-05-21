@@ -113,3 +113,8 @@ class Subject(TimeStampedModel):
 
     def get_availability_friday_display(self):
         return ', '.join(str(ts.hour) for ts in self.availability_friday.all())
+
+
+class SubjectNote(models.Model):
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    content = models.CharField(_("content"), max_length=128, blank=True)
