@@ -92,6 +92,13 @@ class Subject(TimeStampedModel):
         except ConsentConfirmation.DoesNotExist:
             return None
 
+    @cached_property
+    def confirmed_consent(self):
+        try:
+            return self.consentconfirmation_set.filter(status='confirmed').latest()
+        except ConsentConfirmation.DoesNotExist:
+            return None
+
     @property
     def is_available(self):
         now = timezone.localtime()
