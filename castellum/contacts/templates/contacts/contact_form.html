@@ -84,6 +84,18 @@
 
         <fieldset>
             <legend>{% trans 'Castellum consent' %}</legend>
+
+            {% with consent=object.subject.confirmed_consent %}
+                <div class="alert alert-{{ consent.revision.is_current|yesno:'success,warning' }}">
+                    {% if consent %}
+                        {{ consent.revision }} {% if not consent.revision.is_current %}({% trans 'outdated' %}){% endif %}
+                        <br>
+                        {{ consent.get_type_display }}, {{ consent.updated_at|date }}
+                    {% else %}
+                        {% trans 'No consent' %}
+                    {% endif %}
+                </div>
+            {% endwith %}
         </fieldset>
 
         <fieldset>
