@@ -55,17 +55,29 @@ class BaseAttributeField:
     def filter_formfield(self, **kwargs):
         return self.formfield(self.filter_form_class, **kwargs)
 
-    def filter_to_q(self, operator, value):
+    def _filter_to_q(self, operator, value):
         field_name = 'data__' + self.description.json_key
-        if operator.startswith('!'):
-            key = '{}__{}'.format(field_name, operator[1:])
-            q = models.Q(**{key: value})
-            q_empty = models.Q(**{field_name: ''})
-            q_null = models.Q(**{field_name: None})
-            return ~q & ~q_empty & ~q_null
+        key = '{}__{}'.format(field_name, operator)
+        return models.Q(**{key: value})
+
+    def filter_to_q(self, operator, value, complete=False):
+        field_name = 'data__' + self.description.json_key
+        inverse = operator.startswith('!')
+        if inverse:
+            operator = operator[1:]
+        q = self._filter_to_q(operator, value)
+        q_empty = models.Q(**{field_name: ''}) | models.Q(**{field_name: None})
+
+        if inverse:
+            if complete:
+                return ~q & ~q_empty
+            else:
+                return ~q
         else:
-            key = '{}__{}'.format(field_name, operator)
-            return models.Q(**{key: value})
+            if complete:
+                return q
+            else:
+                return q | q_empty
 
     def from_json(self, value):
         return value
@@ -164,7 +176,7 @@ class OrderedChoiceAttributeField(ChoiceAttributeField):
         ("lte", _("is at most")),
     ]
 
-    def filter_to_q(self, operator, value):
+    def _filter_to_q(self, operator, value):
         if operator in ['gte', 'lte']:
             threshold = self.description.attributechoice_set.get(pk=value)
             allowed_choices = self.description.attributechoice_set.filter(**{
@@ -175,7 +187,7 @@ class OrderedChoiceAttributeField(ChoiceAttributeField):
             for choice in allowed_choices:
                 q |= models.Q(**{'data__' + self.description.json_key: choice.pk})
             return q
-        return super().filter_to_q(operator, value)
+        return super()._filter_to_q(operator, value)
 
 
 class AgeAttributeField(DateAttributeField):
@@ -204,13 +216,13 @@ class AgeAttributeField(DateAttributeField):
         ('>70', '>70'),
     ]
 
-    def filter_to_q(self, operator, value):
+    def _filter_to_q(self, operator, value):
         period, scale = value
         try:
             date = datetime.date.today() - relativedelta(**{scale: period})
         except (ValueError, OverflowError):
             date = datetime.date.min
-        return super().filter_to_q(operator, date)
+        return super()._filter_to_q(operator, date)
 
     def get_filter_display(self, operator, value):
         period, scale = value

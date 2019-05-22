@@ -50,10 +50,10 @@ class SubjectFilterGroup(models.Model):
     def get_absolute_url(self):
         return reverse('studies:filtergroup_update', args=[self.study.pk, self.pk])
 
-    def to_q(self):
+    def to_q(self, complete=False):
         q = models.Q()
         for f in self.subjectfilter_set.all():
-            q &= f.to_q()
+            q &= f.to_q(complete=complete)
         return q
 
     def get_subject_count(self):
@@ -69,8 +69,8 @@ class SubjectFilter(models.Model):
     def __str__(self):
         return self.description.field.get_filter_display(self.operator, self.value)
 
-    def to_q(self):
-        return self.description.field.filter_to_q(self.operator, self.value)
+    def to_q(self, complete=False):
+        return self.description.field.filter_to_q(self.operator, self.value, complete)
 
-    def get_subject_count(self):
-        return AttributeSet.objects.filter(self.to_q()).count()
+    def get_subject_count(self, complete=False):
+        return AttributeSet.objects.filter(self.to_q(complete)).count()
