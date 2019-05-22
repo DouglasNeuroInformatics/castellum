@@ -147,6 +147,9 @@ class Consent(models.Model):
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
 
+    def __str__(self):
+        return _('Version %i') % self.pk
+
     @cached_property
     def is_current(self):
         return not Consent.objects.filter(created_at__gt=self.created_at).exists()
