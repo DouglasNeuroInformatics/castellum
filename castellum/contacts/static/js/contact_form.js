@@ -11,9 +11,7 @@ $(function() {
     });
 
     $(document).on('click', '[data-js="note-delete"]', function(event) {
-        var $fieldset = $(event.target).closest('fieldset');
-        $fieldset.find('[name="form-' + $fieldset.index() + '-content"]').remove();
-        $fieldset.append($('<input type="hidden" name="form-' + $fieldset.index() + '-DELETE" value="on">'));
-        $fieldset.attr('hidden', true);
+        var $delete = $('#' + event.target.id.slice(0, -6));
+        $delete.val(event.target.checked ? '' : 'on');
     });
 });

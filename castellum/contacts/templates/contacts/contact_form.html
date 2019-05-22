@@ -12,13 +12,16 @@
 
 {% block content %}
     <template id="note-data-template">
-        <fieldset class="rounded-lg border bg-light p-3 mb-2">
-            {{ template_form.id.as_hidden }}
-            <button type="button" class="btn btn-sm btn-danger float-right mb-2" data-js="note-delete">
-                {% trans 'Delete' %}
-            </button>
-            {% bootstrap_field template_form.content %}
-        </fieldset>
+        <div class="form-group">
+            <div class="form-check">
+                {{ template_form.id.as_hidden }}
+                {{ template_form.DELETE.as_hidden }}
+                <input type="checkbox" id="{{ template_form.DELETE.id_for_label }}-check" data-js="note-delete" class="form-check-input" checked>
+                <label for="{{ template_form.DELETE.id_for_label }}-check" class="form-check-label">
+                    <input type="text" name="{{ template_form.content.html_name }}" class="form-control">
+                </label>
+            </div>
+        </div>
     </template>
 
     <form method="post">
@@ -116,16 +119,18 @@
                 {% bootstrap_field form.note_abusive_language %}
 
                 {{ notes_formset.management_form }}
-                <div id='notes-container'>
+                <div id="notes-container">
                     {% for subform in notes_formset %}
-                        <fieldset class="rounded-lg border bg-light p-3 mb-2" {% if subform.DELETE.value %}hidden{% endif %}>
-                            {{ subform.id.as_hidden }}
-                            {{ subform.DELETE.as_hidden }}
-                            <button type="button" class="btn btn-sm btn-danger float-right mb-2" data-js="note-delete">
-                                {% trans 'Delete' %}
-                            </button>
-                            {% bootstrap_field subform.content %}
-                        </fieldset>
+                        <div class="form-group">
+                            <div class="form-check" {% if subform.DELETE.value %}hidden{% endif %}>
+                                {{ subform.id.as_hidden }}
+                                {{ subform.DELETE.as_hidden }}
+                                <input type="checkbox" id="{{ subform.DELETE.id_for_label }}-check" data-js="note-delete" class="form-check-input" {% if not subform.DELETE.value %}checked{% endif %}>
+                                <label for="{{ subform.DELETE.id_for_label }}-check" class="form-check-label">
+                                    <input type="text" name="{{ subform.content.html_name }}" value="{{ subform.content.value }}" class="form-control" readonly>
+                                </label>
+                            </div>
+                        </div>
                     {% endfor %}
                 </div>
 
