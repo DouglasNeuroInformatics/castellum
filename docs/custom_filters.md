@@ -31,13 +31,13 @@ something like this:
     from castellum.recruitment import filter_registry
 
     @filter_registry.register('myfilter')
-    def myfilter():
+    def myfilter(**kwargs):
         return Q(data__d1='test')
 
 
 The filter needs to be registered with a name and must return a [Q
-object][2]. The possible conditions depend on internals that are not
-guaranteed to be stable.
+object][2]. The possible conditions and arguments depend on internals
+that are not guaranteed to be stable.
 
 ## Assign a custom filter to a study
 
