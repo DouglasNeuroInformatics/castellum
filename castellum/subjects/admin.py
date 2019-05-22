@@ -31,3 +31,4 @@ class ConsentAdmin(admin.ModelAdmin):
 admin.site.register(models.Subject)
 admin.site.register(models.TimeSlot)
 admin.site.register(models.Consent, ConsentAdmin)
+admin.site.register(models.ConsentConfirmation)
