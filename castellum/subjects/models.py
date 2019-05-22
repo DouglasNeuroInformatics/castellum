@@ -19,11 +19,14 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from castellum.utils.fields import DateTimeField
+from castellum.utils.fields import RestrictedFileField
 from castellum.utils.models import TimeStampedModel
 
 
@@ -118,3 +121,18 @@ class Subject(TimeStampedModel):
 class SubjectNote(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     content = models.CharField(_("content"), max_length=128, blank=True)
+
+
+class Consent(models.Model):
+    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
+    info = models.CharField(_("info"), max_length=128)
+    file = RestrictedFileField(
+        _('file'),
+        upload_to='consent/',
+        content_types=['application/pdf'],
+        max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
+    )
+
+    @cached_property
+    def is_current(self):
+        return not Consent.objects.filter(created_at__gt=self.created_at).exists()

@@ -23,5 +23,11 @@ from django.contrib import admin
 
 from . import models
 
+
+class ConsentAdmin(admin.ModelAdmin):
+    list_display = ('created_at', 'info', 'is_current')
+
+
 admin.site.register(models.Subject)
 admin.site.register(models.TimeSlot)
+admin.site.register(models.Consent, ConsentAdmin)
