@@ -23,7 +23,7 @@ from django import forms
 from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from castellum.pseudonyms.models import Subject
+from castellum.subjects.models import Subject
 from castellum.utils.forms import DatalistWidget
 
 from .models import Address
