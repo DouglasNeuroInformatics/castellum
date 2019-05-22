@@ -108,6 +108,11 @@ class ContactForm(forms.ModelForm):
                 self.fields[day].initial = getattr(self.instance.subject, day).all()
             self.fields['not_available_until'].initial = self.instance.subject.not_available_until
 
+            consent = self.instance.subject.consent
+            if consent and consent.status == 'waiting':
+                self.fields['consent_type'].initial = consent.type
+                self.fields['consent_status'].initial = consent.status
+
     def clean(self):
         cleaned_data = super().clean()
 
