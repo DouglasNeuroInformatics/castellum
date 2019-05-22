@@ -136,3 +136,21 @@ class Consent(models.Model):
     @cached_property
     def is_current(self):
         return not Consent.objects.filter(created_at__gt=self.created_at).exists()
+
+
+class ConsentConfirmation(models.Model):
+    updated_at = models.DateTimeField(_('updated at'), auto_now=True)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    revision = models.ForeignKey(Consent, on_delete=models.CASCADE)
+    type = models.CharField(_('type'), max_length=64, choices=[
+        ('online', _('Online form')),
+        ('paper', _('Pen & Paper')),
+        ('phone', _('Telephone')),
+    ])
+    status = models.CharField(_('status'), max_length=64, choices=[
+        ('waiting', _('Waiting for confirmation')),
+        ('confirmed', _('Confirmed')),
+    ])
+
+    class Meta:
+        get_latest_by = 'revision__created_at'
