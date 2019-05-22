@@ -23,6 +23,7 @@ from django import forms
 from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
+from castellum.subjects.models import Consent
 from castellum.subjects.models import ConsentConfirmation
 from castellum.subjects.models import Subject
 from castellum.utils.forms import DatalistWidget
@@ -197,6 +198,23 @@ class ContactForm(forms.ModelForm):
             contact.subject.not_available_until = self.cleaned_data['not_available_until']
             if commit:
                 contact.subject.save()
+
+            consent = contact.subject.consent
+            if consent and consent.status == 'waiting':
+                if (
+                    consent.type != self.cleaned_data['consent_type'] or
+                    consent.status != self.cleaned_data['consent_status']
+                ):
+                    consent.type = self.cleaned_data['consent_type']
+                    consent.status = self.cleaned_data['consent_status']
+                    consent.save()
+            elif self.cleaned_data['consent_type'] or self.cleaned_data['consent_status']:
+                ConsentConfirmation.objects.create(
+                    type=self.cleaned_data['consent_type'],
+                    status=self.cleaned_data['consent_status'],
+                    subject=contact.subject,
+                    revision=Consent.objects.latest(),
+                )
 
         return contact
 

@@ -147,6 +147,9 @@ class Consent(models.Model):
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
 
+    class Meta:
+        get_latest_by = 'created_at'
+
     def __str__(self):
         return _('Version %i') % self.pk
 
