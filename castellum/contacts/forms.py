@@ -23,6 +23,7 @@ from django import forms
 from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
+from castellum.subjects.models import ConsentConfirmation
 from castellum.subjects.models import Subject
 from castellum.utils.forms import DatalistWidget
 
@@ -72,6 +73,9 @@ class ContactForm(forms.ModelForm):
     availability_thursday = Subject._meta.get_field('availability_thursday').formfield()
     availability_friday = Subject._meta.get_field('availability_friday').formfield()
     not_available_until = Subject._meta.get_field('not_available_until').formfield()
+
+    consent_type = ConsentConfirmation._meta.get_field('type').formfield(required=False)
+    consent_status = ConsentConfirmation._meta.get_field('status').formfield(required=False)
 
     class Meta:
         model = Contact
