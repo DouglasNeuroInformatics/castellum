@@ -85,6 +85,13 @@ class Subject(TimeStampedModel):
             'note_abusive_language',
         ]
 
+    @cached_property
+    def consent(self):
+        try:
+            return self.consentconfirmation_set.latest()
+        except ConsentConfirmation.DoesNotExist:
+            return None
+
     @property
     def is_available(self):
         now = timezone.localtime()
