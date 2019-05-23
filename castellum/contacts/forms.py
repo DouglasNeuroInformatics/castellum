@@ -157,6 +157,12 @@ class ContactForm(forms.ModelForm):
             self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
             self.add_error(None, _("Please provide an email."))
 
+        if self.cleaned_data['consent_type'] or self.cleaned_data['consent_status']:
+            consent_check = [self.cleaned_data['consent_type'], self.cleaned_data['consent_status']]
+            if not all(consent_check):
+                raise ValidationError(_("Please, fill out all both type and "
+                                        "status for the consent."), code='invalid')
+
         return cleaned_data
 
     def save(self, commit=True):
