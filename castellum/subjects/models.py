@@ -19,11 +19,14 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from castellum.utils.fields import DateTimeField
+from castellum.utils.fields import RestrictedFileField
 from castellum.utils.models import TimeStampedModel
 
 
@@ -82,6 +85,13 @@ class Subject(TimeStampedModel):
             'note_abusive_language',
         ]
 
+    @cached_property
+    def consent(self):
+        try:
+            return self.consentconfirmation_set.latest()
+        except ConsentConfirmation.DoesNotExist:
+            return None
+
     @property
     def is_available(self):
         now = timezone.localtime()
@@ -118,3 +128,36 @@ class Subject(TimeStampedModel):
 class SubjectNote(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     content = models.CharField(_("content"), max_length=128, blank=True)
+
+
+class Consent(models.Model):
+    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
+    info = models.CharField(_("info"), max_length=128)
+    file = RestrictedFileField(
+        _('file'),
+        upload_to='consent/',
+        content_types=['application/pdf'],
+        max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
+    )
+
+    @cached_property
+    def is_current(self):
+        return not Consent.objects.filter(created_at__gt=self.created_at).exists()
+
+
+class ConsentConfirmation(models.Model):
+    updated_at = models.DateTimeField(_('updated at'), auto_now=True)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    revision = models.ForeignKey(Consent, on_delete=models.CASCADE)
+    type = models.CharField(_('type'), max_length=64, choices=[
+        ('online', _('Online form')),
+        ('paper', _('Pen & Paper')),
+        ('phone', _('Telephone')),
+    ])
+    status = models.CharField(_('status'), max_length=64, choices=[
+        ('waiting', _('Waiting for confirmation')),
+        ('confirmed', _('Confirmed')),
+    ])
+
+    class Meta:
+        get_latest_by = 'revision__created_at'
