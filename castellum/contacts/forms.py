@@ -23,6 +23,8 @@ from django import forms
 from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
+from castellum.subjects.models import Consent
+from castellum.subjects.models import ConsentConfirmation
 from castellum.subjects.models import Subject
 from castellum.utils.forms import DatalistWidget
 
@@ -73,6 +75,9 @@ class ContactForm(forms.ModelForm):
     availability_friday = Subject._meta.get_field('availability_friday').formfield()
     not_available_until = Subject._meta.get_field('not_available_until').formfield()
 
+    consent_type = ConsentConfirmation._meta.get_field('type').formfield(required=False)
+    consent_status = ConsentConfirmation._meta.get_field('status').formfield(required=False)
+
     class Meta:
         model = Contact
         exclude = ('address',)
@@ -103,6 +108,11 @@ class ContactForm(forms.ModelForm):
             for day in DAYS:
                 self.fields[day].initial = getattr(self.instance.subject, day).all()
             self.fields['not_available_until'].initial = self.instance.subject.not_available_until
+
+            consent = self.instance.subject.consent
+            if consent and consent.status == 'waiting':
+                self.fields['consent_type'].initial = consent.type
+                self.fields['consent_status'].initial = consent.status
 
     def clean(self):
         cleaned_data = super().clean()
@@ -188,6 +198,23 @@ class ContactForm(forms.ModelForm):
             contact.subject.not_available_until = self.cleaned_data['not_available_until']
             if commit:
                 contact.subject.save()
+
+            consent = contact.subject.consent
+            if consent and consent.status == 'waiting':
+                if (
+                    consent.type != self.cleaned_data['consent_type'] or
+                    consent.status != self.cleaned_data['consent_status']
+                ):
+                    consent.type = self.cleaned_data['consent_type']
+                    consent.status = self.cleaned_data['consent_status']
+                    consent.save()
+            elif self.cleaned_data['consent_type'] or self.cleaned_data['consent_status']:
+                ConsentConfirmation.objects.create(
+                    type=self.cleaned_data['consent_type'],
+                    status=self.cleaned_data['consent_status'],
+                    subject=contact.subject,
+                    revision=Consent.objects.latest(),
+                )
 
         return contact
 
