@@ -4,7 +4,6 @@ from freezegun import freeze_time
 import pytest
 from model_mommy import mommy
 
-from castellum.pseudonyms.models import Subject
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.recruitment.models import AttributeDescription
@@ -14,6 +13,7 @@ from castellum.recruitment.models.recruitment import ParticipationRequest
 from castellum.recruitment.models.recruitment import ParticipationRequestRevision
 from castellum.recruitment.models.attributesets import UNCATEGORIZED
 from castellum.studies.models import Study
+from castellum.subjects.models import Subject
 
 
 @pytest.fixture
