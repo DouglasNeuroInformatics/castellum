@@ -147,11 +147,6 @@ class ContactForm(forms.ModelForm):
                 raise ValidationError(_("Either email, phone number"
                                         " or address should be provided."), code='invalid')
 
-        consent_check = [self.cleaned_data['consent_type'], self.cleaned_data['consent_status']]
-        if not all(consent_check):
-            raise ValidationError(_("Please, fill out all both type and status for the consent."),
-                                  code='invalid')
-        
         if not is_address_data and preferred_contact_method == 'postal':
             self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
             self.add_error(None, _("Please provide a complete address."))
@@ -161,6 +156,12 @@ class ContactForm(forms.ModelForm):
         if not email and preferred_contact_method == 'email':
             self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
             self.add_error(None, _("Please provide an email."))
+
+        if self.cleaned_data['consent_type'] or self.cleaned_data['consent_status']:
+            consent_check = [self.cleaned_data['consent_type'], self.cleaned_data['consent_status']]
+            if not all(consent_check):
+                raise ValidationError(_("Please, fill out all both type and "
+                                        "status for the consent."), code='invalid')
 
         return cleaned_data
 
