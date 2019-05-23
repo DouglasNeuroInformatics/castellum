@@ -209,12 +209,15 @@ class ContactForm(forms.ModelForm):
                     consent.status = self.cleaned_data['consent_status']
                     consent.save()
             elif self.cleaned_data['consent_type'] or self.cleaned_data['consent_status']:
-                ConsentConfirmation.objects.create(
-                    type=self.cleaned_data['consent_type'],
-                    status=self.cleaned_data['consent_status'],
-                    subject=contact.subject,
-                    revision=Consent.objects.latest(),
-                )
+                try:
+                    ConsentConfirmation.objects.create(
+                        type=self.cleaned_data['consent_type'],
+                        status=self.cleaned_data['consent_status'],
+                        subject=contact.subject,
+                        revision=Consent.objects.latest(),
+                    )
+                except Consent.DoesNotExist:
+                    pass
 
         return contact
 
