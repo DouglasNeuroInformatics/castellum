@@ -92,6 +92,13 @@ class Subject(TimeStampedModel):
         except ConsentConfirmation.DoesNotExist:
             return None
 
+    @cached_property
+    def confirmed_consent(self):
+        try:
+            return self.consentconfirmation_set.filter(status='confirmed').latest()
+        except ConsentConfirmation.DoesNotExist:
+            return None
+
     @property
     def is_available(self):
         now = timezone.localtime()
@@ -139,6 +146,9 @@ class Consent(models.Model):
         content_types=['application/pdf'],
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
+
+    def __str__(self):
+        return _('Version %i') % self.pk
 
     @cached_property
     def is_current(self):
