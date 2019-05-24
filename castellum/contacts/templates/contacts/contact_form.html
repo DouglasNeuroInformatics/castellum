@@ -82,6 +82,7 @@
             {% bootstrap_field form.privacy_level show_label=False %}
         </fieldset>
 
+        {% if db_consent_uploaded %}
         <fieldset>
             <legend>{% trans 'Castellum consent' %}</legend>
 
@@ -104,6 +105,7 @@
                 {% endif %}
             {% endwith %}
         </fieldset>
+        {% endif %}
 
         <fieldset>
             <legend>{% trans 'Operational hints' %}</legend>

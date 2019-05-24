@@ -26,6 +26,7 @@ from django.views.generic import UpdateView
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.mixins import SubjectNoteFormMixin
+from castellum.subjects.models import Consent
 
 from .forms import ContactForm
 from .models import Contact
@@ -46,6 +47,15 @@ class BaseContactUpdateView(SubjectMixin, PermissionRequiredMixin,
 
     def get_cancel_url(self):
         return self.get_success_url()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            if Consent.objects.latest():
+                context['db_consent_uploaded'] = True
+        except Consent.DoesNotExist:
+            context['db_consent_uploaded'] = False
+        return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
