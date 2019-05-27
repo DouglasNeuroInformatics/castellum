@@ -14,7 +14,19 @@
         <dd class="col-sm-6">{{ updated_at }}</dd>
 
         <dt class="col-sm-6">{% trans 'Castellum consent' %}</dt>
-        <dd class="col-sm-6">—</dd>
+        <dd class="col-sm-6">
+            {% if subject.consent %}
+                {{ subject.consent.type }}
+                {% if not subject.consent.revision.is_current %}
+                    ({% trans "outdated" %})
+                {% endif %}
+                {% if subject.consent.status == "waiting" %}
+                    ({{ subject.consent.get_status_display }})
+                {% endif %}
+            {% else %}
+                &mdash;
+            {% endif %}
+        </dd>
 
         <dt class="col-sm-6">{% trans 'Attribute set completeness' %}</dt>
         <dd class="col-sm-6">{{ attributeset_completeness|default:'—' }}</dd>
