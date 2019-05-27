@@ -82,28 +82,30 @@
             {% bootstrap_field form.privacy_level show_label=False %}
         </fieldset>
 
-        <fieldset>
-            <legend>{% trans 'Castellum consent' %}</legend>
+        {% if db_consent_uploaded %}
+            <fieldset>
+                <legend>{% trans 'Castellum consent' %}</legend>
 
-            {% with consent=object.subject.confirmed_consent %}
-                <div class="alert alert-{{ consent.revision.is_current|yesno:'success,warning' }}">
-                    {% if consent %}
-                        {{ consent.revision }} {% if not consent.revision.is_current %}({% trans 'outdated' %}){% endif %}
-                        <br>
-                        {{ consent.get_type_display }}, {{ consent.updated_at|date }}
-                    {% else %}
-                        {% trans 'No consent' %}
+                {% with consent=object.subject.confirmed_consent %}
+                    <div class="alert alert-{{ consent.revision.is_current|yesno:'success,warning' }}">
+                        {% if consent %}
+                            {{ consent.revision }} {% if not consent.revision.is_current %}({% trans 'outdated' %}){% endif %}
+                            <br>
+                            {{ consent.get_type_display }}, {{ consent.updated_at|date }}
+                        {% else %}
+                            {% trans 'No consent' %}
+                        {% endif %}
+                    </div>
+                {% endwith %}
+
+                {% with consent=object.subject.consent %}
+                    {% if consent.status == 'waiting' or not consent.revision.is_current %}
+                        {% bootstrap_field form.consent_type %}
+                        {% bootstrap_field form.consent_status %}
                     {% endif %}
-                </div>
-            {% endwith %}
-
-            {% with consent=object.subject.consent %}
-                {% if consent.status == 'waiting' or not consent.revision.is_current %}
-                    {% bootstrap_field form.consent_type %}
-                    {% bootstrap_field form.consent_status %}
-                {% endif %}
-            {% endwith %}
-        </fieldset>
+                {% endwith %}
+            </fieldset>
+        {% endif %}
 
         <fieldset>
             <legend>{% trans 'Operational hints' %}</legend>

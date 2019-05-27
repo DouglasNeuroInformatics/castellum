@@ -160,8 +160,8 @@ class ContactForm(forms.ModelForm):
         if self.cleaned_data['consent_type'] or self.cleaned_data['consent_status']:
             consent_check = [self.cleaned_data['consent_type'], self.cleaned_data['consent_status']]
             if not all(consent_check):
-                raise ValidationError(_("Please, fill out all both type and "
-                                        "status for the consent."), code='invalid')
+                raise ValidationError(_("Please, fill out both type and "
+                                        "status of the consent."), code='invalid')
 
         return cleaned_data
 
