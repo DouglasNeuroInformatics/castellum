@@ -95,7 +95,9 @@ class Subject(TimeStampedModel):
     @cached_property
     def confirmed_consent(self):
         try:
-            return self.consentconfirmation_set.filter(status='confirmed').latest()
+            return self.consentconfirmation_set.filter(
+                status=ConsentConfirmation.CONFIRMED
+            ).latest()
         except ConsentConfirmation.DoesNotExist:
             return None
 
@@ -159,6 +161,9 @@ class Consent(models.Model):
 
 
 class ConsentConfirmation(models.Model):
+    WAITING = 'waiting'
+    CONFIRMED = 'confirmed'
+
     updated_at = models.DateTimeField(_('updated at'), auto_now=True)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     revision = models.ForeignKey(Consent, on_delete=models.CASCADE)
@@ -168,8 +173,8 @@ class ConsentConfirmation(models.Model):
         ('phone', _('Telephone')),
     ])
     status = models.CharField(_('status'), max_length=64, choices=[
-        ('waiting', _('Waiting for confirmation')),
-        ('confirmed', _('Confirmed')),
+        (WAITING, _('Waiting for confirmation')),
+        (CONFIRMED, _('Confirmed')),
     ])
 
     class Meta:

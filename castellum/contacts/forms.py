@@ -110,7 +110,7 @@ class ContactForm(forms.ModelForm):
             self.fields['not_available_until'].initial = self.instance.subject.not_available_until
 
             consent = self.instance.subject.consent
-            if consent and consent.status == 'waiting':
+            if consent and consent.status == ConsentConfirmation.WAITING:
                 self.fields['consent_type'].initial = consent.type
                 self.fields['consent_status'].initial = consent.status
 
@@ -206,7 +206,7 @@ class ContactForm(forms.ModelForm):
                 contact.subject.save()
 
             consent = contact.subject.consent
-            if consent and consent.status == 'waiting':
+            if consent and consent.status == ConsentConfirmation.WAITING:
                 if (
                     consent.type != self.cleaned_data['consent_type'] or
                     consent.status != self.cleaned_data['consent_status']
