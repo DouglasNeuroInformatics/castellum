@@ -23,6 +23,7 @@ from django.urls import path
 
 from .feeds import AppointmentFeedForStudy
 from .feeds import AppointmentFeedForUser
+from .views import AttributeSetUpdateView
 from .views import ContactUpdateView
 from .views import ContactView
 from .views import RecruitmentViewInvited
@@ -45,4 +46,6 @@ urlpatterns = [
     path('<study_pk>/<int:pk>/', ContactView.as_view(), name='contact'),
     path('<study_pk>/<int:pk>/update-contact/', ContactUpdateView.as_view(),
          name='contact-update'),
+    path('<study_pk>/<int:pk>/update-attributeset/', AttributeSetUpdateView.as_view(),
+         name='attributeset-update'),
 ]
