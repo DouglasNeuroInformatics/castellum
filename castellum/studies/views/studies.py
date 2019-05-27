@@ -244,7 +244,7 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
                     yield user.username
 
 
-class StudyMemberUpdateView(StudyMembershipAccessMixin, UpdateView):
+class StudyMembershipUpdateView(StudyMembershipAccessMixin, UpdateView):
     model = StudyMembership
     form_class = MemberForm
     permission_required = 'studies.change_study'
@@ -253,7 +253,7 @@ class StudyMemberUpdateView(StudyMembershipAccessMixin, UpdateView):
         return reverse('studies:members', args=[self.object.study.pk])
 
 
-class StudyMemberRemoveView(StudyMembershipAccessMixin, DeleteView):
+class StudyMembershipRemoveView(StudyMembershipAccessMixin, DeleteView):
     model = StudyMembership
     permission_required = 'studies.change_study'
 
