@@ -99,7 +99,7 @@
                 {% endwith %}
 
                 {% with consent=object.subject.consent %}
-                    {% if consent.status == 'waiting' or not consent.revision.is_current %}
+                    {% if consent.status == consent.WAITING or not consent.revision.is_current %}
                         {% bootstrap_field form.consent_type %}
                         {% bootstrap_field form.consent_status %}
                     {% endif %}
