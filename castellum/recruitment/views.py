@@ -330,10 +330,14 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
 
         if "btn_back" not in form.data:
             current_index = [p.pk for p in participation_requests].index(self.object.pk)
-            if current_index + 1 < len(participation_requests):
+            can_change_attributeset = self.request.user.has_perm(
+                'recruitment.change_attributeset', self.object.study
+            )
+            while current_index + 1 < len(participation_requests):
                 participation_request = participation_requests[current_index + 1]
-                return redirect(
-                    'recruitment:contact', self.object.study.pk, participation_request.pk)
+                if can_change_attributeset or participation_request.match == 'complete':
+                    return redirect(
+                        'recruitment:contact', self.object.study.pk, participation_request.pk)
 
         return redirect('recruitment:recruitment_open', self.object.study.pk)
 
