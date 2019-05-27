@@ -662,7 +662,7 @@ msgstr "Ausschlusskriterien"
 #: castellum/recruitment/templates/recruitment/contact.html:127
 #: castellum/studies/templates/studies/study_exclusioncriteria.html:14
 msgid "fMRI-specific exclusion criteria"
-msgstr "fMRI-spezigische Ausschlusskriterien"
+msgstr "fMRI-spezifische Ausschlusskriterien"
 
 #: castellum/recruitment/templates/recruitment/contact.html:147
 msgid "Save and go back"
