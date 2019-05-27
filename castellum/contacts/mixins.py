@@ -50,11 +50,7 @@ class BaseContactUpdateView(SubjectMixin, PermissionRequiredMixin,
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        try:
-            if Consent.objects.latest():
-                context['db_consent_uploaded'] = True
-        except Consent.DoesNotExist:
-            context['db_consent_uploaded'] = False
+        context['db_consent_uploaded'] = Consent.objects.exists()
         return context
 
     def post(self, request, *args, **kwargs):
