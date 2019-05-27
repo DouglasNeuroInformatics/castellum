@@ -162,6 +162,9 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         for participation in self.object.participationrequest_set.all():
             context['dataset_list'].append(participation)
 
+        for consent in self.object.consentconfirmation_set.all():
+            context['dataset_list'].append(consent)
+
         return context
 
 
