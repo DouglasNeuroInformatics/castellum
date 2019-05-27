@@ -11,15 +11,23 @@
 
         {% csrf_token %}
 
-        {% for field in uncategorized %}
+        {% for field, no_comment in uncategorized %}
             {% bootstrap_field field %}
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="{{ field.name }}_no_comment" id="{{ field.id_for_label }}_no_comment" {% if no_comment %}checked{% endif %}>
+                <label class="form-check-label" for="{{ field.id_for_label }}_no_comment">{% trans 'No comment' %}
+            </div>
         {% endfor %}
 
         {% for category, fields in categories.items %}
             <fieldset>
                 <legend>{{ category }}</legend>
-                {% for field in fields %}
+                {% for field, no_comment in fields %}
                     {% bootstrap_field field %}
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="{{ field.name }}_no_comment" id="{{ field.id_for_label }}_no_comment" {% if no_comment %}checked{% endif %}>
+                        <label class="form-check-label" for="{{ field.id_for_label }}_no_comment">{% trans 'No comment' %}
+                    </div>
                 {% endfor %}
             </fieldset>
         {% endfor %}

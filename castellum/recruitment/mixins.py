@@ -29,6 +29,7 @@ from castellum.contacts.mixins import SubjectMixin
 from .forms import AttributeSetForm
 from .models import AttributeDescription
 from .models import AttributeSet
+from .models.attributesets import NO_COMMENT
 from .models.attributesets import UNCATEGORIZED
 
 monitoring_logger = logging.getLogger('monitoring.recruitment')
@@ -57,8 +58,9 @@ class BaseAttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateVi
 
         def get_bound_fields(descriptions):
             for description in descriptions:
+                no_comment = self.object.data.get(description.json_key) == NO_COMMENT
                 try:
-                    yield form['d%i' % description.pk]
+                    yield form['d%i' % description.pk], no_comment
                 except KeyError:
                     pass
 
