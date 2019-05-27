@@ -221,9 +221,12 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
         return self.render_to_response(self.get_context_data())
 
     def get_form(self):
+        choices = [(None, '---')]
+        choices.extend([(user.pk, str(user))
+                        for user in User.objects.exclude(pk__in=self.object.members.all())])
+
         form = AddMemberForm(**self.get_form_kwargs())
-        form.fields['user'].choices = [(None, '---')] + [
-            (user.pk, str(user)) for user in User.objects.exclude(pk__in=self.object.members.all())]
+        form.fields['user'].choices = choices
         return form
 
     def form_valid(self, form):
