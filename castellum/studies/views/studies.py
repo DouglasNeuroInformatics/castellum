@@ -204,7 +204,6 @@ class StudyExclusionCriteriaView(StudyAccessMixin, UpdateView):
 
 class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
     model = Study
-    form_class = AddMemberForm
     template_name = 'studies/study_members.html'
     permission_required = 'studies.change_study'
 
@@ -212,28 +211,25 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
         self.object = self.get_object()
         return super().dispatch(*args, **kwargs)
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, **kwargs):
         unprivileged_users = list(self.get_unprivileged_members())
         if unprivileged_users:
             messages.warning(self.request, _(
                 'Some members of this study with access to filters are blocked from managing '
                 'filters due to an insufficient privacy level.\nBlocked users are: '
             ) + ', '.join(user for user in unprivileged_users))
-        return super().get(request, *args, **kwargs)
+        return self.render_to_response(self.get_context_data())
 
     def get_form(self):
-        form = super().get_form()
+        form = AddMemberForm(**self.get_form_kwargs())
         form.fields['user'].choices = [(None, '---')] + [
             (user.pk, str(user)) for user in User.objects.exclude(pk__in=self.object.members.all())]
         return form
 
-    def get_success_url(self):
-        return reverse('studies:members', args=[self.object.pk])
-
     def form_valid(self, form):
         StudyMembership.objects.get_or_create(
             user=form.cleaned_data['user'], study=self.object)
-        return super().form_valid(form)
+        return HttpResponseRedirect(reverse('studies:members', args=[self.object.pk]))
 
     def get_unprivileged_members(self):
         max_privacy_level = self.object.get_filter_max_privacy_level()
@@ -257,13 +253,11 @@ class StudyMembershipRemoveView(StudyMembershipAccessMixin, DeleteView):
     model = StudyMembership
     permission_required = 'studies.change_study'
 
-    def get_success_url(self):
-        return reverse('studies:members', args=[self.object.study.pk])
-
     def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if self.object.user.pk != request.user.pk:
-            self.object.delete()
-        else:
+        membership = self.get_object()
+
+        if membership.user.pk == request.user.pk:
             return HttpResponseBadRequest()
-        return HttpResponseRedirect(self.get_success_url())
+
+        membership.delete()
+        return HttpResponseRedirect(reverse('studies:members', args=[membership.study.pk]))
