@@ -23,11 +23,14 @@ import datetime
 
 from django.db import models
 from django.forms import ValidationError
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 from castellum.utils.fields import DateTimeField
+
+from .attributesets import AttributeSet
 
 
 class ParticipationRequestManager(models.Manager):
@@ -92,6 +95,21 @@ class ParticipationRequest(models.Model):
             ParticipationRequest.NOT_REACHED,
             ParticipationRequest.RECALL_APPOINTED,
         ]
+
+    @cached_property
+    def match(self):
+        if AttributeSet\
+                .apply_study_filter(self.study, include_unknown=False)\
+                .filter(subject=self.subject)\
+                .exists():
+            return 'complete'
+        elif AttributeSet\
+                .apply_study_filter(self.study, include_unknown=True)\
+                .filter(subject=self.subject)\
+                .exists():
+            return 'incomplete'
+        else:
+            return False
 
     def get_revisions_display(self):
         return ', '.join(str(r) for r in self.revisions.all())
