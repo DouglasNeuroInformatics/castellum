@@ -19,8 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import logging
-
 from django import forms
 from django.core.exceptions import PermissionDenied
 from django.utils.functional import cached_property
@@ -28,8 +26,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from .models import Subject
 from .models import SubjectNote
-
-monitoring_logger = logging.getLogger('monitoring.contacts')
 
 
 class SubjectMixin:

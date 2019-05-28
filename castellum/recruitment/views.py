@@ -20,7 +20,6 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
-import logging
 import random
 from collections import defaultdict
 
@@ -50,8 +49,6 @@ from castellum.utils.chart import ChartRenderer
 from .models import AttributeDescription
 from .models import AttributeSet
 from .models import ParticipationRequest
-
-monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
 class StudyChoiceView(LoginRequiredMixin, ListView):
@@ -314,19 +311,13 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
         context['contact'] = contact
         return context
 
-    def save(self, form):
-        self.object = form.save()
-
-        monitoring_logger.info('ParticipationRequest update: {} by {}'.format(
-            self.object.pk, self.request.user.pk))
-
     def form_valid_recruitment(self, form):
         # needs to be executed before object.save()
         user_privacy_level = self.request.user.get_privacy_level()
         participation_requests = list(
             self.get_queryset().filter(subject__privacy_level__lte=user_privacy_level))
 
-        self.save(form)
+        self.object = form.save()
 
         if "btn_back" not in form.data:
             current_index = [p.pk for p in participation_requests].index(self.object.pk)
@@ -339,7 +330,7 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
 
     def form_valid(self, form):
         if 'contacts' in self.request.GET:
-            self.save(form)
+            self.object = form.save()
             return redirect('subjects:detail', self.object.subject.pk)
         else:
             return self.form_valid_recruitment(form)
