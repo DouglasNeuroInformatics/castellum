@@ -66,16 +66,16 @@ class BaseAttributeField:
         if inverse:
             operator = operator[1:]
         q = self._filter_to_q(operator, value)
-        q_empty = models.Q(**{field_name: ''}) | models.Q(**{field_name: None})
+        q_unknown = models.Q(**{field_name: ''}) | models.Q(**{field_name: None})
 
         if inverse:
             if include_unknown:
                 return ~q
             else:
-                return ~q & ~q_empty
+                return ~q & ~q_unknown
         else:
             if include_unknown:
-                return q | q_empty
+                return q | q_unknown
             else:
                 return q
 
