@@ -23,10 +23,12 @@ from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import ugettext_lazy as _
 
+from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
 from castellum.utils.helpers import get_object_or_none
 
 from .models import AttributeDescription
+from .models import ParticipationRequest
 from .models import SubjectFilter
 from .models.attributesets import UNCATEGORIZED
 
@@ -135,3 +137,26 @@ class AttributeSetForm(forms.Form):
         allowed_descriptions = AttributeDescription.objects.allowed_write(user, obj=obj)
         form_fields = {desc.json_key: desc.field.formfield() for desc in allowed_descriptions}
         return type('AttributeSetForm', (cls,), form_fields)
+
+
+class ContactForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        model_status = ParticipationRequest._meta.get_field('status')
+        self.fields['status'] = DisabledChoiceField(
+            label=model_status.verbose_name,
+            choices=model_status.choices,
+            coerce=int,
+        )
+        if not self.instance.match:
+            self.fields['status'].widget.disabled_choices = [
+                choice for choice, label in ParticipationRequest.STATUS_OPTIONS
+                if choice != ParticipationRequest.UNSUITABLE
+            ]
+        elif self.instance.match == 'incomplete':
+            self.fields['status'].widget.disabled_choices = [ParticipationRequest.INVITED]
+
+    class Meta:
+        model = ParticipationRequest
+        fields = ['status', 'appointment', 'exclusion_criteria_checked']
