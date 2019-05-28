@@ -19,8 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import logging
-
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -30,8 +28,6 @@ from castellum.subjects.models import Consent
 
 from .forms import ContactForm
 from .models import Contact
-
-monitoring_logger = logging.getLogger('monitoring.contacts')
 
 
 class BaseContactUpdateView(SubjectMixin, PermissionRequiredMixin,
@@ -56,11 +52,3 @@ class BaseContactUpdateView(SubjectMixin, PermissionRequiredMixin,
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().post(request, *args, **kwargs)
-
-    def form_valid(self, form, formset):
-        response = super().form_valid(form, formset)
-        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
-            Contact.domain,
-            self.object.pseudonym,
-            self.request.user.pk))
-        return response

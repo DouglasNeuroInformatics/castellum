@@ -47,7 +47,7 @@ class BaseAttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateVi
     def form_valid(self, form):
         result = super().form_valid(form)
         monitoring_logger.info('AttributeSet update: {} by {}'.format(
-            self.object.pk,
+            self.object.subject.pk,
             self.request.user.pk))
         return result
 
