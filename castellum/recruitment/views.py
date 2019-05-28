@@ -282,7 +282,10 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
 
     def get_initial(self):
         initial = super().get_initial()
-        initial['status'] = None
+        if self.object.match:
+            initial['status'] = None
+        else:
+            initial['status'] = ParticipationRequest.UNSUITABLE
         initial['appointment'] = None
         return initial
 
