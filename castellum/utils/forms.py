@@ -95,6 +95,19 @@ class DisabledSelect(forms.Select):
         return option
 
 
+class DisabledChoiceField(forms.TypedChoiceField):
+    widget = DisabledSelect
+
+    def validate(self, value):
+        if value in self.widget.disabled_choices:
+            raise forms.ValidationError(
+                self.error_messages['invalid_choice'],
+                code='invalid_choice',
+                params={'value': value},
+            )
+        return super().validate(value)
+
+
 class DisabledModelChoiceField(forms.ModelChoiceField):
     widget = DisabledSelect
 
