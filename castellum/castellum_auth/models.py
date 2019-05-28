@@ -24,6 +24,8 @@ import logging
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.signals import user_logged_in
+from django.contrib.auth.signals import user_logged_out
+from django.contrib.auth.signals import user_login_failed
 from django.core.mail import send_mail
 from django.db import models
 from django.dispatch import receiver
@@ -81,4 +83,14 @@ class User(AbstractUser):
 
 @receiver(user_logged_in)
 def log_login(sender, user, request, **kwargs):
-    monitoring_logger.info('Login by {} ({})'.format(user.username, user.pk))
+    monitoring_logger.info('Login by {}'.format(user.pk))
+
+
+@receiver(user_login_failed)
+def log_failed_login(sender, credentials, request, **kwargs):
+    monitoring_logger.info('Failed login with username "{}"'.format(credentials['username']))
+
+
+@receiver(user_logged_out)
+def log_logout(sender, user, request, **kwargs):
+    monitoring_logger.info('Logout by {}'.format(user.pk))
