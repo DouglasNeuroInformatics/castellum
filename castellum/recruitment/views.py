@@ -38,6 +38,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_pseudonym
+from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.settings import CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
@@ -351,6 +352,22 @@ class ContactUpdateView(StudyPermissionMixin, BaseContactUpdateView):
         contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
 
         return contact
+
+    def get_success_url(self):
+        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
+
+
+class AttributeSetUpdateView(StudyPermissionMixin, BaseAttributeSetUpdateView):
+
+    def dispatch(self, request, *args, **kwargs):
+        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
+        self.study.raise_404_error_if_study_is_not_published()
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_object(self):
+        participation_request = get_object_or_404(
+            ParticipationRequest, study=self.study, pk=self.kwargs['pk'])
+        return participation_request.subject.attributeset
 
     def get_success_url(self):
         return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
