@@ -31,25 +31,26 @@ from .models import SubjectFilter
 from .models.attributesets import UNCATEGORIZED
 
 
-def create_choice(user, description):
-    if user.has_privacy_level(description.privacy_level_read):
-        return description.pk, description.filter_label
-    else:
-        return -description.pk, description.filter_label
-
-
 def get_description_choices(user):
-    yield None, '---'
+    choices = [(None, '---')]
+    disabled_choices = []
 
     categories = AttributeDescription.objects.by_category()
 
     for description in categories.pop(UNCATEGORIZED):
-        yield create_choice(user, description)
+        choices.append((description.pk, description.filter_label))
+        if not user.has_privacy_level(description.privacy_level_read):
+            disabled_choices.append(description.pk)
 
     for category, descriptions in categories.items():
-        yield category.label, [
-            create_choice(user, description) for description in descriptions
-        ]
+        sub = []
+        for description in descriptions:
+            sub.append((description.pk, description.filter_label))
+            if not user.has_privacy_level(description.privacy_level_read):
+                disabled_choices.append(description.pk)
+        choices.append((category.label, sub))
+
+    return choices, disabled_choices
 
 
 class SubjectFilterForm(forms.ModelForm):
@@ -58,8 +59,10 @@ class SubjectFilterForm(forms.ModelForm):
 
         selected_description = self._get_selected_description(**kwargs)
 
+        choices, disabled_choices = get_description_choices(user)
         self.fields["description"] = DisabledModelChoiceField(AttributeDescription.objects.all())
-        self.fields["description"].choices = get_description_choices(user)
+        self.fields["description"].choices = choices
+        self.fields["description"].widget.disabled_choices = disabled_choices
 
         if not selected_description:
             return
