@@ -24,11 +24,11 @@ from django.db import models
 from .filter_registry import custom_filters
 
 
-def get_study_filter_q(study, complete=False):
+def get_study_filter_q(study, include_unknown=True):
     if study.custom_filter:
-        return custom_filters[study.custom_filter](complete=complete)
+        return custom_filters[study.custom_filter](include_unknown=include_unknown)
 
     q = models.Q()
     for group in study.subjectfiltergroup_set.all():
-        q |= group.to_q(complete=complete)
+        q |= group.to_q(include_unknown=include_unknown)
     return q

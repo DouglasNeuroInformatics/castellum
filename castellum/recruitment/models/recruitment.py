@@ -99,12 +99,12 @@ class ParticipationRequest(models.Model):
     @cached_property
     def match(self):
         if AttributeSet\
-                .apply_study_filter(self.study, complete=True)\
+                .apply_study_filter(self.study, include_unknown=False)\
                 .filter(subject=self.subject)\
                 .exists():
             return 'complete'
         elif AttributeSet\
-                .apply_study_filter(self.study, complete=False)\
+                .apply_study_filter(self.study, include_unknown=True)\
                 .filter(subject=self.subject)\
                 .exists():
             return 'incomplete'

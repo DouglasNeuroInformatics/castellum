@@ -60,7 +60,7 @@ class BaseAttributeField:
         key = '{}__{}'.format(field_name, operator)
         return models.Q(**{key: value})
 
-    def filter_to_q(self, operator, value, complete=False):
+    def filter_to_q(self, operator, value, include_unknown=True):
         field_name = 'data__' + self.description.json_key
         inverse = operator.startswith('!')
         if inverse:
@@ -69,15 +69,15 @@ class BaseAttributeField:
         q_empty = models.Q(**{field_name: ''}) | models.Q(**{field_name: None})
 
         if inverse:
-            if complete:
-                return ~q & ~q_empty
-            else:
+            if include_unknown:
                 return ~q
-        else:
-            if complete:
-                return q
             else:
+                return ~q & ~q_empty
+        else:
+            if include_unknown:
                 return q | q_empty
+            else:
+                return q
 
     def from_json(self, value):
         return value
