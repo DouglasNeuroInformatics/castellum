@@ -37,6 +37,7 @@ from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.studies.models import Study
+from castellum.studies.models import StudySession
 from castellum.subjects.models import Subject
 from castellum.utils import FakeData
 
@@ -167,16 +168,25 @@ def fake_phone_number():
     return fake_phone_number()
 
 
+def fake_studysession(study):
+    return StudySession(study=study, duration=fake.random.randrange(10, 120, 10))
+
+
 def fake_subject():
     return Subject(privacy_level=fake.random.randint(0, 2))
 
 
 def fake_study():
+    description = fake.paragraph(nb_sentences=5, variable_nb_sentences=True)
     study = Study(
         name=fake.word().upper(),
         contact_person=fake.name(),
         min_subjects_count=fake.random.randint(0, 50),
-        study_type=fake.random.choice(Study.STUDY_TYPES)[0])
+        study_type=fake.random.choice(Study.STUDY_TYPES)[0],
+        description=description,
+        expense_allowance=fake.random.randint(20, 50),
+        sessions_start=fake.future_date(end_date="+10d"),
+        sessions_end=fake.future_date(end_date="+30d"))
     if study.study_type == Study.FMRI:
         study.data_sensitivity = True
     return study
@@ -255,6 +265,8 @@ def generate_attribute_descriptions():
 def generate_studies(count):
     print('Generating studies')
     Study.objects.bulk_create(fake_study() for i in range(count))
+    studies = Study.objects.all()[:count]
+    StudySession.objects.bulk_create(fake_studysession(study) for study in studies)
 
 
 def generate_subjects(count):
