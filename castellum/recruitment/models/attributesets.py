@@ -113,6 +113,8 @@ class AttributeSet(TimeStampedModel):
 
         if value in [None, NO_COMMENT]:
             return value
+        elif not value:
+            return None
 
         return description.field.get_statistics_bucket(value)
 
