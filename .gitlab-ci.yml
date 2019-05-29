@@ -9,7 +9,6 @@ services:
 stages:
   - test
   - build
-  - selenium
   - release
   - publish_coverage
 
@@ -57,12 +56,6 @@ build:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
     - docker build -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
-
-selenium:
-  stage: selenium
-  script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
-    - docker run $CONTAINER_TEST_IMAGE echo fake selenium
 
 release-image:
   stage: release
