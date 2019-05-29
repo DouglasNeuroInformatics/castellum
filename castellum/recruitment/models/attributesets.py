@@ -263,7 +263,8 @@ class AttributeDescription(ImportMixin, TranslatableModel):
             return [(None, None)]
 
         return description.field.get_statistics_buckets() + [
-            (None, _('Unknown'))
+            (None, _('Unknown')),
+            (NO_COMMENT, _('No comment')),
         ]
 
     def export(self):
