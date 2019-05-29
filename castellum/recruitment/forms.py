@@ -23,34 +23,37 @@ from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import ugettext_lazy as _
 
+from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
 from castellum.utils.helpers import get_object_or_none
 
 from .models import AttributeDescription
+from .models import ParticipationRequest
 from .models import SubjectFilter
 from .models.attributesets import NO_COMMENT
 from .models.attributesets import UNCATEGORIZED
 
 
-def create_choice(user, description):
-    if user.has_privacy_level(description.privacy_level_read):
-        return description.pk, description.filter_label
-    else:
-        return -description.pk, description.filter_label
-
-
 def get_description_choices(user):
-    yield None, '---'
+    choices = [(None, '---')]
+    disabled_choices = []
 
     categories = AttributeDescription.objects.by_category()
 
     for description in categories.pop(UNCATEGORIZED):
-        yield create_choice(user, description)
+        choices.append((description.pk, description.filter_label))
+        if not user.has_privacy_level(description.privacy_level_read):
+            disabled_choices.append(description.pk)
 
     for category, descriptions in categories.items():
-        yield category.label, [
-            create_choice(user, description) for description in descriptions
-        ]
+        sub = []
+        for description in descriptions:
+            sub.append((description.pk, description.filter_label))
+            if not user.has_privacy_level(description.privacy_level_read):
+                disabled_choices.append(description.pk)
+        choices.append((category.label, sub))
+
+    return choices, disabled_choices
 
 
 class SubjectFilterForm(forms.ModelForm):
@@ -59,8 +62,10 @@ class SubjectFilterForm(forms.ModelForm):
 
         selected_description = self._get_selected_description(**kwargs)
 
+        choices, disabled_choices = get_description_choices(user)
         self.fields["description"] = DisabledModelChoiceField(AttributeDescription.objects.all())
-        self.fields["description"].choices = get_description_choices(user)
+        self.fields["description"].choices = choices
+        self.fields["description"].widget.disabled_choices = disabled_choices
 
         if not selected_description:
             return
@@ -142,3 +147,26 @@ class AttributeSetForm(forms.Form):
         allowed_descriptions = AttributeDescription.objects.allowed_write(user, obj=obj)
         form_fields = {desc.json_key: desc.field.formfield() for desc in allowed_descriptions}
         return type('AttributeSetForm', (cls,), form_fields)
+
+
+class ContactForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        model_status = ParticipationRequest._meta.get_field('status')
+        self.fields['status'] = DisabledChoiceField(
+            label=model_status.verbose_name,
+            choices=model_status.choices,
+            coerce=int,
+        )
+        if not self.instance.match:
+            self.fields['status'].widget.disabled_choices = [
+                choice for choice, label in ParticipationRequest.STATUS_OPTIONS
+                if choice != ParticipationRequest.UNSUITABLE
+            ]
+        elif self.instance.match == 'incomplete':
+            self.fields['status'].widget.disabled_choices = [ParticipationRequest.INVITED]
+
+    class Meta:
+        model = ParticipationRequest
+        fields = ['status', 'appointment', 'exclusion_criteria_checked']

@@ -47,6 +47,7 @@ from castellum.studies.models import Study
 from castellum.subjects.mixins import SubjectMixin
 from castellum.utils.chart import ChartRenderer
 
+from .forms import ContactForm
 from .models import AttributeDescription
 from .models import AttributeSet
 from .models import ParticipationRequest
@@ -267,7 +268,7 @@ class RecruitmentViewOpen(RecruitmentView):
 
 class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = ParticipationRequest
-    fields = ['status', 'appointment', 'exclusion_criteria_checked']
+    form_class = ContactForm
     template_name = 'recruitment/contact.html'
     permission_required = (
         'contacts.view_contact',
@@ -281,7 +282,10 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
 
     def get_initial(self):
         initial = super().get_initial()
-        initial['status'] = None
+        if self.object.match:
+            initial['status'] = None
+        else:
+            initial['status'] = ParticipationRequest.UNSUITABLE
         initial['appointment'] = None
         return initial
 

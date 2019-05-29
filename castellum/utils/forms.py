@@ -84,20 +84,42 @@ class PhoneNumberField(_PhoneNumberFormField):
 
 
 class DisabledSelect(forms.Select):
+    def __init__(self, **kwargs):
+        self.disabled_choices = kwargs.pop('disabled_choices', [])
+        super().__init__(**kwargs)
+
     def create_option(self, name, value, *args, **kwargs):
         option = super().create_option(name, value, *args, **kwargs)
-        if str(value).startswith('-'):
+        if value in self.disabled_choices:
             option['attrs']['disabled'] = True
         return option
+
+
+class DisabledChoiceField(forms.TypedChoiceField):
+    widget = DisabledSelect
+
+    def validate(self, value):
+        if value in self.widget.disabled_choices:
+            raise forms.ValidationError(
+                self.error_messages['invalid_choice'],
+                code='invalid_choice',
+                params={'value': value},
+            )
+        return super().validate(value)
 
 
 class DisabledModelChoiceField(forms.ModelChoiceField):
     widget = DisabledSelect
 
-    def valid_value(self, value):
-        if str(value).startswith('-'):
-            return False
-        return super().valid_value(value)
+    def validate(self, value):
+        # value is the instance, so we have to check value.pk
+        if value.pk in self.widget.disabled_choices:
+            raise forms.ValidationError(
+                self.error_messages['invalid_choice'],
+                code='invalid_choice',
+                params={'value': value},
+            )
+        return super().validate(value)
 
 
 class IntegerChoiceField(forms.TypedChoiceField):
