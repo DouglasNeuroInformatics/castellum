@@ -173,13 +173,18 @@ def fake_phone_number():
     return fake_phone_number()
 
 
-def fake_subject():
-    return Subject(privacy_level=fake.random.randint(0, 2))
+def fake_subject(id):
+    return Subject(id=id, privacy_level=fake.random.randint(0, 2))
 
 
-def fake_study():
+def fake_studysession(study_id):
+    return StudySession(study_id=study_id, duration=fake.random.randrange(10, 120, 10))
+
+
+def fake_study(id):
     description = fake.paragraph(nb_sentences=5, variable_nb_sentences=True)
     study = Study(
+        id=id,
         name=fake.word().upper(),
         contact_person=fake.name(),
         min_subjects_count=fake.random.randint(0, 50),
@@ -263,7 +268,7 @@ def generate_attribute_descriptions():
 
 def generate_studies(count):
     print('Generating studies')
-    Study.objects.bulk_create(fake_study() for i in range(count))
+    Study.objects.bulk_create(fake_study(i + 1) for i in range(count))
     StudySession.objects.bulk_create(fake_studysession(i + 1) for i in range(count))
 
 
@@ -278,7 +283,7 @@ def generate_subjects(count, city_count=100):
     Address.objects.bulk_create(fake_address(city_count) for i in range(count))
 
     print('Generating pseudonyms')
-    Subject.objects.bulk_create([fake_subject() for i in range(count)], batch_size=200)
+    Subject.objects.bulk_create([fake_subject(i + 1) for i in range(count)], batch_size=200)
 
     contact_pseudonyms = [Pseudonym(subject_id=i + 1, domain=Contact.domain) for i in range(count)]
     Pseudonym.objects.bulk_create(contact_pseudonyms)
