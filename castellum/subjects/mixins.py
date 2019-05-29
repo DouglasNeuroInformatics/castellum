@@ -87,7 +87,6 @@ class SubjectNoteFormMixin:
         response = super().form_valid(form)
 
         for subform in contactnote_formset:
-            print(self.object.subject)
             subform.instance.subject = self.object.subject
         contactnote_formset.save()
 
