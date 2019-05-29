@@ -28,6 +28,7 @@ from castellum.utils.helpers import get_object_or_none
 
 from .models import AttributeDescription
 from .models import SubjectFilter
+from .models.attributesets import NO_COMMENT
 from .models.attributesets import UNCATEGORIZED
 
 
@@ -119,8 +120,17 @@ class AttributeSetForm(forms.Form):
     def __init__(self, instance=None, **kwargs):
         self.instance = instance
         if not kwargs.get('initial'):
-            kwargs['initial'] = instance.get_data()
+            kwargs['initial'] = {}
+            for key, value in instance.get_data().items():
+                kwargs['initial'][key] = None if value == NO_COMMENT else value
         super().__init__(**kwargs)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        for key in cleaned_data:
+            if key + '_no_comment' in self.data:
+                cleaned_data[key] = NO_COMMENT
+        return cleaned_data
 
     def save(self):
         self.instance.data.update(self.cleaned_data)

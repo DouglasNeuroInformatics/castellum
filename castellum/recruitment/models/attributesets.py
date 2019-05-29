@@ -39,6 +39,7 @@ from castellum.subjects.models import Subject
 from castellum.utils.models import TimeStampedModel
 
 from .. import attribute_fields
+from ..attribute_fields import NO_COMMENT
 from ..utils import get_study_filter_q
 
 UNCATEGORIZED = "UNCATEGORIZED"
@@ -110,8 +111,8 @@ class AttributeSet(TimeStampedModel):
             return None
         value = description.field.from_json(self.data.get(description.json_key))
 
-        if value is None:
-            return None
+        if value in [None, NO_COMMENT]:
+            return value
 
         return description.field.get_statistics_bucket(value)
 
