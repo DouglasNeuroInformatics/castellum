@@ -302,7 +302,7 @@ def generate_subjects(count):
         email='muhammad@example.com',
     )
     contacts.append(testcontact)
-    testcontact.pseudonym = contact_pseudonyms[-1]
+    testcontact.pseudonym = contact_pseudonyms[-1].pseudonym
 
     Contact.objects.bulk_create(contacts)
 
