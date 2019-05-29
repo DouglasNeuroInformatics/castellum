@@ -110,7 +110,7 @@ class AttributeSet(TimeStampedModel):
             return None
         value = description.field.from_json(self.data.get(description.json_key))
 
-        if value is None:
+        if value is None or not value:
             return None
 
         return description.field.get_statistics_bucket(value)
