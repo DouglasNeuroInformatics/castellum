@@ -37,5 +37,4 @@ AUTH_LDAP_USER_SEARCH = LDAPSearch('dc=example,dc=org', ldap.SCOPE_SUBTREE, '(ui
 
 DOMAINS = {
     'contact': 'dac7466e-db47-4c1c-a69d-f8b98850f777',
-    'attributeset': 'ac2cb367-a064-4e06-b319-a25f1c7fe28a',
 }
