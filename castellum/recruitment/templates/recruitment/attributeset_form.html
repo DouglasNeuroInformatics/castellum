@@ -11,12 +11,12 @@
 
         {% csrf_token %}
 
-        {% for field, no_comment in uncategorized %}
+        {% for field, answer_declined in uncategorized %}
             <div class="form-group">
                 {% bootstrap_field field form_group_class="" %}
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" name="{{ field.name }}_no_comment" id="{{ field.id_for_label }}_no_comment" data-js="no-comment" data-target="{{ field.id_for_label }}" {% if no_comment %}checked{% endif %}>
-                    <label class="form-check-label" for="{{ field.id_for_label }}_no_comment">{% trans 'No comment' %}
+                    <input type="checkbox" class="form-check-input" name="{{ field.name }}_answer_declined" id="{{ field.id_for_label }}_answer_declined" data-js="answer-declined" data-target="{{ field.id_for_label }}" {% if answer_declined %}checked{% endif %}>
+                    <label class="form-check-label" for="{{ field.id_for_label }}_answer_declined">{% trans 'Declined to answer' %}
                 </div>
             </div>
         {% endfor %}
@@ -24,12 +24,12 @@
         {% for category, fields in categories.items %}
             <fieldset>
                 <legend>{{ category }}</legend>
-                {% for field, no_comment in fields %}
+                {% for field, answer_declined in fields %}
                     <div class="form-group">
                         {% bootstrap_field field form_group_class="" %}
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="{{ field.name }}_no_comment" id="{{ field.id_for_label }}_no_comment" data-js="no-comment" data-target="{{ field.id_for_label }}" {% if no_comment %}checked{% endif %}>
-                            <label class="form-check-label" for="{{ field.id_for_label }}_no_comment">{% trans 'No comment' %}
+                            <input type="checkbox" class="form-check-input" name="{{ field.name }}_answer_declined" id="{{ field.id_for_label }}_answer_declined" data-js="answer-declined" data-target="{{ field.id_for_label }}" {% if answer_declined %}checked{% endif %}>
+                            <label class="form-check-label" for="{{ field.id_for_label }}_answer_declined">{% trans 'Declined to answer' %}
                         </div>
                     </div>
                 {% endfor %}
@@ -44,5 +44,5 @@
 {% endblock %}
 
 {% block extra_scripts %}
-    <script src="{% static 'js/no_comment.js' %}"></script>
+    <script src="{% static 'js/answer_declined.js' %}"></script>
 {% endblock %}

@@ -1,0 +1,13 @@
+$(function() {
+    var disableInput = function(event) {
+        var $answer_declined = $(event.target);
+        var $target = $('#' + $answer_declined.data('target'));
+        $target.prop('disabled', $answer_declined.prop('checked'));
+    };
+
+    $(document).on('change', '[data-js="answer-declined"]', disableInput);
+
+    $('[data-js="answer-declined"]').each(function(i, element) {
+        disableInput({target: element});
+    });
+});

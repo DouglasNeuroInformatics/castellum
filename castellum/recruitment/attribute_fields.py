@@ -32,7 +32,7 @@ from castellum.utils.forms import IntegerChoiceField
 
 from .fields import AgeField
 
-NO_COMMENT = "NO_COMMENT"
+ANSWER_DECLINED = "ANSWER_DECLINED"
 
 
 class BaseAttributeField:
@@ -87,8 +87,8 @@ class BaseAttributeField:
     def get_display(self, value):
         if value is None:
             return '—'
-        elif value is NO_COMMENT:
-            return _('No comment')
+        elif value is ANSWER_DECLINED:
+            return _('Declined to answer')
         else:
             return self.from_json(value)
 
@@ -111,7 +111,7 @@ class DateAttributeField(BaseAttributeField):
     ]
 
     def from_json(self, value):
-        if value in [None, NO_COMMENT]:
+        if value in [None, ANSWER_DECLINED]:
             return value
         dt = datetime.datetime.strptime(value, '%Y-%m-%d')
         return dt.date()
@@ -162,7 +162,7 @@ class ChoiceAttributeField(BaseAttributeField):
         return super().formfield(form_class=form_class, choices=choices, **kwargs)
 
     def get_display(self, value):
-        if value in [None, NO_COMMENT]:
+        if value in [None, ANSWER_DECLINED]:
             return super().get_display(value)
         choice = self.description.attributechoice_set.get(pk=value)
         return choice.label
