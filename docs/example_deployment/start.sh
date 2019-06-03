@@ -11,11 +11,11 @@ docker-compose up -d
 # wait until the server is running
 sleep 5
 
-docker-compose run web django-admin migrateall
-docker-compose run web django-admin create_sample_groups
-docker-compose run web django-admin create_sample_users
-docker-compose run web django-admin loaddata timeslots
-docker-compose run web django-admin populate
+docker-compose run --rm web django-admin migrateall
+docker-compose run --rm web django-admin create_sample_groups
+docker-compose run --rm web django-admin create_sample_users
+docker-compose run --rm web django-admin loaddata timeslots
+docker-compose run --rm web django-admin populate
 
 echo ''
 echo 'castellum is running in the background.'
