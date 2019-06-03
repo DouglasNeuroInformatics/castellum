@@ -2,6 +2,11 @@
 {% load i18n auth bootstrap4 subjectfilters %}
 
 {% block title %}{% trans "Exclusion criteria" %} &middot; {{ object }}  &middot; {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+    <a class="nav-link" href="{% url 'studies:index' %}">{% trans "Studies" %}</a>
+{% endblock %}
+
 {% block content %}
     <form method="post">
 

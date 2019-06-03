@@ -3,6 +3,10 @@
 
 {% block title %}{% trans "Recruitment settings" %} &middot; {{ object }} &middot; {{ block.super }}{% endblock %}
 
+{% block breadcrumbs %}
+    <a class="nav-link" href="{% url 'studies:index' %}">{% trans "Studies" %}</a>
+{% endblock %}
+
 {% block content %}
     <h2>{% blocktrans %}Recruitment settings for {{ object }}{% endblocktrans %}</h2>
     <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>

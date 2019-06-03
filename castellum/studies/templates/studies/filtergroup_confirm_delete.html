@@ -3,6 +3,10 @@
 
 {% block title %}{% trans "Delete Filter Group" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
 
+{% block breadcrumbs %}
+    <a class="nav-link" href="{% url 'studies:index' %}">{% trans "Studies" %}</a>
+{% endblock %}
+
 {% block content %}
     <form method="post">
         {% csrf_token %}

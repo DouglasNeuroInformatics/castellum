@@ -3,6 +3,10 @@
 
 {% block title %}{% trans "manage members" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
 
+{% block breadcrumbs %}
+    <a class="nav-link" href="{% url 'studies:index' %}">{% trans "Studies" %}</a>
+{% endblock %}
+
 {% block content %}
     <form method="post">
         {% for error in form.non_field_errors %}

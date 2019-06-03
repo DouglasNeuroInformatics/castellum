@@ -10,6 +10,10 @@
     &middot; {{ block.super }}
 {% endblock %}
 
+{% block breadcrumbs %}
+    <a class="nav-link" href="{% url 'studies:index' %}">{% trans "Studies" %}</a>
+{% endblock %}
+
 {% block content %}
     <template id="session-data-template">
         <fieldset class="rounded-lg border bg-light p-3 mb-2">
