@@ -22,8 +22,6 @@ def test_feed_for_unpublished_study(client, unpublished_study):
 def test_feed_for_user(request, client, user_fixture, participation_request):
     user = request.getfixturevalue(user_fixture)
 
-    participation_request.study.published = True
-    participation_request.study.save()
     participation_request.appointment = datetime.now()
     participation_request.save()
 

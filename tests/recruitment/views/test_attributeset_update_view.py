@@ -2,8 +2,6 @@ from castellum.recruitment.models import ParticipationRequest
 
 
 def test_200(client, member, participation_request, attributeset):
-    participation_request.study.published = True
-    participation_request.study.save()
     participation_request.status = ParticipationRequest.NOT_CONTACTED
     participation_request.save()
 

@@ -14,18 +14,14 @@ def test_404_page_returned_if_study_is_not_provided(client, member, participatio
     assert response.status_code == 404
 
 
-def test_404_page_returned_if_wrong_study_is_provided(client, member, participation_request,
-                                                      published_study):
+def test_404_page_returned_if_wrong_study_is_provided(client, member, participation_request, study):
     client.force_login(member)
-    url = '/recruitment/{}/{}/'.format(published_study.pk, participation_request.pk)
+    url = '/recruitment/{}/{}/'.format(study.pk, participation_request.pk)
     response = client.get(url)
     assert response.status_code == 404
 
 
 def test_200_page_returned_if_published_study_is_provided(client, member, participation_request):
-    participation_request.study.published = True
-    participation_request.study.save()
-
     client.force_login(member)
     url = '/recruitment/{}/{}/'.format(participation_request.study.pk, participation_request.pk)
     response = client.get(url)
@@ -43,9 +39,6 @@ def test_404_page_returned_if_unpublished_study_is_provided(client, member, part
 
 
 def test_post_redirect(client, member, participation_request):
-    participation_request.study.published = True
-    participation_request.study.save()
-
     client.force_login(member)
     url = '/recruitment/{}/{}/'.format(participation_request.study.pk, participation_request.pk)
     response = client.post(url, {'status': ParticipationRequest.UNSUITABLE, 'btn_back': 'value'})
@@ -54,9 +47,6 @@ def test_post_redirect(client, member, participation_request):
 
 
 def test_post_redirect_next_with_one_participation_request(client, member, participation_request):
-    participation_request.study.published = True
-    participation_request.study.save()
-
     client.force_login(member)
     url = '/recruitment/{}/{}/'.format(participation_request.study.pk, participation_request.pk)
     response = client.post(url, {'status': ParticipationRequest.UNSUITABLE, 'btn_next': 'value'})
@@ -100,9 +90,6 @@ def test_post_redirect_next_with_multiple_participation_requests(client,
 
 @pytest.mark.freeze_time('2018-01-01')
 def test_post_updated_at(client, member, participation_request):
-    participation_request.study.published = True
-    participation_request.study.save()
-
     client.force_login(member)
     url = '/recruitment/{}/{}/'.format(participation_request.study.pk, participation_request.pk)
     client.post(url, {'status': ParticipationRequest.UNSUITABLE})
@@ -111,9 +98,6 @@ def test_post_updated_at(client, member, participation_request):
 
 
 def test_create_revision_on_update(client, member, participation_request):
-    participation_request.study.published = True
-    participation_request.study.save()
-
     client.force_login(member)
     url = '/recruitment/{}/{}/'.format(participation_request.study.pk, participation_request.pk)
     client.post(url, {'status': 2})
@@ -122,8 +106,6 @@ def test_create_revision_on_update(client, member, participation_request):
 
 
 def test_post_redirect_from_contacts(client, member, participation_request):
-    participation_request.study.published = True
-    participation_request.study.save()
     participation_request.status = 1
     participation_request.save()
 

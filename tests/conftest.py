@@ -101,9 +101,9 @@ def attributeset(contact):
 
 
 @pytest.fixture
-def participation_request(contact, study):
+def participation_request(contact, published_study):
     subject = get_subject(settings.DOMAINS['contact'], contact.pseudonym)
-    return mommy.make(ParticipationRequest, study=study, subject=subject)
+    return mommy.make(ParticipationRequest, study=published_study, subject=subject)
 
 
 @pytest.fixture(scope='session')
