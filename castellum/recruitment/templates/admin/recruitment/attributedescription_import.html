@@ -2,31 +2,31 @@
 {% load i18n admin_urls %}
 
 {% block breadcrumbs %}
-<div class="breadcrumbs">
-    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
-    &rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a>
-    &rsaquo; <a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>
-    &rsaquo; {% trans 'Import' %}
-</div>
+    <div class="breadcrumbs">
+        <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+        &rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a>
+        &rsaquo; <a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>
+        &rsaquo; {% trans 'Import' %}
+    </div>
 {% endblock %}
 
 {% block content %}
-  <div id="content-main">
-    {% if errors %}
-        <div class="errornote">
-            <p>{% trans 'There were errors while importing the data. The process was aborted. Nothing was written to the database.' %}</p>
-            {% for error in errors %}
-                <p>
-                    <strong>{{ error.path|join:'.' }}:</strong>
-                    {{ error.message }}
-                </p>
-            {% endfor %}
-        </div>
-    {% endif %}
-    <form enctype="multipart/form-data" method="post">
-        {% csrf_token %}
-        <input type="file" name="file" required>
-        <input type="submit" value="{% trans 'Import' %}">
-    </form>
-  </div>
+    <div id="content-main">
+        {% if errors %}
+            <div class="errornote">
+                <p>{% trans 'There were errors while importing the data. The process was aborted. Nothing was written to the database.' %}</p>
+                {% for error in errors %}
+                    <p>
+                        <strong>{{ error.path|join:'.' }}:</strong>
+                        {{ error.message }}
+                    </p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <input type="file" name="file" required>
+            <input type="submit" value="{% trans 'Import' %}">
+        </form>
+    </div>
 {% endblock %}
