@@ -3,6 +3,10 @@
 
 {% block title %}{% trans "Recruitment" %} &middot; {{ block.super }}{% endblock %}
 
+{% block breadcrumbs %}
+    <a class="nav-link" href="{% url 'recruitment:index' %}">{% trans "Recruitment" %}</a>
+{% endblock %}
+
 {% block content %}
     <div class="h2">
         <h2 class="d-inline">{% trans 'Recruitment' %}</h2>
