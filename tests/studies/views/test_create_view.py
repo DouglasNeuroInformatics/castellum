@@ -11,6 +11,18 @@ MANAGEMENT_FORM = {
 }
 
 
+@pytest.mark.parametrize('user_fixture', [
+    'study_coordinator',
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
+])
+def test_get_200(request, client, user_fixture):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    response = client.get('/studies/create/')
+    assert response.status_code == 200
+
+
 @pytest.mark.django_db
 def test_redirect_to_studies_after_post(client, study_coordinator):
 
