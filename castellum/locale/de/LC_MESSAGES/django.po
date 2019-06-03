@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-03 12:59+0200\n"
+"POT-Creation-Date: 2019-06-03 16:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,8 +162,7 @@ msgstr "Bitte geben Sie eine E-Mail Adresse an."
 
 #: castellum/contacts/forms.py:163
 msgid "Please, fill out both type and status of the consent."
-msgstr "Bitte geben Sie sowohl Art als auch Status des "
-"Einverständnisses an."
+msgstr "Bitte geben Sie sowohl Art als auch Status des Einverständnisses an."
 
 #: castellum/contacts/models/address.py:27
 #: castellum/contacts/models/address.py:39 castellum/studies/models.py:56
@@ -362,8 +361,8 @@ msgstr "Als JSON exportieren"
 #: castellum/recruitment/models/attributesets.py:267
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:19
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:32
-msgid "No comment"
-msgstr "Keine Angabe"
+msgid "Declined to answer"
+msgstr ""
 
 #: castellum/recruitment/attribute_fields.py:109
 msgid "before"
@@ -667,8 +666,9 @@ msgstr "Proband*in ist ungeeignet"
 #: castellum/recruitment/templates/recruitment/contact.html:21
 msgid ""
 "Subject has missing attributes. Please contact to check if they are suitable."
-msgstr "Einige Attribute der Proband*in fehlen. Bitte kontaktieren "
-"Sie sie um herauszufinden, ob sie geeignet ist."
+msgstr ""
+"Einige Attribute der Proband*in fehlen. Bitte kontaktieren Sie sie um "
+"herauszufinden, ob sie geeignet ist."
 
 #: castellum/recruitment/templates/recruitment/contact.html:27
 msgid "Contacting details"
@@ -1313,6 +1313,7 @@ msgid "file"
 msgstr "Datei"
 
 #: castellum/subjects/models.py:156
+#, python-format
 msgid "Version %i"
 msgstr "Version %i"
 
@@ -1480,3 +1481,6 @@ msgstr "Datei ist zu groß."
 #: castellum/utils/forms.py:161
 msgid "Filetype not supported."
 msgstr "Dateityp nicht unterstützt."
+
+#~ msgid "No comment"
+#~ msgstr "Keine Angabe"
