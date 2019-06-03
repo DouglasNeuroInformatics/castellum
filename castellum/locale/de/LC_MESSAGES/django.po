@@ -162,7 +162,8 @@ msgstr "Bitte geben Sie eine E-Mail Adresse an."
 
 #: castellum/contacts/forms.py:163
 msgid "Please, fill out both type and status of the consent."
-msgstr ""
+msgstr "Bitte geben Sie sowohl Art als auch Status des "
+"Einverständnisses an."
 
 #: castellum/contacts/models/address.py:27
 #: castellum/contacts/models/address.py:39 castellum/studies/models.py:56
@@ -276,13 +277,11 @@ msgstr "Castellum-Einverständnis"
 #: castellum/contacts/templates/contacts/contact_form.html:92
 #: castellum/subjects/templates/subjects/subject_detail.html:21
 msgid "outdated"
-msgstr ""
+msgstr "veraltet"
 
 #: castellum/contacts/templates/contacts/contact_form.html:96
-#, fuzzy
-#| msgid "consent"
 msgid "No consent"
-msgstr "Einverständnis"
+msgstr "Kein Einverständnis"
 
 #: castellum/contacts/templates/contacts/contact_form.html:111
 #: castellum/recruitment/templates/recruitment/contact.html:49
@@ -298,10 +297,8 @@ msgid "Notes"
 msgstr "Notizen"
 
 #: castellum/contacts/templates/contacts/contact_form.html:164
-#, fuzzy
-#| msgid "Add new"
 msgid "Add note"
-msgstr "Hinzufügen"
+msgstr "Notiz hinzufügen"
 
 #: castellum/contacts/templates/contacts/contact_form.html:171
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:40
@@ -366,7 +363,7 @@ msgstr "Als JSON exportieren"
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:19
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:32
 msgid "No comment"
-msgstr ""
+msgstr "Keine Angabe"
 
 #: castellum/recruitment/attribute_fields.py:109
 msgid "before"
@@ -664,15 +661,14 @@ msgid "Recruiting:"
 msgstr "Rekrutierung:"
 
 #: castellum/recruitment/templates/recruitment/contact.html:17
-#, fuzzy
-#| msgid "subject may be suitable"
 msgid "Subject is unsuitable."
-msgstr "Proband*in ist potentiell geeignet"
+msgstr "Proband*in ist ungeeignet"
 
 #: castellum/recruitment/templates/recruitment/contact.html:21
 msgid ""
 "Subject has missing attributes. Please contact to check if they are suitable."
-msgstr ""
+msgstr "Einige Attribute der Proband*in fehlen. Bitte kontaktieren "
+"Sie sie um herauszufinden, ob sie geeignet ist."
 
 #: castellum/recruitment/templates/recruitment/contact.html:27
 msgid "Contacting details"
@@ -1301,10 +1297,8 @@ msgid "Subject"
 msgstr "Proband*in"
 
 #: castellum/subjects/models.py:139
-#, fuzzy
-#| msgid "contact"
 msgid "content"
-msgstr "Kontakt"
+msgstr "Inhalt"
 
 #: castellum/subjects/models.py:143 castellum/utils/models.py:27
 msgid "created at"
@@ -1312,57 +1306,47 @@ msgstr "erstellt am"
 
 #: castellum/subjects/models.py:144
 msgid "info"
-msgstr ""
+msgstr "Info"
 
 #: castellum/subjects/models.py:146
 msgid "file"
-msgstr ""
+msgstr "Datei"
 
 #: castellum/subjects/models.py:156
-#, fuzzy, python-format
-#| msgid "Permission list"
 msgid "Version %i"
-msgstr "Liste der Rechte"
+msgstr "Version %i"
 
 #: castellum/subjects/models.py:167 castellum/utils/models.py:28
 msgid "updated at"
-msgstr ""
+msgstr "aktualisiert am"
 
 #: castellum/subjects/models.py:170
 msgid "type"
-msgstr ""
+msgstr "Typ"
 
 #: castellum/subjects/models.py:171
-#, fuzzy
-#| msgid "Online"
 msgid "Online form"
-msgstr "Online"
+msgstr "Online-Formular"
 
 #: castellum/subjects/models.py:172
 msgid "Pen & Paper"
-msgstr ""
+msgstr "schriftlich"
 
 #: castellum/subjects/models.py:173
-#, fuzzy
-#| msgid "phone"
 msgid "Telephone"
 msgstr "Telefon"
 
 #: castellum/subjects/models.py:175
 msgid "status"
-msgstr ""
+msgstr "Status"
 
 #: castellum/subjects/models.py:176
-#, fuzzy
-#| msgid "additional information"
 msgid "Waiting for confirmation"
-msgstr "Zusätzliche Informationen"
+msgstr "Warten auf Bestätigung"
 
 #: castellum/subjects/models.py:177
-#, fuzzy
-#| msgid "Confirm"
 msgid "Confirmed"
-msgstr "Bestätigen"
+msgstr "Bestätigt"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:4
 msgid "Subject details"
