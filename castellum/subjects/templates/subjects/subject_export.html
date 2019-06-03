@@ -3,6 +3,10 @@
 
 {% block title %}{% trans "GDPR request" %} &middot; {{ block.super }}{% endblock %}
 
+{% block breadcrumbs %}
+    <a class="nav-link" href="{% url 'subjects:index' %}">{% trans "Subjects" %}</a>
+{% endblock %}
+
 {% block content %}
     {% for dataset in dataset_list %}
         <h1>{{ dataset|model_verbose_name }}</h1>

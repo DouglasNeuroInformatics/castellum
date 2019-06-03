@@ -3,6 +3,10 @@
 
 {% block title %}{% trans "Add to study" %} &middot; {{ block.super }}{% endblock %}
 
+{% block breadcrumbs %}
+    <a class="nav-link" href="{% url 'subjects:index' %}">{% trans "Subjects" %}</a>
+{% endblock %}
+
 {% block content %}
     <h1>{% trans 'Add to study' %}</h1>
 

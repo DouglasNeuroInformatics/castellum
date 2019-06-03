@@ -3,6 +3,10 @@
 
 {% block title %}{% trans "Subject details" %} &middot; {{ block.super }}{% endblock %}
 
+{% block breadcrumbs %}
+    <a class="nav-link" href="{% url 'subjects:index' %}">{% trans "Subjects" %}</a>
+{% endblock %}
+
 {% block content %}
     <h1>{{ contact.full_name }}</h1>
     <p>{{ contact.address|default:'—' }}</p>
