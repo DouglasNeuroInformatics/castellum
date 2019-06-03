@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+    <a class="nav-link" href="{% url 'subjects:index' %}">{% trans "Subjects" %}</a>
+{% endblock %}
