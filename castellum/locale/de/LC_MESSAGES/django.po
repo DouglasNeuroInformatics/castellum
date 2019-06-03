@@ -362,7 +362,7 @@ msgstr "Als JSON exportieren"
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:19
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:32
 msgid "Declined to answer"
-msgstr ""
+msgstr "Antwort verweigert"
 
 #: castellum/recruitment/attribute_fields.py:109
 msgid "before"
