@@ -3,10 +3,6 @@
 
 {% block title %}{% trans "Edit attributes" %} &middot; {{ block.super }}{% endblock %}
 
-{% block breadcrumbs %}
-    <a class="nav-link" href="{% url 'recruitment:index' %}">{% trans "Recruitment" %}</a>
-{% endblock %}
-
 {% block content %}
     <form method="post">
         {% for error in form.non_field_errors %}

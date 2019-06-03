@@ -360,6 +360,13 @@ class ContactUpdateView(StudyPermissionMixin, BaseContactUpdateView):
     def get_success_url(self):
         return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['breadcrumbs'] = [
+            (reverse('recruitment:index'),_("Recruitment")),
+        ]
+        return context
+
 
 class AttributeSetUpdateView(StudyPermissionMixin, BaseAttributeSetUpdateView):
 
@@ -375,3 +382,10 @@ class AttributeSetUpdateView(StudyPermissionMixin, BaseAttributeSetUpdateView):
 
     def get_success_url(self):
         return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['breadcrumbs'] = [
+            (reverse('recruitment:index'),_("Recruitment")),
+        ]
+        return context
