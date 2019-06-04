@@ -10,7 +10,7 @@ def test_filter_button_no_filters(client, study, study_coordinator):
     response = client.get('/studies/{}/recruitment/'.format(study.pk))
 
     html = fromstring(response.content)
-    matches = html.xpath('///*[contains(., "Edit filters")]')
+    matches = html.xpath('///*[contains(., "Filters")]')
     assert matches
     assert 'disabled' not in matches[-1].attrib
 
@@ -24,7 +24,7 @@ def test_filter_button_allowed_filters(client, study, subject_filter, study_coor
     response = client.get('/studies/{}/recruitment/'.format(study.pk))
 
     html = fromstring(response.content)
-    matches = html.xpath('///*[contains(., "Edit filters")]')
+    matches = html.xpath('///*[contains(., "Filters")]')
     assert matches
     assert 'disabled' not in matches[-1].attrib
 
@@ -41,6 +41,6 @@ def test_filter_button_disallowed_filters(client, study, subject_filter, study_c
     response = client.get('/studies/{}/recruitment/'.format(study.pk))
 
     html = fromstring(response.content)
-    matches = html.xpath('///*[contains(., "Edit filters")]')
+    matches = html.xpath('///*[contains(., "Filters")]')
     assert matches
     assert 'disabled' in matches[-1].attrib
