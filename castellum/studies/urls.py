@@ -28,6 +28,7 @@ from .views.studies import StudyMemberRemoveView
 from .views.studies import StudyMembersView
 from .views.studies import StudyMemberUpdateView
 from .views.studies import StudyPublishView
+from .views.studies import StudyRecruitmentSettingsUpdateView
 from .views.studies import StudyRecruitmentSettingsView
 from .views.studies import StudyUpdateView
 from .views.subjectfilters import FilterGroupCreateView
@@ -48,6 +49,8 @@ urlpatterns = [
          name="delete-member"),
     path('<int:pk>/recruitment/', StudyRecruitmentSettingsView.as_view(),
          name='recruitmentsettings'),
+    path('<int:pk>/recruitment/update/', StudyRecruitmentSettingsUpdateView.as_view(),
+         name='recruitmentsettings-update'),
     path('<int:pk>/recruitment/exclusioncriteria/', StudyExclusionCriteriaView.as_view(),
          name='exclusioncriteria'),
     path(

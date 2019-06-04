@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static i18n bootstrap4 %}
+
+{% block title %}
+    {% trans "General recruitment settings" %} &middot; {{ object }} &middot; {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% for error in form.non_field_errors %}
+            <p class="alert alert-danger" role="alert">{{ error }}</p>
+        {% endfor %}
+
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <a href="{% url 'studies:recruitmentsettings' object.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+            <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+        </div>
+    </form>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'study_form.js' %}"></script>
+{% endblock %}

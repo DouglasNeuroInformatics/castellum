@@ -6,6 +6,10 @@
 {% block content %}
     <h2>{% blocktrans %}Recruitment settings for {{ object }}{% endblocktrans %}</h2>
     <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+    {% has_perm 'studies.change_study' user study as can_change_study %}
+    {% if can_change_study %}
+        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:recruitmentsettings-update' study.pk %}">{% trans 'General' %}</a>
+    {% endif %}
     {% has_perm 'recruitment.change_subjectfilter' user study as can_change_subjectfilter %}
     {% if can_change_subjectfilter %}
         {% can_manage_filters user study as sufficient_privacy_level %}
@@ -19,7 +23,6 @@
             </button>
         {% endif %}
     {% endif %}
-    {% has_perm 'studies.change_study' user study as can_change_study %}
     {% if can_change_study %}
         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:exclusioncriteria' study.pk %}">{% trans 'Exclusion Criteria' %}</a>
     {% endif %}

@@ -192,6 +192,13 @@ class StudyRecruitmentSettingsView(StudyAccessMixin, DetailView):
     template_name = 'studies/study_recruitmentsettings.html'
 
 
+class StudyRecruitmentSettingsUpdateView(StudyAccessMixin, UpdateView):
+    model = Study
+    fields = []
+    permission_required = 'studies.update_study'
+    template_name = 'studies/study_recruitmentsettings_form.html'
+
+
 class StudyExclusionCriteriaView(StudyAccessMixin, UpdateView):
     model = Study
     template_name = 'studies/study_exclusioncriteria.html'
