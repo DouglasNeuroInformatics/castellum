@@ -8,16 +8,18 @@
 
     <p>{% trans 'matches' %}: {{ group.get_subject_count }} / {{ total_count }}</p>
 
-    <h2>{% trans "Add Filter" %}</h2>
-    <form class="form-row">
-        <div class="col-sm-4">
-            {% bootstrap_field add_form.description show_label=False %}
-        </div>
-        <div class="col-sm">
-            <button type="button" class="btn btn-primary" data-js="filter-add">{% trans "Add" %}</button>
-        </div>
-    </form>
-    <hr>
+    {% if not study.published %}
+        <h2>{% trans "Add Filter" %}</h2>
+        <form class="form-row">
+            <div class="col-sm-4">
+                {% bootstrap_field add_form.description show_label=False %}
+            </div>
+            <div class="col-sm">
+                <button type="button" class="btn btn-primary" data-js="filter-add">{% trans "Add" %}</button>
+            </div>
+        </form>
+        <hr>
+    {% endif %}
 
     {% for pk, form in templates.items %}
         <template id="template-{{ pk }}">
