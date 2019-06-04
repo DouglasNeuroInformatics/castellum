@@ -9,7 +9,7 @@ from castellum.recruitment.models import SubjectFilterGroup
 def test_update_200(client, member, subject_filter_group):
     client.force_login(member)
     study = subject_filter_group.study
-    url = '/studies/{}/filters/{}/'.format(study.pk, subject_filter_group.pk)
+    url = '/studies/{}/recruitment/filters/{}/'.format(study.pk, subject_filter_group.pk)
     response = client.get(url)
     assert response.status_code == 200
 
@@ -17,14 +17,14 @@ def test_update_200(client, member, subject_filter_group):
 def test_update_with_filter_200(client, member, subject_filter):
     client.force_login(member)
     group = subject_filter.group
-    url = '/studies/{}/filters/{}/'.format(group.study.pk, group.pk)
+    url = '/studies/{}/recruitment/filters/{}/'.format(group.study.pk, group.pk)
     response = client.get(url)
     assert response.status_code == 200
 
 
 def test_update_other_study(client, member, subject_filter_group, study):
     client.force_login(member)
-    url = '/studies/{}/filters/{}/'.format(study.pk, subject_filter_group.pk)
+    url = '/studies/{}/recruitment/filters/{}/'.format(study.pk, subject_filter_group.pk)
     response = client.get(url)
     assert response.status_code == 404
 
@@ -36,7 +36,7 @@ def test_update_403_privacy_level(client, member, subject_filter):
 
     client.force_login(member)
     group = subject_filter.group
-    url = '/studies/{}/filters/{}/'.format(group.study.pk, group.pk)
+    url = '/studies/{}/recruitment/filters/{}/'.format(group.study.pk, group.pk)
     response = client.get(url)
     assert response.status_code == 403
 
@@ -44,14 +44,14 @@ def test_update_403_privacy_level(client, member, subject_filter):
 def test_delete_200(client, member, subject_filter_group):
     client.force_login(member)
     study = subject_filter_group.study
-    url = '/studies/{}/filters/{}/delete/'.format(study.pk, subject_filter_group.pk)
+    url = '/studies/{}/recruitment/filters/{}/delete/'.format(study.pk, subject_filter_group.pk)
     response = client.get(url)
     assert response.status_code == 200
 
 
 def test_delete_other_study(client, member, subject_filter_group, study):
     client.force_login(member)
-    url = '/studies/{}/filters/{}/delete/'.format(study.pk, subject_filter_group.pk)
+    url = '/studies/{}/recruitment/filters/{}/delete/'.format(study.pk, subject_filter_group.pk)
     response = client.get(url)
     assert response.status_code == 404
 
@@ -61,14 +61,14 @@ def test_advanced_filtering_200(client, member, subject_filter_group, unpublishe
     unpublished_study.save()
 
     client.force_login(member)
-    url = '/studies/{}/filters/'.format(unpublished_study.pk)
+    url = '/studies/{}/recruitment/filters/'.format(unpublished_study.pk)
     response = client.get(url)
     assert response.status_code == 200
 
 
 def test_basic_filtering_302(client, member, unpublished_study):
     client.force_login(member)
-    url = '/studies/{}/filters/'.format(unpublished_study.pk)
+    url = '/studies/{}/recruitment/filters/'.format(unpublished_study.pk)
     response = client.get(url)
     assert response.status_code == 302
 
@@ -79,7 +79,7 @@ def test_get_when_study_has_minimal_subject_count_set_to_zero(client, member, su
     unpublished_study.save()
 
     client.force_login(member)
-    url = '/studies/{}/filters/'.format(unpublished_study.pk)
+    url = '/studies/{}/recruitment/filters/'.format(unpublished_study.pk)
     response = client.get(url)
     assert response.status_code == 200
     messages = list(get_messages(response.wsgi_request))
@@ -98,7 +98,7 @@ def test_get_when_study_has_not_enough_subjects_in_filter_group(client, member, 
 
     mommy.make(SubjectFilterGroup, study=unpublished_study)
 
-    url = '/studies/{}/filters/'.format(unpublished_study.pk)
+    url = '/studies/{}/recruitment/filters/'.format(unpublished_study.pk)
     response = client.get(url)
     assert response.status_code == 200
     messages = list(get_messages(response.wsgi_request))
