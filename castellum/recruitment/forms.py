@@ -30,7 +30,7 @@ from castellum.utils.helpers import get_object_or_none
 from .models import AttributeDescription
 from .models import ParticipationRequest
 from .models import SubjectFilter
-from .models.attributesets import NO_COMMENT
+from .models.attributesets import ANSWER_DECLINED
 from .models.attributesets import UNCATEGORIZED
 
 
@@ -127,14 +127,14 @@ class AttributeSetForm(forms.Form):
         if not kwargs.get('initial'):
             kwargs['initial'] = {}
             for key, value in instance.get_data().items():
-                kwargs['initial'][key] = None if value == NO_COMMENT else value
+                kwargs['initial'][key] = None if value == ANSWER_DECLINED else value
         super().__init__(**kwargs)
 
     def clean(self):
         cleaned_data = super().clean()
         for key in cleaned_data:
-            if key + '_no_comment' in self.data:
-                cleaned_data[key] = NO_COMMENT
+            if key + '_answer_declined' in self.data:
+                cleaned_data[key] = ANSWER_DECLINED
         return cleaned_data
 
     def save(self):
