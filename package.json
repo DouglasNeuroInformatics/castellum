@@ -3,8 +3,8 @@
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.1",
-    "bootstrap": "^4.0.0",
-    "bootstrap-datepicker": "^1.8.0",
+    "bootstrap": "^4.3.0",
+    "bootstrap-datepicker": "^1.9.0",
     "jdenticon": "^2.1.1",
     "jquery": "^3.4.1",
     "popper.js": "^1.15.0"
