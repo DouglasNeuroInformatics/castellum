@@ -67,7 +67,7 @@
 
                 <dt class="col-sm-6">{% trans "General recruiting notes" %}</dt>
                 <dd class="col-sm-6">
-                    {% if subject.note_hard_of_hearing or subject.note_difficult_to_understand or subject.note_abusive_language %}
+                    {% if subject.note_hard_of_hearing or subject.note_difficult_to_understand or subject.note_abusive_language or subject.subjectnote_set.exists %}
                         {% if subject.note_hard_of_hearing %}
                             <span class="badge badge-secondary">{{ subject|verbose_name:'note_hard_of_hearing' }}</span>
                         {% endif %}
@@ -77,6 +77,9 @@
                         {% if subject.note_abusive_language %}
                             <span class="badge badge-secondary">{{ subject|verbose_name:'note_abusive_language' }}</span>
                         {% endif %}
+                        {% for note in subject.subjectnote_set.all %}
+                            <span class="badge badge-secondary">{{ note.content }}</span>
+                        {% endfor %}
                     {% else %}
                         &mdash;
                     {% endif %}
