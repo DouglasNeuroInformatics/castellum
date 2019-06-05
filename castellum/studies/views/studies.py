@@ -197,6 +197,9 @@ class StudyRecruitmentSettingsUpdateView(StudyAccessMixin, UpdateView):
     permission_required = 'studies.update_study'
     template_name = 'studies/study_recruitmentsettings_form.html'
 
+    def get_success_url(self):
+        return reverse('studies:recruitmentsettings', kwargs={'pk': self.object.pk})
+
 
 class StudyExclusionCriteriaView(StudyAccessMixin, UpdateView):
     model = Study
