@@ -24,9 +24,9 @@ from django.urls import path
 from .views.studies import StudyCreateView
 from .views.studies import StudyExclusionCriteriaView
 from .views.studies import StudyIndexView
-from .views.studies import StudyMemberRemoveView
+from .views.studies import StudyMembershipRemoveView
+from .views.studies import StudyMembershipUpdateView
 from .views.studies import StudyMembersView
-from .views.studies import StudyMemberUpdateView
 from .views.studies import StudyPublishView
 from .views.studies import StudyRecruitmentSettingsView
 from .views.studies import StudyUpdateView
@@ -43,8 +43,8 @@ urlpatterns = [
     path('<int:pk>/update/', StudyUpdateView.as_view(), name='update'),
     path('<int:study_pk>/publish/', StudyPublishView.as_view(), name='publish'),
     path('<int:pk>/members/', StudyMembersView.as_view(), name='members'),
-    path('<int:study_pk>/members/<int:pk>/', StudyMemberUpdateView.as_view(), name='member'),
-    path('<int:study_pk>/members/<int:pk>/delete/', StudyMemberRemoveView.as_view(),
+    path('<int:study_pk>/members/<int:pk>/', StudyMembershipUpdateView.as_view(), name='member'),
+    path('<int:study_pk>/members/<int:pk>/delete/', StudyMembershipRemoveView.as_view(),
          name="delete-member"),
     path('<int:pk>/recruitmentsettings/', StudyRecruitmentSettingsView.as_view(),
          name='recruitmentsettings'),
