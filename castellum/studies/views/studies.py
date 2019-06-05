@@ -193,7 +193,7 @@ class StudyRecruitmentSettingsView(StudyAccessMixin, DetailView):
 
 class StudyRecruitmentSettingsUpdateView(StudyAccessMixin, UpdateView):
     model = Study
-    fields = []
+    fields = ('advanced_filtering',)
     permission_required = 'studies.update_study'
     template_name = 'studies/study_recruitmentsettings_form.html'
 
