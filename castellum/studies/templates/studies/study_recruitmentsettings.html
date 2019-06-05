@@ -7,7 +7,7 @@
     <h2>{% blocktrans %}Recruitment settings for {{ object }}{% endblocktrans %}</h2>
 
     <div class="mb-3">
-        <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+        <a href="{% url 'studies:detail' object.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         {% has_perm 'studies.change_study' user study as can_change_study %}
         {% if can_change_study %}
             <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'studies:recruitmentsettings-update' study.pk %}">{% trans 'General' %}</a>

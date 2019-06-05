@@ -169,7 +169,7 @@ class StudyUpdateView(StudyAccessMixin, StudyFormMixin, UpdateView):
     permission_required = 'studies.change_study'
 
     def get_success_url(self):
-        return reverse('studies:index')
+        return reverse('studies:detail', args=[self.object.pk])
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
