@@ -101,7 +101,6 @@ class StudyFormMixin:
         'study_type',
         'data_sensitivity',
         'consent',
-        'advanced_filtering',
         'min_subjects_count',
         'expense_allowance',
         'sessions_start',
