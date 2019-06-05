@@ -5,7 +5,7 @@
 
 {% block content %}
     <h1>{{ contact.full_name }}</h1>
-    <p>{{ contact.address|default:'—' }}</p>
+    <p>{{ contact|display:'address' }}</p>
     <dl class="row">
         <dt class="col-sm-6">{% trans 'Subject data registered' %}</dt>
         <dd class="col-sm-6">{{ subject.created_at }}</dd>
