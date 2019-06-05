@@ -37,28 +37,7 @@
                 <div class="table-list-item-actions">
                     {% has_perm 'studies.access_study' user study as can_access_study %}
                     {% if can_access_study %}
-                        {% has_perm 'studies.change_study' user study as can_change_study %}
-                        {% has_perm 'recruitment.change_subjectfilter' user study as can_change_subjectfilter %}
-                        {% if can_change_study %}
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:update' study.pk %}">{% trans 'Edit' %}</a>
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:members' study.pk %}">{% trans 'Manage members' %}</a>
-                        {% endif %}
-                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:recruitmentsettings' study.pk %}">{% trans 'Recruitment Settings' %}</a>
-                        {% if can_change_study %}
-                            <form class="d-sm-inline" method="post" action="{% url 'studies:publish' study.pk %}">
-                                {% csrf_token %}
-
-                                {% if study.published %}
-                                    <button class='btn btn-outline-primary active btn-sm-inline my-1'>
-                                        {% trans 'Unpublish' %}
-                                    </button>
-                                {% else %}
-                                    <button class='btn btn-outline-primary btn-sm-inline my-1'>
-                                        {% trans 'Publish' %}
-                                    </button>
-                                {% endif %}
-                            </form>
-                        {% endif %}
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:detail' study.pk %}">{% trans 'Details' %}</a>
                     {% endif %}
                 </div>
             </li>
