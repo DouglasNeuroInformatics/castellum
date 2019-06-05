@@ -185,7 +185,7 @@ def fake_study():
         study_type=fake.random.choice(Study.STUDY_TYPES)[0],
         description=description,
         expense_allowance=fake.random.randint(20, 50),
-        sessions_start=fake.future_date(end_date="+10d"),
+        sessions_start=fake.past_date(start_date="-30d"),
         sessions_end=fake.future_date(end_date="+30d"))
     if study.study_type == Study.FMRI:
         study.data_sensitivity = True
