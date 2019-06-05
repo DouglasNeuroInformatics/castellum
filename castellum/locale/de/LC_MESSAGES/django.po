@@ -661,13 +661,13 @@ msgstr "Rekrutierung:"
 
 #: castellum/recruitment/templates/recruitment/contact.html:17
 msgid "Subject is unsuitable."
-msgstr "Proband*in ist ungeeignet"
+msgstr "Proband*in ist nicht geeignet"
 
 #: castellum/recruitment/templates/recruitment/contact.html:21
 msgid ""
 "Subject has missing attributes. Please contact to check if they are suitable."
 msgstr ""
-"Einige Attribute der Proband*in fehlen. Bitte kontaktieren Sie sie um "
+"Einige Merkmale der Proband*in fehlen. Bitte kontaktieren Sie sie um "
 "herauszufinden, ob sie geeignet ist."
 
 #: castellum/recruitment/templates/recruitment/contact.html:27
