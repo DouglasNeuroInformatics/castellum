@@ -88,6 +88,11 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
         return context
 
 
+class StudyDetailView(StudyAccessMixin, DetailView):
+    model = Study
+    permission_required = 'studies.view_study'
+
+
 class StudyFormMixin:
     model = Study
     fields = (

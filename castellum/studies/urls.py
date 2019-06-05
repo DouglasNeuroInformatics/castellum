@@ -22,6 +22,7 @@
 from django.urls import path
 
 from .views.studies import StudyCreateView
+from .views.studies import StudyDetailView
 from .views.studies import StudyExclusionCriteriaView
 from .views.studies import StudyIndexView
 from .views.studies import StudyMembershipRemoveView
@@ -41,6 +42,7 @@ app_name = 'studies'
 urlpatterns = [
     path('', StudyIndexView.as_view(), name='index'),
     path('create/', StudyCreateView.as_view(), name='create'),
+    path('<int:pk>/', StudyDetailView.as_view(), name='detail'),
     path('<int:pk>/update/', StudyUpdateView.as_view(), name='update'),
     path('<int:study_pk>/publish/', StudyPublishView.as_view(), name='publish'),
     path('<int:pk>/members/', StudyMembersView.as_view(), name='members'),
