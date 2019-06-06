@@ -79,7 +79,7 @@ class Study(models.Model):
     domain = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     published = models.BooleanField(_('published'), default=False)
     advanced_filtering = models.BooleanField(
-        _('uses advanced filtering for recruitment'), help_text=_(
+        _('advanced filtering'), help_text=_(
             'By default you can create only one filtergroup in which all the filters are joined by '
             'AND operator. Advanced filtering allows you to create multiple filtergroups which are '
             'joined by OR operator.'
