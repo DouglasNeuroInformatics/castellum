@@ -15,9 +15,9 @@
         <div class="form-group">
             <div class="form-check">
                 {{ template_form.id.as_hidden }}
-                {{ template_form.DELETE.as_hidden }}
-                <input type="checkbox" id="{{ template_form.DELETE.id_for_label }}-check" data-js="note-delete" class="form-check-input" checked>
-                <label for="{{ template_form.DELETE.id_for_label }}-check" class="form-check-label">
+                <input type="hidden" name="{{ template_form.prefix }}-DELETE" id="id_{{ template_form.prefix }}-DELETE">
+                <input type="checkbox" id="id_{{ template_form.prefix }}-DELETE-check" data-js="note-delete" class="form-check-input" checked>
+                <label for="id_{{ template_form.prefix }}-DELETE-check" class="form-check-label">
                     <input type="text" name="{{ template_form.content.html_name }}" class="form-control">
                 </label>
             </div>
