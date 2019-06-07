@@ -6,7 +6,7 @@
 # This file is part of Castellum.
 #
 # Castellum is free software; you can redistribute it and/or modify it
-# under the terms of the GNU Affero General Public License as published
+# under the terms of the GNU Affero General Public License as study_not_in_recruitment_mode
 # by the Free Software Foundation; either version 3 of the License, or
 # (at your option) any later version.
 #
@@ -28,9 +28,9 @@ from .views.studies import StudyIndexView
 from .views.studies import StudyMembershipRemoveView
 from .views.studies import StudyMembershipUpdateView
 from .views.studies import StudyMembersView
-from .views.studies import StudyPublishView
 from .views.studies import StudyRecruitmentSettingsUpdateView
 from .views.studies import StudyRecruitmentSettingsView
+from .views.studies import StudyStartRecruitmentView
 from .views.studies import StudyUpdateView
 from .views.subjectfilters import FilterGroupCreateView
 from .views.subjectfilters import FilterGroupDeleteView
@@ -44,7 +44,8 @@ urlpatterns = [
     path('create/', StudyCreateView.as_view(), name='create'),
     path('<int:pk>/', StudyDetailView.as_view(), name='detail'),
     path('<int:pk>/update/', StudyUpdateView.as_view(), name='update'),
-    path('<int:study_pk>/publish/', StudyPublishView.as_view(), name='publish'),
+    path('<int:study_pk>/start-recruitment/', StudyStartRecruitmentView.as_view(),
+         name='start_recruitment'),
     path('<int:pk>/members/', StudyMembersView.as_view(), name='members'),
     path('<int:study_pk>/members/<int:pk>/', StudyMembershipUpdateView.as_view(), name='member'),
     path('<int:study_pk>/members/<int:pk>/delete/', StudyMembershipRemoveView.as_view(),

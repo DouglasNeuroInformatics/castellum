@@ -77,7 +77,7 @@ class Study(models.Model):
 
     members = models.ManyToManyField(User, through='StudyMembership')
     domain = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-    published = models.BooleanField(_('Published'), default=False)
+    recruitment_mode = models.BooleanField(_('Recruitment mode'), default=False)
     advanced_filtering = models.BooleanField(
         _('Advanced filtering'), help_text=_(
             'By default you can create only one filtergroup in which all the filters are joined by '
@@ -114,12 +114,13 @@ class Study(models.Model):
         result = self.subjectfiltergroup_set.aggregate(models.Max(key))
         return result[key + '__max'] or 0
 
-    def raise_permission_denied_if_study_is_published(self, msg=_("study is published")):
-        if self.published:
+    def raise_permission_denied_if_study_is_in_recruitment_mode(self, msg=_("study is in "
+                                                                            "recruitment mode")):
+        if self.recruitment_mode:
             raise PermissionDenied(msg)
 
-    def raise_404_error_if_study_is_not_published(self):
-        if not self.published:
+    def raise_404_error_if_study_is_not_in_recruitment_mode(self):
+        if not self.recruitment_mode:
             raise Http404
 
     @classmethod

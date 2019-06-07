@@ -182,7 +182,7 @@ class StudyUpdateView(StudyAccessMixin, StudyFormMixin, UpdateView):
         return super().post(request, *args, **kwargs)
 
 
-class StudyPublishView(StudyAccessMixin, View):
+class StudyStartRecruitmentView(StudyAccessMixin, View):
     permission_required = 'studies.change_study'
 
     def dispatch(self, request, study_pk):
@@ -190,7 +190,7 @@ class StudyPublishView(StudyAccessMixin, View):
         return super().dispatch(request, study_pk)
 
     def post(self, request, study_pk):
-        self.object.published = not self.object.published
+        self.object.recruitment_mode = not self.object.recruitment_mode
         self.object.save()
 
         return redirect('studies:detail', self.object.pk)
