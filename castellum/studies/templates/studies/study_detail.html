@@ -18,7 +18,13 @@
         <dd class="col-sm-6">{{ object|display:'study_type' }}</dd>
 
         <dt class="col-sm-6">{% trans 'Scheduled runtime' %}</dt>
-        <dd class="col-sm-6">{{ object.sessions_start }} - {{ object.sessions_end }}</dd>
+        <dd class="col-sm-6">
+            {% if object.sessions_start and object.sessions_end %}
+                {{ object.sessions_start }} - {{ object.sessions_end }}
+            {% else %}
+                &mdash;
+            {% endif %}
+        </dd>
 
         <dt class="col-sm-6">{{ object|verbose_name:'consent' }}</dt>
         <dd class="col-sm-6">{% if object.consent %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
