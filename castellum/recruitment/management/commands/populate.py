@@ -178,12 +178,14 @@ def fake_subject():
 
 def fake_study():
     description = fake.paragraph(nb_sentences=5, variable_nb_sentences=True)
+    recruitment_text = fake.paragraph(nb_sentences=5, variable_nb_sentences=True)
     study = Study(
         name=fake.word().upper(),
         contact_person=fake.name(),
         min_subjects_count=fake.random.randint(0, 50),
         study_type=fake.random.choice(Study.STUDY_TYPES)[0],
         description=description,
+        recruitment_text=recruitment_text,
         expense_allowance=fake.random.randint(20, 50),
         sessions_start=fake.past_date(start_date="-30d"),
         sessions_end=fake.future_date(end_date="+30d"))
