@@ -55,6 +55,8 @@ def display(instance, field_name):
             return _('Yes')
         elif value is False:
             return _('No')
+        elif value is None or value == '':
+            return '—'
         else:
             return value
 
