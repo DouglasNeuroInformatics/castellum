@@ -1,7 +1,7 @@
 # Deployment
 
 Castellum is a django project. You should refer to the [django
-documentation](https://docs.djangoproject.com/en/2.0/howto/deployment/)
+documentation](https://docs.djangoproject.com/en/stable/howto/deployment/)
 for most questions concerning deployment.
 
 ## Example

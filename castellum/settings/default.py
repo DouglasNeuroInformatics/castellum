@@ -208,7 +208,7 @@ Some notes on the logging configuration:
 -   'django' logs to console by default. It is listed here only to remove that handler
     (as this is already covered by '').
 
-See also https://docs.djangoproject.com/en/2.0/topics/logging/
+See also https://docs.djangoproject.com/en/stable/topics/logging/
 
 """
 if os.access('/log', os.W_OK):
