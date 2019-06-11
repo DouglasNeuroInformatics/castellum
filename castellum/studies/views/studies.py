@@ -187,7 +187,7 @@ class StudyPublishView(StudyAccessMixin, View):
         self.object.published = not self.object.published
         self.object.save()
 
-        return redirect(reverse('studies:index'))
+        return redirect('studies:detail', self.object.pk)
 
 
 class StudyRecruitmentSettingsView(StudyAccessMixin, DetailView):
