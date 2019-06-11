@@ -12,6 +12,7 @@
         {% endfor %}
 
         {% csrf_token %}
+        {% bootstrap_field form.advanced_filtering %}
 
         <div class="mb-3">
             <a href="{% url 'studies:recruitmentsettings' object.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>

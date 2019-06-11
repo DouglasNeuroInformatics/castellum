@@ -101,7 +101,6 @@ class StudyFormMixin:
         'study_type',
         'data_sensitivity',
         'consent',
-        'advanced_filtering',
         'min_subjects_count',
         'expense_allowance',
         'sessions_start',
@@ -194,9 +193,12 @@ class StudyRecruitmentSettingsView(StudyAccessMixin, DetailView):
 
 class StudyRecruitmentSettingsUpdateView(StudyAccessMixin, UpdateView):
     model = Study
-    fields = []
+    fields = ('advanced_filtering',)
     permission_required = 'studies.update_study'
     template_name = 'studies/study_recruitmentsettings_form.html'
+
+    def get_success_url(self):
+        return reverse('studies:recruitmentsettings', kwargs={'pk': self.object.pk})
 
 
 class StudyExclusionCriteriaView(StudyAccessMixin, UpdateView):
