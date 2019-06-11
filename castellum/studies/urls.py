@@ -28,6 +28,7 @@ from .views.studies import StudyMembershipRemoveView
 from .views.studies import StudyMembershipUpdateView
 from .views.studies import StudyMembersView
 from .views.studies import StudyPublishView
+from .views.studies import StudyRecruitmentSettingsUpdateView
 from .views.studies import StudyRecruitmentSettingsView
 from .views.studies import StudyUpdateView
 from .views.subjectfilters import FilterGroupCreateView
@@ -48,30 +49,32 @@ urlpatterns = [
          name="delete-member"),
     path('<int:pk>/recruitmentsettings/', StudyRecruitmentSettingsView.as_view(),
          name='recruitmentsettings'),
-    path('<int:pk>/exclusioncriteria/', StudyExclusionCriteriaView.as_view(),
+    path('<int:pk>/recruitmentsettings/update/', StudyRecruitmentSettingsUpdateView.as_view(),
+         name='recruitmentsettings-update'),
+    path('<int:pk>/recruitmentsettings/exclusioncriteria/', StudyExclusionCriteriaView.as_view(),
          name='exclusioncriteria'),
     path(
-        '<int:study_pk>/filters/',
+        '<int:study_pk>/recruitmentsettings/filters/',
         FilterGroupListView.as_view(),
         name='filtergroup_index',
     ),
     path(
-        '<int:study_pk>/filters/create/',
+        '<int:study_pk>/recruitmentsettings/filters/create/',
         FilterGroupCreateView.as_view(),
         name='filtergroup_create',
     ),
     path(
-        '<int:study_pk>/filters/<int:pk>/delete/',
+        '<int:study_pk>/recruitmentsettings/filters/<int:pk>/delete/',
         FilterGroupDeleteView.as_view(),
         name='filtergroup_delete',
     ),
     path(
-        '<int:study_pk>/filters/<int:pk>/',
+        '<int:study_pk>/recruitmentsettings/filters/<int:pk>/',
         FilterGroupUpdateView.as_view(),
         name='filtergroup_update',
     ),
     path(
-        '<int:study_pk>/filters/<int:pk>/duplicate/',
+        '<int:study_pk>/recruitmentsettings/filters/<int:pk>/duplicate/',
         FilterGroupDuplicateView.as_view(),
         name='filtergroup_duplicate',
     ),
