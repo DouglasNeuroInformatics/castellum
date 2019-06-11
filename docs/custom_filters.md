@@ -46,4 +46,4 @@ from the admin interface. If a custom filter is assigned, the regular
 filter interface is blocked.
 
 [1]: https://docs.djangoproject.com/en/stable/intro/reusable-apps/
-[2]: https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.Q
+[2]: https://docs.djangoproject.com/en/stable/ref/models/querysets/#django.db.models.Q
