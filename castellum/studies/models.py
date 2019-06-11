@@ -45,6 +45,10 @@ class Study(models.Model):
     EEG = 4
     THIRD_PARTY = 5
 
+    EDIT = 0
+    RECRUITMENT = 1
+    FINISHED = 2
+
     STUDY_TYPES = [
         (ONLINE, _('Online')),
         (BEHAVIORAL_LAB, _('Behavioral lab')),
@@ -52,6 +56,12 @@ class Study(models.Model):
         (SIMULATION, _('Simulation')),
         (EEG, _('EEG')),
         (THIRD_PARTY, _('3rd Party')),
+    ]
+
+    STUDY_MODES = [
+        (EDIT, _('Edit')),
+        (RECRUITMENT, _('Recruitment')),
+        (FINISHED, _('Finished')),
     ]
 
     name = models.CharField(_('Name'), max_length=254)
@@ -65,6 +75,8 @@ class Study(models.Model):
     keywords = models.CharField(_('Keywords'), max_length=254, blank=True)
     study_type = models.IntegerField(
         _('Type of study'), choices=STUDY_TYPES, null=True)
+    study_mode = models.IntegerField(
+        _('Study mode'), choices=STUDY_MODES, default=0)
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
     min_subjects_count = models.PositiveIntegerField(_('Required number of subjects'),
                                                      blank=True,
@@ -77,7 +89,10 @@ class Study(models.Model):
 
     members = models.ManyToManyField(User, through='StudyMembership')
     domain = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+<<<<<<< HEAD
     recruitment_mode = models.BooleanField(_('Recruitment mode'), default=False)
+=======
+>>>>>>> add modes to Study, remove recruitment_mode field
     advanced_filtering = models.BooleanField(
         _('Advanced filtering'), help_text=_(
             'By default you can create only one filtergroup in which all the filters are joined by '
@@ -149,6 +164,10 @@ class Study(models.Model):
             if user.has_perm('recruitment.add_participationrequest', obj=self):
                 recruiters.append(user)
         return recruiters
+
+    @property
+    def recruitment_mode(self):
+        return self.study_mode == self.RECRUITMENT
 
 
 class StudyMembership(models.Model):
