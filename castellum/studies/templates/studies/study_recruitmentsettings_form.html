@@ -12,6 +12,7 @@
         {% endfor %}
 
         {% csrf_token %}
+        {% bootstrap_field form.recruitment_text %}
         {% bootstrap_field form.advanced_filtering %}
 
         <div class="mb-3">
