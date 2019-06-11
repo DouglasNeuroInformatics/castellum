@@ -61,30 +61,30 @@ def test_delete_other_study(client, member, subject_filter_group, study):
 
 
 def test_advanced_filtering_200(client, member, subject_filter_group,
-                                study_not_in_recruitment_mode):
-    study_not_in_recruitment_mode.advanced_filtering = True
-    study_not_in_recruitment_mode.save()
+                                study_in_edit_mode):
+    study_in_edit_mode.advanced_filtering = True
+    study_in_edit_mode.save()
 
     client.force_login(member)
-    url = '/studies/{}/recruitmentsettings/filters/'.format(study_not_in_recruitment_mode.pk)
+    url = '/studies/{}/recruitmentsettings/filters/'.format(study_in_edit_mode.pk)
     response = client.get(url)
     assert response.status_code == 200
 
 
-def test_basic_filtering_302(client, member, study_not_in_recruitment_mode):
+def test_basic_filtering_302(client, member, study_in_edit_mode):
     client.force_login(member)
-    url = '/studies/{}/recruitmentsettings/filters/'.format(study_not_in_recruitment_mode.pk)
+    url = '/studies/{}/recruitmentsettings/filters/'.format(study_in_edit_mode.pk)
     response = client.get(url)
     assert response.status_code == 302
 
 
 def test_get_when_study_has_minimal_subject_count_set_to_zero(client, member, subject_filter_group,
-                                                              study_not_in_recruitment_mode):
-    study_not_in_recruitment_mode.advanced_filtering = True
-    study_not_in_recruitment_mode.save()
+                                                              study_in_edit_mode):
+    study_in_edit_mode.advanced_filtering = True
+    study_in_edit_mode.save()
 
     client.force_login(member)
-    url = '/studies/{}/recruitmentsettings/filters/'.format(study_not_in_recruitment_mode.pk)
+    url = '/studies/{}/recruitmentsettings/filters/'.format(study_in_edit_mode.pk)
     response = client.get(url)
     assert response.status_code == 200
     messages = list(get_messages(response.wsgi_request))
@@ -95,16 +95,16 @@ def test_get_when_study_has_minimal_subject_count_set_to_zero(client, member, su
 
 @pytest.mark.django_db
 def test_get_when_study_has_not_enough_subjects_in_filter_group(client, member,
-                                                                study_not_in_recruitment_mode):
+                                                                study_in_edit_mode):
     client.force_login(member)
 
-    study_not_in_recruitment_mode.min_subjects_count = 100
-    study_not_in_recruitment_mode.advanced_filtering = True
-    study_not_in_recruitment_mode.save()
+    study_in_edit_mode.min_subjects_count = 100
+    study_in_edit_mode.advanced_filtering = True
+    study_in_edit_mode.save()
 
-    mommy.make(SubjectFilterGroup, study=study_not_in_recruitment_mode)
+    mommy.make(SubjectFilterGroup, study=study_in_edit_mode)
 
-    url = '/studies/{}/recruitmentsettings/filters/'.format(unpublished_study.pk)
+    url = '/studies/{}/recruitmentsettings/filters/'.format(study_in_edit_mode.pk)
     response = client.get(url)
     assert response.status_code == 200
     messages = list(get_messages(response.wsgi_request))

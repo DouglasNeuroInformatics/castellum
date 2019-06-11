@@ -2,6 +2,7 @@ import pytest
 from model_mommy import mommy
 
 from castellum.contacts.models import Contact
+from castellum.studies.models import Study
 from castellum.pseudonyms.helpers import get_subject
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import ParticipationRequestRevision
@@ -29,10 +30,10 @@ def test_200_page_returned_if_study_in_recruitment_mode_is_provided(client,
     assert response.status_code == 200
 
 
-def test_404_page_returned_if_study_in_not_recruitment_mode_is_provided(client,
-                                                                        member,
-                                                                        participation_request):
-    participation_request.study.recruitment_mode = False
+def test_404_page_returned_if_study_in_edit_mode_is_provided(client,
+                                                             member,
+                                                             participation_request):
+    participation_request.study.study_mode = Study.EDIT
     participation_request.study.save()
 
     client.force_login(member)

@@ -73,19 +73,19 @@ def study(db):
 
 @pytest.fixture
 def study_in_recruitment_mode(db):
-    return mommy.make(Study, recruitment_mode=True)
+    return mommy.make(Study, study_mode=Study.RECRUITMENT)
 
 
 @pytest.fixture
-def study_not_in_recruitment_mode(db):
-    return mommy.make(Study, recruitment_mode=False)
+def study_in_edit_mode(db):
+    return mommy.make(Study, study_mode=Study.EDIT)
 
 
 @pytest.fixture
-def member(user, study, study_in_recruitment_mode, study_not_in_recruitment_mode):
+def member(user, study, study_in_recruitment_mode, study_in_edit_mode):
     StudyMembership.objects.create(user=user, study=study)
     StudyMembership.objects.create(user=user, study=study_in_recruitment_mode)
-    StudyMembership.objects.create(user=user, study=study_not_in_recruitment_mode)
+    StudyMembership.objects.create(user=user, study=study_in_edit_mode)
     return user
 
 
@@ -118,8 +118,8 @@ def attribute_description(db, attribute_descriptions):
 
 
 @pytest.fixture
-def subject_filter_group(db, study_not_in_recruitment_mode):
-    return mommy.make(SubjectFilterGroup, study=study_not_in_recruitment_mode)
+def subject_filter_group(db, study_in_edit_mode):
+    return mommy.make(SubjectFilterGroup, study=study_in_edit_mode)
 
 
 @pytest.fixture
