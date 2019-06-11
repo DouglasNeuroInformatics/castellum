@@ -137,11 +137,6 @@ class SubjectCreateView(PermissionRequiredMixin, SubjectNoteFormMixin, CreateVie
 
         return response
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = "subjects/base.html"
-        return context
-
 
 class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
@@ -220,11 +215,6 @@ class ContactUpdateView(BaseContactUpdateView):
         subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
         pseudonym = get_pseudonym(subject, Contact.domain)
         return get_object_or_404(Contact, pseudonym=pseudonym)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = "subjects/base.html"
-        return context
 
 
 class AttributeSetUpdateView(BaseAttributeSetUpdateView):
