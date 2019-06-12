@@ -20,7 +20,6 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
-import uuid
 
 from django.contrib.auth.models import Group
 from django.core.exceptions import PermissionDenied
@@ -33,6 +32,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from castellum import settings
 from castellum.castellum_auth.models import User
+from castellum.pseudonyms.generator import generate
 from castellum.utils.fields import DateField
 from castellum.utils.fields import RestrictedFileField
 
@@ -90,7 +90,7 @@ class Study(models.Model):
     recruitment_text = models.TextField(_('Recruitment text'), blank=True)
 
     members = models.ManyToManyField(User, through='StudyMembership')
-    domain = models.CharField(max_length=64, default=uuid.uuid4, unique=True, editable=False)
+    domain = models.CharField(max_length=64, default=generate, unique=True, editable=False)
     advanced_filtering = models.BooleanField(
         _('Advanced filtering'), help_text=_(
             'By default you can create only one filtergroup in which all the filters are joined by '
