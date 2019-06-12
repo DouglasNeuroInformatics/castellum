@@ -67,13 +67,12 @@ class StudyMembershipAccessMixin(StudyAccessMixin):
 
 
 class StudyIndexView(PermissionRequiredMixin, ListView):
-    model = Study
     ordering = 'name'
     permission_required = 'studies.view_study'
     paginate_by = 15
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = Study.objects.all()
         q = self.request.GET.get('q')
         if q:
             for part in q.split():
