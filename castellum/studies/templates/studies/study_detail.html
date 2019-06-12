@@ -21,6 +21,8 @@
         <dd class="col-sm-6">
             {% if object.sessions_start and object.sessions_end %}
                 {{ object.sessions_start }} - {{ object.sessions_end }}
+            {% elif object.sessions_start %}
+                {{ object.sessions_start }} - {% trans 'not defined' %}
             {% else %}
                 &mdash;
             {% endif %}
