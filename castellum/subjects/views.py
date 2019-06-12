@@ -223,3 +223,8 @@ class AttributeSetUpdateView(BaseAttributeSetUpdateView):
         attributeset, __ = AttributeSet.objects.get_or_create(
             subject=subject, defaults={'data': {}})
         return attributeset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = "subjects/base.html"
+        return context
