@@ -8,7 +8,7 @@
 
     <dl class="row">
         <dt class="col-sm-6">{{ object|verbose_name:'recruitment_text' }}</dt>
-        <dd class="col-sm-6">{{ object|display:'recruitment_text' }}</dd>
+        <dd class="col-sm-6">{% if object.recruitment_text %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
     </dl>
 
     <div class="mb-3">
