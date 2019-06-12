@@ -72,6 +72,7 @@ class Study(models.Model):
     sessions_start = DateField(_('start of test sessions'), blank=True, null=True)
     sessions_end = DateField(_('end of test sessions'), blank=True, null=True)
     exclusion_criteria = models.TextField(_('Exclusion criteria'), blank=True)
+    recruitment_text = models.TextField(_('recruitment text'), blank=True)
 
     members = models.ManyToManyField(User, through='StudyMembership')
     domain = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)

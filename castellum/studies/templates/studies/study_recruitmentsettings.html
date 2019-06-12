@@ -1,10 +1,15 @@
 {% extends "studies/base.html" %}
-{% load i18n auth bootstrap4 subjectfilters %}
+{% load i18n auth bootstrap4 subjectfilters utils %}
 
 {% block title %}{% trans "Recruitment settings" %} &middot; {{ object }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     <h2>{% blocktrans %}Recruitment settings for {{ object }}{% endblocktrans %}</h2>
+
+    <dl class="row">
+        <dt class="col-sm-6">{{ object|verbose_name:'recruitment_text' }}</dt>
+        <dd class="col-sm-6">{{ object|display:'recruitment_text' }}</dd>
+    </dl>
 
     <div class="mb-3">
         <a href="{% url 'studies:detail' object.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
