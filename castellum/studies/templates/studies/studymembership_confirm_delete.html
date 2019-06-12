@@ -4,8 +4,12 @@
 {% block title %}{% trans "Delete member" %} &middot; {{ object.study }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-<form method="post">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ object.user.username }}"?</p>
-    <input type="submit" class="btn btn-primary" value="{% trans 'Confirm' %}" />
-</form>
+    <form method="post">
+        {% csrf_token %}
+        <p>{% blocktrans with username=object.user.username %}Are you sure you want to delete "{{ username }}"?{% endblocktrans %}</p>
+        <div class="mb-3">
+            <a href="{% url 'studies:members' object.study.pk %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
+            <input type="submit" class="btn btn-danger" value="{% trans 'Confirm' %}" />
+        </div>
+    </form>
 {% endblock %}
