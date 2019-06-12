@@ -19,7 +19,7 @@
 <body {% if user.is_authenticated %}data-logout-timeout="{{ user.logout_timeout.total_seconds }}"{% endif %}>
     <header class="bg-dark">
         <div class="container">
-            <div class="row navbar navbar-expand-sm navbar-dark">
+            <div class="row align-items-baseline navbar navbar-expand-sm navbar-dark">
                 <a href="/" rel="home" class="navbar-brand">Castellum</a>
                 <div class="navbar-nav">
                     {% block breadcrumbs %}{% endblock %}
