@@ -61,7 +61,7 @@
         <dd class="col-sm-6">{% if object.description %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
 
         <dt class="col-sm-6">{% trans 'Recruitment filters' %}</dt>
-        <dd class="col-sm-6">{% if object.subjectfiltergroup_set.exists %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
+        <dd class="col-sm-6">{% if has_filters %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
 
         <dt class="col-sm-6">{{ object|verbose_name:'exclusion_criteria' }}</dt>
         <dd class="col-sm-6">{% if object.exclusion_criteria %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
