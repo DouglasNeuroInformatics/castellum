@@ -54,6 +54,13 @@
         <dd class="col-sm-6">{% if object.consent %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
     </dl>
 
+    <h3 class="h5">{% trans "Member management" %}</h3>
+
+    <dl class="row">
+        <dt class="col-sm-6">{% trans 'Recruiters' %}</dt>
+        <dd class="col-sm-6">{{ object.recruiters|join:', '|default:'—' }}</dd>
+    </dl>
+
     <h3 class="h5">{% trans "Recruitment settings" %}</h3>
 
     <dl class="row">
