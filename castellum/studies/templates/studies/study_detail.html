@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load i18n auth utils %}
+
+{% block title %}{{ object }} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h1>{{ object }}</h1>
+    <p>{{ object|verbose_name:'contact_person' }}: {{ object.contact_person }}</p>
+
+    <dl class="row">
+        <dt class="col-sm-6">{{ object|verbose_name:'principal_investigator' }}</dt>
+        <dd class="col-sm-6">{{ object|display:'principal_investigator' }}</dd>
+
+        <dt class="col-sm-6">{{ object|verbose_name:'affiliated_scientists' }}</dt>
+        <dd class="col-sm-6">{{ object|display:'affiliated_scientists' }}</dd>
+
+        <dt class="col-sm-6">{{ object|verbose_name:'study_type' }}</dt>
+        <dd class="col-sm-6">{{ object|display:'study_type' }}</dd>
+
+        <dt class="col-sm-6">{% trans 'Scheduled runtime' %}</dt>
+        <dd class="col-sm-6">
+            {% if object.sessions_start and object.sessions_end %}
+                {{ object.sessions_start }} - {{ object.sessions_end }}
+            {% else %}
+                &mdash;
+            {% endif %}
+        </dd>
+
+        <dt class="col-sm-6">{{ object|verbose_name:'consent' }}</dt>
+        <dd class="col-sm-6">{% if object.consent %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
+    </dl>
+
+    <h3 class="h5">{% trans "Recruitment settings" %}</h3>
+
+    <dl class="row">
+        <dt class="col-sm-6">{{ object|verbose_name:'description' }}</dt>
+        <dd class="col-sm-6">{% if object.description %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
+
+        <dt class="col-sm-6">{% trans 'Recruitment filters' %}</dt>
+        <dd class="col-sm-6">{% if object.subjectfiltergroup_set.exists %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
+
+        <dt class="col-sm-6">{{ object|verbose_name:'exclusion_criteria' }}</dt>
+        <dd class="col-sm-6">{% if object.exclusion_criteria %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
+    </dl>
+
+    <div class="mb-3">
+        {% has_perm 'studies.change_study' user study as can_change_study %}
+        {% if can_change_study %}
+            <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'studies:update' study.pk %}">{% trans 'Edit' %}</a>
+            <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'studies:members' study.pk %}">{% trans 'Manage members' %}</a>
+        {% endif %}
+        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'studies:recruitmentsettings' study.pk %}">{% trans 'Recruitment Settings' %}</a>
+        {% if can_change_study %}
+            <form class="d-sm-inline" method="post" action="{% url 'studies:publish' study.pk %}">
+                {% csrf_token %}
+
+                {% if study.published %}
+                    <button class='btn btn-outline-primary active btn-sm-inline my-1'>
+                        {% trans 'Unpublish' %}
+                    </button>
+                {% else %}
+                    <button class='btn btn-outline-primary btn-sm-inline my-1'>
+                        {% trans 'Publish' %}
+                    </button>
+                {% endif %}
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

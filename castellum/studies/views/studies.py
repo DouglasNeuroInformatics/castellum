@@ -88,6 +88,11 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
         return context
 
 
+class StudyDetailView(StudyAccessMixin, DetailView):
+    model = Study
+    permission_required = 'studies.view_study'
+
+
 class StudyFormMixin:
     model = Study
     fields = (
@@ -164,7 +169,7 @@ class StudyUpdateView(StudyAccessMixin, StudyFormMixin, UpdateView):
     permission_required = 'studies.change_study'
 
     def get_success_url(self):
-        return reverse('studies:index')
+        return reverse('studies:detail', args=[self.object.pk])
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -182,7 +187,7 @@ class StudyPublishView(StudyAccessMixin, View):
         self.object.published = not self.object.published
         self.object.save()
 
-        return redirect(reverse('studies:index'))
+        return redirect('studies:detail', self.object.pk)
 
 
 class StudyRecruitmentSettingsView(StudyAccessMixin, DetailView):
