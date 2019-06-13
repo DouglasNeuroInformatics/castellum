@@ -73,9 +73,8 @@ class Study(models.Model):
         _('Affiliated Research Assistants'), max_length=254, blank=True)
     description = models.TextField(_('Description'), blank=True)
     keywords = models.CharField(_('Keywords'), max_length=254, blank=True)
-    study_type = models.IntegerField(
-        _('Type of study'), choices=STUDY_TYPES, null=True)
-    study_mode = models.IntegerField(
+    study_type = models.SmallIntegerField(_('Type of study'), choices=STUDY_TYPES, null=True)
+    study_mode = models.SmallIntegerField(
         _('Study mode'), choices=STUDY_MODES, default=EDIT)
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
     min_subjects_count = models.PositiveIntegerField(_('Required number of subjects'),
@@ -89,10 +88,6 @@ class Study(models.Model):
 
     members = models.ManyToManyField(User, through='StudyMembership')
     domain = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-<<<<<<< HEAD
-    recruitment_mode = models.BooleanField(_('Recruitment mode'), default=False)
-=======
->>>>>>> add modes to Study, remove recruitment_mode field
     advanced_filtering = models.BooleanField(
         _('Advanced filtering'), help_text=_(
             'By default you can create only one filtergroup in which all the filters are joined by '
