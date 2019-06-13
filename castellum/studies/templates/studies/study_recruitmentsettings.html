@@ -1,18 +1,48 @@
 {% extends "studies/base.html" %}
 {% load i18n auth bootstrap4 subjectfilters utils %}
 
-{% block title %}{% trans "Recruitment settings" %} &middot; {{ object }} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% trans "Recruitment settings" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h2>{% blocktrans %}Recruitment settings for {{ object }}{% endblocktrans %}</h2>
+    <h2>{% blocktrans %}Recruitment settings for {{ study }}{% endblocktrans %}</h2>
 
     <dl class="row">
-        <dt class="col-sm-6">{{ object|verbose_name:'recruitment_text' }}</dt>
-        <dd class="col-sm-6">{% if object.recruitment_text %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
+        <dt class="col-sm-6">
+            {{ study|verbose_name:'advanced_filtering'|title }}
+        </dt>
+        <dd class="col-sm-6">
+            {% if study.advanced_filtering %}
+                {% trans 'Activated' %}
+            {% else %}
+                {% trans 'Deactivated' %}
+            {% endif %}
+        </dd>
+
+        <dt class="col-sm-6">
+            {% trans 'Filters' %}
+        </dt>
+        <dd class="col-sm-6">
+            {% if study.has_filters %}
+                {% trans 'Available' %}
+            {% else %}
+                &mdash;
+            {% endif %}
+        </dd>
+
+        <dt class="col-sm-6">
+            {% trans 'Exclusion criteria' %}
+        </dt>
+        <dd class="col-sm-6">
+            {% if study.has_exclusion_criteria %}
+                {% trans 'Available' %}
+            {% else %}
+                &mdash;
+            {% endif %}
+        </dd>
     </dl>
 
     <div class="mb-3">
-        <a href="{% url 'studies:detail' object.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+        <a href="{% url 'studies:detail' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         {% has_perm 'studies.change_study' user study as can_change_study %}
         {% if can_change_study %}
             <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'studies:recruitmentsettings-update' study.pk %}">{% trans 'General' %}</a>
