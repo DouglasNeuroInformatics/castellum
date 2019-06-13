@@ -191,11 +191,9 @@ class StudyStartRecruitmentView(StudyAccessMixin, View):
 
     def post(self, request, study_pk):
         if self.object.study_mode == self.object.RECRUITMENT:
-            self.object.study_mode = self.object.EDIT
+            self.object.next_mode(self.object.EDIT)
         elif self.object.study_mode == self.object.EDIT:
-            self.object.study_mode = self.object.RECRUITMENT
-        self.object.save()
-
+            self.object.next_mode(self.object.RECRUITMENT)
         return redirect('studies:detail', self.object.pk)
 
 
