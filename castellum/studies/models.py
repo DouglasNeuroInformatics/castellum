@@ -76,7 +76,7 @@ class Study(models.Model):
     study_type = models.IntegerField(
         _('Type of study'), choices=STUDY_TYPES, null=True)
     study_mode = models.IntegerField(
-        _('Study mode'), choices=STUDY_MODES, default=0)
+        _('Study mode'), choices=STUDY_MODES, default=EDIT)
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
     min_subjects_count = models.PositiveIntegerField(_('Required number of subjects'),
                                                      blank=True,
