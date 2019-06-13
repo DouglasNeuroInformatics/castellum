@@ -190,7 +190,6 @@ class StudyStartRecruitmentView(StudyAccessMixin, View):
         return super().dispatch(request, study_pk)
 
     def post(self, request, study_pk):
-        print(self.object.study_mode)
         if self.object.study_mode == self.object.RECRUITMENT:
             self.object.study_mode = self.object.EDIT
         elif self.object.study_mode == self.object.EDIT:
