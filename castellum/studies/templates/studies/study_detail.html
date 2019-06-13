@@ -12,16 +12,16 @@
         <div class="d-flex align-items-center">
             {% has_perm 'studies.change_study' user study as can_change_study %}
             {% if can_change_study %}
-                <form class="d-sm-inline" method="post" action="{% url 'studies:publish' study.pk %}">
+                <form class="d-sm-inline" method="post" action="{% url 'studies:start_recruitment' study.pk %}">
                     {% csrf_token %}
 
-                    {% if study.published %}
+                    {% if study.study_mode == study.RECRUITMENT %}
                         <button class='btn btn-outline-primary active btn-sm-inline my-1'>
-                            {% trans 'Unpublish' %}
+                            {% trans 'Stop recruitment' %}
                         </button>
                     {% else %}
                         <button class='btn btn-outline-primary btn-sm-inline my-1'>
-                            {% trans 'Publish' %}
+                            {% trans 'Start recruitment' %}
                         </button>
                     {% endif %}
                 </form>
