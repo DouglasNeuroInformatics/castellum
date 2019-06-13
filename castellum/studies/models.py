@@ -136,6 +136,7 @@ class Study(models.Model):
         from castellum.recruitment.models import SubjectFilter
         return SubjectFilter.objects.filter(group__study=self).exists()
 
+    @cached_property
     def has_exclusion_criteria(self):
         return self.exclusion_criteria or self.study_type == self.FMRI
 
