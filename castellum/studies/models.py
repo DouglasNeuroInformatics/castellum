@@ -28,6 +28,7 @@ from django.db import models
 from django.forms import ValidationError
 from django.http import Http404
 from django.shortcuts import get_object_or_404
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from castellum import settings
@@ -132,6 +133,15 @@ class Study(models.Model):
 
     def has_exclusion_criteria(self):
         return self.exclusion_criteria or self.study_type == self.FMRI
+
+    # NOTE: this might not be the same as the sample group of the same name!
+    @cached_property
+    def recruiters(self):
+        recruiters = []
+        for user in self.members.all():
+            if user.has_perm('recruitment.add_participationrequest', obj=self):
+                recruiters.append(user)
+        return recruiters
 
 
 class StudyMembership(models.Model):
