@@ -11,8 +11,8 @@ def city():
 
 
 def test_singular(city):
-    assert "city" == model_verbose_name(city)
+    assert "City" == model_verbose_name(city)
 
 
 def test_plural(city):
-    assert "cities" == model_verbose_name(city, plural=True)
+    assert "Cities" == model_verbose_name(city, plural=True)
