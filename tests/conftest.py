@@ -72,20 +72,20 @@ def study(db):
 
 
 @pytest.fixture
-def published_study(db):
-    return mommy.make(Study, published=True)
+def study_in_recruitment_mode(db):
+    return mommy.make(Study, study_mode=Study.RECRUITMENT)
 
 
 @pytest.fixture
-def unpublished_study(db):
-    return mommy.make(Study, published=False)
+def study_in_edit_mode(db):
+    return mommy.make(Study, study_mode=Study.EDIT)
 
 
 @pytest.fixture
-def member(user, study, published_study, unpublished_study):
+def member(user, study, study_in_recruitment_mode, study_in_edit_mode):
     StudyMembership.objects.create(user=user, study=study)
-    StudyMembership.objects.create(user=user, study=published_study)
-    StudyMembership.objects.create(user=user, study=unpublished_study)
+    StudyMembership.objects.create(user=user, study=study_in_recruitment_mode)
+    StudyMembership.objects.create(user=user, study=study_in_edit_mode)
     return user
 
 
@@ -101,9 +101,9 @@ def attributeset(contact):
 
 
 @pytest.fixture
-def participation_request(contact, published_study):
+def participation_request(contact, study_in_recruitment_mode):
     subject = get_subject(settings.DOMAINS['contact'], contact.pseudonym)
-    return mommy.make(ParticipationRequest, study=published_study, subject=subject)
+    return mommy.make(ParticipationRequest, study=study_in_recruitment_mode, subject=subject)
 
 
 @pytest.fixture(scope='session')
@@ -118,8 +118,8 @@ def attribute_description(db, attribute_descriptions):
 
 
 @pytest.fixture
-def subject_filter_group(db, unpublished_study):
-    return mommy.make(SubjectFilterGroup, study=unpublished_study)
+def subject_filter_group(db, study_in_edit_mode):
+    return mommy.make(SubjectFilterGroup, study=study_in_edit_mode)
 
 
 @pytest.fixture

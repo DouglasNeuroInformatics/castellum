@@ -12,12 +12,12 @@ from castellum.recruitment.models import ParticipationRequest
 
 
 @pytest.mark.django_db
-def test_post_when_study_has_zero_subject_count_set(client, member, published_study):
+def test_post_when_study_has_zero_subject_count_set(client, member, study_in_recruitment_mode):
 
-    published_study.min_subjects_count = 0
-    published_study.save()
+    study_in_recruitment_mode.min_subjects_count = 0
+    study_in_recruitment_mode.save()
     client.force_login(member)
-    url = '/recruitment/{}/'.format(published_study.pk)
+    url = '/recruitment/{}/'.format(study_in_recruitment_mode.pk)
     response = client.post(url)
     assert response.status_code == 200
     messages = list(get_messages(response.wsgi_request))
@@ -27,10 +27,12 @@ def test_post_when_study_has_zero_subject_count_set(client, member, published_st
 
 
 @pytest.mark.django_db
-def test_post_when_more_then_double_minimal_subject_count(client, member, published_study):
+def test_post_when_more_then_double_minimal_subject_count(client,
+                                                          member,
+                                                          study_in_recruitment_mode):
 
-    published_study.min_subjects_count = 2
-    published_study.save()
+    study_in_recruitment_mode.min_subjects_count = 2
+    study_in_recruitment_mode.save()
 
     subject = mommy.make(Subject, id=1)
     contact_pseudonym = mommy.make(Pseudonym,
@@ -39,12 +41,12 @@ def test_post_when_more_then_double_minimal_subject_count(client, member, publis
                                    domain=Contact.domain)
     mommy.make(Contact, pseudonym=contact_pseudonym)
     mommy.make(ParticipationRequest,
-               study=published_study,
+               study=study_in_recruitment_mode,
                subject=subject,
                _quantity=4)
 
     client.force_login(member)
-    url = '/recruitment/{}/'.format(published_study.pk)
+    url = '/recruitment/{}/'.format(study_in_recruitment_mode.pk)
 
     response = client.post(url)
     assert response.status_code == 200

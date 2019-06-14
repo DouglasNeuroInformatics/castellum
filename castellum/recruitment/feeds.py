@@ -64,7 +64,7 @@ class BaseAppointmentFeed(abc.ABC, ICalFeed):
 class AppointmentFeedForStudy(BaseAppointmentFeed):
     def get_object(self, *args, **kwargs):
         study = Study.get_by_pk_or_404(kwargs.get('study_pk'))
-        study.raise_404_error_if_study_is_not_published()
+        study.raise_404_error_if_study_is_not_in_recruitment_mode()
         return study
 
     def items(self, study):
@@ -81,7 +81,7 @@ class AppointmentFeedForUser(BaseAppointmentFeed):
         return get_object_or_404(get_user_model(), pk=kwargs.get('user_id'))
 
     def items(self, user):
-        for study in Study.objects.filter(published=True):
+        for study in Study.objects.filter(study_mode=Study.RECRUITMENT):
             if not (user.has_perm('recruitment.add_participationrequest', obj=study) and
                     user.has_perm('studies.access_study', obj=study)):
                 continue

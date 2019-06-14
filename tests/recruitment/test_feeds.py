@@ -3,13 +3,14 @@ from datetime import datetime
 import pytest
 
 
-def test_feed_for_published_study(client, published_study):
-    response = client.get('/recruitment/{}/appointments/'.format(published_study.pk))
+def test_feed_for_study_in_recruitment_mode(client, study_in_recruitment_mode):
+    response = client.get('/recruitment/{}/appointments/'.format(study_in_recruitment_mode.pk))
     assert response.status_code == 200
 
 
-def test_feed_for_unpublished_study(client, unpublished_study):
-    response = client.get('/recruitment/{}/appointments/'.format(unpublished_study.pk))
+def test_feed_for_unpublished_study(client, study_in_edit_mode):
+    response = client.get('/recruitment/{}/appointments/'.format(
+        study_in_edit_mode.pk))
     assert response.status_code == 404
 
 

@@ -45,6 +45,10 @@ class Study(models.Model):
     EEG = 4
     THIRD_PARTY = 5
 
+    EDIT = 0
+    RECRUITMENT = 1
+    FINISHED = 2
+
     STUDY_TYPES = [
         (ONLINE, _('Online')),
         (BEHAVIORAL_LAB, _('Behavioral lab')),
@@ -52,6 +56,12 @@ class Study(models.Model):
         (SIMULATION, _('Simulation')),
         (EEG, _('EEG')),
         (THIRD_PARTY, _('3rd Party')),
+    ]
+
+    STUDY_MODES = [
+        (EDIT, _('Edit')),
+        (RECRUITMENT, _('Recruitment')),
+        (FINISHED, _('Finished')),
     ]
 
     name = models.CharField(_('Name'), max_length=254)
@@ -63,8 +73,12 @@ class Study(models.Model):
         _('Affiliated Research Assistants'), max_length=254, blank=True)
     description = models.TextField(_('Description'), blank=True)
     keywords = models.CharField(_('Keywords'), max_length=254, blank=True)
-    study_type = models.IntegerField(
+    study_type = models.SmallIntegerField(
         _('Type of study'), choices=STUDY_TYPES, null=True)
+    previous_study_mode = models.SmallIntegerField(
+        _('Study mode'), choices=STUDY_MODES, default=EDIT)
+    study_mode = models.SmallIntegerField(
+        _('Study mode'), choices=STUDY_MODES, default=EDIT)
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
     min_subjects_count = models.PositiveIntegerField(_('Required number of subjects'),
                                                      blank=True,
@@ -77,7 +91,6 @@ class Study(models.Model):
 
     members = models.ManyToManyField(User, through='StudyMembership')
     domain = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-    published = models.BooleanField(_('Published'), default=False)
     advanced_filtering = models.BooleanField(
         _('Advanced filtering'), help_text=_(
             'By default you can create only one filtergroup in which all the filters are joined by '
@@ -98,6 +111,15 @@ class Study(models.Model):
     def __str__(self):
         return self.name
 
+    def previous_mode(self):
+        self.study_mode = self.previous_study_mode
+        self.save()
+
+    def next_mode(self, mode):
+        self.previous_study_mode = self.study_mode
+        self.study_mode = mode
+        self.save()
+
     def clean(self):
         if self.study_type == self.FMRI and not self.data_sensitivity:
             self.data_sensitivity = True
@@ -114,12 +136,13 @@ class Study(models.Model):
         result = self.subjectfiltergroup_set.aggregate(models.Max(key))
         return result[key + '__max'] or 0
 
-    def raise_permission_denied_if_study_is_published(self, msg=_("study is published")):
-        if self.published:
+    def raise_permission_denied_if_study_is_in_recruitment_mode(self, msg=_("study is in "
+                                                                            "recruitment mode")):
+        if self.recruitment_mode:
             raise PermissionDenied(msg)
 
-    def raise_404_error_if_study_is_not_published(self):
-        if not self.published:
+    def raise_404_error_if_study_is_not_in_recruitment_mode(self):
+        if not self.recruitment_mode:
             raise Http404
 
     @classmethod
@@ -148,6 +171,10 @@ class Study(models.Model):
             if user.has_perm('recruitment.add_participationrequest', obj=self):
                 recruiters.append(user)
         return recruiters
+
+    @property
+    def recruitment_mode(self):
+        return self.study_mode == self.RECRUITMENT
 
 
 class StudyMembership(models.Model):

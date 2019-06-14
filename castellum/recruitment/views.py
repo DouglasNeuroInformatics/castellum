@@ -60,7 +60,7 @@ class StudyChoiceView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return [study for study in qs.filter(published=True) if (
+        return [study for study in qs.filter(study_mode=Study.RECRUITMENT) if (
             self.request.user.has_perm('recruitment.add_participationrequest', obj=study) and
             self.request.user.has_perm('studies.access_study', obj=study)
         )]
@@ -76,7 +76,7 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
 
     def dispatch(self, request, *args, **kwargs):
         self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
-        self.study.raise_404_error_if_study_is_not_published()
+        self.study.raise_404_error_if_study_is_not_in_recruitment_mode()
 
         self.sort = self.request.GET.get('sort', self.request.session.get('recruitment_sort'))
         self.request.session['recruitment_sort'] = self.sort
@@ -277,7 +277,7 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
 
     def dispatch(self, request, *args, **kwargs):
         self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
-        self.study.raise_404_error_if_study_is_not_published()
+        self.study.raise_404_error_if_study_is_not_in_recruitment_mode()
         return super().dispatch(request, *args, **kwargs)
 
     def get_initial(self):
@@ -345,7 +345,7 @@ class ContactUpdateView(StudyPermissionMixin, BaseContactUpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
-        self.study.raise_404_error_if_study_is_not_published()
+        self.study.raise_404_error_if_study_is_not_in_recruitment_mode()
         return super().dispatch(request, *args, **kwargs)
 
     def get_object(self):
@@ -370,7 +370,7 @@ class AttributeSetUpdateView(StudyPermissionMixin, BaseAttributeSetUpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
-        self.study.raise_404_error_if_study_is_not_published()
+        self.study.raise_404_error_if_study_is_not_in_recruitment_mode()
         return super().dispatch(request, *args, **kwargs)
 
     def get_object(self):

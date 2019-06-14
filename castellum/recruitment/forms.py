@@ -23,6 +23,7 @@ from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import ugettext_lazy as _
 
+from castellum.studies.models import Study
 from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
 from castellum.utils.helpers import get_object_or_none
@@ -81,7 +82,7 @@ class SubjectFilterForm(forms.ModelForm):
         # disable fields when study is not published
         try:
             if self.instance.group.study:
-                if self.instance.group.study.published:
+                if self.instance.group.study.study_mode == Study.RECRUITMENT:
                     self.fields["operator"].widget.attrs["disabled"] = True
                     self.fields["value"].widget.attrs["disabled"] = True
         except ObjectDoesNotExist:
