@@ -66,25 +66,25 @@ class Contact(TimeStampedModel):
 
     pseudonym = models.CharField(max_length=64, unique=True, editable=False)
 
-    first_name = models.CharField(_("first name"), max_length=64)
+    first_name = models.CharField(_('First name'), max_length=64)
     first_name_phonetic = models.CharField(max_length=128, editable=False)
-    last_name = models.CharField(_("last name"), max_length=64)
+    last_name = models.CharField(_('Last name'), max_length=64)
     last_name_phonetic = models.CharField(max_length=128, editable=False)
-    title = models.CharField(_("title"), max_length=64, blank=True)
+    title = models.CharField(_('Title'), max_length=64, blank=True)
 
-    gender = models.CharField(_("gender"), max_length=1, choices=GENDER, default="f")
+    gender = models.CharField(_('Gender'), max_length=1, choices=GENDER, default="f")
 
-    date_of_birth = DateField(_("date of birth"))
+    date_of_birth = DateField(_('Date of birth'))
 
     address = models.ForeignKey(Address, blank=True, null=True, verbose_name=_("address"),
                                 on_delete=models.SET_NULL)
-    email = models.EmailField(_("email"), max_length=128, blank=True)
-    phone_number = PhoneNumberField(_("phone number"), max_length=32, blank=True)
-    phone_number_alternative = PhoneNumberField(_("phone number alternative"), max_length=32,
+    email = models.EmailField(_('Email'), max_length=128, blank=True)
+    phone_number = PhoneNumberField(_('Phone number'), max_length=32, blank=True)
+    phone_number_alternative = PhoneNumberField(_('Phone number alternative'), max_length=32,
                                                 blank=True)
 
     preferred_contact_method = models.CharField(
-        _("preferred contact method"), max_length=16, blank=True, choices=CONTACT_METHODS)
+        _('Preferred contact method'), max_length=16, blank=True, choices=CONTACT_METHODS)
 
     objects = ContactManager()
 
