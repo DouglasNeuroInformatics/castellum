@@ -34,13 +34,13 @@
     <div class="tab-content mb-3 border border-top-0 p-3">
         <div class="tab-pane active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
             <dl class="row">
-                <dt class="col-sm-6">{{ contact|verbose_name:'email'|title }}</dt>
+                <dt class="col-sm-6">{{ contact|verbose_name:'email' }}</dt>
                 <dd class="col-sm-6">{{ contact|display:'email' }}</dd>
 
-                <dt class="col-sm-6">{{ contact|verbose_name:'phone_number'|title }}</dt>
+                <dt class="col-sm-6">{{ contact|verbose_name:'phone_number' }}</dt>
                 <dd class="col-sm-6">{{ contact|display:'phone_number' }}</dd>
 
-                <dt class="col-sm-6">{{ contact|verbose_name:'phone_number_alternative'|title }}</dt>
+                <dt class="col-sm-6">{{ contact|verbose_name:'phone_number_alternative' }}</dt>
                 <dd class="col-sm-6">{{ contact|display:'phone_number_alternative' }}</dd>
             </dl>
 
@@ -51,7 +51,7 @@
             </h3>
 
             <dl class="row">
-                <dt class="col-sm-6">{{ contact|verbose_name:'preferred_contact_method'|title }}</dt>
+                <dt class="col-sm-6">{{ contact|verbose_name:'preferred_contact_method' }}</dt>
                 <dd class="col-sm-6">{{ contact|display:'preferred_contact_method' }}</dd>
 
                 <dt class="col-sm-6">{% trans "Currently available" %}</dt>
@@ -98,13 +98,13 @@
 
         <div class="tab-pane" id="study" role="tabpanel" aria-labelledby="study-tab">
             <dl class="row">
-                <dt class="col-sm-6">{{ study|verbose_name:'description'|title }}</dt>
+                <dt class="col-sm-6">{{ study|verbose_name:'description' }}</dt>
                 <dd class="col-sm-6">{{ study|display:'description' }}</dd>
 
-                <dt class="col-sm-6">{{ study|verbose_name:'study_type'|title }}</dt>
+                <dt class="col-sm-6">{{ study|verbose_name:'study_type' }}</dt>
                 <dd class="col-sm-6">{{ study|display:'study_type' }}</dd>
 
-                <dt class="col-sm-6">{{ study|verbose_name:'expense_allowance'|title }}</dt>
+                <dt class="col-sm-6">{{ study|verbose_name:'expense_allowance' }}</dt>
                 <dd class="col-sm-6">
                     {% if study.expense_allowance %}
                         {{ study.expense_allowance }}€
@@ -124,10 +124,10 @@
                     {% endif %}
                 </dd>
 
-                <dt class="col-sm-6">{{ study|verbose_name:'sessions_start'|title }}</dt>
+                <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
                 <dd class="col-sm-6">{{ study|display:'sessions_start' }}</dd>
 
-                <dt class="col-sm-6">{{ study|verbose_name:'sessions_end'|title }}</dt>
+                <dt class="col-sm-6">{{ study|verbose_name:'sessions_end' }}</dt>
                 <dd class="col-sm-6">{{ study|display:'sessions_end' }}</dd>
             </dl>
         </div>
