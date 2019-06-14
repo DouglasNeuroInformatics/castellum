@@ -76,8 +76,8 @@ class AttributeSet(TimeStampedModel):
     data = JSONField(encoder=DjangoJSONEncoder)
 
     class Meta:
-        verbose_name = _('attribute set')
-        verbose_name_plural = _('attribute sets')
+        verbose_name = _('Attribute set')
+        verbose_name_plural = _('Attribute sets')
 
     def get_absolute_url(self):
         return reverse('subjects:detail', args=[self.subject.pk])
@@ -136,8 +136,8 @@ class AttributeCategory(ImportMixin, TranslatableModel):
 
     class Meta:
         ordering = ['order']
-        verbose_name = _('attribute category')
-        verbose_name_plural = _('attribute categories')
+        verbose_name = _('Attribute category')
+        verbose_name_plural = _('Attribute categories')
 
     def __str__(self):
         return self.label
