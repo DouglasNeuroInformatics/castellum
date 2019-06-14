@@ -71,8 +71,8 @@ class Study(models.Model):
     affiliated_scientists = models.CharField(_('Affiliated Scientists'), max_length=254, blank=True)
     affiliated_research_assistants = models.CharField(
         _('Affiliated Research Assistants'), max_length=254, blank=True)
-    description = models.TextField(_('description'), blank=True)
-    keywords = models.CharField(_('keywords'), max_length=254, blank=True)
+    description = models.TextField(_('Description'), blank=True)
+    keywords = models.CharField(_('Keywords'), max_length=254, blank=True)
     study_type = models.SmallIntegerField(
         _('Type of study'), choices=STUDY_TYPES, null=True)
     previous_study_mode = models.SmallIntegerField(
