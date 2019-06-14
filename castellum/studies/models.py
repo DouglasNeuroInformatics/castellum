@@ -54,41 +54,41 @@ class Study(models.Model):
         (THIRD_PARTY, _('3rd Party')),
     ]
 
-    name = models.CharField(_('name'), max_length=254)
-    contact_person = models.CharField(_('responsible contact person'), max_length=512)
+    name = models.CharField(_('Name'), max_length=254)
+    contact_person = models.CharField(_('Responsible contact person'), max_length=512)
     principal_investigator = models.CharField(
         _('Principal Investigator'), max_length=254, blank=True)
     affiliated_scientists = models.CharField(_('Affiliated Scientists'), max_length=254, blank=True)
     affiliated_research_assistants = models.CharField(
         _('Affiliated Research Assistants'), max_length=254, blank=True)
-    description = models.TextField(_('description'), blank=True)
-    keywords = models.CharField(_('keywords'), max_length=254, blank=True)
+    description = models.TextField(_('Description'), blank=True)
+    keywords = models.CharField(_('Keywords'), max_length=254, blank=True)
     study_type = models.IntegerField(
         _('Type of study'), choices=STUDY_TYPES, null=True)
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
-    min_subjects_count = models.PositiveIntegerField(_('required number of subjects'),
+    min_subjects_count = models.PositiveIntegerField(_('Required number of subjects'),
                                                      blank=True,
                                                      default=0)
-    expense_allowance = models.PositiveIntegerField(_('expense allowance'), blank=True, null=True)
-    sessions_start = DateField(_('start of test sessions'), blank=True, null=True)
-    sessions_end = DateField(_('end of test sessions'), blank=True, null=True)
+    expense_allowance = models.PositiveIntegerField(_('Expense allowance'), blank=True, null=True)
+    sessions_start = DateField(_('Start of test sessions'), blank=True, null=True)
+    sessions_end = DateField(_('End of test sessions'), blank=True, null=True)
     exclusion_criteria = models.TextField(_('Exclusion criteria'), blank=True)
-    recruitment_text = models.TextField(_('recruitment text'), blank=True)
+    recruitment_text = models.TextField(_('Recruitment text'), blank=True)
 
     members = models.ManyToManyField(User, through='StudyMembership')
     domain = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-    published = models.BooleanField(_('published'), default=False)
+    published = models.BooleanField(_('Published'), default=False)
     advanced_filtering = models.BooleanField(
-        _('advanced filtering'), help_text=_(
+        _('Advanced filtering'), help_text=_(
             'By default you can create only one filtergroup in which all the filters are joined by '
             'AND operator. Advanced filtering allows you to create multiple filtergroups which are '
             'joined by OR operator.'
         ),
         default=False)
-    custom_filter = models.CharField(_('custom filter'), max_length=254, blank=True)
+    custom_filter = models.CharField(_('Custom filter'), max_length=254, blank=True)
 
     consent = RestrictedFileField(
-        _('consent'),
+        _('Consent'),
         blank=True,
         upload_to='studies/consent/',
         content_types=['application/pdf'],
