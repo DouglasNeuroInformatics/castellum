@@ -74,13 +74,13 @@ class ParticipationRequest(models.Model):
     )
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, editable=False)
-    study = models.ForeignKey(Study, verbose_name=_('study'), on_delete=models.CASCADE)
+    study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
 
     status = models.IntegerField(
-        _('status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
-    exclusion_criteria_checked = models.BooleanField(_('subject may be suitable'), default=False)
+        _('Status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
+    exclusion_criteria_checked = models.BooleanField(_('Subject may be suitable'), default=False)
 
-    appointment = DateTimeField(_('appointment'), blank=True, null=True)
+    appointment = DateTimeField(_('Appointment'), blank=True, null=True)
 
     objects = ParticipationRequestManager()
 
