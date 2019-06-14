@@ -42,7 +42,7 @@ class TimeSlot(models.Model):
 
 class Subject(TimeStampedModel):
     privacy_level = models.PositiveIntegerField(
-        _("privacy level"),
+        _('Privacy level'),
         default=0,
         choices=[
             (0, _('0 (regular)')),
@@ -56,15 +56,15 @@ class Subject(TimeStampedModel):
     note_abusive_language = models.BooleanField(_('Abusive language'), default=False)
 
     availability_monday = models.ManyToManyField(
-        TimeSlot, verbose_name=_("monday"), blank=True, related_name='+')
+        TimeSlot, verbose_name=_('Monday'), blank=True, related_name='+')
     availability_tuesday = models.ManyToManyField(
-        TimeSlot, verbose_name=_("tuesday"), blank=True, related_name='+')
+        TimeSlot, verbose_name=_('Tuesday'), blank=True, related_name='+')
     availability_wednesday = models.ManyToManyField(
-        TimeSlot, verbose_name=_("wednesday"), blank=True, related_name='+')
+        TimeSlot, verbose_name=_('Wednesday'), blank=True, related_name='+')
     availability_thursday = models.ManyToManyField(
-        TimeSlot, verbose_name=_("thursday"), blank=True, related_name='+')
+        TimeSlot, verbose_name=_('Thursday'), blank=True, related_name='+')
     availability_friday = models.ManyToManyField(
-        TimeSlot, verbose_name=_("friday"), blank=True, related_name='+')
+        TimeSlot, verbose_name=_('Friday'), blank=True, related_name='+')
 
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
 
@@ -136,14 +136,14 @@ class Subject(TimeStampedModel):
 
 class SubjectNote(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    content = models.CharField(_("content"), max_length=128, blank=True)
+    content = models.CharField(_('Content'), max_length=128, blank=True)
 
 
 class Consent(models.Model):
-    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
-    info = models.CharField(_("info"), max_length=128)
+    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
+    info = models.CharField(_('Info'), max_length=128)
     file = RestrictedFileField(
-        _('file'),
+        _('File'),
         upload_to='consent/',
         content_types=['application/pdf'],
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
@@ -164,15 +164,15 @@ class ConsentConfirmation(models.Model):
     WAITING = 'waiting'
     CONFIRMED = 'confirmed'
 
-    updated_at = models.DateTimeField(_('updated at'), auto_now=True)
+    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     revision = models.ForeignKey(Consent, on_delete=models.CASCADE)
-    type = models.CharField(_('type'), max_length=64, choices=[
+    type = models.CharField(_('Type'), max_length=64, choices=[
         ('online', _('Online form')),
         ('paper', _('Pen & Paper')),
         ('phone', _('Telephone')),
     ])
-    status = models.CharField(_('status'), max_length=64, choices=[
+    status = models.CharField(_('Status'), max_length=64, choices=[
         (WAITING, _('Waiting for confirmation')),
         (CONFIRMED, _('Confirmed')),
     ])
