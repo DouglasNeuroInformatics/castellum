@@ -21,4 +21,4 @@ def view(request_factory, prepared_user):
 def test_get_success_url(view, prepared_study):
     view.object = mommy.prepare(StudyMembership, study=prepared_study)
 
-    assert "/studies/1/members/" == view.get_success_url()
+    assert f"/studies/{prepared_study.pk}/members/" == view.get_success_url()
