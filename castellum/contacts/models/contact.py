@@ -90,8 +90,8 @@ class Contact(TimeStampedModel):
 
     class Meta:
         ordering = ('last_name', 'first_name')
-        verbose_name = _('contact')
-        verbose_name_plural = _('contacts')
+        verbose_name = _('Contact')
+        verbose_name_plural = _('Contacts')
 
     @cached_property
     def subject(self):

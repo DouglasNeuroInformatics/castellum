@@ -31,8 +31,8 @@ class Country(models.Model):
 
     class Meta:
         ordering = "name",
-        verbose_name = _("country")
-        verbose_name_plural = _("countries")
+        verbose_name = _("Country")
+        verbose_name_plural = _("Countries")
 
 
 class City(models.Model):
@@ -45,8 +45,8 @@ class City(models.Model):
     class Meta:
         ordering = "country__name", "name"
         unique_together = "name", "country"
-        verbose_name = _("city")
-        verbose_name_plural = _("cities")
+        verbose_name = _("City")
+        verbose_name_plural = _("Cities")
 
 
 class AddressManager(models.Manager):
@@ -55,7 +55,7 @@ class AddressManager(models.Manager):
 
 
 class Address(models.Model):
-    city = models.ForeignKey(City, verbose_name=_("city"), on_delete=models.CASCADE)
+    city = models.ForeignKey(City, verbose_name=_("City"), on_delete=models.CASCADE)
     zip_code = models.CharField(_('Zip code'), max_length=5)
     street = models.CharField(_('Street'), max_length=128)
     house_number = models.CharField(_('House number'), max_length=5)
