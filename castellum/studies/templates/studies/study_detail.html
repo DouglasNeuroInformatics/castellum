@@ -24,6 +24,16 @@
                             {% trans 'Start recruitment' %}
                         </button>
                     {% endif %}
+
+                    {% if study.study_mode == study.FINISHED %}
+                        <button class='btn btn-outline-primary active btn-sm-inline my-1'>
+                            {% trans 'Resume study' %}
+                        </button>
+                    {% else %}
+                        <button class='btn btn-outline-primary btn-sm-inline my-1'>
+                            {% trans 'Finish study' %}
+                        </button>
+                    {% endif %}
                 </form>
             {% endif %}
         </div>
