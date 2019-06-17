@@ -4,7 +4,7 @@
 {% block title %}{{ object }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <div class="d-flex justify-content-between">
+    <div class="d-flex flex-column flex-md-row justify-content-between mb-3">
         <div>
             <h1>{{ object }}</h1>
             <p>{{ object|verbose_name:'contact_person' }}: {{ object.contact_person }}</p>
