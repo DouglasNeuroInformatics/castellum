@@ -141,7 +141,7 @@ class Study(models.Model):
             raise PermissionDenied(msg)
 
     def raise_404_error_if_study_is_not_in_recruitment_mode(self):
-        if not self.recruitment_mode:
+        if self.study_mode != self.RECRUITMENT:
             raise Http404
 
     @classmethod
@@ -170,10 +170,6 @@ class Study(models.Model):
             if user.has_perm('recruitment.add_participationrequest', obj=self):
                 recruiters.append(user)
         return recruiters
-
-    @property
-    def recruitment_mode(self):
-        return self.study_mode == self.RECRUITMENT
 
 
 class StudyMembership(models.Model):
