@@ -128,6 +128,11 @@ ATTRIBUTE_DESCRIPTIONS = [{
 }]
 
 
+@functools.lru_cache(maxsize=1)
+def get_highest_degree_choices():
+    return AttributeChoice.objects.filter(description__pk=4).values_list('pk', flat=True)
+
+
 def fake_date_of_birth():
     age_groups = [
         # (start age, percentage)
@@ -168,18 +173,19 @@ def fake_phone_number():
     return fake_phone_number()
 
 
-def fake_studysession(study):
-    return StudySession(study=study, duration=fake.random.randrange(10, 120, 10))
+def fake_subject(id):
+    return Subject(id=id, privacy_level=fake.random.randint(0, 2))
 
 
-def fake_subject():
-    return Subject(privacy_level=fake.random.randint(0, 2))
+def fake_studysession(study_id):
+    return StudySession(study_id=study_id, duration=fake.random.randrange(10, 120, 10))
 
 
-def fake_study():
+def fake_study(id):
     description = fake.paragraph(nb_sentences=5, variable_nb_sentences=True)
     recruitment_text = fake.paragraph(nb_sentences=5, variable_nb_sentences=True)
     study = Study(
+        id=id,
         name=fake.word().upper(),
         contact_person=fake.name(),
         min_subjects_count=fake.random.randint(0, 50),
@@ -188,7 +194,8 @@ def fake_study():
         recruitment_text=recruitment_text,
         expense_allowance=fake.random.randint(20, 50),
         sessions_start=fake.past_date(start_date="-30d"),
-        sessions_end=fake.future_date(end_date="+30d"))
+        sessions_end=fake.future_date(end_date="+30d"),
+    )
     if study.study_type == Study.FMRI:
         study.data_sensitivity = True
     return study
@@ -201,15 +208,16 @@ def fake_cities(country, count):
     return [City(name=name, country=country) for name in names]
 
 
-def fake_address(cities):
+def fake_address(city_count):
     return Address(
-        city=fake.random.choice(cities),
+        city_id=fake.random.randint(1, city_count),
         zip_code=fake.postcode(),
         street=fake.street_name(),
-        house_number=fake.random.randint(1, 200))
+        house_number=fake.random.randint(1, 200),
+    )
 
 
-def fake_contact(pseudonym, address):
+def fake_contact(pseudonym, address_id):
     if fake.random.random() < 0.5:
         gender = 'f'
         first_name = fake.first_name_female()
@@ -225,33 +233,29 @@ def fake_contact(pseudonym, address):
         first_name_phonetic=phonetic(first_name),
         last_name=last_name,
         last_name_phonetic=phonetic(last_name),
-        date_of_birth=fake_date_of_birth())
+        date_of_birth=fake_date_of_birth(),
+        pseudonym=pseudonym.pseudonym,
+        address_id=address_id,
+    )
 
     if fake.random.random() < 0.67:
         contact.email = fake.email()
         if fake.random.random() < 0.75:
             contact.phone_number = fake_phone_number()
 
-    contact.pseudonym = pseudonym.pseudonym
-    contact.address = address
-
     return contact
 
 
-@functools.lru_cache(maxsize=1)
-def get_highest_degree_choices():
-    return AttributeChoice.objects.filter(description__pk=4).values_list('pk', flat=True)
-
-
-def fake_attributeset(subject, contact):
+def fake_attributeset(subject_id, contact):
     return AttributeSet(
-        subject=subject,
+        subject_id=subject_id,
         data={
             'd1': 2 if fake.random.random() < 0.15 else 1,
             'd2': fake_data.language(),
             'd3': contact.date_of_birth,
             'd4': fake.random.choice(get_highest_degree_choices()),
-        })
+        },
+    )
 
 
 def generate_attribute_descriptions():
@@ -266,34 +270,28 @@ def generate_attribute_descriptions():
 
 def generate_studies(count):
     print('Generating studies')
-    Study.objects.bulk_create(fake_study() for i in range(count))
-    studies = Study.objects.all()[:count]
-    StudySession.objects.bulk_create(fake_studysession(study) for study in studies)
+    Study.objects.bulk_create(fake_study(i + 1) for i in range(count))
+    StudySession.objects.bulk_create(fake_studysession(i + 1) for i in range(count))
 
 
-def generate_subjects(count):
-    # NOTE: We have ForeignKeys to Address and Subject. Unfortunately, bulk_create does not set
-    # the id on the instances, so we have to get them from the database after bulk_create. This
-    # assumes that the database was empty before.
+def generate_subjects(count, city_count=100):
+    # NOTE: We have ForeignKeys to Address and Subject. Unfortunately,
+    # bulk_create does not set the id on the instances, so we assume
+    # that id=i+1 (i.e. starting at 1).
 
     print('Generating addresses')
     country, __ = Country.objects.get_or_create(name='Deutschland')
-    City.objects.bulk_create(fake_cities(country, 100))
-    cities = City.objects.all()[:100]
-    Address.objects.bulk_create(fake_address(cities) for i in range(count))
-    addresses = Address.objects.all()[:count]
+    City.objects.bulk_create(fake_cities(country, city_count))
+    Address.objects.bulk_create(fake_address(city_count) for i in range(count))
 
     print('Generating pseudonyms')
-    Subject.objects.bulk_create([fake_subject() for i in range(count)], batch_size=200)
-    subjects = Subject.objects.all()[:count]
+    Subject.objects.bulk_create([fake_subject(i + 1) for i in range(count)], batch_size=200)
 
-    contact_pseudonyms = [Pseudonym(
-        subject=subjects[i], domain=Contact.domain
-    ) for i in range(count)]
+    contact_pseudonyms = [Pseudonym(subject_id=i + 1, domain=Contact.domain) for i in range(count)]
     Pseudonym.objects.bulk_create(contact_pseudonyms)
 
     print('Generating contacts')
-    contacts = [fake_contact(contact_pseudonyms[i], addresses[i]) for i in range(count-1)]
+    contacts = [fake_contact(contact_pseudonyms[i], i + 1) for i in range(count-1)]
     testcontact = Contact(
         gender='*',
         first_name='Muhammad',
@@ -304,25 +302,26 @@ def generate_subjects(count):
         email='muhammad@example.com',
     )
     contacts.append(testcontact)
-    testcontact.pseudonym = contact_pseudonyms[-1]
+    testcontact.pseudonym = contact_pseudonyms[-1].pseudonym
 
     Contact.objects.bulk_create(contacts)
 
     print('Generating attributesets')
-    attributesets = [
-        fake_attributeset(subjects[i], contacts[i])
-        for i in range(count)
-    ]
+    attributesets = [fake_attributeset(i + 1, contacts[i]) for i in range(count)]
     AttributeSet.objects.bulk_create(attributesets)
 
 
 class Command(BaseCommand):
     help = 'Populate database with sample data.'
 
+    def add_arguments(self, parser):
+        parser.add_argument('--study-count', default=5, type=int)
+        parser.add_argument('--subject-count', default=2000, type=int)
+
     def handle(self, *args, **options):
         if not AttributeDescription.objects.exists():
             generate_attribute_descriptions()
         if not Study.objects.exists():
-            generate_studies(5)
-        if not Contact.objects.exists():
-            generate_subjects(2000)
+            generate_studies(options['study_count'])
+        if not Subject.objects.exists():
+            generate_subjects(options['subject_count'])
