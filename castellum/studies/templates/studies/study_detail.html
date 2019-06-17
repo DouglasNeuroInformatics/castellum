@@ -97,6 +97,9 @@
 
         <dt class="col-sm-6">{{ object|verbose_name:'exclusion_criteria' }}</dt>
         <dd class="col-sm-6">{% if object.exclusion_criteria %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
+
+        <dt class="col-sm-6">{{ object|verbose_name:'study_mode' }}</dt>
+        <dd class="col-sm-6">{{ object.get_study_mode_display }}</dd>
     </dl>
 
     <div class="mb-3">
