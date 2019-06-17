@@ -190,11 +190,14 @@ class StudyStartRecruitmentView(StudyAccessMixin, View):
         return super().dispatch(request, study_pk)
 
     def post(self, request, study_pk):
-        if self.object.study_mode == self.object.RECRUITMENT:
-            self.object.next_mode(self.object.EDIT)
+        if self.object.study_mode != self.object.FINISHED:
+            if self.object.study_mode == self.object.RECRUITMENT:
+                self.object.next_mode(self.object.EDIT)
+            else:
+                self.object.next_mode(self.object.RECRUITMENT)
+            return redirect('studies:detail', self.object.pk)
         else:
-            self.object.next_mode(self.object.RECRUITMENT)
-        return redirect('studies:detail', self.object.pk)
+            return HttpResponseBadRequest()
 
 
 class StudyFinishRecruitmentView(StudyAccessMixin, View):
