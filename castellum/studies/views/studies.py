@@ -213,21 +213,6 @@ class StudyFinishRecruitmentView(StudyAccessMixin, View):
         return redirect('studies:detail', self.object.pk)
 
 
-class StudyFinishRecruitmentView(StudyAccessMixin, View):
-    permission_required = 'studies.change_study'
-
-    def dispatch(self, request, study_pk):
-        self.object = get_object_or_404(Study, pk=study_pk)
-        return super().dispatch(request, study_pk)
-
-    def post(self, request, study_pk):
-        if self.object.study_mode == self.object.FINISHED:
-            self.object.previous_mode()
-        else:
-            self.object.next_mode(self.object.FINISHED)
-        return redirect('studies:detail', self.object.pk)
-
-
 class StudyRecruitmentSettingsView(StudyAccessMixin, DetailView):
     model = Study
     permission_required = 'studies.view_study'
