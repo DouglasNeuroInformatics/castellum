@@ -182,7 +182,7 @@ msgstr "Name"
 #: castellum/contacts/models/address.py:48
 #: castellum/contacts/models/address.py:58
 msgid "City"
-msgstr ""
+msgstr "Stadt"
 
 #: castellum/contacts/models/address.py:49
 msgid "Cities"
@@ -892,7 +892,7 @@ msgstr "Bearbeiten"
 #: castellum/studies/models.py:64
 #: castellum/studies/templates/studies/study_list.html:37
 msgid "Finished"
-msgstr ""
+msgstr "Beendet"
 
 #: castellum/studies/models.py:68
 msgid "Responsible contact person"
@@ -923,10 +923,8 @@ msgid "Type of study"
 msgstr "Studientyp"
 
 #: castellum/studies/models.py:79 castellum/studies/models.py:81
-#, fuzzy
-#| msgid "Study"
 msgid "Study mode"
-msgstr "Studie"
+msgstr "Studien-Modus"
 
 #: castellum/studies/models.py:82
 msgid "Contains sensitive data"
@@ -991,7 +989,7 @@ msgstr ""
 
 #: castellum/studies/models.py:139
 msgid "study is not in edit mode"
-msgstr ""
+msgstr "Die Studie ist nicht im Bearbeitungs-Modus"
 
 #: castellum/studies/models.py:189
 msgid "Duration of a session in minutes"
@@ -1117,25 +1115,21 @@ msgstr "Hinzufügen"
 
 #: castellum/studies/templates/studies/study_detail.html:22
 #: castellum/studies/templates/studies/study_detail.html:34
-#, fuzzy
-#| msgid "Recruitment"
 msgid "Stop recruitment"
-msgstr "Rekrutierung"
+msgstr "Rekrutierung unterbrechen"
 
 #: castellum/studies/templates/studies/study_detail.html:26
 #: castellum/studies/templates/studies/study_detail.html:38
-#, fuzzy
-#| msgid "Recruitment"
 msgid "Start recruitment"
-msgstr "Rekrutierung"
+msgstr "Rekrutierung starten"
 
 #: castellum/studies/templates/studies/study_detail.html:48
 msgid "Resume study"
-msgstr ""
+msgstr "Studie wiederausnehmen"
 
 #: castellum/studies/templates/studies/study_detail.html:52
 msgid "Finish study"
-msgstr ""
+msgstr "Studie beenden"
 
 #: castellum/studies/templates/studies/study_detail.html:70
 msgid "Scheduled runtime"
