@@ -13,6 +13,7 @@
         {% has_perm 'studies.change_study' user study as can_change_study %}
         {% if can_change_study %}
             <div class="d-flex align-items-center">
+                {% if study.study_mode != study.FINISHED %}
                 <form class="d-sm-inline mr-2" method="post" action="{% url 'studies:start_recruitment' study.pk %}">
                     {% csrf_token %}
 
@@ -37,6 +38,13 @@
                     {% endif %}
 
                 </form>
+                {% else %}
+                    <form class="d-sm-inline mr-2">
+                        <button class='btn btn-outline-primary btn-sm-inline my-1' disabled>
+                            {% trans 'Start recruitment' %}
+                        </button>
+                    </form>
+                {% endif %}
                 <form class="d-sm-inline" method="post" action="{% url 'studies:finish_recruitment' study.pk %}">
                     {% csrf_token %}
 
