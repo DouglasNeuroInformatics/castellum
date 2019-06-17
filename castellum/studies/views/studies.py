@@ -22,6 +22,7 @@
 from django import forms
 from django.contrib import messages
 from django.db.models import Q
+from django.http import Http404
 from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -250,6 +251,11 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
         self.object = self.get_object()
         return super().dispatch(*args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['readonly'] = self.object.study_mode == Study.FINISHED
+        return context
+
     def get(self, request, **kwargs):
         unprivileged_users = list(self.get_unprivileged_members())
         if unprivileged_users:
@@ -287,6 +293,12 @@ class StudyMembershipUpdateView(StudyMembershipAccessMixin, UpdateView):
     form_class = MemberForm
     permission_required = 'studies.change_study'
 
+    def get_object(self):
+        obj = super().get_object()
+        if obj.study.study_mode == Study.FINISHED:
+            raise Http404
+        return obj
+
     def get_success_url(self):
         return reverse('studies:members', args=[self.object.study.pk])
 
@@ -294,6 +306,12 @@ class StudyMembershipUpdateView(StudyMembershipAccessMixin, UpdateView):
 class StudyMembershipRemoveView(StudyMembershipAccessMixin, DeleteView):
     model = StudyMembership
     permission_required = 'studies.change_study'
+
+    def get_object(self):
+        obj = super().get_object()
+        if obj.study.study_mode == Study.FINISHED:
+            raise Http404
+        return obj
 
     def delete(self, request, *args, **kwargs):
         membership = self.get_object()
