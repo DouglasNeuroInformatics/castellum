@@ -13,19 +13,33 @@
         {% has_perm 'studies.change_study' user study as can_change_study %}
         {% if can_change_study %}
             <div class="d-flex align-items-center">
-                <form class="d-sm-inline mr-2" method="post" action="{% url 'studies:start_recruitment' study.pk %}">
-                    {% csrf_token %}
+                {% if study.study_mode != study.FINISHED %}
+                    <form class="d-sm-inline mr-2" method="post" action="{% url 'studies:start_recruitment' study.pk %}">
+                        {% csrf_token %}
 
-                    {% if study.study_mode == study.RECRUITMENT %}
-                        <button class='btn btn-outline-primary active btn-sm-inline my-1'>
-                            {% trans 'Stop recruitment' %}
-                        </button>
-                    {% else %}
-                        <button class='btn btn-outline-primary btn-sm-inline my-1'>
-                            {% trans 'Start recruitment' %}
-                        </button>
-                    {% endif %}
-                </form>
+                        {% if study.study_mode == study.RECRUITMENT %}
+                            <button class='btn btn-outline-primary active btn-sm-inline my-1'>
+                                {% trans 'Stop recruitment' %}
+                            </button>
+                        {% else %}
+                            <button class='btn btn-outline-primary btn-sm-inline my-1'>
+                                {% trans 'Start recruitment' %}
+                            </button>
+                        {% endif %}
+                    </form>
+                {% else %}
+                    <form class="d-sm-inline mr-2">
+                        {% if study.previous_study_mode == study.RECRUITMENT %}
+                            <button class='btn btn-outline-primary active btn-sm-inline my-1' disabled>
+                                {% trans 'Stop recruitment' %}
+                            </button>
+                        {% else %}
+                            <button class='btn btn-outline-primary btn-sm-inline my-1' disabled>
+                                {% trans 'Start recruitment' %}
+                            </button>
+                        {% endif %}
+                    </form>
+                {% endif %}
                 <form class="d-sm-inline" method="post" action="{% url 'studies:finish_recruitment' study.pk %}">
                     {% csrf_token %}
 
