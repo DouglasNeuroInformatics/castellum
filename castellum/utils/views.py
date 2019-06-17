@@ -19,8 +19,12 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django import forms
+from django.http import HttpResponseBadRequest
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormMixin
+
+from .forms import ReadonlyModelForm
 
 
 class GetFormMixin(FormMixin):
@@ -38,3 +42,27 @@ class GetFormView(GetFormMixin, TemplateView):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+
+class ReadonlyMixin:
+    def get_readonly(self):
+        raise NotImplementedError
+
+    def get_form_class(self):
+        return forms.modelform_factory(self.model, fields=self.fields, form=ReadonlyModelForm)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['readonly'] = self.get_readonly()
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['readonly'] = self.get_readonly()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.get_readonly():
+            return HttpResponseBadRequest()
+        return super().post(request, *args, **kwargs)
