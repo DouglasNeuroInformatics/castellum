@@ -92,8 +92,8 @@
     <h3 class="h5">{% trans "Recruitment settings" %}</h3>
 
     <dl class="row">
-        <dt class="col-sm-6">{{ object|verbose_name:'description' }}</dt>
-        <dd class="col-sm-6">{% if object.description %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
+        <dt class="col-sm-6">{{ object|verbose_name:'recruitment_text' }}</dt>
+        <dd class="col-sm-6">{% if object.recruitment_text %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
 
         <dt class="col-sm-6">{% trans 'Recruitment filters' %}</dt>
         <dd class="col-sm-6">{% if has_filters %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
