@@ -82,7 +82,7 @@ class SubjectFilterForm(forms.ModelForm):
         # disable fields when study is not published
         try:
             if self.instance.group.study:
-                if self.instance.group.study.study_mode == Study.RECRUITMENT:
+                if self.instance.group.study.study_mode != Study.EDIT:
                     self.fields["operator"].widget.attrs["disabled"] = True
                     self.fields["value"].widget.attrs["disabled"] = True
         except ObjectDoesNotExist:
