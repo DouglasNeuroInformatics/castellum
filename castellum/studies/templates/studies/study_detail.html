@@ -105,6 +105,13 @@
         <dd class="col-sm-6">{{ object.get_study_mode_display }}</dd>
     </dl>
 
+    {% has_perm 'studies.change_study' user study as can_change_study %}
+    {% if study.has_missing_values and can_change_study %}
+        <p class="alert alert-warning" role="alert">
+            {% trans 'Please double check missing entries before start of recruitment' %}
+        </p>
+    {% endif %}
+
     <div class="mb-3">
         {% if can_change_study %}
             <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'studies:update' study.pk %}">{% trans 'Edit' %}</a>
