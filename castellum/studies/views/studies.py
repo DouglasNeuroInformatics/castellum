@@ -195,6 +195,8 @@ class StudyStartRecruitmentView(StudyAccessMixin, View):
                 self.object.next_mode(self.object.EDIT)
             else:
                 self.object.next_mode(self.object.RECRUITMENT)
+        else:
+            return HttpResponseBadRequest()
         return redirect('studies:detail', self.object.pk)
 
 
