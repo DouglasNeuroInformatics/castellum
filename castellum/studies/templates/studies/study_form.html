@@ -83,7 +83,9 @@
             {% else %}
                 <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
             {% endif %}
-            <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+            {% if not readonly %}
+                <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+            {% endif %}
         </div>
     </form>
 {% endblock %}

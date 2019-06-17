@@ -20,7 +20,9 @@
 
         <div class="mb-3">
             <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:recruitmentsettings' study.pk %}">{% trans 'Back' %}</a>
-            <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+            {% if not readonly %}
+                <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+            {% endif %}
         </div>
     </form>
 {% endblock %}

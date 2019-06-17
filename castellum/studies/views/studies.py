@@ -40,6 +40,7 @@ from django.views.generic.detail import SingleObjectMixin
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.castellum_auth.models import User
 from castellum.recruitment.models import SubjectFilter
+from castellum.utils.views import ReadonlyMixin
 
 from ..forms import AddMemberForm
 from ..forms import MemberForm
@@ -127,6 +128,7 @@ class StudyFormMixin:
                                                    extra=0, can_delete=True)
         kwargs = self.get_form_kwargs()
         study = kwargs.pop('instance', None)
+        kwargs.pop('readonly', False)
         return formset_class(queryset=StudySession.objects.filter(study=study), **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -171,8 +173,11 @@ class StudyCreateView(PermissionRequiredMixin, StudyFormMixin, CreateView):
         return reverse('studies:index')
 
 
-class StudyUpdateView(StudyAccessMixin, StudyFormMixin, UpdateView):
+class StudyUpdateView(StudyAccessMixin, ReadonlyMixin, StudyFormMixin, UpdateView):
     permission_required = 'studies.change_study'
+
+    def get_readonly(self):
+        return self.object.study_mode == Study.FINISHED
 
     def get_success_url(self):
         return reverse('studies:detail', args=[self.object.pk])
@@ -221,21 +226,27 @@ class StudyRecruitmentSettingsView(StudyAccessMixin, DetailView):
     template_name = 'studies/study_recruitmentsettings.html'
 
 
-class StudyRecruitmentSettingsUpdateView(StudyAccessMixin, UpdateView):
+class StudyRecruitmentSettingsUpdateView(StudyAccessMixin, ReadonlyMixin, UpdateView):
     model = Study
     fields = ('advanced_filtering', 'recruitment_text')
     permission_required = 'studies.update_study'
     template_name = 'studies/study_recruitmentsettings_form.html'
 
+    def get_readonly(self):
+        return self.object.study_mode == Study.FINISHED
+
     def get_success_url(self):
         return reverse('studies:recruitmentsettings', kwargs={'pk': self.object.pk})
 
 
-class StudyExclusionCriteriaView(StudyAccessMixin, UpdateView):
+class StudyExclusionCriteriaView(StudyAccessMixin, ReadonlyMixin, UpdateView):
     model = Study
     template_name = 'studies/study_exclusioncriteria.html'
     fields = ('exclusion_criteria',)
     permission_required = 'studies.change_study'
+
+    def get_readonly(self):
+        return self.object.study_mode == Study.FINISHED
 
     def get_success_url(self):
         return reverse('studies:recruitmentsettings', args=[self.object.pk])
