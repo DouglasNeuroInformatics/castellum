@@ -7,6 +7,9 @@
     <h2>{% blocktrans %}Recruitment settings for {{ study }}{% endblocktrans %}</h2>
 
     <dl class="row">
+        <dt class="col-sm-6">{{ object|verbose_name:'recruitment_text' }}</dt>
+        <dd class="col-sm-6">{% if object.recruitment_text %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
+
         <dt class="col-sm-6">{{ study|verbose_name:'advanced_filtering' }}</dt>
         <dd class="col-sm-6">{% if study.advanced_filtering %}{% trans 'Activated' %}{% else %}{% trans 'Deactivated' %}{% endif %}</dd>
 
