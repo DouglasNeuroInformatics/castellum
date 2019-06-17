@@ -128,7 +128,7 @@ class FilterGroupCreateView(FilterMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
 
     def post(self, *args, **kwargs):
-        self.study.raise_permission_denied_if_study_is_published()
+        self.study.raise_401_error_if_study_is_not_in_edit_mode()
         group = SubjectFilterGroup.objects.create(study=self.study)
         return redirect(group.get_absolute_url())
 
@@ -139,7 +139,7 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
     permission_required = 'recruitment.change_subjectfilter'
 
     def post(self, request, *args, **kwargs):
-        self.study.raise_permission_denied_if_study_is_in_recruitment_mode()
+        self.study.raise_401_error_if_study_is_not_in_edit_mode()
         return super().post(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -170,7 +170,7 @@ class FilterGroupUpdateView(FilterMixin, ModelFormSetView):
         self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['pk'])
 
     def post(self, request, *args, **kwargs):
-        self.study.raise_permission_denied_if_study_is_in_recruitment_mode()
+        self.study.raise_401_error_if_study_is_not_in_edit_mode()
         return super().post(request, *args, **kwargs)
 
     def formset_valid(self, formset):
@@ -235,7 +235,7 @@ class FilterGroupDuplicateView(FilterMixin, View):
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, study_pk, pk):
-        self.study.raise_permission_denied_if_study_is_in_recruitment_mode()
+        self.study.raise_401_error_if_study_is_not_in_edit_mode()
         original = get_object_or_404(SubjectFilterGroup, study=self.study, pk=pk)
         SubjectFilterGroup.objects.clone(original)
         messages.success(request, _(

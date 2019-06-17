@@ -37,7 +37,7 @@
                         </details>
                         <div>
                             {% if can_change_subjectfilter %}
-                                {% if study.published %}
+                                {% if study.study_mode != study.EDIT %}
                                     <span class="btn btn-outline-primary disabled">{% trans "Duplicate" %}</span>
                                     <a href="{% url 'studies:filtergroup_update' study.pk group.pk %}" class="btn btn-outline-primary">{% trans "View" %}</a>
                                     <span class="btn btn-danger disabled">{% trans "Delete" %}</span>
@@ -57,7 +57,7 @@
 
             {% if can_change_subjectfilter %}
                 <form action="{% url 'studies:filtergroup_create' study.pk %}" method="post">
-                    {% if study.published %}
+                    {% if study.study_mode != study.EDIT %}
                         <button class="btn btn-primary" disabled>{% trans 'Add new' %}</button>
                     {% else %}
                         {% csrf_token %}

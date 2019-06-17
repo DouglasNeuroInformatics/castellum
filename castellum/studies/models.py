@@ -136,13 +136,12 @@ class Study(models.Model):
         result = self.subjectfiltergroup_set.aggregate(models.Max(key))
         return result[key + '__max'] or 0
 
-    def raise_permission_denied_if_study_is_in_recruitment_mode(self, msg=_("study is in "
-                                                                            "recruitment mode")):
-        if self.recruitment_mode:
+    def raise_401_error_if_study_is_not_in_edit_mode(self, msg=_("study is not in edit mode")):
+        if self.study_mode != self.EDIT:
             raise PermissionDenied(msg)
 
     def raise_404_error_if_study_is_not_in_recruitment_mode(self):
-        if not self.recruitment_mode:
+        if self.study_mode != self.RECRUITMENT:
             raise Http404
 
     @classmethod
@@ -171,10 +170,6 @@ class Study(models.Model):
             if user.has_perm('recruitment.add_participationrequest', obj=self):
                 recruiters.append(user)
         return recruiters
-
-    @property
-    def recruitment_mode(self):
-        return self.study_mode == self.RECRUITMENT
 
 
 class StudyMembership(models.Model):
