@@ -35,6 +35,7 @@
                             {% trans 'Finish study' %}
                         </button>
                     {% endif %}
+
                 </form>
                 <form class="d-sm-inline" method="post" action="{% url 'studies:finish_recruitment' study.pk %}">
                     {% csrf_token %}
