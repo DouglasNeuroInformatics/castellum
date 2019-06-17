@@ -948,7 +948,7 @@ msgstr "Ende der Testsitzungen"
 
 #: castellum/studies/models.py:90
 msgid "Recruitment text"
-msgstr "Rekrutierung"
+msgstr "Rekrutierungstext"
 
 #: castellum/studies/models.py:95
 msgid "Advanced filtering"
