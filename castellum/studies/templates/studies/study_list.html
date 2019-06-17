@@ -33,6 +33,9 @@
                     {% if study.contact_person %}
                         <div class="d-inline-block my-1 mr-2">{{ study.contact_person }}</div>
                     {% endif %}
+                    {% if study.study_mode == study.FINISHED %}
+                        <span class="badge badge-secondary">{% trans 'Completed' %}</span>
+                    {% endif %}
                 </div>
                 <div class="table-list-item-actions">
                     {% has_perm 'studies.access_study' user study as can_access_study %}
