@@ -128,7 +128,7 @@ class FilterGroupCreateView(FilterMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
 
     def post(self, *args, **kwargs):
-        self.study.raise_permission_denied_if_study_is_published()
+        self.study.raise_401_error_if_study_is_not_in_edit_mode()
         group = SubjectFilterGroup.objects.create(study=self.study)
         return redirect(group.get_absolute_url())
 

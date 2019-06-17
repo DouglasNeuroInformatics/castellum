@@ -79,7 +79,7 @@ class SubjectFilterForm(forms.ModelForm):
         self.fields["value"] = selected_description.field.filter_formfield()
         self.fields["value"].required = True
 
-        # disable fields when study is not published
+        # disable fields when study is not in edit mode
         try:
             if self.instance.group.study:
                 if self.instance.group.study.study_mode != Study.EDIT:

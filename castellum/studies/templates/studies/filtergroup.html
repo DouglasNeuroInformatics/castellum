@@ -8,7 +8,7 @@
 
     <p>{% trans 'matches' %}: {{ group.get_subject_count }} / {{ total_count }}</p>
 
-    {% if not study.published %}
+    {% if study.study_mode == study.EDIT %}
         <h2>{% trans "Add Filter" %}</h2>
         <form class="form-row">
             <div class="col-sm-4">
@@ -42,7 +42,7 @@
                 {% bootstrap_field form.value show_label=False%}
             </div>
 
-            {% if not study.published %}
+            {% if study.study_mode == study.EDIT %}
                 <div class="col-sm flex-grow-0">
                     <button type="button" class="btn btn-danger" data-js="filter-delete">{% trans 'Delete' %}</button>
                 </div>
@@ -81,7 +81,7 @@
                         {% bootstrap_field form.value show_label=False%}
                     </div>
 
-                    {% if not study.published %}
+                    {% if study.study_mode == study.EDIT %}
                         <div class="col-sm flex-grow-0">
                             <button type="button" class="btn btn-danger" data-js="filter-delete">{% trans 'Delete' %}</button>
                         </div>
@@ -97,7 +97,7 @@
                 <a href="{% url 'studies:recruitmentsettings' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
             {% endif %}
 
-            {% if not study.published %}
+            {% if study.study_mode == study.EDIT %}
                 <input type="submit" class="btn btn-primary" value="{% trans 'Apply Filters' %}"/>
             {% endif %}
         </div>
