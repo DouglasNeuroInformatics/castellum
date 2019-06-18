@@ -41,6 +41,7 @@ from django.views.generic.detail import SingleObjectMixin
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.castellum_auth.models import User
 from castellum.recruitment.models import SubjectFilter
+from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
 
 from ..forms import AddMemberForm
@@ -125,12 +126,15 @@ class StudyFormMixin:
         return form_class(prefix='{prefix}')
 
     def get_session_formset(self):
-        formset_class = forms.modelformset_factory(StudySession, fields=('duration',),
-                                                   extra=0, can_delete=True)
+        formset_class = forms.modelformset_factory(
+            StudySession, fields=('duration',), form=ReadonlyModelForm, extra=0, can_delete=True,
+        )
         kwargs = self.get_form_kwargs()
         study = kwargs.pop('instance', None)
-        kwargs.pop('readonly', False)
-        return formset_class(queryset=StudySession.objects.filter(study=study), **kwargs)
+        readonly = kwargs.pop('readonly', False)
+        return formset_class(queryset=StudySession.objects.filter(study=study), form_kwargs={
+            'readonly': readonly,
+        }, **kwargs)
 
     def get_context_data(self, **kwargs):
         if 'session_formset' not in kwargs:

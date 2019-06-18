@@ -53,19 +53,23 @@
                     <fieldset class="rounded-lg border bg-light p-3 mb-2" {% if subform.DELETE.value %}hidden{% endif %}>
                         {{ subform.id.as_hidden }}
                         {{ subform.DELETE.as_hidden }}
-                        <button type="button" class="btn btn-sm btn-danger float-right mb-2" data-js="session-delete">
-                            {% trans 'Delete' %}
-                        </button>
+                        {% if not readonly %}
+                            <button type="button" class="btn btn-sm btn-danger float-right mb-2" data-js="session-delete">
+                                {% trans 'Delete' %}
+                            </button>
+                        {% endif %}
                         {% bootstrap_field subform.duration %}
                     </fieldset>
                 {% endfor %}
             </div>
 
-            <div class="mb-3">
-                <button type="button" class="btn btn-primary" data-js="session-add">
-                    {% trans "Add session" %}
-                </button>
-            </div>
+            {% if not readonly %}
+                <div class="mb-3">
+                    <button type="button" class="btn btn-primary" data-js="session-add">
+                        {% trans "Add session" %}
+                    </button>
+                </div>
+            {% endif %}
 
             <div class="form-row">
                 <div class="col-md-6">
