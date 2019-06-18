@@ -44,6 +44,7 @@ from castellum.recruitment.utils import get_study_filter_q
 from castellum.studies.models import Study
 from castellum.utils.views import GetFormView
 
+from .mixins import BaseSubjectUpdateView
 from .mixins import SubjectMixin
 from .models import Subject
 
@@ -202,6 +203,11 @@ class AddToStudyView(SubjectMixin, LoginRequiredMixin, DetailView):
 
         url = reverse('recruitment:contact', args=[study.pk, participation_request.pk])
         return redirect(url + '?contacts')
+
+
+class SubjectUpdateView(BaseSubjectUpdateView):
+    def get_success_url(self):
+        return reverse('subjects:detail', args=[self.object.pk])
 
 
 class ContactUpdateView(BaseContactUpdateView):
