@@ -29,6 +29,7 @@ from castellum.studies.models import Study
 
 from ..models import AttributeDescription
 from ..models import AttributeSet
+from ..models import ParticipationRequest
 
 
 class SubjectFilterGroupManager(models.Manager):
@@ -56,7 +57,10 @@ class SubjectFilterGroup(models.Model):
         return reverse('studies:filtergroup_update', args=[self.study.pk, self.pk])
 
     def to_q(self, include_unknown=True):
-        q = models.Q()
+        q = ~models.Q(
+            subject__participationrequest__study__in=self.excluded_studies.all(),
+            subject__participationrequest__status=ParticipationRequest.INVITED,
+        )
         for f in self.subjectfilter_set.all():
             q &= f.to_q(include_unknown=include_unknown)
         return q
