@@ -55,6 +55,10 @@
                 {% trans 'Edit subject' %}
             </a>
         {% endif %}
+        {% has_perm 'subjects.change_subject' user as can_change_subject %}
+        {% if can_change_subject %}
+            <a class="btn btn-secondary" href="{% url 'subjects:subject' subject.pk %}">{% trans 'Edit subject' %}</a>
+        {% endif %}
         {% has_perm 'recruitment.change_attributeset' user as can_change_attributeset %}
         {% if can_change_attributeset %}
             <a href="{% url 'subjects:attributeset' subject.pk %}" class="btn btn-secondary btn-sm-inline my-1">{% trans "Edit attributes" %}</a>

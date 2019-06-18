@@ -36,6 +36,7 @@
             <fieldset>
                 <legend>{% trans 'Castellum consent' %}</legend>
 
+
                 {% with consent=object.confirmed_consent %}
                     <div class="alert alert-{{ consent.revision.is_current|yesno:'success,warning' }}">
                         {% if consent %}
