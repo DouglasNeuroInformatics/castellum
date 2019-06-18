@@ -171,6 +171,18 @@ class Study(models.Model):
                 recruiters.append(user)
         return recruiters
 
+    def has_missing_values(self):
+        return not all([
+            self.principal_investigator,
+            self.study_type,
+            self.sessions_start,
+            self.sessions_end,
+            self.consent,
+            self.recruiters,
+            self.recruitment_text,
+            self.has_filters,
+        ])
+
 
 class StudyMembership(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
