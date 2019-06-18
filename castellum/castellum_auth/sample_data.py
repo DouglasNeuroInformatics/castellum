@@ -34,6 +34,7 @@ GROUPS = {
     ],
     'Subject manager': [
         'view_subject',
+        'change_subject',
         'add_contact',
         'view_contact',
         'change_contact',
