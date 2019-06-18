@@ -1166,6 +1166,10 @@ msgid "Recruitment filters"
 msgstr "Rekrutierung"
 
 #: castellum/studies/templates/studies/study_detail.html:111
+msgid "Please double check missing entries before start of recruitment"
+msgstr "Bitte prüfen Sie die fehlenden Werte, bevor sie die Rekruitierung starten"
+
+#: castellum/studies/templates/studies/study_detail.html:118
 msgid "Manage members"
 msgstr "Mitglieder verwalten"
 
