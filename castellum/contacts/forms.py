@@ -23,17 +23,12 @@ from django import forms
 from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from castellum.subjects.models import Consent
-from castellum.subjects.models import ConsentConfirmation
-from castellum.subjects.models import Subject
 from castellum.utils.forms import DatalistWidget
 
 from .models import Address
 from .models import City
 from .models import Contact
 from .models import Country
-
-DAYS = ['availability_' + day for day in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']]
 
 
 class AddressForm(forms.ModelForm):
@@ -61,30 +56,11 @@ class ContactForm(forms.ModelForm):
     additional_information = forms.CharField(
         label=_('additional address information'), required=False)
 
-    # fields required for subject
-    privacy_level = Subject._meta.get_field('privacy_level').formfield(widget=forms.RadioSelect)
-    note_hard_of_hearing = Subject._meta.get_field('note_hard_of_hearing').formfield()
-    note_difficult_to_understand = (
-        Subject._meta.get_field('note_difficult_to_understand').formfield()
-    )
-    note_abusive_language = Subject._meta.get_field('note_abusive_language').formfield()
-    availability_monday = Subject._meta.get_field('availability_monday').formfield()
-    availability_tuesday = Subject._meta.get_field('availability_tuesday').formfield()
-    availability_wednesday = Subject._meta.get_field('availability_wednesday').formfield()
-    availability_thursday = Subject._meta.get_field('availability_thursday').formfield()
-    availability_friday = Subject._meta.get_field('availability_friday').formfield()
-    not_available_until = Subject._meta.get_field('not_available_until').formfield()
-
-    consent_type = ConsentConfirmation._meta.get_field('type').formfield(required=False)
-    consent_status = ConsentConfirmation._meta.get_field('status').formfield(required=False)
-
     class Meta:
         model = Contact
         exclude = ('address',)
 
-    def __init__(self, user, *args, **kwargs):
-
-        self.user = user
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         if self.instance.address:
@@ -95,24 +71,6 @@ class ContactForm(forms.ModelForm):
             self.fields['house_number'].initial = self.instance.address.house_number
             self.fields['additional_information'].initial = \
                 self.instance.address.additional_information
-
-        if self.instance.pseudonym:
-            self.fields['privacy_level'].initial = self.instance.subject.privacy_level
-            self.fields['note_hard_of_hearing'].initial = self.instance.subject.note_hard_of_hearing
-            self.fields['note_difficult_to_understand'].initial = (
-                self.instance.subject.note_difficult_to_understand
-            )
-            self.fields['note_abusive_language'].initial = (
-                self.instance.subject.note_abusive_language
-            )
-            for day in DAYS:
-                self.fields[day].initial = getattr(self.instance.subject, day).all()
-            self.fields['not_available_until'].initial = self.instance.subject.not_available_until
-
-            consent = self.instance.subject.consent
-            if consent and consent.status == ConsentConfirmation.WAITING:
-                self.fields['consent_type'].initial = consent.type
-                self.fields['consent_status'].initial = consent.status
 
     def clean(self):
         cleaned_data = super().clean()
@@ -126,12 +84,6 @@ class ContactForm(forms.ModelForm):
         phone_number = cleaned_data.get('phone_number', '')
         email = cleaned_data.get('email', '')
         preferred_contact_method = cleaned_data.get('preferred_contact_method', '')
-
-        privacy_level = cleaned_data.get('privacy_level', 0)
-        if not self.user.has_privacy_level(privacy_level):
-            raise ValidationError(_(
-                "Please choose lower privacy level for the subject."),
-                code='invalid')
 
         is_address_data = any([country, city, zip_code, street, house_number, add_info])
         if is_address_data:
@@ -156,12 +108,6 @@ class ContactForm(forms.ModelForm):
         if not email and preferred_contact_method == 'email':
             self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
             self.add_error(None, _("Please provide an email."))
-
-        if self.cleaned_data['consent_type'] or self.cleaned_data['consent_status']:
-            consent_check = [self.cleaned_data['consent_type'], self.cleaned_data['consent_status']]
-            if not all(consent_check):
-                raise ValidationError(_("Please, fill out both type and "
-                                        "status of the consent."), code='invalid')
 
         return cleaned_data
 
@@ -191,36 +137,6 @@ class ContactForm(forms.ModelForm):
 
             if not self.cleaned_data.get('city') and contact.address:
                 contact.address.delete()
-
-        if contact.pseudonym:
-            contact.subject.privacy_level = self.cleaned_data['privacy_level']
-            contact.subject.note_hard_of_hearing = self.cleaned_data['note_hard_of_hearing']
-            contact.subject.note_difficult_to_understand = (
-                self.cleaned_data['note_difficult_to_understand']
-            )
-            contact.subject.note_abusive_language = self.cleaned_data['note_abusive_language']
-            for day in DAYS:
-                getattr(contact.subject, day).set(self.cleaned_data[day])
-            contact.subject.not_available_until = self.cleaned_data['not_available_until']
-            if commit:
-                contact.subject.save()
-
-            consent = contact.subject.consent
-            if consent and consent.status == ConsentConfirmation.WAITING:
-                if (
-                    consent.type != self.cleaned_data['consent_type'] or
-                    consent.status != self.cleaned_data['consent_status']
-                ):
-                    consent.type = self.cleaned_data['consent_type']
-                    consent.status = self.cleaned_data['consent_status']
-                    consent.save()
-            elif self.cleaned_data['consent_type'] or self.cleaned_data['consent_status']:
-                ConsentConfirmation.objects.create(
-                    type=self.cleaned_data['consent_type'],
-                    status=self.cleaned_data['consent_status'],
-                    subject=contact.subject,
-                    revision=Consent.objects.latest(),
-                )
 
         return contact
 
