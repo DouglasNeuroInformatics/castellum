@@ -190,7 +190,7 @@ msgstr "Städte"
 
 #: castellum/contacts/models/address.py:59
 msgid "Zip code"
-msgstr "Postleitzahl "
+msgstr "Postleitzahl"
 
 #: castellum/contacts/models/address.py:60
 msgid "Street"
@@ -952,7 +952,7 @@ msgstr "Rekrutierungstext"
 
 #: castellum/studies/models.py:95
 msgid "Advanced filtering"
-msgstr "Filter hinzufügen"
+msgstr "Erweitete Filterung"
 
 #: castellum/studies/models.py:96
 msgid ""
@@ -1125,7 +1125,7 @@ msgstr "Rekrutierung starten"
 
 #: castellum/studies/templates/studies/study_detail.html:48
 msgid "Resume study"
-msgstr "Studie wiederausnehmen"
+msgstr "Studie wiederaufnehmen"
 
 #: castellum/studies/templates/studies/study_detail.html:52
 msgid "Finish study"
@@ -1133,7 +1133,7 @@ msgstr "Studie beenden"
 
 #: castellum/studies/templates/studies/study_detail.html:70
 msgid "Scheduled runtime"
-msgstr "Laufzeit der Sessions"
+msgstr "Geplante Laufzeit"
 
 #: castellum/studies/templates/studies/study_detail.html:75
 msgid "not defined"
@@ -1146,11 +1146,11 @@ msgstr "nicht erreicht"
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:26
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:37
 msgid "Available"
-msgstr "Erreichbarkeit"
+msgstr "Erreichbar"
 
 #: castellum/studies/templates/studies/study_detail.html:85
 msgid "Member management"
-msgstr "Mitglieder Verwaltung"
+msgstr "Mitgliederverwaltung"
 
 #: castellum/studies/templates/studies/study_detail.html:88
 msgid "Recruiters"
@@ -1163,7 +1163,7 @@ msgstr "Rekrutierungseinstellungen"
 
 #: castellum/studies/templates/studies/study_detail.html:98
 msgid "Recruitment filters"
-msgstr "Rekrutierung"
+msgstr "Rekrutierungsfilter"
 
 #: castellum/studies/templates/studies/study_detail.html:111
 msgid "Please double check missing entries before start of recruitment"
@@ -1254,11 +1254,11 @@ msgstr "Rekrutierungseinstellungen für %(study)s"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:15
 msgid "Activated"
-msgstr "Activiert"
+msgstr "Aktiviert"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:17
 msgid "Deactivated"
-msgstr "Deactiviert"
+msgstr "Deaktiviert"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:48
 msgid "General"
@@ -1275,7 +1275,7 @@ msgstr "Ausschlusskriterien"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings_form.html:5
 msgid "General recruitment settings"
-msgstr "Rekrutierungseinstellungen"
+msgstr "Allgemeine Rekrutierungseinstellungen"
 
 #: castellum/studies/templates/studies/studymembership_confirm_delete.html:4
 msgid "Delete member"
@@ -1592,15 +1592,3 @@ msgstr "erstellt am"
 #: castellum/utils/models.py:28
 msgid "updated at"
 msgstr "aktualisiert am"
-
-#~ msgid "Published"
-#~ msgstr "Freigegeben"
-
-#~ msgid "study is published"
-#~ msgstr "Die Studie ist freigegeben"
-
-#~ msgid "Unpublish"
-#~ msgstr "Zurücknehmen"
-
-#~ msgid "Publish"
-#~ msgstr "Freigeben"
