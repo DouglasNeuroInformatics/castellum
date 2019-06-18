@@ -21,6 +21,7 @@
 
 from django.db import models
 from django.urls import reverse
+from django.utils.translation import ugettext_lazy as _
 
 from picklefield.fields import PickledObjectField
 
@@ -44,6 +45,9 @@ class SubjectFilterGroupManager(models.Manager):
 
 class SubjectFilterGroup(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    excluded_studies = models.ManyToManyField(
+        Study, verbose_name=_('Excluded studies'), related_name='+'
+    )
 
     objects = SubjectFilterGroupManager()
 
