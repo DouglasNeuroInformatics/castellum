@@ -80,6 +80,9 @@
 
         <dt class="col-sm-6">{{ object|verbose_name:'consent' }}</dt>
         <dd class="col-sm-6">{% if object.consent %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
+
+        <dt class="col-sm-6">{{ object|verbose_name:'study_mode' }}</dt>
+        <dd class="col-sm-6">{{ object.get_study_mode_display }}</dd>
     </dl>
 
     <h3 class="h5">{% trans "Member management" %}</h3>
@@ -100,9 +103,6 @@
 
         <dt class="col-sm-6">{{ object|verbose_name:'exclusion_criteria' }}</dt>
         <dd class="col-sm-6">{% if object.exclusion_criteria %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
-
-        <dt class="col-sm-6">{{ object|verbose_name:'study_mode' }}</dt>
-        <dd class="col-sm-6">{{ object.get_study_mode_display }}</dd>
     </dl>
 
     {% has_perm 'studies.change_study' user study as can_change_study %}
