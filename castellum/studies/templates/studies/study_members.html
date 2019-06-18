@@ -27,23 +27,29 @@
                             {% endfor %}
                         </ul>
                     </div>
-                    <div class="table-list-item-actions">
-                        <a href="{% url 'studies:member' object.pk membership.pk %}" class="btn btn-primary btn-sm-inline my-1">{% trans 'Edit' %}</a>
-                        {% if membership.user == request.user %}
-                            <a href="#" class="btn btn-danger btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Remove' %}</a>
-                        {% else %}
-                            <a href="{% url 'studies:delete-member' object.pk membership.pk %}" class="btn btn-danger btn-sm-inline my-1">{% trans 'Remove' %}</a>
-                        {% endif %}
-                    </div>
+                    {% if not readonly %}
+                        <div class="table-list-item-actions">
+                            <a href="{% url 'studies:member' object.pk membership.pk %}" class="btn btn-primary btn-sm-inline my-1">{% trans 'Edit' %}</a>
+                            {% if membership.user == request.user %}
+                                <a href="#" class="btn btn-danger btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Remove' %}</a>
+                            {% else %}
+                                <a href="{% url 'studies:delete-member' object.pk membership.pk %}" class="btn btn-danger btn-sm-inline my-1">{% trans 'Remove' %}</a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
 
-        {% bootstrap_field form.user %}
+        {% if not readonly %}
+            {% bootstrap_field form.user %}
+        {% endif %}
 
         <div class="mb-3">
             <a href="{% url 'studies:detail' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-            <input type="submit" class="btn btn-primary" value="{% trans 'Add' %}" />
+            {% if not readonly %}
+                <input type="submit" class="btn btn-primary" value="{% trans 'Add' %}" />
+            {% endif %}
         </div>
     </form>
 {% endblock %}
