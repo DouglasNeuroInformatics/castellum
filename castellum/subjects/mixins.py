@@ -24,6 +24,11 @@ from django.core.exceptions import PermissionDenied
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import UpdateView
+<<<<<<< HEAD
+=======
+
+from castellum.castellum_auth.mixins import PermissionRequiredMixin
+>>>>>>> add subject update view
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 
