@@ -121,7 +121,7 @@ class ParticipationRequest(models.Model):
             raise ValidationError(_('Appointment cannot be set with this status'), code='invalid')
         if (
             self.status == self.INVITED
-            and self.study.has_exclusion_criteria()
+            and self.study.has_exclusion_criteria
             and not self.exclusion_criteria_checked
         ):
             raise ValidationError(_('Exclusion criteria have not been checked'), code='invalid')
