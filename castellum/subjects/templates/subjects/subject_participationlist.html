@@ -35,7 +35,6 @@
     {% endif %}
 
     <div class="mb-3">
-        <a href="{% url 'subjects:detail' view.subject.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         <a href="{% url 'subjects:add-to-study' subject.pk %}" class="btn btn-primary">{% trans 'Add study participation' %}</a>
     </div>
 {% endblock %}

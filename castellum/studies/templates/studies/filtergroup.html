@@ -130,8 +130,6 @@
         <div class="mb-3">
             {% if study.advanced_filtering %}
                 <a href="{% url 'studies:filtergroup-index' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-            {% else %}
-                <a href="{% url 'studies:recruitmentsettings' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
             {% endif %}
 
             {% if study.study_mode == study.EDIT %}

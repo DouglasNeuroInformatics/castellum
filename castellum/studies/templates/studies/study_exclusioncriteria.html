@@ -21,11 +21,10 @@
             {% endif %}
         {% endfor %}
 
-        <div class="mb-3">
-            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:recruitmentsettings' study.pk %}">{% trans 'Back' %}</a>
-            {% if not readonly %}
+        {% if not readonly %}
+            <div class="mb-3">
                 <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
     </form>
 {% endblock %}
