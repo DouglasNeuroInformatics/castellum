@@ -43,7 +43,7 @@
         </template>
     {% endfor %}
 
-    <form method="post" data-js="unsaved-changes">
+    <form method="post">
         {% csrf_token %}
         {{ formset.management_form }}
 
