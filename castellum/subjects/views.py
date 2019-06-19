@@ -102,6 +102,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     permission_required = 'contacts.view_contact'
     template_name = 'subjects/subject_detail.html'
+    tab = 'detail'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -123,6 +124,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_export.html'
     permission_required = 'subjects.view_subject'
+    tab = 'export'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -147,6 +149,8 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
 
 class SubjectUpdateView(BaseSubjectUpdateView):
+    tab = 'subject'
+
     def get_success_url(self):
         return reverse('subjects:detail', args=[self.object.pk])
 
@@ -157,6 +161,8 @@ class SubjectUpdateView(BaseSubjectUpdateView):
 
 
 class ContactUpdateView(BaseContactUpdateView):
+    tab = 'contact'
+
     def get_object(self):
         subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
         return subject.contact
@@ -168,6 +174,8 @@ class ContactUpdateView(BaseContactUpdateView):
 
 
 class AttributeSetUpdateView(BaseAttributeSetUpdateView):
+    tab = 'attributeset'
+
     def get_object(self):
         subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
         attributeset, __ = AttributeSet.objects.get_or_create(
@@ -181,6 +189,7 @@ class AttributeSetUpdateView(BaseAttributeSetUpdateView):
 
 
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
+    tab = 'studyparticipation'
     model = ParticipationRequest
     template_name = 'subjects/subject_participationlist.html'
     permission_required = 'contacts.view_contact'
@@ -209,6 +218,7 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_add_to_study.html'
     permission_required = 'contacts.view_contact'
+    tab = 'studyparticipation'
 
     def get_studies(self, attributeset):
         for study in Study.objects.filter(study_mode=Study.EXECUTION):

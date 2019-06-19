@@ -83,6 +83,7 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
 class StudyDetailView(PermissionRequiredMixin, DetailView):
     model = Study
     permission_required = 'studies.view_study'
+    tab = 'detail'
 
 
 class StudyFormMixin:
@@ -154,6 +155,7 @@ class StudyUpdateView(
     StudyMixin, PermissionRequiredMixin, ReadonlyMixin, StudyFormMixin, UpdateView
 ):
     permission_required = 'studies.change_study'
+    tab = 'update'
 
     def get_readonly(self):
         return self.object.study_mode == Study.FINISHED
@@ -200,6 +202,7 @@ class StudyRecruitmentSettingsView(StudyMixin, PermissionRequiredMixin, DetailVi
     model = Study
     permission_required = 'studies.view_study'
     template_name = 'studies/study_recruitmentsettings.html'
+    tab = 'recruitmentsettings'
 
 
 class StudyRecruitmentSettingsUpdateView(
@@ -209,6 +212,7 @@ class StudyRecruitmentSettingsUpdateView(
     fields = ('advanced_filtering', 'recruitment_text', 'is_exclusive', 'complete_matches_only')
     permission_required = 'studies.change_study'
     template_name = 'studies/study_recruitmentsettings_form.html'
+    tab = 'recruitmentsettings'
 
     def get_readonly(self):
         return self.object.study_mode == Study.FINISHED
@@ -224,6 +228,7 @@ class StudyExclusionCriteriaView(
     template_name = 'studies/study_exclusioncriteria.html'
     fields = ('exclusion_criteria',)
     permission_required = 'studies.change_study'
+    tab = 'recruitmentsettings'
 
     def get_readonly(self):
         return self.object.study_mode == Study.FINISHED
@@ -236,6 +241,7 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
     model = Study
     template_name = 'studies/study_members.html'
     permission_required = 'studies.change_study'
+    tab = 'members'
 
     def dispatch(self, *args, **kwargs):
         self.object = self.get_object()
@@ -283,6 +289,7 @@ class StudyMembershipUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView)
     form_class = MemberForm
     permission_required = 'studies.change_study'
     study_modes = [Study.EDIT, Study.EXECUTION]
+    tab = 'members'
 
     def get_object(self):
         return get_object_or_404(StudyMembership, pk=self.kwargs['pk'], study=self.study)

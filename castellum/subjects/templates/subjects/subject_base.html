@@ -1,5 +1,5 @@
 {% extends "subjects/base.html" %}
-{% load utils %}
+{% load i18n auth utils %}
 
 {% block header %}
     <h1><a class="link-masked" href="{% url 'subjects:detail' subject.pk %}">{{ subject.contact.full_name }}</a></h1>
@@ -8,4 +8,54 @@
     {% else %}
         <p>{{ subject.contact.address|default:'—' }}</p>
     {% endif %}
+
+    <nav class="d-print-none" aria-label="{% trans 'Tabs' %}">
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <a href="{% url 'subjects:detail' subject.pk %}" class="nav-link {% if view.tab == 'detail' %}active{% endif %}">{% trans 'Overview' %}</a>
+            </li>
+
+            {% has_perm 'contacts.change_contact' user as can_change_contact %}
+            {% if can_change_contact %}
+                <li class="nav-item">
+                    <a href="{% url 'subjects:contact' subject.pk %}" class="nav-link {% if view.tab == 'contact' %}active{% endif %}">
+                        {% if not subject.contact.is_complete %}
+                            <i class="fa fa-exclamation-triangle" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
+                        {% endif %}
+                        {% trans 'Contact' %}
+                    </a>
+                </li>
+            {% endif %}
+
+            {% has_perm 'subjects.change_subject' user as can_change_subject %}
+            {% if can_change_subject %}
+                <li class="nav-item">
+                    <a href="{% url 'subjects:subject' subject.pk %}" class="nav-link {% if view.tab == 'subject' %}active{% endif %}">
+                        {% if not subject.is_complete %}
+                            <i class="fa fa-exclamation-triangle" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
+                        {% endif %}
+                        {% trans 'Subject' %}
+                    </a>
+                </li>
+            {% endif %}
+
+            {% has_perm 'recruitment.change_attributeset' user as can_change_attributeset %}
+            {% if can_change_attributeset %}
+                <li class="nav-item">
+                    <a href="{% url 'subjects:attributeset' subject.pk %}" class="nav-link {% if view.tab == 'attributeset' %}active{% endif %}">{% trans "Attributes" %}</a>
+                </li>
+            {% endif %}
+
+            <li class="nav-item">
+                <a href="{% url 'subjects:studyparticipation' subject.pk %}" class="nav-link {% if view.tab == 'studyparticipation' %}active{% endif %}">{% trans "Study Participation" %}</a>
+            </li>
+
+            {% has_perm 'subjects.view_subject' user as can_view_subject %}
+            {% if can_view_subject %}
+                <li class="nav-item">
+                    <a href="{% url 'subjects:export' subject.pk %}" class="nav-link {% if view.tab == 'export' %}active{% endif %}">{% trans 'Export' %}</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
 {% endblock %}

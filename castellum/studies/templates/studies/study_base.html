@@ -1,5 +1,5 @@
 {% extends "studies/base.html" %}
-{% load utils %}
+{% load i18n auth utils %}
 
 {% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
 
@@ -11,4 +11,30 @@
         </div>
         {% block header_actions %}{% endblock %}
     </div>
+
+    <nav class="d-print-none" aria-label="{% trans 'Tabs' %}">
+        {% has_perm 'studies.access_study' user study as can_access_study %}
+
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <a class="nav-link {% if view.tab == 'detail' %}active{% endif %}" href="{% url 'studies:detail' study.pk %}">{% trans 'Overview' %}</a>
+            </li>
+
+            {% if can_access_study %}
+                {% has_perm 'studies.change_study' user study as can_change_study %}
+                {% if can_change_study %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if view.tab == 'update' %}active{% endif %}" href="{% url 'studies:update' study.pk %}">{% trans 'Edit' %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if view.tab == 'members' %}active{% endif %}" href="{% url 'studies:members' study.pk %}">{% trans 'Member management' %}</a>
+                    </li>
+                {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link {% if view.tab == 'recruitmentsettings' %}active{% endif %}" href="{% url 'studies:recruitmentsettings' study.pk %}">{% trans 'Recruitment Settings' %}</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
 {% endblock %}
