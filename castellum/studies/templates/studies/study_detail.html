@@ -1,8 +1,6 @@
 {% extends "studies/study_base.html" %}
 {% load i18n auth utils %}
 
-{% block title %}{{ object }} &middot; {{ block.super }}{% endblock %}
-
 {% block content %}
     <div class="d-flex flex-column flex-md-row justify-content-between mb-3">
         {% has_perm 'studies.change_study' user study as can_change_study %}
