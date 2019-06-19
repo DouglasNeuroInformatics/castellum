@@ -1457,6 +1457,10 @@ msgstr "Warten auf Bestätigung"
 msgid "Confirmed"
 msgstr "Bestätigt"
 
+#: castellum/subjects/models.py:182
+msgid "Consent confirmation"
+msgstr "Einverständniserklärung"
+
 #: castellum/subjects/templates/subjects/subject_detail.html:4
 msgid "Subject details"
 msgstr "Proband*innendetails"

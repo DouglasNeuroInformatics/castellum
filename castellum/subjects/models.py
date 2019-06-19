@@ -179,3 +179,4 @@ class ConsentConfirmation(models.Model):
 
     class Meta:
         get_latest_by = 'revision__created_at'
+        verbose_name = _('Consent confirmation')
