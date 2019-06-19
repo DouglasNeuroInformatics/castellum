@@ -110,6 +110,7 @@ EXPORT_SCHEMA = {
                         "OrderedChoiceField",
                         "IntegerField",
                         "BooleanField",
+                        "TrueField",
                         "DateField",
                         "AgeField"
                     ]

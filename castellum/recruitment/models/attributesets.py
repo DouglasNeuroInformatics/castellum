@@ -184,6 +184,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         ('OrderedChoiceField', _('OrderedChoiceField')),
         ('IntegerField', _('IntegerField')),
         ('BooleanField', _('BooleanField')),
+        ('TrueField', _('TrueField')),
         ('DateField', _('DateField')),
         ('AgeField', _('AgeField')),
     )
@@ -191,7 +192,9 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         ('primary', _('primary')),
         ('secondary', _('secondary')),
     )
-    STATISTICS_TYPES = ['ChoiceField', 'OrderedChoiceField', 'BooleanField', 'AgeField']
+    STATISTICS_TYPES = [
+        'ChoiceField', 'OrderedChoiceField', 'BooleanField', 'TrueField', 'AgeField'
+    ]
 
     import_fields = ['field_type', 'privacy_level_read', 'privacy_level_write', 'order']
     import_translated_fields = ['label', '_filter_label', 'help_text']
@@ -250,6 +253,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
             'OrderedChoiceField': attribute_fields.OrderedChoiceAttributeField,
             'IntegerField': attribute_fields.NumberAttributeField,
             'BooleanField': attribute_fields.BooleanAttributeField,
+            'TrueField': attribute_fields.TrueAttributeField,
             'DateField': attribute_fields.DateAttributeField,
             'AgeField': attribute_fields.AgeAttributeField,
         }

@@ -27,6 +27,8 @@ import magic
 from phonenumber_field.formfields import PhoneNumberField as _PhoneNumberFormField
 from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
 
+TRUTHY = [True, 'True', 'true', '1']
+
 
 class ReadonlyFormMixin:
     def __init__(self, *args, **kwargs):
@@ -186,3 +188,35 @@ class RestrictedFileField(forms.FileField):
         if self.content_types:
             attrs.setdefault('accept', ','.join(self.content_types))
         return attrs
+
+
+class NullTrueSelect(forms.Select):
+    def __init__(self, attrs=None):
+        choices = (
+            ('unknown', _('Unknown')),
+            ('true', _('Yes')),
+        )
+        super().__init__(attrs, choices)
+
+    def format_value(self, value):
+        if value in TRUTHY:
+            return 'true'
+        return 'unknown'
+
+    def value_from_datadict(self, data, files, name):
+        value = data.get(name)
+        if value in TRUTHY:
+            return True
+        return None
+
+
+class NullTrueField(forms.BooleanField):
+    widget = NullTrueSelect
+
+    def to_python(self, value):
+        if value in TRUTHY:
+            return True
+        return None
+
+    def validate(self, value):
+        pass

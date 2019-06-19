@@ -29,6 +29,7 @@ from dateutil.relativedelta import relativedelta
 
 from castellum.utils.forms import DateField
 from castellum.utils.forms import IntegerChoiceField
+from castellum.utils.forms import NullTrueField
 
 from .fields import AgeField
 
@@ -137,6 +138,16 @@ class BooleanAttributeField(BaseAttributeField):
     statistics_buckets = [
         (True, _('Yes')),
         (False, _('No')),
+    ]
+
+
+class TrueAttributeField(BaseAttributeField):
+    form_class = NullTrueField
+    available_operators = [
+        ("exact", _("is")),
+    ]
+    statistics_buckets = [
+        (True, _('Yes')),
     ]
 
 
