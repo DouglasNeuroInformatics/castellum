@@ -195,11 +195,21 @@ class SubjectUpdateView(BaseSubjectUpdateView):
     def get_success_url(self):
         return reverse('subjects:detail', args=[self.object.pk])
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = 'subjects/subject_base.html'
+        return context
+
 
 class ContactUpdateView(BaseContactUpdateView):
     def get_object(self):
         subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
         return subject.contact
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = 'subjects/subject_base.html'
+        return context
 
 
 class AttributeSetUpdateView(BaseAttributeSetUpdateView):
@@ -211,7 +221,7 @@ class AttributeSetUpdateView(BaseAttributeSetUpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['base_template'] = "subjects/base.html"
+        context['base_template'] = "subjects/subject_base.html"
         return context
 
 

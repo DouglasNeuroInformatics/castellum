@@ -1,0 +1,7 @@
+{% extends "studies/base.html" %}
+{% load utils %}
+
+{% block header %}
+    <h1>{{ study }}</h1>
+    <p>{{ study|verbose_name:'contact_person' }}: {{ study.contact_person }}</p>
+{% endblock %}

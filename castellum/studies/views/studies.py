@@ -191,6 +191,11 @@ class StudyUpdateView(StudyAccessMixin, ReadonlyMixin, StudyFormMixin, UpdateVie
     def get_success_url(self):
         return reverse('studies:detail', args=[self.object.pk])
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = 'studies/study_base.html'
+        return context
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().post(request, *args, **kwargs)
@@ -320,6 +325,11 @@ class StudyMembershipUpdateView(StudyMembershipAccessMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('studies:members', args=[self.object.study.pk])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['study'] = self.object.study
+        return context
 
 
 class StudyMembershipRemoveView(StudyMembershipAccessMixin, DeleteView):
