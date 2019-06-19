@@ -313,7 +313,6 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
 
         context['is_contacts'] = 'contacts' in self.request.GET
         context['study'] = self.study
-        context['subject'] = self.object.subject
 
         context['contact'] = contact
         return context
