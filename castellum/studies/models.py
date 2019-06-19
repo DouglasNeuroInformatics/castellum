@@ -90,7 +90,7 @@ class Study(models.Model):
     recruitment_text = models.TextField(_('Recruitment text'), blank=True)
 
     members = models.ManyToManyField(User, through='StudyMembership')
-    domain = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    domain = models.CharField(max_length=64, default=uuid.uuid4, unique=True, editable=False)
     advanced_filtering = models.BooleanField(
         _('Advanced filtering'), help_text=_(
             'By default you can create only one filtergroup in which all the filters are joined by '

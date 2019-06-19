@@ -1,5 +1,3 @@
-import uuid
-
 from django.contrib.messages import get_messages
 
 import pytest
@@ -35,10 +33,7 @@ def test_post_when_more_then_double_minimal_subject_count(client,
     study_in_recruitment_mode.save()
 
     subject = mommy.make(Subject, id=1)
-    contact_pseudonym = mommy.make(Pseudonym,
-                                   subject_id=1,
-                                   pseudonym=uuid.uuid4(),
-                                   domain=Contact.domain)
+    contact_pseudonym = mommy.make(Pseudonym, subject_id=1, domain=Contact.domain)
     mommy.make(Contact, pseudonym=contact_pseudonym)
     mommy.make(ParticipationRequest,
                study=study_in_recruitment_mode,
