@@ -234,7 +234,7 @@ class StudyRecruitmentSettingsView(StudyAccessMixin, DetailView):
 class StudyRecruitmentSettingsUpdateView(StudyAccessMixin, ReadonlyMixin, UpdateView):
     model = Study
     fields = ('advanced_filtering', 'recruitment_text')
-    permission_required = 'studies.update_study'
+    permission_required = 'studies.change_study'
     template_name = 'studies/study_recruitmentsettings_form.html'
 
     def get_readonly(self):
