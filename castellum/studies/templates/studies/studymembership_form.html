@@ -4,9 +4,9 @@
 {% block title %}{{ object.user }} &middot; {% trans "manage members" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>{{ object.user }}</h1>
+    <h2>{{ object.user }}</h2>
 
-    <h2>{% trans 'Global groups' %}</h2>
+    <h3>{% trans 'Global groups' %}</h3>
     <ul class="p-0">
         {% for group in object.user.groups.all %}
             <li class="badge badge-secondary my-1 mr-2">{{ group }}</li>
@@ -22,7 +22,7 @@
 
         {% csrf_token %}
 
-        <h2>{% trans "Additional groups in this study" %}</h2>
+        <h3>{% trans "Additional groups in this study" %}</h3>
         {% bootstrap_field form.groups show_label=False %}
 
         <div class="mb-3">
