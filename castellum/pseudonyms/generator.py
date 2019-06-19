@@ -21,12 +21,12 @@
 
 """Generate random strings with a checksum.
 
--   We use an alphabet of length 30 and a checksum of length 2. So the
+-   We use an alphabet of length 32 and a checksum of length 2. So the
     probability of a random string from the alphabet passing the check
-    is 30**-2 = 1/900.
--   The number of possible strings is 30**(length-2). If we have already
-    used 100 of them and assuming a length of 10, the probability of
-    generating a duplicate is 100 / 30**(10-2) = 1/6.561.000.000.
+    is 2**-10 ~= 10**-3.
+-   The number of possible strings is 32**(length-2). If we have already
+    used 1024 of them and assuming a length of 10, the probability of
+    generating a duplicate is 1024 / 32**(10-2) = 2**-30 ~= 10**-9.
 
 """
 
