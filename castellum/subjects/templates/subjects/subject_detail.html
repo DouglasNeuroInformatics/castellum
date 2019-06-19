@@ -4,9 +4,9 @@
 {% block title %}{% trans "Subject details" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>{{ contact.full_name }}</h1>
-    <p>{{ contact|display:'address' }}</p>
-    {% if not contact.is_complete or not subject.is_complete %}
+    <h1>{{ object.contact.full_name }}</h1>
+    <p>{{ object.contact|display:'address' }}</p>
+    {% if not object.contact.is_complete or not subject.is_complete %}
         <p class="alert alert-danger" role="alert">
             <strong>{% trans 'Incomplete data' %}.</strong> {% trans 'Please edit data sets marked with' %} <i class="fa fa-exclamation-triangle" aria-label="{% trans 'Missing values' %}"></i>
         </p>
@@ -40,7 +40,7 @@
         {% has_perm 'contacts.change_contact' user as can_change_contact %}
         {% if can_change_contact %}
             <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'subjects:contact' subject.pk %}">
-                {% if not contact.is_complete %}
+                {% if not object.contact.is_complete %}
                     <i class="fa fa-exclamation-triangle" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
                 {% endif %}
                 {% trans 'Edit contact' %}

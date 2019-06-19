@@ -36,7 +36,6 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
-from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
@@ -111,9 +110,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        pseudonym = get_pseudonym(self.object, Contact.domain)
-        context['contact'] = Contact.objects.get(pseudonym=pseudonym)
-        context['updated_at'] = max(self.object.updated_at, context['contact'].updated_at)
+        context['updated_at'] = max(self.object.updated_at, self.object.contact.updated_at)
 
         try:
             context['updated_at'] = max(context['updated_at'], self.object.attributeset.updated_at)
@@ -137,10 +134,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         monitoring_logger.info('GDPR-Request export: {} by {}'.format(
             self.object.pk, self.request.user.pk))
 
-        context['dataset_list'] = [self.object]
-
-        pseudonym = get_pseudonym(self.object, Contact.domain)
-        context['dataset_list'].append(Contact.objects.get(pseudonym=pseudonym))
+        context['dataset_list'] = [self.object, self.object.contact]
 
         try:
             context['dataset_list'].append(self.object.attributeset)
@@ -205,8 +199,7 @@ class SubjectUpdateView(BaseSubjectUpdateView):
 class ContactUpdateView(BaseContactUpdateView):
     def get_object(self):
         subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
-        pseudonym = get_pseudonym(subject, Contact.domain)
-        return get_object_or_404(Contact, pseudonym=pseudonym)
+        return subject.contact
 
 
 class AttributeSetUpdateView(BaseAttributeSetUpdateView):
@@ -241,11 +234,3 @@ class ParticipationListView(SubjectMixin, LoginRequiredMixin, ListView):
             participation_request for participation_request in queryset
             if self.request.user.has_perms(perms, obj=participation_request.study)
         ]
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        pseudonym = get_pseudonym(self.subject, Contact.domain)
-        context['contact'] = Contact.objects.get(pseudonym=pseudonym)
-
-        return context

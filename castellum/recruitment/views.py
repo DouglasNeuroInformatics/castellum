@@ -36,8 +36,6 @@ from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
-from castellum.contacts.models import Contact
-from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.settings import CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
@@ -308,13 +306,10 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
         status_field = context['form'].fields['status']
         status_field.widget.choices = choices
 
-        contact_pseudonym = get_pseudonym(self.object.subject, Contact.domain)
-        contact = Contact.objects.get(pseudonym=contact_pseudonym)
-
         context['is_contacts'] = 'contacts' in self.request.GET
         context['study'] = self.study
+        context['contact'] = self.object.subject.contact
 
-        context['contact'] = contact
         return context
 
     def form_valid_recruitment(self, form):
@@ -353,10 +348,7 @@ class ContactUpdateView(StudyPermissionMixin, BaseContactUpdateView):
         participation_request = get_object_or_404(
             ParticipationRequest, study=self.study, pk=self.kwargs['pk'])
 
-        contact_pseudonym = get_pseudonym(participation_request.subject, Contact.domain)
-        contact = get_object_or_404(Contact, pseudonym=contact_pseudonym)
-
-        return contact
+        return participation_request.subject.contact
 
     def get_success_url(self):
         return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
