@@ -21,6 +21,7 @@
 
 from django.db import models
 from django.urls import reverse
+from django.utils.translation import ugettext_lazy as _
 
 from picklefield.fields import PickledObjectField
 
@@ -28,12 +29,14 @@ from castellum.studies.models import Study
 
 from ..models import AttributeDescription
 from ..models import AttributeSet
+from ..models import ParticipationRequest
 
 
 class SubjectFilterGroupManager(models.Manager):
     def clone(self, original_group):
         cloned_group = SubjectFilterGroup.objects.create(study=original_group.study)
         SubjectFilter.objects.bulk_create(self.clone_filters(original_group, cloned_group))
+        cloned_group.excluded_studies.add(*original_group.excluded_studies.all())
         return cloned_group
 
     def clone_filters(self, original_group, cloned_group):
@@ -44,6 +47,9 @@ class SubjectFilterGroupManager(models.Manager):
 
 class SubjectFilterGroup(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    excluded_studies = models.ManyToManyField(
+        Study, verbose_name=_('Excluded studies'), related_name='+'
+    )
 
     objects = SubjectFilterGroupManager()
 
@@ -51,7 +57,10 @@ class SubjectFilterGroup(models.Model):
         return reverse('studies:filtergroup_update', args=[self.study.pk, self.pk])
 
     def to_q(self, include_unknown=True):
-        q = models.Q()
+        q = ~models.Q(
+            subject__participationrequest__study__in=self.excluded_studies.all(),
+            subject__participationrequest__status=ParticipationRequest.INVITED,
+        )
         for f in self.subjectfilter_set.all():
             q &= f.to_q(include_unknown=include_unknown)
         return q
