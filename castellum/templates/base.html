@@ -68,15 +68,17 @@
             <div class="col-lg-8 col-md-10">
                 {% block header %}{% endblock %}
 
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="{{ message|bootstrap_message_classes }}" role="alert">
-                            {{ message|capfirst|linebreaksbr }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
+                {% block content_with_messages %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="{{ message|bootstrap_message_classes }}" role="alert">
+                                {{ message|capfirst|linebreaksbr }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
 
-                {% block content %}{% endblock %}
+                    {% block content %}{% endblock %}
+                {% endblock %}
             </div>
         </div>
     </main>

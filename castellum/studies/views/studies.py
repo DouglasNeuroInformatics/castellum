@@ -203,6 +203,7 @@ class StudyRecruitmentSettingsView(StudyMixin, PermissionRequiredMixin, DetailVi
     permission_required = 'studies.view_study'
     template_name = 'studies/study_recruitmentsettings.html'
     tab = 'recruitmentsettings'
+    subtab = 'detail'
 
 
 class StudyRecruitmentSettingsUpdateView(
@@ -213,6 +214,7 @@ class StudyRecruitmentSettingsUpdateView(
     permission_required = 'studies.change_study'
     template_name = 'studies/study_recruitmentsettings_form.html'
     tab = 'recruitmentsettings'
+    subtab = 'update'
 
     def get_readonly(self):
         return self.object.study_mode == Study.FINISHED
@@ -229,6 +231,7 @@ class StudyExclusionCriteriaView(
     fields = ('exclusion_criteria',)
     permission_required = 'studies.change_study'
     tab = 'recruitmentsettings'
+    subtab = 'exclusioncriteria'
 
     def get_readonly(self):
         return self.object.study_mode == Study.FINISHED

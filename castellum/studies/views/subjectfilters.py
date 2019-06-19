@@ -71,6 +71,7 @@ class CustomFilterMixin:
 
 class FilterMixin(StudyMixin, PermissionRequiredMixin, CustomFilterMixin):
     tab = 'recruitmentsettings'
+    subtab = 'filters'
 
     def get_permission_required(self):
         permission_required = set()
