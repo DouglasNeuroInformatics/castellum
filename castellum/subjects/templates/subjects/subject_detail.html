@@ -4,8 +4,6 @@
 {% block title %}{% trans "Subject details" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>{{ object.contact.full_name }}</h1>
-    <p>{{ object.contact|display:'address' }}</p>
     {% if not object.contact.is_complete or not subject.is_complete %}
         <p class="alert alert-danger" role="alert">
             <strong>{% trans 'Incomplete data' %}.</strong> {% trans 'Please edit data sets marked with' %} <i class="fa fa-exclamation-triangle" aria-label="{% trans 'Missing values' %}"></i>

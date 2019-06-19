@@ -4,8 +4,6 @@
 {% block title %}{% trans "Recruitment settings" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h2>{% blocktrans %}Recruitment settings for {{ study }}{% endblocktrans %}</h2>
-
     <dl class="row">
         <dt class="col-sm-6">{{ object|verbose_name:'recruitment_text' }}</dt>
         <dd class="col-sm-6">{% if object.recruitment_text %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>

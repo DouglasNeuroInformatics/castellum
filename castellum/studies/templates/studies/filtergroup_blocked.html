@@ -4,8 +4,6 @@
 {% block title %}{% trans "Filters" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>{{ study.name }} &mdash; {% trans 'Filters' %}</h1>
-
     <p>{% trans 'matches' %}: {{ potential_subjects_count }} / {{ total_count }}</p>
 
     <p class="alert alert-warning">
