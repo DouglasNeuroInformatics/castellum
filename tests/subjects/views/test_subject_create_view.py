@@ -1,11 +1,7 @@
-import pytest
-from model_mommy import mommy
-
 from django.urls import reverse
 
-from castellum.castellum_auth.models import User
+import pytest
 from castellum.subjects.views import SubjectCreateView
-
 
 CONTACT_SEARCH_URL = reverse("subjects:index")
 CONTACT_CREATE_URL = reverse("subjects:create")
