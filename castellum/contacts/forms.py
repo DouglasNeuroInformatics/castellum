@@ -46,15 +46,15 @@ class AddressForm(forms.ModelForm):
 class ContactForm(forms.ModelForm):
 
     # fields required for the address
-    country = forms.CharField(label=_('country'), required=False, widget=DatalistWidget(
+    country = forms.CharField(label=_('Country'), required=False, widget=DatalistWidget(
         datalist=Country.objects.values_list('name', flat=True)))
-    city = forms.CharField(label=_('city'), required=False, widget=DatalistWidget(
+    city = forms.CharField(label=_('City'), required=False, widget=DatalistWidget(
         datalist=City.objects.values_list('name', flat=True)))
-    zip_code = forms.CharField(label=_('zip code'), required=False)
-    street = forms.CharField(label=_('street'), required=False)
-    house_number = forms.CharField(label=_('house number'), required=False)
+    zip_code = forms.CharField(label=_('Zip code'), required=False)
+    street = forms.CharField(label=_('Street'), required=False)
+    house_number = forms.CharField(label=_('House number'), required=False)
     additional_information = forms.CharField(
-        label=_('additional address information'), required=False)
+        label=_('Additional address information'), required=False)
 
     class Meta:
         model = Contact
