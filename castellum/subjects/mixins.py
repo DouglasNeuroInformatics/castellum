@@ -27,6 +27,7 @@ from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 
+from .forms import SubjectForm
 from .models import Subject
 from .models import SubjectNote
 
@@ -49,7 +50,7 @@ class SubjectMixin:
 
 class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = Subject
-    fields = '__all__'
+    form_class = SubjectForm
     permission_required = 'subjects.change_subject'
 
     def get_notes_form(self):
