@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-21 11:32+0200\n"
+"POT-Creation-Date: 2019-06-21 11:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -206,6 +206,7 @@ msgid "Additional information"
 msgstr "Zusätzliche Informationen"
 
 #: castellum/contacts/models/address.py:74
+#: castellum/contacts/models/contact.py:79
 msgid "Address"
 msgstr "Adresse"
 
@@ -256,10 +257,6 @@ msgstr "Geschlecht"
 #: castellum/contacts/models/contact.py:77
 msgid "Date of birth"
 msgstr "Geburtsdatum"
-
-#: castellum/contacts/models/contact.py:79
-msgid "address"
-msgstr "Adresse"
 
 #: castellum/contacts/models/contact.py:81
 msgid "Email"
