@@ -31,7 +31,7 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.views.generic import CreateView
 from django.views.generic import DetailView
-from django.views.generic import ListView
+from django.views.generic import RedirectView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import ContactForm
@@ -111,34 +111,26 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
-class SubjectCreateView(PermissionRequiredMixin, CreateView):
-    model = Contact
-    form_class = ContactForm
+class SubjectCreateView(PermissionRequiredMixin, RedirectView):
     permission_required = 'contacts.add_contact'
+    pattern_name = 'subjects:detail'
 
-    def get_cancel_url(self):
-        return reverse('subjects:index') + '?' + self.request.META['QUERY_STRING']
+    def get(self, request, *args, **kwargs):
+        first_name = request.GET['first_name']
+        last_name = request.GET['last_name']
+        date_of_birth = request.GET['date_of_birth']
 
-    def get_initial(self):
-        initial = super().get_initial()
-        for key in ['first_name', 'last_name', 'date_of_birth']:
-            if key in self.request.GET:
-                initial[key] = self.request.GET[key]
-        return initial
-
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        return super().post(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
+        contact = Contact.objects.create(first_name=first_name,
+                                        last_name=last_name,
+                                        date_of_birth=date_of_birth)
 
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             Contact.domain,
             self.object.pseudonym,
             self.request.user.pk))
 
-        return response
+        kwargs['pk'] = contact.pk
+        return super().get(request, *args, **kwargs)
 
 
 class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
