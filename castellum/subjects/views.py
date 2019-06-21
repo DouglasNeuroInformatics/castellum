@@ -126,7 +126,7 @@ class SubjectCreateView(PermissionRequiredMixin, RedirectView):
 
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             Contact.domain,
-            self.object.pseudonym,
+            contact.pseudonym,
             self.request.user.pk))
 
         kwargs['pk'] = contact.pk
