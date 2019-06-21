@@ -34,15 +34,21 @@
     <div class="mb-3">
         {% has_perm 'contacts.change_contact' user as can_change_contact %}
         {% if can_change_contact %}
-            <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'subjects:contact' subject.pk %}">{% trans 'Edit contact' %}</a>
+            <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'subjects:contact' subject.pk %}">
+                {% if not contact_data_full %}
+                    <i class="fa fa-exclamation-triangle"></i>
+                {% endif %}
+                {% trans 'Edit contact' %}
+            </a>
         {% endif %}
         {% has_perm 'subjects.change_subject' user as can_change_subject %}
         {% if can_change_subject %}
-            <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'subjects:subject' subject.pk %}">{% trans 'Edit subject' %}</a>
-        {% endif %}
-        {% has_perm 'subjects.change_subject' user as can_change_subject %}
-        {% if can_change_subject %}
-            <a class="btn btn-secondary" href="{% url 'subjects:subject' subject.pk %}">{% trans 'Edit subject' %}</a>
+            <a class="btn btn-secondary" href="{% url 'subjects:subject' subject.pk %}">
+                {% if not subject_data_full %}
+                    <i class="fa fa-exclamation-triangle"></i>
+                {% endif %}
+                {% trans 'Edit subject' %}
+            </a>
         {% endif %}
         {% has_perm 'recruitment.change_attributeset' user as can_change_attributeset %}
         {% if can_change_attributeset %}
