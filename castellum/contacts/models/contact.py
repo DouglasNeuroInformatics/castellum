@@ -76,7 +76,7 @@ class Contact(TimeStampedModel):
 
     date_of_birth = DateField(_('Date of birth'))
 
-    address = models.ForeignKey(Address, blank=True, null=True, verbose_name=_("address"),
+    address = models.ForeignKey(Address, blank=True, null=True, verbose_name=_('Address'),
                                 on_delete=models.SET_NULL)
     email = models.EmailField(_('Email'), max_length=128, blank=True)
     phone_number = PhoneNumberField(_('Phone number'), max_length=32, blank=True)
