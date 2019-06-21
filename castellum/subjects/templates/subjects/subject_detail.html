@@ -6,6 +6,11 @@
 {% block content %}
     <h1>{{ contact.full_name }}</h1>
     <p>{{ contact|display:'address' }}</p>
+    {% if not contact_data_full or not subject_data_full %}
+        <div class="alert alert-danger" role="alert">
+            <p><b>{% trans 'Incomplete data' %}.</b> {% trans 'Currently, this subject can not be reached for recruitment. Please edit data sets marked with' %} <i class="fa fa-exclamation-triangle"></i></p>
+        </div>
+    {% endif %}
     <dl class="row">
         <dt class="col-sm-6">{% trans 'Subject data registered' %}</dt>
         <dd class="col-sm-6">{{ subject.created_at }}</dd>
