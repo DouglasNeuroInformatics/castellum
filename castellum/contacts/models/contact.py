@@ -98,6 +98,10 @@ class Contact(TimeStampedModel):
         return get_subject(self.domain, self.pseudonym)
 
     @property
+    def contact_data_full(self):
+        return any([self.address, self.phone_number, self.email])
+
+    @property
     def full_name(self):
         return " ".join(filter(None, [self.title, self.first_name, self.last_name]))
 
