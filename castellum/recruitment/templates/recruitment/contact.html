@@ -88,11 +88,11 @@
 
             {% has_perm 'contacts.change_contact' user view.study as can_change_contact %}
             {% if can_change_contact %}
-                <a class="btn btn-secondary" href="{% url 'recruitment:contact-update' study.pk object.pk %}">{% trans 'Edit contact data'%}</a>
+                <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:contact-update' study.pk object.pk %}">{% trans 'Edit contact data'%}</a>
             {% endif %}
             {% has_perm 'recruitment.change_attributeset' user view.study as can_change_attributeset %}
             {% if can_change_attributeset %}
-                <a class="btn btn-secondary" href="{% url 'recruitment:attributeset-update' study.pk object.pk %}">{% trans 'Edit attributes'%}</a>
+                <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:attributeset-update' study.pk object.pk %}">{% trans 'Edit attributes'%}</a>
             {% endif %}
         </div>
 
@@ -159,10 +159,10 @@
 
         <div class="mb-3">
             {% if is_contacts %}
-                <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+                <input type="submit" class="btn btn-primary btn-sm-inline my-1" value="{% trans 'Save' %}" />
             {% else %}
-                <input type="submit" class="btn btn-primary" name="btn_back" value="{% trans 'Save and go back' %}" />
-                <input type="submit" class="btn btn-primary" name="btn_next" value="{% trans 'Save and show next' %}" />
+                <input type="submit" class="btn btn-primary btn-sm-inline my-1" name="btn_back" value="{% trans 'Save and go back' %}" />
+                <input type="submit" class="btn btn-primary btn-sm-inline my-1" name="btn_next" value="{% trans 'Save and show next' %}" />
             {% endif %}
         </div>
     </form>
