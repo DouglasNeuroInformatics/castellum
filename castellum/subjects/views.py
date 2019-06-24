@@ -28,8 +28,10 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.functional import cached_property
 from django.views.generic import CreateView
 from django.views.generic import DetailView
+from django.views.generic import ListView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import ContactForm
@@ -227,4 +229,32 @@ class AttributeSetUpdateView(BaseAttributeSetUpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['base_template'] = "subjects/base.html"
+        return context
+
+
+class ParticipationListView(SubjectMixin, ListView):
+    model = ParticipationRequest
+    template_name = 'subjects/subject_participationlist.html'
+    permission_required = 'recruitment.view_participationrequest'
+
+    @cached_property
+    def subject(self):
+        return get_object_or_404(Subject, pk=self.kwargs['pk'])
+
+    def get_queryset(self, queryset=None):
+        if not queryset:
+            add_pr_perm = self.request.user.has_perm('recruitment.add_participationrequest',
+                                                     obj=self.model.study)
+            access_study_perm = self.request.user.has_perm('studies.access_study',
+                                                           obj=self.model.study)
+            if add_pr_perm and access_study_perm:
+                queryset = self.model.objects.all().filter(subject=self.subject)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        pseudonym = get_pseudonym(self.subject, Contact.domain)
+        context['contact'] = Contact.objects.get(pseudonym=pseudonym)
+
         return context
