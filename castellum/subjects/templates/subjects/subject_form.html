@@ -1,0 +1,129 @@
+{% extends base_template|default:"subjects/base.html" %}
+{% load static i18n bootstrap4 %}
+
+{% block title %}
+    {% trans "Edit subject" %} &middot; {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <template id="note-data-template">
+        <div class="form-group">
+            <div class="form-check">
+                {{ template_form.id.as_hidden }}
+                <input type="hidden" name="{{ template_form.prefix }}-DELETE" id="id_{{ template_form.prefix }}-DELETE">
+                <input type="checkbox" id="id_{{ template_form.prefix }}-DELETE-check" data-js="note-delete" class="form-check-input" checked>
+                <label for="id_{{ template_form.prefix }}-DELETE-check" class="form-check-label">
+                    <input type="text" name="{{ template_form.content.html_name }}" class="form-control">
+                </label>
+            </div>
+        </div>
+    </template>
+
+    <form method="post">
+        {% for error in form.non_field_errors %}
+            <p class="alert alert-danger" role="alert">{{ error }}</p>
+        {% endfor %}
+
+        {% csrf_token %}
+
+        <fieldset>
+            <legend>{% trans 'Privacy level' %}</legend>
+
+            {% bootstrap_field form.privacy_level show_label=False %}
+        </fieldset>
+
+        {% if db_consent_uploaded %}
+            <fieldset>
+                <legend>{% trans 'Castellum consent' %}</legend>
+
+                {% with consent=object.confirmed_consent %}
+                    <div class="alert alert-{{ consent.revision.is_current|yesno:'success,warning' }}">
+                        {% if consent %}
+                            {{ consent.revision }} {% if not consent.revision.is_current %}({% trans 'outdated' %}){% endif %}
+                            <br>
+                            {{ consent.get_type_display }}, {{ consent.updated_at|date }}
+                        {% else %}
+                            {% trans 'No consent' %}
+                        {% endif %}
+                    </div>
+                {% endwith %}
+
+                {% with consent=object.consent %}
+                    {% if consent.status == consent.WAITING or not consent.revision.is_current %}
+                        {% bootstrap_field form.consent_type %}
+                        {% bootstrap_field form.consent_status %}
+                    {% endif %}
+                {% endwith %}
+            </fieldset>
+        {% endif %}
+
+        <fieldset>
+            <legend>{% trans 'Operational hints' %}</legend>
+
+            <fieldset data-js="availability" data-create="{% if not object and not form.is_bound %}true{% endif %}" class="mb-3">
+                <legend class="h5">{% trans "Availability" %}</legend>
+
+                <div class="form-row">
+                    <div class="col-6 col-sm-2">
+                        {% bootstrap_field form.availability_monday %}
+                    </div>
+                    <div class="col-6 col-sm-2">
+                        {% bootstrap_field form.availability_tuesday %}
+                    </div>
+                    <div class="col-6 col-sm-2">
+                        {% bootstrap_field form.availability_wednesday %}
+                    </div>
+                    <div class="col-6 col-sm-2">
+                        {% bootstrap_field form.availability_thursday %}
+                    </div>
+                    <div class="col-6 col-sm-2">
+                        {% bootstrap_field form.availability_friday %}
+                    </div>
+                </div>
+            </fieldset>
+
+            {% bootstrap_field form.not_available_until %}
+
+            <fieldset>
+                <legend class="h5">{% trans "Notes" %}</legend>
+
+                {% bootstrap_field form.note_hard_of_hearing %}
+                {% bootstrap_field form.note_difficult_to_understand %}
+                {% bootstrap_field form.note_abusive_language %}
+
+                {{ notes_formset.management_form }}
+                <div id="notes-container">
+                    {% for subform in notes_formset %}
+                        <div class="form-group">
+                            <div class="form-check" {% if subform.DELETE.value %}hidden{% endif %}>
+                                {{ subform.id.as_hidden }}
+                                {{ subform.DELETE.as_hidden }}
+                                <input type="checkbox" id="{{ subform.DELETE.id_for_label }}-check" data-js="note-delete" class="form-check-input" {% if not subform.DELETE.value %}checked{% endif %}>
+                                <label for="{{ subform.DELETE.id_for_label }}-check" class="form-check-label">
+                                    <input type="text" name="{{ subform.content.html_name }}" value="{{ subform.content.value }}" class="form-control" readonly>
+                                </label>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    <button type="button" class="btn btn-primary" data-js="note-add">
+                        {% trans "Add note" %}
+                    </button>
+                </div>
+            </fieldset>
+        </fieldset>
+
+        <div class="mb-3">
+            <a href="{{ view.get_success_url }}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+            <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+        </div>
+    </form>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/availability.js' %}"></script>
+    <script src="{% static 'js/subject_form.js' %}"></script>
+{% endblock %}
+

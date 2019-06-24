@@ -44,10 +44,11 @@ from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.utils import get_study_filter_q
 from castellum.studies.models import Study
-from castellum.subjects.mixins import SubjectNoteFormMixin
 from castellum.utils.views import GetFormView
 
+from .mixins import BaseSubjectUpdateView
 from .mixins import SubjectMixin
+from .models import Consent
 from .models import Subject
 
 monitoring_logger = logging.getLogger('monitoring.subjects')
@@ -105,15 +106,10 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
-class SubjectCreateView(PermissionRequiredMixin, SubjectNoteFormMixin, CreateView):
+class SubjectCreateView(PermissionRequiredMixin, CreateView):
     model = Contact
     form_class = ContactForm
     permission_required = 'contacts.add_contact'
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
 
     def get_cancel_url(self):
         return reverse('subjects:index') + '?' + self.request.META['QUERY_STRING']
@@ -129,8 +125,8 @@ class SubjectCreateView(PermissionRequiredMixin, SubjectNoteFormMixin, CreateVie
         self.object = None
         return super().post(request, *args, **kwargs)
 
-    def form_valid(self, form, notes_formset):
-        response = super().form_valid(form, notes_formset)
+    def form_valid(self, form):
+        response = super().form_valid(form)
 
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             Contact.domain,
@@ -210,6 +206,16 @@ class AddToStudyView(SubjectMixin, LoginRequiredMixin, DetailView):
 
         url = reverse('recruitment:contact', args=[study.pk, participation_request.pk])
         return redirect(url + '?contacts')
+
+
+class SubjectUpdateView(BaseSubjectUpdateView):
+    def get_success_url(self):
+        return reverse('subjects:detail', args=[self.object.pk])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['db_consent_uploaded'] = Consent.objects.exists()
+        return context
 
 
 class ContactUpdateView(BaseContactUpdateView):

@@ -23,7 +23,11 @@ from django import forms
 from django.core.exceptions import PermissionDenied
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
+from django.views.generic import UpdateView
 
+from castellum.castellum_auth.mixins import PermissionRequiredMixin
+
+from .forms import SubjectForm
 from .models import Subject
 from .models import SubjectNote
 
@@ -44,7 +48,11 @@ class SubjectMixin:
         return super().dispatch(request, *args, **kwargs)
 
 
-class SubjectNoteFormMixin:
+class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
+    model = Subject
+    form_class = SubjectForm
+    permission_required = 'subjects.change_subject'
+
     def get_notes_form(self):
         form_class = forms.modelform_factory(SubjectNote, fields=('content',))
         return form_class(prefix='{prefix}')
@@ -53,13 +61,9 @@ class SubjectNoteFormMixin:
         formset_class = forms.modelformset_factory(SubjectNote, fields=('content',),
                                                    extra=0, can_delete=True)
         kwargs = self.get_form_kwargs()
-        kwargs.pop('user')
         kwargs.pop('instance')
         kwargs.pop('initial')
-        if self.object:
-            return formset_class(queryset=SubjectNote.objects.filter(
-                subject=self.object.subject), **kwargs)
-        return formset_class(queryset=SubjectNote.objects.none(), **kwargs)
+        return formset_class(queryset=SubjectNote.objects.filter(subject=self.object), **kwargs)
 
     def get_context_data(self, **kwargs):
         if 'notes_formset' not in kwargs:
@@ -69,6 +73,7 @@ class SubjectNoteFormMixin:
         return super().get_context_data(**kwargs)
 
     def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
         form = self.get_form()
         notes_formset = self.get_notes_formset()
 
@@ -87,7 +92,7 @@ class SubjectNoteFormMixin:
         response = super().form_valid(form)
 
         for subform in contactnote_formset:
-            subform.instance.subject = self.object.subject
+            subform.instance.subject = self.object
         contactnote_formset.save()
 
         return response
