@@ -25,6 +25,7 @@ from urllib.parse import urlencode
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -114,14 +115,21 @@ class SubjectCreateView(PermissionRequiredMixin, RedirectView):
     permission_required = 'contacts.add_contact'
     pattern_name = 'subjects:detail'
 
-    def get(self, request, *args, **kwargs):
-        first_name = request.GET['first_name']
-        last_name = request.GET['last_name']
-        date_of_birth = request.GET['date_of_birth']
+    def get_initial(self):
+        initial = {}
 
-        contact = Contact.objects.create(first_name=first_name,
-                                         last_name=last_name,
-                                         date_of_birth=date_of_birth)
+        for key in ['first_name', 'last_name', 'date_of_birth']:
+            if key in self.request.GET:
+                initial[key] = self.request.GET[key]
+        return initial
+
+    def get(self, request, *args, **kwargs):
+
+        initial = self.get_initial()
+        if not ('date_of_birth' and 'first_name' and 'last_name' in initial.keys()):
+            return HttpResponseBadRequest()
+
+        contact = Contact.objects.create(**initial)
 
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             Contact.domain,
