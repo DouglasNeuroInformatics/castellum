@@ -29,12 +29,11 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.views.generic import CreateView
 from django.views.generic import DetailView
+from django.views.generic import ListView
 from django.views.generic import RedirectView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.contacts.forms import ContactForm
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
@@ -121,8 +120,8 @@ class SubjectCreateView(PermissionRequiredMixin, RedirectView):
         date_of_birth = request.GET['date_of_birth']
 
         contact = Contact.objects.create(first_name=first_name,
-                                        last_name=last_name,
-                                        date_of_birth=date_of_birth)
+                                         last_name=last_name,
+                                         date_of_birth=date_of_birth)
 
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             Contact.domain,
