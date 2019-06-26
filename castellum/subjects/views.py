@@ -27,6 +27,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseBadRequest
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -254,14 +255,13 @@ class SubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         )
 
     def form_valid(self, form, contactnote_formset):
-
-        response = super().form_valid(form)
+        self.object = form.save()
 
         for subform in contactnote_formset:
             subform.instance.subject = self.object
         contactnote_formset.save()
 
-        return response
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse('subjects:detail', args=[self.object.pk])
