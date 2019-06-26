@@ -248,12 +248,9 @@ class SubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
 
         if form.is_valid() and notes_formset.is_valid():
             return self.form_valid(form, notes_formset)
-        else:
-            return self.form_invalid(form, notes_formset)
 
-    def form_invalid(self, form, session_formset):
         return self.render_to_response(
-            self.get_context_data(form=form, session_formset=session_formset)
+            self.get_context_data(form=form, session_formset=notes_formset)
         )
 
     def form_valid(self, form, contactnote_formset):
