@@ -25,16 +25,16 @@ from urllib.parse import urlencode
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
+from django.views.generic import RedirectView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.contacts.forms import ContactForm
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
@@ -111,34 +111,33 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
-class SubjectCreateView(PermissionRequiredMixin, CreateView):
-    model = Contact
-    form_class = ContactForm
+class SubjectCreateView(PermissionRequiredMixin, RedirectView):
     permission_required = 'contacts.add_contact'
-
-    def get_cancel_url(self):
-        return reverse('subjects:index') + '?' + self.request.META['QUERY_STRING']
+    pattern_name = 'subjects:detail'
 
     def get_initial(self):
-        initial = super().get_initial()
+        initial = {}
+
         for key in ['first_name', 'last_name', 'date_of_birth']:
             if key in self.request.GET:
                 initial[key] = self.request.GET[key]
         return initial
 
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        return super().post(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
+        initial = self.get_initial()
+        if not ('date_of_birth' and 'first_name' and 'last_name' in initial.keys()):
+            return HttpResponseBadRequest()
+
+        contact = Contact.objects.create(**initial)
 
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             Contact.domain,
-            self.object.pseudonym,
+            contact.pseudonym,
             self.request.user.pk))
 
-        return response
+        kwargs['pk'] = contact.pk
+        return super().get(request, *args, **kwargs)
 
 
 class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):

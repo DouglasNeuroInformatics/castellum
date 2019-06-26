@@ -36,8 +36,9 @@ def test_detail_200(request, client, user_fixture, contact):
 def test_status_code_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    response = client.get(reverse('subjects:create'))
-    assert 200 == response.status_code
+    url = '/subjects/create/?first_name=Test&last_name=Test&date_of_birth=1982-02-03'
+    response = client.get(url)
+    assert response.status_code == 302
 
 
 @pytest.mark.parametrize('user_fixture', [
@@ -45,19 +46,19 @@ def test_status_code_200(request, client, user_fixture):
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
 ])
-def test_create_200(request, client, user_fixture, contact):
+def test_create_400(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     url = '/subjects/create/'
     response = client.get(url)
-    assert response.status_code == 200
+    assert response.status_code == 400
 
 
-def test_create_with_parameter_200(client, user, contact):
+def test_create_with_parameter_400(client, user):
     client.force_login(user)
     url = '/subjects/create/?first_name=test'
     response = client.get(url)
-    assert response.status_code == 200
+    assert response.status_code == 400
 
 
 @pytest.mark.parametrize('user_fixture', [

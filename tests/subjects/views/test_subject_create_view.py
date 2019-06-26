@@ -13,12 +13,6 @@ def view():
 
 
 @pytest.mark.unittest
-def test_get_cancel_url(view, request_factory):
-    view.request = request_factory.get(CONTACT_CREATE_URL, {"first_name": "Anna"})
-    assert CONTACT_SEARCH_URL + "?first_name=Anna" == view.get_cancel_url()
-
-
-@pytest.mark.unittest
 @pytest.mark.parametrize("initial_data", [
     {},
     dict(first_name="Anna"),
