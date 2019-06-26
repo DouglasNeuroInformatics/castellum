@@ -57,7 +57,7 @@ class SubjectForm(forms.ModelForm):
         return cleaned_data
 
     def save(self, commit=True):
-        subject = super().save(commit=False)
+        subject = super().save(commit)
         consent = subject.consent
         if consent and consent.status == ConsentConfirmation.WAITING:
             if (
