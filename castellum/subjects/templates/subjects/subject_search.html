@@ -6,7 +6,8 @@
 {% block content %}
     <p>{% trans 'Total number of subjects' %}: {{ total_number_subjects }}</p>
 
-    <form method="get">
+    <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}

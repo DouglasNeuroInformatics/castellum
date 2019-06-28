@@ -33,6 +33,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.views.generic import DetailView
+from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import RedirectView
 from django.views.generic import UpdateView
@@ -47,7 +48,6 @@ from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.utils import get_study_filter_q
 from castellum.studies.models import Study
-from castellum.utils.views import GetFormView
 
 from .forms import SubjectForm
 from .mixins import SubjectMixin
@@ -58,7 +58,7 @@ from .models import SubjectNote
 monitoring_logger = logging.getLogger('monitoring.subjects')
 
 
-class SubjectSearchView(PermissionRequiredMixin, GetFormView):
+class SubjectSearchView(PermissionRequiredMixin, FormView):
     template_name = 'subjects/subject_search.html'
     permission_required = 'contacts.view_contact'
     form_class = SearchForm
