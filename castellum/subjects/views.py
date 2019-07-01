@@ -94,7 +94,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         context['contact'] = Contact.objects.get(pseudonym=pseudonym)
 
         context['updated_at'] = max(self.object.updated_at, context['contact'].updated_at)
-        context['subject_data_full'] = self.object.consent
+        context['subject_data_full'] = self.object.consent or not Consent.objects.exists()
 
         pseudonym = get_pseudonym(self.object, Contact.domain)
         contact = Contact.objects.get(pseudonym=pseudonym)
