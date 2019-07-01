@@ -48,9 +48,9 @@
         {% endif %}
         {% has_perm 'subjects.change_subject' user as can_change_subject %}
         {% if can_change_subject %}
-            <a class="btn btn-secondary" href="{% url 'subjects:subject' subject.pk %}" title="Edit subject">
+            <a class="btn btn-secondary" href="{% url 'subjects:subject' subject.pk %}" title="{% trans 'Edit subject' %}">
                 {% if not subject_data_full %}
-                    <i class="fa fa-exclamation-triangle" aria-label="Edit subject"></i>
+                    <i class="fa fa-exclamation-triangle" aria-label="{% trans 'Missing values' %}"></i>
                 {% endif %}
                 {% trans 'Edit subject' %}
             </a>
