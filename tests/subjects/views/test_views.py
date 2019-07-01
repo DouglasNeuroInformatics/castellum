@@ -37,7 +37,7 @@ def test_status_code_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     url = '/subjects/create/?first_name=Test&last_name=Test&date_of_birth=1982-02-03'
-    response = client.get(url)
+    response = client.post(url)
     assert response.status_code == 302
 
 
@@ -50,14 +50,14 @@ def test_create_400(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     url = '/subjects/create/'
-    response = client.get(url)
+    response = client.post(url)
     assert response.status_code == 400
 
 
 def test_create_with_parameter_400(client, user):
     client.force_login(user)
     url = '/subjects/create/?first_name=test'
-    response = client.get(url)
+    response = client.post(url)
     assert response.status_code == 400
 
 

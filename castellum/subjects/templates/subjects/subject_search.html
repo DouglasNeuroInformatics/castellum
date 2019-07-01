@@ -82,7 +82,10 @@
 
         {% has_perm 'contacts.add_contact' user as can_add_contact %}
         {% if can_add_contact %}
-            <a href="{% url 'subjects:create' %}{{ query }}" class="btn btn-primary">{% trans "Create new subject" %}</a>
+            <form method="post" action="{% url 'subjects:create' %}{{ query }}">
+                {% csrf_token %}
+                <button class="btn btn-primary">{% trans "Create new subject" %}</button>
+            </form>
         {% endif %}
     {% endif %}
 {% endblock %}
