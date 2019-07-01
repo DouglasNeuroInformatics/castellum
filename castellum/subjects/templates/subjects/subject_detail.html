@@ -39,9 +39,9 @@
     <div class="mb-3">
         {% has_perm 'contacts.change_contact' user as can_change_contact %}
         {% if can_change_contact %}
-            <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'subjects:contact' subject.pk %}">
+            <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'subjects:contact' subject.pk %}" title="{% trans 'Edit contact' %}">
                 {% if not contact_data_full %}
-                    <i class="fa fa-exclamation-triangle"></i>
+                    <i class="fa fa-exclamation-triangle" aria-label="{% trans 'Missing values' %}"></i>
                 {% endif %}
                 {% trans 'Edit contact' %}
             </a>
