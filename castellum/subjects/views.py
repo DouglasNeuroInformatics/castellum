@@ -32,7 +32,7 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.views.generic import DetailView
 from django.views.generic import ListView
-from django.views.generic import RedirectView
+from django.views.generic import View
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import SearchForm
@@ -111,33 +111,23 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
-class SubjectCreateView(PermissionRequiredMixin, RedirectView):
+class SubjectCreateView(PermissionRequiredMixin, View):
     permission_required = 'contacts.add_contact'
     pattern_name = 'subjects:detail'
 
-    def get_initial(self):
-        initial = {}
-
-        for key in ['first_name', 'last_name', 'date_of_birth']:
-            if key in self.request.GET:
-                initial[key] = self.request.GET[key]
-        return initial
-
-    def get(self, request, *args, **kwargs):
-
-        initial = self.get_initial()
-        if not ('date_of_birth' and 'first_name' and 'last_name' in initial.keys()):
+    def post(self, request, *args, **kwargs):
+        form = SearchForm(data=request.GET)
+        if not form.is_valid():
             return HttpResponseBadRequest()
 
-        contact = Contact.objects.create(**initial)
+        contact = form.save()
 
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             Contact.domain,
             contact.pseudonym,
             self.request.user.pk))
 
-        kwargs['pk'] = contact.pk
-        return super().get(request, *args, **kwargs)
+        return redirect('subjects:detail', pk=contact.subject.pk)
 
 
 class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
