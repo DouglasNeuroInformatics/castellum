@@ -125,11 +125,11 @@ class SubjectCreateView(PermissionRequiredMixin, RedirectView):
 
     def get(self, request, *args, **kwargs):
 
-        initial = self.get_initial()
-        if not ('date_of_birth' and 'first_name' and 'last_name' in initial.keys()):
+        form = SearchForm(data=self.get_initial())
+        if not form.is_valid():
             return HttpResponseBadRequest()
 
-        contact = Contact.objects.create(**initial)
+        contact = Contact.objects.create(**self.get_initial())
 
         monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
             Contact.domain,
