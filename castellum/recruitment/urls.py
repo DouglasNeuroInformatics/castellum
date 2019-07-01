@@ -30,6 +30,7 @@ from .views import RecruitmentViewInvited
 from .views import RecruitmentViewOpen
 from .views import RecruitmentViewUnsuitable
 from .views import StudyChoiceView
+from .views import SubjectUpdateView
 
 app_name = 'recruitment'
 urlpatterns = [
@@ -48,4 +49,6 @@ urlpatterns = [
          name='contact-update'),
     path('<study_pk>/<int:pk>/update-attributeset/', AttributeSetUpdateView.as_view(),
          name='attributeset-update'),
+    path('<study_pk>/<int:pk>/update-subject/', SubjectUpdateView.as_view(),
+         name='subject-update'),
 ]

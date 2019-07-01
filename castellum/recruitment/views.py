@@ -44,7 +44,9 @@ from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.studies.mixins import StudyPermissionMixin
 from castellum.studies.models import Study
+from castellum.subjects.mixins import BaseSubjectUpdateView
 from castellum.subjects.mixins import SubjectMixin
+from castellum.subjects.models import Consent
 from castellum.utils.chart import ChartRenderer
 
 from .forms import ContactForm
@@ -380,3 +382,25 @@ class AttributeSetUpdateView(StudyPermissionMixin, BaseAttributeSetUpdateView):
 
     def get_success_url(self):
         return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
+
+
+class SubjectUpdateView(StudyPermissionMixin, BaseSubjectUpdateView):
+
+    def dispatch(self, request, *args, **kwargs):
+        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
+        self.study.raise_404_error_if_study_is_not_in_recruitment_mode()
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_object(self):
+        participation_request = get_object_or_404(
+            ParticipationRequest, study=self.study, pk=self.kwargs['pk'])
+        return participation_request.subject
+
+    def get_success_url(self):
+        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['db_consent_uploaded'] = Consent.objects.exists()
+        context['base_template'] = "recruitment/base.html"
+        return context
