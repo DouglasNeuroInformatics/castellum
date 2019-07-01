@@ -22,12 +22,10 @@
 import logging
 from urllib.parse import urlencode
 
-from django import forms
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseBadRequest
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -35,7 +33,6 @@ from django.utils.functional import cached_property
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import RedirectView
-from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import SearchForm
@@ -49,11 +46,10 @@ from castellum.recruitment.utils import get_study_filter_q
 from castellum.studies.models import Study
 from castellum.utils.views import GetFormView
 
-from .forms import SubjectForm
+from .mixins import BaseSubjectUpdateView
 from .mixins import SubjectMixin
 from .models import Consent
 from .models import Subject
-from .models import SubjectNote
 
 monitoring_logger = logging.getLogger('monitoring.subjects')
 
@@ -216,55 +212,14 @@ class AddToStudyView(SubjectMixin, LoginRequiredMixin, DetailView):
         return redirect(url + '?contacts')
 
 
-class SubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
-    model = Subject
-    form_class = SubjectForm
-    permission_required = 'subjects.change_subject'
-
-    def get_notes_form(self):
-        form_class = forms.modelform_factory(SubjectNote, fields=('content',))
-        return form_class(prefix='{prefix}')
-
-    def get_notes_formset(self):
-        formset_class = forms.modelformset_factory(SubjectNote, fields=('content',),
-                                                   extra=0, can_delete=True)
-        kwargs = self.get_form_kwargs()
-        kwargs.pop('instance')
-        kwargs.pop('initial')
-        return formset_class(queryset=SubjectNote.objects.filter(subject=self.object), **kwargs)
+class SubjectUpdateView(BaseSubjectUpdateView):
+    def get_success_url(self):
+        return reverse('subjects:detail', args=[self.object.pk])
 
     def get_context_data(self, **kwargs):
-        if 'notes_formset' not in kwargs:
-            kwargs['notes_formset'] = self.get_notes_formset()
-        kwargs["template_form"] = self.get_notes_form()
-
         context = super().get_context_data(**kwargs)
         context['db_consent_uploaded'] = Consent.objects.exists()
         return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-        notes_formset = self.get_notes_formset()
-
-        if form.is_valid() and notes_formset.is_valid():
-            return self.form_valid(form, notes_formset)
-
-        return self.render_to_response(
-            self.get_context_data(form=form, session_formset=notes_formset)
-        )
-
-    def form_valid(self, form, contactnote_formset):
-        self.object = form.save()
-
-        for subform in contactnote_formset:
-            subform.instance.subject = self.object
-        contactnote_formset.save()
-
-        return HttpResponseRedirect(self.get_success_url())
-
-    def get_success_url(self):
-        return reverse('subjects:detail', args=[self.object.pk])
 
 
 class ContactUpdateView(BaseContactUpdateView):
