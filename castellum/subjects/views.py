@@ -243,13 +243,13 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = self.model.objects.filter(subject=self.subject)
+        perms = (
+            'studies.access_study',
+            'recruitment.change_participationrequest',
+            'contacts.view_contact',
+        )
         for participation_request in queryset:
-            if self.request.user.has_perms(
-                                           ('studies.access_study',
-                                            'recruitment.change_participationrequest',
-                                            'contacts.view_contact',),
-                                           obj=participation_request.study
-                                           ):
+            if self.request.user.has_perms(perms, obj=participation_request.study):
                 yield participation_request
 
     def get_context_data(self, **kwargs):
