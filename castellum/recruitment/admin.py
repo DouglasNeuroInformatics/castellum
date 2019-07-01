@@ -107,6 +107,7 @@ EXPORT_SCHEMA = {
                     "enum": [
                         "CharField",
                         "ChoiceField",
+                        "OrderedChoiceField",
                         "IntegerField",
                         "BooleanField",
                         "DateField",
