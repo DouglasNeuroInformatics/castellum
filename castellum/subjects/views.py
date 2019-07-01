@@ -232,7 +232,7 @@ class AttributeSetUpdateView(BaseAttributeSetUpdateView):
         return context
 
 
-class ParticipationListView(SubjectMixin, ListView):
+class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     model = ParticipationRequest
     template_name = 'subjects/subject_participationlist.html'
     permission_required = 'recruitment.view_participationrequest'
@@ -241,15 +241,16 @@ class ParticipationListView(SubjectMixin, ListView):
     def subject(self):
         return get_object_or_404(Subject, pk=self.kwargs['pk'])
 
-    def get_queryset(self, queryset=None):
-        if not queryset:
-            add_pr_perm = self.request.user.has_perm('recruitment.add_participationrequest',
-                                                     obj=self.model.study)
-            access_study_perm = self.request.user.has_perm('studies.access_study',
-                                                           obj=self.model.study)
-            if add_pr_perm and access_study_perm:
-                queryset = self.model.objects.all().filter(subject=self.subject)
-        return queryset
+    def get_queryset(self):
+        queryset = self.model.objects.filter(subject=self.subject)
+        perms = (
+            'studies.access_study',
+            'recruitment.change_participationrequest',
+            'contacts.view_contact',
+        )
+        for participation_request in queryset:
+            if self.request.user.has_perms(perms, obj=participation_request.study):
+                yield participation_request
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

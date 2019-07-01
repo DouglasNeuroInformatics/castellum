@@ -6,8 +6,8 @@
 {% block content %}
     <h2>{% trans 'Study Participation of' %} {{ contact.full_name }}</h2>
     <ul class="table-list mb-3">
-    	{% for participationrequest in object_list %}
-    	 	<li class="table-list-item">
+        {% for participationrequest in object_list %}
+            <li class="table-list-item">
                 <h3 class="h4 d-inline-block my-1 mr-2">{{ participationrequest.study }}</h3>
             </li>
         {% endfor %}
