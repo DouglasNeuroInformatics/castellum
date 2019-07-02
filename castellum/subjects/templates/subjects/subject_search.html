@@ -82,7 +82,7 @@
 
         {% has_perm 'contacts.add_contact' user as can_add_contact %}
         {% if can_add_contact %}
-            <form method="post" action="{% url 'subjects:create' %}{{ query }}">
+            <form method="post" action="{% url 'subjects:index' %}{{ query }}">
                 {% csrf_token %}
                 <button class="btn btn-primary">{% trans "Create new subject" %}</button>
             </form>
