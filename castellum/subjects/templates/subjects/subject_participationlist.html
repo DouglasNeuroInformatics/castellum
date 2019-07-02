@@ -1,5 +1,5 @@
 {% extends "subjects/base.html" %}
-{% load i18n %}
+{% load i18n auth %}
 
 {% block title %}{% trans "Subject Study Participation" %} &middot; {{ block.super }}{% endblock %}
 
@@ -9,6 +9,16 @@
         {% for participationrequest in object_list %}
             <li class="table-list-item">
                 <h3 class="h4 d-inline-block my-1 mr-2">{{ participationrequest.study }}</h3>
+                <div class="table-list-item-actions">
+                    {% if participationrequest.status_open %}
+                        {% has_perm 'recruitment.change_participationrequest' user participationrequest.study as can_change_participationrequest %}
+                        {% if can_change_participationrequest %}
+                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participationrequest.study.pk participationrequest.pk %}">{% trans 'Call' %}</a>
+                        {% endif %}
+                    {% else %}
+                        <a class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Call' %}</a>
+                    {% endif %}
+                </div>
             </li>
         {% endfor %}
     </ul>
