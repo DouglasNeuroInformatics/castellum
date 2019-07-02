@@ -232,9 +232,10 @@ class ParticipationListView(SubjectMixin, LoginRequiredMixin, ListView):
             'recruitment.change_participationrequest',
             'contacts.view_contact',
         )
-        for participation_request in queryset:
-            if self.request.user.has_perms(perms, obj=participation_request.study):
-                yield participation_request
+        return [
+            participation_request for participation_request in queryset
+            if self.request.user.has_perms(perms, obj=participation_request.study)
+        ]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
