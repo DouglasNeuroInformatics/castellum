@@ -8,7 +8,7 @@
     <p>{{ contact|display:'address' }}</p>
     {% if not contact_data_full or not subject_data_full %}
         <div class="alert alert-danger" role="alert">
-            <p><b>{% trans 'Incomplete data' %}.</b> {% trans 'Currently, this subject can not be reached for recruitment. Please edit data sets marked with' %} <i class="fa fa-exclamation-triangle"></i></p>
+            <p><b>{% trans 'Incomplete data' %}.</b> {% trans 'Please edit data sets marked with' %} <i class="fa fa-exclamation-triangle"></i></p>
         </div>
     {% endif %}
     <dl class="row">
