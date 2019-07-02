@@ -50,7 +50,7 @@ def test_create_study_on_post(request, client, user_fixture):
                                      'study_type': 0,
                                      **MANAGEMENT_FORM})
 
-    assert Study.objects.all().count() == 1
+    assert Study.objects.count() == 1
     assert Study.objects.last().name == 'Test study'
 
 
