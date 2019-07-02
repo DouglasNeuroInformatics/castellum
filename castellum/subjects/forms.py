@@ -37,7 +37,8 @@ class SubjectForm(forms.ModelForm):
     consent_type = ConsentConfirmation._meta.get_field('type').formfield(required=False)
     consent_status = ConsentConfirmation._meta.get_field('status').formfield(required=False)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
         super().__init__(*args, **kwargs)
 
         consent = self.instance.consent
@@ -47,6 +48,13 @@ class SubjectForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
+
+        privacy_level = cleaned_data.get('privacy_level', 0)
+        if not self.user.has_privacy_level(privacy_level):
+            raise ValidationError(
+                _("Please choose lower privacy level for the subject."),
+                code='invalid',
+            )
 
         if self.cleaned_data['consent_type'] or self.cleaned_data['consent_status']:
             consent_check = [self.cleaned_data['consent_type'], self.cleaned_data['consent_status']]

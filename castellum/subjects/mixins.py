@@ -53,6 +53,11 @@ class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     form_class = SubjectForm
     permission_required = 'subjects.change_subject'
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
     def get_notes_form(self):
         form_class = forms.modelform_factory(SubjectNote, fields=('content',))
         return form_class(prefix='{prefix}')
@@ -61,6 +66,7 @@ class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         formset_class = forms.modelformset_factory(SubjectNote, fields=('content',),
                                                    extra=0, can_delete=True)
         kwargs = self.get_form_kwargs()
+        kwargs.pop('user')
         kwargs.pop('instance')
         kwargs.pop('initial')
         return formset_class(queryset=SubjectNote.objects.filter(subject=self.object), **kwargs)
