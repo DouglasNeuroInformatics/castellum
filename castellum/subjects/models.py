@@ -102,7 +102,7 @@ class Subject(TimeStampedModel):
             return None
 
     @cached_property
-    def subject_data_full(self):
+    def is_complete(self):
         return self.consent or not Consent.objects.exists()
 
     @property

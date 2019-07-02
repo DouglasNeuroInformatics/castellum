@@ -98,7 +98,7 @@ class Contact(TimeStampedModel):
         return get_subject(self.domain, self.pseudonym)
 
     @property
-    def contact_data_full(self):
+    def is_complete(self):
         return any([self.address, self.phone_number, self.email])
 
     @property
