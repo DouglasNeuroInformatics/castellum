@@ -28,6 +28,7 @@ from django.views.generic import UpdateView
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 
 from .forms import SubjectForm
+from .models import Consent
 from .models import Subject
 from .models import SubjectNote
 
@@ -68,7 +69,8 @@ class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         if 'notes_formset' not in kwargs:
             kwargs['notes_formset'] = self.get_notes_formset()
-        kwargs["template_form"] = self.get_notes_form()
+        kwargs['template_form'] = self.get_notes_form()
+        kwargs['db_consent_uploaded'] = Consent.objects.exists()
 
         return super().get_context_data(**kwargs)
 

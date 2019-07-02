@@ -46,7 +46,6 @@ from castellum.studies.mixins import StudyPermissionMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseSubjectUpdateView
 from castellum.subjects.mixins import SubjectMixin
-from castellum.subjects.models import Consent
 from castellum.utils.chart import ChartRenderer
 
 from .forms import ContactForm
@@ -401,6 +400,5 @@ class SubjectUpdateView(StudyPermissionMixin, BaseSubjectUpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['db_consent_uploaded'] = Consent.objects.exists()
         context['base_template'] = "recruitment/base.html"
         return context
