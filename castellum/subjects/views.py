@@ -217,10 +217,9 @@ class AttributeSetUpdateView(BaseAttributeSetUpdateView):
         return context
 
 
-class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
+class ParticipationListView(SubjectMixin, LoginRequiredMixin, ListView):
     model = ParticipationRequest
     template_name = 'subjects/subject_participationlist.html'
-    permission_required = 'recruitment.view_participationrequest'
 
     @cached_property
     def subject(self):
