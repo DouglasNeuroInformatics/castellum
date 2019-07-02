@@ -131,8 +131,6 @@ msgid "House number"
 msgstr "Hausnummer"
 
 #: castellum/contacts/forms.py:57
-#, fuzzy
-#| msgid "additional address information"
 msgid "Additional address information"
 msgstr "Zusätzliche Adressinformationen"
 
@@ -1437,11 +1435,11 @@ msgstr "Proband*innendetails"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:11
 msgid "Incomplete data"
-msgstr ""
+msgstr "Unvollständige Daten"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:11
 msgid "Please edit data sets marked with"
-msgstr ""
+msgstr "Bitte editieren Sie die Datensätze mit dem folgenden Symbol:"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:15
 msgid "Subject data registered"
@@ -1468,13 +1466,11 @@ msgstr "Vollständnigkeit der Merkmale"
 #: castellum/subjects/templates/subjects/subject_detail.html:44
 #: castellum/subjects/templates/subjects/subject_detail.html:53
 msgid "Missing values"
-msgstr ""
+msgstr "Fehlende Werte"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:62
-#, fuzzy
-#| msgid "Participation request"
 msgid "Study Participation"
-msgstr "Teilnahmeanfrage"
+msgstr "Studienteilnahme"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:63
 #: castellum/subjects/templates/subjects/subject_studies.html:4
@@ -1508,13 +1504,11 @@ msgstr "Notiz hinzufügen"
 
 #: castellum/subjects/templates/subjects/subject_participationlist.html:4
 msgid "Subject Study Participation"
-msgstr ""
+msgstr "Studienteilnahme der Proband*in"
 
 #: castellum/subjects/templates/subjects/subject_participationlist.html:7
-#, fuzzy
-#| msgid "Participation request"
 msgid "Study Participation of"
-msgstr "Teilnahmeanfrage"
+msgstr "Studienteilnahme von"
 
 #: castellum/subjects/templates/subjects/subject_search.html:7
 msgid "Total number of subjects"
