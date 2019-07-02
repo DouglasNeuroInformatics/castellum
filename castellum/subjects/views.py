@@ -44,11 +44,11 @@ from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.utils import get_study_filter_q
 from castellum.studies.models import Study
+from castellum.subjects.models import Consent
 from castellum.utils.views import GetFormView
 
 from .mixins import BaseSubjectUpdateView
 from .mixins import SubjectMixin
-from .models import Consent
 from .models import Subject
 
 monitoring_logger = logging.getLogger('monitoring.subjects')
@@ -205,11 +205,6 @@ class AddToStudyView(SubjectMixin, LoginRequiredMixin, DetailView):
 class SubjectUpdateView(BaseSubjectUpdateView):
     def get_success_url(self):
         return reverse('subjects:detail', args=[self.object.pk])
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['db_consent_uploaded'] = Consent.objects.exists()
-        return context
 
 
 class ContactUpdateView(BaseContactUpdateView):
