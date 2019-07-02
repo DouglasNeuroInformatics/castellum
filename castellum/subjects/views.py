@@ -43,7 +43,6 @@ from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.utils import get_study_filter_q
 from castellum.studies.models import Study
-from castellum.subjects.models import Consent
 from castellum.utils.views import GetFormView
 
 from .mixins import BaseSubjectUpdateView
@@ -108,13 +107,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         pseudonym = get_pseudonym(self.object, Contact.domain)
         context['contact'] = Contact.objects.get(pseudonym=pseudonym)
-
         context['updated_at'] = max(self.object.updated_at, context['contact'].updated_at)
-        context['subject_data_full'] = self.object.consent or not Consent.objects.exists()
-
-        pseudonym = get_pseudonym(self.object, Contact.domain)
-        contact = Contact.objects.get(pseudonym=pseudonym)
-        context['contact_data_full'] = contact.contact_data_full
 
         try:
             context['updated_at'] = max(context['updated_at'], self.object.attributeset.updated_at)
