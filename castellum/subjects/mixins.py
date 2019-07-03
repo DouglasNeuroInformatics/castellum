@@ -90,17 +90,17 @@ class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         else:
             return self.form_invalid(form, notes_formset)
 
-    def form_invalid(self, form, session_formset):
+    def form_invalid(self, form, notes_formset):
         return self.render_to_response(
-            self.get_context_data(form=form, session_formset=session_formset)
+            self.get_context_data(form=form, notes_formset=notes_formset)
         )
 
-    def form_valid(self, form, contactnote_formset):
+    def form_valid(self, form, notes_formset):
 
         response = super().form_valid(form)
 
-        for subform in contactnote_formset:
+        for subform in notes_formset:
             subform.instance.subject = self.object
-        contactnote_formset.save()
+        notes_formset.save()
 
         return response
