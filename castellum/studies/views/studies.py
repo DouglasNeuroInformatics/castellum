@@ -143,6 +143,7 @@ class StudyFormMixin:
         return super().get_context_data(**kwargs)
 
     def post(self, request, *args, **kwargs):
+        self.object = None
         form = self.get_form()
         session_formset = self.get_session_formset()
         if form.is_valid() and session_formset.is_valid():

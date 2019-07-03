@@ -69,3 +69,12 @@ def test_user_who_created_study_is_study_member(client, study_coordinator):
     assert response.status_code == 302
     assert StudyMembership.objects.last().study.name == 'Test study'
     assert StudyMembership.objects.last().user.username == study_coordinator.username
+
+
+def test_missing_value(client, user):
+    client.force_login(user)
+    response = client.post('/studies/create/', {'name': 'Test study',
+                                                'principal_investigator': 'Mustermann',
+                                                'study_type': 0,
+                                                **MANAGEMENT_FORM})
+    assert response.status_code == 200
