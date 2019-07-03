@@ -1104,7 +1104,7 @@ msgstr "nicht erreicht"
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:17
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:20
 msgid "Available"
-msgstr "Erreichbar"
+msgstr "Verfügbar"
 
 #: castellum/studies/templates/studies/study_detail.html:88
 msgid "Member management"
