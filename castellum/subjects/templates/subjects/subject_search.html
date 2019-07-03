@@ -83,6 +83,9 @@
         {% has_perm 'contacts.add_contact' user as can_add_contact %}
         {% if can_add_contact %}
             <form method="post" action="{% url 'subjects:index' %}{{ query }}">
+                {% for error in privacy_level_form.non_field_errors %}
+                    <p class="alert alert-danger" role="alert">{{ error }}</p>
+                {% endfor %}
                 {% csrf_token %}
                 {% bootstrap_field privacy_level_form.privacy_level %}
                 <button class="btn btn-primary">{% trans "Create new subject" %}</button>
