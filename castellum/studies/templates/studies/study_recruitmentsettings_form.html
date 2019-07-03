@@ -14,6 +14,7 @@
         {% csrf_token %}
         {% bootstrap_field form.recruitment_text %}
         {% bootstrap_field form.advanced_filtering %}
+        {% bootstrap_field form.is_exclusive %}
 
         <div class="mb-3">
             <a href="{% url 'studies:recruitmentsettings' object.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
