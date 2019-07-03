@@ -45,6 +45,7 @@ from castellum.recruitment.utils import get_study_filter_q
 from castellum.studies.models import Study
 from castellum.utils.views import GetFormView
 
+from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseSubjectUpdateView
 from .mixins import SubjectMixin
 from .models import Subject
@@ -60,6 +61,7 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['total_number_subjects'] = Contact.objects.count()
+        context['privacy_level_form'] = SubjectPrivacyLevelForm()
         return context
 
     def user_has_privacy_level(self, contact):
@@ -84,17 +86,19 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
             raise PermissionDenied
 
         form = SearchForm(data=request.GET)
-        if not form.is_valid():
-            return HttpResponseBadRequest()
+        privacy_level_form = SubjectPrivacyLevelForm(data=request.POST)
 
-        contact = form.save()
+        if form.is_valid() and privacy_level_form.is_valid():
+            contact = form.save()
+            contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
+            contact.subject.save()
 
-        monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
-            Contact.domain,
-            contact.pseudonym,
-            self.request.user.pk))
-
-        return redirect('subjects:detail', pk=contact.subject.pk)
+            monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
+                Contact.domain,
+                contact.pseudonym,
+                self.request.user.pk))
+            return redirect('subjects:detail', pk=contact.subject.pk)
+        return HttpResponseBadRequest()
 
 
 class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):

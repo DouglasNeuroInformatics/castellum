@@ -84,6 +84,7 @@
         {% if can_add_contact %}
             <form method="post" action="{% url 'subjects:index' %}{{ query }}">
                 {% csrf_token %}
+                {% bootstrap_field privacy_level_form.privacy_level %}
                 <button class="btn btn-primary">{% trans "Create new subject" %}</button>
             </form>
         {% endif %}

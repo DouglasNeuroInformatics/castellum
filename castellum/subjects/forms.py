@@ -83,3 +83,10 @@ class SubjectForm(forms.ModelForm):
                 revision=Consent.objects.latest(),
             )
         return subject
+
+
+class SubjectPrivacyLevelForm(forms.ModelForm):
+
+    class Meta:
+        model = Subject
+        fields = ['privacy_level']
