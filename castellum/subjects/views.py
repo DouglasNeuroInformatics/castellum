@@ -61,7 +61,7 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
         context = super().get_context_data(**kwargs)
         context['total_number_subjects'] = Contact.objects.count()
         if not kwargs.get('privacy_level_form'):
-            context['privacy_level_form'] = SubjectPrivacyLevelForm()
+            context['privacy_level_form'] = SubjectPrivacyLevelForm(self.request.user)
         form = kwargs.get('form')
         if form and form.is_valid():
             context['query'] = '?' + urlencode(form.cleaned_data)
@@ -87,7 +87,7 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
             raise PermissionDenied
 
         form = SearchForm(data=request.GET)
-        privacy_level_form = SubjectPrivacyLevelForm(data=request.POST)
+        privacy_level_form = SubjectPrivacyLevelForm(self.request.user, data=request.POST)
 
         if form.is_valid() and privacy_level_form.is_valid():
             contact = form.save()
