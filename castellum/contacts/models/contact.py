@@ -99,6 +99,7 @@ class Contact(TimeStampedModel):
 
     @property
     def is_complete(self):
+        # these conditions are also checked in the form
         return any([self.address, self.phone_number, self.email])
 
     @property

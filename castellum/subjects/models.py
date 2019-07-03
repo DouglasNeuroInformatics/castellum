@@ -103,6 +103,7 @@ class Subject(TimeStampedModel):
 
     @cached_property
     def is_complete(self):
+        # these conditions are also checked in the form
         return self.consent or not Consent.objects.exists()
 
     @property
