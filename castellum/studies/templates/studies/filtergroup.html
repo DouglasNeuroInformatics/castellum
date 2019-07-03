@@ -6,7 +6,7 @@
 {% block content %}
     <h1>{{ study.name }} &mdash; {% trans 'Filters' %}</h1>
 
-    <p>{% trans 'matches' %}: {{ group.get_subject_count }} / {{ total_count }}</p>
+    <p>{% trans 'matches' %}: {{ object.get_subject_count }} / {{ total_count }}</p>
 
     {% if study.study_mode == study.EDIT %}
         <h2>{% trans "Add Filter" %}</h2>
@@ -24,7 +24,7 @@
     {% for pk, form in templates.items %}
         <template id="template-{{ pk }}">
             {{ form.id.as_hidden }}
-            <input type="hidden" name="{{ form.prefix }}-group" value="{{ group.id }}" />
+            <input type="hidden" name="{{ form.prefix }}-group" value="{{ object.id }}" />
 
             <div class="col-sm-4">
                 {# duplicated because disabled fields are not posted to the server #}
@@ -63,7 +63,7 @@
                 <div class="form-row mb-3" {% if form.DELETE.value %}hidden{% endif %}>
                     {{ form.id.as_hidden }}
                     {{ form.DELETE.as_hidden }}
-                    <input type="hidden" name="{{ form.prefix }}-group" value="{{ group.id }}" />
+                    <input type="hidden" name="{{ form.prefix }}-group" value="{{ object.id }}" />
 
                     <div class="col-sm-4">
                         {# duplicated because disabled fields are not posted to the server #}

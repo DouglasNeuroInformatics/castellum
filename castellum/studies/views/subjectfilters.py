@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib import messages
+from django.forms import modelformset_factory
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -28,9 +29,8 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DeleteView
 from django.views.generic import ListView
+from django.views.generic import UpdateView
 from django.views.generic import View
-
-from extra_views import ModelFormSetView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment.forms import SubjectFilterForm
@@ -154,39 +154,45 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
         return reverse('studies:filtergroup_index', args=[self.study.pk])
 
 
-class FilterGroupUpdateView(FilterMixin, ModelFormSetView):
-    model = SubjectFilter
-    form_class = SubjectFilterForm
-    formset_class = SubjectFilterFormSet
-    factory_kwargs = {
-        'extra': 0,
-        'can_delete': True,
-    }
+class FilterGroupUpdateView(FilterMixin, UpdateView):
+    model = SubjectFilterGroup
     template_name = "studies/filtergroup.html"
     permission_required = 'recruitment.change_subjectfilter'
-
-    def setup(self, request, *args, **kwargs):
-        super().setup(request, *args, **kwargs)
-        self.group = get_object_or_404(SubjectFilterGroup, pk=self.kwargs['pk'])
+    fields = []
 
     def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
         self.study.raise_401_error_if_study_is_not_in_edit_mode()
-        return super().post(request, *args, **kwargs)
+        form = self.get_form()
+        formset = self.get_formset()
+        if form.is_valid() and formset.is_valid():
+            return self.form_valid(form, formset)
+        else:
+            return self.form_invalid(form, formset)
 
-    def formset_valid(self, formset):
+    def form_invalid(self, form, formset):
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+    def form_valid(self, form, formset):
         messages.success(self.request, _('Filter update successfull!'))
-        return super().formset_valid(formset)
+        formset.save()
+        return super().form_valid(form)
 
-    def get_queryset(self, *args, **kwargs):
-        qs = super().get_queryset(*args, **kwargs)
-        return qs.filter(group=self.group)
-
-    def get_formset_kwargs(self):
-        kwargs = super().get_formset_kwargs()
-        if 'form_kwargs' not in kwargs:
-            kwargs['form_kwargs'] = {}
-        kwargs['form_kwargs']['user'] = self.request.user
-        return kwargs
+    def get_formset(self):
+        formset_class = modelformset_factory(
+            SubjectFilter,
+            form=SubjectFilterForm,
+            formset=SubjectFilterFormSet,
+            extra=0,
+            can_delete=True,
+        )
+        return formset_class(
+            queryset=self.object.subjectfilter_set.all(),
+            data=self.get_form_kwargs().get('data'),
+            form_kwargs={
+                'user': self.request.user,
+            },
+        )
 
     def get_inaccessible_attributedescriptions(self):
         min_privacy_level = 2
@@ -202,7 +208,7 @@ class FilterGroupUpdateView(FilterMixin, ModelFormSetView):
         ).distinct()
 
     def get_context_data(self, **kwargs):
-        if self.study != self.group.study:
+        if self.study != self.object.study:
             raise Http404
 
         inaccessible = list(self.get_inaccessible_attributedescriptions())
@@ -214,7 +220,6 @@ class FilterGroupUpdateView(FilterMixin, ModelFormSetView):
 
         data = super().get_context_data(**kwargs)
         data['study'] = self.study
-        data['group'] = self.group
         data['total_count'] = AttributeSet.objects.count()
         data['add_form'] = SubjectFilterForm(user=self.request.user)
         data['templates'] = {}
@@ -223,6 +228,9 @@ class FilterGroupUpdateView(FilterMixin, ModelFormSetView):
                 user=self.request.user,
                 initial={'description': description},
                 prefix='{prefix}')
+
+        if 'formset' not in data:
+            data['formset'] = self.get_formset()
 
         return data
 
