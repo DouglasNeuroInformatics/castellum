@@ -158,7 +158,7 @@ class FilterGroupUpdateView(FilterMixin, UpdateView):
     model = SubjectFilterGroup
     template_name = "studies/filtergroup.html"
     permission_required = 'recruitment.change_subjectfilter'
-    fields = []
+    fields = ['excluded_studies']
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()

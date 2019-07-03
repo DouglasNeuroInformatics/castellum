@@ -90,6 +90,8 @@
             {% endfor %}
         </div>
 
+        {% bootstrap_field form.excluded_studies %}
+
         <div class="mb-3">
             {% if study.advanced_filtering %}
                 <a href="{% url 'studies:filtergroup_index' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
