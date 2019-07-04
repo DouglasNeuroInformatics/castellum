@@ -149,13 +149,3 @@ class SearchForm(forms.ModelForm):
             'last_name',
             'date_of_birth',
         ]
-
-    def clean(self):
-        cleaned_data = super().clean()
-
-        first_name = cleaned_data.get('first_name', '')
-        if first_name != 'Alex':
-            self.add_error('first_name', _("Please type Alex."))
-            self.add_error(None, _("Please type Alex."))
-
-        return cleaned_data

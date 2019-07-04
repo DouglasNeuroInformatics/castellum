@@ -90,13 +90,3 @@ class SubjectPrivacyLevelForm(forms.ModelForm):
     class Meta:
         model = Subject
         fields = ['privacy_level']
-
-    def clean(self):
-        cleaned_data = super().clean()
-
-        privacy = cleaned_data.get('privacy_level', '')
-        if privacy != 2:
-            self.add_error('privacy_level', _("Please type 2."))
-            self.add_error(None, _("Please type 2."))
-
-        return cleaned_data
