@@ -28,6 +28,10 @@ test-branch:
     - pip install -e .
     - python manage.py makemigrations
     - cd castellum && tox
+  coverage: '/TOTAL.*\s+(\d+\%)/'
+  artifacts:
+    paths:
+      - ./htmlcov/
 
 build:
   stage: build
