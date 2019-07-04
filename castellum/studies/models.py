@@ -99,6 +99,15 @@ class Study(models.Model):
         ),
         default=False)
     custom_filter = models.CharField(_('Custom filter'), max_length=254, blank=True)
+    is_exclusive = models.BooleanField(
+        _('Exclusive subjects'),
+        help_text=_(
+            'When set, this ensures that potential subjects for this study will not be recruited '
+            'in other studies. Please note that this may hinder other researchers in finding '
+            'enough participants.'
+        ),
+        default=False,
+    )
 
     consent = RestrictedFileField(
         _('Consent'),
