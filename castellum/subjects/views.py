@@ -67,8 +67,6 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['total_number_subjects'] = Contact.objects.count()
-        if not kwargs.get('privacy_level_form'):
-            context['privacy_level_form'] = SubjectPrivacyLevelForm()
         return context
 
     def user_has_privacy_level(self, contact):
@@ -81,7 +79,9 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
         ).format(user=self.request.user.pk, **form.cleaned_data))
 
         return self.render_to_response(self.get_context_data(
-            form=form, query='?' + urlencode(form.cleaned_data),
+            form=form,
+            privacy_level_form=SubjectPrivacyLevelForm(),
+            query='?' + urlencode(form.cleaned_data),
             matches=self._get_matches(form)))
 
     def post(self, request, *args, **kwargs):
