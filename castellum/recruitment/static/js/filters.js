@@ -25,7 +25,7 @@ $(function() {
         var $template = $('#template-' + pk);
         if ($template.length) {
             var html = $template.html().replace(/{prefix}/g, 'form-' + $totalForms.val());
-            var $fieldset = $('<fieldset class="form-row mb-3">').html(html);
+            var $fieldset = $('<div class="form-row mb-3">').html(html);
             $container.append($fieldset);
             $totalForms.val(parseInt($totalForms.val(), 10) + 1);
             registerBeforeUnload();
@@ -33,7 +33,7 @@ $(function() {
     });
 
     $(document).on('click', '[data-js="filter-delete"]', function(event) {
-        var $fieldset = $(event.target).closest('fieldset');
+        var $fieldset = $(event.target).closest('.form-row');
         $fieldset.find('[name^="form-' + $fieldset.index() + '-value"]').remove();
         $fieldset.append($('<input type="hidden" name="form-' + $fieldset.index() + '-DELETE" value="on">'));
         $fieldset.attr('hidden', true);
