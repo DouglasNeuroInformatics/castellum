@@ -57,17 +57,21 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
     permission_required = 'contacts.view_contact'
     form_class = SearchForm
 
-    def _get_matches(self, form):
-        if all(k in form.cleaned_data for k in ('username', 'lastname', 'birthday')):
+    def _get_matches(self, data):
+        if all(k in data for k in ('first_name', 'last_name', 'date_of_birth')):
             matches = [
                 (contact, self.user_has_privacy_level(contact))
-                for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
+                for contact in Contact.objects.fuzzy_filter(**data)
             ]
             return matches
         return []
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        data = kwargs.get('data', None)
+        if data:
+            context['query'] = '?' + urlencode(data)
+            context['matches'] = self._get_matches(data)
         context['total_number_subjects'] = Contact.objects.count()
         return context
 
@@ -82,9 +86,8 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
 
         return self.render_to_response(self.get_context_data(
             form=form,
-            privacy_level_form=SubjectPrivacyLevelForm(),
-            query='?' + urlencode(form.cleaned_data),
-            matches=self._get_matches(form)))
+            data=form.cleaned_data,
+            privacy_level_form=SubjectPrivacyLevelForm()))
 
     def post(self, request, *args, **kwargs):
         if not request.user.has_perm('contacts.add_contact'):
@@ -104,9 +107,9 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
                 self.request.user.pk))
             return redirect('subjects:detail', pk=contact.subject.pk)
         return self.render_to_response(self.get_context_data(
-                form=form, privacy_level_form=privacy_level_form,
-                query='?' + urlencode(form.cleaned_data),
-                matches=self._get_matches(form)))
+            form=form,
+            data=form.cleaned_data,
+            privacy_level_form=privacy_level_form))
 
 
 class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
