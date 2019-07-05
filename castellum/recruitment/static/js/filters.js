@@ -39,4 +39,10 @@ $(function() {
         $formrow.attr('hidden', true);
         registerBeforeUnload();
     });
+
+    $(document).on('click', '[data-js="excluded-studies-reset"]', function(event) {
+            $('option', $('#id_excluded_studies')).each(function(element) {
+                $(this).removeAttr('selected').prop('selected', false);
+            });
+    });
 });
