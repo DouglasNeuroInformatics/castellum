@@ -64,3 +64,20 @@ def test_to_q_with_one_excluding_study(excluding_study_idx, expected_subjects,
     q = subject_filter_group.to_q()
     result = AttributeSet.objects.filter(q)
     assert len(result) == expected_subjects
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize("excluding_study_idx", range(1, 5))
+def test_to_q_when_subjects_are_unsuitable_for_other_studies(excluding_study_idx,
+                                                             five_studies, subject_filter_group,
+                                                             participation_requests):
+    unsuitable = ParticipationRequest.UNSUITABLE
+    ParticipationRequest.objects.filter(study__in=five_studies).update(status=unsuitable)
+
+    excluding_study = five_studies[excluding_study_idx]
+    subject_filter_group.excluded_studies.add(excluding_study)
+    subject_filter_group.save()
+
+    q = subject_filter_group.to_q()
+    result = AttributeSet.objects.filter(q)
+    assert len(result) == 4
