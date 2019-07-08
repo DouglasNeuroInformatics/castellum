@@ -339,3 +339,12 @@ CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 # A function that generates a random pseudonym.
 # () -> str (maximum 64 chars)
 CASTELLUM_PSEUDONYM_GENERATE = uuid.uuid4
+
+# A function that raises a ValidationError if the pseudonym is invalid.
+#
+# Returns a *cleaned* pseudonym. This can be used to implement
+# auto-correction. But in most cases this will be the same as the input
+# value.
+#
+# See also https://docs.djangoproject.com/en/stable/ref/forms/fields/#django.forms.Field.clean
+CASTELLUM_PSEUDONYM_CLEAN = lambda x: x
