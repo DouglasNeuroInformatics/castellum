@@ -1,4 +1,5 @@
 import os
+import uuid
 
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -334,3 +335,7 @@ your castellum account has been unlocked.
 """
 
 CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
+
+# A function that generates a random pseudonym.
+# () -> str (maximum 64 chars)
+CASTELLUM_PSEUDONYM_GENERATE = uuid.uuid4
