@@ -40,7 +40,7 @@ from castellum.utils.models import TimeStampedModel
 
 from .. import attribute_fields
 from ..attribute_fields import ANSWER_DECLINED
-from ..utils import get_study_filter_q
+from ..filter_registry import custom_filters
 
 UNCATEGORIZED = "UNCATEGORIZED"
 
@@ -90,7 +90,15 @@ class AttributeSet(TimeStampedModel):
     def apply_study_filter(cls, study, include_unknown=True, queryset=None):
         if not queryset:
             queryset = cls.objects
-        return queryset.filter(get_study_filter_q(study, include_unknown=include_unknown))
+
+        if study.custom_filter:
+            q = custom_filters[study.custom_filter](include_unknown=include_unknown)
+
+        q = models.Q()
+        for group in study.subjectfiltergroup_set.all():
+            q |= group.to_q(include_unknown=include_unknown)
+
+        return queryset.filter(q)
 
     def get_verbose_name(self, pk):
         description = AttributeDescription.objects.get(pk=pk)

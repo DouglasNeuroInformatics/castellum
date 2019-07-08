@@ -41,7 +41,6 @@ from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
-from castellum.recruitment.utils import get_study_filter_q
 from castellum.studies.models import Study
 from castellum.utils.views import GetFormView
 
@@ -159,12 +158,11 @@ class AddToStudyView(SubjectMixin, LoginRequiredMixin, DetailView):
     template_name = 'subjects/subject_studies.html'
 
     def get_studies(self, attributeset):
-        qs = AttributeSet.objects.filter(pk=attributeset.pk)
         for study in Study.objects.filter(study_mode=Study.RECRUITMENT):
             if (
                 self.request.user.has_perm('recruitment.add_participationrequest', obj=study) and
                 self.request.user.has_perm('studies.access_study', obj=study) and
-                qs.filter(get_study_filter_q(study)).exists()
+                AttributeSet.apply_study_filter(study).filter(pk=attributeset.pk).exists()
             ):
                 request = attributeset.subject.participationrequest_set.filter(study=study)
                 if not request.exists():
