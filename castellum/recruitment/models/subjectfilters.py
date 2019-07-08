@@ -48,7 +48,7 @@ class SubjectFilterGroupManager(models.Manager):
 class SubjectFilterGroup(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
     excluded_studies = models.ManyToManyField(
-        Study, verbose_name=_('Excluded studies'), related_name='+'
+        Study, verbose_name=_('Excluded studies'), related_name='+', blank=True,
     )
 
     objects = SubjectFilterGroupManager()

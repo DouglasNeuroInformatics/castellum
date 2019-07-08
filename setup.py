@@ -16,7 +16,6 @@ setup(
         "Django==2.2.2",
         "django-auth-ldap==1.7.0",
         "django-bootstrap4==0.0.8",
-        "django-extra-views==0.12.0",
         "django-ical==1.5",
         "django-npm==1.0.0",
         "django-parler==1.9.2",
