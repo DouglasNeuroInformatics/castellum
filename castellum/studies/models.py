@@ -65,7 +65,7 @@ class Study(models.Model):
     ]
 
     name = models.CharField(_('Name'), max_length=254)
-    contact_person = models.CharField(_('Responsible contact person'), max_length=512)
+    contact_person = models.CharField(_('Responsible contact person'), max_length=254)
     principal_investigator = models.CharField(_('Principal Investigator'), max_length=254)
     affiliated_scientists = models.CharField(_('Affiliated Scientists'), max_length=254, blank=True)
     affiliated_research_assistants = models.CharField(
