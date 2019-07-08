@@ -40,6 +40,7 @@ from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.settings import CASTELLUM_EXPECTED_SUBJECT_FACTOR
+from castellum.utils.views import ReadonlyMixin
 
 from ..mixins import StudyPermissionMixin
 from ..models import Study
@@ -154,7 +155,7 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
         return reverse('studies:filtergroup_index', args=[self.study.pk])
 
 
-class FilterGroupUpdateView(FilterMixin, UpdateView):
+class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
     model = SubjectFilterGroup
     template_name = "studies/filtergroup.html"
     permission_required = 'recruitment.change_subjectfilter'
@@ -193,6 +194,9 @@ class FilterGroupUpdateView(FilterMixin, UpdateView):
                 'user': self.request.user,
             },
         )
+
+    def get_readonly(self):
+        return self.study.study_mode != Study.EDIT
 
     def get_inaccessible_attributedescriptions(self):
         min_privacy_level = 2
