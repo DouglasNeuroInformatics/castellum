@@ -54,7 +54,12 @@ def test_to_q_with_no_excluding_studies(subject_filter_group, participation_requ
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("excluding_study_idx,expected_subjects", zip(range(1, 5), range(4)))
+@pytest.mark.parametrize("excluding_study_idx,expected_subjects", [
+    (1, 0),
+    (2, 1),
+    (3, 2),
+    (4, 3),
+])
 def test_to_q_with_one_excluding_study(excluding_study_idx, expected_subjects,
                                        five_studies, subject_filter_group, participation_requests):
     excluding_study = five_studies[excluding_study_idx]
@@ -67,7 +72,7 @@ def test_to_q_with_one_excluding_study(excluding_study_idx, expected_subjects,
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("excluding_study_idx", range(1, 5))
+@pytest.mark.parametrize("excluding_study_idx", [1, 2, 3, 4])
 def test_to_q_when_subjects_are_unsuitable_for_other_studies(excluding_study_idx,
                                                              five_studies, subject_filter_group,
                                                              participation_requests):
