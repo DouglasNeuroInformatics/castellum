@@ -91,7 +91,16 @@
         </div>
 
         <h2>{% trans 'Excluded studies' %}</h2>
-        {% bootstrap_field form.excluded_studies show_label=False %}
+        <div class="form-row mb-3">
+                <div class="col-sm">
+                    {% bootstrap_field form.excluded_studies show_label=False %}
+                </div>
+                {% if study.study_mode == study.EDIT %}
+                    <div class="col-sm flex-grow-0">
+                        <button type="button" class="btn btn-danger" data-js="excluded-studies-reset">{% trans 'Reset' %}</button>
+                    </div>
+                {% endif %}
+        </div>
 
         <div class="mb-3">
             {% if study.advanced_filtering %}
