@@ -13,8 +13,8 @@ setup(
 
     install_requires=[
         "cologne-phonetics==1.2.3",
-        "Django==2.2.2",
-        "django-auth-ldap==1.7.0",
+        "Django==2.2.3",
+        "django-auth-ldap==2.0.0",
         "django-bootstrap4==0.0.8",
         "django-ical==1.5",
         "django-npm==1.0.0",
@@ -24,8 +24,8 @@ setup(
         "Faker==1.0.7",
         "file-magic==0.4.0",
         "jsonschema==3.0.1",
-        "phonenumberslite==8.10.10",
-        "psycopg2-binary==2.8.2",
+        "phonenumberslite==8.10.14",
+        "psycopg2-binary==2.8.3",
         "python-dateutil==2.8.0",
     ],
 )
