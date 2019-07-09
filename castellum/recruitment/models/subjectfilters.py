@@ -57,9 +57,14 @@ class SubjectFilterGroup(models.Model):
         return reverse('studies:filtergroup_update', args=[self.study.pk, self.pk])
 
     def to_q(self, include_unknown=True):
-        q = ~models.Q(subject_id__in=ParticipationRequest.objects.filter(
+        q = ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
             study__in=self.excluded_studies.all(),
             status=ParticipationRequest.INVITED,
+        ).values('subject_id'))
+
+        q &= ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
+            ~models.Q(study__study_mode=Study.FINISHED),
+            study__is_exclusive=True,
         ).values('subject_id'))
 
         for f in self.subjectfilter_set.all():
