@@ -60,8 +60,6 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['total_number_subjects'] = Contact.objects.count()
-        if not kwargs.get('privacy_level_form'):
-            context['privacy_level_form'] = SubjectPrivacyLevelForm()
         form = kwargs.get('form')
         if form and form.is_valid():
             data = kwargs.get('data', None)
@@ -84,14 +82,14 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
         return self.render_to_response(self.get_context_data(
             form=form,
             data=form.cleaned_data,
-            privacy_level_form=SubjectPrivacyLevelForm()))
+            privacy_level_form=SubjectPrivacyLevelForm(user=self.request.user)))
 
     def post(self, request, *args, **kwargs):
         if not request.user.has_perm('contacts.add_contact'):
             raise PermissionDenied
 
         form = SearchForm(data=request.GET)
-        privacy_level_form = SubjectPrivacyLevelForm(data=request.POST)
+        privacy_level_form = SubjectPrivacyLevelForm(user=self.request.user, data=request.POST)
 
         if form.is_valid() and privacy_level_form.is_valid():
             contact = form.save()
