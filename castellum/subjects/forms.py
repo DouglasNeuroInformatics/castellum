@@ -90,3 +90,18 @@ class SubjectPrivacyLevelForm(forms.ModelForm):
     class Meta:
         model = Subject
         fields = ['privacy_level']
+
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        privacy_level = cleaned_data.get('privacy_level', 0)
+        if not self.user.has_privacy_level(privacy_level):
+            raise ValidationError(
+                _("Please choose lower privacy level for the subject."),
+                code='invalid',
+            )
+        return cleaned_data

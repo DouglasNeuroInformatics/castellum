@@ -25,7 +25,6 @@ from urllib.parse import urlencode
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -61,7 +60,14 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['total_number_subjects'] = Contact.objects.count()
-        context['privacy_level_form'] = SubjectPrivacyLevelForm()
+        form = kwargs.get('form')
+        if form and form.is_valid():
+            data = form.cleaned_data
+            context['query'] = '?' + urlencode(data)
+            context['matches'] = [
+                (contact, self.user_has_privacy_level(contact))
+                for contact in Contact.objects.fuzzy_filter(**data)
+            ]
         return context
 
     def user_has_privacy_level(self, contact):
@@ -73,20 +79,16 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
             'date_of_birth: "{date_of_birth}"}} by {user}'
         ).format(user=self.request.user.pk, **form.cleaned_data))
 
-        matches = [
-            (contact, self.user_has_privacy_level(contact))
-            for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
-        ]
-
         return self.render_to_response(self.get_context_data(
-            form=form, query='?' + urlencode(form.cleaned_data), matches=matches))
+            form=form,
+            privacy_level_form=SubjectPrivacyLevelForm(user=self.request.user)))
 
     def post(self, request, *args, **kwargs):
         if not request.user.has_perm('contacts.add_contact'):
             raise PermissionDenied
 
         form = SearchForm(data=request.GET)
-        privacy_level_form = SubjectPrivacyLevelForm(data=request.POST)
+        privacy_level_form = SubjectPrivacyLevelForm(user=self.request.user, data=request.POST)
 
         if form.is_valid() and privacy_level_form.is_valid():
             contact = form.save()
@@ -98,7 +100,9 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
                 contact.pseudonym,
                 self.request.user.pk))
             return redirect('subjects:detail', pk=contact.subject.pk)
-        return HttpResponseBadRequest()
+        return self.render_to_response(self.get_context_data(
+            form=form,
+            privacy_level_form=privacy_level_form))
 
 
 class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
