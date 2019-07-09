@@ -57,21 +57,19 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
     permission_required = 'contacts.view_contact'
     form_class = SearchForm
 
-    def _get_matches(self, data):
-        matches = [
-            (contact, self.user_has_privacy_level(contact))
-            for contact in Contact.objects.fuzzy_filter(**data)
-        ]
-        return matches
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        form = kwargs.get('form', None)
-        if form.is_valid():
+        context['total_number_subjects'] = Contact.objects.count()
+        if not kwargs.get('privacy_level_form'):
+            context['privacy_level_form'] = SubjectPrivacyLevelForm()
+        form = kwargs.get('form')
+        if form and form.is_valid():
             data = kwargs.get('data', None)
             context['query'] = '?' + urlencode(data)
-            context['matches'] = self._get_matches(data)
-        context['total_number_subjects'] = Contact.objects.count()
+            context['matches'] = [
+                (contact, self.user_has_privacy_level(contact))
+                for contact in Contact.objects.fuzzy_filter(**form.cleaned_data)
+            ]
         return context
 
     def user_has_privacy_level(self, contact):
