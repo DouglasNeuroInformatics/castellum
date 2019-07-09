@@ -143,7 +143,6 @@ class StudyFormMixin:
         return super().get_context_data(**kwargs)
 
     def post(self, request, *args, **kwargs):
-        self.object = None
         form = self.get_form()
         session_formset = self.get_session_formset()
         if form.is_valid() and session_formset.is_valid():
@@ -177,6 +176,10 @@ class StudyCreateView(PermissionRequiredMixin, StudyFormMixin, CreateView):
 
     def get_success_url(self):
         return reverse('studies:index')
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        return super().post(request, *args, **kwargs)
 
 
 class StudyUpdateView(StudyAccessMixin, ReadonlyMixin, StudyFormMixin, UpdateView):
