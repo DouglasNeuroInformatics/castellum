@@ -86,7 +86,7 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
 
     def get_queryset(self, queryset=None):
         if not queryset:
-            queryset = self.model.objects
+            queryset = self.model.objects.prefetch_related('subject__attributeset')
 
         if self.sort == 'appointment':
             order_by = ['appointment', '-updated_at']
@@ -103,7 +103,8 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
 
     def get_statistics(self):
         participation_requests = ParticipationRequest.objects.filter(
-            study=self.study, status=ParticipationRequest.INVITED)
+            study=self.study, status=ParticipationRequest.INVITED
+        ).prefetch_related('subject__attributeset')
 
         buckets1 = AttributeDescription.get_statistics_buckets('primary')
         buckets2 = AttributeDescription.get_statistics_buckets('secondary')
