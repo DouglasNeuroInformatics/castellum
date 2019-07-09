@@ -87,9 +87,12 @@ class AttributeSet(TimeStampedModel):
         return {desc.json_key: desc.field.from_json(self.data.get(desc.json_key)) for desc in qs}
 
     @classmethod
-    def apply_study_filter(cls, study, include_unknown=True, queryset=None):
+    def apply_study_filter(cls, study, include_unknown=None, queryset=None):
         if not queryset:
             queryset = cls.objects
+
+        if include_unknown is None:
+            include_unknown = not study.complete_matches_only
 
         if study.custom_filter:
             q = custom_filters[study.custom_filter](include_unknown=include_unknown)
