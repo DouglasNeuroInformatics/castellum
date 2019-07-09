@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import functools
 from collections import OrderedDict
 
 from django.contrib.postgres.fields import JSONField
@@ -43,6 +44,14 @@ from ..attribute_fields import ANSWER_DECLINED
 from ..utils import get_study_filter_q
 
 UNCATEGORIZED = "UNCATEGORIZED"
+
+
+@functools.lru_cache(maxsize=2)
+def get_description_by_statistics_rank(rank):
+    try:
+        return AttributeDescription.objects.get(statistics_rank=rank)
+    except AttributeDescription.DoesNotExist:
+        return None
 
 
 class ImportMixin:
@@ -105,9 +114,8 @@ class AttributeSet(TimeStampedModel):
         return AttributeDescription.objects.values_list('pk', flat=True)
 
     def get_statistics_bucket(self, rank):
-        try:
-            description = AttributeDescription.objects.get(statistics_rank=rank)
-        except AttributeDescription.DoesNotExist:
+        description = get_description_by_statistics_rank(rank)
+        if not description:
             return None
         value = description.field.from_json(self.data.get(description.json_key))
 
@@ -257,9 +265,8 @@ class AttributeDescription(ImportMixin, TranslatableModel):
 
     @classmethod
     def get_statistics_buckets(cls, rank):
-        try:
-            description = cls.objects.get(statistics_rank=rank)
-        except cls.DoesNotExist:
+        description = get_description_by_statistics_rank(rank)
+        if not description:
             return [(None, None)]
 
         return description.field.get_statistics_buckets() + [
