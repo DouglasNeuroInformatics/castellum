@@ -23,11 +23,19 @@ from django.conf import settings
 from django.db import models
 
 from castellum.subjects.models import Subject
+from castellum.utils import uuid_str
 
 
 # proxy to avoid triggering migrations on settings change
 def generate():
     return settings.CASTELLUM_PSEUDONYM_GENERATE()
+
+
+class Domain(models.Model):
+    key = models.CharField(max_length=64, default=uuid_str, unique=True, editable=False)
+
+    def __str__(self):
+        return self.key
 
 
 class Pseudonym(models.Model):
