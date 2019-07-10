@@ -40,7 +40,7 @@ class Domain(models.Model):
 
 class Pseudonym(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    domain = models.CharField(max_length=50)
+    domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
     pseudonym = models.CharField(max_length=64, default=generate)
 
     class Meta:

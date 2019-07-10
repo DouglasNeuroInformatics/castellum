@@ -32,6 +32,7 @@ from castellum.contacts.models import City
 from castellum.contacts.models import Contact
 from castellum.contacts.models import Country
 from castellum.contacts.models.contact import phonetic
+from castellum.pseudonyms.models import Domain
 from castellum.pseudonyms.models import Pseudonym
 from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import AttributeSet
@@ -197,8 +198,9 @@ def generate_subjects(count, city_count=100):
     Subject.objects.bulk_create([fake_subject() for i in range(count)], batch_size=200)
     subjects = Subject.objects.all()[:count]
 
+    contact_domain = Domain.objects.get(key=Contact.domain)
     contact_pseudonyms = [Pseudonym(
-        subject=subjects[i], domain=Contact.domain
+        subject=subjects[i], domain=contact_domain
     ) for i in range(count)]
     Pseudonym.objects.bulk_create(contact_pseudonyms)
 
