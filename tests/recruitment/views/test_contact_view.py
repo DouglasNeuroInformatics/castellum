@@ -3,7 +3,6 @@ from model_mommy import mommy
 
 from castellum.contacts.models import Contact
 from castellum.studies.models import Study
-from castellum.pseudonyms.helpers import get_subject
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import ParticipationRequestRevision
 
@@ -64,11 +63,10 @@ def test_post_redirect_next_with_multiple_participation_requests(client,
     participation_requests = []
     for i in range(5):
         contact = mommy.make(Contact, pseudonym=None)
-        subject = get_subject(Contact.domain, contact.pseudonym)
         participation_requests.append(mommy.make(
             ParticipationRequest,
             study=study_in_recruitment_mode,
-            subject=subject,
+            subject=contact.subject,
         ))
 
     client.force_login(member)
