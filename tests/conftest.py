@@ -14,6 +14,7 @@ from model_mommy import mommy
 from castellum.castellum_auth.models import User
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_subject
+from castellum.pseudonyms.models import Domain
 from castellum.recruitment.management.commands import create_sample_attribute_descriptions
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
@@ -48,6 +49,12 @@ def create_user(group_name):
     user.user_permissions.remove(Permission.objects.get(codename='privacy_level_2'))
 
     return user
+
+
+@pytest.fixture
+def contact_domain(db):
+    domain, __ = Domain.objects.get_or_create(key=settings.DOMAINS['contact'])
+    return domain
 
 
 @pytest.fixture
@@ -107,19 +114,19 @@ def member(user, study, study_in_execution_mode, study_in_edit_mode):
 
 
 @pytest.fixture
-def contact(db):
+def contact(db, contact_domain):
     return mommy.make(Contact, pseudonym=None)
 
 
 @pytest.fixture
-def attributeset(contact):
-    subject = get_subject(settings.DOMAINS['contact'], contact.pseudonym)
+def attributeset(contact, contact_domain):
+    subject = get_subject(contact_domain.key, contact.pseudonym)
     return mommy.make(AttributeSet, subject=subject)
 
 
 @pytest.fixture
-def participation_request(contact, study_in_execution_mode):
-    subject = get_subject(settings.DOMAINS['contact'], contact.pseudonym)
+def participation_request(contact, study_in_execution_mode, contact_domain):
+    subject = get_subject(contact_domain.key, contact.pseudonym)
     return mommy.make(ParticipationRequest, study=study_in_execution_mode, subject=subject)
 
 
