@@ -112,6 +112,7 @@ def fake_study():
         expense_allowance=fake.random.randint(20, 50),
         sessions_start=fake.past_date(start_date="-30d"),
         sessions_end=fake.future_date(end_date="+30d"),
+        domain=None,
     )
     if study.study_type == Study.FMRI:
         study.data_sensitivity = True
@@ -177,8 +178,10 @@ def fake_attributeset(subject, contact):
 
 def generate_studies(count):
     print('Generating studies')
-    Study.objects.bulk_create(fake_study() for i in range(count))
-    studies = Study.objects.all()[:count]
+    # do not use bulk_create to trigger create_domain()
+    studies = [fake_study() for i in range(count)]
+    for study in studies:
+        study.save()
     StudySession.objects.bulk_create(fake_studysession(study) for study in studies)
 
 
