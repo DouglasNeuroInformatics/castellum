@@ -19,11 +19,15 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import uuid
-
+from django.conf import settings
 from django.db import models
 
 from castellum.subjects.models import Subject
+
+
+# proxy to avoid triggering migrations on settings change
+def generate():
+    return settings.CASTELLUM_PSEUDONYM_GENERATE()
 
 
 class Pseudonym(models.Model):
@@ -31,7 +35,7 @@ class Pseudonym(models.Model):
     domain = models.CharField(max_length=50)
     pseudonym = models.CharField(
         max_length=64,
-        default=uuid.uuid4
+        default=generate,
     )
 
     class Meta:
