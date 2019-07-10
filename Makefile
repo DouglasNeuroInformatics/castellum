@@ -15,6 +15,7 @@ bootstrap: install migrate populate castellum/locale/de/LC_MESSAGES/django.mo
 migrate: databases
 	$(MANAGEPY) makemigrations
 	$(MANAGEPY) migrateall
+	$(MANAGEPY) sync_domains
 
 .PHONY: populate
 populate: databases
