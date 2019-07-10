@@ -21,7 +21,13 @@
 
 from castellum.subjects.models import Subject
 
+from .models import Domain
 from .models import Pseudonym
+
+
+def create_domain():
+    domain = Domain.objects.create()
+    return domain.key
 
 
 def get_subject(domain, pseudonym):
