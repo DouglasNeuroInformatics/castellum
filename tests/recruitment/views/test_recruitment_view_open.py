@@ -28,7 +28,7 @@ def test_min_subjects_count_is_zero(client, member, study_in_execution_mode):
     11 * settings.CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR,
 ])
 def test_not_contacted_count_is_gte_to_hard_limit(client, member, study_in_execution_mode,
-                                                  subject_count):
+                                                  subject_count, contact_domain):
     study_in_execution_mode.min_subjects_count = 10
     study_in_execution_mode.save()
 
@@ -52,7 +52,7 @@ def test_not_contacted_count_is_gte_to_hard_limit(client, member, study_in_execu
     settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT - settings.CASTELLUM_RECRUITMENT_BATCH_SIZE + 1,
 ])
 def test_not_contacted_count_is_gte_to_soft_limit(client, member, study_in_execution_mode,
-                                                  subject_count):
+                                                  subject_count, contact_domain):
     study_in_execution_mode.min_subjects_count = 2 * settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT
     study_in_execution_mode.save()
 
@@ -74,7 +74,7 @@ def test_not_contacted_count_is_gte_to_soft_limit(client, member, study_in_execu
 
 
 def test_no_matching_attribute_sets(client, member, study_in_execution_mode,
-                                    attribute_description):
+                                    attribute_description, contact_domain):
     study_in_execution_mode.min_subjects_count = 5
     study_in_execution_mode.save()
 

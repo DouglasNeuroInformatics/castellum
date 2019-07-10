@@ -59,7 +59,8 @@ def test_post_redirect_next_with_one_participation_request(client, member, parti
 
 def test_post_redirect_next_with_multiple_participation_requests(client,
                                                                  member,
-                                                                 study_in_execution_mode):
+                                                                 study_in_execution_mode,
+                                                                 contact_domain):
     participation_requests = []
     for i in range(5):
         contact = mommy.make(Contact, pseudonym=None)

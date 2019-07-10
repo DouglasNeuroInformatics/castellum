@@ -17,7 +17,7 @@ def address():
 
 
 @pytest.fixture
-def contact(address):
+def contact(address, contact_domain):
     return mommy.make(Contact, address=address, pseudonym=None)
 
 

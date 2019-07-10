@@ -105,7 +105,7 @@ def test_address_form_given_country_not_in_db(address_data):
 
 
 @pytest.mark.django_db
-def test_contact_form_contact_is_saved_correctly(full_data, address):
+def test_contact_form_contact_is_saved_correctly(full_data, address, contact_domain):
 
     full_data.update({
         'email': 't@g.com',
