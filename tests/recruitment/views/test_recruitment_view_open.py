@@ -108,21 +108,10 @@ def test_create_revision_on_create(client, member, attributeset, study_in_recrui
 
 
 def create_attributeset():
-    subject = mommy.make('subjects.Subject')
-
-    contact = mommy.make('contacts.Contact')
-    mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["contact"],
-               pseudonym=contact.pseudonym)
-
-    return mommy.make('recruitment.AttributeSet', data={'d1': 1}, subject=subject)
+    contact = mommy.make('contacts.Contact', pseudonym=None)
+    return mommy.make('recruitment.AttributeSet', data={'d1': 1}, subject=contact.subject)
 
 
 def create_participation_request(study, status=ParticipationRequest.NOT_CONTACTED):
-    subject = mommy.make('subjects.Subject')
-
-    contact = mommy.make('contacts.Contact')
-    mommy.make('pseudonyms.Pseudonym', subject=subject, domain=settings.DOMAINS["contact"],
-               pseudonym=contact.pseudonym)
-
-    mommy.make('recruitment.AttributeSet', data={'d1': 1}, subject=subject)
-    mommy.make(ParticipationRequest, subject=subject, study=study, status=status)
+    attributeset = create_attributeset()
+    mommy.make(ParticipationRequest, subject=attributeset.subject, study=study, status=status)
