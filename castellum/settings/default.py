@@ -1,8 +1,9 @@
 import os
-import uuid
 
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+
+from castellum.utils import uuid_str
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -338,7 +339,7 @@ CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 
 # A function that generates a random pseudonym.
 # () -> str (maximum 64 chars)
-CASTELLUM_PSEUDONYM_GENERATE = uuid.uuid4
+CASTELLUM_PSEUDONYM_GENERATE = uuid_str
 
 # A function that raises a ValidationError if the pseudonym is invalid.
 #

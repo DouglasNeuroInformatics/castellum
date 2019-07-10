@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import uuid
 from collections import namedtuple
 from itertools import chain
 from random import choice
@@ -48,3 +49,7 @@ class FakeData:
 
     def language(self):
         return self._language.get()
+
+
+def uuid_str():
+    return str(uuid.uuid4())

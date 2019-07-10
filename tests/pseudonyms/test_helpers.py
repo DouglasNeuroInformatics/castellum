@@ -21,7 +21,7 @@ def pseudonym2(pseudonym):
 def test_get_pseudonym(pseudonym, pseudonym2):
     result = helpers.get_pseudonym(pseudonym.subject, pseudonym2.domain)
 
-    assert result == str(pseudonym2.pseudonym)
+    assert result == pseudonym2.pseudonym
 
 
 @pytest.mark.django_db
@@ -30,7 +30,7 @@ def test_get_pseudonym_that_does_not_exist(pseudonym):
 
     new_pseudonym = Pseudonym.objects.get(domain="another_domain")
 
-    assert result == str(new_pseudonym.pseudonym)
+    assert result == new_pseudonym.pseudonym
 
 
 @pytest.mark.django_db
@@ -39,7 +39,7 @@ def test_create_pseudonym():
 
     pseudonym = Pseudonym.objects.select_related("subject").get(domain="domain")
 
-    assert result == str(pseudonym.pseudonym)
+    assert result == pseudonym.pseudonym
     assert 1 == len(Pseudonym.objects.all())
 
 
