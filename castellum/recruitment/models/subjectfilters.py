@@ -57,12 +57,14 @@ class SubjectFilterGroup(models.Model):
         return reverse('studies:filtergroup_update', args=[self.study.pk, self.pk])
 
     def to_q(self, include_unknown=True):
-        q = ~models.Q(
-            subject__participationrequest__study__in=self.excluded_studies.all(),
-            subject__participationrequest__status=ParticipationRequest.INVITED,
-        )
+        q = ~models.Q(subject_id__in=ParticipationRequest.objects.filter(
+            study__in=self.excluded_studies.all(),
+            status=ParticipationRequest.INVITED,
+        ).values('subject_id'))
+
         for f in self.subjectfilter_set.all():
             q &= f.to_q(include_unknown=include_unknown)
+
         return q
 
     def get_subject_count(self):
