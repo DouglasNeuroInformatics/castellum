@@ -9,7 +9,6 @@
     <template id="note-data-template">
         <div class="form-group">
             <div class="form-check">
-                {{ template_form.id.as_hidden }}
                 <input type="hidden" name="{{ template_form.prefix }}-DELETE" id="id_{{ template_form.prefix }}-DELETE">
                 <input type="checkbox" id="id_{{ template_form.prefix }}-DELETE-check" data-js="note-delete" class="form-check-input" checked>
                 <label for="id_{{ template_form.prefix }}-DELETE-check" class="form-check-label">
