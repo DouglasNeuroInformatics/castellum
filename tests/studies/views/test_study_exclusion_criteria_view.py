@@ -19,4 +19,4 @@ def view(request_factory, prepared_user):
 def test_get_success_url(view, prepared_study):
     view.object = prepared_study
 
-    assert f"/studies/{prepared_study.pk}/recruitmentsettings/" == view.get_success_url()
+    assert "/studies/{}/recruitmentsettings/".format(prepared_study.pk) == view.get_success_url()
