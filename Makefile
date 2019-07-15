@@ -13,7 +13,7 @@ migrate: start_database_containers
 	$(MANAGEPY) migrateall
 
 populate: start_database_containers
-	$(MANAGEPY) loaddata sample_groups timeslots
+	$(MANAGEPY) loaddata sample_groups attribute_descriptions timeslots
 	$(MANAGEPY) create_sample_users
 	$(MANAGEPY) populate
 

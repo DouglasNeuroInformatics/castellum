@@ -13,7 +13,6 @@ from model_mommy import mommy
 from castellum.castellum_auth.models import User
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_subject
-from castellum.recruitment.management.commands import populate
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
@@ -122,10 +121,9 @@ def participation_request(contact, study_in_recruitment_mode):
     return mommy.make(ParticipationRequest, study=study_in_recruitment_mode, subject=subject)
 
 
-@pytest.fixture(scope='session')
-def attribute_descriptions(django_db_setup, django_db_blocker):
-    with django_db_blocker.unblock():
-        populate.generate_attribute_descriptions()
+@pytest.fixture
+def attribute_descriptions(db):
+    load_django_fixture('recruitment', 'attribute_descriptions')
 
 
 @pytest.fixture

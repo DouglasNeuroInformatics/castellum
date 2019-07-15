@@ -1,0 +1,372 @@
+[
+{
+    "model": "recruitment.attributedescription",
+    "pk": 1,
+    "fields": {
+        "field_type": "ChoiceField",
+        "privacy_level_read": 0,
+        "privacy_level_write": 0,
+        "order": 0,
+        "category": null,
+        "statistics_rank": "secondary"
+    }
+},
+{
+    "model": "recruitment.attributedescription",
+    "pk": 2,
+    "fields": {
+        "field_type": "CharField",
+        "privacy_level_read": 0,
+        "privacy_level_write": 0,
+        "order": 1,
+        "category": null,
+        "statistics_rank": null
+    }
+},
+{
+    "model": "recruitment.attributedescription",
+    "pk": 3,
+    "fields": {
+        "field_type": "AgeField",
+        "privacy_level_read": 0,
+        "privacy_level_write": 0,
+        "order": 2,
+        "category": null,
+        "statistics_rank": "primary"
+    }
+},
+{
+    "model": "recruitment.attributedescription",
+    "pk": 4,
+    "fields": {
+        "field_type": "OrderedChoiceField",
+        "privacy_level_read": 0,
+        "privacy_level_write": 0,
+        "order": 3,
+        "category": null,
+        "statistics_rank": null
+    }
+},
+{
+    "model": "recruitment.attributedescriptiontranslation",
+    "pk": 1,
+    "fields": {
+        "language_code": "de",
+        "label": "H\u00e4ndigkeit",
+        "_filter_label": "",
+        "help_text": "",
+        "master": 1
+    }
+},
+{
+    "model": "recruitment.attributedescriptiontranslation",
+    "pk": 2,
+    "fields": {
+        "language_code": "en",
+        "label": "Handedness",
+        "_filter_label": "",
+        "help_text": "",
+        "master": 1
+    }
+},
+{
+    "model": "recruitment.attributedescriptiontranslation",
+    "pk": 3,
+    "fields": {
+        "language_code": "de",
+        "label": "Muttersprache",
+        "_filter_label": "",
+        "help_text": "",
+        "master": 2
+    }
+},
+{
+    "model": "recruitment.attributedescriptiontranslation",
+    "pk": 4,
+    "fields": {
+        "language_code": "en",
+        "label": "Language",
+        "_filter_label": "",
+        "help_text": "",
+        "master": 2
+    }
+},
+{
+    "model": "recruitment.attributedescriptiontranslation",
+    "pk": 5,
+    "fields": {
+        "language_code": "de",
+        "label": "Geburtsdatum",
+        "_filter_label": "Alter",
+        "help_text": "",
+        "master": 3
+    }
+},
+{
+    "model": "recruitment.attributedescriptiontranslation",
+    "pk": 6,
+    "fields": {
+        "language_code": "en",
+        "label": "Date of birth",
+        "_filter_label": "Age",
+        "help_text": "",
+        "master": 3
+    }
+},
+{
+    "model": "recruitment.attributedescriptiontranslation",
+    "pk": 7,
+    "fields": {
+        "language_code": "de",
+        "label": "H\u00f6chster Abschluss",
+        "_filter_label": "",
+        "help_text": "",
+        "master": 4
+    }
+},
+{
+    "model": "recruitment.attributedescriptiontranslation",
+    "pk": 8,
+    "fields": {
+        "language_code": "en",
+        "label": "Highest degree",
+        "_filter_label": "",
+        "help_text": "",
+        "master": 4
+    }
+},
+{
+    "model": "recruitment.attributechoice",
+    "pk": 1,
+    "fields": {
+        "description": 1,
+        "order": 0
+    }
+},
+{
+    "model": "recruitment.attributechoice",
+    "pk": 2,
+    "fields": {
+        "description": 1,
+        "order": 10
+    }
+},
+{
+    "model": "recruitment.attributechoice",
+    "pk": 3,
+    "fields": {
+        "description": 4,
+        "order": 0
+    }
+},
+{
+    "model": "recruitment.attributechoice",
+    "pk": 4,
+    "fields": {
+        "description": 4,
+        "order": 10
+    }
+},
+{
+    "model": "recruitment.attributechoice",
+    "pk": 5,
+    "fields": {
+        "description": 4,
+        "order": 20
+    }
+},
+{
+    "model": "recruitment.attributechoice",
+    "pk": 6,
+    "fields": {
+        "description": 4,
+        "order": 30
+    }
+},
+{
+    "model": "recruitment.attributechoice",
+    "pk": 7,
+    "fields": {
+        "description": 4,
+        "order": 40
+    }
+},
+{
+    "model": "recruitment.attributechoice",
+    "pk": 8,
+    "fields": {
+        "description": 4,
+        "order": 50
+    }
+},
+{
+    "model": "recruitment.attributechoice",
+    "pk": 9,
+    "fields": {
+        "description": 4,
+        "order": 60
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 1,
+    "fields": {
+        "language_code": "de",
+        "label": "Rechts",
+        "master": 1
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 2,
+    "fields": {
+        "language_code": "en",
+        "label": "Right",
+        "master": 1
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 3,
+    "fields": {
+        "language_code": "de",
+        "label": "Links",
+        "master": 2
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 4,
+    "fields": {
+        "language_code": "en",
+        "label": "Left",
+        "master": 2
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 5,
+    "fields": {
+        "language_code": "de",
+        "label": "Kein Abschluss",
+        "master": 3
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 6,
+    "fields": {
+        "language_code": "en",
+        "label": "No degree",
+        "master": 3
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 7,
+    "fields": {
+        "language_code": "de",
+        "label": "Grundschule",
+        "master": 4
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 8,
+    "fields": {
+        "language_code": "en",
+        "label": "Elementary school",
+        "master": 4
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 9,
+    "fields": {
+        "language_code": "de",
+        "label": "Hauptschule",
+        "master": 5
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 10,
+    "fields": {
+        "language_code": "en",
+        "label": "Hauptschule",
+        "master": 5
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 11,
+    "fields": {
+        "language_code": "de",
+        "label": "Mittlere Reife",
+        "master": 6
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 12,
+    "fields": {
+        "language_code": "en",
+        "label": "Mittlere Reife",
+        "master": 6
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 13,
+    "fields": {
+        "language_code": "de",
+        "label": "Abitur",
+        "master": 7
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 14,
+    "fields": {
+        "language_code": "en",
+        "label": "Abitur",
+        "master": 7
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 15,
+    "fields": {
+        "language_code": "de",
+        "label": "Bachelor",
+        "master": 8
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 16,
+    "fields": {
+        "language_code": "en",
+        "label": "Bachelor",
+        "master": 8
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 17,
+    "fields": {
+        "language_code": "de",
+        "label": "Master",
+        "master": 9
+    }
+},
+{
+    "model": "recruitment.attributechoicetranslation",
+    "pk": 18,
+    "fields": {
+        "language_code": "en",
+        "label": "Master",
+        "master": 9
+    }
+}
+]

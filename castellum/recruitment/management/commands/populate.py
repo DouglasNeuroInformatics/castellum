@@ -34,7 +34,6 @@ from castellum.contacts.models import Country
 from castellum.contacts.models.contact import phonetic
 from castellum.pseudonyms.models import Pseudonym
 from castellum.recruitment.models import AttributeChoice
-from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.studies.models import Study
 from castellum.studies.models import StudySession
@@ -43,89 +42,6 @@ from castellum.utils import FakeData
 
 fake = Faker('de_DE')
 fake_data = FakeData()
-
-ATTRIBUTE_DESCRIPTIONS = [{
-    'field_type': 'ChoiceField',
-    'order': 0,
-    'label': {
-        'de': 'Händigkeit',
-        'en': 'Handedness',
-    },
-    'choices': [{
-        'label': {
-            'de': 'Rechts',
-            'en': 'Right',
-        }
-    }, {
-        'label': {
-            'de': 'Links',
-            'en': 'Left',
-        }
-    }],
-    'statistics_rank': 'secondary',
-}, {
-    'field_type': 'CharField',
-    'order': 1,
-    'label': {
-        'de': 'Muttersprache',
-        'en': 'Language',
-    },
-}, {
-    'field_type': 'AgeField',
-    'order': 2,
-    'label': {
-        'de': 'Geburtsdatum',
-        'en': 'Date of birth',
-    },
-    '_filter_label': {
-        'de': 'Alter',
-        'en': 'Age',
-    },
-    'statistics_rank': 'primary',
-}, {
-    'field_type': 'OrderedChoiceField',
-    'order': 3,
-    'label': {
-        'de': 'Höchster Abschluss',
-        'en': 'Highest degree',
-    },
-    'choices': [{
-        'label': {
-            'de': 'Kein Abschluss',
-            'en': 'No degree',
-        }
-    }, {
-        'label': {
-            'de': 'Grundschule',
-            'en': 'Elementary school',
-        }
-    }, {
-        'label': {
-            'de': 'Hauptschule',
-            'en': 'Hauptschule',
-        }
-    }, {
-        'label': {
-            'de': 'Mittlere Reife',
-            'en': 'Mittlere Reife',
-        }
-    }, {
-        'label': {
-            'de': 'Abitur',
-            'en': 'Abitur',
-        }
-    }, {
-        'label': {
-            'de': 'Bachelor',
-            'en': 'Bachelor',
-        }
-    }, {
-        'label': {
-            'de': 'Master',
-            'en': 'Master',
-        }
-    }],
-}]
 
 
 @functools.lru_cache(maxsize=1)
@@ -258,16 +174,6 @@ def fake_attributeset(subject, contact):
     )
 
 
-def generate_attribute_descriptions():
-    print('Generating attribute descriptions')
-
-    for data in ATTRIBUTE_DESCRIPTIONS:
-        description = AttributeDescription._import(data)
-        if 'statistics_rank' in data:
-            description.statistics_rank = data['statistics_rank']
-            description.save()
-
-
 def generate_studies(count):
     print('Generating studies')
     Study.objects.bulk_create(fake_study() for i in range(count))
@@ -325,8 +231,6 @@ class Command(BaseCommand):
         parser.add_argument('--subject-count', default=2000, type=int)
 
     def handle(self, *args, **options):
-        if not AttributeDescription.objects.exists():
-            generate_attribute_descriptions()
         if not Study.objects.exists():
             generate_studies(options['study_count'])
         if not Subject.objects.exists():

@@ -12,7 +12,7 @@ docker-compose up -d
 sleep 5
 
 docker-compose run --rm web django-admin migrateall
-docker-compose run --rm web django-admin loaddata sample_groups timeslots
+docker-compose run --rm web django-admin loaddata sample_groups attribute_descriptions timeslots
 docker-compose run --rm web django-admin create_sample_users
 docker-compose run --rm web django-admin populate
 
