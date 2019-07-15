@@ -16,7 +16,7 @@ yet.
 
 The following commands will install everything and start a local testserver (on ubuntu):
 
-    sudo apt install python3 npm python3-dev libldap2-dev libsasl2-dev libmagic1 docker-compose
+    sudo apt install python3 npm python3-dev libldap2-dev libsasl2-dev libmagic1 docker-compose gettext
     cd castellum
     python3 -m venv .venv
     . .venv/bin/activate
