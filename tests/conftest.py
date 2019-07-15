@@ -1,6 +1,9 @@
 import datetime
+import os
 
 from django.conf import settings
+from django.core import serializers
+from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from django.db.models import DateField
 from django.utils import timezone
@@ -9,7 +12,6 @@ import pytest
 from model_mommy import mommy
 
 from castellum.castellum_auth.models import User
-from castellum.castellum_auth.sample_data import GROUPS
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_subject
 from castellum.recruitment.management.commands import populate
@@ -25,14 +27,22 @@ mommy.generators.add(
     'castellum.utils.fields.DateField', mommy.generators.default_mapping[DateField])
 
 
-def create_user(codenames):
+def load_django_fixture(app_label, name):
+    path = os.path.join('castellum', app_label, 'fixtures', name + '.json')
+    with open(path) as fh:
+        for obj in serializers.deserialize('json', fh):
+            obj.save()
+
+
+def create_user(group_name):
     future = timezone.now() + datetime.timedelta(days=10000)
     user = User.objects.create(expiration_date=future)
 
-    perms = Permission.objects.all()
-    if codenames:
-        perms = perms.filter(codename__in=codenames)
-    user.user_permissions.set(perms)
+    if group_name:
+        group = Group.objects.get(name=group_name)
+        user.groups.add(group)
+    else:
+        user.user_permissions.set(Permission.objects.all())
 
     user.user_permissions.add(Permission.objects.get(codename='privacy_level_1'))
     user.user_permissions.remove(Permission.objects.get(codename='privacy_level_2'))
@@ -41,23 +51,28 @@ def create_user(codenames):
 
 
 @pytest.fixture
+def sample_groups(db):
+    load_django_fixture('castellum_auth', 'sample_groups')
+
+
+@pytest.fixture
 def user(db):
-    return create_user([])
+    return create_user(None)
 
 
 @pytest.fixture
-def study_coordinator(db):
-    return create_user(GROUPS['Study coordinator'])
+def study_coordinator(sample_groups):
+    return create_user('Study coordinator')
 
 
 @pytest.fixture
-def subject_manager(db):
-    return create_user(GROUPS['Subject manager'])
+def subject_manager(sample_groups):
+    return create_user('Subject manager')
 
 
 @pytest.fixture
-def recruiter(db):
-    return create_user(GROUPS['Recruiter'])
+def recruiter(sample_groups):
+    return create_user('Recruiter')
 
 
 @pytest.fixture
