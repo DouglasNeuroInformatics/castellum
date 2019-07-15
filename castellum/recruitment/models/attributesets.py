@@ -200,6 +200,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
     FIELD_TYPE_CHOICES = (
         ('CharField', _('CharField')),
         ('ChoiceField', _('ChoiceField')),
+        ('MultipleChoiceField', _('MultipleChoiceField')),
         ('OrderedChoiceField', _('OrderedChoiceField')),
         ('IntegerField', _('IntegerField')),
         ('BooleanField', _('BooleanField')),
@@ -266,6 +267,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         MAPPING = {
             'CharField': attribute_fields.TextAttributeField,
             'ChoiceField': attribute_fields.ChoiceAttributeField,
+            'MultipleChoiceField': attribute_fields.MultipleChoiceAttributeField,
             'OrderedChoiceField': attribute_fields.OrderedChoiceAttributeField,
             'IntegerField': attribute_fields.NumberAttributeField,
             'BooleanField': attribute_fields.BooleanAttributeField,
