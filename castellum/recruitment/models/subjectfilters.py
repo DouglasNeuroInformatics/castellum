@@ -65,11 +65,13 @@ class SubjectFilterGroup(models.Model):
         if self.study.is_exclusive:
             q &= ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
                 ~models.Q(study__study_mode=Study.FINISHED),
+                ~models.Q(status=ParticipationRequest.UNSUITABLE),
             ).values('subject_id'))
 
         else:
             q &= ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
                 ~models.Q(study__study_mode=Study.FINISHED),
+                ~models.Q(status=ParticipationRequest.UNSUITABLE),
                 study__is_exclusive=True,
             ).values('subject_id'))
 

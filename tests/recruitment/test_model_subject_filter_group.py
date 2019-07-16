@@ -54,6 +54,11 @@ def test_to_q_exclusive_study_and_unfinished(attributeset):
     assert not has_match(is_exclusive=True)
 
 
+def test_to_q_exclusive_study_and_unsuitable(attributeset):
+    create_participation_request(attributeset.subject, status=ParticipationRequest.UNSUITABLE)
+    assert has_match(is_exclusive=True)
+
+
 def test_to_q_other_study_exclusive_and_finished(attributeset):
     create_participation_request(attributeset.subject, is_finished=True, is_exclusive=True)
     assert has_match()
