@@ -31,13 +31,13 @@ def get_subject(domain, pseudonym):
 
 def get_pseudonym(subject, target_domain):
     target, __ = Pseudonym.objects.get_or_create(subject=subject, domain=target_domain)
-    return str(target.pseudonym)
+    return target.pseudonym
 
 
 def create_pseudonym(domain):
     subject = Subject.objects.create()
     pseudonym = Pseudonym.objects.create(subject=subject, domain=domain)
-    return str(pseudonym.pseudonym)
+    return pseudonym.pseudonym
 
 
 def delete_pseudonym(domain, pseudonym, delete_related=False):

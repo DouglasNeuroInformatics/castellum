@@ -44,4 +44,4 @@ class Pseudonym(models.Model):
         )
 
     def __str__(self):
-        return str(self.pseudonym)
+        return self.pseudonym
