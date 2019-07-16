@@ -348,4 +348,4 @@ CASTELLUM_PSEUDONYM_GENERATE = uuid_str
 # value.
 #
 # See also https://docs.djangoproject.com/en/stable/ref/forms/fields/#django.forms.Field.clean
-CASTELLUM_PSEUDONYM_CLEAN = lambda x: x
+CASTELLUM_PSEUDONYM_CLEAN = md5.clean

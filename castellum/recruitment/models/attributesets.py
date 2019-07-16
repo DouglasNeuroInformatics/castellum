@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import functools
 from collections import OrderedDict
 
 from django.contrib.postgres.fields import JSONField
@@ -40,9 +41,17 @@ from castellum.utils.models import TimeStampedModel
 
 from .. import attribute_fields
 from ..attribute_fields import ANSWER_DECLINED
-from ..utils import get_study_filter_q
+from ..filter_registry import custom_filters
 
 UNCATEGORIZED = "UNCATEGORIZED"
+
+
+@functools.lru_cache(maxsize=2)
+def get_description_by_statistics_rank(rank):
+    try:
+        return AttributeDescription.objects.get(statistics_rank=rank)
+    except AttributeDescription.DoesNotExist:
+        return None
 
 
 class ImportMixin:
@@ -87,10 +96,21 @@ class AttributeSet(TimeStampedModel):
         return {desc.json_key: desc.field.from_json(self.data.get(desc.json_key)) for desc in qs}
 
     @classmethod
-    def apply_study_filter(cls, study, include_unknown=True, queryset=None):
+    def apply_study_filter(cls, study, include_unknown=None, queryset=None):
         if not queryset:
             queryset = cls.objects
-        return queryset.filter(get_study_filter_q(study, include_unknown=include_unknown))
+
+        if include_unknown is None:
+            include_unknown = not study.complete_matches_only
+
+        if study.custom_filter:
+            q = custom_filters[study.custom_filter](include_unknown=include_unknown)
+
+        q = models.Q()
+        for group in study.subjectfiltergroup_set.all():
+            q |= group.to_q(include_unknown=include_unknown)
+
+        return queryset.filter(q)
 
     def get_verbose_name(self, pk):
         description = AttributeDescription.objects.get(pk=pk)
@@ -105,9 +125,8 @@ class AttributeSet(TimeStampedModel):
         return AttributeDescription.objects.values_list('pk', flat=True)
 
     def get_statistics_bucket(self, rank):
-        try:
-            description = AttributeDescription.objects.get(statistics_rank=rank)
-        except AttributeDescription.DoesNotExist:
+        description = get_description_by_statistics_rank(rank)
+        if not description:
             return None
         value = description.field.from_json(self.data.get(description.json_key))
 
@@ -257,9 +276,8 @@ class AttributeDescription(ImportMixin, TranslatableModel):
 
     @classmethod
     def get_statistics_buckets(cls, rank):
-        try:
-            description = cls.objects.get(statistics_rank=rank)
-        except cls.DoesNotExist:
+        description = get_description_by_statistics_rank(rank)
+        if not description:
             return [(None, None)]
 
         return description.field.get_statistics_buckets() + [

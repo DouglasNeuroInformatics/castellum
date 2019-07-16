@@ -107,6 +107,17 @@ class Study(models.Model):
         ),
         default=False,
     )
+    complete_matches_only = models.BooleanField(
+        _('Complete filter matches only'),
+        help_text=_(
+            'By default, filters may include subjects with incomplete attribute sets. This feature '
+            'is supposed to improve the quality of the database by asking recruiters to fill '
+            'missing values on the go. Only allowing complete filter matches can speed up '
+            'individual recruitments but may deteriorate the quality of the database as a whole. '
+            'Furthermore, this reduces the number of potential subjects.'
+        ),
+        default=False,
+    )
 
     consent = RestrictedFileField(
         _('Consent'),
