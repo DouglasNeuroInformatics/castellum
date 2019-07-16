@@ -41,13 +41,13 @@ ALPHABET = '0123456789ACDEFGHJKLMNPQRTUVWXYZ'  # without BIOS for similarity to 
 HASH = hashlib.md5
 
 
-def guarantee_digit(msg):
+def checksum1(msg):
     # Generate a digit that is guaranteed to change on a single input error.
     x = sum(ALPHABET.index(c) for c in msg)
     return ALPHABET[x % len(ALPHABET)]
 
 
-def generic_digits(msg, length):
+def checksum2(msg, length):
     h = HASH(msg.encode('ascii')).digest()
     return ''.join(ALPHABET[h[i] % len(ALPHABET)] for i in range(length))
 
@@ -55,9 +55,9 @@ def generic_digits(msg, length):
 def checksum(msg):
     s = ''
     if CHECK_DIGITS >= 1:
-        s += guarantee_digit(msg)
+        s += checksum1(msg)
     if CHECK_DIGITS >= 2:
-        s += generic_digits(msg, CHECK_DIGITS - 1)
+        s += checksum2(msg, CHECK_DIGITS - 1)
     return s
 
 
