@@ -33,6 +33,9 @@ class SubjectForm(forms.ModelForm):
     class Meta:
         model = Subject
         exclude = ()
+        widgets = {
+            'privacy_level': forms.RadioSelect,
+        }
 
     consent_type = ConsentConfirmation._meta.get_field('type').formfield(required=False)
     consent_status = ConsentConfirmation._meta.get_field('status').formfield(required=False)
@@ -90,6 +93,9 @@ class SubjectPrivacyLevelForm(forms.ModelForm):
     class Meta:
         model = Subject
         fields = ['privacy_level']
+        widgets = {
+            'privacy_level': forms.RadioSelect,
+        }
 
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
