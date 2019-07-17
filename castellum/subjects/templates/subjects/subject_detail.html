@@ -7,9 +7,9 @@
     <h1>{{ contact.full_name }}</h1>
     <p>{{ contact|display:'address' }}</p>
     {% if not contact.is_complete or not subject.is_complete %}
-        <div class="alert alert-danger" role="alert">
-            <p><b>{% trans 'Incomplete data' %}.</b> {% trans 'Please edit data sets marked with' %} <i class="fa fa-exclamation-triangle" aria-label="{% trans 'Missing values' %}"></i></p>
-        </div>
+        <p class="alert alert-danger" role="alert">
+            <strong>{% trans 'Incomplete data' %}.</strong> {% trans 'Please edit data sets marked with' %} <i class="fa fa-exclamation-triangle" aria-label="{% trans 'Missing values' %}"></i>
+        </p>
     {% endif %}
     <dl class="row">
         <dt class="col-sm-6">{% trans 'Subject data registered' %}</dt>
