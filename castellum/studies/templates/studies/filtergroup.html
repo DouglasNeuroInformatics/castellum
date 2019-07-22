@@ -97,7 +97,7 @@
                 </div>
                 {% if study.study_mode == study.EDIT %}
                     <div class="col-sm flex-grow-0">
-                        <button type="button" class="btn btn-danger" data-js="excluded-studies-reset">{% trans 'Reset' %}</button>
+                        <button type="button" class="btn btn-danger" data-multi-reset="#{{ form.excluded_studies.id_for_label }}">{% trans 'Reset' %}</button>
                     </div>
                 {% endif %}
         </div>

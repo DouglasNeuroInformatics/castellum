@@ -40,9 +40,10 @@ $(function() {
         registerBeforeUnload();
     });
 
-    $(document).on('click', '[data-js="excluded-studies-reset"]', function(event) {
-            $('option', $('#id_excluded_studies')).each(function(element) {
-                $(this).removeAttr('selected').prop('selected', false);
-            });
+    $(document).on('click', '[data-multi-reset]', function(event) {
+        var $target = $($(event.target).data('multi-reset'));
+        $target.find('option').each(function(i, element) {
+            $(element).prop('selected', false);
+        });
     });
 });
