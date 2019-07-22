@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-02 15:39+0200\n"
+"POT-Creation-Date: 2019-07-22 12:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -259,7 +259,7 @@ msgid "Edit contact"
 msgstr "Kontakt bearbeiten"
 
 #: castellum/contacts/templates/contacts/contact_form.html:8
-#: castellum/subjects/templates/subjects/subject_search.html:87
+#: castellum/subjects/templates/subjects/subject_search.html:91
 msgid "Create new subject"
 msgstr "Neue Proband*in anlegen"
 
@@ -267,8 +267,8 @@ msgstr "Neue Proband*in anlegen"
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:40
 #: castellum/recruitment/templates/recruitment/recruitment.html:60
 #: castellum/recruitment/templates/recruitment/studies_list.html:36
-#: castellum/studies/templates/studies/filtergroup.html:95
-#: castellum/studies/templates/studies/filtergroup.html:97
+#: castellum/studies/templates/studies/filtergroup.html:107
+#: castellum/studies/templates/studies/filtergroup.html:109
 #: castellum/studies/templates/studies/filtergroup_blocked.html:16
 #: castellum/studies/templates/studies/filtergroup_confirm_delete.html:11
 #: castellum/studies/templates/studies/filtergroup_list.html:72
@@ -278,11 +278,11 @@ msgstr "Neue Proband*in anlegen"
 #: castellum/studies/templates/studies/study_list.html:69
 #: castellum/studies/templates/studies/study_members.html:49
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:24
-#: castellum/studies/templates/studies/study_recruitmentsettings_form.html:19
+#: castellum/studies/templates/studies/study_recruitmentsettings_form.html:21
 #: castellum/studies/templates/studies/studymembership_confirm_delete.html:11
 #: castellum/studies/templates/studies/studymembership_form.html:29
 #: castellum/subjects/templates/subjects/subject_form.html:119
-#: castellum/subjects/templates/subjects/subject_participationlist.html:23
+#: castellum/subjects/templates/subjects/subject_participationlist.html:29
 #: castellum/subjects/templates/subjects/subject_search.html:25
 #: castellum/subjects/templates/subjects/subject_studies.html:35
 msgid "Back"
@@ -293,135 +293,150 @@ msgstr "Zurück"
 #: castellum/recruitment/templates/recruitment/contact.html:168
 #: castellum/studies/templates/studies/study_exclusioncriteria.html:24
 #: castellum/studies/templates/studies/study_form.html:91
-#: castellum/studies/templates/studies/study_recruitmentsettings_form.html:21
+#: castellum/studies/templates/studies/study_recruitmentsettings_form.html:23
 #: castellum/studies/templates/studies/studymembership_form.html:30
 #: castellum/subjects/templates/subjects/subject_form.html:120
 msgid "Save"
 msgstr "Speichern"
 
-#: castellum/recruitment/admin.py:191
+#: castellum/pseudonyms/generators/md5.py:82
+msgid "Pseudonym contains invalid characters"
+msgstr ""
+
+#: castellum/pseudonyms/generators/md5.py:88
+msgid "Invalid pseudonym"
+msgstr ""
+
+#: castellum/recruitment/admin.py:192
 #: castellum/recruitment/templates/admin/recruitment/attributedescription_import.html:9
 #: castellum/recruitment/templates/admin/recruitment/attributedescription_import.html:29
 #: castellum/recruitment/templates/admin/recruitment/change_list.html:8
 msgid "Import"
 msgstr "Importieren"
 
-#: castellum/recruitment/admin.py:203
+#: castellum/recruitment/admin.py:204
 msgid "Uploaded file does not contain valid JSON."
 msgstr "Die hochgeladene Datei enthält kein valides JSON."
 
-#: castellum/recruitment/admin.py:205
+#: castellum/recruitment/admin.py:206
 msgid "Uploaded file must be UTF-8 encoded."
 msgstr "Die Datei muss mit UTF-8 kodiert sein."
 
-#: castellum/recruitment/admin.py:232
+#: castellum/recruitment/admin.py:233
 #, python-format
 msgid "Successfully imported %i attribute categories."
 msgstr "%i Merkmalskategorien erfolgreich importiert."
 
-#: castellum/recruitment/admin.py:248
+#: castellum/recruitment/admin.py:249
 #, python-format
 msgid "Successfully imported %i attribute descriptions."
 msgstr "%i Merkmalsbeschreibungen erfolgreich importiert."
 
-#: castellum/recruitment/admin.py:261 castellum/recruitment/admin.py:288
+#: castellum/recruitment/admin.py:262 castellum/recruitment/admin.py:289
 msgid "Export as JSON"
 msgstr "Als JSON exportieren"
 
-#: castellum/recruitment/attribute_fields.py:91
-#: castellum/recruitment/models/attributesets.py:267
+#: castellum/recruitment/attribute_fields.py:92
+#: castellum/recruitment/models/attributesets.py:287
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:19
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:32
 msgid "Declined to answer"
 msgstr "Antwort verweigert"
 
-#: castellum/recruitment/attribute_fields.py:109
+#: castellum/recruitment/attribute_fields.py:110
 msgid "before"
 msgstr "vor"
 
-#: castellum/recruitment/attribute_fields.py:110
+#: castellum/recruitment/attribute_fields.py:111
 msgid "after"
 msgstr "nach"
 
-#: castellum/recruitment/attribute_fields.py:123
+#: castellum/recruitment/attribute_fields.py:124
 msgid "<"
 msgstr "<"
 
-#: castellum/recruitment/attribute_fields.py:124
+#: castellum/recruitment/attribute_fields.py:125
 msgid ">"
 msgstr ">"
 
-#: castellum/recruitment/attribute_fields.py:125
+#: castellum/recruitment/attribute_fields.py:126
 msgid "=="
 msgstr "=="
 
-#: castellum/recruitment/attribute_fields.py:126
+#: castellum/recruitment/attribute_fields.py:127
 msgid "!="
 msgstr "!="
 
-#: castellum/recruitment/attribute_fields.py:127
+#: castellum/recruitment/attribute_fields.py:128
 msgid "<="
 msgstr "<="
 
-#: castellum/recruitment/attribute_fields.py:128
+#: castellum/recruitment/attribute_fields.py:129
 msgid ">="
 msgstr ">="
 
-#: castellum/recruitment/attribute_fields.py:135
-#: castellum/recruitment/attribute_fields.py:146
-#: castellum/recruitment/attribute_fields.py:155
+#: castellum/recruitment/attribute_fields.py:136
+#: castellum/recruitment/attribute_fields.py:147
+#: castellum/recruitment/attribute_fields.py:156
 msgid "is"
 msgstr "ist"
 
-#: castellum/recruitment/attribute_fields.py:138
+#: castellum/recruitment/attribute_fields.py:139
 #: castellum/recruitment/templates/recruitment/contact.html:60
 #: castellum/utils/templatetags/utils.py:55
 msgid "Yes"
 msgstr "Ja"
 
-#: castellum/recruitment/attribute_fields.py:139
+#: castellum/recruitment/attribute_fields.py:140
 #: castellum/recruitment/templates/recruitment/contact.html:63
 #: castellum/utils/templatetags/utils.py:57
 msgid "No"
 msgstr "Nein"
 
-#: castellum/recruitment/attribute_fields.py:147
-#: castellum/recruitment/attribute_fields.py:156
+#: castellum/recruitment/attribute_fields.py:148
+#: castellum/recruitment/attribute_fields.py:157
 msgid "is not"
 msgstr "ist nicht"
 
-#: castellum/recruitment/attribute_fields.py:148
+#: castellum/recruitment/attribute_fields.py:149
+#: castellum/recruitment/attribute_fields.py:185
 msgid "contains"
 msgstr "enthält"
 
-#: castellum/recruitment/attribute_fields.py:161
-#: castellum/recruitment/models/attributesets.py:266
+#: castellum/recruitment/attribute_fields.py:162
+#: castellum/recruitment/models/attributesets.py:286
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: castellum/recruitment/attribute_fields.py:182
+#: castellum/recruitment/attribute_fields.py:186
+#, fuzzy
+#| msgid "not contacted"
+msgid "does not contain"
+msgstr "nicht kontaktiert"
+
+#: castellum/recruitment/attribute_fields.py:202
 msgid "is at least"
 msgstr "ist mindestens"
 
-#: castellum/recruitment/attribute_fields.py:183
+#: castellum/recruitment/attribute_fields.py:203
 msgid "is at most"
 msgstr "ist höchstens"
 
-#: castellum/recruitment/attribute_fields.py:202
+#: castellum/recruitment/attribute_fields.py:222
 #: castellum/recruitment/fields.py:30
 msgid "years"
 msgstr "Jahre"
 
-#: castellum/recruitment/attribute_fields.py:203
+#: castellum/recruitment/attribute_fields.py:223
 #: castellum/recruitment/fields.py:31
 msgid "days"
 msgstr "Tage"
 
-#: castellum/recruitment/attribute_fields.py:208
+#: castellum/recruitment/attribute_fields.py:228
 msgid "older than"
 msgstr "älter als"
 
-#: castellum/recruitment/attribute_fields.py:209
+#: castellum/recruitment/attribute_fields.py:229
 msgid "younger than"
 msgstr "jünger als"
 
@@ -430,59 +445,63 @@ msgid "There are duplicates in filters. Please change or delete filters!"
 msgstr ""
 "Es wurden Filter dupliziert. Bitte ändern oder löschen Sie diese Filter!"
 
-#: castellum/recruitment/models/attributesets.py:79
+#: castellum/recruitment/models/attributesets.py:88
 msgid "Attribute set"
 msgstr "Merkmale"
 
-#: castellum/recruitment/models/attributesets.py:80
+#: castellum/recruitment/models/attributesets.py:89
 msgid "Attribute sets"
 msgstr "Merkmale"
 
-#: castellum/recruitment/models/attributesets.py:139
+#: castellum/recruitment/models/attributesets.py:158
 msgid "Attribute category"
 msgstr "Merkmalskategorie"
 
-#: castellum/recruitment/models/attributesets.py:140
+#: castellum/recruitment/models/attributesets.py:159
 msgid "Attribute categories"
 msgstr "Merkmalskategorien"
 
-#: castellum/recruitment/models/attributesets.py:182
+#: castellum/recruitment/models/attributesets.py:201
 msgid "CharField"
 msgstr ""
 
-#: castellum/recruitment/models/attributesets.py:183
+#: castellum/recruitment/models/attributesets.py:202
 msgid "ChoiceField"
 msgstr ""
 
-#: castellum/recruitment/models/attributesets.py:184
+#: castellum/recruitment/models/attributesets.py:203
+msgid "MultipleChoiceField"
+msgstr ""
+
+#: castellum/recruitment/models/attributesets.py:204
 msgid "OrderedChoiceField"
 msgstr ""
 
-#: castellum/recruitment/models/attributesets.py:185
+#: castellum/recruitment/models/attributesets.py:205
 msgid "IntegerField"
 msgstr ""
 
-#: castellum/recruitment/models/attributesets.py:186
+#: castellum/recruitment/models/attributesets.py:206
 msgid "BooleanField"
 msgstr ""
 
-#: castellum/recruitment/models/attributesets.py:187
+#: castellum/recruitment/models/attributesets.py:207
 msgid "DateField"
 msgstr ""
 
-#: castellum/recruitment/models/attributesets.py:188
+#: castellum/recruitment/models/attributesets.py:208
 msgid "AgeField"
 msgstr ""
 
-#: castellum/recruitment/models/attributesets.py:191
+#: castellum/recruitment/models/attributesets.py:211
 msgid "primary"
 msgstr "primär"
 
-#: castellum/recruitment/models/attributesets.py:192
+#: castellum/recruitment/models/attributesets.py:212
 msgid "secondary"
 msgstr "sekundär"
 
-#: castellum/recruitment/models/attributesets.py:229
+#: castellum/recruitment/models/attributesets.py:249
 msgid "Privacy level for reading may not be higher than for writing."
 msgstr ""
 "Die Vertraulichkeitsstufe zum Lesen darf nicht höher sein als zum Schreiben."
@@ -544,6 +563,7 @@ msgid "Exclusion criteria have not been checked"
 msgstr "Ausschlusskriterien wurden noch nicht überprüft"
 
 #: castellum/recruitment/models/subjectfilters.py:51
+#: castellum/studies/templates/studies/filtergroup.html:93
 msgid "Excluded studies"
 msgstr "Alle Studien"
 
@@ -608,8 +628,8 @@ msgstr "zuletzt"
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:70
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:72
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:86
-#: castellum/subjects/templates/subjects/subject_participationlist.html:14
 #: castellum/subjects/templates/subjects/subject_participationlist.html:16
+#: castellum/subjects/templates/subjects/subject_participationlist.html:18
 msgid "Call"
 msgstr "Anrufen"
 
@@ -638,7 +658,9 @@ msgid "Recruiting:"
 msgstr "Rekrutierung:"
 
 #: castellum/recruitment/templates/recruitment/contact.html:17
-msgid "Subject is unsuitable."
+#, fuzzy
+#| msgid "Subject is unsuitable."
+msgid "Subject is unsuitable or blocked in another study."
 msgstr "Proband*in ist nicht geeignet"
 
 #: castellum/recruitment/templates/recruitment/contact.html:21
@@ -684,7 +706,7 @@ msgid "Duration of sessions in minutes"
 msgstr "Sitzungsdauer in Minuten"
 
 #: castellum/recruitment/templates/recruitment/contact.html:145
-#: castellum/studies/models.py:89
+#: castellum/studies/models.py:88
 #: castellum/studies/templates/studies/study_exclusioncriteria.html:4
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:19
 msgid "Exclusion criteria"
@@ -755,23 +777,23 @@ msgstr "Proband*innen finden"
 msgid "There are currently no studies you can recruit for."
 msgstr "Es gibt aktuell keine Studien, für die Sie rekrutieren können."
 
-#: castellum/recruitment/views.py:159 castellum/recruitment/views.py:165
+#: castellum/recruitment/views.py:160 castellum/recruitment/views.py:166
 msgid "Relevance"
 msgstr "Relevanz"
 
-#: castellum/recruitment/views.py:160
+#: castellum/recruitment/views.py:161
 msgid "Recall date"
 msgstr "Rückrufdatum"
 
-#: castellum/recruitment/views.py:161
+#: castellum/recruitment/views.py:162
 msgid "Last call attempt"
 msgstr "Letzter Kontaktversuch"
 
-#: castellum/recruitment/views.py:162
+#: castellum/recruitment/views.py:163
 msgid "Added to list"
 msgstr "Zur Liste hinzugefügt"
 
-#: castellum/recruitment/views.py:232
+#: castellum/recruitment/views.py:233
 msgid ""
 "This study does not require participants. Please, contact the responsible "
 "person who can set it up."
@@ -779,7 +801,7 @@ msgstr ""
 "Diese Studie benötigt keine Teilnehmer*innen. Bitte kontaktieren Sie die "
 "verantwortliche Person, damit dies eingerichtet wird."
 
-#: castellum/recruitment/views.py:242
+#: castellum/recruitment/views.py:243
 msgid ""
 "Application privacy does not allow you to add more subjects. Please contact "
 "provided subjects before adding new ones."
@@ -788,12 +810,12 @@ msgstr ""
 "hinzuzufügen. Bitte kontaktieren Sie die existierenden Proband*innen bevor "
 "Sie weitere hinzuzufügen."
 
-#: castellum/recruitment/views.py:255
+#: castellum/recruitment/views.py:256
 msgid "The custom filter that is set for this study does not exist."
 msgstr ""
 "Der spezielle Filter, der für diese Studie gesetzt wurde, existiert nicht."
 
-#: castellum/recruitment/views.py:260
+#: castellum/recruitment/views.py:261
 msgid ""
 "Such workflow is not intended due to privacy reasons. Please contact "
 "provided subjects before adding new ones."
@@ -802,15 +824,15 @@ msgstr ""
 "kontaktieren Sie die existierenden Proband*innen bevor Sie weitere "
 "hinzuzufügen."
 
-#: castellum/recruitment/views.py:265
+#: castellum/recruitment/views.py:266
 msgid "We cannot find participants for this study."
 msgstr "Wir können keine Teilnehmer*innen für diese Studie finden."
 
-#: castellum/settings/default.py:117
+#: castellum/settings/default.py:119
 msgid "German"
 msgstr "Deutsch"
 
-#: castellum/settings/default.py:118
+#: castellum/settings/default.py:120
 msgid "English"
 msgstr "Englisch"
 
@@ -855,63 +877,63 @@ msgstr "Beendet"
 msgid "Responsible contact person"
 msgstr "Verantwortliche Kontaktperson"
 
-#: castellum/studies/models.py:70
+#: castellum/studies/models.py:69
 msgid "Principal Investigator"
 msgstr "Studienleiter*in"
 
-#: castellum/studies/models.py:71
+#: castellum/studies/models.py:70
 msgid "Affiliated Scientists"
 msgstr "Zugehörige Wissenschaftler*innen"
 
-#: castellum/studies/models.py:73
+#: castellum/studies/models.py:72
 msgid "Affiliated Research Assistants"
 msgstr "Zugehörige Forschungsassistent*innen"
 
-#: castellum/studies/models.py:74
+#: castellum/studies/models.py:73
 msgid "Description"
 msgstr "Beschreibung"
 
-#: castellum/studies/models.py:75
+#: castellum/studies/models.py:74
 msgid "Keywords"
 msgstr "Schlagworte"
 
-#: castellum/studies/models.py:77
+#: castellum/studies/models.py:76
 msgid "Type of study"
 msgstr "Studientyp"
 
-#: castellum/studies/models.py:79 castellum/studies/models.py:81
+#: castellum/studies/models.py:78 castellum/studies/models.py:80
 msgid "Study mode"
 msgstr "Studien-Modus"
 
-#: castellum/studies/models.py:82
+#: castellum/studies/models.py:81
 msgid "Contains sensitive data"
 msgstr "Enthält sensible Daten"
 
-#: castellum/studies/models.py:83
+#: castellum/studies/models.py:82
 msgid "Required number of subjects"
 msgstr "Benötigte Anzahl von Proband*innen"
 
-#: castellum/studies/models.py:86
+#: castellum/studies/models.py:85
 msgid "Expense allowance"
 msgstr "Aufwandsentschädigung"
 
-#: castellum/studies/models.py:87
+#: castellum/studies/models.py:86
 msgid "Start of test sessions"
 msgstr "Beginn der Testsitzungen"
 
-#: castellum/studies/models.py:88
+#: castellum/studies/models.py:87
 msgid "End of test sessions"
 msgstr "Ende der Testsitzungen"
 
-#: castellum/studies/models.py:90
+#: castellum/studies/models.py:89
 msgid "Recruitment text"
 msgstr "Rekrutierungstext"
 
-#: castellum/studies/models.py:95
+#: castellum/studies/models.py:94
 msgid "Advanced filtering"
 msgstr "Erweitete Filterung"
 
-#: castellum/studies/models.py:96
+#: castellum/studies/models.py:95
 msgid ""
 "By default you can create only one filtergroup in which all the filters are "
 "joined by AND operator. Advanced filtering allows you to create multiple "
@@ -921,21 +943,48 @@ msgstr ""
 "den UND Operator verbunden werden. Erweiterte Filterung erlaubt es, mehrere "
 "Filtergruppen anzulegen, die jeweils mit dem ODER Operator verbunden werden."
 
-#: castellum/studies/models.py:101
+#: castellum/studies/models.py:100
 msgid "Custom filter"
 msgstr "Spezieller Filter"
 
+#: castellum/studies/models.py:102
+#, fuzzy
+#| msgid "Edit subject"
+msgid "Exclusive subjects"
+msgstr "Proband*in bearbeiten"
+
 #: castellum/studies/models.py:104
+msgid ""
+"When set, this ensures that potential subjects for this study will not be "
+"recruited in other studies. Please note that this may hinder other "
+"researchers in finding enough participants."
+msgstr ""
+
+#: castellum/studies/models.py:111
+msgid "Complete filter matches only"
+msgstr ""
+
+#: castellum/studies/models.py:113
+msgid ""
+"By default, filters may include subjects with incomplete attribute sets. "
+"This feature is supposed to improve the quality of the database by asking "
+"recruiters to fill missing values on the go. Only allowing complete filter "
+"matches can speed up individual recruitments but may deteriorate the quality "
+"of the database as a whole. Furthermore, this reduces the number of "
+"potential subjects."
+msgstr ""
+
+#: castellum/studies/models.py:123
 msgid "Consent"
 msgstr "Einverständnis"
 
-#: castellum/studies/models.py:127
+#: castellum/studies/models.py:149
 msgid "Data collected by this type of study is always considered sensitive!"
 msgstr ""
 "Bei diesem Studientyp erhobene Daten werden automatisch als sensibel "
 "eingestuft!"
 
-#: castellum/studies/models.py:131
+#: castellum/studies/models.py:153
 msgid ""
 "Studies with more than one filtergroup can't be transformed back to basic "
 "filtering. Delete all but one filtergroup first!"
@@ -944,11 +993,11 @@ msgstr ""
 "zurückgesetzt werden. Bitte löschen Sie zunächst alle bis auf die erste "
 "Filtergruppe!"
 
-#: castellum/studies/models.py:139
+#: castellum/studies/models.py:161
 msgid "study is not in edit mode"
 msgstr "Die Studie ist nicht im Bearbeitungs-Modus"
 
-#: castellum/studies/models.py:201
+#: castellum/studies/models.py:223
 msgid "Duration of a session in minutes"
 msgstr "Sitzungsdauer in Minuten"
 
@@ -987,9 +1036,13 @@ msgstr "Filter hinzufügen"
 msgid "Delete"
 msgstr "Löschen"
 
-#: castellum/studies/templates/studies/filtergroup.html:101
-msgid "Apply Filters"
-msgstr "Filter anwenden"
+#: castellum/studies/templates/studies/filtergroup.html:100
+msgid "Reset"
+msgstr ""
+
+#: castellum/studies/templates/studies/filtergroup.html:113
+msgid "Apply"
+msgstr ""
 
 #: castellum/studies/templates/studies/filtergroup_blocked.html:12
 msgid "This study uses a custom filter. Regular filters are not available."
@@ -1257,7 +1310,7 @@ msgstr "keine globalen Gruppe"
 msgid "Additional groups in this study"
 msgstr "Zusätzliche Gruppen in dieser Studie"
 
-#: castellum/studies/views/studies.py:278
+#: castellum/studies/views/studies.py:282
 msgid ""
 "Some members of this study with access to filters are blocked from managing "
 "filters due to an insufficient privacy level.\n"
@@ -1267,7 +1320,7 @@ msgstr ""
 "aufgrund ihrer unzureichenden Vertraulichkeitsstufe nicht bearbeiten.\n"
 "Blockierte Nutzer*innen sind: "
 
-#: castellum/studies/views/subjectfilters.py:106
+#: castellum/studies/views/subjectfilters.py:107
 msgid ""
 "Weak recruitment process. Please, define the number of subjects for this "
 "study."
@@ -1275,7 +1328,7 @@ msgstr ""
 "Fehleranfälliger Rekrutierungsprozess. Bitte geben Sie die Anzahl der "
 "Proband*innen an."
 
-#: castellum/studies/views/subjectfilters.py:110
+#: castellum/studies/views/subjectfilters.py:111
 #, python-format
 msgid ""
 "For a smooth recruitment process, your institution recommends at least "
@@ -1288,11 +1341,11 @@ msgstr ""
 "Proband*innen (d.h. %(recommended_count)d für diese Studie). Gegenwärtige "
 "Anzahl potentieller Proband*innen: %(potential_count)d"
 
-#: castellum/studies/views/subjectfilters.py:177
+#: castellum/studies/views/subjectfilters.py:178
 msgid "Filter update successfull!"
 msgstr "Filteraktualisierung erfolgreich!"
 
-#: castellum/studies/views/subjectfilters.py:211
+#: castellum/studies/views/subjectfilters.py:221
 #, python-format
 msgid ""
 "At least one member of this study with access to filters does not have a "
@@ -1302,12 +1355,17 @@ msgstr ""
 "verfügt nicht über die nötige Vertraulichkeitsstufe, um die folgenden "
 "Merkmale sehen zu dürfen: %s"
 
-#: castellum/studies/views/subjectfilters.py:242
+#: castellum/studies/views/subjectfilters.py:254
 msgid "The filters have been duplicated. You can now edit the duplicate."
 msgstr ""
 "Die Filter wurden dupliziert. Sie können jetzt das Duplikat bearbeiten."
 
-#: castellum/subjects/forms.py:54
+#: castellum/subjects/forms.py:58 castellum/subjects/forms.py:110
+msgid "Please choose lower privacy level for the subject."
+msgstr ""
+"Bitte wählen Sie eine niedrigere Vertraulichkeitsstufe für diese Proband*in."
+
+#: castellum/subjects/forms.py:65
 msgid "Please, fill out both type and status of the consent."
 msgstr "Bitte geben Sie sowohl Art als auch Status des Einverständnisses an."
 
@@ -1372,60 +1430,60 @@ msgstr "nicht erreichbar bis"
 msgid "Subject"
 msgstr "Proband*in"
 
-#: castellum/subjects/models.py:139
+#: castellum/subjects/models.py:144
 msgid "Content"
 msgstr "Inhalt"
 
-#: castellum/subjects/models.py:143
+#: castellum/subjects/models.py:148
 msgid "Created at"
 msgstr "Erstellt am"
 
-#: castellum/subjects/models.py:144
+#: castellum/subjects/models.py:149
 msgid "Info"
 msgstr "Info"
 
-#: castellum/subjects/models.py:146
+#: castellum/subjects/models.py:151
 msgid "File"
 msgstr "Datei"
 
-#: castellum/subjects/models.py:156
+#: castellum/subjects/models.py:161
 #, python-format
 msgid "Version %i"
 msgstr "Version %i"
 
-#: castellum/subjects/models.py:167
+#: castellum/subjects/models.py:172
 msgid "Updated at"
 msgstr "Aktualisiert am"
 
-#: castellum/subjects/models.py:170
+#: castellum/subjects/models.py:175
 msgid "Type"
 msgstr "Typ"
 
-#: castellum/subjects/models.py:171
+#: castellum/subjects/models.py:176
 msgid "Online form"
 msgstr "Online-Formular"
 
-#: castellum/subjects/models.py:172
+#: castellum/subjects/models.py:177
 msgid "Pen & Paper"
 msgstr "schriftlich"
 
-#: castellum/subjects/models.py:173
+#: castellum/subjects/models.py:178
 msgid "Telephone"
 msgstr "Telefon"
 
-#: castellum/subjects/models.py:175
+#: castellum/subjects/models.py:180
 msgid "Status"
 msgstr "Status"
 
-#: castellum/subjects/models.py:176
+#: castellum/subjects/models.py:181
 msgid "Waiting for confirmation"
 msgstr "Warten auf Bestätigung"
 
-#: castellum/subjects/models.py:177
+#: castellum/subjects/models.py:182
 msgid "Confirmed"
 msgstr "Bestätigt"
 
-#: castellum/subjects/models.py:182
+#: castellum/subjects/models.py:187
 msgid "Consent confirmation"
 msgstr "Einverständniserklärung"
 
@@ -1440,6 +1498,12 @@ msgstr "Unvollständige Daten"
 #: castellum/subjects/templates/subjects/subject_detail.html:11
 msgid "Please edit data sets marked with"
 msgstr "Bitte editieren Sie die Datensätze mit dem folgenden Symbol:"
+
+#: castellum/subjects/templates/subjects/subject_detail.html:11
+#: castellum/subjects/templates/subjects/subject_detail.html:44
+#: castellum/subjects/templates/subjects/subject_detail.html:53
+msgid "Missing values"
+msgstr "Fehlende Werte"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:15
 msgid "Subject data registered"
@@ -1462,11 +1526,6 @@ msgstr "veraltet"
 #: castellum/subjects/templates/subjects/subject_detail.html:36
 msgid "Attribute set completeness"
 msgstr "Vollständnigkeit der Merkmale"
-
-#: castellum/subjects/templates/subjects/subject_detail.html:44
-#: castellum/subjects/templates/subjects/subject_detail.html:53
-msgid "Missing values"
-msgstr "Fehlende Werte"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:62
 msgid "Study Participation"
@@ -1508,6 +1567,12 @@ msgstr "Studienteilnahme der Proband*in"
 
 #: castellum/subjects/templates/subjects/subject_participationlist.html:7
 msgid "Study Participation of"
+msgstr "Studienteilnahme von"
+
+#: castellum/subjects/templates/subjects/subject_participationlist.html:25
+#, fuzzy
+#| msgid "Study Participation of"
+msgid "No participations found"
 msgstr "Studienteilnahme von"
 
 #: castellum/subjects/templates/subjects/subject_search.html:7
@@ -1596,11 +1661,11 @@ msgstr "SS:MM, z.B. 13:00"
 msgid "e.g. 030 123456"
 msgstr "z.B. 030 123456"
 
-#: castellum/utils/forms.py:176
+#: castellum/utils/forms.py:182
 msgid "File is too big."
 msgstr "Datei ist zu groß."
 
-#: castellum/utils/forms.py:180
+#: castellum/utils/forms.py:186
 msgid "Filetype not supported."
 msgstr "Dateityp nicht unterstützt."
 
@@ -1611,6 +1676,9 @@ msgstr "erstellt am"
 #: castellum/utils/models.py:28
 msgid "updated at"
 msgstr "aktualisiert am"
+
+#~ msgid "Apply Filters"
+#~ msgstr "Filter anwenden"
 
 #~ msgid "country"
 #~ msgstr "Staat"
@@ -1626,8 +1694,3 @@ msgstr "aktualisiert am"
 
 #~ msgid "house number"
 #~ msgstr "Hausnummer"
-
-#~ msgid "Please choose lower privacy level for the subject."
-#~ msgstr ""
-#~ "Bitte wählen Sie eine niedrigere Vertraulichkeitsstufe für diese "
-#~ "Proband*in."
