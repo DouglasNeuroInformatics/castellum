@@ -1,93 +1,75 @@
-from itertools import cycle
-
-import pytest
 from model_mommy import mommy
 
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import SubjectFilterGroup
+from castellum.studies.models import Study
 
 
-"""
-- create five studies (1-5)
-- create one subject filter group for study 1
-- create 4 subjects with attribute_sets
-- subject 1 participates in study 2
-- subject 2 participates in studies 2 and 3
-- subject 3 participates in studies 2, 3 and 4
-- subject 4 participates in studies 2, 3, 4 and 5
-"""
+def create_participation_request(
+    subject, is_finished=False, is_exclusive=False, status=ParticipationRequest.INVITED
+):
+    study_mode = Study.FINISHED if is_finished else Study.RECRUITMENT
+    study = mommy.make(Study, study_mode=study_mode, is_exclusive=is_exclusive)
+    return mommy.make(ParticipationRequest, status=status, subject=subject, study=study)
 
 
-@pytest.fixture
-def five_studies():
-    return mommy.make('studies.Study', _quantity=5)
+def has_match(is_exclusive=False, excluded_studies=[]):
+    study = mommy.make(Study, is_exclusive=is_exclusive)
+    group = mommy.make(SubjectFilterGroup, study=study, excluded_studies=excluded_studies)
+    return AttributeSet.objects.filter(group.to_q()).exists()
 
 
-@pytest.fixture
-def subject_filter_group(five_studies):
-    return mommy.make('recruitment.SubjectFilterGroup', study=five_studies[0])
+def test_to_q(attributeset):
+    assert has_match()
 
 
-@pytest.fixture
-def attributesets(contact):
-    return mommy.make(AttributeSet, data=dict(d1=1), _quantity=4)
+def test_to_q_excluded_study(attributeset):
+    pr = create_participation_request(attributeset.subject)
+    assert not has_match(excluded_studies=[pr.study])
 
 
-@pytest.fixture
-def participation_requests(attributesets, five_studies):
-    invited = ParticipationRequest.INVITED
-    mommy.make(ParticipationRequest, status=invited, subject=attributesets[0].subject,
-               study=five_studies[1])
-    mommy.make(ParticipationRequest, status=invited, subject=attributesets[1].subject,
-               study=cycle(five_studies[1:3]), _quantity=2)
-    mommy.make(ParticipationRequest, status=invited, subject=attributesets[2].subject,
-               study=cycle(five_studies[1:4]), _quantity=3)
-    mommy.make(ParticipationRequest, status=invited, subject=attributesets[3].subject,
-               study=cycle(five_studies[1:5]), _quantity=4)
+def test_to_q_excluded_study_and_unsuitable(attributeset):
+    pr = create_participation_request(attributeset.subject, status=ParticipationRequest.UNSUITABLE)
+    assert has_match(excluded_studies=[pr.study])
 
 
-@pytest.mark.django_db
-def test_to_q_with_no_excluded_studies(subject_filter_group, participation_requests):
-    q = subject_filter_group.to_q()
-    result = AttributeSet.objects.filter(q)
-    assert len(result) == 4
+def test_to_q_excluded_study_and_unsuitable_for_other_study(attributeset):
+    pr = create_participation_request(attributeset.subject)
+    create_participation_request(attributeset.subject, status=ParticipationRequest.UNSUITABLE)
+    assert not has_match(excluded_studies=[pr.study])
 
 
-@pytest.mark.django_db
-@pytest.mark.parametrize("excluded_study_idx,expected_subjects", [
-    (1, 0),
-    (2, 1),
-    (3, 2),
-    (4, 3),
-])
-def test_to_q_with_one_excluded_study(excluded_study_idx, expected_subjects,
-                                      five_studies, subject_filter_group, participation_requests):
-    excluded_study = five_studies[excluded_study_idx]
-    subject_filter_group.excluded_studies.add(excluded_study)
-    subject_filter_group.save()
-
-    q = subject_filter_group.to_q()
-    result = AttributeSet.objects.filter(q)
-    assert len(result) == expected_subjects
+def test_to_q_exclusive_study(attributeset):
+    assert has_match(is_exclusive=True)
 
 
-@pytest.mark.django_db
-@pytest.mark.parametrize("excluded_study_idx,expected_subjects", [
-    (1, 0),
-    (2, 1),
-    (3, 4),
-    (4, 3),
-])
-def test_to_q_when_subjects_are_unsuitable_for_other_study(excluded_study_idx, expected_subjects,
-                                                           five_studies, subject_filter_group,
-                                                           participation_requests):
-    unsuitable = ParticipationRequest.UNSUITABLE
-    ParticipationRequest.objects.filter(study=five_studies[3]).update(status=unsuitable)
+def test_to_q_exclusive_study_and_finished(attributeset):
+    create_participation_request(attributeset.subject, is_finished=True)
+    assert has_match(is_exclusive=True)
 
-    excluded_study = five_studies[excluded_study_idx]
-    subject_filter_group.excluded_studies.add(excluded_study)
-    subject_filter_group.save()
 
-    q = subject_filter_group.to_q()
-    result = AttributeSet.objects.filter(q)
-    assert len(result) == expected_subjects
+def test_to_q_exclusive_study_and_unfinished(attributeset):
+    create_participation_request(attributeset.subject)
+    assert not has_match(is_exclusive=True)
+
+
+def test_to_q_exclusive_study_and_unsuitable(attributeset):
+    create_participation_request(attributeset.subject, status=ParticipationRequest.UNSUITABLE)
+    assert has_match(is_exclusive=True)
+
+
+def test_to_q_other_study_exclusive_and_finished(attributeset):
+    create_participation_request(attributeset.subject, is_finished=True, is_exclusive=True)
+    assert has_match()
+
+
+def test_to_q_other_study_is_exclusive_and_unfinished(attributeset):
+    create_participation_request(attributeset.subject, is_exclusive=True)
+    assert not has_match()
+
+
+def test_to_q_first_study_exclusive_second_study_unfinished(attributeset):
+    create_participation_request(attributeset.subject, is_finished=True, is_exclusive=True)
+    create_participation_request(attributeset.subject)
+    assert has_match()
