@@ -29,6 +29,7 @@ from dateutil.relativedelta import relativedelta
 
 from castellum.utils.forms import DateField
 from castellum.utils.forms import IntegerChoiceField
+from castellum.utils.forms import IntegerMultipleChoiceField
 
 from .fields import AgeField
 
@@ -175,6 +176,25 @@ class ChoiceAttributeField(BaseAttributeField):
         return [
             (choice.pk, choice.label) for choice in self.description.attributechoice_set.all()
         ]
+
+
+class MultipleChoiceAttributeField(ChoiceAttributeField):
+    form_class = IntegerMultipleChoiceField
+    filter_form_class = IntegerChoiceField
+    available_operators = [
+        ("contains", _("contains")),
+        ("!contains", _("does not contain")),
+    ]
+
+    def get_display(self, value):
+        if not value:
+            return super().get_display(None)
+        if value == ANSWER_DECLINED:
+            return super().get_display(value)
+        if not isinstance(value, list):
+            value = [value]
+        s = super()
+        return ', '.join(s.get_display(v) for v in value)
 
 
 class OrderedChoiceAttributeField(ChoiceAttributeField):

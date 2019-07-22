@@ -147,6 +147,12 @@ class IntegerChoiceField(forms.TypedChoiceField):
         super().__init__(*args, **kwargs)
 
 
+class IntegerMultipleChoiceField(forms.TypedMultipleChoiceField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('coerce', int)
+        super().__init__(*args, **kwargs)
+
+
 class DatalistWidget(TextInput):
     template_name = 'utils/widgets/datalist.html'
 
