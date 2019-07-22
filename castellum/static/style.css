@@ -64,3 +64,24 @@
     color: inherit;
     text-decoration: none;
 }
+
+.list-group-item-custom {
+    color: var(--primary)
+}
+
+.list-group-item-custom.active {
+    color: var(--dark);
+    background-color: var(--white);
+    border-color: rgba(0,0,0,.125);
+    position: relative;
+}
+
+.list-group-item-custom.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0.25rem;
+    background-color: var(--primary);
+}
