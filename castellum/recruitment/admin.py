@@ -190,6 +190,8 @@ class BaseImportView(PermissionRequiredMixin, TemplateView):
         context = super().get_context_data()
         context['opts'] = self.model._meta
         context['title'] = _('Import')
+        context['site_title'] = None
+        context['site_header'] = None
         return context
 
     def get_json(self):
