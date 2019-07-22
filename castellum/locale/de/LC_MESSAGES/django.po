@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-22 12:07+0200\n"
+"POT-Creation-Date: 2019-07-22 12:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -301,11 +301,11 @@ msgstr "Speichern"
 
 #: castellum/pseudonyms/generators/md5.py:82
 msgid "Pseudonym contains invalid characters"
-msgstr ""
+msgstr "Pseudonym entählt ungültige Zeichen"
 
 #: castellum/pseudonyms/generators/md5.py:88
 msgid "Invalid pseudonym"
-msgstr ""
+msgstr "Ungültiges Pseudonym"
 
 #: castellum/recruitment/admin.py:192
 #: castellum/recruitment/templates/admin/recruitment/attributedescription_import.html:9
@@ -409,10 +409,8 @@ msgid "Unknown"
 msgstr "Unbekannt"
 
 #: castellum/recruitment/attribute_fields.py:186
-#, fuzzy
-#| msgid "not contacted"
 msgid "does not contain"
-msgstr "nicht kontaktiert"
+msgstr "enthält nicht"
 
 #: castellum/recruitment/attribute_fields.py:202
 msgid "is at least"
@@ -658,10 +656,8 @@ msgid "Recruiting:"
 msgstr "Rekrutierung:"
 
 #: castellum/recruitment/templates/recruitment/contact.html:17
-#, fuzzy
-#| msgid "Subject is unsuitable."
 msgid "Subject is unsuitable or blocked in another study."
-msgstr "Proband*in ist nicht geeignet"
+msgstr "Proband*in ist nicht geeignet order in einer anderen Studie blockiert."
 
 #: castellum/recruitment/templates/recruitment/contact.html:21
 msgid ""
@@ -948,10 +944,8 @@ msgid "Custom filter"
 msgstr "Spezieller Filter"
 
 #: castellum/studies/models.py:102
-#, fuzzy
-#| msgid "Edit subject"
 msgid "Exclusive subjects"
-msgstr "Proband*in bearbeiten"
+msgstr "Exklusive Proband*innen"
 
 #: castellum/studies/models.py:104
 msgid ""
@@ -959,10 +953,14 @@ msgid ""
 "recruited in other studies. Please note that this may hinder other "
 "researchers in finding enough participants."
 msgstr ""
+"Wenn diese Option gesetzt ist wird sichergestellt, dass potentielle "
+"Proband*innen für diese Studie nicht in anderen Studien rekrutiert werden. "
+"Beachten Sie, dass dies andere Wissenschaftler*innen daran hindern könnte, "
+"genug Proband*innen zu finden."
 
 #: castellum/studies/models.py:111
 msgid "Complete filter matches only"
-msgstr ""
+msgstr "Nur vollständige Treffer"
 
 #: castellum/studies/models.py:113
 msgid ""
@@ -973,6 +971,13 @@ msgid ""
 "of the database as a whole. Furthermore, this reduces the number of "
 "potential subjects."
 msgstr ""
+"Standardmäßig können Filter Proband*innen mit unvollständigen Merkmalen "
+"einschließen. Diese Funktion soll die Qualität der Datenbank erhöhen, indem "
+"Rekrutierende ausfgefordert werden, fehlende Werte nebenher einzutragen. Nur "
+"vollständige Treffer zuzulassen kann individuelle Rekrutierungen "
+"beschleuningen, kann aber die Qualität der Datenbank als Ganzes "
+"verschlechtern. Zusätzlich reduziert dies die Anzal der potentiellen "
+"Proband*innen."
 
 #: castellum/studies/models.py:123
 msgid "Consent"
@@ -1038,11 +1043,11 @@ msgstr "Löschen"
 
 #: castellum/studies/templates/studies/filtergroup.html:100
 msgid "Reset"
-msgstr ""
+msgstr "Zurücksetzen"
 
 #: castellum/studies/templates/studies/filtergroup.html:113
 msgid "Apply"
-msgstr ""
+msgstr "Anwenden"
 
 #: castellum/studies/templates/studies/filtergroup_blocked.html:12
 msgid "This study uses a custom filter. Regular filters are not available."
@@ -1165,7 +1170,7 @@ msgstr "Mitgliederverwaltung"
 
 #: castellum/studies/templates/studies/study_detail.html:91
 msgid "Recruiters"
-msgstr "Rekrutierung"
+msgstr "Rekrutierende"
 
 #: castellum/studies/templates/studies/study_detail.html:95
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:4
@@ -1570,10 +1575,8 @@ msgid "Study Participation of"
 msgstr "Studienteilnahme von"
 
 #: castellum/subjects/templates/subjects/subject_participationlist.html:25
-#, fuzzy
-#| msgid "Study Participation of"
 msgid "No participations found"
-msgstr "Studienteilnahme von"
+msgstr "Keine Teilnahmen gefunden"
 
 #: castellum/subjects/templates/subjects/subject_search.html:7
 msgid "Total number of subjects"
@@ -1676,21 +1679,3 @@ msgstr "erstellt am"
 #: castellum/utils/models.py:28
 msgid "updated at"
 msgstr "aktualisiert am"
-
-#~ msgid "Apply Filters"
-#~ msgstr "Filter anwenden"
-
-#~ msgid "country"
-#~ msgstr "Staat"
-
-#~ msgid "city"
-#~ msgstr "Stadt"
-
-#~ msgid "zip code"
-#~ msgstr "Postleitzahl"
-
-#~ msgid "street"
-#~ msgstr "Straße"
-
-#~ msgid "house number"
-#~ msgstr "Hausnummer"
