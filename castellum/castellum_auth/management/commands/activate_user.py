@@ -31,7 +31,10 @@ def parse_date(s):
 
 
 class Command(BaseCommand):
-    help = 'Set the expiration date for a user'
+    help = """Set the expiration date for a user.
+
+    Create the user with an unusable password if it does not exist yet.
+    """
 
     def add_arguments(self, parser):
         parser.add_argument('username')
@@ -39,6 +42,8 @@ class Command(BaseCommand):
         parser.add_argument('date', type=parse_date, default=default_date, nargs='?')
 
     def handle(self, *args, **options):
-        user = User.objects.get(username=options['username'])
+        user, created = User.objects.get_or_create(username=options['username'])
+        if created:
+            user.set_unusable_password()
         user.expiration_date = options['date']
         user.save()
