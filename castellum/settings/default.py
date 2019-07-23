@@ -341,7 +341,7 @@ CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 # () -> str (maximum 64 chars)
 CASTELLUM_PSEUDONYM_GENERATE = md5.generate
 
-# A function that raises a ValidationError if the pseudonym is invalid.
+# A function that raises a ValidationError if the pseudonym's format is invalid.
 #
 # Returns a *cleaned* pseudonym. This can be used to implement
 # auto-correction. But in most cases this will be the same as the input
