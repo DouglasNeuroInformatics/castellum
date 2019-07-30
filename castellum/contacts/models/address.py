@@ -73,3 +73,8 @@ class Address(models.Model):
                     'additional_information')
         verbose_name = _('Address')
         verbose_name_plural = _('Addresses')
+
+    @property
+    def common_address(self):
+        street = " ".join([self.street, self.house_number, self.additional_information]).strip()
+        return "{}, {} {}".format(street, self.zip_code, self.city.name)
