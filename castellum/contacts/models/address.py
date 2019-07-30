@@ -66,7 +66,7 @@ class Address(models.Model):
 
     def __str__(self):
         street = " ".join([self.street, self.house_number, self.additional_information]).strip()
-        return "{} {}, {}".format(self.zip_code, self.city.name, street)
+        return "{}, {} {}".format(street, self.zip_code, self.city.name)
 
     class Meta:
         ordering = ('city__country__name', 'city__name', 'zip_code', 'street', 'house_number',
