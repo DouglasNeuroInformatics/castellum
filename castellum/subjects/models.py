@@ -66,6 +66,14 @@ class Subject(TimeStampedModel):
     availability_friday = models.ManyToManyField(
         TimeSlot, verbose_name=_('Friday'), blank=True, related_name='+')
 
+    days = [
+        self.availability_monday,
+        self.availability_tuesday,
+        self.availability_wednesday,
+        self.availability_thursday,
+        self.availability_friday,
+        ]
+    ordered_days = enumerate(self.days)
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
 
     class Meta:
@@ -111,17 +119,43 @@ class Subject(TimeStampedModel):
         now = timezone.localtime()
         if self.not_available_until and self.not_available_until > now:
             return False
-        days = [
-            self.availability_monday,
-            self.availability_tuesday,
-            self.availability_wednesday,
-            self.availability_thursday,
-            self.availability_friday,
-        ]
-        if now.weekday() >= len(days):
+        if now.weekday() >= len(self.days):
             return False
-        hours = days[now.weekday()]
+        hours = self.days[now.weekday()]
         return hours.filter(hour=now.hour).exists()
+
+    @property
+    def is_available_today_availability(self):
+        day = self.days[now.weekday()]
+        return day.exist(hour=now.hour)
+
+    @property
+    def is_available_today_not_until(self):
+        now = timezone.localtime()
+        if self.not_available_until and self.not_available_until > now:
+            return False
+
+    @property
+    def get_next_day(self):
+        endday = self.not_available_until.weekday()
+        if not is_available_today_availability and not is_available_today_not_until:
+            for day in self.ordered_days[endday:] + self.ordered_days[:endday]:
+                if day.exist(hour=now.hour):
+                    return day
+
+
+    @property
+    def get_precise_availability(self):
+        now = timezone.localtime()
+        ordered_days = enumerate(self.days)
+
+        #return not_available if exist
+        if self.not_available_until and self.not_available_until > now:
+            for counter, day in ordered_days:
+                if counter == now.weekday():
+                    for ts in day.all():
+                        if ts.hour >= now.hour:
+                            return ts.hour, "Uhr", Subject._meta.get_field(day).verbose_name
 
     def get_availability_monday_display(self):
         return ', '.join(str(ts.hour) for ts in self.availability_monday.all())

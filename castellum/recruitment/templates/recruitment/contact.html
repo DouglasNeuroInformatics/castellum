@@ -62,6 +62,10 @@
                     {% else %}
                         {% trans "No" %}
                         <i class="fas fa-phone-slash list-icon bg-warning text-dark" aria-hidden="true"></i>
+                        {% if subject.get_precise_availability %}
+                            ({% trans "not until" %} {{ subject.get_precise_availability }})
+                            {{ subject|display:'get_precise_availability'}}
+                        {% endif %}     
                     {% endif %}
                 </dd>
 
