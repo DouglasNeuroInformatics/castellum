@@ -40,6 +40,9 @@ class TimeSlot(models.Model):
         return str(self.hour)
 
 
+class Availability(models.Model):
+
+
 class Subject(TimeStampedModel):
     privacy_level = models.PositiveIntegerField(
         _('Privacy level'),
@@ -54,6 +57,20 @@ class Subject(TimeStampedModel):
     note_hard_of_hearing = models.BooleanField(_('Hard of hearing'), default=False)
     note_difficult_to_understand = models.BooleanField(_('Difficult to understand'), default=False)
     note_abusive_language = models.BooleanField(_('Abusive language'), default=False)
+
+    MONDAY = 0
+    TUESDAY = 1
+    WEDNESDAY = 2
+    THURSDAY = 3
+    FRIDAY = 4
+
+    DAYS = [
+        (MONDAY)_('Monday'),
+        (TUESDAY)_('Tuesday'),
+        (WEDNESDAY)_('Wednesday'),
+        (THURSDAY)_('Thursday'),
+        (FRIDAY)_('Friday'),
+    ]
 
     availability_monday = models.ManyToManyField(
         TimeSlot, verbose_name=_('Monday'), blank=True, related_name='+')
