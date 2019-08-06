@@ -30,6 +30,7 @@ from django.views.generic import TemplateView
 from django.views.i18n import JavaScriptCatalog
 from django.views.static import serve
 
+
 from castellum.castellum_auth.views import set_language
 
 
@@ -54,6 +55,11 @@ urlpatterns = [
     path(
         'data-protection/', include('castellum.data_protection.urls', namespace='data_protection')
     ),
+    path('appointments/', include('castellum.custom_appointments.urls',
+                                  namespace='custom_appointments')),
+    path('external/appointments/', include('appointments.urls')),
+    path('external/projects/', include('projects.urls')),
+
 ]
 
 if settings.DEBUG:

@@ -26,6 +26,8 @@ INSTALLED_APPS = [
     'bootstrap4',
     'phonenumber_field',
     'parler',
+    'rest_framework',
+    'appointments',
 
     'castellum.utils',
     'castellum.castellum_auth',
@@ -36,6 +38,7 @@ INSTALLED_APPS = [
     'castellum.studies',
     'castellum.contacts',
     'castellum.data_protection',
+    'castellum.custom_appointments',
 ]
 
 MIDDLEWARE = [

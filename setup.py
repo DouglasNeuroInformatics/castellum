@@ -29,5 +29,8 @@ setup(
         "psycopg2-binary==2.8.4",
         "python-dateutil==2.8.1",
         "simplecharts==0.0.2",
+        "djangorestframework==3.9.0",
+        "appointments",
+        "projects",
     ],
 )

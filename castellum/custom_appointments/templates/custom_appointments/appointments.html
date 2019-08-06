@@ -1,0 +1,11 @@
+<h2>Apppointments</h2>
+
+<div>
+{% for appointment in appointments %}
+    {{appointment.creator}}
+    {{appointment.operator}}
+{{ appointment.room}}<br>
+{{appointment.start_date}}{{appointment.end_date}}<br>
+{% endfor %}
+</div>
+
