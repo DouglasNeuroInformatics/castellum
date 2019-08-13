@@ -27,18 +27,18 @@
         </div>
     </form>
 
-    <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" id="matches-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="matches" aria-selected="true">{% trans "Matches" %}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create" aria-selected="false">{% trans "Create" %}</a>
-        </li>
-    </ul>
+    {% if form.is_valid %}
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="matches-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="matches" aria-selected="true">{% trans "Matches" %}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create" aria-selected="false">{% trans "Create" %}</a>
+            </li>
+        </ul>
 
-    <div class="tab-content mb-3 border border-top-0 p-3">
-        <div class="tab-pane active" id="matches" role="tabpanel" aria-labelledby="matches-tab">
-            {% if form.is_valid %}
+        <div class="tab-content mb-3 border border-top-0 p-3">
+            <div class="tab-pane active" id="matches" role="tabpanel" aria-labelledby="matches-tab">
                 {% if matches %}
                     <ul class="table-list">
                         {% for contact, can_access in matches %}
@@ -90,21 +90,21 @@
                 {% else %}
                     <p class="alert alert-warning" role="alert">{% trans 'No matches found' %}</p>
                 {% endif %}
-        </div>
+            </div>
 
-        <div class="tab-pane" id="create" role="tabpanel" aria-labelledby="create-tab">
-            {% has_perm 'contacts.add_contact' user as can_add_contact %}
-            {% if can_add_contact %}
-                <form method="post" action="{% url 'subjects:index' %}{{ query }}">
-                    {% for error in privacy_level_form.non_field_errors %}
-                        <p class="alert alert-danger" role="alert">{{ error }}</p>
-                    {% endfor %}
-                    {% csrf_token %}
-                    {% bootstrap_field privacy_level_form.privacy_level %}
-                    <button class="btn btn-primary">{% trans "Create new subject" %}</button>
-                </form>
-            {% endif %}
+            <div class="tab-pane" id="create" role="tabpanel" aria-labelledby="create-tab">
+                {% has_perm 'contacts.add_contact' user as can_add_contact %}
+                {% if can_add_contact %}
+                    <form method="post" action="{% url 'subjects:index' %}{{ query }}">
+                        {% for error in privacy_level_form.non_field_errors %}
+                            <p class="alert alert-danger" role="alert">{{ error }}</p>
+                        {% endfor %}
+                        {% csrf_token %}
+                        {% bootstrap_field privacy_level_form.privacy_level %}
+                        <button class="btn btn-primary">{% trans "Create new subject" %}</button>
+                    </form>
+                {% endif %}
+            </div>
         </div>
     {% endif %}
-    </div>
 {% endblock %}
