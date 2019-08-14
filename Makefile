@@ -14,6 +14,7 @@ migrate: start_database_containers
 
 populate: start_database_containers
 	$(MANAGEPY) loaddata sample_groups timeslots
+	$(MANAGEPY) create_sample_attribute_descriptions
 	$(MANAGEPY) create_sample_users
 	$(MANAGEPY) populate
 
