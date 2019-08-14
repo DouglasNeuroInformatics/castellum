@@ -100,6 +100,16 @@
                             <p class="alert alert-danger" role="alert">{{ error }}</p>
                         {% endfor %}
                         {% csrf_token %}
+                        <dl>
+                            <dt>{{ form.first_name.label }}</dt>
+                            <dd>{{ form.first_name.value }}</dd>
+
+                            <dt>{{ form.last_name.label }}</dt>
+                            <dd>{{ form.last_name.value }}</dd>
+
+                            <dt>{{ form.date_of_birth.label }}</dt>
+                            <dd>{{ form.date_of_birth.value }}</dd>
+                        </dl>
                         {% bootstrap_field privacy_level_form.privacy_level %}
                         <button class="btn btn-primary">{% trans "Create new subject" %}</button>
                     </form>
