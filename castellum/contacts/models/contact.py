@@ -100,7 +100,7 @@ class Contact(TimeStampedModel):
     @property
     def is_complete(self):
         # these conditions are also checked in the form
-        return any([self.address, self.phone_number, self.email])
+        return self.date_of_birth and any([self.address, self.phone_number, self.email])
 
     @property
     def full_name(self):
