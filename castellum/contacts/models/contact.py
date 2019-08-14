@@ -74,7 +74,7 @@ class Contact(TimeStampedModel):
 
     gender = models.CharField(_('Gender'), max_length=1, choices=GENDER, default="f")
 
-    date_of_birth = DateField(_('Date of birth'))
+    date_of_birth = DateField(_('Date of birth'), blank=True, null=True)
 
     address = models.ForeignKey(Address, blank=True, null=True, verbose_name=_('Address'),
                                 on_delete=models.SET_NULL)
