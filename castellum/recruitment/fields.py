@@ -28,6 +28,7 @@ def _get_age_fields():
         forms.IntegerField(error_messages={}, min_value=0, max_value=1000),
         forms.ChoiceField(choices=[
             ('years', _('years')),
+            ('months', _('months')),
             ('days', _('days')),
         ]),
     ]

@@ -220,6 +220,7 @@ class OrderedChoiceAttributeField(ChoiceAttributeField):
 class AgeAttributeField(DateAttributeField):
     SCALES = {
         'years': _('years'),
+        'months': _('months'),
         'days': _('days'),
     }
 
