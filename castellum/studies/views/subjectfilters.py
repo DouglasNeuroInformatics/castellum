@@ -35,6 +35,7 @@ from django.views.generic import View
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment.forms import SubjectFilterForm
 from castellum.recruitment.forms import SubjectFilterFormSet
+from castellum.recruitment.forms import SubjectFilterGroupForm
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import SubjectFilter
@@ -157,9 +158,9 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
 
 class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
     model = SubjectFilterGroup
+    form_class = SubjectFilterGroupForm
     template_name = "studies/filtergroup.html"
     permission_required = 'recruitment.change_subjectfilter'
-    fields = ['excluded_studies']
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
