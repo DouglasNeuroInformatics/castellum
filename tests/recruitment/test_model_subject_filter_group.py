@@ -49,6 +49,18 @@ def test_to_q_exclusive_study_and_finished(attributeset):
     assert has_match(is_exclusive=True)
 
 
+def test_to_q_exclusive_study_in_same_study(attributeset):
+    study = mommy.make(Study, is_exclusive=True)
+    mommy.make(
+        ParticipationRequest,
+        status=ParticipationRequest.INVITED,
+        subject=attributeset.subject,
+        study=study,
+    )
+    group = mommy.make(SubjectFilterGroup, study=study)
+    assert AttributeSet.objects.filter(group.to_q()).exists()
+
+
 def test_to_q_exclusive_study_and_unfinished(attributeset):
     create_participation_request(attributeset.subject)
     assert not has_match(is_exclusive=True)

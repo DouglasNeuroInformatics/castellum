@@ -66,6 +66,7 @@ class SubjectFilterGroup(models.Model):
             q &= ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
                 ~models.Q(study__study_mode=Study.FINISHED),
                 ~models.Q(status=ParticipationRequest.UNSUITABLE),
+                ~models.Q(study__pk=self.study.pk),
             ).values('subject_id'))
 
         else:
