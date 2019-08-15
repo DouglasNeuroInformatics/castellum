@@ -17,14 +17,16 @@ $(function() {
     $(document).on('change', '[name="status"]', setVisibility);
     setVisibility();
 
-    var setInvitedDisabled = function() {
-        var $checked = $('[name="exclusion_criteria_checked"]');
-        if ($checked.length) {
-            var $invited = $('[name="status"] [value="3"]');
-            $invited.prop('disabled', !$checked.prop('checked'));
-        }
-    };
+    var $invited = $('[name="status"] [value="3"]');
+    if (!$invited.prop('disabled')) {
+        var setInvitedDisabled = function() {
+            var $checked = $('[name="exclusion_criteria_checked"]');
+            if ($checked.length) {
+                $invited.prop('disabled', !$checked.prop('checked'));
+            }
+        };
 
-    $(document).on('change', '[name="exclusion_criteria_checked"]', setInvitedDisabled);
-    setInvitedDisabled();
+        $(document).on('change', '[name="exclusion_criteria_checked"]', setInvitedDisabled);
+        setInvitedDisabled();
+    }
 });
