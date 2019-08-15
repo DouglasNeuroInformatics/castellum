@@ -20,10 +20,12 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import forms
+from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponseBadRequest
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormMixin
 
+from .forms import ReadonlyFormMixin
 from .forms import ReadonlyModelForm
 
 
@@ -49,6 +51,11 @@ class ReadonlyMixin:
         raise NotImplementedError
 
     def get_form_class(self):
+        if self.form_class:
+            if issubclass(self.form_class, ReadonlyFormMixin):
+                return self.form_class
+            else:
+                raise ImproperlyConfigured('form_class is not a subclass of ReadonlyFormMixin')
         return forms.modelform_factory(self.model, fields=self.fields, form=ReadonlyModelForm)
 
     def get_form_kwargs(self):
