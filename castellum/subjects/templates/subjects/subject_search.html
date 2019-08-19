@@ -63,9 +63,6 @@
                                             {% endif %}
                                         </h3>
                                         <div class="d-inline-block">
-                                            {% if contact.address %}
-                                                <div class="d-inline-block my-1 mr-2">{{ contact.address }}</div>
-                                            {% endif %}
                                             {% if contact.date_of_birth %}
                                                 <div class="d-inline-block my-1 mr-2">
                                                     {% if contact.date_of_birth|date:"Y-m-d" == form.date_of_birth.value %}
@@ -74,6 +71,12 @@
                                                         {{ contact.date_of_birth }}
                                                     {% endif %}
                                                 </div>
+                                            {% endif %}
+                                            {% if contact.address %}
+                                                <div class="d-inline-block my-1 mr-2">{{ contact.address }}</div>
+                                            {% endif %}
+                                            {% if contact.email %}
+                                                <div class="d-inline-block my-1 mr-2">{{ contact.email }}</div>
                                             {% endif %}
                                         </div>
                                     {% else %}
