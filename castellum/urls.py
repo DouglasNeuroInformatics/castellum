@@ -48,6 +48,7 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('recruitment/', include('castellum.recruitment.urls', namespace='recruitment')),
+    path('execution/', include('castellum.execution.urls', namespace='execution')),
     path('studies/', include('castellum.studies.urls', namespace='studies')),
     path('subjects/', include('castellum.subjects.urls', namespace='subjects')),
 ]
