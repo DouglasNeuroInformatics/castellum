@@ -19,7 +19,6 @@
                 {% bootstrap_field form.last_name %}
             </div>
         </div>
-        {% bootstrap_field form.date_of_birth %}
 
         <div class="mb-4">
             <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
@@ -64,13 +63,7 @@
                                         </h3>
                                         <div class="d-inline-block">
                                             {% if contact.date_of_birth %}
-                                                <div class="d-inline-block my-1 mr-2">
-                                                    {% if contact.date_of_birth|date:"Y-m-d" == form.date_of_birth.value %}
-                                                        <mark>{{ contact.date_of_birth }}</mark>
-                                                    {% else %}
-                                                        {{ contact.date_of_birth }}
-                                                    {% endif %}
-                                                </div>
+                                                <div class="d-inline-block my-1 mr-2">{{ contact.date_of_birth }}</div>
                                             {% endif %}
                                             {% if contact.address %}
                                                 <div class="d-inline-block my-1 mr-2">{{ contact.address }}</div>
@@ -108,16 +101,9 @@
                             <p class="alert alert-danger" role="alert">{{ error }}</p>
                         {% endfor %}
                         {% csrf_token %}
-                        <dl>
-                            <dt>{{ form.first_name.label }}</dt>
-                            <dd>{{ form.first_name.value }}</dd>
-
-                            <dt>{{ form.last_name.label }}</dt>
-                            <dd>{{ form.last_name.value }}</dd>
-
-                            <dt>{{ form.date_of_birth.label }}</dt>
-                            <dd>{{ form.date_of_birth.value }}</dd>
-                        </dl>
+                        <p>
+                            <strong>{{ form.first_name.value }} {{ form.last_name.value }}</strong>
+                        </p>
                         {% bootstrap_field privacy_level_form.privacy_level %}
                         <button class="btn btn-primary">{% trans "Create new subject" %}</button>
                     </form>
