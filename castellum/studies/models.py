@@ -46,7 +46,7 @@ class Study(models.Model):
     THIRD_PARTY = 5
 
     EDIT = 0
-    RECRUITMENT = 1
+    EXECUTION = 1
     FINISHED = 2
 
     STUDY_TYPES = [
@@ -60,7 +60,7 @@ class Study(models.Model):
 
     STUDY_MODES = [
         (EDIT, _('Edit')),
-        (RECRUITMENT, _('Recruitment')),
+        (EXECUTION, _('Execution')),
         (FINISHED, _('Finished')),
     ]
 
@@ -163,7 +163,7 @@ class Study(models.Model):
             raise PermissionDenied(msg)
 
     def raise_404_error_if_study_is_not_in_recruitment_mode(self):
-        if self.study_mode != self.RECRUITMENT:
+        if self.study_mode != self.EXECUTION:
             raise Http404
 
     @classmethod

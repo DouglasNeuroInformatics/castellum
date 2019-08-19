@@ -864,6 +864,10 @@ msgstr "Verarbeitung externer Daten"
 msgid "Edit"
 msgstr "Bearbeiten"
 
+#: castellum/studies/models.py:63
+msgid "Execution"
+msgstr "Durchführung"
+
 #: castellum/studies/models.py:64
 #: castellum/studies/templates/studies/study_list.html:37
 msgid "Finished"

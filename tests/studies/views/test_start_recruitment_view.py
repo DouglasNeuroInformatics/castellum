@@ -21,7 +21,7 @@ def test_start_recruitment(request, client, user_fixture, study):
     assert response.status_code == 302
 
     study.refresh_from_db()
-    assert study.study_mode is Study.RECRUITMENT
+    assert study.study_mode is Study.EXECUTION
 
 
 @pytest.mark.parametrize('user_fixture', [
@@ -34,7 +34,7 @@ def test_stop_recruitment(request, client, user_fixture, study):
     mommy.make(StudyMembership, user=user, study=study)
     client.force_login(user)
 
-    study.study_mode = Study.RECRUITMENT
+    study.study_mode = Study.EXECUTION
     study.save()
 
     response = client.post('/studies/{}/start-recruitment/'.format(study.pk))

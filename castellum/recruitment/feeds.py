@@ -81,7 +81,7 @@ class AppointmentFeedForUser(BaseAppointmentFeed):
         return get_object_or_404(get_user_model(), pk=kwargs.get('user_id'))
 
     def items(self, user):
-        for study in Study.objects.filter(study_mode=Study.RECRUITMENT):
+        for study in Study.objects.filter(study_mode=Study.EXECUTION):
             if not (user.has_perm('recruitment.add_participationrequest', obj=study) and
                     user.has_perm('studies.access_study', obj=study)):
                 continue
