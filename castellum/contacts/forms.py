@@ -72,6 +72,8 @@ class ContactForm(forms.ModelForm):
             self.fields['additional_information'].initial = \
                 self.instance.address.additional_information
 
+        self.fields['date_of_birth'].required = True
+
     def clean(self):
         cleaned_data = super().clean()
 

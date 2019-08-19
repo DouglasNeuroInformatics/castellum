@@ -74,7 +74,7 @@ class Contact(TimeStampedModel):
 
     gender = models.CharField(_('Gender'), max_length=1, choices=GENDER, default="f")
 
-    date_of_birth = DateField(_('Date of birth'))
+    date_of_birth = DateField(_('Date of birth'), blank=True, null=True)
 
     address = models.ForeignKey(Address, blank=True, null=True, verbose_name=_('Address'),
                                 on_delete=models.SET_NULL)
@@ -100,7 +100,7 @@ class Contact(TimeStampedModel):
     @property
     def is_complete(self):
         # these conditions are also checked in the form
-        return any([self.address, self.phone_number, self.email])
+        return self.date_of_birth and any([self.address, self.phone_number, self.email])
 
     @property
     def full_name(self):
