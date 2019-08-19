@@ -74,8 +74,7 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
 
     def form_valid(self, form):
         monitoring_logger.info((
-            'Subject search: {{first_name: "{first_name}"; last_name: "{last_name}"; '
-            'date_of_birth: "{date_of_birth}"}} by {user}'
+            'Subject search: {{first_name: "{first_name}"; last_name: "{last_name}" by {user}'
         ).format(user=self.request.user.pk, **form.cleaned_data))
 
         return self.render_to_response(self.get_context_data(

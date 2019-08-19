@@ -24,7 +24,6 @@ def data():
     return dict(
         first_name="Anna",
         last_name="Bolika",
-        date_of_birth="2000-01-01"
     )
 
 

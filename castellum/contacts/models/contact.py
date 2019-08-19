@@ -40,9 +40,8 @@ from ..utils import phonetic
 
 
 class ContactManager(models.Manager):
-    def fuzzy_filter(self, first_name, last_name, date_of_birth):
-        q = models.Q(date_of_birth__gte=date_of_birth-relativedelta(years=2),
-                     date_of_birth__lte=date_of_birth+relativedelta(years=2))
+    def fuzzy_filter(self, first_name, last_name):
+        q = models.Q()
         for code in phonetic(first_name, encode=False):
             q &= models.Q(first_name_phonetic__contains=':{}:'.format(code))
         for code in phonetic(last_name, encode=False):

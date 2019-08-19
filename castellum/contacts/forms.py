@@ -149,5 +149,4 @@ class SearchForm(forms.ModelForm):
         fields = [
             'first_name',
             'last_name',
-            'date_of_birth',
         ]

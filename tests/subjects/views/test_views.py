@@ -36,7 +36,7 @@ def test_detail_200(request, client, user_fixture, contact):
 def test_create_success(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/?first_name=Test&last_name=Test&date_of_birth=1982-02-03'
+    url = '/subjects/?first_name=Test&last_name=Test'
     response = client.post(url)
     assert response.status_code == 200
 
