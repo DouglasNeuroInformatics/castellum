@@ -64,6 +64,9 @@
                     {% else %}
                         {% trans "No" %}
                         <i class="fas fa-phone-slash list-icon bg-warning text-dark" aria-hidden="true"></i>
+                        {% blocktrans with next_available=subject.next_available %}
+                            (not until {{ next_available }})
+                        {% endblocktrans %}
                     {% endif %}
                 </dd>
 
