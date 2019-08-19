@@ -3,7 +3,7 @@ import os
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from castellum.utils import uuid_str
+from castellum.pseudonyms.generators import md5
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -339,13 +339,13 @@ CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 
 # A function that generates a random pseudonym.
 # () -> str (maximum 64 chars)
-CASTELLUM_PSEUDONYM_GENERATE = uuid_str
+CASTELLUM_PSEUDONYM_GENERATE = md5.generate
 
-# A function that raises a ValidationError if the pseudonym is invalid.
+# A function that raises a ValidationError if the pseudonym's format is invalid.
 #
 # Returns a *cleaned* pseudonym. This can be used to implement
 # auto-correction. But in most cases this will be the same as the input
 # value.
 #
 # See also https://docs.djangoproject.com/en/stable/ref/forms/fields/#django.forms.Field.clean
-# CASTELLUM_PSEUDONYM_CLEAN = md5.clean
+CASTELLUM_PSEUDONYM_CLEAN = md5.clean
