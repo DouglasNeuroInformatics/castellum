@@ -9,7 +9,7 @@ from model_mommy import mommy
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
 ])
-def test_start_recruitment(request, client, user_fixture, study):
+def test_start(request, client, user_fixture, study):
     user = request.getfixturevalue(user_fixture)
     mommy.make(StudyMembership, user=user, study=study)
     client.force_login(user)
@@ -17,7 +17,7 @@ def test_start_recruitment(request, client, user_fixture, study):
     study.study_mode = Study.EDIT
     study.save()
 
-    response = client.post('/studies/{}/start-recruitment/'.format(study.pk))
+    response = client.post('/studies/{}/start/'.format(study.pk))
     assert response.status_code == 302
 
     study.refresh_from_db()
@@ -29,7 +29,7 @@ def test_start_recruitment(request, client, user_fixture, study):
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
 ])
-def test_stop_recruitment(request, client, user_fixture, study):
+def test_stop(request, client, user_fixture, study):
     user = request.getfixturevalue(user_fixture)
     mommy.make(StudyMembership, user=user, study=study)
     client.force_login(user)
@@ -37,7 +37,7 @@ def test_stop_recruitment(request, client, user_fixture, study):
     study.study_mode = Study.EXECUTION
     study.save()
 
-    response = client.post('/studies/{}/start-recruitment/'.format(study.pk))
+    response = client.post('/studies/{}/start/'.format(study.pk))
     assert response.status_code == 302
 
     study.refresh_from_db()
