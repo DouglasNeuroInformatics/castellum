@@ -563,7 +563,7 @@ msgstr "Ausschlusskriterien wurden noch nicht überprüft"
 #: castellum/recruitment/models/subjectfilters.py:51
 #: castellum/studies/templates/studies/filtergroup.html:93
 msgid "Excluded studies"
-msgstr "Alle Studien"
+msgstr "Ausgeschlossene Studien"
 
 #: castellum/recruitment/templates/admin/recruitment/attributedescription_import.html:17
 msgid ""
