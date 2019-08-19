@@ -138,6 +138,40 @@ class Subject(TimeStampedModel):
     def get_availability_friday_display(self):
         return ', '.join(str(ts.hour) for ts in self.availability_friday.all())
 
+    def get_next_available_datetime(self, start):
+        days = [
+            self.availability_monday,
+            self.availability_tuesday,
+            self.availability_wednesday,
+            self.availability_thursday,
+            self.availability_friday,
+            None,
+            None,
+        ]
+
+        # +1 accounts for the hours before start.hour on the
+        # first weekday we are checking
+        sliced_days = days[start.weekday():] + days[:start.weekday() + 1]
+        start = timezone.localtime(start)
+        for i, hours in enumerate(sliced_days):
+            if not hours:
+                continue
+            if i == 0:
+                hours = hours.filter(hour__gte=start.hour)
+            earliest_hour = hours.first()
+            if earliest_hour:
+                return start.replace(
+                    hour=earliest_hour.hour, minute=0, second=0, microsecond=0
+                ) + timezone.timedelta(days=i)
+
+    @cached_property
+    def next_available(self):
+        now = timezone.localtime()
+        if self.not_available_until and self.not_available_until > now:
+            return self.get_next_available_datetime(self.not_available_until)
+        else:
+            return self.get_next_available_datetime(now)
+
 
 class SubjectNote(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
