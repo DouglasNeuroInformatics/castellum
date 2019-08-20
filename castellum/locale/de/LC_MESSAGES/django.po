@@ -428,7 +428,7 @@ msgstr "Jahre"
 #: castellum/recruitment/attribute_fields.py:223
 #: castellum/recruitment/fields.py:31
 msgid "months"
-msgstr ""
+msgstr "Monate"
 
 #: castellum/recruitment/attribute_fields.py:224
 #: castellum/recruitment/fields.py:32
@@ -1610,16 +1610,12 @@ msgid "Submit"
 msgstr "Absenden"
 
 #: castellum/subjects/templates/subjects/subject_search.html:34
-#, fuzzy
-#| msgid "matches"
 msgid "Matches"
 msgstr "Treffer"
 
 #: castellum/subjects/templates/subjects/subject_search.html:38
-#, fuzzy
-#| msgid "Created at"
 msgid "Create"
-msgstr "Erstellt am"
+msgstr "Erstellen"
 
 #: castellum/subjects/templates/subjects/subject_search.html:93
 msgid "No matches found"
