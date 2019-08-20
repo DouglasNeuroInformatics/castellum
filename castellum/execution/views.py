@@ -24,6 +24,9 @@ from django.views.generic import DetailView
 from django.views.generic import ListView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.contacts.models import Contact
+from castellum.pseudonyms.helpers import get_pseudonym
+from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.mixins import StudyPermissionMixin
 from castellum.studies.models import Study
 
@@ -52,3 +55,18 @@ class StudyDetailView(StudyPermissionMixin, PermissionRequiredMixin, DetailView)
 
     def get_object(self):
         return self.study
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['list'] = []
+        for pr in self.study.participationrequest_set.filter(status=ParticipationRequest.INVITED):
+            has_access = self.request.user.has_privacy_level(pr.subject.privacy_level)
+            if has_access:
+                contact_pseudonym = get_pseudonym(pr.subject, Contact.domain)
+                contact = Contact.objects.get(pseudonym=contact_pseudonym)
+            else:
+                contact = None
+            context['list'].append((pr, contact, has_access))
+
+        return context
