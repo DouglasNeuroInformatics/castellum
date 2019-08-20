@@ -26,11 +26,13 @@ from django.utils.translation import ugettext_lazy as _
 from castellum.studies.models import Study
 from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
+from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.helpers import get_object_or_none
 
 from .models import AttributeDescription
 from .models import ParticipationRequest
 from .models import SubjectFilter
+from .models import SubjectFilterGroup
 from .models.attributesets import ANSWER_DECLINED
 from .models.attributesets import UNCATEGORIZED
 
@@ -120,6 +122,16 @@ class SubjectFilterFormSet(forms.BaseModelFormSet):
             raise forms.ValidationError(_(
                 'There are duplicates in filters. Please change or delete filters!'
             ), code='invalid')
+
+
+class SubjectFilterGroupForm(ReadonlyModelForm):
+    class Meta:
+        model = SubjectFilterGroup
+        fields = ('excluded_studies',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['excluded_studies'].queryset = Study.objects.exclude(pk=self.instance.study.pk)
 
 
 class AttributeSetForm(forms.Form):
