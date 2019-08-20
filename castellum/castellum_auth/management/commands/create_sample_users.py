@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from django.core.management.base import BaseCommand
@@ -32,7 +34,7 @@ class Command(BaseCommand):
     help = 'Create a set of predefined users as examples'
 
     def handle(self, *args, **options):
-        expiration_date = timezone.now() + timezone.timedelta(days=1000)
+        expiration_date = timezone.now() + datetime.timedelta(days=1000)
 
         if not User.objects.filter(username='admin').exists():
             User.objects.create_superuser(

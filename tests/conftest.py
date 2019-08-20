@@ -1,3 +1,5 @@
+import datetime
+
 from django.conf import settings
 from django.contrib.auth.models import Permission
 from django.db.models import DateField
@@ -24,7 +26,7 @@ mommy.generators.add(
 
 
 def create_user(codenames):
-    future = timezone.now() + timezone.timedelta(days=10000)
+    future = timezone.now() + datetime.timedelta(days=10000)
     user = User.objects.create(expiration_date=future)
 
     perms = Permission.objects.all()

@@ -1,8 +1,7 @@
+from datetime import datetime
+
 import pytz
-
 import pytest
-
-from django.utils.timezone import datetime
 from freezegun import freeze_time
 from model_mommy import mommy
 
