@@ -6,7 +6,7 @@
 {% block content %}
     <h1>{{ study.name }} &mdash; {% trans 'Filters' %}</h1>
 
-    <p>{% trans 'matches' %}: {{ object.get_subject_count }} / {{ total_count }}</p>
+    <p>{% trans 'matches' %}: {{ count }} / {{ total_count }}</p>
 
     {% if study.study_mode == study.EDIT %}
         <h2>{% trans "Add Filter" %}</h2>
