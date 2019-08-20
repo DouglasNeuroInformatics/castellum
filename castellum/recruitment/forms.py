@@ -27,7 +27,6 @@ from castellum.studies.models import Study
 from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
 from castellum.utils.forms import ReadonlyModelForm
-from castellum.utils.helpers import get_object_or_none
 
 from .models import AttributeDescription
 from .models import ParticipationRequest
@@ -96,7 +95,10 @@ class SubjectFilterForm(forms.ModelForm):
         elif data:
             pk = data[prefix + '-description' if prefix else 'description']
             if pk:
-                return get_object_or_none(AttributeDescription, pk=pk)
+                try:
+                    return AttributeDescription.objects.get(pk=pk)
+                except AttributeDescription.DoesNotExist:
+                    return None
         elif kwargs.get('initial') and kwargs['initial'].get('description'):
             return kwargs['initial']['description']
 
