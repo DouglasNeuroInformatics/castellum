@@ -57,7 +57,7 @@ from .models import ParticipationRequest
 class StudyChoiceView(LoginRequiredMixin, ListView):
     model = Study
     context_object_name = 'studies'
-    template_name = 'recruitment/studies_list.html'
+    template_name = 'recruitment/study_list.html'
 
     def get_queryset(self):
         qs = super().get_queryset()
