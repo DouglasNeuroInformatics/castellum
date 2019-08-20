@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.signals import user_logged_in
@@ -51,7 +53,7 @@ class UserExpirationMiddleware:
 
 def get_last_active(request):
     s = request.session['_last_active']
-    return timezone.datetime.strptime(s, DATETIME_FORMAT)
+    return datetime.datetime.strptime(s, DATETIME_FORMAT)
 
 
 def set_last_active(request):

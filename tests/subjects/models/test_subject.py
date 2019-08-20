@@ -12,7 +12,7 @@ from castellum.subjects.models import TimeSlot
 @pytest.mark.freeze_time("2020-10-31")
 @pytest.mark.django_db
 def test_not_available_until_is_in_the_future():
-    not_available_until = timezone.localtime(timezone.make_aware(datetime(2020, 11, 1)))
+    not_available_until = timezone.make_aware(datetime(2020, 11, 1))
     subject = mommy.make(Subject, not_available_until=not_available_until)
 
     assert False is subject.is_available

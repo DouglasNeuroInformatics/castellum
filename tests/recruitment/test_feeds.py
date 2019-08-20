@@ -1,4 +1,4 @@
-from datetime import datetime
+from django.utils import timezone
 
 import pytest
 
@@ -23,7 +23,7 @@ def test_feed_for_study_in_edit_mode(client, study_in_edit_mode):
 def test_feed_for_user(request, client, user_fixture, participation_request):
     user = request.getfixturevalue(user_fixture)
 
-    participation_request.appointment = datetime.now()
+    participation_request.appointment = timezone.now()
     participation_request.save()
 
     response = client.get('/recruitment/appointments/{}/'.format(user.pk))

@@ -1,6 +1,6 @@
 import os
+import datetime
 
-from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from castellum.pseudonyms.generators import md5
@@ -108,7 +108,7 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 
-LOGOUT_TIMEOUT_DEFAULT = timezone.timedelta(seconds=15 * 60)
+LOGOUT_TIMEOUT_DEFAULT = datetime.timedelta(seconds=15 * 60)
 
 
 # Internationalization
