@@ -13,9 +13,9 @@ migrate: start_database_containers
 	$(MANAGEPY) migrateall
 
 populate: start_database_containers
-	$(MANAGEPY) create_sample_groups
+	$(MANAGEPY) loaddata sample_groups timeslots
+	$(MANAGEPY) create_sample_attribute_descriptions
 	$(MANAGEPY) create_sample_users
-	$(MANAGEPY) loaddata timeslots
 	$(MANAGEPY) populate
 
 collectstatic:

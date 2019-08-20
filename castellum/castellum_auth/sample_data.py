@@ -19,40 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-# NOTE: permissions are identified only by their codename, without app_label.
-# This is unique right now, but that can change in the future.
-GROUPS = {
-    'Study coordinator': [
-        'add_study',
-        'view_study',
-        'change_study',
-        'delete_study',
-        'add_subjectfilter',
-        'view_subjectfilter',
-        'change_subjectfilter',
-        'delete_subjectfilter',
-    ],
-    'Subject manager': [
-        'view_subject',
-        'change_subject',
-        'add_contact',
-        'view_contact',
-        'change_contact',
-        'delete_contact',
-        'add_attributeset',
-        'view_attributeset',
-        'change_attributeset',
-        'delete_attributeset',
-    ],
-    'Recruiter': [
-        'view_contact',
-        'add_participationrequest',
-        'view_participationrequest',
-        'change_participationrequest',
-        'delete_participationrequest',
-    ],
-}
-
 USERS = {
     'Andreas': [],
     'Emma': ['Recruiter'],

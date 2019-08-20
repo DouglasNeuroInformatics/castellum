@@ -19,19 +19,31 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.contrib.auth.models import Group
-from django.contrib.auth.models import Permission
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 
-from castellum.castellum_auth.sample_data import GROUPS
+from castellum.castellum_auth.models import User
+
+
+def parse_date(s):
+    dt = timezone.datetime.strptime(s, '%Y-%m-%d')
+    return timezone.make_aware(dt, is_dst=False)
 
 
 class Command(BaseCommand):
-    help = 'Create a set of predefined groups as examples'
+    help = """Set the expiration date for a user.
+
+    Create the user with an unusable password if it does not exist yet.
+    """
+
+    def add_arguments(self, parser):
+        parser.add_argument('username')
+        default_date = timezone.now() + timezone.timedelta(days=7)
+        parser.add_argument('date', type=parse_date, default=default_date, nargs='?')
 
     def handle(self, *args, **options):
-        for name, perms in GROUPS.items():
-            group, created = Group.objects.get_or_create(name=name)
-            if created:
-                permissions = Permission.objects.filter(codename__in=perms)
-                group.permissions.set(permissions)
+        user, created = User.objects.get_or_create(username=options['username'])
+        if created:
+            user.set_unusable_password()
+        user.expiration_date = options['date']
+        user.save()

@@ -1,0 +1,144 @@
+[
+{
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+        "name": "Study coordinator",
+        "permissions": [
+            [
+                "add_subjectfilter",
+                "recruitment",
+                "subjectfilter"
+            ],
+            [
+                "change_subjectfilter",
+                "recruitment",
+                "subjectfilter"
+            ],
+            [
+                "delete_subjectfilter",
+                "recruitment",
+                "subjectfilter"
+            ],
+            [
+                "view_subjectfilter",
+                "recruitment",
+                "subjectfilter"
+            ],
+            [
+                "add_study",
+                "studies",
+                "study"
+            ],
+            [
+                "change_study",
+                "studies",
+                "study"
+            ],
+            [
+                "delete_study",
+                "studies",
+                "study"
+            ],
+            [
+                "view_study",
+                "studies",
+                "study"
+            ]
+        ]
+    }
+},
+{
+    "model": "auth.group",
+    "pk": 2,
+    "fields": {
+        "name": "Subject manager",
+        "permissions": [
+            [
+                "add_contact",
+                "contacts",
+                "contact"
+            ],
+            [
+                "change_contact",
+                "contacts",
+                "contact"
+            ],
+            [
+                "delete_contact",
+                "contacts",
+                "contact"
+            ],
+            [
+                "view_contact",
+                "contacts",
+                "contact"
+            ],
+            [
+                "add_attributeset",
+                "recruitment",
+                "attributeset"
+            ],
+            [
+                "change_attributeset",
+                "recruitment",
+                "attributeset"
+            ],
+            [
+                "delete_attributeset",
+                "recruitment",
+                "attributeset"
+            ],
+            [
+                "view_attributeset",
+                "recruitment",
+                "attributeset"
+            ],
+            [
+                "change_subject",
+                "subjects",
+                "subject"
+            ],
+            [
+                "view_subject",
+                "subjects",
+                "subject"
+            ]
+        ]
+    }
+},
+{
+    "model": "auth.group",
+    "pk": 3,
+    "fields": {
+        "name": "Recruiter",
+        "permissions": [
+            [
+                "view_contact",
+                "contacts",
+                "contact"
+            ],
+            [
+                "add_participationrequest",
+                "recruitment",
+                "participationrequest"
+            ],
+            [
+                "change_participationrequest",
+                "recruitment",
+                "participationrequest"
+            ],
+            [
+                "delete_participationrequest",
+                "recruitment",
+                "participationrequest"
+            ],
+            [
+                "view_participationrequest",
+                "recruitment",
+                "participationrequest"
+            ]
+        ]
+    }
+}
+]
