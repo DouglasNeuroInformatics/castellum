@@ -33,10 +33,7 @@ def generate():
 class Pseudonym(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     domain = models.CharField(max_length=50)
-    pseudonym = models.CharField(
-        max_length=64,
-        default=generate,
-    )
+    pseudonym = models.CharField(max_length=64, default=generate)
 
     class Meta:
         unique_together = (
