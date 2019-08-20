@@ -1619,7 +1619,7 @@ msgstr "Erstellen"
 
 #: castellum/subjects/templates/subjects/subject_search.html:93
 msgid "No matches found"
-msgstr "Keine Treffer gefunden"
+msgstr "Keine Treffer"
 
 #: castellum/subjects/templates/subjects/subject_studies.html:11
 msgid "No attributes provided"
