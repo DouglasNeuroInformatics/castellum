@@ -162,7 +162,7 @@ class Study(models.Model):
         if self.study_mode != self.EDIT:
             raise PermissionDenied(msg)
 
-    def raise_404_error_if_study_is_not_in_recruitment_mode(self):
+    def raise_404_error_if_study_is_not_in_execution_mode(self):
         if self.study_mode != self.EXECUTION:
             raise Http404
 

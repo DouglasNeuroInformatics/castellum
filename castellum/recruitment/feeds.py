@@ -64,7 +64,7 @@ class BaseAppointmentFeed(abc.ABC, ICalFeed):
 class AppointmentFeedForStudy(BaseAppointmentFeed):
     def get_object(self, *args, **kwargs):
         study = Study.get_by_pk_or_404(kwargs.get('study_pk'))
-        study.raise_404_error_if_study_is_not_in_recruitment_mode()
+        study.raise_404_error_if_study_is_not_in_execution_mode()
         return study
 
     def items(self, study):
