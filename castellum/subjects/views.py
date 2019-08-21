@@ -161,7 +161,7 @@ class AddToStudyView(SubjectMixin, LoginRequiredMixin, DetailView):
     template_name = 'subjects/subject_studies.html'
 
     def get_studies(self, attributeset):
-        for study in Study.objects.filter(study_mode=Study.RECRUITMENT):
+        for study in Study.objects.filter(study_mode=Study.EXECUTION):
             if (
                 self.request.user.has_perm('recruitment.add_participationrequest', obj=study) and
                 self.request.user.has_perm('studies.access_study', obj=study) and
@@ -184,7 +184,7 @@ class AddToStudyView(SubjectMixin, LoginRequiredMixin, DetailView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        study = get_object_or_404(Study, pk=request.POST['study'], study_mode=Study.RECRUITMENT)
+        study = get_object_or_404(Study, pk=request.POST['study'], study_mode=Study.EXECUTION)
 
         for perm in ['recruitment.add_participationrequest', 'studies.access_study']:
             if not request.user.has_perm(perm, obj=study):

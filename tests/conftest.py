@@ -90,7 +90,7 @@ def study(db):
 
 @pytest.fixture
 def study_in_recruitment_mode(db):
-    return mommy.make(Study, study_mode=Study.RECRUITMENT)
+    return mommy.make(Study, study_mode=Study.EXECUTION)
 
 
 @pytest.fixture
