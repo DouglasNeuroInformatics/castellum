@@ -10,6 +10,8 @@ Welcome to castellum-docs's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   organizational/privacy-levels
+
 
 
 Indices and tables
