@@ -1,55 +1,55 @@
 {% extends "studies/study_base.html" %}
 {% load i18n auth utils %}
 
-{% block content %}
-    <div class="d-flex flex-column flex-md-row justify-content-between mb-3">
-        {% has_perm 'studies.change_study' user study as can_change_study %}
-        {% if can_change_study %}
-            <div class="d-flex align-items-center">
-                {% if study.study_mode != study.FINISHED %}
-                    <form class="d-sm-inline mr-2" method="post" action="{% url 'studies:start' study.pk %}">
-                        {% csrf_token %}
-
-                        {% if study.study_mode == study.EXECUTION %}
-                            <button class='btn btn-outline-primary active btn-sm-inline my-1'>
-                                {% trans 'Stop' %}
-                            </button>
-                        {% else %}
-                            <button class='btn btn-outline-primary btn-sm-inline my-1'>
-                                {% trans 'Start' %}
-                            </button>
-                        {% endif %}
-                    </form>
-                {% else %}
-                    <form class="d-sm-inline mr-2">
-                        {% if study.previous_study_mode == study.EXECUTION %}
-                            <button class='btn btn-outline-primary active btn-sm-inline my-1' disabled>
-                                {% trans 'Stop' %}
-                            </button>
-                        {% else %}
-                            <button class='btn btn-outline-primary btn-sm-inline my-1' disabled>
-                                {% trans 'Start' %}
-                            </button>
-                        {% endif %}
-                    </form>
-                {% endif %}
-                <form class="d-sm-inline" method="post" action="{% url 'studies:finish_recruitment' study.pk %}">
+{% block header_actions %}
+    {% has_perm 'studies.change_study' user study as can_change_study %}
+    {% if can_change_study %}
+        <div class="d-flex align-items-center">
+            {% if study.study_mode != study.FINISHED %}
+                <form class="d-sm-inline mr-2" method="post" action="{% url 'studies:start' study.pk %}">
                     {% csrf_token %}
 
-                    {% if study.study_mode == study.FINISHED %}
+                    {% if study.study_mode == study.EXECUTION %}
                         <button class='btn btn-outline-primary active btn-sm-inline my-1'>
-                            {% trans 'Resume study' %}
+                            {% trans 'Stop' %}
                         </button>
                     {% else %}
                         <button class='btn btn-outline-primary btn-sm-inline my-1'>
-                            {% trans 'Finish study' %}
+                            {% trans 'Start' %}
                         </button>
                     {% endif %}
                 </form>
-            </div>
-        {% endif %}
-    </div>
+            {% else %}
+                <form class="d-sm-inline mr-2">
+                    {% if study.previous_study_mode == study.EXECUTION %}
+                        <button class='btn btn-outline-primary active btn-sm-inline my-1' disabled>
+                            {% trans 'Stop' %}
+                        </button>
+                    {% else %}
+                        <button class='btn btn-outline-primary btn-sm-inline my-1' disabled>
+                            {% trans 'Start' %}
+                        </button>
+                    {% endif %}
+                </form>
+            {% endif %}
+            <form class="d-sm-inline" method="post" action="{% url 'studies:finish_recruitment' study.pk %}">
+                {% csrf_token %}
 
+                {% if study.study_mode == study.FINISHED %}
+                    <button class='btn btn-outline-primary active btn-sm-inline my-1'>
+                        {% trans 'Resume study' %}
+                    </button>
+                {% else %}
+                    <button class='btn btn-outline-primary btn-sm-inline my-1'>
+                        {% trans 'Finish study' %}
+                    </button>
+                {% endif %}
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
     <dl class="row">
         <dt class="col-sm-6">{{ object|verbose_name:'principal_investigator' }}</dt>
         <dd class="col-sm-6">{{ object|display:'principal_investigator' }}</dd>
