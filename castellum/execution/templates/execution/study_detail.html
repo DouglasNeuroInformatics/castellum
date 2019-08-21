@@ -16,7 +16,11 @@
                 <tr>
                     {% if can_access %}
                         <td>{{ contact.full_name }}</td>
-                        <td></td>
+                        {% if participation_request.participation %}
+                            <td>{{ participation_request.participation.pseudonym }}</td>
+                        {% else %}
+                            <td><button class="btn btn-primary">{% trans "Add" %}</button></td>
+                        {% endif %}
                     {% else %}
                         <td class="text-muted">{% trans 'access denied' %}</td>
                         <td></td>

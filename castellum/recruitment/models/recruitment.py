@@ -111,6 +111,11 @@ class ParticipationRequest(models.Model):
         else:
             return False
 
+    @cached_property
+    def participation(self):
+        from castellum.execution.models import Participation
+        return Participation.objects.get(subject=self.subject, study=self.study)
+
     def get_revisions_display(self):
         return ', '.join(str(r) for r in self.revisions.all())
 
