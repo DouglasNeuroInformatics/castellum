@@ -63,4 +63,4 @@ install_githooks: .git/hooks/pre-commit
 
 .PHONY: tdd
 tdd:
-	$(VIRTUAL_ENV)/bin/watchmedo shell-command . --drop --patterns='*.py' --recursive --command='clear && tox -e py35,py36 -- --disable-warnings -m unittest'
+	$(VIRTUAL_ENV)/bin/watchmedo shell-command castellum --drop --patterns='*.py' --recursive --command='clear && tox -e py35,py36 -- --disable-warnings -m unittest'
