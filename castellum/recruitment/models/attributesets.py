@@ -96,10 +96,7 @@ class AttributeSet(TimeStampedModel):
         return {desc.json_key: desc.field.from_json(self.data.get(desc.json_key)) for desc in qs}
 
     @classmethod
-    def apply_study_filter(cls, study, include_unknown=None, queryset=None):
-        if not queryset:
-            queryset = cls.objects
-
+    def apply_study_filter(cls, study, include_unknown=None):
         if include_unknown is None:
             include_unknown = not study.complete_matches_only
 
@@ -110,7 +107,7 @@ class AttributeSet(TimeStampedModel):
         for group in study.subjectfiltergroup_set.all():
             q |= group.to_q(include_unknown=include_unknown)
 
-        return queryset.filter(q)
+        return AttributeSet.objects.filter(q)
 
     def get_verbose_name(self, pk):
         description = AttributeDescription.objects.get(pk=pk)
