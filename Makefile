@@ -50,6 +50,7 @@ reset_databases: remove_databases remove_migrations databases migrate populate
 
 .PHONY: bootstrap
 install:
+	$(VIRTUAL_ENV)/bin/pip install -U pip
 	$(VIRTUAL_ENV)/bin/pip install tox ipdb watchdog django-debug-toolbar
 	$(VIRTUAL_ENV)/bin/pip install -e .
 	npm install
