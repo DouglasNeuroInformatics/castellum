@@ -11,9 +11,17 @@ def test_clean_generated():
 
 
 @pytest.mark.unittest
-def test_clean_invalid_chars():
-    with pytest.raises(ValidationError):
+def test_clean_invalid_checksum():
+    with pytest.raises(ValidationError) as excinfo:
         md5.clean('foo')
+    assert 'invalid characters' not in str(excinfo.value)
+
+
+@pytest.mark.unittest
+def test_clean_invalid_chars():
+    with pytest.raises(ValidationError) as excinfo:
+        md5.clean('ABC!')
+    assert 'invalid characters' in str(excinfo.value)
 
 
 @pytest.mark.unittest
