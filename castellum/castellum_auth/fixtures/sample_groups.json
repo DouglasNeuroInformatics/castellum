@@ -140,5 +140,34 @@
             ]
         ]
     }
+},
+{
+    "model": "auth.group",
+    "pk": 4,
+    "fields": {
+        "name": "Study conductor",
+        "permissions": [
+            [
+                "add_participation",
+                "execution",
+                "participation"
+            ],
+            [
+                "change_participation",
+                "execution",
+                "participation"
+            ],
+            [
+                "delete_participation",
+                "execution",
+                "participation"
+            ],
+            [
+                "view_participation",
+                "execution",
+                "participation"
+            ]
+        ]
+    }
 }
 ]
