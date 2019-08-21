@@ -18,9 +18,6 @@ populate: start_database_containers
 	$(MANAGEPY) create_sample_users
 	$(MANAGEPY) populate
 
-collectstatic:
-	$(MANAGEPY) collectstatic
-
 makemessages:
 	$(MANAGEPY) makemessages -l de -d django
 	$(MANAGEPY) makemessages -l de -d djangojs
