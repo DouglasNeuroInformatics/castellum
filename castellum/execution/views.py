@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.views.generic import DetailView
 from django.views.generic import ListView
 
@@ -29,6 +30,8 @@ from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.mixins import StudyPermissionMixin
 from castellum.studies.models import Study
+
+from .models import Participation
 
 
 class StudyListView(LoginRequiredMixin, ListView):
@@ -70,3 +73,8 @@ class StudyDetailView(StudyPermissionMixin, PermissionRequiredMixin, DetailView)
             context['list'].append((pr, contact, has_access))
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        pr = self.study.participationrequest_set.get(pk=request.POST['pk'])
+        Participation.objects.create(study=self.study, subject=pr.subject)
+        return redirect('execution:detail', pk=self.study.pk)
