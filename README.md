@@ -21,8 +21,7 @@ The following commands will install everything and start a local testserver (on 
     python3 -m venv .venv
     . .venv/bin/activate
     make install_githooks
-    make bootstrap
-    make run  # start castellum
+    make  # start castellum
 
 You can login with user "admin" and password "123".
 

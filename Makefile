@@ -1,5 +1,8 @@
 MANAGEPY = python manage.py
 
+.PHONY: all
+all: bootstrap run
+
 .PHONY: run
 run: databases
 	$(MANAGEPY) runserver
