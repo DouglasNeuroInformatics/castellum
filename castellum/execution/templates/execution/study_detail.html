@@ -7,22 +7,23 @@
     <h1>{{ object }}</h1>
 
     {% if list %}
-        <ul class="table-list mt-3">
+        <table class="table">
+            <tr>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Pseudonym" %}</th>
+            </tr>
             {% for participation_request, contact, can_access in list %}
-                <li class="table-list-item">
+                <tr>
                     {% if can_access %}
-                        <div class="d-inline-block my-1 mr-2">{{ contact.full_name }}</div>
+                        <td>{{ contact.full_name }}</td>
+                        <td></td>
                     {% else %}
-                        <div class="text-muted">
-                            <div class="d-inline-block my-1 mr-2">
-                                {% trans 'access denied' %}
-                                <i class="fas fa-ban list-icon bg-danger text-light" aria-hidden="true"></i>
-                            </div>
-                        </div>
+                        <td class="text-muted">{% trans 'access denied' %}</td>
+                        <td></td>
                     {% endif %}
-                </li>
+                </tr>
             {% endfor %}
-        </ul>
+        </table>
     {% else %}
         <p class="alert alert-warning" role="alert">{% trans 'No participations found' %}</p>
     {% endif %}
