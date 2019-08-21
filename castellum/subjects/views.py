@@ -147,8 +147,8 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         except ObjectDoesNotExist:
             pass
 
-        for participation in self.object.participationrequest_set.all():
-            context['dataset_list'].append(participation)
+        for participation_request in self.object.participationrequest_set.all():
+            context['dataset_list'].append(participation_request)
 
         for consent in self.object.consentconfirmation_set.all():
             context['dataset_list'].append(consent)

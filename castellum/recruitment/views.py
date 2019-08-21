@@ -142,18 +142,20 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
         buckets2 = dict(AttributeDescription.get_statistics_buckets('secondary'))
 
         participants = []
-        for participation in self.get_queryset():
+        for participation_request in self.get_queryset():
             try:
-                attributeset = participation.subject.attributeset
+                attributeset = participation_request.subject.attributeset
                 bucket1 = buckets1[attributeset.get_statistics_bucket('primary')]
                 bucket2 = buckets2[attributeset.get_statistics_bucket('secondary')]
                 buckets = ', '.join(str(bucket) for bucket in [bucket1, bucket2] if bucket)
             except AttributeSet.DoesNotExist:
                 buckets = ''
 
-            can_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
+            can_access = self.request.user.has_privacy_level(
+                participation_request.subject.privacy_level
+            )
 
-            participants.append((participation, buckets, can_access))
+            participants.append((participation_request, buckets, can_access))
         context['participants'] = participants
 
         context['sort_options'] = [
