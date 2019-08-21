@@ -32,6 +32,7 @@ from castellum.contacts.models import City
 from castellum.contacts.models import Contact
 from castellum.contacts.models import Country
 from castellum.contacts.models.contact import phonetic
+from castellum.pseudonyms.helpers import create_domain
 from castellum.pseudonyms.models import Domain
 from castellum.pseudonyms.models import Pseudonym
 from castellum.recruitment.models import AttributeChoice
@@ -112,7 +113,7 @@ def fake_study():
         expense_allowance=fake.random.randint(20, 50),
         sessions_start=fake.past_date(start_date="-30d"),
         sessions_end=fake.future_date(end_date="+30d"),
-        domain=None,
+        domain=create_domain(),
     )
     if study.study_type == Study.FMRI:
         study.data_sensitivity = True
@@ -178,10 +179,8 @@ def fake_attributeset(subject, contact):
 
 def generate_studies(count):
     print('Generating studies')
-    # do not use bulk_create to trigger create_domain()
-    studies = [fake_study() for i in range(count)]
-    for study in studies:
-        study.save()
+    Study.objects.bulk_create(fake_study() for i in range(count))
+    studies = Study.objects.all()[:count]
     StudySession.objects.bulk_create(fake_studysession(study) for study in studies)
 
 
