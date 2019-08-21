@@ -38,7 +38,7 @@ class StudyListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         qs = super().get_queryset()
         return [study for study in qs.filter(study_mode=Study.EXECUTION) if (
-            self.request.user.has_perm('recruitment.add_participationrequest', obj=study) and
+            self.request.user.has_perm('execution.add_participation', obj=study) and
             self.request.user.has_perm('studies.access_study', obj=study)
         )]
 
@@ -46,7 +46,7 @@ class StudyListView(LoginRequiredMixin, ListView):
 class StudyDetailView(StudyPermissionMixin, PermissionRequiredMixin, DetailView):
     template_name = 'execution/study_detail.html'
     model = Study
-    permission_required = 'recruitment.add_participationrequest'
+    permission_required = 'execution.add_participation'
 
     def dispatch(self, request, *args, **kwargs):
         self.study = Study.get_by_pk_or_404(self.kwargs.get('pk'))
