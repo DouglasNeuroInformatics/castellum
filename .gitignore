@@ -1,0 +1,35 @@
+########################
+# hidden directories
+########################
+
+.vscode/
+.venv/
+
+
+########################
+# directories
+########################
+
+build/
+
+
+########################
+# file types
+########################
+
+*.bat
+
+
+########################
+# dotfiles
+########################
+
+.coverage
+
+
+########################
+# other files
+########################
+
+# custom makefile; make first looks for makefile with lowercase m and then for uppercase M
+Makefile
