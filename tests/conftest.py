@@ -89,7 +89,7 @@ def study(db):
 
 
 @pytest.fixture
-def study_in_recruitment_mode(db):
+def study_in_execution_mode(db):
     return mommy.make(Study, study_mode=Study.EXECUTION)
 
 
@@ -99,9 +99,9 @@ def study_in_edit_mode(db):
 
 
 @pytest.fixture
-def member(user, study, study_in_recruitment_mode, study_in_edit_mode):
+def member(user, study, study_in_execution_mode, study_in_edit_mode):
     StudyMembership.objects.create(user=user, study=study)
-    StudyMembership.objects.create(user=user, study=study_in_recruitment_mode)
+    StudyMembership.objects.create(user=user, study=study_in_execution_mode)
     StudyMembership.objects.create(user=user, study=study_in_edit_mode)
     return user
 
@@ -118,9 +118,9 @@ def attributeset(contact):
 
 
 @pytest.fixture
-def participation_request(contact, study_in_recruitment_mode):
+def participation_request(contact, study_in_execution_mode):
     subject = get_subject(settings.DOMAINS['contact'], contact.pseudonym)
-    return mommy.make(ParticipationRequest, study=study_in_recruitment_mode, subject=subject)
+    return mommy.make(ParticipationRequest, study=study_in_execution_mode, subject=subject)
 
 
 @pytest.fixture(scope='session')
