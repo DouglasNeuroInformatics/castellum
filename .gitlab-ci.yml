@@ -24,10 +24,12 @@ test-branch:
   image: $PYTHON_IMAGE
   script:
     - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
-    - pip install tox
+    - pip install -r requirements-dev.txt
     - pip install -e .
     - python manage.py makemigrations
-    - cd castellum && tox
+    - pytest --ds=$DJANGO_SETTINGS_MODULE
+    - flake8
+    - isort -c
   coverage: '/TOTAL.*\s+(\d+\%)/'
   artifacts:
     paths:

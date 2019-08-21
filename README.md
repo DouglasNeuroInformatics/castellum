@@ -30,7 +30,7 @@ After pulling new changes it is recommended to rebuild the databases and migrati
 
 ## Testing
 
-The command `tox` will execute all tests. (postgres needs to be running)
+The command `pytest` will execute all tests. (postgres needs to be running)
 
 ## Links
 
