@@ -43,7 +43,7 @@ install:
 	pip install -e .
 	npm install
 
-install-githooks: .git/hooks/pre-commit
+install_githooks: .git/hooks/pre-commit
 
 .git/hooks/%: .hooks/%
 	cp $< $@
