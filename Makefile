@@ -1,4 +1,5 @@
-MANAGEPY = python manage.py
+VIRTUAL_ENV ?= .venv
+MANAGEPY = $(VIRTUAL_ENV)/bin/python manage.py
 
 .PHONY: all
 all: bootstrap run
@@ -49,8 +50,8 @@ reset_databases: remove_databases remove_migrations databases migrate populate
 
 .PHONY: bootstrap
 install:
-	pip install tox ipdb watchdog django-debug-toolbar
-	pip install -e .
+	$(VIRTUAL_ENV)/bin/pip install tox ipdb watchdog django-debug-toolbar
+	$(VIRTUAL_ENV)/bin/pip install -e .
 	npm install
 
 .PHONY: install_githooks
@@ -61,4 +62,4 @@ install_githooks: .git/hooks/pre-commit
 
 .PHONY: tdd
 tdd:
-	watchmedo shell-command . --drop --patterns='*.py' --recursive --command='clear && tox -e py35,py36 -- --disable-warnings -m unittest'
+	$(VIRTUAL_ENV)/bin/watchmedo shell-command . --drop --patterns='*.py' --recursive --command='clear && tox -e py35,py36 -- --disable-warnings -m unittest'
