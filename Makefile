@@ -1,19 +1,19 @@
 MANAGEPY = python manage.py
 
 .PHONY: run
-run: start_database_containers
+run: databases
 	$(MANAGEPY) runserver
 
 .PHONY: bootstrap
 bootstrap: install migrate populate castellum/locale/de/LC_MESSAGES/django.mo
 
 .PHONY: migrate
-migrate: start_database_containers
+migrate: databases
 	$(MANAGEPY) makemigrations
 	$(MANAGEPY) migrateall
 
 .PHONY: populate
-populate: start_database_containers
+populate: databases
 	$(MANAGEPY) loaddata sample_groups timeslots
 	$(MANAGEPY) create_sample_attribute_descriptions
 	$(MANAGEPY) create_sample_users
@@ -32,17 +32,17 @@ remove_databases:
 	docker-compose stop db_contacts db_default
 	docker-compose rm -f db_contacts db_default
 
-.PHONY: remove_all_migration_files
-remove_all_migration_files:
+.PHONY: remove_migrations
+remove_migrations:
 	find castellum -name 0*.py -delete
 
-.PHONY: start_database_containers
-start_database_containers:
+.PHONY: databases
+databases:
 	docker-compose up -d db_contacts db_default
 	sleep 2
 
 .PHONY: reset_databases
-reset_databases: remove_databases remove_all_migration_files start_database_containers migrate populate
+reset_databases: remove_databases remove_migrations databases migrate populate
 
 .PHONY: bootstrap
 install:
