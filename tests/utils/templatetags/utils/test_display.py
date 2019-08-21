@@ -1,5 +1,4 @@
 import pytest
-
 from model_mommy import mommy
 
 from castellum.contacts.models import Contact

@@ -1,6 +1,8 @@
 import pytest
 
-from castellum.contacts.models import Address, City, Country
+from castellum.contacts.models import Address
+from castellum.contacts.models import City
+from castellum.contacts.models import Country
 
 
 @pytest.fixture

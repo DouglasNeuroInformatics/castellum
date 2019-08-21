@@ -1,7 +1,7 @@
 from datetime import datetime
 
-import pytz
 import pytest
+import pytz
 from freezegun import freeze_time
 from model_mommy import mommy
 

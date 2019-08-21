@@ -1,10 +1,9 @@
-import os
 import datetime
+import os
 
 from django.utils.translation import ugettext_lazy as _
 
 from castellum.pseudonyms.generators import md5
-
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

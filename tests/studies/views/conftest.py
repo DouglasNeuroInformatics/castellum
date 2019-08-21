@@ -1,7 +1,7 @@
+from django.test import RequestFactory
+
 import pytest
 from model_mommy import mommy
-
-from django.test import RequestFactory
 
 
 @pytest.fixture

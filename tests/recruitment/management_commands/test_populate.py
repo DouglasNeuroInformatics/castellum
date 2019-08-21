@@ -1,9 +1,9 @@
 import pytest
 
-from castellum.studies.models import Study
-from castellum.subjects.models import Subject
 from castellum.recruitment.management.commands.populate import generate_studies
 from castellum.recruitment.management.commands.populate import generate_subjects
+from castellum.studies.models import Study
+from castellum.subjects.models import Subject
 
 
 @pytest.mark.django_db

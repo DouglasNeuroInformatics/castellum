@@ -1,7 +1,7 @@
+from django.urls import reverse
+
 import pytest
 from model_mommy import mommy
-
-from django.urls import reverse
 
 from castellum.studies.models import StudyMembership
 from castellum.studies.views.studies import StudyMembershipUpdateView

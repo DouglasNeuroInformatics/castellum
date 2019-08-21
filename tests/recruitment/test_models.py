@@ -1,17 +1,17 @@
 from unittest.mock import patch
 
-from freezegun import freeze_time
 import pytest
+from freezegun import freeze_time
 from model_mommy import mommy
 
+from castellum.recruitment.models import AttributeCategory
+from castellum.recruitment.models import AttributeDescription
+from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
-from castellum.recruitment.models import AttributeDescription
-from castellum.recruitment.models import AttributeCategory
-from castellum.recruitment.models import AttributeSet
+from castellum.recruitment.models.attributesets import UNCATEGORIZED
 from castellum.recruitment.models.recruitment import ParticipationRequest
 from castellum.recruitment.models.recruitment import ParticipationRequestRevision
-from castellum.recruitment.models.attributesets import UNCATEGORIZED
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 

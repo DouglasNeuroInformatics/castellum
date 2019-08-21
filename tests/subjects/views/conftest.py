@@ -1,6 +1,6 @@
-import pytest
-
 from django.test import RequestFactory
+
+import pytest
 
 
 @pytest.fixture

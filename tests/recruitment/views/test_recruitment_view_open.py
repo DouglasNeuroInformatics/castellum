@@ -1,7 +1,7 @@
-import pytest
-
 from django.conf import settings
 from django.contrib.messages import get_messages
+
+import pytest
 from model_mommy import mommy
 
 from castellum.recruitment.models import ParticipationRequest
