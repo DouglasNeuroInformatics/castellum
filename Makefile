@@ -46,7 +46,7 @@ databases:
 	sleep 2
 
 .PHONY: reset_databases
-reset_databases: remove_databases remove_migrations databases migrate populate
+reset_databases: remove_databases remove_migrations migrate populate
 
 .PHONY: bootstrap
 install:
