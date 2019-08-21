@@ -104,8 +104,8 @@ class FilterGroupListView(FilterMixin, ListView):
     template_name = 'studies/filtergroup_list.html'
     permission_required = 'recruitment.view_subjectfilter'
 
-    def get_queryset(self, *args, **kwargs):
-        qs = super().get_queryset(*args, **kwargs)
+    def get_queryset(self):
+        qs = super().get_queryset()
         return qs.filter(study=self.study)
 
     def get_context_data(self, **kwargs):
