@@ -4,7 +4,7 @@ Privacy levels are in accordance with data security levels of the Max Planck Soc
 
 Users
 -----
-Privacy levels are assigned to Casetellum users for read and for write permissions.
+Privacy levels are assigned to Castellum users for read and for write permissions.
 
 Subjects
 --------
