@@ -6,7 +6,7 @@ pages:
   - pip3 install sphinx
   - apk --no-cache add make
   - make html
-  - mv source/_build/html/ public/
+  - mv build/html/ public/
   artifacts:
     paths:
     - public
