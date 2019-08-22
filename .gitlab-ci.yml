@@ -3,11 +3,10 @@ image: alpine
 pages:
   script:
   - apk --no-cache add python3-dev
-  - python3 -m ensurepip --upgrade
   - pip3 install sphinx
   - apk --no-cache add make
   - make html
-  - mv _build/html/ public/
+  - mv source/_build/html/ public/
   artifacts:
     paths:
     - public
