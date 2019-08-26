@@ -123,7 +123,7 @@ def participation_request(contact, study_in_recruitment_mode):
     return mommy.make(ParticipationRequest, study=study_in_recruitment_mode, subject=subject)
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='session', autouse=True)
 def attribute_descriptions(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
         create_sample_attribute_descriptions.generate_attribute_descriptions()
