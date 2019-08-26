@@ -1369,7 +1369,7 @@ msgid ""
 "%(potential_count)d"
 msgstr ""
 "Für einen reibungslosen Rekrutierungsablauf empfiehlt Ihre Einrichtung "
-"mindestens %(castellum_factor)dx mehr portentielle als benötige "
+"mindestens %(castellum_factor)dx mehr potentielle als benötige "
 "Proband*innen (d.h. %(recommended_count)d für diese Studie). Gegenwärtige "
 "Anzahl potentieller Proband*innen: %(potential_count)d"
 
