@@ -84,10 +84,7 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
 
         return super().dispatch(request, *args, **kwargs)
 
-    def get_queryset(self, queryset=None):
-        if not queryset:
-            queryset = self.model.objects.prefetch_related('subject__attributeset')
-
+    def get_queryset(self):
         if self.sort == 'appointment':
             order_by = ['appointment', '-updated_at']
         elif self.sort == 'last_call_attempt':
@@ -97,7 +94,8 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
         else:
             order_by = ['-appointment_today', 'status', 'appointment', '-updated_at']
 
-        return queryset\
+        return ParticipationRequest.objects\
+            .prefetch_related('subject__attributeset')\
             .filter(status__in=self.shown_status, study=self.study)\
             .order_by(*order_by)
 
@@ -293,11 +291,8 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
         initial['appointment'] = None
         return initial
 
-    def get_queryset(self, queryset=None):
-        if not queryset:
-            queryset = ParticipationRequest.objects
-
-        return queryset.filter(status__in=[
+    def get_queryset(self):
+        return ParticipationRequest.objects.filter(status__in=[
             ParticipationRequest.NOT_CONTACTED,
             ParticipationRequest.NOT_REACHED,
             ParticipationRequest.RECALL_APPOINTED,
