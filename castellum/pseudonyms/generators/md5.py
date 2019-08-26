@@ -40,6 +40,8 @@ CHECK_DIGITS = 2
 ALPHABET = '0123456789ACDEFGHJKLMNPQRTUVWXYZ'  # without BIOS for similarity to 8105
 HASH = hashlib.md5
 
+safe_random = random.SystemRandom()
+
 
 def checksum1(msg):
     # Generate a digit that is guaranteed to change on a single input error.
@@ -62,7 +64,7 @@ def checksum(msg):
 
 
 def generate(length=10):
-    msg = ''.join(random.choices(ALPHABET, k=length - CHECK_DIGITS))
+    msg = ''.join(safe_random.choices(ALPHABET, k=length - CHECK_DIGITS))
     return msg + checksum(msg)
 
 
