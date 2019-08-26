@@ -1,0 +1,29 @@
+{% extends "execution/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ object }} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h1>{{ object }}</h1>
+
+    {% if list %}
+        <ul class="table-list mt-3">
+            {% for participation_request, contact, can_access in list %}
+                <li class="table-list-item">
+                    {% if can_access %}
+                        <div class="d-inline-block my-1 mr-2">{{ contact.full_name }}</div>
+                    {% else %}
+                        <div class="text-muted">
+                            <div class="d-inline-block my-1 mr-2">
+                                {% trans 'access denied' %}
+                                <i class="fas fa-ban list-icon bg-danger text-light" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="alert alert-warning" role="alert">{% trans 'No participations found' %}</p>
+    {% endif %}
+{% endblock %}

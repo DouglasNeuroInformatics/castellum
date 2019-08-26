@@ -13,7 +13,7 @@ def test_200_with_attributeset(client, user, contact, attributeset):
 
 
 def test_200_with_attributeset_and_study(client, member, contact, attributeset,
-                                         study_in_recruitment_mode):
+                                         study_in_execution_mode):
     client.force_login(member)
     response = client.get('/subjects/{}/add-to-study/'.format(contact.subject.pk))
     assert response.status_code == 200

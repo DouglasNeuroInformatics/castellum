@@ -3,8 +3,8 @@ from django.utils import timezone
 import pytest
 
 
-def test_feed_for_study_in_recruitment_mode(client, study_in_recruitment_mode):
-    response = client.get('/recruitment/{}/appointments/'.format(study_in_recruitment_mode.pk))
+def test_feed_for_study_in_execution_mode(client, study_in_execution_mode):
+    response = client.get('/recruitment/{}/appointments/'.format(study_in_execution_mode.pk))
     assert response.status_code == 200
 
 

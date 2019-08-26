@@ -21,8 +21,8 @@ def test_404_page_returned_if_wrong_study_is_provided(client, member, participat
     assert response.status_code == 404
 
 
-def test_200_page_returned_if_study_in_recruitment_mode_is_provided(client,
-                                                                    member, participation_request):
+def test_200_page_returned_if_study_in_execution_mode_is_provided(client,
+                                                                  member, participation_request):
     client.force_login(member)
     url = '/recruitment/{}/{}/'.format(participation_request.study.pk, participation_request.pk)
     response = client.get(url)
@@ -59,25 +59,25 @@ def test_post_redirect_next_with_one_participation_request(client, member, parti
 
 def test_post_redirect_next_with_multiple_participation_requests(client,
                                                                  member,
-                                                                 study_in_recruitment_mode):
+                                                                 study_in_execution_mode):
     participation_requests = []
     for i in range(5):
         contact = mommy.make(Contact, pseudonym=None)
         participation_requests.append(mommy.make(
             ParticipationRequest,
-            study=study_in_recruitment_mode,
+            study=study_in_execution_mode,
             subject=contact.subject,
         ))
 
     client.force_login(member)
 
-    url = '/recruitment/{}/{}/'.format(study_in_recruitment_mode.pk, participation_requests[3].pk)
+    url = '/recruitment/{}/{}/'.format(study_in_execution_mode.pk, participation_requests[3].pk)
     response = client.post(url, {'status': ParticipationRequest.UNSUITABLE,
                                  'btn_next': 'value'})
 
     assert response.status_code == 302
     assert response.url == '/recruitment/{}/{}/'.format(
-        study_in_recruitment_mode.pk,
+        study_in_execution_mode.pk,
         participation_requests[4].pk
     )
 
@@ -86,7 +86,7 @@ def test_post_redirect_next_with_multiple_participation_requests(client,
 
     assert response.status_code == 302
     assert response.url == '/recruitment/{}/'.format(
-        study_in_recruitment_mode.pk,
+        study_in_execution_mode.pk,
     )
 
 
