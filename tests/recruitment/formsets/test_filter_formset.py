@@ -1,6 +1,7 @@
+from django.forms import modelformset_factory
+
 from castellum.recruitment.forms import SubjectFilterFormSet
 from castellum.recruitment.models import SubjectFilter
-from django.forms import modelformset_factory
 
 
 def instantiate_formset(formset_class, data, instance=None, initial=None):

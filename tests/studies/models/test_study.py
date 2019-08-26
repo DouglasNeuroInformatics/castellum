@@ -1,8 +1,7 @@
-import pytest
-
-from model_mommy import mommy
-
 from django.forms import ValidationError
+
+import pytest
+from model_mommy import mommy
 
 from castellum.studies.models import Study
 

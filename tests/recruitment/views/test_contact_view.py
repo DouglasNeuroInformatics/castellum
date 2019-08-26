@@ -2,9 +2,9 @@ import pytest
 from model_mommy import mommy
 
 from castellum.contacts.models import Contact
-from castellum.studies.models import Study
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import ParticipationRequestRevision
+from castellum.studies.models import Study
 
 
 def test_404_page_returned_if_study_is_not_provided(client, member, participation_request):

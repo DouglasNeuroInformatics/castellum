@@ -1,6 +1,6 @@
-import pytest
-
 from django.forms import ValidationError
+
+import pytest
 
 from castellum.pseudonyms.generators import md5
 

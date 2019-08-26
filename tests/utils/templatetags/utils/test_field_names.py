@@ -1,5 +1,4 @@
 import pytest
-
 from model_mommy import mommy
 
 from castellum.pseudonyms.models import Pseudonym

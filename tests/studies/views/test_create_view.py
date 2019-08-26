@@ -1,7 +1,7 @@
 import pytest
 
-from castellum.studies.models import Study, StudyMembership
-
+from castellum.studies.models import Study
+from castellum.studies.models import StudyMembership
 
 MANAGEMENT_FORM = {
     'form-TOTAL_FORMS': 0,

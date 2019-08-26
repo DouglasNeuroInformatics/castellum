@@ -1,8 +1,9 @@
 import pytest
+from model_mommy import mommy
+
 from castellum.contacts.forms import AddressForm
 from castellum.contacts.forms import ContactForm
 from castellum.contacts.models import Address
-from model_mommy import mommy
 
 
 @pytest.mark.unittest

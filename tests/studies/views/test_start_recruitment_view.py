@@ -1,7 +1,8 @@
 import pytest
+from model_mommy import mommy
+
 from castellum.studies.models import Study
 from castellum.studies.models import StudyMembership
-from model_mommy import mommy
 
 
 @pytest.mark.parametrize('user_fixture', [

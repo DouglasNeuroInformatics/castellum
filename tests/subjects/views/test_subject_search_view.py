@@ -1,16 +1,16 @@
 from unittest.mock import patch
 from urllib.parse import urlencode
 
+from django.urls import reverse
+
 import pytest
 from model_mommy import mommy
 
-from django.urls import reverse
-
 from castellum.castellum_auth.models import User
 from castellum.contacts.forms import SearchForm
-from castellum.subjects.forms import SubjectPrivacyLevelForm
 from castellum.contacts.models import Contact
 from castellum.contacts.models.contact import ContactManager
+from castellum.subjects.forms import SubjectPrivacyLevelForm
 from castellum.subjects.views import SubjectSearchView
 
 

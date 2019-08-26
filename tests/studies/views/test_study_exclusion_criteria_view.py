@@ -1,6 +1,6 @@
-import pytest
-
 from django.urls import reverse
+
+import pytest
 
 from castellum.studies.views.studies import StudyExclusionCriteriaView
 

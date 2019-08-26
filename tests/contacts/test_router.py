@@ -1,10 +1,10 @@
 import pytest
-
 from model_mommy import mommy
 
 from castellum.castellum_auth.models import User
 from castellum.contacts.models import Contact
-from castellum.contacts.routers import APP_LABEL, ContactsRouter
+from castellum.contacts.routers import APP_LABEL
+from castellum.contacts.routers import ContactsRouter
 
 
 @pytest.fixture

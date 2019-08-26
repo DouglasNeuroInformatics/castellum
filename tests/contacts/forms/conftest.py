@@ -1,7 +1,9 @@
 import pytest
-
 from model_mommy import mommy
-from castellum.contacts.models import City, Address, Contact
+
+from castellum.contacts.models import Address
+from castellum.contacts.models import City
+from castellum.contacts.models import Contact
 
 
 @pytest.fixture

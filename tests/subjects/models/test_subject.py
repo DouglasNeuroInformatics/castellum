@@ -1,8 +1,9 @@
 from datetime import datetime
 from itertools import cycle
 
-import pytest
 from django.utils import timezone
+
+import pytest
 from model_mommy import mommy
 
 from castellum.subjects.models import Subject
