@@ -86,6 +86,12 @@ class Subject(TimeStampedModel):
         ]
 
     @cached_property
+    def contact(self):
+        from castellum.contacts.models import Contact
+        from castellum.pseudonyms.helpers import get_pseudonym
+        return Contact.objects.get(pseudonym=get_pseudonym(self, Contact.domain))
+
+    @cached_property
     def consent(self):
         try:
             return self.consentconfirmation_set.latest()

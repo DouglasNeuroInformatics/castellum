@@ -1,7 +1,7 @@
-{% extends "studies/base.html" %}
+{% extends "studies/study_base.html" %}
 {% load i18n auth bootstrap4 subjectfilters %}
 
-{% block title %}{% trans "Exclusion criteria" %} &middot; {{ object }}  &middot; {{ block.super }}{% endblock %}
+{% block title %}{% trans "Exclusion criteria" %} &middot; {{ block.super }}{% endblock %}
 {% block content %}
     <form method="post">
 

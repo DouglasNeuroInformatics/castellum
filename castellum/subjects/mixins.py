@@ -48,6 +48,11 @@ class SubjectMixin:
                 raise PermissionDenied(_('Insufficient privacy level'))
         return super().dispatch(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['subject'] = self.subject
+        return data
+
 
 class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = Subject

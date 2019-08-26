@@ -1,11 +1,9 @@
-{% extends "subjects/base.html" %}
+{% extends "subjects/subject_base.html" %}
 {% load i18n auth %}
 
 {% block title %}{% trans "Subject Study Participation" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h2>{% trans 'Study Participation of' %} {{ contact.full_name }}</h2>
-
     {% if object_list %}
         <ul class="table-list mb-3">
             {% for participationrequest in object_list %}

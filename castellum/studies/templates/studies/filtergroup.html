@@ -1,11 +1,9 @@
-{% extends "studies/base.html" %}
+{% extends "studies/study_base.html" %}
 {% load static i18n bootstrap4 %}
 
-{% block title %}{% trans "Filters" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% trans "Filters" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>{{ study.name }} &mdash; {% trans 'Filters' %}</h1>
-
     <p>{% trans 'matches' %}: {{ count }} / {{ total_count }}</p>
 
     {% if study.study_mode == study.EDIT %}

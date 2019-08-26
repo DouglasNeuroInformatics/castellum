@@ -1,0 +1,6 @@
+{% extends "subjects/base.html" %}
+
+{% block header %}
+    <h1>{{ subject.contact.full_name }}</h1>
+    <p>{{ subject.contact.address|default:'—' }}</p>
+{% endblock %}

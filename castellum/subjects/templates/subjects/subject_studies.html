@@ -1,11 +1,9 @@
-{% extends "subjects/base.html" %}
+{% extends "subjects/subject_base.html" %}
 {% load i18n %}
 
 {% block title %}{% trans "Add to study" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>{% trans 'Add to study' %}</h1>
-
     {% if not attributeset %}
         <div class="alert alert-danger" role="alert">
             <h2 class="alert-heading">{% trans 'No attributes provided' %}</h2>
