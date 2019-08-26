@@ -55,7 +55,15 @@ before you can start using it:
 
         python manage.py migrateall
 
-2.  Load sample data. This is not strictly necessary, but it usually
+2.  Sync pseudonym domains from settings to the database:
+
+        python managae.py sync_domains
+
+    **Note**: You need to re-run this if you change the `DOMAINS`
+    setting. Otherwise domain reuse might occur which could leak
+    pseudonyms.
+
+3.  Load sample data. This is not strictly necessary, but it usually
     makes sense to start from these defaults:
 
         python manage.py loaddata sample_groups timeslots
@@ -64,7 +72,7 @@ before you can start using it:
     **Warning**: If you run this command a second time, the database
     will be reset and all edits will be lost.
 
-3.  Create and activate an initial user. This user can then be used to
+4.  Create and activate an initial user. This user can then be used to
     activate (i.e. set expiration dates for) all further users:
 
         python manage.py createsuperuser --username admin

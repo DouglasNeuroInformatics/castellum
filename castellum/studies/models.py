@@ -32,7 +32,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from castellum import settings
 from castellum.castellum_auth.models import User
-from castellum.utils import uuid_str
+from castellum.pseudonyms.helpers import create_domain
 from castellum.utils.fields import DateField
 from castellum.utils.fields import RestrictedFileField
 
@@ -89,7 +89,7 @@ class Study(models.Model):
     recruitment_text = models.TextField(_('Recruitment text'), blank=True)
 
     members = models.ManyToManyField(User, through='StudyMembership')
-    domain = models.CharField(max_length=64, default=uuid_str, unique=True, editable=False)
+    domain = models.CharField(max_length=64, unique=True, editable=False)
     advanced_filtering = models.BooleanField(
         _('Advanced filtering'), help_text=_(
             'By default you can create only one filtergroup in which all the filters are joined by '
@@ -152,6 +152,11 @@ class Study(models.Model):
             raise ValidationError(_(
                 'Studies with more than one filtergroup can\'t be transformed back to basic '
                 'filtering. Delete all but one filtergroup first!'), code='invalid')
+
+    def save(self, *args, **kwargs):
+        if not self.domain:
+            self.domain = create_domain()
+        return super().save(*args, **kwargs)
 
     def get_filter_max_privacy_level(self):
         key = 'subjectfilter__description__privacy_level_read'

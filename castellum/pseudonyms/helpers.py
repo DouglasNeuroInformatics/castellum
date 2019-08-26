@@ -21,27 +21,35 @@
 
 from castellum.subjects.models import Subject
 
+from .models import Domain
 from .models import Pseudonym
 
 
-def get_subject(domain, pseudonym):
-    origin = Pseudonym.objects.get(domain=domain, pseudonym=pseudonym)
+def create_domain():
+    domain = Domain.objects.create()
+    return domain.key
+
+
+def get_subject(domain_key, pseudonym):
+    origin = Pseudonym.objects.get(domain__key=domain_key, pseudonym=pseudonym)
     return origin.subject
 
 
-def get_pseudonym(subject, target_domain):
+def get_pseudonym(subject, target_domain_key):
+    target_domain = Domain.objects.get(key=target_domain_key)
     target, __ = Pseudonym.objects.get_or_create(subject=subject, domain=target_domain)
     return target.pseudonym
 
 
-def create_pseudonym(domain):
+def create_pseudonym(domain_key):
+    domain = Domain.objects.get(key=domain_key)
     subject = Subject.objects.create()
     pseudonym = Pseudonym.objects.create(subject=subject, domain=domain)
     return pseudonym.pseudonym
 
 
-def delete_pseudonym(domain, pseudonym, delete_related=False):
-    p = Pseudonym.objects.get(domain=domain, pseudonym=pseudonym)
+def delete_pseudonym(domain_key, pseudonym, delete_related=False):
+    p = Pseudonym.objects.get(domain__key=domain_key, pseudonym=pseudonym)
     if delete_related:
         p.subject.delete()
     else:
