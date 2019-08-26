@@ -35,8 +35,8 @@ from castellum.utils.fields import DateField
 from castellum.utils.fields import PhoneNumberField
 from castellum.utils.models import TimeStampedModel
 
-from . import Address
 from ..utils import phonetic
+from . import Address
 
 
 class ContactManager(models.Manager):
