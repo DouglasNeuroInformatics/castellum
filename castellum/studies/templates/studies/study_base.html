@@ -6,7 +6,7 @@
 {% block header %}
     <div class="d-flex flex-column flex-md-row justify-content-between mb-3">
         <div>
-            <h1>{{ study }}</h1>
+            <h1><a class="link-masked" href="{% url 'studies:detail' study.pk %}">{{ study }}</a></h1>
             <p>{{ study|verbose_name:'contact_person' }}: {{ study.contact_person }}</p>
         </div>
         {% block header_actions %}{% endblock %}

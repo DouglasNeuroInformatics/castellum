@@ -1,6 +1,6 @@
 {% extends "subjects/base.html" %}
 
 {% block header %}
-    <h1>{{ subject.contact.full_name }}</h1>
+    <h1><a class="link-masked" href="{% url 'subjects:detail' subject.pk %}">{{ subject.contact.full_name }}</a></h1>
     <p>{{ subject.contact.address|default:'—' }}</p>
 {% endblock %}
