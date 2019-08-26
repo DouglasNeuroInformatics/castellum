@@ -1,26 +1,29 @@
-MANAGEPY = python manage.py
+VIRTUAL_ENV ?= .venv
+MANAGEPY = $(VIRTUAL_ENV)/bin/python manage.py
 
+.PHONY: all
+all: bootstrap run
 
-.PHONY: bootstrap populate install makemigrations migrate run makemessages
-
-run: start_database_containers
+.PHONY: run
+run: databases
 	$(MANAGEPY) runserver
 
+.PHONY: bootstrap
 bootstrap: install migrate populate castellum/locale/de/LC_MESSAGES/django.mo
 
-migrate: start_database_containers
+.PHONY: migrate
+migrate: databases
 	$(MANAGEPY) makemigrations
 	$(MANAGEPY) migrateall
 
-populate: start_database_containers
+.PHONY: populate
+populate: databases
 	$(MANAGEPY) loaddata sample_groups timeslots
 	$(MANAGEPY) create_sample_attribute_descriptions
 	$(MANAGEPY) create_sample_users
 	$(MANAGEPY) populate
 
-collectstatic:
-	$(MANAGEPY) collectstatic
-
+.PHONY: makemessages
 makemessages:
 	$(MANAGEPY) makemessages -l de -d django
 	$(MANAGEPY) makemessages -l de -d djangojs
@@ -28,28 +31,31 @@ makemessages:
 %.mo: %.po
 	$(MANAGEPY) compilemessages -l de
 
-remove_databases:
-	docker-compose stop db_contacts db_default
-	docker-compose rm -f db_contacts db_default
+.PHONY: remove_databases
+remove_databases: databases
+	psql postgres postgres -h localhost -p 6670 -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public; GRANT ALL ON SCHEMA public TO postgres; GRANT ALL ON SCHEMA public TO public;"
+	psql postgres postgres -h localhost -p 6671 -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public; GRANT ALL ON SCHEMA public TO postgres; GRANT ALL ON SCHEMA public TO public;"
 
-remove_all_migration_files:
+.PHONY: remove_migrations
+remove_migrations:
 	find castellum -name 0*.py -delete
 
-start_database_containers:
+.PHONY: databases
+databases:
 	docker-compose up -d db_contacts db_default
-	sleep 2
 
-reset_databases: remove_databases remove_all_migration_files start_database_containers migrate populate
+.PHONY: reset_databases
+reset_databases: remove_databases remove_migrations migrate populate
 
+.PHONY: bootstrap
 install:
-	pip install tox ipdb watchdog django-debug-toolbar
-	pip install -e .
+	$(VIRTUAL_ENV)/bin/pip install -U pip
+	$(VIRTUAL_ENV)/bin/pip install tox ipdb django-debug-toolbar
+	$(VIRTUAL_ENV)/bin/pip install -e .
 	npm install
 
-install-githooks: .git/hooks/pre-commit
+.PHONY: install_githooks
+install_githooks: .git/hooks/pre-commit
 
 .git/hooks/%: .hooks/%
 	cp $< $@
-
-tdd:
-	watchmedo shell-command . --drop --patterns='*.py' --recursive --command='clear && tox -e py35,py36 -- --disable-warnings -m unittest'

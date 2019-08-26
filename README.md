@@ -19,10 +19,8 @@ The following commands will install everything and start a local testserver (on 
     sudo apt install python3 npm python3-dev libldap2-dev libsasl2-dev libmagic1 docker-compose gettext
     cd castellum
     python3 -m venv .venv
-    . .venv/bin/activate
-    make install-githooks
-    make bootstrap
-    make run  # start castellum
+    make install_githooks
+    make  # start castellum
 
 You can login with user "admin" and password "123".
 
