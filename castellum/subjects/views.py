@@ -236,7 +236,6 @@ class ParticipationListView(SubjectMixin, LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = self.model.objects\
             .filter(subject=self.subject, study__study_mode=Study.EXECUTION)\
-            .exclude(status=ParticipationRequest.UNSUITABLE)\
             .order_by('-updated_at')
         perms = (
             'studies.access_study',
