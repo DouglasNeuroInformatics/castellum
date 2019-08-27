@@ -105,7 +105,7 @@
     <div class="mb-3">
         {% if can_change_study %}
             <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'studies:update' study.pk %}">{% trans 'Edit' %}</a>
-            <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'studies:members' study.pk %}">{% trans 'Manage members' %}</a>
+            <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'studies:members' study.pk %}">{% trans 'Member management' %}</a>
         {% endif %}
         <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'studies:recruitmentsettings' study.pk %}">{% trans 'Recruitment Settings' %}</a>
     </div>
