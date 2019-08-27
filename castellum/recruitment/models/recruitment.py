@@ -26,6 +26,7 @@ from django.forms import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
+from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 from castellum.utils.fields import DateTimeField
@@ -98,6 +99,10 @@ class ParticipationRequest(models.Model):
             ParticipationRequest.NOT_REACHED,
             ParticipationRequest.RECALL_APPOINTED,
         ]
+
+    @cached_property
+    def pseudonym(self):
+        return get_pseudonym(self.subject, self.study.domain)
 
     @cached_property
     def match(self):
