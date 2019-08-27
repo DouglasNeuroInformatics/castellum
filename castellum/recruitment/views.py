@@ -303,7 +303,7 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
         status_field = context['form'].fields['status']
         status_field.widget.choices = choices
 
-        context['is_contacts'] = 'contacts' in self.request.GET
+        context['context'] = self.request.GET.get('context')
         context['study'] = self.study
         context['contact'] = self.object.subject.contact
 
@@ -327,9 +327,10 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
         return redirect('recruitment:recruitment_open', self.object.study.pk)
 
     def form_valid(self, form):
-        if 'contacts' in self.request.GET:
+        context = self.request.GET.get('context')
+        if context in ['subjects:add-to-study', 'subjects:studyparticipation']:
             self.object = form.save()
-            return redirect('subjects:detail', self.object.subject.pk)
+            return redirect(context, self.object.subject.pk)
         else:
             return self.form_valid_recruitment(form)
 

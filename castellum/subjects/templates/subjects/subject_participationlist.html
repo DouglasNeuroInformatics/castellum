@@ -13,7 +13,7 @@
                         {% if participationrequest.status == participationrequest.INVITED %}
                             <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:study_detail' participationrequest.study.pk %}">{% trans 'Go to execution' %}</a>
                         {% else %}
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participationrequest.study.pk participationrequest.pk %}">{% trans 'Call' %}</a>
+                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participationrequest.study.pk participationrequest.pk %}?context=subjects:studyparticipation">{% trans 'Call' %}</a>
                         {% endif %}
                     </div>
                 </li>
