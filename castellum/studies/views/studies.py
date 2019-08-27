@@ -204,7 +204,7 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
 
 class StudyRecruitmentSettingsView(StudyMixin, PermissionRequiredMixin, DetailView):
     model = Study
-    permission_required = 'studies.view_study'
+    permission_required = 'studies.change_study'
     template_name = 'studies/study_recruitmentsettings.html'
     tab = 'recruitmentsettings'
     subtab = 'detail'
