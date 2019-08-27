@@ -1,0 +1,13 @@
+ipdb
+django-debug-toolbar
+watchdog
+
+pytest
+pytest-cov
+pytest-django
+pytest-freezegun
+model_mommy
+lxml
+
+flake8
+isort

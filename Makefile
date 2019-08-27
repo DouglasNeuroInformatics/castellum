@@ -52,7 +52,7 @@ reset_databases: remove_databases remove_migrations migrate populate
 .PHONY: bootstrap
 install:
 	$(VIRTUAL_ENV)/bin/pip install -U pip
-	$(VIRTUAL_ENV)/bin/pip install tox ipdb watchdog django-debug-toolbar
+	$(VIRTUAL_ENV)/bin/pip install -r requirements-dev.txt
 	$(VIRTUAL_ENV)/bin/pip install -e .
 	npm install
 
@@ -64,4 +64,4 @@ install_githooks: .git/hooks/pre-commit
 
 .PHONY: tdd
 tdd:
-	$(VIRTUAL_ENV)/bin/watchmedo shell-command castellum tests --drop --patterns='*.py' --recursive --command='clear && tox -e py36 -- --disable-warnings -m unittest'
+	$(VIRTUAL_ENV)/bin/watchmedo shell-command castellum tests --drop --patterns='*.py' --recursive --command='clear && pytest --disable-warnings -m unittest'
