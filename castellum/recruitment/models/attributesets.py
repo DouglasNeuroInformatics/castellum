@@ -29,7 +29,7 @@ from django.core.validators import MaxValueValidator
 from django.db import models
 from django.urls import reverse
 from django.utils.text import format_lazy
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from parler.managers import TranslatableManager
 from parler.models import TranslatableModel

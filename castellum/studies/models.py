@@ -28,7 +28,7 @@ from django.forms import ValidationError
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from castellum import settings
 from castellum.castellum_auth.models import User
