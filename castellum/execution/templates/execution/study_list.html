@@ -11,7 +11,7 @@
                         <h3 class="h4 d-inline">{{ study.name }}</h3>
                     </div>
                     <div class="table-list-item-actions">
-                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:detail' study.pk %}">{% trans 'Details' %}</a>
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:study_detail' study.pk %}">{% trans 'Details' %}</a>
                     </div>
                 </li>
             {% endfor %}
