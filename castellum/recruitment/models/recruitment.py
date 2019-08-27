@@ -24,7 +24,7 @@ import datetime
 from django.db import models
 from django.forms import ValidationError
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.studies.models import Study

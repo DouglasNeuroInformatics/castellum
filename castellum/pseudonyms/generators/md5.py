@@ -34,7 +34,7 @@ import hashlib
 import random
 
 from django.forms import ValidationError
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 CHECK_DIGITS = 2
 ALPHABET = '0123456789ACDEFGHJKLMNPQRTUVWXYZ'  # without BIOS for similarity to 8105
