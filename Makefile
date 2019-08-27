@@ -44,6 +44,7 @@ remove_migrations:
 .PHONY: databases
 databases:
 	docker-compose up -d db_contacts db_default
+	sleep 2
 
 .PHONY: reset_databases
 reset_databases: remove_databases remove_migrations migrate populate
