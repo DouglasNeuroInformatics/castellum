@@ -24,7 +24,7 @@
                 {% has_perm 'studies.change_study' user study as can_change_study %}
                 {% if can_change_study %}
                     <li class="nav-item">
-                        <a class="nav-link {% if view.tab == 'update' %}active{% endif %}" href="{% url 'studies:update' study.pk %}">{% trans 'Edit' %}</a>
+                        <a class="nav-link {% if view.tab == 'update' %}active{% endif %}" href="{% url 'studies:update' study.pk %}">{% trans 'General' %}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if view.tab == 'members' %}active{% endif %}" href="{% url 'studies:members' study.pk %}">{% trans 'Member management' %}</a>
