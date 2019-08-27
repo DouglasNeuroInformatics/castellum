@@ -68,6 +68,11 @@ def user(db):
 
 
 @pytest.fixture
+def study_conductor(sample_groups):
+    return create_user('Study conductor')
+
+
+@pytest.fixture
 def study_coordinator(sample_groups):
     return create_user('Study coordinator')
 
