@@ -28,10 +28,10 @@ from .views import StudyListView
 app_name = 'execution'
 urlpatterns = [
     path('', StudyListView.as_view(), name='index'),
-    path('<int:study_pk>/', StudyDetailView.as_view(), name='study_detail'),
+    path('<int:study_pk>/', StudyDetailView.as_view(), name='study-detail'),
     path(
         '<int:study_pk>/<int:pk>/',
         ParticipationRequestDetailView.as_view(),
-        name='participationrequest_detail',
+        name='participationrequest-detail',
     ),
 ]

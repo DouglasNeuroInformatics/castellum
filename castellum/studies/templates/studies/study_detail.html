@@ -32,7 +32,7 @@
                     {% endif %}
                 </form>
             {% endif %}
-            <form class="d-sm-inline" method="post" action="{% url 'studies:finish_recruitment' study.pk %}">
+            <form class="d-sm-inline" method="post" action="{% url 'studies:finish-recruitment' study.pk %}">
                 {% csrf_token %}
 
                 {% if study.study_mode == study.FINISHED %}

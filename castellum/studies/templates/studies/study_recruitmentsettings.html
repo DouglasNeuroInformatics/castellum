@@ -28,7 +28,7 @@
         {% if can_change_subjectfilter %}
             {% can_manage_filters user study as sufficient_privacy_level %}
             {% if sufficient_privacy_level %}
-                <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'studies:filtergroup_index' study.pk %}">
+                <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'studies:filtergroup-index' study.pk %}">
                     {% trans 'Filters' %}
                 </a>
             {% else %}

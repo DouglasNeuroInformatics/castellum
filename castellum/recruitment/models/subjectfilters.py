@@ -54,7 +54,7 @@ class SubjectFilterGroup(models.Model):
     objects = SubjectFilterGroupManager()
 
     def get_absolute_url(self):
-        return reverse('studies:filtergroup_update', args=[self.study.pk, self.pk])
+        return reverse('studies:filtergroup-update', args=[self.study.pk, self.pk])
 
     def to_q(self, include_unknown=True):
         q = ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
