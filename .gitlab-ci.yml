@@ -8,6 +8,7 @@ pages:
   - sphinx-build -b html source build/html/en
   - sphinx-build -b html -D language=de source build/html/de
   - mv build/html/ public/
+  - mv source/_static/redirect/index.html public/index.html
   artifacts:
     paths:
     - public
