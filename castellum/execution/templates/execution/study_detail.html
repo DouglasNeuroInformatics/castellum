@@ -8,10 +8,10 @@
 
     {% if list %}
         <ul class="table-list mt-3">
-            {% for participation_request, contact, can_access in list %}
+            {% for participation_request, can_access in list %}
                 <li class="table-list-item">
                     {% if can_access %}
-                        <div class="d-inline-block my-1 mr-2">{{ contact.full_name }}</div>
+                        <div class="d-inline-block my-1 mr-2">{{ participation_request.subject.contact.full_name }}</div>
                     {% else %}
                         <div class="text-muted">
                             <div class="d-inline-block my-1 mr-2">
