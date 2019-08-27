@@ -24,22 +24,22 @@ USERS = {
     'Emma': ['Recruiter'],
 
     # first testing group
-    'Vera': ['Study coordinator'],
+    'Vera': ['Study coordinator', 'Study conductor'],
     'Arne': ['Subject manager'],
     'Edwin': ['Subject manager', 'Recruiter'],
 
     # second testing group
-    'Anna': ['Study coordinator'],
+    'Anna': ['Study coordinator', 'Study conductor'],
     'Max': ['Subject manager'],
     'Sonja': ['Subject manager', 'Recruiter'],
 
     # third testing group
-    'Claus': ['Study coordinator'],
+    'Claus': ['Study coordinator', 'Study conductor'],
     'Flora': ['Subject manager'],
     'Oskar': ['Subject manager', 'Recruiter'],
 
     # fourth testing group
-    'Hans': ['Study coordinator'],
+    'Hans': ['Study coordinator', 'Study conductor'],
     'Nina': ['Subject manager'],
     'Pia': ['Subject manager', 'Recruiter'],
 }

@@ -140,5 +140,19 @@
             ]
         ]
     }
+},
+{
+    "model": "auth.group",
+    "pk": 4,
+    "fields": {
+        "name": "Study conductor",
+        "permissions": [
+            [
+                "view_participation_pseudonyms",
+                "recruitment",
+                "participationrequest"
+            ]
+        ]
+    }
 }
 ]
