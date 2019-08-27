@@ -290,11 +290,7 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
         return initial
 
     def get_queryset(self):
-        return ParticipationRequest.objects.filter(status__in=[
-            ParticipationRequest.NOT_CONTACTED,
-            ParticipationRequest.NOT_REACHED,
-            ParticipationRequest.RECALL_APPOINTED,
-        ], study=self.study)
+        return ParticipationRequest.objects.filter(study=self.study)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

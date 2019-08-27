@@ -66,11 +66,13 @@
                 {% endif %}
                 {% if can_change_participationrequest %}
                     <div class="table-list-item-actions">
-                        {% if participation_request.status_open %}
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation_request.pk %}">{% trans 'Call' %}</a>
-                        {% else %}
-                            <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Call' %}</a>
-                        {% endif %}
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation_request.pk %}">
+                            {% if participation_request.status_open %}
+                                {% trans 'Call' %}
+                            {% else %}
+                                {% trans 'Review' %}
+                            {% endif %}
+                        </a>
                     </div>
                 {% endif %}
             {% else %}

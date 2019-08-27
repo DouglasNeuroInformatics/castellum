@@ -12,9 +12,14 @@
                     <div class="table-list-item-actions">
                         {% if participationrequest.status == participationrequest.INVITED %}
                             <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:study-detail' participationrequest.study.pk %}">{% trans 'Go to execution' %}</a>
-                        {% else %}
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participationrequest.study.pk participationrequest.pk %}?context=subjects:studyparticipation">{% trans 'Call' %}</a>
                         {% endif %}
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participationrequest.study.pk participationrequest.pk %}?context=subjects:studyparticipation">
+                            {% if participationrequest.status_open %}
+                                {% trans 'Call' %}
+                            {% else %}
+                                {% trans 'Review' %}
+                            {% endif %}
+                        </a>
                     </div>
                 </li>
             {% endfor %}
