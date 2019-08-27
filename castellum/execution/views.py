@@ -47,7 +47,7 @@ class StudyDetailView(StudyPermissionMixin, PermissionRequiredMixin, DetailView)
     permission_required = 'recruitment.view_participation_pseudonyms'
 
     def dispatch(self, request, *args, **kwargs):
-        self.study = Study.get_by_pk_or_404(self.kwargs.get('pk'))
+        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
         self.study.raise_404_error_if_study_is_not_in_execution_mode()
         return super().dispatch(request, *args, **kwargs)
 
