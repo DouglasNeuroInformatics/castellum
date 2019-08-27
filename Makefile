@@ -33,9 +33,9 @@ makemessages:
 	$(MANAGEPY) compilemessages -l de
 
 .PHONY: remove_databases
-remove_databases: databases
-	psql postgres postgres -h localhost -p 6670 -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public; GRANT ALL ON SCHEMA public TO postgres; GRANT ALL ON SCHEMA public TO public;"
-	psql postgres postgres -h localhost -p 6671 -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public; GRANT ALL ON SCHEMA public TO postgres; GRANT ALL ON SCHEMA public TO public;"
+remove_databases:
+	docker-compose stop db_contacts db_default
+	docker-compose rm -f db_contacts db_default
 
 .PHONY: remove_migrations
 remove_migrations:
