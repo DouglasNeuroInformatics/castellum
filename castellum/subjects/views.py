@@ -234,7 +234,10 @@ class ParticipationListView(SubjectMixin, LoginRequiredMixin, ListView):
         return get_object_or_404(Subject, pk=self.kwargs['pk'])
 
     def get_queryset(self):
-        queryset = self.model.objects.filter(subject=self.subject).order_by('-updated_at')
+        queryset = self.model.objects\
+            .filter(subject=self.subject)\
+            .exclude(status=ParticipationRequest.UNSUITABLE)\
+            .order_by('-updated_at')
         perms = (
             'studies.access_study',
             'recruitment.change_participationrequest',
