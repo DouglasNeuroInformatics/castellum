@@ -72,7 +72,7 @@ class ParticipationRequestDetailView(
 ):
     template_name = 'execution/participationrequest_detail.html'
     model = ParticipationRequest
-    permission_required = 'recruitment.add_participationrequest'
+    permission_required = 'recruitment.view_participation_pseudonyms'
 
     def dispatch(self, request, *args, **kwargs):
         self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
