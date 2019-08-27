@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView
 from django.views.generic import ListView
 
@@ -27,6 +28,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.mixins import StudyPermissionMixin
 from castellum.studies.models import Study
+from castellum.subjects.mixins import SubjectMixin
 
 
 class StudyListView(LoginRequiredMixin, ListView):
@@ -63,3 +65,24 @@ class StudyDetailView(StudyPermissionMixin, PermissionRequiredMixin, DetailView)
             context['list'].append((pr, has_access))
 
         return context
+
+
+class ParticipationRequestDetailView(
+    StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, DetailView
+):
+    template_name = 'execution/participationrequest_detail.html'
+    model = ParticipationRequest
+    permission_required = 'recruitment.add_participationrequest'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
+        self.study.raise_404_error_if_study_is_not_in_execution_mode()
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_object(self):
+        return get_object_or_404(
+            ParticipationRequest,
+            pk=self.kwargs['pk'],
+            study=self.study,
+            status=ParticipationRequest.INVITED,
+        )

@@ -12,6 +12,9 @@
                 <li class="table-list-item">
                     {% if can_access %}
                         <div class="d-inline-block my-1 mr-2">{{ participation_request.subject.contact.full_name }}</div>
+                        <div class="table-list-item-actions">
+                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participationrequest_detail' study.pk participation_request.pk %}">{% trans 'Details' %}</a>
+                        </div>
                     {% else %}
                         <div class="text-muted">
                             <div class="d-inline-block my-1 mr-2">
