@@ -161,7 +161,7 @@ class StudyUpdateView(
         return self.object.study_mode == Study.FINISHED
 
     def get_success_url(self):
-        return reverse('studies:detail', args=[self.object.pk])
+        return reverse('studies:update', args=[self.object.pk])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -171,6 +171,10 @@ class StudyUpdateView(
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form, session_formset):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form, session_formset)
 
 
 class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
@@ -220,7 +224,11 @@ class StudyRecruitmentSettingsUpdateView(
         return self.object.study_mode == Study.FINISHED
 
     def get_success_url(self):
-        return reverse('studies:recruitmentsettings', kwargs={'pk': self.object.pk})
+        return reverse('studies:recruitmentsettings-update', kwargs={'pk': self.object.pk})
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form)
 
 
 class StudyExclusionCriteriaView(
@@ -237,7 +245,11 @@ class StudyExclusionCriteriaView(
         return self.object.study_mode == Study.FINISHED
 
     def get_success_url(self):
-        return reverse('studies:recruitmentsettings', args=[self.object.pk])
+        return reverse('studies:exclusioncriteria', args=[self.object.pk])
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form)
 
 
 class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, FormView):

@@ -22,6 +22,7 @@
 import logging
 from urllib.parse import urlencode
 
+from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
@@ -29,6 +30,7 @@ from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.functional import cached_property
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import ListView
 
@@ -152,12 +154,16 @@ class SubjectUpdateView(BaseSubjectUpdateView):
     tab = 'subject'
 
     def get_success_url(self):
-        return reverse('subjects:detail', args=[self.object.pk])
+        return reverse('subjects:subject', args=[self.object.pk])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['base_template'] = 'subjects/subject_base.html'
         return context
+
+    def form_valid(self, form, *args):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form, *args)
 
 
 class ContactUpdateView(BaseContactUpdateView):
@@ -167,10 +173,17 @@ class ContactUpdateView(BaseContactUpdateView):
         subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
         return subject.contact
 
+    def get_success_url(self):
+        return reverse('subjects:contact', args=[self.object.subject.pk])
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['base_template'] = 'subjects/subject_base.html'
         return context
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form)
 
 
 class AttributeSetUpdateView(BaseAttributeSetUpdateView):
@@ -182,10 +195,17 @@ class AttributeSetUpdateView(BaseAttributeSetUpdateView):
             subject=subject, defaults={'data': {}})
         return attributeset
 
+    def get_success_url(self):
+        return reverse('subjects:attributeset', args=[self.object.subject.pk])
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['base_template'] = "subjects/subject_base.html"
         return context
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form)
 
 
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):

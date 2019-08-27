@@ -19,7 +19,8 @@ def view(rf, prepared_user):
 def test_get_success_url(view, prepared_study):
     view.object = prepared_study
 
-    assert "/studies/{}/recruitmentsettings/".format(prepared_study.pk) == view.get_success_url()
+    actual = "/studies/{}/recruitmentsettings/update/".format(prepared_study.pk)
+    assert actual == view.get_success_url()
 
 
 def test_200(client, member, study):
