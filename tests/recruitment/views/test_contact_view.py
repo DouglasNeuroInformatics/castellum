@@ -113,8 +113,9 @@ def test_post_redirect_from_contacts(client, member, participation_request):
     participation_request.save()
 
     client.force_login(member)
-    url = '/recruitment/{}/{}/?contacts'.format(participation_request.study.pk,
-                                                participation_request.pk)
+    url = '/recruitment/{}/{}/?context=subjects:add-to-study'.format(
+        participation_request.study.pk, participation_request.pk
+    )
     response = client.post(url, {'status': 2})
     assert response.status_code == 302
     assert response.url.startswith('/subjects/')
