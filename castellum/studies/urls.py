@@ -47,7 +47,7 @@ urlpatterns = [
     path('<int:pk>/update/', StudyUpdateView.as_view(), name='update'),
     path('<int:study_pk>/start/', StudyStartRecruitmentView.as_view(), name='start'),
     path('<int:study_pk>/finish-recruitment/', StudyFinishRecruitmentView.as_view(),
-         name='finish_recruitment'),
+         name='finish-recruitment'),
     path('<int:pk>/members/', StudyMembersView.as_view(), name='members'),
     path('<int:study_pk>/members/<int:pk>/', StudyMembershipUpdateView.as_view(), name='member'),
     path('<int:study_pk>/members/<int:pk>/delete/', StudyMembershipRemoveView.as_view(),
@@ -61,26 +61,26 @@ urlpatterns = [
     path(
         '<int:study_pk>/recruitmentsettings/filters/',
         FilterGroupListView.as_view(),
-        name='filtergroup_index',
+        name='filtergroup-index',
     ),
     path(
         '<int:study_pk>/recruitmentsettings/filters/create/',
         FilterGroupCreateView.as_view(),
-        name='filtergroup_create',
+        name='filtergroup-create',
     ),
     path(
         '<int:study_pk>/recruitmentsettings/filters/<int:pk>/delete/',
         FilterGroupDeleteView.as_view(),
-        name='filtergroup_delete',
+        name='filtergroup-delete',
     ),
     path(
         '<int:study_pk>/recruitmentsettings/filters/<int:pk>/',
         FilterGroupUpdateView.as_view(),
-        name='filtergroup_update',
+        name='filtergroup-update',
     ),
     path(
         '<int:study_pk>/recruitmentsettings/filters/<int:pk>/duplicate/',
         FilterGroupDuplicateView.as_view(),
-        name='filtergroup_duplicate',
+        name='filtergroup-duplicate',
     ),
 ]

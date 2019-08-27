@@ -324,7 +324,7 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
                 return redirect(
                     'recruitment:contact', self.object.study.pk, participation_request.pk)
 
-        return redirect('recruitment:recruitment_open', self.object.study.pk)
+        return redirect('recruitment:recruitment-open', self.object.study.pk)
 
     def form_valid(self, form):
         if 'contacts' in self.request.GET:

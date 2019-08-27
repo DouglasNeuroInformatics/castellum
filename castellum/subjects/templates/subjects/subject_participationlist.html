@@ -11,7 +11,7 @@
                     <h3 class="h4 d-inline-block my-1 mr-2">{{ participationrequest.study }}</h3>
                     <div class="table-list-item-actions">
                         {% if participationrequest.status == participationrequest.INVITED %}
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:study_detail' participationrequest.study.pk %}">{% trans 'Go to execution' %}</a>
+                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:study-detail' participationrequest.study.pk %}">{% trans 'Go to execution' %}</a>
                         {% else %}
                             <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participationrequest.study.pk participationrequest.pk %}">{% trans 'Call' %}</a>
                         {% endif %}

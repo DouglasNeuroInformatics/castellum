@@ -154,7 +154,7 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
         return data
 
     def get_success_url(self):
-        return reverse('studies:filtergroup_index', args=[self.study.pk])
+        return reverse('studies:filtergroup-index', args=[self.study.pk])
 
 
 class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
