@@ -329,7 +329,7 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
     def form_valid(self, form):
         if 'contacts' in self.request.GET:
             self.object = form.save()
-            return redirect('subjects:detail', self.object.subject.pk)
+            return redirect('subjects:add-to-study', self.object.subject.pk)
         else:
             return self.form_valid_recruitment(form)
 
