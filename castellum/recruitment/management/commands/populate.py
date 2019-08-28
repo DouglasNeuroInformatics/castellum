@@ -40,10 +40,8 @@ from castellum.recruitment.models import AttributeSet
 from castellum.studies.models import Study
 from castellum.studies.models import StudySession
 from castellum.subjects.models import Subject
-from castellum.utils import FakeData
 
 fake = Faker('de_DE')
-fake_data = FakeData()
 
 
 @functools.lru_cache(maxsize=1)
@@ -89,6 +87,29 @@ def fake_phone_number():
         pass
     # Just try again
     return fake_phone_number()
+
+
+def fake_language():
+    groups = [
+        # (language, percentage)
+        ('de', 0.70),
+        ('en', 0.10),
+        ('tr', 0.06),
+        ('fr', 0.06),
+        ('es', 0.06),
+        ('it', 0.02),
+    ]
+
+    r = fake.random.random()
+    percentage = 0
+
+    for lang, p in groups:
+        percentage += p
+
+        if r < percentage:
+            return lang
+
+    return groups[-1][0]
 
 
 def fake_subject():
@@ -170,7 +191,7 @@ def fake_attributeset(subject, contact):
         subject=subject,
         data={
             'd1': 2 if fake.random.random() < 0.15 else 1,
-            'd2': fake_data.language(),
+            'd2': fake_language(),
             'd3': contact.date_of_birth,
             'd4': fake.random.choice(get_highest_degree_choices()),
         },

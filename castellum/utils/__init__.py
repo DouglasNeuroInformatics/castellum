@@ -20,35 +20,6 @@
 # <http://www.gnu.org/licenses/>.
 
 import uuid
-from collections import namedtuple
-from itertools import chain
-from random import choice
-
-LanguageDistribution = namedtuple("LanguageDistribution", ["name", "percentage"])
-
-
-class RandomLanguage:
-
-    distributions = [
-        LanguageDistribution("de", 70),
-        LanguageDistribution("en", 10),
-        LanguageDistribution("tr", 6),
-        LanguageDistribution("fr", 6),
-        LanguageDistribution("es", 6),
-        LanguageDistribution("it", 2),
-    ]
-
-    def get(self):
-        languages = chain.from_iterable([[l.name]*l.percentage for l in self.distributions])
-        return choice(list(languages))
-
-
-class FakeData:
-    def __init__(self):
-        self._language = RandomLanguage()
-
-    def language(self):
-        return self._language.get()
 
 
 def uuid_str():
