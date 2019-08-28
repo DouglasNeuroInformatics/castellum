@@ -10,7 +10,10 @@ Welcome to castellum-docs's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   workflows/study-creation
+   workflows/study-recruitment
    organizational/privacy-levels
+   organizational/roles
 
 
 
