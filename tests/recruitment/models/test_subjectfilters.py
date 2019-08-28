@@ -1,7 +1,9 @@
+import pytest
 from model_mommy import mommy
 
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.studies.models import Study
 
@@ -85,3 +87,28 @@ def test_to_q_first_study_exclusive_second_study_unfinished(attributeset):
     create_participation_request(attributeset.subject, is_finished=True, is_exclusive=True)
     create_participation_request(attributeset.subject)
     assert has_match()
+
+
+@pytest.mark.django_db
+def test_clone_with_empty_filter_group(study):
+    subject_filter_group = mommy.make(SubjectFilterGroup, study=study)
+    clone = SubjectFilterGroup.objects.clone(subject_filter_group)
+
+    assert subject_filter_group.id != clone.id
+    assert study == clone.study
+    assert 0 == clone.subjectfilter_set.count()
+
+
+@pytest.mark.django_db
+def test_clone_with_multiple_filters(attribute_description, study):
+    subject_filter_group = mommy.make(SubjectFilterGroup, study=study)
+    SubjectFilter.objects.create(group=subject_filter_group, description=attribute_description,
+                                 operator="operator1", value="value1")
+    SubjectFilter.objects.create(group=subject_filter_group, description=attribute_description,
+                                 operator="operator2", value="value2")
+
+    clone = SubjectFilterGroup.objects.clone(subject_filter_group)
+
+    assert subject_filter_group.id != clone.id
+    assert study == clone.study
+    assert 2 == clone.subjectfilter_set.count()
