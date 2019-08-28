@@ -69,14 +69,14 @@ urlpatterns = [
         name='filtergroup-create',
     ),
     path(
-        '<int:study_pk>/recruitmentsettings/filters/<int:pk>/delete/',
-        FilterGroupDeleteView.as_view(),
-        name='filtergroup-delete',
-    ),
-    path(
         '<int:study_pk>/recruitmentsettings/filters/<int:pk>/',
         FilterGroupUpdateView.as_view(),
         name='filtergroup-update',
+    ),
+    path(
+        '<int:study_pk>/recruitmentsettings/filters/<int:pk>/delete/',
+        FilterGroupDeleteView.as_view(),
+        name='filtergroup-delete',
     ),
     path(
         '<int:study_pk>/recruitmentsettings/filters/<int:pk>/duplicate/',
