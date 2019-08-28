@@ -64,11 +64,6 @@ class StudyAccessMixin(PermissionRequiredMixin):
         return permission_required
 
 
-class StudyMembershipAccessMixin(StudyAccessMixin):
-    def get_permission_object(self):
-        return super().get_permission_object().study
-
-
 class StudyIndexView(PermissionRequiredMixin, ListView):
     model = Study
     ordering = 'name'
@@ -312,16 +307,24 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
                     yield user.username
 
 
-class StudyMembershipUpdateView(StudyMembershipAccessMixin, UpdateView):
+class StudyMembershipMixin(StudyAccessMixin):
     model = StudyMembership
-    form_class = MemberForm
     permission_required = 'studies.change_study'
 
     def get_object(self):
-        obj = super().get_object()
+        obj = get_object_or_404(
+            StudyMembership, pk=self.kwargs['pk'], study_pk=self.kwargs['study_pk']
+        )
         if obj.study.study_mode == Study.FINISHED:
             raise Http404
         return obj
+
+    def get_permission_object(self):
+        return super().get_permission_object().study
+
+
+class StudyMembershipUpdateView(StudyMembershipMixin, UpdateView):
+    form_class = MemberForm
 
     def get_success_url(self):
         return reverse('studies:members', args=[self.object.study.pk])
@@ -332,16 +335,7 @@ class StudyMembershipUpdateView(StudyMembershipAccessMixin, UpdateView):
         return context
 
 
-class StudyMembershipRemoveView(StudyMembershipAccessMixin, DeleteView):
-    model = StudyMembership
-    permission_required = 'studies.change_study'
-
-    def get_object(self):
-        obj = super().get_object()
-        if obj.study.study_mode == Study.FINISHED:
-            raise Http404
-        return obj
-
+class StudyMembershipRemoveView(StudyMembershipMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         membership = self.get_object()
 
