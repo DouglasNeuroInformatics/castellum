@@ -6,7 +6,7 @@ import pytest
     'recruiter',
     'subject_manager',
 ])
-def test_status_code_200_for_contact_index_view(request, client, user_fixture):
+def test_search_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     response = client.get('/subjects/')
