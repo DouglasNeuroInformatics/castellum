@@ -318,7 +318,9 @@ class StudyMembershipUpdateView(StudyMembershipAccessMixin, UpdateView):
     permission_required = 'studies.change_study'
 
     def get_object(self):
-        obj = super().get_object()
+        obj = get_object_or_404(
+            StudyMembership, pk=self.kwargs['pk'], study_pk=self.kwargs['study_pk']
+        )
         if obj.study.study_mode == Study.FINISHED:
             raise Http404
         return obj
@@ -337,7 +339,9 @@ class StudyMembershipRemoveView(StudyMembershipAccessMixin, DeleteView):
     permission_required = 'studies.change_study'
 
     def get_object(self):
-        obj = super().get_object()
+        obj = get_object_or_404(
+            StudyMembership, pk=self.kwargs['pk'], study_pk=self.kwargs['study_pk']
+        )
         if obj.study.study_mode == Study.FINISHED:
             raise Http404
         return obj
