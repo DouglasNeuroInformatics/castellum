@@ -4,6 +4,7 @@ pages:
   script:
   - apk --no-cache add python3-dev
   - pip3 install sphinx
+  - pip3 install sphinx-rtd-theme
   - apk --no-cache add make
   - sphinx-build -b html source build/html/en
   - sphinx-build -b html -D language=de source build/html/de
