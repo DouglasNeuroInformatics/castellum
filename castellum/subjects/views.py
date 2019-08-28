@@ -234,15 +234,17 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     def subject(self):
         return get_object_or_404(Subject, pk=self.kwargs['pk'])
 
+    def is_permitted(self, study):
+        return self.request.user.has_perm('studies.access_study', obj=study) and (
+            self.request.user.has_perm('recruitment.view_participation_pseudonyms', obj=study) or
+            self.request.user.has_perm('recruitment.change_participationrequest', obj=study)
+        )
+
     def get_queryset(self):
         queryset = self.model.objects\
             .filter(subject=self.subject, study__study_mode=Study.EXECUTION)\
             .order_by('-updated_at')
-        perms = (
-            'studies.access_study',
-            'recruitment.change_participationrequest',
-        )
         return [
             participation_request for participation_request in queryset
-            if self.request.user.has_perms(perms, obj=participation_request.study)
+            if self.is_permitted(participation_request.study)
         ]
