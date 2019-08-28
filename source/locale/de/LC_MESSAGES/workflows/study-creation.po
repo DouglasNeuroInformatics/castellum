@@ -1,0 +1,292 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2019, Goettel et al.
+# This file is distributed under the same license as the castellum-docs
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: castellum-docs \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-28 09:38+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.7.0\n"
+
+#: ../../source/workflows/study-creation.rst:2
+msgid "Creating a new study"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:4
+#: ../../source/workflows/study-creation.rst:96
+msgid "Log in to Castellum by using your username and password"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:5
+#: ../../source/workflows/study-creation.rst:97
+msgid "Click on **Studies** on the front page"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:7
+msgid "By clicking on **My studies** you will see your personal studies"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:8
+msgid ""
+"Under the field **All studies** you can see all studies that have been "
+"created"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:11
+msgid "Click on **Create new study**"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:13
+msgid ""
+"*Bei “Name” vielleicht lieber “Studienname” oder “Studienbezeichnung” "
+"schreiben? Sonst könnte man denken, dass man in dem Feld seinen eigenen "
+"Namen eintragen soll.*"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:17
+msgid "Fill in all empty fields on the page:"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:19
+msgid "**Name** describes the name of the study you want to create"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:20
+msgid ""
+"**Responsible contact person** is the person who can be contacted if any "
+"questions regarding the study occur"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:22
+msgid "Define the person who is the lead researcher as **Principal Investigator**"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:24
+msgid ""
+"Determine all scientists that take part in the study as **Affiliated "
+"Scientists**"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:26
+msgid ""
+"Determine all research assistants that take part in the study as "
+"**Affiliated Research Assistants**"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:28
+msgid ""
+"Please enter all methods you would like to use in your research in the "
+"field **Description**"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:31
+msgid ""
+"*Sind mit*\\ **Keywords**\\ *die grundlegenden Beschreibungen bzgl. des "
+"Forschungsgegenstands gemeint?*"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:34
+msgid "Select the type of study you are going to use"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:36
+msgid ""
+"If you choose between an **online study**, **Behavioral lab**, "
+"**Simulation**, **EEG** or **3rd Party**, you have to determine whether "
+"the study will contain **sensitive data** or not"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:39
+msgid ""
+"If you choose **FMRI**, it is already determined in advance that the "
+"study contains sensitive data"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:42
+msgid ""
+"*Wieso gibt es hier auch*\\ **———**\\ *als Auswahl? Wählt man das aus, "
+"wenn man sich über die Studienform noch nicht ganz sicher ist?*"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:45
+msgid ""
+"*Ist mit*\\ **Consent**\\ *die Zustimmung der Probanden zur "
+"Datenerhebung/ -verarbeitung gemeint?*"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:48
+msgid "Assign the **number of subjects** you will need for your study"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:49
+msgid ""
+"Enter the budget you may use for the study in the field **Expense "
+"allowance**"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:52
+msgid ""
+"*Die Aufwandsentschädigung, die an dieser Stelle festgelegt wird, wird "
+"dem Rekruiter im Recruitingprozess*\\ **pro Person**\\ *angezeigt. "
+"Deshalb sollte an dieser Stelle vielleicht*\\ **Expense allowance per "
+"participant**\\ *stehen, damit hier niemand die Summe aller "
+"Aufwandsentschädigungen einträgt?*"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:58
+msgid "You can add a **Test session** by clicking on **Add session**"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:60
+msgid ""
+"You can add any number of test sessions and must always specify the "
+"duration of each session"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:62
+msgid ""
+"By clicking on the red button **Delete**, you can erase any test session "
+"you created"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:65
+msgid "Enter the start and end of the test sessions in the two following fields"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:67
+msgid "Click on **Save** to record your progress"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:69
+msgid "Your study is now scheduled"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:70
+msgid "…… Zugriffsrechte ergänzen"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:73
+msgid "Assign access rights and allocate roles"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:76
+msgid ""
+"Some users are already assigned to certain global roles in advance. This "
+"can be recognized by the fact that the role description is highlighted in"
+" grey. Roles with blue background can be flexibly defined and changed by "
+"the **Study coordinator**."
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:79
+msgid "To delegate roles amongst different people, proceed as follows"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:81
+msgid "Follow steps 1-5 of the next section"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:82
+msgid ""
+"Select the user for whom you want to change access rights and/or roles "
+"and click **Add**"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:84
+msgid ""
+"After clicking **Edit** next to the selected person, you can assign up to"
+" three different roles: **Study coordinator**, **Subject manager** and "
+"**Recruiter**"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:87
+msgid ""
+"Select the role you want to assign to the selected person and press "
+"**Save**"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:91
+msgid "Share studies with your recruiters"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:94
+msgid ""
+"If you receive a request for access from a person who is supposed to "
+"recruit participants for your study, please follow the steps below."
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:99
+msgid ""
+"You will see a list of the studies you have created by clicking on **My "
+"studies**"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:102
+msgid ""
+"Click on **Details** of the study for which you want to change access "
+"rights or role redistribution"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:104
+msgid "Go to **Manage members** on the lower edge"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:105
+msgid ""
+"If you click on the field under **Users**, you will be shown all possible"
+" users to whom you can assign roles"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:107
+msgid "Select the user, who is supposed to take over the recruitment"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:108
+msgid "Press **Add**"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:109
+msgid "Press **Edit** next to the person you chose"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:111
+msgid "You can now assign one to three different roles to the person"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:113
+msgid "Select **Recruiter** and press **Save**"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:115
+msgid ""
+"The selected person has still no access to the study, unless you follow "
+"the next steps:"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:117
+msgid "Go **Back**"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:118
+msgid "Press **Start** on the upper left side"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:120
+msgid ""
+"The study is now in progress and the recruiter has now access to the "
+"study and can begin to recruit"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:122
+msgid "Of course, you may select several persons as recruiters"
+msgstr ""
+

@@ -1,0 +1,158 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2019, Goettel et al.
+# This file is distributed under the same license as the castellum-docs
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: castellum-docs \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-28 09:38+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.7.0\n"
+
+#: ../../source/workflows/study-recruitment.rst:2
+msgid "Recruitment of participants for a study"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:4
+msgid "Log in to Castellum by using your username and password"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:5
+msgid ""
+"Click on **Recruitment** 2.1 If you see the message **There are currently"
+" no studies you can recruit for**, please follow instruction 2.2. If you "
+"see the relevant study, go to step 3. 2.2 Contact the responsible person "
+"who has access to the role distribution of the study you wish to recruit "
+"for"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:11
+msgid ""
+"*Wäre es sinnvoll, an dieser Stelle einen Button*\\ **Zugriffsanfrage**\\"
+" *o.ä. einzubauen? So könnte eine Zugriffsanfrage zur Studie direkt an "
+"den/die Verantwortliche/n gesendet werden.*"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:16
+msgid ""
+"Click on **Find subjects** next to the study you want to recruit "
+"participants for"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:18
+msgid "By clicking on **Add**, relevant probands will be shown to you"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:19
+msgid "Press the **Call** button to contact the person you want to reach"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:21
+msgid ""
+"**E-Mail address**, **Phone number**, a potential **Phone number "
+"alternative** and the **Address** will be shown to you"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:23
+msgid ""
+"You might also see the **Preferred contact method**, if the person is "
+"**currently available** and some **General recruiting notes**"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:25
+msgid ""
+"Please have a look at the **Talking points** that the study coordinator "
+"has defined"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:28
+msgid ""
+"*Organisatorischer Punkt: was genau soll der Studienanleger hier "
+"beschreiben? Studienablauf, Abfrage von wichtigen Attributen und/oder "
+"Anwendung von Methoden in der Studie?*"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:32
+msgid "CALL/CONTACT"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:34
+msgid "*Kann man direkt in Castellum die Personen anrufen?*"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:36
+msgid "Select a **Status of participation request**"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:38
+msgid "Choose between:"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:40
+msgid "**Not reached**"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:41
+msgid "**Unsuitable**"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:43
+msgid ""
+"This may apply if attributes of the person do not comply with the "
+"requirements of the study"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:46
+msgid "**Invited** or"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:47
+msgid "**Recall appointed**"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:49
+msgid "Determine the date and time of the recall appointment"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:51
+msgid ""
+"When you select the **Status of participant request** and click on **Save"
+" and show next**, the next contact person will be shown to you "
+"automatically"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:56
+msgid "Editing contact data and attributes; adding probands to the study"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:58
+msgid ""
+"*Mit*\\ **Edit subject**\\ *ist doch gemeint, dass die Person als "
+"Proband/-in zur Studie hinzugefügt und eingeladen wird, richtig? Aus "
+"Verständlichkeitsgründen lieber*\\ **Edit subject to study**\\ "
+"*schreiben?* \\* Click on **Edit contact data** in order to do so and "
+"press **Save** \\* By clicking **Edit attributes**, you can change "
+"characteristics of the person that became known in the conversation \\* "
+"When you press **Edit subject**, you can \\* Determine the **Privacy "
+"level** \\* Settle the time-based **Availability** of the person \\* "
+"Press **Save** to record the progress"
+msgstr ""
+
+#: ../../source/workflows/study-recruitment.rst:68
+msgid ""
+"**Hard of hearing**\\ *bei*\\ **Notes**\\ *bedeutet doch*\\ "
+"**schwerhörig**\\ *, richtig? Dass die Person schwer zu verstehen ist "
+"oder sie ausfällig spricht, passt in meinen Augen nicht dazu. Sollte der "
+"erste Stichpunkt abgeändert werden oder habt ihr das aus einem bestimmten"
+" Grund so geschrieben?*"
+msgstr ""
+
