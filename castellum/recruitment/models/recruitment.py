@@ -88,6 +88,7 @@ class ParticipationRequest(models.Model):
     class Meta:
         verbose_name = _('Participation request')
         verbose_name_plural = _('Participation requests')
+        unique_together = ('study', 'subject')
         permissions = (
             ('view_participation_pseudonyms', _('Can view participation pseudonyms')),
         )
