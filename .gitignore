@@ -34,7 +34,7 @@ source/_build
 
 # custom makefile; make first looks for makefile with lowercase m and then for uppercase M
 Makefile
-
+commands.md
 
 
 ########################
