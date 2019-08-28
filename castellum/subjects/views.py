@@ -243,4 +243,4 @@ class AddToStudyView(SubjectMixin, LoginRequiredMixin, DetailView):
             subject=self.object, study=study)
 
         url = reverse('recruitment:contact', args=[study.pk, participation_request.pk])
-        return redirect(url + '?context=subjects:add-to-study')
+        return redirect(url + '?context=subjects:studyparticipation')

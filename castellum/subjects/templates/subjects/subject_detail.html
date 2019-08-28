@@ -58,7 +58,6 @@
             <a href="{% url 'subjects:attributeset' subject.pk %}" class="btn btn-secondary btn-sm-inline my-1">{% trans "Edit attributes" %}</a>
         {% endif %}
         <a href="{% url 'subjects:studyparticipation' subject.pk %}" class="btn btn-secondary btn-sm-inline my-1">{% trans "Study Participation" %}</a>
-        <a href="{% url 'subjects:add-to-study' subject.pk %}" class="btn btn-secondary btn-sm-inline my-1">{% trans 'Add to study' %}</a>
         {% has_perm 'subjects.view_subject' user as can_view_subject %}
         {% if can_view_subject %}
             <a href="{% url 'subjects:export' subject.pk %}" class="btn btn-secondary btn-sm-inline my-1">{% trans 'Export' %}</a>

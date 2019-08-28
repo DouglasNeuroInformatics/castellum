@@ -40,5 +40,5 @@ urlpatterns = [
     path('<int:pk>/attributes/', AttributeSetUpdateView.as_view(), name='attributeset'),
     path('<int:pk>/studyparticipation/', ParticipationListView.as_view(),
          name='studyparticipation'),
-    path('<int:pk>/add-to-study/', AddToStudyView.as_view(), name='add-to-study'),
+    path('<int:pk>/studyparticipation/add/', AddToStudyView.as_view(), name='add-to-study'),
 ]

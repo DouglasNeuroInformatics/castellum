@@ -324,7 +324,7 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
 
     def form_valid(self, form):
         context = self.request.GET.get('context')
-        if context in ['subjects:add-to-study', 'subjects:studyparticipation']:
+        if context == 'subjects:studyparticipation':
             self.object = form.save()
             return redirect(context, self.object.subject.pk)
         else:
