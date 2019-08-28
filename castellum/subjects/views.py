@@ -207,7 +207,7 @@ class ParticipationListView(SubjectMixin, LoginRequiredMixin, ListView):
 
 class AddToStudyView(SubjectMixin, LoginRequiredMixin, DetailView):
     model = Subject
-    template_name = 'subjects/subject_studies.html'
+    template_name = 'subjects/subject_add_to_study.html'
 
     def get_studies(self, attributeset):
         for study in Study.objects.filter(study_mode=Study.EXECUTION):
