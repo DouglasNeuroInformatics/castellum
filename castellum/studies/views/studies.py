@@ -313,7 +313,7 @@ class StudyMembershipMixin(StudyAccessMixin):
 
     def get_object(self):
         obj = get_object_or_404(
-            StudyMembership, pk=self.kwargs['pk'], study_pk=self.kwargs['study_pk']
+            StudyMembership, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk']
         )
         if obj.study.study_mode == Study.FINISHED:
             raise Http404
