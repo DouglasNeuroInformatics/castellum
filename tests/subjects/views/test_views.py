@@ -15,19 +15,6 @@ def test_status_code_200_for_contact_index_view(request, client, user_fixture):
 
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
-    'recruiter',
-    'subject_manager',
-])
-def test_detail_200(request, client, user_fixture, contact):
-    user = request.getfixturevalue(user_fixture)
-    client.force_login(user)
-    url = '/subjects/{}/'.format(contact.subject.pk)
-    response = client.get(url)
-    assert response.status_code == 200
-
-
-@pytest.mark.parametrize('user_fixture', [
-    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
 ])
@@ -56,6 +43,19 @@ def test_create_with_parameter_200(client, user):
     client.force_login(user)
     url = '/subjects/?first_name=test'
     response = client.post(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    'recruiter',
+    'subject_manager',
+])
+def test_detail_200(request, client, user_fixture, contact):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    url = '/subjects/{}/'.format(contact.subject.pk)
+    response = client.get(url)
     assert response.status_code == 200
 
 
