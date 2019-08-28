@@ -1,5 +1,3 @@
-from django.urls import reverse
-
 import pytest
 
 
@@ -11,7 +9,7 @@ import pytest
 def test_status_code_200_for_contact_index_view(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    response = client.get(reverse('subjects:index'))
+    response = client.get('/subjects/')
     assert 200 == response.status_code
 
 
