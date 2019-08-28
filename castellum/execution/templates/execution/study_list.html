@@ -3,6 +3,8 @@
 {% load i18n auth bootstrap4 subjectfilters %}
 
 {% block content %}
+    <h2>{% trans 'Execution' %}</h2>
+
     {% if object_list %}
         <ul class="table-list mb-3">
             {% for study in object_list %}
