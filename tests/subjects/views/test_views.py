@@ -13,6 +13,13 @@ def test_status_code_200_for_contact_index_view(request, client, user_fixture):
     assert 200 == response.status_code
 
 
+def test_search_with_parameters_200(client, user):
+    client.force_login(user)
+    url = '/subjects/?first_name=Test&last_name=Test'
+    response = client.get(url)
+    assert 200 == response.status_code
+
+
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -22,13 +29,6 @@ def test_create_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     url = '/subjects/'
-    response = client.post(url)
-    assert response.status_code == 200
-
-
-def test_create_with_parameter_200(client, user):
-    client.force_login(user)
-    url = '/subjects/?first_name=test'
     response = client.post(url)
     assert response.status_code == 200
 
@@ -55,13 +55,6 @@ def test_contact_200(request, client, user_fixture, contact):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     url = '/subjects/{}/contact/'.format(contact.subject.pk)
-    response = client.get(url)
-    assert response.status_code == 200
-
-
-def test_contact_with_parameter_200(client, user, contact):
-    client.force_login(user)
-    url = '/subjects/{}/contact/?first_name=test'.format(contact.subject.pk)
     response = client.get(url)
     assert response.status_code == 200
 
