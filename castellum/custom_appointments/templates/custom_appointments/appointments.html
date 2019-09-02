@@ -2,10 +2,13 @@
 
 <div>
 {% for appointment in appointments %}
-    {{appointment.creator}}
-    {{appointment.operator}}
-{{ appointment.room}}<br>
-{{appointment.start_date}}{{appointment.end_date}}<br>
+    {{ appointment.id }}<br>
+    {{appointment.creator}}<br>
+    {{appointment.operator}}<br>
+    {{ appointment.location}}<br>
+    {{appointment.start}}<br>
+    {{appointment.end}}<br><br>
+
 {% endfor %}
 </div>
 

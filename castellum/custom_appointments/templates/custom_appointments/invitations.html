@@ -1,0 +1,11 @@
+<h2>Invitations</h2>
+
+<div>
+{% for invitation in invitations %}
+
+    {{ invitation.participant }}<br>
+    {{ invitation.appointment }}<br>
+    {{ invitation.status }}<br><br>
+
+{% endfor %}
+</div>
