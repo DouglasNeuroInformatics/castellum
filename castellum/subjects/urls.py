@@ -35,10 +35,10 @@ urlpatterns = [
     path('', SubjectSearchView.as_view(), name='index'),
     path('<int:pk>/', SubjectDetailView.as_view(), name='detail'),
     path('<int:pk>/export/', SubjectExportView.as_view(), name='export'),
-    path('<int:pk>/add-to-study/', AddToStudyView.as_view(), name='add-to-study'),
     path('<int:pk>/subject/', SubjectUpdateView.as_view(), name='subject'),
     path('<int:pk>/contact/', ContactUpdateView.as_view(), name='contact'),
     path('<int:pk>/attributes/', AttributeSetUpdateView.as_view(), name='attributeset'),
     path('<int:pk>/studyparticipation/', ParticipationListView.as_view(),
          name='studyparticipation'),
+    path('<int:pk>/studyparticipation/add/', AddToStudyView.as_view(), name='add-to-study'),
 ]

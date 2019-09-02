@@ -148,47 +148,6 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
-class AddToStudyView(SubjectMixin, LoginRequiredMixin, DetailView):
-    model = Subject
-    template_name = 'subjects/subject_studies.html'
-
-    def get_studies(self, attributeset):
-        for study in Study.objects.filter(study_mode=Study.EXECUTION):
-            if (
-                self.request.user.has_perm('recruitment.add_participationrequest', obj=study) and
-                self.request.user.has_perm('studies.access_study', obj=study) and
-                AttributeSet.apply_study_filter(study).filter(pk=attributeset.pk).exists()
-            ):
-                request = attributeset.subject.participationrequest_set.filter(study=study)
-                if not request.exists():
-                    yield study
-
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-
-        try:
-            data['attributeset'] = self.object.attributeset
-            data['studies'] = list(self.get_studies(self.object.attributeset))
-        except AttributeSet.DoesNotExist:
-            pass
-
-        return data
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        study = get_object_or_404(Study, pk=request.POST['study'], study_mode=Study.EXECUTION)
-
-        for perm in ['recruitment.add_participationrequest', 'studies.access_study']:
-            if not request.user.has_perm(perm, obj=study):
-                raise PermissionDenied
-
-        participation_request = ParticipationRequest.objects.create(
-            subject=self.object, study=study)
-
-        url = reverse('recruitment:contact', args=[study.pk, participation_request.pk])
-        return redirect(url + '?context=subjects:add-to-study')
-
-
 class SubjectUpdateView(BaseSubjectUpdateView):
     def get_success_url(self):
         return reverse('subjects:detail', args=[self.object.pk])
@@ -244,3 +203,44 @@ class ParticipationListView(SubjectMixin, LoginRequiredMixin, ListView):
             participation_request for participation_request in queryset
             if self.request.user.has_perms(perms, obj=participation_request.study)
         ]
+
+
+class AddToStudyView(SubjectMixin, LoginRequiredMixin, DetailView):
+    model = Subject
+    template_name = 'subjects/subject_add_to_study.html'
+
+    def get_studies(self, attributeset):
+        for study in Study.objects.filter(study_mode=Study.EXECUTION):
+            if (
+                self.request.user.has_perm('recruitment.add_participationrequest', obj=study) and
+                self.request.user.has_perm('studies.access_study', obj=study) and
+                AttributeSet.apply_study_filter(study).filter(pk=attributeset.pk).exists()
+            ):
+                request = attributeset.subject.participationrequest_set.filter(study=study)
+                if not request.exists():
+                    yield study
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+
+        try:
+            data['attributeset'] = self.object.attributeset
+            data['studies'] = list(self.get_studies(self.object.attributeset))
+        except AttributeSet.DoesNotExist:
+            pass
+
+        return data
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        study = get_object_or_404(Study, pk=request.POST['study'], study_mode=Study.EXECUTION)
+
+        for perm in ['recruitment.add_participationrequest', 'studies.access_study']:
+            if not request.user.has_perm(perm, obj=study):
+                raise PermissionDenied
+
+        participation_request = ParticipationRequest.objects.create(
+            subject=self.object, study=study)
+
+        url = reverse('recruitment:contact', args=[study.pk, participation_request.pk])
+        return redirect(url + '?context=subjects:studyparticipation')
