@@ -22,7 +22,6 @@
 import logging
 from urllib.parse import urlencode
 
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
@@ -207,9 +206,10 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
         ]
 
 
-class AddToStudyView(SubjectMixin, LoginRequiredMixin, DetailView):
+class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_add_to_study.html'
+    permission_required = 'contacts.view_contact'
 
     def get_studies(self, attributeset):
         for study in Study.objects.filter(study_mode=Study.EXECUTION):

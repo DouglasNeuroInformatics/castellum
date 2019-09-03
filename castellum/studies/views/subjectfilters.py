@@ -22,6 +22,7 @@
 from django.contrib import messages
 from django.forms import modelformset_factory
 from django.http import Http404
+from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
@@ -136,27 +137,6 @@ class FilterGroupCreateView(FilterMixin, View):
         return redirect(group.get_absolute_url())
 
 
-class FilterGroupDeleteView(FilterMixin, DeleteView):
-    model = SubjectFilterGroup
-    template_name = 'studies/filtergroup_confirm_delete.html'
-    permission_required = 'recruitment.change_subjectfilter'
-
-    def post(self, request, *args, **kwargs):
-        self.study.raise_401_error_if_study_is_not_in_edit_mode()
-        return super().post(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        if self.study != self.object.study:
-            raise Http404
-
-        data = super().get_context_data(**kwargs)
-        data['study'] = self.study
-        return data
-
-    def get_success_url(self):
-        return reverse('studies:filtergroup-index', args=[self.study.pk])
-
-
 class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
     model = SubjectFilterGroup
     form_class = SubjectFilterGroupForm
@@ -165,7 +145,8 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.study.raise_401_error_if_study_is_not_in_edit_mode()
+        if self.get_readonly():
+            return HttpResponseBadRequest()
         form = self.get_form()
         formset = self.get_formset()
         if form.is_valid() and formset.is_valid():
@@ -243,6 +224,27 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
             subject_count_warnings(self.request, self.study.min_subjects_count, data['count'])
 
         return data
+
+
+class FilterGroupDeleteView(FilterMixin, DeleteView):
+    model = SubjectFilterGroup
+    template_name = 'studies/filtergroup_confirm_delete.html'
+    permission_required = 'recruitment.change_subjectfilter'
+
+    def post(self, request, *args, **kwargs):
+        self.study.raise_401_error_if_study_is_not_in_edit_mode()
+        return super().post(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        if self.study != self.object.study:
+            raise Http404
+
+        data = super().get_context_data(**kwargs)
+        data['study'] = self.study
+        return data
+
+    def get_success_url(self):
+        return reverse('studies:filtergroup-index', args=[self.study.pk])
 
 
 class FilterGroupDuplicateView(FilterMixin, View):
