@@ -55,3 +55,8 @@ class StudyMixin:
         permission_required = {'studies.access_study'}
         permission_required.update(super().get_permission_required())
         return permission_required
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['study'] = self.study
+        return data

@@ -174,7 +174,6 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ParticipationRequest.RECALL_APPOINTED,
         ]).count()
 
-        context['study'] = self.study
         context['last_agreeable_contact_time'] = datetime.date.today() - datetime.timedelta(
             days=CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS
         )
@@ -293,7 +292,6 @@ class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView)
         status_field.widget.choices = choices
 
         context['context'] = self.request.GET.get('context')
-        context['study'] = self.study
         context['contact'] = self.object.subject.contact
 
         return context

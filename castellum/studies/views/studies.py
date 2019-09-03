@@ -315,11 +315,6 @@ class StudyMembershipUpdateView(StudyMembershipMixin, UpdateView):
     def get_success_url(self):
         return reverse('studies:members', args=[self.object.study.pk])
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['study'] = self.object.study
-        return context
-
 
 class StudyMembershipRemoveView(StudyMembershipMixin, DeleteView):
     def delete(self, request, *args, **kwargs):

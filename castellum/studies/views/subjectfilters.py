@@ -106,7 +106,6 @@ class FilterGroupListView(FilterMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['study'] = self.study
         context['potential_subjects_count'] = AttributeSet.apply_study_filter(self.study).count()
         subject_count_warnings(
             self.request, self.study.min_subjects_count, context['potential_subjects_count']
@@ -201,7 +200,6 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
             ) % ', '.join(description.label for description in inaccessible))
 
         data = super().get_context_data(**kwargs)
-        data['study'] = self.study
         data['count'] = self.object.get_subject_count()
         data['total_count'] = AttributeSet.objects.count()
         data['add_form'] = SubjectFilterForm(user=self.request.user)
@@ -232,11 +230,6 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
 
     def get_object(self):
         return get_object_or_404(SubjectFilterGroup, study=self.study, pk=self.kwargs['pk'])
-
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data['study'] = self.study
-        return data
 
     def get_success_url(self):
         return reverse('studies:filtergroup-index', args=[self.study.pk])
