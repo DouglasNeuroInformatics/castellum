@@ -21,7 +21,6 @@
 
 from django.contrib import messages
 from django.forms import modelformset_factory
-from django.http import Http404
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -139,6 +138,9 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
     template_name = "studies/filtergroup.html"
     permission_required = 'recruitment.change_subjectfilter'
 
+    def get_object(self):
+        return get_object_or_404(SubjectFilterGroup, study=self.study, pk=self.kwargs['pk'])
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         if self.get_readonly():
@@ -191,9 +193,6 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
         ).distinct()
 
     def get_context_data(self, **kwargs):
-        if self.study != self.object.study:
-            raise Http404
-
         inaccessible = list(self.get_inaccessible_attributedescriptions())
         if inaccessible:
             messages.warning(self.request, _(
@@ -231,10 +230,10 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
         self.study.raise_401_error_if_study_is_not_in_edit_mode()
         return super().post(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
-        if self.study != self.object.study:
-            raise Http404
+    def get_object(self):
+        return get_object_or_404(SubjectFilterGroup, study=self.study, pk=self.kwargs['pk'])
 
+    def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['study'] = self.study
         return data
