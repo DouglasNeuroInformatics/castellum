@@ -18,7 +18,6 @@
 # You should have received a copy of the GNU Affero General Public
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
-import abc
 
 from django.contrib.auth import get_user_model
 from django.http import Http404
@@ -33,19 +32,7 @@ from castellum.studies.models import Study
 from .models import ParticipationRequest
 
 
-class BaseAppointmentFeed(abc.ABC, ICalFeed):
-    @abc.abstractmethod
-    def get_object(self, *args, **kwargs):
-        pass
-
-    @abc.abstractmethod
-    def items(self, study):
-        pass
-
-    @abc.abstractmethod
-    def file_name(self, study):
-        pass
-
+class BaseAppointmentFeed(ICalFeed):
     def item_title(self, item):
         return '{} - {}'.format(item.study.name, item.pk)
 
