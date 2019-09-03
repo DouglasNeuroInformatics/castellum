@@ -132,7 +132,7 @@ class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
         return renderer.render(data)
 
     def get_context_data(self, **kwargs):
-        context = super(ListView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         buckets1 = dict(AttributeDescription.get_statistics_buckets('primary'))
         buckets2 = dict(AttributeDescription.get_statistics_buckets('secondary'))
