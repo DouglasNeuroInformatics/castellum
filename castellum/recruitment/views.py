@@ -289,8 +289,8 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
         initial['appointment'] = None
         return initial
 
-    def get_queryset(self):
-        return ParticipationRequest.objects.filter(study=self.study)
+    def get_object(self):
+        return get_object_or_404(ParticipationRequest, study=self.study, pk=self.kwargs['pk'])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
