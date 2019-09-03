@@ -29,7 +29,6 @@ def contact_data():
         'title': 'Dr.',
         'gender': 'm',
         'date_of_birth': '1910-01-28',
-        'privacy_level': 0,
     }
 
 
