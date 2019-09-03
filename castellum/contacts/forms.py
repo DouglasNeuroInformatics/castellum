@@ -44,6 +44,9 @@ class AddressForm(forms.ModelForm):
 
 
 class ContactForm(forms.ModelForm):
+    ADDRESS_FIELDS = [
+        'country', 'city', 'zip_code', 'street', 'house_number', 'additional_information',
+    ]
 
     # fields required for the address
     country = forms.CharField(label=_('Country'), required=False, widget=DatalistWidget(
@@ -87,20 +90,14 @@ class ContactForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        country = cleaned_data.get('country', '')
-        city = cleaned_data.get('city', '')
-        zip_code = cleaned_data.get('zip_code', '')
-        street = cleaned_data.get('street', '')
-        house_number = cleaned_data.get('house_number', '')
-        add_info = cleaned_data.get('additional_information', '')
         phone_number = cleaned_data.get('phone_number', '')
         email = cleaned_data.get('email', '')
         preferred_contact_method = cleaned_data.get('preferred_contact_method', '')
         guardians = cleaned_data.get('guardians')
         has_guardian = guardians and guardians.exists()
 
-        is_address_data = any([country, city, zip_code, street, house_number, add_info])
-        if is_address_data:
+        has_address = any(cleaned_data.get(name) for name in self.ADDRESS_FIELDS)
+        if has_address:
             address_form = AddressForm(data=cleaned_data)
             if not address_form.is_valid():
                 if address_form.errors:
@@ -113,7 +110,7 @@ class ContactForm(forms.ModelForm):
                 msg = _("Either email, phone number, address, or guardian should be provided.")
                 raise ValidationError(msg, code='invalid')
 
-        if not is_address_data and preferred_contact_method == 'postal':
+        if not has_address and preferred_contact_method == 'postal':
             self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
             self.add_error(None, _("Please provide a complete address."))
         if not phone_number and preferred_contact_method == 'phone':
