@@ -85,6 +85,8 @@ class Contact(TimeStampedModel):
     preferred_contact_method = models.CharField(
         _('Preferred contact method'), max_length=16, blank=True, choices=CONTACT_METHODS)
 
+    guardians = models.ManyToManyField('contacts.Contact', blank=True)
+
     objects = ContactManager()
 
     class Meta:
