@@ -135,28 +135,24 @@ msgid "Additional address information"
 msgstr "Zusätzliche Adressinformationen"
 
 #: castellum/contacts/forms.py:65
-#, fuzzy
-#| msgid "All of these"
 msgid "Full of age"
-msgstr "Alle von diesen"
+msgstr "Volljährig"
 
 #: castellum/contacts/forms.py:66
 msgid "Has legal guardian"
-msgstr ""
+msgstr "Hat Vormund"
 
 #: castellum/contacts/forms.py:114
 msgid "Subjects under the age of 18 need a legal guardian."
-msgstr ""
+msgstr "Proband*innen unter 18 Jahren brauchen einen Vormund."
 
 #: castellum/contacts/forms.py:125
 msgid "Provide more details for the address."
 msgstr "Adressdaten unvollständig"
 
 #: castellum/contacts/forms.py:128
-#, fuzzy
-#| msgid "Either email, phone number or address should be provided."
 msgid "Either email, phone number, address, or guardian should be provided."
-msgstr "Entweder Email, Telefonnummer oder Adresse müssen angegeben werden!"
+msgstr "Entweder Email, Telefonnummer, Adresse oder Vormund müssen angegeben werden!"
 
 #: castellum/contacts/forms.py:132 castellum/contacts/forms.py:135
 #: castellum/contacts/forms.py:138
@@ -325,10 +321,8 @@ msgid "Execution"
 msgstr "Durchführung"
 
 #: castellum/execution/templates/execution/participationrequest_detail.html:10
-#, fuzzy
-#| msgid "Invalid pseudonym"
 msgid "Pseudonym"
-msgstr "Ungültiges Pseudonym"
+msgstr "Pseudonym"
 
 #: castellum/execution/templates/execution/study_detail.html:16
 #: castellum/execution/templates/execution/study_list.html:16
@@ -350,10 +344,8 @@ msgid "No participations found"
 msgstr "Keine Teilnahmen gefunden"
 
 #: castellum/execution/templates/execution/study_list.html:22
-#, fuzzy
-#| msgid "There are currently no studies you can recruit for."
 msgid "There are currently no studies you can conduct."
-msgstr "Es gibt aktuell keine Studien, für die Sie rekrutieren können."
+msgstr "Es gibt aktuell keine Studien, die Sie durchführen können."
 
 #: castellum/execution/templates/execution/study_list.html:26
 #: castellum/studies/templates/studies/study_list.html:63
@@ -615,10 +607,8 @@ msgid "Participation requests"
 msgstr "Teilnahmeanfragen"
 
 #: castellum/recruitment/models/recruitment.py:93
-#, fuzzy
-#| msgid "Status of participation request"
 msgid "Can view participation pseudonyms"
-msgstr "Teilnahmestatus"
+msgstr "Kann Teilnahme-Pseudonyme sehen"
 
 #: castellum/recruitment/models/recruitment.py:128
 msgid "No appointment set"
@@ -704,7 +694,7 @@ msgstr "Anrufen"
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:73
 #: castellum/subjects/templates/subjects/subject_participationlist.html:25
 msgid "Review"
-msgstr ""
+msgstr "Überprüfen"
 
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:4
 #: castellum/recruitment/templates/recruitment/contact.html:108
@@ -754,22 +744,11 @@ msgid "Currently available"
 msgstr "Aktuell erreichbar"
 
 #: castellum/recruitment/templates/recruitment/contact.html:69
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                    %(tries)s try\n"
-#| "                                "
-#| msgid_plural ""
-#| "\n"
-#| "                                    %(tries)s tries\n"
-#| "                                "
 msgid ""
 "\n"
 "                            (not until %(next_available)s)\n"
 "                        "
-msgstr ""
-"\n"
-"%(tries)s Versuch"
+msgstr "\n(nicht bis %(next_available)s)"
 
 #: castellum/recruitment/templates/recruitment/contact.html:75
 msgid "General recruiting notes"
@@ -1212,7 +1191,7 @@ msgstr "Hinzufügen"
 #: castellum/studies/templates/studies/study_detail.html:14
 #: castellum/studies/templates/studies/study_detail.html:26
 msgid "Stop"
-msgstr ""
+msgstr "Stopp"
 
 #: castellum/studies/templates/studies/study_detail.html:18
 #: castellum/studies/templates/studies/study_detail.html:30
@@ -1555,10 +1534,8 @@ msgstr "Einverständniserklärung"
 
 #: castellum/subjects/templates/subjects/subject_add_to_study.html:4
 #: castellum/subjects/templates/subjects/subject_participationlist.html:39
-#, fuzzy
-#| msgid "Study Participation"
 msgid "Add study participation"
-msgstr "Studienteilnahme"
+msgstr "Studienteilnahme hinzufügen"
 
 #: castellum/subjects/templates/subjects/subject_add_to_study.html:9
 msgid "No attributes provided"
@@ -1655,10 +1632,8 @@ msgid "Subject Study Participation"
 msgstr "Studienteilnahme der Proband*in"
 
 #: castellum/subjects/templates/subjects/subject_participationlist.html:16
-#, fuzzy
-#| msgid "Execution"
 msgid "Go to execution"
-msgstr "Durchführung"
+msgstr "Zur Durchführung"
 
 #: castellum/subjects/templates/subjects/subject_search.html:7
 msgid "Total number of subjects"
@@ -1743,27 +1718,3 @@ msgstr "erstellt am"
 #: castellum/utils/models.py:28
 msgid "updated at"
 msgstr "aktualisiert am"
-
-#~ msgid "study is not in edit mode"
-#~ msgstr "Die Studie ist nicht im Bearbeitungs-Modus"
-
-#~ msgid "Stop recruitment"
-#~ msgstr "Rekrutierung unterbrechen"
-
-#~ msgid "Start recruitment"
-#~ msgstr "Rekrutierung starten"
-
-#~ msgid "Manage members"
-#~ msgstr "Mitglieder verwalten"
-
-#~ msgid "manage members"
-#~ msgstr "Mitglieder verwalten"
-
-#~ msgid "Recruitment settings for %(study)s"
-#~ msgstr "Rekrutierungseinstellungen für %(study)s"
-
-#~ msgid "Add to study"
-#~ msgstr "Zur Studie hinzufügen"
-
-#~ msgid "Study Participation of"
-#~ msgstr "Studienteilnahme von"
