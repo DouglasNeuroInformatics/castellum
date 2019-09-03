@@ -40,7 +40,7 @@ from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.settings import CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
-from castellum.studies.mixins import StudyPermissionMixin
+from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseSubjectUpdateView
 from castellum.subjects.mixins import SubjectMixin
@@ -65,21 +65,18 @@ class StudyChoiceView(LoginRequiredMixin, ListView):
         )]
 
 
-class RecruitmentView(StudyPermissionMixin, PermissionRequiredMixin, ListView):
+class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     model = ParticipationRequest
     context_object_name = 'participation_requests'
     template_name = 'recruitment/recruitment.html'
     permission_required = 'recruitment.view_participationrequest'
+    study_modes = [Study.EXECUTION]
     shown_status = []
     tab = None
 
     def dispatch(self, request, *args, **kwargs):
-        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
-        self.study.raise_404_error_if_study_is_not_in_execution_mode()
-
         self.sort = self.request.GET.get('sort', self.request.session.get('recruitment_sort'))
         self.request.session['recruitment_sort'] = self.sort
-
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
@@ -266,7 +263,7 @@ class RecruitmentViewOpen(RecruitmentView):
         return self.get(request, *args, **kwargs)
 
 
-class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
+class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = ParticipationRequest
     form_class = ContactForm
     template_name = 'recruitment/contact.html'
@@ -274,11 +271,7 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
         'contacts.view_contact',
         'recruitment.change_participationrequest',
     )
-
-    def dispatch(self, request, *args, **kwargs):
-        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
-        self.study.raise_404_error_if_study_is_not_in_execution_mode()
-        return super().dispatch(request, *args, **kwargs)
+    study_modes = [Study.EXECUTION]
 
     def get_initial(self):
         initial = super().get_initial()
@@ -331,12 +324,8 @@ class ContactView(StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, U
             return self.form_valid_recruitment(form)
 
 
-class ContactUpdateView(StudyPermissionMixin, BaseContactUpdateView):
-
-    def dispatch(self, request, *args, **kwargs):
-        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
-        self.study.raise_404_error_if_study_is_not_in_execution_mode()
-        return super().dispatch(request, *args, **kwargs)
+class ContactUpdateView(StudyMixin, BaseContactUpdateView):
+    study_modes = [Study.EXECUTION]
 
     def get_object(self):
         participation_request = get_object_or_404(
@@ -353,12 +342,8 @@ class ContactUpdateView(StudyPermissionMixin, BaseContactUpdateView):
         return context
 
 
-class AttributeSetUpdateView(StudyPermissionMixin, BaseAttributeSetUpdateView):
-
-    def dispatch(self, request, *args, **kwargs):
-        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
-        self.study.raise_404_error_if_study_is_not_in_execution_mode()
-        return super().dispatch(request, *args, **kwargs)
+class AttributeSetUpdateView(StudyMixin, BaseAttributeSetUpdateView):
+    study_modes = [Study.EXECUTION]
 
     def get_object(self):
         participation_request = get_object_or_404(
@@ -369,12 +354,8 @@ class AttributeSetUpdateView(StudyPermissionMixin, BaseAttributeSetUpdateView):
         return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
 
 
-class SubjectUpdateView(StudyPermissionMixin, BaseSubjectUpdateView):
-
-    def dispatch(self, request, *args, **kwargs):
-        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
-        self.study.raise_404_error_if_study_is_not_in_execution_mode()
-        return super().dispatch(request, *args, **kwargs)
+class SubjectUpdateView(StudyMixin, BaseSubjectUpdateView):
+    study_modes = [Study.EXECUTION]
 
     def get_object(self):
         participation_request = get_object_or_404(

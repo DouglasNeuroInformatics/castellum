@@ -44,16 +44,12 @@ from castellum.recruitment.models import SubjectFilterGroup
 from castellum.settings import CASTELLUM_EXPECTED_SUBJECT_FACTOR
 from castellum.utils.views import ReadonlyMixin
 
-from ..mixins import StudyPermissionMixin
+from ..mixins import StudyMixin
 from ..models import Study
 
 
 class CustomFilterMixin:
     """Should be called *after* PermissionRequiredMixin."""
-
-    def setup(self, request, *args, **kwargs):
-        super().setup(request, *args, **kwargs)
-        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
 
     def dispatch(self, request, *args, **kwargs):
         if self.study.custom_filter:
@@ -69,7 +65,7 @@ class CustomFilterMixin:
         return super().dispatch(request, *args, **kwargs)
 
 
-class FilterMixin(StudyPermissionMixin, PermissionRequiredMixin, CustomFilterMixin):
+class FilterMixin(StudyMixin, PermissionRequiredMixin, CustomFilterMixin):
     def get_permission_required(self):
         permission_required = set()
         permission_required.update(super().get_permission_required())
@@ -249,10 +245,6 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
 
 class FilterGroupDuplicateView(FilterMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
-
-    def dispatch(self, request, *args, **kwargs):
-        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
-        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, study_pk, pk):
         self.study.raise_401_error_if_study_is_not_in_edit_mode()

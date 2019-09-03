@@ -26,7 +26,7 @@ from django.views.generic import ListView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment.models import ParticipationRequest
-from castellum.studies.mixins import StudyPermissionMixin
+from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import SubjectMixin
 
@@ -43,15 +43,11 @@ class StudyListView(LoginRequiredMixin, ListView):
         )]
 
 
-class StudyDetailView(StudyPermissionMixin, PermissionRequiredMixin, DetailView):
+class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
     template_name = 'execution/study_detail.html'
     model = Study
     permission_required = 'recruitment.view_participation_pseudonyms'
-
-    def dispatch(self, request, *args, **kwargs):
-        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
-        self.study.raise_404_error_if_study_is_not_in_execution_mode()
-        return super().dispatch(request, *args, **kwargs)
+    study_modes = [Study.EXECUTION]
 
     def get_object(self):
         return self.study
@@ -67,17 +63,11 @@ class StudyDetailView(StudyPermissionMixin, PermissionRequiredMixin, DetailView)
         return context
 
 
-class ParticipationRequestDetailView(
-    StudyPermissionMixin, SubjectMixin, PermissionRequiredMixin, DetailView
-):
+class ParticipationRequestDetailView(StudyMixin, SubjectMixin, PermissionRequiredMixin, DetailView):
     template_name = 'execution/participationrequest_detail.html'
     model = ParticipationRequest
     permission_required = 'recruitment.view_participation_pseudonyms'
-
-    def dispatch(self, request, *args, **kwargs):
-        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
-        self.study.raise_404_error_if_study_is_not_in_execution_mode()
-        return super().dispatch(request, *args, **kwargs)
+    study_modes = [Study.EXECUTION]
 
     def get_object(self):
         return get_object_or_404(

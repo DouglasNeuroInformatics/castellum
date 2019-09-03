@@ -19,13 +19,30 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.shortcuts import get_object_or_404
 
-class StudyPermissionMixin:
+from .models import Study
+
+
+class StudyMixin:
+    study_modes = []
+
+    def get_study(self):
+        qs = Study.objects.all()
+        if self.study_modes:
+            qs = qs.filter(study_mode__in=self.study_modes)
+        key = 'study_pk' if 'study_pk' in self.kwargs else 'pk'
+        return get_object_or_404(qs, pk=self.kwargs.get(key))
+
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.study = self.get_study()
+
+    def get_permission_object(self):
+        return self.study
+
     def get_permission_required(self):
         """If used together with PermissionRequiredMixin, require access_study permission."""
         permission_required = {'studies.access_study'}
         permission_required.update(super().get_permission_required())
         return permission_required
-
-    def get_permission_object(self):
-        return self.study
