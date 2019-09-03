@@ -22,11 +22,8 @@
 import datetime
 
 from django.contrib.auth.models import Group
-from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.forms import ValidationError
-from django.http import Http404
-from django.shortcuts import get_object_or_404
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
@@ -162,18 +159,6 @@ class Study(models.Model):
         key = 'subjectfilter__description__privacy_level_read'
         result = self.subjectfiltergroup_set.aggregate(models.Max(key))
         return result[key + '__max'] or 0
-
-    def raise_401_error_if_study_is_not_in_edit_mode(self, msg=_("study is not in edit mode")):
-        if self.study_mode != self.EDIT:
-            raise PermissionDenied(msg)
-
-    def raise_404_error_if_study_is_not_in_execution_mode(self):
-        if self.study_mode != self.EXECUTION:
-            raise Http404
-
-    @classmethod
-    def get_by_pk_or_404(cls, pk):
-        return get_object_or_404(cls, pk=pk)
 
     @property
     def appointment_today(self):

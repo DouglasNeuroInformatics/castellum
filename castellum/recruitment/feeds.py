@@ -21,6 +21,7 @@
 import abc
 
 from django.contrib.auth import get_user_model
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.text import slugify
@@ -63,8 +64,9 @@ class BaseAppointmentFeed(abc.ABC, ICalFeed):
 
 class AppointmentFeedForStudy(BaseAppointmentFeed):
     def get_object(self, *args, **kwargs):
-        study = Study.get_by_pk_or_404(kwargs.get('study_pk'))
-        study.raise_404_error_if_study_is_not_in_execution_mode()
+        study = get_object_or_404(Study, pk=kwargs.get('study_pk'))
+        if study.study_mode != Study.EXECUTION:
+            raise Http404
         return study
 
     def items(self, study):
