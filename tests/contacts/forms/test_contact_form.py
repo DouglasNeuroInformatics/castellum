@@ -30,9 +30,10 @@ def test_form_with_initial_address():
 
 
 def test_contact_form_with_contact_data_except_email_phone_address(contact_data):
+    msg = 'Either email, phone number, address, or guardian should be provided.'
     form = ContactForm(data=contact_data)
     assert form.is_valid() is False
-    assert 'Either email, phone number or address should be provided.' in str(form.errors)
+    assert msg in str(form.errors)
 
 
 @pytest.mark.django_db

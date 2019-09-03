@@ -86,6 +86,8 @@ class ContactForm(forms.ModelForm):
         phone_number = cleaned_data.get('phone_number', '')
         email = cleaned_data.get('email', '')
         preferred_contact_method = cleaned_data.get('preferred_contact_method', '')
+        guardians = cleaned_data.get('guardians')
+        has_guardian = guardians and guardians.exists()
 
         is_address_data = any([country, city, zip_code, street, house_number, add_info])
         if is_address_data:
@@ -97,9 +99,9 @@ class ContactForm(forms.ModelForm):
 
                 raise ValidationError(_("Provide more details for the address."), code='invalid')
         else:
-            if not any([phone_number, email]):
-                raise ValidationError(_("Either email, phone number"
-                                        " or address should be provided."), code='invalid')
+            if not any([phone_number, email, has_guardian]):
+                msg = _("Either email, phone number, address, or guardian should be provided.")
+                raise ValidationError(msg, code='invalid')
 
         if not is_address_data and preferred_contact_method == 'postal':
             self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))

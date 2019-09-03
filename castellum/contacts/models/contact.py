@@ -101,7 +101,9 @@ class Contact(TimeStampedModel):
     @property
     def is_complete(self):
         # these conditions are also checked in the form
-        return self.date_of_birth and any([self.address, self.phone_number, self.email])
+        return self.date_of_birth and any([
+            self.address, self.phone_number, self.email, self.has_guardian
+        ])
 
     @property
     def full_name(self):
@@ -110,6 +112,10 @@ class Contact(TimeStampedModel):
     @property
     def age(self):
         return relativedelta(date.today(), self.date_of_birth).years
+
+    @property
+    def has_guardian(self):
+        return self.id and self.guardians.exists()
 
     def save(self, *args, **kwargs):
         if not self.pseudonym:
