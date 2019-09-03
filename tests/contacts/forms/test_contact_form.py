@@ -251,3 +251,18 @@ def test_contact_form_with_address_and_wrong_preferred_contact_method(full_data)
     form = ContactForm(data=full_data)
 
     assert form.is_valid() is False
+
+
+@pytest.mark.django_db
+def test_contact_form_with_guardians(full_data, contact):
+
+    full_data.update({
+        'has_guardian': 'guardians',
+        'guardians': [contact.pk],
+    })
+
+    form = ContactForm(data=full_data)
+
+    assert form.is_valid() is True
+    assert form.cleaned_data['guardians'].get() == contact
+    assert form.cleaned_data['country'] == ''
