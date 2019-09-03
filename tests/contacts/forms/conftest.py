@@ -28,8 +28,7 @@ def contact_data():
         'last_name': 'Wolfe',
         'title': 'Dr.',
         'gender': 'm',
-        'date_of_birth': '2010-01-28',
-        'privacy_level': 0,
+        'date_of_birth': '1910-01-28',
     }
 
 

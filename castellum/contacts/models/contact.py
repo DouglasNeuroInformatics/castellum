@@ -85,12 +85,17 @@ class Contact(TimeStampedModel):
     preferred_contact_method = models.CharField(
         _('Preferred contact method'), max_length=16, blank=True, choices=CONTACT_METHODS)
 
+    guardians = models.ManyToManyField('contacts.Contact', blank=True)
+
     objects = ContactManager()
 
     class Meta:
         ordering = ('last_name', 'first_name')
         verbose_name = _('Contact')
         verbose_name_plural = _('Contacts')
+
+    def __str__(self):
+        return self.full_name
 
     @cached_property
     def subject(self):
@@ -99,7 +104,9 @@ class Contact(TimeStampedModel):
     @property
     def is_complete(self):
         # these conditions are also checked in the form
-        return self.date_of_birth and any([self.address, self.phone_number, self.email])
+        return self.date_of_birth and any([
+            self.address, self.phone_number, self.email, self.has_guardian
+        ])
 
     @property
     def full_name(self):
@@ -108,6 +115,10 @@ class Contact(TimeStampedModel):
     @property
     def age(self):
         return relativedelta(date.today(), self.date_of_birth).years
+
+    @property
+    def has_guardian(self):
+        return self.id and self.guardians.exists()
 
     def save(self, *args, **kwargs):
         if not self.pseudonym:

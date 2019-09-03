@@ -1,3 +1,5 @@
+import datetime
+
 import pytest
 from model_mommy import mommy
 
@@ -30,9 +32,10 @@ def test_form_with_initial_address():
 
 
 def test_contact_form_with_contact_data_except_email_phone_address(contact_data):
+    msg = 'Either email, phone number, address, or guardian should be provided.'
     form = ContactForm(data=contact_data)
     assert form.is_valid() is False
-    assert 'Either email, phone number or address should be provided.' in str(form.errors)
+    assert msg in str(form.errors)
 
 
 @pytest.mark.django_db
@@ -250,3 +253,31 @@ def test_contact_form_with_address_and_wrong_preferred_contact_method(full_data)
     form = ContactForm(data=full_data)
 
     assert form.is_valid() is False
+
+
+@pytest.mark.django_db
+def test_contact_form_with_guardians(full_data, contact):
+
+    full_data.update({
+        'has_guardian': 'guardians',
+        'guardians': [contact.pk],
+    })
+
+    form = ContactForm(data=full_data)
+
+    assert form.is_valid() is True
+    assert form.cleaned_data['guardians'].get() == contact
+    assert form.cleaned_data['country'] == ''
+
+
+@pytest.mark.django_db
+def test_contact_form_underage_without_guardian(full_data):
+    msg = 'Subjects under the age of 18 need a legal guardian.'
+    full_data.update({
+        'date_of_birth': '%i-01-01' % datetime.date.today().year,
+    })
+
+    form = ContactForm(data=full_data)
+
+    assert form.is_valid() is False
+    assert msg in str(form.errors)

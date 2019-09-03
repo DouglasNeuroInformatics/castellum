@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django import forms
 from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -44,6 +46,9 @@ class AddressForm(forms.ModelForm):
 
 
 class ContactForm(forms.ModelForm):
+    ADDRESS_FIELDS = [
+        'country', 'city', 'zip_code', 'street', 'house_number', 'additional_information',
+    ]
 
     # fields required for the address
     country = forms.CharField(label=_('Country'), required=False, widget=DatalistWidget(
@@ -55,6 +60,11 @@ class ContactForm(forms.ModelForm):
     house_number = forms.CharField(label=_('House number'), required=False)
     additional_information = forms.CharField(
         label=_('Additional address information'), required=False)
+
+    has_guardian = forms.ChoiceField(required=False, choices=[
+        ('self', _('Full of age')),
+        ('guardians', _('Has legal guardian')),
+    ], widget=forms.RadioSelect)
 
     class Meta:
         model = Contact
@@ -72,23 +82,40 @@ class ContactForm(forms.ModelForm):
             self.fields['additional_information'].initial = \
                 self.instance.address.additional_information
 
+        if self.instance.has_guardian:
+            self.fields['has_guardian'].initial = 'guardians'
+        elif self.instance.is_complete:
+            self.fields['has_guardian'].initial = 'self'
+
         self.fields['date_of_birth'].required = True
 
     def clean(self):
         cleaned_data = super().clean()
 
-        country = cleaned_data.get('country', '')
-        city = cleaned_data.get('city', '')
-        zip_code = cleaned_data.get('zip_code', '')
-        street = cleaned_data.get('street', '')
-        house_number = cleaned_data.get('house_number', '')
-        add_info = cleaned_data.get('additional_information', '')
+        if cleaned_data.get('has_guardian') == 'guardians':
+            for name in self.ADDRESS_FIELDS:
+                cleaned_data[name] = ''
+            cleaned_data['phone_number'] = ''
+            cleaned_data['phone_number_alternative'] = ''
+            cleaned_data['email'] = ''
+            cleaned_data['preferred_contact_method'] = ''
+        else:
+            cleaned_data['guardians'] = []
+
+        date_of_birth = cleaned_data.get('date_of_birth')
         phone_number = cleaned_data.get('phone_number', '')
         email = cleaned_data.get('email', '')
         preferred_contact_method = cleaned_data.get('preferred_contact_method', '')
+        guardians = cleaned_data.get('guardians')
+        has_guardian = guardians and guardians.exists()
 
-        is_address_data = any([country, city, zip_code, street, house_number, add_info])
-        if is_address_data:
+        age = datetime.date.today() - date_of_birth
+        if not has_guardian and age.days // 365 < 18:
+            msg = _('Subjects under the age of 18 need a legal guardian.')
+            raise ValidationError(msg, code='invalid')
+
+        has_address = any(cleaned_data.get(name) for name in self.ADDRESS_FIELDS)
+        if has_address:
             address_form = AddressForm(data=cleaned_data)
             if not address_form.is_valid():
                 if address_form.errors:
@@ -97,11 +124,11 @@ class ContactForm(forms.ModelForm):
 
                 raise ValidationError(_("Provide more details for the address."), code='invalid')
         else:
-            if not any([phone_number, email]):
-                raise ValidationError(_("Either email, phone number"
-                                        " or address should be provided."), code='invalid')
+            if not any([phone_number, email, has_guardian]):
+                msg = _("Either email, phone number, address, or guardian should be provided.")
+                raise ValidationError(msg, code='invalid')
 
-        if not is_address_data and preferred_contact_method == 'postal':
+        if not has_address and preferred_contact_method == 'postal':
             self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
             self.add_error(None, _("Please provide a complete address."))
         if not phone_number and preferred_contact_method == 'phone':
