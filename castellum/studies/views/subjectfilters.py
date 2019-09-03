@@ -22,6 +22,7 @@
 from django.contrib import messages
 from django.forms import modelformset_factory
 from django.http import Http404
+from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
@@ -165,7 +166,8 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.study.raise_401_error_if_study_is_not_in_edit_mode()
+        if self.get_readonly():
+            return HttpResponseBadRequest()
         form = self.get_form()
         formset = self.get_formset()
         if form.is_valid() and formset.is_valid():
