@@ -90,6 +90,16 @@ class ContactForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
+        if cleaned_data.get('has_guardian') == 'guardians':
+            for name in self.ADDRESS_FIELDS:
+                cleaned_data[name] = ''
+            cleaned_data['phone_number'] = ''
+            cleaned_data['phone_number_alternative'] = ''
+            cleaned_data['email'] = ''
+            cleaned_data['preferred_contact_method'] = ''
+        else:
+            cleaned_data['guardians'] = []
+
         phone_number = cleaned_data.get('phone_number', '')
         email = cleaned_data.get('email', '')
         preferred_contact_method = cleaned_data.get('preferred_contact_method', '')
