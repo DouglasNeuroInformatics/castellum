@@ -124,9 +124,9 @@ class FilterGroupListView(FilterMixin, ListView):
 
 class FilterGroupCreateView(FilterMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
+    study_modes = [Study.EDIT]
 
     def post(self, *args, **kwargs):
-        self.study.raise_401_error_if_study_is_not_in_edit_mode()
         group = SubjectFilterGroup.objects.create(study=self.study)
         return redirect(group.get_absolute_url())
 
@@ -223,10 +223,7 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
     model = SubjectFilterGroup
     template_name = 'studies/filtergroup_confirm_delete.html'
     permission_required = 'recruitment.change_subjectfilter'
-
-    def post(self, request, *args, **kwargs):
-        self.study.raise_401_error_if_study_is_not_in_edit_mode()
-        return super().post(request, *args, **kwargs)
+    study_modes = [Study.EDIT]
 
     def get_object(self):
         return get_object_or_404(SubjectFilterGroup, study=self.study, pk=self.kwargs['pk'])
@@ -237,9 +234,9 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
 
 class FilterGroupDuplicateView(FilterMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
+    study_modes = [Study.EDIT]
 
     def post(self, request, study_pk, pk):
-        self.study.raise_401_error_if_study_is_not_in_edit_mode()
         original = get_object_or_404(SubjectFilterGroup, study=self.study, pk=pk)
         SubjectFilterGroup.objects.clone(original)
         messages.success(request, _(
