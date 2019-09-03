@@ -292,7 +292,20 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
                     yield user.username
 
 
-class StudyMembershipMixin(StudyMixin, PermissionRequiredMixin):
+class StudyMembershipUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView):
+    model = StudyMembership
+    form_class = MemberForm
+    permission_required = 'studies.change_study'
+    study_modes = [Study.EDIT, Study.EXECUTION]
+
+    def get_object(self):
+        return get_object_or_404(StudyMembership, pk=self.kwargs['pk'], study=self.study)
+
+    def get_success_url(self):
+        return reverse('studies:members', args=[self.object.study.pk])
+
+
+class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView):
     model = StudyMembership
     permission_required = 'studies.change_study'
     study_modes = [Study.EDIT, Study.EXECUTION]
@@ -300,15 +313,6 @@ class StudyMembershipMixin(StudyMixin, PermissionRequiredMixin):
     def get_object(self):
         return get_object_or_404(StudyMembership, pk=self.kwargs['pk'], study=self.study)
 
-
-class StudyMembershipUpdateView(StudyMembershipMixin, UpdateView):
-    form_class = MemberForm
-
-    def get_success_url(self):
-        return reverse('studies:members', args=[self.object.study.pk])
-
-
-class StudyMembershipRemoveView(StudyMembershipMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         membership = self.get_object()
 
