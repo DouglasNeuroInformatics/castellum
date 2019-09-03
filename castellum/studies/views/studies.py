@@ -188,17 +188,13 @@ class StudyUpdateView(
 class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'studies.change_study'
 
-    def dispatch(self, request, study_pk):
-        self.object = get_object_or_404(Study, pk=study_pk)
-        return super().dispatch(request, study_pk)
-
     def post(self, request, study_pk):
-        if self.object.study_mode != self.object.FINISHED:
-            if self.object.study_mode == self.object.EXECUTION:
-                self.object.next_mode(self.object.EDIT)
+        if self.study.study_mode != self.study.FINISHED:
+            if self.study.study_mode == self.study.EXECUTION:
+                self.study.next_mode(self.study.EDIT)
             else:
-                self.object.next_mode(self.object.EXECUTION)
-            return redirect('studies:detail', self.object.pk)
+                self.study.next_mode(self.study.EXECUTION)
+            return redirect('studies:detail', self.study.pk)
         else:
             return HttpResponseBadRequest()
 
@@ -206,16 +202,12 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
 class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'studies.change_study'
 
-    def dispatch(self, request, study_pk):
-        self.object = get_object_or_404(Study, pk=study_pk)
-        return super().dispatch(request, study_pk)
-
     def post(self, request, study_pk):
-        if self.object.study_mode == self.object.FINISHED:
-            self.object.previous_mode()
+        if self.study.study_mode == self.study.FINISHED:
+            self.study.previous_mode()
         else:
-            self.object.next_mode(self.object.FINISHED)
-        return redirect('studies:detail', self.object.pk)
+            self.study.next_mode(self.study.FINISHED)
+        return redirect('studies:detail', self.study.pk)
 
 
 class StudyRecruitmentSettingsView(StudyMixin, PermissionRequiredMixin, DetailView):
