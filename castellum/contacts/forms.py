@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django import forms
 from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -100,11 +102,17 @@ class ContactForm(forms.ModelForm):
         else:
             cleaned_data['guardians'] = []
 
+        date_of_birth = cleaned_data.get('date_of_birth')
         phone_number = cleaned_data.get('phone_number', '')
         email = cleaned_data.get('email', '')
         preferred_contact_method = cleaned_data.get('preferred_contact_method', '')
         guardians = cleaned_data.get('guardians')
         has_guardian = guardians and guardians.exists()
+
+        age = datetime.date.today() - date_of_birth
+        if not has_guardian and age.days // 365 < 18:
+            msg = _('Subjects under the age of 18 need a legal guardian.')
+            raise ValidationError(msg, code='invalid')
 
         has_address = any(cleaned_data.get(name) for name in self.ADDRESS_FIELDS)
         if has_address:
