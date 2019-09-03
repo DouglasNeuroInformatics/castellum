@@ -5,9 +5,7 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="list-group mb-3">
-                <a href="{% url 'studies:recruitmentsettings' study.pk %}" class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'detail' %}active{% endif %}">{% trans "Overview" %}</a>
-
-                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'update' %}active{% endif %}" href="{% url 'studies:recruitmentsettings-update' study.pk %}">{% trans 'General' %}</a>
+                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'update' %}active{% endif %}" href="{% url 'studies:recruitmentsettings' study.pk %}">{% trans 'General' %}</a>
 
                 {% has_perm 'recruitment.change_subjectfilter' user study as can_change_subjectfilter %}
                 {% if can_change_subjectfilter %}

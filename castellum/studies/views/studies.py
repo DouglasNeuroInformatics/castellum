@@ -202,14 +202,6 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
         return redirect('studies:detail', self.study.pk)
 
 
-class StudyRecruitmentSettingsView(StudyMixin, PermissionRequiredMixin, DetailView):
-    model = Study
-    permission_required = 'studies.change_study'
-    template_name = 'studies/study_recruitmentsettings.html'
-    tab = 'recruitmentsettings'
-    subtab = 'detail'
-
-
 class StudyRecruitmentSettingsUpdateView(
     StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
 ):
@@ -224,7 +216,7 @@ class StudyRecruitmentSettingsUpdateView(
         return self.object.study_mode == Study.FINISHED
 
     def get_success_url(self):
-        return reverse('studies:recruitmentsettings-update', kwargs={'pk': self.object.pk})
+        return reverse('studies:recruitmentsettings', kwargs={'pk': self.object.pk})
 
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
