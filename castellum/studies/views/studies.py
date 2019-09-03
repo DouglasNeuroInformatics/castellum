@@ -22,7 +22,6 @@
 from django import forms
 from django.contrib import messages
 from django.db.models import Q
-from django.http import Http404
 from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -46,22 +45,10 @@ from castellum.utils.views import ReadonlyMixin
 
 from ..forms import AddMemberForm
 from ..forms import MemberForm
+from ..mixins import StudyMixin
 from ..models import Study
 from ..models import StudyMembership
 from ..models import StudySession
-
-
-class StudyAccessMixin(PermissionRequiredMixin):
-    def get_permission_object(self):
-        if hasattr(self, 'object'):
-            return self.object
-        else:
-            return self.get_object()
-
-    def get_permission_required(self):
-        permission_required = {'studies.access_study'}
-        permission_required.update(super().get_permission_required())
-        return permission_required
 
 
 class StudyIndexView(PermissionRequiredMixin, ListView):
@@ -87,7 +74,7 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
         return context
 
 
-class StudyDetailView(StudyAccessMixin, DetailView):
+class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
     model = Study
     permission_required = 'studies.view_study'
 
@@ -177,7 +164,9 @@ class StudyCreateView(PermissionRequiredMixin, StudyFormMixin, CreateView):
         return super().post(request, *args, **kwargs)
 
 
-class StudyUpdateView(StudyAccessMixin, ReadonlyMixin, StudyFormMixin, UpdateView):
+class StudyUpdateView(
+    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, StudyFormMixin, UpdateView
+):
     permission_required = 'studies.change_study'
 
     def get_readonly(self):
@@ -196,7 +185,7 @@ class StudyUpdateView(StudyAccessMixin, ReadonlyMixin, StudyFormMixin, UpdateVie
         return super().post(request, *args, **kwargs)
 
 
-class StudyStartRecruitmentView(StudyAccessMixin, View):
+class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'studies.change_study'
 
     def dispatch(self, request, study_pk):
@@ -214,7 +203,7 @@ class StudyStartRecruitmentView(StudyAccessMixin, View):
             return HttpResponseBadRequest()
 
 
-class StudyFinishRecruitmentView(StudyAccessMixin, View):
+class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'studies.change_study'
 
     def dispatch(self, request, study_pk):
@@ -229,13 +218,15 @@ class StudyFinishRecruitmentView(StudyAccessMixin, View):
         return redirect('studies:detail', self.object.pk)
 
 
-class StudyRecruitmentSettingsView(StudyAccessMixin, DetailView):
+class StudyRecruitmentSettingsView(StudyMixin, PermissionRequiredMixin, DetailView):
     model = Study
     permission_required = 'studies.view_study'
     template_name = 'studies/study_recruitmentsettings.html'
 
 
-class StudyRecruitmentSettingsUpdateView(StudyAccessMixin, ReadonlyMixin, UpdateView):
+class StudyRecruitmentSettingsUpdateView(
+    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
+):
     model = Study
     fields = ('advanced_filtering', 'recruitment_text', 'is_exclusive', 'complete_matches_only')
     permission_required = 'studies.change_study'
@@ -248,7 +239,9 @@ class StudyRecruitmentSettingsUpdateView(StudyAccessMixin, ReadonlyMixin, Update
         return reverse('studies:recruitmentsettings', kwargs={'pk': self.object.pk})
 
 
-class StudyExclusionCriteriaView(StudyAccessMixin, ReadonlyMixin, UpdateView):
+class StudyExclusionCriteriaView(
+    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
+):
     model = Study
     template_name = 'studies/study_exclusioncriteria.html'
     fields = ('exclusion_criteria',)
@@ -261,7 +254,7 @@ class StudyExclusionCriteriaView(StudyAccessMixin, ReadonlyMixin, UpdateView):
         return reverse('studies:recruitmentsettings', args=[self.object.pk])
 
 
-class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
+class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, FormView):
     model = Study
     template_name = 'studies/study_members.html'
     permission_required = 'studies.change_study'
@@ -307,20 +300,13 @@ class StudyMembersView(StudyAccessMixin, SingleObjectMixin, FormView):
                     yield user.username
 
 
-class StudyMembershipMixin(StudyAccessMixin):
+class StudyMembershipMixin(StudyMixin, PermissionRequiredMixin):
     model = StudyMembership
     permission_required = 'studies.change_study'
+    study_modes = [Study.EDIT, Study.EXECUTION]
 
     def get_object(self):
-        obj = get_object_or_404(
-            StudyMembership, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk']
-        )
-        if obj.study.study_mode == Study.FINISHED:
-            raise Http404
-        return obj
-
-    def get_permission_object(self):
-        return super().get_permission_object().study
+        return get_object_or_404(StudyMembership, pk=self.kwargs['pk'], study=self.study)
 
 
 class StudyMembershipUpdateView(StudyMembershipMixin, UpdateView):
