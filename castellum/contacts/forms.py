@@ -56,6 +56,11 @@ class ContactForm(forms.ModelForm):
     additional_information = forms.CharField(
         label=_('Additional address information'), required=False)
 
+    has_guardian = forms.ChoiceField(required=False, choices=[
+        ('self', _('Full of age')),
+        ('guardians', _('Has legal guardian')),
+    ], widget=forms.RadioSelect)
+
     class Meta:
         model = Contact
         exclude = ('address',)
@@ -71,6 +76,11 @@ class ContactForm(forms.ModelForm):
             self.fields['house_number'].initial = self.instance.address.house_number
             self.fields['additional_information'].initial = \
                 self.instance.address.additional_information
+
+        if self.instance.has_guardian:
+            self.fields['has_guardian'].initial = 'guardians'
+        elif self.instance.is_complete:
+            self.fields['has_guardian'].initial = 'self'
 
         self.fields['date_of_birth'].required = True
 
