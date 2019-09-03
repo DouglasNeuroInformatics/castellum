@@ -21,7 +21,6 @@
 
 from django.contrib import messages
 from django.forms import modelformset_factory
-from django.http import Http404
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -44,16 +43,12 @@ from castellum.recruitment.models import SubjectFilterGroup
 from castellum.settings import CASTELLUM_EXPECTED_SUBJECT_FACTOR
 from castellum.utils.views import ReadonlyMixin
 
-from ..mixins import StudyPermissionMixin
+from ..mixins import StudyMixin
 from ..models import Study
 
 
 class CustomFilterMixin:
     """Should be called *after* PermissionRequiredMixin."""
-
-    def setup(self, request, *args, **kwargs):
-        super().setup(request, *args, **kwargs)
-        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
 
     def dispatch(self, request, *args, **kwargs):
         if self.study.custom_filter:
@@ -69,7 +64,7 @@ class CustomFilterMixin:
         return super().dispatch(request, *args, **kwargs)
 
 
-class FilterMixin(StudyPermissionMixin, PermissionRequiredMixin, CustomFilterMixin):
+class FilterMixin(StudyMixin, PermissionRequiredMixin, CustomFilterMixin):
     def get_permission_required(self):
         permission_required = set()
         permission_required.update(super().get_permission_required())
@@ -111,7 +106,6 @@ class FilterGroupListView(FilterMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['study'] = self.study
         context['potential_subjects_count'] = AttributeSet.apply_study_filter(self.study).count()
         subject_count_warnings(
             self.request, self.study.min_subjects_count, context['potential_subjects_count']
@@ -130,9 +124,9 @@ class FilterGroupListView(FilterMixin, ListView):
 
 class FilterGroupCreateView(FilterMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
+    study_modes = [Study.EDIT]
 
     def post(self, *args, **kwargs):
-        self.study.raise_401_error_if_study_is_not_in_edit_mode()
         group = SubjectFilterGroup.objects.create(study=self.study)
         return redirect(group.get_absolute_url())
 
@@ -142,6 +136,9 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
     form_class = SubjectFilterGroupForm
     template_name = "studies/filtergroup.html"
     permission_required = 'recruitment.change_subjectfilter'
+
+    def get_object(self):
+        return get_object_or_404(SubjectFilterGroup, study=self.study, pk=self.kwargs['pk'])
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -195,9 +192,6 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
         ).distinct()
 
     def get_context_data(self, **kwargs):
-        if self.study != self.object.study:
-            raise Http404
-
         inaccessible = list(self.get_inaccessible_attributedescriptions())
         if inaccessible:
             messages.warning(self.request, _(
@@ -206,7 +200,6 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
             ) % ', '.join(description.label for description in inaccessible))
 
         data = super().get_context_data(**kwargs)
-        data['study'] = self.study
         data['count'] = self.object.get_subject_count()
         data['total_count'] = AttributeSet.objects.count()
         data['add_form'] = SubjectFilterForm(user=self.request.user)
@@ -230,18 +223,10 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
     model = SubjectFilterGroup
     template_name = 'studies/filtergroup_confirm_delete.html'
     permission_required = 'recruitment.change_subjectfilter'
+    study_modes = [Study.EDIT]
 
-    def post(self, request, *args, **kwargs):
-        self.study.raise_401_error_if_study_is_not_in_edit_mode()
-        return super().post(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        if self.study != self.object.study:
-            raise Http404
-
-        data = super().get_context_data(**kwargs)
-        data['study'] = self.study
-        return data
+    def get_object(self):
+        return get_object_or_404(SubjectFilterGroup, study=self.study, pk=self.kwargs['pk'])
 
     def get_success_url(self):
         return reverse('studies:filtergroup-index', args=[self.study.pk])
@@ -249,13 +234,9 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
 
 class FilterGroupDuplicateView(FilterMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
-
-    def dispatch(self, request, *args, **kwargs):
-        self.study = Study.get_by_pk_or_404(self.kwargs.get('study_pk'))
-        return super().dispatch(request, *args, **kwargs)
+    study_modes = [Study.EDIT]
 
     def post(self, request, study_pk, pk):
-        self.study.raise_401_error_if_study_is_not_in_edit_mode()
         original = get_object_or_404(SubjectFilterGroup, study=self.study, pk=pk)
         SubjectFilterGroup.objects.clone(original)
         messages.success(request, _(

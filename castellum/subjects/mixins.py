@@ -34,6 +34,14 @@ from .models import SubjectNote
 
 
 class SubjectMixin:
+    """Use this on every view that represents a subject.
+
+    -   set ``self.subject``
+    -   check privacy level
+
+    Requires PermissionRequiredMixin.
+    """
+
     @cached_property
     def subject(self):
         obj = self.get_object()
