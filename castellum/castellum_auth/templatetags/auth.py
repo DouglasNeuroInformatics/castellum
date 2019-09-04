@@ -27,3 +27,8 @@ register = template.Library()
 @register.simple_tag
 def has_perm(perm, user, obj=None):
     return user.has_perm(perm, obj=obj)
+
+
+@register.simple_tag
+def has_privacy_level(level, user, obj=None):
+    return user.has_privacy_level(level, obj=obj)

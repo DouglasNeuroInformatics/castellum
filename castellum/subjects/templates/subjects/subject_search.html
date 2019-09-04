@@ -44,7 +44,8 @@
             <div class="tab-pane active" id="matches" role="tabpanel" aria-labelledby="matches-tab">
                 {% if matches %}
                     <ul class="table-list">
-                        {% for contact, can_access in matches %}
+                        {% for contact in matches %}
+                            {% has_privacy_level contact.subject.privacy_level user as can_access %}
                             <li class="table-list-item">
                                 <div>
                                     {% if can_access %}
