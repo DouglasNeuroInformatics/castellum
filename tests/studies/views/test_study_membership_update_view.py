@@ -8,8 +8,8 @@ from castellum.studies.views.studies import StudyMembershipUpdateView
 
 
 @pytest.fixture
-def view(request_factory, prepared_user):
-    request = request_factory.post(reverse("studies:member", kwargs=dict(study_pk=1, pk=1)))
+def view(rf, prepared_user):
+    request = rf.post(reverse("studies:member", kwargs=dict(study_pk=1, pk=1)))
 
     view = StudyMembershipUpdateView()
     view.request = request

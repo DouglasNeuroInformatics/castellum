@@ -6,8 +6,8 @@ from castellum.studies.views.studies import StudyExclusionCriteriaView
 
 
 @pytest.fixture
-def view(request_factory, prepared_user):
-    request = request_factory.post(reverse("studies:exclusioncriteria", kwargs=dict(pk=1)))
+def view(rf, prepared_user):
+    request = rf.post(reverse("studies:exclusioncriteria", kwargs=dict(pk=1)))
 
     view = StudyExclusionCriteriaView()
     view.request = request

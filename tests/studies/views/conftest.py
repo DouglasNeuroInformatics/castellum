@@ -1,12 +1,5 @@
-from django.test import RequestFactory
-
 import pytest
 from model_mommy import mommy
-
-
-@pytest.fixture
-def request_factory():
-    return RequestFactory()
 
 
 @pytest.fixture

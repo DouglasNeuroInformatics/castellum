@@ -6,8 +6,8 @@ from castellum.studies.views.studies import StudyRecruitmentSettingsUpdateView
 
 
 @pytest.fixture
-def view(request_factory, prepared_user):
-    request = request_factory.post(reverse("studies:recruitmentsettings-update", kwargs=dict(pk=1)))
+def view(rf, prepared_user):
+    request = rf.post(reverse("studies:recruitmentsettings-update", kwargs=dict(pk=1)))
 
     view = StudyRecruitmentSettingsUpdateView()
     view.request = request
