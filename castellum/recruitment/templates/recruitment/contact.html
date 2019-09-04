@@ -33,65 +33,7 @@
 
     <div class="tab-content mb-3 border border-top-0 p-3">
         <div class="tab-pane active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-            <dl class="row">
-                <dt class="col-sm-6">{{ contact|verbose_name:'email' }}</dt>
-                <dd class="col-sm-6">{{ contact|display:'email' }}</dd>
-
-                <dt class="col-sm-6">{{ contact|verbose_name:'phone_number' }}</dt>
-                <dd class="col-sm-6">{{ contact|display:'phone_number' }}</dd>
-
-                <dt class="col-sm-6">{{ contact|verbose_name:'phone_number_alternative' }}</dt>
-                <dd class="col-sm-6">{{ contact|display:'phone_number_alternative' }}</dd>
-                <dt class="col-sm-6">{{ contact|verbose_name:'address' }}</dt>
-                <dd class="col-sm-6">{{ contact|display:'address'}}</dd>
-            </dl>
-
-            <h3 class="h5">
-                {% filter upper %}
-                    {% trans "Operational hints"%}
-                {% endfilter %}
-            </h3>
-
-            <dl class="row">
-                <dt class="col-sm-6">{{ contact|verbose_name:'preferred_contact_method' }}</dt>
-                <dd class="col-sm-6">{{ contact|display:'preferred_contact_method' }}</dd>
-
-                <dt class="col-sm-6">{% trans "Currently available" %}</dt>
-                <dd class="col-sm-6">
-                    {% if subject.is_available %}
-                        {% trans "Yes" %}
-                        <i class="fas fa-phone list-icon bg-success text-light" aria-hidden="true"></i>
-                    {% elif not subject.next_available %}
-                        &mdash;
-                    {% else %}
-                        {% trans "No" %}
-                        <i class="fas fa-phone-slash list-icon bg-warning text-dark" aria-hidden="true"></i>
-                        {% blocktrans with next_available=subject.next_available %}
-                            (not until {{ next_available }})
-                        {% endblocktrans %}
-                    {% endif %}
-                </dd>
-
-                <dt class="col-sm-6">{% trans "General recruiting notes" %}</dt>
-                <dd class="col-sm-6">
-                    {% if subject.note_hard_of_hearing or subject.note_difficult_to_understand or subject.note_abusive_language or subject.subjectnote_set.exists %}
-                        {% if subject.note_hard_of_hearing %}
-                            <span class="badge badge-secondary">{{ subject|verbose_name:'note_hard_of_hearing' }}</span>
-                        {% endif %}
-                        {% if subject.note_difficult_to_understand %}
-                            <span class="badge badge-secondary">{{ subject|verbose_name:'note_difficult_to_understand' }}</span>
-                        {% endif %}
-                        {% if subject.note_abusive_language %}
-                            <span class="badge badge-secondary">{{ subject|verbose_name:'note_abusive_language' }}</span>
-                        {% endif %}
-                        {% for note in subject.subjectnote_set.all %}
-                            <span class="badge badge-secondary">{{ note.content }}</span>
-                        {% endfor %}
-                    {% else %}
-                        &mdash;
-                    {% endif %}
-                </dd>
-            </dl>
+            {% include 'recruitment/__contact_detail.html' with contact=contact %}
 
             {% has_perm 'contacts.change_contact' user view.study as can_change_contact %}
             {% if can_change_contact %}
