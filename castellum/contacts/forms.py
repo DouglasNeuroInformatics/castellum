@@ -69,6 +69,9 @@ class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
         exclude = ('address',)
+        widgets = {
+            'guardians': forms.CheckboxSelectMultiple,
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
