@@ -34,7 +34,7 @@
 
         {% bootstrap_field form.has_guardian show_label=False %}
 
-        <div id="contact-self" {% if form.has_guardian.value != 'self' %}hidden{% endif %}>
+        <div id="contact-self" class="mb-3" {% if form.has_guardian.value != 'self' %}hidden{% endif %}>
             {% bootstrap_field form.email %}
             <div class="form-row">
                 <div class="col-md-6">
@@ -67,7 +67,19 @@
             {% bootstrap_field form.preferred_contact_method %}
         </div>
 
-        <div id="contact-guardians" {% if form.has_guardian.value != 'guardians' %}hidden{% endif %}>
+        <div id="contact-guardians" class="mb-3" {% if form.has_guardian.value != 'guardians' %}hidden{% endif %}>
+            <template id="guardian-template">
+                <div class="rounded-lg border bg-light p-3 mb-2 d-flex align-items-center" data-js="guardian-wrapper">
+                    <div class="flex-grow-1">
+                        <div>{% trans 'Guardian' %}</div>
+                        <label for="id_guardians_{pk}" class="h5 mb-0"></label>
+                        <input id="id_guardians_{pk}" type="hidden" name="{{ form.guardians.name }}" value="{pk}">
+                    </div>
+                    <button type="button" class="btn btn-sm btn-danger" data-js="guardian-remove">{% trans 'Remove' %}</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-js="guardian-restore" hidden>{% trans 'Restore' %}</button>
+                </div>
+            </template>
+
             {% for widget in form.guardians %}
                 {% if widget.data.selected %}
                     <div class="rounded-lg border bg-light p-3 mb-2 d-flex align-items-center" data-js="guardian-wrapper">
@@ -81,6 +93,8 @@
                     </div>
                 {% endif %}
             {% endfor %}
+
+            <button type="button" class="btn btn-primary" data-js="guardian-add">{% trans 'Add guardian' %}</button>
         </div>
 
         <div class="mb-3">
