@@ -68,7 +68,18 @@
         </div>
 
         <div id="contact-guardians" {% if form.has_guardian.value != 'guardians' %}hidden{% endif %}>
-            {% bootstrap_field form.guardians %}
+            {% for widget in form.guardians %}
+                {% if widget.data.selected %}
+                    <div class="rounded-lg border bg-light p-3 mb-2 d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div>{% trans 'Guardian' %}</div>
+                            <label for="{{ widget.id_for_label }}" class="h5 mb-0">{{ widget.choice_label }}</label>
+                            <input id="{{ widget.id_for_label }}" type="hidden" name="{{ form.guardians.name }}" value="{{ widget.data.value }}">
+                        </div>
+                        <button type="button" class="btn btn-sm btn-danger">{% trans 'Remove' %}</button>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
 
         <div class="mb-3">
