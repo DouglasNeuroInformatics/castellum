@@ -68,7 +68,7 @@ class ContactForm(forms.ModelForm):
 
     class Meta:
         model = Contact
-        exclude = ('address',)
+        exclude = ('address', 'guardians')
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
@@ -100,15 +100,15 @@ class ContactForm(forms.ModelForm):
             cleaned_data['phone_number_alternative'] = ''
             cleaned_data['email'] = ''
             cleaned_data['preferred_contact_method'] = ''
+
+            has_guardian = True
         else:
-            cleaned_data['guardians'] = []
+            has_guardian = False
 
         date_of_birth = cleaned_data.get('date_of_birth')
         phone_number = cleaned_data.get('phone_number', '')
         email = cleaned_data.get('email', '')
         preferred_contact_method = cleaned_data.get('preferred_contact_method', '')
-        guardians = cleaned_data.get('guardians')
-        has_guardian = guardians and guardians.exists()
 
         age = datetime.date.today() - date_of_birth
         if not has_guardian and age.days // 365 < 18:
