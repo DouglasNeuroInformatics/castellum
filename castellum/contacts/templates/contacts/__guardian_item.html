@@ -4,7 +4,11 @@
     <div class="flex-grow-1">
         <div>{% trans 'Guardian' %}</div>
         <label for="id_{{ name }}_{{ pk }}" class="h5 mb-0">{{ label }}</label>
-        <input id="id_{{ name }}_{{ pk }}" type="hidden" name="{{ name }}" value="{{ pk }}" {% if removed %}disabled{% endif %}>
+        {% if name == 'guardians_remove' %}
+            <input id="id_{{ name }}_{{ pk }}" type="hidden" name="{{ name }}" value="{{ pk }}" {% if not removed %}disabled{% endif %}>
+        {% else %}
+            <input id="id_{{ name }}_{{ pk }}" type="hidden" name="{{ name }}" value="{{ pk }}" {% if removed %}disabled{% endif %}>
+        {% endif %}
     </div>
     <button type="button" class="btn btn-sm btn-danger" {% if removed %}hidden{% endif %} data-js="guardian-remove">{% trans 'Remove' %}</button>
     <button type="button" class="btn btn-sm btn-outline-danger" {% if not removed %}hidden{% endif %} data-js="guardian-restore">{% trans 'Restore' %}</button>

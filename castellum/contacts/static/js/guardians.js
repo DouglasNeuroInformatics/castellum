@@ -16,7 +16,11 @@ $(function() {
         $wrapper.toggleClass('text-muted', removed);
         $remove.prop('hidden', removed);
         $restore.prop('hidden', !removed);
-        $input.prop('disabled', removed);
+        if ($input.attr('name') === 'guardians_remove') {
+            $input.prop('disabled', !removed);
+        } else {
+            $input.prop('disabled', removed);
+        }
     };
 
     $(document).on('click', '[data-js="guardian-remove"]', function() {
