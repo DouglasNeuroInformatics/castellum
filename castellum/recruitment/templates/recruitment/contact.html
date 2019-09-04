@@ -33,7 +33,16 @@
 
     <div class="tab-content mb-3 border border-top-0 p-3">
         <div class="tab-pane active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-            {% include 'recruitment/__contact_detail.html' with contact=contact %}
+            {% for guardian in contact.guardians.all %}
+                <dl class="row mb-0">
+                    <dt class="col-sm-6">{% trans 'Legal guardian' %}</dt>
+                    <dd class="col-sm-6">{{ guardian.full_name }}</dd>
+                </dl>
+                {% include 'recruitment/__contact_detail.html' with contact=guardian %}
+                <hr>
+            {% empty %}
+                {% include 'recruitment/__contact_detail.html' with contact=contact %}
+            {% endfor %}
 
             {% has_perm 'contacts.change_contact' user view.study as can_change_contact %}
             {% if can_change_contact %}
