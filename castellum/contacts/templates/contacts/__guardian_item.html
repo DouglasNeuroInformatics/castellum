@@ -1,11 +1,11 @@
 {% load i18n %}
 
-<div class="rounded-lg border bg-light p-3 mb-2 d-flex align-items-center {% if removed %}text-muted{% endif %}">
+<div class="rounded-lg border bg-light p-3 mb-2 d-flex align-items-center {% if removed %}text-muted{% endif %}" data-js="guardian-wrapper">
     <div class="flex-grow-1">
         <div>{% trans 'Guardian' %}</div>
         <label for="id_{{ name }}_{{ pk }}" class="h5 mb-0">{{ label }}</label>
         <input id="id_{{ name }}_{{ pk }}" type="hidden" name="{{ name }}" value="{{ pk }}" {% if removed %}disabled{% endif %}>
     </div>
-    <button type="button" class="btn btn-sm btn-danger" {% if removed %}hidden{% endif %}>{% trans 'Remove' %}</button>
-    <button type="button" class="btn btn-sm btn-outline-danger" {% if not removed %}hidden{% endif %}>{% trans 'Restore' %}</button>
+    <button type="button" class="btn btn-sm btn-danger" {% if removed %}hidden{% endif %} data-js="guardian-remove">{% trans 'Remove' %}</button>
+    <button type="button" class="btn btn-sm btn-outline-danger" {% if not removed %}hidden{% endif %} data-js="guardian-restore">{% trans 'Restore' %}</button>
 </div>
