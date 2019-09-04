@@ -34,11 +34,19 @@
     <div class="tab-content mb-3 border border-top-0 p-3">
         <div class="tab-pane active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
             {% for guardian in contact.guardians.all %}
-                <dl class="row mb-0">
-                    <dt class="col-sm-6">{% trans 'Legal guardian' %}</dt>
-                    <dd class="col-sm-6">{{ guardian.full_name }}</dd>
-                </dl>
-                {% include 'recruitment/__contact_detail.html' with contact=guardian %}
+                {% has_privacy_level guardian.subject.privacy_level user as can_access %}
+                {% if can_access %}
+                    <dl class="row mb-0">
+                        <dt class="col-sm-6">{% trans 'Legal guardian' %}</dt>
+                        <dd class="col-sm-6">{{ guardian.full_name }}</dd>
+                    </dl>
+                    {% include 'recruitment/__contact_detail.html' with contact=guardian %}
+                {% else %}
+                    <dl class="row">
+                        <dt class="col-sm-6 text-muted">{% trans 'Legal guardian' %}</dt>
+                        <dd class="col-sm-6 text-muted">{% trans 'Insufficient privacy level' %}</dd>
+                    </dl>
+                {% endif %}
                 <hr>
             {% empty %}
                 {% include 'recruitment/__contact_detail.html' with contact=contact %}
