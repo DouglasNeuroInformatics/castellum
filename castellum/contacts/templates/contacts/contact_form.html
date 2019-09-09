@@ -72,6 +72,10 @@
                 {% include 'contacts/__guardian_item.html' with name=form.guardians_add.name pk='{pk}' label='' removed=False %}
             </template>
 
+            {% if form.guardians_blocked > 0 %}
+                <p class="text-muted">{% blocktrans with count=form.guardians_blocked %}{{ count }} guardians not listed because of insifficient privacy level.{% endblocktrans %}</p>
+            {% endif %}
+
             {% for widget in form.guardians_remove %}
                 {% include 'contacts/__guardian_item.html' with name=form.guardians_remove.name pk=widget.data.value label=widget.choice_label removed=widget.data.selected %}
             {% endfor %}

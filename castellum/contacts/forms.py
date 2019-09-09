@@ -102,10 +102,14 @@ class ContactForm(forms.ModelForm):
         self.fields['date_of_birth'].required = True
 
     def get_guardians_rm_choices(self, user):
+        self.guardians_blocked = 0
         if self.instance.id:
             for contact in self.instance.guardians.all():
                 if user.has_privacy_level(contact.subject.privacy_level):
                     yield (contact.subject.pk, contact.full_name)
+                else:
+                    self.guardians_blocked += 1
+
     def clean(self):
         cleaned_data = super().clean()
 
