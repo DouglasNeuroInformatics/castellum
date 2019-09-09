@@ -78,15 +78,13 @@
                                         <div class="d-inline-block text-muted my-1 mr-2">{% trans 'access denied' %}</div>
                                     {% endif %}
                                 </div>
-                                {% if can_access %}
-                                    <div class="table-list-item-actions">
+                                <div class="table-list-item-actions">
+                                    {% if can_access %}
                                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:detail' contact.subject.pk %}">{% trans 'Details' %}</a>
-                                    </div>
-                                {% else %}
-                                    <div class="table-list-item-actions">
-                                        <a class="btn btn-outline-primary disabled btn-sm-inline my-1" href="#" tabindex="-1" aria-disabled="true">{% trans 'Details' %}</a>
-                                    </div>
-                                {% endif %}
+                                    {% else %}
+                                        <button class="btn btn-outline-primary btn-sm-inline my-1" disabled>{% trans 'Details' %}</a>
+                                    {% endif %}
+                                </div>
                             </li>
                         {% endfor %}
                     </ul>
