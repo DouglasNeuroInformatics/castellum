@@ -31,7 +31,7 @@ Anwendung von Methoden in der Studie?
 
 6. CALL/CONTACT
 
-.. Kann man direkt in Castellum die Personen anrufen?
+.. note:: Kann man direkt in Castellum die Personen anrufen?
 
 7. Select a **Status of participation request**
 
@@ -55,7 +55,7 @@ Anwendung von Methoden in der Studie?
 Editing contact data and attributes; adding probands to the study
 -----------------------------------------------------------------
 
-.. *Mit*\ **Edit subject**\ *ist doch gemeint, dass die Person als
+.. note:: *Mit*\ **Edit subject**\ *ist doch gemeint, dass die Person als
 Proband/-in zur Studie hinzugefügt und eingeladen wird, richtig? Aus
 Verständlichkeitsgründen lieber*\ **Edit subject to
 study**\ *schreiben?* 
@@ -67,7 +67,7 @@ When you press **Edit subject**, you can \* Determine the **Privacy
 level** \* Settle the time-based **Availability** of the person \* Press
 **Save** to record the progress
 
-.. **Hard of hearing**\ *bei*\ **Notes**\ *bedeutet
+.. note:: **Hard of hearing**\ *bei*\ **Notes**\ *bedeutet
 doch*\ **schwerhörig**\ *, richtig? Dass die Person schwer zu verstehen
 ist oder sie ausfällig spricht, passt in meinen Augen nicht dazu. Sollte
 der erste Stichpunkt abgeändert werden oder habt ihr das aus einem
