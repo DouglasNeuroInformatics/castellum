@@ -61,7 +61,7 @@ class ContactForm(forms.ModelForm):
     additional_information = forms.CharField(
         label=_('Additional address information'), required=False)
 
-    has_guardian = forms.ChoiceField(required=False, choices=[
+    guardians_pane = forms.ChoiceField(required=False, choices=[
         ('self', _('Full of age')),
         ('guardians', _('Has legal guardian')),
     ], widget=forms.RadioSelect)
@@ -84,16 +84,16 @@ class ContactForm(forms.ModelForm):
                 self.instance.address.additional_information
 
         if self.instance.has_guardian:
-            self.fields['has_guardian'].initial = 'guardians'
+            self.fields['guardians_pane'].initial = 'guardians'
         elif self.instance.is_complete:
-            self.fields['has_guardian'].initial = 'self'
+            self.fields['guardians_pane'].initial = 'self'
 
         self.fields['date_of_birth'].required = True
 
     def clean(self):
         cleaned_data = super().clean()
 
-        if cleaned_data.get('has_guardian') == 'guardians':
+        if cleaned_data.get('guardians_pane') == 'guardians':
             for name in self.ADDRESS_FIELDS:
                 cleaned_data[name] = ''
             cleaned_data['phone_number'] = ''

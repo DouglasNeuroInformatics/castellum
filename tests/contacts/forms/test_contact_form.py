@@ -257,7 +257,7 @@ def test_contact_form_with_address_and_wrong_preferred_contact_method(user, full
 def test_contact_form_with_guardians(user, full_data, contact):
 
     full_data.update({
-        'has_guardian': 'guardians',
+        'guardians_pane': 'guardians',
         'guardians': [contact.pk],
     })
 
