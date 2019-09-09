@@ -25,6 +25,7 @@ from django import forms
 from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
 
+from castellum.subjects.models import Subject
 from castellum.utils.forms import DatalistWidget
 
 from .models import Address
@@ -65,6 +66,8 @@ class ContactForm(forms.ModelForm):
         ('self', _('Full of age')),
         ('guardians', _('Has legal guardian')),
     ], widget=forms.RadioSelect)
+    guardians_remove = forms.ModelMultipleChoiceField(Subject.objects, required=False)
+    guardians_add = forms.ModelMultipleChoiceField(Subject.objects, required=False)
 
     class Meta:
         model = Contact
@@ -88,8 +91,15 @@ class ContactForm(forms.ModelForm):
         elif self.instance.is_complete:
             self.fields['guardians_pane'].initial = 'self'
 
+        self.fields['guardians_remove'].choices = self.get_guardians_rm_choices(user)
+
         self.fields['date_of_birth'].required = True
 
+    def get_guardians_rm_choices(self, user):
+        if self.instance.id:
+            for contact in self.instance.guardians.all():
+                if user.has_privacy_level(contact.subject.privacy_level):
+                    yield (contact.subject.pk, contact.full_name)
     def clean(self):
         cleaned_data = super().clean()
 
@@ -101,7 +111,15 @@ class ContactForm(forms.ModelForm):
             cleaned_data['email'] = ''
             cleaned_data['preferred_contact_method'] = ''
 
-            has_guardian = True
+            guardians = set()
+            if self.instance.pk:
+                guardians = guardians.union(
+                    guardian.subject for guardian in self.instance.guardians.all()
+                )
+            guardians = guardians\
+                .difference(cleaned_data['guardians_remove'].all())\
+                .union(cleaned_data['guardians_add'].all())
+            has_guardian = bool(guardians)
         else:
             has_guardian = False
 
@@ -167,6 +185,17 @@ class ContactForm(forms.ModelForm):
 
             if not self.cleaned_data.get('city') and contact.address:
                 contact.address.delete()
+
+            if self.cleaned_data.get('guardians_pane') == 'guardians':
+                contact.guardians.remove(*[
+                    subject.contact for subject in self.cleaned_data.get('guardians_remove', [])
+                ])
+
+                contact.guardians.add(*[
+                    subject.contact for subject in self.cleaned_data.get('guardians_add', [])
+                ])
+            else:
+                contact.guardians.set([])
 
         return contact
 

@@ -68,6 +68,8 @@
         </div>
 
         <div id="contact-guardians" {% if form.guardians_pane.value != 'guardians' %}hidden{% endif %}>
+            {% bootstrap_field form.guardians_remove %}
+            {% bootstrap_field form.guardians_add %}
         </div>
 
         <div class="mb-3">

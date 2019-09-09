@@ -254,18 +254,34 @@ def test_contact_form_with_address_and_wrong_preferred_contact_method(user, full
 
 
 @pytest.mark.django_db
-def test_contact_form_with_guardians(user, full_data, contact):
+def test_contact_form_with_guardians_add(user, full_data, contact):
 
     full_data.update({
         'guardians_pane': 'guardians',
-        'guardians': [contact.pk],
+        'guardians_add': [contact.subject.pk],
     })
 
     form = ContactForm(user=user, data=full_data)
 
     assert form.is_valid() is True
-    assert form.cleaned_data['guardians'].get() == contact
+    assert form.cleaned_data['guardians_add'].get() == contact.subject
     assert form.cleaned_data['country'] == ''
+
+
+@pytest.mark.django_db
+def test_contact_form_with_guardians_remove(user, full_data, contact):
+
+    full_data.update({
+        'guardians_pane': 'guardians',
+        'guardians_remove': [contact.subject.pk],
+    })
+
+    contact.guardians.add(contact)
+
+    form = ContactForm(user=user, data=full_data, instance=contact)
+
+    assert form.is_valid() is False
+    assert form.cleaned_data['guardians_remove'].get() == contact.subject
 
 
 @pytest.mark.django_db
