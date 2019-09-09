@@ -10,9 +10,9 @@ Creating a new study
 
 3. Click on **Create new study**
 
-*Bei “Name” vielleicht lieber “Studienname” oder “Studienbezeichnung”
+.. Bei “Name” vielleicht lieber “Studienname” oder “Studienbezeichnung”
 schreiben? Sonst könnte man denken, dass man in dem Feld seinen eigenen
-Namen eintragen soll.*
+Namen eintragen soll.
 
 4. Fill in all empty fields on the page:
 
@@ -28,8 +28,8 @@ Namen eintragen soll.*
    -  Please enter all methods you would like to use in your research in
       the field **Description**
 
-*Sind mit*\ **Keywords**\ *die grundlegenden Beschreibungen bzgl. des
-Forschungsgegenstands gemeint?*
+.. Sind mit*\ **Keywords**\ *die grundlegenden Beschreibungen bzgl. des
+Forschungsgegenstands gemeint?
 
 5. Select the type of study you are going to use
 
@@ -39,21 +39,21 @@ Forschungsgegenstands gemeint?*
    -  If you choose **FMRI**, it is already determined in advance that
       the study contains sensitive data
 
-*Wieso gibt es hier auch*\ **———**\ *als Auswahl? Wählt man das aus,
-wenn man sich über die Studienform noch nicht ganz sicher ist?*
+.. Wieso gibt es hier auch*\ **———**\ *als Auswahl? Wählt man das aus,
+wenn man sich über die Studienform noch nicht ganz sicher ist?
 
-*Ist mit*\ **Consent**\ *die Zustimmung der Probanden zur Datenerhebung/
--verarbeitung gemeint?*
+.. Ist mit*\ **Consent**\ *die Zustimmung der Probanden zur Datenerhebung/
+-verarbeitung gemeint?
 
 6. Assign the **number of subjects** you will need for your study
 7. Enter the budget you may use for the study in the field **Expense
    allowance**
 
-*Die Aufwandsentschädigung, die an dieser Stelle festgelegt wird, wird
+.. Die Aufwandsentschädigung, die an dieser Stelle festgelegt wird, wird
 dem Rekruiter im Recruitingprozess*\ **pro Person**\ *angezeigt. Deshalb
 sollte an dieser Stelle vielleicht*\ **Expense allowance per
 participant**\ *stehen, damit hier niemand die Summe aller
-Aufwandsentschädigungen einträgt?*
+Aufwandsentschädigungen einträgt?
 
 8.  You can add a **Test session** by clicking on **Add session**
 
