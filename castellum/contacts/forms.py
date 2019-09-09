@@ -23,6 +23,7 @@ import datetime
 
 from django import forms
 from django.forms import ValidationError
+from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy as _
 
 from castellum.subjects.models import Subject
@@ -32,6 +33,11 @@ from .models import Address
 from .models import City
 from .models import Contact
 from .models import Country
+
+
+class SubjectMultipleChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        return lazy(lambda: obj.contact.full_name, str)
 
 
 class AddressForm(forms.ModelForm):
@@ -67,7 +73,7 @@ class ContactForm(forms.ModelForm):
         ('guardians', _('Has legal guardian')),
     ], widget=forms.RadioSelect)
     guardians_remove = forms.ModelMultipleChoiceField(Subject.objects, required=False)
-    guardians_add = forms.ModelMultipleChoiceField(Subject.objects, required=False)
+    guardians_add = SubjectMultipleChoiceField(Subject.objects, required=False)
 
     class Meta:
         model = Contact
