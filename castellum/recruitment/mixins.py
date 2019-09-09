@@ -35,7 +35,7 @@ from .models.attributesets import UNCATEGORIZED
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
-class BaseAttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
+class BaseAttributeSetUpdateView(PermissionRequiredMixin, SubjectMixin, UpdateView):
     model = AttributeSet
     permission_required = 'recruitment.change_attributeset'
 

@@ -63,7 +63,7 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
-class ParticipationRequestDetailView(StudyMixin, SubjectMixin, PermissionRequiredMixin, DetailView):
+class ParticipationRequestDetailView(StudyMixin, PermissionRequiredMixin, SubjectMixin, DetailView):
     template_name = 'execution/participationrequest_detail.html'
     model = ParticipationRequest
     permission_required = 'recruitment.view_participation_pseudonyms'

@@ -95,7 +95,7 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
             privacy_level_form=privacy_level_form))
 
 
-class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
+class SubjectDetailView(PermissionRequiredMixin, SubjectMixin, DetailView):
     model = Subject
     permission_required = 'contacts.view_contact'
     template_name = 'subjects/subject_detail.html'
@@ -116,7 +116,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
-class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
+class SubjectExportView(PermissionRequiredMixin, SubjectMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_export.html'
     permission_required = 'subjects.view_subject'
@@ -177,7 +177,7 @@ class AttributeSetUpdateView(BaseAttributeSetUpdateView):
         return context
 
 
-class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
+class ParticipationListView(PermissionRequiredMixin, SubjectMixin, ListView):
     model = ParticipationRequest
     template_name = 'subjects/subject_participationlist.html'
     permission_required = 'contacts.view_contact'
@@ -202,7 +202,7 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
         ]
 
 
-class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
+class AddToStudyView(PermissionRequiredMixin, SubjectMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_add_to_study.html'
     permission_required = 'contacts.view_contact'

@@ -28,7 +28,7 @@ from .forms import ContactForm
 from .models import Contact
 
 
-class BaseContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
+class BaseContactUpdateView(PermissionRequiredMixin, SubjectMixin, UpdateView):
     model = Contact
     form_class = ContactForm
     permission_required = 'contacts.change_contact'

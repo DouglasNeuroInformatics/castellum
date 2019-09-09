@@ -38,8 +38,6 @@ class SubjectMixin:
 
     -   set ``self.subject``
     -   check privacy level
-
-    Requires PermissionRequiredMixin.
     """
 
     @cached_property
@@ -51,9 +49,11 @@ class SubjectMixin:
             return obj.subject
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            if not request.user.has_privacy_level(self.subject.privacy_level):
-                raise PermissionDenied(_('Insufficient privacy level'))
+        if not (
+            request.user.is_authenticated and
+            request.user.has_privacy_level(self.subject.privacy_level)
+        ):
+            raise PermissionDenied(_('Insufficient privacy level'))
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -62,7 +62,7 @@ class SubjectMixin:
         return data
 
 
-class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
+class BaseSubjectUpdateView(PermissionRequiredMixin, SubjectMixin, UpdateView):
     model = Subject
     form_class = SubjectForm
     permission_required = 'subjects.change_subject'

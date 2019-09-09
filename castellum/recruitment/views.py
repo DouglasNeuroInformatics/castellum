@@ -262,7 +262,7 @@ class RecruitmentViewOpen(RecruitmentView):
         return self.get(request, *args, **kwargs)
 
 
-class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
+class ContactView(StudyMixin, PermissionRequiredMixin, SubjectMixin, UpdateView):
     model = ParticipationRequest
     form_class = ContactForm
     template_name = 'recruitment/contact.html'
