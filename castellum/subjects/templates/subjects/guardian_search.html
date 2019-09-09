@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load i18n static bootstrap4 auth %}
+
+{% block title %}{% trans "Guardians" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <p>{% trans 'Total number of subjects' %}: {{ total_number_subjects }}</p>
+
+    <form method="get">
+        {% for error in form.non_field_errors %}
+            <p class="alert alert-danger" role="alert">{{ error }}</p>
+        {% endfor %}
+
+        <div class="form-row">
+            <div class="col-md-6">
+                {% bootstrap_field form.first_name %}
+            </div>
+            <div class="col-md-6">
+                {% bootstrap_field form.last_name %}
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <button type="button" class="btn btn-outline-primary" data-js="guardian-dismiss">{% trans "Dismiss" %}</button>
+            <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}" />
+        </div>
+    </form>
+
+    {% if form.is_valid %}
+        {% has_perm 'contacts.add_contact' user as can_add_contact %}
+
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link {{ is_post|yesno:',active' }}" id="matches-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="matches" aria-selected="{{ is_post|yesno:'false,true' }}">{% trans "Matches" %}</a>
+            </li>
+            {% if can_add_contact %}
+                <li class="nav-item">
+                    <a class="nav-link {{ is_post|yesno:'active,' }}" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create" aria-selected="{{ is_post|yesno:'true,false' }}">{% trans "Create" %}</a>
+                </li>
+            {% endif %}
+        </ul>
+
+        <div class="tab-content mb-3 border border-top-0 p-3">
+            <div class="tab-pane {{ is_post|yesno:',active' }}" id="matches" role="tabpanel" aria-labelledby="matches-tab">
+                {% if matches %}
+                    <ul class="table-list">
+                        {% for contact in matches %}
+                            {% has_privacy_level contact.subject.privacy_level user as can_access %}
+                            <li class="table-list-item">
+                                <div>
+                                    {% if can_access %}
+                                        <h3 class="h4 d-inline-block my-1 mr-2">
+                                            {% if contact.title %}{{ contact.title }}{% endif %}
+                                            {% if contact.first_name == form.first_name.value %}
+                                                <mark>{{ contact.first_name }}</mark>
+                                            {% else %}
+                                                {{ contact.first_name }}
+                                            {% endif %}
+                                            {% if contact.last_name == form.last_name.value %}
+                                                <mark>{{ contact.last_name }}</mark>
+                                            {% else %}
+                                                {{ contact.last_name }}
+                                            {% endif %}
+                                        </h3>
+                                        <div class="d-inline-block">
+                                            {% if contact.date_of_birth %}
+                                                <div class="d-inline-block my-1 mr-2">{{ contact.date_of_birth }}</div>
+                                            {% endif %}
+                                            {% if contact.address %}
+                                                <div class="d-inline-block my-1 mr-2">{{ contact.address }}</div>
+                                            {% endif %}
+                                            {% if contact.email %}
+                                                <div class="d-inline-block my-1 mr-2">{{ contact.email }}</div>
+                                            {% endif %}
+                                        </div>
+                                    {% else %}
+                                        <h3 class="h4 d-inline-block text-muted my-1 mr-2">{{ contact.full_name }}</h3>
+                                        <div class="d-inline-block text-muted my-1 mr-2">{% trans 'access denied' %}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="table-list-item-actions">
+                                    {% if can_access %}
+                                        <button type="button" class="btn btn-primary btn-sm-inline my-1" data-js="guardian-use" data-name="{{ contact.full_name }}" data-pk="{{ contact.pk }}">{% trans 'Set up as guardian' %}</button>
+                                    {% else %}
+                                        <button type="button" class="btn btn-primary btn-sm-inline my-1" disabled>{% trans 'Set up as guardian' %}</button>
+                                    {% endif %}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="alert alert-warning" role="alert">{% trans 'No matches found' %}</p>
+                {% endif %}
+            </div>
+
+            {% if can_add_contact %}
+                <div class="tab-pane {{ is_post|yesno:'active,' }}" id="create" role="tabpanel" aria-labelledby="create-tab">
+                    <form method="post">
+                        {% for error in privacy_level_form.non_field_errors %}
+                            <p class="alert alert-danger" role="alert">{{ error }}</p>
+                        {% endfor %}
+                        {% for error in contact_form.non_field_errors %}
+                            <p class="alert alert-danger" role="alert">{{ error }}</p>
+                        {% endfor %}
+
+                        {% csrf_token %}
+
+                        {% include 'contacts/__contact_form_top.html' with form=contact_form %}
+
+                        {% bootstrap_field privacy_level_form.privacy_level %}
+
+                        {% include 'contacts/__contact_form_self.html' with form=contact_form %}
+
+                        <button class="btn btn-primary">{% trans "Create new subject" %}</button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/guardians.js' %}"></script>
+{% endblock %}
