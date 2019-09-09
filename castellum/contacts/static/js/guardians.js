@@ -30,4 +30,15 @@ $(function() {
     $(document).on('click', '[data-js="guardian-restore"]', function() {
         toggleGuardian(this, false);
     });
+
+    var addGuardian = function(name, pk) {
+        var $template = $('#guardian-template');
+        var $button = $('[data-js="guardian-add"]');
+
+        var html = $template.html().replace(/{pk}/g, pk);
+        var $el = $(html);
+        $el.find('label').text(name);
+
+        $button.before($el);
+    };
 });
