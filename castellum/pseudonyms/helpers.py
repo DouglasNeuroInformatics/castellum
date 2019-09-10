@@ -19,14 +19,25 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.db.utils import IntegrityError
+
 from castellum.subjects.models import Subject
 
 from .models import Domain
 from .models import Pseudonym
 
 
+def attempt(fn, attempts=10):
+    try:
+        return fn()
+    except IntegrityError:
+        if attempts <= 0:
+            raise
+        return attempt(fn, attempts=attempts - 1)
+
+
 def create_domain():
-    domain = Domain.objects.create()
+    domain = attempt(lambda: Domain.objects.create())
     return domain.key
 
 
@@ -37,14 +48,16 @@ def get_subject(domain_key, pseudonym):
 
 def get_pseudonym(subject, target_domain_key):
     target_domain = Domain.objects.get(key=target_domain_key)
-    target, __ = Pseudonym.objects.get_or_create(subject=subject, domain=target_domain)
+    target, __ = attempt(
+        lambda: Pseudonym.objects.get_or_create(subject=subject, domain=target_domain)
+    )
     return target.pseudonym
 
 
 def create_pseudonym(domain_key):
     domain = Domain.objects.get(key=domain_key)
     subject = Subject.objects.create()
-    pseudonym = Pseudonym.objects.create(subject=subject, domain=domain)
+    pseudonym = attempt(lambda: Pseudonym.objects.create(subject=subject, domain=domain))
     return pseudonym.pseudonym
 
 
