@@ -32,9 +32,9 @@
         {% bootstrap_field form.gender %}
         {% bootstrap_field form.date_of_birth %}
 
-        {% bootstrap_field form.has_guardian show_label=False %}
+        {% bootstrap_field form.guardians_pane show_label=False %}
 
-        <div id="contact-self" {% if form.has_guardian.value != 'self' %}hidden{% endif %}>
+        <div id="contact-self" class="mb-3" {% if form.guardians_pane.value != 'self' %}hidden{% endif %}>
             {% bootstrap_field form.email %}
             <div class="form-row">
                 <div class="col-md-6">
@@ -67,8 +67,26 @@
             {% bootstrap_field form.preferred_contact_method %}
         </div>
 
-        <div id="contact-guardians" {% if form.has_guardian.value != 'guardians' %}hidden{% endif %}>
-            {% bootstrap_field form.guardians %}
+        <div id="contact-guardians" class="mb-3" {% if form.guardians_pane.value != 'guardians' %}hidden{% endif %}>
+            <template id="guardian-template">
+                {% include 'contacts/__guardian_item.html' with name=form.guardians_add.name pk='{pk}' label='' removed=False %}
+            </template>
+
+            {% if form.guardians_blocked > 0 %}
+                <p class="text-muted">{% blocktrans with count=form.guardians_blocked %}{{ count }} guardians not listed because of insifficient privacy level.{% endblocktrans %}</p>
+            {% endif %}
+
+            {% for widget in form.guardians_remove %}
+                {% include 'contacts/__guardian_item.html' with name=form.guardians_remove.name pk=widget.data.value label=widget.choice_label removed=widget.data.selected %}
+            {% endfor %}
+
+            {% for widget in form.guardians_add %}
+                {% if widget.data.selected %}
+                    {% include 'contacts/__guardian_item.html' with name=form.guardians_add.name pk=widget.data.value label=widget.choice_label removed=False %}
+                {% endif %}
+            {% endfor %}
+
+            <button type="button" class="btn btn-primary" data-js="guardian-add">{% trans 'Add guardian' %}</button>
         </div>
 
         <div class="mb-3">

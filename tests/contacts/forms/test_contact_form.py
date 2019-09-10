@@ -8,20 +8,18 @@ from castellum.contacts.forms import ContactForm
 from castellum.contacts.models import Address
 
 
-@pytest.mark.unittest
-def test_empty_contact_form():
-    form = ContactForm()
+def test_empty_contact_form(user):
+    form = ContactForm(user=user)
     assert form.is_valid() is False
 
 
-@pytest.mark.unittest
-def test_form_with_initial_address():
+def test_form_with_initial_address(user):
     country = mommy.prepare('contacts.Country')
     city = mommy.prepare('contacts.City', country=country)
     address = mommy.prepare('contacts.Address', city=city)
     contact = mommy.prepare('contacts.Contact', address=address, pseudonym=None)
 
-    form = ContactForm(instance=contact)
+    form = ContactForm(user=user, instance=contact)
 
     assert form.fields['country'].initial == country.name
     assert form.fields['city'].initial == city.name
@@ -31,9 +29,9 @@ def test_form_with_initial_address():
     assert form.fields['additional_information'].initial == address.additional_information
 
 
-def test_contact_form_with_contact_data_except_email_phone_address(contact_data):
+def test_contact_form_with_contact_data_except_email_phone_address(user, contact_data):
     msg = 'Either email, phone number, address, or guardian should be provided.'
-    form = ContactForm(data=contact_data)
+    form = ContactForm(user=user, data=contact_data)
     assert form.is_valid() is False
     assert msg in str(form.errors)
 
@@ -44,7 +42,7 @@ def test_contact_form_with_contact_data_except_email_phone_address(contact_data)
     ('t@g.com', ''),
     ('', '+4917691233434'),
 ])
-def test_contact_form_with_email_or_phonenumber_without_address(contact_data, email,
+def test_contact_form_with_email_or_phonenumber_without_address(user, contact_data, email,
                                                                 phone_number):
 
     contact_data.update({
@@ -52,7 +50,7 @@ def test_contact_form_with_email_or_phonenumber_without_address(contact_data, em
         'phone_number': phone_number,
     })
 
-    form = ContactForm(data=contact_data)
+    form = ContactForm(user=user, data=contact_data)
 
     assert form.is_valid() is True
 
@@ -63,28 +61,28 @@ def test_contact_form_with_email_or_phonenumber_without_address(contact_data, em
     ('t@g.com', ''),
     ('', '+4917691233434'),
 ])
-def test_contact_form_with_email_or_phonenumber_with_full_address(full_data,
+def test_contact_form_with_email_or_phonenumber_with_full_address(user, full_data,
                                                                   email, phone_number):
     full_data.update({
         'email': email,
         'phone_number': phone_number
     })
 
-    form = ContactForm(data=full_data)
+    form = ContactForm(user=user, data=full_data)
 
     assert form.is_valid() is True
 
 
 @pytest.mark.django_db
-def test_contact_form_without_email_or_phonenumber_with_full_address(full_data):
+def test_contact_form_without_email_or_phonenumber_with_full_address(user, full_data):
 
-    form = ContactForm(data=full_data)
+    form = ContactForm(user=user, data=full_data)
 
     assert form.is_valid() is True
 
 
 @pytest.mark.django_db
-def test_contact_form_without_email_or_phonenumber_with_incomplete_address(contact_data,
+def test_contact_form_without_email_or_phonenumber_with_incomplete_address(user, contact_data,
                                                                            address):
 
     contact_data.update({
@@ -92,14 +90,14 @@ def test_contact_form_without_email_or_phonenumber_with_incomplete_address(conta
         'city': address.city.name,
     })
 
-    form = ContactForm(data=contact_data)
+    form = ContactForm(user=user, data=contact_data)
 
     assert 'Provide more details for the address' in str(form.errors)
     assert form.is_valid() is False
 
 
 @pytest.mark.django_db
-def test_address_form_given_country_not_in_db(address_data):
+def test_address_form_given_country_not_in_db(user, address_data):
 
     address_data.update({'country': 'AnyFakeCountryName'})
     form = AddressForm(data=address_data)
@@ -108,7 +106,7 @@ def test_address_form_given_country_not_in_db(address_data):
 
 
 @pytest.mark.django_db
-def test_contact_form_contact_is_saved_correctly(full_data, address, contact_domain):
+def test_contact_form_contact_is_saved_correctly(user, full_data, address, contact_domain):
 
     full_data.update({
         'email': 't@g.com',
@@ -116,7 +114,7 @@ def test_contact_form_contact_is_saved_correctly(full_data, address, contact_dom
         'phone_number_alternative': '',
     })
 
-    form = ContactForm(data=full_data)
+    form = ContactForm(user=user, data=full_data)
     assert form.is_valid() is True
 
     contact = form.save()
@@ -132,7 +130,7 @@ def test_contact_form_contact_is_saved_correctly(full_data, address, contact_dom
 
 
 @pytest.mark.django_db
-def test_contact_form_update_city_country_for_existing_instance_address(contact, city,
+def test_contact_form_update_city_country_for_existing_instance_address(user, contact, city,
                                                                         full_data):
 
     full_data.update({
@@ -143,7 +141,7 @@ def test_contact_form_update_city_country_for_existing_instance_address(contact,
         'phone_number_alternative': '',
     })
 
-    form = ContactForm(instance=contact, data=full_data)
+    form = ContactForm(user=user, instance=contact, data=full_data)
     assert form.is_valid() is True
 
     updated_contact = form.save()
@@ -151,7 +149,7 @@ def test_contact_form_update_city_country_for_existing_instance_address(contact,
 
 
 @pytest.mark.django_db
-def test_contact_form_delete_existing_address_if_empty(contact, contact_data):
+def test_contact_form_delete_existing_address_if_empty(user, contact, contact_data):
 
     contact_data.update({
         'phone_number': '+4917691232323',
@@ -160,7 +158,7 @@ def test_contact_form_delete_existing_address_if_empty(contact, contact_data):
 
     address_count_before = Address.objects.count()
 
-    form = ContactForm(instance=contact, data=contact_data)
+    form = ContactForm(user=user, instance=contact, data=contact_data)
     form.save()
 
     assert Address.objects.count() == address_count_before - 1
@@ -172,112 +170,128 @@ def test_contact_form_delete_existing_address_if_empty(contact, contact_data):
     ('email'),
     ('phone'),
 ])
-def test_contact_form_without_data_with_preferred_contact_method(contact_data, method):
+def test_contact_form_without_data_with_preferred_contact_method(user, contact_data, method):
 
     contact_data.update({
         'preferred_contact_method': method,
     })
 
-    form = ContactForm(data=contact_data)
+    form = ContactForm(user=user, data=contact_data)
 
     assert form.is_valid() is False
 
 
-def test_contact_form_with_email_and_preferred_contact_method(contact_data):
+def test_contact_form_with_email_and_preferred_contact_method(user, contact_data):
 
     contact_data.update({
         'email': 't@g.com',
         'preferred_contact_method': 'email',
     })
 
-    form = ContactForm(data=contact_data)
+    form = ContactForm(user=user, data=contact_data)
 
     assert form.is_valid() is True
 
 
-def test_contact_form_with_email_and_wrong_preferred_contact_method(contact_data):
+def test_contact_form_with_email_and_wrong_preferred_contact_method(user, contact_data):
 
     contact_data.update({
         'email': 't@g.com',
         'preferred_contact_method': 'phone',
     })
 
-    form = ContactForm(data=contact_data)
+    form = ContactForm(user=user, data=contact_data)
 
     assert form.is_valid() is False
 
 
-def test_contact_form_with_phone_and_preferred_contact_method(contact_data):
+def test_contact_form_with_phone_and_preferred_contact_method(user, contact_data):
 
     contact_data.update({
         'phone_number': '+4917691232323',
         'preferred_contact_method': 'phone',
     })
 
-    form = ContactForm(data=contact_data)
+    form = ContactForm(user=user, data=contact_data)
 
     assert form.is_valid() is True
 
 
-def test_contact_form_with_phone_and_wrong_preferred_contact_method(contact_data):
+def test_contact_form_with_phone_and_wrong_preferred_contact_method(user, contact_data):
 
     contact_data.update({
         'phone_number': '+4917691232323',
         'preferred_contact_method': 'email',
     })
 
-    form = ContactForm(data=contact_data)
+    form = ContactForm(user=user, data=contact_data)
 
     assert form.is_valid() is False
 
 
 @pytest.mark.django_db
-def test_contact_form_with_address_and_preferred_contact_method(full_data):
+def test_contact_form_with_address_and_preferred_contact_method(user, full_data):
 
     full_data.update({
         'preferred_contact_method': 'postal',
     })
 
-    form = ContactForm(data=full_data)
+    form = ContactForm(user=user, data=full_data)
 
     assert form.is_valid() is True
 
 
 @pytest.mark.django_db
-def test_contact_form_with_address_and_wrong_preferred_contact_method(full_data):
+def test_contact_form_with_address_and_wrong_preferred_contact_method(user, full_data):
 
     full_data.update({
         'preferred_contact_method': 'email',
     })
 
-    form = ContactForm(data=full_data)
+    form = ContactForm(user=user, data=full_data)
 
     assert form.is_valid() is False
 
 
 @pytest.mark.django_db
-def test_contact_form_with_guardians(full_data, contact):
+def test_contact_form_with_guardians_add(user, full_data, contact):
 
     full_data.update({
-        'has_guardian': 'guardians',
-        'guardians': [contact.pk],
+        'guardians_pane': 'guardians',
+        'guardians_add': [contact.subject.pk],
     })
 
-    form = ContactForm(data=full_data)
+    form = ContactForm(user=user, data=full_data)
 
     assert form.is_valid() is True
-    assert form.cleaned_data['guardians'].get() == contact
+    assert form.cleaned_data['guardians_add'].get() == contact.subject
     assert form.cleaned_data['country'] == ''
 
 
 @pytest.mark.django_db
-def test_contact_form_underage_without_guardian(full_data):
+def test_contact_form_with_guardians_remove(user, full_data, contact):
+
+    full_data.update({
+        'guardians_pane': 'guardians',
+        'guardians_remove': [contact.subject.pk],
+    })
+
+    contact.guardians.add(contact)
+
+    form = ContactForm(user=user, data=full_data, instance=contact)
+
+    assert form.is_valid() is False
+    assert form.cleaned_data['guardians_remove'].get() == contact.subject
+
+
+@pytest.mark.django_db
+def test_contact_form_underage_without_guardian(user, full_data):
     msg = 'Subjects under the age of 18 need a legal guardian.'
     full_data.update({
         'date_of_birth': '%i-01-01' % datetime.date.today().year,
     })
 
-    form = ContactForm(data=full_data)
+    form = ContactForm(user=user, data=full_data)
 
     assert form.is_valid() is False
     assert msg in str(form.errors)

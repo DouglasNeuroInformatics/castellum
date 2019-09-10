@@ -33,6 +33,11 @@ class BaseContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     form_class = ContactForm
     permission_required = 'contacts.change_contact'
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
     def get_cancel_url(self):
         return self.get_success_url()
 
