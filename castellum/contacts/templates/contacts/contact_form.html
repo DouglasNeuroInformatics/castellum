@@ -18,53 +18,12 @@
 
         {% csrf_token %}
 
-        <div class="form-row">
-            <div class="col-md-2">
-                {% bootstrap_field form.title %}
-            </div>
-            <div class="col-md-5">
-                {% bootstrap_field form.first_name %}
-            </div>
-            <div class="col-md-5">
-                {% bootstrap_field form.last_name %}
-            </div>
-        </div>
-        {% bootstrap_field form.gender %}
-        {% bootstrap_field form.date_of_birth %}
+        {% include 'contacts/__contact_form_top.html' with form=form %}
 
         {% bootstrap_field form.guardians_pane show_label=False %}
 
         <div id="contact-self" class="mb-3" {% if form.guardians_pane.value != 'self' %}hidden{% endif %}>
-            {% bootstrap_field form.email %}
-            <div class="form-row">
-                <div class="col-md-6">
-                    {% bootstrap_field form.phone_number %}
-                </div>
-                <div class="col-md-6">
-                    {% bootstrap_field form.phone_number_alternative %}
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-md-8">
-                    {% bootstrap_field form.street %}
-                </div>
-                <div class="col-md-4">
-                    {% bootstrap_field form.house_number %}
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-md-3">
-                    {% bootstrap_field form.zip_code %}
-                </div>
-                <div class="col-md-5">
-                    {% bootstrap_field form.city %}
-                </div>
-                <div class="col-md-4">
-                    {% bootstrap_field form.country %}
-                </div>
-            </div>
-            {% bootstrap_field form.additional_information %}
-            {% bootstrap_field form.preferred_contact_method %}
+            {% include 'contacts/__contact_form_self.html' with form=form %}
         </div>
 
         <div id="contact-guardians" class="mb-3" {% if form.guardians_pane.value != 'guardians' %}hidden{% endif %}>
