@@ -38,8 +38,6 @@ class SubjectMixin:
 
     -   set ``self.subject``
     -   check privacy level
-
-    Requires PermissionRequiredMixin.
     """
 
     @cached_property
