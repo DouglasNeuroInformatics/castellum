@@ -95,7 +95,7 @@
 
             {% if can_add_contact %}
                 <div class="tab-pane" id="create" role="tabpanel" aria-labelledby="create-tab">
-                    <form method="post" action="{% url 'subjects:index' %}{{ query }}">
+                    <form method="post">
                         {% for error in privacy_level_form.non_field_errors %}
                             <p class="alert alert-danger" role="alert">{{ error }}</p>
                         {% endfor %}

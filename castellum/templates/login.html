@@ -4,7 +4,7 @@
 {% block title %}{% trans "Log in" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <form method="post" action="{% url 'login' %}">
+    <form method="post">
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
