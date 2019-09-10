@@ -146,10 +146,11 @@ class ContactForm(forms.ModelForm):
         has_address = any(cleaned_data.get(name) for name in self.ADDRESS_FIELDS)
 
         # validate guardian required for underage subjects
-        age = datetime.date.today() - date_of_birth
-        if not is_guardians_pane and age.days // 365 < 18:
-            msg = _('Subjects under the age of 18 need a legal guardian.')
-            raise ValidationError(msg, code='invalid')
+        if date_of_birth:
+            age = datetime.date.today() - date_of_birth
+            if not is_guardians_pane and age.days // 365 < 18:
+                msg = _('Subjects under the age of 18 need a legal guardian.')
+                raise ValidationError(msg, code='invalid')
 
         # validate address
         if has_address:
