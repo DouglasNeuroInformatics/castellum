@@ -22,7 +22,6 @@
 from django import forms
 from django.core.exceptions import PermissionDenied
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -38,8 +37,6 @@ class SubjectMixin:
 
     -   set ``self.subject``
     -   check privacy level
-
-    Requires PermissionRequiredMixin.
     """
 
     @cached_property
@@ -53,7 +50,7 @@ class SubjectMixin:
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             if not request.user.has_privacy_level(self.subject.privacy_level):
-                raise PermissionDenied(_('Insufficient privacy level'))
+                raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
