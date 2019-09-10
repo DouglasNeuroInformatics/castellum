@@ -37,6 +37,8 @@ from .models import Country
 
 class SubjectMultipleChoiceField(forms.ModelMultipleChoiceField):
     def label_from_instance(self, obj):
+        # Getting subject.contact is expensive (pseudonym service).
+        # Since we only render the selected choices it makes sense to calculate it lazily.
         return lazy(lambda: obj.contact.full_name, str)
 
 
@@ -113,7 +115,14 @@ class ContactForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        if cleaned_data.get('guardians_pane') == 'guardians':
+        is_guardians_pane = cleaned_data.get('guardians_pane') == 'guardians'
+        date_of_birth = cleaned_data.get('date_of_birth')
+        phone_number = cleaned_data.get('phone_number', '')
+        email = cleaned_data.get('email', '')
+        preferred_contact_method = cleaned_data.get('preferred_contact_method', '')
+
+        # clear unselected pane
+        if is_guardians_pane:
             for name in self.ADDRESS_FIELDS:
                 cleaned_data[name] = ''
             cleaned_data['phone_number'] = ''
@@ -121,6 +130,7 @@ class ContactForm(forms.ModelForm):
             cleaned_data['email'] = ''
             cleaned_data['preferred_contact_method'] = ''
 
+        if is_guardians_pane:
             guardians = set()
             if self.instance.pk:
                 guardians = guardians.union(
@@ -133,17 +143,15 @@ class ContactForm(forms.ModelForm):
         else:
             has_guardian = False
 
-        date_of_birth = cleaned_data.get('date_of_birth')
-        phone_number = cleaned_data.get('phone_number', '')
-        email = cleaned_data.get('email', '')
-        preferred_contact_method = cleaned_data.get('preferred_contact_method', '')
+        has_address = any(cleaned_data.get(name) for name in self.ADDRESS_FIELDS)
 
+        # validate guardian required for underage subjects
         age = datetime.date.today() - date_of_birth
-        if not has_guardian and age.days // 365 < 18:
+        if not is_guardians_pane and age.days // 365 < 18:
             msg = _('Subjects under the age of 18 need a legal guardian.')
             raise ValidationError(msg, code='invalid')
 
-        has_address = any(cleaned_data.get(name) for name in self.ADDRESS_FIELDS)
+        # validate address
         if has_address:
             address_form = AddressForm(data=cleaned_data)
             if not address_form.is_valid():
@@ -152,11 +160,13 @@ class ContactForm(forms.ModelForm):
                         self.add_error(field, errors)
 
                 raise ValidationError(_("Provide more details for the address."), code='invalid')
-        else:
-            if not any([phone_number, email, has_guardian]):
-                msg = _("Either email, phone number, address, or guardian should be provided.")
-                raise ValidationError(msg, code='invalid')
 
+        # validate completeness
+        if not any([has_address, phone_number, email, has_guardian]):
+            msg = _("Either email, phone number, address, or guardian should be provided.")
+            raise ValidationError(msg, code='invalid')
+
+        # validate preferred_contact_method is set
         if not has_address and preferred_contact_method == 'postal':
             self.add_error('preferred_contact_method', _("Chosen contact method can not be saved."))
             self.add_error(None, _("Please provide a complete address."))
