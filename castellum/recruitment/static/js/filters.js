@@ -13,7 +13,7 @@ $(function() {
 
     $('[data-js="unsaved-changes"]')
     .on('change', registerBeforeUnload)
-    .on('submit', function(event) {
+    .on('submit', function() {
         submitted = true;
     });
 
