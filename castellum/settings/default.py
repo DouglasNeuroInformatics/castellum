@@ -338,7 +338,8 @@ your castellum account has been unlocked.
 CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 
 # A function that generates a random pseudonym.
-# () -> str (maximum 64 chars)
+# (bits: int) -> str (maximum 64 chars)
+# First argument is a hint about the number of random bits that should be included.
 CASTELLUM_PSEUDONYM_GENERATE = md5.generate
 
 # A function that raises a ValidationError if the pseudonym's format is invalid.
