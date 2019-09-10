@@ -220,7 +220,9 @@ def generate_subjects(count, city_count=100):
 
     contact_domain = Domain.objects.get(key=Contact.domain)
     contact_pseudonyms = [Pseudonym(
-        subject=subjects[i], domain=contact_domain
+        subject=subjects[i],
+        domain=contact_domain,
+        pseudonym=settings.CASTELLUM_PSEUDONYM_GENERATE(contact_domain.bits),
     ) for i in range(count)]
     Pseudonym.objects.bulk_create(contact_pseudonyms)
 
