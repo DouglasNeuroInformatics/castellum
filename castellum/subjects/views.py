@@ -26,6 +26,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
+from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.views.generic import DetailView
@@ -276,7 +277,10 @@ class GuardianSearchView(SubjectSearchView):
                 Contact.domain,
                 contact.pseudonym,
                 self.request.user.pk))
-            return redirect('subjects:detail', pk=contact.subject.pk)
+            return TemplateResponse(self.request, 'subjects/guardian_success.html', {
+                'name': contact.full_name,
+                'pk': contact.subject.pk,
+            })
         return self.render_to_response(self.get_context_data(
             form=form,
             privacy_level_form=privacy_level_form,
