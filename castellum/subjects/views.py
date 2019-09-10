@@ -57,6 +57,7 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['total_number_subjects'] = Contact.objects.count()
+        context['is_post'] = self.request.method == 'POST'
         form = kwargs.get('form')
         if form and form.is_valid():
             data = form.cleaned_data
