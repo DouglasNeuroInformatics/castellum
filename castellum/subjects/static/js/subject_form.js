@@ -2,7 +2,7 @@ $(function() {
     var $totalForms = $('#id_form-TOTAL_FORMS');
     var $notes_container = $('#notes-container');
 
-    $(document).on('click', '[data-js="note-add"]', function(event) {
+    $(document).on('click', '[data-js="note-add"]', function() {
         var $template = $('#note-data-template');
         var html = $template.html().replace(/{prefix}/g, 'form-' + $totalForms.val());
         var $fieldset = $(html);

@@ -14,7 +14,7 @@ stages:
 
 variables:
   PYTHON_IMAGE: python:3.6
-  PYTHON_IMAGE_DEPENDENCIES: "python3-dev libldap-2.4-2 libldap2-dev libsasl2-dev"
+  PYTHON_IMAGE_DEPENDENCIES: "python3-dev libldap-2.4-2 libldap2-dev libsasl2-dev npm"
   CONTAINER_TEST_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:$CI_COMMIT_REF_NAME
   CONTAINER_RELEASE_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
   DJANGO_SETTINGS_MODULE: "castellum.settings.gitlab"
@@ -26,10 +26,12 @@ test-branch:
     - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
     - pip install -r requirements-dev.txt
     - pip install -e .
+    - npm install
     - python manage.py makemigrations
     - pytest --ds=$DJANGO_SETTINGS_MODULE
     - flake8
     - isort -c
+    - npx eslint castellum
   coverage: '/TOTAL.*\s+(\d+\%)/'
   artifacts:
     paths:
