@@ -261,7 +261,7 @@ msgstr "Bevorzugte Kontaktmöglichkeit"
 #: castellum/contacts/models/contact.py:89
 #: castellum/subjects/templates/subjects/guardian_search.html:4
 msgid "Guardians"
-msgstr ""
+msgstr "Vormünder"
 
 #: castellum/contacts/models/contact.py:96
 msgid "Contact"
@@ -273,7 +273,7 @@ msgstr "Kontakte"
 
 #: castellum/contacts/templates/contacts/__guardian_item.html:5
 msgid "Guardian"
-msgstr ""
+msgstr "Vormund"
 
 #: castellum/contacts/templates/contacts/__guardian_item.html:13
 #: castellum/studies/templates/studies/study_members.html:34
@@ -283,7 +283,7 @@ msgstr "Entfernen"
 
 #: castellum/contacts/templates/contacts/__guardian_item.html:14
 msgid "Restore"
-msgstr ""
+msgstr "Wiederherstellen"
 
 #: castellum/contacts/templates/contacts/contact_form.html:6
 #: castellum/subjects/templates/subjects/subject_detail.html:44
@@ -300,12 +300,12 @@ msgstr "Neue Proband*in anlegen"
 #, python-format
 msgid "%(count)s guardians not listed because of insufficient privacy level."
 msgstr ""
+"%(count)s Vormünder werden wegen unzureichender Vertraulichkeitsstufe nicht "
+"aufgelistet."
 
 #: castellum/contacts/templates/contacts/contact_form.html:48
-#, fuzzy
-#| msgid "Has legal guardian"
 msgid "Add guardian"
-msgstr "Hat Vormund"
+msgstr "Vormund hinzufügen"
 
 #: castellum/contacts/templates/contacts/contact_form.html:52
 #: castellum/execution/templates/execution/participationrequest_detail.html:15
@@ -678,11 +678,7 @@ msgid "Currently available"
 msgstr "Aktuell erreichbar"
 
 #: castellum/recruitment/templates/recruitment/__contact_detail.html:36
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                            (not until %(next_available)s)\n"
-#| "                        "
+#, python-format
 msgid ""
 "\n"
 "                (not until %(next_available)s)\n"
@@ -796,10 +792,8 @@ msgstr "Gesprächspunkte"
 
 #: castellum/recruitment/templates/recruitment/contact.html:40
 #: castellum/recruitment/templates/recruitment/contact.html:46
-#, fuzzy
-#| msgid "Has legal guardian"
 msgid "Legal guardian"
-msgstr "Hat Vormund"
+msgstr "Vormund"
 
 #: castellum/recruitment/templates/recruitment/contact.html:47
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:35
@@ -1581,7 +1575,7 @@ msgstr "Gesamtzahl von Proband*innen"
 
 #: castellum/subjects/templates/subjects/guardian_search.html:24
 msgid "Dismiss"
-msgstr ""
+msgstr "Verwerfen"
 
 #: castellum/subjects/templates/subjects/guardian_search.html:25
 #: castellum/subjects/templates/subjects/subject_search.html:25
@@ -1600,10 +1594,8 @@ msgstr "Erstellen"
 
 #: castellum/subjects/templates/subjects/guardian_search.html:83
 #: castellum/subjects/templates/subjects/guardian_search.html:85
-#, fuzzy
-#| msgid "Has legal guardian"
 msgid "Set up as guardian"
-msgstr "Hat Vormund"
+msgstr "Als Vormund auswählen"
 
 #: castellum/subjects/templates/subjects/guardian_search.html:92
 #: castellum/subjects/templates/subjects/subject_search.html:92
