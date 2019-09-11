@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-03 17:01+0200\n"
+"POT-Creation-Date: 2019-09-11 11:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -108,66 +108,67 @@ msgstr "In %(study)s"
 msgid "Groups"
 msgstr "Gruppen"
 
-#: castellum/contacts/forms.py:54 castellum/contacts/models/address.py:34
+#: castellum/contacts/forms.py:63 castellum/contacts/models/address.py:34
 #: castellum/contacts/models/address.py:40
 msgid "Country"
 msgstr "Staat "
 
-#: castellum/contacts/forms.py:56 castellum/contacts/models/address.py:48
+#: castellum/contacts/forms.py:65 castellum/contacts/models/address.py:48
 #: castellum/contacts/models/address.py:58
 msgid "City"
 msgstr "Stadt"
 
-#: castellum/contacts/forms.py:58 castellum/contacts/models/address.py:59
+#: castellum/contacts/forms.py:67 castellum/contacts/models/address.py:59
 msgid "Zip code"
 msgstr "Postleitzahl"
 
-#: castellum/contacts/forms.py:59 castellum/contacts/models/address.py:60
+#: castellum/contacts/forms.py:68 castellum/contacts/models/address.py:60
 msgid "Street"
 msgstr "Straße"
 
-#: castellum/contacts/forms.py:60 castellum/contacts/models/address.py:61
+#: castellum/contacts/forms.py:69 castellum/contacts/models/address.py:61
 msgid "House number"
 msgstr "Hausnummer"
 
-#: castellum/contacts/forms.py:62
+#: castellum/contacts/forms.py:71
 msgid "Additional address information"
 msgstr "Zusätzliche Adressinformationen"
 
-#: castellum/contacts/forms.py:65
+#: castellum/contacts/forms.py:74
 msgid "Full of age"
 msgstr "Volljährig"
 
-#: castellum/contacts/forms.py:66
+#: castellum/contacts/forms.py:75
 msgid "Has legal guardian"
 msgstr "Hat Vormund"
 
-#: castellum/contacts/forms.py:114
+#: castellum/contacts/forms.py:152
 msgid "Subjects under the age of 18 need a legal guardian."
 msgstr "Proband*innen unter 18 Jahren brauchen einen Vormund."
 
-#: castellum/contacts/forms.py:125
+#: castellum/contacts/forms.py:163
 msgid "Provide more details for the address."
 msgstr "Adressdaten unvollständig"
 
-#: castellum/contacts/forms.py:128
+#: castellum/contacts/forms.py:167
 msgid "Either email, phone number, address, or guardian should be provided."
-msgstr "Entweder Email, Telefonnummer, Adresse oder Vormund müssen angegeben werden!"
+msgstr ""
+"Entweder Email, Telefonnummer, Adresse oder Vormund müssen angegeben werden!"
 
-#: castellum/contacts/forms.py:132 castellum/contacts/forms.py:135
-#: castellum/contacts/forms.py:138
+#: castellum/contacts/forms.py:172 castellum/contacts/forms.py:175
+#: castellum/contacts/forms.py:178
 msgid "Chosen contact method can not be saved."
 msgstr "Die ausgewählte Kontaktmöglichkeit kann nicht gespeichert werden."
 
-#: castellum/contacts/forms.py:133
+#: castellum/contacts/forms.py:173
 msgid "Please provide a complete address."
 msgstr "Bitte geben Sie eine vollständige Adresse an."
 
-#: castellum/contacts/forms.py:136
+#: castellum/contacts/forms.py:176
 msgid "Please provide a phone number."
 msgstr "Bitte geben Sie eine Telefonnummer an."
 
-#: castellum/contacts/forms.py:139
+#: castellum/contacts/forms.py:179
 msgid "Please provide an email."
 msgstr "Bitte geben Sie eine E-Mail Adresse an."
 
@@ -257,13 +258,32 @@ msgstr "Alternative Telefonnummer"
 msgid "Preferred contact method"
 msgstr "Bevorzugte Kontaktmöglichkeit"
 
-#: castellum/contacts/models/contact.py:94
+#: castellum/contacts/models/contact.py:89
+#: castellum/subjects/templates/subjects/guardian_search.html:4
+msgid "Guardians"
+msgstr ""
+
+#: castellum/contacts/models/contact.py:96
 msgid "Contact"
 msgstr "Kontakt"
 
-#: castellum/contacts/models/contact.py:95
+#: castellum/contacts/models/contact.py:97
 msgid "Contacts"
 msgstr "Kontakte"
+
+#: castellum/contacts/templates/contacts/__guardian_item.html:5
+msgid "Guardian"
+msgstr ""
+
+#: castellum/contacts/templates/contacts/__guardian_item.html:13
+#: castellum/studies/templates/studies/study_members.html:34
+#: castellum/studies/templates/studies/study_members.html:36
+msgid "Remove"
+msgstr "Entfernen"
+
+#: castellum/contacts/templates/contacts/__guardian_item.html:14
+msgid "Restore"
+msgstr ""
 
 #: castellum/contacts/templates/contacts/contact_form.html:6
 #: castellum/subjects/templates/subjects/subject_detail.html:44
@@ -271,11 +291,23 @@ msgid "Edit contact"
 msgstr "Kontakt bearbeiten"
 
 #: castellum/contacts/templates/contacts/contact_form.html:8
-#: castellum/subjects/templates/subjects/subject_search.html:108
+#: castellum/subjects/templates/subjects/guardian_search.html:114
+#: castellum/subjects/templates/subjects/subject_search.html:107
 msgid "Create new subject"
 msgstr "Neue Proband*in anlegen"
 
-#: castellum/contacts/templates/contacts/contact_form.html:75
+#: castellum/contacts/templates/contacts/contact_form.html:35
+#, python-format
+msgid "%(count)s guardians not listed because of insufficient privacy level."
+msgstr ""
+
+#: castellum/contacts/templates/contacts/contact_form.html:48
+#, fuzzy
+#| msgid "Has legal guardian"
+msgid "Add guardian"
+msgstr "Hat Vormund"
+
+#: castellum/contacts/templates/contacts/contact_form.html:52
 #: castellum/execution/templates/execution/participationrequest_detail.html:15
 #: castellum/execution/templates/execution/study_detail.html:34
 #: castellum/execution/templates/execution/study_list.html:32
@@ -303,9 +335,9 @@ msgstr "Neue Proband*in anlegen"
 msgid "Back"
 msgstr "Zurück"
 
-#: castellum/contacts/templates/contacts/contact_form.html:76
+#: castellum/contacts/templates/contacts/contact_form.html:53
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:41
-#: castellum/recruitment/templates/recruitment/contact.html:175
+#: castellum/recruitment/templates/recruitment/contact.html:134
 #: castellum/studies/templates/studies/study_exclusioncriteria.html:24
 #: castellum/studies/templates/studies/study_form.html:90
 #: castellum/studies/templates/studies/study_recruitmentsettings_form.html:23
@@ -327,14 +359,15 @@ msgstr "Pseudonym"
 #: castellum/execution/templates/execution/study_detail.html:16
 #: castellum/execution/templates/execution/study_list.html:16
 #: castellum/studies/templates/studies/study_list.html:43
-#: castellum/subjects/templates/subjects/subject_search.html:82
-#: castellum/subjects/templates/subjects/subject_search.html:86
+#: castellum/subjects/templates/subjects/subject_search.html:83
+#: castellum/subjects/templates/subjects/subject_search.html:85
 msgid "Details"
 msgstr "Details"
 
 #: castellum/execution/templates/execution/study_detail.html:21
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:82
-#: castellum/subjects/templates/subjects/subject_search.html:77
+#: castellum/subjects/templates/subjects/guardian_search.html:78
+#: castellum/subjects/templates/subjects/subject_search.html:78
 msgid "access denied"
 msgstr "Zugriff verweigert"
 
@@ -435,13 +468,13 @@ msgid "is"
 msgstr "ist"
 
 #: castellum/recruitment/attribute_fields.py:139
-#: castellum/recruitment/templates/recruitment/contact.html:62
+#: castellum/recruitment/templates/recruitment/__contact_detail.html:29
 #: castellum/utils/templatetags/utils.py:55
 msgid "Yes"
 msgstr "Ja"
 
 #: castellum/recruitment/attribute_fields.py:140
-#: castellum/recruitment/templates/recruitment/contact.html:67
+#: castellum/recruitment/templates/recruitment/__contact_detail.html:34
 #: castellum/utils/templatetags/utils.py:57
 msgid "No"
 msgstr "Nein"
@@ -610,15 +643,15 @@ msgstr "Teilnahmeanfragen"
 msgid "Can view participation pseudonyms"
 msgstr "Kann Teilnahme-Pseudonyme sehen"
 
-#: castellum/recruitment/models/recruitment.py:128
+#: castellum/recruitment/models/recruitment.py:125
 msgid "No appointment set"
 msgstr "Keine Terminvereinbarung"
 
-#: castellum/recruitment/models/recruitment.py:130
+#: castellum/recruitment/models/recruitment.py:127
 msgid "Appointment cannot be set with this status"
 msgstr "Eine Terminvereinbarung kann mit diesem Status nicht gesetzt werden"
 
-#: castellum/recruitment/models/recruitment.py:136
+#: castellum/recruitment/models/recruitment.py:133
 msgid "Exclusion criteria have not been checked"
 msgstr "Ausschlusskriterien wurden noch nicht überprüft"
 
@@ -634,6 +667,33 @@ msgid ""
 msgstr ""
 "Während des Datenimports sind Fehler aufgetreten. Der Prozess wurde "
 "abgebrochen. Die Datenbank wurde nicht verändert."
+
+#: castellum/recruitment/templates/recruitment/__contact_detail.html:18
+#: castellum/subjects/templates/subjects/subject_form.html:60
+msgid "Operational hints"
+msgstr "Verfahrenshinweise"
+
+#: castellum/recruitment/templates/recruitment/__contact_detail.html:26
+msgid "Currently available"
+msgstr "Aktuell erreichbar"
+
+#: castellum/recruitment/templates/recruitment/__contact_detail.html:36
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "                            (not until %(next_available)s)\n"
+#| "                        "
+msgid ""
+"\n"
+"                (not until %(next_available)s)\n"
+"            "
+msgstr ""
+"\n"
+"(nicht bis %(next_available)s)"
+
+#: castellum/recruitment/templates/recruitment/__contact_detail.html:42
+msgid "General recruiting notes"
+msgstr "Allgemeine Rekrutierungs-Notizen"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:17
 #, python-format
@@ -697,7 +757,7 @@ msgid "Review"
 msgstr "Überprüfen"
 
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:4
-#: castellum/recruitment/templates/recruitment/contact.html:108
+#: castellum/recruitment/templates/recruitment/contact.html:67
 #: castellum/subjects/templates/subjects/subject_detail.html:58
 msgid "Edit attributes"
 msgstr "Merkmale bearbeiten"
@@ -734,57 +794,49 @@ msgstr "Kontaktdetails"
 msgid "Talking points"
 msgstr "Gesprächspunkte"
 
-#: castellum/recruitment/templates/recruitment/contact.html:51
-#: castellum/subjects/templates/subjects/subject_form.html:60
-msgid "Operational hints"
-msgstr "Verfahrenshinweise"
+#: castellum/recruitment/templates/recruitment/contact.html:40
+#: castellum/recruitment/templates/recruitment/contact.html:46
+#, fuzzy
+#| msgid "Has legal guardian"
+msgid "Legal guardian"
+msgstr "Hat Vormund"
 
-#: castellum/recruitment/templates/recruitment/contact.html:59
-msgid "Currently available"
-msgstr "Aktuell erreichbar"
+#: castellum/recruitment/templates/recruitment/contact.html:47
+#: castellum/studies/templates/studies/study_recruitmentsettings.html:35
+msgid "Insufficient privacy level"
+msgstr "Vertraulichkeitsstufe nicht ausreichend"
 
-#: castellum/recruitment/templates/recruitment/contact.html:69
-msgid ""
-"\n"
-"                            (not until %(next_available)s)\n"
-"                        "
-msgstr "\n(nicht bis %(next_available)s)"
-
-#: castellum/recruitment/templates/recruitment/contact.html:75
-msgid "General recruiting notes"
-msgstr "Allgemeine Rekrutierungs-Notizen"
-
-#: castellum/recruitment/templates/recruitment/contact.html:98
+#: castellum/recruitment/templates/recruitment/contact.html:57
 msgid "Edit contact data"
 msgstr "Kontaktdaten bearbeiten"
 
-#: castellum/recruitment/templates/recruitment/contact.html:103
+#: castellum/recruitment/templates/recruitment/contact.html:62
 #: castellum/subjects/templates/subjects/subject_detail.html:53
 #: castellum/subjects/templates/subjects/subject_form.html:5
 msgid "Edit subject"
 msgstr "Proband*in bearbeiten"
 
-#: castellum/recruitment/templates/recruitment/contact.html:129
+#: castellum/recruitment/templates/recruitment/contact.html:88
 msgid "Duration of sessions in minutes"
 msgstr "Sitzungsdauer in Minuten"
 
-#: castellum/recruitment/templates/recruitment/contact.html:152
+#: castellum/recruitment/templates/recruitment/contact.html:111
 #: castellum/studies/models.py:85
 #: castellum/studies/templates/studies/study_exclusioncriteria.html:4
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:17
 msgid "Exclusion criteria"
 msgstr "Ausschlusskriterien"
 
-#: castellum/recruitment/templates/recruitment/contact.html:157
+#: castellum/recruitment/templates/recruitment/contact.html:116
 #: castellum/studies/templates/studies/study_exclusioncriteria.html:14
 msgid "fMRI-specific exclusion criteria"
 msgstr "fMRI-spezifische Ausschlusskriterien"
 
-#: castellum/recruitment/templates/recruitment/contact.html:177
+#: castellum/recruitment/templates/recruitment/contact.html:136
 msgid "Save and go back"
 msgstr "Speichern und zurück"
 
-#: castellum/recruitment/templates/recruitment/contact.html:178
+#: castellum/recruitment/templates/recruitment/contact.html:137
 msgid "Save and show next"
 msgstr "Speichern und weiter"
 
@@ -1304,11 +1356,6 @@ msgstr "Keine Studien"
 msgid "No personal studies"
 msgstr "Keine eigenen Studien"
 
-#: castellum/studies/templates/studies/study_members.html:34
-#: castellum/studies/templates/studies/study_members.html:36
-msgid "Remove"
-msgstr "Entfernen"
-
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:12
 msgid "Activated"
 msgstr "Aktiviert"
@@ -1320,11 +1367,6 @@ msgstr "Deaktiviert"
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:25
 msgid "General"
 msgstr "Allgemein"
-
-#: castellum/studies/templates/studies/study_recruitmentsettings.html:35
-#: castellum/subjects/mixins.py:56
-msgid "Insufficient privacy level"
-msgstr "Vertraulichkeitsstufe nicht ausreichend"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:41
 msgid "Exclusion Criteria"
@@ -1475,62 +1517,98 @@ msgstr "nicht erreichbar bis"
 msgid "Subject"
 msgstr "Proband*in"
 
-#: castellum/subjects/models.py:184
+#: castellum/subjects/models.py:169
 msgid "Content"
 msgstr "Inhalt"
 
-#: castellum/subjects/models.py:188
+#: castellum/subjects/models.py:173
 msgid "Created at"
 msgstr "Erstellt am"
 
-#: castellum/subjects/models.py:189
+#: castellum/subjects/models.py:174
 msgid "Info"
 msgstr "Info"
 
-#: castellum/subjects/models.py:191
+#: castellum/subjects/models.py:176
 msgid "File"
 msgstr "Datei"
 
-#: castellum/subjects/models.py:201
+#: castellum/subjects/models.py:186
 #, python-format
 msgid "Version %i"
 msgstr "Version %i"
 
-#: castellum/subjects/models.py:212
+#: castellum/subjects/models.py:197
 msgid "Updated at"
 msgstr "Aktualisiert am"
 
-#: castellum/subjects/models.py:215
+#: castellum/subjects/models.py:200
 msgid "Type"
 msgstr "Typ"
 
-#: castellum/subjects/models.py:216
+#: castellum/subjects/models.py:201
 msgid "Online form"
 msgstr "Online-Formular"
 
-#: castellum/subjects/models.py:217
+#: castellum/subjects/models.py:202
 msgid "Pen & Paper"
 msgstr "schriftlich"
 
-#: castellum/subjects/models.py:218
+#: castellum/subjects/models.py:203
 msgid "Telephone"
 msgstr "Telefon"
 
-#: castellum/subjects/models.py:220
+#: castellum/subjects/models.py:205
 msgid "Status"
 msgstr "Status"
 
-#: castellum/subjects/models.py:221
+#: castellum/subjects/models.py:206
 msgid "Waiting for confirmation"
 msgstr "Warten auf Bestätigung"
 
-#: castellum/subjects/models.py:222
+#: castellum/subjects/models.py:207
 msgid "Confirmed"
 msgstr "Bestätigt"
 
-#: castellum/subjects/models.py:227
+#: castellum/subjects/models.py:212
 msgid "Consent confirmation"
 msgstr "Einverständniserklärung"
+
+#: castellum/subjects/templates/subjects/guardian_search.html:7
+#: castellum/subjects/templates/subjects/subject_search.html:7
+msgid "Total number of subjects"
+msgstr "Gesamtzahl von Proband*innen"
+
+#: castellum/subjects/templates/subjects/guardian_search.html:24
+msgid "Dismiss"
+msgstr ""
+
+#: castellum/subjects/templates/subjects/guardian_search.html:25
+#: castellum/subjects/templates/subjects/subject_search.html:25
+msgid "Submit"
+msgstr "Absenden"
+
+#: castellum/subjects/templates/subjects/guardian_search.html:34
+#: castellum/subjects/templates/subjects/subject_search.html:34
+msgid "Matches"
+msgstr "Treffer"
+
+#: castellum/subjects/templates/subjects/guardian_search.html:38
+#: castellum/subjects/templates/subjects/subject_search.html:38
+msgid "Create"
+msgstr "Erstellen"
+
+#: castellum/subjects/templates/subjects/guardian_search.html:83
+#: castellum/subjects/templates/subjects/guardian_search.html:85
+#, fuzzy
+#| msgid "Has legal guardian"
+msgid "Set up as guardian"
+msgstr "Hat Vormund"
+
+#: castellum/subjects/templates/subjects/guardian_search.html:92
+#: castellum/subjects/templates/subjects/subject_search.html:92
+msgid "No matches found"
+msgstr "Keine Treffer"
 
 #: castellum/subjects/templates/subjects/subject_add_to_study.html:4
 #: castellum/subjects/templates/subjects/subject_participationlist.html:39
@@ -1635,26 +1713,6 @@ msgstr "Studienteilnahme der Proband*in"
 msgid "Go to execution"
 msgstr "Zur Durchführung"
 
-#: castellum/subjects/templates/subjects/subject_search.html:7
-msgid "Total number of subjects"
-msgstr "Gesamtzahl von Proband*innen"
-
-#: castellum/subjects/templates/subjects/subject_search.html:25
-msgid "Submit"
-msgstr "Absenden"
-
-#: castellum/subjects/templates/subjects/subject_search.html:34
-msgid "Matches"
-msgstr "Treffer"
-
-#: castellum/subjects/templates/subjects/subject_search.html:38
-msgid "Create"
-msgstr "Erstellen"
-
-#: castellum/subjects/templates/subjects/subject_search.html:93
-msgid "No matches found"
-msgstr "Keine Treffer"
-
 #: castellum/templates/403.html:4 castellum/templates/403.html:7
 msgid "Forbidden"
 msgstr "Verboten"
@@ -1663,19 +1721,19 @@ msgstr "Verboten"
 msgid "Not Found"
 msgstr "Nicht gefunden"
 
-#: castellum/templates/base.html:27
+#: castellum/templates/base.html:28
 msgid "Toggle navigation"
 msgstr "Navigation umschalten"
 
-#: castellum/templates/base.html:33
+#: castellum/templates/base.html:34
 msgid "Set language"
 msgstr "Sprache festlegen"
 
-#: castellum/templates/base.html:54
+#: castellum/templates/base.html:55
 msgid "Logout"
 msgstr "Abmelden"
 
-#: castellum/templates/base.html:57 castellum/templates/login.html:19
+#: castellum/templates/base.html:58 castellum/templates/login.html:19
 msgid "Login"
 msgstr "Anmelden"
 
