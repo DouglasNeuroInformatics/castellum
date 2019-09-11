@@ -85,7 +85,9 @@ class Contact(TimeStampedModel):
     preferred_contact_method = models.CharField(
         _('Preferred contact method'), max_length=16, blank=True, choices=CONTACT_METHODS)
 
-    guardians = models.ManyToManyField('contacts.Contact', blank=True)
+    guardians = models.ManyToManyField(
+        'contacts.Contact', verbose_name=_('Guardians'), related_name='guardian_of', blank=True
+    )
 
     objects = ContactManager()
 
@@ -131,3 +133,9 @@ class Contact(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse('subjects:detail', args=[self.subject.pk])
+
+    def get_guardians_display(self):
+        return ', '.join(str(guardian) for guardian in self.guardians.all())
+
+    def get_guardian_of_display(self):
+        return ', '.join(str(guardian) for guardian in self.guardian_of.all())
