@@ -24,7 +24,7 @@
                     ({% trans "outdated" %})
                 {% endif %}
                 {% if subject.consent.status == "waiting" %}
-                    ({{ subject.consent.get_status_display }})
+                    ({{ subject.consent|display:'status' }})
                 {% endif %}
             {% else %}
                 &mdash;

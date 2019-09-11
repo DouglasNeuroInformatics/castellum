@@ -1,5 +1,5 @@
 {% extends base_template|default:"subjects/base.html" %}
-{% load static i18n bootstrap4 %}
+{% load static i18n bootstrap4 utils %}
 
 {% block title %}
     {% trans "Edit subject" %} &middot; {{ block.super }}
@@ -40,7 +40,7 @@
                         {% if consent %}
                             {{ consent.revision }} {% if not consent.revision.is_current %}({% trans 'outdated' %}){% endif %}
                             <br>
-                            {{ consent.get_type_display }}, {{ consent.updated_at|date }}
+                            {{ consent|display:'type' }}, {{ consent.updated_at|date }}
                         {% else %}
                             {% trans 'No consent' %}
                         {% endif %}
