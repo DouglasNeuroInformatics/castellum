@@ -133,9 +133,3 @@ class Contact(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse('subjects:detail', args=[self.subject.pk])
-
-    def get_guardians_display(self):
-        return ', '.join(str(guardian) for guardian in self.guardians.all())
-
-    def get_guardian_of_display(self):
-        return ', '.join(str(guardian) for guardian in self.guardian_of.all())
