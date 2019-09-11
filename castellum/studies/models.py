@@ -50,24 +50,9 @@ class StudyType(TranslatableModel):
 
 class Study(models.Model):
     ONLINE = 0
-    BEHAVIORAL_LAB = 1
-    FMRI = 2
-    SIMULATION = 3
-    EEG = 4
-    THIRD_PARTY = 5
-
     EDIT = 0
     EXECUTION = 1
     FINISHED = 2
-
-    STUDY_TYPES = [
-        (ONLINE, _('Online')),
-        (BEHAVIORAL_LAB, _('Behavioral lab')),
-        (FMRI, _('FMRI')),
-        (SIMULATION, _('Simulation')),
-        (EEG, _('EEG')),
-        (THIRD_PARTY, _('3rd Party')),
-    ]
 
     STUDY_MODES = [
         (EDIT, _('Edit')),
@@ -83,8 +68,7 @@ class Study(models.Model):
         _('Affiliated Research Assistants'), max_length=254, blank=True)
     description = models.TextField(_('Description'), blank=True)
     keywords = models.CharField(_('Keywords'), max_length=254, blank=True)
-    study_type = models.SmallIntegerField(
-        _('Type of study'), choices=STUDY_TYPES, null=True)
+    study_type = models.ManyToManyField(StudyType, verbose_name=_('Type of study'), blank=True)
     previous_study_mode = models.SmallIntegerField(
         _('Study mode'), choices=STUDY_MODES, default=EDIT)
     study_mode = models.SmallIntegerField(
@@ -181,11 +165,12 @@ class Study(models.Model):
 
     @cached_property
     def has_exclusion_criteria(self):
-        return self.exclusion_criteria or self.study_type == self.FMRI
+        qs = self.study_type.filter(translations__exclusion_criteria__regex='.+')
+        return self.exclusion_criteria or qs.exists()
 
     @cached_property
     def is_sensitive(self):
-        return self.data_sensitivity or self.study_type == self.FMRI
+        return self.data_sensitivity or self.study_type.filter(data_sensitivity=True).exists()
 
     # NOTE: this might not be the same as the sample group of the same name!
     @cached_property
@@ -199,7 +184,7 @@ class Study(models.Model):
     def has_missing_values(self):
         return not all([
             self.principal_investigator,
-            self.study_type,
+            self.study_type.exists(),
             self.sessions_start,
             self.sessions_end,
             self.consent,
