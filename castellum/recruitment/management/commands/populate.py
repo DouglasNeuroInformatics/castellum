@@ -136,8 +136,6 @@ def fake_study():
         sessions_end=fake.future_date(end_date="+30d"),
         domain=create_domain(),
     )
-    if study.study_type == Study.FMRI:
-        study.data_sensitivity = True
     return study
 
 

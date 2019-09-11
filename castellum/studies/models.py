@@ -140,11 +140,6 @@ class Study(models.Model):
         self.save()
 
     def clean(self):
-        if self.study_type == self.FMRI and not self.data_sensitivity:
-            self.data_sensitivity = True
-            raise ValidationError(
-                _('Data collected by this type of study is always considered sensitive!'),
-                code='invalid')
         if self.subjectfiltergroup_set.count() > 1 and not self.advanced_filtering:
             raise ValidationError(_(
                 'Studies with more than one filtergroup can\'t be transformed back to basic '
@@ -173,6 +168,10 @@ class Study(models.Model):
     @cached_property
     def has_exclusion_criteria(self):
         return self.exclusion_criteria or self.study_type == self.FMRI
+
+    @cached_property
+    def is_sensitive(self):
+        return self.data_sensitivity or self.study_type == self.FMRI
 
     # NOTE: this might not be the same as the sample group of the same name!
     @cached_property
