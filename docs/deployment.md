@@ -66,7 +66,7 @@ before you can start using it:
 3.  Load sample data. This is not strictly necessary, but it usually
     makes sense to start from these defaults:
 
-        python manage.py loaddata sample_groups timeslots
+        python manage.py loaddata sample_groups timeslots study_types
         python manage.py create_sample_attribute_descriptions
 
     **Warning**: If you run this command a second time, the database

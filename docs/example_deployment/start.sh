@@ -15,7 +15,7 @@ docker-compose run --rm web django-admin migrateall
 docker-compose run --rm web django-admin sync_domains
 
 # Load recommended sample data
-docker-compose run --rm web django-admin loaddata sample_groups timeslots
+docker-compose run --rm web django-admin loaddata sample_groups timeslots study_types
 docker-compose run --rm web django-admin create_sample_attribute_descriptions
 
 # Load optional sample data for development
