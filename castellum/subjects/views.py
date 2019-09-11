@@ -26,12 +26,14 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
+from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.views.generic import DetailView
 from django.views.generic import ListView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.contacts.forms import ContactForm
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
@@ -63,6 +65,8 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
             data = form.cleaned_data
             context['query'] = '?' + urlencode(data)
             context['matches'] = Contact.objects.fuzzy_filter(**data)
+            if 'privacy_level_form' not in context:
+                context['privacy_level_form'] = SubjectPrivacyLevelForm(user=self.request.user)
         return context
 
     def form_valid(self, form):
@@ -70,9 +74,7 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
             'Subject search: {{first_name: "{first_name}"; last_name: "{last_name}" by {user}'
         ).format(user=self.request.user.pk, **form.cleaned_data))
 
-        return self.render_to_response(self.get_context_data(
-            form=form,
-            privacy_level_form=SubjectPrivacyLevelForm(user=self.request.user)))
+        return self.render_to_response(self.get_context_data(form=form))
 
     def post(self, request, *args, **kwargs):
         if not request.user.has_perm('contacts.add_contact'):
@@ -243,3 +245,44 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         url = reverse('recruitment:contact', args=[study.pk, participation_request.pk])
         return redirect(url + '?context=subjects:studyparticipation')
+
+
+class GuardianSearchView(SubjectSearchView):
+    template_name = 'subjects/guardian_search.html'
+    nochrome = True
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = kwargs.get('form')
+        if form and form.is_valid() and 'contact_form' not in context:
+            context['contact_form'] = ContactForm(
+                user=self.request.user, initial=form.cleaned_data
+            )
+        return context
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.has_perm('contacts.add_contact'):
+            raise PermissionDenied
+
+        form = SearchForm(data=request.GET)
+        privacy_level_form = SubjectPrivacyLevelForm(user=self.request.user, data=request.POST)
+        contact_form = ContactForm(user=self.request.user, data=request.POST)
+
+        if form.is_valid() and privacy_level_form.is_valid() and contact_form.is_valid():
+            contact = contact_form.save()
+            contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
+            contact.subject.save()
+
+            monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
+                Contact.domain,
+                contact.pseudonym,
+                self.request.user.pk))
+            return TemplateResponse(self.request, 'subjects/guardian_success.html', {
+                'name': contact.full_name,
+                'pk': contact.subject.pk,
+            })
+        return self.render_to_response(self.get_context_data(
+            form=form,
+            privacy_level_form=privacy_level_form,
+            contact_form=contact_form,
+        ))

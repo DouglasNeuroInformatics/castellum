@@ -41,4 +41,31 @@ $(function() {
 
         $button.before($el);
     };
+
+    $(document).on('click', '[data-js="guardian-add"]', function() {
+        // copied from django
+        var config = 'height=500,width=800,resizable=yes,scrollbars=yes';
+        var win = window.open('/subjects/guardians/', 'guardian-add', config);
+        win.focus();
+    });
+
+    window.closeGuardianPopup = function(win, data) {
+        if (data) {
+            data = JSON.parse(data);
+            addGuardian(data.name, data.pk);
+        }
+        win.close();
+    };
+
+    $(document).on('click', '[data-js="guardian-dismiss"]', function() {
+        window.close();
+    });
+
+    var use = function() {
+        var data = JSON.stringify($(this).data());
+        opener.closeGuardianPopup(window, data);
+    };
+
+    $(document).on('click', '[data-js="guardian-use"]', use);
+    $('[data-js="guardian-use-auto"]').each(use);
 });

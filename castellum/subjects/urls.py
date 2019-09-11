@@ -24,6 +24,7 @@ from django.urls import path
 from .views import AddToStudyView
 from .views import AttributeSetUpdateView
 from .views import ContactUpdateView
+from .views import GuardianSearchView
 from .views import ParticipationListView
 from .views import SubjectDetailView
 from .views import SubjectExportView
@@ -41,4 +42,5 @@ urlpatterns = [
     path('<int:pk>/studyparticipation/', ParticipationListView.as_view(),
          name='studyparticipation'),
     path('<int:pk>/studyparticipation/add/', AddToStudyView.as_view(), name='add-to-study'),
+    path('guardians/', GuardianSearchView.as_view(), name='guardian-search'),
 ]
