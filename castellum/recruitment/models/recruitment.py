@@ -120,9 +120,6 @@ class ParticipationRequest(models.Model):
         else:
             return False
 
-    def get_revisions_display(self):
-        return ', '.join(str(r) for r in self.revisions.all())
-
     def clean(self):
         if self.status == self.RECALL_APPOINTED and not self.appointment:
             raise ValidationError(_('No appointment set'), code='invalid')

@@ -129,21 +129,6 @@ class Subject(TimeStampedModel):
         hours = days[now.weekday()]
         return hours.filter(hour=now.hour).exists()
 
-    def get_availability_monday_display(self):
-        return ', '.join(str(ts.hour) for ts in self.availability_monday.all())
-
-    def get_availability_tuesday_display(self):
-        return ', '.join(str(ts.hour) for ts in self.availability_tuesday.all())
-
-    def get_availability_wednesday_display(self):
-        return ', '.join(str(ts.hour) for ts in self.availability_wednesday.all())
-
-    def get_availability_thursday_display(self):
-        return ', '.join(str(ts.hour) for ts in self.availability_thursday.all())
-
-    def get_availability_friday_display(self):
-        return ', '.join(str(ts.hour) for ts in self.availability_friday.all())
-
     def get_next_available_datetime(self, start):
         days = [
             self.availability_monday,
