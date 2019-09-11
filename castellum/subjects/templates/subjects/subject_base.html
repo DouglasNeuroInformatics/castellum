@@ -1,6 +1,11 @@
 {% extends "subjects/base.html" %}
+{% load utils %}
 
 {% block header %}
     <h1><a class="link-masked" href="{% url 'subjects:detail' subject.pk %}">{{ subject.contact.full_name }}</a></h1>
-    <p>{{ subject.contact.address|default:'—' }}</p>
+    {% if subject.contact.has_guardian %}
+        <p>{{ subject.contact|verbose_name:'guardians'}}: {{ subject.contact|display:'guardians' }}</p>
+    {% else %}
+        <p>{{ subject.contact.address|default:'—' }}</p>
+    {% endif %}
 {% endblock %}
