@@ -27,11 +27,25 @@ from django.forms import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
+from parler.models import TranslatableModel
+from parler.models import TranslatedFields
+
 from castellum import settings
 from castellum.castellum_auth.models import User
 from castellum.pseudonyms.helpers import create_domain
 from castellum.utils.fields import DateField
 from castellum.utils.fields import RestrictedFileField
+
+
+class StudyType(TranslatableModel):
+    translations = TranslatedFields(
+        label=models.CharField(_('Label'), max_length=64),
+        exclusion_criteria=models.TextField(_('Exclusion criteria'), blank=True),
+    )
+    data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
+
+    def __str__(self):
+        return self.label
 
 
 class Study(models.Model):

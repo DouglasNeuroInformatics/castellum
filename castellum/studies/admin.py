@@ -22,6 +22,8 @@
 from django import forms
 from django.contrib import admin
 
+from parler.admin import TranslatableAdmin
+
 from castellum.recruitment.filter_registry import custom_filters
 
 from . import models
@@ -52,3 +54,4 @@ class StudyAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Study, StudyAdmin)
 admin.site.register(models.StudyMembership)
+admin.site.register(models.StudyType, TranslatableAdmin)
