@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: castellum-docs \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-22 14:47+0200\n"
+"POT-Creation-Date: 2019-09-12 14:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,26 +19,33 @@ msgstr ""
 "Generated-By: Babel 2.7.0\n"
 
 #: ../../source/index.rst:9
-msgid "Contents:"
+msgid "Workflows"
+msgstr ""
+
+#: ../../source/index.rst:16
+msgid "Organizational"
 msgstr ""
 
 #: ../../source/index.rst:7
 msgid "Welcome to castellum-docs's documentation!"
 msgstr ""
 
-#: ../../source/index.rst:18
+#: ../../source/index.rst:24
 msgid "Indices and tables"
 msgstr ""
 
-#: ../../source/index.rst:20
+#: ../../source/index.rst:26
 msgid ":ref:`genindex`"
 msgstr ""
 
-#: ../../source/index.rst:21
+#: ../../source/index.rst:27
 msgid ":ref:`modindex`"
 msgstr ""
 
-#: ../../source/index.rst:22
+#: ../../source/index.rst:28
 msgid ":ref:`search`"
 msgstr ""
+
+#~ msgid "Contents:"
+#~ msgstr ""
 
