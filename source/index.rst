@@ -8,14 +8,14 @@ Welcome to castellum-docs's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Workflows:
+   :caption: Workflows
 
    workflows/study-creation
    workflows/study-recruitment
 
 .. toctree::
    :maxdepth: 2
-   :caption: Organizational:
+   :caption: Organizational
 
    organizational/privacy-levels
    organizational/roles
