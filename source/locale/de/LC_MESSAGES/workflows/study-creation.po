@@ -44,95 +44,95 @@ msgstr "Unter **Alle Studien** kannst du alle erstellten Studien einsehen"
 
 #: ../../source/workflows/study-creation.rst:11
 msgid "Click on **Create new study**"
-msgstr ""
+msgstr "Klicke auf **Neue Studie anlegen**"
 
 #: ../../source/workflows/study-creation.rst:13
 msgid ""
 "*Bei “Name” vielleicht lieber “Studienname” oder “Studienbezeichnung” "
 "schreiben? Sonst könnte man denken, dass man in dem Feld seinen eigenen "
 "Namen eintragen soll.*"
-msgstr ""
+msgstr "*Bei "Name" vielleicht lieber "Studienname" oder "Studienbezeichnung" schreiben? Sonst könnte man denken, dass man in dem Feld seinen eigenen Namen eintragen soll.*"
 
 #: ../../source/workflows/study-creation.rst:17
 msgid "Fill in all empty fields on the page:"
-msgstr ""
+msgstr "Fülle alle freien Felder auf der folgenden Seite aus:"
 
 #: ../../source/workflows/study-creation.rst:19
 msgid "**Name** describes the name of the study you want to create"
-msgstr ""
+msgstr "**Name** beschreibt den Namen, den du der Studie zuordnen möchtest"
 
 #: ../../source/workflows/study-creation.rst:20
 msgid ""
 "**Responsible contact person** is the person who can be contacted if any "
 "questions regarding the study occur"
-msgstr ""
+msgstr "Die **Verantwortliche Kontaktperson** ist diejenige Person, welche bei Anliegen und Fragen bezüglich der Studie kontaktiert werden kann"
 
 #: ../../source/workflows/study-creation.rst:22
 msgid "Define the person who is the lead researcher as **Principal Investigator**"
-msgstr ""
+msgstr "Definiere die Person, welche die Rolle als **Studienleiter*in** einnehmen soll"
 
 #: ../../source/workflows/study-creation.rst:24
 msgid ""
 "Determine all scientists that take part in the study as **Affiliated "
 "Scientists**"
-msgstr ""
+msgstr "Lege alle **Zugehörigen Wissenschaftler und Wissenschaftlerinnen** fest, die an der Studie teilhaben werden"
 
 #: ../../source/workflows/study-creation.rst:26
 msgid ""
 "Determine all research assistants that take part in the study as "
 "**Affiliated Research Assistants**"
-msgstr ""
+msgstr "Bestimme alle der Studie **Zugehörigen Forschungsassistenten und Forschungsassistentinnen**"
 
 #: ../../source/workflows/study-creation.rst:28
 msgid ""
 "Please enter all methods you would like to use in your research in the "
 "field **Description**"
-msgstr ""
+msgstr "Im Textfeld **Beschreibung** fügst du bitte alle Methoden hinzu, die in der Forschung angewendet werden sollen"
 
 #: ../../source/workflows/study-creation.rst:31
 msgid ""
 "*Sind mit*\\ **Keywords**\\ *die grundlegenden Beschreibungen bzgl. des "
 "Forschungsgegenstands gemeint?*"
-msgstr ""
+msgstr "*Sind mit*\\ **Keywords**\\ *die grundlegenden Beschreibungen bzgl. des Forschungsgegenstands gemeint?*"
 
 #: ../../source/workflows/study-creation.rst:34
 msgid "Select the type of study you are going to use"
-msgstr ""
+msgstr "Wähle den zutreffenden **Studientypen** aus"
 
 #: ../../source/workflows/study-creation.rst:36
 msgid ""
 "If you choose between an **online study**, **Behavioral lab**, "
 "**Simulation**, **EEG** or **3rd Party**, you have to determine whether "
 "the study will contain **sensitive data** or not"
-msgstr ""
+msgstr "Wählst du einen der Studientypen **Online**, **Verhaltenslabor**, **Simulation**, **EEG** oder **Verarbeitung externer Daten** aus, muss auch festgelegt werden, ob **sensible Daten** in der Studie eine Rolle spielen werden oder nicht"
 
 #: ../../source/workflows/study-creation.rst:39
 msgid ""
 "If you choose **FMRI**, it is already determined in advance that the "
 "study contains sensitive data"
-msgstr ""
+msgstr "Wenn du **fMRI** auswählst, ist im Voraus festgelegt, dass **sensible Daten** in der Studie enthalten sind"
 
 #: ../../source/workflows/study-creation.rst:42
 msgid ""
 "*Wieso gibt es hier auch*\\ **———**\\ *als Auswahl? Wählt man das aus, "
 "wenn man sich über die Studienform noch nicht ganz sicher ist?*"
-msgstr ""
+msgstr "*Wieso gibt es hier auch*\\ **---------**\\ *als Auswahl? Wählt man das aus, wenn man sich über die Studienform noch nicht ganz sicher ist?*"
 
 #: ../../source/workflows/study-creation.rst:45
 msgid ""
 "*Ist mit*\\ **Consent**\\ *die Zustimmung der Probanden zur "
 "Datenerhebung/ -verarbeitung gemeint?*"
-msgstr ""
+msgstr "*Ist mit*\\ **Einverständnis**\\ *die Zustimmung der Probanden zur Datenerhebung/ -verarbeitung gemeint? Oder das OK für die Studie allgemein?*"
 
 #: ../../source/workflows/study-creation.rst:48
 msgid "Assign the **number of subjects** you will need for your study"
-msgstr ""
+msgstr "Lege nun die **Benötigte Anzahl von Proband*innen** fest"
 
 #: ../../source/workflows/study-creation.rst:49
 msgid ""
 "Enter the budget you may use for the study in the field **Expense "
 "allowance**"
-msgstr ""
+msgstr "Im Feld **Aufwandsentschädigung** legst du die finanzielle Entschädigung fest"
 
 #: ../../source/workflows/study-creation.rst:52
 msgid ""
@@ -141,39 +141,35 @@ msgid ""
 "Deshalb sollte an dieser Stelle vielleicht*\\ **Expense allowance per "
 "participant**\\ *stehen, damit hier niemand die Summe aller "
 "Aufwandsentschädigungen einträgt?*"
-msgstr ""
+msgstr "*Die Aufwandsentschädigung, die an dieser Stelle festgelegt wird, wird dem Rekruiter im Recruitingprozess **pro Person** angezeigt. Deshalb sollte an dieser Stelle vielleicht*\\ **Aufwandsentschädigung pro Proband/in**\\ *stehen, damit hier niemand die Summe aller Aufwandsentschädigungen einträgt? Außerdem kommt es doch auch manchmal vor, dass die Entschädigung keine Bargeldauszahlung ist, sondern Gegenstände/Geschenke. Kann man das noch irgendwie hinzufügen?*"
 
 #: ../../source/workflows/study-creation.rst:58
 msgid "You can add a **Test session** by clicking on **Add session**"
-msgstr ""
+msgstr "Du kannst eine **Testsitzung** für die Proband*innen hinzufügen, indem du auf **Sitzung hinzufügen** klickst"
 
 #: ../../source/workflows/study-creation.rst:60
 msgid ""
 "You can add any number of test sessions and must always specify the "
 "duration of each session"
-msgstr ""
+msgstr "Es können beliebig viele Sitzungen hinzugefügt werden, wobei jeweils die zeitliche Dauer festgelegt werden muss"
 
 #: ../../source/workflows/study-creation.rst:62
 msgid ""
 "By clicking on the red button **Delete**, you can erase any test session "
 "you created"
-msgstr ""
+msgstr "Wird auf den roten Knopf **Löschen** gedrückt, wird die erstellte Testsitzung wieder entfernt"
 
 #: ../../source/workflows/study-creation.rst:65
 msgid "Enter the start and end of the test sessions in the two following fields"
-msgstr ""
+msgstr "Lege in den zwei folgenden Feldern zum einen den **Beginn der Testsitzungen** und zum anderen das **Ende der Testsitzungen** fest"
 
 #: ../../source/workflows/study-creation.rst:67
 msgid "Click on **Save** to record your progress"
-msgstr ""
+msgstr "Klicke auf **Speichern**, um deinen Fortschritt beizubehalten"
 
 #: ../../source/workflows/study-creation.rst:69
 msgid "Your study is now scheduled"
-msgstr ""
-
-#: ../../source/workflows/study-creation.rst:70
-msgid "…… Zugriffsrechte ergänzen"
-msgstr ""
+msgstr "Die Studie ist nun angelegt"
 
 #: ../../source/workflows/study-creation.rst:73
 msgid "Assign access rights and allocate roles"
