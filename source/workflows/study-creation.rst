@@ -78,13 +78,11 @@ Assign access rights and allocate roles
 ---------------------------------------
 
 Some users are already assigned to certain global roles in advance. 
-This can be recognized by the fact that the role description is highlighted
- in grey. Roles with blue background can be flexibly defined and changed by the
-  **Study coordinator**.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This can be recognized by the fact that the role description is highlighted 
+in grey. Roles with blue background can be flexibly defined and changed by the
+**Study coordinator**.
 
 To delegate roles amongst different people, proceed as follows
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. Follow steps 1-5 of the next section
 2. Select the user for whom you want to change access rights and/or
@@ -99,7 +97,7 @@ Share studies with your recruiters
 ----------------------------------
 
 If you receive a request for access from a person who is supposed to recruit participants for your study, please follow the steps below.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 1. Log in to Castellum by using your username and password
 2. Click on **Studies** on the front page
