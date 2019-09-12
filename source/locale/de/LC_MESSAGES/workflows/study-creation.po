@@ -20,27 +20,27 @@ msgstr ""
 
 #: ../../source/workflows/study-creation.rst:2
 msgid "Creating a new study"
-msgstr ""
+msgstr "Eine neue Studie anlegen"
 
 #: ../../source/workflows/study-creation.rst:4
 #: ../../source/workflows/study-creation.rst:96
 msgid "Log in to Castellum by using your username and password"
-msgstr ""
+msgstr "Logge dich bei Castellum ein, indem du deinen Nutzernamen und dein Passwort eingibst"
 
 #: ../../source/workflows/study-creation.rst:5
 #: ../../source/workflows/study-creation.rst:97
 msgid "Click on **Studies** on the front page"
-msgstr ""
+msgstr "Klicke auf der Startseite auf **Studien**"
 
 #: ../../source/workflows/study-creation.rst:7
 msgid "By clicking on **My studies** you will see your personal studies"
-msgstr ""
+msgstr "Gehst du auf **Meine Studien**, werden dir die von dir angelegten Studien angezeigt"
 
 #: ../../source/workflows/study-creation.rst:8
 msgid ""
 "Under the field **All studies** you can see all studies that have been "
 "created"
-msgstr ""
+msgstr "Unter **Alle Studien** kannst du alle erstellten Studien einsehen"
 
 #: ../../source/workflows/study-creation.rst:11
 msgid "Click on **Create new study**"
