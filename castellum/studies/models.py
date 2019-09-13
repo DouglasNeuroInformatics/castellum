@@ -49,7 +49,6 @@ class StudyType(TranslatableModel):
 
 
 class Study(models.Model):
-    ONLINE = 0
     EDIT = 0
     EXECUTION = 1
     FINISHED = 2
