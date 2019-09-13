@@ -69,39 +69,7 @@
         </div>
 
         <div class="tab-pane" id="study" role="tabpanel" aria-labelledby="study-tab">
-            <dl class="row">
-                <dt class="col-sm-6">{{ study|verbose_name:'recruitment_text' }}</dt>
-                <dd class="col-sm-6">{{ study|display:'recruitment_text' }}</dd>
-
-                <dt class="col-sm-6">{{ study|verbose_name:'study_type' }}</dt>
-                <dd class="col-sm-6">{{ study|display:'study_type' }}</dd>
-
-                <dt class="col-sm-6">{{ study|verbose_name:'expense_allowance' }}</dt>
-                <dd class="col-sm-6">
-                    {% if study.expense_allowance %}
-                        {{ study.expense_allowance }}€
-                    {% else %}
-                        &mdash;
-                    {% endif %}
-                </dd>
-
-                <dt class="col-sm-6">{% trans 'Duration of sessions in minutes' %}</dt>
-                <dd class="col-sm-6">
-                    {% if study.studysession_set.all %}
-                        {% for session in study.studysession_set.all %}
-                            {{ session.duration }}{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    {% else %}
-                        &mdash;
-                    {% endif %}
-                </dd>
-
-                <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
-                <dd class="col-sm-6">{{ study|display:'sessions_start' }}</dd>
-
-                <dt class="col-sm-6">{{ study|verbose_name:'sessions_end' }}</dt>
-                <dd class="col-sm-6">{{ study|display:'sessions_end' }}</dd>
-            </dl>
+            {% include 'studies/__study_details.html' with study=study %}
         </div>
     </div>
 
