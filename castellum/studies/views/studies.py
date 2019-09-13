@@ -39,7 +39,6 @@ from django.views.generic.detail import SingleObjectMixin
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.castellum_auth.models import User
-from castellum.recruitment.models import SubjectFilter
 from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
 
