@@ -230,13 +230,13 @@ msgstr "Die Studie ist nun angelegt"
 
 #: ../../source/workflows/study-creation.rst:77
 msgid "Start and finish your study"
-msgstr ""
+msgstr "Studie starten und beenden"
 
 #: ../../source/workflows/study-creation.rst:79
 msgid ""
 "When you created a study, it is not started and the recruiting process is"
 " not yet initiated either."
-msgstr ""
+msgstr "Wenn du eine Studie angelegt hast, wurde sie dadurch nicht automatisch gestartet und der Rekruitingprozess wurde noch nicht eingeleitet."
 
 #: ../../source/workflows/study-creation.rst:80
 msgid "Go to **Details** next to the study you want to start or finish"
@@ -244,11 +244,11 @@ msgstr ""
 
 #: ../../source/workflows/study-creation.rst:81
 msgid "In the right upper corner are two buttons: **Start** and **Finish**"
-msgstr ""
+msgstr "Klicke auf **Details** neben der Stduie, welche du starten oder beenden möchtest"
 
 #: ../../source/workflows/study-creation.rst:83
 msgid "By clicking on **Start** you initiate the recruiting process"
-msgstr ""
+msgstr "Rechts oben siehst du zwei Möglichkeiten: **Start** und **Studie beenden**"
 
 #: ../../source/workflows/study-creation.rst:85
 msgid ""
