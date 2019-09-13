@@ -46,6 +46,11 @@ class StudyForm(ReadonlyModelForm):
             'sessions_start',
             'sessions_end',
         ]
+        widgets = {
+            'study_type': forms.CheckboxSelectMultiple(),
+        }
+
+
 class AddMemberForm(forms.Form):
     user = forms.ModelChoiceField(queryset=User.objects.all())
 
