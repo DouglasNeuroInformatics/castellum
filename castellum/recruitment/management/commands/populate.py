@@ -128,7 +128,6 @@ def fake_study():
         contact_person=fake.name(),
         principal_investigator=fake.name(),
         min_subjects_count=fake.random.randint(0, 50),
-        study_type=fake.random.choice(Study.STUDY_TYPES)[0],
         description=description,
         recruitment_text=recruitment_text,
         expense_allowance=fake.random.randint(20, 50),
@@ -136,8 +135,6 @@ def fake_study():
         sessions_end=fake.future_date(end_date="+30d"),
         domain=create_domain(),
     )
-    if study.study_type == Study.FMRI:
-        study.data_sensitivity = True
     return study
 
 

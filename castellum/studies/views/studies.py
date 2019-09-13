@@ -45,6 +45,7 @@ from castellum.utils.views import ReadonlyMixin
 
 from ..forms import AddMemberForm
 from ..forms import MemberForm
+from ..forms import StudyForm
 from ..mixins import StudyMixin
 from ..models import Study
 from ..models import StudyMembership
@@ -86,22 +87,7 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
 
 class StudyFormMixin:
     model = Study
-    fields = (
-        'name',
-        'contact_person',
-        'principal_investigator',
-        'affiliated_scientists',
-        'affiliated_research_assistants',
-        'description',
-        'keywords',
-        'study_type',
-        'data_sensitivity',
-        'consent',
-        'min_subjects_count',
-        'expense_allowance',
-        'sessions_start',
-        'sessions_end',
-    )
+    form_class = StudyForm
 
     def get_session_form(self):
         form_class = forms.modelform_factory(StudySession, fields=('duration',))

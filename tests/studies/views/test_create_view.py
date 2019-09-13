@@ -30,7 +30,6 @@ def test_redirect_to_studies_after_post(client, study_coordinator):
     response = client.post('/studies/create/', {'name': 'Test study',
                                                 'contact_person': 'Mustermann',
                                                 'principal_investigator': 'Mustermann',
-                                                'study_type': 0,
                                                 **MANAGEMENT_FORM})
 
     assert response.status_code == 302
@@ -49,7 +48,6 @@ def test_create_study_on_post(request, client, user_fixture):
     client.post('/studies/create/', {'name': 'Test study',
                                      'contact_person': 'Mustermann',
                                      'principal_investigator': 'Mustermann',
-                                     'study_type': 0,
                                      **MANAGEMENT_FORM})
 
     assert Study.objects.count() == 1
@@ -63,7 +61,6 @@ def test_user_who_created_study_is_study_member(client, study_coordinator):
     response = client.post('/studies/create/', {'name': 'Test study',
                                                 'contact_person': 'Mustermann',
                                                 'principal_investigator': 'Mustermann',
-                                                'study_type': 0,
                                                 **MANAGEMENT_FORM})
 
     assert response.status_code == 302
@@ -75,6 +72,5 @@ def test_missing_value(client, user):
     client.force_login(user)
     response = client.post('/studies/create/', {'name': 'Test study',
                                                 'principal_investigator': 'Mustermann',
-                                                'study_type': 0,
                                                 **MANAGEMENT_FORM})
     assert response.status_code == 200

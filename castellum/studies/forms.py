@@ -22,8 +22,33 @@
 from django import forms
 
 from castellum.castellum_auth.models import User
+from castellum.utils.forms import ReadonlyModelForm
 
 from . import models
+
+
+class StudyForm(ReadonlyModelForm):
+    class Meta:
+        model = models.Study
+        fields = [
+            'name',
+            'contact_person',
+            'principal_investigator',
+            'affiliated_scientists',
+            'affiliated_research_assistants',
+            'description',
+            'keywords',
+            'study_type',
+            'data_sensitivity',
+            'consent',
+            'min_subjects_count',
+            'expense_allowance',
+            'sessions_start',
+            'sessions_end',
+        ]
+        widgets = {
+            'study_type': forms.CheckboxSelectMultiple(),
+        }
 
 
 class AddMemberForm(forms.Form):
