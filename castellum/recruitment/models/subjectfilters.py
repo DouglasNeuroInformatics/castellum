@@ -81,8 +81,8 @@ class SubjectFilterGroup(models.Model):
 
         return q
 
-    def get_subject_count(self):
-        return AttributeSet.objects.filter(self.to_q()).count()
+    def get_matches(self):
+        return AttributeSet.objects.filter(self.to_q())
 
 
 class SubjectFilter(models.Model):
@@ -97,5 +97,5 @@ class SubjectFilter(models.Model):
     def to_q(self, include_unknown=True):
         return self.description.field.filter_to_q(self.operator, self.value, include_unknown)
 
-    def get_subject_count(self, include_unknown=True):
-        return AttributeSet.objects.filter(self.to_q(include_unknown)).count()
+    def get_matches(self, include_unknown=True):
+        return AttributeSet.objects.filter(self.to_q(include_unknown))

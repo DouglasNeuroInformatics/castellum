@@ -175,7 +175,7 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
 
-        data['count'] = self.object.get_subject_count()
+        data['count'] = self.object.get_matches().count()
         data['total_count'] = AttributeSet.objects.count()
         data['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         data['expected_subject_count'] = (
