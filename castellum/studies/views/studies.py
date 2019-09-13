@@ -21,7 +21,6 @@
 
 from django import forms
 from django.contrib import messages
-from django.db.models import Q
 from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -41,6 +40,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.castellum_auth.models import User
 from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
+from castellum.utils.views import SearchMixin
 
 from ..forms import AddMemberForm
 from ..forms import MemberForm
@@ -51,27 +51,24 @@ from ..models import StudyMembership
 from ..models import StudySession
 
 
-class StudyIndexView(PermissionRequiredMixin, ListView):
+class StudyIndexView(PermissionRequiredMixin, SearchMixin, ListView):
     model = Study
     ordering = 'name'
     permission_required = 'studies.view_study'
     paginate_by = 15
+    search_fields = [
+        'name',
+        'contact_person',
+        'description',
+        'keywords',
+        'study_type__translations__label',
+    ]
 
     def get_queryset(self):
         qs = super().get_queryset()
-        q = self.request.GET.get('q')
-        if q:
-            for part in q.split():
-                qs = qs.filter(
-                    Q(name__icontains=part) |
-                    Q(contact_person__icontains=part) |
-                    Q(description__icontains=part) |
-                    Q(keywords__icontains=part) |
-                    Q(study_type__translations__label__iexact=part)
-                )
         if 'all' not in self.request.GET:
             qs = qs.filter(studymembership__user=self.request.user)
-        return qs.distinct()
+        return qs
 
     def get_context_data(self):
         context = super().get_context_data()

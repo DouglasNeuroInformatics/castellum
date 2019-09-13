@@ -21,6 +21,7 @@
 
 from django import forms
 from django.core.exceptions import ImproperlyConfigured
+from django.db import models
 from django.http import HttpResponseBadRequest
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormMixin
@@ -73,3 +74,16 @@ class ReadonlyMixin:
         if self.get_readonly():
             return HttpResponseBadRequest()
         return super().post(request, *args, **kwargs)
+
+
+class SearchMixin:
+    def get_queryset(self):
+        qs = super().get_queryset()
+        q_str = self.request.GET.get('q')
+        if q_str:
+            for part in q_str.split():
+                q = models.Q()
+                for field in self.search_fields:
+                    q |= models.Q(**{field + '__icontains': part})
+                qs = qs.filter(q).distinct()
+        return qs
