@@ -90,5 +90,9 @@
                 {% endif %}
             {% endif %}
         </li>
+    {% empty %}
+        <li class="alert alert-warning">
+            {% trans 'No one yet' %}
+        </li>
     {% endfor %}
 </ul>
