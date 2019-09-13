@@ -85,11 +85,6 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
     model = Study
     permission_required = 'studies.view_study'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['has_filters'] = SubjectFilter.objects.filter(group__study=self.object).exists()
-        return context
-
 
 class StudyFormMixin:
     model = Study
