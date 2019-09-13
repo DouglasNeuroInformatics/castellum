@@ -75,7 +75,7 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
         return context
 
 
-class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
+class StudyDetailView(PermissionRequiredMixin, DetailView):
     model = Study
     permission_required = 'studies.view_study'
 
