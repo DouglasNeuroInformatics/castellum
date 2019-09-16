@@ -10,7 +10,7 @@ Creating a new study
       -  In the field **Search** you can look for a certain study
 3. Click on **Create new study**
 
-.. note:: 
+.. note::
    Bei “Name” vielleicht lieber “Studienname” oder “Studienbezeichnung”
    schreiben? Sonst könnte man denken, dass man in dem Feld seinen eigenen
    Namen eintragen soll.
@@ -29,8 +29,8 @@ Creating a new study
    -  Please enter all methods you would like to use in your research in
       the field **Description**
 
-.. note:: 
-   Sind mit*\ **Keywords**\ *die grundlegenden Beschreibungen bzgl. des
+.. note::
+   Sind mit **Keywords** die grundlegenden Beschreibungen bzgl. des
    Forschungsgegenstands gemeint?
 
 5. Select the type of study you are going to use
@@ -41,24 +41,26 @@ Creating a new study
    -  If you choose **FMRI**, it is already determined in advance that
       the study contains sensitive data
 
-.. note:: 
-   Wieso gibt es hier auch*\ **———**\ *als Auswahl? Wählt man das aus,
+.. note::
+   Wieso gibt es hier auch **———** als Auswahl? Wählt man das aus,
    wenn man sich über die Studienform noch nicht ganz sicher ist?
 
-.. note:: 
-   Ist mit*\ **Consent**\ *die Zustimmung der Probanden zur Datenerhebung/
+.. note::
+   Ist mit **Consent** die Zustimmung der Probanden zur Datenerhebung/
    -verarbeitung gemeint?
 
 6. Assign the **number of subjects** you will need for your study
 7. Enter the budget you may use for the study in the field **Expense
    allowance**
 
-.. note:: 
-   Die Aufwandsentschädigung, die an dieser Stelle festgelegt wird, wird 
-   dem Rekruiter im Recruitingprozess*\ **pro Person**\ *angezeigt. Deshalb
-   sollte an dieser Stelle vielleicht*\ **Expense allowance per
-   participant**\ *stehen, damit hier niemand die Summe aller
-   Aufwandsentschädigungen einträgt? Außerdem kommt es doch auch manchmal vor,    dass die Entschädigung keine Bargeldauszahlung ist, sondern Gegenstände        oder Geschenke. Kann man das noch irgendwie hinzufügen?   
+.. note::
+   Die Aufwandsentschädigung, die an dieser Stelle festgelegt wird, wird
+   dem Rekruiter im Recruitingprozess **pro Person** angezeigt. Deshalb
+   sollte an dieser Stelle vielleicht **Expense allowance per
+   participant** stehen, damit hier niemand die Summe aller
+   Aufwandsentschädigungen einträgt? Außerdem kommt es doch auch manchmal vor,
+   dass die Entschädigung keine Bargeldauszahlung ist, sondern Gegenstände
+   oder Geschenke. Kann man das noch irgendwie hinzufügen?
 
 8.  You can add a **Test session** by clicking on **Add session**
 
@@ -75,26 +77,34 @@ Creating a new study
 
 Start and finish your study
 ---------------------------
-When you created a study, it is not started and the recruiting process is not yet initiated either.
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When you created a study, it is not started and the recruiting process is not
+yet initiated either.
+
 1.  Go to **Details** next to the study you want to start or finish
 2.  In the right upper corner are two buttons: **Start** and **Finish**
 
     -  By clicking on **Start** you initiate the recruiting process
-    
-       -  In this mode, you are not able to change any characteristics           or talking points that are needed for the recruitment
-       -  When you click on **Stop**, you can edit information needed            for the recruiting process
-*To release those responsible for the recruitment process for the study, follow the steps in the **Share studies with your recruiters***
 
-3.  When you click on **Finish study**, Castellum will register your       study as completed
+       -  In this mode, you are not able to change any characteristics or
+          talking points that are needed for the recruitment
+       -  When you click on **Stop**, you can edit information needed for the
+          recruiting process.
+
+          *To release those responsible for the recruitment process for the
+          study, follow the steps in the **Share studies with your
+          recruiters***
+
+3.  When you click on **Finish study**, Castellum will register your study as completed
 
 Assign access rights and allocate roles
 ---------------------------------------
-Some users are already assigned to certain global roles in advance. 
-This can be recognized by the fact that the role description is highlighted in grey. Roles with blue background can be flexibly defined and changed by the **Study coordinator**.
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-To delegate roles amongst different people, proceed as follows
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Some users are already assigned to certain global roles in advance. This can be
+recognized by the fact that the role description is highlighted in grey. Roles
+with blue background can be flexibly defined and changed by the **Study
+coordinator**. To delegate roles amongst different people, proceed as follows:
+
 1. Follow steps 1-5 of the section **Share studies with your      recruiters** below
    -  Even if the section is about **Recruiters**, you can use it to         assign any role you like
 2. Select the user for whom you want to change access rights and/or
@@ -107,14 +117,18 @@ To delegate roles amongst different people, proceed as follows
 
 Share studies with your recruiters
 ----------------------------------
-If you receive a request for access from a person who is supposed to recruit participants for your study, please follow the steps below.
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you receive a request for access from a person who is supposed to recruit
+participants for your study, please follow the steps below.
+
 1. Log in to Castellum by using your username and password
 2. Click on **Studies** on the front page
 
-   -  You will see a list of the studies you have created by clicking        on **My studies**
+   -  You will see a list of the studies you have created by clicking on **My
+      studies**
 
-3. Click on **Details** of the study for which you want to change         access rights or role redistribution
+3. Click on **Details** of the study for which you want to change access rights
+   or role redistribution
 4. Go to **Manage members** on the lower edge
 5. If you click on the field under **Users**, you will be shown all
    possible users to whom you can assign roles
@@ -135,6 +149,3 @@ If you receive a request for access from a person who is supposed to recruit par
          to the study and can begin to recruit
       -  Of course, you may select several persons as recruiters
 
-
-
-     
