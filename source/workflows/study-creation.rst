@@ -100,7 +100,7 @@ To delegate roles amongst different people, proceed as follows
 2. Select the user for whom you want to change access rights and/or
    roles and click **Add**
 3. After clicking **Edit** next to the selected person, you can assign
-   up to three different roles: **Study coordinator**, **Subject
+   up to four different roles: **Study coordinator**, **Subject
    manager** and **Recruiter**
 4. Select the role you want to assign to the selected person and press
    **Save**
