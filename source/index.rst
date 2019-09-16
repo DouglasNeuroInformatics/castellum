@@ -17,8 +17,7 @@ Welcome to castellum-docs's documentation!
    :maxdepth: 2
    :caption: Organizational
 
-   organizational/privacy-levels
-   organizational/roles
+   organizational/security
 
 Indices and tables
 ==================
