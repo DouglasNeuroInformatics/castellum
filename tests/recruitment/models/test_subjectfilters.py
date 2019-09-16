@@ -5,7 +5,7 @@ from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
-from castellum.studies.models import Study
+from castellum.studies.model_proxies import Study
 
 
 def create_participation_request(

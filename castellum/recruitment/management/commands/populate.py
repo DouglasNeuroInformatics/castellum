@@ -37,7 +37,7 @@ from castellum.pseudonyms.models import Domain
 from castellum.pseudonyms.models import Pseudonym
 from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import AttributeSet
-from castellum.studies.models import Study
+from castellum.studies.model_proxies import Study
 from castellum.studies.models import StudySession
 from castellum.subjects.models import Subject
 

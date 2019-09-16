@@ -21,7 +21,7 @@
 
 from django.contrib.auth.models import Permission
 
-from .models import Study
+from .model_proxies import Study
 from .models import StudyMembership
 
 

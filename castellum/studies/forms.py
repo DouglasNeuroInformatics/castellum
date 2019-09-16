@@ -25,11 +25,12 @@ from castellum.castellum_auth.models import User
 from castellum.utils.forms import ReadonlyModelForm
 
 from . import models
+from .model_proxies import Study
 
 
 class StudyForm(ReadonlyModelForm):
     class Meta:
-        model = models.Study
+        model = Study
         fields = [
             'name',
             'contact_person',

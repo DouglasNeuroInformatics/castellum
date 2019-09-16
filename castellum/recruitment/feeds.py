@@ -27,7 +27,7 @@ from django.utils.text import slugify
 
 from django_ical.views import ICalFeed
 
-from castellum.studies.models import Study
+from castellum.studies.model_proxies import Study
 
 from .models import ParticipationRequest
 

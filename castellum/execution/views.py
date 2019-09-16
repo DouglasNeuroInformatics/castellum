@@ -27,7 +27,7 @@ from django.views.generic import ListView
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.mixins import StudyMixin
-from castellum.studies.models import Study
+from castellum.studies.model_proxies import Study
 from castellum.subjects.mixins import SubjectMixin
 
 

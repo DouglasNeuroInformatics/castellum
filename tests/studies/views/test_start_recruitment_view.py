@@ -1,7 +1,7 @@
 import pytest
 from model_mommy import mommy
 
-from castellum.studies.models import Study
+from castellum.studies.model_proxies import Study
 from castellum.studies.models import StudyMembership
 
 

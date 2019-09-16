@@ -40,7 +40,7 @@ from castellum.contacts.models import Contact
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
-from castellum.studies.models import Study
+from castellum.studies.model_proxies import Study
 from castellum.utils.views import GetFormView
 
 from .forms import SubjectPrivacyLevelForm

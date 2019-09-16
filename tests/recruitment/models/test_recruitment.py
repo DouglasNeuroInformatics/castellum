@@ -4,7 +4,7 @@ from model_mommy import mommy
 
 from castellum.recruitment.models.recruitment import ParticipationRequest
 from castellum.recruitment.models.recruitment import ParticipationRequestRevision
-from castellum.studies.models import Study
+from castellum.studies.model_proxies import Study
 from castellum.subjects.models import Subject
 
 

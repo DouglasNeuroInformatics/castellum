@@ -27,6 +27,7 @@ from parler.admin import TranslatableAdmin
 from castellum.recruitment.filter_registry import custom_filters
 
 from . import models
+from .model_proxies import Study
 
 
 def custom_filter_choices():
@@ -37,7 +38,7 @@ class StudyForm(forms.ModelForm):
     custom_filter = forms.ChoiceField(choices=custom_filter_choices, required=False)
 
     class Meta:
-        model = models.Study
+        model = Study
         fields = '__all__'
 
 
@@ -52,6 +53,6 @@ class StudyAdmin(admin.ModelAdmin):
     ]
 
 
-admin.site.register(models.Study, StudyAdmin)
+admin.site.register(Study, StudyAdmin)
 admin.site.register(models.StudyMembership)
 admin.site.register(models.StudyType, TranslatableAdmin)

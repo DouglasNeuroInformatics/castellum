@@ -23,7 +23,7 @@ from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import gettext_lazy as _
 
-from castellum.studies.models import Study
+from castellum.studies.model_proxies import Study
 from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
 from castellum.utils.forms import ReadonlyModelForm

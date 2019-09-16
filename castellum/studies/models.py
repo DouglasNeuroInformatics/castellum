@@ -196,6 +196,9 @@ class Study(BaseStudy):
     sessions_start = DateField(_('Start of test sessions'), blank=True, null=True)
     sessions_end = DateField(_('End of test sessions'), blank=True, null=True)
 
+    class Meta(BaseStudy.Meta):
+        swappable = 'CASTELLUM_STUDY_MODEL'
+
 
 class StudyMembership(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)

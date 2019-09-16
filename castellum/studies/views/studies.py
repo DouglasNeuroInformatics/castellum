@@ -46,7 +46,7 @@ from ..forms import AddMemberForm
 from ..forms import MemberForm
 from ..forms import StudyForm
 from ..mixins import StudyMixin
-from ..models import Study
+from ..model_proxies import Study
 from ..models import StudyMembership
 from ..models import StudySession
 

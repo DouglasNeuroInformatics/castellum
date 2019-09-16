@@ -1,6 +1,6 @@
 from model_mommy import mommy
 
-from castellum.studies.models import Study
+from castellum.studies.model_proxies import Study
 
 
 def test_list_count_own_tab(client, study_coordinator):

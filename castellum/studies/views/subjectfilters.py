@@ -44,7 +44,7 @@ from castellum.settings import CASTELLUM_EXPECTED_SUBJECT_FACTOR
 from castellum.utils.views import ReadonlyMixin
 
 from ..mixins import StudyMixin
-from ..models import Study
+from ..model_proxies import Study
 
 
 class CustomFilterMixin:

@@ -41,7 +41,7 @@ from castellum.settings import CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS
 from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.studies.mixins import StudyMixin
-from castellum.studies.models import Study
+from castellum.studies.model_proxies import Study
 from castellum.subjects.mixins import BaseSubjectUpdateView
 from castellum.subjects.mixins import SubjectMixin
 from castellum.utils.chart import ChartRenderer

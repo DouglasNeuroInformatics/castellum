@@ -1,6 +1,6 @@
 import pytest
 
-from castellum.studies.models import Study
+from castellum.studies.model_proxies import Study
 from castellum.studies.models import StudyMembership
 
 MANAGEMENT_FORM = {

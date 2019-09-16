@@ -277,6 +277,9 @@ LOGGING = {
     },
 }
 
+# the model that is to be used for studies; must inherit from `studies.BaseStudy`
+CASTELLUM_STUDY_MODEL = 'studies.Study'
+
 # the number of subjects that is added to the recruitment list every time
 CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 
