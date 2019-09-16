@@ -10,7 +10,7 @@ Recruitment of participants for a study
 
 .. note::
    Wäre es sinnvoll, an dieser Stelle einen
-   Button*\ **Zugriffsanfrage**\ *o.ä. einzubauen? So könnte eine
+   Button **Zugriffsanfrage** o.ä. einzubauen? So könnte eine
    Zugriffsanfrage zur Studie direkt an den/die Verantwortliche/n gesendet
    werden.
 
@@ -26,7 +26,7 @@ Recruitment of participants for a study
    -  Please have a look at the **Talking points** that the study
       coordinator has defined
 
-.. note:: 
+.. note::
    Organisatorischer Punkt: was genau soll der Studienanleger hier
    beschreiben? Studienablauf, Abfrage von wichtigen Attributen und/oder
    Anwendung von Methoden in der Studie?
@@ -57,22 +57,22 @@ Recruitment of participants for a study
 Editing contact data and attributes; adding probands to the study
 -----------------------------------------------------------------
 
-.. note:: 
-   *Mit*\ **Edit subject**\ *ist doch gemeint, dass die Person als
+.. note::
+   Mit **Edit subject** ist doch gemeint, dass die Person als
    Proband/-in zur Studie hinzugefügt und eingeladen wird, richtig? Aus
-   Verständlichkeitsgründen lieber*\ **Edit subject to
-   study**\ *schreiben?* 
+   Verständlichkeitsgründen lieber **Edit subject to
+   study** schreiben?
 
-\* Click on **Edit contact data** in order to do
-so and press **Save** \* By clicking **Edit attributes**, you can change
-characteristics of the person that became known in the conversation \*
-When you press **Edit subject**, you can \* Determine the **Privacy
-level** \* Settle the time-based **Availability** of the person \* Press
-**Save** to record the progress
+-  Click on **Edit contact data** in order to do so and press **Save**
+-  By clicking **Edit attributes**, you can change characteristics of the
+   person that became known in the conversation
+-  When you press **Edit subject**, you can determine the **Privacy level**
+-  Settle the time-based **Availability** of the person
+-  Press **Save** to record the progress
 
-.. note:: 
-   **Hard of hearing**\ *bei*\ **Notes**\ *bedeutet
-   doch*\ **schwerhörig**\ *, richtig? Dass die Person schwer zu verstehen
+.. note::
+   **Hard of hearing** bei **Notes** bedeutet
+   doch **schwerhörig**, richtig? Dass die Person schwer zu verstehen
    ist oder sie ausfällig spricht, passt in meinen Augen nicht dazu. Sollte
    der erste Stichpunkt abgeändert werden oder habt ihr das aus einem
-   bestimmten Grund so geschrieben?*
+   bestimmten Grund so geschrieben?
