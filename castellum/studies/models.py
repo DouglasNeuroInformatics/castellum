@@ -48,7 +48,7 @@ class StudyType(TranslatableModel):
         return self.label
 
 
-class Study(models.Model):
+class BaseStudy(models.Model):
     EDIT = 0
     EXECUTION = 1
     FINISHED = 2
@@ -61,12 +61,6 @@ class Study(models.Model):
 
     name = models.CharField(_('Name'), max_length=254)
     contact_person = models.CharField(_('Responsible contact person'), max_length=254)
-    principal_investigator = models.CharField(_('Principal Investigator'), max_length=254)
-    affiliated_scientists = models.CharField(_('Affiliated Scientists'), max_length=254, blank=True)
-    affiliated_research_assistants = models.CharField(
-        _('Affiliated Research Assistants'), max_length=254, blank=True)
-    description = models.TextField(_('Description'), blank=True)
-    keywords = models.CharField(_('Keywords'), max_length=254, blank=True)
     study_type = models.ManyToManyField(StudyType, verbose_name=_('Type of study'), blank=True)
     previous_study_mode = models.SmallIntegerField(
         _('Study mode'), choices=STUDY_MODES, default=EDIT)
@@ -76,9 +70,6 @@ class Study(models.Model):
     min_subjects_count = models.PositiveIntegerField(_('Required number of subjects'),
                                                      blank=True,
                                                      default=0)
-    expense_allowance = models.PositiveIntegerField(_('Expense allowance'), blank=True, null=True)
-    sessions_start = DateField(_('Start of test sessions'), blank=True, null=True)
-    sessions_end = DateField(_('End of test sessions'), blank=True, null=True)
     exclusion_criteria = models.TextField(_('Exclusion criteria'), blank=True)
     recruitment_text = models.TextField(_('Recruitment text'), blank=True)
 
@@ -123,6 +114,7 @@ class Study(models.Model):
 
     class Meta:
         ordering = ['name']
+        abstract = True
 
     def __str__(self):
         return self.name
@@ -191,6 +183,18 @@ class Study(models.Model):
             self.recruitment_text,
             self.has_filters,
         ])
+
+
+class Study(BaseStudy):
+    principal_investigator = models.CharField(_('Principal Investigator'), max_length=254)
+    affiliated_scientists = models.CharField(_('Affiliated Scientists'), max_length=254, blank=True)
+    affiliated_research_assistants = models.CharField(
+        _('Affiliated Research Assistants'), max_length=254, blank=True)
+    description = models.TextField(_('Description'), blank=True)
+    keywords = models.CharField(_('Keywords'), max_length=254, blank=True)
+    expense_allowance = models.PositiveIntegerField(_('Expense allowance'), blank=True, null=True)
+    sessions_start = DateField(_('Start of test sessions'), blank=True, null=True)
+    sessions_end = DateField(_('End of test sessions'), blank=True, null=True)
 
 
 class StudyMembership(models.Model):
