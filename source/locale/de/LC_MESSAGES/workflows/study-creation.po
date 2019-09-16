@@ -147,7 +147,7 @@ msgid ""
 "Wieso gibt es hier auch*\\ **———**\\ *als Auswahl? Wählt man das aus, "
 "wenn man sich über die Studienform noch nicht ganz sicher ist?"
 msgstr ""
-"*Wieso gibt es hier auch*\\ **---------**\\ *als Auswahl? Wählt man das "
+"*Wieso gibt es hier auch*\\ **———**\\ *als Auswahl? Wählt man das "
 "aus, wenn man sich über die Studienform noch nicht ganz sicher ist?*"
 
 #: ../../source/workflows/study-creation.rst:49
@@ -181,7 +181,7 @@ msgid ""
 "participant**\\ *stehen, damit hier niemand die Summe aller "
 "Aufwandsentschädigungen einträgt? Außerdem kommt es doch auch manchmal "
 "vor,    dass die Entschädigung keine Bargeldauszahlung ist, sondern "
-"Gegenstände        oder Geschenke. Kann man das noch irgendwie "
+"Gegenstände oder Geschenke. Kann man das noch "
 "hinzufügen?"
 msgstr ""
 "*Die Aufwandsentschädigung, die an dieser Stelle festgelegt wird, wird "
@@ -240,27 +240,27 @@ msgstr "Wenn du eine Studie angelegt hast, wurde sie dadurch nicht automatisch g
 
 #: ../../source/workflows/study-creation.rst:80
 msgid "Go to **Details** next to the study you want to start or finish"
-msgstr ""
+msgstr "Klicke auf **Details** neben der Studie, die du starten oder beenden möchtest"
 
 #: ../../source/workflows/study-creation.rst:81
 msgid "In the right upper corner are two buttons: **Start** and **Finish**"
-msgstr "Klicke auf **Details** neben der Stduie, welche du starten oder beenden möchtest"
+msgstr "Rechts oben siehst du zwei Möglichkeiten: **Start** und **Studie beenden**"
 
 #: ../../source/workflows/study-creation.rst:83
 msgid "By clicking on **Start** you initiate the recruiting process"
-msgstr "Rechts oben siehst du zwei Möglichkeiten: **Start** und **Studie beenden**"
+msgstr "Wenn du auf **Start** klickst, wird die Rekrutierung eingeleitet"
 
 #: ../../source/workflows/study-creation.rst:85
 msgid ""
 "In this mode, you are not able to change any characteristics           or"
 " talking points that are needed for the recruitment"
-msgstr ""
+msgstr "In diesem Modus ist es nicht möglich, Informationen für den Rekruiter (z.B. die gewünschten Probandenmerkmale) abzuändern"
 
 #: ../../source/workflows/study-creation.rst:86
 msgid ""
 "When you click on **Stop**, you can edit information needed            "
 "for the recruiting process"
-msgstr ""
+msgstr "Wenn du auf **Stopp** klickst, können diese Informationen angepasst werden"
 
 #: ../../source/workflows/study-creation.rst:87
 msgid ""
@@ -268,7 +268,9 @@ msgid ""
 "follow the steps in the **Share studies with your recruiters*** 3.  When "
 "you click on **Finish study**, Castellum will register your       study "
 "as completed"
-msgstr ""
+msgstr "*Um die Verantwortlichen des Rekrutierungsprozesses für die Studie freizugeben, befolge die Schritte des Abschnitts **Studien für Rekrutierer freigeben***
+
+* Castellum vermerkt die Studie als abgeschlossen, wenn du auf **Studie beenden** drückst"
 
 #: ../../source/workflows/study-creation.rst:91
 msgid "Assign access rights and allocate roles"
