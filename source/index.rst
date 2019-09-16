@@ -8,6 +8,12 @@ Welcome to castellum-docs's documentation!
 
 .. toctree::
    :maxdepth: 2
+   :caption: Concepts
+
+   concepts/what.rst
+
+.. toctree::
+   :maxdepth: 2
    :caption: Workflows
 
    workflows/study-creation
