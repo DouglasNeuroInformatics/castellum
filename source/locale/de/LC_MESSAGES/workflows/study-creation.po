@@ -274,7 +274,7 @@ msgstr "*Um die Verantwortlichen des Rekrutierungsprozesses für die Studie frei
 
 #: ../../source/workflows/study-creation.rst:91
 msgid "Assign access rights and allocate roles"
-msgstr ""
+msgstr "Zugriffsrechte zuweisen und Rollen vergeben"
 
 #: ../../source/workflows/study-creation.rst:92
 msgid ""
@@ -287,134 +287,109 @@ msgid ""
 "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ "
 "1. Follow steps 1-5 of the section **Share studies with your      "
 "recruiters** below"
-msgstr ""
+msgstr "Einigen Nutzern sind bereits im Voraus bestimmte allgemeine Rollen zugeordnet. Dies ist daran zu erkennen, dass die Rollenbeschreibung grau hinterlegt ist. Rollen mit blauem Hintergrund können vom **Studienkoordinator** flexibel definiert und abgeändert werden. 
+Um Rollen an verschiedene Personen zu delegieren, gehe wie folgt vor:
+"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ "
+1. Befolge die Schritte 1-5 des nachstehenden Abschnitts **Studien für Rekrutierer freigeben**"
 
 #: ../../source/workflows/study-creation.rst:98
 msgid ""
 "Even if the section is about **Recruiters**, you can use it to         "
 "assign any role you like"
-msgstr ""
+msgstr "Auch wenn in diesem Abschnitt von **Rekrutierern** die Rede ist, kannst du die Schritte für jede beliebige Rollenzuweisung befolgen"
 
 #: ../../source/workflows/study-creation.rst:99
 msgid ""
 "Select the user for whom you want to change access rights and/or roles "
 "and click **Add**"
-msgstr ""
+msgstr "Wähle bei **User** den Nutzer aus, für welchen die Zugriffsrechte und/oder Rollen geändert oder hinzugefügt werden sollen und klicke **Hinzufügen**"
 
 #: ../../source/workflows/study-creation.rst:101
 msgid ""
 "After clicking **Edit** next to the selected person, you can assign up to"
-" three different roles: **Study coordinator**, **Subject manager** and "
+" four different roles: **Study coordinator**, **Subject manager** and "
 "**Recruiter**"
-msgstr ""
+msgstr "Wenn du **Bearbeiten** neben der betreffenden Person anklickst, kannst du dieser vier verschiedene Rollen zuteilen: **Study coordinator**, **Subject manager**, **Recruiter** und **Study conductor**"
 
 #: ../../source/workflows/study-creation.rst:104
 msgid ""
 "Select the role you want to assign to the selected person and press "
 "**Save**"
-msgstr ""
+msgstr "Wähle die Rolle, die der Person zugeteilt werden soll und drücke auf **Speichern**"
 
 #: ../../source/workflows/study-creation.rst:108
 msgid "Share studies with your recruiters"
-msgstr ""
+msgstr "Studien für Rekrutierer freigeben"
 
 #: ../../source/workflows/study-creation.rst:110
 msgid ""
 "If you receive a request for access from a person who is supposed to "
 "recruit participants for your study, please follow the steps below."
-msgstr ""
+msgstr "Wenn Sie eine Zugriffsanfrage von einem Nutzer/einer Nutzerin erhalten, die Teilnehmer für Ihre Studie rekrutieren soll, führen Sie bitte die folgenden Schritte aus."
 
 #: ../../source/workflows/study-creation.rst:114
 msgid ""
 "You will see a list of the studies you have created by clicking        on"
 " **My studies**"
-msgstr ""
+msgstr "Gehst du auf **Meine Studien**, werden dir die von dir angelegten Studien angezeigt"
 
 #: ../../source/workflows/study-creation.rst:116
 msgid ""
 "Click on **Details** of the study for which you want to change         "
 "access rights or role redistribution"
-msgstr ""
+msgstr "Klicke auf **Details** neben der Studie, für welche du den Rekrutierer freigeben möchtest"
 
 #: ../../source/workflows/study-creation.rst:117
 msgid "Go to **Manage members** on the lower edge"
-msgstr ""
+msgstr "Gehe zu **Mitgliederverwaltung** am unteren Ende der Seite"
 
 #: ../../source/workflows/study-creation.rst:118
 msgid ""
 "If you click on the field under **Users**, you will be shown all possible"
 " users to whom you can assign roles"
-msgstr ""
+msgstr "Klickst du auf das Feld **Users**, werden die alle Nutzer angezeigt, welchen du die Rekrutierungsrolle zuweisen kannst"
 
 #: ../../source/workflows/study-creation.rst:120
 msgid "Select the user, who is supposed to take over the recruitment"
-msgstr ""
+msgstr "Wähle denjenigen Nutzer aus, welchen du als Rekrutierer ernennen möchtest"
 
 #: ../../source/workflows/study-creation.rst:121
 msgid "Press **Add**"
-msgstr ""
+msgstr "Drücke **Hinzufügen**"
 
 #: ../../source/workflows/study-creation.rst:122
 msgid "Press **Edit** next to the person you chose"
-msgstr ""
+msgstr "Gehe auf **Bearbeiten** rechts neben der ausgewählten Person"
 
 #: ../../source/workflows/study-creation.rst:124
-msgid "You can now assign one to three different roles to the person"
-msgstr ""
+msgid "You can now assign one to four different roles to the person"
+msgstr "Du hast die Möglichkeit, insgesamt vier verschiedene Rollen zuzuweisen"
 
 #: ../../source/workflows/study-creation.rst:126
 msgid "Select **Recruiter** and press **Save**"
-msgstr ""
+msgstr "Wähle **Recruiter** aus und drücke **Speichern**"
 
 #: ../../source/workflows/study-creation.rst:128
 msgid ""
 "The selected person has still no access to the study, unless you follow "
 "the next steps:"
-msgstr ""
+msgstr "Falls du die Studie noch nicht gestartet hast, hat die ausgewählte Person in der Rolle als Rekrutierer immer noch keinen Zugang zur Studie. Um dies zu ändern, befolge bitte folgende Schritte:"
 
 #: ../../source/workflows/study-creation.rst:130
 msgid "Go **Back**"
-msgstr ""
+msgstr "Gehe **Zurück**"
 
 #: ../../source/workflows/study-creation.rst:131
-msgid "Press **Start** on the upper left side"
-msgstr ""
+msgid "Press **Start** on the upper right side"
+msgstr "Drücke auf **Start** oben rechts"
 
 #: ../../source/workflows/study-creation.rst:133
 msgid ""
 "The study is now in progress and the recruiter has now access to the "
 "study and can begin to recruit"
-msgstr ""
+msgstr "Nun hast du die Studie gestartet und der Rekruiter kann auf die Studie zugreifen, um das Rekruiting zu beginnen"
 
 #: ../../source/workflows/study-creation.rst:135
 msgid "Of course, you may select several persons as recruiters"
-msgstr ""
-
-#~ msgid ""
-#~ "Some users are already assigned to "
-#~ "certain global roles in advance. This"
-#~ " can be recognized by the fact "
-#~ "that the role description is highlighted"
-#~ " in grey. Roles with blue background"
-#~ " can be flexibly defined and changed"
-#~ " by the **Study coordinator**."
-#~ msgstr ""
-
-#~ msgid "To delegate roles amongst different people, proceed as follows"
-#~ msgstr ""
-
-#~ msgid "Follow steps 1-5 of the next section"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "You will see a list of the "
-#~ "studies you have created by clicking "
-#~ "on **My studies**"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Click on **Details** of the study "
-#~ "for which you want to change "
-#~ "access rights or role redistribution"
-#~ msgstr ""
+msgstr "Du kannst beliebig viele Personen als Rekruiter freigeben"
 
