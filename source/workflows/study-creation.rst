@@ -122,14 +122,14 @@ If you receive a request for access from a person who is supposed to recruit par
 7. Press **Add**
 8. Press **Edit** next to the person you chose
 
-   -  You can now assign one to three different roles to the person
+   -  You can now assign one to four different roles to the person
 
 9. Select **Recruiter** and press **Save**
 
-   -  The selected person has still no access to the study, unless you
+   -  If you did not start the study yet, the selected person has still no access to the study, unless you
       follow the next steps:
    -  Go **Back**
-   -  Press **Start** on the upper left side
+   -  Press **Start** on the upper right side
 
       -  The study is now in progress and the recruiter has now access
          to the study and can begin to recruit
