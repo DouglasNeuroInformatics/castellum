@@ -85,6 +85,7 @@ When you created a study, it is not started and the recruiting process is not ye
        -  In this mode, you are not able to change any characteristics           or talking points that are needed for the recruitment
        -  When you click on **Stop**, you can edit information needed            for the recruiting process
 *To release those responsible for the recruitment process for the study, follow the steps in the **Share studies with your recruiters***
+
 3.  When you click on **Finish study**, Castellum will register your       study as completed
 
 Assign access rights and allocate roles
