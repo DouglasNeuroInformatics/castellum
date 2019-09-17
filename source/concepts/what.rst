@@ -63,7 +63,7 @@ Some steps need to be deeply integrated with contact management. A good example
 for this is the recruitment, which is centered around communication with the
 subject.
 
-Django works best when all data is in the same database. However, is is also
+Django works best when all data is in the same database. However, it is also
 possible to split some data to a separate database. We use this mechanism for
 contact data. The data is still held internally, but there is an additional
 layer of security.
