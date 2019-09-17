@@ -21,6 +21,7 @@
 
 import datetime
 
+from django.conf import settings
 from django.contrib.auth.models import Group
 from django.db import models
 from django.forms import ValidationError
@@ -30,7 +31,6 @@ from django.utils.translation import gettext_lazy as _
 from parler.models import TranslatableModel
 from parler.models import TranslatedFields
 
-from castellum import settings
 from castellum.castellum_auth.models import User
 from castellum.pseudonyms.helpers import create_domain
 from castellum.utils.fields import DateField
