@@ -29,5 +29,5 @@ class Command(BaseCommand):
     help = 'Sync domains from settings with the database'
 
     def handle(self, *args, **options):
-        for key in settings.DOMAINS.values():
-            Domain.objects.get_or_create(key=key)
+        for data in settings.CASTELLUM_DOMAINS.values():
+            Domain.objects.get_or_create(key=data['key'], defaults=data)

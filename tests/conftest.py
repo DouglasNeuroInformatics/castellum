@@ -53,7 +53,8 @@ def create_user(group_name):
 
 @pytest.fixture
 def contact_domain(db):
-    domain, __ = Domain.objects.get_or_create(key=settings.DOMAINS['contact'])
+    data = settings.CASTELLUM_DOMAINS['contact']
+    domain, __ = Domain.objects.get_or_create(key=data['key'], defaults=data)
     return domain
 
 
