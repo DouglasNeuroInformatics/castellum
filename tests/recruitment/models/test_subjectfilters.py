@@ -12,12 +12,12 @@ def create_participation_request(
     subject, is_finished=False, is_exclusive=False, status=ParticipationRequest.INVITED
 ):
     study_mode = Study.FINISHED if is_finished else Study.EXECUTION
-    study = mommy.make(Study, study_mode=study_mode, is_exclusive=is_exclusive)
+    study = mommy.make(Study, domain=None, study_mode=study_mode, is_exclusive=is_exclusive)
     return mommy.make(ParticipationRequest, status=status, subject=subject, study=study)
 
 
 def has_match(is_exclusive=False, excluded_studies=[]):
-    study = mommy.make(Study, is_exclusive=is_exclusive)
+    study = mommy.make(Study, domain=None, is_exclusive=is_exclusive)
     group = mommy.make(SubjectFilterGroup, study=study, excluded_studies=excluded_studies)
     return AttributeSet.objects.filter(group.to_q()).exists()
 
@@ -52,7 +52,7 @@ def test_to_q_exclusive_study_and_finished(attributeset):
 
 
 def test_to_q_exclusive_study_in_same_study(attributeset):
-    study = mommy.make(Study, is_exclusive=True)
+    study = mommy.make(Study, domain=None, is_exclusive=True)
     mommy.make(
         ParticipationRequest,
         status=ParticipationRequest.INVITED,

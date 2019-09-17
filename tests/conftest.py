@@ -97,17 +97,17 @@ def admin(user):
 
 @pytest.fixture
 def study(db):
-    return mommy.make(Study)
+    return mommy.make(Study, domain=None)
 
 
 @pytest.fixture
 def study_in_execution_mode(db):
-    return mommy.make(Study, study_mode=Study.EXECUTION)
+    return mommy.make(Study, domain=None, study_mode=Study.EXECUTION)
 
 
 @pytest.fixture
 def study_in_edit_mode(db):
-    return mommy.make(Study, study_mode=Study.EDIT)
+    return mommy.make(Study, domain=None, study_mode=Study.EDIT)
 
 
 @pytest.fixture

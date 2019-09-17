@@ -11,8 +11,8 @@ from castellum.subjects.models import Subject
 @pytest.mark.django_db
 def test_last_contacted_elsewhere():
     subject = mommy.make(Subject)
-    study_1 = mommy.make(Study)
-    study_2 = mommy.make(Study)
+    study_1 = mommy.make(Study, domain=None)
+    study_2 = mommy.make(Study, domain=None)
 
     with freeze_time("1970-01-01 12:00"):
         participationrequest_1 = mommy.make(ParticipationRequest, study=study_1, subject=subject)
@@ -32,8 +32,8 @@ def test_last_contacted_elsewhere():
 @pytest.mark.django_db
 def test_last_contacted_elsewhere_several_others():
     subject = mommy.make(Subject)
-    study_1 = mommy.make(Study)
-    study_2 = mommy.make(Study)
+    study_1 = mommy.make(Study, domain=None)
+    study_2 = mommy.make(Study, domain=None)
 
     with freeze_time("1970-01-01 12:00"):
         participationrequest_1 = mommy.make(ParticipationRequest, study=study_1, subject=subject)
@@ -63,7 +63,7 @@ def test_last_contacted_elsewhere_several_others():
 @pytest.mark.django_db
 def test_last_contacted_elsewhere_no_others():
     subject = mommy.make(Subject)
-    study_1 = mommy.make(Study)
+    study_1 = mommy.make(Study, domain=None)
 
     with freeze_time("1970-01-01 12:00"):
         participationrequest_1 = mommy.make(ParticipationRequest, study=study_1, subject=subject)
@@ -89,9 +89,9 @@ def test_last_contacted_elsewhere_no_others():
 @pytest.mark.django_db
 def test_last_contacted_elsewhere_several_studies():
     subject = mommy.make(Subject)
-    study_1 = mommy.make(Study)
-    study_2 = mommy.make(Study)
-    study_3 = mommy.make(Study)
+    study_1 = mommy.make(Study, domain=None)
+    study_2 = mommy.make(Study, domain=None)
+    study_3 = mommy.make(Study, domain=None)
 
     with freeze_time("1970-01-01 12:00"):
         participationrequest_1 = mommy.make(ParticipationRequest, study=study_1, subject=subject)
@@ -119,8 +119,8 @@ def test_last_contacted_elsewhere_several_studies():
 @pytest.mark.django_db
 def test_last_contacted_elsewhere_not_contacted():
     subject = mommy.make(Subject)
-    study_1 = mommy.make(Study)
-    study_2 = mommy.make(Study)
+    study_1 = mommy.make(Study, domain=None)
+    study_2 = mommy.make(Study, domain=None)
 
     with freeze_time("1970-01-01 12:00"):
         participationrequest_1 = mommy.make(ParticipationRequest, study=study_1, subject=subject)
