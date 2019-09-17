@@ -144,7 +144,7 @@ class Study(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.domain:
-            self.domain = create_domain()
+            self.domain = create_domain(settings.CASTELLUM_STUDY_DOMAIN_BITS)
         return super().save(*args, **kwargs)
 
     def get_filter_max_privacy_level(self):

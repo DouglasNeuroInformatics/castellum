@@ -133,7 +133,7 @@ def fake_study():
         expense_allowance=fake.random.randint(20, 50),
         sessions_start=fake.past_date(start_date="-30d"),
         sessions_end=fake.future_date(end_date="+30d"),
-        domain=create_domain(),
+        domain=create_domain(settings.CASTELLUM_STUDY_DOMAIN_BITS),
     )
     return study
 

@@ -36,8 +36,8 @@ def attempt(fn, attempts=10):
         return attempt(fn, attempts=attempts - 1)
 
 
-def create_domain():
-    domain = attempt(lambda: Domain.objects.create())
+def create_domain(bits=40):
+    domain = attempt(lambda: Domain.objects.create(bits=bits))
     return domain.key
 
 
