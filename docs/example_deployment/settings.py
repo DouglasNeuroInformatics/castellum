@@ -41,5 +41,6 @@ AUTH_LDAP_USER_ATTR_MAP = {
 CASTELLUM_DOMAINS = {
     'contact': {
         'key': 'dac7466e-db47-4c1c-a69d-f8b98850f777',
+        'bits': 40,
     }
 }

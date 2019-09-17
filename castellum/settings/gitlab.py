@@ -20,5 +20,6 @@ DATABASES = {
 CASTELLUM_DOMAINS = {
     'contact': {
         'key': '04d0e64e-a58a-41b3-bf6b-7a90dae84199',
+        'bits': 40,
     }
 }
