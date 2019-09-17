@@ -50,7 +50,7 @@ class ContactManager(models.Manager):
 
 
 class Contact(TimeStampedModel):
-    domain = settings.DOMAINS['contact']
+    domain = settings.CASTELLUM_DOMAINS['contact']['key']
 
     GENDER = (
         ("f", _("female")),

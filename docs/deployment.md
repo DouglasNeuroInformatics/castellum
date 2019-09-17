@@ -59,9 +59,9 @@ before you can start using it:
 
         python managae.py sync_domains
 
-    **Note**: You need to re-run this if you change the `DOMAINS`
-    setting. Otherwise domain reuse might occur which could leak
-    pseudonyms.
+    **Note**: You need to re-run this if you change the
+    `CASTELLUM_DOMAINS` setting. Otherwise domain reuse might occur
+    which could leak pseudonyms.
 
 3.  Load sample data. This is not strictly necessary, but it usually
     makes sense to start from these defaults:

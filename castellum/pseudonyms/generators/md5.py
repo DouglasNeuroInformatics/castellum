@@ -31,6 +31,7 @@
 """
 
 import hashlib
+import math
 import random
 
 from django.forms import ValidationError
@@ -63,8 +64,9 @@ def checksum(msg):
     return s
 
 
-def generate(length=10):
-    msg = ''.join(safe_random.choices(ALPHABET, k=length - CHECK_DIGITS))
+def generate(bits=40):
+    k = math.ceil(bits * math.log(2, len(ALPHABET)))
+    msg = ''.join(safe_random.choices(ALPHABET, k=k))
     return msg + checksum(msg)
 
 

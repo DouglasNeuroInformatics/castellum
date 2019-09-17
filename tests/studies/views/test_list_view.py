@@ -4,7 +4,7 @@ from castellum.studies.models import Study
 
 
 def test_list_count_own_tab(client, study_coordinator):
-    mommy.make(Study, _quantity=3)
+    mommy.make(Study, domain=None, _quantity=3)
 
     client.force_login(study_coordinator)
     response = client.get('/studies/')
@@ -13,7 +13,7 @@ def test_list_count_own_tab(client, study_coordinator):
 
 
 def test_list_count_all_tab(client, study_coordinator):
-    mommy.make(Study, _quantity=3)
+    mommy.make(Study, domain=None, _quantity=3)
 
     client.force_login(study_coordinator)
     response = client.get('/studies/?q=&all=1')
