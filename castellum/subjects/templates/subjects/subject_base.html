@@ -2,7 +2,7 @@
 {% load i18n auth utils %}
 
 {% block header %}
-    <h1><a class="link-masked" href="{% url 'subjects:detail' subject.pk %}">{{ subject.contact.full_name }}</a></h1>
+    <h1>{{ subject.contact.full_name }}</h1>
     {% if subject.contact.has_guardian %}
         <p>{{ subject.contact|verbose_name:'guardians'}}: {{ subject.contact|display:'guardians' }}</p>
     {% else %}
