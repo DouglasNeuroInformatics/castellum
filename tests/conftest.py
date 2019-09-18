@@ -89,6 +89,11 @@ def recruiter(sample_groups):
 
 
 @pytest.fixture
+def data_protection_officer(sample_groups):
+    return create_user('Data protection officer')
+
+
+@pytest.fixture
 def admin(user):
     user.is_staff = True
     user.is_superuser = True

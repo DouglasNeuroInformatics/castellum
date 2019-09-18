@@ -82,7 +82,8 @@ def test_contact_200(request, client, user_fixture, contact):
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
-    'subject_manager',
+    pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
+    'data_protection_officer',
 ])
 def test_export_200(request, client, user_fixture, contact):
     user = request.getfixturevalue(user_fixture)

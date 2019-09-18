@@ -98,11 +98,6 @@
                 "change_subject",
                 "subjects",
                 "subject"
-            ],
-            [
-                "view_subject",
-                "subjects",
-                "subject"
             ]
         ]
     }
@@ -151,6 +146,25 @@
                 "view_participation_pseudonyms",
                 "recruitment",
                 "participationrequest"
+            ]
+        ]
+    }
+},
+{
+    "model": "auth.group",
+    "pk": 5,
+    "fields": {
+        "name": "Data protection officer",
+        "permissions": [
+            [
+                "view_contact",
+                "contacts",
+                "contact"
+            ],
+            [
+                "view_subject",
+                "subjects",
+                "subject"
             ]
         ]
     }

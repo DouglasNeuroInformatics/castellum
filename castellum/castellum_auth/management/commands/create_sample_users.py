@@ -27,7 +27,32 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 
 from castellum.castellum_auth.models import User
-from castellum.castellum_auth.sample_data import USERS
+
+USERS = {
+    'Andreas': [],
+    'Emma': ['Recruiter'],
+    'Jonas': ['Subject manager', 'Data protection officer'],
+
+    # first testing group
+    'Vera': ['Study coordinator', 'Study conductor'],
+    'Arne': ['Subject manager'],
+    'Edwin': ['Subject manager', 'Recruiter'],
+
+    # second testing group
+    'Anna': ['Study coordinator', 'Study conductor'],
+    'Max': ['Subject manager'],
+    'Sonja': ['Subject manager', 'Recruiter'],
+
+    # third testing group
+    'Claus': ['Study coordinator', 'Study conductor'],
+    'Flora': ['Subject manager'],
+    'Oskar': ['Subject manager', 'Recruiter'],
+
+    # fourth testing group
+    'Hans': ['Study coordinator', 'Study conductor'],
+    'Nina': ['Subject manager'],
+    'Pia': ['Subject manager', 'Recruiter'],
+}
 
 
 class Command(BaseCommand):
