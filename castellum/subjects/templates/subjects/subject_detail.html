@@ -31,8 +31,10 @@
             {% endif %}
         </dd>
 
-        <dt class="col-sm-6">{% trans 'Attribute set completeness' %}</dt>
-        <dd class="col-sm-6">{{ attributeset_completeness|default:'—' }}</dd>
+        {% if not subject.no_recruitment %}
+            <dt class="col-sm-6">{% trans 'Attribute set completeness' %}</dt>
+            <dd class="col-sm-6">{{ attributeset_completeness|default:'—' }}</dd>
+        {% endif %}
     </dl>
     <div class="mb-3">
         {% has_perm 'contacts.change_contact' user as can_change_contact %}
@@ -54,7 +56,7 @@
             </a>
         {% endif %}
         {% has_perm 'recruitment.change_attributeset' user as can_change_attributeset %}
-        {% if can_change_attributeset %}
+        {% if can_change_attributeset and not subject.no_recruitment %}
             <a href="{% url 'subjects:attributeset' subject.pk %}" class="btn btn-secondary btn-sm-inline my-1">{% trans "Edit attributes" %}</a>
         {% endif %}
         <a href="{% url 'subjects:studyparticipation' subject.pk %}" class="btn btn-secondary btn-sm-inline my-1">{% trans "Study Participation" %}</a>

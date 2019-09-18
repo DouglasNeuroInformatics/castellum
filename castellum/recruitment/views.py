@@ -342,7 +342,11 @@ class AttributeSetUpdateView(StudyMixin, BaseAttributeSetUpdateView):
 
     def get_object(self):
         participation_request = get_object_or_404(
-            ParticipationRequest, study=self.study, pk=self.kwargs['pk'])
+            ParticipationRequest,
+            study=self.study,
+            subject__no_recruitment=False,
+            pk=self.kwargs['pk'],
+        )
         return participation_request.subject.attributeset
 
     def get_success_url(self):

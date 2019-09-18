@@ -63,7 +63,7 @@
                 </a>
             {% endif %}
             {% has_perm 'recruitment.change_attributeset' user view.study as can_change_attributeset %}
-            {% if can_change_attributeset %}
+            {% if can_change_attributeset and not object.subject.no_recruitment %}
                 <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:attributeset-update' study.pk object.pk %}">{% trans 'Edit attributes'%}</a>
             {% endif %}
         </div>

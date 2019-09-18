@@ -169,7 +169,7 @@ class ContactUpdateView(BaseContactUpdateView):
 
 class AttributeSetUpdateView(BaseAttributeSetUpdateView):
     def get_object(self):
-        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
+        subject = get_object_or_404(Subject, pk=self.kwargs['pk'], no_recruitment=False)
         attributeset, __ = AttributeSet.objects.get_or_create(
             subject=subject, defaults={'data': {}})
         return attributeset
