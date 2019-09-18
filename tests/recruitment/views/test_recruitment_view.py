@@ -29,7 +29,7 @@ def test_404_page_returned_if_study_in_edit_mode(client, member, study_in_edit_m
 @pytest.mark.django_db
 def test_post_when_study_has_zero_subject_count_set(client, member, study_in_execution_mode):
 
-    study_in_execution_mode.min_subjects_count = 0
+    study_in_execution_mode.min_subject_count = 0
     study_in_execution_mode.save()
     client.force_login(member)
     url = '/recruitment/{}/'.format(study_in_execution_mode.pk)
@@ -44,7 +44,7 @@ def test_post_when_study_has_zero_subject_count_set(client, member, study_in_exe
 @pytest.mark.django_db
 def test_post_when_more_then_double_minimal_subject_count(client, member, study_in_execution_mode):
 
-    study_in_execution_mode.min_subjects_count = 2
+    study_in_execution_mode.min_subject_count = 2
     study_in_execution_mode.save()
 
     mommy.make(ParticipationRequest, study=study_in_execution_mode, _quantity=4)

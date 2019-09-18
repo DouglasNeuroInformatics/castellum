@@ -127,7 +127,7 @@ def fake_study():
         name=fake.word().upper(),
         contact_person=fake.name(),
         principal_investigator=fake.name(),
-        min_subjects_count=fake.random.randint(0, 50),
+        min_subject_count=fake.random.randint(0, 50),
         description=description,
         recruitment_text=recruitment_text,
         expense_allowance=fake.random.randint(20, 50),

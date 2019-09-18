@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.contrib import messages
 from django.forms import modelformset_factory
 from django.http import HttpResponseBadRequest
@@ -33,6 +34,7 @@ from django.views.generic import UpdateView
 from django.views.generic import View
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.recruitment.forms import SubjectFilterAddForm
 from castellum.recruitment.forms import SubjectFilterForm
 from castellum.recruitment.forms import SubjectFilterFormSet
 from castellum.recruitment.forms import SubjectFilterGroupForm
@@ -40,7 +42,6 @@ from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
-from castellum.settings import CASTELLUM_EXPECTED_SUBJECT_FACTOR
 from castellum.utils.views import ReadonlyMixin
 
 from ..mixins import StudyMixin
@@ -76,28 +77,9 @@ class FilterMixin(StudyMixin, PermissionRequiredMixin, CustomFilterMixin):
         return permission_required
 
 
-def subject_count_warnings(request, min_subjects_count, potential_subjects_count):
-    if min_subjects_count == 0:
-        messages.warning(request, _(
-            'Weak recruitment process. '
-            'Please, define the number of subjects for this study.'
-        ))
-    elif potential_subjects_count < min_subjects_count * CASTELLUM_EXPECTED_SUBJECT_FACTOR:
-        messages.warning(request, _(
-            'For a smooth recruitment process, your institution recommends at least '
-            '%(castellum_factor)dx more potential than required subjects '
-            '(i.e. %(recommended_count)d for this study). Current amount of potential '
-            'subjects: %(potential_count)d'
-        ) % {
-            'castellum_factor': CASTELLUM_EXPECTED_SUBJECT_FACTOR,
-            'recommended_count': min_subjects_count * CASTELLUM_EXPECTED_SUBJECT_FACTOR,
-            'potential_count': potential_subjects_count,
-        })
-
-
 class FilterGroupListView(FilterMixin, ListView):
     model = SubjectFilterGroup
-    template_name = 'studies/filtergroup_list.html'
+    template_name = 'studies/filtergroup_advanced.html'
     permission_required = 'recruitment.view_subjectfilter'
 
     def get_queryset(self):
@@ -106,9 +88,10 @@ class FilterGroupListView(FilterMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['potential_subjects_count'] = AttributeSet.apply_study_filter(self.study).count()
-        subject_count_warnings(
-            self.request, self.study.min_subjects_count, context['potential_subjects_count']
+        context['count'] = AttributeSet.apply_study_filter(self.study).count()
+        context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+        context['expected_subject_count'] = (
+            self.study.min_subject_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         )
         return context
 
@@ -170,9 +153,6 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
         return formset_class(
             queryset=self.object.subjectfilter_set.all(),
             data=self.get_form_kwargs().get('data'),
-            form_kwargs={
-                'user': self.request.user,
-            },
         )
 
     def get_readonly(self):
@@ -192,29 +172,26 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
         ).distinct()
 
     def get_context_data(self, **kwargs):
-        inaccessible = list(self.get_inaccessible_attributedescriptions())
-        if inaccessible:
-            messages.warning(self.request, _(
-                'At least one member of this study with access to filters does not have a '
-                'sufficient privacy level to view the following attributes: %s'
-            ) % ', '.join(description.label for description in inaccessible))
-
         data = super().get_context_data(**kwargs)
+
         data['count'] = self.object.get_subject_count()
         data['total_count'] = AttributeSet.objects.count()
-        data['add_form'] = SubjectFilterForm(user=self.request.user)
+        data['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+        data['expected_subject_count'] = (
+            self.study.min_subject_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+        )
+
+        data['inaccessible'] = list(self.get_inaccessible_attributedescriptions())
+
+        data['add_form'] = SubjectFilterAddForm(user=self.request.user)
         data['templates'] = {}
         for description in AttributeDescription.objects.all():
             data['templates'][description.pk] = SubjectFilterForm(
-                user=self.request.user,
                 initial={'description': description},
                 prefix='{prefix}')
 
         if 'formset' not in data:
             data['formset'] = self.get_formset()
-
-        if not self.study.advanced_filtering:
-            subject_count_warnings(self.request, self.study.min_subjects_count, data['count'])
 
         return data
 
@@ -241,4 +218,4 @@ class FilterGroupDuplicateView(FilterMixin, View):
         SubjectFilterGroup.objects.clone(original)
         messages.success(request, _(
             'The filters have been duplicated. You can now edit the duplicate.'))
-        return redirect('studies:filtergroup_index', self.study.pk)
+        return redirect('studies:filtergroup-index', self.study.pk)

@@ -1,15 +1,17 @@
 {% extends "studies/study_base.html" %}
-{% load i18n auth %}
+{% load i18n auth utils %}
 
 {% block title %}{% trans "Filter Groups" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <p>{% trans "required number of subjects" %}: {{ study.min_subjects_count }}</p>
+    {% include 'studies/__filtergroup_common.html' %}
+
+    <p>{% trans "required number of subjects" %}: {{ study.min_subject_count }}</p>
 
     <div class="card mb-3">
         <div class="card-header d-flex justify-content-between">
             {% trans 'Any of these' %}
-            <span class="text-right">{% blocktrans with count=potential_subjects_count %}{{ count }} potential subjects in total{% endblocktrans %}</span>
+            <span class="text-right">{% blocktrans %}{{ count }} potential subjects in total{% endblocktrans %}</span>
         </div>
         <div class="card-body">
             {% has_perm 'recruitment.change_subjectfilter' user view.study as can_change_subjectfilter %}
@@ -20,20 +22,22 @@
                         <span class="text-right">{% blocktrans with count=group.get_subject_count %}{{ count }} potential subjects{% endblocktrans %}</span>
                     </div>
                     <div class="card-body d-flex justify-content-between flex-column flex-lg-row">
-                        <details>
-                            <summary>
-                                {% blocktrans count count=group.subjectfilter_set.count %}
-                                    {{ count }} filter
-                                {% plural %}
-                                    {{ count }} filters
-                                {% endblocktrans%}
-                            </summary>
-                            <ul>
-                                {% for f in group.subjectfilter_set.all %}
-                                    <li>{{ f }}</li>
-                                {% endfor %}
-                            </ul>
-                        </details>
+                        {% with filters=group.subjectfilter_set.all|list %}
+                            <details>
+                                <summary>
+                                    {% blocktrans count count=filters|length %}
+                                        {{ count }} filter
+                                    {% plural %}
+                                        {{ count }} filters
+                                    {% endblocktrans%}
+                                </summary>
+                                <ul>
+                                    {% for f in filters %}
+                                        <li>{{ f }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </details>
+                        {% endwith %}
                         <div>
                             {% if can_change_subjectfilter %}
                                 {% if study.study_mode != study.EDIT %}

@@ -287,7 +287,7 @@ CASTELLUM_RECRUITMENT_SOFT_LIMIT = 40
 
 # variable used to define max number of subjects
 # in the contact list of the recruitment app
-# max_number_of_subjects = study.min_subjects_count * CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
+# max_number_of_subjects = study.min_subject_count * CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR = 2
 
 # variable is used to define the minimal number of subjects

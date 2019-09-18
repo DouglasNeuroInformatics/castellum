@@ -1,4 +1,4 @@
-from django.contrib.messages import get_messages
+import re
 
 import pytest
 from model_mommy import mommy
@@ -87,10 +87,9 @@ def test_get_when_study_has_minimal_subject_count_set_to_zero(client, member, su
     url = '/studies/{}/recruitmentsettings/filters/'.format(study_in_edit_mode.pk)
     response = client.get(url)
     assert response.status_code == 200
-    messages = list(get_messages(response.wsgi_request))
-    assert len(messages) == 1
-    assert str(messages[0]) == 'Weak recruitment process. Please, define the number of subjects ' \
-                               'for this study.'
+
+    expected = b'Weak recruitment process. Please, define the number of subjects for this study.'
+    assert expected in response.content
 
 
 @pytest.mark.django_db
@@ -98,7 +97,7 @@ def test_get_when_study_has_not_enough_subjects_in_filter_group(client, member,
                                                                 study_in_edit_mode):
     client.force_login(member)
 
-    study_in_edit_mode.min_subjects_count = 100
+    study_in_edit_mode.min_subject_count = 100
     study_in_edit_mode.advanced_filtering = True
     study_in_edit_mode.save()
 
@@ -107,10 +106,10 @@ def test_get_when_study_has_not_enough_subjects_in_filter_group(client, member,
     url = '/studies/{}/recruitmentsettings/filters/'.format(study_in_edit_mode.pk)
     response = client.get(url)
     assert response.status_code == 200
-    messages = list(get_messages(response.wsgi_request))
-    assert len(messages) == 1
-    assert str(messages[0]) == (
-        'For a smooth recruitment process, your institution recommends at least '
-        '10x more potential than required subjects (i.e. 1000 for this study). '
-        'Current amount of potential subjects: 0'
+
+    expected = (
+        b'For a smooth recruitment process, your institution recommends at least '
+        b'10x more potential than required subjects (i.e. 1000 for this study). '
+        b'Current amount of potential subjects: 0'
     )
+    assert expected in re.sub(rb'\s+', b' ', response.content)

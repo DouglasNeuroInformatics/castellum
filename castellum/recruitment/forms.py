@@ -58,19 +58,26 @@ def get_description_choices(user):
     return choices, disabled_choices
 
 
-class SubjectFilterForm(forms.ModelForm):
+class SubjectFilterAddForm(forms.Form):
+    description = DisabledModelChoiceField(AttributeDescription.objects.none(), required=False)
+
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        selected_description = self._get_selected_description(**kwargs)
-
         choices, disabled_choices = get_description_choices(user)
-        self.fields["description"] = DisabledModelChoiceField(AttributeDescription.objects.all())
         self.fields["description"].choices = choices
         self.fields["description"].widget.disabled_choices = disabled_choices
 
-        if not selected_description:
-            return
+
+class SubjectFilterForm(forms.ModelForm):
+    class Meta:
+        model = SubjectFilter
+        fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        selected_description = self._get_selected_description(**kwargs)
 
         self.fields["description"].widget.attrs["disabled"] = True
 
@@ -79,6 +86,7 @@ class SubjectFilterForm(forms.ModelForm):
 
         self.fields["value"] = selected_description.field.filter_formfield()
         self.fields["value"].required = True
+        self.fields["description"].required = True
 
         # disable fields when study is not in edit mode
         try:
@@ -101,10 +109,6 @@ class SubjectFilterForm(forms.ModelForm):
                     return None
         elif kwargs.get('initial') and kwargs['initial'].get('description'):
             return kwargs['initial']['description']
-
-    class Meta:
-        model = SubjectFilter
-        fields = "__all__"
 
 
 class SubjectFilterFormSet(forms.BaseModelFormSet):

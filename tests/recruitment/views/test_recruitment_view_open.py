@@ -8,8 +8,8 @@ from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import ParticipationRequestRevision
 
 
-def test_min_subjects_count_is_zero(client, member, study_in_execution_mode):
-    study_in_execution_mode.min_subjects_count = 0
+def test_min_subject_count_is_zero(client, member, study_in_execution_mode):
+    study_in_execution_mode.min_subject_count = 0
     study_in_execution_mode.save()
 
     client.force_login(member)
@@ -29,7 +29,7 @@ def test_min_subjects_count_is_zero(client, member, study_in_execution_mode):
 ])
 def test_not_contacted_count_is_gte_to_hard_limit(client, member, study_in_execution_mode,
                                                   subject_count, contact_domain):
-    study_in_execution_mode.min_subjects_count = 10
+    study_in_execution_mode.min_subject_count = 10
     study_in_execution_mode.save()
 
     for i in range(subject_count):
@@ -53,7 +53,7 @@ def test_not_contacted_count_is_gte_to_hard_limit(client, member, study_in_execu
 ])
 def test_not_contacted_count_is_gte_to_soft_limit(client, member, study_in_execution_mode,
                                                   subject_count, contact_domain):
-    study_in_execution_mode.min_subjects_count = 2 * settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT
+    study_in_execution_mode.min_subject_count = 2 * settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT
     study_in_execution_mode.save()
 
     for i in range(subject_count):
@@ -75,7 +75,7 @@ def test_not_contacted_count_is_gte_to_soft_limit(client, member, study_in_execu
 
 def test_no_matching_attribute_sets(client, member, study_in_execution_mode,
                                     attribute_description, contact_domain):
-    study_in_execution_mode.min_subjects_count = 5
+    study_in_execution_mode.min_subject_count = 5
     study_in_execution_mode.save()
 
     for i in range(5):
@@ -97,7 +97,7 @@ def test_no_matching_attribute_sets(client, member, study_in_execution_mode,
 
 
 def test_create_revision_on_create(client, member, attributeset, study_in_execution_mode):
-    study_in_execution_mode.min_subjects_count = 5
+    study_in_execution_mode.min_subject_count = 5
     study_in_execution_mode.save()
 
     client.force_login(member)

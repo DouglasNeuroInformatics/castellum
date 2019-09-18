@@ -69,3 +69,8 @@ def field_names(instance):
         return instance.get_field_names()
     else:
         return [field.name for field in instance._meta.get_fields()]
+
+
+@register.filter(name='list')
+def _list(qs):
+    return list(qs)

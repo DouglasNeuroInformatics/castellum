@@ -74,9 +74,9 @@ class Study(models.Model):
     study_mode = models.SmallIntegerField(
         _('Study mode'), choices=STUDY_MODES, default=EDIT)
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
-    min_subjects_count = models.PositiveIntegerField(_('Required number of subjects'),
-                                                     blank=True,
-                                                     default=0)
+    min_subject_count = models.PositiveIntegerField(
+        _('Required number of subjects'), blank=True, default=0
+    )
     expense_allowance = models.PositiveIntegerField(_('Expense allowance'), blank=True, null=True)
     sessions_start = DateField(_('Start of test sessions'), blank=True, null=True)
     sessions_end = DateField(_('End of test sessions'), blank=True, null=True)
