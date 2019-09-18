@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.contrib import messages
 from django.forms import modelformset_factory
 from django.http import HttpResponseBadRequest
@@ -40,7 +41,6 @@ from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
-from castellum.settings import CASTELLUM_EXPECTED_SUBJECT_FACTOR
 from castellum.utils.views import ReadonlyMixin
 
 from ..mixins import StudyMixin
@@ -82,15 +82,15 @@ def subject_count_warnings(request, min_subjects_count, potential_subjects_count
             'Weak recruitment process. '
             'Please, define the number of subjects for this study.'
         ))
-    elif potential_subjects_count < min_subjects_count * CASTELLUM_EXPECTED_SUBJECT_FACTOR:
+    elif potential_subjects_count < min_subjects_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR:
         messages.warning(request, _(
             'For a smooth recruitment process, your institution recommends at least '
             '%(castellum_factor)dx more potential than required subjects '
             '(i.e. %(recommended_count)d for this study). Current amount of potential '
             'subjects: %(potential_count)d'
         ) % {
-            'castellum_factor': CASTELLUM_EXPECTED_SUBJECT_FACTOR,
-            'recommended_count': min_subjects_count * CASTELLUM_EXPECTED_SUBJECT_FACTOR,
+            'castellum_factor': settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR,
+            'recommended_count': min_subjects_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR,
             'potential_count': potential_subjects_count,
         })
 
