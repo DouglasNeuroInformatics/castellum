@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: castellum-docs \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-12 14:33+0200\n"
+"POT-Creation-Date: 2019-09-18 12:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,14 +23,14 @@ msgid "Creating a new study"
 msgstr "Eine neue Studie anlegen"
 
 #: ../../source/workflows/study-creation.rst:4
-#: ../../source/workflows/study-creation.rst:111
+#: ../../source/workflows/study-creation.rst:124
 msgid "Log in to Castellum by using your username and password"
 msgstr ""
 "Logge dich bei Castellum ein, indem du deinen Nutzernamen und dein "
 "Passwort eingibst"
 
 #: ../../source/workflows/study-creation.rst:5
-#: ../../source/workflows/study-creation.rst:112
+#: ../../source/workflows/study-creation.rst:125
 msgid "Click on **Studies** on the front page"
 msgstr "Klicke auf der Startseite auf **Studien**"
 
@@ -112,7 +112,7 @@ msgstr ""
 #: ../../source/workflows/study-creation.rst:33
 #, fuzzy
 msgid ""
-"Sind mit*\\ **Keywords**\\ *die grundlegenden Beschreibungen bzgl. des "
+"Sind mit **Keywords** die grundlegenden Beschreibungen bzgl. des "
 "Forschungsgegenstands gemeint?"
 msgstr ""
 "*Sind mit*\\ **Keywords**\\ *die grundlegenden Beschreibungen bzgl. des "
@@ -144,17 +144,17 @@ msgstr ""
 #: ../../source/workflows/study-creation.rst:45
 #, fuzzy
 msgid ""
-"Wieso gibt es hier auch*\\ **———**\\ *als Auswahl? Wählt man das aus, "
-"wenn man sich über die Studienform noch nicht ganz sicher ist?"
+"Wieso gibt es hier auch **———** als Auswahl? Wählt man das aus, wenn man "
+"sich über die Studienform noch nicht ganz sicher ist?"
 msgstr ""
-"*Wieso gibt es hier auch*\\ **———**\\ *als Auswahl? Wählt man das "
-"aus, wenn man sich über die Studienform noch nicht ganz sicher ist?*"
+"*Wieso gibt es hier auch*\\ **———**\\ *als Auswahl? Wählt man das aus, "
+"wenn man sich über die Studienform noch nicht ganz sicher ist?*"
 
 #: ../../source/workflows/study-creation.rst:49
 #, fuzzy
 msgid ""
-"Ist mit*\\ **Consent**\\ *die Zustimmung der Probanden zur Datenerhebung/"
-" -verarbeitung gemeint?"
+"Ist mit **Consent** die Zustimmung der Probanden zur Datenerhebung/ "
+"-verarbeitung gemeint?"
 msgstr ""
 "*Ist mit*\\ **Einverständnis**\\ *die Zustimmung der Probanden zur "
 "Datenerhebung/ -verarbeitung gemeint? Oder das OK für die Studie "
@@ -176,13 +176,12 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Die Aufwandsentschädigung, die an dieser Stelle festgelegt wird, wird dem"
-" Rekruiter im Recruitingprozess*\\ **pro Person**\\ *angezeigt. Deshalb "
-"sollte an dieser Stelle vielleicht*\\ **Expense allowance per "
-"participant**\\ *stehen, damit hier niemand die Summe aller "
-"Aufwandsentschädigungen einträgt? Außerdem kommt es doch auch manchmal "
-"vor,    dass die Entschädigung keine Bargeldauszahlung ist, sondern "
-"Gegenstände oder Geschenke. Kann man das noch "
-"hinzufügen?"
+" Rekruiter im Recruitingprozess **pro Person** angezeigt. Deshalb sollte "
+"an dieser Stelle vielleicht **Expense allowance per participant** stehen,"
+" damit hier niemand die Summe aller Aufwandsentschädigungen einträgt? "
+"Außerdem kommt es doch auch manchmal vor, dass die Entschädigung keine "
+"Bargeldauszahlung ist, sondern Gegenstände oder Geschenke. Kann man das "
+"noch irgendwie hinzufügen?"
 msgstr ""
 "*Die Aufwandsentschädigung, die an dieser Stelle festgelegt wird, wird "
 "dem Rekruiter im Recruitingprozess **pro Person** angezeigt. Deshalb "
@@ -192,13 +191,13 @@ msgstr ""
 "vor, dass die Entschädigung keine Bargeldauszahlung ist, sondern "
 "Gegenstände/Geschenke. Kann man das noch irgendwie hinzufügen?*"
 
-#: ../../source/workflows/study-creation.rst:63
+#: ../../source/workflows/study-creation.rst:65
 msgid "You can add a **Test session** by clicking on **Add session**"
 msgstr ""
 "Du kannst eine **Testsitzung** für die Proband*innen hinzufügen, indem du"
 " auf **Sitzung hinzufügen** klickst"
 
-#: ../../source/workflows/study-creation.rst:65
+#: ../../source/workflows/study-creation.rst:67
 msgid ""
 "You can add any number of test sessions and must always specify the "
 "duration of each session"
@@ -206,7 +205,7 @@ msgstr ""
 "Es können beliebig viele Sitzungen hinzugefügt werden, wobei jeweils die "
 "zeitliche Dauer festgelegt werden muss"
 
-#: ../../source/workflows/study-creation.rst:67
+#: ../../source/workflows/study-creation.rst:69
 msgid ""
 "By clicking on the red button **Delete**, you can erase any test session "
 "you created"
@@ -214,182 +213,225 @@ msgstr ""
 "Wird auf den roten Knopf **Löschen** gedrückt, wird die erstellte "
 "Testsitzung wieder entfernt"
 
-#: ../../source/workflows/study-creation.rst:70
+#: ../../source/workflows/study-creation.rst:72
 msgid "Enter the start and end of the test sessions in the two following fields"
 msgstr ""
 "Lege in den zwei folgenden Feldern zum einen den **Beginn der "
 "Testsitzungen** und zum anderen das **Ende der Testsitzungen** fest"
 
-#: ../../source/workflows/study-creation.rst:72
+#: ../../source/workflows/study-creation.rst:74
 msgid "Click on **Save** to record your progress"
 msgstr "Klicke auf **Speichern**, um deinen Fortschritt beizubehalten"
 
-#: ../../source/workflows/study-creation.rst:74
+#: ../../source/workflows/study-creation.rst:76
 msgid "Your study is now scheduled"
 msgstr "Die Studie ist nun angelegt"
 
-#: ../../source/workflows/study-creation.rst:77
+#: ../../source/workflows/study-creation.rst:79
 msgid "Start and finish your study"
 msgstr "Studie starten und beenden"
 
-#: ../../source/workflows/study-creation.rst:79
+#: ../../source/workflows/study-creation.rst:81
 msgid ""
 "When you created a study, it is not started and the recruiting process is"
 " not yet initiated either."
-msgstr "Wenn du eine Studie angelegt hast, wurde sie dadurch nicht automatisch gestartet und der Rekruitingprozess wurde noch nicht eingeleitet."
+msgstr ""
+"Wenn du eine Studie angelegt hast, wurde sie dadurch nicht automatisch "
+"gestartet und der Rekruitingprozess wurde noch nicht eingeleitet."
 
-#: ../../source/workflows/study-creation.rst:80
+#: ../../source/workflows/study-creation.rst:84
 msgid "Go to **Details** next to the study you want to start or finish"
-msgstr "Klicke auf **Details** neben der Studie, die du starten oder beenden möchtest"
+msgstr ""
+"Klicke auf **Details** neben der Studie, die du starten oder beenden "
+"möchtest"
 
-#: ../../source/workflows/study-creation.rst:81
+#: ../../source/workflows/study-creation.rst:85
 msgid "In the right upper corner are two buttons: **Start** and **Finish**"
 msgstr "Rechts oben siehst du zwei Möglichkeiten: **Start** und **Studie beenden**"
 
-#: ../../source/workflows/study-creation.rst:83
+#: ../../source/workflows/study-creation.rst:87
 msgid "By clicking on **Start** you initiate the recruiting process"
 msgstr "Wenn du auf **Start** klickst, wird die Rekrutierung eingeleitet"
 
-#: ../../source/workflows/study-creation.rst:85
+#: ../../source/workflows/study-creation.rst:89
+#, fuzzy
 msgid ""
-"In this mode, you are not able to change any characteristics           or"
-" talking points that are needed for the recruitment"
-msgstr "In diesem Modus ist es nicht möglich, Informationen für den Rekruiter (z.B. die gewünschten Probandenmerkmale) abzuändern"
-
-#: ../../source/workflows/study-creation.rst:86
-msgid ""
-"When you click on **Stop**, you can edit information needed            "
-"for the recruiting process"
-msgstr "Wenn du auf **Stopp** klickst, können diese Informationen angepasst werden"
-
-#: ../../source/workflows/study-creation.rst:87
-msgid ""
-"*To release those responsible for the recruitment process for the study, "
-"follow the steps in the **Share studies with your recruiters*** 3.  When "
-"you click on **Finish study**, Castellum will register your       study "
-"as completed"
-msgstr "*Um die Verantwortlichen des Rekrutierungsprozesses für die Studie freizugeben, befolge die Schritte des Abschnitts **Studien für Rekrutierer freigeben***
-
-* Castellum vermerkt die Studie als abgeschlossen, wenn du auf **Studie beenden** drückst"
+"In this mode, you are not able to change any characteristics or talking "
+"points that are needed for the recruitment"
+msgstr ""
+"In diesem Modus ist es nicht möglich, Informationen für den Rekruiter "
+"(z.B. die gewünschten Probandenmerkmale) abzuändern"
 
 #: ../../source/workflows/study-creation.rst:91
+#, fuzzy
+msgid ""
+"When you click on **Stop**, you can edit information needed for the "
+"recruiting process."
+msgstr "Wenn du auf **Stopp** klickst, können diese Informationen angepasst werden"
+
+#: ../../source/workflows/study-creation.rst:94
+#, fuzzy
+msgid ""
+"*To release those responsible for the recruitment process for the study, "
+"follow the steps in the **Share studies with your recruiters***"
+msgstr ""
+"*Um die Verantwortlichen des Rekrutierungsprozesses für die Studie "
+"freizugeben, befolge die Schritte des Abschnitts **Studien für "
+"Rekrutierer freigeben**"
+
+#: ../../source/workflows/study-creation.rst:98
+msgid ""
+"When you click on **Finish study**, Castellum will register your study as"
+" completed"
+msgstr ""
+
+#: ../../source/workflows/study-creation.rst:101
 msgid "Assign access rights and allocate roles"
 msgstr "Zugriffsrechte zuweisen und Rollen vergeben"
 
-#: ../../source/workflows/study-creation.rst:92
+#: ../../source/workflows/study-creation.rst:103
+#, fuzzy
 msgid ""
 "Some users are already assigned to certain global roles in advance. This "
 "can be recognized by the fact that the role description is highlighted in"
 " grey. Roles with blue background can be flexibly defined and changed by "
-"the **Study coordinator**. "
-"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ "
-"To delegate roles amongst different people, proceed as follows "
-"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ "
-"1. Follow steps 1-5 of the section **Share studies with your      "
-"recruiters** below"
-msgstr "Einigen Nutzern sind bereits im Voraus bestimmte allgemeine Rollen zugeordnet. Dies ist daran zu erkennen, dass die Rollenbeschreibung grau hinterlegt ist. Rollen mit blauem Hintergrund können vom **Studienkoordinator** flexibel definiert und abgeändert werden. 
-Um Rollen an verschiedene Personen zu delegieren, gehe wie folgt vor:
-"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ "
-1. Befolge die Schritte 1-5 des nachstehenden Abschnitts **Studien für Rekrutierer freigeben**"
+"the **Study coordinator**. To delegate roles amongst different people, "
+"proceed as follows:"
+msgstr ""
+"Einigen Nutzern sind bereits im Voraus bestimmte allgemeine Rollen "
+"zugeordnet. Dies ist daran zu erkennen, dass die Rollenbeschreibung grau "
+"hinterlegt ist. Rollen mit blauem Hintergrund können vom "
+"**Studienkoordinator** flexibel definiert und abgeändert "
+"werden^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+" "
 
-#: ../../source/workflows/study-creation.rst:98
+#: ../../source/workflows/study-creation.rst:108
+#, fuzzy
 msgid ""
-"Even if the section is about **Recruiters**, you can use it to         "
-"assign any role you like"
-msgstr "Auch wenn in diesem Abschnitt von **Rekrutierern** die Rede ist, kannst du die Schritte für jede beliebige Rollenzuweisung befolgen"
+"Follow steps 1-5 of the section **Share studies with your      "
+"recruiters** below -  Even if the section is about **Recruiters**, you "
+"can use it to         assign any role you like"
+msgstr ""
+"Auch wenn in diesem Abschnitt von **Rekrutierern** die Rede ist, kannst "
+"du die Schritte für jede beliebige Rollenzuweisung befolgen"
 
-#: ../../source/workflows/study-creation.rst:99
+#: ../../source/workflows/study-creation.rst:110
 msgid ""
 "Select the user for whom you want to change access rights and/or roles "
 "and click **Add**"
-msgstr "Wähle bei **User** den Nutzer aus, für welchen die Zugriffsrechte und/oder Rollen geändert oder hinzugefügt werden sollen und klicke **Hinzufügen**"
+msgstr ""
+"Wähle bei **User** den Nutzer aus, für welchen die Zugriffsrechte "
+"und/oder Rollen geändert oder hinzugefügt werden sollen und klicke "
+"**Hinzufügen**"
 
-#: ../../source/workflows/study-creation.rst:101
+#: ../../source/workflows/study-creation.rst:112
 msgid ""
 "After clicking **Edit** next to the selected person, you can assign up to"
 " four different roles: **Study coordinator**, **Subject manager** and "
 "**Recruiter**"
-msgstr "Wenn du **Bearbeiten** neben der betreffenden Person anklickst, kannst du dieser vier verschiedene Rollen zuteilen: **Study coordinator**, **Subject manager**, **Recruiter** und **Study conductor**"
+msgstr ""
+"Wenn du **Bearbeiten** neben der betreffenden Person anklickst, kannst du"
+" dieser vier verschiedene Rollen zuteilen: **Study coordinator**, "
+"**Subject manager**, **Recruiter** und **Study conductor**"
 
-#: ../../source/workflows/study-creation.rst:104
+#: ../../source/workflows/study-creation.rst:115
 msgid ""
 "Select the role you want to assign to the selected person and press "
 "**Save**"
-msgstr "Wähle die Rolle, die der Person zugeteilt werden soll und drücke auf **Speichern**"
+msgstr ""
+"Wähle die Rolle, die der Person zugeteilt werden soll und drücke auf "
+"**Speichern**"
 
-#: ../../source/workflows/study-creation.rst:108
+#: ../../source/workflows/study-creation.rst:119
 msgid "Share studies with your recruiters"
 msgstr "Studien für Rekrutierer freigeben"
 
-#: ../../source/workflows/study-creation.rst:110
+#: ../../source/workflows/study-creation.rst:121
 msgid ""
 "If you receive a request for access from a person who is supposed to "
 "recruit participants for your study, please follow the steps below."
-msgstr "Wenn Sie eine Zugriffsanfrage von einem Nutzer/einer Nutzerin erhalten, die Teilnehmer für Ihre Studie rekrutieren soll, führen Sie bitte die folgenden Schritte aus."
+msgstr ""
+"Wenn Sie eine Zugriffsanfrage von einem Nutzer/einer Nutzerin erhalten, "
+"die Teilnehmer für Ihre Studie rekrutieren soll, führen Sie bitte die "
+"folgenden Schritte aus."
 
-#: ../../source/workflows/study-creation.rst:114
+#: ../../source/workflows/study-creation.rst:127
+#, fuzzy
 msgid ""
-"You will see a list of the studies you have created by clicking        on"
-" **My studies**"
-msgstr "Gehst du auf **Meine Studien**, werden dir die von dir angelegten Studien angezeigt"
+"You will see a list of the studies you have created by clicking on **My "
+"studies**"
+msgstr ""
+"Gehst du auf **Meine Studien**, werden dir die von dir angelegten Studien"
+" angezeigt"
 
-#: ../../source/workflows/study-creation.rst:116
+#: ../../source/workflows/study-creation.rst:130
+#, fuzzy
 msgid ""
-"Click on **Details** of the study for which you want to change         "
-"access rights or role redistribution"
-msgstr "Klicke auf **Details** neben der Studie, für welche du den Rekrutierer freigeben möchtest"
+"Click on **Details** of the study for which you want to change access "
+"rights or role redistribution"
+msgstr ""
+"Klicke auf **Details** neben der Studie, für welche du den Rekrutierer "
+"freigeben möchtest"
 
-#: ../../source/workflows/study-creation.rst:117
+#: ../../source/workflows/study-creation.rst:132
 msgid "Go to **Manage members** on the lower edge"
 msgstr "Gehe zu **Mitgliederverwaltung** am unteren Ende der Seite"
 
-#: ../../source/workflows/study-creation.rst:118
+#: ../../source/workflows/study-creation.rst:133
 msgid ""
 "If you click on the field under **Users**, you will be shown all possible"
 " users to whom you can assign roles"
-msgstr "Klickst du auf das Feld **Users**, werden die alle Nutzer angezeigt, welchen du die Rekrutierungsrolle zuweisen kannst"
+msgstr ""
+"Klickst du auf das Feld **Users**, werden die alle Nutzer angezeigt, "
+"welchen du die Rekrutierungsrolle zuweisen kannst"
 
-#: ../../source/workflows/study-creation.rst:120
+#: ../../source/workflows/study-creation.rst:135
 msgid "Select the user, who is supposed to take over the recruitment"
 msgstr "Wähle denjenigen Nutzer aus, welchen du als Rekrutierer ernennen möchtest"
 
-#: ../../source/workflows/study-creation.rst:121
+#: ../../source/workflows/study-creation.rst:136
 msgid "Press **Add**"
 msgstr "Drücke **Hinzufügen**"
 
-#: ../../source/workflows/study-creation.rst:122
+#: ../../source/workflows/study-creation.rst:137
 msgid "Press **Edit** next to the person you chose"
 msgstr "Gehe auf **Bearbeiten** rechts neben der ausgewählten Person"
 
-#: ../../source/workflows/study-creation.rst:124
+#: ../../source/workflows/study-creation.rst:139
 msgid "You can now assign one to four different roles to the person"
 msgstr "Du hast die Möglichkeit, insgesamt vier verschiedene Rollen zuzuweisen"
 
-#: ../../source/workflows/study-creation.rst:126
+#: ../../source/workflows/study-creation.rst:141
 msgid "Select **Recruiter** and press **Save**"
 msgstr "Wähle **Recruiter** aus und drücke **Speichern**"
 
-#: ../../source/workflows/study-creation.rst:128
+#: ../../source/workflows/study-creation.rst:143
+#, fuzzy
 msgid ""
-"The selected person has still no access to the study, unless you follow "
-"the next steps:"
-msgstr "Falls du die Studie noch nicht gestartet hast, hat die ausgewählte Person in der Rolle als Rekrutierer immer noch keinen Zugang zur Studie. Um dies zu ändern, befolge bitte folgende Schritte:"
+"If you did not start the study yet, the selected person has still no "
+"access to the study, unless you follow the next steps:"
+msgstr ""
+"Falls du die Studie noch nicht gestartet hast, hat die ausgewählte Person"
+" in der Rolle als Rekrutierer immer noch keinen Zugang zur Studie. Um "
+"dies zu ändern, befolge bitte folgende Schritte:"
 
-#: ../../source/workflows/study-creation.rst:130
+#: ../../source/workflows/study-creation.rst:145
 msgid "Go **Back**"
 msgstr "Gehe **Zurück**"
 
-#: ../../source/workflows/study-creation.rst:131
+#: ../../source/workflows/study-creation.rst:146
 msgid "Press **Start** on the upper right side"
 msgstr "Drücke auf **Start** oben rechts"
 
-#: ../../source/workflows/study-creation.rst:133
+#: ../../source/workflows/study-creation.rst:148
 msgid ""
 "The study is now in progress and the recruiter has now access to the "
 "study and can begin to recruit"
-msgstr "Nun hast du die Studie gestartet und der Rekruiter kann auf die Studie zugreifen, um das Rekruiting zu beginnen"
+msgstr ""
+"Nun hast du die Studie gestartet und der Rekruiter kann auf die Studie "
+"zugreifen, um das Rekruiting zu beginnen"
 
-#: ../../source/workflows/study-creation.rst:135
+#: ../../source/workflows/study-creation.rst:150
 msgid "Of course, you may select several persons as recruiters"
 msgstr "Du kannst beliebig viele Personen als Rekruiter freigeben"
 
