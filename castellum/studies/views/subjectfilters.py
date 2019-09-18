@@ -241,4 +241,4 @@ class FilterGroupDuplicateView(FilterMixin, View):
         SubjectFilterGroup.objects.clone(original)
         messages.success(request, _(
             'The filters have been duplicated. You can now edit the duplicate.'))
-        return redirect('studies:filtergroup_index', self.study.pk)
+        return redirect('studies:filtergroup-index', self.study.pk)
