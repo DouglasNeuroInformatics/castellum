@@ -37,9 +37,6 @@ from django.views.generic import UpdateView
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
-from castellum.settings import CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS
-from castellum.settings import CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
-from castellum.settings import CASTELLUM_RECRUITMENT_SOFT_LIMIT
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseSubjectUpdateView
@@ -175,7 +172,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         ]).count()
 
         context['last_agreeable_contact_time'] = datetime.date.today() - datetime.timedelta(
-            days=CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS
+            days=settings.CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS
         )
 
         return context
@@ -230,7 +227,7 @@ class RecruitmentViewOpen(RecruitmentView):
             return self.get(request, *args, **kwargs)
 
         open_count = self.get_queryset().count()
-        hard_limit = self.study.min_subject_count * CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
+        hard_limit = self.study.min_subject_count * settings.CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 
         if open_count >= hard_limit:
             messages.error(request, _(
@@ -250,7 +247,7 @@ class RecruitmentViewOpen(RecruitmentView):
                 'The custom filter that is set for this study does not exist.'
             ))
 
-        if open_count + added > CASTELLUM_RECRUITMENT_SOFT_LIMIT:
+        if open_count + added > settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT:
             messages.error(request, _(
                 'Such workflow is not intended due to privacy reasons. '
                 'Please contact provided subjects before adding new ones.'
