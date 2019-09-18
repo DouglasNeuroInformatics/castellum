@@ -271,6 +271,7 @@ class GuardianSearchView(SubjectSearchView):
         if form.is_valid() and privacy_level_form.is_valid() and contact_form.is_valid():
             contact = contact_form.save()
             contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
+            contact.subject.no_recruitment = True
             contact.subject.save()
 
             monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
