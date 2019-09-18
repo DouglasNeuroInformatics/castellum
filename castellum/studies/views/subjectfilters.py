@@ -19,8 +19,11 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django.conf import settings
 from django.contrib import messages
+from django.db import models
 from django.forms import modelformset_factory
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
@@ -40,6 +43,7 @@ from castellum.recruitment.forms import SubjectFilterFormSet
 from castellum.recruitment.forms import SubjectFilterGroupForm
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
+from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.utils.views import ReadonlyMixin
@@ -175,7 +179,21 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
 
-        data['count'] = self.object.get_subject_count()
+        data['count'] = self.object.get_matches().count()
+
+        # if no filters exist, all active studies would be related
+        if self.object.subjectfilter_set.exists():
+            related_prs = ParticipationRequest.objects.filter(
+                updated_at__gte=datetime.date.today() - datetime.timedelta(days=2 * 365),
+                status=ParticipationRequest.INVITED,
+                subject__attributeset__in=self.object.get_matches(),
+            )
+            data['related_studies'] = list(
+                Study.objects
+                .filter(participationrequest__in=related_prs)
+                .annotate(count=models.Count('pk'))
+            )
+
         data['total_count'] = AttributeSet.objects.count()
         data['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         data['expected_subject_count'] = (
