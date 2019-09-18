@@ -2,8 +2,8 @@ import pytest
 from freezegun import freeze_time
 from model_mommy import mommy
 
-from castellum.recruitment.models.recruitment import ParticipationRequest
-from castellum.recruitment.models.recruitment import ParticipationRequestRevision
+from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import ParticipationRequestRevision
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 
