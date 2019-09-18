@@ -76,25 +76,6 @@ class FilterMixin(StudyMixin, PermissionRequiredMixin, CustomFilterMixin):
         return permission_required
 
 
-def subject_count_warnings(request, min_subjects_count, potential_subjects_count):
-    if min_subjects_count == 0:
-        messages.warning(request, _(
-            'Weak recruitment process. '
-            'Please, define the number of subjects for this study.'
-        ))
-    elif potential_subjects_count < min_subjects_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR:
-        messages.warning(request, _(
-            'For a smooth recruitment process, your institution recommends at least '
-            '%(castellum_factor)dx more potential than required subjects '
-            '(i.e. %(recommended_count)d for this study). Current amount of potential '
-            'subjects: %(potential_count)d'
-        ) % {
-            'castellum_factor': settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR,
-            'recommended_count': min_subjects_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR,
-            'potential_count': potential_subjects_count,
-        })
-
-
 class FilterGroupListView(FilterMixin, ListView):
     model = SubjectFilterGroup
     template_name = 'studies/filtergroup_advanced.html'
@@ -107,8 +88,9 @@ class FilterGroupListView(FilterMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['count'] = AttributeSet.apply_study_filter(self.study).count()
-        subject_count_warnings(
-            self.request, self.study.min_subjects_count, context['count']
+        context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+        context['expected_subject_count'] = (
+            self.study.min_subjects_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         )
         return context
 
@@ -200,8 +182,14 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
             ) % ', '.join(description.label for description in inaccessible))
 
         data = super().get_context_data(**kwargs)
+
         data['count'] = self.object.get_subject_count()
         data['total_count'] = AttributeSet.objects.count()
+        data['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+        data['expected_subject_count'] = (
+            self.study.min_subjects_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+        )
+
         data['add_form'] = SubjectFilterForm(user=self.request.user)
         data['templates'] = {}
         for description in AttributeDescription.objects.all():
@@ -212,9 +200,6 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
 
         if 'formset' not in data:
             data['formset'] = self.get_formset()
-
-        if not self.study.advanced_filtering:
-            subject_count_warnings(self.request, self.study.min_subjects_count, data['count'])
 
         return data
 

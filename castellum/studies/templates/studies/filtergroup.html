@@ -4,6 +4,10 @@
 {% block title %}{% trans "Filters" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    {% if not study.advanced_filtering %}
+        {% include 'studies/__filtergroup_common.html' %}
+    {% endif %}
+
     <p>{% trans 'matches' %}: {{ count }} / {{ total_count }}</p>
 
     {% if study.study_mode == study.EDIT %}

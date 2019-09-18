@@ -4,6 +4,8 @@
 {% block title %}{% trans "Filter Groups" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    {% include 'studies/__filtergroup_common.html' %}
+
     <p>{% trans "required number of subjects" %}: {{ study.min_subjects_count }}</p>
 
     <div class="card mb-3">
