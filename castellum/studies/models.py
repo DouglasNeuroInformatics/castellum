@@ -69,7 +69,7 @@ class Study(models.Model):
     keywords = models.CharField(_('Keywords'), max_length=254, blank=True)
     study_type = models.ManyToManyField(StudyType, verbose_name=_('Type of study'), blank=True)
     previous_study_mode = models.SmallIntegerField(
-        _('Study mode'), choices=STUDY_MODES, default=EDIT)
+        _('Previous study mode'), choices=STUDY_MODES, default=EDIT)
     study_mode = models.SmallIntegerField(
         _('Study mode'), choices=STUDY_MODES, default=EDIT)
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
