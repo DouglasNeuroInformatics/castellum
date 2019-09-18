@@ -138,6 +138,7 @@ class SubjectFilterGroupForm(ReadonlyModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['excluded_studies'].queryset = Study.objects.exclude(pk=self.instance.study.pk)
+        self.fields["excluded_studies"].widget.attrs['class'] = 'form-control'
 
 
 class AttributeSetForm(forms.Form):
