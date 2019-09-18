@@ -192,6 +192,7 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
                 Study.objects
                 .filter(participationrequest__in=related_prs)
                 .annotate(count=models.Count('pk'))
+                .order_by('-count')
             )
 
         data['total_count'] = AttributeSet.objects.count()
