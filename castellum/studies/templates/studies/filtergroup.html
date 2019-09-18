@@ -115,6 +115,14 @@
                             </div>
                         {% endif %}
                     </div>
+                    {% if related_studies %}
+                        <small class="form-text text-muted">
+                            {% trans 'Studies in which potential subjects have pariticipated' %}:
+                            {% for study in related_studies %}
+                                {{ study }} ({{ study.count }}){% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        </small>
+                    {% endif %}
                 </div>
             </div>
         </div>
