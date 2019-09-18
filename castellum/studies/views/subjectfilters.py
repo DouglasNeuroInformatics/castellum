@@ -97,7 +97,7 @@ def subject_count_warnings(request, min_subjects_count, potential_subjects_count
 
 class FilterGroupListView(FilterMixin, ListView):
     model = SubjectFilterGroup
-    template_name = 'studies/filtergroup_list.html'
+    template_name = 'studies/filtergroup_advanced.html'
     permission_required = 'recruitment.view_subjectfilter'
 
     def get_queryset(self):
