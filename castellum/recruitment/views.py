@@ -347,7 +347,9 @@ class AttributeSetUpdateView(StudyMixin, BaseAttributeSetUpdateView):
             subject__no_recruitment=False,
             pk=self.kwargs['pk'],
         )
-        return participation_request.subject.attributeset
+        attributeset, __ = AttributeSet.objects.get_or_create(
+            subject=participation_request.subject, defaults={'data': {}})
+        return attributeset
 
     def get_success_url(self):
         return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
