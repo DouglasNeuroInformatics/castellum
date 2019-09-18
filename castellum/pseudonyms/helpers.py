@@ -41,6 +41,11 @@ def create_domain(bits=40):
     return domain.key
 
 
+def delete_domain(domain_key):
+    domain = Domain.objects.get(key=domain_key)
+    domain.delete()
+
+
 def get_subject(domain_key, pseudonym):
     origin = Pseudonym.objects.get(domain__key=domain_key, pseudonym=pseudonym)
     return origin.subject

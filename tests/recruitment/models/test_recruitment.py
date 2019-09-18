@@ -2,8 +2,9 @@ import pytest
 from freezegun import freeze_time
 from model_mommy import mommy
 
-from castellum.recruitment.models.recruitment import ParticipationRequest
-from castellum.recruitment.models.recruitment import ParticipationRequestRevision
+from castellum.pseudonyms.models import Pseudonym
+from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import ParticipationRequestRevision
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 
@@ -135,3 +136,16 @@ def test_last_contacted_elsewhere_not_contacted():
 
     participationrequest_1 = ParticipationRequest.objects.get(pk=participationrequest_1.pk)
     assert participationrequest_1.last_contacted_elsewhere is None
+
+
+@pytest.mark.django_db
+def test_participationrequest_create_delete_pseudonym():
+    start_count = Pseudonym.objects.count()
+    study = mommy.make(Study, domain=None)
+
+    participationrequest = mommy.make(ParticipationRequest, study=study)
+    assert participationrequest.pseudonym  # access to generate pseudonym
+    assert Pseudonym.objects.count() == start_count + 1
+
+    participationrequest.study.delete()
+    assert Pseudonym.objects.count() == start_count

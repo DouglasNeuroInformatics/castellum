@@ -30,6 +30,7 @@ from django.utils.translation import gettext_lazy as _
 from dateutil.relativedelta import relativedelta
 
 from castellum.pseudonyms.helpers import create_pseudonym
+from castellum.pseudonyms.helpers import delete_pseudonym
 from castellum.pseudonyms.helpers import get_subject
 from castellum.utils.fields import DateField
 from castellum.utils.fields import PhoneNumberField
@@ -130,6 +131,12 @@ class Contact(TimeStampedModel):
         self.last_name_phonetic = phonetic(self.last_name)
 
         return super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        if self.pseudonym:
+            delete_pseudonym(Contact.domain, self.pseudonym)
+
+        return super().delete(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('subjects:detail', args=[self.subject.pk])
