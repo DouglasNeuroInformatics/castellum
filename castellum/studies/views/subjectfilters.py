@@ -174,13 +174,6 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
         ).distinct()
 
     def get_context_data(self, **kwargs):
-        inaccessible = list(self.get_inaccessible_attributedescriptions())
-        if inaccessible:
-            messages.warning(self.request, _(
-                'At least one member of this study with access to filters does not have a '
-                'sufficient privacy level to view the following attributes: %s'
-            ) % ', '.join(description.label for description in inaccessible))
-
         data = super().get_context_data(**kwargs)
 
         data['count'] = self.object.get_subject_count()
@@ -189,6 +182,8 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
         data['expected_subject_count'] = (
             self.study.min_subjects_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         )
+
+        data['inaccessible'] = list(self.get_inaccessible_attributedescriptions())
 
         data['add_form'] = SubjectFilterForm(user=self.request.user)
         data['templates'] = {}
