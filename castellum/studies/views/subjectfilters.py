@@ -88,6 +88,7 @@ class FilterGroupListView(FilterMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['total_count'] = AttributeSet.objects.count()
         context['count'] = AttributeSet.apply_study_filter(self.study).count()
         context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         context['expected_subject_count'] = (

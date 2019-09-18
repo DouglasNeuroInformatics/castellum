@@ -50,7 +50,9 @@
         <div class="card my-4">
             <div class="card-header d-flex justify-content-between">
                 {% trans 'All of these' %}
-                <span class="text-right">{% blocktrans %}{{ count }}/{{ total_count }} potential subjects{% endblocktrans %}</span>
+                <span class="text-right" title="{% trans 'required' %}: {{ study.min_subject_count }} {% trans 'total' %}: {{ total_count }}">
+                    {% blocktrans %}{{ count }} potential subjects{% endblocktrans %}
+                </span>
             </div>
 
             <div class="card-body">

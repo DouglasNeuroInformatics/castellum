@@ -6,12 +6,12 @@
 {% block content %}
     {% include 'studies/__filtergroup_common.html' %}
 
-    <p>{% trans "required number of subjects" %}: {{ study.min_subject_count }}</p>
-
     <div class="card mb-3">
         <div class="card-header d-flex justify-content-between">
             {% trans 'Any of these' %}
-            <span class="text-right">{% blocktrans %}{{ count }} potential subjects in total{% endblocktrans %}</span>
+            <span class="text-right" title="{% trans 'required' %}: {{ study.min_subject_count }} {% trans 'total' %}: {{ total_count }}">
+                {% blocktrans %}{{ count }} potential subjects in total{% endblocktrans %}
+            </span>
         </div>
         <div class="card-body">
             {% has_perm 'recruitment.change_subjectfilter' user view.study as can_change_subjectfilter %}
