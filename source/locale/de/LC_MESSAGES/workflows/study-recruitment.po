@@ -20,15 +20,15 @@ msgstr ""
 
 #: ../../source/workflows/study-recruitment.rst:2
 msgid "Recruitment of participants for a study"
-msgstr ""
+msgstr "Rekrutierung von Studienproband*innen"
 
 #: ../../source/workflows/study-recruitment.rst:4
 msgid "Log in to Castellum by using your username and password"
-msgstr ""
+msgstr "Logge dich mit deinem Nutzernamen und Passwort in Castellum ein"
 
 #: ../../source/workflows/study-recruitment.rst:5
 msgid "Click on **Recruitment**"
-msgstr ""
+msgstr "Klicke auf **Rekrutierung**"
 
 #: ../../source/workflows/study-recruitment.rst:7
 msgid ""
@@ -36,116 +36,115 @@ msgid ""
 "recruit for** (or you do not find a study that you should recruit for), "
 "please follow instruction 2.2. If you see the relevant study, go to step "
 "3."
-msgstr ""
+msgstr "2.1 Wenn du die Meldung **Es gibt aktuell keine Studien, für die Sie rekrutieren können.** siehst (oder keine Studie findest, für die du rekrutieren solltest), folge bitte dem Schritt 2.2. Wenn du die entsprechende Studie siehst,gehe zu Schritt 3"
 
 #: ../../source/workflows/study-recruitment.rst:11
 msgid ""
 "2.2 Contact the responsible person who has access to the role "
 "distribution of the study you wish to recruit for"
-msgstr ""
+msgstr "2.2 Setze dich mit der Person in Verbindung, welche für die Rollenzuteilungen zuständig ist."
 
 #: ../../source/workflows/study-recruitment.rst:13
 msgid ""
 "Click on **Find subjects** next to the study you want to recruit "
 "participants for"
-msgstr ""
+msgstr "Gehe auf **Proband*innen finden** neben dem Studiennamen der relevanten Studie"
 
 #: ../../source/workflows/study-recruitment.rst:15
 msgid "By clicking on **Add**, relevant probands will be shown to you"
-msgstr ""
+msgstr "Klickst du auf **Hinzufügen**, werden dir die relevanten Probanden und Probandinnen angezeigt"
 
 #: ../../source/workflows/study-recruitment.rst:16
 msgid "Press the **Call** button to contact the person you want to reach"
-msgstr ""
+msgstr "Gehe auf den **Anrufen**-Button, um die gewünschte Person zu kontaktieren"
 
 #: ../../source/workflows/study-recruitment.rst:18
 msgid ""
 "**E-Mail address**, **Phone number**, a potential **Phone number "
 "alternative** and the **Address** will be shown to you"
-msgstr ""
+msgstr "**E-Mail Adresse**, **Telefonnummer**, ggf. eine **Alternative Telefonnummer** und die **Adresse** werden angezeigt"
 
 #: ../../source/workflows/study-recruitment.rst:20
 msgid ""
 "You might also see the **Preferred contact method**, if the person is "
 "**currently available** and some **General recruiting notes**"
-msgstr ""
+msgstr "Ggf. sind
+        * eine **gewünschte Kontaktierungsmethode**,
+        * ob die Person **momentan verfügbar** ist und
+        * **Allgemeine Hinweise zur Rekrutierung** angegeben"
 
 #: ../../source/workflows/study-recruitment.rst:22
 msgid ""
 "Please have a look at the **Talking points** that the study coordinator "
 "has defined"
-msgstr ""
+msgstr "Bitte beachte die **Gesprächspunkte**, die der Studienkoordinator festgelegt hat und binde sie in das Gespräch mit dem potenziellen Probanden ein"
 
 #: ../../source/workflows/study-recruitment.rst:24
 msgid "Call/Contact"
-msgstr ""
+msgstr "Anruf/Kontaktaufnahme"
 
 #: ../../source/workflows/study-recruitment.rst:25
 msgid "Select a **Status of participation request**"
-msgstr ""
+msgstr "Wähle nach dem Anruf den **Status der Teilnahmeanfrage** aus"
 
 #: ../../source/workflows/study-recruitment.rst:27
 msgid "Choose between:"
-msgstr ""
+msgstr "Wähle zwischen:"
 
 #: ../../source/workflows/study-recruitment.rst:29
 msgid "**Not reached**"
-msgstr ""
+msgstr "**Nicht erreicht**"
 
 #: ../../source/workflows/study-recruitment.rst:30
 msgid "**Unsuitable**"
-msgstr ""
+msgstr "**Ungeeignet**"
 
 #: ../../source/workflows/study-recruitment.rst:32
 msgid ""
 "This may apply if attributes of the person do not comply with the "
 "requirements of the study"
-msgstr ""
+msgstr "Dieser Status trifft zu, wenn sich bei der Abfrage der Personenmerkmale herausstellt, dass sich diese nicht mit den Anforderungen der Studie decken"
 
 #: ../../source/workflows/study-recruitment.rst:35
 msgid "**Invited** or"
-msgstr ""
+msgstr "**Eingeladen** oder"
 
 #: ../../source/workflows/study-recruitment.rst:36
 msgid "**Recall appointed**"
-msgstr ""
+msgstr "**Rückruftermin vereinbart**"
 
 #: ../../source/workflows/study-recruitment.rst:38
 msgid "Determine the date and time of the recall appointment"
-msgstr ""
+msgstr "Lege hier Datum und Uhrzeit des Rückruftermins fest"
 
 #: ../../source/workflows/study-recruitment.rst:40
-msgid ""
-"When you select the **Status of participant request** and click on **Save"
-" and show next**, the next contact person will be shown to you "
-"automatically"
-msgstr ""
+msgid "When you select the **Status of participant request** and click on **Save and show next**, the next contact person will be shown to you automatically"
+msgstr "Wenn du den **Status der Teilnahmeanfrage** ausgewählt hast, klicke auf **Speichern und weiter**, damit dir die nächste Kontaktperson angezeigt wird"
 
 #: ../../source/workflows/study-recruitment.rst:45
 msgid "Editing contact data and attributes; adding probands to the study"
-msgstr ""
+msgstr "Bearbeitung von Kontaktdaten und -merkmalen; Hinzufügen von Probanden zur Studie"
 
 #: ../../source/workflows/study-recruitment.rst:46
 msgid "Click on **Edit contact data** in order to do so and press **Save**"
-msgstr ""
+msgstr "Klicke auf **Kontaktdaten bearbeiten**, nimm Änderungen vor und gehe anschließend auf **Speichern**"
 
 #: ../../source/workflows/study-recruitment.rst:47
 msgid ""
-"By clicking **Edit attributes**, you can change characteristics of the "
-"person that became known in the conversation"
-msgstr ""
+"By clicking **Edit attributes**, you can change characteristics of the person that became known in the conversation"
+msgstr "Durch Anklicken von **Merkmale bearbeiten** kannst du die Eigenschaften der Person ändern, welche im Gespräch ggf. bekannt wurden"
 
 #: ../../source/workflows/study-recruitment.rst:49
 msgid "When you press **Edit subject**, you can determine the **Privacy level**"
-msgstr ""
+msgstr "Klickst du auf **Proband*innen hinzufügen**, muss die **Datenschutzstufe** festgelegt werden"
 
 #: ../../source/workflows/study-recruitment.rst:50
 msgid "Settle the time-based **Availability** of the person"
-msgstr ""
+msgstr "Füge die zeitliche **Verfügbarkeit** der Person hinzu"
 
 #: ../../source/workflows/study-recruitment.rst:51
 msgid "Press **Save** to record the progress"
-msgstr ""
+msgstr "Drücke **Speichern**, um die Änderungen beizubehalten"
 
 #~ msgid ""
 #~ "*Wäre es sinnvoll, an dieser Stelle "
