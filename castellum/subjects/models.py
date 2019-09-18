@@ -73,6 +73,13 @@ class Subject(TimeStampedModel):
     class Meta:
         verbose_name = _('Subject')
 
+    def save(self):
+        from castellum.recruitment.models import AttributeSet
+        if self.no_recruitment:
+            AttributeSet.objects.filter(subject=self).delete()
+
+        return super().save()
+
     def get_field_names(self):
         return [
             'privacy_level',
