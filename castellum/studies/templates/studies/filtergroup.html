@@ -47,7 +47,7 @@
         {% csrf_token %}
         {{ formset.management_form }}
 
-        <div class="card my-4">
+        <div class="card mb-3">
             <div class="card-header d-flex justify-content-between">
                 {% trans 'All of these' %}
                 <span class="text-right" title="{% trans 'required' %}: {{ study.min_subject_count }} {% trans 'total' %}: {{ total_count }}">
