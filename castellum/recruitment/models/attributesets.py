@@ -27,6 +27,8 @@ from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MaxValueValidator
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
@@ -309,3 +311,9 @@ class AttributeChoice(ImportMixin, TranslatableModel):
 
     class Meta:
         ordering = ['order']
+
+
+@receiver(post_save, sender=Subject)
+def delete_attributes_on_subject_no_recruitment(sender, instance, **kwargs):
+    if instance.no_recruitment:
+        AttributeSet.objects.filter(subject=instance).delete()
