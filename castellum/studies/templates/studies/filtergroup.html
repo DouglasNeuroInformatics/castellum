@@ -15,8 +15,6 @@
         </p>
     {% endif %}
 
-    <p>{% trans 'matches' %}: {{ count }} / {{ total_count }}</p>
-
     {% for pk, form in templates.items %}
         <template id="template-{{ pk }}">
             <input type="hidden" name="{{ form.prefix }}-group" value="{{ object.id }}" />
@@ -49,63 +47,74 @@
         {% csrf_token %}
         {{ formset.management_form }}
 
-        {% for error in formset.non_form_errors %}
-            <p class="alert alert-danger" role="alert">{{ error }}</p>
-        {% endfor %}
-
-        <div id="filter-forms">
-            {% for form in formset %}
-                <div class="form-row mb-3" {% if form.DELETE.value %}hidden{% endif %}>
-                    {{ form.id.as_hidden }}
-                    {{ form.DELETE.as_hidden }}
-                    <input type="hidden" name="{{ form.prefix }}-group" value="{{ object.id }}" />
-
-                    <div class="col-sm-4">
-                        {# duplicated because disabled fields are not posted to the server #}
-                        {% bootstrap_field form.description show_label=False%}
-                        {{ form.description.as_hidden }}
-                    </div>
-                    {% if form.operator.field.choices|length > 1 %}
-                        <div class="col-sm">
-                            {% bootstrap_field form.operator show_label=False %}
-                        </div>
-                    {% else %}
-                        <input type="hidden" name="{{ form.prefix }}-operator" value="exact" />
-                    {% endif %}
-                    <div class="col-sm">
-                        {% bootstrap_field form.value show_label=False%}
-                    </div>
-
-                    {% if study.study_mode == study.EDIT %}
-                        <div class="col-sm flex-grow-0">
-                            <button type="button" class="btn btn-danger" data-js="filter-delete">{% trans 'Delete' %}</button>
-                        </div>
-                    {% endif %}
-                </div>
-            {% endfor %}
-        </div>
-
-        {% if study.study_mode == study.EDIT %}
-            <div class="form-row">
-                <div class="col-sm-4">
-                    {% bootstrap_field add_form.description show_label=False %}
-                </div>
-                <div class="col-sm">
-                    <button type="button" class="btn btn-primary" data-js="filter-add">{% trans "Add" %}</button>
-                </div>
+        <div class="card my-4">
+            <div class="card-header d-flex justify-content-between">
+                {% trans 'All of these' %}
+                <span class="text-right">{% blocktrans %}{{ count }}/{{ total_count }} potential subjects{% endblocktrans %}</span>
             </div>
-        {% endif %}
 
-        <h2>{% trans 'Excluded studies' %}</h2>
-        <div class="form-row mb-3">
-                <div class="col-sm">
-                    {% bootstrap_field form.excluded_studies show_label=False %}
+            <div class="card-body">
+                {% for error in formset.non_form_errors %}
+                    <p class="alert alert-danger" role="alert">{{ error }}</p>
+                {% endfor %}
+
+                <div id="filter-forms">
+                    {% for form in formset %}
+                        <div class="form-row mb-3" {% if form.DELETE.value %}hidden{% endif %}>
+                            {{ form.id.as_hidden }}
+                            {{ form.DELETE.as_hidden }}
+                            <input type="hidden" name="{{ form.prefix }}-group" value="{{ object.id }}" />
+
+                            <div class="col-sm-4">
+                                {# duplicated because disabled fields are not posted to the server #}
+                                {% bootstrap_field form.description show_label=False%}
+                                {{ form.description.as_hidden }}
+                            </div>
+                            {% if form.operator.field.choices|length > 1 %}
+                                <div class="col-sm">
+                                    {% bootstrap_field form.operator show_label=False %}
+                                </div>
+                            {% else %}
+                                <input type="hidden" name="{{ form.prefix }}-operator" value="exact" />
+                            {% endif %}
+                            <div class="col-sm">
+                                {% bootstrap_field form.value show_label=False%}
+                            </div>
+
+                            {% if study.study_mode == study.EDIT %}
+                                <div class="col-sm flex-grow-0">
+                                    <button type="button" class="btn btn-danger" data-js="filter-delete">{% trans 'Delete' %}</button>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
                 </div>
+
                 {% if study.study_mode == study.EDIT %}
-                    <div class="col-sm flex-grow-0">
-                        <button type="button" class="btn btn-danger" data-multi-reset="#{{ form.excluded_studies.id_for_label }}">{% trans 'Reset' %}</button>
+                    <div class="form-row">
+                        <div class="col-sm-4">
+                            {% bootstrap_field add_form.description show_label=False %}
+                        </div>
+                        <div class="col-sm">
+                            <button type="button" class="btn btn-primary" data-js="filter-add">{% trans "Add" %}</button>
+                        </div>
                     </div>
                 {% endif %}
+
+                <div class="form-group mt-3">
+                    {{ form.excluded_studies.label_tag }}
+                    <div class="form-row">
+                        <div class="col-sm">
+                            {{ form.excluded_studies }}
+                        </div>
+                        {% if study.study_mode == study.EDIT %}
+                            <div class="col-sm flex-grow-0">
+                                <button type="button" class="btn btn-danger" data-multi-reset="#{{ form.excluded_studies.id_for_label }}">{% trans 'Reset' %}</button>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="mb-3">
@@ -120,7 +129,6 @@
             {% endif %}
         </div>
     </form>
-
 {% endblock %}
 
 {% block extra_scripts %}
