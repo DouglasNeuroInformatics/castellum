@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-18 15:48+0200\n"
+"POT-Creation-Date: 2019-09-18 15:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -753,7 +753,7 @@ msgstr "Überprüfen"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:95
 msgid "No one yet"
-msgstr ""
+msgstr "Noch niemand"
 
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:4
 #: castellum/recruitment/templates/recruitment/contact.html:67
@@ -945,7 +945,7 @@ msgstr "Englisch"
 
 #: castellum/studies/models.py:43
 msgid "Label"
-msgstr ""
+msgstr "Bezeichnung"
 
 #: castellum/studies/models.py:46 castellum/studies/models.py:76
 msgid "Contains sensitive data"
@@ -993,10 +993,8 @@ msgid "Type of study"
 msgstr "Studientyp"
 
 #: castellum/studies/models.py:73
-#, fuzzy
-#| msgid "Study mode"
 msgid "Previous study mode"
-msgstr "Studien-Modus"
+msgstr "Vorheriger Studien-Modus"
 
 #: castellum/studies/models.py:75
 msgid "Study mode"
@@ -1102,12 +1100,7 @@ msgstr ""
 "Proband*innen an."
 
 #: castellum/studies/templates/studies/__filtergroup_common.html:9
-#, fuzzy, python-format
-#| msgid ""
-#| "For a smooth recruitment process, your institution recommends at least "
-#| "%(castellum_factor)dx more potential than required subjects (i.e. "
-#| "%(recommended_count)d for this study). Current amount of potential "
-#| "subjects: %(potential_count)d"
+#, python-format
 msgid ""
 "\n"
 "            For a smooth recruitment process, your institution recommends at "
@@ -1119,10 +1112,11 @@ msgid ""
 "            subjects: %(count)s\n"
 "        "
 msgstr ""
+"\n"
 "Für einen reibungslosen Rekrutierungsablauf empfiehlt Ihre Einrichtung "
-"mindestens %(castellum_factor)dx mehr potentielle als benötige Proband*innen "
-"(d.h. %(recommended_count)d für diese Studie). Gegenwärtige Anzahl "
-"potentieller Proband*innen: %(potential_count)d"
+"mindestens %(expected_subject_factor)sx mehr potentielle als benötige "
+"Proband*innen (d.h. %(expected_subject_count)s für diese Studie). "
+"Gegenwärtige Anzahl potentieller Proband*innen: %(count)s"
 
 #: castellum/studies/templates/studies/base.html:6
 #: castellum/studies/templates/studies/study_list.html:5
@@ -1140,17 +1134,13 @@ msgid "Filters"
 msgstr "Filter"
 
 #: castellum/studies/templates/studies/filtergroup.html:13
-#, fuzzy
-#| msgid ""
-#| "At least one member of this study with access to filters does not have a "
-#| "sufficient privacy level to view the following attributes: %s"
 msgid ""
 "At least one member of this study with access to filters does not have a "
 "sufficient privacy level to view the following attributes:"
 msgstr ""
 "Mindestens ein weiteres Mitglied dieser Studie mit Zugriff auf die Filter "
 "verfügt nicht über die nötige Vertraulichkeitsstufe, um die folgenden "
-"Merkmale sehen zu dürfen: %s"
+"Merkmale sehen zu dürfen:"
 
 #: castellum/studies/templates/studies/filtergroup.html:40
 #: castellum/studies/templates/studies/filtergroup.html:88
@@ -1168,15 +1158,13 @@ msgstr "Alle von diesen"
 
 #: castellum/studies/templates/studies/filtergroup.html:53
 #: castellum/studies/templates/studies/filtergroup_advanced.html:12
-#, fuzzy
-#| msgid "expired"
 msgid "required"
-msgstr "abgelaufen"
+msgstr "benötigt"
 
 #: castellum/studies/templates/studies/filtergroup.html:53
 #: castellum/studies/templates/studies/filtergroup_advanced.html:12
 msgid "total"
-msgstr ""
+msgstr "gesamt"
 
 #: castellum/studies/templates/studies/filtergroup.html:54
 #: castellum/studies/templates/studies/filtergroup_advanced.html:22
@@ -1190,7 +1178,7 @@ msgstr "Zurücksetzen"
 
 #: castellum/studies/templates/studies/filtergroup.html:120
 msgid "Studies in which potential subjects have pariticipated"
-msgstr ""
+msgstr "Studien, in denen potentielle Proband*innen teilgenommen haben"
 
 #: castellum/studies/templates/studies/filtergroup.html:138
 msgid "Apply"
@@ -1210,15 +1198,7 @@ msgid "%(count)s potential subjects in total"
 msgstr "insgesamt %(count)s potentielle Proband*innen"
 
 #: castellum/studies/templates/studies/filtergroup_advanced.html:29
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                    %(count)s filter\n"
-#| "                                "
-#| msgid_plural ""
-#| "\n"
-#| "                                    %(count)s filters\n"
-#| "                                "
+#, python-format
 msgid ""
 "\n"
 "                                            %(count)s filter\n"
@@ -1235,15 +1215,7 @@ msgstr[1] ""
 "%(count)s Filter"
 
 #: castellum/studies/templates/studies/filtergroup_advanced.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                    %(count)s filter\n"
-#| "                                "
-#| msgid_plural ""
-#| "\n"
-#| "                                    %(count)s filters\n"
-#| "                                "
+#, python-format
 msgid ""
 "\n"
 "                                                %(count)s excluded study\n"
@@ -1254,10 +1226,10 @@ msgid_plural ""
 "                                            "
 msgstr[0] ""
 "\n"
-"%(count)s Filter"
+"%(count)s ausgeschlossene Studie"
 msgstr[1] ""
 "\n"
-"%(count)s Filter"
+"%(count)s ausgeschlossene Studien"
 
 #: castellum/studies/templates/studies/filtergroup_advanced.html:64
 #: castellum/studies/templates/studies/filtergroup_advanced.html:70
@@ -1801,35 +1773,3 @@ msgstr "erstellt am"
 #: castellum/utils/models.py:28
 msgid "updated at"
 msgstr "aktualisiert am"
-
-#~ msgid "fMRI-specific exclusion criteria"
-#~ msgstr "fMRI-spezifische Ausschlusskriterien"
-
-#~ msgid "Online"
-#~ msgstr "Online"
-
-#~ msgid "Behavioral lab"
-#~ msgstr "Verhaltenslabor"
-
-#~ msgid "FMRI"
-#~ msgstr "fMRI"
-
-#~ msgid "Simulation"
-#~ msgstr "Simulation"
-
-#~ msgid "EEG"
-#~ msgstr "EEG"
-
-#~ msgid "3rd Party"
-#~ msgstr "Verarbeitung externer Daten"
-
-#~ msgid "Data collected by this type of study is always considered sensitive!"
-#~ msgstr ""
-#~ "Bei diesem Studientyp erhobene Daten werden automatisch als sensibel "
-#~ "eingestuft!"
-
-#~ msgid "Add Filter"
-#~ msgstr "Filter hinzufügen"
-
-#~ msgid "required number of subjects"
-#~ msgstr "Benötigte Anzahl von Proband*innen"
