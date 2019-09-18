@@ -34,6 +34,7 @@ from django.views.generic import UpdateView
 from django.views.generic import View
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.recruitment.forms import SubjectFilterAddForm
 from castellum.recruitment.forms import SubjectFilterForm
 from castellum.recruitment.forms import SubjectFilterFormSet
 from castellum.recruitment.forms import SubjectFilterGroupForm
@@ -152,9 +153,6 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
         return formset_class(
             queryset=self.object.subjectfilter_set.all(),
             data=self.get_form_kwargs().get('data'),
-            form_kwargs={
-                'user': self.request.user,
-            },
         )
 
     def get_readonly(self):
@@ -185,11 +183,10 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
 
         data['inaccessible'] = list(self.get_inaccessible_attributedescriptions())
 
-        data['add_form'] = SubjectFilterForm(user=self.request.user)
+        data['add_form'] = SubjectFilterAddForm(user=self.request.user)
         data['templates'] = {}
         for description in AttributeDescription.objects.all():
             data['templates'][description.pk] = SubjectFilterForm(
-                user=self.request.user,
                 initial={'description': description},
                 prefix='{prefix}')
 
