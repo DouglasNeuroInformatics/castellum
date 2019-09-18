@@ -90,7 +90,7 @@ class FilterGroupListView(FilterMixin, ListView):
         context['count'] = AttributeSet.apply_study_filter(self.study).count()
         context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         context['expected_subject_count'] = (
-            self.study.min_subjects_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+            self.study.min_subject_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         )
         return context
 
@@ -180,7 +180,7 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
         data['total_count'] = AttributeSet.objects.count()
         data['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         data['expected_subject_count'] = (
-            self.study.min_subjects_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+            self.study.min_subject_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         )
 
         data['inaccessible'] = list(self.get_inaccessible_attributedescriptions())

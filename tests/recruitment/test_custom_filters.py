@@ -11,7 +11,7 @@ def test_custom_filter_is_used(client, admin, study_in_execution_mode):
 
     custom_filter = MagicMock(return_value=Q())
     custom_filters['testfilter'] = custom_filter
-    study_in_execution_mode.min_subjects_count = 10
+    study_in_execution_mode.min_subject_count = 10
     study_in_execution_mode.custom_filter = 'testfilter'
     study_in_execution_mode.save()
 
@@ -26,7 +26,7 @@ def test_custom_filter_is_used(client, admin, study_in_execution_mode):
 def test_error_if_not_registered(client, admin, study_in_execution_mode):
     client.force_login(admin)
 
-    study_in_execution_mode.min_subjects_count = 10
+    study_in_execution_mode.min_subject_count = 10
     study_in_execution_mode.custom_filter = 'testfilter'
     study_in_execution_mode.save()
 

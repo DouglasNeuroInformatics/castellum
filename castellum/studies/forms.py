@@ -41,7 +41,7 @@ class StudyForm(ReadonlyModelForm):
             'study_type',
             'data_sensitivity',
             'consent',
-            'min_subjects_count',
+            'min_subject_count',
             'expense_allowance',
             'sessions_start',
             'sessions_end',

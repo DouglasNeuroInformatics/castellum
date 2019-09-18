@@ -30,7 +30,7 @@
             <li class="nav-item">
                 <a class="nav-link {% if view.tab == 'invited' %}active{% endif %}" href="{% url 'recruitment:recruitment-invited' study.pk %}">
                     {% trans 'Invited' %}
-                    <span class="badge badge-light">{{ invited_count }}/{{ study.min_subjects_count }}</span>
+                    <span class="badge badge-light">{{ invited_count }}/{{ study.min_subject_count }}</span>
                 </a>
             </li>
             <li class="nav-item">

@@ -222,7 +222,7 @@ class RecruitmentViewOpen(RecruitmentView):
         if not request.user.has_perm('recruitment.add_participationrequest', obj=self.study):
             raise PermissionDenied
 
-        if self.study.min_subjects_count == 0:
+        if self.study.min_subject_count == 0:
             messages.error(request, _(
                 'This study does not require participants. '
                 'Please, contact the responsible person who can set it up.'
@@ -230,7 +230,7 @@ class RecruitmentViewOpen(RecruitmentView):
             return self.get(request, *args, **kwargs)
 
         open_count = self.get_queryset().count()
-        hard_limit = self.study.min_subjects_count * CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
+        hard_limit = self.study.min_subject_count * CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 
         if open_count >= hard_limit:
             messages.error(request, _(

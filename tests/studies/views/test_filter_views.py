@@ -97,7 +97,7 @@ def test_get_when_study_has_not_enough_subjects_in_filter_group(client, member,
                                                                 study_in_edit_mode):
     client.force_login(member)
 
-    study_in_edit_mode.min_subjects_count = 100
+    study_in_edit_mode.min_subject_count = 100
     study_in_edit_mode.advanced_filtering = True
     study_in_edit_mode.save()
 
