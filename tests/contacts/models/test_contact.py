@@ -4,6 +4,7 @@ import pytest
 from model_mommy import mommy
 
 from castellum.contacts.models import Contact
+from castellum.pseudonyms.models import Pseudonym
 
 
 @pytest.mark.freeze_time("2020, 10, 31")
@@ -24,3 +25,14 @@ def test_age_property(date_of_birth, age):
 def test_full_name(title, expected):
     contact = mommy.prepare(Contact, first_name='Max', last_name='Planck', title=title)
     assert contact.full_name == expected
+
+
+@pytest.mark.django_db
+def test_contact_create_delete_pseudonym(contact_domain):
+    start_count = Pseudonym.objects.count()
+
+    contact = mommy.make(Contact, pseudonym=None)
+    assert Pseudonym.objects.count() == start_count + 1
+
+    contact.delete()
+    assert Pseudonym.objects.count() == start_count
