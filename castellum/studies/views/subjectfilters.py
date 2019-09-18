@@ -106,9 +106,9 @@ class FilterGroupListView(FilterMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['potential_subjects_count'] = AttributeSet.apply_study_filter(self.study).count()
+        context['count'] = AttributeSet.apply_study_filter(self.study).count()
         subject_count_warnings(
-            self.request, self.study.min_subjects_count, context['potential_subjects_count']
+            self.request, self.study.min_subjects_count, context['count']
         )
         return context
 

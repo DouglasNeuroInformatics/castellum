@@ -9,7 +9,7 @@
     <div class="card mb-3">
         <div class="card-header d-flex justify-content-between">
             {% trans 'Any of these' %}
-            <span class="text-right">{% blocktrans with count=potential_subjects_count %}{{ count }} potential subjects in total{% endblocktrans %}</span>
+            <span class="text-right">{% blocktrans %}{{ count }} potential subjects in total{% endblocktrans %}</span>
         </div>
         <div class="card-body">
             {% has_perm 'recruitment.change_subjectfilter' user view.study as can_change_subjectfilter %}
