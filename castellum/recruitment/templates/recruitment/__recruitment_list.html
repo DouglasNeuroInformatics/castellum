@@ -94,6 +94,10 @@
         <li class="alert alert-info">
             {% if view.tab == 'open' %}
                 {% trans 'No one to contact for recruitment! Currently, there are no open potential subjects.' %}
+                {% has_perm 'recruitment.add_participationrequest' user view.study as can_add_participationrequest %}
+                {% if can_add_participationrequest %}
+                    {% trans 'Please add a set of potential subjects using the add button below.' %}
+                {% endif %}
             {% elif view.tab == 'invited' %}
                 {% blocktrans with subjectcount=study.min_subject_count %}
                     You are still in search for {{ subjectcount }} participants.
