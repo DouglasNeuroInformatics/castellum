@@ -91,8 +91,14 @@
             {% endif %}
         </li>
     {% empty %}
-        <li class="alert alert-warning">
-            {% trans 'No one yet' %}
+        <li class="alert alert-info">
+            {% if view.tab == 'open' %}
+                {% trans 'No one to contact for recruitment! Currently, there are no open potential subjects.' %}
+            {% elif view.tab == 'invited' %}
+                {% blocktrans with subjectcount=study.min_subject_count %}
+                    You are still in search for {{ subjectcount }} participants.
+                {% endblocktrans %}
+            {% endif %}
         </li>
     {% endfor %}
 </ul>
