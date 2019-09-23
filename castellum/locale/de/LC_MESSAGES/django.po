@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-18 15:53+0200\n"
+"POT-Creation-Date: 2019-09-23 13:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -751,9 +751,24 @@ msgstr "Anrufen"
 msgid "Review"
 msgstr "Überprüfen"
 
-#: castellum/recruitment/templates/recruitment/__recruitment_list.html:95
-msgid "No one yet"
-msgstr "Noch niemand"
+#: castellum/recruitment/templates/recruitment/__recruitment_list.html:96
+msgid ""
+"No one to contact for recruitment! Currently, there are no open potential "
+"subjects."
+msgstr ""
+
+#: castellum/recruitment/templates/recruitment/__recruitment_list.html:99
+msgid "Please add a set of potential subjects using the add button below."
+msgstr ""
+
+#: castellum/recruitment/templates/recruitment/__recruitment_list.html:102
+#, python-format
+msgid ""
+"\n"
+"                    You are still in search for %(subjectcount)s "
+"participants.\n"
+"                "
+msgstr ""
 
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:4
 #: castellum/recruitment/templates/recruitment/contact.html:67
@@ -1437,11 +1452,11 @@ msgstr ""
 "aufgrund ihrer unzureichenden Vertraulichkeitsstufe nicht bearbeiten.\n"
 "Blockierte Nutzer*innen sind: "
 
-#: castellum/studies/views/subjectfilters.py:146
+#: castellum/studies/views/subjectfilters.py:147
 msgid "Filter update successfull!"
 msgstr "Filteraktualisierung erfolgreich!"
 
-#: castellum/studies/views/subjectfilters.py:239
+#: castellum/studies/views/subjectfilters.py:243
 msgid "The filters have been duplicated. You can now edit the duplicate."
 msgstr ""
 "Die Filter wurden dupliziert. Sie können jetzt das Duplikat bearbeiten."
@@ -1773,3 +1788,6 @@ msgstr "erstellt am"
 #: castellum/utils/models.py:28
 msgid "updated at"
 msgstr "aktualisiert am"
+
+#~ msgid "No one yet"
+#~ msgstr "Noch niemand"
