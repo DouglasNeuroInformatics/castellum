@@ -756,10 +756,14 @@ msgid ""
 "No one to contact for recruitment! Currently, there are no open potential "
 "subjects."
 msgstr ""
+"Es sind keine zu kontaktierenden Personen für die Rekrutierung vorhanden. "
+"Gegenwärtig gibt es keine offenen Kontaktvorgänge potentieller Proband*innen."
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:99
 msgid "Please add a set of potential subjects using the add button below."
 msgstr ""
+"Bitte fügen Sie weitere potentielle Proband*innen mittels der Hinzufügen-"
+"Schaltfläche unterhalb hinzu."
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:102
 #, python-format
@@ -769,6 +773,8 @@ msgid ""
 "participants.\n"
 "                "
 msgstr ""
+"\n"
+"Es werden noch %(subjectcount)s Teilnehmer*innen benötigt."
 
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:4
 #: castellum/recruitment/templates/recruitment/contact.html:67
