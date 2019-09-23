@@ -30,6 +30,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DeleteView
 from django.views.generic import ListView
@@ -183,8 +184,10 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
 
         # if no filters exist, all active studies would be related
         if self.object.subjectfilter_set.exists():
+            today = datetime.date.today()
+            dt = datetime.datetime(today.year - 2, today.month, today.day, 0, 0, 0)
             related_prs = ParticipationRequest.objects.filter(
-                updated_at__gte=datetime.date.today() - datetime.timedelta(days=2 * 365),
+                updated_at__gte=timezone.make_aware(dt),
                 status=ParticipationRequest.INVITED,
                 subject__attributeset__in=self.object.get_matches(),
             )
@@ -192,6 +195,7 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
                 Study.objects
                 .filter(participationrequest__in=related_prs)
                 .annotate(count=models.Count('pk'))
+                .order_by('-count')
             )
 
         data['total_count'] = AttributeSet.objects.count()
