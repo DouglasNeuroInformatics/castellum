@@ -79,7 +79,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     def get_queryset(self):
         if self.sort == 'appointment':
             order_by = ['appointment', '-updated_at']
-        elif self.sort == 'last_call_attempt':
+        elif self.sort == 'last_contact_attempt':
             order_by = ['-status_not_reached', '-updated_at']
         elif self.sort == 'created':
             order_by = ['-created_at']
@@ -150,8 +150,8 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         context['sort_options'] = [
             ('relevance', _('Relevance')),
-            ('appointment', _('Recall date')),
-            ('last_call_attempt', _('Last call attempt')),
+            ('appointment', _('Follow-up date')),
+            ('last_contact_attempt', _('Last contact attempt')),
             ('created', _('Added to list')),
         ]
         sort_options = dict(context['sort_options'])
@@ -168,7 +168,8 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         context['open_count'] = queryset.filter(status__in=[
             ParticipationRequest.NOT_CONTACTED,
             ParticipationRequest.NOT_REACHED,
-            ParticipationRequest.RECALL_APPOINTED,
+            ParticipationRequest.FOLLOWUP_APPOINTED,
+            ParticipationRequest.AWAITING_RESPONSE,
         ]).count()
 
         context['last_agreeable_contact_time'] = datetime.date.today() - datetime.timedelta(
@@ -195,7 +196,8 @@ class RecruitmentViewOpen(RecruitmentView):
     shown_status = [
         ParticipationRequest.NOT_CONTACTED,
         ParticipationRequest.NOT_REACHED,
-        ParticipationRequest.RECALL_APPOINTED,
+        ParticipationRequest.FOLLOWUP_APPOINTED,
+        ParticipationRequest.AWAITING_RESPONSE,
     ]
     tab = 'open'
 

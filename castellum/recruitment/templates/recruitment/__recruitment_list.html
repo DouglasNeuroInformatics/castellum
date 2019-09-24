@@ -5,7 +5,7 @@
     {% for participation_request, buckets, can_access in participants %}
         <li class="table-list-item">
             {% if can_access %}
-                {% if participation_request.status == participation_request.RECALL_APPOINTED %}
+                {% if participation_request.status == participation_request.FOLLOWUP_APPOINTED %}
                     <div>
                         <div>
                             <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation_request.pk }}" aria-label="{{ participation_request.pk }}"></svg>
@@ -15,11 +15,11 @@
                             <div class="d-inline-block my-1">
                                 {% if participation_request.appointment_today %}
                                     {% blocktrans with time=participation_request.appointment|time %}
-                                        recall today at {{ time }}
+                                        follow up today at {{ time }}
                                     {% endblocktrans %}
                                 {% else %}
                                     {% blocktrans with date=participation_request.appointment|date time=participation_request.appointment|time %}
-                                        recall on {{ date }} at {{ time }}
+                                        follow up on {{ date }} at {{ time }}
                                     {% endblocktrans %}
                                 {% endif %}
                                 {% if participation_request.appointment_today %}
@@ -39,7 +39,7 @@
                             <i class="fas fa-phone-slash list-icon bg-warning text-dark" aria-hidden="true"></i>
                         </div>
                     </div>
-                {% elif participation_request.status == participation_request.NOT_REACHED %}
+                {% elif participation_request.status == participation_request.NOT_REACHED or participation_request.status == participation_request.AWAITING_RESPONSE %}
                     <div>
                         <div>
                             <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation_request.pk }}" aria-label="{{ participation_request.pk }}"></svg>
@@ -68,7 +68,7 @@
                     <div class="table-list-item-actions">
                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation_request.pk %}">
                             {% if participation_request.status_open %}
-                                {% trans 'Call' %}
+                                {% trans 'Contact' %}
                             {% else %}
                                 {% trans 'Review' %}
                             {% endif %}
@@ -85,7 +85,7 @@
                 </div>
                 {% if can_change_participationrequest %}
                     <div class="table-list-item-actions">
-                        <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Call' %}</a>
+                        <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Contact' %}</a>
                     </div>
                 {% endif %}
             {% endif %}
