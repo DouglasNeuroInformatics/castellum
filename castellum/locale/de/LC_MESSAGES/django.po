@@ -760,10 +760,10 @@ msgstr ""
 "Gegenwärtig gibt es keine offenen Kontaktvorgänge potentieller Proband*innen."
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:99
-msgid "Please add a set of potential subjects using the add button below."
+msgid "Please add a set of potential subjects using the Add button."
 msgstr ""
 "Bitte fügen Sie weitere potentielle Proband*innen mittels der Hinzufügen-"
-"Schaltfläche unterhalb hinzu."
+"Schaltfläche hinzu."
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:102
 #, python-format
