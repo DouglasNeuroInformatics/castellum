@@ -29,7 +29,7 @@
                     </div>
                     {% if not readonly %}
                         <div class="table-list-item-actions">
-                            <a href="{% url 'studies:member' object.pk membership.pk %}" class="btn btn-primary btn-sm-inline my-1">{% trans 'Edit' %}</a>
+                            <a href="{% url 'studies:member' object.pk membership.pk %}" class="btn btn-primary btn-sm-inline my-1">{% trans 'Manage groups' %}</a>
                             {% if membership.user == request.user %}
                                 <a href="#" class="btn btn-danger btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Remove' %}</a>
                             {% else %}
