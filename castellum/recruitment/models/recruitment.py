@@ -65,13 +65,13 @@ class ParticipationRequest(models.Model):
     NOT_REACHED = 1
     UNSUITABLE = 2
     INVITED = 3
-    RECALL_APPOINTED = 4
+    FOLLOWUP_APPOINTED = 4
     STATUS_OPTIONS = (
         (NOT_CONTACTED, _('not contacted')),
         (NOT_REACHED, _('not reached')),
         (UNSUITABLE, _('unsuitable')),
         (INVITED, _('invited')),
-        (RECALL_APPOINTED, _('recall appointed')),
+        (FOLLOWUP_APPOINTED, _('follow-up scheduled')),
     )
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, editable=False)
@@ -98,7 +98,7 @@ class ParticipationRequest(models.Model):
         return self.status in [
             ParticipationRequest.NOT_CONTACTED,
             ParticipationRequest.NOT_REACHED,
-            ParticipationRequest.RECALL_APPOINTED,
+            ParticipationRequest.FOLLOWUP_APPOINTED,
         ]
 
     @cached_property
@@ -121,9 +121,9 @@ class ParticipationRequest(models.Model):
             return False
 
     def clean(self):
-        if self.status == self.RECALL_APPOINTED and not self.appointment:
+        if self.status == self.FOLLOWUP_APPOINTED and not self.appointment:
             raise ValidationError(_('No appointment set'), code='invalid')
-        if self.status != self.RECALL_APPOINTED and self.appointment:
+        if self.status != self.FOLLOWUP_APPOINTED and self.appointment:
             raise ValidationError(_('Appointment cannot be set with this status'), code='invalid')
         if (
             self.status == self.INVITED
