@@ -49,7 +49,9 @@
 
         <div class="card mb-3">
             <div class="card-header d-flex justify-content-between">
-                {% trans 'All of these' %}
+                <span title="{% trans 'Subjects must match all of the following filters.' %}">
+                    {% trans 'All of these' %}
+                </span>
                 <span class="text-right" title="{% trans 'required' %}: {{ study.min_subject_count }} {% trans 'total' %}: {{ total_count }}">
                     {% blocktrans %}{{ count }} potential subjects{% endblocktrans %}
                 </span>
