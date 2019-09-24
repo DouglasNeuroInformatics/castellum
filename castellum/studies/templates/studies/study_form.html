@@ -47,7 +47,7 @@
             <legend>{% trans 'Test sessions' %}</legend>
 
             {{ session_formset.management_form }}
-            <div id='sessions-container'>
+            <div id="sessions-container">
                 {% for subform in session_formset %}
                     <fieldset class="rounded-lg border bg-light p-3 mb-2" {% if subform.DELETE.value %}hidden{% endif %}>
                         {{ subform.id.as_hidden }}
