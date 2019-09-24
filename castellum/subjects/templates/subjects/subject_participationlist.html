@@ -20,7 +20,7 @@
                         {% if can_change_participationrequest %}
                             <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participationrequest.study.pk participationrequest.pk %}?context=subjects:studyparticipation">
                                 {% if participationrequest.status_open %}
-                                    {% trans 'Call' %}
+                                    {% trans 'Contact' %}
                                 {% else %}
                                     {% trans 'Review' %}
                                 {% endif %}
