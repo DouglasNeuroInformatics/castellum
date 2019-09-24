@@ -82,7 +82,7 @@
                                     {% if can_access %}
                                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:detail' contact.subject.pk %}">{% trans 'Details' %}</a>
                                     {% else %}
-                                        <button class="btn btn-outline-primary btn-sm-inline my-1" disabled>{% trans 'Details' %}</a>
+                                        <button class="btn btn-outline-primary btn-sm-inline my-1" disabled>{% trans 'Details' %}</button>
                                     {% endif %}
                                 </div>
                             </li>
