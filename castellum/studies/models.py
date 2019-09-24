@@ -74,9 +74,7 @@ class Study(models.Model):
     study_mode = models.SmallIntegerField(
         _('Study mode'), choices=STUDY_MODES, default=EDIT)
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
-    min_subject_count = models.PositiveIntegerField(
-        _('Required number of subjects'), blank=True, default=0
-    )
+    min_subject_count = models.PositiveIntegerField(_('Required number of subjects'), blank=True)
     expense_allowance = models.PositiveIntegerField(_('Expense allowance'), blank=True, null=True)
     sessions_start = DateField(_('Start of test sessions'), blank=True, null=True)
     sessions_end = DateField(_('End of test sessions'), blank=True, null=True)
@@ -146,6 +144,8 @@ class Study(models.Model):
     def save(self, *args, **kwargs):
         if not self.domain:
             self.domain = create_domain(settings.CASTELLUM_STUDY_DOMAIN_BITS)
+        if not self.min_subject_count:
+            self.min_subject_count = 0
         return super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
