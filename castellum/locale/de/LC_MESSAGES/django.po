@@ -387,7 +387,7 @@ msgstr "Seitennavigation"
 
 #: castellum/pseudonyms/generators/md5.py:86
 msgid "Pseudonym contains invalid characters"
-msgstr "Pseudonym entählt ungültige Zeichen"
+msgstr "Pseudonym enthält ungültige Zeichen"
 
 #: castellum/pseudonyms/generators/md5.py:92
 msgid "Invalid pseudonym"
@@ -1051,7 +1051,7 @@ msgid ""
 "joined by AND operator. Advanced filtering allows you to create multiple "
 "filtergroups which are joined by OR operator."
 msgstr ""
-"Standardmäßig wird nur eine Filtergruppe erstelt, in der alle Filter durch "
+"Standardmäßig wird nur eine Filtergruppe erstellt, in der alle Filter durch "
 "den UND Operator verbunden werden. Erweiterte Filterung erlaubt es, mehrere "
 "Filtergruppen anzulegen, die jeweils mit dem ODER Operator verbunden werden."
 
@@ -1089,10 +1089,10 @@ msgid ""
 msgstr ""
 "Standardmäßig können Filter Proband*innen mit unvollständigen Merkmalen "
 "einschließen. Diese Funktion soll die Qualität der Datenbank erhöhen, indem "
-"Rekrutierende ausfgefordert werden, fehlende Werte nebenher einzutragen. Nur "
+"Rekrutierende aufgefordert werden, fehlende Werte nebenher einzutragen. Nur "
 "vollständige Treffer zuzulassen kann individuelle Rekrutierungen "
-"beschleuningen, kann aber die Qualität der Datenbank als Ganzes "
-"verschlechtern. Zusätzlich reduziert dies die Anzal der potentiellen "
+"beschleunigen, kann aber die Qualität der Datenbank als Ganzes "
+"verschlechtern. Zusätzlich reduziert dies die Anzahl der potentiellen "
 "Proband*innen."
 
 #: castellum/studies/models.py:118
@@ -1499,7 +1499,7 @@ msgstr "2 (hoch)"
 
 #: castellum/subjects/models.py:54
 msgid "Hard of hearing"
-msgstr "Schwerhöhrig"
+msgstr "Schwerhörig"
 
 #: castellum/subjects/models.py:55
 msgid "Difficult to understand"
@@ -1693,7 +1693,7 @@ msgstr "veraltet"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:34
 msgid "Attribute set completeness"
-msgstr "Vollständnigkeit der Merkmale"
+msgstr "Vollständigkeit der Merkmale"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:60
 msgid "Study Participation"
