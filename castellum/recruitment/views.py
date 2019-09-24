@@ -203,6 +203,7 @@ class RecruitmentViewOpen(RecruitmentView):
         attributesets = list(
             AttributeSet
             .apply_study_filter(self.study)
+            .filter(subject__no_recruitment=False)
             .exclude(subject__participationrequest__study=self.study)
         )
 
