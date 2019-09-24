@@ -14,7 +14,7 @@ stages:
 
 variables:
   PYTHON_IMAGE: python:3.6
-  PYTHON_IMAGE_DEPENDENCIES: "python3-dev libldap-2.4-2 libldap2-dev libsasl2-dev npm"
+  PYTHON_IMAGE_DEPENDENCIES: "python3-dev libldap-2.4-2 libldap2-dev libsasl2-dev npm hunspell hunspell-de-de"
   CONTAINER_TEST_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:$CI_COMMIT_REF_NAME
   CONTAINER_RELEASE_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
   DJANGO_SETTINGS_MODULE: "castellum.settings.gitlab"
@@ -32,6 +32,7 @@ test-branch:
     - flake8
     - isort -c
     - npx eslint castellum
+    - pospell -l de_DE -p .spelling/de_DE.txt castellum/locale/de/LC_MESSAGES/django.po
   coverage: '/TOTAL.*\s+(\d+\%)/'
   artifacts:
     paths:
