@@ -74,8 +74,8 @@
             {% endif %}
         </dd>
 
-        <dt class="col-sm-6">{{ object|verbose_name:'consent' }}</dt>
-        <dd class="col-sm-6">{% if object.consent %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
+        <dt class="col-sm-6">{% trans 'Consent document uploaded' %}</dt>
+        <dd class="col-sm-6">{% if object.consent %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</dd>
     </dl>
 
     <h3 class="h5">{% trans "Member management" %}</h3>
@@ -88,14 +88,14 @@
     <h3 class="h5">{% trans "Recruitment settings" %}</h3>
 
     <dl class="row">
-        <dt class="col-sm-6">{{ object|verbose_name:'recruitment_text' }}</dt>
-        <dd class="col-sm-6">{% if object.recruitment_text %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
+        <dt class="col-sm-6">{% trans 'Recruitment text provided' %}</dt>
+        <dd class="col-sm-6">{% if object.recruitment_text %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</dd>
 
-        <dt class="col-sm-6">{% trans 'Recruitment filters' %}</dt>
-        <dd class="col-sm-6">{% if study.has_filters %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
+        <dt class="col-sm-6">{% trans 'Recruitment filters set' %}</dt>
+        <dd class="col-sm-6">{% if study.has_filters %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</dd>
 
-        <dt class="col-sm-6">{{ object|verbose_name:'exclusion_criteria' }}</dt>
-        <dd class="col-sm-6">{% if object.exclusion_criteria %}{% trans 'Available' %}{% else %}&mdash;{% endif %}</dd>
+        <dt class="col-sm-6">{% trans 'Exclusion criteria provided' %}</dt>
+        <dd class="col-sm-6">{% if object.exclusion_criteria %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</dd>
     </dl>
 
     {% has_perm 'studies.change_study' user study as can_change_study %}
