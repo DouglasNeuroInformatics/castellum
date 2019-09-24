@@ -1043,7 +1043,7 @@ msgstr "Rekrutierungstext"
 
 #: castellum/studies/models.py:89
 msgid "Advanced filtering"
-msgstr "Erweitete Filterung"
+msgstr "Erweiterte Filterung"
 
 #: castellum/studies/models.py:90
 msgid ""
