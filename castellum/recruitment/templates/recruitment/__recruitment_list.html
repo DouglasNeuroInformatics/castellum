@@ -39,7 +39,7 @@
                             <i class="fas fa-phone-slash list-icon bg-warning text-dark" aria-hidden="true"></i>
                         </div>
                     </div>
-                {% elif participation_request.status == participation_request.NOT_REACHED %}
+                {% elif participation_request.status == participation_request.NOT_REACHED or participation_request.status == participation_request.AWAITING_RESPONSE %}
                     <div>
                         <div>
                             <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation_request.pk }}" aria-label="{{ participation_request.pk }}"></svg>

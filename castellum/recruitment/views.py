@@ -169,6 +169,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ParticipationRequest.NOT_CONTACTED,
             ParticipationRequest.NOT_REACHED,
             ParticipationRequest.FOLLOWUP_APPOINTED,
+            ParticipationRequest.AWAITING_RESPONSE,
         ]).count()
 
         context['last_agreeable_contact_time'] = datetime.date.today() - datetime.timedelta(
@@ -196,6 +197,7 @@ class RecruitmentViewOpen(RecruitmentView):
         ParticipationRequest.NOT_CONTACTED,
         ParticipationRequest.NOT_REACHED,
         ParticipationRequest.FOLLOWUP_APPOINTED,
+        ParticipationRequest.AWAITING_RESPONSE,
     ]
     tab = 'open'
 

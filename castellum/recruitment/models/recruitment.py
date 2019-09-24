@@ -40,12 +40,20 @@ class ParticipationRequestManager(models.Manager):
             updated_at=models.Max('revisions__created_at'),
             created_at=models.Min('revisions__created_at'),
             status_not_reached=models.Count(
-                'id', filter=models.Q(status=ParticipationRequest.NOT_REACHED)),
+                'id',
+                filter=models.Q(status__in=[
+                    ParticipationRequest.NOT_REACHED,
+                    ParticipationRequest.AWAITING_RESPONSE,
+                ]),
+            ),
             appointment_today=models.Count(
                 'id', filter=models.Q(appointment__date=datetime.date.today())),
             tries=models.Count(
                 'revisions',
-                filter=models.Q(revisions__status=ParticipationRequest.NOT_REACHED),
+                filter=models.Q(revisions__status__in=[
+                    ParticipationRequest.NOT_REACHED,
+                    ParticipationRequest.AWAITING_RESPONSE,
+                ]),
                 distinct=True,
             ),
             last_contacted_elsewhere=models.Max(
@@ -66,12 +74,14 @@ class ParticipationRequest(models.Model):
     UNSUITABLE = 2
     INVITED = 3
     FOLLOWUP_APPOINTED = 4
+    AWAITING_RESPONSE = 5
     STATUS_OPTIONS = (
         (NOT_CONTACTED, _('not contacted')),
         (NOT_REACHED, _('not reached')),
         (UNSUITABLE, _('unsuitable')),
         (INVITED, _('invited')),
         (FOLLOWUP_APPOINTED, _('follow-up scheduled')),
+        (AWAITING_RESPONSE, _('awaiting response')),
     )
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, editable=False)
@@ -99,6 +109,7 @@ class ParticipationRequest(models.Model):
             ParticipationRequest.NOT_CONTACTED,
             ParticipationRequest.NOT_REACHED,
             ParticipationRequest.FOLLOWUP_APPOINTED,
+            ParticipationRequest.AWAITING_RESPONSE,
         ]
 
     @cached_property
