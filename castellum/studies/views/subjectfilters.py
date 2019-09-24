@@ -64,7 +64,12 @@ class CustomFilterMixin:
                 context={
                     'study': self.study,
                     'total_count': AttributeSet.objects.count(),
-                    'potential_subjects_count': AttributeSet.apply_study_filter(self.study).count(),
+                    'potential_subjects_count': (
+                        AttributeSet
+                        .apply_study_filter(self.study)
+                        .filter(subject__no_recruitment=False)
+                        .count()
+                    ),
                 },
             )
         return super().dispatch(request, *args, **kwargs)
@@ -94,7 +99,12 @@ class FilterGroupListView(FilterMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['total_count'] = AttributeSet.objects.count()
-        context['count'] = AttributeSet.apply_study_filter(self.study).count()
+        context['count'] = (
+            AttributeSet
+            .apply_study_filter(self.study)
+            .filter(subject__no_recruitment=False)
+            .count()
+        )
         context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         context['expected_subject_count'] = (
             self.study.min_subject_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
