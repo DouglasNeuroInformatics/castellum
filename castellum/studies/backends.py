@@ -21,6 +21,8 @@
 
 from django.contrib.auth.models import Permission
 
+from castellum.subjects.models import Subject
+
 from .models import Study
 from .models import StudyMembership
 
@@ -49,6 +51,15 @@ class StudyPermissionBackend:
                         perms.update(self._permissions_to_strings(permissions))
                 setattr(user, perm_cache_name, perms)
             return getattr(user, perm_cache_name)
+        elif isinstance(obj, Subject):
+            perms = set()
+            studies = Study.objects.filter(
+                participationrequest__subject=obj,
+                study_mode=Study.EXECUTION,
+            )
+            for study in studies:
+                perms.update(self._get_group_permissions(user, study))
+            return perms
         return set()
 
     def get_group_permissions(self, user, obj=None):
