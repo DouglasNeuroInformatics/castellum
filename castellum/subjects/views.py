@@ -22,6 +22,7 @@
 import logging
 from urllib.parse import urlencode
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
@@ -51,9 +52,8 @@ from .models import Subject
 monitoring_logger = logging.getLogger('monitoring.subjects')
 
 
-class SubjectSearchView(PermissionRequiredMixin, GetFormView):
+class SubjectSearchView(LoginRequiredMixin, GetFormView):
     template_name = 'subjects/subject_search.html'
-    permission_required = 'contacts.view_contact'
     form_class = SearchForm
 
     def get_context_data(self, **kwargs):

@@ -32,7 +32,7 @@ def test_recruitment_tile(request, client, user_fixture):
 
 
 @pytest.mark.parametrize('user_fixture', [
-    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    'study_coordinator',
     'recruiter',
     'subject_manager',
 ])
