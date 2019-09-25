@@ -43,6 +43,13 @@
         <div class="tab-content mb-3 border border-top-0 p-3">
             <div class="tab-pane {{ is_post|yesno:',active' }}" id="matches" role="tabpanel" aria-labelledby="matches-tab">
                 {% if matches %}
+                    {% has_perm 'contacts.view_contact' user as can_global_view_contact %}
+                    {% if not can_global_view_contact %}
+                        <p class="alert alert-warning" role="alert">
+                            {% trans 'You can only access subjects from studies that you are a member of.' %}
+                        </p>
+                    {% endif %}
+
                     <ul class="table-list">
                         {% for contact in matches %}
                             {% has_privacy_level contact.subject.privacy_level user as can_access %}
