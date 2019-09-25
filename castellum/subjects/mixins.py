@@ -47,6 +47,9 @@ class SubjectMixin:
         else:
             return obj.subject
 
+    def get_permission_object(self):
+        return self.subject
+
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             if not request.user.has_privacy_level(self.subject.privacy_level):

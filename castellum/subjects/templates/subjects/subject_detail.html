@@ -35,7 +35,7 @@
         <dd class="col-sm-6">{{ attributeset_completeness|default:'—' }}</dd>
     </dl>
     <div class="mb-3">
-        {% has_perm 'contacts.change_contact' user as can_change_contact %}
+        {% has_perm 'contacts.change_contact' user subject as can_change_contact %}
         {% if can_change_contact %}
             <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'subjects:contact' subject.pk %}">
                 {% if not object.contact.is_complete %}
@@ -44,7 +44,7 @@
                 {% trans 'Edit contact' %}
             </a>
         {% endif %}
-        {% has_perm 'subjects.change_subject' user as can_change_subject %}
+        {% has_perm 'subjects.change_subject' user subject as can_change_subject %}
         {% if can_change_subject %}
             <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'subjects:subject' subject.pk %}">
                 {% if not subject.is_complete %}
@@ -53,12 +53,12 @@
                 {% trans 'Edit subject' %}
             </a>
         {% endif %}
-        {% has_perm 'recruitment.change_attributeset' user as can_change_attributeset %}
+        {% has_perm 'recruitment.change_attributeset' user subject as can_change_attributeset %}
         {% if can_change_attributeset %}
             <a href="{% url 'subjects:attributeset' subject.pk %}" class="btn btn-secondary btn-sm-inline my-1">{% trans "Edit attributes" %}</a>
         {% endif %}
         <a href="{% url 'subjects:studyparticipation' subject.pk %}" class="btn btn-secondary btn-sm-inline my-1">{% trans "Study Participation" %}</a>
-        {% has_perm 'subjects.view_subject' user as can_view_subject %}
+        {% has_perm 'subjects.view_subject' user subject as can_view_subject %}
         {% if can_view_subject %}
             <a href="{% url 'subjects:export' subject.pk %}" class="btn btn-secondary btn-sm-inline my-1">{% trans 'Export' %}</a>
         {% endif %}
