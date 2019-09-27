@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+	<ul class="table-list mb-3">
+	{% for appointment in object_list %}
+
+		<li class="table-list-item">
+			<div>
+				von <b>{{ appointment.start }}</b>
+				bis <b>{{ appointment.end }}</b>
+				in Raum <b>{{ appointment.location }}</b>
+				(owner): <b>{{ appointment.owner }}</b>
+			</div>
+		</li>
+
+	{% endfor %}
+	</ul>
+
+{% endblock %}

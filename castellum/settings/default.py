@@ -25,8 +25,11 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'parler',
 
+    'appointments',
+
     'castellum.utils',
     'castellum.castellum_auth',
+    'castellum.castellum_appointments',
     'castellum.subjects',
     'castellum.pseudonyms',
     'castellum.recruitment',

@@ -47,6 +47,7 @@ urlpatterns = [
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
 
     path('admin/', admin.site.urls),
+    path('appointments/', include('castellum.castellum_appointments.urls', namespace='appointments')),
     path('recruitment/', include('castellum.recruitment.urls', namespace='recruitment')),
     path('execution/', include('castellum.execution.urls', namespace='execution')),
     path('studies/', include('castellum.studies.urls', namespace='studies')),
