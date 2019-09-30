@@ -41,8 +41,8 @@ from castellum.utils.fields import RestrictedFileField
 class StudyType(TranslatableModel):
     translations = TranslatedFields(
         label=models.CharField(_('Label'), max_length=64),
-        exclusion_criteria=models.TextField(_('Inclusion/exclusion criteria'), blank=True),
     )
+    exclusion_criteria = models.TextField(_('Inclusion/exclusion criteria'), blank=True)
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
 
     def __str__(self):
