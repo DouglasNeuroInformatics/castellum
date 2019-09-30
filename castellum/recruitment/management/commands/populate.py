@@ -39,6 +39,7 @@ from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import AttributeSet
 from castellum.studies.models import Study
 from castellum.studies.models import StudySession
+from castellum.studies.models import StudyType
 from castellum.subjects.models import Subject
 
 fake = Faker('de_DE')
@@ -200,6 +201,10 @@ def generate_studies(count):
     Study.objects.bulk_create(fake_study() for i in range(count))
     studies = Study.objects.all()[:count]
     StudySession.objects.bulk_create(fake_studysession(study) for study in studies)
+
+    study_types = list(StudyType.objects.all())
+    for study in studies:
+        study.study_type.add(fake.random.choice(study_types))
 
 
 def generate_subjects(count, city_count=100):
