@@ -24,7 +24,7 @@
                         {% endif %}
                     </div>
                     <div class="table-list-item-actions">
-                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment-open' study.pk %}">{% trans 'Find subjects' %}</a>
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment-open' study.pk %}">{% trans 'Recruit subjects' %}</a>
                     </div>
                 </li>
             {% endfor %}
@@ -35,6 +35,6 @@
 
     <div class="mb-3">
         <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
-        <a href="{% url 'recruitment:search' %}" class="btn btn-secondary">{% trans 'Search for participants' %}</a>
+        <a href="{% url 'recruitment:search' %}" class="btn btn-secondary">{% trans 'Find subjects' %}</a>
     </div>
 {% endblock %}

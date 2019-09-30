@@ -1,9 +1,11 @@
 {% extends "recruitment/base.html" %}
 {% load i18n bootstrap4 auth %}
 
-{% block title %}{% trans "Search" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% trans "Find subjects" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    <h1>{% trans 'Find subjects' %}</h1>
+
     <form method="get">
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
