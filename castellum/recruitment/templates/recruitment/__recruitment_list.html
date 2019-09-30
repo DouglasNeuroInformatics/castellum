@@ -68,7 +68,7 @@
                     <div class="table-list-item-actions">
                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation_request.pk %}">
                             {% if participation_request.status_open %}
-                                {% trans 'Contact' %}
+                                {% trans 'Contact' context 'verb' %}
                             {% else %}
                                 {% trans 'Review' %}
                             {% endif %}
@@ -85,7 +85,7 @@
                 </div>
                 {% if can_change_participationrequest %}
                     <div class="table-list-item-actions">
-                        <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Contact' %}</a>
+                        <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Contact' context 'verb' %}</a>
                     </div>
                 {% endif %}
             {% endif %}
