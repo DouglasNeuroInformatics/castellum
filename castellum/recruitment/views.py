@@ -385,26 +385,30 @@ class SearchView(LoginRequiredMixin, GetFormView):
     template_name = 'recruitment/search.html'
     form_class = SearchForm
 
-    def iter_matches(self, form):
+    def get_matches(self, form):
         contacts = Contact.objects.fuzzy_filter(**form.cleaned_data)
         subjects = [c.subject for c in contacts]
         participation_requests = ParticipationRequest.objects.filter(
             subject__in=subjects, study__study_mode=Study.EXECUTION
         ).select_related('subject', 'study')
 
+        result = {}
         perms = ('studies.access_study',) + ContactView.permission_required
         for pr in participation_requests:
             if (
                 self.request.user.has_perms(perms, pr.study) and
                 self.request.user.has_privacy_level(pr.subject.privacy_level)
             ):
-                yield pr
+                result.setdefault(pr.subject, [])
+                result[pr.subject].append(pr)
+
+        return list(result.items())
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         form = kwargs.get('form')
         if form and form.is_valid():
-            context['object_list'] = list(self.iter_matches(form))
+            context['object_list'] = self.get_matches(form)
         return context
 
     def form_valid(self, form):

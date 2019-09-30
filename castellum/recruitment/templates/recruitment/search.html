@@ -28,39 +28,43 @@
 
     {% if form.is_valid %}
         <ul class="table-list">
-            {% for participation_request in object_list %}
-                {% with contact=participation_request.subject.contact %}
-                    <li class="table-list-item">
-                        <div>
-                            <h3 class="h4 d-inline-block my-1 mr-2">
-                                {{ participation_request.study }}:
-                                {% if contact.title %}{{ contact.title }}{% endif %}
-                                {% if contact.first_name == form.first_name.value %}
-                                    <mark>{{ contact.first_name }}</mark>
-                                {% else %}
-                                    {{ contact.first_name }}
-                                {% endif %}
-                                {% if contact.last_name == form.last_name.value %}
-                                    <mark>{{ contact.last_name }}</mark>
-                                {% else %}
-                                    {{ contact.last_name }}
-                                {% endif %}
-                            </h3>
-                            <div class="d-inline-block">
-                                {% if contact.date_of_birth %}
-                                    <div class="d-inline-block my-1 mr-2">{{ contact.date_of_birth }}</div>
-                                {% endif %}
-                                {% if contact.address %}
-                                    <div class="d-inline-block my-1 mr-2">{{ contact.address }}</div>
-                                {% endif %}
-                                {% if contact.email %}
-                                    <div class="d-inline-block my-1 mr-2">{{ contact.email }}</div>
-                                {% endif %}
-                            </div>
+            {% for subject, participation_requests in object_list %}
+                {% with contact=subject.contact %}
+                    <li class="my-5">
+                        <h3 class="h4 d-inline-block my-1 mr-2">
+                            {% if contact.title %}{{ contact.title }}{% endif %}
+                            {% if contact.first_name == form.first_name.value %}
+                                <mark>{{ contact.first_name }}</mark>
+                            {% else %}
+                                {{ contact.first_name }}
+                            {% endif %}
+                            {% if contact.last_name == form.last_name.value %}
+                                <mark>{{ contact.last_name }}</mark>
+                            {% else %}
+                                {{ contact.last_name }}
+                            {% endif %}
+                        </h3>
+                        <div class="d-inline-block">
+                            {% if contact.date_of_birth %}
+                                <div class="d-inline-block my-1 mr-2">{{ contact.date_of_birth }}</div>
+                            {% endif %}
+                            {% if contact.address %}
+                                <div class="d-inline-block my-1 mr-2">{{ contact.address }}</div>
+                            {% endif %}
+                            {% if contact.email %}
+                                <div class="d-inline-block my-1 mr-2">{{ contact.email }}</div>
+                            {% endif %}
                         </div>
-                        <div class="table-list-item-actions">
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participation_request.study.pk participation_request.pk %}">{% trans 'Contact' %}</a>
-                        </div>
+                        <ul class="table-list">
+                            {% for pr in participation_requests %}
+                                <li class="table-list-item">
+                                    <span class="h5 d-inline-block my-1 mr-2">{{ pr.study }}</span>
+                                    <div class="table-list-item-actions">
+                                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' pr.study.pk pr.pk %}">{% trans 'Contact' context 'verb' %}</a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </li>
                 {% endwith %}
             {% empty %}
