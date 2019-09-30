@@ -651,9 +651,9 @@ msgstr "Keine Terminvereinbarung"
 msgid "Appointment cannot be set with this status"
 msgstr "Eine Terminvereinbarung kann mit diesem Status nicht gesetzt werden"
 
-#: castellum/recruitment/models/recruitment.py:133
-msgid "Exclusion criteria have not been checked"
-msgstr "Ausschlusskriterien wurden noch nicht überprüft"
+#: castellum/recruitment/models/recruitment.py:144
+msgid "Inclusion/exclusion criteria have not been checked"
+msgstr "Ein-/Ausschlusskriterien wurden noch nicht überprüft"
 
 #: castellum/recruitment/models/subjectfilters.py:51
 msgid "Excluded studies"
@@ -838,12 +838,12 @@ msgstr "Proband*in bearbeiten"
 msgid "Duration of sessions in minutes"
 msgstr "Sitzungsdauer in Minuten"
 
-#: castellum/recruitment/templates/recruitment/contact.html:111
-#: castellum/studies/models.py:44 castellum/studies/models.py:83
+#: castellum/recruitment/templates/recruitment/contact.html:116
+#: castellum/studies/models.py:45 castellum/studies/models.py:81
 #: castellum/studies/templates/studies/study_exclusioncriteria.html:4
-#: castellum/studies/templates/studies/study_recruitmentsettings.html:17
-msgid "Exclusion criteria"
-msgstr "Ausschlusskriterien"
+#: castellum/studies/templates/studies/study_recruitmentsettings_base.html:24
+msgid "Inclusion/exclusion criteria"
+msgstr "Ein-/Ausschlusskriterien"
 
 #: castellum/recruitment/templates/recruitment/contact.html:138
 msgid "Save and go back"
@@ -1357,6 +1357,10 @@ msgstr ""
 msgid "Recruitment Settings"
 msgstr "Rekrutierungseinstellungen"
 
+#: castellum/studies/templates/studies/study_exclusioncriteria.html:16
+msgid "Criteria for:"
+msgstr "Kriterien für:"
+
 #: castellum/studies/templates/studies/study_form.html:8
 #: castellum/studies/templates/studies/study_list.html:69
 msgid "Create new study"
@@ -1418,10 +1422,6 @@ msgstr "Deaktiviert"
 #: castellum/studies/templates/studies/study_recruitmentsettings.html:25
 msgid "General"
 msgstr "Allgemein"
-
-#: castellum/studies/templates/studies/study_recruitmentsettings.html:41
-msgid "Exclusion Criteria"
-msgstr "Ausschlusskriterien"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings_form.html:5
 msgid "General recruitment settings"

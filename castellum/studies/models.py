@@ -41,8 +41,8 @@ from castellum.utils.fields import RestrictedFileField
 class StudyType(TranslatableModel):
     translations = TranslatedFields(
         label=models.CharField(_('Label'), max_length=64),
-        exclusion_criteria=models.TextField(_('Exclusion criteria'), blank=True),
     )
+    exclusion_criteria = models.TextField(_('Inclusion/exclusion criteria'), blank=True)
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
 
     def __str__(self):
@@ -78,7 +78,7 @@ class Study(models.Model):
     expense_allowance = models.PositiveIntegerField(_('Expense allowance'), blank=True, null=True)
     sessions_start = DateField(_('Start of test sessions'), blank=True, null=True)
     sessions_end = DateField(_('End of test sessions'), blank=True, null=True)
-    exclusion_criteria = models.TextField(_('Exclusion criteria'), blank=True)
+    exclusion_criteria = models.TextField(_('Inclusion/exclusion criteria'), blank=True)
     recruitment_text = models.TextField(_('Recruitment text'), blank=True)
 
     members = models.ManyToManyField(User, through='StudyMembership')
@@ -170,8 +170,7 @@ class Study(models.Model):
 
     @cached_property
     def has_exclusion_criteria(self):
-        qs = self.study_type.filter(translations__exclusion_criteria__regex='.+')
-        return self.exclusion_criteria or qs.exists()
+        return self.exclusion_criteria or self.study_type.exclude(exclusion_criteria='').exists()
 
     @cached_property
     def is_sensitive(self):
