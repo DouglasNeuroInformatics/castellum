@@ -21,7 +21,7 @@
 
             <div class="col-sm-4">
                 {# duplicated because disabled fields are not posted to the server #}
-                {% bootstrap_field form.description show_label=False%}
+                {% bootstrap_field form.description show_label=False %}
                 {{ form.description.as_hidden }}
             </div>
             {% if form.operator.field.choices|length > 1 %}
@@ -71,7 +71,7 @@
 
                             <div class="col-sm-4">
                                 {# duplicated because disabled fields are not posted to the server #}
-                                {% bootstrap_field form.description show_label=False%}
+                                {% bootstrap_field form.description show_label=False %}
                                 {{ form.description.as_hidden }}
                             </div>
                             {% if form.operator.field.choices|length > 1 %}
