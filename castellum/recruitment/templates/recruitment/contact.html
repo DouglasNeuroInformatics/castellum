@@ -113,7 +113,7 @@
     <form method="post">
         {% if study.has_exclusion_criteria %}
             <details class="mb-3">
-                <summary class="h4">{% trans "Exclusion criteria" %}</summary>
+                <summary class="h4">{% trans "Inclusion/exclusion criteria" %}</summary>
                 {% if study.exclusion_criteria %}
                     {{ study.exclusion_criteria|linebreaks }}
                 {% endif %}

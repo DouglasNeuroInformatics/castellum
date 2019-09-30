@@ -141,7 +141,8 @@ class ParticipationRequest(models.Model):
             and self.study.has_exclusion_criteria
             and not self.exclusion_criteria_checked
         ):
-            raise ValidationError(_('Exclusion criteria have not been checked'), code='invalid')
+            msg = _('Inclusion/exclusion criteria have not been checked')
+            raise ValidationError(msg, code='invalid')
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
