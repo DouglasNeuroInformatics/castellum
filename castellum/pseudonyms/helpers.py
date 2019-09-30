@@ -47,8 +47,7 @@ def delete_domain(domain_key):
 
 
 def get_subject(domain_key, pseudonym):
-    origin = Pseudonym.objects.get(domain__key=domain_key, pseudonym=pseudonym)
-    return origin.subject
+    return Subject.objects.get(pseudonym__domain__key=domain_key, pseudonym__pseudonym=pseudonym)
 
 
 def get_pseudonym(subject, target_domain_key):
