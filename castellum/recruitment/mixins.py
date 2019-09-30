@@ -42,9 +42,6 @@ class BaseAttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateVi
     def get_form_class(self):
         return AttributeSetForm.factory(self.request.user)
 
-    def get_cancel_url(self):
-        return self.get_success_url()
-
     def form_valid(self, form):
         result = super().form_valid(form)
         monitoring_logger.info('AttributeSet update: {} by {}'.format(

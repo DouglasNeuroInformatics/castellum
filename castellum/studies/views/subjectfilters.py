@@ -76,8 +76,11 @@ class CustomFilterMixin:
 
 
 class FilterMixin(StudyMixin, PermissionRequiredMixin, CustomFilterMixin):
+    tab = 'recruitmentsettings'
+    subtab = 'filters'
+
     def get_permission_required(self):
-        permission_required = set()
+        permission_required = set(['studies.change_study'])
         permission_required.update(super().get_permission_required())
 
         max_privacy_level = self.study.get_filter_max_privacy_level()

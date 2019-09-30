@@ -38,9 +38,6 @@ class BaseContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         kwargs['user'] = self.request.user
         return kwargs
 
-    def get_cancel_url(self):
-        return self.get_success_url()
-
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().post(request, *args, **kwargs)

@@ -83,6 +83,7 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
 class StudyDetailView(PermissionRequiredMixin, DetailView):
     model = Study
     permission_required = 'studies.view_study'
+    tab = 'detail'
 
 
 class StudyFormMixin:
@@ -154,12 +155,13 @@ class StudyUpdateView(
     StudyMixin, PermissionRequiredMixin, ReadonlyMixin, StudyFormMixin, UpdateView
 ):
     permission_required = 'studies.change_study'
+    tab = 'update'
 
     def get_readonly(self):
         return self.object.study_mode == Study.FINISHED
 
     def get_success_url(self):
-        return reverse('studies:detail', args=[self.object.pk])
+        return reverse('studies:update', args=[self.object.pk])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -169,6 +171,10 @@ class StudyUpdateView(
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form, session_formset):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form, session_formset)
 
 
 class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
@@ -196,12 +202,6 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
         return redirect('studies:detail', self.study.pk)
 
 
-class StudyRecruitmentSettingsView(StudyMixin, PermissionRequiredMixin, DetailView):
-    model = Study
-    permission_required = 'studies.view_study'
-    template_name = 'studies/study_recruitmentsettings.html'
-
-
 class StudyRecruitmentSettingsUpdateView(
     StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
 ):
@@ -209,12 +209,18 @@ class StudyRecruitmentSettingsUpdateView(
     fields = ('advanced_filtering', 'recruitment_text', 'is_exclusive', 'complete_matches_only')
     permission_required = 'studies.change_study'
     template_name = 'studies/study_recruitmentsettings_form.html'
+    tab = 'recruitmentsettings'
+    subtab = 'update'
 
     def get_readonly(self):
         return self.object.study_mode == Study.FINISHED
 
     def get_success_url(self):
         return reverse('studies:recruitmentsettings', kwargs={'pk': self.object.pk})
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form)
 
 
 class StudyExclusionCriteriaView(
@@ -224,18 +230,25 @@ class StudyExclusionCriteriaView(
     template_name = 'studies/study_exclusioncriteria.html'
     fields = ('exclusion_criteria',)
     permission_required = 'studies.change_study'
+    tab = 'recruitmentsettings'
+    subtab = 'exclusioncriteria'
 
     def get_readonly(self):
         return self.object.study_mode == Study.FINISHED
 
     def get_success_url(self):
-        return reverse('studies:recruitmentsettings', args=[self.object.pk])
+        return reverse('studies:exclusioncriteria', args=[self.object.pk])
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form)
 
 
 class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, FormView):
     model = Study
     template_name = 'studies/study_members.html'
     permission_required = 'studies.change_study'
+    tab = 'members'
 
     def dispatch(self, *args, **kwargs):
         self.object = self.get_object()
@@ -283,6 +296,7 @@ class StudyMembershipUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView)
     form_class = MemberForm
     permission_required = 'studies.change_study'
     study_modes = [Study.EDIT, Study.EXECUTION]
+    tab = 'members'
 
     def get_object(self):
         return get_object_or_404(StudyMembership, pk=self.kwargs['pk'], study=self.study)

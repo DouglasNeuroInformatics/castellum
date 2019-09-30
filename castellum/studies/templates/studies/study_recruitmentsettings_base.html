@@ -1,0 +1,32 @@
+{% extends "studies/study_base.html" %}
+{% load i18n auth %}
+
+{% block content_with_messages %}
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="list-group mb-3">
+                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'update' %}active{% endif %}" href="{% url 'studies:recruitmentsettings' study.pk %}">{% trans 'General' %}</a>
+
+                {% has_perm 'recruitment.change_subjectfilter' user study as can_change_subjectfilter %}
+                {% if can_change_subjectfilter %}
+                    {% has_privacy_level study.get_filter_max_privacy_level user as sufficient_privacy_level %}
+                    {% if sufficient_privacy_level %}
+                        <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'filters' %}active{% endif %}" href="{% url 'studies:filtergroup-index' study.pk %}">
+                            {% trans 'Filters' %}
+                        </a>
+                    {% else %}
+                        <button class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'filters' %}active{% endif %}" title="{% trans 'Insufficient privacy level' %}" disabled>
+                            {% trans 'Filters' %}
+                        </button>
+                    {% endif %}
+                {% endif %}
+
+                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'exclusioncriteria' %}active{% endif %}" href="{% url 'studies:exclusioncriteria' study.pk %}">{% trans 'Exclusion Criteria' %}</a>
+            </div>
+        </div>
+
+        <div class="col-sm-9">
+            {{ block.super }}
+        </div>
+    </div>
+{% endblock %}

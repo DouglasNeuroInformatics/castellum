@@ -81,9 +81,7 @@
         </fieldset>
 
         <div class="mb-3">
-            {% if object %}
-                <a href="{% url 'studies:detail' object.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-            {% else %}
+            {% if not object %}
                 <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
             {% endif %}
             {% if not readonly %}

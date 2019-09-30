@@ -1,4 +1,4 @@
-{% extends "studies/study_base.html" %}
+{% extends "studies/study_recruitmentsettings_base.html" %}
 {% load i18n %}
 
 {% block title %}{% trans "Filters" %} &middot; {{ block.super }}{% endblock %}
@@ -9,8 +9,4 @@
     <p class="alert alert-warning">
         {% trans "This study uses a custom filter. Regular filters are not available." %}
     </p>
-
-    <div class="mb-3">
-        <a href="{% url 'studies:detail' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-    </div>
 {% endblock %}

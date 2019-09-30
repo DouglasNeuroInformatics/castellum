@@ -1,4 +1,4 @@
-{% extends "studies/study_base.html" %}
+{% extends "studies/study_recruitmentsettings_base.html" %}
 {% load static i18n bootstrap4 %}
 
 {% block title %}{% trans "Filters" %} &middot; {{ block.super }}{% endblock %}
@@ -43,7 +43,7 @@
         </template>
     {% endfor %}
 
-    <form method="post" data-js="unsaved-changes">
+    <form method="post">
         {% csrf_token %}
         {{ formset.management_form }}
 
@@ -130,8 +130,6 @@
         <div class="mb-3">
             {% if study.advanced_filtering %}
                 <a href="{% url 'studies:filtergroup-index' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-            {% else %}
-                <a href="{% url 'studies:recruitmentsettings' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
             {% endif %}
 
             {% if study.study_mode == study.EDIT %}

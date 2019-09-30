@@ -1,22 +1,4 @@
 $(function() {
-    var submitted = false;
-
-    var registerBeforeUnload = function() {
-        $(window).on('beforeunload', function(event) {
-            if (!submitted) {
-                event.preventDefault();
-                // Chrome requires returnValue to be set.
-                event.returnValue = '';
-            }
-        });
-    };
-
-    $('[data-js="unsaved-changes"]')
-    .on('change', registerBeforeUnload)
-    .on('submit', function() {
-        submitted = true;
-    });
-
     var $totalForms = $('#id_form-TOTAL_FORMS');
     var $container = $('#filter-forms');
 
@@ -27,8 +9,7 @@ $(function() {
             var html = $template.html().replace(/{prefix}/g, 'form-' + $totalForms.val());
             var $formrow = $('<div class="form-row mb-3">').html(html);
             $container.append($formrow);
-            $totalForms.val(parseInt($totalForms.val(), 10) + 1);
-            registerBeforeUnload();
+            $totalForms.val(parseInt($totalForms.val(), 10) + 1).trigger('change');
         }
     });
 
@@ -37,7 +18,7 @@ $(function() {
         $formrow.find('[name^="form-' + $formrow.index() + '-value"]').remove();
         $formrow.append($('<input type="hidden" name="form-' + $formrow.index() + '-DELETE" value="on">'));
         $formrow.attr('hidden', true);
-        registerBeforeUnload();
+        $formrow.find('input').trigger('change');
     });
 
     $(document).on('click', '[data-multi-reset]', function(event) {

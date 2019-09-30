@@ -45,11 +45,10 @@
             {% bootstrap_field form.user %}
         {% endif %}
 
-        <div class="mb-3">
-            <a href="{% url 'studies:detail' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-            {% if not readonly %}
+        {% if not readonly %}
+            <div class="mb-3">
                 <input type="submit" class="btn btn-primary" value="{% trans 'Add' %}" />
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
     </form>
 {% endblock %}

@@ -65,18 +65,20 @@
 
     <main class="container pt-3">
         <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-10">
+            <div class="col-lg-10 col-md-12">
                 {% block header %}{% endblock %}
 
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="{{ message|bootstrap_message_classes }}" role="alert">
-                            {{ message|capfirst|linebreaksbr }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
+                {% block content_with_messages %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="{{ message|bootstrap_message_classes }}" role="alert">
+                                {{ message|capfirst|linebreaksbr }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
 
-                {% block content %}{% endblock %}
+                    {% block content %}{% endblock %}
+                {% endblock %}
             </div>
         </div>
     </main>
@@ -94,6 +96,7 @@
     <script src="{% static 'bootstrap-datepicker/dist/locales/bootstrap-datepicker.de.min.js' %}"></script>
     <script src="{% static 'js/datepicker.js' %}"></script>
     <script src="{% static 'js/form.js' %}"></script>
+    <script src="{% static 'js/unsaved-changes.js' %}"></script>
 
     {% block extra_scripts %}{% endblock %}
 </body>

@@ -117,7 +117,9 @@
         </fieldset>
 
         <div class="mb-3">
-            <a href="{{ view.get_success_url }}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+            {% if view.get_cancel_url %}
+                <a href="{{ view.get_success_url }}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+            {% endif %}
             <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
         </div>
     </form>
