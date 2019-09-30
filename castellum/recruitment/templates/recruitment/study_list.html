@@ -33,5 +33,8 @@
         <p class="alert alert-warning" role="alert">{% trans 'There are currently no studies you can recruit for.' %}</p>
     {% endif %}
 
-    <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
+    <div class="mb-3">
+        <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
+        <a href="{% url 'recruitment:search' %}" class="btn btn-secondary">{% trans 'Search for participants' %}</a>
+    </div>
 {% endblock %}
