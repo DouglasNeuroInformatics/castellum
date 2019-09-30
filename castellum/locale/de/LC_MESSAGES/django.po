@@ -843,7 +843,7 @@ msgstr "Sitzungsdauer in Minuten"
 #: castellum/studies/templates/studies/study_exclusioncriteria.html:4
 #: castellum/studies/templates/studies/study_recruitmentsettings_base.html:24
 msgid "Inclusion/exclusion criteria"
-msgstr "Ein-/Ausschluss­kriterien"
+msgstr "Ein-/Ausschlusskriterien"
 
 #: castellum/recruitment/templates/recruitment/contact.html:138
 msgid "Save and go back"
