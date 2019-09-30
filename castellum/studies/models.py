@@ -170,8 +170,7 @@ class Study(models.Model):
 
     @cached_property
     def has_exclusion_criteria(self):
-        qs = self.study_type.filter(translations__exclusion_criteria__regex='.+')
-        return self.exclusion_criteria or qs.exists()
+        return self.exclusion_criteria or self.study_type.exclude(exclusion_criteria='').exists()
 
     @cached_property
     def is_sensitive(self):
