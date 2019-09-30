@@ -4,7 +4,7 @@ $(function() {
         var $appointmentInputs = $('[name^="appointment"]');
         var $appointment = $appointmentInputs.closest('.form-group');
 
-        if ($status.val() === "4") {
+        if ($status.val() === '4') {
             $appointment.prop('hidden', false);
             $appointmentInputs.prop('required', true);
         } else {

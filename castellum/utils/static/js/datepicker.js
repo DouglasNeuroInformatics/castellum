@@ -6,7 +6,7 @@ $(function() {
                 language: document.documentElement.lang,
                 autoclose: true,
                 calendarWeeks: true,
-                daysOfWeekHighlighted: "0,6",
+                daysOfWeekHighlighted: '0,6',
                 todayHighlight: true,
             });
         }
