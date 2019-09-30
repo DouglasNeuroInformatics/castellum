@@ -64,6 +64,11 @@ def sample_groups(db):
 
 
 @pytest.fixture
+def study_types(db):
+    load_django_fixture('studies', 'study_types')
+
+
+@pytest.fixture
 def user(db):
     return create_user(None)
 
