@@ -1,5 +1,5 @@
 {% extends "recruitment/base.html" %}
-{% load i18n bootstrap4 auth %}
+{% load i18n bootstrap4 auth utils %}
 
 {% block title %}{% trans "Find subjects" %} &middot; {{ block.super }}{% endblock %}
 
@@ -59,6 +59,7 @@
                             {% for pr in participation_requests %}
                                 <li class="table-list-item">
                                     <span class="h5 d-inline-block my-1 mr-2">{{ pr.study }}</span>
+                                    <span class="badge badge-secondary">{{ pr|display:'status' }}</span>
                                     <div class="table-list-item-actions">
                                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' pr.study.pk pr.pk %}">{% trans 'Contact' context 'verb' %}</a>
                                     </div>
