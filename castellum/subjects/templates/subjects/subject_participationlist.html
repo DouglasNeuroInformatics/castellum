@@ -13,7 +13,7 @@
                         {% has_perm 'recruitment.view_participation_pseudonyms' user participationrequest.study as can_view_participation_pseudonyms %}
                         {% if can_view_participation_pseudonyms %}
                             {% if participationrequest.status == participationrequest.INVITED %}
-                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:study-detail' participationrequest.study.pk %}">{% trans 'Go to execution' %}</a>
+                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participationrequest-detail' participationrequest.study.pk participationrequest.pk %}">{% trans 'Go to execution' %}</a>
                             {% endif %}
                         {% endif %}
                         {% has_perm 'recruitment.change_participationrequest' user participationrequest.study as can_change_participationrequest %}
