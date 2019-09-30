@@ -20,7 +20,6 @@
 # <http://www.gnu.org/licenses/>.
 
 import logging
-from urllib.parse import urlencode
 
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -65,7 +64,6 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
         form = kwargs.get('form')
         if form and form.is_valid():
             data = form.cleaned_data
-            context['query'] = '?' + urlencode(data)
             context['matches'] = Contact.objects.fuzzy_filter(**data)
             if 'privacy_level_form' not in context:
                 context['privacy_level_form'] = SubjectPrivacyLevelForm(user=self.request.user)
