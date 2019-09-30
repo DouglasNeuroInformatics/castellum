@@ -8,12 +8,12 @@
 
         {% csrf_token %}
 
-        {% bootstrap_field form.exclusion_criteria %}
+        {% bootstrap_field form.exclusion_criteria show_label=False %}
 
         {% for study_type in study.study_type.all %}
             {% if study_type.exclusion_criteria %}
                 <details class="mb-3">
-                    <summary class="mb-2">{{ study_type.label }}</summary>
+                    <summary class="mb-2">{% trans 'Criteria for:' %} {{ study_type.label }}</summary>
                     <blockquote class="blockquote">
                         {{ study_type.exclusion_criteria|linebreaks }}
                     </blockquote>
