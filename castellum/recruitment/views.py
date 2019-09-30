@@ -35,13 +35,16 @@ from django.views.generic import ListView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
+from castellum.contacts.models import Contact
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseSubjectUpdateView
 from castellum.subjects.mixins import SubjectMixin
 from castellum.utils.chart import ChartRenderer
+from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
 from .models import AttributeDescription
@@ -376,3 +379,33 @@ class SubjectUpdateView(StudyMixin, BaseSubjectUpdateView):
         context = super().get_context_data(**kwargs)
         context['base_template'] = "recruitment/base.html"
         return context
+
+
+class SearchView(LoginRequiredMixin, GetFormView):
+    template_name = 'recruitment/search.html'
+    form_class = SearchForm
+
+    def iter_matches(self, form):
+        contacts = Contact.objects.fuzzy_filter(**form.cleaned_data)
+        subjects = [c.subject for c in contacts]
+        participation_requests = ParticipationRequest.objects.filter(
+            subject__in=subjects, study__study_mode=Study.EXECUTION
+        ).select_related('subject', 'study')
+
+        perms = ('studies.access_study',) + ContactView.permission_required
+        for pr in participation_requests:
+            if (
+                self.request.user.has_perms(perms, pr.study) and
+                self.request.user.has_privacy_level(pr.subject.privacy_level)
+            ):
+                yield pr
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = kwargs.get('form')
+        if form and form.is_valid():
+            context['object_list'] = list(self.iter_matches(form))
+        return context
+
+    def form_valid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
