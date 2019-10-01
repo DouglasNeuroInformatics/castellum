@@ -59,7 +59,7 @@
 }
 
 .list-group-item-custom {
-    color: var(--primary)
+    color: var(--primary);
 }
 
 .list-group-item-custom.active {
