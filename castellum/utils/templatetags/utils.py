@@ -58,7 +58,7 @@ def display(instance, field_name):
         elif value is None or value == '':
             return '—'
         elif hasattr(value, 'all'):
-            return ', '.join(str(x) for x in value.all())
+            return ', '.join(str(x) for x in value.all()) or '—'
         else:
             return value
 
