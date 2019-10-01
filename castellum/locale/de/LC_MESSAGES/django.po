@@ -613,11 +613,11 @@ msgstr "eingeladen"
 
 #: castellum/recruitment/models/recruitment.py:83
 msgid "follow-up scheduled"
-msgstr ""
+msgstr "Wiedervorlage vereinbart"
 
 #: castellum/recruitment/models/recruitment.py:84
 msgid "awaiting response"
-msgstr ""
+msgstr "auf Antwort wartend"
 
 #: castellum/recruitment/models/recruitment.py:88
 msgid "Study"
@@ -657,7 +657,7 @@ msgstr "Eine Terminvereinbarung kann mit diesem Status nicht gesetzt werden"
 
 #: castellum/recruitment/models/recruitment.py:144
 msgid "Inclusion/exclusion criteria have not been checked"
-msgstr "Ein-/Ausschlusskriterien wurden noch nicht überprüft"
+msgstr "Ein-/Ausschlusskriterien wurden nicht überprüft"
 
 #: castellum/recruitment/models/subjectfilters.py:51
 msgid "Excluded studies"
@@ -755,11 +755,9 @@ msgstr "zuletzt"
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:71
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:88
 #: castellum/recruitment/templates/recruitment/search.html:64
-#, fuzzy
-#| msgid "Contact"
 msgctxt "verb"
 msgid "Contact"
-msgstr "Kontakt"
+msgstr "Kontaktieren"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:73
 #: castellum/subjects/templates/subjects/subject_participationlist.html:25
@@ -767,19 +765,12 @@ msgid "Review"
 msgstr "Überprüfen"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:96
-#, fuzzy
-#| msgid "recently contacted in another recruitment"
 msgid "No one to contact for recruitment!"
-msgstr "wurde vor kurzem in einer anderen Rekrutierung kontaktiert"
+msgstr "Es sind keine zu kontaktierenden Personen für die Rekrutierung vorhanden."
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:97
-#, fuzzy
-#| msgid ""
-#| "No one to contact for recruitment! Currently, there are no open potential "
-#| "subjects."
 msgid "Currently, there are no open potential subjects."
 msgstr ""
-"Es sind keine zu kontaktierenden Personen für die Rekrutierung vorhanden. "
 "Gegenwärtig gibt es keine offenen Kontaktvorgänge potentieller Proband*innen."
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:100
@@ -829,10 +820,8 @@ msgstr ""
 "herauszufinden, ob sie geeignet ist."
 
 #: castellum/recruitment/templates/recruitment/contact.html:26
-#, fuzzy
-#| msgid "recently contacted in another recruitment"
 msgid "Subject does not want to be contacted for recruitment."
-msgstr "wurde vor kurzem in einer anderen Rekrutierung kontaktiert"
+msgstr "Die Proband*in möchte nicht für die Rekrutierung kontaktiert werden."
 
 #: castellum/recruitment/templates/recruitment/contact.html:32
 msgid "Contacting details"
@@ -939,16 +928,12 @@ msgstr "Keine Treffer"
 
 #: castellum/recruitment/templates/recruitment/study_list.html:9
 #: castellum/recruitment/templates/recruitment/study_list.html:10
-#, fuzzy
-#| msgid "My recall appointments"
 msgid "My follow-up appointments"
-msgstr "Meine Terminvereinbarungen"
+msgstr "Meine Wiedervorlagetermine"
 
 #: castellum/recruitment/templates/recruitment/study_list.html:27
-#, fuzzy
-#| msgid "Edit subject"
 msgid "Recruit subjects"
-msgstr "Proband*in bearbeiten"
+msgstr "Proband*innen rekrutieren"
 
 #: castellum/recruitment/templates/recruitment/study_list.html:33
 msgid "There are currently no studies you can recruit for."
@@ -960,11 +945,9 @@ msgstr "Relevanz"
 
 #: castellum/recruitment/views.py:156
 msgid "Follow-up date"
-msgstr ""
+msgstr "Datum des Folgetermins"
 
 #: castellum/recruitment/views.py:157
-#, fuzzy
-#| msgid "Last call attempt"
 msgid "Last contact attempt"
 msgstr "Letzter Kontaktversuch"
 
@@ -1223,7 +1206,7 @@ msgstr "Löschen"
 #: castellum/studies/templates/studies/filtergroup.html:52
 #: castellum/studies/templates/studies/filtergroup_advanced.html:23
 msgid "Subjects must match all of the following filters."
-msgstr ""
+msgstr "Proband*innen müssen auf alle der folgenden Filter passen"
 
 #: castellum/studies/templates/studies/filtergroup.html:53
 #: castellum/studies/templates/studies/filtergroup_advanced.html:24
@@ -1254,7 +1237,8 @@ msgstr "Zurücksetzen"
 msgid ""
 "Participants from excluded studies will be excluded from recruitment for "
 "this study."
-msgstr ""
+msgstr "Teilnehmer*innen von ausgeschlossenen Studien werden von der "
+"Rekrutierung für diese Studie ausgeschlossen."
 
 #: castellum/studies/templates/studies/filtergroup.html:123
 msgid "Studies in which potential subjects have pariticipated"
@@ -1270,7 +1254,8 @@ msgstr "Filtergruppen"
 
 #: castellum/studies/templates/studies/filtergroup_advanced.html:11
 msgid "Subjects must match any of the following filtergroups."
-msgstr ""
+msgstr "Proband*innen müssen auf irgendeine der folgenden Filtergruppen "
+"passen."
 
 #: castellum/studies/templates/studies/filtergroup_advanced.html:12
 msgid "Any of these"
@@ -1357,14 +1342,12 @@ msgstr "Bestätigen"
 #: castellum/studies/templates/studies/study_base.html:15
 #: castellum/subjects/templates/subjects/subject_base.html:12
 msgid "Tabs"
-msgstr ""
+msgstr "Tabs"
 
 #: castellum/studies/templates/studies/study_base.html:21
 #: castellum/subjects/templates/subjects/subject_base.html:15
-#, fuzzy
-#| msgid "Review"
 msgid "Overview"
-msgstr "Überprüfen"
+msgstr "Überblick"
 
 #: castellum/studies/templates/studies/study_base.html:26
 #: castellum/studies/templates/studies/study_detail.html:54
@@ -1386,7 +1369,7 @@ msgstr "Rekrutierungseinstellungen"
 #: castellum/studies/templates/studies/study_detail.html:14
 #: castellum/studies/templates/studies/study_detail.html:26
 msgid "Stop recruitment and execution for this study"
-msgstr ""
+msgstr "Rekrutierung und Ausführung für diese Studie anhalten"
 
 #: castellum/studies/templates/studies/study_detail.html:15
 #: castellum/studies/templates/studies/study_detail.html:27
@@ -1396,7 +1379,7 @@ msgstr "Stopp"
 #: castellum/studies/templates/studies/study_detail.html:18
 #: castellum/studies/templates/studies/study_detail.html:30
 msgid "Start recruitment and execution for this study"
-msgstr ""
+msgstr "Rekrutierung und Ausführung für diese Studie starten"
 
 #: castellum/studies/templates/studies/study_detail.html:19
 #: castellum/studies/templates/studies/study_detail.html:31
@@ -1405,10 +1388,9 @@ msgid "Start"
 msgstr "Start"
 
 #: castellum/studies/templates/studies/study_detail.html:40
-#, fuzzy
-#| msgid "We cannot find participants for this study."
 msgid "Resume recruitment and execution for this study"
-msgstr "Wir können keine Teilnehmer*innen für diese Studie finden."
+msgstr "Rekrutierung und Ausführung für diese Studie "
+"wiederaufnehmen"
 
 #: castellum/studies/templates/studies/study_detail.html:41
 msgid "Resume study"
@@ -1416,7 +1398,8 @@ msgstr "Studie wiederaufnehmen"
 
 #: castellum/studies/templates/studies/study_detail.html:44
 msgid "Conclude recruitment and execution for this study"
-msgstr ""
+msgstr "Rekrutierung und Ausführung für diese Studie "
+"beenden"
 
 #: castellum/studies/templates/studies/study_detail.html:45
 msgid "Finish study"
@@ -1432,7 +1415,7 @@ msgstr "nicht erreicht"
 
 #: castellum/studies/templates/studies/study_detail.html:77
 msgid "Consent document uploaded"
-msgstr ""
+msgstr "Einverständniserklärung hochgeladen"
 
 #: castellum/studies/templates/studies/study_detail.html:84
 msgid "Recruiters"
@@ -1443,22 +1426,16 @@ msgid "Recruitment settings"
 msgstr "Rekrutierungseinstellungen"
 
 #: castellum/studies/templates/studies/study_detail.html:91
-#, fuzzy
-#| msgid "Recruitment text"
 msgid "Recruitment text provided"
-msgstr "Rekrutierungstext"
+msgstr "Rekrutierungstext vorhanden"
 
 #: castellum/studies/templates/studies/study_detail.html:94
-#, fuzzy
-#| msgid "Recruitment filters"
 msgid "Recruitment filters set"
-msgstr "Rekrutierungsfilter"
+msgstr "Rekrutierungsfilter eingestellt"
 
 #: castellum/studies/templates/studies/study_detail.html:97
-#, fuzzy
-#| msgid "Inclusion/exclusion criteria"
 msgid "Exclusion criteria provided"
-msgstr "Ein-/Ausschlusskriterien"
+msgstr "Ein-/Ausschlusskriterien angegeben"
 
 #: castellum/studies/templates/studies/study_detail.html:104
 msgid "Please double check missing entries before start of recruitment"
@@ -1520,10 +1497,8 @@ msgid "No personal studies"
 msgstr "Keine eigenen Studien"
 
 #: castellum/studies/templates/studies/study_members.html:32
-#, fuzzy
-#| msgid "no global groups"
 msgid "Manage groups"
-msgstr "keine globalen Gruppe"
+msgstr "Gruppen verwalten"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings_form.html:5
 msgid "General recruitment settings"
@@ -1539,10 +1514,8 @@ msgid "Are you sure you want to delete \"%(username)s\"?"
 msgstr "Sind Sie sicher, dass Sie \"%(username)s\" löschen wollen?"
 
 #: castellum/studies/templates/studies/studymembership_form.html:7
-#, fuzzy
-#| msgid "Users"
 msgid "User"
-msgstr "Nutzer*innen"
+msgstr "Nutzer*in"
 
 #: castellum/studies/templates/studies/studymembership_form.html:9
 msgid "Global groups"
@@ -1550,7 +1523,7 @@ msgstr "Globale Gruppen"
 
 #: castellum/studies/templates/studies/studymembership_form.html:10
 msgid "The User belongs to the following groups in all studies"
-msgstr ""
+msgstr "Die User*in gehört in allen Studien zu den folgenden Gruppen"
 
 #: castellum/studies/templates/studies/studymembership_form.html:15
 msgid "no global groups"
@@ -1563,14 +1536,14 @@ msgstr "Zusätzliche Gruppen in dieser Studie"
 #: castellum/studies/templates/studies/studymembership_form.html:27
 msgid ""
 "The User belongs to the following groups only in the context of this study"
-msgstr ""
+msgstr "Der User gehört nur im Kontext dieser Studie zu den folgenden Gruppen"
 
 #: castellum/studies/views/studies.py:176
 #: castellum/studies/views/studies.py:222
 #: castellum/studies/views/studies.py:243 castellum/subjects/views.py:163
 #: castellum/subjects/views.py:183 castellum/subjects/views.py:205
 msgid "Data has been saved."
-msgstr ""
+msgstr "Eingabe wurde gespeichert"
 
 #: castellum/studies/views/studies.py:266
 msgid ""
@@ -1622,10 +1595,8 @@ msgid "2 (high)"
 msgstr "2 (hoch)"
 
 #: castellum/subjects/models.py:54
-#, fuzzy
-#| msgid "recently contacted in another recruitment"
 msgid "Do not contact for recruitment"
-msgstr "wurde vor kurzem in einer anderen Rekrutierung kontaktiert"
+msgstr "Nicht für die Rekrutierung kontaktieren"
 
 #: castellum/subjects/models.py:56
 msgid "Hard of hearing"
@@ -1783,8 +1754,6 @@ msgid "Missing values"
 msgstr "Fehlende Werte"
 
 #: castellum/subjects/templates/subjects/subject_base.html:45
-#, fuzzy
-#| msgid "Attribute set"
 msgid "Attributes"
 msgstr "Merkmale"
 
@@ -1859,11 +1828,9 @@ msgid "Go to execution"
 msgstr "Zur Durchführung"
 
 #: castellum/subjects/templates/subjects/subject_participationlist.html:23
-#, fuzzy
-#| msgid "Contact"
 msgctxt "the verb"
 msgid "Contact"
-msgstr "Kontakt"
+msgstr "Kontaktieren"
 
 #: castellum/templates/403.html:4 castellum/templates/403.html:7
 msgid "Forbidden"
