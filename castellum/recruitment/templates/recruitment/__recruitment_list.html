@@ -103,6 +103,8 @@
                 {% blocktrans with subjectcount=study.min_subject_count %}
                     You are still in search for {{ subjectcount }} participants.
                 {% endblocktrans %}
+            {% else %}
+                {% trans 'List is empty' %}
             {% endif %}
         </li>
     {% endfor %}
