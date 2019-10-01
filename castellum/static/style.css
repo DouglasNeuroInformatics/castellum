@@ -59,7 +59,7 @@
 }
 
 .list-group-item-custom {
-    color: var(--primary)
+    color: var(--primary);
 }
 
 .list-group-item-custom.active {
@@ -81,4 +81,8 @@
 
 .container {
     max-width: var(--breakpoint-md, 768px);
+}
+
+.text-hyphens {
+    hyphens: auto;
 }
