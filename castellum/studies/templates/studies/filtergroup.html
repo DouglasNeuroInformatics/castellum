@@ -1,5 +1,5 @@
 {% extends "studies/study_recruitmentsettings_base.html" %}
-{% load static i18n bootstrap4 %}
+{% load static i18n bootstrap4 utils %}
 
 {% block title %}{% trans "Filters" %} &middot; {{ block.super }}{% endblock %}
 
@@ -19,13 +19,13 @@
         <template id="template-{{ pk }}">
             <input type="hidden" name="{{ form.prefix }}-group" value="{{ object.id }}" />
 
-            <div class="col-sm-4">
-                {# duplicated because disabled fields are not posted to the server #}
-                {% bootstrap_field form.description show_label=False %}
+            <div class="col-sm-12">
+                {{ form.description|selected_label }}
                 {{ form.description.as_hidden }}
             </div>
+
             {% if form.operator.field.choices|length > 1 %}
-                <div class="col-sm">
+                <div class="col-sm-4">
                     {% bootstrap_field form.operator show_label=False %}
                 </div>
             {% else %}
@@ -69,13 +69,13 @@
                             {{ form.DELETE.as_hidden }}
                             <input type="hidden" name="{{ form.prefix }}-group" value="{{ object.id }}" />
 
-                            <div class="col-sm-4">
-                                {# duplicated because disabled fields are not posted to the server #}
-                                {% bootstrap_field form.description show_label=False %}
+                            <div class="col-sm-12">
+                                {{ form.description|selected_label }}
                                 {{ form.description.as_hidden }}
                             </div>
+
                             {% if form.operator.field.choices|length > 1 %}
-                                <div class="col-sm">
+                                <div class="col-sm-4">
                                     {% bootstrap_field form.operator show_label=False %}
                                 </div>
                             {% else %}

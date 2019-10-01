@@ -74,3 +74,11 @@ def field_names(instance):
 @register.filter(name='list')
 def _list(qs):
     return list(qs)
+
+
+@register.filter
+def selected_label(bound_field):
+    selected = str(bound_field.value())
+    for value, label in bound_field.field.choices:
+        if str(value) == selected:
+            return label

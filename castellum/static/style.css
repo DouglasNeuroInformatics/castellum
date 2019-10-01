@@ -78,3 +78,7 @@
     width: 0.25rem;
     background-color: var(--primary);
 }
+
+.container {
+    max-width: var(--breakpoint-md, 768px);
+}
