@@ -41,6 +41,11 @@
     background-image: url("images/bootstrap/invalid.svg");
 }
 
+/* work around https://github.com/twbs/bootstrap/issues/23454 */
+.invalid-feedback {
+    display: block !important;
+}
+
 .list-icon {
     width: 1.5em;
     line-height: 1.5;
