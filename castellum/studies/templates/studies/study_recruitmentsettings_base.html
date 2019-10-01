@@ -21,7 +21,7 @@
                     {% endif %}
                 {% endif %}
 
-                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'exclusioncriteria' %}active{% endif %}" href="{% url 'studies:exclusioncriteria' study.pk %}">{% trans 'Inclusion/exclusion criteria' %}</a>
+                <a class="list-group-item list-group-item-custom list-group-item-action text-hyphens {% if view.subtab == 'exclusioncriteria' %}active{% endif %}" href="{% url 'studies:exclusioncriteria' study.pk %}">{% trans 'Inclusion/exclusion criteria' %}</a>
             </div>
         </div>
 
