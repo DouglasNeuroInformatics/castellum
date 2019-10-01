@@ -1,7 +1,5 @@
 import pytest
-from model_mommy import mommy
 
-from castellum.contacts.models import Contact
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import ParticipationRequestRevision
 from castellum.studies.models import Study
@@ -47,48 +45,6 @@ def test_post_redirect(client, member, participation_request):
     response = client.post(url, {'status': ParticipationRequest.UNSUITABLE, 'btn_back': 'value'})
     assert response.status_code == 302
     assert response.url == '/recruitment/{}/'.format(participation_request.study.pk)
-
-
-def test_post_redirect_next_with_one_participation_request(client, member, participation_request):
-    client.force_login(member)
-    url = '/recruitment/{}/{}/'.format(participation_request.study.pk, participation_request.pk)
-    response = client.post(url, {'status': ParticipationRequest.UNSUITABLE, 'btn_next': 'value'})
-    assert response.status_code == 302
-    assert response.url == '/recruitment/{}/'.format(participation_request.study.pk)
-
-
-def test_post_redirect_next_with_multiple_participation_requests(client,
-                                                                 member,
-                                                                 study_in_execution_mode,
-                                                                 contact_domain):
-    participation_requests = []
-    for i in range(5):
-        contact = mommy.make(Contact, pseudonym=None)
-        participation_requests.append(mommy.make(
-            ParticipationRequest,
-            study=study_in_execution_mode,
-            subject=contact.subject,
-        ))
-
-    client.force_login(member)
-
-    url = '/recruitment/{}/{}/'.format(study_in_execution_mode.pk, participation_requests[3].pk)
-    response = client.post(url, {'status': ParticipationRequest.UNSUITABLE,
-                                 'btn_next': 'value'})
-
-    assert response.status_code == 302
-    assert response.url == '/recruitment/{}/{}/'.format(
-        study_in_execution_mode.pk,
-        participation_requests[4].pk
-    )
-
-    response = client.post(response.url, {'status': ParticipationRequest.UNSUITABLE,
-                                          'btn_next': 'value'})
-
-    assert response.status_code == 302
-    assert response.url == '/recruitment/{}/'.format(
-        study_in_execution_mode.pk,
-    )
 
 
 @pytest.mark.freeze_time('2018-01-01')
