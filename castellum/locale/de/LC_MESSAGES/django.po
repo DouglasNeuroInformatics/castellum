@@ -613,7 +613,7 @@ msgstr "eingeladen"
 
 #: castellum/recruitment/models/recruitment.py:83
 msgid "follow-up scheduled"
-msgstr "Wiedervorlage vereinbart"
+msgstr "Wiedervorlage angesetzt"
 
 #: castellum/recruitment/models/recruitment.py:84
 msgid "awaiting response"
@@ -695,32 +695,22 @@ msgid "General recruiting notes"
 msgstr "Allgemeine Rekrutierungs-Notizen"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:17
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                        recall today at %(time)s\n"
-#| "                                    "
 msgid ""
 "\n"
 "                                        follow up today at %(time)s\n"
 "                                    "
 msgstr ""
 "\n"
-"Rückruf heute um %(time)s"
+"Wiedervorlage heute um %(time)s"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:21
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                        recall on %(date)s at %(time)s\n"
-#| "                                    "
 msgid ""
 "\n"
 "                                        follow up on %(date)s at %(time)s\n"
 "                                    "
 msgstr ""
 "\n"
-"Rückruf am %(date)s um %(time)s"
+"Wiedervorlage am %(date)s um %(time)s"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:26
 #: castellum/recruitment/templates/recruitment/study_list.html:23
@@ -945,7 +935,7 @@ msgstr "Relevanz"
 
 #: castellum/recruitment/views.py:156
 msgid "Follow-up date"
-msgstr "Datum des Folgetermins"
+msgstr "Wiedervorlagetermin"
 
 #: castellum/recruitment/views.py:157
 msgid "Last contact attempt"
@@ -1435,7 +1425,7 @@ msgstr "Rekrutierungsfilter eingestellt"
 
 #: castellum/studies/templates/studies/study_detail.html:97
 msgid "Exclusion criteria provided"
-msgstr "Ein-/Ausschlusskriterien angegeben"
+msgstr "Ein-/Ausschlusskriterien vorhanden"
 
 #: castellum/studies/templates/studies/study_detail.html:104
 msgid "Please double check missing entries before start of recruitment"
@@ -1523,7 +1513,7 @@ msgstr "Globale Gruppen"
 
 #: castellum/studies/templates/studies/studymembership_form.html:10
 msgid "The User belongs to the following groups in all studies"
-msgstr "Die User*in gehört in allen Studien zu den folgenden Gruppen"
+msgstr "Die Nutzer*in gehört in allen Studien zu den folgenden Gruppen"
 
 #: castellum/studies/templates/studies/studymembership_form.html:15
 msgid "no global groups"
@@ -1536,7 +1526,7 @@ msgstr "Zusätzliche Gruppen in dieser Studie"
 #: castellum/studies/templates/studies/studymembership_form.html:27
 msgid ""
 "The User belongs to the following groups only in the context of this study"
-msgstr "Der User gehört nur im Kontext dieser Studie zu den folgenden Gruppen"
+msgstr "Die Nutzer*in gehört nur im Kontext dieser Studie zu den folgenden Gruppen"
 
 #: castellum/studies/views/studies.py:176
 #: castellum/studies/views/studies.py:222
