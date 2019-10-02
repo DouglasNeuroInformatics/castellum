@@ -231,10 +231,11 @@ class RecruitmentViewOpen(RecruitmentView):
             ))
             return self.get(request, *args, **kwargs)
 
-        open_count = self.get_queryset().count()
+        not_contacted_count = self.get_queryset()\
+            .filter(status=ParticipationRequest.NOT_CONTACTED).count()
         hard_limit = self.study.min_subject_count * settings.CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 
-        if open_count >= hard_limit:
+        if not_contacted_count >= hard_limit:
             messages.error(request, _(
                 'Application privacy does not allow you to add more subjects. '
                 'Please contact provided subjects before adding new ones.'
@@ -243,7 +244,10 @@ class RecruitmentViewOpen(RecruitmentView):
 
         # Silently trim down to respect hard limit.
         # In many cases, the soft limit warning will already be shown in that case.
-        batch_size = min(settings.CASTELLUM_RECRUITMENT_BATCH_SIZE, hard_limit - open_count)
+        batch_size = min(
+            settings.CASTELLUM_RECRUITMENT_BATCH_SIZE,
+            hard_limit - not_contacted_count,
+        )
         try:
             added = self.create_participation_requests(batch_size)
         except KeyError:
@@ -252,7 +256,7 @@ class RecruitmentViewOpen(RecruitmentView):
                 'The custom filter that is set for this study does not exist.'
             ))
 
-        if open_count + added > settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT:
+        if not_contacted_count + added > settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT:
             messages.error(request, _(
                 'Such workflow is not intended due to privacy reasons. '
                 'Please contact provided subjects before adding new ones.'
