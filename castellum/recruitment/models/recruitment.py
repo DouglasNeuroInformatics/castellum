@@ -36,6 +36,11 @@ from .attributesets import AttributeSet
 
 class ParticipationRequestManager(models.Manager):
     def get_queryset(self):
+        others = ParticipationRequestRevision.objects\
+            .filter(current_id=models.OuterRef('id'))\
+            .exclude(status=models.OuterRef('status'))
+        other_status_at = others.order_by('-created_at').values('created_at')[:1]
+
         return super().get_queryset().annotate(
             updated_at=models.Max('revisions__created_at'),
             created_at=models.Min('revisions__created_at'),
@@ -48,6 +53,11 @@ class ParticipationRequestManager(models.Manager):
             ),
             appointment_today=models.Count(
                 'id', filter=models.Q(appointment__date=datetime.date.today())
+            ),
+            tries=models.Count(
+                'revisions',
+                filter=models.Q(revisions__created_at__gt=models.Subquery(other_status_at)),
+                distinct=True,
             ),
             last_contacted_elsewhere=models.Max(
                 'subject__participationrequest__revisions__created_at',
@@ -123,12 +133,6 @@ class ParticipationRequest(models.Model):
             return 'incomplete'
         else:
             return False
-
-    @cached_property
-    def tries(self):
-        others = self.revisions.exclude(status=self.status)
-        other_status_at = others.order_by('-created_at').values('created_at')[:1]
-        return self.revisions.filter(created_at__gt=other_status_at).count()
 
     def clean(self):
         if self.status == self.FOLLOWUP_APPOINTED and not self.appointment:
