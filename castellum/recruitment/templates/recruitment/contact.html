@@ -137,12 +137,7 @@
         {% bootstrap_field form.appointment %}
 
         <div class="mb-3">
-            {% if not object.status_open or context %}
-                <input type="submit" class="btn btn-primary btn-sm-inline my-1" value="{% trans 'Save' %}" />
-            {% else %}
-                <input type="submit" class="btn btn-primary btn-sm-inline my-1" name="btn_back" value="{% trans 'Save and go back' %}" />
-                <input type="submit" class="btn btn-primary btn-sm-inline my-1" name="btn_next" value="{% trans 'Save and show next' %}" />
-            {% endif %}
+            <input type="submit" class="btn btn-primary btn-sm-inline my-1" value="{% trans 'Save' %}" />
         </div>
     </form>
 

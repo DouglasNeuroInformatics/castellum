@@ -28,7 +28,6 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import ListView
@@ -299,30 +298,12 @@ class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView)
 
         return context
 
-    def form_valid_recruitment(self, form):
-        # needs to be executed before object.save()
-        user_privacy_level = self.request.user.get_privacy_level()
-        participation_requests = list(
-            self.get_queryset().filter(subject__privacy_level__lte=user_privacy_level))
-
-        self.object = form.save()
-
-        if "btn_back" not in form.data:
-            current_index = [p.pk for p in participation_requests].index(self.object.pk)
-            if current_index + 1 < len(participation_requests):
-                participation_request = participation_requests[current_index + 1]
-                return redirect(
-                    'recruitment:contact', self.object.study.pk, participation_request.pk)
-
-        return redirect('recruitment:recruitment-open', self.object.study.pk)
-
-    def form_valid(self, form):
+    def get_success_url(self):
         context = self.request.GET.get('context')
         if context == 'subjects:studyparticipation':
-            self.object = form.save()
-            return redirect(context, self.object.subject.pk)
+            return reverse(context, args=[self.object.subject.pk])
         else:
-            return self.form_valid_recruitment(form)
+            return reverse('recruitment:recruitment-open', args=[self.object.study.pk])
 
 
 class ContactUpdateView(StudyMixin, BaseContactUpdateView):
