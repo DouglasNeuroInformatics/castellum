@@ -145,6 +145,12 @@ class Study(models.Model):
                 'Studies with more than one filtergroup can\'t be transformed back to basic '
                 'filtering. Delete all but one filtergroup first!'), code='invalid')
 
+        mailfields = [self.mail_subject, self.mail_body, self.mail_reply_address]
+        if any(mailfields) and not all(mailfields):
+            raise ValidationError(_(
+                'Mail settings have to be filled out completely if you wish to use '
+                'this feature.'), code='invalid')
+
     def save(self, *args, **kwargs):
         if not self.domain:
             self.domain = create_domain(settings.CASTELLUM_STUDY_DOMAIN_BITS)
