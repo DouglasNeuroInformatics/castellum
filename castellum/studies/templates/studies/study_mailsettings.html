@@ -1,0 +1,30 @@
+{% extends "studies/study_recruitmentsettings_base.html" %}
+{% load i18n auth bootstrap4 %}
+
+{% block title %}{% trans "Mail settings" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <form method="post">
+
+        {% for error in form.non_field_errors %}
+            <p class="alert alert-danger" role="alert">{{ error }}</p>
+        {% endfor %}
+
+<<<<<<< HEAD
+        {% csrf_token %
+=======
+        {% csrf_token %}
+>>>>>>> e9e99334... template csrf
+
+        {% bootstrap_field form.mail_subject %}
+        {% bootstrap_field form.mail_body %}
+        {% bootstrap_field form.mail_reply_address %}
+
+        {% if not readonly %}
+            <div class="mb-3">
+                <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+            </div>
+        {% endif %}
+
+    </form>
+{% endblock %}

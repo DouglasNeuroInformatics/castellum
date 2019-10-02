@@ -244,6 +244,27 @@ class StudyExclusionCriteriaView(
         return super().form_valid(form)
 
 
+class StudyMailSettingsView(
+    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
+):
+    model = Study
+    template_name = 'studies/study_mailsettings.html'
+    fields = ('mail_subject', 'mail_body', 'mail_reply_address',)
+    permission_required = 'studies.change_study'
+    tab = 'recruitmentsettings'
+    subtab = 'mailsettings'
+
+    def get_readonly(self):
+        return self.object.study_mode == Study.FINISHED
+
+    def get_success_url(self):
+        return reverse('studies:mailsettings', args=[self.object.pk])
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form)
+
+
 class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, FormView):
     model = Study
     template_name = 'studies/study_members.html'
