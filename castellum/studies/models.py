@@ -120,6 +120,10 @@ class Study(models.Model):
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
 
+    mail_subject = models.CharField(_('E-mail subject'), max_length=254, blank=True)
+    mail_body = models.TextField(_('E-mail body'), blank=True)
+    mail_reply_address = models.EmailField(_('Reply e-mail-address'), max_length=128, blank=True)
+
     class Meta:
         ordering = ['name']
 
@@ -140,6 +144,12 @@ class Study(models.Model):
             raise ValidationError(_(
                 'Studies with more than one filtergroup can\'t be transformed back to basic '
                 'filtering. Delete all but one filtergroup first!'), code='invalid')
+
+        mailfields = [self.mail_subject, self.mail_body, self.mail_reply_address]
+        if any(mailfields) and not all(mailfields):
+            raise ValidationError(_(
+                'Mail settings have to be filled out completely if you wish to use '
+                'this feature.'), code='invalid')
 
     def save(self, *args, **kwargs):
         if not self.domain:
