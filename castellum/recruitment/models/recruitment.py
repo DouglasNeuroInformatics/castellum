@@ -47,7 +47,8 @@ class ParticipationRequestManager(models.Manager):
                 ]),
             ),
             appointment_today=models.Count(
-                'id', filter=models.Q(appointment__date=datetime.date.today())),
+                'id', filter=models.Q(appointment__date=datetime.date.today())
+            ),
             last_contacted_elsewhere=models.Max(
                 'subject__participationrequest__revisions__created_at',
                 filter=(
