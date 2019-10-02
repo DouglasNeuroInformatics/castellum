@@ -48,14 +48,6 @@ class ParticipationRequestManager(models.Manager):
             ),
             appointment_today=models.Count(
                 'id', filter=models.Q(appointment__date=datetime.date.today())),
-            tries=models.Count(
-                'revisions',
-                filter=models.Q(revisions__status__in=[
-                    ParticipationRequest.NOT_REACHED,
-                    ParticipationRequest.AWAITING_RESPONSE,
-                ]),
-                distinct=True,
-            ),
             last_contacted_elsewhere=models.Max(
                 'subject__participationrequest__revisions__created_at',
                 filter=(
@@ -130,6 +122,12 @@ class ParticipationRequest(models.Model):
             return 'incomplete'
         else:
             return False
+
+    @cached_property
+    def tries(self):
+        others = self.revisions.exclude(status=self.status)
+        other_status_at = others.order_by('-created_at').values('created_at')[:1]
+        return self.revisions.filter(created_at__gt=other_status_at).count()
 
     def clean(self):
         if self.status == self.FOLLOWUP_APPOINTED and not self.appointment:
