@@ -120,6 +120,10 @@ class Study(models.Model):
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
 
+    mail_subject = models.CharField(_('E-mail subject'), max_length=254, blank=True)
+    mail_body = models.TextField(_('E-mail body'), blank=True)
+    mail_reply_address = models.EmailField(_('Reply e-mail-address'), max_length=128, blank=True)
+
     class Meta:
         ordering = ['name']
 
