@@ -64,12 +64,12 @@ class Contact(TimeStampedModel):
         ("postal", _("postal")),
     )
 
-    pseudonym = models.CharField(max_length=64, unique=True, editable=False)
+    pseudonym = models.CharField(max_length=64, unique=True, editable=False, default=None)
 
     first_name = models.CharField(_('First name'), max_length=64)
-    first_name_phonetic = models.CharField(max_length=128, editable=False)
+    first_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
     last_name = models.CharField(_('Last name'), max_length=64)
-    last_name_phonetic = models.CharField(max_length=128, editable=False)
+    last_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
     title = models.CharField(_('Title'), max_length=64, blank=True)
 
     gender = models.CharField(_('Gender'), max_length=1, choices=GENDER, default="f")
