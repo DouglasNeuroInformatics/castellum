@@ -173,14 +173,6 @@ class Study(models.Model):
         result = self.subjectfiltergroup_set.aggregate(models.Max(key))
         return result[key + '__max'] or 0
 
-    @property
-    def appointment_today(self):
-        from castellum.recruitment.models import ParticipationRequest
-        today = datetime.date.today()
-        return ParticipationRequest.objects.filter(
-            group__study=self, appointment__date=today
-        ).exists()
-
     @cached_property
     def has_filters(self):
         from castellum.recruitment.models import SubjectFilter
@@ -231,6 +223,12 @@ class StudyGroup(models.Model):
 
     def get_name_display(self):
         return self.name or _('Default')
+
+    @property
+    def appointment_today(self):
+        from castellum.recruitment.models import ParticipationRequest
+        today = datetime.date.today()
+        return ParticipationRequest.objects.filter(group=self, appointment__date=today).exists()
 
 
 class StudyMembership(models.Model):
