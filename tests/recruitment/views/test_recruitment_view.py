@@ -47,7 +47,7 @@ def test_post_when_more_then_double_minimal_subject_count(client, member, study_
     study_in_execution_mode.min_subject_count = 2
     study_in_execution_mode.save()
 
-    mommy.make(ParticipationRequest, study=study_in_execution_mode, _quantity=4)
+    mommy.make(ParticipationRequest, group=study_in_execution_mode.get_dummy_group(), _quantity=4)
 
     client.force_login(member)
     url = '/recruitment/{}/'.format(study_in_execution_mode.pk)

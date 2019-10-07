@@ -206,7 +206,7 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
             )
             data['related_studies'] = list(
                 Study.objects
-                .filter(participationrequest__in=related_prs)
+                .filter(studygroup__participationrequest__in=related_prs)
                 .annotate(count=models.Count('pk'))
                 .order_by('-count')
             )

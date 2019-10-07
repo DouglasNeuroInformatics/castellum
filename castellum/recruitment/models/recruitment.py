@@ -27,7 +27,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 from castellum.pseudonyms.helpers import get_pseudonym
-from castellum.studies.models import Study
+from castellum.studies.models import StudyGroup
 from castellum.subjects.models import Subject
 from castellum.utils.fields import DateTimeField
 
@@ -62,7 +62,7 @@ class ParticipationRequestManager(models.Manager):
             last_contacted_elsewhere=models.Max(
                 'subject__participationrequest__revisions__created_at',
                 filter=(
-                    ~models.Q(subject__participationrequest__study=models.F('study'))
+                    ~models.Q(subject__participationrequest__group=models.F('group'))
                     & ~models.Q(
                         subject__participationrequest__revisions__status=ParticipationRequest.NOT_CONTACTED # noqa
                     )
@@ -88,7 +88,7 @@ class ParticipationRequest(models.Model):
     )
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, editable=False)
-    study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
+    group = models.ForeignKey(StudyGroup, verbose_name=_('Group'), on_delete=models.CASCADE)
 
     status = models.IntegerField(
         _('Status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
@@ -101,7 +101,7 @@ class ParticipationRequest(models.Model):
     class Meta:
         verbose_name = _('Participation request')
         verbose_name_plural = _('Participation requests')
-        unique_together = ('study', 'subject')
+        unique_together = ('group', 'subject')
         permissions = (
             ('view_participation_pseudonyms', _('Can view participation pseudonyms')),
         )
@@ -117,17 +117,17 @@ class ParticipationRequest(models.Model):
 
     @cached_property
     def pseudonym(self):
-        return get_pseudonym(self.subject, self.study.domain)
+        return get_pseudonym(self.subject, self.group.study.domain)
 
     @cached_property
     def match(self):
         if AttributeSet\
-                .apply_study_filter(self.study, include_unknown=False)\
+                .apply_study_filter(self.group.study, include_unknown=False)\
                 .filter(subject=self.subject)\
                 .exists():
             return 'complete'
         elif AttributeSet\
-                .apply_study_filter(self.study, include_unknown=True)\
+                .apply_study_filter(self.group.study, include_unknown=True)\
                 .filter(subject=self.subject)\
                 .exists():
             return 'incomplete'
@@ -141,7 +141,7 @@ class ParticipationRequest(models.Model):
             raise ValidationError(_('Appointment cannot be set with this status'), code='invalid')
         if (
             self.status == self.INVITED
-            and self.study.has_exclusion_criteria
+            and self.group.study.has_exclusion_criteria
             and not self.exclusion_criteria_checked
         ):
             msg = _('Inclusion/exclusion criteria have not been checked')

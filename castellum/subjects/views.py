@@ -224,11 +224,11 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = self.model.objects\
-            .filter(subject=self.subject, study__study_mode=Study.EXECUTION)\
+            .filter(subject=self.subject, group__study__study_mode=Study.EXECUTION)\
             .order_by('-updated_at')
         return [
             participation_request for participation_request in queryset
-            if self.is_permitted(participation_request.study)
+            if self.is_permitted(participation_request.group.study)
         ]
 
 
@@ -243,7 +243,7 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
         studies = (
             Study.objects
             .filter(study_mode=Study.EXECUTION)
-            .exclude(participationrequest__subject=attributeset.subject)
+            .exclude(studygroup__participationrequest__subject=attributeset.subject)
         )
         for study in studies:
             if (
@@ -272,7 +272,7 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
                 raise PermissionDenied
 
         participation_request = ParticipationRequest.objects.create(
-            subject=self.object, study=study)
+            subject=self.object, group=study.get_dummy_group())
 
         url = reverse('recruitment:contact', args=[study.pk, participation_request.pk])
         return redirect(url + '?context=subjects:studyparticipation')

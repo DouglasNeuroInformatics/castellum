@@ -16,8 +16,8 @@ def test_last_contacted_elsewhere():
     study_2 = mommy.make(Study)
 
     with freeze_time("1970-01-01 12:00"):
-        participationrequest_1 = mommy.make(ParticipationRequest, study=study_1, subject=subject)
-        participationrequest_2 = mommy.make(ParticipationRequest, study=study_2, subject=subject)
+        participationrequest_1 = mommy.make(ParticipationRequest, group=study_1.get_dummy_group(), subject=subject)
+        participationrequest_2 = mommy.make(ParticipationRequest, group=study_2.get_dummy_group(), subject=subject)
 
     with freeze_time("2011-11-11 11:11"):
         revision = mommy.make(
@@ -37,8 +37,8 @@ def test_last_contacted_elsewhere_several_others():
     study_2 = mommy.make(Study)
 
     with freeze_time("1970-01-01 12:00"):
-        participationrequest_1 = mommy.make(ParticipationRequest, study=study_1, subject=subject)
-        participationrequest_2 = mommy.make(ParticipationRequest, study=study_2, subject=subject)
+        participationrequest_1 = mommy.make(ParticipationRequest, group=study_1.get_dummy_group(), subject=subject)
+        participationrequest_2 = mommy.make(ParticipationRequest, group=study_2.get_dummy_group(), subject=subject)
 
     with freeze_time("2020-12-13 08:00"):
         mommy.make(ParticipationRequestRevision, current=participationrequest_1)
@@ -67,7 +67,7 @@ def test_last_contacted_elsewhere_no_others():
     study_1 = mommy.make(Study)
 
     with freeze_time("1970-01-01 12:00"):
-        participationrequest_1 = mommy.make(ParticipationRequest, study=study_1, subject=subject)
+        participationrequest_1 = mommy.make(ParticipationRequest, group=study_1.get_dummy_group(), subject=subject)
 
     with freeze_time("2011-11-11 11:11"):
         mommy.make(
@@ -95,9 +95,9 @@ def test_last_contacted_elsewhere_several_studies():
     study_3 = mommy.make(Study)
 
     with freeze_time("1970-01-01 12:00"):
-        participationrequest_1 = mommy.make(ParticipationRequest, study=study_1, subject=subject)
-        participationrequest_2 = mommy.make(ParticipationRequest, study=study_2, subject=subject)
-        participationrequest_3 = mommy.make(ParticipationRequest, study=study_3, subject=subject)
+        participationrequest_1 = mommy.make(ParticipationRequest, group=study_1.get_dummy_group(), subject=subject)
+        participationrequest_2 = mommy.make(ParticipationRequest, group=study_2.get_dummy_group(), subject=subject)
+        participationrequest_3 = mommy.make(ParticipationRequest, group=study_3.get_dummy_group(), subject=subject)
 
     with freeze_time("2011-11-11 11:11"):
         mommy.make(
@@ -124,8 +124,8 @@ def test_last_contacted_elsewhere_not_contacted():
     study_2 = mommy.make(Study)
 
     with freeze_time("1970-01-01 12:00"):
-        participationrequest_1 = mommy.make(ParticipationRequest, study=study_1, subject=subject)
-        participationrequest_2 = mommy.make(ParticipationRequest, study=study_2, subject=subject)
+        participationrequest_1 = mommy.make(ParticipationRequest, group=study_1.get_dummy_group(), subject=subject)
+        participationrequest_2 = mommy.make(ParticipationRequest, group=study_2.get_dummy_group(), subject=subject)
 
     with freeze_time("2011-11-11 11:11"):
         mommy.make(
@@ -143,9 +143,9 @@ def test_participationrequest_create_delete_pseudonym():
     start_count = Pseudonym.objects.count()
     study = mommy.make(Study)
 
-    participationrequest = mommy.make(ParticipationRequest, study=study)
+    participationrequest = mommy.make(ParticipationRequest, group=study.get_dummy_group())
     assert participationrequest.pseudonym  # access to generate pseudonym
     assert Pseudonym.objects.count() == start_count + 1
 
-    participationrequest.study.delete()
+    participationrequest.group.study.delete()
     assert Pseudonym.objects.count() == start_count

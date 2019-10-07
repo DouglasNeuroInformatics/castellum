@@ -13,7 +13,7 @@ def create_participation_request(
 ):
     study_mode = Study.FINISHED if is_finished else Study.EXECUTION
     study = mommy.make(Study, study_mode=study_mode, is_exclusive=is_exclusive)
-    return mommy.make(ParticipationRequest, status=status, subject=subject, study=study)
+    return mommy.make(ParticipationRequest, status=status, subject=subject, group=study.get_dummy_group())
 
 
 def has_match(is_exclusive=False, excluded_studies=[]):
@@ -28,18 +28,18 @@ def test_to_q(attributeset):
 
 def test_to_q_excluded_study(attributeset):
     pr = create_participation_request(attributeset.subject)
-    assert not has_match(excluded_studies=[pr.study])
+    assert not has_match(excluded_studies=[pr.group.study])
 
 
 def test_to_q_excluded_study_and_unsuitable(attributeset):
     pr = create_participation_request(attributeset.subject, status=ParticipationRequest.UNSUITABLE)
-    assert has_match(excluded_studies=[pr.study])
+    assert has_match(excluded_studies=[pr.group.study])
 
 
 def test_to_q_excluded_study_and_unsuitable_for_other_study(attributeset):
     pr = create_participation_request(attributeset.subject)
     create_participation_request(attributeset.subject, status=ParticipationRequest.UNSUITABLE)
-    assert not has_match(excluded_studies=[pr.study])
+    assert not has_match(excluded_studies=[pr.group.study])
 
 
 def test_to_q_exclusive_study(attributeset):
@@ -57,7 +57,7 @@ def test_to_q_exclusive_study_in_same_study(attributeset):
         ParticipationRequest,
         status=ParticipationRequest.INVITED,
         subject=attributeset.subject,
-        study=study,
+        group=study.get_dummy_group(),
     )
     group = mommy.make(SubjectFilterGroup, study=study)
     assert AttributeSet.objects.filter(group.to_q()).exists()

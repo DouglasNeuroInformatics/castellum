@@ -58,22 +58,22 @@ class SubjectFilterGroup(models.Model):
 
     def to_q(self, include_unknown=True):
         q = ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
-            study__in=self.excluded_studies.all(),
+            group__study__in=self.excluded_studies.all(),
             status=ParticipationRequest.INVITED,
         ).values('subject_id'))
 
         if self.study.is_exclusive:
             q &= ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
-                ~models.Q(study__study_mode=Study.FINISHED),
+                ~models.Q(group__study__study_mode=Study.FINISHED),
                 ~models.Q(status=ParticipationRequest.UNSUITABLE),
-                ~models.Q(study__pk=self.study.pk),
+                ~models.Q(group__study__pk=self.study.pk),
             ).values('subject_id'))
 
         else:
             q &= ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
-                ~models.Q(study__study_mode=Study.FINISHED),
+                ~models.Q(group__study__study_mode=Study.FINISHED),
                 ~models.Q(status=ParticipationRequest.UNSUITABLE),
-                study__is_exclusive=True,
+                group__study__is_exclusive=True,
             ).values('subject_id'))
 
         for f in self.subjectfilter_set.all():

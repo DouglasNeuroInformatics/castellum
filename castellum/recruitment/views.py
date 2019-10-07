@@ -93,12 +93,12 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         return ParticipationRequest.objects\
             .prefetch_related('subject__attributeset')\
-            .filter(status__in=self.shown_status, study=self.study)\
+            .filter(status__in=self.shown_status, group__study=self.study)\
             .order_by(*order_by)
 
     def get_statistics(self):
         participation_requests = ParticipationRequest.objects.filter(
-            study=self.study, status=ParticipationRequest.INVITED
+            group__study=self.study, status=ParticipationRequest.INVITED
         ).prefetch_related('subject__attributeset')
 
         buckets1 = AttributeDescription.get_statistics_buckets('primary')
@@ -164,7 +164,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         context['statistics'] = self.get_statistics()
 
-        queryset = ParticipationRequest.objects.filter(study=self.study)
+        queryset = ParticipationRequest.objects.filter(group__study=self.study)
         context['all_count'] = queryset.count()
         context['invited_count'] = queryset.filter(
             status=ParticipationRequest.INVITED).count()
@@ -210,15 +210,17 @@ class RecruitmentViewOpen(RecruitmentView):
             AttributeSet
             .apply_study_filter(self.study)
             .filter(subject__no_recruitment=False)
-            .exclude(subject__participationrequest__study=self.study)
+            .exclude(subject__participationrequest__group__study=self.study)
         )
 
         if len(attributesets) == 0:
             return 0
 
+        group = self.study.get_dummy_group()
+
         added = min(batch_size, len(attributesets))
         for attributeset in random.sample(attributesets, k=added):
-            ParticipationRequest.objects.create(study=self.study, subject=attributeset.subject)
+            ParticipationRequest.objects.create(group=group, subject=attributeset.subject)
 
         return added
 
@@ -301,7 +303,9 @@ class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView)
         return initial
 
     def get_object(self):
-        return get_object_or_404(ParticipationRequest, study=self.study, pk=self.kwargs['pk'])
+        return get_object_or_404(
+            ParticipationRequest, group=self.study.get_dummy_group(), pk=self.kwargs['pk']
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -320,7 +324,7 @@ class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView)
         if context == 'subjects:studyparticipation':
             return reverse(context, args=[self.object.subject.pk])
         else:
-            return reverse('recruitment:recruitment-open', args=[self.object.study.pk])
+            return reverse('recruitment:recruitment-open', args=[self.study.pk])
 
 
 class ContactUpdateView(StudyMixin, BaseContactUpdateView):
@@ -328,7 +332,8 @@ class ContactUpdateView(StudyMixin, BaseContactUpdateView):
 
     def get_object(self):
         participation_request = get_object_or_404(
-            ParticipationRequest, study=self.study, pk=self.kwargs['pk'])
+            ParticipationRequest, group=self.study.get_dummy_group(), pk=self.kwargs['pk']
+        )
 
         return participation_request.subject.contact
 
@@ -349,7 +354,8 @@ class AttributeSetUpdateView(StudyMixin, BaseAttributeSetUpdateView):
 
     def get_object(self):
         participation_request = get_object_or_404(
-            ParticipationRequest, study=self.study, pk=self.kwargs['pk'])
+            ParticipationRequest, group=self.study.get_dummy_group(), pk=self.kwargs['pk']
+        )
         return participation_request.subject.attributeset
 
     def get_success_url(self):
@@ -364,7 +370,8 @@ class SubjectUpdateView(StudyMixin, BaseSubjectUpdateView):
 
     def get_object(self):
         participation_request = get_object_or_404(
-            ParticipationRequest, study=self.study, pk=self.kwargs['pk'])
+            ParticipationRequest, group=self.study.get_dummy_group(), pk=self.kwargs['pk']
+        )
         return participation_request.subject
 
     def get_success_url(self):
@@ -387,14 +394,14 @@ class SearchView(LoginRequiredMixin, GetFormView):
         contacts = Contact.objects.fuzzy_filter(**form.cleaned_data)
         subjects = [c.subject for c in contacts]
         participation_requests = ParticipationRequest.objects.filter(
-            subject__in=subjects, study__study_mode=Study.EXECUTION
-        ).select_related('subject', 'study')
+            subject__in=subjects, group__study__study_mode=Study.EXECUTION
+        ).select_related('subject', 'group__study')
 
         result = {}
         perms = ('studies.access_study',) + ContactView.permission_required
         for pr in participation_requests:
             if (
-                self.request.user.has_perms(perms, pr.study) and
+                self.request.user.has_perms(perms, pr.group.study) and
                 self.request.user.has_privacy_level(pr.subject.privacy_level)
             ):
                 result.setdefault(pr.subject, [])

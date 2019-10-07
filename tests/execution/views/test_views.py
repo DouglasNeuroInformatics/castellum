@@ -50,7 +50,7 @@ def test_participation_request_detail_view_invited(
 
     participationrequest = mommy.make(
         ParticipationRequest,
-        study=study_in_execution_mode,
+        group=study_in_execution_mode.get_dummy_group(),
         status=ParticipationRequest.INVITED,
         subject=contact.subject,
     )
@@ -68,7 +68,7 @@ def test_participation_request_detail_view_unsuitable(
 
     participationrequest = mommy.make(
         ParticipationRequest,
-        study=study_in_execution_mode,
+        group=study_in_execution_mode.get_dummy_group(),
         status=ParticipationRequest.UNSUITABLE,
         subject=contact.subject,
     )

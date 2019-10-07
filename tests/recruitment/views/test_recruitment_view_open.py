@@ -116,4 +116,4 @@ def create_attributeset():
 
 def create_participation_request(study, status=ParticipationRequest.NOT_CONTACTED):
     attributeset = create_attributeset()
-    mommy.make(ParticipationRequest, subject=attributeset.subject, study=study, status=status)
+    mommy.make(ParticipationRequest, subject=attributeset.subject, group=study.get_dummy_group(), status=status)

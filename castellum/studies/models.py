@@ -175,8 +175,11 @@ class Study(models.Model):
 
     @property
     def appointment_today(self):
+        from castellum.recruitment.models import ParticipationRequest
         today = datetime.date.today()
-        return self.participationrequest_set.filter(appointment__date=today).exists()
+        return ParticipationRequest.objects.filter(
+            group__study=self, appointment__date=today
+        ).exists()
 
     @cached_property
     def has_filters(self):

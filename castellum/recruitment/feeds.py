@@ -34,7 +34,7 @@ from .models import ParticipationRequest
 
 class BaseAppointmentFeed(ICalFeed):
     def item_title(self, item):
-        return '{} - {}'.format(item.study.name, item.pk)
+        return '{} - {}'.format(item.group.study.name, item.pk)
 
     def item_start_datetime(self, item):
         return item.appointment
@@ -46,7 +46,7 @@ class BaseAppointmentFeed(ICalFeed):
         return item.pk
 
     def item_link(self, item):
-        return reverse('recruitment:contact', args=[item.study.pk, item.pk])
+        return reverse('recruitment:contact', args=[item.group.study.pk, item.pk])
 
 
 class AppointmentFeedForStudy(BaseAppointmentFeed):
@@ -58,7 +58,7 @@ class AppointmentFeedForStudy(BaseAppointmentFeed):
 
     def items(self, study):
         return ParticipationRequest.objects\
-            .filter(study=study, appointment__isnull=False)\
+            .filter(group__study=study, appointment__isnull=False)\
             .order_by('-appointment')
 
     def file_name(self, study):
@@ -74,8 +74,9 @@ class AppointmentFeedForUser(BaseAppointmentFeed):
         for study in Study.objects.filter(study_mode=Study.EXECUTION):
             if not user.has_perms(perms, obj=study):
                 continue
-            qs = (ParticipationRequest.objects.filter(study=study, appointment__isnull=False)
-                                              .order_by('-appointment'))
+            qs = ParticipationRequest.objects\
+                .filter(group__study=study, appointment__isnull=False)\
+                .order_by('-appointment')
             for participation_request in qs:
                 yield participation_request
 
