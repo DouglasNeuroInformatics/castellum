@@ -130,6 +130,9 @@ class Study(models.Model):
     def __str__(self):
         return self.name
 
+    def get_dummy_group(self):
+        return self.studygroup_set.first()
+
     def previous_mode(self):
         self.study_mode = self.previous_study_mode
         self.save()
@@ -156,7 +159,9 @@ class Study(models.Model):
             self.domain = create_domain(settings.CASTELLUM_STUDY_DOMAIN_BITS)
         if not self.min_subject_count:
             self.min_subject_count = 0
-        return super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
+        if not self.studygroup_set.exists():
+            StudyGroup.objects.create(study=self)
 
     def delete(self, *args, **kwargs):
         if self.domain:
@@ -206,6 +211,23 @@ class Study(models.Model):
             self.recruitment_text,
             self.has_filters,
         ])
+
+
+class StudyGroup(models.Model):
+    name = models.CharField(_('Name'), max_length=254, blank=True)
+    study = models.ForeignKey(Study, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ('id',)
+
+    def __str__(self):
+        if self.name:
+            return '%s (%s)' % (self.study, self.name)
+        else:
+            return str(self.study)
+
+    def get_name_display(self):
+        return self.name or _('Default')
 
 
 class StudyMembership(models.Model):
