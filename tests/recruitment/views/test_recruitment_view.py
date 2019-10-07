@@ -14,14 +14,14 @@ def test_404_page_returned_if_study_is_not_provided(client, member):
 
 def test_200_page_returned_if_study_in_execution_mode(client, member, study_in_execution_mode):
     client.force_login(member)
-    url = '/recruitment/{}/'.format(study_in_execution_mode.get_dummy_group().pk)
+    url = '/recruitment/{}/'.format(study_in_execution_mode.default_group.pk)
     response = client.get(url)
     assert response.status_code == 200
 
 
 def test_404_page_returned_if_study_in_edit_mode(client, member, study_in_edit_mode):
     client.force_login(member)
-    url = '/recruitment/{}/'.format(study_in_edit_mode.get_dummy_group().pk)
+    url = '/recruitment/{}/'.format(study_in_edit_mode.default_group.pk)
     response = client.get(url)
     assert response.status_code == 404
 
@@ -32,7 +32,7 @@ def test_post_when_study_has_zero_subject_count_set(client, member, study_in_exe
     study_in_execution_mode.min_subject_count = 0
     study_in_execution_mode.save()
     client.force_login(member)
-    url = '/recruitment/{}/'.format(study_in_execution_mode.get_dummy_group().pk)
+    url = '/recruitment/{}/'.format(study_in_execution_mode.default_group.pk)
     response = client.post(url)
     assert response.status_code == 200
     messages = list(get_messages(response.wsgi_request))
@@ -47,10 +47,10 @@ def test_post_when_more_then_double_minimal_subject_count(client, member, study_
     study_in_execution_mode.min_subject_count = 2
     study_in_execution_mode.save()
 
-    mommy.make(ParticipationRequest, group=study_in_execution_mode.get_dummy_group(), _quantity=4)
+    mommy.make(ParticipationRequest, group=study_in_execution_mode.default_group, _quantity=4)
 
     client.force_login(member)
-    url = '/recruitment/{}/'.format(study_in_execution_mode.get_dummy_group().pk)
+    url = '/recruitment/{}/'.format(study_in_execution_mode.default_group.pk)
 
     response = client.post(url)
     assert response.status_code == 200

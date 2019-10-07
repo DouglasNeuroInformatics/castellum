@@ -157,7 +157,8 @@ def attributeset(contact, contact_domain):
 @pytest.fixture
 def participation_request(contact, study_in_execution_mode, contact_domain):
     subject = get_subject(contact_domain.key, contact.pseudonym)
-    return mommy.make(ParticipationRequest, group=study_in_execution_mode.get_dummy_group(), subject=subject)
+    group = study_in_execution_mode.default_group
+    return mommy.make(ParticipationRequest, group=group, subject=subject)
 
 
 @pytest.fixture

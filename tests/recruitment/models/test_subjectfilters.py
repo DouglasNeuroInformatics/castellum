@@ -13,7 +13,9 @@ def create_participation_request(
 ):
     study_mode = Study.FINISHED if is_finished else Study.EXECUTION
     study = mommy.make(Study, study_mode=study_mode, is_exclusive=is_exclusive)
-    return mommy.make(ParticipationRequest, status=status, subject=subject, group=study.get_dummy_group())
+    return mommy.make(
+        ParticipationRequest, status=status, subject=subject, group=study.default_group
+    )
 
 
 def has_match(is_exclusive=False, excluded_studies=[]):
@@ -57,7 +59,7 @@ def test_to_q_exclusive_study_in_same_study(attributeset):
         ParticipationRequest,
         status=ParticipationRequest.INVITED,
         subject=attributeset.subject,
-        group=study.get_dummy_group(),
+        group=study.default_group,
     )
     group = mommy.make(SubjectFilterGroup, study=study)
     assert AttributeSet.objects.filter(group.to_q()).exists()

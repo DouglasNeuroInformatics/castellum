@@ -130,7 +130,8 @@ class Study(models.Model):
     def __str__(self):
         return self.name
 
-    def get_dummy_group(self):
+    @cached_property
+    def default_group(self):
         return self.studygroup_set.first()
 
     def previous_mode(self):

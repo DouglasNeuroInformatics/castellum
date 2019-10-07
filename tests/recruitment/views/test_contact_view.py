@@ -14,7 +14,7 @@ def test_404_page_returned_if_study_is_not_provided(client, member, participatio
 
 def test_404_page_returned_if_wrong_study_is_provided(client, member, participation_request, study):
     client.force_login(member)
-    url = '/recruitment/{}/{}/'.format(study.get_dummy_group().pk, participation_request.pk)
+    url = '/recruitment/{}/{}/'.format(study.default_group.pk, participation_request.pk)
     response = client.get(url)
     assert response.status_code == 404
 
