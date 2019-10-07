@@ -68,7 +68,7 @@
     <div class="mb-3">
         <a href="{% url 'recruitment:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         {% if view.tab == 'open' %}
-            {% has_perm 'recruitment.add_participationrequest' user view.study as can_add_participationrequest %}
+            {% has_perm 'recruitment.add_participationrequest' user study as can_add_participationrequest %}
             {% if can_add_participationrequest %}
                 <form method="post" class="d-inline" data-js="disable-on-submit">
                     {% csrf_token %}

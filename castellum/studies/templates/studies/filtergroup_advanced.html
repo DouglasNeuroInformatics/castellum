@@ -16,7 +16,7 @@
             </span>
         </div>
         <div class="card-body">
-            {% has_perm 'recruitment.change_subjectfilter' user view.study as can_change_subjectfilter %}
+            {% has_perm 'recruitment.change_subjectfilter' user study as can_change_subjectfilter %}
             {% for group in object_list %}
                 <div class="card mb-3">
                     <div class="card-header d-flex justify-content-between">

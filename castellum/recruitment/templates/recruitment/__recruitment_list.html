@@ -1,7 +1,7 @@
 {% load i18n auth %}
 
 <ul class="table-list mt-3">
-    {% has_perm 'recruitment.change_participationrequest' user view.study as can_change_participationrequest %}
+    {% has_perm 'recruitment.change_participationrequest' user study as can_change_participationrequest %}
     {% for participation_request, buckets, can_access in participants %}
         <li class="table-list-item">
             {% if can_access %}
@@ -95,7 +95,7 @@
             {% if view.tab == 'open' %}
                 <strong>{% trans 'No one to contact for recruitment!' %}</strong>
                 {% trans 'Currently, there are no open potential subjects.' %}
-                {% has_perm 'recruitment.add_participationrequest' user view.study as can_add_participationrequest %}
+                {% has_perm 'recruitment.add_participationrequest' user study as can_add_participationrequest %}
                 {% if can_add_participationrequest %}
                     {% trans 'Please add a set of potential subjects using the Add button.' %}
                 {% endif %}
