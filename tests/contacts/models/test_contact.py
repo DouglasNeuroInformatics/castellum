@@ -31,7 +31,7 @@ def test_full_name(title, expected):
 def test_contact_create_delete_pseudonym(contact_domain):
     start_count = Pseudonym.objects.count()
 
-    contact = mommy.make(Contact, pseudonym=None)
+    contact = mommy.make(Contact)
     assert Pseudonym.objects.count() == start_count + 1
 
     contact.delete()
