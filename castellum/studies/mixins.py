@@ -22,6 +22,7 @@
 from django.shortcuts import get_object_or_404
 
 from .models import Study
+from .models import StudyGroup
 
 
 class StudyMixin:
@@ -59,4 +60,20 @@ class StudyMixin:
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['study'] = self.study
+        return data
+
+
+class StudyGroupMixin(StudyMixin):
+    def get_study(self):
+        qs = StudyGroup.objects.all()
+        if 'study_pk' in self.kwargs:
+            qs = qs.filter(study_id=self.kwargs['study_pk'])
+        if self.study_modes:
+            qs = qs.filter(study__study_mode__in=self.study_modes)
+        self.group = get_object_or_404(qs, pk=self.kwargs['group_pk'])
+        return self.group.study
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['group'] = self.group
         return data
