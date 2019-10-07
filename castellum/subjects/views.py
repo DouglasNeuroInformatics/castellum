@@ -42,6 +42,7 @@ from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.models import Study
+from castellum.studies.models import StudyGroup
 from castellum.utils.views import GetFormView
 
 from .forms import SubjectPrivacyLevelForm
@@ -238,26 +239,27 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     permission_required = 'contacts.view_contact'
     tab = 'studyparticipation'
 
-    def get_studies(self, attributeset):
+    def get_groups(self, attributeset):
         perms = ('recruitment.add_participationrequest', 'studies.access_study')
-        studies = (
-            Study.objects
-            .filter(study_mode=Study.EXECUTION)
-            .exclude(studygroup__participationrequest__subject=attributeset.subject)
+        groups = (
+            StudyGroup.objects
+            .filter(study__study_mode=Study.EXECUTION)
+            # exclude all groups from this study, not just the current one
+            .exclude(study__studygroup__participationrequest__subject=attributeset.subject)
         )
-        for study in studies:
+        for group in groups:
             if (
-                self.request.user.has_perms(perms, obj=study) and
-                AttributeSet.apply_study_filter(study).filter(pk=attributeset.pk).exists()
+                self.request.user.has_perms(perms, obj=group.study) and
+                AttributeSet.apply_study_filter(group.study).filter(pk=attributeset.pk).exists()
             ):
-                yield study
+                yield group
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
 
         try:
             data['attributeset'] = self.object.attributeset
-            data['studies'] = list(self.get_studies(self.object.attributeset))
+            data['groups'] = list(self.get_groups(self.object.attributeset))
         except AttributeSet.DoesNotExist:
             pass
 
@@ -265,16 +267,18 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        study = get_object_or_404(Study, pk=request.POST['study'], study_mode=Study.EXECUTION)
+        group = get_object_or_404(
+            StudyGroup, pk=request.POST['group'], study__study_mode=Study.EXECUTION
+        )
 
-        for perm in ['recruitment.add_participationrequest', 'studies.access_study']:
-            if not request.user.has_perm(perm, obj=study):
-                raise PermissionDenied
+        perms = ('recruitment.add_participationrequest', 'studies.access_study')
+        if not request.user.has_perms(perms, obj=group.study):
+            raise PermissionDenied
 
         participation_request = ParticipationRequest.objects.create(
-            subject=self.object, group=study.get_dummy_group())
+            subject=self.object, group=group)
 
-        url = reverse('recruitment:contact', args=[study.pk, participation_request.pk])
+        url = reverse('recruitment:contact', args=[group.study.pk, participation_request.pk])
         return redirect(url + '?context=subjects:studyparticipation')
 
 
