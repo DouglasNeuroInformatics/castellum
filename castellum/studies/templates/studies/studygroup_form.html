@@ -1,0 +1,29 @@
+{% extends base_template|default:"studies/study_groups_base.html" %}
+{% load static i18n bootstrap4 %}
+
+{% block title %}
+    {% if object %}
+        {% trans "Edit" %}
+    {% else %}
+        {% trans "Create new study group" %}
+    {% endif %}
+    &middot; {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        {% for error in form.non_field_errors %}
+            <p class="alert alert-danger" role="alert">{{ error }}</p>
+        {% endfor %}
+
+        {% csrf_token %}
+
+        {% bootstrap_field form.name %}
+
+        {% if not readonly %}
+            <div class="mb-3">
+                <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+            </div>
+        {% endif %}
+    </form>
+{% endblock %}

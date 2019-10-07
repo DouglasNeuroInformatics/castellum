@@ -31,6 +31,9 @@
                 <li class="nav-item">
                     <a class="nav-link {% if view.tab == 'recruitmentsettings' %}active{% endif %}" href="{% url 'studies:recruitmentsettings' study.pk %}">{% trans 'Recruitment Settings' %}</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if view.tab == 'groups' %}active{% endif %}" href="{% url 'studies:group' study.pk study.default_group.pk %}">{% trans 'Groups' %}</a>
+                </li>
             {% endif %}
         </ul>
     </nav>

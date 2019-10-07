@@ -45,8 +45,10 @@ from castellum.utils.views import ReadonlyMixin
 from ..forms import AddMemberForm
 from ..forms import MemberForm
 from ..forms import StudyForm
+from ..mixins import StudyGroupMixin
 from ..mixins import StudyMixin
 from ..models import Study
+from ..models import StudyGroup
 from ..models import StudyMembership
 from ..models import StudySession
 
@@ -342,3 +344,37 @@ class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView)
 
         membership.delete()
         return HttpResponseRedirect(reverse('studies:members', args=[membership.study.pk]))
+
+
+class StudyGroupFormMixin:
+    model = StudyGroup
+    fields = ['name']
+    tab = 'groups'
+
+    def get_readonly(self):
+        return self.study.study_mode == Study.FINISHED
+
+    def get_success_url(self):
+        return reverse('studies:group', args=[self.study.pk, self.object.pk])
+
+
+class StudyGroupCreateView(
+    StudyMixin, PermissionRequiredMixin, StudyGroupFormMixin, ReadonlyMixin, CreateView
+):
+    permission_required = 'studies.change_study'
+
+    def get_object(self):
+        return None
+
+    def form_valid(self, form):
+        form.instance.study = self.study
+        return super().form_valid(form)
+
+
+class StudyGroupUpdateView(
+    StudyGroupMixin, PermissionRequiredMixin, StudyGroupFormMixin, ReadonlyMixin, UpdateView
+):
+    permission_required = 'studies.change_study'
+
+    def get_object(self):
+        return self.group
