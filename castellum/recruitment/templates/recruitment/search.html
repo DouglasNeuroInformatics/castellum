@@ -58,10 +58,10 @@
                         <ul class="table-list">
                             {% for pr in participation_requests %}
                                 <li class="table-list-item">
-                                    <span class="h5 d-inline-block my-1 mr-2">{{ pr.group.study }}</span>
+                                    <span class="h5 d-inline-block my-1 mr-2">{{ pr.group }}</span>
                                     <span class="badge badge-secondary">{{ pr|display:'status' }}</span>
                                     <div class="table-list-item-actions">
-                                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' pr.group.study.pk pr.pk %}">{% trans 'Contact' context 'verb' %}</a>
+                                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' pr.group.pk pr.pk %}">{% trans 'Contact' context 'verb' %}</a>
                                     </div>
                                 </li>
                             {% endfor %}

@@ -278,7 +278,7 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
         participation_request = ParticipationRequest.objects.create(
             subject=self.object, group=group)
 
-        url = reverse('recruitment:contact', args=[group.study.pk, participation_request.pk])
+        url = reverse('recruitment:contact', args=[group.pk, participation_request.pk])
         return redirect(url + '?context=subjects:studyparticipation')
 
 

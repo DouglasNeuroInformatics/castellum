@@ -7,5 +7,5 @@ def test_200(client, member, participation_request):
 
     client.force_login(member)
     response = client.get('/recruitment/{}/{}/update-contact/'.format(
-        participation_request.group.study.pk, participation_request.pk))
+        participation_request.group.pk, participation_request.pk))
     assert response.status_code == 200

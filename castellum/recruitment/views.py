@@ -40,8 +40,9 @@ from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
-from castellum.studies.mixins import StudyMixin
+from castellum.studies.mixins import StudyGroupMixin
 from castellum.studies.models import Study
+from castellum.studies.models import StudyGroup
 from castellum.subjects.mixins import BaseSubjectUpdateView
 from castellum.subjects.mixins import SubjectMixin
 from castellum.utils.chart import ChartRenderer
@@ -54,20 +55,21 @@ from .models import AttributeSet
 from .models import ParticipationRequest
 
 
-class StudyListView(LoginRequiredMixin, ListView):
-    model = Study
+class GroupListView(LoginRequiredMixin, ListView):
+    model = StudyGroup
     context_object_name = 'studies'
-    template_name = 'recruitment/study_list.html'
+    template_name = 'recruitment/group_list.html'
 
     def get_queryset(self):
         qs = super().get_queryset()
         perms = ('recruitment.add_participationrequest', 'studies.access_study')
-        return [study for study in qs.filter(study_mode=Study.EXECUTION) if (
-            self.request.user.has_perms(perms, obj=study)
-        )]
+        return [
+            group for group in qs.filter(study__study_mode=Study.EXECUTION)
+            if self.request.user.has_perms(perms, obj=group.study)
+        ]
 
 
-class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
+class RecruitmentView(StudyGroupMixin, PermissionRequiredMixin, ListView):
     model = ParticipationRequest
     context_object_name = 'participation_requests'
     template_name = 'recruitment/recruitment.html'
@@ -93,7 +95,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         return ParticipationRequest.objects\
             .prefetch_related('subject__attributeset')\
-            .filter(status__in=self.shown_status, group__study=self.study)\
+            .filter(status__in=self.shown_status, group=self.group)\
             .order_by(*order_by)
 
     def get_statistics(self):
@@ -164,7 +166,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         context['statistics'] = self.get_statistics()
 
-        queryset = ParticipationRequest.objects.filter(group__study=self.study)
+        queryset = ParticipationRequest.objects.filter(group=self.group)
         context['all_count'] = queryset.count()
         context['invited_count'] = queryset.filter(
             status=ParticipationRequest.INVITED).count()
@@ -216,11 +218,9 @@ class RecruitmentViewOpen(RecruitmentView):
         if len(attributesets) == 0:
             return 0
 
-        group = self.study.get_dummy_group()
-
         added = min(batch_size, len(attributesets))
         for attributeset in random.sample(attributesets, k=added):
-            ParticipationRequest.objects.create(group=group, subject=attributeset.subject)
+            ParticipationRequest.objects.create(group=self.group, subject=attributeset.subject)
 
         return added
 
@@ -272,7 +272,7 @@ class RecruitmentViewOpen(RecruitmentView):
         return self.get(request, *args, **kwargs)
 
 
-class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
+class MailRecruitmentView(StudyGroupMixin, PermissionRequiredMixin, FormView):
     permission_required = 'recruitment.view_participationrequest'
     template_name = 'recruitment/mail.html'
     tab = 'mail'
@@ -280,10 +280,10 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
 
     def form_valid(self, form):
         messages.success(self.request, _('Mails have been sent.'))
-        return redirect('recruitment:mail', self.study.pk)
+        return redirect('recruitment:mail', self.group.pk)
 
 
-class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
+class ContactView(StudyGroupMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = ParticipationRequest
     form_class = ContactForm
     template_name = 'recruitment/contact.html'
@@ -303,9 +303,7 @@ class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView)
         return initial
 
     def get_object(self):
-        return get_object_or_404(
-            ParticipationRequest, group=self.study.get_dummy_group(), pk=self.kwargs['pk']
-        )
+        return get_object_or_404(ParticipationRequest, group=self.group, pk=self.kwargs['pk'])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -324,21 +322,21 @@ class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView)
         if context == 'subjects:studyparticipation':
             return reverse(context, args=[self.object.subject.pk])
         else:
-            return reverse('recruitment:recruitment-open', args=[self.study.pk])
+            return reverse('recruitment:recruitment-open', args=[self.group.pk])
 
 
-class ContactUpdateView(StudyMixin, BaseContactUpdateView):
+class ContactUpdateView(StudyGroupMixin, BaseContactUpdateView):
     study_modes = [Study.EXECUTION]
 
     def get_object(self):
         participation_request = get_object_or_404(
-            ParticipationRequest, group=self.study.get_dummy_group(), pk=self.kwargs['pk']
+            ParticipationRequest, group=self.group, pk=self.kwargs['pk']
         )
 
         return participation_request.subject.contact
 
     def get_success_url(self):
-        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
+        return reverse('recruitment:contact', args=[self.group.pk, self.kwargs['pk']])
 
     def get_cancel_url(self):
         return self.get_success_url()
@@ -349,33 +347,33 @@ class ContactUpdateView(StudyMixin, BaseContactUpdateView):
         return context
 
 
-class AttributeSetUpdateView(StudyMixin, BaseAttributeSetUpdateView):
+class AttributeSetUpdateView(StudyGroupMixin, BaseAttributeSetUpdateView):
     study_modes = [Study.EXECUTION]
 
     def get_object(self):
         participation_request = get_object_or_404(
-            ParticipationRequest, group=self.study.get_dummy_group(), pk=self.kwargs['pk']
+            ParticipationRequest, group=self.group, pk=self.kwargs['pk']
         )
         return participation_request.subject.attributeset
 
     def get_success_url(self):
-        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
+        return reverse('recruitment:contact', args=[self.group.pk, self.kwargs['pk']])
 
     def get_cancel_url(self):
         return self.get_success_url()
 
 
-class SubjectUpdateView(StudyMixin, BaseSubjectUpdateView):
+class SubjectUpdateView(StudyGroupMixin, BaseSubjectUpdateView):
     study_modes = [Study.EXECUTION]
 
     def get_object(self):
         participation_request = get_object_or_404(
-            ParticipationRequest, group=self.study.get_dummy_group(), pk=self.kwargs['pk']
+            ParticipationRequest, group=self.group, pk=self.kwargs['pk']
         )
         return participation_request.subject
 
     def get_success_url(self):
-        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
+        return reverse('recruitment:contact', args=[self.group.pk, self.kwargs['pk']])
 
     def get_cancel_url(self):
         return self.get_success_url()

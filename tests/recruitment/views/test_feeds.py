@@ -4,13 +4,13 @@ import pytest
 
 
 def test_feed_for_study_in_execution_mode(client, study_in_execution_mode):
-    response = client.get('/recruitment/{}/appointments/'.format(study_in_execution_mode.pk))
+    response = client.get('/recruitment/{}/appointments/'.format(study_in_execution_mode.get_dummy_group().pk))
     assert response.status_code == 200
 
 
 def test_feed_for_study_in_edit_mode(client, study_in_edit_mode):
     response = client.get('/recruitment/{}/appointments/'.format(
-        study_in_edit_mode.pk))
+        study_in_edit_mode.get_dummy_group().pk))
     assert response.status_code == 404
 
 

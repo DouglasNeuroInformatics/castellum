@@ -21,37 +21,37 @@
 
 from django.urls import path
 
-from .feeds import AppointmentFeedForStudy
+from .feeds import AppointmentFeedForStudyGroup
 from .feeds import AppointmentFeedForUser
 from .views import AttributeSetUpdateView
 from .views import ContactUpdateView
 from .views import ContactView
+from .views import GroupListView
 from .views import MailRecruitmentView
 from .views import RecruitmentViewInvited
 from .views import RecruitmentViewOpen
 from .views import RecruitmentViewUnsuitable
 from .views import SearchView
-from .views import StudyListView
 from .views import SubjectUpdateView
 
 app_name = 'recruitment'
 urlpatterns = [
-    path('', StudyListView.as_view(), name='index'),
+    path('', GroupListView.as_view(), name='index'),
     path('search/', SearchView.as_view(), name='search'),
     path('appointments/<user_id>/', AppointmentFeedForUser(),
          name='all-studies-appointments'),
-    path('<study_pk>/', RecruitmentViewOpen.as_view(), name='recruitment-open'),
-    path('<study_pk>/invited/', RecruitmentViewInvited.as_view(),
+    path('<group_pk>/', RecruitmentViewOpen.as_view(), name='recruitment-open'),
+    path('<group_pk>/invited/', RecruitmentViewInvited.as_view(),
          name='recruitment-invited'),
-    path('<study_pk>/unsuitable/', RecruitmentViewUnsuitable.as_view(),
+    path('<group_pk>/unsuitable/', RecruitmentViewUnsuitable.as_view(),
          name='recruitment-unsuitable'),
-    path('<study_pk>/mail/', MailRecruitmentView.as_view(), name='mail'),
-    path('<study_pk>/appointments/', AppointmentFeedForStudy(), name='appointments'),
-    path('<study_pk>/<int:pk>/', ContactView.as_view(), name='contact'),
-    path('<study_pk>/<int:pk>/update-contact/', ContactUpdateView.as_view(),
+    path('<group_pk>/mail/', MailRecruitmentView.as_view(), name='mail'),
+    path('<group_pk>/appointments/', AppointmentFeedForStudyGroup(), name='appointments'),
+    path('<group_pk>/<int:pk>/', ContactView.as_view(), name='contact'),
+    path('<group_pk>/<int:pk>/update-contact/', ContactUpdateView.as_view(),
          name='contact-update'),
-    path('<study_pk>/<int:pk>/update-attributeset/', AttributeSetUpdateView.as_view(),
+    path('<group_pk>/<int:pk>/update-attributeset/', AttributeSetUpdateView.as_view(),
          name='attributeset-update'),
-    path('<study_pk>/<int:pk>/update-subject/', SubjectUpdateView.as_view(),
+    path('<group_pk>/<int:pk>/update-subject/', SubjectUpdateView.as_view(),
          name='subject-update'),
 ]

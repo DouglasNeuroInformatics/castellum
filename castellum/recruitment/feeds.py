@@ -20,7 +20,6 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth import get_user_model
-from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.text import slugify
@@ -28,6 +27,7 @@ from django.utils.text import slugify
 from django_ical.views import ICalFeed
 
 from castellum.studies.models import Study
+from castellum.studies.models import StudyGroup
 
 from .models import ParticipationRequest
 
@@ -46,23 +46,22 @@ class BaseAppointmentFeed(ICalFeed):
         return item.pk
 
     def item_link(self, item):
-        return reverse('recruitment:contact', args=[item.group.study.pk, item.pk])
+        return reverse('recruitment:contact', args=[item.group.pk, item.pk])
 
 
-class AppointmentFeedForStudy(BaseAppointmentFeed):
+class AppointmentFeedForStudyGroup(BaseAppointmentFeed):
     def get_object(self, *args, **kwargs):
-        study = get_object_or_404(Study, pk=kwargs.get('study_pk'))
-        if study.study_mode != Study.EXECUTION:
-            raise Http404
-        return study
+        return get_object_or_404(
+            StudyGroup, pk=kwargs.get('group_pk'), study__study_mode=Study.EXECUTION
+        )
 
-    def items(self, study):
+    def items(self, group):
         return ParticipationRequest.objects\
-            .filter(group__study=study, appointment__isnull=False)\
+            .filter(group=group, appointment__isnull=False)\
             .order_by('-appointment')
 
-    def file_name(self, study):
-        return 'castellum-{}.ics'.format(slugify(study.name))
+    def file_name(self, group):
+        return 'castellum-{}-{}.ics'.format(slugify(group.study.name), slugify(group.name))
 
 
 class AppointmentFeedForUser(BaseAppointmentFeed):

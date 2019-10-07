@@ -1,10 +1,9 @@
 {% extends "recruitment/recruitment_base.html" %}
 {% load i18n static auth %}
 
-{% block title %}{% trans "Recruitment" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% trans "Recruitment" %} &middot; {{ group }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-
     {% if statistics %}
         <details class="mb-4">
             <summary class="mb-2">{% trans 'Statistics' %}</summary>
@@ -15,19 +14,19 @@
     <div class="d-flex justify-content-between">
         <ul class="nav nav-pills">
             <li class="nav-item">
-                <a class="nav-link {% if view.subtab == 'open' %}active{% endif %}" href="{% url 'recruitment:recruitment-open' study.pk %}">
+                <a class="nav-link {% if view.subtab == 'open' %}active{% endif %}" href="{% url 'recruitment:recruitment-open' group.pk %}">
                     {% trans 'Open' %}
                     <span class="badge badge-light">{{ open_count }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if view.subtab == 'invited' %}active{% endif %}" href="{% url 'recruitment:recruitment-invited' study.pk %}">
+                <a class="nav-link {% if view.subtab == 'invited' %}active{% endif %}" href="{% url 'recruitment:recruitment-invited' group.pk %}">
                     {% trans 'Invited' %}
                     <span class="badge badge-light">{{ invited_count }}/{{ study.min_subject_count }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if view.subtab == 'unsuitable' %}active{% endif %}" href="{% url 'recruitment:recruitment-unsuitable' study.pk %}">
+                <a class="nav-link {% if view.subtab == 'unsuitable' %}active{% endif %}" href="{% url 'recruitment:recruitment-unsuitable' group.pk %}">
                     {% trans 'Unsuitable' %}
                     <span class="badge badge-light">{{ unsuitable_count }}</span>
                 </a>

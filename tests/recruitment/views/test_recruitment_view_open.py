@@ -17,7 +17,7 @@ def test_min_subject_count_is_zero(client, member, study_in_execution_mode):
     study_in_execution_mode.save()
 
     client.force_login(member)
-    url = "/recruitment/{}/".format(study_in_execution_mode.pk)
+    url = "/recruitment/{}/".format(study_in_execution_mode.get_dummy_group().pk)
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -40,7 +40,7 @@ def test_not_contacted_count_is_gte_to_hard_limit(client, member, study_in_execu
         create_participation_request(study_in_execution_mode)
 
     client.force_login(member)
-    url = "/recruitment/{}/".format(study_in_execution_mode.pk)
+    url = "/recruitment/{}/".format(study_in_execution_mode.get_dummy_group().pk)
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -66,7 +66,7 @@ def test_not_contacted_count_is_gte_to_soft_limit(client, member, study_in_execu
         create_attributeset()
 
     client.force_login(member)
-    url = "/recruitment/{}/".format(study_in_execution_mode.pk)
+    url = "/recruitment/{}/".format(study_in_execution_mode.get_dummy_group().pk)
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -89,7 +89,7 @@ def test_no_matching_attribute_sets(client, member, study_in_execution_mode, att
                description=attribute_description, operator="exact", value="left")
 
     client.force_login(member)
-    url = "/recruitment/{}/".format(study_in_execution_mode.pk)
+    url = "/recruitment/{}/".format(study_in_execution_mode.get_dummy_group().pk)
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -103,7 +103,7 @@ def test_create_revision_on_create(client, member, attributeset, study_in_execut
     study_in_execution_mode.save()
 
     client.force_login(member)
-    url = "/recruitment/{}/".format(study_in_execution_mode.pk)
+    url = "/recruitment/{}/".format(study_in_execution_mode.get_dummy_group().pk)
     client.post(url)
 
     assert ParticipationRequestRevision.objects.count() == 1
