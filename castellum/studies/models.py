@@ -75,7 +75,6 @@ class Study(models.Model):
         _('Study mode'), choices=STUDY_MODES, default=EDIT)
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
     min_subject_count = models.PositiveIntegerField(_('Required number of subjects'), blank=True)
-    expense_allowance = models.PositiveIntegerField(_('Expense allowance'), blank=True, null=True)
     sessions_start = DateField(_('Start of test sessions'), blank=True, null=True)
     sessions_end = DateField(_('End of test sessions'), blank=True, null=True)
     exclusion_criteria = models.TextField(_('Inclusion/exclusion criteria'), blank=True)
@@ -212,6 +211,7 @@ class Study(models.Model):
 class StudyGroup(models.Model):
     name = models.CharField(_('Name'), max_length=254, blank=True)
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    expense_allowance = models.PositiveIntegerField(_('Expense allowance'), blank=True, null=True)
 
     class Meta:
         ordering = ('id',)

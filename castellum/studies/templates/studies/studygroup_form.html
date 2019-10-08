@@ -19,6 +19,7 @@
         {% csrf_token %}
 
         {% bootstrap_field form.name %}
+        {% bootstrap_field form.expense_allowance addon_after=_('EUR') %}
 
         {% if not readonly %}
             <div class="mb-3">

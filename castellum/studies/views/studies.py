@@ -349,7 +349,7 @@ class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView)
 
 class StudyGroupFormMixin:
     model = StudyGroup
-    fields = ['name']
+    fields = ['name', 'expense_allowance']
     tab = 'groups'
 
     def get_readonly(self):

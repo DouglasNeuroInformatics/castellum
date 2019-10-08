@@ -82,10 +82,10 @@
                 <dt class="col-sm-6">{{ study|verbose_name:'study_type' }}</dt>
                 <dd class="col-sm-6">{{ study|display:'study_type' }}</dd>
 
-                <dt class="col-sm-6">{{ study|verbose_name:'expense_allowance' }}</dt>
+                <dt class="col-sm-6">{{ group|verbose_name:'expense_allowance' }}</dt>
                 <dd class="col-sm-6">
-                    {% if study.expense_allowance %}
-                        {{ study.expense_allowance }}€
+                    {% if group.expense_allowance %}
+                        {{ group.expense_allowance }}€
                     {% else %}
                         &mdash;
                     {% endif %}
