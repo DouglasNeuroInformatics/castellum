@@ -36,6 +36,11 @@ from .attributesets import AttributeSet
 
 class ParticipationRequestManager(models.Manager):
     def get_queryset(self):
+        others = ParticipationRequestRevision.objects\
+            .filter(current_id=models.OuterRef('id'))\
+            .exclude(status=models.OuterRef('status'))
+        other_status_at = others.order_by('-created_at').values('created_at')[:1]
+
         return super().get_queryset().annotate(
             updated_at=models.Max('revisions__created_at'),
             created_at=models.Min('revisions__created_at'),
@@ -47,13 +52,11 @@ class ParticipationRequestManager(models.Manager):
                 ]),
             ),
             appointment_today=models.Count(
-                'id', filter=models.Q(appointment__date=datetime.date.today())),
+                'id', filter=models.Q(appointment__date=datetime.date.today())
+            ),
             tries=models.Count(
                 'revisions',
-                filter=models.Q(revisions__status__in=[
-                    ParticipationRequest.NOT_REACHED,
-                    ParticipationRequest.AWAITING_RESPONSE,
-                ]),
+                filter=models.Q(revisions__created_at__gt=models.Subquery(other_status_at)),
                 distinct=True,
             ),
             last_contacted_elsewhere=models.Max(
