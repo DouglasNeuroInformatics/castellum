@@ -1,0 +1,26 @@
+{% extends "recruitment/base.html" %}
+{% load i18n static auth %}
+
+{% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
+
+{% block header %}
+
+    <div class="h1">
+        <h1 class="d-inline">{{ study.name }}</h1>
+        <a href="{% url 'recruitment:appointments' study.pk %}" class="btn btn-sm btn-primary" title="{% trans 'Appointments' %}">
+            <i class="far fa-calendar-plus" aria-label="{% trans 'Appointments' %}"></i>
+        </a>
+    </div>
+
+    <nav class="d-print-none" aria-label="{% trans 'Tabs' %}">
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <a class="nav-link {% if view.tab == 'recruitment' %}active{% endif %}" href="{% url 'recruitment:recruitment-open' study.pk %}">{% trans 'Recruitment' %}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if view.tab == 'mail' %}active{% endif %}" href="{% url 'recruitment:mail' study.pk %}">{% trans 'Mail' %}</a>
+            </li>
+        </ul>
+    </nav>
+
+{% endblock %}

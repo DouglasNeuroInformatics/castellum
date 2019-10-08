@@ -1,4 +1,4 @@
-{% extends "recruitment/base.html" %}
+{% extends "recruitment/recruitment_base.html" %}
 {% load i18n static auth %}
 
 {% block title %}{% trans "Recruitment" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
@@ -22,19 +22,19 @@
     <div class="d-flex justify-content-between">
         <ul class="nav nav-pills">
             <li class="nav-item">
-                <a class="nav-link {% if view.tab == 'open' %}active{% endif %}" href="{% url 'recruitment:recruitment-open' study.pk %}">
+                <a class="nav-link {% if view.subtab == 'open' %}active{% endif %}" href="{% url 'recruitment:recruitment-open' study.pk %}">
                     {% trans 'Open' %}
                     <span class="badge badge-light">{{ open_count }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if view.tab == 'invited' %}active{% endif %}" href="{% url 'recruitment:recruitment-invited' study.pk %}">
+                <a class="nav-link {% if view.subtab == 'invited' %}active{% endif %}" href="{% url 'recruitment:recruitment-invited' study.pk %}">
                     {% trans 'Invited' %}
                     <span class="badge badge-light">{{ invited_count }}/{{ study.min_subject_count }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if view.tab == 'unsuitable' %}active{% endif %}" href="{% url 'recruitment:recruitment-unsuitable' study.pk %}">
+                <a class="nav-link {% if view.subtab == 'unsuitable' %}active{% endif %}" href="{% url 'recruitment:recruitment-unsuitable' study.pk %}">
                     {% trans 'Unsuitable' %}
                     <span class="badge badge-light">{{ unsuitable_count }}</span>
                 </a>
@@ -44,7 +44,7 @@
             </li>
         </ul>
 
-        {% if view.tab == 'open' %}
+        {% if view.subtab == 'open' %}
             <form class="dropdown" method="get">
                 <button class="btn btn-outline-primary dropdown-toggle" type="button" id="sortDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ sort_label }}
@@ -67,7 +67,7 @@
 
     <div class="mb-3">
         <a href="{% url 'recruitment:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-        {% if view.tab == 'open' %}
+        {% if view.subtab == 'open' %}
             {% has_perm 'recruitment.add_participationrequest' user study as can_add_participationrequest %}
             {% if can_add_participationrequest %}
                 <form method="post" class="d-inline" data-js="disable-on-submit">

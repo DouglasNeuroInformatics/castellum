@@ -26,6 +26,7 @@ from .feeds import AppointmentFeedForUser
 from .views import AttributeSetUpdateView
 from .views import ContactUpdateView
 from .views import ContactView
+from .views import MailRecruitmentView
 from .views import RecruitmentViewInvited
 from .views import RecruitmentViewOpen
 from .views import RecruitmentViewUnsuitable
@@ -45,6 +46,7 @@ urlpatterns = [
          name='recruitment-invited'),
     path('<study_pk>/unsuitable/', RecruitmentViewUnsuitable.as_view(),
          name='recruitment-unsuitable'),
+    path('<study_pk>/mail/', MailRecruitmentView.as_view(), name='mail'),
     path('<study_pk>/appointments/', AppointmentFeedForStudy(), name='appointments'),
     path('<study_pk>/<int:pk>/', ContactView.as_view(), name='contact'),
     path('<study_pk>/<int:pk>/update-contact/', ContactUpdateView.as_view(),

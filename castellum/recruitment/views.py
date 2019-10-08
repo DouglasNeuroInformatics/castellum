@@ -30,6 +30,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
@@ -71,7 +72,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     permission_required = 'recruitment.view_participationrequest'
     study_modes = [Study.EXECUTION]
     shown_status = []
-    tab = None
+    tab = 'recruitment'
 
     def dispatch(self, request, *args, **kwargs):
         self.sort = self.request.GET.get('sort', self.request.session.get('recruitment_sort'))
@@ -181,16 +182,21 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         return context
 
 
+class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
+    permission_required = 'recruitment.view_participationrequest'
+    template_name = 'recruitment/mail.html'
+    tab = 'mail'
+
+
 class RecruitmentViewInvited(RecruitmentView):
 
     shown_status = [ParticipationRequest.INVITED]
-    tab = 'invited'
+    subtab = 'invited'
 
 
 class RecruitmentViewUnsuitable(RecruitmentView):
-
     shown_status = [ParticipationRequest.UNSUITABLE]
-    tab = 'unsuitable'
+    subtab = 'unsuitable'
 
 
 class RecruitmentViewOpen(RecruitmentView):
@@ -201,7 +207,7 @@ class RecruitmentViewOpen(RecruitmentView):
         ParticipationRequest.FOLLOWUP_APPOINTED,
         ParticipationRequest.AWAITING_RESPONSE,
     ]
-    tab = 'open'
+    subtab = 'open'
 
     def create_participation_requests(self, batch_size):
         attributesets = list(

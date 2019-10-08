@@ -1,0 +1,27 @@
+{% extends "recruitment/recruitment_base.html" %}
+{% load i18n auth bootstrap4 %}
+
+{% block title %}{% trans "Mail recruitment" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <form method="post">
+
+        {% for error in form.non_field_errors %}
+            <p class="alert alert-danger" role="alert">{{ error }}</p>
+        {% endfor %}
+
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="d-block">
+                {% trans "E-mail text" %}
+                <textarea readonly class="form-control">{{ study.mail_body }}</textarea>
+            </label>
+        </div>
+
+        <div class="mb-3">
+            <input type="submit" class="btn btn-primary" value="{% trans 'Send' %}" />
+        </div>
+
+    </form>
+{% endblock %}
