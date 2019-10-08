@@ -28,6 +28,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView
@@ -188,6 +189,10 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     template_name = 'recruitment/mail.html'
     tab = 'mail'
     form_class = SendMailForm
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Mails have been sent.'))
+        return redirect('recruitment:mail', self.study.pk)
 
 
 class RecruitmentViewInvited(RecruitmentView):
