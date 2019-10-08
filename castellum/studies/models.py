@@ -245,5 +245,5 @@ class StudyMembership(models.Model):
 
 
 class StudySession(models.Model):
-    study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    group = models.ForeignKey(StudyGroup, on_delete=models.CASCADE)
     duration = models.PositiveIntegerField(_('Duration of a session in minutes'))

@@ -89,57 +89,13 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
     tab = 'detail'
 
 
-class StudyFormMixin:
+class StudyCreateView(PermissionRequiredMixin, CreateView):
     model = Study
     form_class = StudyForm
-
-    def get_session_form(self):
-        form_class = forms.modelform_factory(StudySession, fields=('duration',))
-        return form_class(prefix='{prefix}')
-
-    def get_session_formset(self):
-        formset_class = forms.modelformset_factory(
-            StudySession, fields=('duration',), form=ReadonlyModelForm, extra=0, can_delete=True,
-        )
-        kwargs = self.get_form_kwargs()
-        study = kwargs.pop('instance', None)
-        readonly = kwargs.pop('readonly', False)
-        return formset_class(queryset=StudySession.objects.filter(study=study), form_kwargs={
-            'readonly': readonly,
-        }, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        if 'session_formset' not in kwargs:
-            kwargs['session_formset'] = self.get_session_formset()
-        kwargs["template_form"] = self.get_session_form()
-        return super().get_context_data(**kwargs)
-
-    def post(self, request, *args, **kwargs):
-        form = self.get_form()
-        session_formset = self.get_session_formset()
-        if form.is_valid() and session_formset.is_valid():
-            return self.form_valid(form, session_formset)
-        else:
-            return self.form_invalid(form, session_formset)
-
-    def form_invalid(self, form, session_formset):
-        return self.render_to_response(
-            self.get_context_data(form=form, session_formset=session_formset)
-        )
-
-    def form_valid(self, form, session_formset):
-        response = super().form_valid(form)
-        for subform in session_formset:
-            subform.instance.study = form.instance
-        session_formset.save()
-        return response
-
-
-class StudyCreateView(PermissionRequiredMixin, StudyFormMixin, CreateView):
     permission_required = 'studies.add_study'
 
-    def form_valid(self, form, session_formset):
-        response = super().form_valid(form, session_formset)
+    def form_valid(self, form):
+        response = super().form_valid(form)
 
         StudyMembership.objects.get_or_create(
             user=self.request.user, study=self.object)
@@ -149,14 +105,12 @@ class StudyCreateView(PermissionRequiredMixin, StudyFormMixin, CreateView):
     def get_success_url(self):
         return reverse('studies:index')
 
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        return super().post(request, *args, **kwargs)
-
 
 class StudyUpdateView(
-    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, StudyFormMixin, UpdateView
+    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
 ):
+    model = Study
+    form_class = StudyForm
     permission_required = 'studies.change_study'
     tab = 'update'
 
@@ -171,13 +125,9 @@ class StudyUpdateView(
         context['base_template'] = 'studies/study_base.html'
         return context
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().post(request, *args, **kwargs)
-
-    def form_valid(self, form, session_formset):
+    def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form, session_formset)
+        return super().form_valid(form)
 
 
 class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
@@ -358,6 +308,49 @@ class StudyGroupFormMixin:
     def get_success_url(self):
         return reverse('studies:group', args=[self.study.pk, self.object.pk])
 
+    def get_session_form(self):
+        form_class = forms.modelform_factory(StudySession, fields=('duration',))
+        return form_class(prefix='{prefix}')
+
+    def get_session_formset(self):
+        formset_class = forms.modelformset_factory(
+            StudySession, fields=('duration',), form=ReadonlyModelForm, extra=0, can_delete=True,
+        )
+        kwargs = self.get_form_kwargs()
+        print(kwargs)
+        group = kwargs.pop('instance', None)
+        readonly = kwargs.pop('readonly', False)
+        return formset_class(queryset=StudySession.objects.filter(group=group), form_kwargs={
+            'readonly': readonly,
+        }, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        if 'session_formset' not in kwargs:
+            kwargs['session_formset'] = self.get_session_formset()
+        kwargs["template_form"] = self.get_session_form()
+        return super().get_context_data(**kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        session_formset = self.get_session_formset()
+        if form.is_valid() and session_formset.is_valid():
+            return self.form_valid(form, session_formset)
+        else:
+            return self.form_invalid(form, session_formset)
+
+    def form_invalid(self, form, session_formset):
+        return self.render_to_response(
+            self.get_context_data(form=form, session_formset=session_formset)
+        )
+
+    def form_valid(self, form, session_formset):
+        response = super().form_valid(form)
+        for subform in session_formset:
+            subform.instance.group = form.instance
+        session_formset.save()
+        return response
+
 
 class StudyGroupCreateView(
     StudyMixin, PermissionRequiredMixin, StudyGroupFormMixin, ReadonlyMixin, CreateView
@@ -367,9 +360,9 @@ class StudyGroupCreateView(
     def get_object(self):
         return None
 
-    def form_valid(self, form):
+    def form_valid(self, form, session_formset):
         form.instance.study = self.study
-        return super().form_valid(form)
+        return super().form_valid(form, session_formset)
 
 
 class StudyGroupUpdateView(

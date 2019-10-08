@@ -47,12 +47,15 @@ class StudySessionInline(admin.TabularInline):
 
 class StudyAdmin(admin.ModelAdmin):
     form = StudyForm
-    inlines = [StudySessionInline]
     search_fields = ['name']
     readonly_fields = ['domain']
 
 
+class StudyGroupAdmin(admin.ModelAdmin):
+    inlines = [StudySessionInline]
+
+
 admin.site.register(models.Study, StudyAdmin)
-admin.site.register(models.StudyGroup)
+admin.site.register(models.StudyGroup, StudyGroupAdmin)
 admin.site.register(models.StudyMembership)
 admin.site.register(models.StudyType, TranslatableAdmin)
