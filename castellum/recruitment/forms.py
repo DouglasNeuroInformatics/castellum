@@ -188,3 +188,7 @@ class ContactForm(forms.ModelForm):
     class Meta:
         model = ParticipationRequest
         fields = ['status', 'appointment', 'exclusion_criteria_checked']
+
+
+class SendMailForm(forms.Form):
+    batch_size = forms.IntegerField(min_value=1)

@@ -47,6 +47,7 @@ from castellum.utils.chart import ChartRenderer
 from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
+from .forms import SendMailForm
 from .models import AttributeDescription
 from .models import AttributeSet
 from .models import ParticipationRequest
@@ -186,6 +187,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     permission_required = 'recruitment.view_participationrequest'
     template_name = 'recruitment/mail.html'
     tab = 'mail'
+    form_class = SendMailForm
 
 
 class RecruitmentViewInvited(RecruitmentView):
