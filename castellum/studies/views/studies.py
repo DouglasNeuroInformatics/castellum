@@ -22,6 +22,7 @@
 from django import forms
 from django.contrib import messages
 from django.db.models import Q
+from django.http import Http404
 from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -378,3 +379,18 @@ class StudyGroupUpdateView(
 
     def get_object(self):
         return self.group
+
+
+class StudyGroupDeleteView(StudyGroupMixin, PermissionRequiredMixin, DeleteView):
+    model = StudyGroup
+    permission_required = 'studies.change_study'
+    study_modes = [Study.EDIT, Study.EXECUTION]
+    tab = 'groups'
+
+    def get_object(self):
+        if self.group == self.study.default_group:
+            raise Http404
+        return self.group
+
+    def get_success_url(self):
+        return reverse('studies:group', args=[self.study.pk, self.study.default_group.pk])

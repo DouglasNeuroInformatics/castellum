@@ -23,6 +23,9 @@
         {% if not readonly %}
             <div class="mb-3">
                 <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+                {% if object and object != study.default_group %}
+                    <a class="btn btn-danger" href="{% url 'studies:group-delete' study.pk object.pk %}">{% trans 'Delete' %}</a>
+                {% endif %}
             </div>
         {% endif %}
     </form>

@@ -26,6 +26,7 @@ from .views.studies import StudyDetailView
 from .views.studies import StudyExclusionCriteriaView
 from .views.studies import StudyFinishRecruitmentView
 from .views.studies import StudyGroupCreateView
+from .views.studies import StudyGroupDeleteView
 from .views.studies import StudyGroupUpdateView
 from .views.studies import StudyIndexView
 from .views.studies import StudyMailSettingsView
@@ -87,4 +88,9 @@ urlpatterns = [
     ),
     path('<int:study_pk>/groups/add/', StudyGroupCreateView.as_view(), name='group-create'),
     path('<int:study_pk>/groups/<int:group_pk>/', StudyGroupUpdateView.as_view(), name='group'),
+    path(
+        '<int:study_pk>/groups/<int:group_pk>/delete/',
+        StudyGroupDeleteView.as_view(),
+        name='group-delete',
+    ),
 ]
