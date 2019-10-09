@@ -240,14 +240,17 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
     def get_studies(self, attributeset):
         perms = ('recruitment.add_participationrequest', 'studies.access_study')
-        for study in Study.objects.filter(study_mode=Study.EXECUTION):
+        studies = (
+            Study.objects
+            .filter(study_mode=Study.EXECUTION)
+            .exclude(participationrequest__subject=attributeset.subject)
+        )
+        for study in studies:
             if (
                 self.request.user.has_perms(perms, obj=study) and
                 AttributeSet.apply_study_filter(study).filter(pk=attributeset.pk).exists()
             ):
-                request = attributeset.subject.participationrequest_set.filter(study=study)
-                if not request.exists():
-                    yield study
+                yield study
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
