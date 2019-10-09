@@ -42,7 +42,7 @@ def test_404_page_returned_if_study_in_edit_mode_is_provided(client,
 def test_post_redirect(client, member, participation_request):
     client.force_login(member)
     url = '/recruitment/{}/{}/'.format(participation_request.study.pk, participation_request.pk)
-    response = client.post(url, {'status': ParticipationRequest.UNSUITABLE, 'btn_back': 'value'})
+    response = client.post(url, {'status': ParticipationRequest.UNSUITABLE})
     assert response.status_code == 302
     assert response.url == '/recruitment/{}/'.format(participation_request.study.pk)
 
