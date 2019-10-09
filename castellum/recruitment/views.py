@@ -28,8 +28,10 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
@@ -46,6 +48,7 @@ from castellum.utils.chart import ChartRenderer
 from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
+from .forms import SendMailForm
 from .models import AttributeDescription
 from .models import AttributeSet
 from .models import ParticipationRequest
@@ -71,7 +74,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     permission_required = 'recruitment.view_participationrequest'
     study_modes = [Study.EXECUTION]
     shown_status = []
-    tab = None
+    tab = 'recruitment'
 
     def dispatch(self, request, *args, **kwargs):
         self.sort = self.request.GET.get('sort', self.request.session.get('recruitment_sort'))
@@ -181,16 +184,26 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         return context
 
 
+class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
+    permission_required = 'recruitment.view_participationrequest'
+    template_name = 'recruitment/mail.html'
+    tab = 'mail'
+    form_class = SendMailForm
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Mails have been sent.'))
+        return redirect('recruitment:mail', self.study.pk)
+
+
 class RecruitmentViewInvited(RecruitmentView):
 
     shown_status = [ParticipationRequest.INVITED]
-    tab = 'invited'
+    subtab = 'invited'
 
 
 class RecruitmentViewUnsuitable(RecruitmentView):
-
     shown_status = [ParticipationRequest.UNSUITABLE]
-    tab = 'unsuitable'
+    subtab = 'unsuitable'
 
 
 class RecruitmentViewOpen(RecruitmentView):
@@ -201,7 +214,7 @@ class RecruitmentViewOpen(RecruitmentView):
         ParticipationRequest.FOLLOWUP_APPOINTED,
         ParticipationRequest.AWAITING_RESPONSE,
     ]
-    tab = 'open'
+    subtab = 'open'
 
     def create_participation_requests(self, batch_size):
         attributesets = list(
