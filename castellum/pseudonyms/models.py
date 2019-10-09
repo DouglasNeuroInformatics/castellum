@@ -37,7 +37,7 @@ class Domain(models.Model):
 class Pseudonym(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
-    pseudonym = models.CharField(max_length=64)
+    pseudonym = models.CharField(max_length=64, default=None)
 
     class Meta:
         unique_together = (

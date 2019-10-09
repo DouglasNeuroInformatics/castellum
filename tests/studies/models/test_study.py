@@ -9,7 +9,7 @@ from castellum.studies.models import Study
 def test_study_create_delete_domain():
     start_count = Domain.objects.count()
 
-    study = mommy.make(Study, domain=None)
+    study = mommy.make(Study)
     assert Domain.objects.count() == start_count + 1
 
     study.delete()

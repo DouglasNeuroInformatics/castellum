@@ -108,17 +108,17 @@ def admin(user):
 
 @pytest.fixture
 def study(db):
-    return mommy.make(Study, domain=None)
+    return mommy.make(Study)
 
 
 @pytest.fixture
 def study_in_execution_mode(db):
-    return mommy.make(Study, domain=None, study_mode=Study.EXECUTION)
+    return mommy.make(Study, study_mode=Study.EXECUTION)
 
 
 @pytest.fixture
 def study_in_edit_mode(db):
-    return mommy.make(Study, domain=None, study_mode=Study.EDIT)
+    return mommy.make(Study, study_mode=Study.EDIT)
 
 
 @pytest.fixture
@@ -131,7 +131,7 @@ def member(user, study, study_in_execution_mode, study_in_edit_mode):
 
 @pytest.fixture
 def contact(db, contact_domain):
-    return mommy.make(Contact, pseudonym=None)
+    return mommy.make(Contact)
 
 
 @pytest.fixture

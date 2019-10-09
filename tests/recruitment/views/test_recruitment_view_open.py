@@ -108,7 +108,7 @@ def test_create_revision_on_create(client, member, attributeset, study_in_execut
 
 
 def create_attributeset():
-    contact = mommy.make('contacts.Contact', pseudonym=None)
+    contact = mommy.make('contacts.Contact')
     return mommy.make('recruitment.AttributeSet', data={'d1': 1}, subject=contact.subject)
 
 
