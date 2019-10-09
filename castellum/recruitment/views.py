@@ -58,9 +58,9 @@ class StudyChoiceView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
+        perms = ('recruitment.add_participationrequest', 'studies.access_study')
         return [study for study in qs.filter(study_mode=Study.EXECUTION) if (
-            self.request.user.has_perm('recruitment.add_participationrequest', obj=study) and
-            self.request.user.has_perm('studies.access_study', obj=study)
+            self.request.user.has_perms(perms, obj=study)
         )]
 
 

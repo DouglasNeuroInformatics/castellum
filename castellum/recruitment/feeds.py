@@ -70,9 +70,9 @@ class AppointmentFeedForUser(BaseAppointmentFeed):
         return get_object_or_404(get_user_model(), pk=kwargs.get('user_id'))
 
     def items(self, user):
+        perms = ('recruitment.add_participationrequest', 'studies.access_study')
         for study in Study.objects.filter(study_mode=Study.EXECUTION):
-            if not (user.has_perm('recruitment.add_participationrequest', obj=study) and
-                    user.has_perm('studies.access_study', obj=study)):
+            if not user.has_perms(perms, obj=study):
                 continue
             qs = (ParticipationRequest.objects.filter(study=study, appointment__isnull=False)
                                               .order_by('-appointment'))
