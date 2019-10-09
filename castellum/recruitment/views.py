@@ -184,17 +184,6 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         return context
 
 
-class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
-    permission_required = 'recruitment.view_participationrequest'
-    template_name = 'recruitment/mail.html'
-    tab = 'mail'
-    form_class = SendMailForm
-
-    def form_valid(self, form):
-        messages.success(self.request, _('Mails have been sent.'))
-        return redirect('recruitment:mail', self.study.pk)
-
-
 class RecruitmentViewInvited(RecruitmentView):
 
     shown_status = [ParticipationRequest.INVITED]
@@ -279,6 +268,17 @@ class RecruitmentViewOpen(RecruitmentView):
             messages.error(request, _('We cannot find participants for this study.'))
 
         return self.get(request, *args, **kwargs)
+
+
+class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
+    permission_required = 'recruitment.view_participationrequest'
+    template_name = 'recruitment/mail.html'
+    tab = 'mail'
+    form_class = SendMailForm
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Mails have been sent.'))
+        return redirect('recruitment:mail', self.study.pk)
 
 
 class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
