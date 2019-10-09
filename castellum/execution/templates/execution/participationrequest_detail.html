@@ -1,10 +1,10 @@
 {% extends "execution/base.html" %}
 {% load i18n %}
 
-{% block title %}{{ object.study }} &middot; {{ block.super }}{% endblock %}
+{% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>{{ object.study }} &mdash; {{ object.subject.contact.full_name }}</h1>
+    <h1>{{ study }} &mdash; {{ object.subject.contact.full_name }}</h1>
 
     <dl>
         <dt>{% trans 'Pseudonym' %}</dt>
@@ -12,6 +12,6 @@
     </dl>
 
     <div class="mb-3">
-        <a href="{% url 'execution:study-detail' object.study.pk %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
+        <a href="{% url 'execution:study-detail' study.pk %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
     </div>
 {% endblock %}
