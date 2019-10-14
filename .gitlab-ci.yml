@@ -41,10 +41,6 @@ test-branch:
 build:
   stage: build
   script:
-    - apk update && apk add git
-    - git config user.email "gitlab-ci@example.com"
-    - git fetch origin master
-    - git merge origin/master --no-ff
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
     - docker build -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
