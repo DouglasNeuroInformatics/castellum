@@ -31,13 +31,12 @@ from .views import RecruitmentViewInvited
 from .views import RecruitmentViewOpen
 from .views import RecruitmentViewUnsuitable
 from .views import SearchView
-from .views import StudyChoiceView
+from .views import StudyListView
 from .views import SubjectUpdateView
 
 app_name = 'recruitment'
 urlpatterns = [
-    path('', StudyChoiceView.as_view(), name='index'),
-
+    path('', StudyListView.as_view(), name='index'),
     path('search/', SearchView.as_view(), name='search'),
     path('appointments/<user_id>/', AppointmentFeedForUser(),
          name='all-studies-appointments'),

@@ -54,7 +54,7 @@ from .models import AttributeSet
 from .models import ParticipationRequest
 
 
-class StudyChoiceView(LoginRequiredMixin, ListView):
+class StudyListView(LoginRequiredMixin, ListView):
     model = Study
     context_object_name = 'studies'
     template_name = 'recruitment/study_list.html'
