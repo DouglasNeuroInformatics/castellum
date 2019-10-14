@@ -89,7 +89,9 @@ class SearchView(LoginRequiredMixin, GetFormView):
         contacts = Contact.objects.fuzzy_filter(**form.cleaned_data)
         subjects = [c.subject for c in contacts]
         participation_requests = ParticipationRequest.objects.filter(
-            subject__in=subjects, study__study_mode=Study.EXECUTION
+            subject__in=subjects,
+            study__study_mode=Study.EXECUTION,
+            status=ParticipationRequest.INVITED,
         ).select_related('subject', 'study')
 
         result = {}
