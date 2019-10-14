@@ -46,8 +46,8 @@ from .models import SubjectFilter
 from .models import SubjectFilterGroup
 
 EXPORT_SCHEMA = {
-    "$schema": "http://json-schema.org/draft-06/schema#",
-    "definitions": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$defs": {
         "AttributeDescriptionExport": {
             "type": "object",
             "additionalProperties": False,
@@ -55,7 +55,7 @@ EXPORT_SCHEMA = {
                 "descriptions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/Description"
+                        "$ref": "#/$defs/Description"
                     }
                 }
             },
@@ -71,7 +71,7 @@ EXPORT_SCHEMA = {
                 "categories": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/Category"
+                        "$ref": "#/$defs/Category"
                     }
                 }
             },
@@ -88,12 +88,12 @@ EXPORT_SCHEMA = {
                     "type": "integer"
                 },
                 "label": {
-                    "$ref": "#/definitions/TranslatedString"
+                    "$ref": "#/$defs/TranslatedString"
                 },
                 "descriptions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/Description"
+                        "$ref": "#/$defs/Description"
                     }
                 }
             },
@@ -125,19 +125,19 @@ EXPORT_SCHEMA = {
                     "type": "integer"
                 },
                 "label": {
-                    "$ref": "#/definitions/TranslatedString"
+                    "$ref": "#/$defs/TranslatedString"
                 },
                 "choices": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/Choice"
+                        "$ref": "#/$defs/Choice"
                     }
                 },
                 "_filter_label": {
-                    "$ref": "#/definitions/TranslatedString"
+                    "$ref": "#/$defs/TranslatedString"
                 },
                 "help_text": {
-                    "$ref": "#/definitions/TranslatedText"
+                    "$ref": "#/$defs/TranslatedText"
                 }
             },
             "required": [
@@ -150,7 +150,7 @@ EXPORT_SCHEMA = {
             "type": "object",
             "properties": {
                 "label": {
-                    "$ref": "#/definitions/TranslatedString"
+                    "$ref": "#/$defs/TranslatedString"
                 }
             },
             "required": [
@@ -222,7 +222,7 @@ class CategoryImportView(BaseImportView):
         'recruitment.view_attributecategory',
         'recruitment.add_attributecategory',
     ]
-    schema_ref = '#/definitions/AttributeCategoryExport'
+    schema_ref = '#/$defs/AttributeCategoryExport'
     model = AttributeCategory
 
     def json_valid(self, json):
@@ -238,7 +238,7 @@ class DescriptionImportView(BaseImportView):
         'recruitment.view_attributedescription',
         'recruitment.add_attributedescription',
     ]
-    schema_ref = '#/definitions/AttributeDescriptionExport'
+    schema_ref = '#/$defs/AttributeDescriptionExport'
     model = AttributeDescription
 
     def json_valid(self, json):
