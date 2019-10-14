@@ -66,6 +66,35 @@ def test_subject_200(request, client, user_fixture, contact):
     assert response.status_code == 200
 
 
+def test_subject_post_valid(client, user, contact):
+    client.force_login(user)
+    assert contact.subject.privacy_level == 0
+
+    url = '/subjects/{}/subject/'.format(contact.subject.pk)
+    response = client.post(url, {
+        'privacy_level': 1,
+        'form-TOTAL_FORMS': 0,
+        'form-INITIAL_FORMS': 0,
+    })
+    assert response.status_code == 302
+
+    del contact.subject  # invalidate cache
+    assert contact.subject.privacy_level == 1
+
+
+def test_subject_post_invalid_privacy_level(client, user, contact):
+    client.force_login(user)
+
+    url = '/subjects/{}/subject/'.format(contact.subject.pk)
+    response = client.post(url, {
+        'privacy_level': 2,
+        'form-TOTAL_FORMS': 0,
+        'form-INITIAL_FORMS': 0,
+    })
+    assert response.status_code == 200
+    assert b'Please choose lower privacy level for the subject.' in response.content
+
+
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
