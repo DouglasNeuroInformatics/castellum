@@ -24,6 +24,7 @@ from django.urls import path
 from .feeds import AppointmentFeedForStudyGroup
 from .feeds import AppointmentFeedForUser
 from .views import AttributeSetUpdateView
+from .views import ChangeGroupView
 from .views import ContactUpdateView
 from .views import ContactView
 from .views import GroupListView
@@ -54,4 +55,6 @@ urlpatterns = [
          name='attributeset-update'),
     path('<group_pk>/<int:pk>/update-subject/', SubjectUpdateView.as_view(),
          name='subject-update'),
+    path('<group_pk>/<int:pk>/change-group/', ChangeGroupView.as_view(),
+         name='change-group'),
 ]

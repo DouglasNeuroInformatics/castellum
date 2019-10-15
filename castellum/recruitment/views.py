@@ -34,6 +34,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
+from django.views.generic import View
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import SearchForm
@@ -323,6 +324,23 @@ class ContactView(StudyGroupMixin, SubjectMixin, PermissionRequiredMixin, Update
             return reverse(context, args=[self.object.subject.pk])
         else:
             return reverse('recruitment:recruitment-open', args=[self.group.pk])
+
+
+class ChangeGroupView(StudyGroupMixin, SubjectMixin, PermissionRequiredMixin, View):
+    permission_required = (
+        'recruitment.change_participationrequest',
+    )
+    study_modes = [Study.EXECUTION]
+
+    def get_object(self):
+        return get_object_or_404(ParticipationRequest, pk=self.kwargs['pk'], group=self.group)
+
+    def post(self, request, *args, **kwargs):
+        participation_request = self.get_object()
+        group = get_object_or_404(StudyGroup, pk=request.POST.get('group'), study=self.study)
+        participation_request.group = group
+        participation_request.save()
+        return redirect('recruitment:contact', group.pk, participation_request.pk)
 
 
 class ContactUpdateView(StudyGroupMixin, BaseContactUpdateView):
