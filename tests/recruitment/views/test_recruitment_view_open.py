@@ -4,8 +4,12 @@ from django.contrib.messages import get_messages
 import pytest
 from model_mommy import mommy
 
+from castellum.contacts.models import Contact
+from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import ParticipationRequestRevision
+from castellum.recruitment.models import SubjectFilter
+from castellum.recruitment.models import SubjectFilterGroup
 
 
 def test_min_subject_count_is_zero(client, member, study_in_execution_mode):
@@ -81,9 +85,8 @@ def test_no_matching_attribute_sets(client, member, study_in_execution_mode,
     for i in range(5):
         create_participation_request(study_in_execution_mode)
 
-    subject_filter_group = mommy.make('recruitment.SubjectFilterGroup',
-                                      study=study_in_execution_mode)
-    mommy.make('recruitment.SubjectFilter', group=subject_filter_group,
+    subject_filter_group = mommy.make(SubjectFilterGroup, study=study_in_execution_mode)
+    mommy.make(SubjectFilter, group=subject_filter_group,
                description=attribute_description, operator="exact", value="left")
 
     client.force_login(member)
@@ -108,8 +111,8 @@ def test_create_revision_on_create(client, member, attributeset, study_in_execut
 
 
 def create_attributeset():
-    contact = mommy.make('contacts.Contact')
-    return mommy.make('recruitment.AttributeSet', data={'d1': 1}, subject=contact.subject)
+    contact = mommy.make(Contact)
+    return mommy.make(AttributeSet, data={'d1': 1}, subject=contact.subject)
 
 
 def create_participation_request(study, status=ParticipationRequest.NOT_CONTACTED):

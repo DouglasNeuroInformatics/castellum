@@ -113,7 +113,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
             context['updated_at'] = max(context['updated_at'], self.object.attributeset.updated_at)
 
             completed, total = self.object.attributeset.get_completeness()
-            context['attributeset_completeness'] = '%i%%' % (100 * completed / total)
+            context['attributeset_completeness'] = '%i%%' % (100 * completed / (total or 1))
         except AttributeSet.DoesNotExist:
             pass
 

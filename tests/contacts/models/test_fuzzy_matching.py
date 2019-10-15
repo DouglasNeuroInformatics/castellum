@@ -43,9 +43,6 @@ FIRST_NAME = 'Eve'
     ('Meier', 'Michel', False),
 ))
 def test_fuzzy_filter(right, wrong, expected, contact_domain):
-    contact = mommy.make(Contact, first_name=FIRST_NAME, last_name=right)
-    matches = Contact.objects.fuzzy_filter(FIRST_NAME, wrong)
-    if expected:
-        assert contact in matches
-    else:
-        assert contact not in matches
+    mommy.make(Contact, first_name=FIRST_NAME, last_name=right)
+    matches = Contact.objects.fuzzy_filter(FIRST_NAME, wrong).exists()
+    assert matches == expected
