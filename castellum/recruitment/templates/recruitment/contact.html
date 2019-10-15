@@ -7,9 +7,10 @@
     <header class="mb-3">
         <h1>{{ study.name }}</h1>
         <div class="h5">
-            {% trans "Recruiting:" %} <b>{{ contact.full_name }}
+            {% trans "Recruiting:" %}
+            <strong>{{ contact.full_name }}</strong>
             <svg class="identicon" data-jdenticon-value="{{ object.pk }}" aria-hidden="true"></svg>
-        </b></div>
+        </div>
     </header>
 
     {% if not object.match %}
