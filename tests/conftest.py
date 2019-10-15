@@ -6,6 +6,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from django.core import serializers
 from django.db.models import DateField
+from django.test import TestCase
 from django.utils import timezone
 
 import pytest
@@ -26,6 +27,10 @@ from castellum.studies.models import StudyMembership
 
 mommy.generators.add(
     'castellum.utils.fields.DateField', mommy.generators.default_mapping[DateField])
+
+# monkey patch to make test isolation work on both databases
+# See https://github.com/pytest-dev/pytest-django/pull/431
+TestCase.databases = ('default', 'contacts')
 
 
 def load_django_fixture(app_label, name):
