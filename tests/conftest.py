@@ -56,21 +56,30 @@ def create_user(group_name):
     return user
 
 
-@pytest.fixture
-def contact_domain(db):
-    data = settings.CASTELLUM_DOMAINS['contact']
-    domain, __ = Domain.objects.get_or_create(key=data['key'], defaults=data)
-    return domain
+@pytest.fixture(scope='session', autouse=True)
+def contact_domain(django_db_setup, django_db_blocker):
+    with django_db_blocker.unblock():
+        data = settings.CASTELLUM_DOMAINS['contact']
+        domain, __ = Domain.objects.get_or_create(key=data['key'], defaults=data)
+        return domain
 
 
-@pytest.fixture
-def sample_groups(db):
-    load_django_fixture('castellum_auth', 'sample_groups')
+@pytest.fixture(scope='session', autouse=True)
+def attribute_descriptions(django_db_setup, django_db_blocker):
+    with django_db_blocker.unblock():
+        create_sample_attribute_descriptions.generate_attribute_descriptions()
 
 
-@pytest.fixture
-def study_types(db):
-    load_django_fixture('studies', 'study_types')
+@pytest.fixture(scope='session', autouse=True)
+def sample_groups(django_db_setup, django_db_blocker):
+    with django_db_blocker.unblock():
+        load_django_fixture('castellum_auth', 'sample_groups')
+
+
+@pytest.fixture(scope='session', autouse=True)
+def study_types(django_db_setup, django_db_blocker):
+    with django_db_blocker.unblock():
+        load_django_fixture('studies', 'study_types')
 
 
 @pytest.fixture
@@ -79,27 +88,27 @@ def user(db):
 
 
 @pytest.fixture
-def study_conductor(sample_groups):
+def study_conductor(db):
     return create_user('Study conductor')
 
 
 @pytest.fixture
-def study_coordinator(sample_groups):
+def study_coordinator(db):
     return create_user('Study coordinator')
 
 
 @pytest.fixture
-def subject_manager(sample_groups):
+def subject_manager(db):
     return create_user('Subject manager')
 
 
 @pytest.fixture
-def recruiter(sample_groups):
+def recruiter(db):
     return create_user('Recruiter')
 
 
 @pytest.fixture
-def data_protection_officer(sample_groups):
+def data_protection_officer(db):
     return create_user('Data protection officer')
 
 
@@ -149,12 +158,6 @@ def attributeset(contact, contact_domain):
 def participation_request(contact, study_in_execution_mode, contact_domain):
     subject = get_subject(contact_domain.key, contact.pseudonym)
     return mommy.make(ParticipationRequest, study=study_in_execution_mode, subject=subject)
-
-
-@pytest.fixture(scope='session', autouse=True)
-def attribute_descriptions(django_db_setup, django_db_blocker):
-    with django_db_blocker.unblock():
-        create_sample_attribute_descriptions.generate_attribute_descriptions()
 
 
 @pytest.fixture
