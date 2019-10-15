@@ -139,6 +139,29 @@ def test_last_contacted_elsewhere_not_contacted():
 
 
 @pytest.mark.django_db
+def test_tries():
+    with freeze_time("1970-01-01 12:00"):
+        participationrequest = mommy.make(
+            ParticipationRequest, status=ParticipationRequest.NOT_REACHED
+        )
+
+    with freeze_time("1970-01-02 12:00"):
+        participationrequest.status = ParticipationRequest.INVITED
+        participationrequest.save()
+
+    with freeze_time("1970-01-03 12:00"):
+        participationrequest.status = ParticipationRequest.NOT_REACHED
+        participationrequest.save()
+
+    with freeze_time("1970-01-04 12:00"):
+        participationrequest.status = ParticipationRequest.NOT_REACHED
+        participationrequest.save()
+
+    participationrequest = ParticipationRequest.objects.get(pk=participationrequest.pk)
+    assert participationrequest.tries == 2
+
+
+@pytest.mark.django_db
 def test_participationrequest_create_delete_pseudonym():
     start_count = Pseudonym.objects.count()
     study = mommy.make(Study)
