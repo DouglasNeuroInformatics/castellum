@@ -19,19 +19,14 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth.models import Permission
 
 from .models import Study
 from .models import StudyMembership
 
 
-class StudyPermissionBackend:
-    def authenticate(self, request, **kwargs):
-        return None
-
-    def get_user(self, user_id):
-        return None
-
+class StudyPermissionBackend(BaseBackend):
     def _permissions_to_strings(self, qs):
         tuples = qs.values_list('content_type__app_label', 'codename')
         return ('{}.{}'.format(app_label, name) for app_label, name in tuples)
@@ -51,20 +46,9 @@ class StudyPermissionBackend:
             return getattr(user, perm_cache_name)
         return set()
 
-    def get_group_permissions(self, user, obj=None):
-        perms = set()
-        if obj:
-            perms.update(user.get_group_permissions())
-        perms.update(self._get_group_permissions(user, obj=obj))
-        return perms
-
     def get_all_permissions(self, user, obj=None):
         perms = set()
         if obj:
             perms.update(user.get_all_permissions())
         perms.update(self._get_group_permissions(user, obj=obj))
         return perms
-
-    def has_perm(self, user, perm, obj=None):
-        perms = self.get_all_permissions(user, obj=obj)
-        return perm in perms
