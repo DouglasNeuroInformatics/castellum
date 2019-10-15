@@ -88,27 +88,27 @@ def user(db):
 
 
 @pytest.fixture
-def study_conductor(sample_groups):
+def study_conductor(db):
     return create_user('Study conductor')
 
 
 @pytest.fixture
-def study_coordinator(sample_groups):
+def study_coordinator(db):
     return create_user('Study coordinator')
 
 
 @pytest.fixture
-def subject_manager(sample_groups):
+def subject_manager(db):
     return create_user('Subject manager')
 
 
 @pytest.fixture
-def recruiter(sample_groups):
+def recruiter(db):
     return create_user('Recruiter')
 
 
 @pytest.fixture
-def data_protection_officer(sample_groups):
+def data_protection_officer(db):
     return create_user('Data protection officer')
 
 

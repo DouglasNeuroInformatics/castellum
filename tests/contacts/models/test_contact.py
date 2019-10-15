@@ -28,7 +28,7 @@ def test_full_name(title, expected):
 
 
 @pytest.mark.django_db
-def test_contact_create_delete_pseudonym(contact_domain):
+def test_contact_create_delete_pseudonym():
     start_count = Pseudonym.objects.count()
 
     contact = mommy.make(Contact)
