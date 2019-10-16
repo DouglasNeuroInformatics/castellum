@@ -25,10 +25,13 @@ from django.views.generic import DetailView
 from django.views.generic import ListView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.contacts.forms import SearchForm
+from castellum.contacts.models import Contact
 from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import SubjectMixin
+from castellum.utils.views import GetFormView
 
 
 class StudyListView(LoginRequiredMixin, ListView):
@@ -76,3 +79,36 @@ class ParticipationRequestDetailView(StudyMixin, SubjectMixin, PermissionRequire
             study=self.study,
             status=ParticipationRequest.INVITED,
         )
+
+
+class SearchView(LoginRequiredMixin, GetFormView):
+    template_name = 'execution/search.html'
+    form_class = SearchForm
+
+    def get_matches(self, form):
+        contacts = Contact.objects.fuzzy_filter(**form.cleaned_data)
+        subjects = [c.subject for c in contacts]
+        participation_requests = ParticipationRequest.objects.filter(
+            subject__in=subjects,
+            study__study_mode=Study.EXECUTION,
+            status=ParticipationRequest.INVITED,
+        ).select_related('subject', 'study')
+
+        result = {}
+        perms = ('studies.access_study', 'recruitment.view_participation_pseudonyms')
+        for pr in participation_requests:
+            if (
+                self.request.user.has_perms(perms, pr.study) and
+                self.request.user.has_privacy_level(pr.subject.privacy_level)
+            ):
+                result.setdefault(pr.subject, [])
+                result[pr.subject].append(pr)
+
+        return list(result.items())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = kwargs.get('form')
+        if form and form.is_valid():
+            context['object_list'] = self.get_matches(form)
+        return context

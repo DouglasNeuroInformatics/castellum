@@ -1,0 +1,75 @@
+{% extends "execution/base.html" %}
+{% load i18n bootstrap4 auth utils %}
+
+{% block title %}{% trans "Find subjects" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h1>{% trans 'Find subjects' %}</h1>
+
+    <form method="get">
+        {% for error in form.non_field_errors %}
+            <p class="alert alert-danger" role="alert">{{ error }}</p>
+        {% endfor %}
+
+        <div class="form-row">
+            <div class="col-md-6">
+                {% bootstrap_field form.first_name %}
+            </div>
+            <div class="col-md-6">
+                {% bootstrap_field form.last_name %}
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <a href="{% url 'recruitment:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+            <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}" />
+        </div>
+    </form>
+
+    {% if form.is_valid %}
+        <ul class="table-list">
+            {% for subject, participation_requests in object_list %}
+                {% with contact=subject.contact %}
+                    <li class="my-5">
+                        <h3 class="h4 d-inline-block my-1 mr-2">
+                            {% if contact.title %}{{ contact.title }}{% endif %}
+                            {% if contact.first_name == form.first_name.value %}
+                                <mark>{{ contact.first_name }}</mark>
+                            {% else %}
+                                {{ contact.first_name }}
+                            {% endif %}
+                            {% if contact.last_name == form.last_name.value %}
+                                <mark>{{ contact.last_name }}</mark>
+                            {% else %}
+                                {{ contact.last_name }}
+                            {% endif %}
+                        </h3>
+                        <div class="d-inline-block">
+                            {% if contact.date_of_birth %}
+                                <div class="d-inline-block my-1 mr-2">{{ contact.date_of_birth }}</div>
+                            {% endif %}
+                            {% if contact.address %}
+                                <div class="d-inline-block my-1 mr-2">{{ contact.address }}</div>
+                            {% endif %}
+                            {% if contact.email %}
+                                <div class="d-inline-block my-1 mr-2">{{ contact.email }}</div>
+                            {% endif %}
+                        </div>
+                        <ul class="table-list">
+                            {% for pr in participation_requests %}
+                                <li class="table-list-item">
+                                    <span class="h5 d-inline-block my-1 mr-2">{{ pr.study }}</span>
+                                    <div class="table-list-item-actions">
+                                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participationrequest-detail' pr.study.pk pr.pk %}">{% trans 'Details' %}</a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endwith %}
+            {% empty %}
+                <li class="alert alert-warning" role="alert">{% trans 'No matches found' %}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
