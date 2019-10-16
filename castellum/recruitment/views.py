@@ -281,9 +281,12 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
             .exclude(subject__participationrequest__study=self.study)
         )
 
-        added = min(batch_size, len(attributesets))
-        for attributeset in random.sample(attributesets, k=added):
-            ParticipationRequest.objects.create(study=self.study, subject=attributeset.subject)
+        added = 0
+        while added < batch_size and attributesets:
+            pick = attributesets.pop(random.randrange(0, len(attributesets)))
+            if pick.subject.contact.email:
+                ParticipationRequest.objects.create(study=self.study, subject=pick.subject)
+                added += 1
 
         return added
 
