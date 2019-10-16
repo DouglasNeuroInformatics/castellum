@@ -126,9 +126,12 @@ class AttributeSet(TimeStampedModel):
                     subject__participationrequest__revisions__status=ParticipationRequest.NOT_CONTACTED # noqa
                 ),
             ))
-            .exclude(last_contacted__gte=datetime.date.today() - datetime.timedelta(
-                days=settings.CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS
-            ))
+            .filter(
+                models.Q(last_contacted__lte=datetime.date.today() - datetime.timedelta(
+                    days=settings.CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS
+                )) |
+                models.Q(last_contacted__isnull=True)
+            )
         )
 
     def get_verbose_name(self, pk):
