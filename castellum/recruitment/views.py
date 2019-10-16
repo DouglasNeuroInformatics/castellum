@@ -27,6 +27,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.core.mail import send_mass_mail
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -271,14 +272,21 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     def create_participation_requests(self, batch_size):
         attributesets = list(AttributeSet.get_recruitable(self.study))
 
-        added = 0
-        while added < batch_size and attributesets:
+        mails = []
+        while len(mails) < batch_size and attributesets:
             pick = attributesets.pop(random.randrange(0, len(attributesets)))
             if pick.subject.contact.email:
                 ParticipationRequest.objects.create(study=self.study, subject=pick.subject)
-                added += 1
+                mails.append((
+                    self.study.mail_subject,
+                    self.study.mail_body,
+                    self.study.mail_reply_address,
+                    [pick.subject.contact.email],
+                ))
 
-        return added
+        send_mass_mail(mails)
+
+        return len(mails)
 
     def form_valid(self, form):
         batch_size = form.cleaned_data['batch_size']
