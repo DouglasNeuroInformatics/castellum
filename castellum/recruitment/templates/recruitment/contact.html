@@ -10,6 +10,7 @@
             {% trans "Recruiting:" %}
             <strong>{{ contact.full_name }}</strong>
             <svg class="identicon" data-jdenticon-value="{{ object.pk }}" aria-hidden="true"></svg>
+            <span class="badge badge-secondary">{{ object|display:'status' }}</span>
         </div>
     </header>
 
