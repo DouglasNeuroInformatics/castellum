@@ -273,8 +273,36 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     tab = 'mail'
     form_class = SendMailForm
 
+    def create_participation_requests(self, batch_size):
+        attributesets = list(
+            AttributeSet
+            .apply_study_filter(self.study)
+            .filter(subject__no_recruitment=False)
+            .exclude(subject__participationrequest__study=self.study)
+        )
+
+        added = min(batch_size, len(attributesets))
+        for attributeset in random.sample(attributesets, k=added):
+            ParticipationRequest.objects.create(study=self.study, subject=attributeset.subject)
+
+        return added
+
     def form_valid(self, form):
-        messages.success(self.request, _('Mails have been sent.'))
+        batch_size = form.cleaned_data['batch_size']
+        try:
+            added = self.create_participation_requests(batch_size)
+        except KeyError:
+            added = 0
+            messages.error(self.request, _(
+                'The custom filter that is set for this study does not exist.'
+            ))
+
+        if added > 0:
+            messages.success(self.request, _('Mails have been sent.'))
+
+        if added < batch_size:
+            messages.error(self.request, _('We cannot find participants for this study.'))
+
         return redirect('recruitment:mail', self.study.pk)
 
 
