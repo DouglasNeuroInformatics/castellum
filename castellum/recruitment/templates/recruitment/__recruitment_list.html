@@ -92,14 +92,14 @@
         </li>
     {% empty %}
         <li class="alert alert-info">
-            {% if view.tab == 'open' %}
+            {% if view.subtab == 'open' %}
                 <strong>{% trans 'No one to contact for recruitment!' %}</strong>
                 {% trans 'Currently, there are no open potential subjects.' %}
                 {% has_perm 'recruitment.add_participationrequest' user study as can_add_participationrequest %}
                 {% if can_add_participationrequest %}
                     {% trans 'Please add a set of potential subjects using the Add button.' %}
                 {% endif %}
-            {% elif view.tab == 'invited' %}
+            {% elif view.subtab == 'invited' %}
                 {% blocktrans with subjectcount=study.min_subject_count %}
                     You are still in search for {{ subjectcount }} participants.
                 {% endblocktrans %}
