@@ -213,9 +213,6 @@ class RecruitmentViewOpen(RecruitmentView):
             .exclude(subject__participationrequest__study=self.study)
         )
 
-        if len(attributesets) == 0:
-            return 0
-
         added = min(batch_size, len(attributesets))
         for attributeset in random.sample(attributesets, k=added):
             ParticipationRequest.objects.create(study=self.study, subject=attributeset.subject)
