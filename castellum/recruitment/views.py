@@ -284,6 +284,13 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                     [pick.subject.contact.email],
                 ))
 
+        mails.append((
+            self.study.mail_subject,
+            '%i emails have been sent.\n\n---\n\n%s' % (len(mails), self.study.mail_body),
+            self.study.mail_reply_address,
+            [self.study.mail_reply_address],
+        ))
+
         send_mass_mail(mails)
 
         return len(mails)
