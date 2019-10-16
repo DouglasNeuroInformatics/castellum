@@ -206,12 +206,7 @@ class RecruitmentViewOpen(RecruitmentView):
     subtab = 'open'
 
     def create_participation_requests(self, batch_size):
-        attributesets = list(
-            AttributeSet
-            .apply_study_filter(self.study)
-            .filter(subject__no_recruitment=False)
-            .exclude(subject__participationrequest__study=self.study)
-        )
+        attributesets = list(AttributeSet.get_recruitable(self.study))
 
         added = min(batch_size, len(attributesets))
         for attributeset in random.sample(attributesets, k=added):
