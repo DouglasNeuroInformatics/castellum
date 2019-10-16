@@ -10,6 +10,24 @@
         </p>
     {% endif %}
     <dl class="row">
+        {% if subject.contact.guardians.exists %}
+            <dt class="col-sm-6">{{ subject.contact|verbose_name:'guardians' }}</dt>
+            <dd class="col-sm-6">
+                {% for c in subject.contact.guardians.all %}
+                    <a href="{% url 'subjects:detail' c.subject.pk %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            </dd>
+        {% endif %}
+
+        {% if subject.contact.guardian_of.exists %}
+            <dt class="col-sm-6">{% trans 'Guardian of' %}</dt>
+            <dd class="col-sm-6">
+                {% for c in subject.contact.guardian_of.all %}
+                    <a href="{% url 'subjects:detail' c.subject.pk %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            </dd>
+        {% endif %}
+
         <dt class="col-sm-6">{% trans 'Subject data registered' %}</dt>
         <dd class="col-sm-6">{{ subject.created_at }}</dd>
 
