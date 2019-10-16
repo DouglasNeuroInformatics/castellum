@@ -37,7 +37,12 @@
         </li>
         {% if study.has_exclusion_criteria %}
             <li class="nav-item">
-                <a class="nav-link" id="criteria-tab" data-toggle="tab" href="#criteria" role="tab" aria-controls="criteria" aria-selected="false">{{ study|verbose_name:'exclusion_criteria' }}</a>
+                <a class="nav-link" id="criteria-tab" data-toggle="tab" href="#criteria" role="tab" aria-controls="criteria" aria-selected="false">
+                    {% if not object.exclusion_criteria_checked %}
+                        <i class="fa fa-exclamation-triangle" title="{% trans 'not checked' %}" aria-label="{% trans 'not checked' %}"></i>
+                    {% endif %}
+                    {{ study|verbose_name:'exclusion_criteria' }}
+                </a>
             </li>
         {% endif %}
     </ul>
