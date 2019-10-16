@@ -27,7 +27,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.db import models
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -275,21 +274,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     form_class = SendMailForm
 
     def create_participation_requests(self, batch_size):
-        attributesets = list(
-            AttributeSet
-            .apply_study_filter(self.study)
-            .filter(subject__no_recruitment=False)
-            .exclude(subject__participationrequest__study=self.study)
-            .annotate(last_contacted=models.Max(
-                'subject__participationrequest__revisions__created_at',
-                filter=~models.Q(
-                    subject__participationrequest__revisions__status=ParticipationRequest.NOT_CONTACTED # noqa
-                ),
-            ))
-            .exclude(last_contacted__gte=datetime.date.today() - datetime.timedelta(
-                days=settings.CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS
-            ))
-        )
+        attributesets = list(AttributeSet.get_recruitable(self.study))
 
         added = 0
         while added < batch_size and attributesets:

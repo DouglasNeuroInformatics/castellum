@@ -19,9 +19,11 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
 import functools
 from collections import OrderedDict
 
+from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
@@ -108,6 +110,26 @@ class AttributeSet(TimeStampedModel):
             q |= group.to_q(include_unknown=include_unknown)
 
         return AttributeSet.objects.filter(q)
+
+    @classmethod
+    def get_recruitable(cls, study):
+        from .recruitment import ParticipationRequest
+
+        return (
+            AttributeSet
+            .apply_study_filter(study)
+            .exclude(subject__no_recruitment=True)
+            .exclude(subject__participationrequest__study=study)
+            .annotate(last_contacted=models.Max(
+                'subject__participationrequest__revisions__created_at',
+                filter=~models.Q(
+                    subject__participationrequest__revisions__status=ParticipationRequest.NOT_CONTACTED # noqa
+                ),
+            ))
+            .exclude(last_contacted__gte=datetime.date.today() - datetime.timedelta(
+                days=settings.CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS
+            ))
+        )
 
     def get_verbose_name(self, pk):
         description = AttributeDescription.objects.get(pk=pk)
