@@ -35,6 +35,11 @@
         <li class="nav-item">
             <a class="nav-link" id="study-tab" data-toggle="tab" href="#study" role="tab" aria-controls="study" aria-selected="false">{% trans "Talking points" %}</a>
         </li>
+        {% if study.has_exclusion_criteria %}
+            <li class="nav-item">
+                <a class="nav-link" id="criteria-tab" data-toggle="tab" href="#criteria" role="tab" aria-controls="criteria" aria-selected="false">{{ study|verbose_name:'exclusion_criteria' }}</a>
+            </li>
+        {% endif %}
     </ul>
 
     <form method="post">
@@ -110,24 +115,23 @@
                     <dd class="col-sm-6">{{ study|display:'sessions_end' }}</dd>
                 </dl>
             </div>
-        </div>
 
-        {% if study.has_exclusion_criteria %}
-            <details class="mb-3">
-                <summary class="h4">{% trans "Inclusion/exclusion criteria" %}</summary>
-                {% if study.exclusion_criteria %}
-                    {{ study.exclusion_criteria|linebreaks }}
-                {% endif %}
-                {% for study_type in study.study_type.all %}
-                    {% if study_type.exclusion_criteria %}
-                        <h2>{{ study_type.label }}</h2>
-                        {{ study_type.exclusion_criteria|linebreaks }}
+            {% if study.has_exclusion_criteria %}
+                <div class="tab-pane" id="criteria" role="tabpanel" aria-labelledby="criteria-tab">
+                    {% if study.exclusion_criteria %}
+                        {{ study.exclusion_criteria|linebreaks }}
                     {% endif %}
-                {% endfor %}
+                    {% for study_type in study.study_type.all %}
+                        {% if study_type.exclusion_criteria %}
+                            <h2>{{ study_type.label }}</h2>
+                            {{ study_type.exclusion_criteria|linebreaks }}
+                        {% endif %}
+                    {% endfor %}
 
-                {% bootstrap_field form.exclusion_criteria_checked %}
-            </details>
-        {% endif %}
+                    {% bootstrap_field form.exclusion_criteria_checked %}
+                </div>
+            {% endif %}
+        </div>
 
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
