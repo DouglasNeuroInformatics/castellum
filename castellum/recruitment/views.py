@@ -32,6 +32,7 @@ from django.core.mail import get_connection
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView
 from django.views.generic import ListView
@@ -53,6 +54,7 @@ from .forms import ContactForm
 from .forms import SendMailForm
 from .models import AttributeDescription
 from .models import AttributeSet
+from .models import Batch
 from .models import ParticipationRequest
 
 
@@ -305,6 +307,14 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
             [self.study.mail_reply_address],
         )
         confirmation.send()
+        Batch.objects.create(
+            study=self.study,
+            date=timezone.now(),
+            contacted_size=counter,
+            mail_subject=self.study.mail_subject,
+            mail_body=self.study.mail_body,
+            mail_reply_address=self.study.mail_reply_address,
+        )
 
     def form_valid(self, form):
         batch_size = form.cleaned_data['batch_size']

@@ -180,3 +180,9 @@ class ParticipationRequestRevision(models.Model):
 
     def __str__(self):
         return '{}: {}'.format(self.created_at, self.get_status_display())
+
+
+class Batch(models.Model):
+    study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
+    date = models.DateTimeField(_('Sent date'))
+    contacted_size = models.PositiveIntegerField
