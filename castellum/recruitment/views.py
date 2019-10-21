@@ -295,21 +295,23 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                     )
                     counter += 1
 
+        return counter
+
+    def send_confirmation_mail(self, counter):
         confirmation = EmailMessage(
             self.study.mail_subject,
             '%i emails have been sent.\n\n---\n\n%s' % (counter, self.study.mail_body),
             settings.CASTELLUM_RECRUITMENT_EMAIL,
             [self.study.mail_reply_address],
-            connection=connection,
         )
         confirmation.send()
-
-        return counter
 
     def form_valid(self, form):
         batch_size = form.cleaned_data['batch_size']
         try:
             added = self.create_participation_requests(batch_size)
+            if self.create_participation_requests(batch_size):
+                self.send_confirmation_mail(counter=added)
         except KeyError:
             added = 0
             messages.error(self.request, _(
