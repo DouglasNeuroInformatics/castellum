@@ -4,12 +4,30 @@
 {% block title %}{% trans "Subject details" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    {% if not object.contact.is_complete or not subject.is_complete %}
+    {% if not subject.contact.is_complete or not subject.is_complete %}
         <p class="alert alert-danger" role="alert">
             <strong>{% trans 'Incomplete data' %}.</strong> {% trans 'Please edit data sets marked with' %} <i class="fa fa-exclamation-triangle" aria-label="{% trans 'Missing values' %}"></i>
         </p>
     {% endif %}
     <dl class="row">
+        {% if subject.contact.guardians.exists %}
+            <dt class="col-sm-6">{{ subject.contact|verbose_name:'guardians' }}</dt>
+            <dd class="col-sm-6">
+                {% for c in subject.contact.guardians.all %}
+                    <a href="{% url 'subjects:detail' c.subject.pk %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            </dd>
+        {% endif %}
+
+        {% if subject.contact.guardian_of.exists %}
+            <dt class="col-sm-6">{% trans 'Guardian of' %}</dt>
+            <dd class="col-sm-6">
+                {% for c in subject.contact.guardian_of.all %}
+                    <a href="{% url 'subjects:detail' c.subject.pk %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            </dd>
+        {% endif %}
+
         <dt class="col-sm-6">{% trans 'Subject data registered' %}</dt>
         <dd class="col-sm-6">{{ subject.created_at }}</dd>
 
