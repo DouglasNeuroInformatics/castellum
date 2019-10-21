@@ -191,4 +191,4 @@ class ContactForm(forms.ModelForm):
 
 
 class SendMailForm(forms.Form):
-    batch_size = forms.IntegerField(min_value=1)
+    batch_size = forms.IntegerField(min_value=1, label=_('Batch size'))
