@@ -281,8 +281,9 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                 mail = EmailMessage(
                     self.study.mail_subject,
                     self.study.mail_body,
-                    self.study.mail_reply_address,
+                    settings.CASTELLUM_RECRUITMENT_EMAIL,
                     [pick.subject.contact.email],
+                    reply_to=[self.study.mail_reply_address],
                     connection=connection,
                 )
                 success = mail.send()
@@ -293,7 +294,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         confirmation = EmailMessage(
             self.study.mail_subject,
             '%i emails have been sent.\n\n---\n\n%s' % (counter, self.study.mail_body),
-            self.study.mail_reply_address,
+            settings.CASTELLUM_RECRUITMENT_EMAIL,
             [self.study.mail_reply_address],
             connection=connection,
         )
