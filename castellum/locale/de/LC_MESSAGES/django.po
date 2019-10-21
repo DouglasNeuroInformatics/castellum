@@ -562,7 +562,7 @@ msgstr ""
 
 #: castellum/recruitment/forms.py:194
 msgid "Batch size"
-msgstr ""
+msgstr "Größe der Charge"
 
 #: castellum/recruitment/models/attributesets.py:90
 msgid "Attribute set"
@@ -816,7 +816,7 @@ msgstr ""
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:107
 msgid "List is empty"
-msgstr ""
+msgstr "Die Liste ist leer"
 
 #: castellum/recruitment/templates/recruitment/attributeset_form.html:4
 #: castellum/recruitment/templates/recruitment/contact.html:85
@@ -861,10 +861,8 @@ msgid "Talking points"
 msgstr "Gesprächspunkte"
 
 #: castellum/recruitment/templates/recruitment/contact.html:43
-#, fuzzy
-#| msgid "not reached"
 msgid "not checked"
-msgstr "nicht erreicht"
+msgstr "nicht überprüft"
 
 #: castellum/recruitment/templates/recruitment/contact.html:58
 #: castellum/recruitment/templates/recruitment/contact.html:64
@@ -890,24 +888,20 @@ msgid "Duration of sessions in minutes"
 msgstr "Sitzungsdauer in Minuten"
 
 #: castellum/recruitment/templates/recruitment/mail.html:4
-#, fuzzy
-#| msgid "Recruitment"
 msgid "Mail recruitment"
-msgstr "Rekrutierung"
+msgstr "E-Mail Rekrutierung"
 
 #: castellum/recruitment/templates/recruitment/mail.html:9
 msgid "Mail recruitment has not been set up!"
-msgstr ""
+msgstr "E-Mail Rekrutierung ist nicht eingerichtet!"
 
 #: castellum/recruitment/templates/recruitment/mail.html:21
-#, fuzzy
-#| msgid "Email"
 msgid "E-mail text"
-msgstr "E-Mail"
+msgstr "E-Mail Text"
 
 #: castellum/recruitment/templates/recruitment/mail.html:31
 msgid "Send"
-msgstr ""
+msgstr "Senden"
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:10
 msgid "Statistics"
@@ -949,7 +943,7 @@ msgstr "Tabs"
 
 #: castellum/recruitment/templates/recruitment/recruitment_base.html:21
 msgid "Mail"
-msgstr ""
+msgstr "E-Mail"
 
 #: castellum/recruitment/templates/recruitment/study_list.html:9
 #: castellum/recruitment/templates/recruitment/study_list.html:10
@@ -1016,10 +1010,8 @@ msgid "We cannot find participants for this study."
 msgstr "Wir können keine Teilnehmer*innen für diese Studie finden."
 
 #: castellum/recruitment/views.py:321
-#, fuzzy
-#| msgid "Data has been saved."
 msgid "Mails have been sent."
-msgstr "Eingabe wurde gespeichert"
+msgstr "E-Mails wurden versendet."
 
 #: castellum/settings/default.py:116
 msgid "German"
@@ -1169,20 +1161,16 @@ msgid "Consent"
 msgstr "Einverständnis"
 
 #: castellum/studies/models.py:123
-#, fuzzy
-#| msgid "Edit subject"
 msgid "E-mail subject"
-msgstr "Proband*in bearbeiten"
+msgstr "E-Mail Betreff"
 
 #: castellum/studies/models.py:124
-#, fuzzy
-#| msgid "Email"
 msgid "E-mail body"
-msgstr "E-Mail"
+msgstr "E-Mail Inhalt"
 
 #: castellum/studies/models.py:125
 msgid "Reply e-mail-address"
-msgstr ""
+msgstr "Antwortadresse"
 
 #: castellum/studies/models.py:145
 msgid ""
@@ -1197,7 +1185,8 @@ msgstr ""
 msgid ""
 "Mail settings have to be filled out completely if you wish to use this "
 "feature."
-msgstr ""
+msgstr "Die E-Mail Einstellungen müssen vollständig ausgefüllt sein wenn "
+"sie diese Funktion nutzen wollen."
 
 #: castellum/studies/models.py:225
 msgid "Duration of a session in minutes"
@@ -1551,10 +1540,8 @@ msgstr "Keine eigenen Studien"
 
 #: castellum/studies/templates/studies/study_mailsettings.html:4
 #: castellum/studies/templates/studies/study_recruitmentsettings_base.html:25
-#, fuzzy
-#| msgid "Recruitment Settings"
 msgid "Mail Settings"
-msgstr "Rekrutierungseinstellungen"
+msgstr "E-Mail Einstellungen"
 
 #: castellum/studies/templates/studies/study_members.html:32
 msgid "Manage groups"
@@ -1846,10 +1833,8 @@ msgid "Please edit data sets marked with"
 msgstr "Bitte editieren Sie die Datensätze mit dem folgenden Symbol:"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:23
-#, fuzzy
-#| msgid "Guardian"
 msgid "Guardian of"
-msgstr "Vormund"
+msgstr "Vormund von"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:31
 msgid "Subject data registered"
@@ -1964,34 +1949,3 @@ msgstr "erstellt am"
 #: castellum/utils/models.py:28
 msgid "updated at"
 msgstr "aktualisiert am"
-
-#~ msgid "Save and go back"
-#~ msgstr "Speichern und zurück"
-
-#~ msgid "Save and show next"
-#~ msgstr "Speichern und weiter"
-
-#~ msgctxt "the verb"
-#~ msgid "Contact"
-#~ msgstr "Kontaktieren"
-
-#~ msgid "recall appointed"
-#~ msgstr "Rückruf vereinbart"
-
-#~ msgid "Call"
-#~ msgstr "Anrufen"
-
-#~ msgid "Recall date"
-#~ msgstr "Rückrufdatum"
-
-#~ msgid "Available"
-#~ msgstr "Verfügbar"
-
-#~ msgid "Activated"
-#~ msgstr "Aktiviert"
-
-#~ msgid "Deactivated"
-#~ msgstr "Deaktiviert"
-
-#~ msgid "No one yet"
-#~ msgstr "Noch niemand"
