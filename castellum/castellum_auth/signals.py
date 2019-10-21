@@ -39,4 +39,5 @@ def log_failed_login(sender, credentials, request, **kwargs):
 
 
 def log_logout(sender, user, request, **kwargs):
-    monitoring_logger.info('Logout by {}'.format(user.pk))
+    if user:
+        monitoring_logger.info('Logout by {}'.format(user.pk))
