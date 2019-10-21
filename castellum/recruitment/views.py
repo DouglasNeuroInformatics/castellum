@@ -27,7 +27,8 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.core.mail import send_mass_mail
+from django.core.mail import EmailMessage
+from django.core.mail import get_connection
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -272,28 +273,33 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     def create_participation_requests(self, batch_size):
         attributesets = list(AttributeSet.get_recruitable(self.study))
 
-        mails = []
-        while len(mails) < batch_size and attributesets:
+        connection = get_connection()
+        counter = 0
+        while counter < batch_size and attributesets:
             pick = attributesets.pop(random.randrange(0, len(attributesets)))
             if pick.subject.contact.email:
-                ParticipationRequest.objects.create(study=self.study, subject=pick.subject)
-                mails.append((
+                mail = EmailMessage(
                     self.study.mail_subject,
                     self.study.mail_body,
                     self.study.mail_reply_address,
                     [pick.subject.contact.email],
-                ))
+                    connection=connection,
+                )
+                success = mail.send()
+                if success:
+                    ParticipationRequest.objects.create(study=self.study, subject=pick.subject)
+                    counter += 1
 
-        mails.append((
+        confirmation = EmailMessage(
             self.study.mail_subject,
-            '%i emails have been sent.\n\n---\n\n%s' % (len(mails), self.study.mail_body),
+            '%i emails have been sent.\n\n---\n\n%s' % (counter, self.study.mail_body),
             self.study.mail_reply_address,
             [self.study.mail_reply_address],
-        ))
+            connection=connection,
+        )
+        confirmation.send()
 
-        send_mass_mail(mails)
-
-        return len(mails)
+        return counter
 
     def form_valid(self, form):
         batch_size = form.cleaned_data['batch_size']
