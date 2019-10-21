@@ -53,6 +53,7 @@ from .forms import ContactForm
 from .forms import SendMailForm
 from .models import AttributeDescription
 from .models import AttributeSet
+from .models import MailBatch
 from .models import ParticipationRequest
 
 
@@ -318,6 +319,10 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
 
         if added > 0:
             self.send_confirmation_mail(added)
+            MailBatch.objects.create(
+                study=self.study,
+                contacted_size=added,
+            )
             messages.success(self.request, _('Mails have been sent.'))
 
         if added < batch_size:

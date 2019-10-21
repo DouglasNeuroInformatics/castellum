@@ -23,10 +23,11 @@ from .attributesets import AttributeCategory
 from .attributesets import AttributeChoice
 from .attributesets import AttributeDescription
 from .attributesets import AttributeSet
+from .recruitment import MailBatch
 from .recruitment import ParticipationRequest
 from .recruitment import ParticipationRequestRevision
 from .subjectfilters import SubjectFilter
 from .subjectfilters import SubjectFilterGroup
 
 __all__ = ParticipationRequest, ParticipationRequestRevision, AttributeSet, AttributeDescription, \
-          AttributeCategory, AttributeChoice, SubjectFilter, SubjectFilterGroup
+          AttributeCategory, AttributeChoice, SubjectFilter, SubjectFilterGroup, MailBatch
