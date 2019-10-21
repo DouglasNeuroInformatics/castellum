@@ -25,9 +25,6 @@ ALLOWED_HOSTS = ['*']
 
 MEDIA_ROOT = '/media'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'localhost'
-
 # LDAP
 # See https://django-auth-ldap.readthedocs.io/
 AUTHENTICATION_BACKENDS.append("django_auth_ldap.backend.LDAPBackend")
