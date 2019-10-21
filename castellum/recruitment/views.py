@@ -288,7 +288,11 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                 )
                 success = mail.send()
                 if success:
-                    ParticipationRequest.objects.create(study=self.study, subject=pick.subject)
+                    ParticipationRequest.objects.create(
+                        study=self.study,
+                        subject=pick.subject,
+                        status=ParticipationRequest.AWAITING_RESPONSE,
+                    )
                     counter += 1
 
         confirmation = EmailMessage(
