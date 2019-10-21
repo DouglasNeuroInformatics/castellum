@@ -153,7 +153,7 @@ msgstr "Adressdaten unvollständig"
 #: castellum/contacts/forms.py:167
 msgid "Either email, phone number, address, or guardian should be provided."
 msgstr ""
-"Entweder Email, Telefonnummer, Adresse oder Vormund müssen angegeben werden!"
+"Entweder E-Mail, Telefonnummer, Adresse oder Vormund müssen angegeben werden!"
 
 #: castellum/contacts/forms.py:172 castellum/contacts/forms.py:175
 #: castellum/contacts/forms.py:178

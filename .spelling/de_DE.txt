@@ -1,3 +1,4 @@
+Merkmalsbeschreibungen
 Merkmalskategorie
 Merkmalskategorien
 Teilnahmestatus
@@ -7,3 +8,4 @@ Vertraulichkeitsstufe
 Castellum-Einverständnis
 innendetails
 Wiedervorlagetermin
+Wiedervorlagetermine
