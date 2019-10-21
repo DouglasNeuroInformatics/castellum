@@ -277,6 +277,9 @@ LOGGING = {
 # the number of subjects that is added to the recruitment list every time
 CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 
+# default "from"-email-address for recruitment
+CASTELLUM_RECRUITMENT_EMAIL = 'recruitment@localhost'
+
 # used to show the warning message when
 # number of users exceeds the number of subjects
 # in the contact list of recruitment app

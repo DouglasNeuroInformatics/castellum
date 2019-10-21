@@ -27,6 +27,8 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.core.mail import EmailMessage
+from django.core.mail import get_connection
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -206,15 +208,7 @@ class RecruitmentViewOpen(RecruitmentView):
     subtab = 'open'
 
     def create_participation_requests(self, batch_size):
-        attributesets = list(
-            AttributeSet
-            .apply_study_filter(self.study)
-            .filter(subject__no_recruitment=False)
-            .exclude(subject__participationrequest__study=self.study)
-        )
-
-        if len(attributesets) == 0:
-            return 0
+        attributesets = list(AttributeSet.get_recruitable(self.study))
 
         added = min(batch_size, len(attributesets))
         for attributeset in random.sample(attributesets, k=added):
@@ -276,8 +270,59 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     tab = 'mail'
     form_class = SendMailForm
 
+    def create_participation_requests(self, batch_size):
+        attributesets = list(AttributeSet.get_recruitable(self.study))
+
+        connection = get_connection()
+        counter = 0
+        while counter < batch_size and attributesets:
+            pick = attributesets.pop(random.randrange(0, len(attributesets)))
+            if pick.subject.contact.email:
+                mail = EmailMessage(
+                    self.study.mail_subject,
+                    self.study.mail_body,
+                    settings.CASTELLUM_RECRUITMENT_EMAIL,
+                    [pick.subject.contact.email],
+                    reply_to=[self.study.mail_reply_address],
+                    connection=connection,
+                )
+                success = mail.send()
+                if success:
+                    ParticipationRequest.objects.create(
+                        study=self.study,
+                        subject=pick.subject,
+                        status=ParticipationRequest.AWAITING_RESPONSE,
+                    )
+                    counter += 1
+
+        return counter
+
+    def send_confirmation_mail(self, counter):
+        confirmation = EmailMessage(
+            self.study.mail_subject,
+            '%i emails have been sent.\n\n---\n\n%s' % (counter, self.study.mail_body),
+            settings.CASTELLUM_RECRUITMENT_EMAIL,
+            [self.study.mail_reply_address],
+        )
+        confirmation.send()
+
     def form_valid(self, form):
-        messages.success(self.request, _('Mails have been sent.'))
+        batch_size = form.cleaned_data['batch_size']
+        try:
+            added = self.create_participation_requests(batch_size)
+        except KeyError:
+            added = 0
+            messages.error(self.request, _(
+                'The custom filter that is set for this study does not exist.'
+            ))
+
+        if added > 0:
+            self.send_confirmation_mail(added)
+            messages.success(self.request, _('Mails have been sent.'))
+
+        if added < batch_size:
+            messages.error(self.request, _('We cannot find participants for this study.'))
+
         return redirect('recruitment:mail', self.study.pk)
 
 
