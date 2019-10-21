@@ -138,5 +138,13 @@ class Contact(TimeStampedModel):
 
         return super().delete(*args, **kwargs)
 
+    def delete_full(self):
+        subject = self.subject
+
+        if self.address:
+            self.address.delete()
+        self.delete()
+        subject.delete()
+
     def get_absolute_url(self):
         return reverse('subjects:detail', args=[self.subject.pk])
