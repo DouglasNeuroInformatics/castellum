@@ -1185,8 +1185,9 @@ msgstr ""
 msgid ""
 "Mail settings have to be filled out completely if you wish to use this "
 "feature."
-msgstr "Die E-Mail Einstellungen müssen vollständig ausgefüllt sein wenn "
-"sie diese Funktion nutzen wollen."
+msgstr ""
+"Die E-Mail Einstellungen müssen vollständig ausgefüllt sein wenn Sie diese "
+"Funktion nutzen wollen."
 
 #: castellum/studies/models.py:225
 msgid "Duration of a session in minutes"
