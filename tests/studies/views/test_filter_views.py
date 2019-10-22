@@ -109,7 +109,7 @@ def test_get_when_study_has_not_enough_subjects_in_filter_group(client, member,
 
     expected = (
         b'For a smooth recruitment process, your institution recommends at least '
-        b'10x more potential than required subjects (i.e. 1000 for this study). '
+        b'10\xc3\x97 more potential than required subjects (i.e. 1000 for this study). '
         b'Current amount of potential subjects: 0'
     )
     assert expected in re.sub(rb'\s+', b' ', response.content)
