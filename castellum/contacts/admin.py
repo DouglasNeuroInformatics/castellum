@@ -21,6 +21,40 @@
 
 from django.contrib import admin
 
+from .models import Address
+from .models import City
+from .models import Contact
+from .models import Country
+
+
+class ContactAdmin(admin.ModelAdmin):
+    list_display = "first_name", "last_name", "address", "email", "phone_number"
+    list_display_links = "first_name", "last_name"
+    list_per_page = 200
+    search_fields = "first_name", "last_name"
+
+    fieldsets = (
+        (None, {
+            "fields": (
+                ("first_name", "last_name", "title"),
+                "gender",
+                "date_of_birth",
+            ),
+        }),
+        ("Contact Data", {
+            "fields": (
+                "address",
+                "email",
+                ("phone_number", "phone_number_alternative"),
+                "preferred_contact_method",
+                "guardians",
+            )
+        }),
+    )
+
+    def get_queryset(self, request):  # pragma: no cover
+        return super().get_queryset(request).select_related('address__city')
+
 
 class CountryAdmin(admin.ModelAdmin):
     pass
@@ -34,3 +68,9 @@ class CityAdmin(admin.ModelAdmin):
 class AddressAdmin(admin.ModelAdmin):
     list_display = "city", "zip_code", "street", "house_number", "additional_information"
     list_per_page = 200
+
+
+admin.site.register(Address, AddressAdmin)
+admin.site.register(City, CityAdmin)
+admin.site.register(Country, CountryAdmin)
+admin.site.register(Contact, ContactAdmin)

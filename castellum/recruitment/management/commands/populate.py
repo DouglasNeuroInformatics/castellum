@@ -31,7 +31,7 @@ from castellum.contacts.models import Address
 from castellum.contacts.models import City
 from castellum.contacts.models import Contact
 from castellum.contacts.models import Country
-from castellum.contacts.models.contact import phonetic
+from castellum.contacts.models import phonetic
 from castellum.pseudonyms.models import Domain
 from castellum.pseudonyms.models import Pseudonym
 from castellum.recruitment.models import AttributeChoice
