@@ -28,9 +28,7 @@ import phonenumbers
 from faker import Faker
 
 from castellum.contacts.models import Address
-from castellum.contacts.models import City
 from castellum.contacts.models import Contact
-from castellum.contacts.models import Country
 from castellum.contacts.models import phonetic
 from castellum.pseudonyms.models import Domain
 from castellum.pseudonyms.models import Pseudonym
@@ -137,16 +135,10 @@ def fake_study():
     return study
 
 
-def fake_cities(country, count):
-    names = set()
-    while len(names) < count:
-        names.add(fake.city())
-    return [City(name=name, country=country) for name in names]
-
-
-def fake_address(cities):
+def fake_address():
     return Address(
-        city=fake.random.choice(cities),
+        country='Deutschland',
+        city=fake.city(),
         zip_code=fake.postcode(),
         street=fake.street_name(),
         house_number=fake.random.randint(1, 200),
@@ -206,16 +198,13 @@ def generate_studies(count):
         study.study_type.add(fake.random.choice(study_types))
 
 
-def generate_subjects(count, city_count=100):
+def generate_subjects(count):
     # NOTE: We have ForeignKeys to Address and Subject. Unfortunately, bulk_create does not set
     # the id on the instances, so we have to get them from the database after bulk_create. This
     # assumes that the database was empty before.
 
     print('Generating addresses')
-    country, __ = Country.objects.get_or_create(name='Deutschland')
-    City.objects.bulk_create(fake_cities(country, city_count))
-    cities = City.objects.all()[:city_count]
-    Address.objects.bulk_create(fake_address(cities) for i in range(count))
+    Address.objects.bulk_create(fake_address() for i in range(count))
     addresses = Address.objects.all()[:count]
 
     print('Generating pseudonyms')

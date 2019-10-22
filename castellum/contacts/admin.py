@@ -22,9 +22,7 @@
 from django.contrib import admin
 
 from .models import Address
-from .models import City
 from .models import Contact
-from .models import Country
 
 
 class ContactAdmin(admin.ModelAdmin):
@@ -53,16 +51,7 @@ class ContactAdmin(admin.ModelAdmin):
     )
 
     def get_queryset(self, request):  # pragma: no cover
-        return super().get_queryset(request).select_related('address__city')
-
-
-class CountryAdmin(admin.ModelAdmin):
-    pass
-
-
-class CityAdmin(admin.ModelAdmin):
-    list_display = "name", "country",
-    list_per_page = 200
+        return super().get_queryset(request).select_related('address')
 
 
 class AddressAdmin(admin.ModelAdmin):
@@ -71,6 +60,4 @@ class AddressAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Address, AddressAdmin)
-admin.site.register(City, CityAdmin)
-admin.site.register(Country, CountryAdmin)
 admin.site.register(Contact, ContactAdmin)
