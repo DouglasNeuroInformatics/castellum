@@ -30,7 +30,6 @@ from django.core.validators import MaxValueValidator
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 
 from parler.managers import TranslatableManager
@@ -271,9 +270,8 @@ class AttributeDescription(ImportMixin, TranslatableModel):
                 _('Privacy level for reading may not be higher than for writing.'), code='invalid')
 
         if self.statistics_rank and self.field_type not in self.STATISTICS_TYPES:
-            msg = 'Statistics rank can only be set for the following field types: {}'
-            raise ValidationError(format_lazy(msg, ', '.join(self.STATISTICS_TYPES)),
-                                  code='invalid')
+            msg = _('Statistics rank can only be set for the following field types: %s')
+            raise ValidationError(msg, code='invalid', params=', '.join(self.STATISTICS_TYPES))
 
     @property
     def json_key(self):
