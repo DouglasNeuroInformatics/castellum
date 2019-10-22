@@ -191,4 +191,6 @@ class ContactForm(forms.ModelForm):
 
 
 class SendMailForm(forms.Form):
-    batch_size = forms.IntegerField(min_value=1, label=_('Batch size'))
+    batch_size = forms.IntegerField(
+        min_value=1, label=_('How many subjects do you want to contact?')
+    )
