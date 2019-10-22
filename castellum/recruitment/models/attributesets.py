@@ -19,7 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import datetime
 import functools
 from collections import OrderedDict
 
@@ -30,6 +29,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MaxValueValidator
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 
@@ -127,7 +127,7 @@ class AttributeSet(TimeStampedModel):
                 ),
             ))
             .filter(
-                models.Q(last_contacted__lte=datetime.date.today() - datetime.timedelta(
+                models.Q(last_contacted__lte=timezone.now() - timezone.timedelta(
                     days=settings.CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS
                 )) |
                 models.Q(last_contacted__isnull=True)
