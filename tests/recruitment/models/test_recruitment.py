@@ -162,6 +162,15 @@ def test_tries():
 
 
 @pytest.mark.django_db
+def test_tries_single_revision():
+    participationrequest = mommy.make(
+        ParticipationRequest, status=ParticipationRequest.AWAITING_RESPONSE
+    )
+    participationrequest = ParticipationRequest.objects.get(pk=participationrequest.pk)
+    assert participationrequest.tries == 1
+
+
+@pytest.mark.django_db
 def test_participationrequest_create_delete_pseudonym():
     start_count = Pseudonym.objects.count()
     study = mommy.make(Study)

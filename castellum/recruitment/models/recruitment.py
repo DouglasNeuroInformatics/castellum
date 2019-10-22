@@ -54,9 +54,13 @@ class ParticipationRequestManager(models.Manager):
             appointment_today=models.Count(
                 'id', filter=models.Q(appointment__date=datetime.date.today())
             ),
+            other_status_at=models.Subquery(other_status_at),
             tries=models.Count(
                 'revisions',
-                filter=models.Q(revisions__created_at__gt=models.Subquery(other_status_at)),
+                filter=(
+                    models.Q(revisions__created_at__gt=models.F('other_status_at')) |
+                    models.Q(other_status_at__isnull=True)
+                ),
                 distinct=True,
             ),
             last_contacted_elsewhere=models.Max(
