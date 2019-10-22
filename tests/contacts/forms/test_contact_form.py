@@ -1,7 +1,6 @@
 import datetime
 
 import pytest
-from model_mommy import mommy
 
 from castellum.contacts.forms import AddressForm
 from castellum.contacts.forms import ContactForm
@@ -11,22 +10,6 @@ from castellum.contacts.models import Address
 def test_empty_contact_form(user):
     form = ContactForm(user=user)
     assert form.is_valid() is False
-
-
-def test_form_with_initial_address(user):
-    country = mommy.prepare('contacts.Country')
-    city = mommy.prepare('contacts.City', country=country)
-    address = mommy.prepare('contacts.Address', city=city)
-    contact = mommy.prepare('contacts.Contact', address=address)
-
-    form = ContactForm(user=user, instance=contact)
-
-    assert form.fields['country'].initial == country.name
-    assert form.fields['city'].initial == city.name
-    assert form.fields['zip_code'].initial == address.zip_code
-    assert form.fields['street'].initial == address.street
-    assert form.fields['house_number'].initial == address.house_number
-    assert form.fields['additional_information'].initial == address.additional_information
 
 
 @pytest.mark.django_db
@@ -258,7 +241,7 @@ def test_contact_form_with_guardians_add(user, full_data, contact):
 
     assert form.is_valid() is True
     assert form.cleaned_data['guardians_add'].get() == contact.subject
-    assert form.cleaned_data['country'] == ''
+    assert form.cleaned_data['email'] == ''
 
 
 @pytest.mark.django_db
