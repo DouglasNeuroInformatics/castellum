@@ -560,9 +560,9 @@ msgid "There are duplicates in filters. Please change or delete filters!"
 msgstr ""
 "Es wurden Filter dupliziert. Bitte ändern oder löschen Sie diese Filter!"
 
-#: castellum/recruitment/forms.py:194
-msgid "Batch size"
-msgstr "Größe der Charge"
+#: castellum/recruitment/forms.py:195
+msgid "How many subjects do you want to contact?"
+msgstr "Wie viele Proband*innen wollen Sie kontaktieren?"
 
 #: castellum/recruitment/models/attributesets.py:90
 msgid "Attribute set"
@@ -1185,8 +1185,9 @@ msgstr ""
 msgid ""
 "Mail settings have to be filled out completely if you wish to use this "
 "feature."
-msgstr "Die E-Mail Einstellungen müssen vollständig ausgefüllt sein wenn "
-"sie diese Funktion nutzen wollen."
+msgstr ""
+"Die E-Mail Einstellungen müssen vollständig ausgefüllt sein wenn Sie diese "
+"Funktion nutzen wollen."
 
 #: castellum/studies/models.py:225
 msgid "Duration of a session in minutes"
