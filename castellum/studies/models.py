@@ -171,7 +171,7 @@ class Study(models.Model):
     @property
     def appointment_today(self):
         today = datetime.date.today()
-        return self.participationrequest_set.filter(appointment__date=today).exists()
+        return self.participationrequest_set.filter(appointment__date__lte=today).exists()
 
     @cached_property
     def has_filters(self):

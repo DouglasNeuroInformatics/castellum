@@ -91,7 +91,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         elif self.sort == 'created':
             order_by = ['-created_at']
         else:
-            order_by = ['-appointment_today', 'status', 'appointment', '-updated_at']
+            order_by = ['-appointment_overdue', 'status', 'appointment', '-updated_at']
 
         return ParticipationRequest.objects\
             .prefetch_related('subject__attributeset')\

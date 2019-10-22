@@ -24,6 +24,8 @@
                                 {% endif %}
                                 {% if participation_request.appointment_today %}
                                     <i class="far fa-bell list-icon bg-success text-light" title="{% trans 'appointment today' %}"></i>
+                                {% elif participation_request.appointment_overdue %}
+                                    <i class="far fa-bell list-icon bg-success text-light" title="{% trans 'appointment overdue' %}"></i>
                                 {% endif %}
                             </div>
                         </div>
