@@ -30,6 +30,7 @@ from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 
@@ -118,6 +119,15 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
             pass
 
         return context
+
+
+class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
+    model = Subject
+    permission_required = 'subjects.delete_subject'
+    tab = 'detail'
+
+    def get_success_url(self):
+        return reverse('subjects:index')
 
 
 class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
