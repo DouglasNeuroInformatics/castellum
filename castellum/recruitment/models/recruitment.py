@@ -184,3 +184,9 @@ class ParticipationRequestRevision(models.Model):
 
     def __str__(self):
         return '{}: {}'.format(self.created_at, self.get_status_display())
+
+
+class MailBatch(models.Model):
+    study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
+    datetime = models.DateTimeField(_('Sent date'), auto_now_add=True)
+    contacted_size = models.PositiveIntegerField()
