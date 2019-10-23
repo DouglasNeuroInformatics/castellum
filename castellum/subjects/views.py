@@ -242,6 +242,20 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
         ]
 
 
+class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
+    tab = 'studyparticipation'
+    model = ParticipationRequest
+    permission_required = ['studies.access_study', 'recruitment.delete_participationrequest']
+
+    def get_object(self):
+        return get_object_or_404(
+            ParticipationRequest, pk=self.kwargs['pk'], subject_id=self.kwargs['subject_pk']
+        )
+
+    def get_success_url(self):
+        return reverse('subjects:studyparticipation', args=[self.subject.pk])
+
+
 class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_add_to_study.html'
