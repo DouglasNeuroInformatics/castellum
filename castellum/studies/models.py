@@ -161,7 +161,7 @@ class Study(models.Model):
     def delete(self, *args, **kwargs):
         if self.domain:
             delete_domain(self.domain)
-        return super().save(*args, **kwargs)
+        return super().delete(*args, **kwargs)
 
     def get_filter_max_privacy_level(self):
         key = 'subjectfilter__description__privacy_level_read'
