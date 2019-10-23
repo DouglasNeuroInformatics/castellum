@@ -1,4 +1,4 @@
-{% load i18n auth %}
+{% load i18n auth utils %}
 
 <ul class="table-list mt-3">
     {% has_perm 'recruitment.change_participationrequest' user study as can_change_participationrequest %}
@@ -13,9 +13,15 @@
                         </div>
                         <div class="mr-2">
                             <div class="d-inline-block my-1">
-                                {% blocktrans with date=participation_request.appointment|date time=participation_request.appointment|time %}
-                                    follow up on {{ date }} at {{ time }}
-                                {% endblocktrans %}
+                                {% if participation_request.appointment|is_today %}
+                                    {% blocktrans with time=participation_request.appointment|time %}
+                                        follow up today at {{ time }}
+                                    {% endblocktrans %}
+                                {% else %}
+                                    {% blocktrans with date=participation_request.appointment|date time=participation_request.appointment|time %}
+                                        follow up on {{ date }} at {{ time }}
+                                    {% endblocktrans %}
+                                {% endif %}
                                 {% if participation_request.appointment_urgent %}
                                     <i class="far fa-bell list-icon bg-success text-light" title="{% trans 'appointment urgent' %}"></i>
                                 {% endif %}

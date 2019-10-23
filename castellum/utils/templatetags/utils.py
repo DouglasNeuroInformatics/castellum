@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django import template
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -82,3 +84,10 @@ def selected_label(bound_field):
     for value, label in bound_field.field.choices:
         if str(value) == selected:
             return label
+
+
+@register.filter
+def is_today(date):
+    if isinstance(date, datetime.datetime):
+        date = date.date()
+    return date == datetime.date.today()
