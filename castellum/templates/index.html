@@ -56,6 +56,20 @@
                 </div>
             </div>
 
+            {% has_perm 'subjects.view_subject' user as can_view_subject %}
+            {% if can_view_subject %}
+                <div class="col-sm-6 col-md-4 mb-4">
+                    <div class="card">
+                        <a href="{% url 'data_protection:index' %}" class="card-header" tabindex="-1">
+                            <img class="w-100" src="{% static 'images/data_protection.png' %}" alt="">
+                        </a>
+                        <div class="card-body">
+                            <a href="{% url 'data_protection:index' %}" class="btn btn-primary btn-block">{% trans "Data protection" %}</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
             {% if user.is_staff or user.is_superuser %}
                 <div class="col-sm-6 col-md-4 mb-4">
                     <div class="card">
