@@ -51,6 +51,9 @@ urlpatterns = [
     path('execution/', include('castellum.execution.urls', namespace='execution')),
     path('studies/', include('castellum.studies.urls', namespace='studies')),
     path('subjects/', include('castellum.subjects.urls', namespace='subjects')),
+    path(
+        'data-protection/', include('castellum.data_protection.urls', namespace='data_protection')
+    ),
 ]
 
 if settings.DEBUG:
