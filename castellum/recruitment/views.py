@@ -259,8 +259,20 @@ class RecruitmentViewOpen(RecruitmentView):
                 'Please contact provided subjects before adding new ones.'
             ))
 
-        if added < batch_size:
-            messages.error(request, _('We cannot find participants for this study.'))
+        if added == 0:
+            messages.error(
+                self.request,
+                _('No potential participants could be found for this study.'),
+            )
+
+        elif added < batch_size:
+            messages.warning(
+                self.request,
+                _(
+                    'Only %i out of %i potential participants could be found for this '
+                    'study. These have been added.'
+                ) % (added, batch_size)
+            )
 
         return self.get(request, *args, **kwargs)
 
