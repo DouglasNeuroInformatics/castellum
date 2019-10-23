@@ -1,0 +1,15 @@
+{% extends "subjects/subject_base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Delete study participation" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <p>{% trans "Are you sure you want to delete this study participation?" %}</p>
+        <div class="mb-3">
+            <a href="{% url 'subjects:studyparticipation' subject.pk %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
+            <input type="submit" class="btn btn-danger" value="{% trans 'Confirm' %}" />
+        </div>
+    </form>
+{% endblock %}

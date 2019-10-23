@@ -30,6 +30,7 @@ from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 
@@ -230,6 +231,20 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
             participation_request for participation_request in queryset
             if self.is_permitted(participation_request.study)
         ]
+
+
+class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
+    tab = 'studyparticipation'
+    model = ParticipationRequest
+    permission_required = ['studies.access_study', 'recruitment.delete_participationrequest']
+
+    def get_object(self):
+        return get_object_or_404(
+            ParticipationRequest, pk=self.kwargs['pk'], subject_id=self.kwargs['subject_pk']
+        )
+
+    def get_success_url(self):
+        return reverse('subjects:studyparticipation', args=[self.subject.pk])
 
 
 class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
