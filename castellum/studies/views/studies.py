@@ -177,6 +177,15 @@ class StudyUpdateView(
         return super().form_valid(form, session_formset)
 
 
+class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
+    model = Study
+    permission_required = 'studies.delete_study'
+    tab = 'detail'
+
+    def get_success_url(self):
+        return reverse('studies:index')
+
+
 class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'studies.change_study'
 
