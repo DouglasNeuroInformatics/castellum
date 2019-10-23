@@ -1,5 +1,5 @@
 {% extends "recruitment/recruitment_base.html" %}
-{% load i18n auth bootstrap4 %}
+{% load i18n auth bootstrap4 humanize %}
 
 {% block title %}{% trans "Mail recruitment" %} &middot; {{ block.super }}{% endblock %}
 
@@ -32,6 +32,28 @@
             </div>
 
         </form>
+    {% endif %}
+
+    {% if study.mailbatch_set.all %}
+        <h3 class="h3 d-inline">{% trans "Previous mails" %}:</h3>
+        <ul class="table-list mb-3">
+        {% for batch in study.mailbatch_set.all %}
+            <li class="table-list-item">
+                <div>
+                    <small class="text-muted">
+                        {% blocktrans with datetime=batch.datetime|date:"SHORT_DATE_FORMAT" counter=forloop.counter|ordinal %}
+                            {{ counter }} mail sent on {{ datetime }}:
+                        {% endblocktrans %}
+                    </small>
+                    <div>
+                        {% blocktrans with contacted_size=batch.contacted_size%}
+                            {{ contacted_size }} potential subjects contacted
+                        {% endblocktrans %}
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
     {% endif %}
 
 {% endblock %}
