@@ -51,8 +51,8 @@ class ParticipationRequestManager(models.Manager):
                     ParticipationRequest.AWAITING_RESPONSE,
                 ]),
             ),
-            appointment_today=models.Count(
-                'id', filter=models.Q(appointment__date=datetime.date.today())
+            appointment_urgent=models.Count(
+                'id', filter=models.Q(appointment__date__lte=datetime.date.today())
             ),
             other_status_at=models.Subquery(other_status_at),
             tries=models.Count(
