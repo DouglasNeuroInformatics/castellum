@@ -19,8 +19,8 @@
                         <h3 class="h4 d-inline">
                             {{ study.name }}
                         </h3>
-                        {% if study.appointment_today %}
-                            <i class="far fa-bell list-icon bg-success text-light" title="{% trans 'appointment today' %}"></i>
+                        {% if study.appointment_urgent %}
+                            <i class="far fa-bell list-icon bg-success text-light" title="{% trans 'appointment urgent' %}"></i>
                         {% endif %}
                     </div>
                     <div class="table-list-item-actions">

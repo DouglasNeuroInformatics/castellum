@@ -169,9 +169,9 @@ class Study(models.Model):
         return result[key + '__max'] or 0
 
     @property
-    def appointment_today(self):
+    def appointment_urgent(self):
         today = datetime.date.today()
-        return self.participationrequest_set.filter(appointment__date=today).exists()
+        return self.participationrequest_set.filter(appointment__date__lte=today).exists()
 
     @cached_property
     def has_filters(self):
