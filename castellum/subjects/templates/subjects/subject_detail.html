@@ -3,6 +3,13 @@
 
 {% block title %}{% trans "Subject details" %} &middot; {{ block.super }}{% endblock %}
 
+{% block header_actions %}
+    {% has_perm 'subjects.delete_subject' user as can_delete_subject %}
+    {% if can_delete_subject %}
+        <a href="{% url 'subjects:delete' subject.pk %}" class="btn btn-danger">{% trans 'Delete' %}</a>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     {% if not subject.contact.is_complete or not subject.is_complete %}
         <p class="alert alert-danger" role="alert">

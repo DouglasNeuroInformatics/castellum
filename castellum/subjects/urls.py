@@ -26,6 +26,7 @@ from .views import AttributeSetUpdateView
 from .views import ContactUpdateView
 from .views import GuardianSearchView
 from .views import ParticipationListView
+from .views import SubjectDeleteView
 from .views import SubjectDetailView
 from .views import SubjectExportView
 from .views import SubjectSearchView
@@ -35,6 +36,7 @@ app_name = 'subjects'
 urlpatterns = [
     path('', SubjectSearchView.as_view(), name='index'),
     path('<int:pk>/', SubjectDetailView.as_view(), name='detail'),
+    path('<int:pk>/delete/', SubjectDeleteView.as_view(), name='delete'),
     path('<int:pk>/export/', SubjectExportView.as_view(), name='export'),
     path('<int:pk>/subject/', SubjectUpdateView.as_view(), name='subject'),
     path('<int:pk>/contact/', ContactUpdateView.as_view(), name='contact'),
