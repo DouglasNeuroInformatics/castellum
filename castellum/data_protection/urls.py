@@ -19,6 +19,11 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.urls import path
+
+from .views import DataProtectionView
+
 app_name = 'data_protection'
 urlpatterns = [
+    path('', DataProtectionView.as_view(), name='index'),
 ]

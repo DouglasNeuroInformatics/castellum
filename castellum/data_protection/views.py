@@ -18,3 +18,12 @@
 # You should have received a copy of the GNU Affero General Public
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
+
+from django.views.generic import TemplateView
+
+from castellum.castellum_auth.mixins import PermissionRequiredMixin
+
+
+class DataProtectionView(PermissionRequiredMixin, TemplateView):
+    template_name = 'data_protection/index.html'
+    permission_required = 'subjects.view_subject'
