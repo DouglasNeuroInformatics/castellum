@@ -6,17 +6,7 @@
         "name": "Study coordinator",
         "permissions": [
             [
-                "add_subjectfilter",
-                "recruitment",
-                "subjectfilter"
-            ],
-            [
                 "change_subjectfilter",
-                "recruitment",
-                "subjectfilter"
-            ],
-            [
-                "delete_subjectfilter",
                 "recruitment",
                 "subjectfilter"
             ],
@@ -65,27 +55,12 @@
                 "contact"
             ],
             [
-                "delete_contact",
-                "contacts",
-                "contact"
-            ],
-            [
                 "view_contact",
                 "contacts",
                 "contact"
             ],
             [
-                "add_attributeset",
-                "recruitment",
-                "attributeset"
-            ],
-            [
                 "change_attributeset",
-                "recruitment",
-                "attributeset"
-            ],
-            [
-                "delete_attributeset",
                 "recruitment",
                 "attributeset"
             ],
