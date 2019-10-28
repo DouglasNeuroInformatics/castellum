@@ -132,9 +132,24 @@
                 "contact"
             ],
             [
+                "delete_participationrequest",
+                "recruitment",
+                "participationrequest"
+            ],
+            [
                 "view_subject",
                 "subjects",
                 "subject"
+            ],
+            [
+                "delete_subject",
+                "subjects",
+                "subject"
+            ],
+            [
+                "delete_study",
+                "studies",
+                "study"
             ]
         ]
     }
