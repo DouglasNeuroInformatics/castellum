@@ -279,6 +279,7 @@ class RecruitmentViewOpen(RecruitmentView):
 
 class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     permission_required = 'recruitment.view_participationrequest'
+    study_modes = [Study.EXECUTION]
     template_name = 'recruitment/mail.html'
     tab = 'mail'
     form_class = SendMailForm
