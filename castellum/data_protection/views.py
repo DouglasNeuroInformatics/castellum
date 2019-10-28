@@ -22,8 +22,14 @@
 from django.views.generic import TemplateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.subjects.models import Subject
 
 
 class DataProtectionView(PermissionRequiredMixin, TemplateView):
     template_name = 'data_protection/index.html'
     permission_required = 'subjects.view_subject'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['to_be_deleted'] = Subject.objects.filter(to_be_deleted=True)
+        return context
