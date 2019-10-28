@@ -259,8 +259,20 @@ class RecruitmentViewOpen(RecruitmentView):
                 'Please contact provided subjects before adding new ones.'
             ))
 
-        if added < batch_size:
-            messages.error(request, _('We cannot find participants for this study.'))
+        if added == 0:
+            messages.error(
+                self.request,
+                _('No potential participants could be found for this study.'),
+            )
+
+        elif added < batch_size:
+            messages.warning(
+                self.request,
+                _(
+                    'Only %i out of %i potential participants could be found for this '
+                    'study. These have been added.'
+                ) % (added, batch_size)
+            )
 
         return self.get(request, *args, **kwargs)
 
@@ -317,16 +329,31 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                 'The custom filter that is set for this study does not exist.'
             ))
 
+        if added == 0:
+            messages.error(
+                self.request,
+                _(
+                    'No potential participants with email addresses could be found for '
+                    'this study.'
+                )
+            )
+        elif added < batch_size:
+            messages.warning(
+                self.request,
+                _(
+                    'Only %i out of %i potential participants with email addresses '
+                    'could be found for this study. These have been contacted.'
+                ) % (added, batch_size)
+            )
+        else:
+            messages.success(self.request, _('Emails sent successfully!'))
+
         if added > 0:
-            self.send_confirmation_mail(added)
             MailBatch.objects.create(
                 study=self.study,
                 contacted_size=added,
             )
-            messages.success(self.request, _('Mails have been sent.'))
-
-        if added < batch_size:
-            messages.error(self.request, _('We cannot find participants for this study.'))
+            self.send_confirmation_mail(added)
 
         return redirect('recruitment:mail', self.study.pk)
 

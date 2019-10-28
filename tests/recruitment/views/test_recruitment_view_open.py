@@ -94,7 +94,7 @@ def test_no_matching_attribute_sets(client, member, study_in_execution_mode, att
 
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
-    assert str(messages[0]) == "We cannot find participants for this study."
+    assert str(messages[0]) == "No potential participants could be found for this study."
     assert response.status_code == 200
 
 
