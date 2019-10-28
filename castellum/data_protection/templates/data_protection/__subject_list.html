@@ -1,0 +1,14 @@
+{% load i18n %}
+
+<ul class="table-list">
+    {% for subject in subjects %}
+        <li class="table-list-item">
+            {{ subject.contact }}
+            <div class="table-list-item-actions">
+                <a class="btn btn-outline-primary" href="{% url 'subjects:detail' subject.pk %}">{% trans 'Details' %}</a>
+            </div>
+        </li>
+    {% empty %}
+        <li class="alert alert-warning">{% trans 'No matches found' %}</li>
+    {% endfor %}
+</ul>

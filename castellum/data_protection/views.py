@@ -19,11 +19,44 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.db import models
 from django.views.generic import TemplateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.contacts.models import Contact
+from castellum.recruitment.models import ParticipationRequest
+from castellum.subjects.models import Subject
 
 
 class DataProtectionView(PermissionRequiredMixin, TemplateView):
     template_name = 'data_protection/index.html'
     permission_required = 'subjects.view_subject'
+
+    def iter_orphans(self):
+        subjects = Subject.objects\
+            .annotate(pr_count=models.Count('participationrequest', filter=~models.Q(
+                participationrequest__status=ParticipationRequest.UNSUITABLE
+            )))\
+            .filter(no_recruitment=True, pr_count=0)
+        for subject in subjects:
+            if not subject.contact.guardian_of.exists():
+                yield subject
+
+    def iter_unreachable(self):
+        contacts = Contact.objects\
+            .annotate(guardian_count=models.Count('guardians'))\
+            .filter(
+                guardian_count=0,
+                address=None,
+                email='',
+                phone_number='',
+            )
+        for contact in contacts:
+            yield contact.subject
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['to_be_deleted'] = Subject.objects.filter(to_be_deleted=True)
+        context['orphans'] = list(self.iter_orphans())
+        context['unreachable'] = list(self.iter_unreachable())
+        return context
