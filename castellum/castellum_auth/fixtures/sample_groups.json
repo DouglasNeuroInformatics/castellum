@@ -99,11 +99,6 @@
                 "participationrequest"
             ],
             [
-                "delete_participationrequest",
-                "recruitment",
-                "participationrequest"
-            ],
-            [
                 "view_participationrequest",
                 "recruitment",
                 "participationrequest"
