@@ -5,6 +5,7 @@ import pytest
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_update_200(request, client, user_fixture, attributeset, attribute_description):
     user = request.getfixturevalue(user_fixture)

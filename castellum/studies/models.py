@@ -126,6 +126,9 @@ class Study(models.Model):
 
     class Meta:
         ordering = ['name']
+        permissions = (
+            ('access_study', _('Can access studies')),
+        )
 
     def __str__(self):
         return self.name

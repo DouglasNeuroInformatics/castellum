@@ -6,17 +6,7 @@
         "name": "Study coordinator",
         "permissions": [
             [
-                "add_subjectfilter",
-                "recruitment",
-                "subjectfilter"
-            ],
-            [
                 "change_subjectfilter",
-                "recruitment",
-                "subjectfilter"
-            ],
-            [
-                "delete_subjectfilter",
                 "recruitment",
                 "subjectfilter"
             ],
@@ -65,27 +55,12 @@
                 "contact"
             ],
             [
-                "delete_contact",
-                "contacts",
-                "contact"
-            ],
-            [
                 "view_contact",
                 "contacts",
                 "contact"
             ],
             [
-                "add_attributeset",
-                "recruitment",
-                "attributeset"
-            ],
-            [
                 "change_attributeset",
-                "recruitment",
-                "attributeset"
-            ],
-            [
-                "delete_attributeset",
                 "recruitment",
                 "attributeset"
             ],
@@ -124,11 +99,6 @@
                 "participationrequest"
             ],
             [
-                "delete_participationrequest",
-                "recruitment",
-                "participationrequest"
-            ],
-            [
                 "view_participationrequest",
                 "recruitment",
                 "participationrequest"
@@ -162,9 +132,39 @@
                 "contact"
             ],
             [
+                "delete_participationrequest",
+                "recruitment",
+                "participationrequest"
+            ],
+            [
+                "view_participation_pseudonyms",
+                "recruitment",
+                "participationrequest"
+            ],
+            [
                 "view_subject",
                 "subjects",
                 "subject"
+            ],
+            [
+                "delete_subject",
+                "subjects",
+                "subject"
+            ],
+            [
+                "access_study",
+                "studies",
+                "study"
+            ],
+            [
+                "view_study",
+                "studies",
+                "study"
+            ],
+            [
+                "delete_study",
+                "studies",
+                "study"
             ]
         ]
     }
