@@ -5,6 +5,7 @@ import pytest
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     'recruiter',
     'subject_manager',
+    'data_protection_officer',
 ])
 def test_search_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
@@ -24,6 +25,7 @@ def test_search_with_parameters_200(client, user):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_create_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
@@ -37,6 +39,7 @@ def test_create_200(request, client, user_fixture):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     'recruiter',
     'subject_manager',
+    'data_protection_officer',
 ])
 def test_detail_200(request, client, user_fixture, contact):
     user = request.getfixturevalue(user_fixture)
@@ -57,6 +60,7 @@ def test_detail_with_attributeset_200(client, user, contact, attributeset):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_subject_200(request, client, user_fixture, contact):
     user = request.getfixturevalue(user_fixture)
@@ -99,6 +103,7 @@ def test_subject_post_invalid_privacy_level(client, user, contact):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_contact_200(request, client, user_fixture, contact):
     user = request.getfixturevalue(user_fixture)

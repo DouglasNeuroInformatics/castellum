@@ -10,6 +10,7 @@ from castellum.studies.models import StudyMembership
     'study_coordinator',
     'recruiter',
     'subject_manager',
+    'data_protection_officer',
 ])
 def test_study_list_view(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
@@ -24,6 +25,7 @@ def test_study_list_view(request, client, user_fixture):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
+    'data_protection_officer',
 ])
 def test_study_detail_view(request, client, user_fixture, study_in_execution_mode):
     user = request.getfixturevalue(user_fixture)
@@ -41,6 +43,7 @@ def test_study_detail_view(request, client, user_fixture, study_in_execution_mod
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
+    'data_protection_officer',
 ])
 def test_participation_request_detail_view_invited(
     request, client, user_fixture, contact, study_in_execution_mode

@@ -9,6 +9,7 @@ from castellum.studies.models import StudyMembership
     'study_coordinator',
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_start(request, client, user_fixture, study):
     user = request.getfixturevalue(user_fixture)
@@ -29,6 +30,7 @@ def test_start(request, client, user_fixture, study):
     'study_coordinator',
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_stop(request, client, user_fixture, study):
     user = request.getfixturevalue(user_fixture)
