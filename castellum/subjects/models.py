@@ -52,6 +52,7 @@ class Subject(TimeStampedModel):
     )
 
     no_recruitment = models.BooleanField(_('Do not contact for recruitment'), default=False)
+    to_be_deleted = models.BooleanField(_('To be deleted'), default=False)
 
     note_hard_of_hearing = models.BooleanField(_('Hard of hearing'), default=False)
     note_difficult_to_understand = models.BooleanField(_('Difficult to understand'), default=False)
