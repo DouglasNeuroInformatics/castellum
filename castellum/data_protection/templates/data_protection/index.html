@@ -8,4 +8,7 @@
 
     <h2>{% trans 'To be deleted' %}</h2>
     {% include 'data_protection/__subject_list.html' with subjects=to_be_deleted %}
+
+    <h2>{% trans 'Orphans' %}</h2>
+    {% include 'data_protection/__subject_list.html' with subjects=orphans %}
 {% endblock %}
