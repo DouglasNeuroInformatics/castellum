@@ -29,4 +29,8 @@ $(function() {
         $(document).on('change', '[name="exclusion_criteria_checked"]', setInvitedDisabled);
         setInvitedDisabled();
     }
+
+    $(document).on('change', '[name="exclusion_criteria_checked"]', function() {
+        $('#criteria-tab .fa-exclamation-triangle').prop('hidden', this.checked);
+    });
 });
