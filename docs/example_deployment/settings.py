@@ -25,6 +25,9 @@ ALLOWED_HOSTS = ['*']
 
 MEDIA_ROOT = '/media'
 
+# The example deployment does not contain a mail server, so use dummy instead
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # LDAP
 # See https://django-auth-ldap.readthedocs.io/
 AUTHENTICATION_BACKENDS.append("django_auth_ldap.backend.LDAPBackend")
