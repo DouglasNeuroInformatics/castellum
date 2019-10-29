@@ -1,5 +1,5 @@
 {% extends "studies/study_base.html" %}
-{% load i18n %}
+{% load static i18n %}
 
 {% block title %}{% trans "Delete" %} &middot; {{ block.super }}{% endblock %}
 
@@ -12,9 +12,17 @@
             <li>{% trans "All pseudonyms related to this study." %}</li>
         </ul>
         <p>{% trans "This should only be done once all external data related to these pseudonyms has been destroyed as it would no longer be possible to identify subjects reliably." %}</p>
+        <label class="form-check">
+            <input type="checkbox" class="form-check-input" data-js="confirm-delete">
+            <span class="form-check-label">{% trans "I have made sure that all external data related to this study has been destroyed" %}
+        </label>
         <div class="mb-3">
             <a href="{% url 'studies:detail' study.pk %}" class="btn btn-outline-primary">{% trans 'Cancel' %}</a>
-            <input type="submit" class="btn btn-danger" value="{% trans 'Confirm' %}" />
+            <input type="submit" class="btn btn-danger" value="{% trans 'Confirm' %}" disabled />
         </div>
     </form>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/confirm-delete.js' %}"></script>
 {% endblock %}
