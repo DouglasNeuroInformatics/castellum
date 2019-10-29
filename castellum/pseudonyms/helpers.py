@@ -65,9 +65,6 @@ def create_pseudonym(domain_key):
     return pseudonym.pseudonym
 
 
-def delete_pseudonym(domain_key, pseudonym, delete_related=False):
+def delete_pseudonym(domain_key, pseudonym):
     p = Pseudonym.objects.get(domain__key=domain_key, pseudonym=pseudonym)
-    if delete_related:
-        p.subject.delete()
-    else:
-        p.delete()
+    p.delete()
