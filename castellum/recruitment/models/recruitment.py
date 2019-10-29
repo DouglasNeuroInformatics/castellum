@@ -121,6 +121,10 @@ class ParticipationRequest(models.Model):
 
     @cached_property
     def pseudonym(self):
+        """Note that the pseudonym is generated on demand. It is not
+        deleted along with this ParticipationRequest, but only when the
+        whole domain is deleted along with the study.
+        """
         return get_pseudonym(self.subject, self.study.domain)
 
     @cached_property
