@@ -74,6 +74,10 @@ class Subject(TimeStampedModel):
     class Meta:
         verbose_name = _('Subject')
 
+    def delete(self):
+        self.contact.delete()
+        return super().delete()
+
     def get_field_names(self):
         return [
             'privacy_level',
