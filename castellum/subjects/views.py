@@ -126,8 +126,19 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     permission_required = 'subjects.delete_subject'
     tab = 'detail'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['has_participationrequests'] = self.object.participationrequest_set.exists()
+        return context
+
     def get_success_url(self):
         return reverse('subjects:index')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.participationrequest_set.exists():
+            return self.get(request, *args, **kwargs)
+        return super().delete(request, *args, **kwargs)
 
 
 class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
