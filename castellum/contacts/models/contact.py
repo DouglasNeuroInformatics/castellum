@@ -135,16 +135,9 @@ class Contact(TimeStampedModel):
     def delete(self, *args, **kwargs):
         if self.pseudonym:
             delete_pseudonym(Contact.domain, self.pseudonym)
-
-        return super().delete(*args, **kwargs)
-
-    def delete_full(self):
-        subject = self.subject
-
         if self.address:
             self.address.delete()
-        self.delete()
-        subject.delete()
+        return super().delete(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('subjects:detail', args=[self.subject.pk])

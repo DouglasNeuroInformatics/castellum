@@ -37,4 +37,4 @@ class Command(BaseCommand):
             last_name=options['last_name'],
         )
 
-        contact.delete_full()
+        contact.subject.delete()
