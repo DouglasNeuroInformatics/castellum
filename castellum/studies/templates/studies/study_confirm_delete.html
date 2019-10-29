@@ -6,7 +6,7 @@
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        <p>{% trans "Are you sure you want to delete this study and all related data?" %}</p>
+        <p>{% trans "Are you sure you want to <strong>permanently delete</strong> this study and all related data?" %}</p>
         <div class="mb-3">
             <a href="{% url 'studies:detail' study.pk %}" class="btn btn-outline-primary">{% trans 'Cancel' %}</a>
             <input type="submit" class="btn btn-danger" value="{% trans 'Confirm' %}" />
