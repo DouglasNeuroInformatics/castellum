@@ -339,6 +339,7 @@ class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView)
     model = StudyMembership
     permission_required = 'studies.change_study'
     study_modes = [Study.EDIT, Study.EXECUTION]
+    tab = 'members'
 
     def get_object(self):
         return get_object_or_404(StudyMembership, pk=self.kwargs['pk'], study=self.study)
