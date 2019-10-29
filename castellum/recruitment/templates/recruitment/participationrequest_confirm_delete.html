@@ -7,6 +7,7 @@
     <form method="post">
         {% csrf_token %}
         <p>{% trans "Are you sure you want to <strong>permanently delete</strong> this study participation?" %}</p>
+        <p>{% trans "This should only be done once all external data related to this study has been destroyed as it would no longer be possible to identify this subject reliably." %}</p>
         <div class="mb-3">
             <a href="{% url 'subjects:studyparticipation' subject.pk %}" class="btn btn-outline-primary">{% trans 'Cancel' %}</a>
             <input type="submit" class="btn btn-danger" value="{% trans 'Confirm' %}" />
