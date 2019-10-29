@@ -36,6 +36,7 @@ class User(AbstractUser):
         _('Time until automatic logout'), default=settings.LOGOUT_TIMEOUT_DEFAULT)
 
     class Meta:
+        ordering = ('username',)
         permissions = (
             ('privacy_level_1', _('Can access privacy level 1')),
             ('privacy_level_2', _('Can access privacy level 2')),
