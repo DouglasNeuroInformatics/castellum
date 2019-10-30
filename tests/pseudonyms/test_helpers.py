@@ -11,13 +11,10 @@ def pseudonym():
     return mommy.make(Pseudonym)
 
 
-@pytest.fixture
-def pseudonym2(pseudonym):
-    return mommy.make(Pseudonym, subject=pseudonym.subject)
-
-
 @pytest.mark.django_db
-def test_get_pseudonym(pseudonym, pseudonym2):
+def test_get_pseudonym(pseudonym):
+    pseudonym2 = mommy.make(Pseudonym, subject=pseudonym.subject)
+
     result = helpers.get_pseudonym(pseudonym.subject, pseudonym2.domain.key)
 
     assert result == pseudonym2.pseudonym
@@ -38,17 +35,17 @@ def test_create_pseudonym():
     domain = helpers.create_domain()
     result = helpers.create_pseudonym(domain)
 
-    pseudonym = Pseudonym.objects.select_related("subject").get(domain__key=domain)
+    pseudonym = Pseudonym.objects.get(domain__key=domain)
 
     assert result == pseudonym.pseudonym
-    assert 1 == len(Pseudonym.objects.all())
+    assert Pseudonym.objects.count() == 1
 
 
 @pytest.mark.django_db
-def test_delete_pseudonym(pseudonym, pseudonym2):
-    assert 2 == len(Pseudonym.objects.all())
+def test_delete_pseudonym(pseudonym):
+    assert Pseudonym.objects.count() == 1
 
     helpers.delete_pseudonym(pseudonym.domain, pseudonym.pseudonym)
 
-    assert 1 == len(Pseudonym.objects.all())
-    assert 1 == len(Subject.objects.filter(id=pseudonym.subject.id))
+    assert Pseudonym.objects.count() == 0
+    assert Subject.objects.filter(id=pseudonym.subject.id).count() == 1
