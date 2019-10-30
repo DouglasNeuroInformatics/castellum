@@ -280,6 +280,10 @@ LOGGING = {
 # by the data protection manager
 CASTELLUM_YEARS_UNTIL_STUDY_DELETION = 5
 
+# the number of days a subject should be allowed to remain in the database without
+# consent given
+CASTELLUM_CONSENT_REVIEW_PERIOD = 14
+
 # the number of subjects that is added to the recruitment list every time
 CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 

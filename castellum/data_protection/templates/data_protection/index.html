@@ -15,6 +15,9 @@
     <h2>{% trans 'Unreachable' %}</h2>
     {% include 'data_protection/__subject_list.html' with subjects=unreachable %}
 
+    <h2>{% trans 'Missing consent' %}</h2>
+    {% include 'data_protection/__subject_list.html' with subjects=no_consent %}
+
     <h2>{% trans 'Expired studies' %}</h2>
     <ul class="table-list">
     {% for study in studies %}
