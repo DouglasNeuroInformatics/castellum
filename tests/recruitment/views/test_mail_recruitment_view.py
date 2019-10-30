@@ -1,0 +1,79 @@
+from django.core import mail
+
+from model_mommy import mommy
+
+from castellum.contacts.models import Contact
+from castellum.recruitment.models import AttributeSet
+from castellum.recruitment.views import MailRecruitmentView
+from castellum.studies.models import Study
+
+
+def test_mail_add_to_study(client, user):
+    client.force_login(user)
+    study = mommy.make(
+        Study,
+        study_mode=Study.EXECUTION,
+        mail_subject="some subject",
+        mail_body="some body",
+        mail_reply_address="example@example.com",
+    )
+    contact1 = mommy.make(Contact, email="example1@example.com")
+    contact2 = mommy.make(Contact, email="example2@example.com")
+    mommy.make(AttributeSet, subject=contact1.subject)
+    mommy.make(AttributeSet, subject=contact2.subject)
+
+    study.members.add(user)
+    view = MailRecruitmentView()
+    view.study = study
+    counter = view.create_participation_requests(3)
+
+    assert counter == 2
+    assert study.participationrequest_set.count() == 2
+    assert len(mail.outbox) == 2
+
+
+def test_404_if_study_is_not_provided(client, member):
+    client.force_login(member)
+    response = client.get('/recruitment/3/mail/')
+    assert response.status_code == 404
+
+
+def test_200_if_study_in_execution_mode_and_mail_settings(client, user):
+    client.force_login(user)
+    study = mommy.make(
+        Study,
+        study_mode=Study.EXECUTION,
+        mail_subject="some subject",
+        mail_body="some body",
+        mail_reply_address="example@example.com",
+    )
+    study.members.add(user)
+    url = '/recruitment/{}/mail/'.format(study.pk)
+    response = client.get(url)
+    assert response.status_code == 200
+    assert b'id_batch_size' in response.content
+    assert b'Mail recruitment has not been set up!' not in response.content
+
+
+def test_200_if_study_in_execution_mode_no_mail_settings(client, member, study_in_execution_mode):
+    client.force_login(member)
+    url = '/recruitment/{}/mail/'.format(study_in_execution_mode.pk)
+    response = client.get(url)
+    assert response.status_code == 200
+    assert b'Mail recruitment has not been set up!' in response.content
+    assert b'id_batch_size' not in response.content
+
+
+def test_404_if_study_in_edit_mode(client, user):
+    client.force_login(user)
+    study = mommy.make(
+        Study,
+        study_mode=Study.EDIT,
+        mail_subject="some subject",
+        mail_body="some body",
+        mail_reply_address="example@example.com",
+    )
+    study.members.add(user)
+    url = '/recruitment/{}/mail/'.format(study.pk)
+    response = client.get(url)
+    assert response.status_code == 404
