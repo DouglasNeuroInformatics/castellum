@@ -67,4 +67,5 @@ def create_pseudonym(domain_key):
 
 def delete_pseudonym(domain_key, pseudonym):
     p = Pseudonym.objects.get(domain__key=domain_key, pseudonym=pseudonym)
-    p.delete()
+    p.subject = None
+    p.save()

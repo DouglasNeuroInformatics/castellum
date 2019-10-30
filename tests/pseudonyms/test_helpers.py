@@ -8,16 +8,14 @@ from castellum.subjects.models import Subject
 
 @pytest.fixture
 def pseudonym():
-    return mommy.make(Pseudonym)
-
-
-@pytest.fixture
-def pseudonym2(pseudonym):
-    return mommy.make(Pseudonym, subject=pseudonym.subject)
+    subject = mommy.make(Subject)
+    return mommy.make(Pseudonym, subject=subject)
 
 
 @pytest.mark.django_db
-def test_get_pseudonym(pseudonym, pseudonym2):
+def test_get_pseudonym(pseudonym):
+    pseudonym2 = mommy.make(Pseudonym, subject=pseudonym.subject)
+
     result = helpers.get_pseudonym(pseudonym.subject, pseudonym2.domain.key)
 
     assert result == pseudonym2.pseudonym
@@ -38,17 +36,53 @@ def test_create_pseudonym():
     domain = helpers.create_domain()
     result = helpers.create_pseudonym(domain)
 
-    pseudonym = Pseudonym.objects.select_related("subject").get(domain__key=domain)
+    pseudonym = Pseudonym.objects.get(domain__key=domain)
 
     assert result == pseudonym.pseudonym
-    assert 1 == len(Pseudonym.objects.all())
+    assert Pseudonym.objects.count() == 1
 
 
 @pytest.mark.django_db
-def test_delete_pseudonym(pseudonym, pseudonym2):
-    assert 2 == len(Pseudonym.objects.all())
+def test_delete_pseudonym(pseudonym):
+    assert Pseudonym.objects.count() == 1
+    assert Pseudonym.objects.filter(subject=None).count() == 0
 
     helpers.delete_pseudonym(pseudonym.domain, pseudonym.pseudonym)
 
-    assert 1 == len(Pseudonym.objects.all())
-    assert 1 == len(Subject.objects.filter(id=pseudonym.subject.id))
+    assert Pseudonym.objects.count() == 1
+    assert Pseudonym.objects.filter(subject=None).count() == 1
+
+
+@pytest.mark.django_db
+def test_delete_pseudonym_again(pseudonym):
+    assert Pseudonym.objects.count() == 1
+    assert Pseudonym.objects.filter(subject=None).count() == 0
+
+    helpers.delete_pseudonym(pseudonym.domain, pseudonym.pseudonym)
+
+    assert Pseudonym.objects.count() == 1
+    assert Pseudonym.objects.filter(subject=None).count() == 1
+
+    helpers.delete_pseudonym(pseudonym.domain, pseudonym.pseudonym)
+
+    assert Pseudonym.objects.count() == 1
+    assert Pseudonym.objects.filter(subject=None).count() == 1
+
+
+@pytest.mark.django_db
+def test_delete_pseudonym_multiple():
+    pseudonym1 = mommy.make(Pseudonym, subject=mommy.make(Subject))
+    pseudonym2 = mommy.make(Pseudonym, subject=mommy.make(Subject))
+
+    assert Pseudonym.objects.count() == 2
+    assert Pseudonym.objects.filter(subject=None).count() == 0
+
+    helpers.delete_pseudonym(pseudonym1.domain, pseudonym1.pseudonym)
+
+    assert Pseudonym.objects.count() == 2
+    assert Pseudonym.objects.filter(subject=None).count() == 1
+
+    helpers.delete_pseudonym(pseudonym2.domain, pseudonym2.pseudonym)
+
+    assert Pseudonym.objects.count() == 2
+    assert Pseudonym.objects.filter(subject=None).count() == 2

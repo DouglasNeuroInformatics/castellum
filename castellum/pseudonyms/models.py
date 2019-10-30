@@ -35,7 +35,7 @@ class Domain(models.Model):
 
 
 class Pseudonym(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, blank=True, null=True)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
     pseudonym = models.CharField(max_length=64, default=None)
 

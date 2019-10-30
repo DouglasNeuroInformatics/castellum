@@ -29,10 +29,9 @@ def test_full_name(title, expected):
 
 @pytest.mark.django_db
 def test_contact_create_delete_pseudonym():
-    start_count = Pseudonym.objects.count()
-
     contact = mommy.make(Contact)
-    assert Pseudonym.objects.count() == start_count + 1
+    subject = contact.subject
+    assert Pseudonym.objects.filter(subject=subject).count() == 1
 
     contact.delete()
-    assert Pseudonym.objects.count() == start_count
+    assert Pseudonym.objects.filter(subject=subject).count() == 0
