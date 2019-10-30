@@ -14,4 +14,18 @@
 
     <h2>{% trans 'Unreachable' %}</h2>
     {% include 'data_protection/__subject_list.html' with subjects=unreachable %}
+
+    <h2>{% trans 'Expired studies' %}</h2>
+    <ul class="table-list">
+    {% for study in studies %}
+        <li class="table-list-item">
+            {{ study.name }}
+            <div class="table-list-item-actions">
+                <a class="btn btn-outline-primary" href="{% url 'studies:detail' study.pk %}">{% trans 'Details' %}</a>
+            </div>
+        </li>
+    {% empty %}
+        <li class="alert alert-warning">{% trans 'No matches found' %}</li>
+    {% endfor %}
+    </ul>
 {% endblock %}

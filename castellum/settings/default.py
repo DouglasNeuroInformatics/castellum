@@ -276,6 +276,10 @@ LOGGING = {
     },
 }
 
+# the number of years after the last test session after which the study is reviewed
+# by the data protection manager
+CASTELLUM_YEARS_UNTIL_STUDY_DELETION = 5
+
 # the number of subjects that is added to the recruitment list every time
 CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 
