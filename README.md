@@ -36,4 +36,5 @@ The command `pytest` will execute all tests. (postgres needs to be running)
 
 -   Project home page: https://www.mpib-berlin.mpg.de/en/research/lifespan-psychology/castellum
 -   Source code: https://git.mpib-berlin.mpg.de/castellum/castellum/
+-   Documentation: https://castellum.mpib.berlin/documentation/en/
 -   Code of conduct: https://www.mpg.de/11961177/code-of-conduct-en.pdf
