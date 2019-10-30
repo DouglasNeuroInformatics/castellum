@@ -8,7 +8,8 @@ from castellum.subjects.models import Subject
 
 @pytest.fixture
 def pseudonym():
-    return mommy.make(Pseudonym)
+    subject = mommy.make(Subject)
+    return mommy.make(Pseudonym, subject=subject)
 
 
 @pytest.mark.django_db
@@ -44,8 +45,9 @@ def test_create_pseudonym():
 @pytest.mark.django_db
 def test_delete_pseudonym(pseudonym):
     assert Pseudonym.objects.count() == 1
+    assert Pseudonym.objects.filter(subject=None).count() == 0
 
     helpers.delete_pseudonym(pseudonym.domain, pseudonym.pseudonym)
 
-    assert Pseudonym.objects.count() == 0
-    assert Subject.objects.filter(id=pseudonym.subject.id).count() == 1
+    assert Pseudonym.objects.count() == 1
+    assert Pseudonym.objects.filter(subject=None).count() == 1
