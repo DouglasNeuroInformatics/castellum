@@ -34,7 +34,7 @@ research archive
     examples include image archives and biobanks
 
 recruting database
-    contains some data about (potential) test subjects that allows you can
+    contains some data about (potential) test subjects that allows you to
     find out which ones you should contact for your next study
 
 contact database
