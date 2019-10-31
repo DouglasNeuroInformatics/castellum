@@ -68,3 +68,9 @@ access to both, an attacker can also gain full access. Spreading the
 system across several databases on different servers or even in
 different organizations does not help much if there is still a single
 point of entry.
+
+Monitoring
+----------
+
+In order to allow detecting suspicious behavior, critical actions such as
+search, deletion, or login attempts are logged to a separate log file.
