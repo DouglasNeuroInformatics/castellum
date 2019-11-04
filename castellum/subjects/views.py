@@ -124,7 +124,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
 class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     model = Subject
     permission_required = 'subjects.delete_subject'
-    tab = 'detail'
+    tab = 'delete'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -254,7 +254,7 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
 
 
 class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
-    tab = 'studyparticipation'
+    tab = 'delete'
     model = ParticipationRequest
     permission_required = ['studies.access_study', 'recruitment.delete_participationrequest']
 
@@ -264,7 +264,7 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
         )
 
     def get_success_url(self):
-        return reverse('subjects:studyparticipation', args=[self.subject.pk])
+        return reverse('subjects:delete', args=[self.subject.pk])
 
 
 class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
