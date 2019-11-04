@@ -11,10 +11,14 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post">
+    <form method="post" data-js="contact-completeness">
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
+
+        {% if not object.is_complete %}
+            <p class="alert alert-warning" role="alert">{% trans "Either email, phone number, address, or guardian should be provided." %}</p>
+        {% endif %}
 
         {% csrf_token %}
 

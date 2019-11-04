@@ -7,6 +7,23 @@ $(function() {
         });
     });
 
+    $(document).on('submit', '[data-js="contact-completeness"]', function(event) {
+        if ((
+            $('[name="guardians_pane"][value="self"]').prop('checked') &&
+            !$('[name="email"]').val() &&
+            !$('[name="phone_number"]').val() &&
+            !$('[name="street"]').val()
+        ) || (
+            $('[name="guardians_pane"][value="guardians"]').prop('checked') &&
+            !$('[name="guardians_remove"]:disabled').length &&
+            !$('[name="guardians_add"]:not(:disabled)').length
+        )) {
+            if (!confirm(django.gettext('There is no way to contact this subject. Are you sure you want to save?'))) {
+                event.preventDefault();
+            }
+        }
+    });
+
     var toggleGuardian = function(el, removed) {
         var $wrapper = $(el).closest('[data-js="guardian-wrapper"]');
         var $remove = $wrapper.find('[data-js="guardian-remove"]');
