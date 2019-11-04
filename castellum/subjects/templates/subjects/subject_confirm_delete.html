@@ -1,5 +1,5 @@
 {% extends "subjects/subject_base.html" %}
-{% load i18n %}
+{% load i18n auth %}
 
 {% block title %}{% trans "Delete subject" %} &middot; {{ block.super }}{% endblock %}
 
@@ -9,10 +9,30 @@
             <p class="alert alert-danger">
                 {% trans "This subject still has data in studies. Please delete all study participations first." %}
             </p>
-        {% endif %}
 
-        {% csrf_token %}
-        <p>{% trans "Are you sure you want to <strong>permanently delete</strong> this subject and all related data?" %}</p>
+            <ul class="table-list mb-3">
+                {% for participationrequest in object.participationrequest_set.all %}
+                    <li class="table-list-item">
+                        <h3 class="h4 d-inline-block my-1 mr-2">{{ participationrequest.study }}</h3>
+                        <div class="table-list-item-actions">
+                            {% has_perm 'studies.view_study' user participationrequest.study as can_view_study %}
+                            {% if can_view_study %}
+                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:detail' participationrequest.study.pk %}">{% trans 'Study details' %}</a>
+                            {% endif %}
+                            {% has_perm 'recruitment.delete_participationrequest' user participationrequest.study as can_delete_participationrequest %}
+                            {% if can_delete_participationrequest %}
+                                <a class="btn btn-danger btn-sm-inline my-1" href="{% url 'subjects:studyparticipation-delete' subject.pk participationrequest.pk %}">
+                                    {% trans 'Delete' %}
+                                </a>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            {% csrf_token %}
+            <p>{% trans "Are you sure you want to <strong>permanently delete</strong> this subject and all related data?" %}</p>
+        {% endif %}
 
         <div class="mb-3">
             <a href="{% url 'subjects:detail' object.pk %}" class="btn btn-outline-primary">{% trans 'Cancel' %}</a>
