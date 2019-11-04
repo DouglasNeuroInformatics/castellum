@@ -29,13 +29,6 @@ def test_form_with_initial_address(user):
     assert form.fields['additional_information'].initial == address.additional_information
 
 
-def test_contact_form_with_contact_data_except_email_phone_address(user, contact_data):
-    msg = 'Either email, phone number, address, or guardian should be provided.'
-    form = ContactForm(user=user, data=contact_data)
-    assert form.is_valid() is False
-    assert msg in str(form.errors)
-
-
 @pytest.mark.django_db
 @pytest.mark.parametrize('email, phone_number', [
     ('t@g.com', '+4917691233434'),
@@ -280,7 +273,7 @@ def test_contact_form_with_guardians_remove(user, full_data, contact):
 
     form = ContactForm(user=user, data=full_data, instance=contact)
 
-    assert form.is_valid() is False
+    assert form.is_valid() is True
     assert form.cleaned_data['guardians_remove'].get() == contact.subject
 
 

@@ -130,19 +130,6 @@ class ContactForm(forms.ModelForm):
             cleaned_data['email'] = ''
             cleaned_data['preferred_contact_method'] = ''
 
-        if is_guardians_pane:
-            guardians = set()
-            if self.instance.pk:
-                guardians = guardians.union(
-                    guardian.subject for guardian in self.instance.guardians.all()
-                )
-            guardians = guardians\
-                .difference(cleaned_data['guardians_remove'].all())\
-                .union(cleaned_data['guardians_add'].all())
-            has_guardian = bool(guardians)
-        else:
-            has_guardian = False
-
         has_address = any(cleaned_data.get(name) for name in self.ADDRESS_FIELDS)
 
         # validate guardian required for underage subjects
@@ -161,11 +148,6 @@ class ContactForm(forms.ModelForm):
                         self.add_error(field, errors)
 
                 raise ValidationError(_("Provide more details for the address."), code='invalid')
-
-        # validate completeness
-        if not any([has_address, phone_number, email, has_guardian]):
-            msg = _("Either email, phone number, address, or guardian should be provided.")
-            raise ValidationError(msg, code='invalid')
 
         # validate preferred_contact_method is set
         if not has_address and preferred_contact_method == 'postal':

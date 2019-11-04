@@ -16,6 +16,10 @@
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
 
+        {% if not object.is_complete %}
+            <p class="alert alert-warning" role="alert">{% trans "Either email, phone number, address, or guardian should be provided." %}</p>
+        {% endif %}
+
         {% csrf_token %}
 
         {% include 'contacts/__contact_form_top.html' with form=form %}
