@@ -138,6 +138,8 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
         self.object = self.get_object()
         if self.object.participationrequest_set.exists():
             return self.get(request, *args, **kwargs)
+        monitoring_logger.info('Subject deleted by {}'.format(
+            self.request.user.pk))
         return super().delete(request, *args, **kwargs)
 
 
