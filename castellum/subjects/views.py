@@ -124,7 +124,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
 class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     model = Subject
     permission_required = 'subjects.delete_subject'
-    tab = 'detail'
+    tab = 'delete'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
