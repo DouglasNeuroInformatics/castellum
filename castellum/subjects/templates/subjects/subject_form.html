@@ -61,6 +61,7 @@
 
             {% bootstrap_field form.to_be_deleted %}
             {% bootstrap_field form.no_recruitment %}
+            <input type="hidden" name="{{ form.no_recruitment.name }}" id="{{ form.no_recruitment.auto_id }}_hidden" value="on" disabled>
 
             <fieldset data-js="availability" class="mb-3">
                 <legend class="h5">{% trans "Availability" %}</legend>
