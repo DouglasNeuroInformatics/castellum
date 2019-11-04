@@ -11,8 +11,8 @@ from castellum.studies.models import Study
 def create_participation_request(
     subject, is_finished=False, is_exclusive=False, status=ParticipationRequest.INVITED
 ):
-    study_mode = Study.FINISHED if is_finished else Study.EXECUTION
-    study = mommy.make(Study, study_mode=study_mode, is_exclusive=is_exclusive)
+    study_status = Study.FINISHED if is_finished else Study.EXECUTION
+    study = mommy.make(Study, status=study_status, is_exclusive=is_exclusive)
     return mommy.make(ParticipationRequest, status=status, subject=subject, study=study)
 
 

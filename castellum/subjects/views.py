@@ -245,7 +245,7 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = self.model.objects\
-            .filter(subject=self.subject, study__study_mode=Study.EXECUTION)\
+            .filter(subject=self.subject, study__status=Study.EXECUTION)\
             .order_by('-updated_at')
         return [
             participation_request for participation_request in queryset
@@ -277,7 +277,7 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
         perms = ('recruitment.add_participationrequest', 'studies.access_study')
         studies = (
             Study.objects
-            .filter(study_mode=Study.EXECUTION)
+            .filter(status=Study.EXECUTION)
             .exclude(participationrequest__subject=attributeset.subject)
         )
         for study in studies:
@@ -300,7 +300,7 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        study = get_object_or_404(Study, pk=request.POST['study'], study_mode=Study.EXECUTION)
+        study = get_object_or_404(Study, pk=request.POST['study'], status=Study.EXECUTION)
 
         for perm in ['recruitment.add_participationrequest', 'studies.access_study']:
             if not request.user.has_perm(perm, obj=study):

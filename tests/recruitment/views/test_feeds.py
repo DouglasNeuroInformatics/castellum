@@ -3,14 +3,14 @@ from django.utils import timezone
 import pytest
 
 
-def test_feed_for_study_in_execution_mode(client, study_in_execution_mode):
-    response = client.get('/recruitment/{}/appointments/'.format(study_in_execution_mode.pk))
+def test_feed_for_study_in_execution_status(client, study_in_execution_status):
+    response = client.get('/recruitment/{}/appointments/'.format(study_in_execution_status.pk))
     assert response.status_code == 200
 
 
-def test_feed_for_study_in_edit_mode(client, study_in_edit_mode):
+def test_feed_for_study_in_edit_status(client, study_in_edit_status):
     response = client.get('/recruitment/{}/appointments/'.format(
-        study_in_edit_mode.pk))
+        study_in_edit_status.pk))
     assert response.status_code == 404
 
 

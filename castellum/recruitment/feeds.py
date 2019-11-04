@@ -52,7 +52,7 @@ class BaseAppointmentFeed(ICalFeed):
 class AppointmentFeedForStudy(BaseAppointmentFeed):
     def get_object(self, *args, **kwargs):
         study = get_object_or_404(Study, pk=kwargs.get('study_pk'))
-        if study.study_mode != Study.EXECUTION:
+        if study.status != Study.EXECUTION:
             raise Http404
         return study
 
@@ -71,7 +71,7 @@ class AppointmentFeedForUser(BaseAppointmentFeed):
 
     def items(self, user):
         perms = ('recruitment.add_participationrequest', 'studies.access_study')
-        for study in Study.objects.filter(study_mode=Study.EXECUTION):
+        for study in Study.objects.filter(status=Study.EXECUTION):
             if not user.has_perms(perms, obj=study):
                 continue
             qs = (ParticipationRequest.objects.filter(study=study, appointment__isnull=False)

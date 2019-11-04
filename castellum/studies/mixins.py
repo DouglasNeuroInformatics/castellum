@@ -29,18 +29,18 @@ class StudyMixin:
 
     -   set ``self.study``
     -   check ``access_study`` permission (basically allow access only to study members)
-    -   check that study mode is in ``study_modes``, otherwise return 404
+    -   check that status is in ``study_status``, otherwise return 404
     -   use study as permission object
 
     Requires PermissionRequiredMixin.
     """
 
-    study_modes = []
+    study_status = []
 
     def get_study(self):
         qs = Study.objects.all()
-        if self.study_modes:
-            qs = qs.filter(study_mode__in=self.study_modes)
+        if self.study_status:
+            qs = qs.filter(status__in=self.study_status)
         key = 'study_pk' if 'study_pk' in self.kwargs else 'pk'
         return get_object_or_404(qs, pk=self.kwargs.get(key))
 

@@ -126,20 +126,20 @@ def study(db):
 
 
 @pytest.fixture
-def study_in_execution_mode(db):
-    return mommy.make(Study, study_mode=Study.EXECUTION)
+def study_in_execution_status(db):
+    return mommy.make(Study, status=Study.EXECUTION)
 
 
 @pytest.fixture
-def study_in_edit_mode(db):
-    return mommy.make(Study, study_mode=Study.EDIT)
+def study_in_edit_status(db):
+    return mommy.make(Study, status=Study.EDIT)
 
 
 @pytest.fixture
-def member(user, study, study_in_execution_mode, study_in_edit_mode):
+def member(user, study, study_in_execution_status, study_in_edit_status):
     StudyMembership.objects.create(user=user, study=study)
-    StudyMembership.objects.create(user=user, study=study_in_execution_mode)
-    StudyMembership.objects.create(user=user, study=study_in_edit_mode)
+    StudyMembership.objects.create(user=user, study=study_in_execution_status)
+    StudyMembership.objects.create(user=user, study=study_in_edit_status)
     return user
 
 
@@ -155,9 +155,9 @@ def attributeset(contact, contact_domain):
 
 
 @pytest.fixture
-def participation_request(contact, study_in_execution_mode, contact_domain):
+def participation_request(contact, study_in_execution_status, contact_domain):
     subject = get_subject(contact_domain.key, contact.pseudonym)
-    return mommy.make(ParticipationRequest, study=study_in_execution_mode, subject=subject)
+    return mommy.make(ParticipationRequest, study=study_in_execution_status, subject=subject)
 
 
 @pytest.fixture
@@ -166,8 +166,8 @@ def attribute_description(db, attribute_descriptions):
 
 
 @pytest.fixture
-def subject_filter_group(db, study_in_edit_mode):
-    return mommy.make(SubjectFilterGroup, study=study_in_edit_mode)
+def subject_filter_group(db, study_in_edit_status):
+    return mommy.make(SubjectFilterGroup, study=study_in_edit_status)
 
 
 @pytest.fixture
