@@ -19,12 +19,17 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.db import models
+from django.utils import timezone
 from django.views.generic import TemplateView
+
+from dateutil.relativedelta import relativedelta
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.models import Contact
 from castellum.recruitment.models import ParticipationRequest
+from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 
 
@@ -55,8 +60,12 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
             yield contact.subject
 
     def get_context_data(self, **kwargs):
+        study_last_acceptable_datetime = timezone.now() - relativedelta(
+            years=settings.CASTELLUM_YEARS_UNTIL_STUDY_DELETION)
         context = super().get_context_data(**kwargs)
         context['to_be_deleted'] = Subject.objects.filter(to_be_deleted=True)
         context['orphans'] = list(self.iter_orphans())
         context['unreachable'] = list(self.iter_unreachable())
+        context['studies'] = Study.objects.filter(
+            sessions_end__lte=study_last_acceptable_datetime)
         return context
