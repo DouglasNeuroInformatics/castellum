@@ -26,12 +26,6 @@
                                 {% endif %}
                             </a>
                         {% endif %}
-                        {% has_perm 'recruitment.delete_participationrequest' user participationrequest.study as can_delete_participationrequest %}
-                        {% if can_delete_participationrequest %}
-                            <a class="btn btn-danger btn-sm-inline my-1" href="{% url 'subjects:studyparticipation-delete' subject.pk participationrequest.pk %}">
-                                {% trans 'Delete' %}
-                            </a>
-                        {% endif %}
                     </div>
                 </li>
             {% endfor %}

@@ -13,7 +13,7 @@
             <span class="form-check-label">{% trans "I have made sure that all external data related to this study participation has been destroyed" %}
         </label>
         <div class="mb-3">
-            <a href="{% url 'subjects:studyparticipation' subject.pk %}" class="btn btn-outline-primary">{% trans 'Cancel' %}</a>
+            <a href="{% url 'subjects:delete' subject.pk %}" class="btn btn-outline-primary">{% trans 'Cancel' %}</a>
             <input type="submit" class="btn btn-danger" value="{% trans 'Confirm' %}" disabled />
         </div>
     </form>
