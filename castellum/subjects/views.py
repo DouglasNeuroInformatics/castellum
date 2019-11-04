@@ -268,6 +268,12 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
     def get_success_url(self):
         return reverse('subjects:delete', args=[self.subject.pk])
 
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        monitoring_logger.info('ParticipationRequest in Study {} deleted by {}'.format(
+            self.object.study.name, self.request.user.pk))
+        return super().delete(self, request, *args, **kwargs)
+
 
 class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
