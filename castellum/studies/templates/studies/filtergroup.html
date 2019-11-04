@@ -35,7 +35,7 @@
                 {% bootstrap_field form.value show_label=False%}
             </div>
 
-            {% if study.study_mode == study.EDIT %}
+            {% if study.status == study.EDIT %}
                 <div class="col-sm flex-grow-0">
                     <button type="button" class="btn btn-danger" data-js="filter-delete">{% trans 'Delete' %}</button>
                 </div>
@@ -85,7 +85,7 @@
                                 {% bootstrap_field form.value show_label=False%}
                             </div>
 
-                            {% if study.study_mode == study.EDIT %}
+                            {% if study.status == study.EDIT %}
                                 <div class="col-sm flex-grow-0">
                                     <button type="button" class="btn btn-danger" data-js="filter-delete">{% trans 'Delete' %}</button>
                                 </div>
@@ -94,7 +94,7 @@
                     {% endfor %}
                 </div>
 
-                {% if study.study_mode == study.EDIT %}
+                {% if study.status == study.EDIT %}
                     <div class="form-row">
                         <div class="col-sm-4">
                             {% bootstrap_field add_form.description show_label=False %}
@@ -111,7 +111,7 @@
                         <div class="col-sm">
                             {{ form.excluded_studies }}
                         </div>
-                        {% if study.study_mode == study.EDIT %}
+                        {% if study.status == study.EDIT %}
                             <div class="col-sm flex-grow-0">
                                 <button type="button" class="btn btn-danger" data-multi-reset="#{{ form.excluded_studies.id_for_label }}">{% trans 'Reset' %}</button>
                             </div>
@@ -135,7 +135,7 @@
                 <a href="{% url 'studies:filtergroup-index' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
             {% endif %}
 
-            {% if study.study_mode == study.EDIT %}
+            {% if study.status == study.EDIT %}
                 <input type="submit" class="btn btn-primary" value="{% trans 'Apply' %}"/>
             {% endif %}
         </div>

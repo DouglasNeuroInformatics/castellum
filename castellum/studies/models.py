@@ -54,7 +54,7 @@ class Study(models.Model):
     EXECUTION = 1
     FINISHED = 2
 
-    STUDY_MODES = [
+    STATUS = [
         (EDIT, _('Edit')),
         (EXECUTION, _('Execution')),
         (FINISHED, _('Finished')),
@@ -69,10 +69,9 @@ class Study(models.Model):
     description = models.TextField(_('Description'), blank=True)
     keywords = models.CharField(_('Keywords'), max_length=254, blank=True)
     study_type = models.ManyToManyField(StudyType, verbose_name=_('Type of study'), blank=True)
-    previous_study_mode = models.SmallIntegerField(
-        _('Previous study mode'), choices=STUDY_MODES, default=EDIT)
-    study_mode = models.SmallIntegerField(
-        _('Study mode'), choices=STUDY_MODES, default=EDIT)
+    previous_status = models.SmallIntegerField(
+        _('Previous status'), choices=STATUS, default=EDIT)
+    status = models.SmallIntegerField(_('Status'), choices=STATUS, default=EDIT)
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
     min_subject_count = models.PositiveIntegerField(_('Required number of subjects'), blank=True)
     expense_allowance = models.PositiveIntegerField(_('Expense allowance'), blank=True, null=True)
@@ -133,13 +132,13 @@ class Study(models.Model):
     def __str__(self):
         return self.name
 
-    def previous_mode(self):
-        self.study_mode = self.previous_study_mode
+    def previous_status(self):
+        self.status = self.previous_status
         self.save()
 
-    def next_mode(self, mode):
-        self.previous_study_mode = self.study_mode
-        self.study_mode = mode
+    def next_status(self, status):
+        self.previous_status = self.status
+        self.status = status
         self.save()
 
     def clean(self):

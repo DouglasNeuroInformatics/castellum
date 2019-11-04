@@ -86,10 +86,10 @@ class SubjectFilterForm(forms.ModelForm):
         self.fields["value"].required = True
         self.fields["description"].required = True
 
-        # disable fields when study is not in edit mode
+        # disable fields when study is not in edit status
         try:
             if self.instance.group.study:
-                if self.instance.group.study.study_mode != Study.EDIT:
+                if self.instance.group.study.status != Study.EDIT:
                     self.fields["operator"].widget.attrs["disabled"] = True
                     self.fields["value"].widget.attrs["disabled"] = True
         except ObjectDoesNotExist:

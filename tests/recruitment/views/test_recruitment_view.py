@@ -12,27 +12,27 @@ def test_404_page_returned_if_study_is_not_provided(client, member):
     assert response.status_code == 404
 
 
-def test_200_page_returned_if_study_in_execution_mode(client, member, study_in_execution_mode):
+def test_200_page_returned_if_study_in_execution_status(client, member, study_in_execution_status):
     client.force_login(member)
-    url = '/recruitment/{}/'.format(study_in_execution_mode.pk)
+    url = '/recruitment/{}/'.format(study_in_execution_status.pk)
     response = client.get(url)
     assert response.status_code == 200
 
 
-def test_404_page_returned_if_study_in_edit_mode(client, member, study_in_edit_mode):
+def test_404_page_returned_if_study_in_edit_status(client, member, study_in_edit_status):
     client.force_login(member)
-    url = '/recruitment/{}/'.format(study_in_edit_mode.pk)
+    url = '/recruitment/{}/'.format(study_in_edit_status.pk)
     response = client.get(url)
     assert response.status_code == 404
 
 
 @pytest.mark.django_db
-def test_post_when_study_has_zero_subject_count_set(client, member, study_in_execution_mode):
+def test_post_when_study_has_zero_subject_count_set(client, member, study_in_execution_status):
 
-    study_in_execution_mode.min_subject_count = 0
-    study_in_execution_mode.save()
+    study_in_execution_status.min_subject_count = 0
+    study_in_execution_status.save()
     client.force_login(member)
-    url = '/recruitment/{}/'.format(study_in_execution_mode.pk)
+    url = '/recruitment/{}/'.format(study_in_execution_status.pk)
     response = client.post(url)
     assert response.status_code == 200
     messages = list(get_messages(response.wsgi_request))
@@ -42,15 +42,16 @@ def test_post_when_study_has_zero_subject_count_set(client, member, study_in_exe
 
 
 @pytest.mark.django_db
-def test_post_when_more_then_double_minimal_subject_count(client, member, study_in_execution_mode):
+def test_post_when_more_then_double_minimal_subject_count(
+    client, member, study_in_execution_status
+):
+    study_in_execution_status.min_subject_count = 2
+    study_in_execution_status.save()
 
-    study_in_execution_mode.min_subject_count = 2
-    study_in_execution_mode.save()
-
-    mommy.make(ParticipationRequest, study=study_in_execution_mode, _quantity=4)
+    mommy.make(ParticipationRequest, study=study_in_execution_status, _quantity=4)
 
     client.force_login(member)
-    url = '/recruitment/{}/'.format(study_in_execution_mode.pk)
+    url = '/recruitment/{}/'.format(study_in_execution_status.pk)
 
     response = client.post(url)
     assert response.status_code == 200

@@ -158,7 +158,7 @@ class StudyUpdateView(
     tab = 'update'
 
     def get_readonly(self):
-        return self.object.study_mode == Study.FINISHED
+        return self.object.status == Study.FINISHED
 
     def get_success_url(self):
         return reverse('studies:update', args=[self.object.pk])
@@ -190,11 +190,11 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'studies.change_study'
 
     def post(self, request, study_pk):
-        if self.study.study_mode != self.study.FINISHED:
-            if self.study.study_mode == self.study.EXECUTION:
-                self.study.next_mode(self.study.EDIT)
+        if self.study.status != self.study.FINISHED:
+            if self.study.status == self.study.EXECUTION:
+                self.study.next_status(self.study.EDIT)
             else:
-                self.study.next_mode(self.study.EXECUTION)
+                self.study.next_status(self.study.EXECUTION)
             return redirect('studies:detail', self.study.pk)
         else:
             return HttpResponseBadRequest()
@@ -204,10 +204,10 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'studies.change_study'
 
     def post(self, request, study_pk):
-        if self.study.study_mode == self.study.FINISHED:
-            self.study.previous_mode()
+        if self.study.status == self.study.FINISHED:
+            self.study.previous_status()
         else:
-            self.study.next_mode(self.study.FINISHED)
+            self.study.next_status(self.study.FINISHED)
         return redirect('studies:detail', self.study.pk)
 
 
@@ -222,7 +222,7 @@ class StudyRecruitmentSettingsUpdateView(
     subtab = 'update'
 
     def get_readonly(self):
-        return self.object.study_mode == Study.FINISHED
+        return self.object.status == Study.FINISHED
 
     def get_success_url(self):
         return reverse('studies:recruitmentsettings', kwargs={'pk': self.object.pk})
@@ -243,7 +243,7 @@ class StudyExclusionCriteriaView(
     subtab = 'exclusioncriteria'
 
     def get_readonly(self):
-        return self.object.study_mode == Study.FINISHED
+        return self.object.status == Study.FINISHED
 
     def get_success_url(self):
         return reverse('studies:exclusioncriteria', args=[self.object.pk])
@@ -264,7 +264,7 @@ class StudyMailSettingsView(
     subtab = 'mailsettings'
 
     def get_readonly(self):
-        return self.object.study_mode == Study.FINISHED
+        return self.object.status == Study.FINISHED
 
     def get_success_url(self):
         return reverse('studies:mailsettings', args=[self.object.pk])
@@ -286,7 +286,7 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['readonly'] = self.object.study_mode == Study.FINISHED
+        context['readonly'] = self.object.status == Study.FINISHED
         return context
 
     def get(self, request, **kwargs):
@@ -325,7 +325,7 @@ class StudyMembershipUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView)
     model = StudyMembership
     form_class = MemberForm
     permission_required = 'studies.change_study'
-    study_modes = [Study.EDIT, Study.EXECUTION]
+    study_status = [Study.EDIT, Study.EXECUTION]
     tab = 'members'
 
     def get_object(self):
@@ -338,7 +338,7 @@ class StudyMembershipUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView)
 class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView):
     model = StudyMembership
     permission_required = 'studies.change_study'
-    study_modes = [Study.EDIT, Study.EXECUTION]
+    study_status = [Study.EDIT, Study.EXECUTION]
     tab = 'members'
 
     def get_object(self):

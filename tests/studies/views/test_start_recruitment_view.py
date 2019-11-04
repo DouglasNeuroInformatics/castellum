@@ -16,14 +16,14 @@ def test_start(request, client, user_fixture, study):
     mommy.make(StudyMembership, user=user, study=study)
     client.force_login(user)
 
-    study.study_mode = Study.EDIT
+    study.status = Study.EDIT
     study.save()
 
     response = client.post('/studies/{}/start/'.format(study.pk))
     assert response.status_code == 302
 
     study.refresh_from_db()
-    assert study.study_mode is Study.EXECUTION
+    assert study.status is Study.EXECUTION
 
 
 @pytest.mark.parametrize('user_fixture', [
@@ -37,11 +37,11 @@ def test_stop(request, client, user_fixture, study):
     mommy.make(StudyMembership, user=user, study=study)
     client.force_login(user)
 
-    study.study_mode = Study.EXECUTION
+    study.status = Study.EXECUTION
     study.save()
 
     response = client.post('/studies/{}/start/'.format(study.pk))
     assert response.status_code == 302
 
     study.refresh_from_db()
-    assert study.study_mode is Study.EDIT
+    assert study.status is Study.EDIT

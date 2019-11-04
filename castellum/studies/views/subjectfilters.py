@@ -126,7 +126,7 @@ class FilterGroupListView(FilterMixin, ListView):
 
 class FilterGroupCreateView(FilterMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
-    study_modes = [Study.EDIT]
+    study_status = [Study.EDIT]
 
     def post(self, *args, **kwargs):
         group = SubjectFilterGroup.objects.create(study=self.study)
@@ -175,7 +175,7 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
         )
 
     def get_readonly(self):
-        return self.study.study_mode != Study.EDIT
+        return self.study.status != Study.EDIT
 
     def get_inaccessible_attributedescriptions(self):
         min_privacy_level = 2
@@ -236,7 +236,7 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
     model = SubjectFilterGroup
     template_name = 'studies/filtergroup_confirm_delete.html'
     permission_required = 'recruitment.change_subjectfilter'
-    study_modes = [Study.EDIT]
+    study_status = [Study.EDIT]
 
     def get_object(self):
         return get_object_or_404(SubjectFilterGroup, study=self.study, pk=self.kwargs['pk'])
@@ -247,7 +247,7 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
 
 class FilterGroupDuplicateView(FilterMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
-    study_modes = [Study.EDIT]
+    study_status = [Study.EDIT]
 
     def post(self, request, study_pk, pk):
         original = get_object_or_404(SubjectFilterGroup, study=self.study, pk=pk)

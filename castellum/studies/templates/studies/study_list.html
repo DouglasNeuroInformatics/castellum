@@ -33,7 +33,7 @@
                     {% if study.contact_person %}
                         <div class="d-inline-block my-1 mr-2">{{ study.contact_person }}</div>
                     {% endif %}
-                    {% if study.study_mode == study.FINISHED %}
+                    {% if study.status == study.FINISHED %}
                         <span class="badge badge-secondary">{% trans 'Finished' %}</span>
                     {% endif %}
                 </div>

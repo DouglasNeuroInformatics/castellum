@@ -41,7 +41,7 @@ class StudyListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         qs = super().get_queryset()
         perms = ('recruitment.view_participation_pseudonyms', 'studies.access_study')
-        return [study for study in qs.filter(study_mode=Study.EXECUTION) if (
+        return [study for study in qs.filter(status=Study.EXECUTION) if (
             self.request.user.has_perms(perms, obj=study)
         )]
 
@@ -50,7 +50,7 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
     template_name = 'execution/study_detail.html'
     model = Study
     permission_required = 'recruitment.view_participation_pseudonyms'
-    study_modes = [Study.EXECUTION]
+    study_status = [Study.EXECUTION]
 
     def get_object(self):
         return self.study
@@ -70,7 +70,7 @@ class ParticipationRequestDetailView(StudyMixin, SubjectMixin, PermissionRequire
     template_name = 'execution/participationrequest_detail.html'
     model = ParticipationRequest
     permission_required = 'recruitment.view_participation_pseudonyms'
-    study_modes = [Study.EXECUTION]
+    study_status = [Study.EXECUTION]
 
     def get_object(self):
         return get_object_or_404(
@@ -90,7 +90,7 @@ class SearchView(LoginRequiredMixin, GetFormView):
         subjects = [c.subject for c in contacts]
         participation_requests = ParticipationRequest.objects.filter(
             subject__in=subjects,
-            study__study_mode=Study.EXECUTION,
+            study__status=Study.EXECUTION,
             status=ParticipationRequest.INVITED,
         ).select_related('subject', 'study')
 
