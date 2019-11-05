@@ -17,7 +17,7 @@
             <span class="form-check-label">{% trans "I have made sure that all external data related to this study has been destroyed" %}
         </label>
         <div class="mb-3">
-            <a href="{% url 'studies:detail' study.pk %}" class="btn btn-outline-primary">{% trans 'Cancel' %}</a>
+            <a href="{% url 'studies:detail' study.pk %}" class="btn btn-outline-primary" data-js="cancel">{% trans 'Cancel' %}</a>
             <input type="submit" class="btn btn-danger" value="{% trans 'Confirm' %}" disabled />
         </div>
     </form>

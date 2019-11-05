@@ -35,7 +35,7 @@
         {% endif %}
 
         <div class="mb-3">
-            <a href="{% url 'subjects:detail' object.pk %}" class="btn btn-outline-primary">{% trans 'Cancel' %}</a>
+            <a href="{% url 'subjects:detail' object.pk %}" class="btn btn-outline-primary" data-js="cancel">{% trans 'Cancel' %}</a>
             <input type="submit" class="btn btn-danger" value="{% trans 'Confirm' %}" {% if has_participationrequests %}disabled{% endif %} />
         </div>
     </form>
