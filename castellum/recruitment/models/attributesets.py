@@ -103,10 +103,10 @@ class AttributeSet(TimeStampedModel):
 
         if study.custom_filter:
             q = custom_filters[study.custom_filter](include_unknown=include_unknown)
-
-        q = models.Q()
-        for group in study.subjectfiltergroup_set.all():
-            q |= group.to_q(include_unknown=include_unknown)
+        else:
+            q = models.Q()
+            for group in study.subjectfiltergroup_set.all():
+                q |= group.to_q(include_unknown=include_unknown)
 
         return AttributeSet.objects.filter(q)
 
