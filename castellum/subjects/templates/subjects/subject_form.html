@@ -40,7 +40,7 @@
                         {% if consent %}
                             {{ consent.revision }} {% if not consent.revision.is_current %}({% trans 'outdated' %}){% endif %}
                             <br>
-                            {{ consent|display:'type' }}, {{ consent.updated_at|date }}
+                            {{ consent|display:'type' }}, <time>{{ consent.updated_at|date }}</time>
                         {% else %}
                             {% trans 'No consent' %}
                         {% endif %}
