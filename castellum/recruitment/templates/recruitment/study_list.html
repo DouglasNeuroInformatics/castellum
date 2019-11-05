@@ -16,9 +16,9 @@
             {% for study in studies %}
                 <li class="table-list-item">
                     <div class="my-1 mr-2">
-                        <h3 class="h4 d-inline">
+                        <div class="h4 d-inline">
                             {{ study.name }}
-                        </h3>
+                        </div>
                         {% if study.appointment_urgent %}
                             <i class="far fa-bell list-icon bg-success text-light" title="{% trans 'appointment urgent' %}"></i>
                         {% endif %}
