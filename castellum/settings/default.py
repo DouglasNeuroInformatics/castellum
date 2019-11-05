@@ -3,6 +3,8 @@ import os
 
 from django.utils.translation import gettext_lazy as _
 
+from dateutil.relativedelta import relativedelta
+
 from castellum.pseudonyms.generators import md5
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -276,13 +278,13 @@ LOGGING = {
     },
 }
 
-# the number of years after the last test session after which the study is reviewed
+# timespan after the last test session after which the study is reviewed
 # by the data protection manager
-CASTELLUM_YEARS_UNTIL_STUDY_DELETION = 5
+CASTELLUM_STUDY_DELETION_PERIOD = relativedelta(years=5)
 
-# the number of days a subject should be allowed to remain in the database without
+# timespan a subject should be allowed to remain in the database without
 # consent given
-CASTELLUM_CONSENT_REVIEW_PERIOD = 14
+CASTELLUM_CONSENT_REVIEW_PERIOD = relativedelta(weeks=2)
 
 # the number of subjects that is added to the recruitment list every time
 CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
@@ -307,7 +309,7 @@ CASTELLUM_EXPECTED_SUBJECT_FACTOR = 10
 
 # this constant defines the recommended timespan between one contact
 # attempt and another one from a different study recruitment
-CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS = 14
+CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS = relativedelta(weeks=2)
 
 CASTELLUM_LOCK_USER_CONTACT = 'admin@example.com'
 CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT = '[Castellum] Verdächtige Aktivität / Suspicious activity'
