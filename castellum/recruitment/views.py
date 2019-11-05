@@ -413,7 +413,7 @@ class ContactUpdateView(StudyMixin, BaseContactUpdateView):
     def get_success_url(self):
         return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
 
-    def get_cancel_url(self):
+    def get_back_url(self):
         return self.get_success_url()
 
     def get_context_data(self, **kwargs):
@@ -433,7 +433,7 @@ class AttributeSetUpdateView(StudyMixin, BaseAttributeSetUpdateView):
     def get_success_url(self):
         return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
 
-    def get_cancel_url(self):
+    def get_back_url(self):
         return self.get_success_url()
 
 
@@ -448,7 +448,7 @@ class SubjectUpdateView(StudyMixin, BaseSubjectUpdateView):
     def get_success_url(self):
         return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
 
-    def get_cancel_url(self):
+    def get_back_url(self):
         return self.get_success_url()
 
     def get_context_data(self, **kwargs):

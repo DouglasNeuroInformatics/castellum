@@ -37,8 +37,8 @@
         {% endfor %}
 
         <div class="mb-3">
-            {% if view.get_cancel_url %}
-                <a href="{{ view.get_cancel_url }}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+            {% if view.get_back_url %}
+                <a href="{{ view.get_back_url }}" class="btn btn-outline-primary">{% trans "Back" %}</a>
             {% endif %}
             <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
         </div>
