@@ -53,7 +53,7 @@
                                     {{ tries }} tries
                                 {% endblocktrans %}
                             </div>,
-                            <div class="d-inline-block my-1">{% trans 'last' %}: {{ participation_request.updated_at|date:"SHORT_DATETIME_FORMAT" }}</div>
+                            <div class="d-inline-block my-1">{% trans 'last' %}: {{ participation_request.updated_at|date }}</div>
                         </div>
                     </div>
                 {% else %}
