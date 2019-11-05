@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import logging
+
 from django import forms
 from django.contrib import messages
 from django.db.models import Q
@@ -49,6 +51,8 @@ from ..mixins import StudyMixin
 from ..models import Study
 from ..models import StudyMembership
 from ..models import StudySession
+
+monitoring_logger = logging.getLogger('monitoring.studies')
 
 
 class StudyIndexView(PermissionRequiredMixin, ListView):
@@ -184,6 +188,11 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse('studies:index')
+
+    def delete(self, request, *args, **kwargs):
+        monitoring_logger.info('Study {} deleted by {}'.format(
+            self.study.name, self.request.user.pk))
+        return super().delete(self, request, *args, **kwargs)
 
 
 class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):

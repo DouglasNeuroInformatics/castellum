@@ -138,6 +138,8 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
         self.object = self.get_object()
         if self.object.participationrequest_set.exists():
             return self.get(request, *args, **kwargs)
+        monitoring_logger.info('Subject deleted by {}'.format(
+            self.request.user.pk))
         return super().delete(request, *args, **kwargs)
 
 
@@ -265,6 +267,12 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 
     def get_success_url(self):
         return reverse('subjects:delete', args=[self.subject.pk])
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        monitoring_logger.info('ParticipationRequest in Study {} deleted by {}'.format(
+            self.object.study.name, self.request.user.pk))
+        return super().delete(self, request, *args, **kwargs)
 
 
 class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
