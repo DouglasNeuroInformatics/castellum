@@ -16,4 +16,8 @@ $(function() {
     .on('submit', function() {
         submitted = true;
     });
+
+    $(document).on('click', '[data-js="cancel"]', function() {
+        submitted = true;
+    });
 });
