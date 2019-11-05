@@ -10,7 +10,7 @@
         <p>{% trans "This should only be done once all external data related to this study has been destroyed as it would no longer be possible to identify this subject reliably." %}</p>
         <label class="form-check">
             <input type="checkbox" class="form-check-input" data-js="confirm-delete">
-            <span class="form-check-label">{% trans "I have made sure that all external data related to this study participation has been destroyed" %}
+            <span class="form-check-label">{% trans "I have made sure that all external data related to this study participation has been destroyed" %}</span>
         </label>
         <div class="mb-3">
             <a href="{% url 'subjects:delete' subject.pk %}" class="btn btn-outline-primary">{% trans 'Cancel' %}</a>
