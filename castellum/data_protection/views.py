@@ -36,18 +36,30 @@ from castellum.subjects.models import Subject
 class DataProtectionView(PermissionRequiredMixin, TemplateView):
     template_name = 'data_protection/index.html'
     permission_required = 'subjects.view_subject'
+    limit_by = 10
 
-    def iter_orphans(self):
-        subjects = Subject.objects\
+    def get_to_be_deleted(self):
+        subjects = Subject.objects.filter(to_be_deleted=True)
+        return subjects[:self.limit_by], max(subjects.count() - self.limit_by, 0)
+
+    def get_orphans(self):
+        candidates = Subject.objects\
             .annotate(pr_count=models.Count('participationrequest', filter=~models.Q(
                 participationrequest__status=ParticipationRequest.UNSUITABLE
             )))\
             .filter(no_recruitment=True, pr_count=0)
-        for subject in subjects:
-            if not subject.contact.guardian_of.exists():
-                yield subject
 
-    def iter_unreachable(self):
+        subjects = []
+        for subject in candidates:
+            if len(subjects) >= self.limit_by:
+                break
+            if not subject.contact.guardian_of.exists():
+                subjects.append(subject)
+
+        # no way to efficiently determine missing
+        return subjects, 0
+
+    def get_unreachable(self):
         contacts = Contact.objects\
             .annotate(guardian_count=models.Count('guardians'))\
             .filter(
@@ -56,12 +68,15 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
                 email='',
                 phone_number='',
             )
-        for contact in contacts:
-            yield contact.subject
+        subjects = []
+        for contact in contacts[:self.limit_by]:
+            subjects.append(contact.subject)
+
+        return subjects, max(contacts.count() - self.limit_by, 0)
 
     def get_no_consent(self):
         acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
-        return Subject.objects.exclude(
+        subjects = Subject.objects.exclude(
             (
                 models.Q(consentconfirmation__status=ConsentConfirmation.CONFIRMED) |
                 models.Q(consentconfirmation__updated_at__lte=acceptable_datetime)
@@ -69,14 +84,19 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
             consentconfirmation__revision=Consent.objects.latest(),
         )
 
+        return subjects[:self.limit_by], max(subjects.count() - self.limit_by, 0)
+
+    def get_studies(self):
+        last_acceptable_datetime = timezone.now() - settings.CASTELLUM_STUDY_DELETION_PERIOD
+        studies = Study.objects.filter(sessions_end__lte=last_acceptable_datetime)
+        return studies[:self.limit_by], max(studies.count() - self.limit_by, 0)
+
     def get_context_data(self, **kwargs):
-        study_last_acceptable_datetime = timezone.now() - settings.CASTELLUM_STUDY_DELETION_PERIOD
         context = super().get_context_data(**kwargs)
-        context['to_be_deleted'] = Subject.objects.filter(to_be_deleted=True)
-        context['orphans'] = list(self.iter_orphans())
-        context['unreachable'] = list(self.iter_unreachable())
+        context['to_be_deleted'], context['to_be_deleted_missing'] = self.get_to_be_deleted()
+        context['orphans'], context['orphans_missing'] = self.get_orphans()
+        context['unreachable'], context['unreachable_missing'] = self.get_unreachable()
         if Consent.objects.exists():
-            context['no_consent'] = self.get_no_consent()
-        context['studies'] = Study.objects.filter(
-            sessions_end__lte=study_last_acceptable_datetime)
+            context['no_consent'], context['no_consent_missing'] = self.get_no_consent()
+        context['studies'], context['studies_missing'] = self.get_studies()
         return context
