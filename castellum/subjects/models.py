@@ -49,7 +49,7 @@ class SubjectManager(models.Manager):
                 'pseudonym__pseudonym',
                 filter=models.Q(pseudonym__domain__key=Contact.domain)
             )
-        )
+        ).order_by('pk')
 
 
 class Subject(TimeStampedModel):

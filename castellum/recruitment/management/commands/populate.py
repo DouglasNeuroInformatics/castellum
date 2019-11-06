@@ -220,7 +220,7 @@ def generate_subjects(count, city_count=100):
 
     print('Generating pseudonyms')
     Subject.objects.bulk_create([fake_subject() for i in range(count)], batch_size=200)
-    subjects = Subject._base_manager.all()[:count]
+    subjects = Subject.objects.all()[:count]
 
     contact_domain = Domain.objects.get(key=Contact.domain)
     contact_pseudonyms = [Pseudonym(
