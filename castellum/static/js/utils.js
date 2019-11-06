@@ -19,4 +19,11 @@ $(function() {
             });
         }
     });
+
+    $(document).on('click', '[data-multi-reset]', function(event) {
+        var $target = $($(event.target).data('multi-reset'));
+        $target.find('option').each(function(i, element) {
+            $(element).prop('selected', false);
+        });
+    });
 });
