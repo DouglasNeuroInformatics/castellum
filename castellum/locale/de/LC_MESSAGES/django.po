@@ -1126,13 +1126,13 @@ msgstr ""
 "werden."
 
 #: castellum/recruitment/views.py:272
-#, python-format
+#, python-brace-format
 msgid ""
-"Only %i out of %i potential participants could be found for this study. "
-"These have been added."
+"Only {added} out of {batch_size} potential participants could be found for "
+"this study. These have been added."
 msgstr ""
-"Für diese Studie konnten lediglich %i von %i potentiellen Proband*innen "
-"gefunden werden. Diese wurden hinzugefügt."
+"Für diese Studie konnten lediglich {added} von {batch_size} potentiellen "
+"Proband*innen gefunden werden. Diese wurden hinzugefügt."
 
 #: castellum/recruitment/views.py:337
 msgid ""
@@ -1142,13 +1142,13 @@ msgstr ""
 "Adressen gefunden werden."
 
 #: castellum/recruitment/views.py:345
-#, python-format
+#, python-brace-format
 msgid ""
-"Only %i out of %i potential participants with email addresses could be found "
-"for this study. These have been contacted."
+"Only {added} out of {batch_size} potential participants with email addresses "
+"could be found for this study. These have been contacted."
 msgstr ""
-"Für diese Studie konnten lediglich %i von %i potentiellen Proband*innen mit "
-"E-Mail-Adressen gefunden werden. Diese wurden kontaktiert."
+"Für diese Studie konnten lediglich {added} von {batch_size} potentiellen "
+"Proband*innen mit E-Mail-Adressen gefunden werden. Diese wurden kontaktiert."
 
 #: castellum/recruitment/views.py:350
 msgid "Emails sent successfully!"
