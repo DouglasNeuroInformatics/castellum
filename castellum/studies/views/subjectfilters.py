@@ -64,7 +64,7 @@ class CustomFilterMixin:
                 context={
                     'study': self.study,
                     'total_count': AttributeSet.objects.count(),
-                    'potential_subjects_count': (
+                    'count': (
                         AttributeSet
                         .apply_study_filter(self.study)
                         .filter(subject__no_recruitment=False)

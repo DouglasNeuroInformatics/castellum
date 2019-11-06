@@ -4,7 +4,7 @@
 {% block title %}{% trans "Filters" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <p>{% trans 'matches' %}: {{ potential_subjects_count }} / {{ total_count }}</p>
+    <p>{% trans 'matches' %}: {{ count }} / {{ total_count }}</p>
 
     <p class="alert alert-warning">
         {% trans "This study uses a custom filter. Regular filters are not available." %}
