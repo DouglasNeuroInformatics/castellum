@@ -18,8 +18,8 @@ Welcome to castellum-docs's documentation!
 
    workflows/study-creation
    workflows/study-recruitment
-   workflows/deleting-subject
-
+   workflows/deleting
+   
 .. toctree::
    :maxdepth: 2
    :caption: Organizational
