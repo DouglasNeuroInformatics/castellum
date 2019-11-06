@@ -42,7 +42,7 @@
                             <br>
                             {{ consent|display:'type' }}, {{ consent.updated_at|date }}
                         {% else %}
-                            {% trans 'No consent' %}
+                            {% trans 'Missing consent' %}
                         {% endif %}
                     </div>
                 {% endwith %}
