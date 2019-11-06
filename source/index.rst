@@ -18,6 +18,7 @@ Welcome to castellum-docs's documentation!
 
    workflows/study-creation
    workflows/study-recruitment
+   workflows/deleting-subject
 
 .. toctree::
    :maxdepth: 2
