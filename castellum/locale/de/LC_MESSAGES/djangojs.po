@@ -30,7 +30,7 @@ msgstr "Ganzer Tag"
 msgid "There is no way to contact this subject. Are you sure you want to save?"
 msgstr ""
 "Es gibt keine Möglichkeit, diese Proband*in zu kontaktieren. Sind Sie "
-"sicher, dass sie speichern wollen?"
+"sicher, dass Sie speichern wollen?"
 
 #: castellum/static/autologout.js:20
 msgid "If you do nothing your session will expire"
