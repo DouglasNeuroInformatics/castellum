@@ -1128,10 +1128,10 @@ msgstr ""
 #: castellum/recruitment/views.py:272
 #, python-brace-format
 msgid ""
-"Only {added} out of {batch_size} potential participants could be found for "
+"Only {added} out of {batchsize} potential participants could be found for "
 "this study. These have been added."
 msgstr ""
-"Für diese Studie konnten lediglich {added} von {batch_size} potentiellen "
+"Für diese Studie konnten lediglich {added} von {batchsize} potentiellen "
 "Proband*innen gefunden werden. Diese wurden hinzugefügt."
 
 #: castellum/recruitment/views.py:337
@@ -1144,10 +1144,10 @@ msgstr ""
 #: castellum/recruitment/views.py:345
 #, python-brace-format
 msgid ""
-"Only {added} out of {batch_size} potential participants with email addresses "
+"Only {added} out of {batchsize} potential participants with email addresses "
 "could be found for this study. These have been contacted."
 msgstr ""
-"Für diese Studie konnten lediglich {added} von {batch_size} potentiellen "
+"Für diese Studie konnten lediglich {added} von {batchsize} potentiellen "
 "Proband*innen mit E-Mail-Adressen gefunden werden. Diese wurden kontaktiert."
 
 #: castellum/recruitment/views.py:350
