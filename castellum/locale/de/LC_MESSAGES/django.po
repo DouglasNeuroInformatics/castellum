@@ -659,8 +659,9 @@ msgstr ""
 #: castellum/recruitment/models/attributesets.py:273
 #, python-format
 msgid "Statistics rank can only be set for the following field types: %s"
-msgstr "Der Statistik-Rang kann nur für die folgenden Feldtypen eingestellt "
-"werden: %s"
+msgstr ""
+"Der Statistik-Rang kann nur für die folgenden Feldtypen eingestellt werden: "
+"%s"
 
 #: castellum/recruitment/models/recruitment.py:86
 msgid "not contacted"
@@ -949,7 +950,8 @@ msgstr "Senden"
 msgid "Previous mails"
 msgstr "Vorherige E-Mails"
 
-#: castellum/recruitment/templates/recruitment/mail.html:44                             "
+#: castellum/recruitment/templates/recruitment/mail.html:44
+#, python-format
 msgid ""
 "\n"
 "                            %(counter)s mail sent on %(datetime)s:\n"
@@ -958,7 +960,8 @@ msgstr ""
 "\n"
 "%(counter)s E-Mails versendet am %(datetime)s: "
 
-#: castellum/recruitment/templates/recruitment/mail.html:49                          "
+#: castellum/recruitment/templates/recruitment/mail.html:49
+#, python-format
 msgid ""
 "\n"
 "                            %(contacted_size)s potential subjects contacted\n"
@@ -976,7 +979,8 @@ msgstr "Studienteilnahme löschen"
 msgid ""
 "Are you sure you want to <strong>permanently delete</strong> the "
 "participation in %(study)s?"
-msgstr "Sind Sie sicher, dass Sie die Teilnahme an der Studie %(study)s"
+msgstr ""
+"Sind Sie sicher, dass Sie die Teilnahme an der Studie %(study)s"
 "<strong>unwiederbringlich</strong> löschen möchten?"
 
 #: castellum/recruitment/templates/recruitment/participationrequest_confirm_delete.html:10
@@ -984,16 +988,18 @@ msgid ""
 "This should only be done once all external data related to this study has "
 "been destroyed as it would no longer be possible to identify this subject "
 "reliably."
-msgstr "Dies sollte erst geschehen, sobald alle zu dieser Studie gehörenden externen Daten "
-"gelöscht wurden, da es nicht länger möglich sein wird diese Proband*in zuverlässig "
-"zu identifizieren."
+msgstr ""
+"Dies sollte erst geschehen, sobald alle zu dieser Studie gehörenden externen "
+"Daten gelöscht wurden, da es nicht länger möglich sein wird diese Proband*in "
+"zuverlässig zu identifizieren."
 
 #: castellum/recruitment/templates/recruitment/participationrequest_confirm_delete.html:13
 msgid ""
 "I have made sure that all external data related to this study participation "
 "has been destroyed"
-msgstr "Ich habe sichergestellt, dass alle zu dieser Studienteilnahme gehörenden externen "
-"Daten gelöscht wurden."
+msgstr ""
+"Ich habe sichergestellt, dass alle zu dieser Studienteilnahme gehörenden "
+"externen Daten gelöscht wurden."
 
 #: castellum/recruitment/templates/recruitment/participationrequest_confirm_delete.html:16
 #: castellum/studies/templates/studies/filtergroup_confirm_delete.html:11
@@ -1115,30 +1121,34 @@ msgstr ""
 
 #: castellum/recruitment/views.py:265
 msgid "No potential participants could be found for this study."
-msgstr "Es konnten keine potentiellen Teilnehmer*innen für diese Studie "
-"gefunden werden."
+msgstr ""
+"Es konnten keine potentiellen Teilnehmer*innen für diese Studie gefunden "
+"werden."
 
 #: castellum/recruitment/views.py:272
 #, python-format
 msgid ""
 "Only %i out of %i potential participants could be found for this study. "
 "These have been added."
-msgstr "Für diese Studie konnten lediglich %i von %i potentiellen Proband*innen "
+msgstr ""
+"Für diese Studie konnten lediglich %i von %i potentiellen Proband*innen "
 "gefunden werden. Diese wurden hinzugefügt."
 
 #: castellum/recruitment/views.py:337
 msgid ""
 "No potential participants with email addresses could be found for this study."
-msgstr "Für diese Studie konnten keine potentiellen Proband*innen mit "
-"E-Mail-Adressen gefunden werden."
+msgstr ""
+"Für diese Studie konnten keine potentiellen Proband*innen mit E-Mail-"
+"Adressen gefunden werden."
 
 #: castellum/recruitment/views.py:345
 #, python-format
 msgid ""
 "Only %i out of %i potential participants with email addresses could be found "
 "for this study. These have been contacted."
-msgstr "Für diese Studie konnten lediglich %i von %i potentiellen Proband*innen "
-"mit E-Mail-Adressen gefunden werden. Diese wurden kontaktiert."
+msgstr ""
+"Für diese Studie konnten lediglich %i von %i potentiellen Proband*innen mit "
+"E-Mail-Adressen gefunden werden. Diese wurden kontaktiert."
 
 #: castellum/recruitment/views.py:350
 msgid "Emails sent successfully!"
@@ -1722,9 +1732,11 @@ msgid "Remove member"
 msgstr "Mitglied entfernen"
 
 #: castellum/studies/templates/studies/studymembership_confirm_delete.html:9
+#, python-format
 msgid "Are you sure you want to remove \"%(username)s\" from this study?"
-msgstr "Sind Sie sicher, dass Sie \"%(username)s\" aus dieser Studie "
-"entfernen möchten?"
+msgstr ""
+"Sind Sie sicher, dass Sie \"%(username)s\" aus dieser Studie entfernen "
+"möchten?"
 
 #: castellum/studies/templates/studies/studymembership_form.html:7
 msgid "User"
@@ -1856,7 +1868,8 @@ msgstr "Proband*in"
 
 #: castellum/subjects/models.py:81
 msgid "Subjects who are to be deleted should not be contacted for recruitment."
-msgstr "Proband*innen die zur Löschung vorgemerkt sind sollten nicht für die "
+msgstr ""
+"Proband*innen die zur Löschung vorgemerkt sind sollten nicht für die "
 "Rekrutierung kontaktiert werden."
 
 #: castellum/subjects/models.py:185
@@ -1995,8 +2008,9 @@ msgstr "Proband*in löschen"
 msgid ""
 "This subject still has data in studies. Please delete all study "
 "participations first."
-msgstr "zu dieser Proband*in existieren noch Daten in Studien. "
-"Bitte löschen Sie zuerst alle Studienteilnahmen."
+msgstr ""
+"zu dieser Proband*in existieren noch Daten in Studien. Bitte löschen Sie "
+"zuerst alle Studienteilnahmen."
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:20
 msgid "Study details"
