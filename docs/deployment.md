@@ -38,6 +38,18 @@ These are some additional security measures we strongly recommend:
 Also see the [django documentation on
 security](https://docs.djangoproject.com/en/2.2/topics/security/).
 
+## Backups
+
+Of course it important to backup the database. Since everything is
+stored in a regular PostgreSQL, you should be able to employ your
+existing backup solution.
+
+However, you should coordinate with the data protection officer to
+discuss the implications for data protection, e.g. [deletion of subject
+data](https://castellum.mpib.berlin/documentation/en/workflows/deleting.html).
+We recommend to keep backups only for a short amount of time and inform
+subjects about that.
+
 ## Cron jobs
 
 There are some regular tasks that should be executed independently from
