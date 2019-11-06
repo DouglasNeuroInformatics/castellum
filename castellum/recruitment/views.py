@@ -269,9 +269,9 @@ class RecruitmentViewOpen(RecruitmentView):
             messages.warning(
                 self.request,
                 _(
-                    'Only %i out of %i potential participants could be found for this '
-                    'study. These have been added.'
-                ) % (added, batch_size)
+                    'Only {added} out of {batchsize} potential participants '
+                    'could be found for this study. These have been added.'
+                ).format(added=added, batchsize=batch_size)
             )
 
         return self.get(request, *args, **kwargs)
@@ -342,9 +342,9 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
             messages.warning(
                 self.request,
                 _(
-                    'Only %i out of %i potential participants with email addresses '
-                    'could be found for this study. These have been contacted.'
-                ) % (added, batch_size)
+                    'Only {added} out of {batchsize} potential participants with email '
+                    'addresses could be found for this study. These have been contacted.'
+                ).format(added=added, batchsize=batch_size)
             )
         else:
             messages.success(self.request, _('Emails sent successfully!'))
