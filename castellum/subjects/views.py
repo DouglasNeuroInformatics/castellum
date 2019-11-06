@@ -140,6 +140,7 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
             return self.get(request, *args, **kwargs)
         monitoring_logger.info('Subject deleted by {}'.format(
             self.request.user.pk))
+        messages.success(self.request, _('Subject has been deleted.'))
         return super().delete(request, *args, **kwargs)
 
 
