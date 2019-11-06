@@ -42,10 +42,32 @@ Recruitment of participants for a study
       you automatically
 
 Editing contact data and attributes; adding probands to the study
------------------------------------------------------------------
+------------------------------------------------------------------
 -  Click on **Edit contact data** in order to do so and press **Save**
 -  By clicking **Edit attributes**, you can change characteristics of the
    person that became known in the conversation
 -  When you press **Edit subject**, you can determine the **Privacy level**
 -  Settle the time-based **Availability** of the person
 -  Press **Save** to record the progress
+
+Approve subjects for deletion
+------------------------------
+-  If you want personal data and the subject to be completely deleted,
+   because of one or more of the next reasons:
+   - the subject either requested it,
+   - it no longer makes sense to keep him or her in the database,
+   - he or she cannot be reached due to incorrect or missing contact data,
+   - there is no consent or
+   - the study in which he or she participated has expired, 
+   proceed as follows:
+1. Log in to Castellum by using your username and password
+2. Click on **Subjects** on the front page
+3. Write in the empty fields first name and surname of the test subject to be
+   deleted and press **Submit**
+4. Click on **Details** and then **Subject** on the horizontal line
+5. Check the box **To be deletd** under **Operational hints**
+6. Press **Save** at the very bottom
+-  The subject is now cleared for deletion from the database and deletion of
+   his or her data
+-  Please note that there may still be data stored in the backup even though
+   the person was deleted from Castellum.
