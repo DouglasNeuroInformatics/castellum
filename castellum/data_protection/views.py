@@ -35,7 +35,10 @@ from castellum.subjects.models import Subject
 
 class DataProtectionView(PermissionRequiredMixin, TemplateView):
     template_name = 'data_protection/index.html'
-    permission_required = 'subjects.view_subject'
+    permission_required = [
+        'subjects.view_subject',
+        'castellum_auth.privacy_level_2',
+    ]
     limit_by = 10
 
     def get_to_be_deleted(self):
