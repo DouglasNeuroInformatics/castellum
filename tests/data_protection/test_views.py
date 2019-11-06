@@ -11,9 +11,10 @@ def test_iter_orphans(db):
     contact.subject.save()
 
     view = DataProtectionView()
-    actual = list(view.iter_orphans())
+    actual, missing = view.get_orphans()
 
     assert contact.subject in actual
+    assert missing == 0
 
 
 def test_iter_orphans_guardians(db):
@@ -25,9 +26,10 @@ def test_iter_orphans_guardians(db):
     ward.guardians.add(contact)
 
     view = DataProtectionView()
-    actual = list(view.iter_orphans())
+    actual, missing = view.get_orphans()
 
     assert contact.subject not in actual
+    assert missing == 0
 
 
 def test_iter_orphans_participation(db):
@@ -38,6 +40,7 @@ def test_iter_orphans_participation(db):
     mommy.make(ParticipationRequest, subject=contact.subject)
 
     view = DataProtectionView()
-    actual = list(view.iter_orphans())
+    actual, missing = view.get_orphans()
 
     assert contact.subject not in actual
+    assert missing == 0

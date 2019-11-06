@@ -11,4 +11,9 @@
     {% empty %}
         <li class="alert alert-success">{% trans 'Nothing to do' %}</li>
     {% endfor %}
+    {% if missing > 0 %}
+        <li class="table-list-item text-muted">
+            {% blocktrans %}… and {{ missing }} further entries{% endblocktrans %}
+        </li>
+    {% endif %}
 </ul>
