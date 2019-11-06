@@ -67,6 +67,12 @@
         {% block header %}{% endblock %}
 
         {% block content_with_messages %}
+            {% if subject.to_be_deleted %}
+                <div class="alert alert-warning" role="alert">
+                    {% trans 'This subject is marked for deletion' %}
+                </div>
+            {% endif %}
+
             {% if messages %}
                 {% for message in messages %}
                     <div class="{{ message|bootstrap_message_classes }}" role="alert">
