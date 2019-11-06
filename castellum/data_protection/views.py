@@ -24,8 +24,6 @@ from django.db import models
 from django.utils import timezone
 from django.views.generic import TemplateView
 
-from dateutil.relativedelta import relativedelta
-
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.models import Contact
 from castellum.recruitment.models import ParticipationRequest
@@ -62,9 +60,7 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
             yield contact.subject
 
     def get_no_consent(self):
-        acceptable_datetime = timezone.now() - relativedelta(
-            days=settings.CASTELLUM_CONSENT_REVIEW_PERIOD
-        )
+        acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
         return Subject.objects.exclude(
             (
                 models.Q(consentconfirmation__status=ConsentConfirmation.CONFIRMED) |
@@ -74,8 +70,7 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
         )
 
     def get_context_data(self, **kwargs):
-        study_last_acceptable_datetime = timezone.now() - relativedelta(
-            years=settings.CASTELLUM_YEARS_UNTIL_STUDY_DELETION)
+        study_last_acceptable_datetime = timezone.now() - settings.CASTELLUM_STUDY_DELETION_PERIOD
         context = super().get_context_data(**kwargs)
         context['to_be_deleted'] = Subject.objects.filter(to_be_deleted=True)
         context['orphans'] = list(self.iter_orphans())

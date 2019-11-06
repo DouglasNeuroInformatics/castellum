@@ -114,6 +114,8 @@ class AttributeSet(TimeStampedModel):
     def get_recruitable(cls, study):
         from .recruitment import ParticipationRequest
 
+        last_contacted = timezone.now() - settings.CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS
+
         return (
             AttributeSet
             .apply_study_filter(study)
@@ -126,9 +128,7 @@ class AttributeSet(TimeStampedModel):
                 ),
             ))
             .filter(
-                models.Q(last_contacted__lte=timezone.now() - timezone.timedelta(
-                    days=settings.CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS
-                )) |
+                models.Q(last_contacted__lte=last_contacted) |
                 models.Q(last_contacted__isnull=True)
             )
         )

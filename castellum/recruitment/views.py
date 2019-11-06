@@ -180,8 +180,8 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ParticipationRequest.AWAITING_RESPONSE,
         ]).count()
 
-        context['last_agreeable_contact_time'] = datetime.date.today() - datetime.timedelta(
-            days=settings.CASTELLUM_DAYS_BETWEEN_CONTACT_ATTEMPTS
+        context['last_agreeable_contact_time'] = (
+            datetime.date.today() - settings.CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS
         )
 
         return context
