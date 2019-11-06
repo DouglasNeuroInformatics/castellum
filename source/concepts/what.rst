@@ -72,9 +72,9 @@ External steps
 ``````````````
 
 Some steps should be kept completely separated. For example, research data
-should not be stored inside castellum. Note that there is no integration
-necessary because research data is (or at least could be) handled by completely
-different staff than contact data and recruitment.
+should not be stored inside castellum. Note that there is no need for a
+streamlined, integrated UI because research data is (or at least could be)
+handled by completely different staff than contact data and recruitment.
 
 .. note::
    There are only two notable exceptions to this rule: Study participations and
