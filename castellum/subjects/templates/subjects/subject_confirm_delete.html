@@ -15,7 +15,9 @@
                     <li class="table-list-item">
                         <div class="my-1 mr-2">
                             <div class="h4 d-inline">{{ participationrequest.study }}</div>
-                            <span>{{ participationrequest.pseudonym }}</span>
+                            {% if participationrequest.status == participationrequest.INVITED %}
+                                <span>{{ participationrequest.pseudonym }}</span>
+                            {% endif %}
                             <span class="badge badge-secondary">{{ participationrequest|display:'status' }}</span>
                         </div>
                         <div class="table-list-item-actions">
