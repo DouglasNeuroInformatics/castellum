@@ -41,7 +41,7 @@
             <li class="table-list-item">
                 <div>
                     <small class="text-muted">
-                        {% blocktrans with datetime=batch.datetime|date:"SHORT_DATE_FORMAT" counter=forloop.counter|ordinal %}
+                        {% blocktrans with datetime=batch.datetime|date counter=forloop.counter|ordinal %}
                             {{ counter }} mail sent on {{ datetime }}:
                         {% endblocktrans %}
                     </small>
