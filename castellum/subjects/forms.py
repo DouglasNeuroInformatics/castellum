@@ -21,6 +21,7 @@
 
 from django import forms
 from django.forms import ValidationError
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from .models import Consent
@@ -32,13 +33,14 @@ class SubjectForm(forms.ModelForm):
 
     class Meta:
         model = Subject
-        exclude = ()
+        exclude = ('to_be_deleted',)
         widgets = {
             'privacy_level': forms.RadioSelect,
         }
 
     consent_type = ConsentConfirmation._meta.get_field('type').formfield(required=False)
     consent_status = ConsentConfirmation._meta.get_field('status').formfield(required=False)
+    to_be_deleted = forms.BooleanField(label=_("to be deleted"), required=False)
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
@@ -48,6 +50,8 @@ class SubjectForm(forms.ModelForm):
         if consent and consent.status == ConsentConfirmation.WAITING:
             self.fields['consent_type'].initial = consent.type
             self.fields['consent_status'].initial = consent.status
+
+        self.fields['to_be_deleted'].initial = self.instance.to_be_deleted
 
     def clean(self):
         cleaned_data = super().clean()
@@ -64,6 +68,11 @@ class SubjectForm(forms.ModelForm):
             if not all(consent_check):
                 raise ValidationError(_("Please, fill out both type and "
                                         "status of the consent."), code='invalid')
+
+        if self.cleaned_data.get('to_be_deleted') and not self.instance.to_be_deleted:
+            self.instance.to_be_deleted = timezone.now()
+        elif not self.cleaned_data.get('to_be_deleted') and self.instance.to_be_deleted:
+            self.instance.to_be_deleted = None
 
         return cleaned_data
 
