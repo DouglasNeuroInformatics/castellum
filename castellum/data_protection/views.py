@@ -47,7 +47,7 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
             .annotate(pr_count=models.Count('participationrequest', filter=~models.Q(
                 participationrequest__status=ParticipationRequest.UNSUITABLE
             )))\
-            .filter(no_recruitment=True, pr_count=0)
+            .filter(no_recruitment=True, to_be_deleted=False, pr_count=0)
 
         subjects = []
         for subject in candidates:
@@ -70,7 +70,8 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
             )
         subjects = []
         for contact in contacts[:self.limit_by]:
-            subjects.append(contact.subject)
+            if not contact.subject.to_be_deleted:
+                subjects.append(contact.subject)
 
         return subjects, max(contacts.count() - self.limit_by, 0)
 
@@ -82,6 +83,7 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
                 models.Q(consentconfirmation__updated_at__lte=acceptable_datetime)
             ),
             consentconfirmation__revision=Consent.objects.latest(),
+            to_be_deleted=True,
         )
 
         return subjects[:self.limit_by], max(subjects.count() - self.limit_by, 0)
