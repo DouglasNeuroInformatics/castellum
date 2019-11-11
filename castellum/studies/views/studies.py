@@ -243,6 +243,27 @@ class StudyRecruitmentSettingsUpdateView(
         return super().form_valid(form)
 
 
+class StudyExcludedStudiesView(
+    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
+):
+    model = Study
+    template_name = 'studies/study_excluded_studies.html'
+    fields = ('excluded_studies',)
+    permission_required = 'studies.change_study'
+    tab = 'recruitmentsettings'
+    subtab = 'excluded-studies'
+
+    def get_readonly(self):
+        return self.object.status == Study.FINISHED
+
+    def get_success_url(self):
+        return reverse('studies:excluded-studies', args=[self.object.pk])
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form)
+
+
 class StudyExclusionCriteriaView(
     StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
 ):

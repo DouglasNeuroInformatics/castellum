@@ -1,0 +1,18 @@
+{% extends "studies/study_recruitmentsettings_base.html" %}
+{% load i18n auth bootstrap4 %}
+
+{% block title %}{% trans "Excluded studies" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+
+        {% bootstrap_field form.excluded_studies show_label=False %}
+
+        {% if not readonly %}
+            <div class="mb-3">
+                <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+            </div>
+        {% endif %}
+    </form>
+{% endblock %}
