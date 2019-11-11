@@ -54,9 +54,9 @@ class SubjectMixin:
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data['subject'] = self.subject
-        return data
+        context = super().get_context_data(**kwargs)
+        context['subject'] = self.subject
+        return context
 
 
 class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):

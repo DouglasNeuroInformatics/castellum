@@ -297,15 +297,15 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
                 yield study
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         try:
-            data['attributeset'] = self.object.attributeset
-            data['studies'] = list(self.get_studies(self.object.attributeset))
+            context['attributeset'] = self.object.attributeset
+            context['studies'] = list(self.get_studies(self.object.attributeset))
         except AttributeSet.DoesNotExist:
             pass
 
-        return data
+        return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
