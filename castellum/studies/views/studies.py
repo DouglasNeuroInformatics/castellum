@@ -23,7 +23,7 @@ import logging
 
 from django import forms
 from django.contrib import messages
-from django.db.models import Q
+from django.db import models
 from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -67,11 +67,11 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
         if q:
             for part in q.split():
                 qs = qs.filter(
-                    Q(name__icontains=part) |
-                    Q(contact_person__icontains=part) |
-                    Q(description__icontains=part) |
-                    Q(keywords__icontains=part) |
-                    Q(study_type__translations__label__iexact=part)
+                    models.Q(name__icontains=part) |
+                    models.Q(contact_person__icontains=part) |
+                    models.Q(description__icontains=part) |
+                    models.Q(keywords__icontains=part) |
+                    models.Q(study_type__translations__label__iexact=part)
                 )
         if 'all' not in self.request.GET:
             qs = qs.filter(studymembership__user=self.request.user)
