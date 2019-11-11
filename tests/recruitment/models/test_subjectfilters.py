@@ -17,9 +17,9 @@ def create_participation_request(
 
 
 def has_match(is_exclusive=False, excluded_studies=[]):
-    study = mommy.make(Study, is_exclusive=is_exclusive)
-    group = mommy.make(SubjectFilterGroup, study=study, excluded_studies=excluded_studies)
-    return AttributeSet.objects.filter(group.to_q()).exists()
+    study = mommy.make(Study, is_exclusive=is_exclusive, excluded_studies=excluded_studies)
+    mommy.make(SubjectFilterGroup, study=study)
+    return AttributeSet.apply_study_filter(study).exists()
 
 
 def test_to_q(attributeset):

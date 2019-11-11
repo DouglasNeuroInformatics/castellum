@@ -57,8 +57,10 @@ class SubjectFilterGroup(models.Model):
         return reverse('studies:filtergroup-update', args=[self.study.pk, self.pk])
 
     def to_q(self, include_unknown=True):
+        # excluded_studies could be moved up the hierarchy. We leave it
+        # here so that ``get_matches().count()`` response is correct.
         q = ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
-            study__in=self.excluded_studies.all(),
+            study__in=self.study.excluded_studies.all(),
             status=ParticipationRequest.INVITED,
         ).values('subject_id'))
 
