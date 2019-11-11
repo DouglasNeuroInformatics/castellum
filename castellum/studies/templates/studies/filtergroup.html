@@ -91,6 +91,10 @@
                                 </div>
                             {% endif %}
                         </div>
+                    {% empty %}
+                        {% if readonly %}
+                            <p>{% trans 'No filters' %}</p>
+                        {% endif %}
                     {% endfor %}
                 </div>
 
