@@ -110,6 +110,9 @@ class Study(models.Model):
         ),
         default=False,
     )
+    excluded_studies = models.ManyToManyField(
+        'studies.Study', verbose_name=_('Excluded studies'), related_name='+', blank=True,
+    )
 
     consent = RestrictedFileField(
         _('Consent'),
