@@ -191,9 +191,9 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
         ).distinct()
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
-        data['count'] = self.object.get_matches().count()
+        context['count'] = self.object.get_matches().count()
 
         # if no filters exist, all active studies would be related
         if self.object.subjectfilter_set.exists():
@@ -204,32 +204,32 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
                 status=ParticipationRequest.INVITED,
                 subject__attributeset__in=self.object.get_matches(),
             )
-            data['related_studies'] = list(
+            context['related_studies'] = list(
                 Study.objects
                 .filter(participationrequest__in=related_prs)
                 .annotate(count=models.Count('pk'))
                 .order_by('-count')
             )
 
-        data['total_count'] = AttributeSet.objects.count()
-        data['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
-        data['expected_subject_count'] = (
+        context['total_count'] = AttributeSet.objects.count()
+        context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+        context['expected_subject_count'] = (
             self.study.min_subject_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         )
 
-        data['inaccessible'] = list(self.get_inaccessible_attributedescriptions())
+        context['inaccessible'] = list(self.get_inaccessible_attributedescriptions())
 
-        data['add_form'] = SubjectFilterAddForm(user=self.request.user)
-        data['templates'] = {}
+        context['add_form'] = SubjectFilterAddForm(user=self.request.user)
+        context['templates'] = {}
         for description in AttributeDescription.objects.all():
-            data['templates'][description.pk] = SubjectFilterForm(
+            context['templates'][description.pk] = SubjectFilterForm(
                 initial={'description': description},
                 prefix='{prefix}')
 
-        if 'formset' not in data:
-            data['formset'] = self.get_formset()
+        if 'formset' not in context:
+            context['formset'] = self.get_formset()
 
-        return data
+        return context
 
 
 class FilterGroupDeleteView(FilterMixin, DeleteView):

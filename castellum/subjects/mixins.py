@@ -54,9 +54,9 @@ class SubjectMixin:
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data['subject'] = self.subject
-        return data
+        context = super().get_context_data(**kwargs)
+        context['subject'] = self.subject
+        return context
 
 
 class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
@@ -83,12 +83,12 @@ class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         return formset_class(queryset=SubjectNote.objects.filter(subject=self.object), **kwargs)
 
     def get_context_data(self, **kwargs):
-        if 'notes_formset' not in kwargs:
-            kwargs['notes_formset'] = self.get_notes_formset()
-        kwargs['template_form'] = self.get_notes_form()
-        kwargs['db_consent_uploaded'] = Consent.objects.exists()
-
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        if 'notes_formset' not in context:
+            context['notes_formset'] = self.get_notes_formset()
+        context['template_form'] = self.get_notes_form()
+        context['db_consent_uploaded'] = Consent.objects.exists()
+        return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()

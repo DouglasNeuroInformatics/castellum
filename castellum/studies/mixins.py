@@ -57,6 +57,6 @@ class StudyMixin:
         return permission_required
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data['study'] = self.study
-        return data
+        context = super().get_context_data(**kwargs)
+        context['study'] = self.study
+        return context
