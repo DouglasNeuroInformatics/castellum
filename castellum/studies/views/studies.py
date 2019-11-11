@@ -29,6 +29,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import CreateView
@@ -39,12 +40,18 @@ from django.views.generic import ListView
 from django.views.generic import UpdateView
 from django.views.generic.detail import SingleObjectMixin
 
+from dateutil.relativedelta import relativedelta
+
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.castellum_auth.models import User
+from castellum.recruitment.models import AttributeSet
+from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import SubjectFilter
 from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
 
 from ..forms import AddMemberForm
+from ..forms import ExcludedStudiesForm
 from ..forms import MemberForm
 from ..forms import StudyForm
 from ..mixins import StudyMixin
@@ -248,7 +255,7 @@ class StudyExcludedStudiesView(
 ):
     model = Study
     template_name = 'studies/study_excluded_studies.html'
-    fields = ('excluded_studies',)
+    form_class = ExcludedStudiesForm
     permission_required = 'studies.change_study'
     tab = 'recruitmentsettings'
     subtab = 'excluded-studies'
@@ -258,6 +265,26 @@ class StudyExcludedStudiesView(
 
     def get_success_url(self):
         return reverse('studies:excluded-studies', args=[self.object.pk])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # if no filters exist, all active studies would be related
+        if SubjectFilter.objects.filter(group__study=self.object).exists():
+            dt = timezone.now() - relativedelta(years=2)
+            related_prs = ParticipationRequest.objects.filter(
+                updated_at__gte=dt,
+                status=ParticipationRequest.INVITED,
+                subject__attributeset__in=AttributeSet.apply_study_filter(self.object),
+            )
+            context['related_studies'] = list(
+                Study.objects
+                .filter(participationrequest__in=related_prs)
+                .annotate(count=models.Count('pk'))
+                .order_by('-count')
+            )
+
+        return context
 
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
