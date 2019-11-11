@@ -1,5 +1,5 @@
 $(function() {
-    var oldValue = null;
+    var oldValue = $('#id_no_recruitment').prop('checked');
 
     var setNoRecruitment = function() {
         var $toBeDeleted = $('#id_to_be_deleted');
