@@ -99,7 +99,8 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
         context['to_be_deleted'], context['to_be_deleted_missing'] = self.get_to_be_deleted()
         context['orphans'], context['orphans_missing'] = self.get_orphans()
         context['unreachable'], context['unreachable_missing'] = self.get_unreachable()
-        if Consent.objects.exists():
+        context['db_consent_uploaded'] = Consent.objects.exists()
+        if context['db_consent_uploaded']:
             context['no_consent'], context['no_consent_missing'] = self.get_no_consent()
         context['studies'], context['studies_missing'] = self.get_studies()
         return context
