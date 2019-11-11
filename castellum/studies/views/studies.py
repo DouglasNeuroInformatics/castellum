@@ -62,6 +62,23 @@ from ..models import StudySession
 monitoring_logger = logging.getLogger('monitoring.studies')
 
 
+def get_related_studies(study):
+    # if no filters exist, all active studies would be related
+    if not SubjectFilter.objects.filter(group__study=study).exists():
+        return Study.objects.none()
+
+    dt = timezone.now() - relativedelta(years=2)
+    related_prs = ParticipationRequest.objects.filter(
+        updated_at__gte=dt,
+        status=ParticipationRequest.INVITED,
+        subject__attributeset__in=AttributeSet.apply_study_filter(study),
+    )
+    return Study.objects\
+        .filter(participationrequest__in=related_prs)\
+        .annotate(count=models.Count('pk'))\
+        .order_by('-count')
+
+
 class StudyIndexView(PermissionRequiredMixin, ListView):
     model = Study
     ordering = 'name'
@@ -95,6 +112,17 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
     model = Study
     permission_required = 'studies.view_study'
     tab = 'detail'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['count'] = (
+            AttributeSet
+            .apply_study_filter(self.object)
+            .filter(subject__no_recruitment=False)
+            .count()
+        )
+        context['related_studies'] = list(get_related_studies(self.object))
+        return context
 
 
 class StudyFormMixin:
@@ -268,22 +296,7 @@ class StudyExcludedStudiesView(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        # if no filters exist, all active studies would be related
-        if SubjectFilter.objects.filter(group__study=self.object).exists():
-            dt = timezone.now() - relativedelta(years=2)
-            related_prs = ParticipationRequest.objects.filter(
-                updated_at__gte=dt,
-                status=ParticipationRequest.INVITED,
-                subject__attributeset__in=AttributeSet.apply_study_filter(self.object),
-            )
-            context['related_studies'] = list(
-                Study.objects
-                .filter(participationrequest__in=related_prs)
-                .annotate(count=models.Count('pk'))
-                .order_by('-count')
-            )
-
+        context['related_studies'] = list(get_related_studies(self.object))
         return context
 
     def form_valid(self, form):
