@@ -59,7 +59,14 @@
         <fieldset>
             <legend>{% trans 'Operational hints' %}</legend>
 
-            {% bootstrap_field form.to_be_deleted %}
+            <div class="d-flex">
+                {% bootstrap_field form.to_be_deleted %}
+                {% if subject.to_be_deleted %}
+                    <div class="ml-1 text-muted">
+                        ({% trans "set on" %} {{ subject.to_be_deleted|date }})
+                    </div>
+                {% endif %}
+            </div>
             {% bootstrap_field form.no_recruitment %}
             <input type="hidden" name="{{ form.no_recruitment.name }}" id="{{ form.no_recruitment.auto_id }}_hidden" value="on" disabled>
 
