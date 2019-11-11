@@ -64,6 +64,11 @@ class SubjectFilterGroup(models.Model):
             status=ParticipationRequest.INVITED,
         ).values('subject_id'))
 
+        q &= ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
+            study__excluded_studies=self.study,
+            status=ParticipationRequest.INVITED,
+        ).values('subject_id'))
+
         if self.study.is_exclusive:
             q &= ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
                 ~models.Q(study__status=Study.FINISHED),

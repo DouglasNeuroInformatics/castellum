@@ -42,6 +42,14 @@ def test_to_q_excluded_study_and_unsuitable_for_other_study(attributeset):
     assert not has_match(excluded_studies=[pr.study])
 
 
+def test_to_q_reverse_excluded_study(attributeset):
+    pr = create_participation_request(attributeset.subject)
+    study = mommy.make(Study)
+    mommy.make(SubjectFilterGroup, study=study)
+    pr.study.excluded_studies.add(study)
+    assert not AttributeSet.apply_study_filter(study).exists()
+
+
 def test_to_q_exclusive_study(attributeset):
     assert has_match(is_exclusive=True)
 
