@@ -110,10 +110,11 @@ class StudyFormMixin:
         }, **kwargs)
 
     def get_context_data(self, **kwargs):
-        if 'session_formset' not in kwargs:
-            kwargs['session_formset'] = self.get_session_formset()
-        kwargs["template_form"] = self.get_session_form()
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        if 'session_formset' not in context:
+            context['session_formset'] = self.get_session_formset()
+        context["template_form"] = self.get_session_form()
+        return context
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
