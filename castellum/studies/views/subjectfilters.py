@@ -19,18 +19,14 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import datetime
-
 from django.conf import settings
 from django.contrib import messages
-from django.db import models
 from django.forms import modelformset_factory
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DeleteView
 from django.views.generic import ListView
@@ -41,10 +37,8 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment.forms import SubjectFilterAddForm
 from castellum.recruitment.forms import SubjectFilterForm
 from castellum.recruitment.forms import SubjectFilterFormSet
-from castellum.recruitment.forms import SubjectFilterGroupForm
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
-from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.utils.views import ReadonlyMixin
@@ -135,7 +129,7 @@ class FilterGroupCreateView(FilterMixin, View):
 
 class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
     model = SubjectFilterGroup
-    form_class = SubjectFilterGroupForm
+    fields = []
     template_name = "studies/filtergroup.html"
     permission_required = 'recruitment.change_subjectfilter'
 
@@ -194,22 +188,6 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
         context = super().get_context_data(**kwargs)
 
         context['count'] = self.object.get_matches().count()
-
-        # if no filters exist, all active studies would be related
-        if self.object.subjectfilter_set.exists():
-            today = datetime.date.today()
-            dt = datetime.datetime(today.year - 2, today.month, today.day, 0, 0, 0)
-            related_prs = ParticipationRequest.objects.filter(
-                updated_at__gte=timezone.make_aware(dt),
-                status=ParticipationRequest.INVITED,
-                subject__attributeset__in=self.object.get_matches(),
-            )
-            context['related_studies'] = list(
-                Study.objects
-                .filter(participationrequest__in=related_prs)
-                .annotate(count=models.Count('pk'))
-                .order_by('-count')
-            )
 
         context['total_count'] = AttributeSet.objects.count()
         context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR

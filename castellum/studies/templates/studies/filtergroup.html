@@ -104,29 +104,6 @@
                         </div>
                     </div>
                 {% endif %}
-
-                <div class="form-group mt-3">
-                    {{ form.excluded_studies.label_tag }}
-                    <div class="form-row">
-                        <div class="col-sm">
-                            {{ form.excluded_studies }}
-                        </div>
-                        {% if study.status == study.EDIT %}
-                            <div class="col-sm flex-grow-0">
-                                <button type="button" class="btn btn-danger" data-multi-reset="#{{ form.excluded_studies.id_for_label }}">{% trans 'Reset' %}</button>
-                            </div>
-                        {% endif %}
-                    </div>
-                    <small class="form-text text-muted">{% trans 'Participants from excluded studies will be excluded from recruitment for this study.' %}</small>
-                    {% if related_studies %}
-                        <small class="form-text text-muted">
-                            {% trans 'Studies in which potential subjects have pariticipated' %}:
-                            {% for study in related_studies %}
-                                {{ study }} ({{ study.count }}){% if not forloop.last %},{% endif %}
-                            {% endfor %}
-                        </small>
-                    {% endif %}
-                </div>
             </div>
         </div>
 

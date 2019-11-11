@@ -21,7 +21,6 @@
 
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
 
 from picklefield.fields import PickledObjectField
 
@@ -36,7 +35,6 @@ class SubjectFilterGroupManager(models.Manager):
     def clone(self, original_group):
         cloned_group = SubjectFilterGroup.objects.create(study=original_group.study)
         SubjectFilter.objects.bulk_create(self.clone_filters(original_group, cloned_group))
-        cloned_group.excluded_studies.add(*original_group.excluded_studies.all())
         return cloned_group
 
     def clone_filters(self, original_group, cloned_group):
@@ -47,9 +45,6 @@ class SubjectFilterGroupManager(models.Manager):
 
 class SubjectFilterGroup(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
-    excluded_studies = models.ManyToManyField(
-        Study, verbose_name=_('Excluded studies'), related_name='+', blank=True,
-    )
 
     objects = SubjectFilterGroupManager()
 

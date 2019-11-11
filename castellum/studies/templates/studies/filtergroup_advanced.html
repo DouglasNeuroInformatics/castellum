@@ -43,24 +43,6 @@
                                     </ul>
                                 </details>
                             {% endwith %}
-                            {% with excluded_studies=group.excluded_studies.all|list %}
-                                {% if excluded_studies|length %}
-                                    <details>
-                                        <summary>
-                                            {% blocktrans count count=excluded_studies|length %}
-                                                {{ count }} excluded study
-                                            {% plural %}
-                                                {{ count }} excluded studies
-                                            {% endblocktrans%}
-                                        </summary>
-                                        <ul>
-                                            {% for s in excluded_studies %}
-                                                <li>{{ s }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </details>
-                                {% endif %}
-                            {% endwith %}
                         </div>
                         <div>
                             {% if can_change_subjectfilter %}
