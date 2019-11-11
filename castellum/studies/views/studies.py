@@ -296,6 +296,13 @@ class StudyExcludedStudiesView(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['count'] = (
+            AttributeSet
+            .apply_study_filter(self.object)
+            .filter(subject__no_recruitment=False)
+            .count()
+        )
+        context['total_count'] = AttributeSet.objects.count()
         context['related_studies'] = list(get_related_studies(self.object))
         return context
 
