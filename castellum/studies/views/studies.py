@@ -202,9 +202,9 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     def post(self, request, study_pk):
         if self.study.status != self.study.FINISHED:
             if self.study.status == self.study.EXECUTION:
-                self.study.next_status(self.study.EDIT)
+                self.study.set_status(self.study.EDIT)
             else:
-                self.study.next_status(self.study.EXECUTION)
+                self.study.set_status(self.study.EXECUTION)
             return redirect('studies:detail', self.study.pk)
         else:
             return HttpResponseBadRequest()
@@ -215,9 +215,9 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
 
     def post(self, request, study_pk):
         if self.study.status == self.study.FINISHED:
-            self.study.previous_status()
+            self.study.restore_previous_status()
         else:
-            self.study.next_status(self.study.FINISHED)
+            self.study.set_status(self.study.FINISHED)
         return redirect('studies:detail', self.study.pk)
 
 

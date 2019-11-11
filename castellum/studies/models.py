@@ -132,11 +132,11 @@ class Study(models.Model):
     def __str__(self):
         return self.name
 
-    def previous_status(self):
+    def restore_previous_status(self):
         self.status = self.previous_status
         self.save()
 
-    def next_status(self, status):
+    def set_status(self, status):
         self.previous_status = self.status
         self.status = status
         self.save()
