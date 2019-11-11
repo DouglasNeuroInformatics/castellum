@@ -77,8 +77,8 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
             qs = qs.filter(studymembership__user=self.request.user)
         return qs.distinct()
 
-    def get_context_data(self):
-        context = super().get_context_data()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         context['q'] = self.request.GET.get('q', '')
         context['all'] = 'all' in self.request.GET
         return context
