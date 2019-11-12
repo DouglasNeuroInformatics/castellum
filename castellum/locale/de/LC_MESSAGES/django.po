@@ -357,7 +357,7 @@ msgstr "Nichts zu tun."
 #: castellum/data_protection/templates/data_protection/__subject_list.html:16
 #, python-format
 msgid "… and %(missing)s further entries"
-msgstr ""
+msgstr "… und %(missing)s weitere Einträge"
 
 #: castellum/data_protection/templates/data_protection/index.html:4
 #: castellum/data_protection/templates/data_protection/index.html:7
@@ -370,10 +370,8 @@ msgid "To be deleted"
 msgstr "zur Löschung vorgemerkt"
 
 #: castellum/data_protection/templates/data_protection/index.html:12
-#, fuzzy
-#| msgid "Unsuitable"
 msgid "Unrecruitable"
-msgstr "nicht geeignet"
+msgstr "Nicht rekrutierbar"
 
 #: castellum/data_protection/templates/data_protection/index.html:15
 msgid "Unreachable"
@@ -1784,10 +1782,8 @@ msgid "Data has been saved."
 msgstr "Eingabe wurde gespeichert"
 
 #: castellum/studies/views/studies.py:196
-#, fuzzy
-#| msgid "Data has been saved."
 msgid "Study has been deleted."
-msgstr "Eingabe wurde gespeichert"
+msgstr "Die Studie wurde gelöscht"
 
 #: castellum/studies/views/studies.py:307
 msgid ""
@@ -2026,12 +2022,12 @@ msgid ""
 "This subject cannot be deleted because there still is data about them in "
 "studies."
 msgstr ""
+"Diese Proband*in kann nicht gelöscht werden, da noch zu ihr gehörige Daten "
+"in Studien vorhanden sind."
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:12
-#, fuzzy
-#| msgid "Delete study participation"
 msgid "Please delete all of these study participations:"
-msgstr "Studienteilnahme löschen"
+msgstr "Bitte löschen Sie die folgenden Studienteilnahmen:"
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:26
 msgid "Study details"
@@ -2039,7 +2035,7 @@ msgstr "Studiendetails"
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:41
 msgid "This subject does not have any data in studies."
-msgstr ""
+msgstr "Diese Proband*in hat keine Daten in Studien."
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:43
 msgid ""
@@ -2093,7 +2089,7 @@ msgstr "DSGVO-Anfrage"
 
 #: castellum/subjects/templates/subjects/subject_form.html:66
 msgid "set on"
-msgstr ""
+msgstr "angegeben am"
 
 #: castellum/subjects/templates/subjects/subject_form.html:74
 msgid "Availability"
@@ -2116,10 +2112,8 @@ msgid "Go to execution"
 msgstr "Zur Durchführung"
 
 #: castellum/subjects/views.py:143
-#, fuzzy
-#| msgid "Subject may be suitable"
 msgid "Subject has been deleted."
-msgstr "Proband*in ist potentiell geeignet"
+msgstr "Die Proband*in wurde gelöscht"
 
 #: castellum/templates/403.html:4 castellum/templates/403.html:7
 msgid "Forbidden"
@@ -2147,7 +2141,7 @@ msgstr "Anmelden"
 
 #: castellum/templates/base.html:72
 msgid "This subject is marked for deletion"
-msgstr ""
+msgstr "Diese Proband*in ist zur Löschung vorgemerkt."
 
 #: castellum/templates/index.html:68
 msgid "Data protection"
@@ -2192,25 +2186,3 @@ msgstr "erstellt am"
 #: castellum/utils/models.py:28
 msgid "updated at"
 msgstr "aktualisiert am"
-
-#~ msgid "Orphans"
-#~ msgstr "Waisen"
-
-#~ msgid ""
-#~ "This subject still has data in studies. Please delete all study "
-#~ "participations first."
-#~ msgstr ""
-#~ "zu dieser Proband*in existieren noch Daten in Studien. Bitte löschen Sie "
-#~ "zuerst alle Studienteilnahmen."
-
-#~ msgid "No consent"
-#~ msgstr "Kein Einverständnis"
-
-#~ msgid "appointment today"
-#~ msgstr "Terminvereinbarung heute"
-
-#~ msgid "Mails have been sent."
-#~ msgstr "E-Mails wurden versendet."
-
-#~ msgid "Study mode"
-#~ msgstr "Studien-Modus"
