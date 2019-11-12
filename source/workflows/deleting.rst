@@ -38,3 +38,22 @@ please proceed as follows:
     to delete
     - You can find the responsible person by clicking on **Study
     Participation**, then press **Contact** next to the person to be deleted
+    
+    
+
+Deleting a study from Castellum
+====================================
+    
+Prerequisite
+---------------
+A study should be completely deleted because of one or more of thefollowing
+reasons:
+    - The study is no longer current because it was completed five years
+    or more ago
+    - ....
+    
+Deleting the study
+-------------------
+1. Go to **Studies** on the front page
+2. Click on **All studies** to see all proposed studies
+3. Choose the stufy you want to delete by pressing **Details** next to it
