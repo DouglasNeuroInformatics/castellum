@@ -160,14 +160,15 @@ class ContactForm(forms.ModelForm):
     def save(self, commit=True):
         contact = super().save(commit=False)
 
-        if self.data.get('city'):
+        has_address = any(self.data.get(name) for name in self.address.fields)
+        if has_address:
             contact.address = self.address.save(commit=commit)
 
         if commit:
             contact.save()
             self.save_m2m()
 
-            if not self.data.get('city') and contact.address:
+            if not has_address and contact.address:
                 contact.address.delete()
 
             if self.cleaned_data.get('guardians_pane') == 'guardians':
