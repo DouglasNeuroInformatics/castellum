@@ -11,22 +11,22 @@
 </div>
 <div class="form-row">
     <div class="col-md-8">
-        {% bootstrap_field form.street %}
+        {% bootstrap_field form.address.street %}
     </div>
     <div class="col-md-4">
-        {% bootstrap_field form.house_number %}
+        {% bootstrap_field form.address.house_number %}
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-3">
-        {% bootstrap_field form.zip_code %}
+        {% bootstrap_field form.address.zip_code %}
     </div>
     <div class="col-md-5">
-        {% bootstrap_field form.city %}
+        {% bootstrap_field form.address.city %}
     </div>
     <div class="col-md-4">
-        {% bootstrap_field form.country %}
+        {% bootstrap_field form.address.country %}
     </div>
 </div>
-{% bootstrap_field form.additional_information %}
+{% bootstrap_field form.address.additional_information %}
 {% bootstrap_field form.preferred_contact_method %}

@@ -53,23 +53,14 @@ class AddressForm(forms.ModelForm):
         model = Address
         exclude = ('city',)
 
+    def save(self, commit=True):
+        country, __ = Country.objects.get_or_create(name=self.cleaned_data['country'])
+        city, __ = City.objects.get_or_create(name=self.cleaned_data['city'], country=country)
+        self.instance.city = city
+        return super().save(commit=commit)
+
 
 class ContactForm(forms.ModelForm):
-    ADDRESS_FIELDS = [
-        'country', 'city', 'zip_code', 'street', 'house_number', 'additional_information',
-    ]
-
-    # fields required for the address
-    country = forms.CharField(label=_('Country'), required=False, widget=DatalistWidget(
-        datalist=Country.objects.values_list('name', flat=True)))
-    city = forms.CharField(label=_('City'), required=False, widget=DatalistWidget(
-        datalist=City.objects.values_list('name', flat=True)))
-    zip_code = forms.CharField(label=_('Zip code'), required=False)
-    street = forms.CharField(label=_('Street'), required=False)
-    house_number = forms.CharField(label=_('House number'), required=False)
-    additional_information = forms.CharField(
-        label=_('Additional address information'), required=False)
-
     guardians_pane = forms.ChoiceField(required=False, choices=[
         ('self', _('Full of age')),
         ('guardians', _('Has legal guardian')),
@@ -85,14 +76,7 @@ class ContactForm(forms.ModelForm):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
 
-        if self.instance.address:
-            self.fields['country'].initial = self.instance.address.city.country.name
-            self.fields['city'].initial = self.instance.address.city.name
-            self.fields['zip_code'].initial = self.instance.address.zip_code
-            self.fields['street'].initial = self.instance.address.street
-            self.fields['house_number'].initial = self.instance.address.house_number
-            self.fields['additional_information'].initial = \
-                self.instance.address.additional_information
+        self.address = self.get_address_form(**kwargs)
 
         if self.instance.has_guardian:
             self.fields['guardians_pane'].initial = 'guardians'
@@ -102,6 +86,15 @@ class ContactForm(forms.ModelForm):
         self.fields['guardians_remove'].choices = self.get_guardians_rm_choices(user)
 
         self.fields['date_of_birth'].required = True
+
+    def get_address_form(self, **kwargs):
+        address_kwargs = kwargs.copy()
+        if kwargs.get('instance'):
+            address_kwargs['instance'] = kwargs['instance'].address
+        form = AddressForm(**address_kwargs)
+        for field in form.fields.values():
+            field.required = False
+        return form
 
     def get_guardians_rm_choices(self, user):
         self.guardians_blocked = 0
@@ -123,14 +116,12 @@ class ContactForm(forms.ModelForm):
 
         # clear unselected pane
         if is_guardians_pane:
-            for name in self.ADDRESS_FIELDS:
-                cleaned_data[name] = ''
             cleaned_data['phone_number'] = ''
             cleaned_data['phone_number_alternative'] = ''
             cleaned_data['email'] = ''
             cleaned_data['preferred_contact_method'] = ''
 
-        has_address = any(cleaned_data.get(name) for name in self.ADDRESS_FIELDS)
+        has_address = any(self.data.get(name) for name in self.address.fields)
 
         # validate guardian required for underage subjects
         if date_of_birth:
@@ -141,11 +132,15 @@ class ContactForm(forms.ModelForm):
 
         # validate address
         if has_address:
-            address_form = AddressForm(data=cleaned_data)
+            # populate self.address.cleaned_data
+            self.address.is_valid()
+
+            # do strict validation (with required)
+            address_form = AddressForm(data=self.data)
             if not address_form.is_valid():
                 if address_form.errors:
                     for field, errors in address_form.errors.items():
-                        self.add_error(field, errors)
+                        self.address.add_error(field, errors)
 
                 raise ValidationError(_("Provide more details for the address."), code='invalid')
 
@@ -165,28 +160,15 @@ class ContactForm(forms.ModelForm):
     def save(self, commit=True):
         contact = super().save(commit=False)
 
-        if self.cleaned_data.get('city'):
-            country, __ = Country.objects.get_or_create(name=self.cleaned_data['country'])
-            city, __ = City.objects.get_or_create(name=self.cleaned_data['city'], country=country)
-
-            if not contact.address:
-                contact.address = Address.objects.create(city=city)
-            else:
-                contact.address.city = city
-
-            contact.address.zip_code = self.cleaned_data['zip_code']
-            contact.address.street = self.cleaned_data['street']
-            contact.address.house_number = self.cleaned_data['house_number']
-            contact.address.additional_information = self.cleaned_data['additional_information']
-
-            if commit:
-                contact.address.save()
+        has_address = any(self.data.get(name) for name in self.address.fields)
+        if has_address:
+            contact.address = self.address.save(commit=commit)
 
         if commit:
             contact.save()
             self.save_m2m()
 
-            if not self.cleaned_data.get('city') and contact.address:
+            if not has_address and contact.address:
                 contact.address.delete()
 
             if self.cleaned_data.get('guardians_pane') == 'guardians':
