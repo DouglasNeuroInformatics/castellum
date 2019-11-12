@@ -51,6 +51,17 @@ class StudyForm(ReadonlyModelForm):
         }
 
 
+class ExcludedStudiesForm(ReadonlyModelForm):
+    class Meta:
+        model = models.Study
+        fields = ('excluded_studies',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['excluded_studies'].queryset = models.Study.objects.exclude(pk=self.instance.pk)
+        self.fields["excluded_studies"].widget.attrs['class'] = 'form-control'
+
+
 class AddMemberForm(forms.Form):
     user = forms.ModelChoiceField(queryset=User.objects.all())
 

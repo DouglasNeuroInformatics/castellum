@@ -24,6 +24,7 @@ from django.urls import path
 from .views.studies import StudyCreateView
 from .views.studies import StudyDeleteView
 from .views.studies import StudyDetailView
+from .views.studies import StudyExcludedStudiesView
 from .views.studies import StudyExclusionCriteriaView
 from .views.studies import StudyFinishRecruitmentView
 from .views.studies import StudyIndexView
@@ -60,6 +61,8 @@ urlpatterns = [
          name='exclusioncriteria'),
     path('<int:pk>/recruitmentsettings/mail/', StudyMailSettingsView.as_view(),
          name='mailsettings'),
+    path('<int:pk>/recruitmentsettings/excluded-studies/', StudyExcludedStudiesView.as_view(),
+         name='excluded-studies'),
     path(
         '<int:study_pk>/recruitmentsettings/filters/',
         FilterGroupListView.as_view(),

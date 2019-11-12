@@ -21,7 +21,6 @@
 
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
 
 from picklefield.fields import PickledObjectField
 
@@ -36,7 +35,6 @@ class SubjectFilterGroupManager(models.Manager):
     def clone(self, original_group):
         cloned_group = SubjectFilterGroup.objects.create(study=original_group.study)
         SubjectFilter.objects.bulk_create(self.clone_filters(original_group, cloned_group))
-        cloned_group.excluded_studies.add(*original_group.excluded_studies.all())
         return cloned_group
 
     def clone_filters(self, original_group, cloned_group):
@@ -47,9 +45,6 @@ class SubjectFilterGroupManager(models.Manager):
 
 class SubjectFilterGroup(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
-    excluded_studies = models.ManyToManyField(
-        Study, verbose_name=_('Excluded studies'), related_name='+', blank=True,
-    )
 
     objects = SubjectFilterGroupManager()
 
@@ -57,8 +52,15 @@ class SubjectFilterGroup(models.Model):
         return reverse('studies:filtergroup-update', args=[self.study.pk, self.pk])
 
     def to_q(self, include_unknown=True):
+        # excluded_studies could be moved up the hierarchy. We leave it
+        # here so that ``get_matches().count()`` response is correct.
         q = ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
-            study__in=self.excluded_studies.all(),
+            study__in=self.study.excluded_studies.all(),
+            status=ParticipationRequest.INVITED,
+        ).values('subject_id'))
+
+        q &= ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
+            study__excluded_studies=self.study,
             status=ParticipationRequest.INVITED,
         ).values('subject_id'))
 
@@ -96,6 +98,3 @@ class SubjectFilter(models.Model):
 
     def to_q(self, include_unknown=True):
         return self.description.field.filter_to_q(self.operator, self.value, include_unknown)
-
-    def get_matches(self, include_unknown=True):
-        return AttributeSet.objects.filter(self.to_q(include_unknown))

@@ -92,6 +92,18 @@
     <h3 class="h5">{% trans "Recruitment settings" %}</h3>
 
     <dl class="row">
+        <dt class="col-sm-6">{% trans 'Potential subjects' %}</dt>
+        <dd class="col-sm-6">{{ count }}</dd>
+
+        <dt class="col-sm-6">{% trans 'Studies in which potential subjects have pariticipated' %}</dt>
+        <dd class="col-sm-6">
+            {% for study in related_studies %}
+                {{ study }} ({{ study.count }}){% if not forloop.last %},{% endif %}
+            {% empty %}
+                &mdash;
+            {% endfor %}
+        </dd>
+
         <dt class="col-sm-6">{% trans 'Recruitment text provided' %}</dt>
         <dd class="col-sm-6">{% if object.recruitment_text %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</dd>
 

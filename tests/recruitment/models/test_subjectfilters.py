@@ -17,9 +17,9 @@ def create_participation_request(
 
 
 def has_match(is_exclusive=False, excluded_studies=[]):
-    study = mommy.make(Study, is_exclusive=is_exclusive)
-    group = mommy.make(SubjectFilterGroup, study=study, excluded_studies=excluded_studies)
-    return AttributeSet.objects.filter(group.to_q()).exists()
+    study = mommy.make(Study, is_exclusive=is_exclusive, excluded_studies=excluded_studies)
+    mommy.make(SubjectFilterGroup, study=study)
+    return AttributeSet.apply_study_filter(study).exists()
 
 
 def test_to_q(attributeset):
@@ -40,6 +40,14 @@ def test_to_q_excluded_study_and_unsuitable_for_other_study(attributeset):
     pr = create_participation_request(attributeset.subject)
     create_participation_request(attributeset.subject, status=ParticipationRequest.UNSUITABLE)
     assert not has_match(excluded_studies=[pr.study])
+
+
+def test_to_q_reverse_excluded_study(attributeset):
+    pr = create_participation_request(attributeset.subject)
+    study = mommy.make(Study)
+    mommy.make(SubjectFilterGroup, study=study)
+    pr.study.excluded_studies.add(study)
+    assert not AttributeSet.apply_study_filter(study).exists()
 
 
 def test_to_q_exclusive_study(attributeset):

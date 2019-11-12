@@ -23,12 +23,13 @@ import logging
 
 from django import forms
 from django.contrib import messages
-from django.db.models import Q
+from django.db import models
 from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import CreateView
@@ -39,12 +40,18 @@ from django.views.generic import ListView
 from django.views.generic import UpdateView
 from django.views.generic.detail import SingleObjectMixin
 
+from dateutil.relativedelta import relativedelta
+
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.castellum_auth.models import User
+from castellum.recruitment.models import AttributeSet
+from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import SubjectFilter
 from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
 
 from ..forms import AddMemberForm
+from ..forms import ExcludedStudiesForm
 from ..forms import MemberForm
 from ..forms import StudyForm
 from ..mixins import StudyMixin
@@ -53,6 +60,23 @@ from ..models import StudyMembership
 from ..models import StudySession
 
 monitoring_logger = logging.getLogger('monitoring.studies')
+
+
+def get_related_studies(study):
+    # if no filters exist, all active studies would be related
+    if not SubjectFilter.objects.filter(group__study=study).exists():
+        return Study.objects.none()
+
+    dt = timezone.now() - relativedelta(years=2)
+    related_prs = ParticipationRequest.objects.filter(
+        updated_at__gte=dt,
+        status=ParticipationRequest.INVITED,
+        subject__attributeset__in=AttributeSet.apply_study_filter(study),
+    )
+    return Study.objects\
+        .filter(participationrequest__in=related_prs)\
+        .annotate(count=models.Count('pk'))\
+        .order_by('-count')
 
 
 class StudyIndexView(PermissionRequiredMixin, ListView):
@@ -67,11 +91,11 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
         if q:
             for part in q.split():
                 qs = qs.filter(
-                    Q(name__icontains=part) |
-                    Q(contact_person__icontains=part) |
-                    Q(description__icontains=part) |
-                    Q(keywords__icontains=part) |
-                    Q(study_type__translations__label__iexact=part)
+                    models.Q(name__icontains=part) |
+                    models.Q(contact_person__icontains=part) |
+                    models.Q(description__icontains=part) |
+                    models.Q(keywords__icontains=part) |
+                    models.Q(study_type__translations__label__iexact=part)
                 )
         if 'all' not in self.request.GET:
             qs = qs.filter(studymembership__user=self.request.user)
@@ -88,6 +112,17 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
     model = Study
     permission_required = 'studies.view_study'
     tab = 'detail'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['count'] = (
+            AttributeSet
+            .apply_study_filter(self.object)
+            .filter(subject__no_recruitment=False)
+            .count()
+        )
+        context['related_studies'] = list(get_related_studies(self.object))
+        return context
 
 
 class StudyFormMixin:
@@ -237,6 +272,39 @@ class StudyRecruitmentSettingsUpdateView(
 
     def get_success_url(self):
         return reverse('studies:recruitmentsettings', kwargs={'pk': self.object.pk})
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form)
+
+
+class StudyExcludedStudiesView(
+    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
+):
+    model = Study
+    template_name = 'studies/study_excluded_studies.html'
+    form_class = ExcludedStudiesForm
+    permission_required = 'studies.change_study'
+    tab = 'recruitmentsettings'
+    subtab = 'excluded-studies'
+
+    def get_readonly(self):
+        return self.object.status == Study.FINISHED
+
+    def get_success_url(self):
+        return reverse('studies:excluded-studies', args=[self.object.pk])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['count'] = (
+            AttributeSet
+            .apply_study_filter(self.object)
+            .filter(subject__no_recruitment=False)
+            .count()
+        )
+        context['total_count'] = AttributeSet.objects.count()
+        context['related_studies'] = list(get_related_studies(self.object))
+        return context
 
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))

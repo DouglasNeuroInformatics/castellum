@@ -1,0 +1,46 @@
+{% extends "studies/study_recruitmentsettings_base.html" %}
+{% load i18n auth bootstrap4 %}
+
+{% block title %}{% trans "Excluded studies" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="card mb-3">
+            <div class="card-header text-right">
+                <span title="{% trans 'required' %}: {{ study.min_subject_count }} {% trans 'total' %}: {{ total_count }}">
+                    {% blocktrans %}{{ count }} potential subjects{% endblocktrans %}
+                </span>
+            </div>
+
+            <div class="card-body">
+                <div class="form-group mt-3">
+                    <div class="form-row">
+                        <div class="col-sm">
+                            {{ form.excluded_studies }}
+                        </div>
+                        <div class="col-sm flex-grow-0">
+                            <button type="button" class="btn btn-danger" data-multi-reset="#{{ form.excluded_studies.id_for_label }}">{% trans 'Reset' %}</button>
+                        </div>
+                    </div>
+                    <small class="form-text text-muted">{% trans 'Participants from excluded studies will be excluded from recruitment for this study.' %}</small>
+                    {% if related_studies %}
+                        <small class="form-text text-muted">
+                            {% trans 'Studies in which potential subjects have pariticipated' %}:
+                            {% for study in related_studies %}
+                                {{ study }} ({{ study.count }}){% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        </small>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% if not readonly %}
+            <div class="mb-3">
+                <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+            </div>
+        {% endif %}
+    </form>
+{% endblock %}
