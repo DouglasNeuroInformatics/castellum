@@ -15,8 +15,10 @@
     <h2>{% trans 'Unreachable' %}</h2>
     {% include 'data_protection/__subject_list.html' with subjects=unreachable missing=unreachable_missing %}
 
-    <h2>{% trans 'Missing consent' %}</h2>
-    {% include 'data_protection/__subject_list.html' with subjects=no_consent missing=no_consent_missing %}
+    {% if db_consent_uploaded %}
+        <h2>{% trans 'Missing consent' %}</h2>
+        {% include 'data_protection/__subject_list.html' with subjects=no_consent missing=no_consent_missing %}
+    {% endif %}
 
     <h2>{% trans 'Expired studies' %}</h2>
     <ul class="table-list">
