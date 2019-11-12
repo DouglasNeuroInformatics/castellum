@@ -51,9 +51,17 @@ reasons:
     - The study is no longer current because it was completed five years
     or more ago
     - ....
+Before you delete the study, make sure all external data from Castellum is
+deleted.
     
 Deleting the study
 -------------------
 1. Go to **Studies** on the front page
 2. Click on **All studies** to see all proposed studies
-3. Choose the stufy you want to delete by pressing **Details** next to it
+3. Choose the study you want to delete by pressing **Details** next to it
+4. Before pressing **Delete**, proceed as follows:
+    - Go to the responsible person of the study,
+    - Ask the person to delete all subject data of the study you want to delete
+    - You can detect the name of the responsible person in the upper left
+    corner under the study name
+5. If all data has been deleted, press **Delete**
