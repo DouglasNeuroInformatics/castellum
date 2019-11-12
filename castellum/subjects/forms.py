@@ -40,7 +40,7 @@ class SubjectForm(forms.ModelForm):
 
     consent_type = ConsentConfirmation._meta.get_field('type').formfield(required=False)
     consent_status = ConsentConfirmation._meta.get_field('status').formfield(required=False)
-    to_be_deleted = forms.BooleanField(label=_("to be deleted"), required=False)
+    to_be_deleted = forms.BooleanField(label=_("To be deleted"), required=False)
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
