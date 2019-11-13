@@ -37,6 +37,7 @@ from parler.models import TranslatableModel
 from parler.models import TranslatedFields
 from parler.utils.context import switch_language
 
+from castellum.studies.models import StudyType
 from castellum.subjects.models import Subject
 from castellum.utils.models import TimeStampedModel
 
@@ -84,6 +85,12 @@ class ImportMixin:
 class AttributeSet(TimeStampedModel):
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE, editable=False)
     data = JSONField(encoder=DjangoJSONEncoder)
+    study_type_disinterest = models.ManyToManyField(
+        StudyType,
+        verbose_name=_('Does not want to participate in the following study types:'),
+        blank=True,
+        related_name='+'
+    )
 
     class Meta:
         verbose_name = _('Attribute set')

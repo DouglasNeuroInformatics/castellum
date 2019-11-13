@@ -28,6 +28,7 @@ from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
 
 from .models import AttributeDescription
+from .models import AttributeSet
 from .models import ParticipationRequest
 from .models import SubjectFilter
 from .models.attributesets import ANSWER_DECLINED
@@ -126,26 +127,36 @@ class SubjectFilterFormSet(forms.BaseModelFormSet):
             ), code='invalid')
 
 
-class AttributeSetForm(forms.Form):
+class AttributeSetForm(forms.ModelForm):
+
+    class Meta:
+        model = AttributeSet
+        exclude = ('data',)
+        widgets = {
+            'study_type_disinterest': forms.CheckboxSelectMultiple(),
+        }
+
     def __init__(self, instance=None, **kwargs):
-        self.instance = instance
         if not kwargs.get('initial'):
             kwargs['initial'] = {}
             for key, value in instance.get_data().items():
                 kwargs['initial'][key] = None if value == ANSWER_DECLINED else value
-        super().__init__(**kwargs)
+        super().__init__(instance=instance, **kwargs)
 
     def clean(self):
         cleaned_data = super().clean()
         for key in cleaned_data:
             if key + '_answer_declined' in self.data:
                 cleaned_data[key] = ANSWER_DECLINED
-        return cleaned_data
+        study_type_disinterest = cleaned_data.pop('study_type_disinterest')
+        return {
+            'study_type_disinterest': study_type_disinterest,
+            'data': cleaned_data,
+        }
 
     def save(self):
-        self.instance.data.update(self.cleaned_data)
-        self.instance.save()
-        return self.instance
+        self.instance.data.update(self.cleaned_data['data'])
+        return super().save()
 
     @classmethod
     def factory(cls, user, obj=None):
