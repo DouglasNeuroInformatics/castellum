@@ -63,6 +63,12 @@ class Subject(TimeStampedModel):
         ],
     )
 
+    study_type_disinterest = models.ManyToManyField(
+        'studies.StudyType',
+        verbose_name=_('Does not want to participate in the following study types:'),
+        blank=True,
+        related_name='subjects'
+    )
     no_recruitment = models.BooleanField(_('Do not contact for recruitment'), default=False)
     to_be_deleted = models.DateTimeField(_('To be deleted'), blank=True, null=True)
 
