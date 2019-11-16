@@ -36,8 +36,27 @@ from castellum.utils.fields import DateField
 from castellum.utils.fields import PhoneNumberField
 from castellum.utils.models import TimeStampedModel
 
-from ..utils import phonetic
-from . import Address
+from .utils import phonetic
+
+
+class Address(models.Model):
+    country = models.CharField(_('Country'), max_length=64)
+    city = models.CharField(_('City'), max_length=128)
+    zip_code = models.CharField(_('Zip code'), max_length=5)
+    street = models.CharField(_('Street'), max_length=128)
+    house_number = models.CharField(_('House number'), max_length=5)
+    additional_information = models.CharField(_('Additional information'), max_length=32,
+                                              blank=True)
+
+    def __str__(self):
+        street = " ".join([self.street, self.house_number, self.additional_information]).strip()
+        return "{}, {} {}".format(street, self.zip_code, self.city)
+
+    class Meta:
+        ordering = ('country', 'city', 'zip_code', 'street', 'house_number',
+                    'additional_information')
+        verbose_name = _('Address')
+        verbose_name_plural = _('Addresses')
 
 
 class ContactManager(models.Manager):

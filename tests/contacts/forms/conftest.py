@@ -2,13 +2,7 @@ import pytest
 from model_mommy import mommy
 
 from castellum.contacts.models import Address
-from castellum.contacts.models import City
 from castellum.contacts.models import Contact
-
-
-@pytest.fixture
-def city():
-    return mommy.make(City)
 
 
 @pytest.fixture
@@ -35,8 +29,8 @@ def contact_data():
 @pytest.fixture
 def address_data(address):
     return {
-        'country': address.city.country.name,
-        'city': address.city.name,
+        'country': address.country,
+        'city': address.city,
         'zip_code': address.zip_code,
         'street': address.street,
         'house_number': address.house_number,

@@ -30,9 +30,7 @@ from castellum.subjects.models import Subject
 from castellum.utils.forms import DatalistWidget
 
 from .models import Address
-from .models import City
 from .models import Contact
-from .models import Country
 
 
 class SubjectMultipleChoiceField(forms.ModelMultipleChoiceField):
@@ -43,21 +41,17 @@ class SubjectMultipleChoiceField(forms.ModelMultipleChoiceField):
 
 
 class AddressForm(forms.ModelForm):
-
-    country = forms.CharField(max_length=64, widget=DatalistWidget(
-        datalist=Country.objects.values_list('name', flat=True)))
-    city = forms.CharField(max_length=128, widget=DatalistWidget(
-        datalist=City.objects.values_list('name', flat=True)))
-
     class Meta:
         model = Address
-        exclude = ('city',)
-
-    def save(self, commit=True):
-        country, __ = Country.objects.get_or_create(name=self.cleaned_data['country'])
-        city, __ = City.objects.get_or_create(name=self.cleaned_data['city'], country=country)
-        self.instance.city = city
-        return super().save(commit=commit)
+        fields = '__all__'
+        widgets = {
+            'country': DatalistWidget(datalist=(
+                Address.objects.order_by('country').values_list('country', flat=True).distinct
+            )),
+            'city': DatalistWidget(datalist=(
+                Address.objects.order_by('city').values_list('city', flat=True).distinct
+            )),
+        }
 
 
 class ContactForm(forms.ModelForm):

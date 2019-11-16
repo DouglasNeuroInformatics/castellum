@@ -62,8 +62,8 @@ def test_contact_form_without_email_or_phonenumber_with_incomplete_address(user,
                                                                            address):
 
     contact_data.update({
-        'country': address.city.country.name,
-        'city': address.city.name,
+        'country': address.country,
+        'city': address.city,
     })
 
     form = ContactForm(user=user, data=contact_data)
@@ -94,8 +94,8 @@ def test_contact_form_contact_is_saved_correctly(user, full_data, address):
     assert form.is_valid() is True
 
     contact = form.save()
-    assert contact.address.city.country.name == address.city.country.name
-    assert contact.address.city.name == address.city.name
+    assert contact.address.country == address.country
+    assert contact.address.city == address.city
     assert contact.address.zip_code == address.zip_code
     assert contact.address.street == address.street
     assert contact.address.house_number == address.house_number
@@ -106,12 +106,13 @@ def test_contact_form_contact_is_saved_correctly(user, full_data, address):
 
 
 @pytest.mark.django_db
-def test_contact_form_update_city_country_for_existing_instance_address(user, contact, city,
-                                                                        full_data):
+def test_contact_form_update_city_country_for_existing_instance_address(user, contact, full_data):
+    city = 'foo'
+    country = 'bar'
 
     full_data.update({
-        'city': city.name,
-        'country': city.country.name,
+        'city': city,
+        'country': country,
         'email': 't@g.com',
         'phone_number': '+4917691232323',
         'phone_number_alternative': '',
@@ -121,7 +122,7 @@ def test_contact_form_update_city_country_for_existing_instance_address(user, co
     assert form.is_valid() is True
 
     updated_contact = form.save()
-    assert updated_contact.address.city.name == city.name
+    assert updated_contact.address.city == city
 
 
 @pytest.mark.django_db
