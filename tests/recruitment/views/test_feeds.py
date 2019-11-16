@@ -3,15 +3,23 @@ from django.utils import timezone
 import pytest
 
 
-def test_feed_for_study_in_execution_status(client, study_in_execution_status):
-    response = client.get('/recruitment/{}/followups/'.format(study_in_execution_status.pk))
+def test_feed_for_study_in_execution_status(client, user, study_in_execution_status):
+    response = client.get('/recruitment/{}/followups/?token={}'.format(
+        study_in_execution_status.pk, user.default_token
+    ))
     assert response.status_code == 200
 
 
-def test_feed_for_study_in_edit_status(client, study_in_edit_status):
-    response = client.get('/recruitment/{}/followups/'.format(
-        study_in_edit_status.pk))
+def test_feed_for_study_in_edit_status(client, user, study_in_edit_status):
+    response = client.get('/recruitment/{}/followups/?token={}'.format(
+        study_in_edit_status.pk, user.default_token
+    ))
     assert response.status_code == 404
+
+
+def test_feed_for_study_without_token(client, study_in_edit_status):
+    response = client.get('/recruitment/{}/followups/'.format(study_in_edit_status.pk))
+    assert response.status_code == 403
 
 
 @pytest.mark.parametrize('user_fixture', [
@@ -27,6 +35,13 @@ def test_feed_for_user(request, client, user_fixture, participation_request):
     participation_request.followup = timezone.now()
     participation_request.save()
 
-    response = client.get('/recruitment/followups/{}/'.format(user.pk))
+    response = client.get('/recruitment/followups/{}/?token={}'.format(
+        user.pk, user.default_token
+    ))
     assert response.status_code == 200
     assert response.content.count(b'BEGIN:VEVENT') == 1
+
+
+def test_feed_for_user_without_token(client, user, participation_request):
+    response = client.get('/recruitment/followups/{}/'.format(user.pk))
+    assert response.status_code == 403

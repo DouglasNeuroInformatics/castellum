@@ -19,14 +19,14 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.contrib.auth import get_user_model
-from django.http import Http404
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.text import slugify
 
 from django_ical.views import ICalFeed
 
+from castellum.castellum_auth.models import Token
 from castellum.studies.models import Study
 
 from .models import ParticipationRequest
@@ -50,10 +50,15 @@ class BaseFollowUpFeed(ICalFeed):
 
 
 class FollowUpFeedForStudy(BaseFollowUpFeed):
-    def get_object(self, *args, **kwargs):
-        study = get_object_or_404(Study, pk=kwargs.get('study_pk'))
-        if study.status != Study.EXECUTION:
-            raise Http404
+    def get_object(self, request, *args, **kwargs):
+        try:
+            token = Token.objects.get(key=request.GET.get('token'))
+        except Token.DoesNotExist:
+            raise PermissionDenied
+        study = get_object_or_404(Study, pk=kwargs.get('study_pk'), status=Study.EXECUTION)
+        perms = ('recruitment.add_participationrequest', 'studies.access_study')
+        if not token.user.has_perms(perms, obj=study):
+            raise PermissionDenied
         return study
 
     def items(self, study):
@@ -66,8 +71,12 @@ class FollowUpFeedForStudy(BaseFollowUpFeed):
 
 
 class FollowUpFeedForUser(BaseFollowUpFeed):
-    def get_object(self, *args, **kwargs):
-        return get_object_or_404(get_user_model(), pk=kwargs.get('user_id'))
+    def get_object(self, request, *args, **kwargs):
+        try:
+            token = Token.objects.get(key=request.GET.get('token'), user_id=kwargs.get('user_id'))
+        except Token.DoesNotExist:
+            raise PermissionDenied
+        return token.user
 
     def items(self, user):
         perms = ('recruitment.add_participationrequest', 'studies.access_study')
