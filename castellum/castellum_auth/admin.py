@@ -27,6 +27,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from .forms import UserCreationAdminForm
+from .models import Token
 from .models import User
 
 
@@ -53,7 +54,6 @@ expiration_date_repr.admin_order_field = 'expiration_date'
 expiration_date_repr.short_description = _('expiration date')
 
 
-@admin.register(User)
 class UserAdmin(BaseUserAdmin):
     add_form = UserCreationAdminForm
     list_display = BaseUserAdmin.list_display + (expiration_date_repr,)
@@ -81,3 +81,7 @@ class UserAdmin(BaseUserAdmin):
             'groups': Group.objects.all(),
         })
     list_permissions.short_description = _('List all permissions')
+
+
+admin.site.register(User, UserAdmin)
+admin.site.register(Token)

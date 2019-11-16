@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import secrets
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.mail import send_mail
@@ -72,3 +74,15 @@ class User(AbstractUser):
 
     def has_privacy_level(self, level, obj=None):
         return self.get_privacy_level(obj) >= level
+
+
+def generate_token():
+    return secrets.token_urlsafe()
+
+
+class Token(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    key = models.CharField(max_length=64, unique=True, default=generate_token)
+
+    def __str__(self):
+        return self.key
