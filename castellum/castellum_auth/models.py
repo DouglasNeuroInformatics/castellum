@@ -78,7 +78,9 @@ class User(AbstractUser):
 
     @cached_property
     def default_token(self):
-        token, __ = Token.objects.get_or_create(user=self)
+        token = Token.objects.filter(user=self).first()
+        if not token:
+            token = Token.objects.create(user=self)
         return str(token)
 
 
