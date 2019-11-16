@@ -25,6 +25,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.mail import send_mail
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 from castellum.utils.fields import DateTimeField
@@ -74,6 +75,11 @@ class User(AbstractUser):
 
     def has_privacy_level(self, level, obj=None):
         return self.get_privacy_level(obj) >= level
+
+    @cached_property
+    def default_token(self):
+        token, __ = Token.objects.get_or_create(user=self)
+        return str(token)
 
 
 def generate_token():
