@@ -5,7 +5,7 @@ from castellum.data_protection.views import DataProtectionView
 from castellum.recruitment.models import ParticipationRequest
 
 
-def test_iter_orphans(db):
+def test_get_orphans(db):
     contact = mommy.make(Contact)
     contact.subject.no_recruitment = True
     contact.subject.save()
@@ -17,7 +17,7 @@ def test_iter_orphans(db):
     assert missing == 0
 
 
-def test_iter_orphans_guardians(db):
+def test_get_orphans_guardians(db):
     contact = mommy.make(Contact)
     contact.subject.no_recruitment = True
     contact.subject.save()
@@ -32,7 +32,7 @@ def test_iter_orphans_guardians(db):
     assert missing == 0
 
 
-def test_iter_orphans_participation(db):
+def test_get_orphans_participation(db):
     contact = mommy.make(Contact)
     contact.subject.no_recruitment = True
     contact.subject.save()
