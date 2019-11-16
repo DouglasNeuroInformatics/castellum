@@ -35,13 +35,11 @@ def test_feed_for_user(request, client, user_fixture, participation_request):
     participation_request.followup = timezone.now()
     participation_request.save()
 
-    response = client.get('/recruitment/followups/{}/?token={}'.format(
-        user.pk, user.default_token
-    ))
+    response = client.get('/recruitment/followups/?token={}'.format(user.default_token))
     assert response.status_code == 200
     assert response.content.count(b'BEGIN:VEVENT') == 1
 
 
 def test_feed_for_user_without_token(client, user, participation_request):
-    response = client.get('/recruitment/followups/{}/'.format(user.pk))
+    response = client.get('/recruitment/followups/')
     assert response.status_code == 403

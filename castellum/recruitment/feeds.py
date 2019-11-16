@@ -73,7 +73,7 @@ class FollowUpFeedForStudy(BaseFollowUpFeed):
 class FollowUpFeedForUser(BaseFollowUpFeed):
     def get_object(self, request, *args, **kwargs):
         try:
-            token = Token.objects.get(key=request.GET.get('token'), user_id=kwargs.get('user_id'))
+            token = Token.objects.get(key=request.GET.get('token'))
         except Token.DoesNotExist:
             raise PermissionDenied
         return token.user

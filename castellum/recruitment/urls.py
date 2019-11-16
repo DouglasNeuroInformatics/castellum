@@ -38,7 +38,7 @@ app_name = 'recruitment'
 urlpatterns = [
     path('', StudyListView.as_view(), name='index'),
     path('search/', SearchView.as_view(), name='search'),
-    path('followups/<user_id>/', FollowUpFeedForUser(), name='all-studies-followups'),
+    path('followups/', FollowUpFeedForUser(), name='all-studies-followups'),
     path('<study_pk>/', RecruitmentViewOpen.as_view(), name='recruitment-open'),
     path('<study_pk>/invited/', RecruitmentViewInvited.as_view(),
          name='recruitment-invited'),
