@@ -27,12 +27,12 @@
     <dd class="col-sm-6">
         {% if contact.subject.is_available %}
             {% trans "Yes" %}
-            <i class="fas fa-phone list-icon bg-success text-light" aria-hidden="true"></i>
+            <i class="fas fa-phone list-icon bg-success text-light" role="img" aria-hidden="true"></i>
         {% elif not contact.subject.next_available %}
             &mdash;
         {% else %}
             {% trans "No" %}
-            <i class="fas fa-phone-slash list-icon bg-warning text-dark" aria-hidden="true"></i>
+            <i class="fas fa-phone-slash list-icon bg-warning text-dark" role="img" aria-hidden="true"></i>
             {% blocktrans with next_available=contact.subject.next_available %}
                 (not until {{ next_available }})
             {% endblocktrans %}

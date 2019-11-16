@@ -18,7 +18,7 @@
                 <li class="nav-item">
                     <a href="{% url 'subjects:contact' subject.pk %}" class="nav-link {% if view.tab == 'contact' %}active{% endif %}">
                         {% if not subject.contact.is_complete %}
-                            <i class="fa fa-exclamation-triangle" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
+                            <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
                         {% endif %}
                         {% trans 'Contact' %}
                     </a>
@@ -30,7 +30,7 @@
                 <li class="nav-item">
                     <a href="{% url 'subjects:subject' subject.pk %}" class="nav-link {% if view.tab == 'subject' %}active{% endif %}">
                         {% if not subject.is_complete %}
-                            <i class="fa fa-exclamation-triangle" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
+                            <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
                         {% endif %}
                         {% trans 'Subject' %}
                     </a>

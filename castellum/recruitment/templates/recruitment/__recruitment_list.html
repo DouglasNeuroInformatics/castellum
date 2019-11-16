@@ -23,7 +23,7 @@
                                     {% endblocktrans %}
                                 {% endif %}
                                 {% if participation_request.appointment_urgent %}
-                                    <i class="far fa-bell list-icon bg-success text-light" title="{% trans 'appointment urgent' %}"></i>
+                                    <i class="far fa-bell list-icon bg-success text-light" role="img" title="{% trans 'appointment urgent' %}"></i>
                                 {% endif %}
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                         </div>
                         <div class="mr-2">
                             {% trans 'recently contacted in another recruitment' %}
-                            <i class="fas fa-phone-slash list-icon bg-warning text-dark" aria-hidden="true"></i>
+                            <i class="fas fa-phone-slash list-icon bg-warning text-dark" role="img" aria-hidden="true"></i>
                         </div>
                     </div>
                 {% elif participation_request.status == participation_request.NOT_REACHED or participation_request.status == participation_request.AWAITING_RESPONSE %}
@@ -80,7 +80,7 @@
                     <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation_request.pk }}" aria-label="{{ participation_request.pk }}"></svg>
                     <div class="d-inline-block my-1 mr-2">
                         {% trans 'access denied' %}
-                        <i class="fas fa-ban list-icon bg-danger text-light" aria-hidden="true"></i>
+                        <i class="fas fa-ban list-icon bg-danger text-light" role="img" aria-hidden="true"></i>
                     </div>
                 </div>
                 {% if can_change_participationrequest %}
