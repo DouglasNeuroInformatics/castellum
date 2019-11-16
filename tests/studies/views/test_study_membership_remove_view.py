@@ -1,54 +1,26 @@
-from unittest.mock import patch
-
-from django.urls import reverse
-
-import pytest
 from model_mommy import mommy
 
 from castellum.studies.models import StudyMembership
-from castellum.studies.views.studies import StudyMembershipRemoveView
 
 
-@pytest.fixture
-def view(rf, prepared_user):
-    request = rf.post(reverse("studies:delete-member", kwargs=dict(study_pk=1, pk=1)))
-
-    view = StudyMembershipRemoveView()
-    view.request = request
-    view.request.user = prepared_user
-    return view
+def test_remove_member_200(client, user, study):
+    client.force_login(user)
+    membership = mommy.make(StudyMembership, study=study)
+    response = client.get('/studies/{}/members/{}/delete/'.format(study.pk, membership.pk))
+    assert response.status_code == 200
 
 
-@pytest.mark.unittest
-@patch.object(StudyMembership, "delete")
-@patch.object(StudyMembershipRemoveView, "get_object")
-def test_remove_member(get_object, membership_delete, view, prepared_study):
-    user = mommy.prepare("castellum_auth.User", pk=2)
-    get_object.return_value = mommy.prepare(StudyMembership, study=prepared_study, user=user)
-
-    response = view.delete(view.request)
-
-    membership_delete.assert_called()
-    assert_redirect(response)
-
-
-@pytest.mark.unittest
-@patch.object(StudyMembership, "delete")
-@patch.object(StudyMembershipRemoveView, "get_object")
-def test_users_cannot_remove_themselves_from_study(get_object, membership_delete,
-                                                   view, prepared_study):
-    get_object.return_value = mommy.prepare(StudyMembership, study=prepared_study,
-                                            user=view.request.user)
-
-    response = view.delete(view.request)
-
-    membership_delete.assert_not_called()
-    assert_bad_request(response)
-
-
-def assert_redirect(response):
+def test_remove_member(client, user, study):
+    client.force_login(user)
+    membership = mommy.make(StudyMembership, study=study)
+    response = client.post('/studies/{}/members/{}/delete/'.format(study.pk, membership.pk))
     assert response.status_code == 302
+    assert not StudyMembership.objects.filter(pk=membership.pk).exists()
 
 
-def assert_bad_request(response):
+def test_users_cannot_remove_themselves_from_study(client, user, study):
+    client.force_login(user)
+    membership = mommy.make(StudyMembership, study=study, user=user)
+    response = client.post('/studies/{}/members/{}/delete/'.format(study.pk, membership.pk))
     assert response.status_code == 400
+    assert StudyMembership.objects.filter(pk=membership.pk).exists()
