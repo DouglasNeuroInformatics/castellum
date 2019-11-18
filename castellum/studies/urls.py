@@ -21,18 +21,18 @@
 
 from django.urls import path
 
+from .views.members import StudyMembershipRemoveView
+from .views.members import StudyMembershipUpdateView
+from .views.members import StudyMembersView
+from .views.recruitment import StudyExcludedStudiesView
+from .views.recruitment import StudyExclusionCriteriaView
+from .views.recruitment import StudyMailSettingsView
+from .views.recruitment import StudyRecruitmentSettingsUpdateView
 from .views.studies import StudyCreateView
 from .views.studies import StudyDeleteView
 from .views.studies import StudyDetailView
-from .views.studies import StudyExcludedStudiesView
-from .views.studies import StudyExclusionCriteriaView
 from .views.studies import StudyFinishRecruitmentView
 from .views.studies import StudyIndexView
-from .views.studies import StudyMailSettingsView
-from .views.studies import StudyMembershipRemoveView
-from .views.studies import StudyMembershipUpdateView
-from .views.studies import StudyMembersView
-from .views.studies import StudyRecruitmentSettingsUpdateView
 from .views.studies import StudyStartRecruitmentView
 from .views.studies import StudyUpdateView
 from .views.subjectfilters import FilterGroupCreateView
