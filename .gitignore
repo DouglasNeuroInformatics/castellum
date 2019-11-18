@@ -29,7 +29,6 @@ node_modules/
 *.pyc
 *.sqlite3
 
-castellum/*/migrations/0*.py
 castellum/locale/en/LC_MESSAGES/*.po
 
 

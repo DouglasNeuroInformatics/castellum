@@ -27,7 +27,6 @@ test-branch:
     - pip install -r requirements-dev.txt
     - pip install -e .
     - npm install
-    - python manage.py makemigrations
     - pytest --ds=$DJANGO_SETTINGS_MODULE
     - flake8
     - isort -c

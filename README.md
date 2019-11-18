@@ -24,10 +24,6 @@ The following commands will install everything and start a local testserver (on 
 
 You can login with user "admin" and password "123".
 
-After pulling new changes it is recommended to rebuild the databases and migrations:
-
-    make reset_databases
-
 ## Testing
 
 The command `pytest` will execute all tests. (postgres needs to be running)
