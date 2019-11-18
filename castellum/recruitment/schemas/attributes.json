@@ -1,6 +1,6 @@
 {
-    "$schema": "http://json-schema.org/draft-06/schema#",
-    "definitions": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$defs": {
         "AttributeDescriptionExport": {
             "type": "object",
             "additionalProperties": false,
@@ -8,7 +8,7 @@
                 "descriptions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/Description"
+                        "$ref": "#/$defs/Description"
                     }
                 }
             },
@@ -24,7 +24,7 @@
                 "categories": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/Category"
+                        "$ref": "#/$defs/Category"
                     }
                 }
             },
@@ -41,12 +41,12 @@
                     "type": "integer"
                 },
                 "label": {
-                    "$ref": "#/definitions/TranslatedString"
+                    "$ref": "#/$defs/TranslatedString"
                 },
                 "descriptions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/Description"
+                        "$ref": "#/$defs/Description"
                     }
                 }
             }
@@ -78,19 +78,19 @@
                     "type": "integer"
                 },
                 "label": {
-                    "$ref": "#/definitions/TranslatedString"
+                    "$ref": "#/$defs/TranslatedString"
                 },
                 "choices": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/Choice"
+                        "$ref": "#/$defs/Choice"
                     }
                 },
                 "_filter_label": {
-                    "$ref": "#/definitions/TranslatedString"
+                    "$ref": "#/$defs/TranslatedString"
                 },
                 "help_text": {
-                    "$ref": "#/definitions/TranslatedText"
+                    "$ref": "#/$defs/TranslatedText"
                 }
             },
             "required": [
@@ -103,7 +103,7 @@
             "type": "object",
             "properties": {
                 "label": {
-                    "$ref": "#/definitions/TranslatedString"
+                    "$ref": "#/$defs/TranslatedString"
                 }
             },
             "required": [
