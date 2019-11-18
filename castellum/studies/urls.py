@@ -33,6 +33,7 @@ from .views.studies import StudyDeleteView
 from .views.studies import StudyDetailView
 from .views.studies import StudyExportView
 from .views.studies import StudyFinishRecruitmentView
+from .views.studies import StudyImportView
 from .views.studies import StudyIndexView
 from .views.studies import StudyStartRecruitmentView
 from .views.studies import StudyUpdateView
@@ -46,6 +47,7 @@ app_name = 'studies'
 urlpatterns = [
     path('', StudyIndexView.as_view(), name='index'),
     path('create/', StudyCreateView.as_view(), name='create'),
+    path('import/', StudyImportView.as_view(), name='import'),
     path('<int:pk>/', StudyDetailView.as_view(), name='detail'),
     path('<int:pk>/update/', StudyUpdateView.as_view(), name='update'),
     path('<int:pk>/delete/', StudyDeleteView.as_view(), name='delete'),

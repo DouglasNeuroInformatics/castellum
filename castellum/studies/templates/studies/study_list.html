@@ -66,6 +66,7 @@
         <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         {% has_perm 'studies.add_study' user as can_add_study %}
         {% if can_add_study %}
+            <a href="{% url 'studies:import' %}" class="btn btn-primary">{% trans "Import study" %}</a>
             <a href="{% url 'studies:create' %}" class="btn btn-primary">{% trans "Create new study" %}</a>
         {% endif %}
     </div>

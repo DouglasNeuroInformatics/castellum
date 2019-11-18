@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
 import logging
 
 from django import forms
@@ -33,6 +34,7 @@ from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
+from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
@@ -41,6 +43,7 @@ from castellum.recruitment.models import AttributeSet
 from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
 
+from ..forms import ImportForm
 from ..forms import StudyForm
 from ..mixins import StudyMixin
 from ..models import Study
@@ -227,6 +230,48 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
         else:
             self.study.set_status(self.study.FINISHED)
         return redirect('studies:detail', self.study.pk)
+
+
+class StudyImportView(PermissionRequiredMixin, FormView):
+    permission_required = 'studies.add_study'
+    template_name = 'studies/study_import.html'
+    form_class = ImportForm
+    STATUS_MAP = {
+        'not_started': Study.EDIT,
+        'started': Study.EXECUTION,
+        'data_collected': Study.EXECUTION,
+        'finished': Study.FINISHED,
+    }
+
+    def render_person(self, person):
+        return person.get('name', person.get('email'))
+
+    def render_persons(self, persons):
+        return ', '.join([s for s in [self.render_person(p) for p in persons] if s])
+
+    def parse_date(self, date):
+        if date:
+            dt = datetime.datetime.strptime(date, '%Y-%m-%d')
+            return dt.date()
+
+    def form_valid(self, form):
+        json = form.cleaned_data['json']
+        study = Study.objects.create(
+            name=json['name'],
+            contact_person=self.render_person(json.get('contact_person', {})),
+            principal_investigator=self.render_person(json.get('principal_investigator', {})),
+            affiliated_scientists=self.render_persons(json.get('affiliated_scientists', [])),
+            affiliated_research_assistants=self.render_persons(
+                json.get('affiliated_research_assistants', [])
+            ),
+            description=json.get('description'),
+            keywords=', '.join(json.get('keywords', [])),
+            sessions_start=self.parse_date(json.get('sessions_start')),
+            sessions_end=self.parse_date(json.get('sessions_end')),
+            status=self.STATUS_MAP.get(json.get('status')),
+            min_subject_count=json.get('number_participants_expected'),
+        )
+        return redirect('studies:detail', study.pk)
 
 
 class StudyExportView(StudyMixin, PermissionRequiredMixin, View):

@@ -1,0 +1,17 @@
+{% extends "studies/base.html" %}
+{% load i18n bootstrap4 %}
+
+{% block title %}{% trans 'Import' %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h2>{% trans 'Import study' %}</h2>
+    <form enctype="multipart/form-data" method="post">
+        {% for error in form.non_field_errors %}
+            <p class="alert alert-danger" role="alert">{{ error }}</p>
+        {% endfor %}
+
+        {% csrf_token %}
+        {% bootstrap_field form.file %}
+        <input type="submit" class="btn btn-primary" value="{% trans 'Import' %}">
+    </form>
+{% endblock %}

@@ -19,12 +19,19 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import json
+import os
+
 from django import forms
 
 from castellum.castellum_auth.models import User
+from castellum.utils.forms import BaseImportForm
 from castellum.utils.forms import ReadonlyModelForm
 
 from . import models
+
+APP_DIR = os.path.dirname(__file__)
+IMPORT_SCHEMA = json.load(open(os.path.join(APP_DIR, 'schemas', 'study.json')))
 
 
 class StudyForm(ReadonlyModelForm):
@@ -73,3 +80,8 @@ class MemberForm(forms.ModelForm):
         widgets = {
             'groups': forms.CheckboxSelectMultiple(),
         }
+
+
+class ImportForm(BaseImportForm):
+    schema = IMPORT_SCHEMA
+    schema_ref = '#/$defs/Study'
