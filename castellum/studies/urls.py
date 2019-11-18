@@ -31,6 +31,7 @@ from .views.recruitment import StudyRecruitmentSettingsUpdateView
 from .views.studies import StudyCreateView
 from .views.studies import StudyDeleteView
 from .views.studies import StudyDetailView
+from .views.studies import StudyExportView
 from .views.studies import StudyFinishRecruitmentView
 from .views.studies import StudyIndexView
 from .views.studies import StudyStartRecruitmentView
@@ -48,6 +49,7 @@ urlpatterns = [
     path('<int:pk>/', StudyDetailView.as_view(), name='detail'),
     path('<int:pk>/update/', StudyUpdateView.as_view(), name='update'),
     path('<int:pk>/delete/', StudyDeleteView.as_view(), name='delete'),
+    path('<int:pk>/export/', StudyExportView.as_view(), name='export'),
     path('<int:study_pk>/start/', StudyStartRecruitmentView.as_view(), name='start'),
     path('<int:study_pk>/finish-recruitment/', StudyFinishRecruitmentView.as_view(),
          name='finish-recruitment'),

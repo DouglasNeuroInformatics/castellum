@@ -25,6 +25,7 @@ from django import forms
 from django.contrib import messages
 from django.db import models
 from django.http import HttpResponseBadRequest
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -226,3 +227,27 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
         else:
             self.study.set_status(self.study.FINISHED)
         return redirect('studies:detail', self.study.pk)
+
+
+class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
+    permission_required = 'studies.view_study'
+    STATUS_MAP = {
+        Study.EDIT: 'not_started',
+        Study.EXECUTION: 'started',
+        Study.FINISHED: 'finished',
+    }
+
+    def get(self, request, *args, **kwargs):
+        response = JsonResponse({
+            'name': self.study.name,
+            'contact_person': {'name': self.study.contact_person},
+            'principal_investigator': {'name': self.study.principal_investigator},
+            'description': self.study.description,
+            'status': self.STATUS_MAP[self.study.status],
+            'sessions_start': self.study.sessions_start,
+            'sessions_end': self.study.sessions_end,
+            'number_participants_expected': self.study.min_subject_count,
+        })
+        filename = 'castellum_%s.json' % self.study.name
+        response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+        return response
