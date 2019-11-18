@@ -21,8 +21,8 @@
 
 from django.contrib import messages
 from django.http import HttpResponseBadRequest
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DeleteView
@@ -76,7 +76,7 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
     def form_valid(self, form):
         StudyMembership.objects.get_or_create(
             user=form.cleaned_data['user'], study=self.object)
-        return HttpResponseRedirect(reverse('studies:members', args=[self.object.pk]))
+        return redirect('studies:members', self.object.pk)
 
     def get_unprivileged_members(self):
         max_privacy_level = self.object.get_filter_max_privacy_level()
@@ -117,4 +117,4 @@ class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView)
             return HttpResponseBadRequest()
 
         membership.delete()
-        return HttpResponseRedirect(reverse('studies:members', args=[membership.study.pk]))
+        return redirect('studies:members', membership.study.pk)
