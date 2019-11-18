@@ -26,6 +26,7 @@ from django.utils.translation import gettext_lazy as _
 from castellum.studies.models import Study
 from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
+from castellum.utils.forms import BaseImportForm
 
 from .models import AttributeDescription
 from .models import AttributeSet
@@ -33,6 +34,143 @@ from .models import ParticipationRequest
 from .models import SubjectFilter
 from .models.attributesets import ANSWER_DECLINED
 from .models.attributesets import UNCATEGORIZED
+
+IMPORT_SCHEMA = {
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "definitions": {
+        "AttributeDescriptionExport": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "descriptions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Description"
+                    }
+                }
+            },
+            "required": [
+                "descriptions"
+            ],
+            "title": "AttributeDescriptionExport"
+        },
+        "AttributeCategoryExport": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Category"
+                    }
+                }
+            },
+            "required": [
+                "categories"
+            ],
+            "title": "AttributeCategoryExport"
+        },
+        "Category": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "order": {
+                    "type": "integer"
+                },
+                "label": {
+                    "$ref": "#/definitions/TranslatedString"
+                },
+                "descriptions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Description"
+                    }
+                }
+            },
+        },
+        "Description": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "field_type": {
+                    "type": "string",
+                    "enum": [
+                        "CharField",
+                        "ChoiceField",
+                        "MultipleChoiceField",
+                        "OrderedChoiceField",
+                        "IntegerField",
+                        "BooleanField",
+                        "DateField",
+                        "AgeField"
+                    ]
+                },
+                "privacy_level_read": {
+                    "type": "integer"
+                },
+                "privacy_level_write": {
+                    "type": "integer"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "label": {
+                    "$ref": "#/definitions/TranslatedString"
+                },
+                "choices": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Choice"
+                    }
+                },
+                "_filter_label": {
+                    "$ref": "#/definitions/TranslatedString"
+                },
+                "help_text": {
+                    "$ref": "#/definitions/TranslatedText"
+                }
+            },
+            "required": [
+                "field_type",
+                "label"
+            ],
+            "title": "Description"
+        },
+        "Choice": {
+            "type": "object",
+            "properties": {
+                "label": {
+                    "$ref": "#/definitions/TranslatedString"
+                }
+            },
+            "required": [
+                "label"
+            ],
+            "title": "Choice"
+        },
+        "TranslatedString": {
+            "type": "object",
+            "additionalProperties": False,
+            "patternProperties": {
+                "..": {
+                    "type": "string",
+                    "maxLength": 64
+                }
+            },
+            "title": "Label"
+        },
+        "TranslatedText": {
+            "type": "object",
+            "additionalProperties": False,
+            "patternProperties": {
+                "..": {
+                    "type": "string"
+                }
+            },
+            "title": "Label"
+        }
+    }
+}
 
 
 def get_description_choices(user):
@@ -192,3 +330,13 @@ class SendMailForm(forms.Form):
     batch_size = forms.IntegerField(
         min_value=1, label=_('How many subjects do you want to contact?')
     )
+
+
+class CategoryImportForm(BaseImportForm):
+    schema = IMPORT_SCHEMA
+    schema_ref = '#/definitions/AttributeCategoryExport'
+
+
+class DescriptionImportForm(BaseImportForm):
+    schema = IMPORT_SCHEMA
+    schema_ref = '#/definitions/AttributeDescriptionExport'
