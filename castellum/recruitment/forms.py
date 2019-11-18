@@ -19,14 +19,17 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import json
+import os
+
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import gettext_lazy as _
 
 from castellum.studies.models import Study
+from castellum.utils.forms import BaseImportForm
 from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
-from castellum.utils.forms import BaseImportForm
 
 from .models import AttributeDescription
 from .models import AttributeSet
@@ -35,142 +38,8 @@ from .models import SubjectFilter
 from .models.attributesets import ANSWER_DECLINED
 from .models.attributesets import UNCATEGORIZED
 
-IMPORT_SCHEMA = {
-    "$schema": "http://json-schema.org/draft-06/schema#",
-    "definitions": {
-        "AttributeDescriptionExport": {
-            "type": "object",
-            "additionalProperties": False,
-            "properties": {
-                "descriptions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Description"
-                    }
-                }
-            },
-            "required": [
-                "descriptions"
-            ],
-            "title": "AttributeDescriptionExport"
-        },
-        "AttributeCategoryExport": {
-            "type": "object",
-            "additionalProperties": False,
-            "properties": {
-                "categories": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Category"
-                    }
-                }
-            },
-            "required": [
-                "categories"
-            ],
-            "title": "AttributeCategoryExport"
-        },
-        "Category": {
-            "type": "object",
-            "additionalProperties": False,
-            "properties": {
-                "order": {
-                    "type": "integer"
-                },
-                "label": {
-                    "$ref": "#/definitions/TranslatedString"
-                },
-                "descriptions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Description"
-                    }
-                }
-            },
-        },
-        "Description": {
-            "type": "object",
-            "additionalProperties": False,
-            "properties": {
-                "field_type": {
-                    "type": "string",
-                    "enum": [
-                        "CharField",
-                        "ChoiceField",
-                        "MultipleChoiceField",
-                        "OrderedChoiceField",
-                        "IntegerField",
-                        "BooleanField",
-                        "DateField",
-                        "AgeField"
-                    ]
-                },
-                "privacy_level_read": {
-                    "type": "integer"
-                },
-                "privacy_level_write": {
-                    "type": "integer"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "label": {
-                    "$ref": "#/definitions/TranslatedString"
-                },
-                "choices": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Choice"
-                    }
-                },
-                "_filter_label": {
-                    "$ref": "#/definitions/TranslatedString"
-                },
-                "help_text": {
-                    "$ref": "#/definitions/TranslatedText"
-                }
-            },
-            "required": [
-                "field_type",
-                "label"
-            ],
-            "title": "Description"
-        },
-        "Choice": {
-            "type": "object",
-            "properties": {
-                "label": {
-                    "$ref": "#/definitions/TranslatedString"
-                }
-            },
-            "required": [
-                "label"
-            ],
-            "title": "Choice"
-        },
-        "TranslatedString": {
-            "type": "object",
-            "additionalProperties": False,
-            "patternProperties": {
-                "..": {
-                    "type": "string",
-                    "maxLength": 64
-                }
-            },
-            "title": "Label"
-        },
-        "TranslatedText": {
-            "type": "object",
-            "additionalProperties": False,
-            "patternProperties": {
-                "..": {
-                    "type": "string"
-                }
-            },
-            "title": "Label"
-        }
-    }
-}
+APP_DIR = os.path.dirname(__file__)
+IMPORT_SCHEMA = json.load(open(os.path.join(APP_DIR, 'schemas', 'attributes.json')))
 
 
 def get_description_choices(user):
