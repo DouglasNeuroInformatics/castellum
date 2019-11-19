@@ -3,7 +3,7 @@ django-debug-toolbar
 watchdog
 
 pytest
-pytest-cov
+pytest-cov==2.8.1
 pytest-django
 pytest-freezegun
 model_mommy
