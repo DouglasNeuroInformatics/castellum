@@ -10,5 +10,5 @@ model_mommy
 lxml
 
 flake8
-isort
+isort==4.3.21
 pospell
