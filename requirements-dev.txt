@@ -6,7 +6,7 @@ pytest
 pytest-cov
 pytest-django
 pytest-freezegun
-model_mommy
+model_mommy==2.0.0
 lxml
 
 flake8
