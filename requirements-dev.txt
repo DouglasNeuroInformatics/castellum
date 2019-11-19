@@ -1,5 +1,5 @@
 ipdb
-django-debug-toolbar
+django-debug-toolbar==2.1
 watchdog
 
 pytest
