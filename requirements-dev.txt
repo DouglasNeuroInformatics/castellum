@@ -4,7 +4,7 @@ watchdog
 
 pytest
 pytest-cov
-pytest-django
+pytest-django==3.7.0
 pytest-freezegun
 model_mommy
 lxml
