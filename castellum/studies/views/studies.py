@@ -50,6 +50,7 @@ from castellum.castellum_auth.models import User
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import ParticipationRequest
 from castellum.subjects.models import Subject
+from castellum.utils.forms import MinutesField
 from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
 from castellum.utils.views import get_next_url
@@ -126,7 +127,14 @@ class StudyFormMixin:
 
     def get_session_formset(self):
         formset_class = forms.modelformset_factory(
-            Session, fields=('title', 'duration'), form=ReadonlyModelForm, extra=0, can_delete=True
+            Session,
+            fields=('title', 'duration'),
+            field_classes={
+                'duration': MinutesField,
+            },
+            form=ReadonlyModelForm,
+            extra=0,
+            can_delete=True
         )
         kwargs = self.get_form_kwargs()
         study = kwargs.pop('instance', None)
