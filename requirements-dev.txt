@@ -1,4 +1,4 @@
-ipdb
+ipdb==0.12.2
 django-debug-toolbar
 watchdog
 
