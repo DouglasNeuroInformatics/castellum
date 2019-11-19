@@ -1,16 +1,16 @@
 $(function() {
     var setVisibility = function() {
         var $status = $('[name="status"]');
-        var $appointmentInputs = $('[name^="appointment"]');
-        var $appointment = $appointmentInputs.closest('.form-group');
+        var $followupInputs = $('[name^="followup"]');
+        var $followup = $followupInputs.closest('.form-group');
 
         if ($status.val() === '4') {
-            $appointment.prop('hidden', false);
-            $appointmentInputs.prop('required', true);
+            $followup.prop('hidden', false);
+            $followupInputs.prop('required', true);
         } else {
-            $appointment.prop('hidden', true);
-            $appointmentInputs.prop('required', false);
-            $appointmentInputs.val('');
+            $followup.prop('hidden', true);
+            $followupInputs.prop('required', false);
+            $followupInputs.val('');
         }
     };
 

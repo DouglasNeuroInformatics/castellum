@@ -21,8 +21,8 @@
 
 from django.urls import path
 
-from .feeds import AppointmentFeedForStudy
-from .feeds import AppointmentFeedForUser
+from .feeds import FollowUpFeedForStudy
+from .feeds import FollowUpFeedForUser
 from .views import AttributeSetUpdateView
 from .views import ContactUpdateView
 from .views import ContactView
@@ -38,15 +38,14 @@ app_name = 'recruitment'
 urlpatterns = [
     path('', StudyListView.as_view(), name='index'),
     path('search/', SearchView.as_view(), name='search'),
-    path('appointments/<user_id>/', AppointmentFeedForUser(),
-         name='all-studies-appointments'),
+    path('followups/<user_id>/', FollowUpFeedForUser(), name='all-studies-followups'),
     path('<study_pk>/', RecruitmentViewOpen.as_view(), name='recruitment-open'),
     path('<study_pk>/invited/', RecruitmentViewInvited.as_view(),
          name='recruitment-invited'),
     path('<study_pk>/unsuitable/', RecruitmentViewUnsuitable.as_view(),
          name='recruitment-unsuitable'),
     path('<study_pk>/mail/', MailRecruitmentView.as_view(), name='mail'),
-    path('<study_pk>/appointments/', AppointmentFeedForStudy(), name='appointments'),
+    path('<study_pk>/followups/', FollowUpFeedForStudy(), name='followups'),
     path('<study_pk>/<int:pk>/', ContactView.as_view(), name='contact'),
     path('<study_pk>/<int:pk>/update-contact/', ContactUpdateView.as_view(),
          name='contact-update'),
