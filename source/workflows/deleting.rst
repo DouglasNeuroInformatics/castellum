@@ -52,7 +52,7 @@ Deleting a study from Castellum
 Prerequisite
 ------------
 
-A study should be completely deleted because of one or more of thefollowing
+A study should be completely deleted because of one or more of the following
 reasons:
 
 -   The study is no longer current because it was completed five years
