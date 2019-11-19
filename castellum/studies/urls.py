@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.urls import path
 
 from .views.members import StudyMembershipRemoveView
@@ -47,11 +48,9 @@ app_name = 'studies'
 urlpatterns = [
     path('', StudyIndexView.as_view(), name='index'),
     path('create/', StudyCreateView.as_view(), name='create'),
-    path('import/', StudyImportView.as_view(), name='import'),
     path('<int:pk>/', StudyDetailView.as_view(), name='detail'),
     path('<int:pk>/update/', StudyUpdateView.as_view(), name='update'),
     path('<int:pk>/delete/', StudyDeleteView.as_view(), name='delete'),
-    path('<int:pk>/export/', StudyExportView.as_view(), name='export'),
     path('<int:study_pk>/start/', StudyStartRecruitmentView.as_view(), name='start'),
     path('<int:study_pk>/finish-recruitment/', StudyFinishRecruitmentView.as_view(),
          name='finish-recruitment'),
@@ -93,3 +92,9 @@ urlpatterns = [
         name='filtergroup-duplicate',
     ),
 ]
+
+if settings.CASTELLUM_ENABLE_STUDY_EXPORT:
+    urlpatterns += [
+        path('import/', StudyImportView.as_view(), name='import'),
+        path('<int:pk>/export/', StudyExportView.as_view(), name='export'),
+    ]

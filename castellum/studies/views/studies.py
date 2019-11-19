@@ -23,6 +23,7 @@ import datetime
 import logging
 
 from django import forms
+from django.conf import settings
 from django.contrib import messages
 from django.db import models
 from django.http import HttpResponseBadRequest
@@ -80,6 +81,7 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['q'] = self.request.GET.get('q', '')
         context['all'] = 'all' in self.request.GET
+        context['enable_export'] = settings.CASTELLUM_ENABLE_STUDY_EXPORT
         return context
 
 
@@ -97,6 +99,7 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
             .count()
         )
         context['related_studies'] = list(get_related_studies(self.object))
+        context['enable_export'] = settings.CASTELLUM_ENABLE_STUDY_EXPORT
         return context
 
 
