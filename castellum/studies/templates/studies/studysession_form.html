@@ -1,0 +1,23 @@
+{% extends "studies/study_base.html" %}
+{% load static i18n bootstrap4 %}
+
+{% block title %}{% trans 'Edit session' %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        {% for error in form.non_field_errors %}
+            <p class="alert alert-danger" role="alert">{{ error }}</p>
+        {% endfor %}
+
+        {% csrf_token %}
+
+        {% bootstrap_field form.duration %}
+
+        <div class="mb-3">
+            <a href="{% url 'studies:update' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+            {% if not readonly %}
+                <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+            {% endif %}
+        </div>
+    </form>
+{% endblock %}

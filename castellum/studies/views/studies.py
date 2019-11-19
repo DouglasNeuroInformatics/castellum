@@ -28,6 +28,7 @@ from django.db import models
 from django.http import HttpResponseBadRequest
 from django.http import JsonResponse
 from django.http import QueryDict
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -195,6 +196,27 @@ class StudyUpdateView(
     def form_valid(self, form, session_formset):
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form, session_formset)
+
+
+class StudySessionUpdateView(
+    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
+):
+    permission_required = 'studies.change_study'
+    model = StudySession
+    fields = ['duration']
+    template_name = 'studies/studysession_form.html'
+    tab = 'update'
+
+    def get_object(self):
+        return get_object_or_404(
+            StudySession, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk']
+        )
+
+    def get_readonly(self):
+        return self.study.status == Study.FINISHED
+
+    def get_success_url(self):
+        return reverse('studies:update', args=[self.study.pk])
 
 
 class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):

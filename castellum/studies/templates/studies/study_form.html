@@ -52,11 +52,16 @@
                     <fieldset class="rounded-lg border bg-light p-3 mb-2" {% if subform.DELETE.value %}hidden{% endif %}>
                         {{ subform.id.as_hidden }}
                         {{ subform.DELETE.as_hidden }}
-                        {% if not readonly %}
-                            <button type="button" class="btn btn-sm btn-danger float-right mb-2" data-js="session-delete">
-                                {% trans 'Delete' %}
-                            </button>
-                        {% endif %}
+                        <div class="float-right mb-2">
+                            {% if not readonly %}
+                                <a href="{% url 'studies:session' study.pk subform.id.value %}" class="btn btn-sm btn-primary">
+                                    {% trans 'Manage timeslots' %}
+                                </a>
+                                <button type="button" class="btn btn-sm btn-danger" data-js="session-delete">
+                                    {% trans 'Delete' %}
+                                </button>
+                            {% endif %}
+                        </div>
                         {% bootstrap_field subform.duration %}
                     </fieldset>
                 {% endfor %}

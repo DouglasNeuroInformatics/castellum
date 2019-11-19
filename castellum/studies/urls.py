@@ -36,6 +36,7 @@ from .views.studies import StudyExportView
 from .views.studies import StudyFinishRecruitmentView
 from .views.studies import StudyImportView
 from .views.studies import StudyIndexView
+from .views.studies import StudySessionUpdateView
 from .views.studies import StudyStartRecruitmentView
 from .views.studies import StudyUpdateView
 from .views.subjectfilters import FilterGroupCreateView
@@ -91,6 +92,7 @@ urlpatterns = [
         FilterGroupDuplicateView.as_view(),
         name='filtergroup-duplicate',
     ),
+    path('<int:study_pk>/sessions/<int:pk>/', StudySessionUpdateView.as_view(), name='session'),
 ]
 
 if settings.CASTELLUM_ENABLE_STUDY_EXPORT:
