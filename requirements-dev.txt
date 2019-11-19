@@ -11,4 +11,4 @@ lxml
 
 flake8
 isort
-pospell
+pospell==1.0.3
