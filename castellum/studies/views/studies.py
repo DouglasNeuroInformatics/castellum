@@ -50,6 +50,7 @@ from ..mixins import StudyMixin
 from ..models import Study
 from ..models import StudyMembership
 from ..models import StudySession
+from ..models import StudyType
 from .recruitment import get_related_studies
 
 monitoring_logger = logging.getLogger('monitoring.studies')
@@ -274,6 +275,12 @@ class StudyImportView(PermissionRequiredMixin, FormView):
             status=self.STATUS_MAP.get(json.get('status')),
             min_subject_count=json.get('number_participants_expected'),
         )
+        for key in json.get('type', []):
+            try:
+                t = StudyType.objects.get(export_key=key)
+                study.study_type.add(t)
+            except StudyType.DoesNotExist:
+                pass
         return redirect('studies:detail', study.pk)
 
 
@@ -295,6 +302,7 @@ class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
             'sessions_start': self.study.sessions_start,
             'sessions_end': self.study.sessions_end,
             'number_participants_expected': self.study.min_subject_count,
+            'type': list(self.study.study_type.values_list('export_key', flat=True)),
         })
         filename = 'castellum_%s.json' % self.study.name
         response['Content-Disposition'] = 'attachment; filename="%s"' % filename
