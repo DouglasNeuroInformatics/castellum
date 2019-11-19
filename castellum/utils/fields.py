@@ -25,6 +25,7 @@ from phonenumber_field.modelfields import PhoneNumberField as _PhoneNumberField
 
 from .forms import DateField as DateFormField
 from .forms import DateTimeField as DateTimeFormField
+from .forms import MinutesField as MinutesFormField
 from .forms import PhoneNumberField as PhoneNumberFormField
 from .forms import RestrictedFileField as RestrictedFileFormField
 
@@ -38,6 +39,12 @@ class DateField(models.DateField):
 class DateTimeField(models.DateTimeField):
     def formfield(self, **kwargs):
         kwargs.setdefault('form_class', DateTimeFormField)
+        return super().formfield(**kwargs)
+
+
+class MinutesField(models.DurationField):
+    def formfield(self, **kwargs):
+        kwargs.setdefault('form_class', MinutesFormField)
         return super().formfield(**kwargs)
 
 

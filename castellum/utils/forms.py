@@ -19,7 +19,10 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django import forms
+from django.forms.widgets import NumberInput
 from django.forms.widgets import TextInput
 from django.utils.translation import gettext_lazy as _
 
@@ -86,6 +89,24 @@ class DateField(forms.DateField):
 
 class DateTimeField(forms.SplitDateTimeField):
     widget = DateTimeInput
+
+
+class MinutesField(forms.DurationField):
+    widget = NumberInput
+
+    def prepare_value(self, value):
+        if isinstance(value, datetime.timedelta):
+            return int(value.total_seconds() / 60)
+        return value
+
+    def to_python(self, value):
+        if value in self.empty_values:
+            return None
+        if isinstance(value, datetime.timedelta):
+            return value
+        if isinstance(value, str):
+            value = int(value, 10)
+        return datetime.timedelta(seconds=value * 60)
 
 
 class PhoneNumberWidget(PhoneNumberInternationalFallbackWidget):
