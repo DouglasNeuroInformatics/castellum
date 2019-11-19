@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from .appointments import Appointment
 from .attributesets import AttributeCategory
 from .attributesets import AttributeChoice
 from .attributesets import AttributeDescription
@@ -29,5 +30,15 @@ from .recruitment import ParticipationRequestRevision
 from .subjectfilters import SubjectFilter
 from .subjectfilters import SubjectFilterGroup
 
-__all__ = ParticipationRequest, ParticipationRequestRevision, AttributeSet, AttributeDescription, \
-          AttributeCategory, AttributeChoice, SubjectFilter, SubjectFilterGroup, MailBatch
+__all__ = [
+    Appointment,
+    AttributeCategory,
+    AttributeChoice,
+    AttributeDescription,
+    AttributeSet,
+    MailBatch,
+    ParticipationRequest,
+    ParticipationRequestRevision,
+    SubjectFilter,
+    SubjectFilterGroup,
+]
