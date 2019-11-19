@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
 import functools
 
 from django.conf import settings
@@ -115,7 +116,9 @@ def fake_subject():
 
 
 def fake_studysession(study):
-    return StudySession(study=study, duration=fake.random.randrange(10, 120, 10))
+    minutes = fake.random.randrange(10, 120, 10)
+    duration = datetime.timedelta(seconds=minutes * 60)
+    return StudySession(study=study, duration=duration)
 
 
 def fake_study():

@@ -35,6 +35,7 @@ from castellum.castellum_auth.models import User
 from castellum.pseudonyms.helpers import create_domain
 from castellum.pseudonyms.helpers import delete_domain
 from castellum.utils.fields import DateField
+from castellum.utils.fields import MinutesField
 from castellum.utils.fields import RestrictedFileField
 
 
@@ -227,4 +228,4 @@ class StudyMembership(models.Model):
 
 class StudySession(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
-    duration = models.PositiveIntegerField(_('Duration of a session in minutes'))
+    duration = MinutesField(_('Duration of a session in minutes'))
