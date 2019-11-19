@@ -2,7 +2,7 @@ ipdb
 django-debug-toolbar
 watchdog
 
-pytest
+pytest==5.2.4
 pytest-cov
 pytest-django
 pytest-freezegun
