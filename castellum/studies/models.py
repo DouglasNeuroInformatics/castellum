@@ -39,11 +39,17 @@ from castellum.utils.fields import RestrictedFileField
 
 
 class StudyType(TranslatableModel):
+    # see also schemas/study.json
+    EXPORT_KEYS = 'Online', 'Behavioral lab', 'MRI', 'Simulation', 'EEG', '3rd party'
+
     translations = TranslatedFields(
         label=models.CharField(_('Label'), max_length=64),
     )
     exclusion_criteria = models.TextField(_('Inclusion/exclusion criteria'), blank=True)
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
+    export_key = models.CharField(
+        _('Export key'), max_length=32, choices=[(k, k) for k in EXPORT_KEYS], blank=True
+    )
 
     def __str__(self):
         return self.label
