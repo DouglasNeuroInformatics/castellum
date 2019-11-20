@@ -11,6 +11,14 @@
         <dd>{{ object.pseudonym }}</dd>
     </dl>
 
+    <h2>{% trans 'Appointments' %}</h2>
+    <dl>
+        {% for appointment in object.appointment_set.all %}
+            <dt>{{ appointment.session.name }}</dt>
+            <dd><time>{{ appointment.start|date }} {{ appointment.start|time }}</time></dd>
+        {% endfor %}
+    </dl>
+
     <div class="mb-3">
         <a href="{% url 'execution:study-detail' study.pk %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
     </div>
