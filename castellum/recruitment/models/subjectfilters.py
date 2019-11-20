@@ -81,6 +81,8 @@ class SubjectFilterGroup(models.Model):
         for f in self.subjectfilter_set.all():
             q &= f.to_q(include_unknown=include_unknown)
 
+        q &= ~models.Q(study_type_disinterest__in=self.study.study_type.all())
+
         return q
 
     def get_matches(self):
