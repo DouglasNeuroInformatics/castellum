@@ -36,6 +36,8 @@
             </fieldset>
         {% endfor %}
 
+        {% bootstrap_field form.study_type_disinterest %}
+
         <div class="mb-3">
             {% if view.get_back_url %}
                 <a href="{{ view.get_back_url }}" class="btn btn-outline-primary">{% trans "Back" %}</a>
