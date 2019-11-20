@@ -6,6 +6,7 @@ from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.studies.models import Study
+from castellum.studies.models import StudyType
 
 
 def create_participation_request(
@@ -95,6 +96,15 @@ def test_to_q_first_study_exclusive_second_study_unfinished(attributeset):
     create_participation_request(attributeset.subject, is_finished=True, is_exclusive=True)
     create_participation_request(attributeset.subject)
     assert has_match()
+
+
+def test_disinterest_in_study_type(db):
+    study_type = StudyType.objects.first()
+    study = mommy.make(Study)
+    study.study_type.add(study_type)
+    mommy.make(AttributeSet, study_type_disinterest=[study_type])
+    mommy.make(SubjectFilterGroup, study=study)
+    assert not AttributeSet.apply_study_filter(study).exists()
 
 
 @pytest.mark.django_db
