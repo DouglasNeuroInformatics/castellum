@@ -1,3 +1,4 @@
+import pytest
 from model_mommy import mommy
 
 from castellum.contacts.models import Contact
@@ -5,7 +6,20 @@ from castellum.data_protection.views import DataProtectionView
 from castellum.recruitment.models import ParticipationRequest
 
 
-def test_iter_orphans(db):
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
+    'data_protection_officer',
+])
+def test_200(request, client, user_fixture):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    response = client.get('/data-protection/')
+    assert response.status_code == 200
+
+
+def test_get_orphans(db):
     contact = mommy.make(Contact)
     contact.subject.no_recruitment = True
     contact.subject.save()
@@ -17,7 +31,7 @@ def test_iter_orphans(db):
     assert missing == 0
 
 
-def test_iter_orphans_guardians(db):
+def test_get_orphans_guardians(db):
     contact = mommy.make(Contact)
     contact.subject.no_recruitment = True
     contact.subject.save()
@@ -32,7 +46,7 @@ def test_iter_orphans_guardians(db):
     assert missing == 0
 
 
-def test_iter_orphans_participation(db):
+def test_get_orphans_participation(db):
     contact = mommy.make(Contact)
     contact.subject.no_recruitment = True
     contact.subject.save()
