@@ -32,12 +32,12 @@ from castellum.studies.models import Study
 from .models import ParticipationRequest
 
 
-class BaseAppointmentFeed(ICalFeed):
+class BaseFollowUpFeed(ICalFeed):
     def item_title(self, item):
         return '{} - {}'.format(item.study.name, item.pk)
 
     def item_start_datetime(self, item):
-        return item.appointment
+        return item.followup
 
     def item_updateddate(self, item):
         return item.updated_at
@@ -49,7 +49,7 @@ class BaseAppointmentFeed(ICalFeed):
         return reverse('recruitment:contact', args=[item.study.pk, item.pk])
 
 
-class AppointmentFeedForStudy(BaseAppointmentFeed):
+class FollowUpFeedForStudy(BaseFollowUpFeed):
     def get_object(self, *args, **kwargs):
         study = get_object_or_404(Study, pk=kwargs.get('study_pk'))
         if study.status != Study.EXECUTION:
@@ -58,14 +58,14 @@ class AppointmentFeedForStudy(BaseAppointmentFeed):
 
     def items(self, study):
         return ParticipationRequest.objects\
-            .filter(study=study, appointment__isnull=False)\
-            .order_by('-appointment')
+            .filter(study=study, followup__isnull=False)\
+            .order_by('-followup')
 
     def file_name(self, study):
         return 'castellum-{}.ics'.format(slugify(study.name))
 
 
-class AppointmentFeedForUser(BaseAppointmentFeed):
+class FollowUpFeedForUser(BaseFollowUpFeed):
     def get_object(self, *args, **kwargs):
         return get_object_or_404(get_user_model(), pk=kwargs.get('user_id'))
 
@@ -74,10 +74,10 @@ class AppointmentFeedForUser(BaseAppointmentFeed):
         for study in Study.objects.filter(status=Study.EXECUTION):
             if not user.has_perms(perms, obj=study):
                 continue
-            qs = (ParticipationRequest.objects.filter(study=study, appointment__isnull=False)
-                                              .order_by('-appointment'))
+            qs = (ParticipationRequest.objects.filter(study=study, followup__isnull=False)
+                                              .order_by('-followup'))
             for participation_request in qs:
                 yield participation_request
 
     def file_name(self, study):
-        return 'castellum-appointments.ics'
+        return 'castellum-followups.ics'

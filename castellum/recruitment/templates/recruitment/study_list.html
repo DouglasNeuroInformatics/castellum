@@ -6,8 +6,8 @@
 {% block content %}
     <div class="h2">
         <h2 class="d-inline">{% trans 'Recruitment' %}</h2>
-        <a href="{% url 'recruitment:all-studies-appointments' request.user.pk %}" class="btn btn-sm btn-primary" title="{% trans 'My follow-up appointments' %}">
-            <i class="far fa-calendar-plus" role="img" aria-label="{% trans 'My follow-up appointments' %}"></i>
+        <a href="{% url 'recruitment:all-studies-followups' request.user.pk %}" class="btn btn-sm btn-primary" title="{% trans 'My follow-ups' %}">
+            <i class="far fa-calendar-plus" role="img" aria-label="{% trans 'My follow-ups' %}"></i>
         </a>
     </div>
 
@@ -19,8 +19,8 @@
                         <div class="h4 d-inline">
                             {{ study.name }}
                         </div>
-                        {% if study.appointment_urgent %}
-                            <i class="far fa-bell list-icon bg-success text-light" role="img" title="{% trans 'appointment urgent' %}"></i>
+                        {% if study.followup_urgent %}
+                            <i class="far fa-bell list-icon bg-success text-light" role="img" title="{% trans 'follow-up urgent' %}"></i>
                         {% endif %}
                     </div>
                     <div class="table-list-item-actions">
