@@ -255,6 +255,20 @@ class StudyMembership(models.Model):
         return '{}:{}'.format(self.study, self.user)
 
 
+class Resource(models.Model):
+    name = models.CharField(_('Name'), max_length=254)
+
+    def __str__(self):
+        return self.name
+
+
 class StudySession(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    name = models.CharField(_('Name'), max_length=128)
     duration = models.PositiveIntegerField(_('Duration of a session in minutes'))
+    resource = models.ForeignKey(
+        Resource, on_delete=models.SET_NULL, verbose_name=_('Resource'), blank=True, null=True
+    )
+
+    def __str__(self):
+        return '{} - {}'.format(self.study, self.name)

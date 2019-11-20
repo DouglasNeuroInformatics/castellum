@@ -116,7 +116,7 @@ def fake_subject():
 
 
 def fake_studysession(study):
-    return StudySession(study=study, duration=fake.random.randrange(10, 120, 10))
+    return StudySession(study=study, name=fake.word(), duration=fake.random.randrange(10, 120, 10))
 
 
 def fake_study():

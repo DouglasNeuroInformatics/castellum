@@ -118,12 +118,16 @@ class StudyFormMixin:
     form_class = StudyForm
 
     def get_session_form(self):
-        form_class = forms.modelform_factory(StudySession, fields=('duration',))
+        form_class = forms.modelform_factory(StudySession, fields=('name', 'duration', 'resource'))
         return form_class(prefix='{prefix}')
 
     def get_session_formset(self):
         formset_class = forms.modelformset_factory(
-            StudySession, fields=('duration',), form=ReadonlyModelForm, extra=0, can_delete=True
+            StudySession,
+            fields=('name', 'duration', 'resource'),
+            form=ReadonlyModelForm,
+            extra=0,
+            can_delete=True,
         )
         kwargs = self.get_form_kwargs()
         study = kwargs.pop('instance', None)
