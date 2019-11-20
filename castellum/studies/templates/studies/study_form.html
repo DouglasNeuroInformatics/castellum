@@ -16,6 +16,7 @@
             <button type="button" class="btn btn-sm btn-danger float-right mb-2" data-js="session-delete">
                 {% trans 'Delete' %}
             </button>
+            {% bootstrap_field template_form.name %}
             {% bootstrap_field template_form.duration %}
         </fieldset>
     </template>
@@ -62,6 +63,7 @@
                                 </button>
                             {% endif %}
                         </div>
+                        {% bootstrap_field subform.name %}
                         {% bootstrap_field subform.duration %}
                     </fieldset>
                 {% endfor %}
