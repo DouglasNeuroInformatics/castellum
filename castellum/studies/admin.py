@@ -52,6 +52,7 @@ class StudyAdmin(admin.ModelAdmin):
     readonly_fields = ['domain']
 
 
+admin.site.register(models.Resource)
 admin.site.register(models.Study, StudyAdmin)
 admin.site.register(models.StudyMembership)
 admin.site.register(models.StudyType, TranslatableAdmin)
