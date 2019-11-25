@@ -81,16 +81,18 @@ class SubjectFilterGroup(models.Model):
     def to_q_study_disinterest(self):
         return ~models.Q(study_type_disinterest__in=self.study.study_type.all())
 
-    def to_q(self, include_unknown=True):
+    def to_q_subjectfilters(self, include_unknown=True):
+        q = models.Q()
         for f in self.subjectfilter_set.all():
             q &= f.to_q(include_unknown=include_unknown)
+
         return q
 
     def get_matches(self):
         return AttributeSet.objects.filter(
-            self.to_q(),
             self.to_q_study_exclusion(),
             self.to_q_study_disinterest(),
+            self.to_q_subjectfilters(),
         )
 
 

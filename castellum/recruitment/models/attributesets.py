@@ -113,7 +113,7 @@ class AttributeSet(TimeStampedModel):
         else:
             q = models.Q()
             for group in study.subjectfiltergroup_set.all():
-                q |= group.to_q(include_unknown=include_unknown)
+                q |= group.to_q_subjectfilters(include_unknown=include_unknown)
 
         q &= study.to_q_study_exclusion()
         q &= study.to_q_study_disinterest()
