@@ -4,6 +4,15 @@
 {% block title %}{% trans 'Edit session' %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    <template id="appointment-data-template">
+        <fieldset class="rounded-lg border bg-light p-3 mb-2">
+            <button type="button" class="btn btn-sm btn-danger float-right mb-2" data-js="appointment-delete">
+                {% trans 'Delete' %}
+            </button>
+            {% bootstrap_field template_form.start %}
+        </fieldset>
+    </template>
+
     <form method="post" enctype="multipart/form-data">
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
@@ -13,6 +22,34 @@
 
         {% bootstrap_field form.duration %}
 
+        <fieldset>
+            <legend>{% trans 'Timeslots' %}</legend>
+
+            {{ appointment_formset.management_form }}
+            <div id="appointments-container">
+                {% for subform in appointment_formset %}
+                    <fieldset class="rounded-lg border bg-light p-3 mb-2" {% if subform.DELETE.value %}hidden{% endif %}>
+                        {{ subform.id.as_hidden }}
+                        {{ subform.DELETE.as_hidden }}
+                        {% if not readonly %}
+                            <button type="button" class="btn btn-sm btn-danger float-right mb-2" data-js="appointment-delete">
+                                {% trans 'Delete' %}
+                            </button>
+                        {% endif %}
+                        {% bootstrap_field subform.start %}
+                    </fieldset>
+                {% endfor %}
+            </div>
+
+            {% if not readonly %}
+                <div class="mb-3">
+                    <button type="button" class="btn btn-primary" data-js="appointment-add">
+                        {% trans "Add timeslot" %}
+                    </button>
+                </div>
+            {% endif %}
+        </fieldset>
+
         <div class="mb-3">
             <a href="{% url 'studies:update' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
             {% if not readonly %}
@@ -20,4 +57,8 @@
             {% endif %}
         </div>
     </form>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/studysession_form.js' %}"></script>
 {% endblock %}

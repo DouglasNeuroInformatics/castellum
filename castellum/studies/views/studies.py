@@ -42,6 +42,7 @@ from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment import filter_queries
+from castellum.recruitment.models import Appointment
 from castellum.recruitment.models import AttributeSet
 from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
@@ -221,6 +222,53 @@ class StudySessionUpdateView(
 
     def get_success_url(self):
         return reverse('studies:update', args=[self.study.pk])
+
+    def get_appointment_form(self):
+        form_class = forms.modelform_factory(Appointment, fields=('start',))
+        return form_class(prefix='{prefix}')
+
+    def get_appointment_formset(self):
+        formset_class = forms.modelformset_factory(
+            Appointment,
+            fields=('start',),
+            form=ReadonlyModelForm,
+            extra=0,
+            can_delete=True,
+        )
+        kwargs = self.get_form_kwargs()
+        session = kwargs.pop('instance', None)
+        readonly = kwargs.pop('readonly', False)
+        return formset_class(queryset=Appointment.objects.filter(session=session), form_kwargs={
+            'readonly': readonly,
+        }, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'appointment_formset' not in context:
+            context['appointment_formset'] = self.get_appointment_formset()
+        context['template_form'] = self.get_appointment_form()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        appointment_formset = self.get_appointment_formset()
+        if form.is_valid() and appointment_formset.is_valid():
+            return self.form_valid(form, appointment_formset)
+        else:
+            return self.form_invalid(form, appointment_formset)
+
+    def form_invalid(self, form, appointment_formset):
+        return self.render_to_response(
+            self.get_context_data(form=form, appointment_formset=appointment_formset)
+        )
+
+    def form_valid(self, form, appointment_formset):
+        response = super().form_valid(form)
+        for subform in appointment_formset:
+            subform.instance.session = form.instance
+        appointment_formset.save()
+        return response
 
 
 class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
