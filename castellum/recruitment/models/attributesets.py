@@ -115,6 +115,8 @@ class AttributeSet(TimeStampedModel):
             for group in study.subjectfiltergroup_set.all():
                 q |= group.to_q(include_unknown=include_unknown)
 
+        q &= study.to_q_study_exclusion()
+
         return AttributeSet.objects.filter(q)
 
     @classmethod

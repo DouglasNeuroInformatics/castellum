@@ -51,9 +51,7 @@ class SubjectFilterGroup(models.Model):
     def get_absolute_url(self):
         return reverse('studies:filtergroup-update', args=[self.study.pk, self.pk])
 
-    def to_q(self, include_unknown=True):
-        # excluded_studies could be moved up the hierarchy. We leave it
-        # here so that ``get_matches().count()`` response is correct.
+    def to_q_study_exclusion(self):
         q = ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
             study__in=self.study.excluded_studies.all(),
             status=ParticipationRequest.INVITED,
@@ -78,6 +76,9 @@ class SubjectFilterGroup(models.Model):
                 study__is_exclusive=True,
             ).values('subject_id'))
 
+        return q
+
+    def to_q(self, include_unknown=True):
         for f in self.subjectfilter_set.all():
             q &= f.to_q(include_unknown=include_unknown)
 
@@ -86,7 +87,10 @@ class SubjectFilterGroup(models.Model):
         return q
 
     def get_matches(self):
-        return AttributeSet.objects.filter(self.to_q())
+        return AttributeSet.objects.filter(
+            self.to_q(),
+            self.to_q_study_exclusion(),
+        )
 
 
 class SubjectFilter(models.Model):
