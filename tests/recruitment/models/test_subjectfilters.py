@@ -1,6 +1,7 @@
 import pytest
 from model_mommy import mommy
 
+from castellum.recruitment import filter_queries
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import SubjectFilter
@@ -20,7 +21,7 @@ def create_participation_request(
 def has_match(is_exclusive=False, excluded_studies=[]):
     study = mommy.make(Study, is_exclusive=is_exclusive, excluded_studies=excluded_studies)
     mommy.make(SubjectFilterGroup, study=study)
-    return AttributeSet.apply_study_filter(study).exists()
+    return AttributeSet.objects.filter(filter_queries.study(study)).exists()
 
 
 def test_to_q(attributeset):
@@ -46,9 +47,8 @@ def test_to_q_excluded_study_and_unsuitable_for_other_study(attributeset):
 def test_to_q_reverse_excluded_study(attributeset):
     pr = create_participation_request(attributeset.subject)
     study = mommy.make(Study)
-    mommy.make(SubjectFilterGroup, study=study)
     pr.study.excluded_studies.add(study)
-    assert not AttributeSet.apply_study_filter(study).exists()
+    assert not AttributeSet.objects.filter(filter_queries.study(study)).exists()
 
 
 def test_to_q_exclusive_study(attributeset):
@@ -68,8 +68,8 @@ def test_to_q_exclusive_study_in_same_study(attributeset):
         subject=attributeset.subject,
         study=study,
     )
-    group = mommy.make(SubjectFilterGroup, study=study)
-    assert AttributeSet.objects.filter(group.to_q()).exists()
+    q = filter_queries.study_exclusion(study)
+    assert AttributeSet.objects.filter(q).exists()
 
 
 def test_to_q_exclusive_study_and_unfinished(attributeset):
@@ -103,8 +103,7 @@ def test_disinterest_in_study_type(db):
     study = mommy.make(Study)
     study.study_type.add(study_type)
     mommy.make(AttributeSet, study_type_disinterest=[study_type])
-    mommy.make(SubjectFilterGroup, study=study)
-    assert not AttributeSet.apply_study_filter(study).exists()
+    assert not AttributeSet.objects.filter(filter_queries.study(study)).exists()
 
 
 @pytest.mark.django_db
