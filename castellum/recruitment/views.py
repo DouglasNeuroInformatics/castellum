@@ -52,6 +52,7 @@ from castellum.subjects.mixins import SubjectMixin
 from castellum.utils.chart import ChartRenderer
 from castellum.utils.views import GetFormView
 
+from .forms import AppointmentForm
 from .forms import ContactForm
 from .forms import SendMailForm
 from .models import AttributeDescription
@@ -479,6 +480,26 @@ class SubjectUpdateView(StudyMixin, BaseSubjectUpdateView):
         context = super().get_context_data(**kwargs)
         context['base_template'] = "recruitment/base.html"
         return context
+
+
+class AppointmentView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
+    model = ParticipationRequest
+    template_name = 'recruitment/appointments.html'
+    permission_required = (
+        'recruitment.change_participationrequest',
+    )
+    study_status = [Study.EXECUTION]
+
+    def get_form_class(self):
+        return AppointmentForm.factory(self.object)
+
+    def get_object(self):
+        return get_object_or_404(
+            ParticipationRequest, study=self.study, pk=self.kwargs['pk']
+        )
+
+    def get_success_url(self):
+        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
 
 
 class SearchView(LoginRequiredMixin, GetFormView):

@@ -24,6 +24,7 @@ import os
 
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from castellum.studies.models import Study
@@ -31,6 +32,7 @@ from castellum.utils.forms import BaseImportForm
 from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
 
+from .models import Appointment
 from .models import AttributeDescription
 from .models import AttributeSet
 from .models import ParticipationRequest
@@ -170,6 +172,42 @@ class AttributeSetForm(forms.ModelForm):
         allowed_descriptions = AttributeDescription.objects.allowed_write(user, obj=obj)
         form_fields = {desc.json_key: desc.field.formfield() for desc in allowed_descriptions}
         return type('AttributeSetForm', (cls,), form_fields)
+
+
+class AppointmentForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ()
+
+    def __init__(self, instance=None, **kwargs):
+        if not kwargs.get('initial') and instance:
+            kwargs['initial'] = {}
+            for appointment in instance.appointment_set.all():
+                key = 'session-%i' % appointment.session.pk
+                kwargs['initial'][key] = appointment
+        super().__init__(instance=instance, **kwargs)
+
+    def save(self):
+        appointments = [a for a in self.cleaned_data.values() if isinstance(a, Appointment)]
+        self.instance.appointment_set.set(appointments)
+        return super().save()
+
+    @classmethod
+    def factory(cls, instance):
+        props = {'field_order': []}
+        sessions = instance.study.studysession_set\
+            .annotate(start=models.Min('appointment__start'))\
+            .order_by('start')
+        for session in sessions:
+            key = 'session-%i' % session.pk
+            appointments = session.appointment_set.filter(
+                models.Q(participant=instance) | models.Q(participant=None)
+            )
+            props['field_order'].append(key)
+            props[key] = forms.ModelChoiceField(
+                queryset=appointments, label=session.name, required=False
+            )
+        return type('AppointmentForm', (cls,), props)
 
 
 class ContactForm(forms.ModelForm):

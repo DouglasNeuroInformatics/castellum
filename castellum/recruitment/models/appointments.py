@@ -22,6 +22,8 @@
 import datetime
 
 from django.db import models
+from django.utils.formats import date_format
+from django.utils.formats import time_format
 from django.utils.translation import gettext_lazy as _
 
 from castellum.studies.models import StudySession
@@ -53,3 +55,9 @@ class Appointment(models.Model):
     )
 
     objects = AppointmentManager()
+
+    class Meta:
+        ordering = ('start',)
+
+    def __str__(self):
+        return '%s %s' % (date_format(self.start), time_format(self.start))

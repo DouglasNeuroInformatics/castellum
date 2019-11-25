@@ -23,6 +23,7 @@ from django.urls import path
 
 from .feeds import FollowUpFeedForStudy
 from .feeds import FollowUpFeedForUser
+from .views import AppointmentView
 from .views import AttributeSetUpdateView
 from .views import ContactUpdateView
 from .views import ContactView
@@ -53,4 +54,6 @@ urlpatterns = [
          name='attributeset-update'),
     path('<study_pk>/<int:pk>/update-subject/', SubjectUpdateView.as_view(),
          name='subject-update'),
+    path('<study_pk>/<int:pk>/appointments/', AppointmentView.as_view(),
+         name='appointments-update'),
 ]
