@@ -22,14 +22,12 @@
 import functools
 from collections import OrderedDict
 
-from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MaxValueValidator
 from django.db import models
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from parler.managers import TranslatableManager
@@ -43,7 +41,6 @@ from castellum.utils.models import TimeStampedModel
 
 from .. import attribute_fields
 from ..attribute_fields import ANSWER_DECLINED
-from ..filter_registry import custom_filters
 
 UNCATEGORIZED = "UNCATEGORIZED"
 
@@ -102,46 +99,6 @@ class AttributeSet(TimeStampedModel):
     def get_data(self):
         qs = AttributeDescription.objects.all()
         return {desc.json_key: desc.field.from_json(self.data.get(desc.json_key)) for desc in qs}
-
-    @classmethod
-    def apply_study_filter(cls, study, include_unknown=None):
-        if include_unknown is None:
-            include_unknown = not study.complete_matches_only
-
-        if study.custom_filter:
-            q = custom_filters[study.custom_filter](include_unknown=include_unknown)
-        else:
-            q = models.Q()
-            for group in study.subjectfiltergroup_set.all():
-                q |= group.to_q_subjectfilters(include_unknown=include_unknown)
-
-        q &= study.to_q_study_exclusion()
-        q &= study.to_q_study_disinterest()
-
-        return AttributeSet.objects.filter(q)
-
-    @classmethod
-    def get_recruitable(cls, study):
-        from .recruitment import ParticipationRequest
-
-        last_contacted = timezone.now() - settings.CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS
-
-        return (
-            AttributeSet
-            .apply_study_filter(study)
-            .exclude(subject__no_recruitment=True)
-            .exclude(subject__participationrequest__study=study)
-            .annotate(last_contacted=models.Max(
-                'subject__participationrequest__revisions__created_at',
-                filter=~models.Q(
-                    subject__participationrequest__revisions__status=ParticipationRequest.NOT_CONTACTED # noqa
-                ),
-            ))
-            .filter(
-                models.Q(last_contacted__lte=last_contacted) |
-                models.Q(last_contacted__isnull=True)
-            )
-        )
 
     def get_verbose_name(self, pk):
         description = AttributeDescription.objects.get(pk=pk)
