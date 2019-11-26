@@ -34,7 +34,7 @@ from .models import ParticipationRequest
 
 class BaseFollowUpFeed(ICalFeed):
     def item_title(self, item):
-        return '{} - {}'.format(item.study.name, item.pk)
+        return '{} - Follow-Up'.format(item.study.name)
 
     def item_start_datetime(self, item):
         return item.followup
@@ -42,11 +42,11 @@ class BaseFollowUpFeed(ICalFeed):
     def item_updateddate(self, item):
         return item.updated_at
 
-    def item_description(self, item):
-        return item.pk
-
     def item_link(self, item):
         return reverse('recruitment:contact', args=[item.study.pk, item.pk])
+
+    def item_description(self, item):
+        return self.item_link(item)
 
 
 class FollowUpFeedForStudy(BaseFollowUpFeed):
@@ -62,7 +62,7 @@ class FollowUpFeedForStudy(BaseFollowUpFeed):
             .order_by('-followup')
 
     def file_name(self, study):
-        return 'castellum-{}.ics'.format(slugify(study.name))
+        return 'castellum-{}-followups.ics'.format(slugify(study.name))
 
 
 class FollowUpFeedForUser(BaseFollowUpFeed):
