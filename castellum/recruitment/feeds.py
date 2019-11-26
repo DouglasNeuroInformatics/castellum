@@ -29,6 +29,7 @@ from django_ical.views import ICalFeed
 from castellum.castellum_auth.models import User
 from castellum.studies.models import Study
 
+from .models import Appointment
 from .models import ParticipationRequest
 
 
@@ -94,3 +95,63 @@ class FollowUpFeedForUser(BaseFollowUpFeed):
 
     def file_name(self, study):
         return 'castellum-followups.ics'
+
+
+class BaseAppointmentFeed(ICalFeed):
+    def get_object(self, request, *args, **kwargs):
+        try:
+            user = User.objects.get(token=request.GET.get('token'))
+        except User.DoesNotExist:
+            raise PermissionDenied
+        study = get_object_or_404(Study, pk=kwargs.get('study_pk'), status=Study.EXECUTION)
+        perms = ('recruitment.view_participationrequest', 'studies.access_study')
+        if not user.has_perms(perms, obj=study):
+            raise PermissionDenied
+        return study
+
+    def items(self, study):
+        return Appointment.objects.filter(session__study=study)
+
+    def item_start_datetime(self, item):
+        return item.start
+
+    def item_end_datetime(self, item):
+        return item.end
+
+    def item_link(self, item):
+        # This is not really a usable link, but it is unique
+        url = reverse('recruitment:recruitment-invited', args=[item.session.study.pk])
+        return '{}?appointment={}'.format(url, item.pk)
+
+    def item_description(self, item):
+        # prevent default str(item)
+        return ''
+
+
+class FreeAppointmentFeed(BaseAppointmentFeed):
+    def items(self, study):
+        return super().items(study).filter(participant=None)
+
+    def item_title(self, item):
+        return '{} - {}'.format(
+            item.session.study.name,
+            item.session.name,
+        )
+
+    def file_name(self, study):
+        return 'castellum-%s-free-appointments.ics' % study.name
+
+
+class BookedAppointmentFeed(BaseAppointmentFeed):
+    def items(self, study):
+        return super().items(study).exclude(participant=None)
+
+    def item_title(self, item):
+        return '{} - {} - {}'.format(
+            item.session.study.name,
+            item.session.name,
+            item.participant.pseudonym,
+        )
+
+    def file_name(self, study):
+        return 'castellum-%s-booked-appointments.ics' % study.name

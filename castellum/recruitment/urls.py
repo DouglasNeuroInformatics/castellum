@@ -21,8 +21,10 @@
 
 from django.urls import path
 
+from .feeds import BookedAppointmentFeed
 from .feeds import FollowUpFeedForStudy
 from .feeds import FollowUpFeedForUser
+from .feeds import FreeAppointmentFeed
 from .views import AppointmentView
 from .views import AttributeSetUpdateView
 from .views import ContactUpdateView
@@ -46,6 +48,8 @@ urlpatterns = [
     path('<study_pk>/unsuitable/', RecruitmentViewUnsuitable.as_view(),
          name='recruitment-unsuitable'),
     path('<study_pk>/mail/', MailRecruitmentView.as_view(), name='mail'),
+    path('<study_pk>/appointments/free/', FreeAppointmentFeed(), name='appointments-free'),
+    path('<study_pk>/appointments/booked/', BookedAppointmentFeed(), name='appointments-booked'),
     path('<study_pk>/followups/', FollowUpFeedForStudy(), name='followups'),
     path('<study_pk>/<int:pk>/', ContactView.as_view(), name='contact'),
     path('<study_pk>/<int:pk>/update-contact/', ContactUpdateView.as_view(),

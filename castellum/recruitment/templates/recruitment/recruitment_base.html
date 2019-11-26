@@ -10,6 +10,9 @@
         <a href="{% url 'recruitment:followups' study.pk %}?token={{ user.token }}" class="btn btn-sm btn-primary" title="{% trans 'Follow-ups' %}">
             <i class="far fa-calendar-plus" role="img" aria-label="{% trans 'Follow-ups' %}"></i>
         </a>
+        <a href="{% url 'recruitment:appointments-free' study.pk %}?token={{ user.token }}" class="btn btn-sm btn-primary" title="{% trans 'Free appointments' %}">
+            <i class="far fa-calendar-plus" role="img" aria-label="{% trans 'Free appointments' %}"></i>
+        </a>
     </div>
 
     <nav class="d-print-none" aria-label="{% trans 'Tabs' %}">
