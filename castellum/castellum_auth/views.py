@@ -19,7 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from django.utils.http import is_safe_url
 from django.utils.translation import check_for_language
 
@@ -43,4 +43,4 @@ def set_language(request):
     if not is_safe or not next:
         next = '/'
 
-    return HttpResponseRedirect(next)
+    return redirect(next)

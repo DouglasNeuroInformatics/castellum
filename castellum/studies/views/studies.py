@@ -25,58 +25,29 @@ from django import forms
 from django.contrib import messages
 from django.db import models
 from django.http import HttpResponseBadRequest
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
-from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
-from django.views.generic.detail import SingleObjectMixin
-
-from dateutil.relativedelta import relativedelta
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.castellum_auth.models import User
 from castellum.recruitment.models import AttributeSet
-from castellum.recruitment.models import ParticipationRequest
-from castellum.recruitment.models import SubjectFilter
 from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
 
-from ..forms import AddMemberForm
-from ..forms import ExcludedStudiesForm
-from ..forms import MemberForm
 from ..forms import StudyForm
 from ..mixins import StudyMixin
 from ..models import Study
 from ..models import StudyMembership
 from ..models import StudySession
+from .recruitment import get_related_studies
 
 monitoring_logger = logging.getLogger('monitoring.studies')
-
-
-def get_related_studies(study):
-    # if no filters exist, all active studies would be related
-    if not SubjectFilter.objects.filter(group__study=study).exists():
-        return Study.objects.none()
-
-    dt = timezone.now() - relativedelta(years=2)
-    related_prs = ParticipationRequest.objects.filter(
-        updated_at__gte=dt,
-        status=ParticipationRequest.INVITED,
-        subject__attributeset__in=AttributeSet.apply_study_filter(study),
-    )
-    return Study.objects\
-        .filter(participationrequest__in=related_prs)\
-        .annotate(count=models.Count('pk'))\
-        .order_by('-count')
 
 
 class StudyIndexView(PermissionRequiredMixin, ListView):
@@ -255,179 +226,3 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
         else:
             self.study.set_status(self.study.FINISHED)
         return redirect('studies:detail', self.study.pk)
-
-
-class StudyRecruitmentSettingsUpdateView(
-    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
-):
-    model = Study
-    fields = ('advanced_filtering', 'recruitment_text', 'is_exclusive', 'complete_matches_only')
-    permission_required = 'studies.change_study'
-    template_name = 'studies/study_recruitmentsettings_form.html'
-    tab = 'recruitmentsettings'
-    subtab = 'update'
-
-    def get_readonly(self):
-        return self.object.status == Study.FINISHED
-
-    def get_success_url(self):
-        return reverse('studies:recruitmentsettings', kwargs={'pk': self.object.pk})
-
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
-
-
-class StudyExcludedStudiesView(
-    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
-):
-    model = Study
-    template_name = 'studies/study_excluded_studies.html'
-    form_class = ExcludedStudiesForm
-    permission_required = 'studies.change_study'
-    tab = 'recruitmentsettings'
-    subtab = 'excluded-studies'
-
-    def get_readonly(self):
-        return self.object.status == Study.FINISHED
-
-    def get_success_url(self):
-        return reverse('studies:excluded-studies', args=[self.object.pk])
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['count'] = (
-            AttributeSet
-            .apply_study_filter(self.object)
-            .filter(subject__no_recruitment=False)
-            .count()
-        )
-        context['total_count'] = AttributeSet.objects.count()
-        context['related_studies'] = list(get_related_studies(self.object))
-        return context
-
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
-
-
-class StudyExclusionCriteriaView(
-    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
-):
-    model = Study
-    template_name = 'studies/study_exclusioncriteria.html'
-    fields = ('exclusion_criteria',)
-    permission_required = 'studies.change_study'
-    tab = 'recruitmentsettings'
-    subtab = 'exclusioncriteria'
-
-    def get_readonly(self):
-        return self.object.status == Study.FINISHED
-
-    def get_success_url(self):
-        return reverse('studies:exclusioncriteria', args=[self.object.pk])
-
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
-
-
-class StudyMailSettingsView(
-    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
-):
-    model = Study
-    template_name = 'studies/study_mailsettings.html'
-    fields = ('mail_subject', 'mail_body', 'mail_reply_address',)
-    permission_required = 'studies.change_study'
-    tab = 'recruitmentsettings'
-    subtab = 'mailsettings'
-
-    def get_readonly(self):
-        return self.object.status == Study.FINISHED
-
-    def get_success_url(self):
-        return reverse('studies:mailsettings', args=[self.object.pk])
-
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
-
-
-class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, FormView):
-    model = Study
-    template_name = 'studies/study_members.html'
-    permission_required = 'studies.change_study'
-    tab = 'members'
-
-    def dispatch(self, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(*args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['readonly'] = self.object.status == Study.FINISHED
-        return context
-
-    def get(self, request, **kwargs):
-        unprivileged_users = list(self.get_unprivileged_members())
-        if unprivileged_users:
-            messages.warning(self.request, _(
-                'Some members of this study with access to filters are blocked from managing '
-                'filters due to an insufficient privacy level.\nBlocked users are: '
-            ) + ', '.join(user for user in unprivileged_users))
-        return self.render_to_response(self.get_context_data())
-
-    def get_form(self):
-        choices = [(None, '---')]
-        choices.extend([(user.pk, str(user))
-                        for user in User.objects.exclude(pk__in=self.object.members.all())])
-
-        form = AddMemberForm(**self.get_form_kwargs())
-        form.fields['user'].choices = choices
-        return form
-
-    def form_valid(self, form):
-        StudyMembership.objects.get_or_create(
-            user=form.cleaned_data['user'], study=self.object)
-        return HttpResponseRedirect(reverse('studies:members', args=[self.object.pk]))
-
-    def get_unprivileged_members(self):
-        max_privacy_level = self.object.get_filter_max_privacy_level()
-
-        for user in self.object.members.all():
-            if user.has_perm('recruitment.view_subjectfilter', obj=self.object):
-                if user.get_privacy_level() < max_privacy_level:
-                    yield user.username
-
-
-class StudyMembershipUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView):
-    model = StudyMembership
-    form_class = MemberForm
-    permission_required = 'studies.change_study'
-    study_status = [Study.EDIT, Study.EXECUTION]
-    tab = 'members'
-
-    def get_object(self):
-        return get_object_or_404(StudyMembership, pk=self.kwargs['pk'], study=self.study)
-
-    def get_success_url(self):
-        return reverse('studies:members', args=[self.object.study.pk])
-
-
-class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView):
-    model = StudyMembership
-    permission_required = 'studies.change_study'
-    study_status = [Study.EDIT, Study.EXECUTION]
-    tab = 'members'
-
-    def get_object(self):
-        return get_object_or_404(StudyMembership, pk=self.kwargs['pk'], study=self.study)
-
-    def delete(self, request, *args, **kwargs):
-        membership = self.get_object()
-
-        if membership.user.pk == request.user.pk:
-            return HttpResponseBadRequest()
-
-        membership.delete()
-        return HttpResponseRedirect(reverse('studies:members', args=[membership.study.pk]))
