@@ -41,6 +41,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
+from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
@@ -209,7 +210,11 @@ class RecruitmentViewOpen(RecruitmentView):
     subtab = 'open'
 
     def create_participation_requests(self, batch_size):
-        attributesets = list(AttributeSet.get_recruitable(self.study))
+        attributesets = list(AttributeSet.objects.filter(
+            filter_queries.study(self.study),
+            filter_queries.no_recruitment(self.study),
+            filter_queries.already_in_study(self.study),
+        ))
 
         added = min(batch_size, len(attributesets))
         for attributeset in random.sample(attributesets, k=added):
@@ -285,7 +290,11 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     form_class = SendMailForm
 
     def create_participation_requests(self, batch_size):
-        attributesets = list(AttributeSet.get_recruitable(self.study))
+        attributesets = list(AttributeSet.objects.filter(
+            filter_queries.study(self.study),
+            filter_queries.no_recruitment(self.study),
+            filter_queries.already_in_study(self.study),
+        ))
 
         connection = get_connection()
         counter = 0

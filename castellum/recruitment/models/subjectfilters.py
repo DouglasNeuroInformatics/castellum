@@ -24,9 +24,7 @@ from django.urls import reverse
 
 from picklefield.fields import PickledObjectField
 
-from castellum.recruitment.filter_queries import to_q_study_exclusion
-from castellum.recruitment.filter_queries import to_q_study_disinterest
-from castellum.recruitment.filter_queries import to_q_subjectfilters
+from castellum.recruitment import filter_queries
 from castellum.studies.models import Study
 
 from ..models import AttributeDescription
@@ -55,9 +53,9 @@ class SubjectFilterGroup(models.Model):
 
     def get_matches(self):
         return AttributeSet.objects.filter(
-            to_q_study_exclusion(),
-            to_q_study_disinterest(),
-            to_q_subjectfilters(),
+            filter_queries.study_exclusion(self.study),
+            filter_queries.study_disinterest(self.study),
+            filter_queries.subjectfilters(self),
         )
 
 
