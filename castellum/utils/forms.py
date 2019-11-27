@@ -178,12 +178,14 @@ class RestrictedFileField(forms.FileField):
         if f is None:
             return None
 
-        if f.size > self.max_upload_size:
+        if self.max_upload_size and f.size > self.max_upload_size:
             raise forms.ValidationError(_('File is too big.'), code='size')
 
         content_type = magic.detect_from_content(f.read(1024)).mime_type
         if content_type not in self.content_types:
             raise forms.ValidationError(_('Filetype not supported.'), code='content_type')
+
+        f.seek(0)
 
         return f
 
