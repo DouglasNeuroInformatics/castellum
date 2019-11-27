@@ -33,6 +33,10 @@ from .models import ParticipationRequest
 
 
 class BaseFollowUpFeed(ICalFeed):
+    def __call__(self, request, *args, **kwargs):
+        self.request = request
+        return super().__call__(request, *args, **kwargs)
+
     def item_title(self, item):
         return '{} - Follow-Up'.format(item.study.name)
 
@@ -43,7 +47,8 @@ class BaseFollowUpFeed(ICalFeed):
         return item.updated_at
 
     def item_link(self, item):
-        return reverse('recruitment:contact', args=[item.study.pk, item.pk])
+        rel = reverse('recruitment:contact', args=[item.study.pk, item.pk])
+        return self.request.build_absolute_uri(rel)
 
     def item_description(self, item):
         return self.item_link(item)
