@@ -75,14 +75,6 @@ def already_in_study(study):
     return ~models.Q(subject__participationrequest__study=study)
 
 
-def last_contacted():
-    last_contacted = timezone.now() - settings.CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS
-    return (
-        models.Q(last_contacted__lte=last_contacted) |
-        models.Q(last_contacted__isnull=True)
-    )
-
-
 def study_filters(study, include_unknown=None):
     if include_unknown is None:
         include_unknown = not study.complete_matches_only

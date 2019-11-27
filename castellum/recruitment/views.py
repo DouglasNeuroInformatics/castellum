@@ -210,10 +210,11 @@ class RecruitmentViewOpen(RecruitmentView):
     subtab = 'open'
 
     def create_participation_requests(self, batch_size):
-        attributesets = list(AttributeSet.objects.filter(
+        attributesets = list(AttributeSet.objects.annotate_last_contacted().filter(
             filter_queries.study(self.study),
             filter_queries.no_recruitment(self.study),
             filter_queries.already_in_study(self.study),
+            filter_queries.last_contacted(),
         ))
 
         added = min(batch_size, len(attributesets))
@@ -290,10 +291,11 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     form_class = SendMailForm
 
     def create_participation_requests(self, batch_size):
-        attributesets = list(AttributeSet.objects.filter(
+        attributesets = list(AttributeSet.objects.annotate_last_contacted().filter(
             filter_queries.study(self.study),
             filter_queries.no_recruitment(self.study),
             filter_queries.already_in_study(self.study),
+            filter_queries.last_contacted(),
         ))
 
         connection = get_connection()
