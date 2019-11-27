@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import secrets
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.mail import send_mail
@@ -28,12 +30,17 @@ from django.utils.translation import gettext_lazy as _
 from castellum.utils.fields import DateTimeField
 
 
+def generate_token():
+    return secrets.token_urlsafe()
+
+
 class User(AbstractUser):
     language = models.CharField(
         _('Language'), max_length=5, choices=settings.LANGUAGES, blank=True)
     expiration_date = DateTimeField(_('Expiration date'), blank=True, null=True)
     logout_timeout = models.DurationField(
         _('Time until automatic logout'), default=settings.LOGOUT_TIMEOUT_DEFAULT)
+    token = models.CharField(max_length=64, unique=True, default=generate_token)
 
     class Meta:
         ordering = ('username',)
