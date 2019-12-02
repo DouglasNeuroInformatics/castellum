@@ -29,31 +29,32 @@ from .models import ParticipationRequest
 
 
 def study_exclusion(study):
-    q = ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
+    pr_q = models.Q(
         study__in=study.excluded_studies.all(),
         status=ParticipationRequest.INVITED,
-    ).values('subject_id'))
+    )
 
-    q &= ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
+    pr_q |= models.Q(
         study__excluded_studies=study,
         status=ParticipationRequest.INVITED,
-    ).values('subject_id'))
+    )
 
     if study.is_exclusive:
-        q &= ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
+        pr_q |= models.Q(
             ~models.Q(study__status=Study.FINISHED),
             ~models.Q(status=ParticipationRequest.UNSUITABLE),
             ~models.Q(study__pk=study.pk),
-        ).values('subject_id'))
+        )
 
     else:
-        q &= ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
+        pr_q |= models.Q(
             ~models.Q(study__status=Study.FINISHED),
             ~models.Q(status=ParticipationRequest.UNSUITABLE),
             study__is_exclusive=True,
-        ).values('subject_id'))
+        )
 
-    return q
+    prs = ParticipationRequest._base_manager.filter(pr_q)
+    return ~models.Q(subject_id__in=prs.values('subject_id'))
 
 
 def study_disinterest(study):
