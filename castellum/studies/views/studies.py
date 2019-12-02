@@ -19,12 +19,15 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
 import logging
 
 from django import forms
+from django.conf import settings
 from django.contrib import messages
 from django.db import models
 from django.http import HttpResponseBadRequest
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -32,6 +35,7 @@ from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
+from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
@@ -40,11 +44,13 @@ from castellum.recruitment.models import AttributeSet
 from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
 
+from ..forms import ImportForm
 from ..forms import StudyForm
 from ..mixins import StudyMixin
 from ..models import Study
 from ..models import StudyMembership
 from ..models import StudySession
+from ..models import StudyType
 from .recruitment import get_related_studies
 
 monitoring_logger = logging.getLogger('monitoring.studies')
@@ -76,6 +82,7 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['q'] = self.request.GET.get('q', '')
         context['all'] = 'all' in self.request.GET
+        context['enable_export'] = settings.CASTELLUM_ENABLE_STUDY_EXPORT
         return context
 
 
@@ -93,6 +100,7 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
             .count()
         )
         context['related_studies'] = list(get_related_studies(self.object))
+        context['enable_export'] = settings.CASTELLUM_ENABLE_STUDY_EXPORT
         return context
 
 
@@ -226,3 +234,78 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
         else:
             self.study.set_status(self.study.FINISHED)
         return redirect('studies:detail', self.study.pk)
+
+
+class StudyImportView(PermissionRequiredMixin, FormView):
+    permission_required = 'studies.add_study'
+    template_name = 'studies/study_import.html'
+    form_class = ImportForm
+    STATUS_MAP = {
+        'not_started': Study.EDIT,
+        'started': Study.EXECUTION,
+        'data_collected': Study.EXECUTION,
+        'finished': Study.FINISHED,
+    }
+
+    def render_person(self, person):
+        return person.get('name', person.get('email'))
+
+    def render_persons(self, persons):
+        return ', '.join([s for s in [self.render_person(p) for p in persons] if s])
+
+    def parse_date(self, date):
+        if date:
+            dt = datetime.datetime.strptime(date, '%Y-%m-%d')
+            return dt.date()
+
+    def form_valid(self, form):
+        json = form.cleaned_data['json']
+        study = Study.objects.create(
+            name=json['name'],
+            contact_person=self.render_person(json.get('contact_person', {})),
+            principal_investigator=self.render_person(json.get('principal_investigator', {})),
+            affiliated_scientists=self.render_persons(json.get('affiliated_scientists', [])),
+            affiliated_research_assistants=self.render_persons(
+                json.get('affiliated_research_assistants', [])
+            ),
+            description=json.get('description'),
+            keywords=', '.join(json.get('keywords', [])),
+            sessions_start=self.parse_date(json.get('sessions_start')),
+            sessions_end=self.parse_date(json.get('sessions_end')),
+            status=self.STATUS_MAP.get(json.get('status')),
+            min_subject_count=json.get('number_participants_expected'),
+        )
+        for key in json.get('type', []):
+            try:
+                t = StudyType.objects.get(export_key=key)
+                study.study_type.add(t)
+            except StudyType.DoesNotExist:
+                pass
+        return redirect('studies:detail', study.pk)
+
+
+class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
+    permission_required = 'studies.view_study'
+    STATUS_MAP = {
+        Study.EDIT: 'not_started',
+        Study.EXECUTION: 'started',
+        Study.FINISHED: 'finished',
+    }
+
+    def get(self, request, *args, **kwargs):
+        data = {
+            'name': self.study.name,
+            'contact_person': {'name': self.study.contact_person},
+            'principal_investigator': {'name': self.study.principal_investigator},
+            'description': self.study.description,
+            'status': self.STATUS_MAP[self.study.status],
+            'sessions_start': self.study.sessions_start,
+            'sessions_end': self.study.sessions_end,
+            'number_participants_expected': self.study.min_subject_count,
+            'type': [t for t in self.study.study_type.values_list('export_key', flat=True) if t],
+        }
+
+        response = JsonResponse({k: v for k, v in data.items() if v})
+        filename = 'castellum_%s.json' % self.study.name
+        response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+        return response
