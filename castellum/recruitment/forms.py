@@ -19,11 +19,15 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import json
+import os
+
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import gettext_lazy as _
 
 from castellum.studies.models import Study
+from castellum.utils.forms import BaseImportForm
 from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
 
@@ -33,6 +37,9 @@ from .models import ParticipationRequest
 from .models import SubjectFilter
 from .models.attributesets import ANSWER_DECLINED
 from .models.attributesets import UNCATEGORIZED
+
+APP_DIR = os.path.dirname(__file__)
+IMPORT_SCHEMA = json.load(open(os.path.join(APP_DIR, 'schemas', 'attributes.json')))
 
 
 def get_description_choices(user):
@@ -192,3 +199,13 @@ class SendMailForm(forms.Form):
     batch_size = forms.IntegerField(
         min_value=1, label=_('How many subjects do you want to contact?')
     )
+
+
+class CategoryImportForm(BaseImportForm):
+    schema = IMPORT_SCHEMA
+    schema_ref = '#/$defs/AttributeCategoryExport'
+
+
+class DescriptionImportForm(BaseImportForm):
+    schema = IMPORT_SCHEMA
+    schema_ref = '#/$defs/AttributeDescriptionExport'

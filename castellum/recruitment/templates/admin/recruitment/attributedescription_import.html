@@ -12,20 +12,12 @@
 
 {% block content %}
     <div id="content-main">
-        {% if errors %}
-            <div class="errornote">
-                <p>{% trans 'There were errors while importing the data. The process was aborted. Nothing was written to the database.' %}</p>
-                {% for error in errors %}
-                    <p>
-                        <strong>{{ error.path|join:'.' }}:</strong>
-                        {{ error.message }}
-                    </p>
-                {% endfor %}
-            </div>
-        {% endif %}
         <form enctype="multipart/form-data" method="post">
+            {% if form.errors %}
+                {{ form.non_field_errors }}
+            {% endif %}
             {% csrf_token %}
-            <input type="file" name="file" required>
+            {{ form.file }}
             <input type="submit" value="{% trans 'Import' %}">
         </form>
     </div>
