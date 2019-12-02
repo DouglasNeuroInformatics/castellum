@@ -9,7 +9,8 @@
                 </div>
                 {% if subject.deletion_due %}
                     <div>
-                        {% trans 'Due for deletion in' %}: {{ subject.deletion_due|timeuntil }}
+                        {% trans 'Due for deletion in' %}:
+                        <time datetime="{{ subject.deletion_due|date:'Y-m-d' }}" title="{{ subject.deletion_due|date }}">{{ subject.deletion_due|timeuntil }}</time>
                     </div>
                 {% endif %}
             </div>
