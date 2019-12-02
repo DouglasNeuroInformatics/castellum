@@ -40,6 +40,7 @@ from django.views.generic import ListView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.recruitment import filter_queries
 from castellum.recruitment.models import AttributeSet
 from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
@@ -94,10 +95,10 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['count'] = (
-            AttributeSet
-            .apply_study_filter(self.object)
-            .filter(subject__no_recruitment=False)
-            .count()
+            AttributeSet.objects.filter(
+                filter_queries.study(self.object),
+                filter_queries.no_recruitment(self.object)
+            ).count()
         )
         context['related_studies'] = list(get_related_studies(self.object))
         context['enable_export'] = settings.CASTELLUM_ENABLE_STUDY_EXPORT

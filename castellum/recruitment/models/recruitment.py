@@ -129,15 +129,16 @@ class ParticipationRequest(models.Model):
 
     @cached_property
     def match(self):
-        if AttributeSet\
-                .apply_study_filter(self.study, include_unknown=False)\
-                .filter(subject=self.subject)\
-                .exists():
+        from castellum.recruitment import filter_queries
+        if AttributeSet.objects.filter(
+            filter_queries.study(self.study, include_unknown=False),
+            subject=self.subject
+        ).exists():
             return 'complete'
-        elif AttributeSet\
-                .apply_study_filter(self.study, include_unknown=True)\
-                .filter(subject=self.subject)\
-                .exists():
+        elif AttributeSet.objects.filter(
+            filter_queries.study(self.study, include_unknown=True),
+            subject=self.subject
+        ).exists():
             return 'incomplete'
         else:
             return False

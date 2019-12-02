@@ -29,6 +29,7 @@ from django.views.generic import UpdateView
 from dateutil.relativedelta import relativedelta
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.recruitment import filter_queries
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import SubjectFilter
@@ -48,7 +49,7 @@ def get_related_studies(study):
     related_prs = ParticipationRequest.objects.filter(
         updated_at__gte=dt,
         status=ParticipationRequest.INVITED,
-        subject__attributeset__in=AttributeSet.apply_study_filter(study),
+        subject__attributeset__in=AttributeSet.objects.filter(filter_queries.study(study))
     )
     return Study.objects\
         .filter(participationrequest__in=related_prs)\
@@ -96,10 +97,10 @@ class StudyExcludedStudiesView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['count'] = (
-            AttributeSet
-            .apply_study_filter(self.object)
-            .filter(subject__no_recruitment=False)
-            .count()
+            AttributeSet.objects.filter(
+                filter_queries.study(self.object),
+                filter_queries.no_recruitment(self.object)
+            ).count()
         )
         context['total_count'] = AttributeSet.objects.count()
         context['related_studies'] = list(get_related_studies(self.object))

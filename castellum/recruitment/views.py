@@ -29,9 +29,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.core.mail import EmailMessage
 from django.core.mail import get_connection
+from django.db import models
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView
 from django.views.generic import ListView
@@ -41,6 +43,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
+from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
@@ -55,6 +58,27 @@ from .models import AttributeDescription
 from .models import AttributeSet
 from .models import MailBatch
 from .models import ParticipationRequest
+
+
+def get_recruitable(study):
+    qs = AttributeSet.objects.filter(
+        filter_queries.study(study),
+        filter_queries.no_recruitment(study),
+        filter_queries.already_in_study(study),
+    )
+
+    last_contacted = timezone.now() - settings.CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS
+    qs = qs.annotate(last_contacted=models.Max(
+        'subject__participationrequest__revisions__created_at',
+        filter=~models.Q(
+            subject__participationrequest__revisions__status=ParticipationRequest.NOT_CONTACTED
+        ),
+    )).filter(
+        models.Q(last_contacted__lte=last_contacted) |
+        models.Q(last_contacted__isnull=True)
+    )
+
+    return list(qs)
 
 
 class StudyListView(LoginRequiredMixin, ListView):
@@ -209,7 +233,7 @@ class RecruitmentViewOpen(RecruitmentView):
     subtab = 'open'
 
     def create_participation_requests(self, batch_size):
-        attributesets = list(AttributeSet.get_recruitable(self.study))
+        attributesets = get_recruitable(self.study)
 
         added = min(batch_size, len(attributesets))
         for attributeset in random.sample(attributesets, k=added):
@@ -285,7 +309,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     form_class = SendMailForm
 
     def create_participation_requests(self, batch_size):
-        attributesets = list(AttributeSet.get_recruitable(self.study))
+        attributesets = get_recruitable(self.study)
 
         connection = get_connection()
         counter = 0

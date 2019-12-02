@@ -39,6 +39,7 @@ from castellum.contacts.forms import ContactForm
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
+from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
@@ -292,7 +293,10 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
         for study in studies:
             if (
                 self.request.user.has_perms(perms, obj=study) and
-                AttributeSet.apply_study_filter(study).filter(pk=attributeset.pk).exists()
+                AttributeSet.objects.filter(
+                    filter_queries.study(study),
+                    pk=attributeset.pk,
+                ).exists()
             ):
                 yield study
 

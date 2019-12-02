@@ -34,6 +34,7 @@ from django.views.generic import UpdateView
 from django.views.generic import View
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.recruitment import filter_queries
 from castellum.recruitment.forms import SubjectFilterAddForm
 from castellum.recruitment.forms import SubjectFilterForm
 from castellum.recruitment.forms import SubjectFilterFormSet
@@ -59,10 +60,10 @@ class CustomFilterMixin:
                     'study': self.study,
                     'total_count': AttributeSet.objects.count(),
                     'count': (
-                        AttributeSet
-                        .apply_study_filter(self.study)
-                        .filter(subject__no_recruitment=False)
-                        .count()
+                        AttributeSet.objects.filter(
+                            filter_queries.study(self.object),
+                            filter_queries.no_recruitment(self.object)
+                        ).count()
                     ),
                 },
             )
@@ -97,10 +98,10 @@ class FilterGroupListView(FilterMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['total_count'] = AttributeSet.objects.count()
         context['count'] = (
-            AttributeSet
-            .apply_study_filter(self.study)
-            .filter(subject__no_recruitment=False)
-            .count()
+            AttributeSet.objects.filter(
+                filter_queries.study(self.study),
+                filter_queries.no_recruitment(self.study)
+            ).count()
         )
         context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         context['expected_subject_count'] = (

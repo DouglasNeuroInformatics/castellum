@@ -24,11 +24,11 @@ from django.urls import reverse
 
 from picklefield.fields import PickledObjectField
 
+from castellum.recruitment import filter_queries
 from castellum.studies.models import Study
 
 from ..models import AttributeDescription
 from ..models import AttributeSet
-from ..models import ParticipationRequest
 
 
 class SubjectFilterGroupManager(models.Manager):
@@ -51,42 +51,12 @@ class SubjectFilterGroup(models.Model):
     def get_absolute_url(self):
         return reverse('studies:filtergroup-update', args=[self.study.pk, self.pk])
 
-    def to_q(self, include_unknown=True):
-        # excluded_studies could be moved up the hierarchy. We leave it
-        # here so that ``get_matches().count()`` response is correct.
-        q = ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
-            study__in=self.study.excluded_studies.all(),
-            status=ParticipationRequest.INVITED,
-        ).values('subject_id'))
-
-        q &= ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
-            study__excluded_studies=self.study,
-            status=ParticipationRequest.INVITED,
-        ).values('subject_id'))
-
-        if self.study.is_exclusive:
-            q &= ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
-                ~models.Q(study__status=Study.FINISHED),
-                ~models.Q(status=ParticipationRequest.UNSUITABLE),
-                ~models.Q(study__pk=self.study.pk),
-            ).values('subject_id'))
-
-        else:
-            q &= ~models.Q(subject_id__in=ParticipationRequest._base_manager.filter(
-                ~models.Q(study__status=Study.FINISHED),
-                ~models.Q(status=ParticipationRequest.UNSUITABLE),
-                study__is_exclusive=True,
-            ).values('subject_id'))
-
-        for f in self.subjectfilter_set.all():
-            q &= f.to_q(include_unknown=include_unknown)
-
-        q &= ~models.Q(study_type_disinterest__in=self.study.study_type.all())
-
-        return q
-
     def get_matches(self):
-        return AttributeSet.objects.filter(self.to_q())
+        return AttributeSet.objects.filter(
+            filter_queries.study_exclusion(self.study),
+            filter_queries.study_disinterest(self.study),
+            filter_queries.subjectfilters(self),
+        )
 
 
 class SubjectFilter(models.Model):
