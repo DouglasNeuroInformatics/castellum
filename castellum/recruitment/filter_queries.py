@@ -19,9 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.conf import settings
 from django.db import models
-from django.utils import timezone
 
 from castellum.studies.models import Study
 
@@ -85,7 +83,7 @@ def last_contacted():
     )
 
 
-def study_filter(study, include_unknown=None):
+def study_filters(study, include_unknown=None):
     if include_unknown is None:
         include_unknown = not study.complete_matches_only
 
@@ -103,5 +101,5 @@ def study(study, include_unknown=None):
     q = models.Q()
     q &= study_exclusion(study)
     q &= study_disinterest(study)
-    q &= study_filter(study, include_unknown=include_unknown)
+    q &= study_filters(study, include_unknown=include_unknown)
     return q
