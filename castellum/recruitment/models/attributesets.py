@@ -79,18 +79,6 @@ class ImportMixin:
         return obj
 
 
-class AttributeSetManager(models.Manager):
-    def annotate_last_contacted(self):
-        from .recruitment import ParticipationRequest
-
-        return self.annotate(last_contacted=models.Max(
-            'subject__participationrequest__revisions__created_at',
-            filter=~models.Q(
-                subject__participationrequest__revisions__status=ParticipationRequest.NOT_CONTACTED # noqa
-            ),
-        ))
-
-
 class AttributeSet(TimeStampedModel):
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE, editable=False)
     data = JSONField(encoder=DjangoJSONEncoder)
@@ -100,8 +88,6 @@ class AttributeSet(TimeStampedModel):
         blank=True,
         related_name='+'
     )
-
-    objects = AttributeSetManager()
 
     class Meta:
         verbose_name = _('Attribute set')
