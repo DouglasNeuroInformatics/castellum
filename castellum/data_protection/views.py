@@ -42,7 +42,13 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
     limit_by = 10
 
     def get_to_be_deleted(self):
-        subjects = Subject.objects.filter(to_be_deleted__isnull=False)
+        subjects = Subject.objects.filter(to_be_deleted__isnull=False).annotate(
+            deletion_due=models.ExpressionWrapper(
+                models.F('to_be_deleted') + settings.CASTELLUM_SUBJECT_DELETION_PERIOD,
+                output_field=models.DateTimeField(),
+            )
+        )
+
         return subjects[:self.limit_by], max(subjects.count() - self.limit_by, 0)
 
     def get_orphans(self):
