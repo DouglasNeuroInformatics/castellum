@@ -286,6 +286,10 @@ CASTELLUM_STUDY_DELETION_PERIOD = relativedelta(years=5)
 # consent given
 CASTELLUM_CONSENT_REVIEW_PERIOD = relativedelta(weeks=2)
 
+# maximum timespan a subject should be allowed to remain in the database
+# after requesting to be deleted
+CASTELLUM_SUBJECT_DELETION_PERIOD = datetime.timedelta(days=30)
+
 # the number of subjects that is added to the recruitment list every time
 CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 

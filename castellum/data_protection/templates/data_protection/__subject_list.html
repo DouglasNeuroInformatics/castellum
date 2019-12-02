@@ -3,7 +3,16 @@
 <ul class="table-list">
     {% for subject in subjects %}
         <li class="table-list-item">
-            {{ subject.contact }}
+            <div>
+                <div>
+                    {{ subject.contact }}
+                </div>
+                {% if subject.deletion_due %}
+                    <div>
+                        {% trans 'Due for deletion in' %}: {{ subject.deletion_due|timeuntil }}
+                    </div>
+                {% endif %}
+            </div>
             <div class="table-list-item-actions">
                 <a class="btn btn-outline-primary" href="{% url 'subjects:detail' subject.pk %}">{% trans 'Details' %}</a>
             </div>
