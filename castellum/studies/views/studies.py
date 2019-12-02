@@ -302,7 +302,7 @@ class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
             'sessions_start': self.study.sessions_start,
             'sessions_end': self.study.sessions_end,
             'number_participants_expected': self.study.min_subject_count,
-            'type': list(self.study.study_type.values_list('export_key', flat=True)),
+            'type': [t for t in self.study.study_type.values_list('export_key', flat=True) if t],
         }
 
         response = JsonResponse({k: v for k, v in data.items() if v})
