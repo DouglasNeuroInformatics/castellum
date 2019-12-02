@@ -293,7 +293,7 @@ class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
     }
 
     def get(self, request, *args, **kwargs):
-        response = JsonResponse({
+        data = {
             'name': self.study.name,
             'contact_person': {'name': self.study.contact_person},
             'principal_investigator': {'name': self.study.principal_investigator},
@@ -303,7 +303,9 @@ class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
             'sessions_end': self.study.sessions_end,
             'number_participants_expected': self.study.min_subject_count,
             'type': list(self.study.study_type.values_list('export_key', flat=True)),
-        })
+        }
+
+        response = JsonResponse({k: v for k, v in data.items() if v})
         filename = 'castellum_%s.json' % self.study.name
         response['Content-Disposition'] = 'attachment; filename="%s"' % filename
         return response
