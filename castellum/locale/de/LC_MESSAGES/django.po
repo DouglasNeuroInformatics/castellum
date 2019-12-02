@@ -321,7 +321,7 @@ msgstr "Speichern"
 
 #: castellum/data_protection/templates/data_protection/__subject_list.html:12
 msgid "Due for deletion in"
-msgstr ""
+msgstr "zur Löschung fällig in"
 
 #: castellum/data_protection/templates/data_protection/__subject_list.html:18
 #: castellum/data_protection/templates/data_protection/index.html:29
@@ -581,10 +581,8 @@ msgid "How many subjects do you want to contact?"
 msgstr "Wie viele Proband*innen wollen Sie kontaktieren?"
 
 #: castellum/recruitment/models/attributesets.py:87
-#, fuzzy
-#| msgid "All information on who participated in this study."
 msgid "Does not want to participate in the following study types:"
-msgstr "Alle Informationen darüber, wer an dieser Studie teilgenommen hat."
+msgstr "Möchte nicht an Studien der folgenden Typen teilnehmen:"
 
 #: castellum/recruitment/models/attributesets.py:93
 msgid "Attribute set"
@@ -692,10 +690,8 @@ msgid "Subject may be suitable"
 msgstr "Proband*in ist potentiell geeignet"
 
 #: castellum/recruitment/models/recruitment.py:101
-#, fuzzy
-#| msgid "Follow-up date"
 msgid "Follow-up"
-msgstr "Wiedervorlagetermin"
+msgstr "Wiedervorlage"
 
 #: castellum/recruitment/models/recruitment.py:106
 msgid "Participation request"
@@ -710,16 +706,12 @@ msgid "Can view participation pseudonyms"
 msgstr "Kann Teilnahme-Pseudonyme sehen"
 
 #: castellum/recruitment/models/recruitment.py:148
-#, fuzzy
-#| msgid "follow-up scheduled"
 msgid "No follow-up set"
-msgstr "Wiedervorlage angesetzt"
+msgstr "Keine Wiedervorlage angesetzt"
 
 #: castellum/recruitment/models/recruitment.py:150
-#, fuzzy
-#| msgid "Appointment cannot be set with this status"
 msgid "Follow-up cannot be set with this status"
-msgstr "Eine Terminvereinbarung kann mit diesem Status nicht gesetzt werden"
+msgstr "Eine Wiedervorlage kann mit diesem Status nicht gesetzt werden"
 
 #: castellum/recruitment/models/recruitment.py:156
 msgid "Inclusion/exclusion criteria have not been checked"
@@ -774,10 +766,8 @@ msgstr ""
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:26
 #: castellum/recruitment/templates/recruitment/study_list.html:23
-#, fuzzy
-#| msgid "follow-up scheduled"
 msgid "follow-up urgent"
-msgstr "Wiedervorlage angesetzt"
+msgstr "Wiedervorlage dringend"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:38
 msgid "recently contacted in another recruitment"
@@ -1033,10 +1023,8 @@ msgstr "Hinzufügen"
 
 #: castellum/recruitment/templates/recruitment/recruitment_base.html:10
 #: castellum/recruitment/templates/recruitment/recruitment_base.html:11
-#, fuzzy
-#| msgid "Follow-up date"
 msgid "Follow-ups"
-msgstr "Wiedervorlagetermin"
+msgstr "Wiedervorlagen"
 
 #: castellum/recruitment/templates/recruitment/recruitment_base.html:15
 #: castellum/studies/templates/studies/study_base.html:15
@@ -1050,10 +1038,8 @@ msgstr "E-Mail"
 
 #: castellum/recruitment/templates/recruitment/study_list.html:9
 #: castellum/recruitment/templates/recruitment/study_list.html:10
-#, fuzzy
-#| msgid "My follow-up appointments"
 msgid "My follow-ups"
-msgstr "Meine Wiedervorlagetermine"
+msgstr "Meine Wiedervorlagen"
 
 #: castellum/recruitment/templates/recruitment/study_list.html:27
 msgid "Recruit subjects"
@@ -1168,10 +1154,8 @@ msgid "Contains sensitive data"
 msgstr "Enthält sensible Daten"
 
 #: castellum/studies/models.py:51
-#, fuzzy
-#| msgid "Export"
 msgid "Export key"
-msgstr "Exportieren"
+msgstr "Export key"
 
 #: castellum/studies/models.py:64
 #: castellum/studies/templates/studies/filtergroup_advanced.html:58
@@ -1438,10 +1422,8 @@ msgid "%(count)s potential subjects"
 msgstr "%(count)s potentielle Proband*innen"
 
 #: castellum/studies/templates/studies/filtergroup.html:96
-#, fuzzy
-#| msgid "Filters"
 msgid "No filters"
-msgstr "Filter"
+msgstr "Keine Filter"
 
 #: castellum/studies/templates/studies/filtergroup.html:120
 msgid "Apply"
@@ -1635,10 +1617,8 @@ msgid "Recruitment settings"
 msgstr "Rekrutierungseinstellungen"
 
 #: castellum/studies/templates/studies/study_detail.html:98
-#, fuzzy
-#| msgid "%(count)s potential subjects"
 msgid "Potential subjects"
-msgstr "%(count)s potentielle Proband*innen"
+msgstr "Potentielle Proband*innen"
 
 #: castellum/studies/templates/studies/study_detail.html:101
 #: castellum/studies/templates/studies/study_excluded_studies.html:30
@@ -1697,10 +1677,8 @@ msgstr "Sitzung hinzufügen"
 
 #: castellum/studies/templates/studies/study_import.html:7
 #: castellum/studies/templates/studies/study_list.html:70
-#, fuzzy
-#| msgid "Import"
 msgid "Import study"
-msgstr "Importieren"
+msgstr "Studie importieren"
 
 #: castellum/studies/templates/studies/study_list.html:12
 msgid "My studies"
