@@ -32,6 +32,7 @@ test-branch:
     - isort -c
     - npx eslint castellum
     - pospell -l de_DE -p .spelling/de_DE.txt castellum/locale/de/LC_MESSAGES/django.po
+    - python manage.py makemigrations --dry-run --check --noinput
   coverage: '/TOTAL.*\s+(\d+\%)/'
   artifacts:
     paths:
