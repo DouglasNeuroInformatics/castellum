@@ -25,6 +25,7 @@ from .views import AddToStudyView
 from .views import AttributeSetUpdateView
 from .views import ContactUpdateView
 from .views import GuardianSearchView
+from .views import MaintenanceView
 from .views import ParticipationDeleteView
 from .views import ParticipationListView
 from .views import SubjectDeleteView
@@ -51,4 +52,5 @@ urlpatterns = [
         name='studyparticipation-delete',
     ),
     path('guardians/', GuardianSearchView.as_view(), name='guardian-search'),
+    path('maintenance/', MaintenanceView.as_view(), name='maintenance'),
 ]

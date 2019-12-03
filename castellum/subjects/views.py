@@ -388,3 +388,10 @@ class GuardianSearchView(SubjectSearchView):
             privacy_level_form=privacy_level_form,
             contact_form=contact_form,
         ))
+
+
+class MaintenanceView(PermissionRequiredMixin, ListView):
+    model = Subject
+    paginate_by = 20
+    permission_required = 'subjects.change_subject'
+    template_name = 'subjects/maintenance.html'
