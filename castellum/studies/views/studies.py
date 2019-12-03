@@ -19,7 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import datetime
 import logging
 
 from django import forms
@@ -28,6 +27,7 @@ from django.contrib import messages
 from django.db import models
 from django.http import HttpResponseBadRequest
 from django.http import JsonResponse
+from django.http import QueryDict
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -241,12 +241,6 @@ class StudyImportView(PermissionRequiredMixin, FormView):
     permission_required = 'studies.add_study'
     template_name = 'studies/study_import.html'
     form_class = ImportForm
-    STATUS_MAP = {
-        'not_started': Study.EDIT,
-        'started': Study.EXECUTION,
-        'data_collected': Study.EXECUTION,
-        'finished': Study.FINISHED,
-    }
 
     def render_person(self, person):
         return person.get('name', person.get('email'))
@@ -254,35 +248,44 @@ class StudyImportView(PermissionRequiredMixin, FormView):
     def render_persons(self, persons):
         return ', '.join([s for s in [self.render_person(p) for p in persons] if s])
 
-    def parse_date(self, date):
-        if date:
-            dt = datetime.datetime.strptime(date, '%Y-%m-%d')
-            return dt.date()
-
     def form_valid(self, form):
+        """
+        Not every JSON input that is valid according to the schema is
+        also valid according to the model. So we send the input to
+        ``StudyCreateView`` to also check the model restrictions. If
+        there are any issues, that view will provide helpful error
+        messages to users.
+        """
+
         json = form.cleaned_data['json']
-        study = Study.objects.create(
-            name=json['name'],
-            contact_person=self.render_person(json.get('contact_person', {})),
-            principal_investigator=self.render_person(json.get('principal_investigator', {})),
-            affiliated_scientists=self.render_persons(json.get('affiliated_scientists', [])),
-            affiliated_research_assistants=self.render_persons(
+
+        study_types = StudyType.objects\
+            .filter(export_key__in=json.get('type', []))\
+            .values_list('pk', flat=True)
+
+        self.request.POST = QueryDict(mutable=True)
+        self.request.POST.update({
+            'name': json['name'],
+            'contact_person': self.render_person(json.get('contact_person', {})),
+            'principal_investigator': self.render_person(json.get('principal_investigator', {})),
+            'affiliated_scientists': self.render_persons(json.get('affiliated_scientists', [])),
+            'affiliated_research_assistants': self.render_persons(
                 json.get('affiliated_research_assistants', [])
             ),
-            description=json.get('description'),
-            keywords=', '.join(json.get('keywords', [])),
-            sessions_start=self.parse_date(json.get('sessions_start')),
-            sessions_end=self.parse_date(json.get('sessions_end')),
-            status=self.STATUS_MAP.get(json.get('status')),
-            min_subject_count=json.get('number_participants_expected'),
-        )
-        for key in json.get('type', []):
-            try:
-                t = StudyType.objects.get(export_key=key)
-                study.study_type.add(t)
-            except StudyType.DoesNotExist:
-                pass
-        return redirect('studies:detail', study.pk)
+            'description': json.get('description'),
+            'keywords': ', '.join(json.get('keywords', [])),
+            'sessions_start': json.get('sessions_start'),
+            'sessions_end': json.get('sessions_end'),
+            'min_subject_count': json.get('number_participants_expected'),
+
+            # management form is required
+            'form-TOTAL_FORMS': 0,
+            'form-INITIAL_FORMS': 0,
+        })
+        self.request.POST.setlist('study_type', study_types)
+
+        create_view = StudyCreateView.as_view()
+        return create_view(self.request)
 
 
 class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
