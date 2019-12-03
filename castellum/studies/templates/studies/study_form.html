@@ -20,7 +20,7 @@
         </fieldset>
     </template>
 
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" {% if not object %}action="{% url 'studies:create' %}"{% endif %}>
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
