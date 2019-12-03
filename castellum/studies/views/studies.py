@@ -241,12 +241,6 @@ class StudyImportView(PermissionRequiredMixin, FormView):
     permission_required = 'studies.add_study'
     template_name = 'studies/study_import.html'
     form_class = ImportForm
-    STATUS_MAP = {
-        'not_started': Study.EDIT,
-        'started': Study.EXECUTION,
-        'data_collected': Study.EXECUTION,
-        'finished': Study.FINISHED,
-    }
 
     def render_person(self, person):
         return person.get('name', person.get('email'))
@@ -273,7 +267,6 @@ class StudyImportView(PermissionRequiredMixin, FormView):
             keywords=', '.join(json.get('keywords', [])),
             sessions_start=self.parse_date(json.get('sessions_start')),
             sessions_end=self.parse_date(json.get('sessions_end')),
-            status=self.STATUS_MAP.get(json.get('status')),
             min_subject_count=json.get('number_participants_expected'),
         )
         for key in json.get('type', []):
