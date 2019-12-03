@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
 import logging
 
 from django.contrib import messages
@@ -33,6 +34,8 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import ListView
+
+from dateutil.relativedelta import relativedelta
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import ContactForm
@@ -49,6 +52,8 @@ from castellum.utils.views import GetFormView
 from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseSubjectUpdateView
 from .mixins import SubjectMixin
+from .models import Consent
+from .models import ConsentConfirmation
 from .models import Subject
 
 monitoring_logger = logging.getLogger('monitoring.subjects')
@@ -61,7 +66,24 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_number_subjects'] = Contact.objects.count()
+
+        context['count_total'] = Contact.objects.count()
+
+        start = datetime.date.today() - relativedelta(months=6)
+        context['count_updated'] = Contact.objects.filter(updated_at__gte=start).count()
+
+        context['count_participated'] = Subject.objects.filter(
+            participationrequest__status=ParticipationRequest.INVITED
+        ).count()
+
+        context['count_complete'] = AttributeSet.objects.filter(filter_queries.complete()).count()
+
+        context['db_consent_uploaded'] = Consent.objects.exists()
+        if context['db_consent_uploaded']:
+            context['count_consent'] = Subject.objects.filter(
+                consentconfirmation__status=ConsentConfirmation.CONFIRMED
+            ).count()
+
         context['is_post'] = self.request.method == 'POST'
         form = kwargs.get('form')
         if form and form.is_valid():

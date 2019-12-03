@@ -111,6 +111,21 @@
 
     <aside class="border bg-light p-3 mb-3" aria-labelledby="stats">
         <h2 id="stats" class="h4">{% trans 'Current data quality' %}</h2>
-        <p>{% trans 'Total number of subjects' %}: {{ total_number_subjects }}</p>
+        <p>{% trans 'Total number of subjects' %}: {{ count_total }}</p>
+        <dl class="row">
+            <dt class="col-sm-6">{% trans 'Contact data updated in last 6 months' %}</dt>
+            <dd class="col-sm-6">{{ count_updated }} {% trans 'subjects' %}</dd>
+
+            <dt class="col-sm-6">{% trans 'Complete attribute set' %}</dt>
+            <dd class="col-sm-6">{{ count_complete }} {% trans 'subjects' %}</dd>
+
+            <dt class="col-sm-6">{% trans 'Took part in a study' %}</dt>
+            <dd class="col-sm-6">{{ count_participated }} {% trans 'subjects' %}</dd>
+
+            {% if db_consent_uploaded %}
+                <dt class="col-sm-6">{% trans 'Consent confirmed' %}</dt>
+                <dd class="col-sm-6">{{ count_consent }} {% trans 'subjects' %}</dd>
+            {% endif %}
+        </dl>
     </aside>
 {% endblock %}
