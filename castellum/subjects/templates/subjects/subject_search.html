@@ -1,5 +1,5 @@
 {% extends "subjects/base.html" %}
-{% load i18n bootstrap4 auth %}
+{% load i18n bootstrap4 auth utils %}
 
 {% block title %}{% trans "Subjects" %} &middot; {{ block.super }}{% endblock %}
 
@@ -113,18 +113,30 @@
         <h2 id="stats" class="h4">{% trans 'Current data quality' %}</h2>
         <p>{% trans 'Total number of subjects' %}: {{ count_total }}</p>
         <dl class="row">
-            <dt class="col-sm-6">{% trans 'Contact data updated in last 6 months' %}</dt>
-            <dd class="col-sm-6">{{ count_updated }} {% trans 'subjects' %}</dd>
+            <dt class="col-sm-5">{% trans 'Contact data updated in last 6 months' %}</dt>
+            <dd class="col-sm-3">{{ count_updated }} {% trans 'subjects' %}</dd>
+            <dd class="col-sm-4">
+                {% include 'subjects/__bar.html' with value=count_updated|percent:count_total %}
+            </dd>
 
-            <dt class="col-sm-6">{% trans 'Complete attribute set' %}</dt>
-            <dd class="col-sm-6">{{ count_complete }} {% trans 'subjects' %}</dd>
+            <dt class="col-sm-5">{% trans 'Complete attribute set' %}</dt>
+            <dd class="col-sm-3">{{ count_complete }} {% trans 'subjects' %}</dd>
+            <dd class="col-sm-4">
+                {% include 'subjects/__bar.html' with value=count_complete|percent:count_total %}
+            </dd>
 
-            <dt class="col-sm-6">{% trans 'Took part in a study' %}</dt>
-            <dd class="col-sm-6">{{ count_participated }} {% trans 'subjects' %}</dd>
+            <dt class="col-sm-5">{% trans 'Took part in a study' %}</dt>
+            <dd class="col-sm-3">{{ count_participated }} {% trans 'subjects' %}</dd>
+            <dd class="col-sm-4">
+                {% include 'subjects/__bar.html' with value=count_participated|percent:count_total %}
+            </dd>
 
             {% if db_consent_uploaded %}
-                <dt class="col-sm-6">{% trans 'Consent confirmed' %}</dt>
-                <dd class="col-sm-6">{{ count_consent }} {% trans 'subjects' %}</dd>
+                <dt class="col-sm-5">{% trans 'Consent confirmed' %}</dt>
+                <dd class="col-sm-3">{{ count_consent }} {% trans 'subjects' %}</dd>
+                <dd class="col-sm-4">
+                    {% include 'subjects/__bar.html' with value=count_consent|percent:count_total %}
+                </dd>
             {% endif %}
         </dl>
     </aside>
