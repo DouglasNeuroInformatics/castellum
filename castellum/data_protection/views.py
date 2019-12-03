@@ -71,7 +71,7 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
                 email='',
                 phone_number='',
             )\
-            .order_by('last_name', 'first_name')
+            .order_by()
         subjects = []
         for contact in contacts[:self.limit_by]:
             subjects.append(contact.subject)
