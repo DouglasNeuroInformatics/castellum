@@ -38,7 +38,7 @@
         {% else %}
             {% csrf_token %}
             <p class="alert alert-success">
-                {% trans "This subject does not have any data in studies." %}
+                {% trans "This subject does not have any data in studies that would block deletion." %}
             </p>
             <p>{% trans "Are you sure you want to <strong>permanently delete</strong> this subject and all related data?" %}</p>
         {% endif %}
