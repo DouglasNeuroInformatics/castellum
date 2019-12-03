@@ -4,8 +4,6 @@
 {% block title %}{% trans "Subjects" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <p>{% trans 'Total number of subjects' %}: {{ total_number_subjects }}</p>
-
     <form method="get">
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
@@ -110,4 +108,9 @@
             {% endif %}
         </div>
     {% endif %}
+
+    <aside class="border bg-light p-3 mb-3" aria-labelledby="stats">
+        <h2 id="stats" class="h4">{% trans 'Current data quality' %}</h2>
+        <p>{% trans 'Total number of subjects' %}: {{ total_number_subjects }}</p>
+    </aside>
 {% endblock %}
