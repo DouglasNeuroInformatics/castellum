@@ -9,10 +9,14 @@
             {% has_privacy_level subject.privacy_level user as can_access %}
             <li class="table-list-item">
                 <div>
-                    {% with completeness=subject.attributeset.get_completeness %}
-                        {{ completeness.0 }}/{{ completeness.1 }}
-                    {% endwith %}
-                    {{ subject.updated_at|date }}
+                    <div>
+                        {% with completeness=subject.attributeset.get_completeness %}
+                            {% trans 'Attributeset completeness' %}: {{ completeness.0 }}/{{ completeness.1 }}
+                        {% endwith %}
+                    </div>
+                    <div>
+                        {% trans 'Last updated on' %}: {{ subject.updated_at|date }}
+                    </div>
                 </div>
                 <div class="table-list-item-actions">
                     {% if can_access %}
