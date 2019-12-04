@@ -4,6 +4,10 @@
 {% block title %}{% trans "Maintenance" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    <h1>{% trans 'Maintenance' %}</h1>
+
+    <p>{% trans 'The following subjects have incomplete attributesets:' %}</p>
+
     <ul class="table-list">
         {% for subject in object_list %}
             {% has_privacy_level subject.privacy_level user as can_access %}
@@ -36,4 +40,8 @@
             {% bootstrap_pagination page_obj url=request.get_full_path %}
         </nav>
     {% endif %}
+
+    <div class="mb-3">
+        <a href="{% url 'subjects:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+    </div>
 {% endblock %}
