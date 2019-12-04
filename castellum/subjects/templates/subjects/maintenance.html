@@ -1,0 +1,35 @@
+{% extends "subjects/base.html" %}
+{% load i18n bootstrap4 auth %}
+
+{% block title %}{% trans "Maintenance" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <ul class="table-list">
+        {% for subject in object_list %}
+            {% has_privacy_level subject.privacy_level user as can_access %}
+            <li class="table-list-item">
+                <div>
+                    {% with completeness=subject.attributeset.get_completeness %}
+                        {{ completeness.0 }}/{{ completeness.1 }}
+                    {% endwith %}
+                    {{ subject.updated_at|date }}
+                </div>
+                <div class="table-list-item-actions">
+                    {% if can_access %}
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:detail' subject.pk %}" target="_blank">{% trans 'Details' %}</a>
+                    {% else %}
+                        <button class="btn btn-outline-primary btn-sm-inline my-1" disabled>{% trans 'Details' %}</button>
+                    {% endif %}
+                </div>
+            </li>
+        {% empty %}
+            <li class="alert alert-warning" role="alert">{% trans 'No matches found' %}</li>
+        {% endfor %}
+    </ul>
+
+    {% if is_paginated %}
+        <nav aria-label="{% trans 'Page navigation' %}">
+            {% bootstrap_pagination page_obj url=request.get_full_path %}
+        </nav>
+    {% endif %}
+{% endblock %}
