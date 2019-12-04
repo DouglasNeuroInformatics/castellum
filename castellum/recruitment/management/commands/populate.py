@@ -175,15 +175,16 @@ def fake_contact(pseudonym, address):
 
 
 def fake_attributeset(subject, contact):
-    return AttributeSet(
-        subject=subject,
-        data={
-            'd1': 2 if fake.random.random() < 0.15 else 1,
-            'd2': fake_language(),
-            'd3': contact.date_of_birth,
-            'd4': fake.random.choice(get_highest_degree_choices()),
-        },
-    )
+    data = {}
+    if fake.random.random() < 0.9:
+        data['d1'] = 2 if fake.random.random() < 0.15 else 1
+    if fake.random.random() < 0.9:
+        data['d2'] = fake_language()
+    if fake.random.random() < 0.9:
+        data['d3'] = contact.date_of_birth
+    if fake.random.random() < 0.9:
+        data['d4'] = fake.random.choice(get_highest_degree_choices())
+    return AttributeSet(subject=subject, data=data)
 
 
 def generate_studies(count):
