@@ -1,11 +1,9 @@
 {% extends "subjects/base.html" %}
-{% load i18n bootstrap4 auth %}
+{% load i18n bootstrap4 auth utils %}
 
 {% block title %}{% trans "Subjects" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <p>{% trans 'Total number of subjects' %}: {{ total_number_subjects }}</p>
-
     <form method="get">
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
@@ -110,4 +108,36 @@
             {% endif %}
         </div>
     {% endif %}
+
+    <aside class="border bg-light p-3 mb-3 mt-5" aria-labelledby="stats">
+        <h2 id="stats" class="h4">{% trans 'Current data quality' %}</h2>
+        <p>{% trans 'Total number of subjects' %}: {{ count_total }}</p>
+        <dl class="row">
+            <dt class="col-sm-5">{% trans 'Contact data updated in last 6 months' %}</dt>
+            <dd class="col-sm-3">{{ count_updated }} {% trans 'subjects' %}</dd>
+            <dd class="col-sm-4">
+                {% include 'subjects/__bar.html' with value=count_updated|percent:count_total %}
+            </dd>
+
+            <dt class="col-sm-5">{% trans 'Complete attribute set' %}</dt>
+            <dd class="col-sm-3">{{ count_complete }} {% trans 'subjects' %}</dd>
+            <dd class="col-sm-4">
+                {% include 'subjects/__bar.html' with value=count_complete|percent:count_total %}
+            </dd>
+
+            <dt class="col-sm-5">{% trans 'Took part in a study' %}</dt>
+            <dd class="col-sm-3">{{ count_participated }} {% trans 'subjects' %}</dd>
+            <dd class="col-sm-4">
+                {% include 'subjects/__bar.html' with value=count_participated|percent:count_total %}
+            </dd>
+
+            {% if db_consent_uploaded %}
+                <dt class="col-sm-5">{% trans 'Consent confirmed' %}</dt>
+                <dd class="col-sm-3">{{ count_consent }} {% trans 'subjects' %}</dd>
+                <dd class="col-sm-4">
+                    {% include 'subjects/__bar.html' with value=count_consent|percent:count_total %}
+                </dd>
+            {% endif %}
+        </dl>
+    </aside>
 {% endblock %}

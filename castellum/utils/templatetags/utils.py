@@ -91,3 +91,10 @@ def is_today(date):
     if isinstance(date, datetime.datetime):
         date = date.date()
     return date == datetime.date.today()
+
+
+@register.filter
+def percent(value, total=1):
+    if not value:
+        return 0
+    return int(value / total * 100)

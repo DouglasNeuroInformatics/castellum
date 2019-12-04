@@ -24,6 +24,7 @@ from django.db import models
 from castellum.studies.models import Study
 
 from .filter_registry import custom_filters
+from .models import AttributeDescription
 from .models import ParticipationRequest
 
 
@@ -86,6 +87,14 @@ def study_filters(study, include_unknown=None):
         for group in study.subjectfiltergroup_set.all():
             q |= subjectfilters(group, include_unknown=include_unknown)
 
+    return q
+
+
+def complete():
+    q = models.Q()
+    for description in AttributeDescription.objects.all():
+        field_name = 'data__' + description.json_key
+        q &= ~models.Q(**{field_name: ''}) & ~models.Q(**{field_name: None})
     return q
 
 
