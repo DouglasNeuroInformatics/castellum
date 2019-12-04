@@ -10,6 +10,7 @@
                         <div>
                             <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation_request.pk }}" aria-label="{{ participation_request.pk }}"></svg>
                             <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
+                            <div class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation_request|display:'status' }}</div>
                         </div>
                         <div class="mr-2">
                             <div class="d-inline-block my-1">
@@ -33,6 +34,9 @@
                         <div>
                             <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation_request.pk }}" aria-label="{{ participation_request.pk }}"></svg>
                             <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
+                            {% if participation_request.status != participation_request.NOT_CONTACTED %}
+                                <div class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation_request|display:'status' }}</div>
+                            {% endif %}
                         </div>
                         <div class="mr-2">
                             {% trans 'recently contacted in another recruitment' %}
@@ -44,6 +48,7 @@
                         <div>
                             <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation_request.pk }}" aria-label="{{ participation_request.pk }}"></svg>
                             <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
+                            <div class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation_request|display:'status' }}</div>
                         </div>
                         <div class="mr-2">
                             <div class="d-inline-block my-1">
