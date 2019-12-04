@@ -4,15 +4,22 @@
 {% block title %}{% trans "Maintenance" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    <h1>{% trans 'Maintenance dashboard' %}</h1>
+
     <ul class="table-list">
+        <p>{% trans 'The following subjects have incomplete attributesets:' %}</p>
         {% for subject in object_list %}
             {% has_privacy_level subject.privacy_level user as can_access %}
             <li class="table-list-item">
                 <div>
-                    {% with completeness=subject.attributeset.get_completeness %}
-                        {{ completeness.0 }}/{{ completeness.1 }}
-                    {% endwith %}
-                    {{ subject.updated_at|date }}
+                    <div>
+                        {% with completeness=subject.attributeset.get_completeness %}
+                            {% trans 'Attributeset completeness' %}: {{ completeness.0 }}/{{ completeness.1 }}
+                        {% endwith %}
+                    </div>
+                    <div>
+                        {% trans 'Last updated on' %}: {{ subject.updated_at|date }}
+                    </div>
                 </div>
                 <div class="table-list-item-actions">
                     {% if can_access %}
@@ -32,4 +39,6 @@
             {% bootstrap_pagination page_obj url=request.get_full_path %}
         </nav>
     {% endif %}
+
+    <a href="{% url 'subjects:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
 {% endblock %}
