@@ -1,5 +1,5 @@
 {% extends "execution/base.html" %}
-{% load i18n %}
+{% load i18n utils %}
 
 {% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
 
@@ -9,6 +9,12 @@
     <dl>
         <dt>{% trans 'Pseudonym' %}</dt>
         <dd>{{ object.pseudonym }}</dd>
+
+        <dt>{{ object.subject.contact|verbose_name:'phone_number' }}</dt>
+        <dd>{{ object.subject.contact|display:'phone_number' }}</dd>
+
+        <dt>{{ object.subject.contact|verbose_name:'phone_number_alternative' }}</dt>
+        <dd>{{ object.subject.contact|display:'phone_number_alternative' }}</dd>
     </dl>
 
     <div class="mb-3">
