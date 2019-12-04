@@ -47,3 +47,9 @@ CASTELLUM_DOMAINS = {
         'bits': 40,
     }
 }
+
+# Limit login attempts
+# See https://django-axes.readthedocs.io/
+INSTALLED_APPS.append('axes')
+AUTHENTICATION_BACKENDS.insert(0, 'axes.backends.AxesBackend')
+MIDDLEWARE.append('axes.middleware.AxesMiddleware')
