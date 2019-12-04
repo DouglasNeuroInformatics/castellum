@@ -16,11 +16,11 @@
                             <div class="d-inline-block my-1">
                                 {% if participation_request.followup|is_today %}
                                     {% blocktrans with time=participation_request.followup|time %}
-                                        follow up today at {{ time }}
+                                        today at {{ time }}
                                     {% endblocktrans %}
                                 {% else %}
                                     {% blocktrans with date=participation_request.followup|date time=participation_request.followup|time %}
-                                        follow up on {{ date }} at {{ time }}
+                                        on {{ date }} at {{ time }}
                                     {% endblocktrans %}
                                 {% endif %}
                                 {% if participation_request.followup_urgent %}
