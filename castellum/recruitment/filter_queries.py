@@ -19,6 +19,17 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+
+"""Filter queries for AttributeSets.
+
+There are many complicted filters for AttributeSets.
+In order to avoid losing track these are collected in this file.
+
+All of the functions return instances of ``django.db.models.Q``,
+which can be passed to ``AttributeSet.objects.filter()``.
+"""
+
+
 from django.db import models
 
 from castellum.studies.models import Study
@@ -29,24 +40,32 @@ from .models import ParticipationRequest
 
 
 def study_exclusion(study):
+    """Handle the different kinds of exclusiveness between studies."""
+
+    # Excluded studies
     pr_q = models.Q(
         study__in=study.excluded_studies.all(),
         status=ParticipationRequest.INVITED,
     )
 
+    # Reverse excluded studies:
+    # Exclude studies which exclude this study.
     pr_q |= models.Q(
         study__excluded_studies=study,
         status=ParticipationRequest.INVITED,
     )
 
     if study.is_exclusive:
+        # Exclusive studies:
+        # Exclude all other studies (including exclusive studies).
         pr_q |= models.Q(
             ~models.Q(study__status=Study.FINISHED),
             ~models.Q(status=ParticipationRequest.UNSUITABLE),
             ~models.Q(study__pk=study.pk),
         )
-
     else:
+        # Reverse exclusive studies:
+        # All other studies still exclude exclusive studies.
         pr_q |= models.Q(
             ~models.Q(study__status=Study.FINISHED),
             ~models.Q(status=ParticipationRequest.UNSUITABLE),
@@ -54,14 +73,17 @@ def study_exclusion(study):
         )
 
     prs = ParticipationRequest._base_manager.filter(pr_q)
+
     return ~models.Q(subject_id__in=prs.values('subject_id'))
 
 
 def study_disinterest(study):
+    """Exclude subjects who are disinterested in this study's study type."""
     return ~models.Q(study_type_disinterest__in=study.study_type.all())
 
 
 def subjectfilters(subjectfiltergroup, include_unknown=True):
+    """Exclude subjects according to subjectfilters from a single subjectfiltergroup."""
     q = models.Q()
     for f in subjectfiltergroup.subjectfilter_set.all():
         q &= f.to_q(include_unknown=include_unknown)
@@ -70,20 +92,26 @@ def subjectfilters(subjectfiltergroup, include_unknown=True):
 
 
 def no_recruitment(study):
+    """Exclude subjects who do not want to be contacted for recruitment."""
     return models.Q(subject__no_recruitment=False)
 
 
 def already_in_study(study):
+    """Exclude subjects if they already have a participationrequest in this study."""
     return ~models.Q(subject__participationrequest__study=study)
 
 
 def study_filters(study, include_unknown=None):
+    """A wrapper around subjectfilters()."""
+
     if include_unknown is None:
         include_unknown = not study.complete_matches_only
 
     if study.custom_filter:
         q = custom_filters[study.custom_filter](include_unknown=include_unknown)
     else:
+        # Filter according to all subjectfilters from all
+        # subjectfiltergroups.
         q = models.Q()
         for group in study.subjectfiltergroup_set.all():
             q |= subjectfilters(group, include_unknown=include_unknown)
@@ -100,6 +128,7 @@ def complete():
 
 
 def study(study, include_unknown=None):
+    """Combine all filters related to ``study``."""
     q = models.Q()
     q &= study_exclusion(study)
     q &= study_disinterest(study)

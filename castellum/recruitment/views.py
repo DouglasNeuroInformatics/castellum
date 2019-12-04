@@ -61,6 +61,7 @@ from .models import ParticipationRequest
 
 
 def get_recruitable(study):
+    """Get all subjects who are recruitable for this study, i.e. apply all filters."""
     qs = AttributeSet.objects.filter(
         filter_queries.study(study),
         filter_queries.no_recruitment(study),
