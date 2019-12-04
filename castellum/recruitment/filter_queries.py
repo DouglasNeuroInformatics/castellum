@@ -95,7 +95,9 @@ def complete():
     q = models.Q()
     for description in AttributeDescription.objects.all():
         field_name = 'data__' + description.json_key
-        q &= ~models.Q(**{field_name: ''}) & ~models.Q(**{field_name: None})
+        q &= ~models.Q(**{field_name: ''})
+        q &= ~models.Q(**{field_name: None})
+        q &= ~models.Q(**{field_name + '__isnull': True})
     return q
 
 
