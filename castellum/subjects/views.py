@@ -395,3 +395,10 @@ class MaintenanceView(PermissionRequiredMixin, ListView):
     paginate_by = 20
     permission_required = 'subjects.change_subject'
     template_name = 'subjects/maintenance.html'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            pk__in=AttributeSet.objects.filter(
+                ~filter_queries.complete()
+            ).values('subject_id')
+        )
