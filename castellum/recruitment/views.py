@@ -113,8 +113,6 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             order_by = ['followup', '-updated_at']
         elif self.sort == 'last_contact_attempt':
             order_by = ['-status_not_reached', '-updated_at']
-        elif self.sort == 'created':
-            order_by = ['-created_at']
         else:
             order_by = ['-followup_urgent', 'status', 'followup', '-updated_at']
 
@@ -184,7 +182,6 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ('relevance', _('Relevance')),
             ('followup', _('Follow-up date')),
             ('last_contact_attempt', _('Last contact attempt')),
-            ('created', _('Added to list')),
         ]
         sort_options = dict(context['sort_options'])
         context['sort_label'] = sort_options.get(self.sort, _('Relevance'))
