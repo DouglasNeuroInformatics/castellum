@@ -1,6 +1,5 @@
 ipdb
 django-debug-toolbar
-watchdog
 
 pytest
 pytest-cov

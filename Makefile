@@ -56,7 +56,3 @@ install_githooks: .git/hooks/pre-commit
 
 .git/hooks/%: .hooks/%
 	cp $< $@
-
-.PHONY: tdd
-tdd:
-	$(VIRTUAL_ENV)/bin/watchmedo shell-command castellum tests --drop --patterns='*.py' --recursive --command='clear && pytest --disable-warnings -m unittest'
