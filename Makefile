@@ -44,7 +44,7 @@ databases:
 .PHONY: reset_databases
 reset_databases: remove_databases migrate populate
 
-.PHONY: bootstrap
+.PHONY: install
 install:
 	$(VIRTUAL_ENV)/bin/pip install -U pip
 	$(VIRTUAL_ENV)/bin/pip install -r requirements-dev.txt
