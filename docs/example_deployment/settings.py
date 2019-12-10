@@ -53,3 +53,4 @@ CASTELLUM_DOMAINS = {
 INSTALLED_APPS.append('axes')
 AUTHENTICATION_BACKENDS.insert(0, 'axes.backends.AxesBackend')
 MIDDLEWARE.append('axes.middleware.AxesMiddleware')
+AXES_META_PRECEDENCE_ORDER = ['HTTP_X_REAL_IP']
