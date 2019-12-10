@@ -20,7 +20,7 @@
         </fieldset>
     </template>
 
-    <form method="post" enctype="multipart/form-data" {% if not object %}action="{% url 'studies:create' %}"{% endif %}>
+    <form method="post" data-js="disable-on-submit" enctype="multipart/form-data" {% if not object %}action="{% url 'studies:create' %}"{% endif %}>
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
