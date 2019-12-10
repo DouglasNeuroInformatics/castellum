@@ -8,7 +8,7 @@
     {% if not study.mail_body %}
         <p class="alert alert-danger" role="alert">{% trans "Mail recruitment has not been set up!" %}</p>
     {% else %}
-        <form method="post">
+        <form method="post" data-js="disable-on-submit">
 
             {% for error in form.non_field_errors %}
                 <p class="alert alert-danger" role="alert">{{ error }}</p>
