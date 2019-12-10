@@ -27,6 +27,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
+from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -145,6 +146,8 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
             context['attributeset_completeness'] = '%i%%' % (100 * completed / (total or 1))
         except AttributeSet.DoesNotExist:
             pass
+
+        context['coverletter_exists'] = bool(settings.CASTELLUM_COVERLETTER_TEMPLATE)
 
         return context
 
@@ -438,6 +441,9 @@ class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, 
                 fh.write(content)
 
     def get(self, request, *args, **kwargs):
+        if not settings.CASTELLUM_COVERLETTER_TEMPLATE:
+            raise Http404
+
         self.object = self.get_object()
 
         response = HttpResponse(

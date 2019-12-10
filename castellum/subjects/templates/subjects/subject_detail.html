@@ -52,4 +52,10 @@
         <dt class="col-sm-6">{% trans 'Attribute set completeness' %}</dt>
         <dd class="col-sm-6">{{ attributeset_completeness|default:'—' }}</dd>
     </dl>
+
+    {% if coverletter_exists %}
+        <div class="mb-3">
+            <a href="{% url 'subjects:coverletter' object.pk %}" class="btn btn-secondary">{% trans 'Download coverletter' %}</a>
+        </div>
+    {% endif %}
 {% endblock %}
