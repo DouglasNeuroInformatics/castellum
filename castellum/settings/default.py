@@ -370,3 +370,8 @@ CASTELLUM_PSEUDONYM_GENERATE = md5.generate
 CASTELLUM_PSEUDONYM_CLEAN = md5.clean
 
 CASTELLUM_STUDY_DOMAIN_BITS = 20
+
+# Path to a cover letter template
+# Must be in .docx format
+# The placeholders "{name}", "{address1}", and "{address2}" will be replaced.
+CASTELLUM_COVERLETTER_TEMPLATE = None

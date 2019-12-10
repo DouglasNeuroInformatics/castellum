@@ -21,7 +21,9 @@
 
 import datetime
 import logging
+import zipfile
 
+from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
@@ -411,7 +413,22 @@ class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, 
     model = Subject
     permission_required = 'contacts.view_contact'
 
+    def patch_zipfile(self, zin, zout):
+        for name in zin.namelist():
+            with zin.open(name, 'r') as fh:
+                content = fh.read()
+            with zout.open(name, 'w') as fh:
+                fh.write(content)
+
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        response = HttpResponse()
+
+        response = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        )
+
+        zresponse = zipfile.ZipFile(response, 'w')
+        with zipfile.ZipFile(settings.CASTELLUM_COVERLETTER_TEMPLATE, 'r') as zin:
+            self.patch_zipfile(zin, zresponse)
+
         return response
