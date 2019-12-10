@@ -1,8 +1,8 @@
 $(function() {
     var setVisibility = function() {
         var $status = $('[name="status"]');
-        var $followupInputs = $('[name^="followup"]');
-        var $followup = $followupInputs.closest('.form-group');
+        var $followupInputs = $('[name="followup_date"]');
+        var $followup = $followupInputs.closest('.form-row');
 
         if ($status.val() === '4') {
             $followup.prop('hidden', false);

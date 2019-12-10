@@ -110,11 +110,13 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.sort == 'followup':
-            order_by = ['followup', '-updated_at']
+            order_by = ['followup_date', 'followup_time', '-updated_at']
         elif self.sort == 'last_contact_attempt':
             order_by = ['-status_not_reached', '-updated_at']
         else:
-            order_by = ['-followup_urgent', 'status', 'followup', '-updated_at']
+            order_by = [
+                '-followup_urgent', 'status', 'followup_date', 'followup_time', '-updated_at'
+            ]
 
         return ParticipationRequest.objects\
             .prefetch_related('subject__attributeset')\
@@ -396,7 +398,8 @@ class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView)
             initial['status'] = None
         else:
             initial['status'] = ParticipationRequest.UNSUITABLE
-        initial['followup'] = None
+        initial['followup_date'] = None
+        initial['followup_time'] = None
         return initial
 
     def get_object(self):

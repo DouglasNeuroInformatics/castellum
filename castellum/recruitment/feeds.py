@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -41,7 +43,10 @@ class BaseFollowUpFeed(ICalFeed):
         return '{} - Follow-Up'.format(item.study.name)
 
     def item_start_datetime(self, item):
-        return item.followup
+        if item.followup_time:
+            return datetime.combine(item.followup_date, item.followup_time)
+        else:
+            return item.followup_date
 
     def item_updateddate(self, item):
         return item.updated_at
@@ -68,8 +73,8 @@ class FollowUpFeedForStudy(BaseFollowUpFeed):
 
     def items(self, study):
         return ParticipationRequest.objects\
-            .filter(study=study, followup__isnull=False)\
-            .order_by('-followup')
+            .filter(study=study, followup_date__isnull=False)\
+            .order_by('-followup_date', '-followup_time')
 
     def file_name(self, study):
         return 'castellum-{}-followups.ics'.format(slugify(study.name))
@@ -87,8 +92,8 @@ class FollowUpFeedForUser(BaseFollowUpFeed):
         for study in Study.objects.filter(status=Study.EXECUTION):
             if not user.has_perms(perms, obj=study):
                 continue
-            qs = (ParticipationRequest.objects.filter(study=study, followup__isnull=False)
-                                              .order_by('-followup'))
+            qs = (ParticipationRequest.objects.filter(study=study, followup_date__isnull=False)
+                                              .order_by('-followup_date', '-followup_time'))
             for participation_request in qs:
                 yield participation_request
 

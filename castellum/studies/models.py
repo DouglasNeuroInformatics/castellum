@@ -182,7 +182,7 @@ class Study(models.Model):
     @property
     def followup_urgent(self):
         today = datetime.date.today()
-        return self.participationrequest_set.filter(followup__date__lte=today).exists()
+        return self.participationrequest_set.filter(followup_date__lte=today).exists()
 
     @cached_property
     def has_filters(self):
