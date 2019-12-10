@@ -1,6 +1,14 @@
 $(function() {
-    $(document).on('submit', '[data-js="disable-on-submit"]', function() {
-        $(this).find('[type="submit"]').prop('disabled', true);
+    var submitDisabled = false;
+    $(document).on('submit', '[data-js="disable-on-submit"]', function(event) {
+        if (submitDisabled) {
+            event.preventDefault();
+        } else {
+            submitDisabled = true;
+            setTimeout(function() {
+                submitDisabled = false;
+            }, 1000);
+        }
     });
 
     $(document).on('change', '[data-js="confirm-delete"]', function() {
