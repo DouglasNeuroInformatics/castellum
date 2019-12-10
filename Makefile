@@ -39,12 +39,11 @@ remove_databases:
 .PHONY: databases
 databases:
 	docker-compose up -d db_contacts db_default
-	sleep 2
 
 .PHONY: reset_databases
 reset_databases: remove_databases migrate populate
 
-.PHONY: bootstrap
+.PHONY: install
 install:
 	$(VIRTUAL_ENV)/bin/pip install -U pip
 	$(VIRTUAL_ENV)/bin/pip install -r requirements-dev.txt
@@ -56,7 +55,3 @@ install_githooks: .git/hooks/pre-commit
 
 .git/hooks/%: .hooks/%
 	cp $< $@
-
-.PHONY: tdd
-tdd:
-	$(VIRTUAL_ENV)/bin/watchmedo shell-command castellum tests --drop --patterns='*.py' --recursive --command='clear && pytest --disable-warnings -m unittest'
