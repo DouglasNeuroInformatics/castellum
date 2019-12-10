@@ -25,6 +25,7 @@ import logging
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
@@ -34,6 +35,8 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import ListView
+from django.views.generic import View
+from django.views.generic.detail import SingleObjectMixin
 
 from dateutil.relativedelta import relativedelta
 
@@ -402,3 +405,13 @@ class MaintenanceView(PermissionRequiredMixin, ListView):
                 ~filter_queries.complete()
             ).values('subject_id')
         )
+
+
+class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):
+    model = Subject
+    permission_required = 'contacts.view_contact'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        response = HttpResponse()
+        return response
