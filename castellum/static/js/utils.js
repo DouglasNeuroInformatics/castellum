@@ -1,6 +1,6 @@
 $(function() {
     var submitDisabled = false;
-    $(document).on('submit', '[data-js="disable-on-submit"]', function(event) {
+    $(document).on('submit', 'form', function(event) {
         if (submitDisabled) {
             event.preventDefault();
         } else {

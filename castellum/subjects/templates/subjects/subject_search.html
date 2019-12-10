@@ -93,7 +93,7 @@
 
             {% if can_add_contact %}
                 <div class="tab-pane {{ is_post|yesno:'active,' }}" id="create" role="tabpanel" aria-labelledby="create-tab">
-                    <form method="post" data-js="disable-on-submit">
+                    <form method="post">
                         {% for error in privacy_level_form.non_field_errors %}
                             <p class="alert alert-danger" role="alert">{{ error }}</p>
                         {% endfor %}
@@ -102,7 +102,7 @@
                             <strong>{{ form.first_name.value }} {{ form.last_name.value }}</strong>
                         </p>
                         {% bootstrap_field privacy_level_form.privacy_level %}
-                        <button type="submit" class="btn btn-primary">{% trans "Create new subject" %}</button>
+                        <button class="btn btn-primary">{% trans "Create new subject" %}</button>
                     </form>
                 </div>
             {% endif %}
