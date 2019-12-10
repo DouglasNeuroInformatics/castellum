@@ -94,3 +94,19 @@
     -ms-hyphens: auto;
     hyphens: auto;
 }
+
+@keyframes busy {
+    from {transform: rotate(0deg)}
+    to {transform: rotate(360deg)}
+}
+.busy::after {
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-left: 0.3em;
+    border: 0.2em solid;
+    border-radius: 50%;
+    border-left-color: transparent;
+    animation: busy 1s linear infinite;
+}

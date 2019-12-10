@@ -1,6 +1,8 @@
 $(function() {
     var submitDisabled = false;
     $(document).on('submit', 'form', function(event) {
+        $(this).find('[type="submit"]').addClass('busy');
+
         if (submitDisabled) {
             event.preventDefault();
         } else {
