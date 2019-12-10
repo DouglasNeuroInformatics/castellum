@@ -118,9 +118,7 @@ class AttributeSet(TimeStampedModel):
             return None
         value = description.field.from_json(self.data.get(description.json_key))
 
-        if value in [None, ANSWER_DECLINED]:
-            return value
-        elif not value:
+        if not value or value == ANSWER_DECLINED:
             return None
 
         return description.field.get_statistics_bucket(value)
@@ -270,8 +268,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
             return [(None, None)]
 
         return description.field.get_statistics_buckets() + [
-            (None, _('Unknown')),
-            (ANSWER_DECLINED, _('Declined to answer')),
+            (None, _('Other')),
         ]
 
     def export(self):
