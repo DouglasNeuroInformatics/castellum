@@ -413,10 +413,27 @@ class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, 
     model = Subject
     permission_required = 'contacts.view_contact'
 
+    def get_data(self):
+        contact = self.object.contact
+        if contact.address:
+            return (contact.full_name, *contact.address.lines())
+        else:
+            return (contact.full_name, '', '')
+
+    def patch_document(self, content):
+        name, address1, address2 = self.get_data()
+
+        return content\
+            .replace(b'{name}', name.encode('utf8'))\
+            .replace(b'{address1}', address1.encode('utf8'))\
+            .replace(b'{address2}', address2.encode('utf8'))
+
     def patch_zipfile(self, zin, zout):
         for name in zin.namelist():
             with zin.open(name, 'r') as fh:
                 content = fh.read()
+            if name == 'word/document.xml':
+                content = self.patch_document(content)
             with zout.open(name, 'w') as fh:
                 fh.write(content)
 
