@@ -657,7 +657,7 @@ msgstr ""
 
 #: castellum/recruitment/models/attributesets.py:271
 msgid "Other"
-msgstr ""
+msgstr "Andere"
 
 #: castellum/recruitment/models/recruitment.py:86
 msgid "not contacted"
@@ -752,33 +752,22 @@ msgid "General recruiting notes"
 msgstr "Allgemeine Rekrutierungs-Notizen"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:18
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                        follow up today at %(time)s\n"
-#| "                                    "
 msgid ""
 "\n"
 "                                        today at %(time)s\n"
 "                                    "
 msgstr ""
 "\n"
-"Wiedervorlage heute um %(time)s"
+"heute um %(time)s"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:22
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                        follow up on %(date)s at "
-#| "%(time)s\n"
-#| "                                    "
 msgid ""
 "\n"
 "                                        on %(date)s at %(time)s\n"
 "                                    "
 msgstr ""
 "\n"
-"Wiedervorlage am %(date)s um %(time)s"
+"am %(date)s um %(time)s"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:27
 #: castellum/recruitment/templates/recruitment/study_list.html:23
@@ -1975,23 +1964,19 @@ msgstr "Als Vormund auswählen"
 #: castellum/subjects/templates/subjects/maintenance.html:7
 #: castellum/subjects/templates/subjects/subject_search.html:115
 msgid "Maintenance"
-msgstr ""
+msgstr "Wartung"
 
 #: castellum/subjects/templates/subjects/maintenance.html:9
 msgid "The following subjects have incomplete attributesets:"
-msgstr ""
+msgstr "Die folgenden Proband*innen haben unvollständige Merkmale:"
 
 #: castellum/subjects/templates/subjects/maintenance.html:18
-#, fuzzy
-#| msgid "Attribute set completeness"
 msgid "Attributeset completeness"
 msgstr "Vollständigkeit der Merkmale"
 
 #: castellum/subjects/templates/subjects/maintenance.html:22
-#, fuzzy
-#| msgid "Last edited"
 msgid "Last updated on"
-msgstr "Zuletzt bearbeitet"
+msgstr "Zuletzt aktualisiert am"
 
 #: castellum/subjects/templates/subjects/subject_add_to_study.html:4
 #: castellum/subjects/templates/subjects/subject_participationlist.html:38
@@ -2055,11 +2040,9 @@ msgid "Study details"
 msgstr "Studiendetails"
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:41
-#, fuzzy
-#| msgid "This subject does not have any data in studies."
 msgid ""
 "This subject does not have any data in studies that would block deletion."
-msgstr "Diese Proband*in hat keine Daten in Studien."
+msgstr "Diese Proband*in hat keine Daten in Studien die die Löschung verhindern."
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:43
 msgid ""
@@ -2109,7 +2092,7 @@ msgstr "Vollständigkeit der Merkmale"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:58
 msgid "Download coverletter"
-msgstr ""
+msgstr "Anschreiben herunterladen"
 
 #: castellum/subjects/templates/subjects/subject_export.html:4
 msgid "GDPR request"
@@ -2140,39 +2123,31 @@ msgid "Go to execution"
 msgstr "Zur Durchführung"
 
 #: castellum/subjects/templates/subjects/subject_search.html:118
-#, fuzzy
-#| msgid "Currently available"
 msgid "Current data quality"
-msgstr "Aktuell erreichbar"
+msgstr "Gegenwärtige Datenqualität"
 
 #: castellum/subjects/templates/subjects/subject_search.html:121
 msgid "Contact data updated in last 6 months"
-msgstr ""
+msgstr "Kontaktdaten in den letzten 6 Monaten aktualisiert"
 
 #: castellum/subjects/templates/subjects/subject_search.html:122
 #: castellum/subjects/templates/subjects/subject_search.html:128
 #: castellum/subjects/templates/subjects/subject_search.html:134
 #: castellum/subjects/templates/subjects/subject_search.html:141
-#, fuzzy
-#| msgid "Subjects"
 msgid "subjects"
 msgstr "Proband*innen"
 
 #: castellum/subjects/templates/subjects/subject_search.html:127
-#, fuzzy
-#| msgid "Attribute set"
 msgid "Complete attribute set"
-msgstr "Merkmale"
+msgstr "Merkmale vollständig"
 
 #: castellum/subjects/templates/subjects/subject_search.html:133
 msgid "Took part in a study"
-msgstr ""
+msgstr "Haben an einer Studie teilgenommen"
 
 #: castellum/subjects/templates/subjects/subject_search.html:140
-#, fuzzy
-#| msgid "Consent confirmation"
 msgid "Consent confirmed"
-msgstr "Einverständniserklärung"
+msgstr "Einverständnis bestätigt"
 
 #: castellum/subjects/views.py:174
 msgid "Subject has been deleted."
