@@ -48,9 +48,13 @@ class Address(models.Model):
     additional_information = models.CharField(_('Additional information'), max_length=32,
                                               blank=True)
 
+    def lines(self):
+        line1 = ' '.join([self.street, self.house_number, self.additional_information]).strip()
+        line2 = '{} {}'.format(self.zip_code, self.city)
+        return line1, line2
+
     def __str__(self):
-        street = " ".join([self.street, self.house_number, self.additional_information]).strip()
-        return "{}, {} {}".format(street, self.zip_code, self.city)
+        return '{}, {}'.format(*self.lines())
 
     class Meta:
         ordering = ('country', 'city', 'zip_code', 'street', 'house_number',
