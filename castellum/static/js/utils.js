@@ -1,10 +1,10 @@
 $(function() {
     $(document).on('submit', '[data-js="disable-on-submit"]', function() {
-        $(this).find('[type="submit"]').prop('disabled', true);
+        $(this).find('[type="submit"],button:not([type])').prop('disabled', true);
     });
 
     $(document).on('change', '[data-js="confirm-delete"]', function() {
-        $(this.form).find('[type="submit"]').prop('disabled', !this.checked);
+        $(this.form).find('[type="submit"],button:not([type])').prop('disabled', !this.checked);
     });
 
     $('[type="date"]').each(function(i, e) {
