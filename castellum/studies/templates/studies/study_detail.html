@@ -12,11 +12,11 @@
                     {% csrf_token %}
 
                     {% if study.status == study.EXECUTION %}
-                        <button class="btn btn-outline-primary active" title="{% trans 'Stop recruitment and execution for this study' %}">
+                        <button class="btn btn-outline-primary active mb-1" title="{% trans 'Stop recruitment and execution for this study' %}">
                             {% trans 'Stop' %}
                         </button>
                     {% else %}
-                        <button class="btn btn-outline-primary" title="{% trans 'Start recruitment and execution for this study' %}">
+                        <button class="btn btn-outline-primary mb-1" title="{% trans 'Start recruitment and execution for this study' %}">
                             {% trans 'Start' %}
                         </button>
                     {% endif %}
@@ -24,11 +24,11 @@
             {% else %}
                 <form class="d-inline">
                     {% if study.previous_status == study.EXECUTION %}
-                        <button class="btn btn-outline-primary active" title="{% trans 'Stop recruitment and execution for this study' %}" disabled>
+                        <button class="btn btn-outline-primary active mb-1" title="{% trans 'Stop recruitment and execution for this study' %}" disabled>
                             {% trans 'Stop' %}
                         </button>
                     {% else %}
-                        <button class="btn btn-outline-primary" title="{% trans 'Start recruitment and execution for this study' %}" disabled>
+                        <button class="btn btn-outline-primary mb-1" title="{% trans 'Start recruitment and execution for this study' %}" disabled>
                             {% trans 'Start' %}
                         </button>
                     {% endif %}
@@ -38,21 +38,21 @@
                 {% csrf_token %}
 
                 {% if study.status == study.FINISHED %}
-                    <button class="btn btn-outline-primary active" title="{% trans 'Resume recruitment and execution for this study' %}">
+                    <button class="btn btn-outline-primary active mb-1" title="{% trans 'Resume recruitment and execution for this study' %}">
                         {% trans 'Resume study' %}
                     </button>
                 {% else %}
-                    <button class="btn btn-outline-primary" title="{% trans 'Conclude recruitment and execution for this study' %}">
+                    <button class="btn btn-outline-primary mb-1" title="{% trans 'Conclude recruitment and execution for this study' %}">
                         {% trans 'Finish study' %}
                     </button>
                 {% endif %}
             </form>
         {% endif %}
         {% if enable_export %}
-            <a href="{% url 'studies:export' study.pk %}" class="btn btn-outline-primary">{% trans 'Export' %}</a>
+            <a href="{% url 'studies:export' study.pk %}" class="btn btn-outline-primary mb-1">{% trans 'Export' %}</a>
         {% endif %}
         {% if can_delete_study %}
-            <a href="{% url 'studies:delete' study.pk %}" class="btn btn-danger">{% trans 'Delete' %}</a>
+            <a href="{% url 'studies:delete' study.pk %}" class="btn btn-danger mb-1">{% trans 'Delete' %}</a>
         {% endif %}
     {% endif %}
 {% endblock %}
