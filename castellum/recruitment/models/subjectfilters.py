@@ -19,10 +19,9 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.urls import reverse
-
-from picklefield.fields import PickledObjectField
 
 from castellum.recruitment import filter_queries
 from castellum.studies.models import Study
@@ -63,7 +62,7 @@ class SubjectFilter(models.Model):
     group = models.ForeignKey(SubjectFilterGroup, on_delete=models.CASCADE)
     description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
     operator = models.CharField(max_length=64)
-    value = PickledObjectField(editable=True)
+    value = JSONField(editable=True)
 
     def __str__(self):
         return self.description.field.get_filter_display(self.operator, self.value)
