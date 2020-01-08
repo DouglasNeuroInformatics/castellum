@@ -409,7 +409,7 @@ class MaintenanceView(PermissionRequiredMixin, ListView):
             pk__in=AttributeSet.objects.filter(
                 ~filter_queries.complete()
             ).values('subject_id')
-        )
+        ).select_related('attributeset')
 
 
 class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):

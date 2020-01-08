@@ -19,7 +19,7 @@
                         {% endwith %}
                     </div>
                     <div>
-                        {% trans 'Last updated on' %}: {{ subject.updated_at|date }}
+                        {% trans 'Last updated on' %}: {{ subject.attributeset.updated_at|date }}
                     </div>
                 </div>
                 <div class="table-list-item-actions">
