@@ -179,10 +179,19 @@ class ContactForm(forms.ModelForm):
         return contact
 
 
-class SearchForm(forms.ModelForm):
-    class Meta:
-        model = Contact
-        fields = [
-            'first_name',
-            'last_name',
-        ]
+class SearchForm(forms.Form):
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
+    email = forms.EmailField(required=False)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        first_name = cleaned_data.get('first_name')
+        last_name = cleaned_data.get('last_name')
+
+        namefields = [first_name, last_name]
+        if any(namefields) and not all(namefields):
+            raise ValidationError(_(
+                'Please enter a full name.'), code='invalid')
+
+        return cleaned_data

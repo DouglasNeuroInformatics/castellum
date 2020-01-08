@@ -19,6 +19,8 @@
                 {% bootstrap_field form.last_name %}
             </div>
         </div>
+        <hr>
+        {% bootstrap_field form.email %}
 
         <div class="mb-4">
             <a href="{% url 'recruitment:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>

@@ -64,12 +64,17 @@ class Address(models.Model):
 
 
 class ContactManager(models.Manager):
-    def fuzzy_filter(self, first_name, last_name):
+    def fuzzy_filter(self, first_name=None, last_name=None, email=None):
         q = models.Q()
-        for code in phonetic(first_name, encode=False):
-            q &= models.Q(first_name_phonetic__contains=':{}:'.format(code))
-        for code in phonetic(last_name, encode=False):
-            q &= models.Q(last_name_phonetic__contains=':{}:'.format(code))
+
+        if first_name:
+            for code in phonetic(first_name, encode=False):
+                q &= models.Q(first_name_phonetic__contains=':{}:'.format(code))
+        if last_name:
+            for code in phonetic(last_name, encode=False):
+                q &= models.Q(last_name_phonetic__contains=':{}:'.format(code))
+        if email:
+            q &= models.Q(email=email)
         return self.filter(q)
 
 
