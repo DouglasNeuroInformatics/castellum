@@ -28,5 +28,6 @@ setup(
         "phonenumberslite==8.11.0",
         "psycopg2-binary==2.8.4",
         "python-dateutil==2.8.1",
+        "simplecharts==0.0.2",
     ],
 )
