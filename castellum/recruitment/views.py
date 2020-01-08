@@ -39,6 +39,8 @@ from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
+from simplecharts import StackedColumnRenderer
+
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
@@ -49,7 +51,6 @@ from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseSubjectUpdateView
 from castellum.subjects.mixins import SubjectMixin
-from castellum.utils.chart import ChartRenderer
 from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
@@ -153,7 +154,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         if len(buckets2) > 1:
             data['legend'] = [str(label2) for key2, label2 in buckets2]
 
-        renderer = ChartRenderer(width=760, height=320)
+        renderer = StackedColumnRenderer(width=760, height=320)
         return renderer.render(data)
 
     def get_context_data(self, **kwargs):
