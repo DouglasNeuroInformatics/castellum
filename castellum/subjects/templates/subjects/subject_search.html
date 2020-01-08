@@ -20,7 +20,7 @@
 
         <div class="mb-4">
             <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-            <input type="submit" class="btn btn-primary" value="{% trans 'Submit' %}" />
+            <button class="btn btn-primary" >{% trans 'Submit' %}</button>
         </div>
     </form>
 
@@ -102,7 +102,7 @@
                             <strong>{{ form.first_name.value }} {{ form.last_name.value }}</strong>
                         </p>
                         {% bootstrap_field privacy_level_form.privacy_level %}
-                        <button type="submit" class="btn btn-primary">{% trans "Create new subject" %}</button>
+                        <button class="btn btn-primary">{% trans "Create new subject" %}</button>
                     </form>
                 </div>
             {% endif %}
