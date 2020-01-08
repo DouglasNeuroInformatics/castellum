@@ -14,7 +14,7 @@
         </label>
         <div class="mb-3">
             <a href="{% url 'subjects:delete' subject.pk %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% trans 'Cancel' %}</a>
-            <input type="submit" class="btn btn-danger mb-1" value="{% trans 'Confirm' %}" disabled />
+            <button class="btn btn-danger mb-1" disabled >{% trans 'Confirm' %}</button>
         </div>
     </form>
 {% endblock %}

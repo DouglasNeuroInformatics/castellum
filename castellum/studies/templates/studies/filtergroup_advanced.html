@@ -53,7 +53,7 @@
                                 {% else %}
                                     <form class="d-inline" method="post" action="{% url 'studies:filtergroup-duplicate' study.pk group.pk %}">
                                         {% csrf_token %}
-                                        <input type="submit" class="btn btn-outline-primary mb-1" value="{% trans "Duplicate" %}">
+                                        <button class="btn btn-outline-primary mb-1" >{% trans "Duplicate" %}</button>
                                     </form>
                                     <a href="{% url 'studies:filtergroup-update' study.pk group.pk %}" class="btn btn-outline-primary mb-1">{% trans "Edit" %}</a>
                                     <a href="{% url 'studies:filtergroup-delete' study.pk group.pk %}" class="btn btn-danger mb-1">{% trans "Delete" %}</a>

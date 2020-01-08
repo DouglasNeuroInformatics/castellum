@@ -65,7 +65,7 @@
             {% if can_add_participationrequest %}
                 <form method="post" class="d-inline" data-js="disable-on-submit">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-primary">{% trans 'Add' %}</button>
+                    <button class="btn btn-primary">{% trans 'Add' %}</button>
                 </form>
             {% endif %}
         {% endif %}
