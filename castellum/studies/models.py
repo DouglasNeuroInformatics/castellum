@@ -129,7 +129,14 @@ class Study(models.Model):
     )
 
     mail_subject = models.CharField(_('E-mail subject'), max_length=254, blank=True)
-    mail_body = models.TextField(_('E-mail body'), blank=True)
+    mail_body = models.TextField(
+        _('E-mail body'),
+        help_text=_(
+            'Any "{first name}" and "{last name}"-tags included in the e-mail-body will '
+            'automatically be replaced with the first and last name of the subject.'
+        ),
+        blank=True,
+    )
     mail_reply_address = models.EmailField(_('Reply e-mail-address'), max_length=128, blank=True)
 
     class Meta:

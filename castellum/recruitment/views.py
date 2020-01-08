@@ -309,6 +309,11 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     tab = 'mail'
     form_class = SendMailForm
 
+    def personalize_mail_body(self, mail_body, contact):
+        replace_first = mail_body.replace("{first name}", contact.first_name)
+        replace_second = replace_first.replace("{last name}", contact.last_name)
+        return replace_second
+
     def create_participation_requests(self, batch_size):
         attributesets = get_recruitable(self.study)
 
@@ -319,7 +324,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
             if pick.subject.contact.email:
                 mail = EmailMessage(
                     self.study.mail_subject,
-                    self.study.mail_body,
+                    self.personalize_mail_body(self.study.mail_body, pick.subject.contact),
                     settings.CASTELLUM_RECRUITMENT_EMAIL,
                     [pick.subject.contact.email],
                     reply_to=[self.study.mail_reply_address],
