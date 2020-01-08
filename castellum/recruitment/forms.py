@@ -192,7 +192,7 @@ class ContactForm(forms.ModelForm):
 
     class Meta:
         model = ParticipationRequest
-        fields = ['status', 'followup', 'exclusion_criteria_checked']
+        fields = ['status', 'followup_date', 'followup_time', 'exclusion_criteria_checked']
 
 
 class SendMailForm(forms.Form):

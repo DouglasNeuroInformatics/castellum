@@ -1,4 +1,4 @@
-from django.utils import timezone
+import datetime
 
 import pytest
 
@@ -32,7 +32,7 @@ def test_feed_for_study_without_token(client, study_in_edit_status):
 def test_feed_for_user(request, client, user_fixture, participation_request):
     user = request.getfixturevalue(user_fixture)
 
-    participation_request.followup = timezone.now()
+    participation_request.followup_date = datetime.date.today()
     participation_request.save()
 
     response = client.get('/recruitment/followups/{}/?token={}'.format(user.pk, user.token))

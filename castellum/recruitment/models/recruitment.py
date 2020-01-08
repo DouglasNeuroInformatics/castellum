@@ -29,6 +29,7 @@ from django.utils.translation import gettext_lazy as _
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
+from castellum.utils.fields import DateField
 from castellum.utils.fields import DateTimeField
 
 from .attributesets import AttributeSet
@@ -52,7 +53,7 @@ class ParticipationRequestManager(models.Manager):
                 ]),
             ),
             followup_urgent=models.Count(
-                'id', filter=models.Q(followup__date__lte=datetime.date.today())
+                'id', filter=models.Q(followup_date__lte=datetime.date.today())
             ),
             other_status_at=models.Subquery(other_status_at),
             tries=models.Count(
@@ -98,7 +99,8 @@ class ParticipationRequest(models.Model):
         _('Status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
     exclusion_criteria_checked = models.BooleanField(_('Subject may be suitable'), default=False)
 
-    followup = DateTimeField(_('Follow-up'), blank=True, null=True)
+    followup_date = DateField(_('Follow-up date'), blank=True, null=True)
+    followup_time = models.TimeField(_('Follow-up time'), blank=True, null=True)
 
     objects = ParticipationRequestManager()
 
@@ -144,9 +146,9 @@ class ParticipationRequest(models.Model):
             return False
 
     def clean(self):
-        if self.status == self.FOLLOWUP_APPOINTED and not self.followup:
+        if self.status == self.FOLLOWUP_APPOINTED and not self.followup_date:
             raise ValidationError(_('No follow-up set'), code='invalid')
-        if self.status != self.FOLLOWUP_APPOINTED and self.followup:
+        if self.status != self.FOLLOWUP_APPOINTED and (self.followup_date or self.followup_time):
             raise ValidationError(_('Follow-up cannot be set with this status'), code='invalid')
         if (
             self.status == self.INVITED
@@ -162,7 +164,8 @@ class ParticipationRequest(models.Model):
             current=self,
             status=self.status,
             exclusion_criteria_checked=self.exclusion_criteria_checked,
-            followup=self.followup,
+            followup_date=self.followup_date,
+            followup_time=self.followup_time,
         )
 
 
@@ -184,7 +187,8 @@ class ParticipationRequestRevision(models.Model):
     status = models.IntegerField(
         choices=ParticipationRequest.STATUS_OPTIONS, default=ParticipationRequest.NOT_CONTACTED)
     exclusion_criteria_checked = models.BooleanField()
-    followup = DateTimeField(blank=True, null=True)
+    followup_date = DateField(blank=True, null=True)
+    followup_time = models.TimeField(blank=True, null=True)
     created_at = DateTimeField(auto_now_add=True)
 
     def __str__(self):
