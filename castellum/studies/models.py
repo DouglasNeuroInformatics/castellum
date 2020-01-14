@@ -33,6 +33,7 @@ from parler.models import TranslatedFields
 
 from castellum.castellum_auth.models import User
 from castellum.projects.models import BaseProject
+from castellum.projects.models import Session as StudySession  # noqa
 from castellum.pseudonyms.helpers import create_domain
 from castellum.pseudonyms.helpers import delete_domain
 from castellum.utils.fields import DateField
@@ -229,8 +230,3 @@ class StudyMembership(models.Model):
 
     def __str__(self):
         return '{}:{}'.format(self.study, self.user)
-
-
-class StudySession(models.Model):
-    study = models.ForeignKey(Study, on_delete=models.CASCADE)
-    duration = models.PositiveIntegerField(_('Duration of a session in minutes'))

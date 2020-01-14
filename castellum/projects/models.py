@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -35,3 +36,8 @@ class BaseProject(models.Model):
 
     class Meta:
         abstract = True
+
+
+class Session(models.Model):
+    project = models.ForeignKey(settings.CASTELLUM_PROJECT_MODEL, on_delete=models.CASCADE)
+    duration = models.PositiveIntegerField(_('Duration of a session in minutes'))

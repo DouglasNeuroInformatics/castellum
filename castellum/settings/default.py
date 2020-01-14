@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'castellum.pseudonyms',
     'castellum.recruitment',
     'castellum.execution',
+    'castellum.projects',
     'castellum.studies',
     'castellum.contacts',
     'castellum.data_protection',
@@ -375,3 +376,5 @@ CASTELLUM_STUDY_DOMAIN_BITS = 20
 # Must be in .docx format
 # The placeholders "{name}", "{address1}", and "{address2}" will be replaced.
 CASTELLUM_COVERLETTER_TEMPLATE = None
+
+CASTELLUM_PROJECT_MODEL = 'studies.Study'

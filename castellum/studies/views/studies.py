@@ -120,7 +120,7 @@ class StudyFormMixin:
         kwargs = self.get_form_kwargs()
         study = kwargs.pop('instance', None)
         readonly = kwargs.pop('readonly', False)
-        return formset_class(queryset=StudySession.objects.filter(study=study), form_kwargs={
+        return formset_class(queryset=StudySession.objects.filter(project=study), form_kwargs={
             'readonly': readonly,
         }, **kwargs)
 
@@ -147,7 +147,7 @@ class StudyFormMixin:
     def form_valid(self, form, session_formset):
         response = super().form_valid(form)
         for subform in session_formset:
-            subform.instance.study = form.instance
+            subform.instance.project = form.instance
         session_formset.save()
         return response
 
