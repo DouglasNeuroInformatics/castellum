@@ -1,4 +1,16 @@
 $(function() {
+    var preventDoubleClick = false;
+    $(document).on('submit', 'form', function(event) {
+        if (preventDoubleClick) {
+            event.preventDefault();
+        } else {
+            preventDoubleClick = true;
+            setTimeout(function() {
+                preventDoubleClick = false;
+            }, 1000);
+        }
+    });
+
     $(document).on('submit', '[data-js="disable-on-submit"]', function() {
         $(this).find('[type="submit"],button:not([type])').prop('disabled', true);
     });
