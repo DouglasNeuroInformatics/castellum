@@ -32,6 +32,7 @@ from parler.models import TranslatableModel
 from parler.models import TranslatedFields
 
 from castellum.castellum_auth.models import User
+from castellum.projects.models import BaseProject
 from castellum.pseudonyms.helpers import create_domain
 from castellum.pseudonyms.helpers import delete_domain
 from castellum.utils.fields import DateField
@@ -55,7 +56,7 @@ class StudyType(TranslatableModel):
         return self.label
 
 
-class Study(models.Model):
+class Study(BaseProject):
     EDIT = 0
     EXECUTION = 1
     FINISHED = 2
@@ -66,14 +67,6 @@ class Study(models.Model):
         (FINISHED, _('Finished')),
     ]
 
-    name = models.CharField(_('Name'), max_length=254)
-    contact_person = models.CharField(_('Responsible contact person'), max_length=254)
-    principal_investigator = models.CharField(_('Principal Investigator'), max_length=254)
-    affiliated_scientists = models.CharField(_('Affiliated Scientists'), max_length=254, blank=True)
-    affiliated_research_assistants = models.CharField(
-        _('Affiliated Research Assistants'), max_length=254, blank=True)
-    description = models.TextField(_('Description'), blank=True)
-    keywords = models.CharField(_('Keywords'), max_length=254, blank=True)
     study_type = models.ManyToManyField(StudyType, verbose_name=_('Type of study'), blank=True)
     previous_status = models.SmallIntegerField(
         _('Previous status'), choices=STATUS, default=EDIT)
