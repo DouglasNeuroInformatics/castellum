@@ -9,14 +9,7 @@
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
 
-        <div class="form-row">
-            <div class="col-md-6">
-                {% bootstrap_field form.first_name %}
-            </div>
-            <div class="col-md-6">
-                {% bootstrap_field form.last_name %}
-            </div>
-        </div>
+        {% bootstrap_field form.search %}
 
         <div class="mb-4">
             <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
@@ -49,12 +42,12 @@
                                     {% if can_access %}
                                         <div class="h4 d-inline-block my-1 mr-2">
                                             {% if contact.title %}{{ contact.title }}{% endif %}
-                                            {% if contact.first_name == form.first_name.value %}
+                                            {% if contact.first_name in form.search.value.split %}
                                                 <mark>{{ contact.first_name }}</mark>
                                             {% else %}
                                                 {{ contact.first_name }}
                                             {% endif %}
-                                            {% if contact.last_name == form.last_name.value %}
+                                            {% if contact.last_name in form.search.value.split %}
                                                 <mark>{{ contact.last_name }}</mark>
                                             {% else %}
                                                 {{ contact.last_name }}
@@ -68,7 +61,13 @@
                                                 <div class="d-inline-block my-1 mr-2">{{ contact.address }}</div>
                                             {% endif %}
                                             {% if contact.email %}
-                                                <div class="d-inline-block my-1 mr-2">{{ contact.email }}</div>
+                                                {% if contact.email in form.search.value.split %}
+                                                <div class="d-inline-block my-1 mr-2">
+                                                    <mark>{{ contact.email }}</mark>
+                                                </div>
+                                                {% else %}
+                                                    <div class="d-inline-block my-1 mr-2">{{ contact.email }}</div>
+                                                {% endif %}
                                             {% endif %}
                                         </div>
                                     {% else %}
