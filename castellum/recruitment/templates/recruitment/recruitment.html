@@ -63,7 +63,7 @@
         {% if view.subtab == 'open' %}
             {% has_perm 'recruitment.add_participationrequest' user study as can_add_participationrequest %}
             {% if can_add_participationrequest %}
-                <form method="post" class="d-inline" data-js="disable-on-submit">
+                <form method="post" class="d-inline">
                     {% csrf_token %}
                     <button class="btn btn-primary">{% trans 'Add' %}</button>
                 </form>
