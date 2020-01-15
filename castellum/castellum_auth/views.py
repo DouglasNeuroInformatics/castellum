@@ -20,7 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.shortcuts import redirect
-from django.utils.http import is_safe_url
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import check_for_language
 
 LANGUAGE_QUERY_PARAMETER = 'language'
@@ -38,7 +38,7 @@ def set_language(request):
             request.user.save()
 
     next = request.POST.get('next', request.GET.get('next'))
-    is_safe = is_safe_url(
+    is_safe = url_has_allowed_host_and_scheme(
         next, allowed_hosts=[request.get_host()], require_https=request.is_secure())
     if not is_safe or not next:
         next = '/'
