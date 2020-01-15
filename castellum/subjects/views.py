@@ -27,7 +27,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
-from django.db import models
 from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -51,7 +50,6 @@ from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
-from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.models import Study
@@ -84,7 +82,11 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
             participationrequest__status=ParticipationRequest.INVITED
         ).count()
 
-        context['count_complete'] = AttributeSet.objects.filter(filter_queries.complete()).count()
+        completeness, total = filter_queries.completeness_expr()
+        context['count_complete'] = AttributeSet.objects\
+            .annotate(completeness=completeness)\
+            .filter(completeness=total)\
+            .count()
 
         context['db_consent_uploaded'] = Consent.objects.exists()
         if context['db_consent_uploaded']:
@@ -407,20 +409,7 @@ class MaintenanceView(PermissionRequiredMixin, ListView):
     template_name = 'subjects/maintenance.html'
 
     def get_queryset(self):
-        total = 0
-        completeness = models.Value(0, output_field=models.IntegerField())
-        for description in AttributeDescription.objects.all():
-            total += 1
-            field_name = 'attributeset__data__' + description.json_key
-            completeness += models.Case(
-                models.When((
-                    models.Q(**{field_name: ''}) |
-                    models.Q(**{field_name: None}) |
-                    models.Q(**{field_name + '__isnull': True})
-                ), models.Value(0)),
-                default=models.Value(1),
-            )
-
+        completeness, total = filter_queries.completeness_expr('attributeset__')
         return super().get_queryset()\
             .annotate(completeness=completeness)\
             .filter(completeness__lt=total)\
