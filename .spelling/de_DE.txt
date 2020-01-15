@@ -13,3 +13,4 @@ strong
 kontaktierbar
 rekrutierbar
 Datenschutz-Dashboard
+Wiedervorlagezeit

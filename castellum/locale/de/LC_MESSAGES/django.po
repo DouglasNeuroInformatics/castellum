@@ -703,10 +703,8 @@ msgid "Follow-up date"
 msgstr "Wiedervorlagetermin"
 
 #: castellum/recruitment/models/recruitment.py:103
-#, fuzzy
-#| msgid "Follow-up date"
 msgid "Follow-up time"
-msgstr "Wiedervorlagetermin"
+msgstr "Wiedervorlagezeit"
 
 #: castellum/recruitment/models/recruitment.py:108
 msgid "Participation request"
@@ -760,11 +758,6 @@ msgid "General recruiting notes"
 msgstr "Allgemeine Rekrutierungs-Notizen"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:19
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                        today at %(time)s\n"
-#| "                                    "
 msgid ""
 "\n"
 "                                            today at %(time)s\n"
@@ -775,35 +768,25 @@ msgstr ""
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:23
 msgid "today"
-msgstr ""
+msgstr "heute"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:26
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                        on %(date)s at %(time)s\n"
-#| "                                    "
 msgid ""
 "\n"
 "                                        on %(date)s\n"
 "                                    "
 msgstr ""
 "\n"
-"am %(date)s um %(time)s"
+"am %(date)s"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:30
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                        today at %(time)s\n"
-#| "                                    "
 msgid ""
 "\n"
 "                                            at %(time)s\n"
 "                                        "
 msgstr ""
 "\n"
-"heute um %(time)s"
+"um %(time)s"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:36
 #: castellum/recruitment/templates/recruitment/study_list.html:23
@@ -1337,7 +1320,8 @@ msgstr "E-Mail Inhalt"
 msgid ""
 "Any \"{first name}\" and \"{last name}\"-tags included in the e-mail-body "
 "will automatically be replaced with the first and last name of the subject."
-msgstr ""
+msgstr "Alle \"{first name}\" und \"{last name}\"-Tags im E-Mail-Inhalt werden "
+"automatisch durch den Vor- und Nachnamen der Proband*in ersetzt."
 
 #: castellum/studies/models.py:140
 msgid "Reply e-mail-address"
@@ -2130,8 +2114,6 @@ msgid "Attribute set completeness"
 msgstr "Vollständigkeit der Merkmale"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:58
-#, fuzzy
-#| msgid "Download coverletter"
 msgid "Download cover letter"
 msgstr "Anschreiben herunterladen"
 
