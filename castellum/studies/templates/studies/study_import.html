@@ -12,6 +12,10 @@
 
         {% csrf_token %}
         {% bootstrap_field form.file %}
-        <button class="btn btn-primary" >{% trans 'Import' %}</button>
+
+        <div class="mb-3">
+            <a href="{% url 'studies:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+            <button class="btn btn-primary" >{% trans 'Import' %}</button>
+        </div>
     </form>
 {% endblock %}
