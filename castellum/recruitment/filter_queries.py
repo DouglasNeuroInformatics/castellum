@@ -121,6 +121,7 @@ def study_filters(study, include_unknown=None):
 
 def completeness_expr(prefix=''):
     """Expression that can be used to annotate a queryset."""
+    # Needs to match ``AttributeSet.get_completeness()``.
     total = 0
     completeness = models.Value(0, output_field=models.IntegerField())
     for description in AttributeDescription.objects.all():

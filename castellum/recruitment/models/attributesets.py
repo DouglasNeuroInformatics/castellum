@@ -124,6 +124,7 @@ class AttributeSet(TimeStampedModel):
         return description.field.get_statistics_bucket(value)
 
     def get_completeness(self):
+        # Needs to match ``filter_queries.completeness_expr()``
         completed = len([k for k, v in self.data.items() if v])
         total = AttributeDescription.objects.count()
         return completed, total
