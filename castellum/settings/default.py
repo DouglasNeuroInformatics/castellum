@@ -380,3 +380,5 @@ CASTELLUM_STUDY_DOMAIN_BITS = 20
 # Must be in .docx format
 # The placeholders "{name}", "{address1}", and "{address2}" will be replaced.
 CASTELLUM_COVERLETTER_TEMPLATE = None
+
+PROJECTS_MEMBERSHIP_MODEL = "custom_appointments.Membership"
