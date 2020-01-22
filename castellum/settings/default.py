@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'parler',
     'rest_framework',
+    'guardian',
     'appointments',
 
     'castellum.utils',
@@ -104,6 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "castellum.studies.backends.StudyPermissionBackend",
+    'guardian.backends.ObjectPermissionBackend',
 ]
 
 AUTH_USER_MODEL = 'castellum_auth.User'
