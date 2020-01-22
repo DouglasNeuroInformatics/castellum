@@ -33,6 +33,8 @@ from castellum.studies.models import Study
 from castellum.subjects.mixins import SubjectMixin
 from castellum.utils.views import GetFormView
 
+from .forms import PseudonymForm
+
 
 class StudyListView(LoginRequiredMixin, ListView):
     template_name = 'execution/study_list.html'
@@ -112,3 +114,10 @@ class SearchView(LoginRequiredMixin, GetFormView):
         if form and form.is_valid():
             context['object_list'] = self.get_matches(form)
         return context
+
+
+class ResolveView(StudyMixin, PermissionRequiredMixin, GetFormView):
+    template_name = 'execution/study_resolve.html'
+    permission_required = 'recruitment.view_participation_pseudonyms'
+    study_status = [Study.EXECUTION]
+    form_class = PseudonymForm
