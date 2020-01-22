@@ -33,6 +33,7 @@ from django.views.static import serve
 
 from castellum.castellum_auth.views import set_language
 
+from projects.urls import router
 
 def dummy(request):
     return HttpResponse('', status=204)
@@ -55,10 +56,9 @@ urlpatterns = [
     path(
         'data-protection/', include('castellum.data_protection.urls', namespace='data_protection')
     ),
-    path('appointments/', include('castellum.custom_appointments.urls',
+    path('projects/', include('castellum.custom_appointments.urls',
                                   namespace='custom_appointments')),
-    path('external/appointments/', include('appointments.urls')),
-    path('external/projects/', include('projects.urls')),
+    path('external/projects/', include(router.urls)),
 
 ]
 
