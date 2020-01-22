@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'parler',
     'rest_framework',
     'guardian',
-    'appointments',
+    'projects',
 
     'castellum.utils',
     'castellum.castellum_auth',
