@@ -1318,9 +1318,9 @@ msgstr "E-Mail Inhalt"
 
 #: castellum/studies/models.py:135
 msgid ""
-"Any \"{first name}\" and \"{last name}\"-tags included in the e-mail-body "
+"Any \"{firstname}\" and \"{lastname}\"-tags included in the e-mail-body "
 "will automatically be replaced with the first and last name of the subject."
-msgstr "Alle \"{first name}\" und \"{last name}\"-Tags im E-Mail-Inhalt werden "
+msgstr "Alle \"{firstname}\" und \"{lastname}\"-Tags im E-Mail-Inhalt werden "
 "automatisch durch den Vor- und Nachnamen der Proband*in ersetzt."
 
 #: castellum/studies/models.py:140
