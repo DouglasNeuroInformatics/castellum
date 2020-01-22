@@ -310,8 +310,8 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     form_class = SendMailForm
 
     def personalize_mail_body(self, mail_body, contact):
-        replace_first = mail_body.replace("{first name}", contact.first_name)
-        replace_second = replace_first.replace("{last name}", contact.last_name)
+        replace_first = mail_body.replace("{firstname}", contact.first_name)
+        replace_second = replace_first.replace("{lastname}", contact.last_name)
         return replace_second
 
     def create_participation_requests(self, batch_size):
