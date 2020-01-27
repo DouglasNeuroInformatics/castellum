@@ -47,6 +47,7 @@ from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
+from castellum.recruitment.models.attributesets import get_description_by_statistics_rank
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseSubjectUpdateView
@@ -115,6 +116,14 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             order_by = ['followup_date', 'followup_time', '-updated_at']
         elif self.sort == 'last_contact_attempt':
             order_by = ['-status_not_reached', '-updated_at']
+        elif self.sort == 'statistics':
+            desc1 = get_description_by_statistics_rank('primary')
+            desc2 = get_description_by_statistics_rank('secondary')
+            order_by = [
+                '-subject__attributeset__data__' + desc1.json_key,
+                '-subject__attributeset__data__' + desc2.json_key,
+                '-updated_at',
+            ]
         else:
             order_by = [
                 '-followup_urgent', 'status', 'followup_date', 'followup_time', '-updated_at'
@@ -186,6 +195,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ('relevance', _('Relevance')),
             ('followup', _('Follow-up date')),
             ('last_contact_attempt', _('Last contact attempt')),
+            ('statistics', _('Statistics')),
         ]
         sort_options = dict(context['sort_options'])
         context['sort_label'] = sort_options.get(self.sort, _('Relevance'))
