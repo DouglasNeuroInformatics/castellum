@@ -365,7 +365,7 @@ msgstr "Nicht rekrutierbar"
 
 #: castellum/data_protection/templates/data_protection/index.html:15
 msgid "Unreachable"
-msgstr "nicht kontaktierbar"
+msgstr "Nicht kontaktierbar"
 
 #: castellum/data_protection/templates/data_protection/index.html:19
 #: castellum/subjects/templates/subjects/subject_form.html:45
@@ -982,7 +982,7 @@ msgid ""
 "participation in %(study)s?"
 msgstr ""
 "Sind Sie sicher, dass Sie die Teilnahme an der Studie "
-"%(study)s<strong>unwiederbringlich</strong> löschen möchten?"
+"%(study)s <strong>unwiederbringlich</strong> löschen möchten?"
 
 #: castellum/recruitment/templates/recruitment/participationrequest_confirm_delete.html:10
 msgid ""
