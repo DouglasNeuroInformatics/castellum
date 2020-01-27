@@ -10,7 +10,7 @@ from django.test import TestCase
 from django.utils import timezone
 
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.castellum_auth.models import User
 from castellum.contacts.models import Contact
@@ -25,8 +25,8 @@ from castellum.recruitment.models import SubjectFilterGroup
 from castellum.studies.models import Study
 from castellum.studies.models import StudyMembership
 
-mommy.generators.add(
-    'castellum.utils.fields.DateField', mommy.generators.default_mapping[DateField])
+baker.generators.add(
+    'castellum.utils.fields.DateField', baker.generators.default_mapping[DateField])
 
 # monkey patch to make test isolation work on both databases
 # See https://github.com/pytest-dev/pytest-django/pull/431
@@ -122,17 +122,17 @@ def admin(user):
 
 @pytest.fixture
 def study(db):
-    return mommy.make(Study)
+    return baker.make(Study)
 
 
 @pytest.fixture
 def study_in_execution_status(db):
-    return mommy.make(Study, status=Study.EXECUTION)
+    return baker.make(Study, status=Study.EXECUTION)
 
 
 @pytest.fixture
 def study_in_edit_status(db):
-    return mommy.make(Study, status=Study.EDIT)
+    return baker.make(Study, status=Study.EDIT)
 
 
 @pytest.fixture
@@ -145,19 +145,19 @@ def member(user, study, study_in_execution_status, study_in_edit_status):
 
 @pytest.fixture
 def contact(db, contact_domain):
-    return mommy.make(Contact)
+    return baker.make(Contact)
 
 
 @pytest.fixture
 def attributeset(contact, contact_domain):
     subject = get_subject(contact_domain.key, contact.pseudonym)
-    return mommy.make(AttributeSet, subject=subject)
+    return baker.make(AttributeSet, subject=subject)
 
 
 @pytest.fixture
 def participation_request(contact, study_in_execution_status, contact_domain):
     subject = get_subject(contact_domain.key, contact.pseudonym)
-    return mommy.make(ParticipationRequest, study=study_in_execution_status, subject=subject)
+    return baker.make(ParticipationRequest, study=study_in_execution_status, subject=subject)
 
 
 @pytest.fixture
@@ -167,7 +167,7 @@ def attribute_description(db, attribute_descriptions):
 
 @pytest.fixture
 def subject_filter_group(db, study_in_edit_status):
-    return mommy.make(SubjectFilterGroup, study=study_in_edit_status)
+    return baker.make(SubjectFilterGroup, study=study_in_edit_status)
 
 
 @pytest.fixture

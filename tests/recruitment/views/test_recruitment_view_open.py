@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.messages import get_messages
 
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.contacts.models import Contact
 from castellum.recruitment.models import AttributeSet
@@ -86,8 +86,8 @@ def test_no_matching_attribute_sets(
     for i in range(5):
         create_participation_request(study_in_execution_status)
 
-    subject_filter_group = mommy.make(SubjectFilterGroup, study=study_in_execution_status)
-    mommy.make(SubjectFilter, group=subject_filter_group,
+    subject_filter_group = baker.make(SubjectFilterGroup, study=study_in_execution_status)
+    baker.make(SubjectFilter, group=subject_filter_group,
                description=attribute_description, operator="exact", value="left")
 
     client.force_login(member)
@@ -112,10 +112,10 @@ def test_create_revision_on_create(client, member, attributeset, study_in_execut
 
 
 def create_attributeset():
-    contact = mommy.make(Contact)
-    return mommy.make(AttributeSet, data={'d1': 1}, subject=contact.subject)
+    contact = baker.make(Contact)
+    return baker.make(AttributeSet, data={'d1': 1}, subject=contact.subject)
 
 
 def create_participation_request(study, status=ParticipationRequest.NOT_CONTACTED):
     attributeset = create_attributeset()
-    mommy.make(ParticipationRequest, subject=attributeset.subject, study=study, status=status)
+    baker.make(ParticipationRequest, subject=attributeset.subject, study=study, status=status)

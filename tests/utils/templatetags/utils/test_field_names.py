@@ -1,5 +1,5 @@
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.pseudonyms.models import Pseudonym
 from castellum.utils.templatetags.utils import field_names
@@ -7,7 +7,7 @@ from castellum.utils.templatetags.utils import field_names
 
 @pytest.fixture
 def pseudonym():
-    return mommy.prepare(Pseudonym)
+    return baker.prepare(Pseudonym)
 
 
 def test_field_names(pseudonym):

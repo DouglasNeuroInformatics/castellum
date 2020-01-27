@@ -1,5 +1,5 @@
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.pseudonyms.models import Domain
 from castellum.studies.models import Study
@@ -9,7 +9,7 @@ from castellum.studies.models import Study
 def test_study_create_delete_domain():
     start_count = Domain.objects.count()
 
-    study = mommy.make(Study)
+    study = baker.make(Study)
     assert Domain.objects.count() == start_count + 1
 
     study.delete()

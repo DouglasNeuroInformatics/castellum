@@ -1,5 +1,5 @@
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.recruitment.models.recruitment import ParticipationRequest
 from castellum.studies.models import StudyMembership
@@ -31,7 +31,7 @@ def test_study_detail_view(request, client, user_fixture, study_in_execution_sta
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
 
-    mommy.make(StudyMembership, user=user, study=study_in_execution_status)
+    baker.make(StudyMembership, user=user, study=study_in_execution_status)
 
     url = '/execution/{}/'.format(study_in_execution_status.pk)
     response = client.get(url)
@@ -51,13 +51,13 @@ def test_participation_request_detail_view_invited(
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
 
-    participationrequest = mommy.make(
+    participationrequest = baker.make(
         ParticipationRequest,
         study=study_in_execution_status,
         status=ParticipationRequest.INVITED,
         subject=contact.subject,
     )
-    mommy.make(StudyMembership, user=user, study=study_in_execution_status)
+    baker.make(StudyMembership, user=user, study=study_in_execution_status)
 
     url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participationrequest.pk)
     response = client.get(url)
@@ -69,13 +69,13 @@ def test_participation_request_detail_view_unsuitable(
 ):
     client.force_login(study_conductor)
 
-    participationrequest = mommy.make(
+    participationrequest = baker.make(
         ParticipationRequest,
         study=study_in_execution_status,
         status=ParticipationRequest.UNSUITABLE,
         subject=contact.subject,
     )
-    mommy.make(StudyMembership, user=study_conductor, study=study_in_execution_status)
+    baker.make(StudyMembership, user=study_conductor, study=study_in_execution_status)
 
     url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participationrequest.pk)
     response = client.get(url)

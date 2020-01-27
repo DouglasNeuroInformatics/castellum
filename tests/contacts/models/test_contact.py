@@ -1,7 +1,7 @@
 from datetime import date
 
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.models import Pseudonym
@@ -14,7 +14,7 @@ from castellum.pseudonyms.models import Pseudonym
     ((2000, 11, 1), 19),
 ])
 def test_age_property(date_of_birth, age):
-    contact = mommy.prepare(Contact, date_of_birth=date(*date_of_birth))
+    contact = baker.prepare(Contact, date_of_birth=date(*date_of_birth))
     assert contact.age == age
 
 
@@ -23,13 +23,13 @@ def test_age_property(date_of_birth, age):
     (None, 'Max Planck'),
 ))
 def test_full_name(title, expected):
-    contact = mommy.prepare(Contact, first_name='Max', last_name='Planck', title=title)
+    contact = baker.prepare(Contact, first_name='Max', last_name='Planck', title=title)
     assert contact.full_name == expected
 
 
 @pytest.mark.django_db
 def test_contact_create_delete_pseudonym():
-    contact = mommy.make(Contact)
+    contact = baker.make(Contact)
     subject = contact.subject
     assert Pseudonym.objects.filter(subject=subject).count() == 1
 

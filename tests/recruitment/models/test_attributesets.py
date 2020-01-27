@@ -1,7 +1,7 @@
 from unittest.mock import patch
 
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 from parler.utils.context import switch_language
 
 from castellum.recruitment.models import AttributeCategory
@@ -21,10 +21,10 @@ from castellum.recruitment.models.attributesets import UNCATEGORIZED
     ('1900-01-01', '>70'),
 ))
 def test_attribute_set_get_statistics_bucket_age(get, date, bucket):
-    attributeset = mommy.prepare(AttributeSet)
+    attributeset = baker.prepare(AttributeSet)
     attributeset.data['d1'] = date
 
-    description = mommy.prepare(AttributeDescription, field_type='AgeField', pk=1)
+    description = baker.prepare(AttributeDescription, field_type='AgeField', pk=1)
     get.return_value = description
 
     assert attributeset.get_statistics_bucket('__mock__') == bucket
@@ -65,7 +65,7 @@ def test_attribute_description_by_category(attribute_descriptions):
 @pytest.mark.django_db
 def test_attribute_description_by_category_with_categories(attribute_descriptions):
     description = AttributeDescription.objects.first()
-    description.category = mommy.make(AttributeCategory)
+    description.category = baker.make(AttributeCategory)
     description.save()
 
     categories = AttributeDescription.objects.by_category()

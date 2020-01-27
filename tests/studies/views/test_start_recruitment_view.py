@@ -1,5 +1,5 @@
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.studies.models import Study
 from castellum.studies.models import StudyMembership
@@ -13,7 +13,7 @@ from castellum.studies.models import StudyMembership
 ])
 def test_start(request, client, user_fixture, study):
     user = request.getfixturevalue(user_fixture)
-    mommy.make(StudyMembership, user=user, study=study)
+    baker.make(StudyMembership, user=user, study=study)
     client.force_login(user)
 
     study.status = Study.EDIT
@@ -34,7 +34,7 @@ def test_start(request, client, user_fixture, study):
 ])
 def test_stop(request, client, user_fixture, study):
     user = request.getfixturevalue(user_fixture)
-    mommy.make(StudyMembership, user=user, study=study)
+    baker.make(StudyMembership, user=user, study=study)
     client.force_login(user)
 
     study.status = Study.EXECUTION

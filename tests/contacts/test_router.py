@@ -1,5 +1,5 @@
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.castellum_auth.models import User
 from castellum.contacts.models import Contact
@@ -32,10 +32,10 @@ def test_db_for_write(router, model, expected):
 
 @pytest.mark.unittest
 @pytest.mark.parametrize("obj1,obj2,expected", [
-    (mommy.prepare(Contact), mommy.prepare(Contact), True),
-    (mommy.prepare(Contact), mommy.prepare(User), None),
-    (mommy.prepare(User), mommy.prepare(Contact), None),
-    (mommy.prepare(User), mommy.prepare(User), None),
+    (baker.prepare(Contact), baker.prepare(Contact), True),
+    (baker.prepare(Contact), baker.prepare(User), None),
+    (baker.prepare(User), baker.prepare(Contact), None),
+    (baker.prepare(User), baker.prepare(User), None),
 ])
 def test_allow_relation(router, obj1, obj2, expected):
     assert expected == router.allow_relation(obj1, obj2)
