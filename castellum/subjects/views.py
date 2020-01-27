@@ -82,7 +82,11 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
             participationrequest__status=ParticipationRequest.INVITED
         ).count()
 
-        context['count_complete'] = AttributeSet.objects.filter(filter_queries.complete()).count()
+        completeness, total = filter_queries.completeness_expr()
+        context['count_complete'] = AttributeSet.objects\
+            .annotate(completeness=completeness)\
+            .filter(completeness=total)\
+            .count()
 
         context['db_consent_uploaded'] = Consent.objects.exists()
         if context['db_consent_uploaded']:
@@ -405,11 +409,12 @@ class MaintenanceView(PermissionRequiredMixin, ListView):
     template_name = 'subjects/maintenance.html'
 
     def get_queryset(self):
-        return super().get_queryset().filter(
-            pk__in=AttributeSet.objects.filter(
-                ~filter_queries.complete()
-            ).values('subject_id')
-        ).select_related('attributeset')
+        completeness, total = filter_queries.completeness_expr('attributeset__')
+        return super().get_queryset()\
+            .annotate(completeness=completeness)\
+            .filter(completeness__lt=total)\
+            .order_by('completeness')\
+            .select_related('attributeset')
 
 
 class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):

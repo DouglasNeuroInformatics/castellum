@@ -119,14 +119,23 @@ def study_filters(study, include_unknown=None):
     return q
 
 
-def complete():
-    q = models.Q()
+def completeness_expr(prefix=''):
+    """Expression that can be used to annotate a queryset."""
+    # Needs to match ``AttributeSet.get_completeness()``.
+    total = 0
+    completeness = models.Value(0, output_field=models.IntegerField())
     for description in AttributeDescription.objects.all():
-        field_name = 'data__' + description.json_key
-        q &= ~models.Q(**{field_name: ''})
-        q &= ~models.Q(**{field_name: None})
-        q &= ~models.Q(**{field_name + '__isnull': True})
-    return q
+        total += 1
+        field_name = prefix + 'data__' + description.json_key
+        completeness += models.Case(
+            models.When((
+                models.Q(**{field_name: ''}) |
+                models.Q(**{field_name: None}) |
+                models.Q(**{field_name + '__isnull': True})
+            ), models.Value(0)),
+            default=models.Value(1),
+        )
+    return completeness, total
 
 
 def study(study, include_unknown=None):
