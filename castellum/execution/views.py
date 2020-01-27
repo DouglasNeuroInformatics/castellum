@@ -19,19 +19,26 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import ListView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.models import Contact
+from castellum.pseudonyms.helpers import get_subject
 from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import SubjectMixin
 from castellum.utils.views import GetFormView
+
+from .forms import PseudonymForm
 
 
 class StudyListView(LoginRequiredMixin, ListView):
@@ -112,3 +119,23 @@ class SearchView(LoginRequiredMixin, GetFormView):
         if form and form.is_valid():
             context['object_list'] = self.get_matches(form)
         return context
+
+
+class ResolveView(StudyMixin, PermissionRequiredMixin, GetFormView):
+    template_name = 'execution/study_resolve.html'
+    permission_required = 'recruitment.view_participation_pseudonyms'
+    study_status = [Study.EXECUTION]
+    form_class = PseudonymForm
+
+    def form_valid(self, form):
+        try:
+            subject = get_subject(self.study.domain, form.cleaned_data['pseudonym'])
+            pr = ParticipationRequest.objects.filter(
+                study=self.study,
+                subject=subject,
+                status=ParticipationRequest.INVITED,
+            ).get()
+            return redirect('execution:participationrequest-detail', self.study.pk, pr.pk)
+        except ObjectDoesNotExist:
+            messages.warning(self.request, _('No match found'))
+            return super().form_valid(form)
