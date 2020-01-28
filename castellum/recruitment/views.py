@@ -324,10 +324,17 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         replace_second = replace_first.replace("{lastname}", contact.last_name)
         return replace_second
 
+    def get_mail_settings(self):
+        from_email = settings.CASTELLUM_RECRUITMENT_EMAIL or settings.DEFAULT_FROM_EMAIL
+        username = settings.CASTELLUM_RECRUITMENT_EMAIL_USER or settings.EMAIL_HOST_USER
+        password = settings.CASTELLUM_RECRUITMENT_EMAIL_PASSWORD or settings.EMAIL_HOST_PASSWORD
+        connection = get_connection(username=username, password=password)
+        return from_email, connection
+
     def create_participation_requests(self, batch_size):
         attributesets = get_recruitable(self.study)
 
-        connection = get_connection()
+        from_email, connection = self.get_mail_settings()
         counter = 0
         while counter < batch_size and attributesets:
             pick = attributesets.pop(random.randrange(0, len(attributesets)))
@@ -335,7 +342,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                 mail = EmailMessage(
                     self.study.mail_subject,
                     self.personalize_mail_body(self.study.mail_body, pick.subject.contact),
-                    settings.CASTELLUM_RECRUITMENT_EMAIL,
+                    from_email,
                     [pick.subject.contact.email],
                     reply_to=[self.study.mail_reply_address],
                     connection=connection,
@@ -352,11 +359,13 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         return counter
 
     def send_confirmation_mail(self, counter):
+        from_email, connection = self.get_mail_settings()
         confirmation = EmailMessage(
             self.study.mail_subject,
             '%i emails have been sent.\n\n---\n\n%s' % (counter, self.study.mail_body),
-            settings.CASTELLUM_RECRUITMENT_EMAIL,
+            from_email,
             [self.study.mail_reply_address],
+            connection=connection,
         )
         confirmation.send()
 
