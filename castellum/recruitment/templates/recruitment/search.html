@@ -45,13 +45,13 @@
                                 <div class="d-inline-block my-1 mr-2">{{ contact.address }}</div>
                             {% endif %}
                             {% if contact.email %}
-                                {% if contact.email in form.search.value.split %}
-                                    <div class="d-inline-block my-1 mr-2">
+                                <div class="d-inline-block my-1 mr-2">
+                                    {% if contact.email in form.search.value.split %}
                                         <mark>{{ contact.email }}</mark>
-                                    </div>
-                                {% else %}
-                                    <div class="d-inline-block my-1 mr-2">{{ contact.email }}</div>
-                                {% endif %}
+                                    {% else %}
+                                        {{ contact.email }}
+                                    {% endif %}
+                                </div>
                             {% endif %}
                         </div>
                         <ul class="table-list">

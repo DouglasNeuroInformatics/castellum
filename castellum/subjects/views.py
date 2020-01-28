@@ -98,7 +98,7 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
         form = kwargs.get('form')
         if form and form.is_valid():
             data = form.cleaned_data
-            context['matches'] = Contact.objects.fuzzy_filter_names(**data)
+            context['matches'] = Contact.objects.fuzzy_filter(**data)
             if 'privacy_level_form' not in context:
                 context['privacy_level_form'] = SubjectPrivacyLevelForm(user=self.request.user)
         return context
