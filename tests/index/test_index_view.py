@@ -11,7 +11,7 @@ def test_index_200(client, user):
     'study_coordinator',
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
-    'data_protection_officer',
+    'data_protection_coordinator',
 ])
 def test_studies_tile(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
@@ -24,7 +24,7 @@ def test_studies_tile(request, client, user_fixture):
     'study_coordinator',
     'recruiter',
     'subject_manager',
-    'data_protection_officer',
+    'data_protection_coordinator',
 ])
 def test_recruitment_tile(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
@@ -37,7 +37,7 @@ def test_recruitment_tile(request, client, user_fixture):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     'recruiter',
     'subject_manager',
-    'data_protection_officer',
+    'data_protection_coordinator',
 ])
 def test_subjects_tile(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)

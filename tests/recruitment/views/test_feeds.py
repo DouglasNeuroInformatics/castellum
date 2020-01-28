@@ -27,7 +27,7 @@ def test_feed_for_study_without_token(client, study_in_edit_status):
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
-    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_feed_for_user(request, client, user_fixture, participation_request):
     user = request.getfixturevalue(user_fixture)
