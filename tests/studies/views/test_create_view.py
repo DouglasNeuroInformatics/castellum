@@ -15,7 +15,7 @@ MANAGEMENT_FORM = {
     'study_coordinator',
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
-    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_get_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
@@ -41,7 +41,7 @@ def test_redirect_to_studies_after_post(client, study_coordinator):
     'study_coordinator',
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
-    pytest.param('data_protection_officer', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_create_study_on_post(request, client, user_fixture):
 

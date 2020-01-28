@@ -124,7 +124,7 @@
     "model": "auth.group",
     "pk": 5,
     "fields": {
-        "name": "Data protection officer",
+        "name": "Data protection coordinator",
         "permissions": [
             [
                 "view_contact",
