@@ -1,5 +1,5 @@
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.pseudonyms import helpers
 from castellum.pseudonyms.models import Pseudonym
@@ -8,13 +8,13 @@ from castellum.subjects.models import Subject
 
 @pytest.fixture
 def pseudonym():
-    subject = mommy.make(Subject)
-    return mommy.make(Pseudonym, subject=subject)
+    subject = baker.make(Subject)
+    return baker.make(Pseudonym, subject=subject)
 
 
 @pytest.mark.django_db
 def test_get_pseudonym(pseudonym):
-    pseudonym2 = mommy.make(Pseudonym, subject=pseudonym.subject)
+    pseudonym2 = baker.make(Pseudonym, subject=pseudonym.subject)
 
     result = helpers.get_pseudonym(pseudonym.subject, pseudonym2.domain.key)
 
@@ -71,8 +71,8 @@ def test_delete_pseudonym_again(pseudonym):
 
 @pytest.mark.django_db
 def test_delete_pseudonym_multiple():
-    pseudonym1 = mommy.make(Pseudonym, subject=mommy.make(Subject))
-    pseudonym2 = mommy.make(Pseudonym, subject=mommy.make(Subject))
+    pseudonym1 = baker.make(Pseudonym, subject=baker.make(Subject))
+    pseudonym2 = baker.make(Pseudonym, subject=baker.make(Subject))
 
     assert Pseudonym.objects.count() == 2
     assert Pseudonym.objects.filter(subject=None).count() == 0

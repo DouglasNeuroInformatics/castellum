@@ -1,7 +1,7 @@
 from django.contrib.messages import get_messages
 
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.recruitment.models import ParticipationRequest
 
@@ -48,7 +48,7 @@ def test_post_when_more_then_double_minimal_subject_count(
     study_in_execution_status.min_subject_count = 2
     study_in_execution_status.save()
 
-    mommy.make(ParticipationRequest, study=study_in_execution_status, _quantity=4)
+    baker.make(ParticipationRequest, study=study_in_execution_status, _quantity=4)
 
     client.force_login(member)
     url = '/recruitment/{}/'.format(study_in_execution_status.pk)

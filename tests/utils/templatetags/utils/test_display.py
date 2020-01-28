@@ -1,5 +1,5 @@
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.contacts.models import Contact
 from castellum.utils.templatetags.utils import display
@@ -7,7 +7,7 @@ from castellum.utils.templatetags.utils import display
 
 @pytest.fixture
 def contact():
-    return mommy.prepare(Contact, gender="m", first_name="Max")
+    return baker.prepare(Contact, gender="m", first_name="Max")
 
 
 def test_get_attribute(contact):

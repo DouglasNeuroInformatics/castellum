@@ -1,7 +1,7 @@
 import re
 
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.recruitment.models import SubjectFilterGroup
 
@@ -101,7 +101,7 @@ def test_get_when_study_has_not_enough_subjects_in_filter_group(client, member,
     study_in_edit_status.advanced_filtering = True
     study_in_edit_status.save()
 
-    mommy.make(SubjectFilterGroup, study=study_in_edit_status)
+    baker.make(SubjectFilterGroup, study=study_in_edit_status)
 
     url = '/studies/{}/recruitmentsettings/filters/'.format(study_in_edit_status.pk)
     response = client.get(url)

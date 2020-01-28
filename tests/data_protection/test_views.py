@@ -1,5 +1,5 @@
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.contacts.models import Contact
 from castellum.data_protection.views import DataProtectionView
@@ -20,7 +20,7 @@ def test_200(request, client, user_fixture):
 
 
 def test_get_orphans(db):
-    contact = mommy.make(Contact)
+    contact = baker.make(Contact)
     contact.subject.no_recruitment = True
     contact.subject.save()
 
@@ -32,11 +32,11 @@ def test_get_orphans(db):
 
 
 def test_get_orphans_guardians(db):
-    contact = mommy.make(Contact)
+    contact = baker.make(Contact)
     contact.subject.no_recruitment = True
     contact.subject.save()
 
-    ward = mommy.make(Contact)
+    ward = baker.make(Contact)
     ward.guardians.add(contact)
 
     view = DataProtectionView()
@@ -47,11 +47,11 @@ def test_get_orphans_guardians(db):
 
 
 def test_get_orphans_participation(db):
-    contact = mommy.make(Contact)
+    contact = baker.make(Contact)
     contact.subject.no_recruitment = True
     contact.subject.save()
 
-    mommy.make(ParticipationRequest, subject=contact.subject)
+    baker.make(ParticipationRequest, subject=contact.subject)
 
     view = DataProtectionView()
     actual, missing = view.get_orphans()

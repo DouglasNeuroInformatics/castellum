@@ -1,5 +1,5 @@
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
@@ -7,12 +7,12 @@ from castellum.contacts.models import Contact
 
 @pytest.fixture
 def address():
-    return mommy.make(Address)
+    return baker.make(Address)
 
 
 @pytest.fixture
 def contact(address):
-    return mommy.make(Contact, address=address)
+    return baker.make(Contact, address=address)
 
 
 @pytest.fixture

@@ -3,7 +3,7 @@ from unittest.mock import patch
 from django.contrib.auth.models import AbstractUser as DjangoUser
 
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.castellum_auth.models import User
 
@@ -45,7 +45,7 @@ def test_unlock_notification(send_mail, user):
     (0, [False, False]),
 ])
 def test_get_privacy_level(has_perm, privacy_level, has_perm_return_value):
-    user = mommy.prepare(User)
+    user = baker.prepare(User)
     has_perm.side_effect = has_perm_return_value
 
     assert user.get_privacy_level() == privacy_level

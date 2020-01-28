@@ -1,6 +1,6 @@
 from django.core import mail
 
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.contacts.models import Contact
 from castellum.recruitment.models import AttributeSet
@@ -10,17 +10,17 @@ from castellum.studies.models import Study
 
 def test_mail_add_to_study(client, user):
     client.force_login(user)
-    study = mommy.make(
+    study = baker.make(
         Study,
         status=Study.EXECUTION,
         mail_subject="some subject",
         mail_body="some body",
         mail_reply_address="example@example.com",
     )
-    contact1 = mommy.make(Contact, email="example1@example.com")
-    contact2 = mommy.make(Contact, email="example2@example.com")
-    mommy.make(AttributeSet, subject=contact1.subject)
-    mommy.make(AttributeSet, subject=contact2.subject)
+    contact1 = baker.make(Contact, email="example1@example.com")
+    contact2 = baker.make(Contact, email="example2@example.com")
+    baker.make(AttributeSet, subject=contact1.subject)
+    baker.make(AttributeSet, subject=contact2.subject)
 
     study.members.add(user)
     view = MailRecruitmentView()
@@ -40,7 +40,7 @@ def test_404_if_study_is_not_provided(client, member):
 
 def test_200_if_study_in_execution_status_and_mail_settings(client, user):
     client.force_login(user)
-    study = mommy.make(
+    study = baker.make(
         Study,
         status=Study.EXECUTION,
         mail_subject="some subject",
@@ -68,7 +68,7 @@ def test_200_if_study_in_execution_status_no_mail_settings(
 
 def test_404_if_study_in_edit_status(client, user):
     client.force_login(user)
-    study = mommy.make(
+    study = baker.make(
         Study,
         status=Study.EDIT,
         mail_subject="some subject",

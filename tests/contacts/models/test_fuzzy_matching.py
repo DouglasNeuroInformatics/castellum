@@ -1,5 +1,5 @@
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.contacts.models import Contact
 
@@ -43,6 +43,6 @@ FIRST_NAME = 'Eve'
     ('Meier', 'Michel', False),
 ))
 def test_fuzzy_filter(right, wrong, expected):
-    mommy.make(Contact, first_name=FIRST_NAME, last_name=right)
+    baker.make(Contact, first_name=FIRST_NAME, last_name=right)
     matches = Contact.objects.fuzzy_filter(FIRST_NAME, wrong).exists()
     assert matches == expected

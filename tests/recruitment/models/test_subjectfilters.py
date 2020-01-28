@@ -1,5 +1,5 @@
 import pytest
-from model_mommy import mommy
+from model_bakery import baker
 
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import AttributeSet
@@ -14,13 +14,13 @@ def create_participation_request(
     subject, is_finished=False, is_exclusive=False, status=ParticipationRequest.INVITED
 ):
     study_status = Study.FINISHED if is_finished else Study.EXECUTION
-    study = mommy.make(Study, status=study_status, is_exclusive=is_exclusive)
-    return mommy.make(ParticipationRequest, status=status, subject=subject, study=study)
+    study = baker.make(Study, status=study_status, is_exclusive=is_exclusive)
+    return baker.make(ParticipationRequest, status=status, subject=subject, study=study)
 
 
 def has_match(is_exclusive=False, excluded_studies=[]):
-    study = mommy.make(Study, is_exclusive=is_exclusive, excluded_studies=excluded_studies)
-    mommy.make(SubjectFilterGroup, study=study)
+    study = baker.make(Study, is_exclusive=is_exclusive, excluded_studies=excluded_studies)
+    baker.make(SubjectFilterGroup, study=study)
     return AttributeSet.objects.filter(filter_queries.study(study)).exists()
 
 
@@ -46,7 +46,7 @@ def test_to_q_excluded_study_and_unsuitable_for_other_study(attributeset):
 
 def test_to_q_reverse_excluded_study(attributeset):
     pr = create_participation_request(attributeset.subject)
-    study = mommy.make(Study)
+    study = baker.make(Study)
     pr.study.excluded_studies.add(study)
     assert not AttributeSet.objects.filter(filter_queries.study(study)).exists()
 
@@ -61,8 +61,8 @@ def test_to_q_exclusive_study_and_finished(attributeset):
 
 
 def test_to_q_exclusive_study_in_same_study(attributeset):
-    study = mommy.make(Study, is_exclusive=True)
-    mommy.make(
+    study = baker.make(Study, is_exclusive=True)
+    baker.make(
         ParticipationRequest,
         status=ParticipationRequest.INVITED,
         subject=attributeset.subject,
@@ -100,15 +100,15 @@ def test_to_q_first_study_exclusive_second_study_unfinished(attributeset):
 
 def test_disinterest_in_study_type(db):
     study_type = StudyType.objects.first()
-    study = mommy.make(Study)
+    study = baker.make(Study)
     study.study_type.add(study_type)
-    mommy.make(AttributeSet, study_type_disinterest=[study_type])
+    baker.make(AttributeSet, study_type_disinterest=[study_type])
     assert not AttributeSet.objects.filter(filter_queries.study(study)).exists()
 
 
 @pytest.mark.django_db
 def test_clone_with_empty_filter_group(study):
-    subject_filter_group = mommy.make(SubjectFilterGroup, study=study)
+    subject_filter_group = baker.make(SubjectFilterGroup, study=study)
     clone = SubjectFilterGroup.objects.clone(subject_filter_group)
 
     assert subject_filter_group.id != clone.id
@@ -118,7 +118,7 @@ def test_clone_with_empty_filter_group(study):
 
 @pytest.mark.django_db
 def test_clone_with_multiple_filters(attribute_description, study):
-    subject_filter_group = mommy.make(SubjectFilterGroup, study=study)
+    subject_filter_group = baker.make(SubjectFilterGroup, study=study)
     SubjectFilter.objects.create(group=subject_filter_group, description=attribute_description,
                                  operator="operator1", value="value1")
     SubjectFilter.objects.create(group=subject_filter_group, description=attribute_description,
