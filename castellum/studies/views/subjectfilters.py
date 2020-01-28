@@ -62,7 +62,7 @@ class CustomFilterMixin:
                     'count': (
                         AttributeSet.objects.filter(
                             filter_queries.study(self.object),
-                            filter_queries.no_recruitment(self.object)
+                            filter_queries.no_recruitment()
                         ).count()
                     ),
                 },
@@ -100,7 +100,7 @@ class FilterGroupListView(FilterMixin, ListView):
         context['count'] = (
             AttributeSet.objects.filter(
                 filter_queries.study(self.study),
-                filter_queries.no_recruitment(self.study)
+                filter_queries.no_recruitment()
             ).count()
         )
         context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR

@@ -55,6 +55,7 @@ class SubjectFilterGroup(models.Model):
             filter_queries.study_exclusion(self.study),
             filter_queries.study_disinterest(self.study),
             filter_queries.subjectfilters(self),
+            filter_queries.no_recruitment(),
         )
 
 

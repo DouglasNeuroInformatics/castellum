@@ -91,7 +91,7 @@ def subjectfilters(subjectfiltergroup, include_unknown=True):
     return q
 
 
-def no_recruitment(study):
+def no_recruitment():
     """Exclude subjects who do not want to be contacted for recruitment."""
     return models.Q(subject__no_recruitment=False)
 

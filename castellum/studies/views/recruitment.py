@@ -99,7 +99,7 @@ class StudyExcludedStudiesView(
         context['count'] = (
             AttributeSet.objects.filter(
                 filter_queries.study(self.object),
-                filter_queries.no_recruitment(self.object)
+                filter_queries.no_recruitment()
             ).count()
         )
         context['total_count'] = AttributeSet.objects.count()
