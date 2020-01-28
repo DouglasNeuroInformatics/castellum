@@ -7,6 +7,7 @@ $(function() {
                 event.preventDefault();
                 // Chrome requires returnValue to be set.
                 event.returnValue = '';
+                return event.returnValue;
             }
         });
     };
