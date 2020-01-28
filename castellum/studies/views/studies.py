@@ -97,7 +97,7 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
         context['count'] = (
             AttributeSet.objects.filter(
                 filter_queries.study(self.object),
-                filter_queries.no_recruitment(self.object)
+                filter_queries.no_recruitment()
             ).count()
         )
         context['related_studies'] = list(get_related_studies(self.object))
