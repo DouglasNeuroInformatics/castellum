@@ -179,10 +179,5 @@ class ContactForm(forms.ModelForm):
         return contact
 
 
-class SearchForm(forms.ModelForm):
-    class Meta:
-        model = Contact
-        fields = [
-            'first_name',
-            'last_name',
-        ]
+class SearchForm(forms.Form):
+    search = forms.CharField(required=True)

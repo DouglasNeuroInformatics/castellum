@@ -13,6 +13,6 @@ def test_search_view(client, member, study_in_execution_status, study_in_edit_st
     baker.make(ParticipationRequest, study=study_in_edit_status, subject=contact2.subject)
 
     client.force_login(member)
-    response = client.get('/recruitment/search/?first_name=foo&last_name=bar')
+    response = client.get('/recruitment/search/?search=foo+bar')
 
     assert response.content.count(b'<li class="my-5">') == 1

@@ -38,6 +38,6 @@ def test_search_view(
         status=ParticipationRequest.UNSUITABLE,
     )
     client.force_login(member)
-    response = client.get('/execution/search/?first_name=foo&last_name=bar')
+    response = client.get('/execution/search/?search=foo+bar')
 
     assert response.content.count(b'<li class="my-5">') == 1

@@ -44,5 +44,5 @@ FIRST_NAME = 'Eve'
 ))
 def test_fuzzy_filter(right, wrong, expected):
     baker.make(Contact, first_name=FIRST_NAME, last_name=right)
-    matches = Contact.objects.fuzzy_filter(FIRST_NAME, wrong).exists()
+    matches = Contact.objects.fuzzy_filter(FIRST_NAME + " " + wrong).exists()
     assert matches == expected

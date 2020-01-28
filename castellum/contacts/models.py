@@ -64,13 +64,56 @@ class Address(models.Model):
 
 
 class ContactManager(models.Manager):
-    def fuzzy_filter(self, first_name, last_name):
-        q = models.Q()
-        for code in phonetic(first_name, encode=False):
-            q &= models.Q(first_name_phonetic__contains=':{}:'.format(code))
-        for code in phonetic(last_name, encode=False):
-            q &= models.Q(last_name_phonetic__contains=':{}:'.format(code))
+    def fuzzy_filter(self, search):
+        parts = search.split()
+        q = self.all_parts_match(parts) & (
+            self.full_name_is_matched(parts) |
+            self.email_is_matched(parts)
+        )
         return self.filter(q)
+
+    def first_name(self, part):
+        q = models.Q()
+        for code in phonetic(part, encode=False):
+            q &= models.Q(first_name_phonetic__contains=':{}:'.format(code))
+        return q
+
+    def last_name(self, part):
+        q = models.Q()
+        for code in phonetic(part, encode=False):
+            q &= models.Q(last_name_phonetic__contains=':{}:'.format(code))
+        return q
+
+    def first_name_is_matched(self, parts):
+        q = models.Q()
+        for part in parts:
+            q |= self.first_name(part)
+        return q
+
+    def last_name_is_matched(self, parts):
+        q = models.Q()
+        for part in parts:
+            q |= self.last_name(part)
+        return q
+
+    def full_name_is_matched(self, parts):
+        return self.first_name_is_matched(parts) & self.last_name_is_matched(parts)
+
+    def email_is_matched(self, parts):
+        q = models.Q()
+        for part in parts:
+            q |= models.Q(email=part)
+        return q
+
+    def all_parts_match(self, parts):
+        q = models.Q()
+        for part in parts:
+            q &= (
+                self.first_name(part) |
+                self.last_name(part) |
+                models.Q(email=part)
+            )
+        return q
 
 
 class Contact(TimeStampedModel):
