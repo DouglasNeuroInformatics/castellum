@@ -97,8 +97,8 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
         context['is_post'] = self.request.method == 'POST'
         form = kwargs.get('form')
         if form and form.is_valid():
-            data = form.cleaned_data
-            context['matches'] = Contact.objects.fuzzy_filter(**data)
+            context['matches'] = Contact.objects.fuzzy_filter(**form.cleaned_data)
+            context['search_terms'] = form.cleaned_data['search'].lower().split()
             if 'privacy_level_form' not in context:
                 context['privacy_level_form'] = SubjectPrivacyLevelForm(user=self.request.user)
         return context
