@@ -298,22 +298,21 @@ CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 # default "from"-email-address for recruitment
 CASTELLUM_RECRUITMENT_EMAIL = 'recruitment@localhost'
 
-# used to show the warning message when
-# number of users exceeds the number of subjects
-# in the contact list of recruitment app
+# number of subjects in the contact list of the recruitment
+# app after which a warning message will be shown
 CASTELLUM_RECRUITMENT_SOFT_LIMIT = 40
 
-# variable used to define max number of subjects
-# in the contact list of the recruitment app
+# Used to define the max number of subjects in the contact list of the recruitment
+# app after which no more subjects can be added
 # max_number_of_subjects = study.min_subject_count * CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR = 2
 
-# variable is used to define the minimal number of subjects
-# required for a normal recruitment process. The variable
-# is used to show messages when user creates filters for studies.
+# min number of subjects required for a normal
+# recruitment process. It is used to show messages when the user
+# creates filters for studies.
 CASTELLUM_EXPECTED_SUBJECT_FACTOR = 10
 
-# this constant defines the recommended timespan between one contact
+# recommended timespan between one contact
 # attempt and another one from a different study recruitment
 CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS = relativedelta(weeks=2)
 
