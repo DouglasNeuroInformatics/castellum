@@ -96,6 +96,11 @@ def no_recruitment():
     return models.Q(subject__no_recruitment=False)
 
 
+def to_be_deleted():
+    """Exclude subjects who want to be deleted."""
+    return models.Q(subject__to_be_deleted__isnull=True)
+
+
 def already_in_study(study):
     """Exclude subjects if they already have a participationrequest in this study."""
     return ~models.Q(subject__participationrequest__study=study)
@@ -144,4 +149,5 @@ def study(study, include_unknown=None):
     q &= study_exclusion(study)
     q &= study_disinterest(study)
     q &= study_filters(study, include_unknown=include_unknown)
+    q &= to_be_deleted()
     return q
