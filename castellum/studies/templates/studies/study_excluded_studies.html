@@ -9,7 +9,7 @@
 
         <div class="card mb-3">
             <div class="card-header text-right">
-                <span title="{% trans 'required' %}: {{ study.min_subject_count }} {% trans 'total' %}: {{ total_count }}">
+                <span title="{% trans 'required' %}: {{ study.min_subject_count }} {% trans 'total' %}: {{ total_count }}" aria-label="{% blocktrans %}{{ count }} potential subjects{% endblocktrans %}">
                     {% blocktrans %}{{ count }} potential subjects{% endblocktrans %}
                 </span>
             </div>

@@ -15,7 +15,7 @@
                             {% trans 'Filters' %}
                         </a>
                     {% else %}
-                        <button class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'filters' %}active{% endif %}" title="{% trans 'Insufficient privacy level' %}" disabled>
+                        <button class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'filters' %}active{% endif %}" title="{% trans 'Insufficient privacy level' %}" aria-label="{% trans 'Filters' %}" disabled>
                             {% trans 'Filters' %}
                         </button>
                     {% endif %}
