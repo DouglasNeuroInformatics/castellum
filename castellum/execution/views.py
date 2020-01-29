@@ -118,6 +118,7 @@ class SearchView(LoginRequiredMixin, GetFormView):
         form = kwargs.get('form')
         if form and form.is_valid():
             context['object_list'] = self.get_matches(form)
+            context['search_terms'] = form.cleaned_data['search'].lower().split()
         return context
 
 
