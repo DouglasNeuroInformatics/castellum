@@ -45,7 +45,10 @@ class StudyType(TranslatableModel):
     translations = TranslatedFields(
         label=models.CharField(_('Label'), max_length=64),
     )
-    exclusion_criteria = models.TextField(_('Inclusion/exclusion criteria'), blank=True)
+    exclusion_criteria = models.TextField(
+        _('Additional subject characteristics that should be verified during recruitment'),
+        blank=True,
+    )
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
     export_key = models.CharField(
         _('Export key'), max_length=32, choices=[(k, k) for k in EXPORT_KEYS], blank=True
