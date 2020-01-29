@@ -11,14 +11,7 @@
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
 
-        <div class="form-row">
-            <div class="col-md-6">
-                {% bootstrap_field form.first_name %}
-            </div>
-            <div class="col-md-6">
-                {% bootstrap_field form.last_name %}
-            </div>
-        </div>
+        {% bootstrap_field form.search %}
 
         <div class="mb-4">
             <button type="button" class="btn btn-outline-primary" data-js="guardian-dismiss">{% trans "Dismiss" %}</button>
@@ -51,12 +44,12 @@
                                     {% if can_access %}
                                         <div class="h4 d-inline-block my-1 mr-2">
                                             {% if contact.title %}{{ contact.title }}{% endif %}
-                                            {% if contact.first_name == form.first_name.value %}
+                                            {% if contact.first_name|lower in search_terms %}
                                                 <mark>{{ contact.first_name }}</mark>
                                             {% else %}
                                                 {{ contact.first_name }}
                                             {% endif %}
-                                            {% if contact.last_name == form.last_name.value %}
+                                            {% if contact.last_name|lower in search_terms %}
                                                 <mark>{{ contact.last_name }}</mark>
                                             {% else %}
                                                 {{ contact.last_name }}
@@ -66,9 +59,13 @@
                                             {% if contact.date_of_birth %}
                                                 <div class="d-inline-block my-1 mr-2">{{ contact.date_of_birth }}</div>
                                             {% endif %}
-                                            {% if contact.email %}
-                                                <div class="d-inline-block my-1 mr-2">{{ contact.email }}</div>
-                                            {% endif %}
+                                            <div class="d-inline-block my-1 mr-2">
+                                                {% if contact.email|lower in search_terms %}
+                                                    <mark>{{ contact.email }}</mark>
+                                                {% else %}
+                                                    {{ contact.email }}
+                                                {% endif %}
+                                            </div>
                                         </div>
                                     {% else %}
                                         <h3 class="h4 d-inline-block text-muted my-1 mr-2">{{ contact.full_name }}</h3>
