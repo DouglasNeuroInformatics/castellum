@@ -41,9 +41,6 @@
                             {% if contact.date_of_birth %}
                                 <div class="d-inline-block my-1 mr-2">{{ contact.date_of_birth }}</div>
                             {% endif %}
-                            {% if contact.address %}
-                                <div class="d-inline-block my-1 mr-2">{{ contact.address }}</div>
-                            {% endif %}
                             {% if contact.email %}
                                 <div class="d-inline-block my-1 mr-2">
                                     {% if contact.email|lower in search_terms %}
