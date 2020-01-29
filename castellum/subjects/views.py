@@ -118,15 +118,21 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
         privacy_level_form = SubjectPrivacyLevelForm(user=self.request.user, data=request.POST)
 
         if form.is_valid() and privacy_level_form.is_valid():
-            contact = form.save()
-            contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
-            contact.subject.save()
+            name_parts = form.cleaned_data['search'].split(maxsplit=1)
+            if len(name_parts) > 1:
+                contact = Contact.objects.create(first_name=name_parts[0], last_name=name_parts[1])
+                contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
+                contact.subject.save()
 
-            monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
-                Contact.domain,
-                contact.pseudonym,
-                self.request.user.pk))
-            return redirect('subjects:detail', pk=contact.subject.pk)
+                monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
+                    Contact.domain,
+                    contact.pseudonym,
+                    self.request.user.pk))
+                return redirect('subjects:detail', pk=contact.subject.pk)
+            else:
+                messages.error(request, _(
+                    'Both first and last name must be provided in order to create a subject!'
+                ))
         return self.render_to_response(self.get_context_data(
             form=form,
             privacy_level_form=privacy_level_form))

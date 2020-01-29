@@ -24,7 +24,7 @@
             <li class="nav-item">
                 <a class="nav-link {{ is_post|yesno:',active' }}" id="matches-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="matches" aria-selected="{{ is_post|yesno:'false,true' }}">{% trans "Matches" %}</a>
             </li>
-            {% if can_add_contact %}
+            {% if can_add_contact and search_terms|length > 1 %}
                 <li class="nav-item">
                     <a class="nav-link {{ is_post|yesno:'active,' }}" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create" aria-selected="{{ is_post|yesno:'true,false' }}">{% trans "Create" %}</a>
                 </li>
@@ -87,7 +87,7 @@
                 {% endif %}
             </div>
 
-            {% if can_add_contact %}
+            {% if can_add_contact and search_terms|length > 1 %}
                 <div class="tab-pane {{ is_post|yesno:'active,' }}" id="create" role="tabpanel" aria-labelledby="create-tab">
                     <form method="post">
                         {% for error in privacy_level_form.non_field_errors %}
