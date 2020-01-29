@@ -54,7 +54,8 @@ def get_related_studies(study):
     return Study.objects\
         .filter(participationrequest__in=related_prs)\
         .annotate(count=models.Count('pk'))\
-        .order_by('-count')
+        .exclude(pk=study.pk)\
+        .order_by('-count')[:5]
 
 
 class StudyRecruitmentSettingsUpdateView(
