@@ -52,7 +52,7 @@
                 <span title="{% trans 'Subjects must match all of the following filters.' %}">
                     {% trans 'All of these' %}
                 </span>
-                <span class="text-right" title="{% trans 'required' %}: {{ study.min_subject_count }} {% trans 'total' %}: {{ total_count }}">
+                <span class="text-right" title="{% trans 'required' %}: {{ study.min_subject_count }} {% trans 'total' %}: {{ total_count }}" aria-label="{% blocktrans %}{{ count }} potential subjects{% endblocktrans %}">
                     {% blocktrans %}{{ count }} potential subjects{% endblocktrans %}
                 </span>
             </div>
