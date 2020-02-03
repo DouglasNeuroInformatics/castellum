@@ -125,7 +125,7 @@ class AttributeSet(TimeStampedModel):
 
     def get_completeness(self):
         # Needs to match ``filter_queries.completeness_expr()``
-        completed = len([k for k, v in self.data.items() if v])
+        completed = len([k for k, v in self.data.items() if v not in [None, '']])
         total = AttributeDescription.objects.count()
         return completed, total
 
