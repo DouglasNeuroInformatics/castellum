@@ -12,6 +12,7 @@ $(function() {
         });
     };
 
+    // beforeunload prevents caching, so only register it when necessary
     $('form')
     .on('change', registerBeforeUnload)
     .on('submit', function() {
