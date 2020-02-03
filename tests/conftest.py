@@ -52,6 +52,7 @@ def create_user(group_name):
 
     user.user_permissions.add(Permission.objects.get(codename='privacy_level_1'))
     user.user_permissions.remove(Permission.objects.get(codename='privacy_level_2'))
+    user.user_permissions.remove(Permission.objects.get(codename='access_study'))
 
     return user
 
