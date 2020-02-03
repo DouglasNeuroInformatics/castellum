@@ -142,10 +142,8 @@ msgid "Please provide an email."
 msgstr "Bitte geben Sie eine E-Mail Adresse an."
 
 #: castellum/contacts/forms.py:183
-#, fuzzy
-#| msgid "Search for title or contact person"
 msgid "Search for name or email address"
-msgstr "Suche nach Titel oder verantwortlicher Kontaktperson"
+msgstr "Suche nach Name oder E-Mail Adresse"
 
 #: castellum/contacts/models.py:43
 msgid "Country"
@@ -431,10 +429,8 @@ msgid "No participations found"
 msgstr "Keine Teilnahmen gefunden"
 
 #: castellum/execution/templates/execution/study_detail.html:35
-#, fuzzy
-#| msgid "Invalid pseudonym"
 msgid "Resolve pseudonym"
-msgstr "Ungültiges Pseudonym"
+msgstr "Pseudonym auflösen"
 
 #: castellum/execution/templates/execution/study_list.html:22
 msgid "There are currently no studies you can conduct."
@@ -447,10 +443,8 @@ msgid "Page navigation"
 msgstr "Seitennavigation"
 
 #: castellum/execution/views.py:141
-#, fuzzy
-#| msgid "No matches found"
 msgid "No match found"
-msgstr "Keine Treffer"
+msgstr "Kein Treffer"
 
 #: castellum/pseudonyms/generators/md5.py:86
 msgid "Pseudonym contains invalid characters"
@@ -1187,7 +1181,8 @@ msgstr "Bezeichnung"
 #: castellum/studies/models.py:49 castellum/studies/models.py:90
 msgid ""
 "Additional subject characteristics that should be verified during recruitment"
-msgstr ""
+msgstr "Zusätzliche Eigenschaften der Proband*innen, die während der Rekrutierung "
+"überprüft werden sollten."
 
 #: castellum/studies/models.py:52 castellum/studies/models.py:84
 msgid "Contains sensitive data"
@@ -1777,16 +1772,12 @@ msgid "Mail Settings"
 msgstr "E-Mail Einstellungen"
 
 #: castellum/studies/templates/studies/study_members.html:21
-#, fuzzy
-#| msgid "Global groups"
 msgid "local group"
-msgstr "Globale Gruppen"
+msgstr "Lokale Gruppe"
 
-#: castellum/studies/templates/studies/study_members.html:26
-#, fuzzy
-#| msgid "Global groups"
+#: castellum/studies/templates/studies/study_members.html:26"
 msgid "global group"
-msgstr "Globale Gruppen"
+msgstr "Globale Gruppe"
 
 #: castellum/studies/templates/studies/study_members.html:32
 msgid "Manage groups"
@@ -2221,7 +2212,8 @@ msgstr "Einverständnis bestätigt"
 
 #: castellum/subjects/views.py:143
 msgid "Both first and last name must be provided in order to create a subject!"
-msgstr ""
+msgstr "Sowohl Vor- als auch Nachname müssen angegeben werden um eine "
+"Proband*in anzulegen!"
 
 #: castellum/subjects/views.py:193
 msgid "Subject has been deleted."
