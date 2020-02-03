@@ -114,7 +114,8 @@ def data_protection_coordinator(db):
 
 
 @pytest.fixture
-def admin(user):
+def admin(db):
+    user = create_user(None)
     user.is_staff = True
     user.is_superuser = True
     user.save()
@@ -137,7 +138,8 @@ def study_in_edit_status(db):
 
 
 @pytest.fixture
-def member(user, study, study_in_execution_status, study_in_edit_status):
+def member(study, study_in_execution_status, study_in_edit_status):
+    user = create_user(None)
     StudyMembership.objects.create(user=user, study=study)
     StudyMembership.objects.create(user=user, study=study_in_execution_status)
     StudyMembership.objects.create(user=user, study=study_in_edit_status)
