@@ -111,7 +111,7 @@ class ContactManager(models.Manager):
             q &= (
                 self.first_name(part) |
                 self.last_name(part) |
-                models.Q(email=part)
+                models.Q(email__iexact=part)
             )
         return q
 
