@@ -68,7 +68,9 @@ class ContactManager(models.Manager):
         parts = search.split()
         q = self.all_parts_match(parts) & (
             self.full_name_is_matched(parts) |
-            self.email_is_matched(parts)
+            self.email_is_matched(parts) |
+            self.guardian_full_name_is_matched(parts) |
+            self.guardian_email_is_matched(parts)
         )
         return self.filter(q)
 
@@ -105,13 +107,52 @@ class ContactManager(models.Manager):
             q |= models.Q(email__iexact=part)
         return q
 
+    def guardian_first_name(self, part):
+        q = models.Q()
+        for code in phonetic(part, encode=False):
+            q &= models.Q(guardians__first_name_phonetic__contains=':{}:'.format(code))
+        return q
+
+    def guardian_last_name(self, part):
+        q = models.Q()
+        for code in phonetic(part, encode=False):
+            q &= models.Q(guardians__last_name_phonetic__contains=':{}:'.format(code))
+        return q
+
+    def guardian_first_name_is_matched(self, parts):
+        q = models.Q()
+        for part in parts:
+            q |= self.guardian_first_name(part)
+        return q
+
+    def guardian_last_name_is_matched(self, parts):
+        q = models.Q()
+        for part in parts:
+            q |= self.guardian_last_name(part)
+        return q
+
+    def guardian_full_name_is_matched(self, parts):
+        return (
+            self.guardian_first_name_is_matched(parts) &
+            self.guardian_last_name_is_matched(parts)
+        )
+
+    def guardian_email_is_matched(self, parts):
+        q = models.Q()
+        for part in parts:
+            q |= models.Q(guardians__email__iexact=part)
+        return q
+
     def all_parts_match(self, parts):
         q = models.Q()
         for part in parts:
             q &= (
                 self.first_name(part) |
                 self.last_name(part) |
-                models.Q(email__iexact=part)
+                models.Q(email__iexact=part) |
+                self.guardian_first_name(part) |
+                self.guardian_last_name(part) |
+                models.Q(guardians__email__iexact=part)
             )
         return q
 
