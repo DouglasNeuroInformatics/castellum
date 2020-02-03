@@ -15,4 +15,9 @@ class Migration(migrations.Migration):
             name='exclusion_criteria',
             field=models.TextField(blank=True, verbose_name='Additional subject characteristics that should be verified during recruitment'),
         ),
+        migrations.AlterField(
+            model_name='study',
+            name='exclusion_criteria',
+            field=models.TextField(blank=True, verbose_name='Additional subject characteristics that should be verified during recruitment'),
+        ),
     ]
