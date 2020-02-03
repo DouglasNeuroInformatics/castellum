@@ -102,7 +102,7 @@ class ContactManager(models.Manager):
     def email_is_matched(self, parts):
         q = models.Q()
         for part in parts:
-            q |= models.Q(email=part)
+            q |= models.Q(email__iexact=part)
         return q
 
     def all_parts_match(self, parts):
