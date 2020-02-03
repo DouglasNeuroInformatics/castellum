@@ -180,4 +180,4 @@ class ContactForm(forms.ModelForm):
 
 
 class SearchForm(forms.Form):
-    search = forms.CharField(required=True)
+    search = forms.CharField(label=_('Search for name or email address'), required=True)
