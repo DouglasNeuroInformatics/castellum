@@ -42,7 +42,50 @@ FIRST_NAME = 'Eve'
     ('Meier', 'Schulze', False),
     ('Meier', 'Michel', False),
 ))
-def test_fuzzy_filter(right, wrong, expected):
+def test_phonetic_matching(right, wrong, expected):
     baker.make(Contact, first_name=FIRST_NAME, last_name=right)
     matches = Contact.objects.fuzzy_filter(FIRST_NAME + " " + wrong).exists()
     assert matches == expected
+
+
+@pytest.mark.django_db
+def test_only_mail():
+    search = 'test@example.com'
+    baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
+    assert Contact.objects.fuzzy_filter(search).exists()
+
+
+@pytest.mark.django_db
+def test_one_component_wrong():
+    search = 'test@example.com Shenavar Meier'
+    baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
+    baker.make(Contact, first_name='Shenavar', last_name='Meier', email='wrong@example.com')
+    assert not Contact.objects.fuzzy_filter(search).exists()
+
+
+@pytest.mark.django_db
+def test_right_mail_right_namepart():
+    search = 'test@example.com Eve'
+    baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
+    assert Contact.objects.fuzzy_filter(search).exists()
+
+
+@pytest.mark.django_db
+def test_only_first_name():
+    search = 'Eve'
+    baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
+    assert not Contact.objects.fuzzy_filter(search).exists()
+
+
+@pytest.mark.django_db
+def test_excessive_whitespace():
+    search = 'Eve        Meier  '
+    baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
+    assert Contact.objects.fuzzy_filter(search).exists()
+
+
+@pytest.mark.django_db
+def test_every_input_must_match():
+    search = 'test@example.com second@example.com'
+    baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
+    assert not Contact.objects.fuzzy_filter(search).exists()
