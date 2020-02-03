@@ -74,32 +74,21 @@ class ContactManager(models.Manager):
         )
         return self.filter(q)
 
-    def first_name(self, part):
+    def match_name(self, part, prefix):
+        lookup = prefix + '_name_phonetic__contains'
         q = models.Q()
         for code in phonetic(part, encode=False):
-            q &= models.Q(first_name_phonetic__contains=':{}:'.format(code))
+            q &= models.Q(**{lookup: ':{}:'.format(code)})
         return q
 
-    def last_name(self, part):
-        q = models.Q()
-        for code in phonetic(part, encode=False):
-            q &= models.Q(last_name_phonetic__contains=':{}:'.format(code))
-        return q
-
-    def first_name_is_matched(self, parts):
+    def name_is_matched(self, parts, prefix):
         q = models.Q()
         for part in parts:
-            q |= self.first_name(part)
-        return q
-
-    def last_name_is_matched(self, parts):
-        q = models.Q()
-        for part in parts:
-            q |= self.last_name(part)
+            q |= self.match_name(part, prefix)
         return q
 
     def full_name_is_matched(self, parts):
-        return self.first_name_is_matched(parts) & self.last_name_is_matched(parts)
+        return self.name_is_matched(parts, 'first') & self.name_is_matched(parts, 'last')
 
     def email_is_matched(self, parts):
         q = models.Q()
@@ -107,34 +96,10 @@ class ContactManager(models.Manager):
             q |= models.Q(email__iexact=part)
         return q
 
-    def guardian_first_name(self, part):
-        q = models.Q()
-        for code in phonetic(part, encode=False):
-            q &= models.Q(guardians__first_name_phonetic__contains=':{}:'.format(code))
-        return q
-
-    def guardian_last_name(self, part):
-        q = models.Q()
-        for code in phonetic(part, encode=False):
-            q &= models.Q(guardians__last_name_phonetic__contains=':{}:'.format(code))
-        return q
-
-    def guardian_first_name_is_matched(self, parts):
-        q = models.Q()
-        for part in parts:
-            q |= self.guardian_first_name(part)
-        return q
-
-    def guardian_last_name_is_matched(self, parts):
-        q = models.Q()
-        for part in parts:
-            q |= self.guardian_last_name(part)
-        return q
-
     def guardian_full_name_is_matched(self, parts):
         return (
-            self.guardian_first_name_is_matched(parts) &
-            self.guardian_last_name_is_matched(parts)
+            self.name_is_matched(parts, 'guardians__first') &
+            self.name_is_matched(parts, 'guardians__last')
         )
 
     def guardian_email_is_matched(self, parts):
@@ -147,11 +112,11 @@ class ContactManager(models.Manager):
         q = models.Q()
         for part in parts:
             q &= (
-                self.first_name(part) |
-                self.last_name(part) |
+                self.match_name(part, 'first') |
+                self.match_name(part, 'last') |
                 models.Q(email__iexact=part) |
-                self.guardian_first_name(part) |
-                self.guardian_last_name(part) |
+                self.match_name(part, 'guardians__first') |
+                self.match_name(part, 'guardians__last') |
                 models.Q(guardians__email__iexact=part)
             )
         return q
