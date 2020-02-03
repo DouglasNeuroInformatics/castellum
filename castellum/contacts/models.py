@@ -84,7 +84,8 @@ class ContactManager(models.Manager):
     def name_is_matched(self, parts, prefix):
         q = models.Q()
         for part in parts:
-            q |= self.match_name(part, prefix)
+            if '@' not in part:
+                q |= self.match_name(part, prefix)
         return q
 
     def full_name_is_matched(self, parts):
@@ -93,7 +94,8 @@ class ContactManager(models.Manager):
     def email_is_matched(self, parts):
         q = models.Q()
         for part in parts:
-            q |= models.Q(email__iexact=part)
+            if '@' in part:
+                q |= models.Q(email__iexact=part)
         return q
 
     def guardian_full_name_is_matched(self, parts):
@@ -105,20 +107,25 @@ class ContactManager(models.Manager):
     def guardian_email_is_matched(self, parts):
         q = models.Q()
         for part in parts:
-            q |= models.Q(guardians__email__iexact=part)
+            if '@' in part:
+                q |= models.Q(guardians__email__iexact=part)
         return q
 
     def all_parts_match(self, parts):
         q = models.Q()
         for part in parts:
-            q &= (
-                self.match_name(part, 'first') |
-                self.match_name(part, 'last') |
-                models.Q(email__iexact=part) |
-                self.match_name(part, 'guardians__first') |
-                self.match_name(part, 'guardians__last') |
-                models.Q(guardians__email__iexact=part)
-            )
+            if '@' in part:
+                q &= (
+                    models.Q(email__iexact=part) |
+                    models.Q(guardians__email__iexact=part)
+                )
+            else:
+                q &= (
+                    self.match_name(part, 'first') |
+                    self.match_name(part, 'last') |
+                    self.match_name(part, 'guardians__first') |
+                    self.match_name(part, 'guardians__last')
+                )
         return q
 
 
