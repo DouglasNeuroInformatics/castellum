@@ -86,7 +86,10 @@ class Study(models.Model):
     expense_allowance = models.PositiveIntegerField(_('Expense allowance'), blank=True, null=True)
     sessions_start = DateField(_('Start of test sessions'), blank=True, null=True)
     sessions_end = DateField(_('End of test sessions'), blank=True, null=True)
-    exclusion_criteria = models.TextField(_('Inclusion/exclusion criteria'), blank=True)
+    exclusion_criteria = models.TextField(
+        _('Additional subject characteristics that should be verified during recruitment'),
+        blank=True,
+    )
     recruitment_text = models.TextField(_('Recruitment text'), blank=True)
 
     members = models.ManyToManyField(User, through='StudyMembership')
