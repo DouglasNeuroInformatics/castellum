@@ -1182,7 +1182,7 @@ msgstr "Bezeichnung"
 msgid ""
 "Additional subject characteristics that should be verified during recruitment"
 msgstr "Zusätzliche Eigenschaften der Proband*innen, die während der Rekrutierung "
-"überprüft werden sollten."
+"überprüft werden sollen."
 
 #: castellum/studies/models.py:52 castellum/studies/models.py:84
 msgid "Contains sensitive data"
