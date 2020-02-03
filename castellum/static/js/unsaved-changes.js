@@ -1,9 +1,9 @@
 $(function() {
-    var submitted = false;
+    var unsavedForms = [];
 
     var registerBeforeUnload = function() {
         $(window).on('beforeunload', function(event) {
-            if (!submitted) {
+            if (unsavedForms.length) {
                 event.preventDefault();
                 // Chrome requires returnValue to be set.
                 event.returnValue = '';
@@ -12,13 +12,18 @@ $(function() {
         });
     };
 
-    $('form')
-    .on('change', registerBeforeUnload)
-    .on('submit', function() {
-        submitted = true;
+    $(document).on('change', 'form', function() {
+        // beforeunload prevents caching, so only register it when necessary
+        registerBeforeUnload();
+        if (!unsavedForms.includes(this)) {
+            unsavedForms.push(this);
+        }
+    });
+    $(document).on('submit', 'form', function() {
+        unsavedForms = unsavedForms.filter(f => f !== this);
     });
 
     $(document).on('click', '[data-js="cancel"]', function() {
-        submitted = true;
+        unsavedForms = [];
     });
 });
