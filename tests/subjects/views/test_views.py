@@ -21,6 +21,13 @@ def test_search_with_parameters_200(client, user):
     assert 200 == response.status_code
 
 
+def test_guardian_search_200(client, user):
+    client.force_login(user)
+    url = '/subjects/guardians/?first_name=Test&last_name=Test'
+    response = client.get(url)
+    assert 200 == response.status_code
+
+
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -115,6 +122,20 @@ def test_contact_200(request, client, user_fixture, contact):
 
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    'recruiter',
+    'subject_manager',
+    'data_protection_coordinator',
+])
+def test_partcipation_list_200(request, client, user_fixture, participation_request):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    url = '/subjects/{}/studyparticipation/'.format(participation_request.subject.pk)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
     'data_protection_coordinator',
@@ -123,5 +144,19 @@ def test_export_200(request, client, user_fixture, contact):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     url = '/subjects/{}/export/'.format(contact.subject.pk)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    'subject_manager',
+    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+])
+def test_maintenance_200(request, client, user_fixture, contact):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    url = '/subjects/maintenance/'.format(contact.subject.pk)
     response = client.get(url)
     assert response.status_code == 200
