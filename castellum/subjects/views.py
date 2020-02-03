@@ -383,8 +383,18 @@ class GuardianSearchView(SubjectSearchView):
         context = super().get_context_data(**kwargs)
         form = kwargs.get('form')
         if form and form.is_valid() and 'contact_form' not in context:
+            search = form.cleaned_data['search']
+            names = [part for part in search.split() if '@' not in part]
+            emails = [part for part in search.split() if '@' in part]
+
+            initial = {}
+            if names:
+                initial['first_name'] = names[0]
+                initial['last_name'] = ' '.join(names[1:])
+            if emails:
+                initial['email'] = emails[0]
             context['contact_form'] = ContactForm(
-                user=self.request.user, initial=form.cleaned_data
+                user=self.request.user, initial=initial
             )
         return context
 
