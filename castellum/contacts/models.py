@@ -64,7 +64,7 @@ class Address(models.Model):
 
 
 class ContactManager(models.Manager):
-    def fuzzy_filter(self, search):
+    def fuzzy_filter(self, search, **kwargs):
         parts = search.split()
         q = self.all_parts_match(parts) & (
             self.full_name_is_matched(parts) |

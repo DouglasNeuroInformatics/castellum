@@ -181,3 +181,30 @@ class ContactForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     search = forms.CharField(label=_('Search for name or email address'), required=True)
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        search = cleaned_data.get('search', '')
+
+        names = [part for part in search.split() if '@' not in part]
+        emails = [part for part in search.split() if '@' in part]
+
+        if len(names) < 2 and not emails:
+            raise ValidationError(
+                _('Either full name or email must be provided'), code='invalid'
+            )
+        if len(emails) > 1:
+            raise ValidationError(
+                _('Please do not provide more than one email address'), code='invalid'
+            )
+
+        cleaned_data['search_terms'] = search.lower().split()
+        if len(names) > 0:
+            cleaned_data['first_name'] = names[0]
+        if len(names) > 1:
+            cleaned_data['last_name'] = ' '.join(names[1:])
+        if emails:
+            cleaned_data['email'] = emails[0]
+
+        return cleaned_data
