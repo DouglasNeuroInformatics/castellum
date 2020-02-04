@@ -24,7 +24,7 @@
             <li class="nav-item">
                 <a class="nav-link {{ is_post|yesno:',active' }}" id="matches-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="matches" aria-selected="{{ is_post|yesno:'false,true' }}">{% trans "Matches" %}</a>
             </li>
-            {% if can_add_contact and names|length > 1 %}
+            {% if can_add_contact and form.cleaned_data.last_name %}
                 <li class="nav-item">
                     <a class="nav-link {{ is_post|yesno:'active,' }}" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create" aria-selected="{{ is_post|yesno:'true,false' }}">{% trans "Create" %}</a>
                 </li>
@@ -41,12 +41,12 @@
                                 {% if can_access %}
                                     <div class="h4 d-inline-block my-1 mr-2">
                                         {% if contact.title %}{{ contact.title }}{% endif %}
-                                        {% if contact.first_name|lower in search_terms %}
+                                        {% if contact.first_name|lower == form.cleaned_data.first_name|lower %}
                                             <mark>{{ contact.first_name }}</mark>
                                         {% else %}
                                             {{ contact.first_name }}
                                         {% endif %}
-                                        {% if contact.last_name|lower in search_terms %}
+                                        {% if contact.last_name|lower == form.cleaned_data.last_name|lower %}
                                             <mark>{{ contact.last_name }}</mark>
                                         {% else %}
                                             {{ contact.last_name }}
@@ -58,7 +58,7 @@
                                         {% endif %}
                                         {% if contact.email %}
                                             <div class="d-inline-block my-1 mr-2">
-                                                {% if contact.email|lower in search_terms %}
+                                                {% if contact.email|lower == form.cleaned_data.email|lower %}
                                                     <mark>{{ contact.email }}</mark>
                                                 {% else %}
                                                     {{ contact.email }}
@@ -85,7 +85,7 @@
                 </ul>
             </div>
 
-            {% if can_add_contact and names|length > 1 %}
+            {% if can_add_contact and form.cleaned_data.last_name %}
                 <div class="tab-pane {{ is_post|yesno:'active,' }}" id="create" role="tabpanel" aria-labelledby="create-tab">
                     <form method="post">
                         {% for error in privacy_level_form.non_field_errors %}

@@ -26,12 +26,12 @@
                     <li class="my-5">
                         <div class="h4 d-inline-block my-1 mr-2">
                             {% if contact.title %}{{ contact.title }}{% endif %}
-                            {% if contact.first_name|lower in search_terms %}
+                            {% if contact.first_name|lower == form.cleaned_data.first_name|lower %}
                                 <mark>{{ contact.first_name }}</mark>
                             {% else %}
                                 {{ contact.first_name }}
                             {% endif %}
-                            {% if contact.last_name|lower in search_terms %}
+                            {% if contact.last_name|lower == form.cleaned_data.last_name|lower %}
                                 <mark>{{ contact.last_name }}</mark>
                             {% else %}
                                 {{ contact.last_name }}
@@ -43,7 +43,7 @@
                             {% endif %}
                             {% if contact.email %}
                                 <div class="d-inline-block my-1 mr-2">
-                                    {% if contact.email|lower in search_terms %}
+                                    {% if contact.email|lower == form.cleaned_data.email|lower %}
                                         <mark>{{ contact.email }}</mark>
                                     {% else %}
                                         {{ contact.email }}
