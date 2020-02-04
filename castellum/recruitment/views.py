@@ -55,6 +55,7 @@ from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.subjects.models import Subject
 from castellum.utils.views import GetFormView
 
+from .forms import AppointmentForm
 from .forms import ContactForm
 from .forms import SendMailForm
 from .mixins import ParticipationRequestMixin
@@ -499,6 +500,17 @@ class DataProtectionUpdateView(RecruitmentUpdateMixin, BaseDataProtectionUpdateV
 class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateView):
     def get_object(self):
         return self.participationrequest.subject
+
+
+class AppointmentView(RecruitmentUpdateMixin, PermissionRequiredMixin, UpdateView):
+    model = ParticipationRequest
+    template_name = 'recruitment/appointments.html'
+    permission_required = (
+        'recruitment.change_participationrequest',
+    )
+
+    def get_form_class(self):
+        return AppointmentForm.factory(self.object)
 
 
 class SearchView(LoginRequiredMixin, GetFormView):

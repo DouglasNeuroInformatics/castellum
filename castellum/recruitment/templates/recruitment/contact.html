@@ -95,6 +95,7 @@
                         {% trans 'Edit additional info' %}
                     </a>
                 {% endif %}
+                <a href="{% url 'recruitment:appointments-update' study.pk object.pk %}" class="btn btn-secondary btn-sm-inline my-1">{% trans 'Manage appointments' %}</a>
             </div>
 
             <div class="tab-pane" id="study" role="tabpanel" aria-labelledby="study-tab">
