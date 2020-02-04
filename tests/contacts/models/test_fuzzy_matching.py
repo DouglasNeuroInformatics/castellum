@@ -42,56 +42,41 @@ from castellum.contacts.models import Contact
 ))
 def test_phonetic_matching(right, wrong, expected):
     baker.make(Contact, first_name='Eve', last_name=right)
-    matches = Contact.objects.fuzzy_filter('Eve ' + wrong).exists()
+    matches = Contact.objects.fuzzy_filter(first_name='Eve', last_name=wrong).exists()
     assert matches == expected
 
 
 @pytest.mark.django_db
 def test_only_mail():
-    search = 'test@example.com'
     baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
-    assert Contact.objects.fuzzy_filter(search).exists()
+    assert Contact.objects.fuzzy_filter(email='test@example.com').exists()
 
 
 @pytest.mark.django_db
 def test_one_component_wrong():
-    search = 'test@example.com Shenavar Meier'
     baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
     baker.make(Contact, first_name='Shenavar', last_name='Meier', email='wrong@example.com')
-    assert not Contact.objects.fuzzy_filter(search).exists()
+    assert not Contact.objects.fuzzy_filter(
+        first_name='Shenavar',
+        last_name='Meier',
+        email='test@example.com',
+    ).exists()
 
 
 @pytest.mark.django_db
 def test_right_mail_right_namepart():
-    search = 'test@example.com Eve'
     baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
-    assert Contact.objects.fuzzy_filter(search).exists()
+    assert Contact.objects.fuzzy_filter(first_name='Eve', email='test@example.com').exists()
 
 
 @pytest.mark.django_db
 def test_only_first_name():
-    search = 'Eve'
     baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
-    assert not Contact.objects.fuzzy_filter(search).exists()
-
-
-@pytest.mark.django_db
-def test_excessive_whitespace():
-    search = 'Eve        Meier  '
-    baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
-    assert Contact.objects.fuzzy_filter(search).exists()
-
-
-@pytest.mark.django_db
-def test_every_input_must_match():
-    search = 'test@example.com second@example.com'
-    baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
-    assert not Contact.objects.fuzzy_filter(search).exists()
+    assert Contact.objects.fuzzy_filter(first_name='Eve').exists()
 
 
 @pytest.mark.django_db
 def test_guardian_email():
-    search = 'test@example.com'
     guardian = baker.make(Contact, email='test@example.com')
     baker.make(Contact, guardians=[guardian])
-    assert Contact.objects.fuzzy_filter(search).count() == 2
+    assert Contact.objects.fuzzy_filter(email='test@example.com').count() == 2
