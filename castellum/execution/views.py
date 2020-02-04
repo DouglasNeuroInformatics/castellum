@@ -108,6 +108,10 @@ class SearchView(LoginRequiredMixin, GetFormView):
                 self.request.user.has_perms(perms, pr.study) and
                 self.request.user.has_privacy_level(pr.subject.privacy_level)
             ):
+                pr.can_access = True
+                result.setdefault(pr.subject, [])
+                result[pr.subject].append(pr)
+            elif self.request.user.has_perm('recruitment.search_execution', pr.study):
                 result.setdefault(pr.subject, [])
                 result[pr.subject].append(pr)
 

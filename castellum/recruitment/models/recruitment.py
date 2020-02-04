@@ -110,6 +110,7 @@ class ParticipationRequest(models.Model):
         unique_together = ('study', 'subject')
         permissions = (
             ('view_participation_pseudonyms', _('Can view participation pseudonyms')),
+            ('search_execution', _('Can search in execution')),
         )
 
     @property
