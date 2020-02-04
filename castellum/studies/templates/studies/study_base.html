@@ -16,7 +16,7 @@
         {% has_perm 'studies.access_study' user study as can_access_study %}
         {% has_perm 'studies.change_study' user study as can_change_study %}
 
-        <ul class="nav nav-tabs mb-3">
+        <ul class="nav nav-tabs justify-content-center mb-3">
             <li class="nav-item">
                 <a class="nav-link {% if view.tab == 'detail' %}active{% endif %}" href="{% url 'studies:detail' study.pk %}">{% trans 'Overview' %}</a>
             </li>
