@@ -44,12 +44,12 @@
                                     {% if can_access %}
                                         <div class="h4 d-inline-block my-1 mr-2">
                                             {% if contact.title %}{{ contact.title }}{% endif %}
-                                            {% if contact.first_name|lower in search_terms %}
+                                            {% if contact.first_name|lower in form.cleaned_data.search_terms %}
                                                 <mark>{{ contact.first_name }}</mark>
                                             {% else %}
                                                 {{ contact.first_name }}
                                             {% endif %}
-                                            {% if contact.last_name|lower in search_terms %}
+                                            {% if contact.last_name|lower in form.cleaned_data.search_terms %}
                                                 <mark>{{ contact.last_name }}</mark>
                                             {% else %}
                                                 {{ contact.last_name }}
@@ -60,7 +60,7 @@
                                                 <div class="d-inline-block my-1 mr-2">{{ contact.date_of_birth }}</div>
                                             {% endif %}
                                             <div class="d-inline-block my-1 mr-2">
-                                                {% if contact.email|lower in search_terms %}
+                                                {% if contact.email|lower in form.cleaned_data.search_terms %}
                                                     <mark>{{ contact.email }}</mark>
                                                 {% else %}
                                                     {{ contact.email }}
