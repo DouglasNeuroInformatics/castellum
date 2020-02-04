@@ -181,3 +181,17 @@ class ContactForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     search = forms.CharField(label=_('Search for name or email address'), required=True)
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        search = cleaned_data.get('search', '')
+
+        names = [part for part in search.split() if '@' not in part]
+        emails = [part for part in search.split() if '@' in part]
+
+        cleaned_data['first_name'] = names[0] if names else ''
+        cleaned_data['last_name'] = ' '.join(names[1:])
+        cleaned_data['email'] = emails[0] if emails else ''
+
+        return cleaned_data
