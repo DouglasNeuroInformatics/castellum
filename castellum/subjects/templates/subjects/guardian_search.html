@@ -4,7 +4,7 @@
 {% block title %}{% trans "Guardians" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <p>{% trans 'Total number of subjects' %}: {{ total_number_subjects }}</p>
+    <p>{% trans 'Total number of subjects' %}: {{ count_total }}</p>
 
     <form method="get">
         {% for error in form.non_field_errors %}
