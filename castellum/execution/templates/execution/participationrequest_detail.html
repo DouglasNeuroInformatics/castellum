@@ -17,6 +17,14 @@
         <dd>{{ subject.contact|display:'phone_number_alternative' }}</dd>
     </dl>
 
+    <h2>{% trans 'Appointments' %}</h2>
+    <dl>
+        {% for appointment in object.appointment_set.all %}
+            <dt>{{ appointment.session.name }}</dt>
+            <dd><time>{{ appointment.start|date }} {{ appointment.start|time }}</time></dd>
+        {% endfor %}
+    </dl>
+
     {% has_perm 'contacts.change_contact' user study as can_change_contact %}
     {% if can_change_contact %}
         <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:contact-update' study.pk object.pk %}">
