@@ -178,5 +178,19 @@
             ]
         ]
     }
+},
+{
+    "model": "auth.group",
+    "pk": 6,
+    "fields": {
+        "name": "Receptionist",
+        "permissions": [
+            [
+                "search_execution",
+                "recruitment",
+                "participationrequest"
+            ]
+        ]
+    }
 }
 ]
