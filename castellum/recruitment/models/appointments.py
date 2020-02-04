@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django.db import models
 from django.forms import ValidationError
 from django.utils.formats import date_format
@@ -29,6 +31,8 @@ from castellum.studies.models import StudySession
 from castellum.utils.fields import DateTimeField
 
 from .recruitment import ParticipationRequest
+
+MINUTE = datetime.timedelta(seconds=60)
 
 
 class Appointment(models.Model):
@@ -52,3 +56,20 @@ class Appointment(models.Model):
             raise ValidationError(
                 _('Session and participant do not belong to the same study'), code='study'
             )
+
+        qs = Appointment.objects.filter(
+            start__lte=self.end,
+            start__gte=self.start - MINUTE * self.session.duration,
+        ).exclude(pk=self.pk)
+        if self.session.resource and qs.filter(session__resource=self.session.resource).exists():
+            raise ValidationError(
+                _('Required resource is not available at this time'), code='resource'
+            )
+        if qs.filter(participant=self.participant).exists():
+            raise ValidationError(
+                _('Subject is not available at this time'), code='subject'
+            )
+
+    @property
+    def end(self):
+        return self.start + MINUTE * self.session.duration

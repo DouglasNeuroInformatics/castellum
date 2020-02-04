@@ -23,6 +23,7 @@ import json
 import os
 
 from django import forms
+from django.db import transaction
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import gettext_lazy as _
 
@@ -32,6 +33,7 @@ from castellum.utils.forms import DateTimeField
 from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
 
+from .models import Appointment
 from .models import AttributeDescription
 from .models import AttributeSet
 from .models import ParticipationRequest
@@ -196,6 +198,53 @@ class AppointmentForm(forms.ModelForm):
                 key = 'session-%i' % appointment.session.pk
                 kwargs['initial'][key] = appointment.start
         super().__init__(instance=instance, **kwargs)
+
+    def clean(self):
+        """Check for resource collisions.
+
+        If we would just run appointment.clean() for each appointment,
+        we would only check for collisions with appointments that are
+        already in the database. In order to include the updates from
+        this form, we save all changes to the database first. If the
+        validation fails, the changes are rolled back.
+        """
+
+        transaction.set_autocommit(False)
+
+        cleaned_data = super().clean()
+        appointments = []
+        sessions = self.instance.study.studysession_set.all()
+
+        for session in sessions:
+            key = 'session-%i' % session.pk
+            start = cleaned_data.get(key)
+            if start:
+                try:
+                    appointment = Appointment.objects.get(
+                        session=session, participant=self.instance
+                    )
+                    appointment.start = start
+                    appointment.save()
+                except Appointment.DoesNotExist:
+                    appointment = Appointment.objects.create(
+                        session=session, participant=self.instance, start=start
+                    )
+                appointments.append(appointment)
+            else:
+                Appointment.objects.filter(session=session, participant=self.instance).delete()
+
+        for appointment in appointments:
+            key = 'session-%i' % appointment.session.pk
+            try:
+                appointment.clean()
+            except forms.ValidationError as e:
+                self.add_error(key, e)
+
+        if self.errors:
+            transaction.rollback()
+        else:
+            transaction.commit()
+        transaction.set_autocommit(True)
 
 
 class ContactForm(forms.ModelForm):
