@@ -30,8 +30,10 @@ from django_ical.views import ICalFeed
 from stronghold.decorators import public
 
 from castellum.castellum_auth.models import User
+from castellum.studies.models import Resource
 from castellum.studies.models import Study
 
+from .models import Appointment
 from .models import ParticipationRequest
 
 
@@ -102,3 +104,70 @@ class FollowUpFeedForUser(BaseFollowUpFeed):
 
     def file_name(self, study):
         return 'castellum-followups.ics'
+
+
+@public
+class BaseAppointmentFeed(ICalFeed):
+    def get_user(self, request):
+        try:
+            return User.objects.get(token=request.GET.get('token'))
+        except User.DoesNotExist:
+            raise PermissionDenied
+
+    def item_start_datetime(self, item):
+        return item.start
+
+    def item_end_datetime(self, item):
+        return item.end
+
+    def item_link(self, item):
+        # This is not really a usable link, but it is unique
+        url = reverse('execution:participationrequest-detail', args=[
+            item.session.study.pk, item.participant.pk
+        ])
+        return '{}?appointment={}'.format(url, item.pk)
+
+    def item_description(self, item):
+        # prevent default str(item)
+        return ''
+
+    def file_name(self, obj):
+        return 'castellum-%s-appointments.ics' % obj
+
+
+class StudyAppointmentFeed(BaseAppointmentFeed):
+    def get_object(self, request, *args, **kwargs):
+        user = self.get_user(request)
+        study = get_object_or_404(Study, pk=kwargs['pk'], status=Study.EXECUTION)
+        perms = ('recruitment.view_participationrequest', 'studies.access_study')
+        if not user.has_perms(perms, obj=study):
+            raise PermissionDenied
+        return study
+
+    def items(self, study):
+        return Appointment.objects.filter(session__study=study)
+
+    def item_title(self, item):
+        return '{} - {}'.format(
+            item.session.name,
+            item.participant.pseudonym,
+        )
+
+
+class ResourceAppointmentFeed(BaseAppointmentFeed):
+    def get_object(self, request, *args, **kwargs):
+        user = self.get_user(request)
+        resource = get_object_or_404(Resource, pk=kwargs['pk'])
+        if not user.has_perm('studies.view_resource'):
+            raise PermissionDenied
+        return resource
+
+    def items(self, resource):
+        return Appointment.objects.filter(session__resource=resource)
+
+    def item_title(self, item):
+        return '{} - {} - {}'.format(
+            item.session.study,
+            item.session.name,
+            item.session.study.contact_person,
+        )

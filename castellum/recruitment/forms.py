@@ -23,8 +23,8 @@ import json
 import os
 
 from django import forms
-from django.db import transaction
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 from django.utils.translation import gettext_lazy as _
 
 from castellum.studies.models import Study
