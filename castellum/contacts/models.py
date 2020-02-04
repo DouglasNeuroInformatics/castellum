@@ -64,68 +64,30 @@ class Address(models.Model):
 
 
 class ContactManager(models.Manager):
-    def fuzzy_filter(self, search, **kwargs):
-        parts = search.split()
-        q = self.all_parts_match(parts) & (
-            self.full_name_is_matched(parts) |
-            self.email_is_matched(parts) |
-            self.guardian_full_name_is_matched(parts) |
-            self.guardian_email_is_matched(parts)
-        )
+    def fuzzy_filter(self, first_name='', last_name='', email='', **kwargs):
+        q = models.Q()
+        if first_name:
+            q &= (
+                self.match_name(first_name, 'first') |
+                self.match_name(first_name, 'guardians__first')
+            )
+        if last_name:
+            q &= (
+                self.match_name(last_name, 'last') |
+                self.match_name(last_name, 'guardians__last')
+            )
+        if email:
+            q &= (
+                models.Q(email__iexact=email) |
+                models.Q(guardians__email__iexact=email)
+            )
         return self.filter(q)
 
-    def match_name(self, part, prefix):
+    def match_name(self, name, prefix):
         lookup = prefix + '_name_phonetic__contains'
         q = models.Q()
-        for code in phonetic(part, encode=False):
+        for code in phonetic(name, encode=False):
             q &= models.Q(**{lookup: ':{}:'.format(code)})
-        return q
-
-    def name_is_matched(self, parts, prefix):
-        q = models.Q()
-        for part in parts:
-            if '@' not in part:
-                q |= self.match_name(part, prefix)
-        return q
-
-    def full_name_is_matched(self, parts):
-        return self.name_is_matched(parts, 'first') & self.name_is_matched(parts, 'last')
-
-    def email_is_matched(self, parts):
-        q = models.Q()
-        for part in parts:
-            if '@' in part:
-                q |= models.Q(email__iexact=part)
-        return q
-
-    def guardian_full_name_is_matched(self, parts):
-        return (
-            self.name_is_matched(parts, 'guardians__first') &
-            self.name_is_matched(parts, 'guardians__last')
-        )
-
-    def guardian_email_is_matched(self, parts):
-        q = models.Q()
-        for part in parts:
-            if '@' in part:
-                q |= models.Q(guardians__email__iexact=part)
-        return q
-
-    def all_parts_match(self, parts):
-        q = models.Q()
-        for part in parts:
-            if '@' in part:
-                q &= (
-                    models.Q(email__iexact=part) |
-                    models.Q(guardians__email__iexact=part)
-                )
-            else:
-                q &= (
-                    self.match_name(part, 'first') |
-                    self.match_name(part, 'last') |
-                    self.match_name(part, 'guardians__first') |
-                    self.match_name(part, 'guardians__last')
-                )
         return q
 
 
