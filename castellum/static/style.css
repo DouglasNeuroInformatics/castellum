@@ -89,6 +89,10 @@
     max-width: var(--breakpoint-md, 768px);
 }
 
+.container-lg {
+    max-width: var(--breakpoint-lg, 992px);
+}
+
 .text-hyphens {
     -webkit-hyphens: auto;
     -ms-hyphens: auto;

@@ -63,7 +63,7 @@
         </header>
     {% endif %}
 
-    <main class="container pt-3">
+    <main class="{% block container_class %}container{% endblock %} pt-3">
         {% block header %}{% endblock %}
 
         {% block content_with_messages %}
