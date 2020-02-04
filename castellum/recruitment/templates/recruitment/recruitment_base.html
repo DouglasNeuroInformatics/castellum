@@ -5,11 +5,13 @@
 
 {% block header %}
 
-    <div class="h1 text-center">
-        <h1 class="d-inline">{{ study.name }}</h1>
-        <a href="{% url 'recruitment:followups' study.pk %}?token={{ user.token }}" class="btn btn-sm btn-primary" title="{% trans 'Follow-ups' %}">
-            <i class="far fa-calendar-plus" role="img" aria-label="{% trans 'Follow-ups' %}"></i>
-        </a>
+    <div class="container text-center">
+        <div class="h1">
+            <h1 class="d-inline">{{ study.name }}</h1>
+            <a href="{% url 'recruitment:followups' study.pk %}?token={{ user.token }}" class="btn btn-sm btn-primary" title="{% trans 'Follow-ups' %}">
+                <i class="far fa-calendar-plus" role="img" aria-label="{% trans 'Follow-ups' %}"></i>
+            </a>
+        </div>
     </div>
 
     <nav class="d-print-none" aria-label="{% trans 'Tabs' %}">
