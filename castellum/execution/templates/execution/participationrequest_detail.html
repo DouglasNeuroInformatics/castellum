@@ -17,6 +17,14 @@
         <dd>{{ object.subject.contact|display:'phone_number_alternative' }}</dd>
     </dl>
 
+    <h2>{% trans 'Appointments' %}</h2>
+    <dl>
+        {% for booking in object.booking_set.all %}
+            <dt>{{ booking.session.title }}</dt>
+            <dd><time>{{ booking.appointment.start|date }} {{ booking.appointment.start|time }}</time></dd>
+        {% endfor %}
+    </dl>
+
     <div class="d-print-none mb-3">
         <a href="{% url 'execution:study-detail' study.pk %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
     </div>
