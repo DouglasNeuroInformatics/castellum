@@ -2184,8 +2184,8 @@ msgid "Go to execution"
 msgstr "Zur Durchführung"
 
 #: castellum/subjects/templates/subjects/subject_search.html:114
-msgid "Current data quality"
-msgstr "Gegenwärtige Datenqualität"
+msgid "Current data situation"
+msgstr "Gegenwärtige Datenlage"
 
 #: castellum/subjects/templates/subjects/subject_search.html:117
 msgid "Contact data updated in last 6 months"
