@@ -89,3 +89,11 @@ def test_every_input_must_match():
     search = 'test@example.com second@example.com'
     baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
     assert not Contact.objects.fuzzy_filter(search).exists()
+
+
+@pytest.mark.django_db
+def test_guardian_email():
+    search = 'test@example.com'
+    guardian = baker.make(Contact, email='test@example.com')
+    baker.make(Contact, guardians=[guardian])
+    assert Contact.objects.fuzzy_filter(search).count() == 2
