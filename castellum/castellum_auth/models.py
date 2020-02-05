@@ -59,14 +59,15 @@ class User(AbstractUser):
         if not self.is_active and self.__initial_is_active:
             send_mail(
                 settings.CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT,
-                settings.CASTELLUM_LOCK_USER_NOTIFICATION_TEXT.format(
-                    contact=settings.CASTELLUM_LOCK_USER_CONTACT),
+                settings.CASTELLUM_LOCK_USER_NOTIFICATION_BODY.format(
+                    contact=settings.CASTELLUM_LOCK_USER_CONTACT
+                ),
                 settings.DEFAULT_FROM_EMAIL,
                 [self.email])
         elif self.is_active and not self.__initial_is_active:
             send_mail(
                 settings.CASTELLUM_UNLOCK_USER_NOTIFICATION_SUBJECT,
-                settings.CASTELLUM_UNLOCK_USER_NOTIFICATION_TEXT,
+                settings.CASTELLUM_UNLOCK_USER_NOTIFICATION_BODY,
                 settings.DEFAULT_FROM_EMAIL,
                 [self.email])
 
