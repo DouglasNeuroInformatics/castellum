@@ -321,7 +321,7 @@ CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS = relativedelta(weeks=2)
 
 CASTELLUM_LOCK_USER_CONTACT = 'admin@example.com'
 CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT = '[Castellum] Verdächtige Aktivität / Suspicious activity'
-CASTELLUM_LOCK_USER_NOTIFICATION_TEXT = """(English version below)
+CASTELLUM_LOCK_USER_NOTIFICATION_BODY = """(English version below)
 
 Liebe/r Castellum Nutzer/in,
 
@@ -341,7 +341,7 @@ Please contact {contact}.
 CASTELLUM_UNLOCK_USER_NOTIFICATION_SUBJECT = (
     '[Castellum] Verdächtige Aktivität geklärt / Suspicious activity resolved'
 )
-CASTELLUM_UNLOCK_USER_NOTIFICATION_TEXT = """(English version below)
+CASTELLUM_UNLOCK_USER_NOTIFICATION_BODY = """(English version below)
 
 Liebe/r Castellum Nutzer/in,
 
