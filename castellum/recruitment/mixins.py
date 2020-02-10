@@ -19,20 +19,18 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import logging
 
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
+from castellum.data_protection import monitoring_logger
 
 from .forms import AttributeSetForm
 from .models import AttributeDescription
 from .models import AttributeSet
 from .models.attributesets import ANSWER_DECLINED
 from .models.attributesets import UNCATEGORIZED
-
-monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
 class BaseAttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):

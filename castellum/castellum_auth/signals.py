@@ -19,11 +19,10 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import logging
+
+from castellum.data_protection import monitoring_logger
 
 from .middlewares import set_last_active
-
-monitoring_logger = logging.getLogger('monitoring.auth')
 
 
 def set_last_active_on_login(sender, user, request, **kwargs):
