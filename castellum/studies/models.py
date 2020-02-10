@@ -28,6 +28,8 @@ from django.forms import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
+from huscy.projects.models import Project
+from huscy.projects.models import ResearchUnit
 from parler.models import TranslatableModel
 from parler.models import TranslatedFields
 
@@ -68,6 +70,8 @@ class Study(models.Model):
         (EXECUTION, _('Execution')),
         (FINISHED, _('Finished')),
     ]
+
+    project = models.OneToOneField(Project, on_delete=models.CASCADE)
 
     name = models.CharField(_('Name'), max_length=254)
     contact_person = models.CharField(_('Responsible contact person'), max_length=254)
@@ -193,11 +197,25 @@ class Study(models.Model):
             self.domain = create_domain(settings.CASTELLUM_STUDY_DOMAIN_BITS)
         if not self.min_subject_count:
             self.min_subject_count = 0
+        if not self.project_id:
+            dummy_user, __ = User.objects.get_or_create(username='dummy')
+            dummy_unit, __ = ResearchUnit.objects.get_or_create(
+                name='dummy', code='dummy', principal_investigator=dummy_user
+            )
+            self.project = Project.objects.create(
+                title=self.name,
+                research_unit=dummy_unit,
+                principal_investigator=dummy_user,
+                local_id=Project.objects.get_next_local_id(dummy_unit),
+            )
+
         return super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         if self.domain:
             delete_domain(self.domain)
+        if self.project_id:
+            self.project.delete()
         return super().delete(*args, **kwargs)
 
     def get_filter_max_privacy_level(self):
