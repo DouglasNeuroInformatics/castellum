@@ -19,12 +19,15 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.db import models
+from django.views.generic import ListView
 from django.views.generic import TemplateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.subjects.models import Consent
 
 from . import helpers
+from .models import MonitoringEntry
 
 
 class DataProtectionView(PermissionRequiredMixin, TemplateView):
@@ -33,6 +36,7 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
         'subjects.view_subject',
         'castellum_auth.privacy_level_2',
     ]
+    tab = 'dashboard'
     limit_by = 10
 
     def get_context_data(self, **kwargs):
@@ -44,3 +48,13 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
         context['no_consent'], context['no_consent_missing'] = helpers.get_no_consent(self.limit_by)
         context['studies'], context['studies_missing'] = helpers.get_studies(self.limit_by)
         return context
+
+
+class MonitoringView(PermissionRequiredMixin, ListView):
+    model = MonitoringEntry
+    tab = 'monitoring'
+    template_name = 'data_protection/monitoring.html'
+    permission_required = [
+        'view_monitoring',
+        'castellum_auth.privacy_level_2',
+    ]

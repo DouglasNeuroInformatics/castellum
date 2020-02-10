@@ -1,0 +1,17 @@
+{% extends "data_protection/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans 'Monitoring' %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <ul class="table-list">
+        {% for logentry in object_list %}
+            <li class="table-list-item">
+                <time class="form-text text-muted" datetime="{{ logentry.datetime|date:'Y-m-d' }}" title="{{ logentry.datetime|date }} {{ logentry.datetime|time }}">
+                    {{ logentry.datetime|date }}
+                </time>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

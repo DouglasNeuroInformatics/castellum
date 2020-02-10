@@ -1,11 +1,9 @@
-{% extends "base.html" %}
+{% extends "data_protection/base.html" %}
 {% load i18n %}
 
 {% block title %}{% trans 'Data protection dashboard' %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1 class="text-center">{% trans 'Data protection dashboard' %}</h1>
-
     <h2>{% trans 'To be deleted' %}</h2>
     {% include 'data_protection/__subject_list.html' with subjects=to_be_deleted missing=to_be_deleted_missing %}
 

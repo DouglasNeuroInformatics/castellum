@@ -167,6 +167,11 @@
                 "study"
             ],
             [
+                "view_monitoringentry",
+                "data_protection",
+                "monitoringentry"
+            ],
+            [
                 "privacy_level_1",
                 "castellum_auth",
                 "user"
