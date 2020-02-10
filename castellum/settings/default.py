@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     'parler',
     'stronghold',
 
+    'huscy.projects',
+
     'castellum.utils',
     'castellum.castellum_auth',
     'castellum.subjects',
