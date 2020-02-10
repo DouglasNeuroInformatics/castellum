@@ -6,10 +6,6 @@ ENV RUNTIMEPKGS uwsgi uwsgi-python python3 openldap postgresql-libs libressl lib
 
 RUN adduser -D -g '' uwsgi
 
-RUN mkdir -p /log
-RUN chown uwsgi /log
-VOLUME /log
-
 RUN mkdir -p /media
 RUN chown uwsgi /media
 VOLUME /media

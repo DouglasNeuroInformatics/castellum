@@ -24,7 +24,6 @@ node_modules/
 # file types
 ########################
 
-*.log
 *.mo
 *.pyc
 *.sqlite3
