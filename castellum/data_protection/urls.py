@@ -22,8 +22,10 @@
 from django.urls import path
 
 from .views import DataProtectionView
+from .views import MonitoringView
 
 app_name = 'data_protection'
 urlpatterns = [
     path('', DataProtectionView.as_view(), name='index'),
+    path('monitoring/', MonitoringView.as_view(), name='monitoring'),
 ]

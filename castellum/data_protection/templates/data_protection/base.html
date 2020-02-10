@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% load i18n auth utils %}
+
+{% block breadcrumbs %}
+    <a class="nav-link" href="{% url 'data_protection:index' %}">{% trans "Data protection" %}</a>
+{% endblock %}
+
+{% block title %}{% trans 'Data Protection' %} &middot; {{ block.super }}{% endblock %}
+
+{% block header %}
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start mb-3">
+        <h1>{% trans 'Data Protection' %}</h1>
+        <div>{% block header_actions %}{% endblock %}</div>
+    </div>
+
+    <nav class="d-print-none" aria-label="{% trans 'Tabs' %}">
+
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <a class="nav-link {% if view.tab == 'dashboard' %}active{% endif %}" href="{% url 'data_protection:index' %}">{% trans 'Deletion' %}</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {% if view.tab == 'monitoring' %}active{% endif %}" href="{% url 'data_protection:monitoring' %}">{% trans 'Monitoring' %}</a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}
