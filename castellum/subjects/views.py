@@ -20,7 +20,6 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
-import logging
 import zipfile
 
 from django.conf import settings
@@ -48,6 +47,7 @@ from castellum.contacts.forms import ContactForm
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
+from castellum.data_protection import monitoring_logger
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.models import AttributeSet
@@ -61,8 +61,6 @@ from .mixins import SubjectMixin
 from .models import Consent
 from .models import ConsentConfirmation
 from .models import Subject
-
-monitoring_logger = logging.getLogger('monitoring.subjects')
 
 
 class SubjectSearchView(PermissionRequiredMixin, GetFormView):
