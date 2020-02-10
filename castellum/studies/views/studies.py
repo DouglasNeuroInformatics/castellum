@@ -19,7 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import logging
 
 from django import forms
 from django.contrib import messages
@@ -39,6 +38,7 @@ from django.views.generic import ListView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.data_protection import monitoring_logger
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
@@ -54,8 +54,6 @@ from ..models import StudyMembership
 from ..models import StudySession
 from ..models import StudyType
 from .recruitment import get_related_studies
-
-monitoring_logger = logging.getLogger('monitoring.studies')
 
 
 class StudyIndexView(PermissionRequiredMixin, ListView):
