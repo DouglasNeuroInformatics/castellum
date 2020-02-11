@@ -4,35 +4,33 @@
 {% block title %}{% trans "Subject Study Participation" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    {% if object_list %}
-        <ul class="table-list mb-3">
-            {% for participationrequest in object_list %}
-                <li class="table-list-item">
-                    <div class="h4 d-inline-block my-1 mr-2">{{ participationrequest.study }}</div>
-                    <div class="table-list-item-actions">
-                        {% has_perm 'recruitment.view_participation_pseudonyms' user participationrequest.study as can_view_participation_pseudonyms %}
-                        {% if can_view_participation_pseudonyms %}
-                            {% if participationrequest.status == participationrequest.INVITED %}
-                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participationrequest-detail' participationrequest.study.pk participationrequest.pk %}">{% trans 'Go to execution' %}</a>
+    <ul class="table-list mb-3">
+        {% for participationrequest in object_list %}
+            <li class="table-list-item">
+                <div class="h4 d-inline-block my-1 mr-2">{{ participationrequest.study }}</div>
+                <div class="table-list-item-actions">
+                    {% has_perm 'recruitment.view_participation_pseudonyms' user participationrequest.study as can_view_participation_pseudonyms %}
+                    {% if can_view_participation_pseudonyms %}
+                        {% if participationrequest.status == participationrequest.INVITED %}
+                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participationrequest-detail' participationrequest.study.pk participationrequest.pk %}">{% trans 'Go to execution' %}</a>
+                        {% endif %}
+                    {% endif %}
+                    {% has_perm 'recruitment.change_participationrequest' user participationrequest.study as can_change_participationrequest %}
+                    {% if can_change_participationrequest %}
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participationrequest.study.pk participationrequest.pk %}?context=subjects:studyparticipation">
+                            {% if participationrequest.status_open %}
+                                {% trans 'Contact' context 'verb' %}
+                            {% else %}
+                                {% trans 'Review' %}
                             {% endif %}
-                        {% endif %}
-                        {% has_perm 'recruitment.change_participationrequest' user participationrequest.study as can_change_participationrequest %}
-                        {% if can_change_participationrequest %}
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participationrequest.study.pk participationrequest.pk %}?context=subjects:studyparticipation">
-                                {% if participationrequest.status_open %}
-                                    {% trans 'Contact' context 'verb' %}
-                                {% else %}
-                                    {% trans 'Review' %}
-                                {% endif %}
-                            </a>
-                        {% endif %}
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p class="alert alert-warning" role="alert">{% trans 'No participations found' %}</p>
-    {% endif %}
+                        </a>
+                    {% endif %}
+                </div>
+            </li>
+        {% empty %}
+            <li class="alert alert-warning" role="alert">{% trans 'No participations found' %}</li>
+        {% endfor %}
+    </ul>
 
     <div class="mb-3">
         <a href="{% url 'subjects:add-to-study' subject.pk %}" class="btn btn-primary">{% trans 'Add study participation' %}</a>

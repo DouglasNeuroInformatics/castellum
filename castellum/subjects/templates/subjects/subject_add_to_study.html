@@ -9,11 +9,6 @@
             <h2 class="alert-heading">{% trans 'No attributes provided' %}</h2>
             <p>{% trans 'Please first provide attributes so we can check whether this person meets the study filters.' %}</p>
         </div>
-    {% elif not studies %}
-        <div class="alert alert-warning" role="alert">
-            <h2 class="alert-heading">{% trans 'No matching studies found' %}</h2>
-            <p>{% trans 'This person does not meet the filters of the currently active studies.' %}</p>
-        </div>
     {% else %}
         <ul class="table-list mb-3">
             {% for study in studies %}
@@ -24,6 +19,11 @@
                         <input type="hidden" name="study" value="{{ study.pk }}">
                         <button class="btn btn-outline-primary btn-sm-inline my-1 ">{% trans 'Add' %}</button>
                     </form>
+                </li>
+            {% empty %}
+                <li class="alert alert-warning" role="alert">
+                    <h2 class="alert-heading">{% trans 'No matching studies found' %}</h2>
+                    <p>{% trans 'This person does not meet the filters of the currently active studies.' %}</p>
                 </li>
             {% endfor %}
         </ul>

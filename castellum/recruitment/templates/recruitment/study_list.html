@@ -11,27 +11,25 @@
         </a>
     </div>
 
-    {% if studies %}
-        <ul class="table-list mb-3">
-            {% for study in studies %}
-                <li class="table-list-item">
-                    <div class="my-1 mr-2">
-                        <div class="h4 d-inline">
-                            {{ study.name }}
-                        </div>
-                        {% if study.followup_urgent %}
-                            <i class="far fa-bell list-icon bg-success text-light" role="img" title="{% trans 'follow-up urgent' %}"></i>
-                        {% endif %}
+    <ul class="table-list mb-3">
+        {% for study in studies %}
+            <li class="table-list-item">
+                <div class="my-1 mr-2">
+                    <div class="h4 d-inline">
+                        {{ study.name }}
                     </div>
-                    <div class="table-list-item-actions">
-                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment-open' study.pk %}">{% trans 'Recruit subjects' %}</a>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p class="alert alert-warning" role="alert">{% trans 'There are currently no studies you can recruit for.' %}</p>
-    {% endif %}
+                    {% if study.followup_urgent %}
+                        <i class="far fa-bell list-icon bg-success text-light" role="img" title="{% trans 'follow-up urgent' %}"></i>
+                    {% endif %}
+                </div>
+                <div class="table-list-item-actions">
+                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment-open' study.pk %}">{% trans 'Recruit subjects' %}</a>
+                </div>
+            </li>
+        {% empty %}
+            <li class="alert alert-warning" role="alert">{% trans 'There are currently no studies you can recruit for.' %}</li>
+        {% endfor %}
+    </ul>
 
     <div class="mb-3">
         <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
