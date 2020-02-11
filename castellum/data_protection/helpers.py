@@ -78,6 +78,9 @@ def get_unreachable(limit_by):
 
 
 def get_no_consent(limit_by):
+    if not Consent.objects.exists():
+        return [], 0
+
     acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
     subjects = Subject.objects.exclude(
         (
