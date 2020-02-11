@@ -33,4 +33,8 @@
             <li class="alert alert-success">{% trans 'Nothing to do' %}</li>
         {% endfor %}
     </ul>
+
+    <div class="mb-3">
+        <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+    </div>
 {% endblock %}
