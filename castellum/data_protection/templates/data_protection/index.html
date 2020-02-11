@@ -22,15 +22,19 @@
 
     <h2>{% trans 'Expired studies' %}</h2>
     <ul class="table-list">
-    {% for study in studies %}
-        <li class="table-list-item">
-            {{ study.name }}
-            <div class="table-list-item-actions">
-                <a class="btn btn-outline-primary" href="{% url 'studies:detail' study.pk %}">{% trans 'Details' %}</a>
-            </div>
-        </li>
-    {% empty %}
-        <li class="alert alert-success">{% trans 'Nothing to do' %}</li>
-    {% endfor %}
+        {% for study in studies %}
+            <li class="table-list-item">
+                {{ study.name }}
+                <div class="table-list-item-actions">
+                    <a class="btn btn-outline-primary" href="{% url 'studies:detail' study.pk %}">{% trans 'Details' %}</a>
+                </div>
+            </li>
+        {% empty %}
+            <li class="alert alert-success">{% trans 'Nothing to do' %}</li>
+        {% endfor %}
     </ul>
+
+    <div class="mb-3">
+        <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+    </div>
 {% endblock %}
