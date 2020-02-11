@@ -86,7 +86,16 @@
 }
 
 .container {
-    max-width: var(--breakpoint-md, 768px);
+    max-width: none;
+}
+
+.content {
+    column-gap: 5em;
+    column-width: var(--breakpoint-sm, 576px);
+}
+
+.form-group {
+    page-break-inside: avoid;
 }
 
 .text-hyphens {
