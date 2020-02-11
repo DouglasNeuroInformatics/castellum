@@ -112,7 +112,7 @@ class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         if settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_TO and self.object.to_be_deleted:
             old = Subject.objects.get(pk=self.object.pk)
             if not old.to_be_deleted:
-                rel = reverse('data_protection:index')
+                rel = reverse('subjects:detail', args=[self.object.pk])
                 url = self.request.build_absolute_uri(rel)
 
                 send_mail(

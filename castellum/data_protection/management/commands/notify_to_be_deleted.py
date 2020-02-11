@@ -59,7 +59,7 @@ class Command(BaseCommand):
                     subject.save()
                     count += 1
 
-                    url = options['base_url'] + reverse('data_protection:index')
+                    url = options['base_url'] + reverse('subjects:detail', args=[subject.pk])
                     send_mail(
                         settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
                         settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY.format(url=url),
