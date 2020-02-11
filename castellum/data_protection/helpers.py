@@ -93,6 +93,16 @@ def get_no_consent(limit_by):
     return subjects[:limit_by], max(subjects.count() - limit_by, 0)
 
 
+def get_all_subjects(limit_by):
+    subjects = set()
+    missing = 0
+    for fn in [get_to_be_deleted, get_orphans, get_unreachable, get_no_consent]:
+        s, m = fn(limit_by)
+        subjects.update(s)
+        missing += m
+    return subjects, missing
+
+
 def get_studies(limit_by):
     last_acceptable_datetime = timezone.now() - settings.CASTELLUM_STUDY_DELETION_PERIOD
     studies = Study.objects.filter(sessions_end__lte=last_acceptable_datetime)
