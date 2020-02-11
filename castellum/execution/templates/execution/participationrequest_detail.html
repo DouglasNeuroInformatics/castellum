@@ -17,7 +17,7 @@
         <dd>{{ object.subject.contact|display:'phone_number_alternative' }}</dd>
     </dl>
 
-    <div class="mb-3">
+    <div class="d-print-none mb-3">
         <a href="{% url 'execution:study-detail' study.pk %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
     </div>
 {% endblock %}

@@ -16,7 +16,7 @@
             <input type="checkbox" class="form-check-input" data-js="confirm-delete">
             <span class="form-check-label">{% trans "I have made sure that all external data related to this study has been destroyed" %}</span>
         </label>
-        <div class="mb-3">
+        <div class="d-print-none mb-3">
             <a href="{% url 'studies:detail' study.pk %}" class="btn btn-outline-primary" data-js="cancel">{% trans 'Cancel' %}</a>
             <button class="btn btn-danger" disabled >{% trans 'Confirm' %}</button>
         </div>
