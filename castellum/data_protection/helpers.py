@@ -1,0 +1,96 @@
+# (c) 2018
+#     MPIB <https://www.mpib-berlin.mpg.de/>,
+#     MPI-CBS <https://www.cbs.mpg.de/>,
+#     MPIP <http://www.psych.mpg.de/>
+#
+# This file is part of Castellum.
+#
+# Castellum is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Affero General Public License as published
+# by the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# Castellum is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License along with Castellum. If not, see
+# <http://www.gnu.org/licenses/>.
+
+from django.conf import settings
+from django.db import models
+from django.utils import timezone
+
+from castellum.contacts.models import Contact
+from castellum.recruitment.models import ParticipationRequest
+from castellum.studies.models import Study
+from castellum.subjects.models import Consent
+from castellum.subjects.models import ConsentConfirmation
+from castellum.subjects.models import Subject
+
+
+def get_to_be_deleted(limit_by):
+    subjects = Subject.objects.filter(to_be_deleted__isnull=False).annotate(
+        deletion_due=models.ExpressionWrapper(
+            models.F('to_be_deleted') + settings.CASTELLUM_SUBJECT_DELETION_PERIOD,
+            output_field=models.DateTimeField(),
+        )
+    )
+
+    return subjects[:limit_by], max(subjects.count() - limit_by, 0)
+
+
+def get_orphans(limit_by):
+    candidates = Subject.objects\
+        .annotate(pr_count=models.Count('participationrequest', filter=~models.Q(
+            participationrequest__status=ParticipationRequest.UNSUITABLE
+        )))\
+        .filter(no_recruitment=True, pr_count=0)
+
+    subjects = []
+    for subject in candidates:
+        if len(subjects) >= limit_by:
+            break
+        if not subject.contact.guardian_of.exists():
+            subjects.append(subject)
+
+    # no way to efficiently determine missing
+    return subjects, 0
+
+
+def get_unreachable(limit_by):
+    contacts = Contact.objects\
+        .annotate(guardian_count=models.Count('guardians'))\
+        .filter(
+            guardian_count=0,
+            address=None,
+            email='',
+            phone_number='',
+        )\
+        .order_by()
+    subjects = []
+    for contact in contacts[:limit_by]:
+        subjects.append(contact.subject)
+
+    return subjects, max(contacts.count() - limit_by, 0)
+
+
+def get_no_consent(limit_by):
+    acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
+    subjects = Subject.objects.exclude(
+        (
+            models.Q(consentconfirmation__status=ConsentConfirmation.CONFIRMED) |
+            models.Q(consentconfirmation__updated_at__lte=acceptable_datetime)
+        ),
+        consentconfirmation__revision=Consent.objects.latest(),
+    )
+
+    return subjects[:limit_by], max(subjects.count() - limit_by, 0)
+
+
+def get_studies(limit_by):
+    last_acceptable_datetime = timezone.now() - settings.CASTELLUM_STUDY_DELETION_PERIOD
+    studies = Study.objects.filter(sessions_end__lte=last_acceptable_datetime)
+    return studies[:limit_by], max(studies.count() - limit_by, 0)
