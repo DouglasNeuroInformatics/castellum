@@ -58,7 +58,7 @@
         </div>
     </div>
 
-    <div class="mb-3">
+    <div class="d-print-none mb-3">
         <a href="{% url 'recruitment:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         {% if view.subtab == 'open' %}
             {% has_perm 'recruitment.add_participationrequest' user study as can_add_participationrequest %}

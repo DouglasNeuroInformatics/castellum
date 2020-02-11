@@ -27,7 +27,7 @@
         <p>{% trans 'The User belongs to the following groups only in the context of this study' %}</p>
         {% bootstrap_field form.groups show_label=False %}
 
-        <div class="mb-3">
+        <div class="d-print-none mb-3">
             <a href="{% url 'studies:members' object.study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
             <button class="btn btn-primary" >{% trans 'Save' %}</button>
         </div>

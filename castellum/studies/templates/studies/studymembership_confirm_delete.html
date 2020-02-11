@@ -7,7 +7,7 @@
     <form method="post">
         {% csrf_token %}
         <p>{% blocktrans with username=object.user.username %}Are you sure you want to remove "{{ username }}" from this study?{% endblocktrans %}</p>
-        <div class="mb-3">
+        <div class="d-print-none mb-3">
             <a href="{% url 'studies:members' object.study.pk %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% trans 'Cancel' %}</a>
             <button class="btn btn-danger mb-1" >{% trans 'Confirm' %}</button>
         </div>

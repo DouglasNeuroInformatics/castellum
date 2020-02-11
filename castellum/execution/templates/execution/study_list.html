@@ -5,22 +5,20 @@
 {% block content %}
     <h2>{% trans 'Execution' %}</h2>
 
-    {% if object_list %}
-        <ul class="table-list mb-3">
-            {% for study in object_list %}
-                <li class="table-list-item">
-                    <div class="my-1 mr-2">
-                        <h3 class="h4 d-inline">{{ study.name }}</h3>
-                    </div>
-                    <div class="table-list-item-actions">
-                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:study-detail' study.pk %}">{% trans 'Details' %}</a>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p class="alert alert-warning" role="alert">{% trans 'There are currently no studies you can conduct.' %}</p>
-    {% endif %}
+    <ul class="table-list mb-3">
+        {% for study in object_list %}
+            <li class="table-list-item">
+                <div class="my-1 mr-2">
+                    <h3 class="h4 d-inline">{{ study.name }}</h3>
+                </div>
+                <div class="table-list-item-actions">
+                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:study-detail' study.pk %}">{% trans 'Details' %}</a>
+                </div>
+            </li>
+        {% empty %}
+            <li class="alert alert-warning" role="alert">{% trans 'There are currently no studies you can conduct.' %}</li>
+        {% endfor %}
+    </ul>
 
     {% if is_paginated %}
         <nav aria-label="{% trans 'Page navigation' %}">
@@ -28,7 +26,7 @@
         </nav>
     {% endif %}
 
-    <div class="mb-3">
+    <div class="d-print-none mb-3">
         <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
         <a href="{% url 'execution:search' %}" class="btn btn-secondary">{% trans 'Find subjects' %}</a>
     </div>
