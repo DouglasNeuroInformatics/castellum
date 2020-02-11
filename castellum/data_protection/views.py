@@ -41,7 +41,6 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
         context['orphans'], context['orphans_missing'] = helpers.get_orphans(self.limit_by)
         context['unreachable'], context['unreachable_missing'] = helpers.get_unreachable(self.limit_by)  # noqa
         context['db_consent_uploaded'] = Consent.objects.exists()
-        if context['db_consent_uploaded']:
-            context['no_consent'], context['no_consent_missing'] = helpers.get_no_consent(self.limit_by)  # noqa
+        context['no_consent'], context['no_consent_missing'] = helpers.get_no_consent(self.limit_by)
         context['studies'], context['studies_missing'] = helpers.get_studies(self.limit_by)
         return context
