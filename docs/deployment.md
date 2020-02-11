@@ -57,7 +57,8 @@ user requests. We provide the following management commands for that:
 
 -   `clear_sessions`: Delete all sessions to force-logout expired users.
 -   `cleanup_media`: Delete unused uploaded files.
--   `mark_to_be_deleted`: Automatically mark subjects as to-be-deleted.
+-   `notify_to_be_deleted`: Automatically notify about subjects that
+    should be deleted.
 
 ## Initial setup
 

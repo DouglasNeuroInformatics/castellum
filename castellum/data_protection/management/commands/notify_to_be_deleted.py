@@ -19,19 +19,27 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
+from django.core.mail import send_mail
 from django.core.management.base import BaseCommand
+from django.core.management.base import CommandError
+from django.urls import reverse
 from django.utils import timezone
 
 from castellum.data_protection import helpers
 
 
 class Command(BaseCommand):
-    help = 'Automatically mark subjects as to-be-deleted (e.g. for missing consent).'
+    help = 'Automatically notify about subjects that should be deleted.'
 
     def add_arguments(self, parser):
+        parser.add_argument('base_url')
         parser.add_argument('--limit-by', default=100, type=int)
 
     def handle(self, *args, **options):
+        if not settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_TO:
+            raise CommandError('CASTELLUM_DELETE_SUBJECT_NOTIFICATION_TO is not set')
+
         count = 0
         missing = 0
         now = timezone.now()
@@ -45,7 +53,18 @@ class Command(BaseCommand):
             missing += m
             for subject in subjects:
                 if not subject.to_be_deleted:
+                    # mark so we do not notify twice
+                    subject.to_be_deleted = True
                     subject.to_be_deleted = now
                     subject.save()
                     count += 1
-        print('marked %i subjects as to-be-deleted (%i missing)' % (count, missing))
+
+                    url = options['base_url'] + reverse('data_protection:index')
+                    send_mail(
+                        settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
+                        settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY.format(url=url),
+                        settings.DEFAULT_FROM_EMAIL,
+                        [settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_TO],
+                    )
+
+        print('notified about %i subjects (%i missing)' % (count, missing))
