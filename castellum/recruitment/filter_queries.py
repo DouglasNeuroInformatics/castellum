@@ -82,8 +82,12 @@ def study_disinterest(study):
     return ~models.Q(study_type_disinterest__in=study.study_type.all())
 
 
-def subjectfilters(subjectfiltergroup, include_unknown=True):
+def subjectfilters(subjectfiltergroup, include_unknown=None):
     """Exclude subjects according to subjectfilters from a single subjectfiltergroup."""
+
+    if include_unknown is None:
+        include_unknown = not subjectfiltergroup.study.complete_matches_only
+
     q = models.Q()
     for f in subjectfiltergroup.subjectfilter_set.all():
         q &= f.to_q(include_unknown=include_unknown)
@@ -108,9 +112,6 @@ def already_in_study(study):
 
 def study_filters(study, include_unknown=None):
     """A wrapper around subjectfilters()."""
-
-    if include_unknown is None:
-        include_unknown = not study.complete_matches_only
 
     if study.custom_filter:
         q = custom_filters[study.custom_filter](include_unknown=include_unknown)
