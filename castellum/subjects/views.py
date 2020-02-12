@@ -124,7 +124,7 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
                 contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
                 contact.subject.save()
 
-                monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
+                monitoring_logger.info('SubjectData update: {}:{} by user {}'.format(
                     Contact.domain,
                     contact.pseudonym,
                     self.request.user.pk))
@@ -179,7 +179,7 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
         self.object = self.get_object()
         if self.object.participationrequest_set.exists():
             return self.get(request, *args, **kwargs)
-        monitoring_logger.info('Subject deleted by {}'.format(
+        monitoring_logger.info('Subject deletion: by user {}'.format(
             self.request.user.pk))
         messages.success(self.request, _('Subject has been deleted.'))
         return super().delete(request, *args, **kwargs)
@@ -194,7 +194,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        monitoring_logger.info('GDPR-Request export: {} by {}'.format(
+        monitoring_logger.info('GDPR-Request export: {} by user {}'.format(
             self.object.pk, self.request.user.pk))
 
         context['dataset_list'] = [self.object, self.object.contact]
@@ -312,7 +312,7 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        monitoring_logger.info('ParticipationRequest in Study {} deleted by {}'.format(
+        monitoring_logger.info('ParticipationRequest deletion: Study {} by user {}'.format(
             self.object.study.name, self.request.user.pk))
         return super().delete(self, request, *args, **kwargs)
 
@@ -393,7 +393,7 @@ class GuardianSearchView(SubjectSearchView):
             contact.subject.no_recruitment = True
             contact.subject.save()
 
-            monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
+            monitoring_logger.info('SubjectData update: {}:{} by user {}'.format(
                 Contact.domain,
                 contact.pseudonym,
                 self.request.user.pk))
