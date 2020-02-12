@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
+from django.contrib.auth.forms import AuthenticationForm as BaseAuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 
 from .models import User
@@ -37,3 +39,14 @@ class UserCreationAdminForm(UserCreationForm):
         if not self.cleaned_data["password1"]:
             self.cleaned_data["password1"] = None
         return super().save(commit=commit)
+
+
+class AuthenticationForm(BaseAuthenticationForm):
+    """Block sample users on production setups."""
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data['password']
+        if not settings.DEBUG and password == '123':
+            raise self.get_invalid_login_error()
+        return cleaned_data
