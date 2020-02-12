@@ -30,6 +30,7 @@ from django.views.generic import TemplateView
 from django.views.i18n import JavaScriptCatalog
 from django.views.static import serve
 
+from castellum.castellum_auth.forms import AuthenticationForm
 from castellum.castellum_auth.views import set_language
 
 
@@ -39,7 +40,10 @@ def dummy(request):
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
-    path('login/', LoginView.as_view(template_name="login.html"), name='login'),
+    path('login/', LoginView.as_view(
+        template_name="login.html",
+        authentication_form=AuthenticationForm,
+    ), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('ping/', dummy, name='ping'),
 
