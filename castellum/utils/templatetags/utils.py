@@ -23,6 +23,7 @@ import datetime
 
 from django import template
 from django.db import models
+from django.shortcuts import reverse
 from django.utils.translation import gettext_lazy as _
 
 register = template.Library()
@@ -98,3 +99,9 @@ def percent(value, total=1):
     if not value:
         return 0
     return int(value / total * 100)
+
+
+@register.simple_tag(takes_context=True)
+def absolute_url(context, view_name, *args, **kwargs):
+    request = context['request']
+    return request.build_absolute_uri(reverse(view_name, args=args, kwargs=kwargs))
