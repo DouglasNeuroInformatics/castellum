@@ -4,7 +4,7 @@
 {% block title %}{{ object }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>{{ object }}</h1>
+    <h1 class="text-center">{{ object }}</h1>
 
     <ul class="table-list mt-3">
         {% for participation_request, can_access in list %}

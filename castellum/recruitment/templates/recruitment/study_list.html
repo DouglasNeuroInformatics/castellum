@@ -4,7 +4,7 @@
 {% block title %}{% trans "Recruitment" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <div class="h2">
+    <div class="h2 text-center">
         <h2 class="d-inline">{% trans 'Recruitment' %}</h2>
         <a href="{% url 'recruitment:all-studies-followups' user.pk %}?token={{ user.token }}" class="btn btn-sm btn-primary" title="{% trans 'My follow-ups' %}">
             <i class="far fa-calendar-plus" role="img" aria-label="{% trans 'My follow-ups' %}"></i>

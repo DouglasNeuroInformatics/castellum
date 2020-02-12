@@ -4,7 +4,7 @@
 {% block title %}{% trans "Recruitment" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <header class="mb-3">
+    <header class="text-center mb-3">
         <h1>{{ study.name }}</h1>
         <div class="h5">
             {% trans "Recruiting:" %}
@@ -29,7 +29,7 @@
         </div>
     {% endif %}
 
-    <ul class="nav nav-tabs" role="tablist">
+    <ul class="nav nav-tabs justify-content-center" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="true">{% trans "Contacting details" %}</a>
         </li>

@@ -63,26 +63,28 @@
         </header>
     {% endif %}
 
-    <main class="container pt-3">
+    <main class="pt-3">
         {% block header %}{% endblock %}
 
-        {% block content_with_messages %}
-            {% if subject.to_be_deleted %}
-                <div class="alert alert-warning" role="alert">
-                    {% trans 'This subject is marked for deletion' %}
-                </div>
-            {% endif %}
-
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="{{ message|bootstrap_message_classes }}" role="alert">
-                        {{ message|capfirst|linebreaksbr }}
+        <div class="{% block container_class %}container{% endblock %}">
+            {% block content_with_messages %}
+                {% if subject.to_be_deleted %}
+                    <div class="alert alert-warning" role="alert">
+                        {% trans 'This subject is marked for deletion' %}
                     </div>
-                {% endfor %}
-            {% endif %}
+                {% endif %}
 
-            {% block content %}{% endblock %}
-        {% endblock %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="{{ message|bootstrap_message_classes }}" role="alert">
+                            {{ message|capfirst|linebreaksbr }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% block content %}{% endblock %}
+            {% endblock %}
+        </div>
     </main>
 
     <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>

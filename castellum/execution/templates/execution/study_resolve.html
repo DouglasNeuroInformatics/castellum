@@ -4,7 +4,7 @@
 {% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>{{ study }}</h1>
+    <h1 class="text-center">{{ study }}</h1>
 
     <form method="get">
         {% for error in form.non_field_errors %}

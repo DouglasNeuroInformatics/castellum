@@ -4,7 +4,7 @@
 {% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>{{ study }} &mdash; {{ object.subject.contact.full_name }}</h1>
+    <h1 class="text-center">{{ study }} &mdash; {{ object.subject.contact.full_name }}</h1>
 
     <dl>
         <dt>{% trans 'Pseudonym' %}</dt>
