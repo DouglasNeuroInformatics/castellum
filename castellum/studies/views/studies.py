@@ -204,7 +204,7 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
         return reverse('studies:index')
 
     def delete(self, request, *args, **kwargs):
-        monitoring_logger.info('Study {} deleted by {}'.format(
+        monitoring_logger.info('Study deletion: Study {} by user {}'.format(
             self.study.name, self.request.user.pk))
         messages.success(self.request, _('Study has been deleted.'))
         return super().delete(self, request, *args, **kwargs)
