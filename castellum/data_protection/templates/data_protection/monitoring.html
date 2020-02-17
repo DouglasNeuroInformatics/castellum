@@ -1,12 +1,24 @@
 {% extends "data_protection/base.html" %}
-{% load i18n %}
+{% load i18n utils %}
 
 {% block title %}{% trans 'Monitoring' %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    <form class="dropdown" method="get">
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="sortDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ reason_label }}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="sortDropdownButton">
+            {% for key, label in reason_options %}
+                <button class="dropdown-item" name="reason" value="{{ key }}">{{ label }}</button>
+            {% endfor %}
+        </div>
+    </form>
+
     <ul class="table-list">
         {% for logentry in object_list %}
             <li class="table-list-item">
+                <div class="h4 d-inline-block my-1 mr-2">{{ logentry|display:'reason' }}: {{ logentry.message }}</div>
                 <time class="form-text text-muted" datetime="{{ logentry.datetime|date:'Y-m-d' }}" title="{{ logentry.datetime|date }} {{ logentry.datetime|time }}">
                     {{ logentry.datetime|date }}
                 </time>
