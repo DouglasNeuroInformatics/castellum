@@ -1,6 +1,6 @@
 import pytest
 
-from castellum.castellum_auth.management.commands.create_sample_users import Command
+from castellum.castellum_auth.management.commands.create_demo_users import Command
 from castellum.castellum_auth.models import User
 
 

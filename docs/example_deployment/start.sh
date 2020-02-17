@@ -18,9 +18,9 @@ docker-compose run --rm web django-admin sync_domains
 docker-compose run --rm web django-admin loaddata sample_groups timeslots study_types
 docker-compose run --rm web django-admin create_sample_attribute_descriptions
 
-# Load optional sample data for development
-docker-compose run --rm web django-admin create_sample_users
-docker-compose run --rm web django-admin populate
+# Load optional demo data (WARNING: do not use in production!)
+docker-compose run --rm web django-admin create_demo_users
+docker-compose run --rm web django-admin create_demo_content
 
 echo ''
 echo 'castellum is running in the background.'

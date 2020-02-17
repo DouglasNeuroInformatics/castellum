@@ -53,4 +53,4 @@ CASTELLUM_DOMAINS = {
     }
 }
 
-CASTELLUM_COVERLETTER_TEMPLATE = os.path.join(BASE_DIR, 'subjects', 'fixtures', 'sample_coverletter.docx')
+CASTELLUM_COVERLETTER_TEMPLATE = os.path.join(BASE_DIR, 'subjects', 'fixtures', 'demo_coverletter.docx')
