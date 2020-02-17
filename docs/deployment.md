@@ -9,7 +9,7 @@ for most questions concerning deployment.
 An example deployment configuration using docker, uWSGI, PostgreSQL, and
 LDAP is located in `docs/example_deployment/`. You can try this
 configuration yourself by executing the `start.sh` script in that
-folder.
+folder. Pass `--demo` to automatically create demo content.
 
 ## Authentication
 

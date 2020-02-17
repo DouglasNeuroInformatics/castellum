@@ -19,8 +19,10 @@ docker-compose run --rm web django-admin loaddata groups timeslots study_types
 docker-compose run --rm web django-admin create_recommended_attribute_descriptions
 
 # Load optional demo data (WARNING: do not use in production!)
-docker-compose run --rm web django-admin create_demo_users
-docker-compose run --rm web django-admin create_demo_content
+if [ "$1" = '--demo' ]; then
+    docker-compose run --rm web django-admin create_demo_users
+    docker-compose run --rm web django-admin create_demo_content
+fi
 
 echo ''
 echo 'castellum is running in the background.'
