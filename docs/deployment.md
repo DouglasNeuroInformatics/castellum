@@ -69,7 +69,7 @@ before you can start using it:
 
 2.  Sync pseudonym domains from settings to the database:
 
-        python managae.py sync_domains
+        python manage.py sync_domains
 
     **Note**: You need to re-run this if you change the
     `CASTELLUM_DOMAINS` setting. Otherwise domain reuse might occur
