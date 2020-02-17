@@ -4,9 +4,13 @@ services:
   db_default:
     image: postgres
     restart: always
+  environment:
+    POSTGRES_PASSWORD: "CHANGEME"
   db_contacts:
     image: postgres
     restart: always
+  environment:
+    POSTGRES_PASSWORD: "CHANGEME"
   ldap:
     image: osixia/openldap
     restart: always
