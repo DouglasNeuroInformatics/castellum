@@ -20,6 +20,18 @@
 # <http://www.gnu.org/licenses/>.
 
 
+LOGIN = 0
+FAILED_LOGIN = 1
+LOGOUT = 2
+STUDY_DELETION = 3
+ATTRIBUTESET_UPDATE = 4
+SUBJECT_DATA_UPDATE = 5
+SUBJECT_SEARCH = 6
+SUBJECT_DELETION = 7
+GDPR_EXPORT = 8
+PARTICIPATIONREQUEST_DELETION = 9
+
+
 def info(message, reason):
     from .models import MonitoringEntry
     MonitoringEntry.objects.create(message=message, reason=reason)

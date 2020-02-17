@@ -102,8 +102,10 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
 
     def form_valid(self, form):
         monitoring_logger.info((
-            'Subject search: search term: "{search}" by {user}'
-        ).format(user=self.request.user.pk, **form.cleaned_data))
+            'search term: "{search}" by {user}'
+        ).format(user=self.request.user.pk, **form.cleaned_data),
+            monitoring_logger.SUBJECT_SEARCH,
+        )
 
         return super().form_valid(form)
 
@@ -124,10 +126,14 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
                 contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
                 contact.subject.save()
 
-                monitoring_logger.info('SubjectData update: {}:{} by user {}'.format(
-                    Contact.domain,
-                    contact.pseudonym,
-                    self.request.user.pk))
+                monitoring_logger.info(
+                    '{}:{} by user {}'.format(
+                        Contact.domain,
+                        contact.pseudonym,
+                        self.request.user.pk
+                    ),
+                    monitoring_logger.SUBJECT_DATA_UPDATE,
+                )
                 return redirect('subjects:detail', pk=contact.subject.pk)
             else:
                 messages.error(request, _(
@@ -179,8 +185,10 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
         self.object = self.get_object()
         if self.object.participationrequest_set.exists():
             return self.get(request, *args, **kwargs)
-        monitoring_logger.info('Subject deletion: by user {}'.format(
-            self.request.user.pk))
+        monitoring_logger.info('by user {}'.format(
+            self.request.user.pk),
+            monitoring_logger.SUBJECT_DELETION,
+        )
         messages.success(self.request, _('Subject has been deleted.'))
         return super().delete(request, *args, **kwargs)
 
@@ -194,8 +202,10 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        monitoring_logger.info('GDPR-Request export: {} by user {}'.format(
-            self.object.pk, self.request.user.pk))
+        monitoring_logger.info('{} by user {}'.format(
+            self.object.pk, self.request.user.pk),
+            monitoring_logger.GDPR_EXPORT,
+        )
 
         context['dataset_list'] = [self.object, self.object.contact]
 
@@ -312,8 +322,10 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        monitoring_logger.info('ParticipationRequest deletion: Study {} by user {}'.format(
-            self.object.study.name, self.request.user.pk))
+        monitoring_logger.info('Study {} by user {}'.format(
+            self.object.study.name, self.request.user.pk),
+            monitoring_logger.PARTICIPATIONREQUEST_DELETION,
+        )
         return super().delete(self, request, *args, **kwargs)
 
 
@@ -393,10 +405,14 @@ class GuardianSearchView(SubjectSearchView):
             contact.subject.no_recruitment = True
             contact.subject.save()
 
-            monitoring_logger.info('SubjectData update: {}:{} by user {}'.format(
-                Contact.domain,
-                contact.pseudonym,
-                self.request.user.pk))
+            monitoring_logger.info(
+                '{}:{} by user {}'.format(
+                    Contact.domain,
+                    contact.pseudonym,
+                    self.request.user.pk
+                    ),
+                monitoring_logger.SUBJECT_SEARCH,
+            )
             return TemplateResponse(self.request, 'subjects/guardian_success.html', {
                 'name': contact.full_name,
                 'pk': contact.subject.pk,

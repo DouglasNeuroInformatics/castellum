@@ -24,6 +24,7 @@ from django.views.generic import ListView
 from django.views.generic import TemplateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.data_protection import monitoring_logger
 from castellum.subjects.models import Consent
 
 from . import helpers
@@ -58,3 +59,19 @@ class MonitoringView(PermissionRequiredMixin, ListView):
         'view_monitoring',
         'castellum_auth.privacy_level_2',
     ]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['reason_options'] = MonitoringEntry.REASONS
+        reason_options = dict(context['reason_options'])
+        context['reason_label'] = reason_options.get(
+            int(self.request.GET.get('reason', monitoring_logger.LOGIN)),
+            reason_options[monitoring_logger.LOGIN],
+        )
+        return context
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        reason = self.request.GET.get('reason', monitoring_logger.LOGIN)
+        qs = qs.filter(models.Q(reason=reason))
+        return qs

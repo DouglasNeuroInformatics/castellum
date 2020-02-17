@@ -42,9 +42,13 @@ class BaseAttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateVi
 
     def form_valid(self, form):
         result = super().form_valid(form)
-        monitoring_logger.info('AttributeSet update: {} by {}'.format(
-            self.object.subject.pk,
-            self.request.user.pk))
+        monitoring_logger.info(
+            '{} by {}'.format(
+                self.object.subject.pk,
+                self.request.user.pk
+            ),
+            monitoring_logger.ATTRIBUTESET_UPDATE,
+        )
         return result
 
     def get_context_data(self, **kwargs):

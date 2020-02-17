@@ -26,9 +26,22 @@ from castellum.data_protection import monitoring_logger
 
 
 class MonitoringEntry(models.Model):
+    REASONS = [
+        (monitoring_logger.LOGIN, _('Login')),
+        (monitoring_logger.FAILED_LOGIN, _('Failed login')),
+        (monitoring_logger.LOGOUT, _('Logout')),
+        (monitoring_logger.STUDY_DELETION, _('Study deletion')),
+        (monitoring_logger.ATTRIBUTESET_UPDATE, _('Attributeset update')),
+        (monitoring_logger.SUBJECT_DATA_UPDATE, _('Subject data update')),
+        (monitoring_logger.SUBJECT_SEARCH, _('Subject search')),
+        (monitoring_logger.SUBJECT_DELETION, _('Subject deletion')),
+        (monitoring_logger.GDPR_EXPORT, _('GDPR export')),
+        (monitoring_logger.PARTICIPATIONREQUEST_DELETION, _('Participationrequest deletion')),
+    ]
 
     datetime = models.DateTimeField(_('Datetime'), auto_now_add=True)
     message = models.CharField(_('Message'), max_length=128)
-  
+    reason = models.SmallIntegerField(_('Reason'), choices=REASONS)
+
     class Meta:
         ordering = ['-datetime']
