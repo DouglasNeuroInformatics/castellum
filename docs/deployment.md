@@ -63,11 +63,17 @@ user requests. We provide the following management commands for that:
 After installing castellum on your server there are some more steps
 before you can start using it:
 
-1.  Run migrations on all databases:
+1.  Adapt the settings.
+
+2.  Check for some common issues:
+
+        python manage.py check --deply
+
+3.  Run migrations on all databases:
 
         python manage.py migrateall
 
-2.  Sync pseudonym domains from settings to the database:
+4.  Sync pseudonym domains from settings to the database:
 
         python manage.py sync_domains
 
@@ -75,7 +81,7 @@ before you can start using it:
     `CASTELLUM_DOMAINS` setting. Otherwise domain reuse might occur
     which could leak pseudonyms.
 
-3.  Load recommended data. This is not strictly necessary, but it
+5.  Load recommended data. This is not strictly necessary, but it
     usually makes sense to start from these defaults:
 
         python manage.py loaddata groups timeslots study_types
@@ -84,7 +90,7 @@ before you can start using it:
     **Warning**: If you run this command a second time, the database
     will be reset and all edits will be lost.
 
-4.  Create and activate an initial user. This user can then be used to
+6.  Create and activate an initial user. This user can then be used to
     activate (i.e. set expiration dates for) all further users:
 
         python manage.py createsuperuser --username admin
