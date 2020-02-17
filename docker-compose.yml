@@ -5,7 +5,11 @@ services:
     image: postgres
     ports:
       - "6670:5432"
+    environment:
+      POSTGRES_PASSWORD: "postgres"
   db_contacts:
     image: postgres
     ports:
       - "6671:5432"
+    environment:
+      POSTGRES_PASSWORD: "postgres"
