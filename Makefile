@@ -18,8 +18,8 @@ migrate: databases
 
 .PHONY: populate
 populate: databases
-	$(MANAGEPY) loaddata sample_groups timeslots study_types
-	$(MANAGEPY) create_sample_attribute_descriptions
+	$(MANAGEPY) loaddata groups timeslots study_types
+	$(MANAGEPY) create_attribute_descriptions
 	$(MANAGEPY) create_demo_users
 	$(MANAGEPY) create_demo_content
 

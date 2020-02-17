@@ -14,9 +14,9 @@ sleep 5
 docker-compose run --rm web django-admin migrateall
 docker-compose run --rm web django-admin sync_domains
 
-# Load recommended sample data
-docker-compose run --rm web django-admin loaddata sample_groups timeslots study_types
-docker-compose run --rm web django-admin create_sample_attribute_descriptions
+# Load recommended data
+docker-compose run --rm web django-admin loaddata groups timeslots study_types
+docker-compose run --rm web django-admin create_recommended_attribute_descriptions
 
 # Load optional demo data (WARNING: do not use in production!)
 docker-compose run --rm web django-admin create_demo_users

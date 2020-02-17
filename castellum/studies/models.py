@@ -210,7 +210,7 @@ class Study(models.Model):
     def is_sensitive(self):
         return self.data_sensitivity or self.study_type.filter(data_sensitivity=True).exists()
 
-    # NOTE: this might not be the same as the sample group of the same name!
+    # NOTE: this might not be the same as the group of the same name!
     @cached_property
     def recruiters(self):
         recruiters = []

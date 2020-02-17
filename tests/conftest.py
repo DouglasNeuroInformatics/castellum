@@ -16,7 +16,7 @@ from castellum.castellum_auth.models import User
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.models import Domain
-from castellum.recruitment.management.commands import create_sample_attribute_descriptions
+from castellum.recruitment.management.commands import create_attribute_descriptions
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
@@ -69,13 +69,13 @@ def contact_domain(django_db_setup, django_db_blocker):
 @pytest.fixture(scope='session', autouse=True)
 def attribute_descriptions(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
-        create_sample_attribute_descriptions.generate_attribute_descriptions()
+        create_attribute_descriptions.generate_attribute_descriptions()
 
 
 @pytest.fixture(scope='session', autouse=True)
-def sample_groups(django_db_setup, django_db_blocker):
+def groups(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
-        load_django_fixture('castellum_auth', 'sample_groups')
+        load_django_fixture('castellum_auth', 'groups')
 
 
 @pytest.fixture(scope='session', autouse=True)
