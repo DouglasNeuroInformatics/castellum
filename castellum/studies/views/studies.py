@@ -42,6 +42,7 @@ from django.views.generic import UpdateView
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import AttributeSet
+from castellum.recruitment.models import ParticipationRequest
 from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
 
@@ -234,6 +235,9 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
             self.study.restore_previous_status()
         else:
             self.study.set_status(self.study.FINISHED)
+            self.study.participationrequest_set\
+                .exclude(status=ParticipationRequest.INVITED)\
+                .delete()
         return redirect('studies:detail', self.study.pk)
 
 
