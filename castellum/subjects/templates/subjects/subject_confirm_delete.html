@@ -12,16 +12,19 @@
             <p>{% trans "Please delete all of these study participations:" %}</p>
             <ul class="table-list mb-3">
                 {% for participationrequest in object.participationrequest_set.all %}
+                    {% has_perm 'studies.view_study' user participationrequest.study as can_view_study %}
                     <li class="table-list-item">
                         <div class="my-1 mr-2">
                             <div class="h4 d-inline">{{ participationrequest.study }}</div>
+                            {% if can_view_study %}
+                                <span>{{ participationrequest.study.contact_person }}</span>
+                            {% endif %}
                             {% if participationrequest.status == participationrequest.INVITED %}
                                 <span>{{ participationrequest.pseudonym }}</span>
                             {% endif %}
                             <span class="badge badge-secondary">{{ participationrequest|display:'status' }}</span>
                         </div>
                         <div class="table-list-item-actions">
-                            {% has_perm 'studies.view_study' user participationrequest.study as can_view_study %}
                             {% if can_view_study %}
                                 <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:detail' participationrequest.study.pk %}">{% trans 'Study details' %}</a>
                             {% endif %}
