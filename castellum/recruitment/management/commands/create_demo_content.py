@@ -23,6 +23,7 @@ import functools
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from django.core.management.base import CommandError
 
 import phonenumbers
 from faker import Faker
@@ -249,6 +250,9 @@ class Command(BaseCommand):
         parser.add_argument('--subject-count', default=2000, type=int)
 
     def handle(self, *args, **options):
+        if settings.PRODUCTION:
+            raise CommandError('Not creating demo content in production environment.')
+
         if not Study.objects.exists():
             generate_studies(options['study_count'])
         if not Subject.objects.exists():
