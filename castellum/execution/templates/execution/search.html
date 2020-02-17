@@ -55,9 +55,12 @@
                             {% for pr in participation_requests %}
                                 <li class="table-list-item">
                                     <span class="h5 d-inline-block my-1 mr-2">{{ pr.study }}</span>
-                                    <div class="table-list-item-actions">
-                                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participationrequest-detail' pr.study.pk pr.pk %}">{% trans 'Details' %}</a>
-                                    </div>
+                                    <span class="d-inline-block my-1 mr-2">{{ pr.study.contact_person }}</span>
+                                    {% if study.can_access %}
+                                        <div class="table-list-item-actions">
+                                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participationrequest-detail' pr.study.pk pr.pk %}">{% trans 'Details' %}</a>
+                                        </div>
+                                    {% endif %}
                                 </li>
                             {% endfor %}
                         </ul>
