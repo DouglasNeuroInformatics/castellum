@@ -34,4 +34,15 @@ $(function() {
             $(element).prop('selected', false);
         });
     });
+
+    $(document).on('click', '[data-clipboard]', function(event) {
+        var $target = $($(event.target).data('clipboard'));
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText($target.val());
+        } else {
+            $target.focus();
+            $target[0].setSelectionRange(0, 1000);
+            document.execCommand('copy');
+        }
+    });
 });
