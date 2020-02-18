@@ -54,3 +54,4 @@ CASTELLUM_DOMAINS = {
 }
 
 CASTELLUM_COVERLETTER_TEMPLATE = os.path.join(BASE_DIR, 'subjects', 'fixtures', 'demo_coverletter.docx')
+CASTELLUM_DELETE_NOTIFICATION_TO = 'data-protection@example.com'

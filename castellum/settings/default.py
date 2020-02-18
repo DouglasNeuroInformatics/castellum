@@ -360,6 +360,13 @@ Dear castellum user,
 your castellum account has been unlocked.
 """
 
+CASTELLUM_DELETE_NOTIFICATION_TO = None
+CASTELLUM_DELETE_NOTIFICATION_SUBJECT = '[Castellum] Subject deletion request'
+CASTELLUM_DELETE_NOTIFICATION_BODY = """The following content should be deleted:
+
+{url}
+"""
+
 CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 
 # A function that generates a random pseudonym.
