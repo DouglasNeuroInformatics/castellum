@@ -21,7 +21,7 @@ $(function() {
         }
     });
 
-    $(document).on('change', 'form', function() {
+    $(document).on('change', 'form[method="post"]', function() {
         // beforeunload prevents caching, so only register it when necessary
         registerBeforeUnload();
         if (!unsavedForms.includes(this)) {
