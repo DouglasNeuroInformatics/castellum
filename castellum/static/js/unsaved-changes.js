@@ -12,6 +12,15 @@ $(function() {
         });
     };
 
+    $(document).on('click', 'a', function(event){
+        if (unsavedForms.length) {
+            event.preventDefault();
+            var $modal = $('#unsaved-changes-modal');
+            $modal.find('[data-js="cancel"]').prop('href', this.href);
+            $modal.modal('show');
+        }
+    });
+
     $(document).on('change', 'form', function() {
         // beforeunload prevents caching, so only register it when necessary
         registerBeforeUnload();
