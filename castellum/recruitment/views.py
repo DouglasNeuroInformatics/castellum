@@ -326,9 +326,13 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
 
     def get_mail_settings(self):
         from_email = settings.CASTELLUM_RECRUITMENT_EMAIL or settings.DEFAULT_FROM_EMAIL
-        username = settings.CASTELLUM_RECRUITMENT_EMAIL_USER or settings.EMAIL_HOST_USER
-        password = settings.CASTELLUM_RECRUITMENT_EMAIL_PASSWORD or settings.EMAIL_HOST_PASSWORD
-        connection = get_connection(username=username, password=password)
+        connection = get_connection(
+            host=settings.CASTELLUM_RECRUITMENT_EMAIL_HOST,
+            port=settings.CASTELLUM_RECRUITMENT_EMAIL_PORT,
+            username=settings.CASTELLUM_RECRUITMENT_EMAIL_USER,
+            password=settings.CASTELLUM_RECRUITMENT_EMAIL_PASSWORD,
+            use_tls=settings.CASTELLUM_RECRUITMENT_EMAIL_USE_TLS,
+        )
         return from_email, connection
 
     def create_participation_requests(self, batch_size):
