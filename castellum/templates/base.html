@@ -91,14 +91,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title h4" id="unsaved-changes-modal-title">{% trans 'Save changes?' %}</h1>
+                    <h1 class="modal-title h4" id="unsaved-changes-modal-title">{% trans 'Unsaved Changes' %}</h1>
                 </div>
                 <div class="modal-body">
-                    <p>{% trans "Your changes will be lost if you don't save them" %}</p>
+                    <p>{% trans "Your changes will be lost if you leave before saving." %}</p>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-outline-primary" data-js="cancel">{% trans "Don't Save" %}</a>
-                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">{% trans "Cancel" %}</button>
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">{% trans "Stay" %}</button>
+                    <a class="btn btn-outline-primary" data-js="cancel">{% trans "Leave" %}</a>
                 </div>
             </div>
         </div>
