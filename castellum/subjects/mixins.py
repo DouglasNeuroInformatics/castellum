@@ -20,7 +20,10 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import forms
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
+from django.core.mail import send_mail
+from django.urls import reverse
 from django.utils.functional import cached_property
 from django.views.generic import UpdateView
 
@@ -106,6 +109,17 @@ class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         )
 
     def form_valid(self, form, notes_formset):
+        if settings.CASTELLUM_DELETE_NOTIFICATION_TO:
+            if self.object.to_be_deleted and not self.object.to_be_deleted_notified:
+                rel = reverse('subjects:detail', args=[self.object.pk])
+                url = self.request.build_absolute_uri(rel)
+
+                self.object.to_be_deleted_notified = send_mail(
+                    settings.CASTELLUM_DELETE_NOTIFICATION_SUBJECT,
+                    settings.CASTELLUM_DELETE_NOTIFICATION_BODY.format(url=url),
+                    settings.DEFAULT_FROM_EMAIL,
+                    [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
+                )
 
         response = super().form_valid(form)
 
