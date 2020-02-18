@@ -22,6 +22,7 @@
 import datetime
 
 from django import template
+from django.conf import settings
 from django.db import models
 from django.shortcuts import reverse
 from django.utils.translation import gettext_lazy as _
@@ -105,3 +106,8 @@ def percent(value, total=1):
 def absolute_url(context, view_name, *args, **kwargs):
     request = context['request']
     return request.build_absolute_uri(reverse(view_name, args=args, kwargs=kwargs))
+
+
+@register.simple_tag
+def get_production():
+    return settings.PRODUCTION

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-{% load i18n static bootstrap4 %}
+{% load i18n static bootstrap4 utils %}
 {% get_current_language as LANGUAGE_CODE %}
 {% get_available_languages as LANGUAGES %}
+{% get_production as PRODUCTION %}
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="utf-8" />
@@ -17,6 +18,11 @@
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
 </head>
 <body {% if user.is_authenticated %}data-logout-timeout="{{ user.logout_timeout.total_seconds }}"{% endif %}>
+    {% if not PRODUCTION %}
+        <div class="bg-warning p-2 text-center" title="{% trans 'Set settings.PRODUCTION to remove this message.' %}">
+            {% trans 'Running in Demo mode.' %}
+        </div>
+    {% endif %}
     {% if not view.nochrome %}
         <header class="bg-dark">
             <div class="container">
