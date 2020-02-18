@@ -9,7 +9,7 @@ for most questions concerning deployment.
 An example deployment configuration using docker, uWSGI, PostgreSQL, and
 LDAP is located in `docs/example_deployment/`. You can try this
 configuration yourself by executing the `start.sh` script in that
-folder.
+folder. Pass `--demo` to automatically create demo content.
 
 ## Authentication
 
@@ -75,11 +75,11 @@ before you can start using it:
     `CASTELLUM_DOMAINS` setting. Otherwise domain reuse might occur
     which could leak pseudonyms.
 
-3.  Load sample data. This is not strictly necessary, but it usually
-    makes sense to start from these defaults:
+3.  Load recommended data. This is not strictly necessary, but it
+    usually makes sense to start from these defaults:
 
-        python manage.py loaddata sample_groups timeslots study_types
-        python manage.py create_sample_attribute_descriptions
+        python manage.py loaddata groups timeslots study_types
+        python manage.py create_attribute_descriptions
 
     **Warning**: If you run this command a second time, the database
     will be reset and all edits will be lost.

@@ -242,7 +242,7 @@ def generate_subjects(count):
 
 
 class Command(BaseCommand):
-    help = 'Populate database with sample data.'
+    help = 'Populate database with demo data.'
 
     def add_arguments(self, parser):
         parser.add_argument('--study-count', default=5, type=int)

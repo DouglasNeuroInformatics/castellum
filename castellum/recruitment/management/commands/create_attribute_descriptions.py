@@ -116,7 +116,7 @@ def generate_attribute_descriptions():
 
 
 class Command(BaseCommand):
-    help = 'Create sample AttributeDescription.'
+    help = 'Create recommended AttributeDescriptions.'
 
     def handle(self, *args, **options):
         if not AttributeDescription.objects.exists():
