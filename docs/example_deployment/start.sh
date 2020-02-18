@@ -16,7 +16,7 @@ docker-compose run --rm web django-admin sync_domains
 
 # Load recommended data
 docker-compose run --rm web django-admin loaddata groups timeslots study_types
-docker-compose run --rm web django-admin create_recommended_attribute_descriptions
+docker-compose run --rm web django-admin create_attribute_descriptions
 
 # Load optional demo data (WARNING: do not use in production!)
 if [ "$1" = '--demo' ]; then
