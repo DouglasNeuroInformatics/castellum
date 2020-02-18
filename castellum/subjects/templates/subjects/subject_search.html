@@ -93,7 +93,7 @@
                         {% endfor %}
                         {% csrf_token %}
                         <p>
-                            <strong>{{ form.first_name.value }} {{ form.last_name.value }}</strong>
+                            <strong>{{ form.cleaned_data.first_name }} {{ form.cleaned_data.last_name }}</strong>
                         </p>
                         {% bootstrap_field privacy_level_form.privacy_level %}
                         <button class="btn btn-primary">{% trans "Create new subject" %}</button>
