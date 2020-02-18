@@ -4,7 +4,7 @@ from django_auth_ldap.config import LDAPSearch
 from castellum.settings.default import *  # isort:skip
 
 # FIXME: These values need to be changed
-SECRET_KEY = 'i#$kwk(s24ysn+l%+c!*z9u4+45)oex!-s#!bux#wf2pv2cc0d'
+SECRET_KEY = 'CHANGEME'
 
 DATABASES = {
     'default': {
@@ -45,7 +45,7 @@ AUTH_LDAP_USER_ATTR_MAP = {
 
 CASTELLUM_DOMAINS = {
     'contact': {
-        'key': 'dac7466e-db47-4c1c-a69d-f8b98850f777',
+        'key': 'CHANGEME',
         'bits': 40,
     }
 }
