@@ -297,8 +297,11 @@ CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 
 # settings for sending recruitment mails (defaults to general settings)
 CASTELLUM_RECRUITMENT_EMAIL = None
+CASTELLUM_RECRUITMENT_EMAIL_HOST = None
+CASTELLUM_RECRUITMENT_EMAIL_PORT = None
 CASTELLUM_RECRUITMENT_EMAIL_USER = None
 CASTELLUM_RECRUITMENT_EMAIL_PASSWORD = None
+CASTELLUM_RECRUITMENT_EMAIL_USE_TLS = None
 
 # used to show the warning message when
 # number of users exceeds the number of subjects

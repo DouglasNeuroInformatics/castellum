@@ -327,8 +327,11 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     def get_mail_settings(self):
         from_email = settings.CASTELLUM_RECRUITMENT_EMAIL or settings.DEFAULT_FROM_EMAIL
         connection = get_connection(
+            host=settings.CASTELLUM_RECRUITMENT_EMAIL_HOST,
+            port=settings.CASTELLUM_RECRUITMENT_EMAIL_PORT,
             username=settings.CASTELLUM_RECRUITMENT_EMAIL_USER,
             password=settings.CASTELLUM_RECRUITMENT_EMAIL_PASSWORD,
+            use_tls=settings.CASTELLUM_RECRUITMENT_EMAIL_USE_TLS,
         )
         return from_email, connection
 
