@@ -33,7 +33,7 @@ class SubjectForm(forms.ModelForm):
 
     class Meta:
         model = Subject
-        exclude = ('to_be_deleted',)
+        exclude = ('to_be_deleted', 'to_be_deleted_notified')
         widgets = {
             'privacy_level': forms.RadioSelect,
         }
