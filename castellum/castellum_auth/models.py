@@ -35,6 +35,8 @@ def generate_token():
 
 
 class User(AbstractUser):
+    DEMO_PASSWORD = '123'
+
     language = models.CharField(
         _('Language'), max_length=5, choices=settings.LANGUAGES, blank=True)
     expiration_date = DateTimeField(_('Expiration date'), blank=True, null=True)
