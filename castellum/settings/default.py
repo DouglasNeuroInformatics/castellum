@@ -198,6 +198,11 @@ NPM_FILE_PATTERNS = {
         'webfonts/fa-solid-900.ttf',
         'webfonts/fa-solid-900.svg',
     ],
+    '@fullcalendar': [
+        '*/main.min.js',
+        '*/main.css',
+        'core/locales/de.js',
+    ],
 }
 
 BOOTSTRAP4 = {
