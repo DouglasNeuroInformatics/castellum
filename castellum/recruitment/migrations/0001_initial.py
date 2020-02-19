@@ -7,7 +7,6 @@ import django.core.serializers.json
 import django.core.validators
 from django.db import migrations, models
 import parler.models
-import picklefield.fields
 
 
 class Migration(migrations.Migration):
@@ -157,7 +156,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('operator', models.CharField(max_length=64)),
-                ('value', picklefield.fields.PickledObjectField(editable=False)),
+                ('value', models.TextField(editable=False)),
             ],
         ),
         migrations.CreateModel(
