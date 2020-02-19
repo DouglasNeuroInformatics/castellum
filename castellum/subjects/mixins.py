@@ -121,6 +121,14 @@ class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
                     [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
                 )
 
+            # If a user explicitly removes the ``to_be_deleted`` they
+            # expect that this task is done. If there are still reasons
+            # for deletion there should be a new notificaition.
+            if not self.object.to_be_deleted and self.object.to_be_deleted_notified:
+                old = Subject.objects.get(pk=self.object.pk)
+                if old.to_be_deleted:
+                    self.object.to_be_deleted_notified = False
+
         response = super().form_valid(form)
 
         for subform in notes_formset:
