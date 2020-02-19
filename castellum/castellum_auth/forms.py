@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
+from django.contrib.auth.forms import AuthenticationForm as BaseAuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 
 from .models import User
@@ -37,3 +39,23 @@ class UserCreationAdminForm(UserCreationForm):
         if not self.cleaned_data["password1"]:
             self.cleaned_data["password1"] = None
         return super().save(commit=commit)
+
+
+class AuthenticationForm(BaseAuthenticationForm):
+    """Block demo users in production setups.
+
+    We want demo users in dev and demo setups. But in production they
+    are a major security issue.
+
+    Creating demo users is already blocked in production. As an
+    additional safeguard, we block login with the demo password in case
+    ``settings.PRODUCTION`` was set after the user had already been
+    created.
+    """
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data['password']
+        if settings.PRODUCTION and password == User.DEMO_PASSWORD:
+            raise self.get_invalid_login_error()
+        return cleaned_data

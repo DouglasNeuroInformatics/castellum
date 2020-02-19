@@ -21,9 +21,11 @@
 
 import datetime
 
+from django.conf import settings
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from django.core.management.base import BaseCommand
+from django.core.management.base import CommandError
 from django.utils import timezone
 
 from castellum.castellum_auth.models import User
@@ -60,17 +62,21 @@ class Command(BaseCommand):
     help = 'Create a set of predefined users as examples'
 
     def handle(self, *args, **options):
+        if settings.PRODUCTION:
+            raise CommandError('Creating demo users in production environment is insecure.')
+
         expiration_date = timezone.now() + datetime.timedelta(days=1000)
 
         if not User.objects.filter(username='admin').exists():
             User.objects.create_superuser(
-                'admin', 'admin@example.com', '123', expiration_date=expiration_date)
+                'admin', 'admin@example.com', User.DEMO_PASSWORD, expiration_date=expiration_date
+            )
 
         for name, groups in USERS.items():
             defaults = {'email': name + '@example.com', 'expiration_date': expiration_date}
             user, created = User.objects.get_or_create(username=name, defaults=defaults)
             if created:
-                user.set_password('123')
+                user.set_password(User.DEMO_PASSWORD)
                 user.user_permissions.add(Permission.objects.get(codename='privacy_level_1'))
                 user.groups.set(Group.objects.filter(name__in=groups))
                 user.save()
