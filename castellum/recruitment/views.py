@@ -516,7 +516,7 @@ class SearchView(LoginRequiredMixin, GetFormView):
     form_class = SearchForm
 
     def get_matches(self, form):
-        contacts = Contact.objects.fuzzy_filter(**form.cleaned_data)
+        contacts = Contact.objects.fuzzy_filter(form.cleaned_data['search'])
         subjects = [c.subject for c in contacts]
         participation_requests = ParticipationRequest.objects.filter(
             subject__in=subjects, study__status=Study.EXECUTION
@@ -539,5 +539,4 @@ class SearchView(LoginRequiredMixin, GetFormView):
         form = kwargs.get('form')
         if form and form.is_valid():
             context['object_list'] = self.get_matches(form)
-            context['search_terms'] = form.cleaned_data['search'].lower().split()
         return context

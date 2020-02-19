@@ -97,10 +97,7 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
         context['is_post'] = self.request.method == 'POST'
         form = kwargs.get('form')
         if form and form.is_valid():
-            search = form.cleaned_data['search']
-            context['matches'] = Contact.objects.fuzzy_filter(**form.cleaned_data)
-            context['search_terms'] = search.lower().split()
-            context['names'] = [part for part in search.split() if '@' not in part]
+            context['matches'] = Contact.objects.fuzzy_filter(form.cleaned_data['search'])
             if 'privacy_level_form' not in context:
                 context['privacy_level_form'] = SubjectPrivacyLevelForm(user=self.request.user)
         return context
@@ -120,15 +117,11 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
         privacy_level_form = SubjectPrivacyLevelForm(user=self.request.user, data=request.POST)
 
         if form.is_valid() and privacy_level_form.is_valid():
-            search = form.cleaned_data['search']
-            names = [part for part in search.split() if '@' not in part]
-            emails = [part for part in search.split() if '@' in part]
-
-            if len(names) > 1:
+            if form.cleaned_data.get('last_name'):
                 contact = Contact.objects.create(
-                    first_name=names[0],
-                    last_name=' '.join(names[1:]),
-                    email=emails[0] if emails else '',
+                    first_name=form.cleaned_data['first_name'],
+                    last_name=form.cleaned_data['last_name'],
+                    email=form.cleaned_data.get('email'),
                 )
                 contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
                 contact.subject.save()
@@ -383,18 +376,8 @@ class GuardianSearchView(SubjectSearchView):
         context = super().get_context_data(**kwargs)
         form = kwargs.get('form')
         if form and form.is_valid() and 'contact_form' not in context:
-            search = form.cleaned_data['search']
-            names = [part for part in search.split() if '@' not in part]
-            emails = [part for part in search.split() if '@' in part]
-
-            initial = {}
-            if names:
-                initial['first_name'] = names[0]
-                initial['last_name'] = ' '.join(names[1:])
-            if emails:
-                initial['email'] = emails[0]
             context['contact_form'] = ContactForm(
-                user=self.request.user, initial=initial
+                user=self.request.user, initial=form.cleaned_data
             )
         return context
 
