@@ -1,6 +1,16 @@
 version: "3.0"
 
 services:
+  db_wait:
+    image: postgres
+    depends_on:
+      - db_default
+      - db_contacts
+    command: ["sh", "-c", "until pg_isready -h db_default && pg_isready -h db_contacts; do sleep 1; done"]
+    environment:
+      PGPORT: "5432"
+      PGUSER: "postgres"
+      PGPASSWORD: "CHANGEME"
   db_default:
     image: postgres
     ports:
