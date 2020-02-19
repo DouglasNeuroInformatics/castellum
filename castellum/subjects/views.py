@@ -126,10 +126,8 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
                 contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
                 contact.subject.save()
 
-                monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
-                    Contact.domain,
-                    contact.pseudonym,
-                    self.request.user.pk,
+                monitoring_logger.info('SubjectData update: {} by {}'.format(
+                    contact.subject_id, self.request.user.pk
                 ))
                 return redirect('subjects:detail', pk=contact.subject.pk)
             else:
@@ -412,10 +410,8 @@ class GuardianSearchView(SubjectSearchView):
             contact.subject.no_recruitment = True
             contact.subject.save()
 
-            monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
-                Contact.domain,
-                contact.pseudonym,
-                self.request.user.pk,
+            monitoring_logger.info('SubjectData update: {} by {}'.format(
+                contact.subject_id, self.request.user.pk
             ))
             return TemplateResponse(self.request, 'subjects/guardian_success.html', {
                 'name': contact.full_name,
