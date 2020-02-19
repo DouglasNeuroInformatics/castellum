@@ -1,0 +1,19 @@
+{% extends "execution/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ object }} &middot; {{ block.super }}{% endblock %}
+
+{% block container_class %}container-lg{% endblock%}
+
+{% block content %}
+    <div class="h1 text-center">
+        <h1 class="d-inline">{{ object }}</h1>
+        <a href="{% url 'recruitment:study-appointments' study.pk %}?token={{ user.token }}" class="btn btn-sm btn-primary" title="{% trans 'Appointments' %}">
+            <i class="far fa-calendar-plus" role="img" aria-label="{% trans 'Appointments' %}"></i>
+        </a>
+    </div>
+
+    <div class="d-print-none mb-3">
+        <a href="{% url 'execution:study-detail' study.pk %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
+    </div>
+{% endblock %}
