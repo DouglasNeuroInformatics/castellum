@@ -58,13 +58,6 @@ def get_pseudonym(subject, target_domain_key):
     return target.pseudonym
 
 
-def create_pseudonym(domain_key):
-    domain = Domain.objects.get(key=domain_key)
-    subject = Subject.objects.create()
-    pseudonym = attempt(lambda: Pseudonym.objects.create(subject=subject, domain=domain))
-    return pseudonym.pseudonym
-
-
 def delete_pseudonym(domain_key, pseudonym):
     p = Pseudonym.objects.get(domain__key=domain_key, pseudonym=pseudonym)
     p.subject = None
