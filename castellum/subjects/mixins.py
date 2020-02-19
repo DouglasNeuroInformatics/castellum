@@ -20,7 +20,10 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import forms
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
+from django.core.mail import send_mail
+from django.urls import reverse
 from django.utils.functional import cached_property
 from django.views.generic import UpdateView
 
@@ -106,6 +109,25 @@ class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         )
 
     def form_valid(self, form, notes_formset):
+        if settings.CASTELLUM_DELETE_NOTIFICATION_TO:
+            if self.object.to_be_deleted and not self.object.to_be_deleted_notified:
+                rel = reverse('subjects:detail', args=[self.object.pk])
+                url = self.request.build_absolute_uri(rel)
+
+                self.object.to_be_deleted_notified = send_mail(
+                    settings.CASTELLUM_DELETE_SUBJECT_REQUEST_NOTIFICATION_SUBJECT,
+                    settings.CASTELLUM_DELETE_SUBJECT_REQUEST_NOTIFICATION_BODY.format(url=url),
+                    settings.DEFAULT_FROM_EMAIL,
+                    [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
+                )
+
+            # If a user explicitly removes the ``to_be_deleted`` they
+            # expect that this task is done. If there are still reasons
+            # for deletion there should be a new notificaition.
+            if not self.object.to_be_deleted and self.object.to_be_deleted_notified:
+                old = Subject.objects.get(pk=self.object.pk)
+                if old.to_be_deleted:
+                    self.object.to_be_deleted_notified = False
 
         response = super().form_valid(form)
 

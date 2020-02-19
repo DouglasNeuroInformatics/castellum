@@ -19,18 +19,12 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.conf import settings
-from django.db import models
-from django.utils import timezone
 from django.views.generic import TemplateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.contacts.models import Contact
-from castellum.recruitment.models import ParticipationRequest
-from castellum.studies.models import Study
 from castellum.subjects.models import Consent
-from castellum.subjects.models import ConsentConfirmation
-from castellum.subjects.models import Subject
+
+from . import helpers
 
 
 class DataProtectionView(PermissionRequiredMixin, TemplateView):
@@ -41,73 +35,12 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
     ]
     limit_by = 10
 
-    def get_to_be_deleted(self):
-        subjects = Subject.objects.filter(to_be_deleted__isnull=False).annotate(
-            deletion_due=models.ExpressionWrapper(
-                models.F('to_be_deleted') + settings.CASTELLUM_SUBJECT_DELETION_PERIOD,
-                output_field=models.DateTimeField(),
-            )
-        )
-
-        return subjects[:self.limit_by], max(subjects.count() - self.limit_by, 0)
-
-    def get_orphans(self):
-        candidates = Subject.objects\
-            .annotate(pr_count=models.Count('participationrequest', filter=~models.Q(
-                participationrequest__status=ParticipationRequest.UNSUITABLE
-            )))\
-            .filter(no_recruitment=True, pr_count=0)
-
-        subjects = []
-        for subject in candidates:
-            if len(subjects) >= self.limit_by:
-                break
-            if not subject.contact.guardian_of.exists():
-                subjects.append(subject)
-
-        # no way to efficiently determine missing
-        return subjects, 0
-
-    def get_unreachable(self):
-        contacts = Contact.objects\
-            .annotate(guardian_count=models.Count('guardians'))\
-            .filter(
-                guardian_count=0,
-                address=None,
-                email='',
-                phone_number='',
-            )\
-            .order_by()
-        subjects = []
-        for contact in contacts[:self.limit_by]:
-            subjects.append(contact.subject)
-
-        return subjects, max(contacts.count() - self.limit_by, 0)
-
-    def get_no_consent(self):
-        acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
-        subjects = Subject.objects.exclude(
-            (
-                models.Q(consentconfirmation__status=ConsentConfirmation.CONFIRMED) |
-                models.Q(consentconfirmation__updated_at__lte=acceptable_datetime)
-            ),
-            consentconfirmation__revision=Consent.objects.latest(),
-        )
-
-        return subjects[:self.limit_by], max(subjects.count() - self.limit_by, 0)
-
-    def get_studies(self):
-        last_acceptable_datetime = timezone.now() - settings.CASTELLUM_STUDY_DELETION_PERIOD
-        studies = Study.objects.filter(sessions_end__lte=last_acceptable_datetime)
-        return studies[:self.limit_by], max(studies.count() - self.limit_by, 0)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['to_be_deleted'], context['to_be_deleted_missing'] = self.get_to_be_deleted()
-        context['orphans'], context['orphans_missing'] = self.get_orphans()
-        context['unreachable'], context['unreachable_missing'] = self.get_unreachable()
+        context['to_be_deleted'], context['to_be_deleted_missing'] = helpers.get_to_be_deleted(self.limit_by)  # noqa
+        context['orphans'], context['orphans_missing'] = helpers.get_orphans(self.limit_by)
+        context['unreachable'], context['unreachable_missing'] = helpers.get_unreachable(self.limit_by)  # noqa
         context['db_consent_uploaded'] = Consent.objects.exists()
-        if context['db_consent_uploaded']:
-            context['no_consent'], context['no_consent_missing'] = self.get_no_consent()
-        context['studies'], context['studies_missing'] = self.get_studies()
+        context['no_consent'], context['no_consent_missing'] = helpers.get_no_consent(self.limit_by)
+        context['studies'], context['studies_missing'] = helpers.get_studies(self.limit_by)
         return context
