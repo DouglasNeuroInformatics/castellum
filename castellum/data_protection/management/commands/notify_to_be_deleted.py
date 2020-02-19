@@ -40,8 +40,8 @@ def studies_notify(studies, base_url):
 
             url = base_url + reverse('studies:detail', args=[study.pk])
             send_mail(
-                settings.CASTELLUM_DELETE_NOTIFICATION_SUBJECT,
-                settings.CASTELLUM_DELETE_NOTIFICATION_BODY.format(url=url),
+                settings.CASTELLUM_DELETE_STUDY_NOTIFICATION_SUBJECT,
+                settings.CASTELLUM_DELETE_STUDY_NOTIFICATION_BODY.format(url=url),
                 settings.DEFAULT_FROM_EMAIL,
                 [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
             )
@@ -78,8 +78,8 @@ def subjects_notify(subjects, base_url):
 
             url = base_url + reverse('subjects:detail', args=[subject.pk])
             send_mail(
-                settings.CASTELLUM_DELETE_NOTIFICATION_SUBJECT,
-                settings.CASTELLUM_DELETE_NOTIFICATION_BODY.format(url=url),
+                settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
+                settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY.format(url=url),
                 settings.DEFAULT_FROM_EMAIL,
                 [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
             )

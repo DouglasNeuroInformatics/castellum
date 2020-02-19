@@ -115,8 +115,8 @@ class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
                 url = self.request.build_absolute_uri(rel)
 
                 self.object.to_be_deleted_notified = send_mail(
-                    settings.CASTELLUM_DELETE_NOTIFICATION_SUBJECT,
-                    settings.CASTELLUM_DELETE_NOTIFICATION_BODY.format(url=url),
+                    settings.CASTELLUM_DELETE_SUBJECT_REQUEST_NOTIFICATION_SUBJECT,
+                    settings.CASTELLUM_DELETE_SUBJECT_REQUEST_NOTIFICATION_BODY.format(url=url),
                     settings.DEFAULT_FROM_EMAIL,
                     [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
                 )
