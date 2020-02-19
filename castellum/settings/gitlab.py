@@ -19,11 +19,4 @@ DATABASES = {
     },
 }
 
-CASTELLUM_DOMAINS = {
-    'contact': {
-        'key': 'CHANGEME',
-        'bits': 40,
-    }
-}
-
 CASTELLUM_COVERLETTER_TEMPLATE = os.path.join(BASE_DIR, 'subjects', 'fixtures', 'demo_coverletter.docx')

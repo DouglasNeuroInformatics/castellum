@@ -43,13 +43,6 @@ AUTH_LDAP_USER_ATTR_MAP = {
     'last_name': 'sn',
 }
 
-CASTELLUM_DOMAINS = {
-    'contact': {
-        'key': 'CHANGEME',
-        'bits': 40,
-    }
-}
-
 # Limit login attempts
 # See https://django-axes.readthedocs.io/
 INSTALLED_APPS.append('axes')
