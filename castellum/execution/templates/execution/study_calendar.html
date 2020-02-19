@@ -1,5 +1,5 @@
 {% extends "execution/base.html" %}
-{% load i18n %}
+{% load i18n static %}
 
 {% block title %}{{ object }} &middot; {{ block.super }}{% endblock %}
 
@@ -13,7 +13,27 @@
         </a>
     </div>
 
+    <div class="my-5">
+        <div data-js="calendar"></div>
+    </div>
+
     <div class="d-print-none mb-3">
         <a href="{% url 'execution:study-detail' study.pk %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
     </div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static '@fullcalendar/core/main.min.js' %}"></script>
+    <script src="{% static '@fullcalendar/core/locales/de.js' %}"></script>
+    <script src="{% static '@fullcalendar/daygrid/main.min.js' %}"></script>
+    <script src="{% static '@fullcalendar/timegrid/main.min.js' %}"></script>
+    <script src="{% static '@fullcalendar/bootstrap/main.min.js' %}"></script>
+    <script src="{% static 'js/calendar.js' %}"></script>
+{% endblock %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" type="text/css" href="{% static '@fullcalendar/core/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '@fullcalendar/daygrid/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '@fullcalendar/timegrid/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '@fullcalendar/bootstrap/main.css' %}">
 {% endblock %}
