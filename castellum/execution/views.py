@@ -36,6 +36,7 @@ from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_subject
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.mixins import ParticipationRequestMixin
+from castellum.recruitment.models import Appointment
 from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
@@ -87,6 +88,25 @@ class StudyCalendarView(StudyMixin, PermissionRequiredMixin, DetailView):
 
     def get_object(self):
         return self.study
+
+    def render(self, appointment):
+        return {
+            'start': appointment.start,
+            'end': appointment.end,
+            'title': '{} - {}'.format(
+                appointment.session.name,
+                appointment.participant.pseudonym,
+            ),
+            'url': reverse('execution:participationrequest-detail', args=[
+                appointment.session.study.pk, appointment.participant.pk
+            ])
+        }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        appointment_list = Appointment.objects.filter(session__study=self.study)
+        context['events'] = [self.render(a) for a in appointment_list]
+        return context
 
 
 class ParticipationRequestDetailView(

@@ -29,6 +29,7 @@
     <script src="{% static '@fullcalendar/timegrid/main.min.js' %}"></script>
     <script src="{% static '@fullcalendar/bootstrap/main.min.js' %}"></script>
     <script src="{% static 'js/calendar.js' %}"></script>
+    {{ events|json_script:'events' }}
 {% endblock %}
 
 {% block extra_styles %}
