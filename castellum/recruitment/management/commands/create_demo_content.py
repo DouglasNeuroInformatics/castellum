@@ -31,8 +31,6 @@ from faker import Faker
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.contacts.models import phonetic
-from castellum.pseudonyms.models import Domain
-from castellum.pseudonyms.models import Pseudonym
 from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import AttributeSet
 from castellum.studies.models import Study
@@ -146,7 +144,7 @@ def fake_address():
     )
 
 
-def fake_contact(pseudonym, address):
+def fake_contact(subject, address):
     if fake.random.random() < 0.5:
         gender = 'f'
         first_name = fake.first_name_female()
@@ -163,7 +161,7 @@ def fake_contact(pseudonym, address):
         last_name=last_name,
         last_name_phonetic=phonetic(last_name),
         date_of_birth=fake_date_of_birth(),
-        pseudonym=pseudonym.pseudonym,
+        subject_id=subject.pk,
         address=address,
     )
 
@@ -213,16 +211,8 @@ def generate_subjects(count):
     Subject.objects.bulk_create([fake_subject() for i in range(count)], batch_size=200)
     subjects = Subject.objects.all()[:count]
 
-    contact_domain = Domain.objects.get(key=Contact.domain)
-    contact_pseudonyms = [Pseudonym(
-        subject=subjects[i],
-        domain=contact_domain,
-        pseudonym=settings.CASTELLUM_PSEUDONYM_GENERATE(contact_domain.bits),
-    ) for i in range(count)]
-    Pseudonym.objects.bulk_create(contact_pseudonyms)
-
     print('Generating contacts')
-    contacts = [fake_contact(contact_pseudonyms[i], addresses[i]) for i in range(count-1)]
+    contacts = [fake_contact(subjects[i], addresses[i]) for i in range(count-1)]
     testcontact = Contact(
         gender='*',
         first_name='Muhammad',
@@ -231,9 +221,9 @@ def generate_subjects(count):
         last_name_phonetic=phonetic('Nguyen'),
         date_of_birth='2000-12-13',
         email='muhammad@example.com',
+        subject_id=subjects[count - 1].pk,
     )
     contacts.append(testcontact)
-    testcontact.pseudonym = contact_pseudonyms[-1].pseudonym
 
     Contact.objects.bulk_create(contacts)
 
