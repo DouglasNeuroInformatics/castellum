@@ -79,6 +79,16 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
+class StudyCalendarView(StudyMixin, PermissionRequiredMixin, DetailView):
+    template_name = 'execution/study_calendar.html'
+    model = Study
+    permission_required = 'recruitment.view_participation_pseudonyms'
+    study_status = [Study.EXECUTION]
+
+    def get_object(self):
+        return self.study
+
+
 class ParticipationRequestDetailView(
     ParticipationRequestMixin, PermissionRequiredMixin, DetailView
 ):

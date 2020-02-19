@@ -28,6 +28,7 @@ from .views import DataProtectionUpdateView
 from .views import ParticipationRequestDetailView
 from .views import ResolveView
 from .views import SearchView
+from .views import StudyCalendarView
 from .views import StudyDetailView
 from .views import StudyListView
 
@@ -37,6 +38,7 @@ urlpatterns = [
     path('search/', SearchView.as_view(), name='search'),
     path('<int:study_pk>/', StudyDetailView.as_view(), name='study-detail'),
     path('<int:study_pk>/resolve/', ResolveView.as_view(), name='resolve'),
+    path('<int:study_pk>/calendar/', StudyCalendarView.as_view(), name='study-calendar'),
     path(
         '<int:study_pk>/<int:pk>/',
         ParticipationRequestDetailView.as_view(),
