@@ -8,9 +8,6 @@
 docker-compose pull
 docker-compose up -d
 
-# wait until the server is running
-sleep 5
-
 docker-compose run --rm web django-admin migrateall
 docker-compose run --rm web django-admin sync_domains
 

@@ -33,12 +33,12 @@ makemessages:
 
 .PHONY: remove_databases
 remove_databases:
-	docker-compose stop db_contacts db_default
-	docker-compose rm -f db_contacts db_default
+	docker-compose stop
+	docker-compose rm -f
 
 .PHONY: databases
 databases:
-	docker-compose up -d db_contacts db_default
+	docker-compose up -d
 
 .PHONY: reset_databases
 reset_databases: remove_databases migrate populate
