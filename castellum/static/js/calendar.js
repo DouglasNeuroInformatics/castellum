@@ -4,6 +4,7 @@ $(function() {
             plugins: ['dayGrid', 'timeGrid', 'bootstrap'],
             themeSystem: 'bootstrap',
             locale: $('html').attr('lang'),
+            events: JSON.parse($('#events').text()),
             height: 'auto',
             header: {
                 left: 'timeGridWeek,dayGridMonth',

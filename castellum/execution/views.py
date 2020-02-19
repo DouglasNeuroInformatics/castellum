@@ -24,6 +24,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import ListView
@@ -33,6 +34,7 @@ from castellum.contacts.forms import SearchForm
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_subject
+from castellum.recruitment.models import Booking
 from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
@@ -83,6 +85,24 @@ class StudyCalendarView(StudyMixin, PermissionRequiredMixin, DetailView):
 
     def get_object(self):
         return self.study
+
+    def render(self, booking):
+        return {
+            'start': booking.appointment.start,
+            'end': booking.appointment.start + booking.session.duration,
+            'title': '{} - {}'.format(
+                booking.session.title, booking.participant.pseudonym,
+            ),
+            'url': reverse('execution:participationrequest-detail', args=[
+                booking.participant.study.pk, booking.participant.pk
+            ])
+        }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        booking_list = Booking.objects.filter(session__experiment__project__study=self.study)
+        context['events'] = [self.render(b) for b in booking_list]
+        return context
 
 
 class ParticipationRequestDetailView(StudyMixin, SubjectMixin, PermissionRequiredMixin, DetailView):
