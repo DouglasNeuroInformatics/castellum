@@ -154,15 +154,15 @@ def contact(db, contact_domain):
 
 
 @pytest.fixture
-def attributeset(contact, contact_domain):
-    subject = get_subject(contact_domain.key, contact.pseudonym)
-    return baker.make(AttributeSet, subject=subject)
+def attributeset(contact):
+    return baker.make(AttributeSet, subject=contact.subject)
 
 
 @pytest.fixture
-def participation_request(contact, study_in_execution_status, contact_domain):
-    subject = get_subject(contact_domain.key, contact.pseudonym)
-    return baker.make(ParticipationRequest, study=study_in_execution_status, subject=subject)
+def participation_request(contact, study_in_execution_status):
+    return baker.make(
+        ParticipationRequest, study=study_in_execution_status, subject=contact.subject
+    )
 
 
 @pytest.fixture
