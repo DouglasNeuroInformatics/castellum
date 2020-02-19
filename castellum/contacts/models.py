@@ -21,8 +21,6 @@
 
 from datetime import date
 
-from django.conf import settings
-from django.core import checks
 from django.db import models
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -220,15 +218,3 @@ class Contact(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse('subjects:detail', args=[self.subject.pk])
-
-
-@checks.register(checks.Tags.security, deploy=True)
-def check_domain_unchanged(app_configs, **kwargs):
-    errors = []
-    domain = settings.CASTELLUM_DOMAINS['contact']
-    if domain and domain['key'] == 'CHANGEME':
-        errors.append(checks.Error(
-            'You have not changed the contact domain key.',
-            id='castellum.contacts.E002',
-        ))
-    return errors
