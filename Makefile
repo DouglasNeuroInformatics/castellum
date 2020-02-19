@@ -43,6 +43,16 @@ databases:
 .PHONY: reset_databases
 reset_databases: remove_databases migrate populate
 
+.PHONY: lint
+lint:
+	$(VIRTUAL_ENV)/bin/isort -y
+	$(VIRTUAL_ENV)/bin/flake8
+	npx eslint castellum
+
+.PHONY: test
+test: databases
+	$(VIRTUAL_ENV)/bin/pytest
+
 .PHONY: install
 install: venv
 	$(VIRTUAL_ENV)/bin/pip install -U pip
