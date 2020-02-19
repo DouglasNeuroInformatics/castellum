@@ -44,11 +44,15 @@ databases:
 reset_databases: remove_databases migrate populate
 
 .PHONY: install
-install:
+install: venv
 	$(VIRTUAL_ENV)/bin/pip install -U pip
 	$(VIRTUAL_ENV)/bin/pip install -r requirements-dev.txt
 	$(VIRTUAL_ENV)/bin/pip install -e .
 	npm install
+
+.PHONY: venv
+venv:
+	if [ ! -d "$(VIRTUAL_ENV)" ]; then python3 -m venv "$(VIRTUAL_ENV)"; fi
 
 .PHONY: install_githooks
 install_githooks: .git/hooks/pre-commit
