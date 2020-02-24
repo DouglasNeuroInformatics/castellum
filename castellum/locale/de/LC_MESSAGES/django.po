@@ -2301,7 +2301,7 @@ msgstr "Diese Proband*in ist zur Löschung vorgemerkt."
 
 #: castellum/templates/base.html:100
 msgid "Unsaved Changes"
-msgstr "Ungespeicherte Änderungen"
+msgstr "Nicht gespeicherte Änderungen"
 
 #: castellum/templates/base.html:103
 msgid "Your changes will be lost if you leave before saving."

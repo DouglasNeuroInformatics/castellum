@@ -5,6 +5,7 @@ Teilnahmestatus
 Teilnahmeanfrage
 Teilnahmeanfragen
 Vertraulichkeitsstufe
+Castellum
 Castellum-Einverständnis
 innendetails
 Wiedervorlagetermin
@@ -15,3 +16,4 @@ rekrutierbar
 Datenschutz-Dashboard
 Wiedervorlagezeit
 -Tags
+settings
