@@ -738,7 +738,7 @@ msgstr "Kann Teilnahme-Pseudonyme sehen"
 
 #: castellum/recruitment/models/recruitment.py:113
 msgid "Can search in execution"
-msgstr ""
+msgstr "Kann in der Durchführung suchen"
 
 #: castellum/recruitment/models/recruitment.py:151
 msgid "No follow-up set"
@@ -963,14 +963,12 @@ msgid "Duration of sessions in minutes"
 msgstr "Sitzungsdauer in Minuten"
 
 #: castellum/recruitment/templates/recruitment/contact.html:153
-#, fuzzy
-#| msgid "Execution"
 msgid "Execution URL"
-msgstr "Durchführung"
+msgstr "Durchführungs-URL"
 
 #: castellum/recruitment/templates/recruitment/contact.html:157
 msgid "Copy"
-msgstr ""
+msgstr "Kopieren"
 
 #: castellum/recruitment/templates/recruitment/mail.html:4
 msgid "Mail recruitment"
@@ -1803,10 +1801,8 @@ msgid "Manage groups"
 msgstr "Gruppen verwalten"
 
 #: castellum/studies/templates/studies/study_members.html:42
-#, fuzzy
-#| msgid "Remove member"
 msgid "No members"
-msgstr "Mitglied entfernen"
+msgstr "Keine Mitglieder"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings_form.html:5
 msgid "General recruitment settings"
@@ -1921,6 +1917,10 @@ msgid ""
 "existing data is not deleted. This option should be used when a subject "
 "withdraws (GDPR) consent for recruitment."
 msgstr ""
+"Diese Proband*in wird zukünftig nicht bei der Rekrutierung berücksichtigt, "
+"die bestehenden Daten werden aber nicht gelöscht. Diese Option sollte "
+"benutzt werden, wenn eine Proband*in ihr (DSGVO-)Einverständnis für die "
+"Rekrutierung zurückzieht."
 
 #: castellum/subjects/models.py:76
 msgid ""
@@ -1928,6 +1928,10 @@ msgid ""
 "includes all data in Castellum and all data collected in studies. This "
 "option should be used when a subject requests GDPR deletion."
 msgstr ""
+"Alle Daten über diese Proband*in sollen gelöscht oder vollständig "
+"anonymisiert werden. Dies beinhaltet alle Daten in Castellum sowie alle "
+"Daten, die in Studien erhoben wurden. Diese Option sollte benutzt werden, "
+"wenn eine Proband*in DSGVO-Löschung wünscht."
 
 #: castellum/subjects/models.py:82
 msgid "Hard of hearing"
@@ -2269,11 +2273,11 @@ msgstr "Nicht gefunden"
 
 #: castellum/templates/base.html:22
 msgid "Set settings.PRODUCTION to remove this message."
-msgstr ""
+msgstr "Setzen Sie settings.PRODUCTION, um diese Meldung zu entfernen."
 
 #: castellum/templates/base.html:23
 msgid "Running in Demo mode."
-msgstr ""
+msgstr "Demo-Modus"
 
 #: castellum/templates/base.html:34
 msgid "Toggle navigation"
@@ -2297,19 +2301,21 @@ msgstr "Diese Proband*in ist zur Löschung vorgemerkt."
 
 #: castellum/templates/base.html:100
 msgid "Unsaved Changes"
-msgstr ""
+msgstr "Ungespeicherte Änderungen"
 
 #: castellum/templates/base.html:103
 msgid "Your changes will be lost if you leave before saving."
 msgstr ""
+"Ihre Änderungen gehen verloren, wenn Sie die Seite vor dem Speichern "
+"verlassen."
 
 #: castellum/templates/base.html:106
 msgid "Stay on Page"
-msgstr ""
+msgstr "Auf der Seite bleiben"
 
 #: castellum/templates/base.html:107
 msgid "Discard Changes"
-msgstr ""
+msgstr "Änderungen verwerfen"
 
 #: castellum/templates/index.html:68
 msgid "Data protection"
