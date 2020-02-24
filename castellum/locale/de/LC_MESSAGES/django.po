@@ -1204,7 +1204,7 @@ msgid ""
 "Additional subject characteristics that should be verified during recruitment"
 msgstr ""
 "Zusätzliche Eigenschaften der Proband*innen, die während der Rekrutierung "
-"überprüft werden sollen."
+"überprüft werden sollten."
 
 #: castellum/studies/models.py:52 castellum/studies/models.py:84
 msgid "Contains sensitive data"
@@ -1928,10 +1928,10 @@ msgid ""
 "includes all data in Castellum and all data collected in studies. This "
 "option should be used when a subject requests GDPR deletion."
 msgstr ""
-"Alle Daten über diese Proband*in sollen gelöscht oder vollständig "
+"Alle Daten über diese Proband*in sollten gelöscht oder vollständig "
 "anonymisiert werden. Dies beinhaltet alle Daten in Castellum sowie alle "
 "Daten, die in Studien erhoben wurden. Diese Option sollte benutzt werden, "
-"wenn eine Proband*in DSGVO-Löschung wünscht."
+"wenn eine Proband*in DSGVO-Löschung fordert."
 
 #: castellum/subjects/models.py:82
 msgid "Hard of hearing"
