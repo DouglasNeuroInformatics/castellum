@@ -23,7 +23,7 @@ WORKDIR code/
 RUN pip3 install -U pip && \
     pip3 install -e . && \
     pip3 install django-auth-ldap django-axes && \
-    npm install
+    npm install --production
 
 RUN django-admin collectstatic --no-input --settings=castellum.settings.bare && \
     django-admin compilemessages -l de
