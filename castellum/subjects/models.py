@@ -63,8 +63,18 @@ class Subject(TimeStampedModel):
         ],
     )
 
-    no_recruitment = models.BooleanField(_('Do not contact for recruitment'), default=False)
-    to_be_deleted = models.DateTimeField(_('To be deleted'), blank=True, null=True)
+    no_recruitment = models.BooleanField(
+        _('Do not contact for recruitment'),
+        default=False,
+        help_text=_(
+            'This subject will not be taken into account for future recruitment, '
+            'but the existing data is not deleted.'
+        ),
+    )
+    to_be_deleted = models.DateTimeField(_('To be deleted'), blank=True, null=True, help_text=_(
+        'All data about this subject should be deleted or fully anonymized. '
+        'This includes all data in Castellum and all data collected in studies.'
+    ))
     to_be_deleted_notified = models.BooleanField(default=False)
 
     note_hard_of_hearing = models.BooleanField(_('Hard of hearing'), default=False)
