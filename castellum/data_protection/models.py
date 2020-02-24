@@ -21,15 +21,16 @@
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext_lazy
 
 from castellum.data_protection import monitoring_logger
 
 
 class MonitoringEntry(models.Model):
     REASONS = [
-        (monitoring_logger.LOGIN, _('Login')),
+        (monitoring_logger.LOGIN, pgettext_lazy('noun', 'Login')),
         (monitoring_logger.FAILED_LOGIN, _('Failed login')),
-        (monitoring_logger.LOGOUT, _('Logout')),
+        (monitoring_logger.LOGOUT, pgettext_lazy('noun', 'Logout')),
         (monitoring_logger.STUDY_DELETION, _('Study deletion')),
         (monitoring_logger.ATTRIBUTESET_UPDATE, _('Attributeset update')),
         (monitoring_logger.SUBJECT_DATA_UPDATE, _('Subject data update')),
