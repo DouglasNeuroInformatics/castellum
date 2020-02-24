@@ -13,11 +13,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subject',
             name='no_recruitment',
-            field=models.BooleanField(default=False, help_text='This subject will not be taken into account for future recruitment, but the existing data is not deleted.', verbose_name='Do not contact for recruitment'),
+            field=models.BooleanField(default=False, help_text='This subject will not be taken into account for future recruitment, but the existing data is not deleted. This option should be used when a subject withdraws (GDPR) consent for recruitment.', verbose_name='Do not contact for recruitment'),
         ),
         migrations.AlterField(
             model_name='subject',
             name='to_be_deleted',
-            field=models.DateTimeField(blank=True, help_text='All data about this subject should be deleted or fully anonymized. This includes all data in Castellum and all data collected in studies.', null=True, verbose_name='To be deleted'),
+            field=models.DateTimeField(blank=True, help_text='All data about this subject should be deleted or fully anonymized. This includes all data in Castellum and all data collected in studies. This option should be used when a subject requests GDPR deletion.', null=True, verbose_name='To be deleted'),
         ),
     ]
