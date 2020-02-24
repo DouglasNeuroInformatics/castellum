@@ -282,6 +282,10 @@ LOGGING = {
 
 CASTELLUM_ENABLE_STUDY_EXPORT = True
 
+# timespan after which monitoring entries should be deleted.
+# See make trim_monitoring
+CASTELLUM_MONITORING_ENTRY_DELETION_PERIOD = datetime.timedelta(days=30)
+
 # timespan after the last test session after which the study is reviewed
 # by the data protection manager
 CASTELLUM_STUDY_DELETION_PERIOD = relativedelta(years=5)
