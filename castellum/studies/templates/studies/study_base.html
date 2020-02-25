@@ -9,7 +9,62 @@
             <h1>{{ study }}</h1>
             <p>{{ study|verbose_name:'contact_person' }}: {{ study.contact_person }}</p>
         </div>
-        <div>{% block header_actions %}{% endblock %}</div>
+        <div>
+            {% has_perm 'studies.access_study' user study as can_access_study %}
+            {% has_perm 'studies.change_study' user study as can_change_study %}
+            {% has_perm 'studies.delete_study' user study as can_delete_study %}
+            {% if can_access_study %}
+                {% if can_change_study %}
+                    {% if study.status != study.FINISHED %}
+                        <form class="d-inline" method="post" action="{% url 'studies:start' study.pk %}">
+                            {% csrf_token %}
+
+                            {% if study.status == study.EXECUTION %}
+                                <button class="btn btn-outline-primary active mb-1" title="{% trans 'Stop recruitment and execution for this study' %}">
+                                    {% trans 'Stop' %}
+                                </button>
+                            {% else %}
+                                <button class="btn btn-outline-primary mb-1" title="{% trans 'Start recruitment and execution for this study' %}">
+                                    {% trans 'Start' %}
+                                </button>
+                            {% endif %}
+                        </form>
+                    {% else %}
+                        <form class="d-inline">
+                            {% if study.previous_status == study.EXECUTION %}
+                                <button class="btn btn-outline-primary active mb-1" title="{% trans 'Stop recruitment and execution for this study' %}" disabled>
+                                    {% trans 'Stop' %}
+                                </button>
+                            {% else %}
+                                <button class="btn btn-outline-primary mb-1" title="{% trans 'Start recruitment and execution for this study' %}" disabled>
+                                    {% trans 'Start' %}
+                                </button>
+                            {% endif %}
+                        </form>
+                    {% endif %}
+                    <form class="d-inline" method="post" action="{% url 'studies:finish-recruitment' study.pk %}">
+                        {% csrf_token %}
+
+                        {% if study.status == study.FINISHED %}
+                            <button class="btn btn-outline-primary active mb-1" title="{% trans 'Resume recruitment and execution for this study' %}">
+                                {% trans 'Resume study' %}
+                            </button>
+                        {% else %}
+                            <button class="btn btn-outline-primary mb-1" title="{% trans 'Conclude recruitment and execution for this study' %}">
+                                {% trans 'Finish study' %}
+                            </button>
+                        {% endif %}
+                    </form>
+                {% endif %}
+                {% get_enable_study_export as enable_export %}
+                {% if enable_export %}
+                    <a href="{% url 'studies:export' study.pk %}" class="btn btn-outline-primary mb-1">{% trans 'Export' %}</a>
+                {% endif %}
+                {% if can_delete_study %}
+                    <a href="{% url 'studies:delete' study.pk %}" class="btn btn-danger mb-1">{% trans 'Delete' %}</a>
+                {% endif %}
+            {% endif %}
+        </div>
     </div>
 
     <nav class="d-print-none" aria-label="{% trans 'Tabs' %}">
