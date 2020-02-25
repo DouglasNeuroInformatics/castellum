@@ -167,7 +167,8 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
 class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     model = Subject
     permission_required = 'subjects.delete_subject'
-    tab = 'delete'
+    tab = 'gdpr'
+    subtab = 'delete'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -191,7 +192,8 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_export.html'
     permission_required = 'subjects.view_subject'
-    tab = 'export'
+    tab = 'gdpr'
+    subtab = 'export'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -300,9 +302,10 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
 
 
 class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
-    tab = 'delete'
     model = ParticipationRequest
     permission_required = ['studies.access_study', 'recruitment.delete_participationrequest']
+    tab = 'gdpr'
+    subtab = 'delete'
 
     def get_object(self):
         return get_object_or_404(

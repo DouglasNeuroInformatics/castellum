@@ -50,14 +50,7 @@
             {% has_perm 'subjects.view_subject' user as can_view_subject %}
             {% if can_view_subject %}
                 <li class="nav-item">
-                    <a href="{% url 'subjects:export' subject.pk %}" class="nav-link {% if view.tab == 'export' %}active{% endif %}">{% trans 'Export' %}</a>
-                </li>
-            {% endif %}
-
-            {% has_perm 'subjects.delete_subject' user as can_delete_subject %}
-            {% if can_delete_subject %}
-                <li class="nav-item">
-                    <a href="{% url 'subjects:delete' subject.pk %}" class="nav-link {% if view.tab == 'delete' %}active{% endif %}">{% trans 'Delete' %}</a>
+                    <a href="{% url 'subjects:gdpr' subject.pk %}" class="nav-link {% if view.tab == 'gdpr' %}active{% endif %}">{% trans 'GDPR' %}</a>
                 </li>
             {% endif %}
         </ul>
