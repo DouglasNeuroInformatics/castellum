@@ -6,20 +6,20 @@ from model_bakery import baker
 from castellum.recruitment.models import ParticipationRequest
 
 
-def test_404_page_returned_if_study_is_not_provided(client, member):
-    client.force_login(member)
-    response = client.get('/recruitment/3/')
-    assert response.status_code == 404
-
-
-def test_200_page_returned_if_study_in_execution_status(client, member, study_in_execution_status):
+def test_200(client, member, study_in_execution_status):
     client.force_login(member)
     url = '/recruitment/{}/'.format(study_in_execution_status.pk)
     response = client.get(url)
     assert response.status_code == 200
 
 
-def test_404_page_returned_if_study_in_edit_status(client, member, study_in_edit_status):
+def test_404_if_study_is_not_provided(client, member):
+    client.force_login(member)
+    response = client.get('/recruitment/3/')
+    assert response.status_code == 404
+
+
+def test_404_if_study_in_edit_status(client, member, study_in_edit_status):
     client.force_login(member)
     url = '/recruitment/{}/'.format(study_in_edit_status.pk)
     response = client.get(url)
@@ -28,7 +28,6 @@ def test_404_page_returned_if_study_in_edit_status(client, member, study_in_edit
 
 @pytest.mark.django_db
 def test_post_when_study_has_zero_subject_count_set(client, member, study_in_execution_status):
-
     study_in_execution_status.min_subject_count = 0
     study_in_execution_status.save()
     client.force_login(member)
