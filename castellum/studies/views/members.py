@@ -52,7 +52,7 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['readonly'] = self.object.status == Study.FINISHED
+        context['readonly'] = self.object.finished
         return context
 
     def get(self, request, **kwargs):
@@ -91,7 +91,7 @@ class StudyMembershipUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView)
     model = StudyMembership
     form_class = MemberForm
     permission_required = 'studies.change_study'
-    study_status = [Study.EDIT, Study.EXECUTION]
+    study_filter = {'finished': False}
     tab = 'members'
 
     def get_object(self):
@@ -104,7 +104,7 @@ class StudyMembershipUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView)
 class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView):
     model = StudyMembership
     permission_required = 'studies.change_study'
-    study_status = [Study.EDIT, Study.EXECUTION]
+    study_filter = {'finished': False}
     tab = 'members'
 
     def get_object(self):

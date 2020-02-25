@@ -48,7 +48,7 @@ class StudyListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         qs = super().get_queryset()
         perms = ('recruitment.view_participation_pseudonyms', 'studies.access_study')
-        return [study for study in qs.filter(status=Study.EXECUTION) if (
+        return [study for study in qs.filter(finished=False, started=True) if (
             self.request.user.has_perms(perms, obj=study)
         )]
 
@@ -57,7 +57,7 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
     template_name = 'execution/study_detail.html'
     model = Study
     permission_required = 'recruitment.view_participation_pseudonyms'
-    study_status = [Study.EXECUTION]
+    study_filter = {'finished': False, 'started': True}
 
     def get_object(self):
         return self.study
@@ -77,7 +77,7 @@ class ParticipationRequestDetailView(StudyMixin, SubjectMixin, PermissionRequire
     template_name = 'execution/participationrequest_detail.html'
     model = ParticipationRequest
     permission_required = 'recruitment.view_participation_pseudonyms'
-    study_status = [Study.EXECUTION]
+    study_filter = {'finished': False, 'started': True}
 
     def get_object(self):
         return get_object_or_404(
@@ -97,7 +97,8 @@ class SearchView(LoginRequiredMixin, GetFormView):
         subjects = [c.subject for c in contacts]
         participation_requests = ParticipationRequest.objects.filter(
             subject__in=subjects,
-            study__status=Study.EXECUTION,
+            study__finished=False,
+            study__started=True,
             status=ParticipationRequest.INVITED,
         ).select_related('subject', 'study')
 
@@ -128,7 +129,7 @@ class SearchView(LoginRequiredMixin, GetFormView):
 class ResolveView(StudyMixin, PermissionRequiredMixin, GetFormView):
     template_name = 'execution/study_resolve.html'
     permission_required = 'recruitment.view_participation_pseudonyms'
-    study_status = [Study.EXECUTION]
+    study_filter = {'finished': False, 'started': True}
     form_class = PseudonymForm
 
     def form_valid(self, form):

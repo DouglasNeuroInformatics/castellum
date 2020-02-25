@@ -1,7 +1,6 @@
 import pytest
 from model_bakery import baker
 
-from castellum.studies.models import Study
 from castellum.studies.models import StudyMembership
 
 
@@ -16,14 +15,11 @@ def test_start(request, client, user_fixture, study):
     baker.make(StudyMembership, user=user, study=study)
     client.force_login(user)
 
-    study.status = Study.EDIT
-    study.save()
-
     response = client.post('/studies/{}/start/'.format(study.pk))
     assert response.status_code == 302
 
     study.refresh_from_db()
-    assert study.status is Study.EXECUTION
+    assert study.started
 
 
 @pytest.mark.parametrize('user_fixture', [
@@ -37,11 +33,11 @@ def test_stop(request, client, user_fixture, study):
     baker.make(StudyMembership, user=user, study=study)
     client.force_login(user)
 
-    study.status = Study.EXECUTION
+    study.started = True
     study.save()
 
     response = client.post('/studies/{}/start/'.format(study.pk))
     assert response.status_code == 302
 
     study.refresh_from_db()
-    assert study.status is Study.EDIT
+    assert not study.started

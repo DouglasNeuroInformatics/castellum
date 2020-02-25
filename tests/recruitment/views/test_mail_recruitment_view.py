@@ -12,7 +12,7 @@ def test_mail_add_to_study(client, user):
     client.force_login(user)
     study = baker.make(
         Study,
-        status=Study.EXECUTION,
+        started=True,
         mail_subject="some subject",
         mail_body="some body",
         mail_reply_address="example@example.com",
@@ -42,7 +42,7 @@ def test_200_if_study_in_execution_status_and_mail_settings(client, user):
     client.force_login(user)
     study = baker.make(
         Study,
-        status=Study.EXECUTION,
+        started=True,
         mail_subject="some subject",
         mail_body="some body",
         mail_reply_address="example@example.com",
@@ -70,7 +70,7 @@ def test_404_if_study_in_edit_status(client, user):
     client.force_login(user)
     study = baker.make(
         Study,
-        status=Study.EDIT,
+        started=False,
         mail_subject="some subject",
         mail_body="some body",
         mail_reply_address="example@example.com",

@@ -35,7 +35,7 @@
                 {% bootstrap_field form.value show_label=False%}
             </div>
 
-            {% if study.status == study.EDIT %}
+            {% if not study.finished and not study.started %}
                 <div class="col-sm flex-grow-0">
                     <button type="button" class="btn btn-danger" data-js="filter-delete">{% trans 'Delete' %}</button>
                 </div>
@@ -85,7 +85,7 @@
                                 {% bootstrap_field form.value show_label=False%}
                             </div>
 
-                            {% if study.status == study.EDIT %}
+                            {% if not study.finished and not study.started %}
                                 <div class="col-sm flex-grow-0">
                                     <button type="button" class="btn btn-danger" data-js="filter-delete">{% trans 'Delete' %}</button>
                                 </div>
@@ -98,7 +98,7 @@
                     {% endfor %}
                 </div>
 
-                {% if study.status == study.EDIT %}
+                {% if not study.finished and not study.started %}
                     <div class="form-row">
                         <div class="col-sm-4">
                             {% bootstrap_field add_form.description show_label=False %}
@@ -116,7 +116,7 @@
                 <a href="{% url 'studies:filtergroup-index' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
             {% endif %}
 
-            {% if study.status == study.EDIT %}
+            {% if not study.finished and not study.started %}
                 <button class="btn btn-primary" >{% trans 'Apply' %}</button>
             {% endif %}
         </div>

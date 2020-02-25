@@ -59,10 +59,6 @@ class StudyType(TranslatableModel):
 
 
 class Study(models.Model):
-    EDIT = 0
-    EXECUTION = 1
-    FINISHED = 2
-
     name = models.CharField(_('Name'), max_length=254)
     contact_person = models.CharField(_('Responsible contact person'), max_length=254)
     principal_investigator = models.CharField(_('Principal Investigator'), max_length=254)
@@ -147,15 +143,6 @@ class Study(models.Model):
 
     def __str__(self):
         return self.name
-
-    def restore_previous_status(self):
-        self.status = self.previous_status
-        self.save()
-
-    def set_status(self, status):
-        self.previous_status = self.status
-        self.status = status
-        self.save()
 
     def clean(self):
         if self.subjectfiltergroup_set.count() > 1 and not self.advanced_filtering:

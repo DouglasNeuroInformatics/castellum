@@ -15,12 +15,12 @@
             {% has_perm 'studies.delete_study' user study as can_delete_study %}
             {% if can_access_study %}
                 {% if can_change_study %}
-                    {% if study.status != study.FINISHED %}
+                    {% if not study.finished %}
                         <form class="d-inline" method="post" action="{% url 'studies:start' study.pk %}">
                             {% csrf_token %}
                             <input type="hidden" name="next" value="{{ request.path }}">
 
-                            {% if study.status == study.EXECUTION %}
+                            {% if study.started %}
                                 <button class="btn btn-outline-primary active mb-1" title="{% trans 'Stop recruitment and execution for this study' %}">
                                     {% trans 'Stop' %}
                                 </button>
@@ -32,7 +32,7 @@
                         </form>
                     {% else %}
                         <form class="d-inline">
-                            {% if study.previous_status == study.EXECUTION %}
+                            {% if study.started %}
                                 <button class="btn btn-outline-primary active mb-1" title="{% trans 'Stop recruitment and execution for this study' %}" disabled>
                                     {% trans 'Stop' %}
                                 </button>
@@ -47,7 +47,7 @@
                         {% csrf_token %}
                             <input type="hidden" name="next" value="{{ request.path }}">
 
-                        {% if study.status == study.FINISHED %}
+                        {% if study.finished %}
                             <button class="btn btn-outline-primary active mb-1" title="{% trans 'Resume recruitment and execution for this study' %}">
                                 {% trans 'Resume study' %}
                             </button>

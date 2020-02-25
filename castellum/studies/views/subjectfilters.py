@@ -45,7 +45,6 @@ from castellum.recruitment.models import SubjectFilterGroup
 from castellum.utils.views import ReadonlyMixin
 
 from ..mixins import StudyMixin
-from ..models import Study
 
 
 class CustomFilterMixin:
@@ -121,7 +120,7 @@ class FilterGroupListView(FilterMixin, ListView):
 
 class FilterGroupCreateView(FilterMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
-    study_status = [Study.EDIT]
+    study_filter = {'finished': False, 'started': False}
 
     def post(self, *args, **kwargs):
         group = SubjectFilterGroup.objects.create(study=self.study)
@@ -170,7 +169,7 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
         )
 
     def get_readonly(self):
-        return self.study.status != Study.EDIT
+        return self.study.started or self.study.finished
 
     def get_inaccessible_attributedescriptions(self):
         min_privacy_level = 2
@@ -215,7 +214,7 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
     model = SubjectFilterGroup
     template_name = 'studies/filtergroup_confirm_delete.html'
     permission_required = 'recruitment.change_subjectfilter'
-    study_status = [Study.EDIT]
+    study_filter = {'finished': False, 'started': False}
 
     def get_object(self):
         return get_object_or_404(SubjectFilterGroup, study=self.study, pk=self.kwargs['pk'])
@@ -226,7 +225,7 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
 
 class FilterGroupDuplicateView(FilterMixin, View):
     permission_required = 'recruitment.change_subjectfilter'
-    study_status = [Study.EDIT]
+    study_filter = {'finished': False, 'started': False}
 
     def post(self, request, study_pk, pk):
         original = get_object_or_404(SubjectFilterGroup, study=self.study, pk=pk)

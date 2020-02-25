@@ -177,7 +177,7 @@ class StudyUpdateView(
     tab = 'update'
 
     def get_readonly(self):
-        return self.object.status == Study.FINISHED
+        return self.object.finished
 
     def get_success_url(self):
         return reverse('studies:update', args=[self.object.pk])
@@ -215,27 +215,25 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'studies.change_study'
 
     def post(self, request, study_pk):
-        if self.study.status != self.study.FINISHED:
-            if self.study.status == self.study.EXECUTION:
-                self.study.set_status(self.study.EDIT)
-            else:
-                self.study.set_status(self.study.EXECUTION)
-            return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
-        else:
+        if self.study.finished:
             return HttpResponseBadRequest()
+        self.study.started = not self.study.started
+        self.study.save()
+        return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
 
 
 class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'studies.change_study'
 
     def post(self, request, study_pk):
-        if self.study.status == self.study.FINISHED:
-            self.study.restore_previous_status()
+        if self.study.finished:
+            self.study.finished = False
         else:
-            self.study.set_status(self.study.FINISHED)
+            self.study.finished = True
             self.study.participationrequest_set\
                 .exclude(status=ParticipationRequest.INVITED)\
                 .delete()
+        self.study.save()
         return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
 
 
@@ -292,11 +290,14 @@ class StudyImportView(PermissionRequiredMixin, FormView):
 
 class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'studies.view_study'
-    STATUS_MAP = {
-        Study.EDIT: 'not_started',
-        Study.EXECUTION: 'started',
-        Study.FINISHED: 'finished',
-    }
+
+    def get_status(self):
+        if self.study.finished:
+            return 'finished'
+        elif self.study.started:
+            return 'started'
+        else:
+            return 'not_started'
 
     def get(self, request, *args, **kwargs):
         data = {
@@ -304,7 +305,7 @@ class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
             'contact_person': {'name': self.study.contact_person},
             'principal_investigator': {'name': self.study.principal_investigator},
             'description': self.study.description,
-            'status': self.STATUS_MAP[self.study.status],
+            'status': self.get_status(),
             'sessions_start': self.study.sessions_start,
             'sessions_end': self.study.sessions_end,
             'number_participants_expected': self.study.min_subject_count,

@@ -13,8 +13,7 @@ from castellum.studies.models import StudyType
 def create_participation_request(
     subject, is_finished=False, is_exclusive=False, status=ParticipationRequest.INVITED
 ):
-    study_status = Study.FINISHED if is_finished else Study.EXECUTION
-    study = baker.make(Study, status=study_status, is_exclusive=is_exclusive)
+    study = baker.make(Study, started=True, finished=is_finished, is_exclusive=is_exclusive)
     return baker.make(ParticipationRequest, status=status, subject=subject, study=study)
 
 

@@ -26,7 +26,6 @@ from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import gettext_lazy as _
 
-from castellum.studies.models import Study
 from castellum.utils.forms import BaseImportForm
 from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
@@ -94,10 +93,10 @@ class SubjectFilterForm(forms.ModelForm):
 
         # disable fields when study is not in edit status
         try:
-            if self.instance.group.study:
-                if self.instance.group.study.status != Study.EDIT:
-                    self.fields["operator"].widget.attrs["disabled"] = True
-                    self.fields["value"].widget.attrs["disabled"] = True
+            study = self.instance.group.study
+            if study and (study.finished or study.started):
+                self.fields["operator"].widget.attrs["disabled"] = True
+                self.fields["value"].widget.attrs["disabled"] = True
         except ObjectDoesNotExist:
             pass
 

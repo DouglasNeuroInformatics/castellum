@@ -2,7 +2,6 @@ import pytest
 
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import ParticipationRequestRevision
-from castellum.studies.models import Study
 
 
 def test_200(client, member, participation_request):
@@ -27,7 +26,7 @@ def test_404_if_wrong_study_is_provided(client, member, participation_request, s
 
 
 def test_404_if_study_in_edit_status(client, member, participation_request):
-    participation_request.study.status = Study.EDIT
+    participation_request.study.started = False
     participation_request.study.save()
 
     client.force_login(member)

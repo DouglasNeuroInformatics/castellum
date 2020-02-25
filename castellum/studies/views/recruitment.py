@@ -69,7 +69,7 @@ class StudyRecruitmentSettingsUpdateView(
     subtab = 'update'
 
     def get_readonly(self):
-        return self.object.status == Study.FINISHED
+        return self.object.finished
 
     def get_success_url(self):
         return reverse('studies:recruitmentsettings', kwargs={'pk': self.object.pk})
@@ -90,7 +90,7 @@ class StudyExcludedStudiesView(
     subtab = 'excluded-studies'
 
     def get_readonly(self):
-        return self.object.status == Study.FINISHED
+        return self.object.finished
 
     def get_success_url(self):
         return reverse('studies:excluded-studies', args=[self.object.pk])
@@ -123,7 +123,7 @@ class StudyExclusionCriteriaView(
     subtab = 'exclusioncriteria'
 
     def get_readonly(self):
-        return self.object.status == Study.FINISHED
+        return self.object.finished
 
     def get_success_url(self):
         return reverse('studies:exclusioncriteria', args=[self.object.pk])
@@ -144,7 +144,7 @@ class StudyMailSettingsView(
     subtab = 'mailsettings'
 
     def get_readonly(self):
-        return self.object.status == Study.FINISHED
+        return self.object.finished
 
     def get_success_url(self):
         return reverse('studies:mailsettings', args=[self.object.pk])

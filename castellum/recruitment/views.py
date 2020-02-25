@@ -92,7 +92,7 @@ class StudyListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         qs = super().get_queryset()
         perms = ('recruitment.add_participationrequest', 'studies.access_study')
-        return [study for study in qs.filter(status=Study.EXECUTION) if (
+        return [study for study in qs.filter(finished=False, started=True) if (
             self.request.user.has_perms(perms, obj=study)
         )]
 
@@ -102,7 +102,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     context_object_name = 'participation_requests'
     template_name = 'recruitment/recruitment.html'
     permission_required = 'recruitment.view_participationrequest'
-    study_status = [Study.EXECUTION]
+    study_filter = {'finished': False, 'started': True}
     shown_status = []
     tab = 'recruitment'
 
@@ -314,7 +314,7 @@ class RecruitmentViewOpen(RecruitmentView):
 
 class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     permission_required = 'recruitment.view_participationrequest'
-    study_status = [Study.EXECUTION]
+    study_filter = {'finished': False, 'started': True}
     template_name = 'recruitment/mail.html'
     tab = 'mail'
     form_class = SendMailForm
@@ -420,7 +420,7 @@ class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView)
         'contacts.view_contact',
         'recruitment.change_participationrequest',
     )
-    study_status = [Study.EXECUTION]
+    study_filter = {'finished': False, 'started': True}
 
     def get_initial(self):
         initial = super().get_initial()
@@ -456,7 +456,7 @@ class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView)
 
 
 class ContactUpdateView(StudyMixin, BaseContactUpdateView):
-    study_status = [Study.EXECUTION]
+    study_filter = {'finished': False, 'started': True}
 
     def get_object(self):
         participation_request = get_object_or_404(
@@ -477,7 +477,7 @@ class ContactUpdateView(StudyMixin, BaseContactUpdateView):
 
 
 class AttributeSetUpdateView(StudyMixin, BaseAttributeSetUpdateView):
-    study_status = [Study.EXECUTION]
+    study_filter = {'finished': False, 'started': True}
 
     def get_object(self):
         participation_request = get_object_or_404(
@@ -492,7 +492,7 @@ class AttributeSetUpdateView(StudyMixin, BaseAttributeSetUpdateView):
 
 
 class SubjectUpdateView(StudyMixin, BaseSubjectUpdateView):
-    study_status = [Study.EXECUTION]
+    study_filter = {'finished': False, 'started': True}
 
     def get_object(self):
         participation_request = get_object_or_404(
@@ -519,7 +519,7 @@ class SearchView(LoginRequiredMixin, GetFormView):
         contacts = Contact.objects.fuzzy_filter(form.cleaned_data['search'])
         subjects = [c.subject for c in contacts]
         participation_requests = ParticipationRequest.objects.filter(
-            subject__in=subjects, study__status=Study.EXECUTION
+            subject__in=subjects, study__finished=False, study__started=True,
         ).select_related('subject', 'study')
 
         result = {}

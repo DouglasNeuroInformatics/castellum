@@ -65,7 +65,7 @@ class FollowUpFeedForStudy(BaseFollowUpFeed):
             user = User.objects.get(token=request.GET.get('token'))
         except User.DoesNotExist:
             raise PermissionDenied
-        study = get_object_or_404(Study, pk=kwargs.get('study_pk'), status=Study.EXECUTION)
+        study = get_object_or_404(Study, pk=kwargs.get('study_pk'), finished=False, started=True)
         perms = ('recruitment.add_participationrequest', 'studies.access_study')
         if not user.has_perms(perms, obj=study):
             raise PermissionDenied
@@ -89,7 +89,7 @@ class FollowUpFeedForUser(BaseFollowUpFeed):
 
     def items(self, user):
         perms = ('recruitment.add_participationrequest', 'studies.access_study')
-        for study in Study.objects.filter(status=Study.EXECUTION):
+        for study in Study.objects.filter(finished=False, started=True):
             if not user.has_perms(perms, obj=study):
                 continue
             qs = (ParticipationRequest.objects.filter(study=study, followup_date__isnull=False)

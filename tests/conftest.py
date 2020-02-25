@@ -130,12 +130,12 @@ def study(db):
 
 @pytest.fixture
 def study_in_execution_status(db):
-    return baker.make(Study, status=Study.EXECUTION)
+    return baker.make(Study, started=True)
 
 
 @pytest.fixture
 def study_in_edit_status(db):
-    return baker.make(Study, status=Study.EDIT)
+    return baker.make(Study, started=False)
 
 
 @pytest.fixture

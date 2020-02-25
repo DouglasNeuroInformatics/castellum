@@ -32,8 +32,6 @@ which can be passed to ``AttributeSet.objects.filter()``.
 
 from django.db import models
 
-from castellum.studies.models import Study
-
 from .filter_registry import custom_filters
 from .models import AttributeDescription
 from .models import ParticipationRequest
@@ -59,7 +57,7 @@ def study_exclusion(study):
         # Exclusive studies:
         # Exclude all other studies (including exclusive studies).
         pr_q |= models.Q(
-            ~models.Q(study__status=Study.FINISHED),
+            ~models.Q(study__finished=True),
             ~models.Q(status=ParticipationRequest.UNSUITABLE),
             ~models.Q(study__pk=study.pk),
         )
@@ -67,7 +65,7 @@ def study_exclusion(study):
         # Reverse exclusive studies:
         # All other studies still exclude exclusive studies.
         pr_q |= models.Q(
-            ~models.Q(study__status=Study.FINISHED),
+            ~models.Q(study__finished=True),
             ~models.Q(status=ParticipationRequest.UNSUITABLE),
             study__is_exclusive=True,
         )
