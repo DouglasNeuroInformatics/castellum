@@ -63,12 +63,6 @@ class Study(models.Model):
     EXECUTION = 1
     FINISHED = 2
 
-    STATUS = [
-        (EDIT, _('Edit')),
-        (EXECUTION, _('Execution')),
-        (FINISHED, _('Finished')),
-    ]
-
     name = models.CharField(_('Name'), max_length=254)
     contact_person = models.CharField(_('Responsible contact person'), max_length=254)
     principal_investigator = models.CharField(_('Principal Investigator'), max_length=254)
@@ -78,9 +72,8 @@ class Study(models.Model):
     description = models.TextField(_('Description'), blank=True)
     keywords = models.CharField(_('Keywords'), max_length=254, blank=True)
     study_type = models.ManyToManyField(StudyType, verbose_name=_('Type of study'), blank=True)
-    previous_status = models.SmallIntegerField(
-        _('Previous status'), choices=STATUS, default=EDIT)
-    status = models.SmallIntegerField(_('Status'), choices=STATUS, default=EDIT)
+    started = models.BooleanField(_('Started'), default=False)
+    finished = models.BooleanField(_('Finished'), default=False)
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
     min_subject_count = models.PositiveIntegerField(_('Required number of subjects'), blank=True)
     expense_allowance = models.PositiveIntegerField(_('Expense allowance'), blank=True, null=True)
