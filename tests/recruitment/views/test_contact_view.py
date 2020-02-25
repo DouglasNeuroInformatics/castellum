@@ -5,32 +5,28 @@ from castellum.recruitment.models import ParticipationRequestRevision
 from castellum.studies.models import Study
 
 
-def test_404_page_returned_if_study_is_not_provided(client, member, participation_request):
-    client.force_login(member)
-    url = '/recruitment/3/{}/'.format(participation_request.pk)
-    response = client.get(url)
-    assert response.status_code == 404
-
-
-def test_404_page_returned_if_wrong_study_is_provided(client, member, participation_request, study):
-    client.force_login(member)
-    url = '/recruitment/{}/{}/'.format(study.pk, participation_request.pk)
-    response = client.get(url)
-    assert response.status_code == 404
-
-
-def test_200_page_returned_if_study_in_execution_status_is_provided(
-    client, member, participation_request
-):
+def test_200(client, member, participation_request):
     client.force_login(member)
     url = '/recruitment/{}/{}/'.format(participation_request.study.pk, participation_request.pk)
     response = client.get(url)
     assert response.status_code == 200
 
 
-def test_404_page_returned_if_study_in_edit_status_is_provided(
-    client, member, participation_request
-):
+def test_404_if_study_is_not_provided(client, member, participation_request):
+    client.force_login(member)
+    url = '/recruitment/3/{}/'.format(participation_request.pk)
+    response = client.get(url)
+    assert response.status_code == 404
+
+
+def test_404_if_wrong_study_is_provided(client, member, participation_request, study):
+    client.force_login(member)
+    url = '/recruitment/{}/{}/'.format(study.pk, participation_request.pk)
+    response = client.get(url)
+    assert response.status_code == 404
+
+
+def test_404_if_study_in_edit_status(client, member, participation_request):
     participation_request.study.status = Study.EDIT
     participation_request.study.save()
 

@@ -4,6 +4,8 @@ import pytest
 from model_bakery import baker
 
 from castellum.recruitment.models import SubjectFilterGroup
+from castellum.studies.models import Study
+from castellum.studies.models import StudyMembership
 
 
 def test_update_200(client, member, subject_filter_group):
@@ -22,9 +24,13 @@ def test_update_with_filter_200(client, member, subject_filter):
     assert response.status_code == 200
 
 
-def test_update_other_study(client, member, subject_filter_group, study):
+def test_update_other_study(client, member, subject_filter_group):
     client.force_login(member)
-    url = '/studies/{}/recruitmentsettings/filters/{}/'.format(study.pk, subject_filter_group.pk)
+    other_study = baker.make(Study)
+    baker.make(StudyMembership, user=member, study=other_study)
+    url = '/studies/{}/recruitmentsettings/filters/{}/'.format(
+        other_study.pk, subject_filter_group.pk
+    )
     response = client.get(url)
     assert response.status_code == 404
 
@@ -51,17 +57,18 @@ def test_delete_200(client, member, subject_filter_group):
     assert response.status_code == 200
 
 
-def test_delete_other_study(client, member, subject_filter_group, study):
+def test_delete_other_study(client, member, subject_filter_group):
     client.force_login(member)
+    other_study = baker.make(Study)
+    baker.make(StudyMembership, user=member, study=other_study)
     url = '/studies/{}/recruitmentsettings/filters/{}/delete/'.format(
-        study.pk, subject_filter_group.pk
+        other_study.pk, subject_filter_group.pk
     )
     response = client.get(url)
     assert response.status_code == 404
 
 
-def test_advanced_filtering_200(client, member, subject_filter_group,
-                                study_in_edit_status):
+def test_advanced_filtering_200(client, member, subject_filter_group, study_in_edit_status):
     study_in_edit_status.advanced_filtering = True
     study_in_edit_status.save()
 
