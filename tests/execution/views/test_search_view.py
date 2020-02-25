@@ -22,13 +22,13 @@ def test_200(request, client, user_fixture):
     'member',
     pytest.param('user', marks=pytest.mark.xfail(strict=True)),
 ])
-def test_only_members(request, client, user_fixture, study_in_execution_status):
+def test_only_members(request, client, user_fixture, started_study):
     user = request.getfixturevalue(user_fixture)
 
     contact = baker.make(Contact, first_name='foo', last_name='bar')
     baker.make(
         ParticipationRequest,
-        study=study_in_execution_status,
+        study=started_study,
         subject=contact.subject,
         status=ParticipationRequest.INVITED,
     )
@@ -40,35 +40,35 @@ def test_only_members(request, client, user_fixture, study_in_execution_status):
 
 
 def test_search_view(
-    client, member, study_in_execution_status, study_in_edit_status, contact_domain
+    client, member, started_study, study, contact_domain
 ):
     contact1 = baker.make(Contact, first_name='foo', last_name='bar')
     contact2 = baker.make(Contact, first_name='asd', last_name='asd')
     contact3 = baker.make(Contact, first_name='foo', last_name='bar')
     baker.make(
         ParticipationRequest,
-        study=study_in_execution_status,
+        study=started_study,
         subject=contact1.subject,
         status=ParticipationRequest.INVITED,
     )
     # wrong status
     baker.make(
         ParticipationRequest,
-        study=study_in_edit_status,
+        study=study,
         subject=contact1.subject,
         status=ParticipationRequest.INVITED,
     )
     # wrong name
     baker.make(
         ParticipationRequest,
-        study=study_in_execution_status,
+        study=started_study,
         subject=contact2.subject,
         status=ParticipationRequest.INVITED,
     )
     # wrong status
     baker.make(
         ParticipationRequest,
-        study=study_in_execution_status,
+        study=started_study,
         subject=contact3.subject,
         status=ParticipationRequest.UNSUITABLE,
     )

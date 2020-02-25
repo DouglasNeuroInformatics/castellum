@@ -27,13 +27,13 @@ def test_study_list_view(request, client, user_fixture):
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
     'data_protection_coordinator',
 ])
-def test_study_detail_view(request, client, user_fixture, study_in_execution_status):
+def test_study_detail_view(request, client, user_fixture, started_study):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
 
-    baker.make(StudyMembership, user=user, study=study_in_execution_status)
+    baker.make(StudyMembership, user=user, study=started_study)
 
-    url = '/execution/{}/'.format(study_in_execution_status.pk)
+    url = '/execution/{}/'.format(started_study.pk)
     response = client.get(url)
     assert response.status_code == 200
 
@@ -46,37 +46,37 @@ def test_study_detail_view(request, client, user_fixture, study_in_execution_sta
     'data_protection_coordinator',
 ])
 def test_participation_request_detail_view_invited(
-    request, client, user_fixture, contact, study_in_execution_status
+    request, client, user_fixture, contact, started_study
 ):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
 
     participationrequest = baker.make(
         ParticipationRequest,
-        study=study_in_execution_status,
+        study=started_study,
         status=ParticipationRequest.INVITED,
         subject=contact.subject,
     )
-    baker.make(StudyMembership, user=user, study=study_in_execution_status)
+    baker.make(StudyMembership, user=user, study=started_study)
 
-    url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participationrequest.pk)
+    url = '/execution/{}/{}/'.format(started_study.pk, participationrequest.pk)
     response = client.get(url)
     assert response.status_code == 200
 
 
 def test_participation_request_detail_view_unsuitable(
-    request, client, contact, study_conductor, study_in_execution_status
+    request, client, contact, study_conductor, started_study
 ):
     client.force_login(study_conductor)
 
     participationrequest = baker.make(
         ParticipationRequest,
-        study=study_in_execution_status,
+        study=started_study,
         status=ParticipationRequest.UNSUITABLE,
         subject=contact.subject,
     )
-    baker.make(StudyMembership, user=study_conductor, study=study_in_execution_status)
+    baker.make(StudyMembership, user=study_conductor, study=started_study)
 
-    url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participationrequest.pk)
+    url = '/execution/{}/{}/'.format(started_study.pk, participationrequest.pk)
     response = client.get(url)
     assert response.status_code == 404

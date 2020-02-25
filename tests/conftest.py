@@ -129,21 +129,15 @@ def study(db):
 
 
 @pytest.fixture
-def study_in_execution_status(db):
+def started_study(db):
     return baker.make(Study, started=True)
 
 
 @pytest.fixture
-def study_in_edit_status(db):
-    return baker.make(Study, started=False)
-
-
-@pytest.fixture
-def member(study, study_in_execution_status, study_in_edit_status):
+def member(study, started_study):
     user = create_user(None)
     StudyMembership.objects.create(user=user, study=study)
-    StudyMembership.objects.create(user=user, study=study_in_execution_status)
-    StudyMembership.objects.create(user=user, study=study_in_edit_status)
+    StudyMembership.objects.create(user=user, study=started_study)
     return user
 
 
@@ -159,9 +153,9 @@ def attributeset(contact, contact_domain):
 
 
 @pytest.fixture
-def participation_request(contact, study_in_execution_status, contact_domain):
+def participation_request(contact, started_study, contact_domain):
     subject = get_subject(contact_domain.key, contact.pseudonym)
-    return baker.make(ParticipationRequest, study=study_in_execution_status, subject=subject)
+    return baker.make(ParticipationRequest, study=started_study, subject=subject)
 
 
 @pytest.fixture
@@ -170,8 +164,8 @@ def attribute_description(db, attribute_descriptions):
 
 
 @pytest.fixture
-def subject_filter_group(db, study_in_edit_status):
-    return baker.make(SubjectFilterGroup, study=study_in_edit_status)
+def subject_filter_group(db, study):
+    return baker.make(SubjectFilterGroup, study=study)
 
 
 @pytest.fixture

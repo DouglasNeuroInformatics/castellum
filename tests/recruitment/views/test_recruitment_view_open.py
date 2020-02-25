@@ -12,12 +12,12 @@ from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 
 
-def test_min_subject_count_is_zero(client, member, study_in_execution_status):
-    study_in_execution_status.min_subject_count = 0
-    study_in_execution_status.save()
+def test_min_subject_count_is_zero(client, member, started_study):
+    started_study.min_subject_count = 0
+    started_study.save()
 
     client.force_login(member)
-    url = "/recruitment/{}/".format(study_in_execution_status.pk)
+    url = "/recruitment/{}/".format(started_study.pk)
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -31,16 +31,16 @@ def test_min_subject_count_is_zero(client, member, study_in_execution_status):
     10 * settings.CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR,
     11 * settings.CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR,
 ])
-def test_not_contacted_count_is_gte_to_hard_limit(client, member, study_in_execution_status,
+def test_not_contacted_count_is_gte_to_hard_limit(client, member, started_study,
                                                   subject_count):
-    study_in_execution_status.min_subject_count = 10
-    study_in_execution_status.save()
+    started_study.min_subject_count = 10
+    started_study.save()
 
     for i in range(subject_count):
-        create_participation_request(study_in_execution_status)
+        create_participation_request(started_study)
 
     client.force_login(member)
-    url = "/recruitment/{}/".format(study_in_execution_status.pk)
+    url = "/recruitment/{}/".format(started_study.pk)
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -55,18 +55,17 @@ def test_not_contacted_count_is_gte_to_hard_limit(client, member, study_in_execu
     settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT + 1,
     settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT - settings.CASTELLUM_RECRUITMENT_BATCH_SIZE + 1,
 ])
-def test_not_contacted_count_is_gte_to_soft_limit(client, member, study_in_execution_status,
-                                                  subject_count):
-    study_in_execution_status.min_subject_count = 2 * settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT
-    study_in_execution_status.save()
+def test_not_contacted_count_is_gte_to_soft_limit(client, member, started_study, subject_count):
+    started_study.min_subject_count = 2 * settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT
+    started_study.save()
 
     for i in range(subject_count):
-        create_participation_request(study_in_execution_status)
+        create_participation_request(started_study)
     for i in range(settings.CASTELLUM_RECRUITMENT_BATCH_SIZE):
         create_attributeset()
 
     client.force_login(member)
-    url = "/recruitment/{}/".format(study_in_execution_status.pk)
+    url = "/recruitment/{}/".format(started_study.pk)
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -77,21 +76,19 @@ def test_not_contacted_count_is_gte_to_soft_limit(client, member, study_in_execu
     assert response.status_code == 200
 
 
-def test_no_matching_attribute_sets(
-    client, member, study_in_execution_status, attribute_description
-):
-    study_in_execution_status.min_subject_count = 5
-    study_in_execution_status.save()
+def test_no_matching_attribute_sets(client, member, started_study, attribute_description):
+    started_study.min_subject_count = 5
+    started_study.save()
 
     for i in range(5):
-        create_participation_request(study_in_execution_status)
+        create_participation_request(started_study)
 
-    subject_filter_group = baker.make(SubjectFilterGroup, study=study_in_execution_status)
+    subject_filter_group = baker.make(SubjectFilterGroup, study=started_study)
     baker.make(SubjectFilter, group=subject_filter_group,
                description=attribute_description, operator="exact", value="left")
 
     client.force_login(member)
-    url = "/recruitment/{}/".format(study_in_execution_status.pk)
+    url = "/recruitment/{}/".format(started_study.pk)
     response = client.post(url)
 
     messages = list(get_messages(response.wsgi_request))
@@ -100,12 +97,12 @@ def test_no_matching_attribute_sets(
     assert response.status_code == 200
 
 
-def test_create_revision_on_create(client, member, attributeset, study_in_execution_status):
-    study_in_execution_status.min_subject_count = 5
-    study_in_execution_status.save()
+def test_create_revision_on_create(client, member, attributeset, started_study):
+    started_study.min_subject_count = 5
+    started_study.save()
 
     client.force_login(member)
-    url = "/recruitment/{}/".format(study_in_execution_status.pk)
+    url = "/recruitment/{}/".format(started_study.pk)
     client.post(url)
 
     assert ParticipationRequestRevision.objects.count() == 1

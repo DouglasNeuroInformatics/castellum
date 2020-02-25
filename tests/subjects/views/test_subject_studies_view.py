@@ -12,8 +12,7 @@ def test_200_with_attributeset(client, user, contact, attributeset):
     assert b'No matching studies found' in response.content
 
 
-def test_200_with_attributeset_and_study(client, member, contact, attributeset,
-                                         study_in_execution_status):
+def test_200_with_attributeset_and_study(client, member, contact, attributeset, started_study):
     client.force_login(member)
     response = client.get('/subjects/{}/studyparticipation/add/'.format(contact.subject.pk))
     assert response.status_code == 200

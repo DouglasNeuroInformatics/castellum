@@ -38,7 +38,7 @@ def test_404_if_study_is_not_provided(client, member):
     assert response.status_code == 404
 
 
-def test_200_if_study_in_execution_status_and_mail_settings(client, user):
+def test_200_if_started_study_and_mail_settings(client, user):
     client.force_login(user)
     study = baker.make(
         Study,
@@ -55,18 +55,18 @@ def test_200_if_study_in_execution_status_and_mail_settings(client, user):
     assert b'Mail recruitment has not been set up!' not in response.content
 
 
-def test_200_if_study_in_execution_status_no_mail_settings(
-    client, member, study_in_execution_status
+def test_200_if_started_study_and_no_mail_settings(
+    client, member, started_study
 ):
     client.force_login(member)
-    url = '/recruitment/{}/mail/'.format(study_in_execution_status.pk)
+    url = '/recruitment/{}/mail/'.format(started_study.pk)
     response = client.get(url)
     assert response.status_code == 200
     assert b'Mail recruitment has not been set up!' in response.content
     assert b'id_batch_size' not in response.content
 
 
-def test_404_if_study_in_edit_status(client, user):
+def test_404_if_study_not_started(client, user):
     client.force_login(user)
     study = baker.make(
         Study,

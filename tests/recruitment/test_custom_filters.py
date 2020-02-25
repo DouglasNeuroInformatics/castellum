@@ -6,16 +6,16 @@ from django.db.models import Q
 from castellum.recruitment.filter_registry import custom_filters
 
 
-def test_custom_filter_is_used(client, admin, study_in_execution_status):
+def test_custom_filter_is_used(client, admin, started_study):
     client.force_login(admin)
 
     custom_filter = MagicMock(return_value=Q())
     custom_filters['testfilter'] = custom_filter
-    study_in_execution_status.min_subject_count = 10
-    study_in_execution_status.custom_filter = 'testfilter'
-    study_in_execution_status.save()
+    started_study.min_subject_count = 10
+    started_study.custom_filter = 'testfilter'
+    started_study.save()
 
-    client.post('/recruitment/{}/'.format(study_in_execution_status.pk))
+    client.post('/recruitment/{}/'.format(started_study.pk))
 
     assert custom_filter.called
 
@@ -23,14 +23,14 @@ def test_custom_filter_is_used(client, admin, study_in_execution_status):
     del custom_filters['testfilter']
 
 
-def test_error_if_not_registered(client, admin, study_in_execution_status):
+def test_error_if_not_registered(client, admin, started_study):
     client.force_login(admin)
 
-    study_in_execution_status.min_subject_count = 10
-    study_in_execution_status.custom_filter = 'testfilter'
-    study_in_execution_status.save()
+    started_study.min_subject_count = 10
+    started_study.custom_filter = 'testfilter'
+    started_study.save()
 
-    response = client.post('/recruitment/{}/'.format(study_in_execution_status.pk))
+    response = client.post('/recruitment/{}/'.format(started_study.pk))
 
     messages = list(get_messages(response.wsgi_request))
     assert str(messages[0]) == (

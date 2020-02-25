@@ -3,22 +3,22 @@ import datetime
 import pytest
 
 
-def test_feed_for_study_in_execution_status(client, member, study_in_execution_status):
+def test_feed_for_started_study(client, member, started_study):
     response = client.get('/recruitment/{}/followups/?token={}'.format(
-        study_in_execution_status.pk, member.token
+        started_study.pk, member.token
     ))
     assert response.status_code == 200
 
 
-def test_feed_for_study_in_edit_status(client, member, study_in_edit_status):
+def test_feed_for_not_started_study(client, member, study):
     response = client.get('/recruitment/{}/followups/?token={}'.format(
-        study_in_edit_status.pk, member.token
+        study.pk, member.token
     ))
     assert response.status_code == 404
 
 
-def test_feed_for_study_without_token(client, study_in_edit_status):
-    response = client.get('/recruitment/{}/followups/'.format(study_in_edit_status.pk))
+def test_feed_for_study_without_token(client, study):
+    response = client.get('/recruitment/{}/followups/'.format(study.pk))
     assert response.status_code == 403
 
 
