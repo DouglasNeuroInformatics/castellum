@@ -22,7 +22,6 @@
 import logging
 
 from django import forms
-from django.conf import settings
 from django.contrib import messages
 from django.db import models
 from django.http import HttpResponseBadRequest
@@ -45,6 +44,7 @@ from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
 from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
+from castellum.utils.views import get_next_url
 
 from ..forms import ImportForm
 from ..forms import StudyForm
@@ -84,7 +84,6 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['q'] = self.request.GET.get('q', '')
         context['all'] = 'all' in self.request.GET
-        context['enable_export'] = settings.CASTELLUM_ENABLE_STUDY_EXPORT
         return context
 
 
@@ -102,7 +101,6 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
             ).count()
         )
         context['related_studies'] = list(get_related_studies(self.object))
-        context['enable_export'] = settings.CASTELLUM_ENABLE_STUDY_EXPORT
         return context
 
 
@@ -222,7 +220,7 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
                 self.study.set_status(self.study.EDIT)
             else:
                 self.study.set_status(self.study.EXECUTION)
-            return redirect('studies:detail', self.study.pk)
+            return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
         else:
             return HttpResponseBadRequest()
 
@@ -238,7 +236,7 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
             self.study.participationrequest_set\
                 .exclude(status=ParticipationRequest.INVITED)\
                 .delete()
-        return redirect('studies:detail', self.study.pk)
+        return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
 
 
 class StudyImportView(PermissionRequiredMixin, FormView):

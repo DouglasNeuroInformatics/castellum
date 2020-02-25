@@ -22,6 +22,7 @@
 from django import forms
 from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponseBadRequest
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormMixin
 
@@ -76,3 +77,14 @@ class ReadonlyMixin:
         if self.get_readonly():
             return HttpResponseBadRequest()
         return super().post(request, *args, **kwargs)
+
+
+def get_next_url(request, default='/'):
+    url = request.POST.get('next', request.GET.get('next'))
+    is_safe = url_has_allowed_host_and_scheme(
+        url, allowed_hosts=[request.get_host()], require_https=request.is_secure()
+    )
+    if url and is_safe:
+        return url
+    else:
+        return default
