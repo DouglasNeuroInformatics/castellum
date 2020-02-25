@@ -44,6 +44,7 @@ from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
 from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
+from castellum.utils.views import get_next_url
 
 from ..forms import ImportForm
 from ..forms import StudyForm
@@ -219,7 +220,7 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
                 self.study.set_status(self.study.EDIT)
             else:
                 self.study.set_status(self.study.EXECUTION)
-            return redirect('studies:detail', self.study.pk)
+            return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
         else:
             return HttpResponseBadRequest()
 
@@ -235,7 +236,7 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
             self.study.participationrequest_set\
                 .exclude(status=ParticipationRequest.INVITED)\
                 .delete()
-        return redirect('studies:detail', self.study.pk)
+        return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
 
 
 class StudyImportView(PermissionRequiredMixin, FormView):
