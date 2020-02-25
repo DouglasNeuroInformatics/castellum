@@ -111,3 +111,8 @@ def absolute_url(context, view_name, *args, **kwargs):
 @register.simple_tag
 def get_production():
     return settings.PRODUCTION
+
+
+@register.simple_tag
+def get_enable_study_export():
+    return settings.CASTELLUM_ENABLE_STUDY_EXPORT

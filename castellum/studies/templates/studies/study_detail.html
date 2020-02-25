@@ -48,6 +48,7 @@
                 {% endif %}
             </form>
         {% endif %}
+        {% get_enable_study_export as enable_export %}
         {% if enable_export %}
             <a href="{% url 'studies:export' study.pk %}" class="btn btn-outline-primary mb-1">{% trans 'Export' %}</a>
         {% endif %}

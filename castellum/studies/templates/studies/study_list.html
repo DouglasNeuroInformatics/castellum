@@ -1,6 +1,5 @@
 {% extends "studies/base.html" %}
-
-{% load i18n auth bootstrap4 %}
+{% load i18n auth bootstrap4 utils %}
 
 {% block title %}{% trans "Studies" %} &middot; {{ block.super }}{% endblock %}
 
@@ -66,6 +65,7 @@
         <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         {% has_perm 'studies.add_study' user as can_add_study %}
         {% if can_add_study %}
+            {% get_enable_study_export as enable_export %}
             {% if enable_export %}
                 <a href="{% url 'studies:import' %}" class="btn btn-primary">{% trans "Import study" %}</a>
             {% endif %}
