@@ -111,7 +111,7 @@ class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     def form_valid(self, form, notes_formset):
         if settings.CASTELLUM_DELETE_NOTIFICATION_TO:
             if self.object.to_be_deleted and not self.object.to_be_deleted_notified:
-                rel = reverse('subjects:detail', args=[self.object.pk])
+                rel = reverse('subjects:gdpr', args=[self.object.pk])
                 url = self.request.build_absolute_uri(rel)
 
                 self.object.to_be_deleted_notified = send_mail(
