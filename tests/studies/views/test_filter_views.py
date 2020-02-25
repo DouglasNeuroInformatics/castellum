@@ -60,8 +60,7 @@ def test_delete_other_study(client, member, subject_filter_group, study):
     assert response.status_code == 404
 
 
-def test_advanced_filtering_200(client, member, subject_filter_group,
-                                study_in_edit_status):
+def test_advanced_filtering_200(client, member, subject_filter_group, study_in_edit_status):
     study_in_edit_status.advanced_filtering = True
     study_in_edit_status.save()
 
