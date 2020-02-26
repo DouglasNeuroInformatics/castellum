@@ -4,6 +4,10 @@
 {% block title %}{% trans "GDPR request" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    {% if not subject.export_requested %}
+        <div class="alert alert-info">{% trans 'No export requested' %}</div>
+    {% endif %}
+
     {% for dataset in dataset_list %}
         <h1>{{ dataset|model_verbose_name }}</h1>
         <dl class="row">

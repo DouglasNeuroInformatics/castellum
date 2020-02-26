@@ -196,21 +196,22 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        monitoring_logger.info('GDPR-Request export: {} by {}'.format(
-            self.object.pk, self.request.user.pk))
+        if self.object.export_requested:
+            monitoring_logger.info('GDPR-Request export: {} by {}'.format(
+                self.object.pk, self.request.user.pk))
 
-        context['dataset_list'] = [self.object, self.object.contact]
+            context['dataset_list'] = [self.object, self.object.contact]
 
-        try:
-            context['dataset_list'].append(self.object.attributeset)
-        except ObjectDoesNotExist:
-            pass
+            try:
+                context['dataset_list'].append(self.object.attributeset)
+            except ObjectDoesNotExist:
+                pass
 
-        for participation_request in self.object.participationrequest_set.all():
-            context['dataset_list'].append(participation_request)
+            for participation_request in self.object.participationrequest_set.all():
+                context['dataset_list'].append(participation_request)
 
-        for consent in self.object.consentconfirmation_set.all():
-            context['dataset_list'].append(consent)
+            for consent in self.object.consentconfirmation_set.all():
+                context['dataset_list'].append(consent)
 
         return context
 
