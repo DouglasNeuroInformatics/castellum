@@ -110,6 +110,18 @@ class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
 
     def form_valid(self, form, notes_formset):
         if settings.CASTELLUM_DELETE_NOTIFICATION_TO:
+            old = Subject.objects.get(pk=self.object.pk)
+            if self.object.export_requested and not old.export_requested:
+                rel = reverse('subjects:detail', args=[self.object.pk])
+                url = self.request.build_absolute_uri(rel)
+
+                self.object.to_be_deleted_notified = send_mail(
+                    settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_SUBJECT,
+                    settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY.format(url=url),
+                    settings.DEFAULT_FROM_EMAIL,
+                    [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
+                )
+
             if self.object.to_be_deleted and not self.object.to_be_deleted_notified:
                 rel = reverse('subjects:detail', args=[self.object.pk])
                 url = self.request.build_absolute_uri(rel)
