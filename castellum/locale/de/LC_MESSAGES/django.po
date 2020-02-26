@@ -331,7 +331,7 @@ msgstr "Speichern"
 
 #: castellum/data_protection/templates/data_protection/__subject_list.html:12
 msgid "Due for deletion in"
-msgstr "zur Löschung fällig in"
+msgstr "Zur Löschung fällig in"
 
 #: castellum/data_protection/templates/data_protection/__subject_list.html:18
 #: castellum/data_protection/templates/data_protection/index.html:29
@@ -365,7 +365,7 @@ msgstr "Datenschutz-Dashboard"
 #: castellum/data_protection/templates/data_protection/index.html:9
 #: castellum/subjects/forms.py:44 castellum/subjects/models.py:75
 msgid "To be deleted"
-msgstr "zur Löschung vorgemerkt"
+msgstr "Zur Löschung vorgemerkt"
 
 #: castellum/data_protection/templates/data_protection/index.html:12
 msgid "Unrecruitable"
