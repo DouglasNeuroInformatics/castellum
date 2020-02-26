@@ -1,5 +1,5 @@
 {% extends "subjects/base.html" %}
-{% load i18n bootstrap4 auth utils %}
+{% load i18n bootstrap4 auth subjects utils %}
 
 {% block title %}{% trans "Subjects" %} &middot; {{ block.super }}{% endblock %}
 
@@ -137,6 +137,7 @@
                 {% include 'subjects/__bar.html' with value=count_participated|percent:count_total %}
             </dd>
 
+            {% get_db_consent_uploaded as db_consent_uploaded %}
             {% if db_consent_uploaded %}
                 <dt class="col-sm-5">{% trans 'Consent confirmed' %}</dt>
                 <dd class="col-sm-3">{{ count_consent }} {% trans 'subjects' %}</dd>
