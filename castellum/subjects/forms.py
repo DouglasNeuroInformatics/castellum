@@ -19,9 +19,10 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django import forms
 from django.forms import ValidationError
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from .models import Consent
@@ -74,7 +75,7 @@ class SubjectForm(forms.ModelForm):
                                         "status of the consent."), code='invalid')
 
         if self.cleaned_data.get('to_be_deleted') and not self.instance.to_be_deleted:
-            self.instance.to_be_deleted = timezone.now()
+            self.instance.to_be_deleted = datetime.date.today()
         elif not self.cleaned_data.get('to_be_deleted') and self.instance.to_be_deleted:
             self.instance.to_be_deleted = None
 
