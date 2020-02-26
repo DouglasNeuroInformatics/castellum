@@ -131,6 +131,8 @@ class Subject(TimeStampedModel):
             'note_difficult_to_understand',
             'note_abusive_language',
             'no_recruitment',
+            'to_be_deleted',
+            'export_requested',
         ]
 
     @cached_property

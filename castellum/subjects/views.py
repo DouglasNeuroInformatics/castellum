@@ -214,6 +214,9 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
             for consent in self.object.consentconfirmation_set.all():
                 context['dataset_list'].append(consent)
 
+            for answer in self.object.exportanswer_set.all():
+                context['dataset_list'].append(answer)
+
         return context
 
     def post(self, request, *args, **kwargs):
