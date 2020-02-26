@@ -363,8 +363,6 @@ your castellum account has been unlocked.
 CASTELLUM_DELETE_NOTIFICATION_TO = None
 CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT = '[Castellum] Subject deletion'
 CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY = 'The following subject should be deleted: {url}'
-CASTELLUM_DELETE_SUBJECT_REQUEST_NOTIFICATION_SUBJECT = '[Castellum] Subject deletion request'
-CASTELLUM_DELETE_SUBJECT_REQUEST_NOTIFICATION_BODY = 'The following subject wants to be deleted: {url}'
 CASTELLUM_DELETE_STUDY_NOTIFICATION_SUBJECT = '[Castellum] Study deletion'
 CASTELLUM_DELETE_STUDY_NOTIFICATION_BODY = 'The following study should be deleted: {url}'
 
