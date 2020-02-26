@@ -1,5 +1,5 @@
 {% extends "subjects/subject_base.html" %}
-{% load i18n auth %}
+{% load i18n auth subjects %}
 
 {% block container_class %}container-lg{% endblock%}
 
@@ -8,6 +8,11 @@
         <div class="col-md-3">
             <div class="list-group mb-3">
                 <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'export' %}active{% endif %}" href="{% url 'subjects:gdpr' subject.pk %}">{% trans 'Export' %}</a>
+
+                {% get_db_consent_uploaded as db_consent_uploaded %}
+                {% if db_consent_uploaded %}
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'consent' %}active{% endif %}" href="{% url 'subjects:consent' subject.pk %}">{% trans 'Consent' %}</a>
+                {% endif %}
 
                 {% has_perm 'subjects.delete_subject' user as can_delete_subject %}
                 {% if can_delete_subject %}

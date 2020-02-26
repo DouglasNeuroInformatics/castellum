@@ -161,6 +161,14 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
+class SubjectConsentView(SubjectMixin, PermissionRequiredMixin, DetailView):
+    model = Subject
+    template_name = 'subjects/subject_consent.html'
+    permission_required = 'contacts.view_contact'
+    tab = 'gdpr'
+    subtab = 'consent'
+
+
 class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     model = Subject
     permission_required = 'subjects.delete_subject'

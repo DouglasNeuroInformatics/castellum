@@ -1,0 +1,18 @@
+{% extends "subjects/subject_gdpr_base.html" %}
+{% load i18n auth utils %}
+
+{% block title %}{% trans "Consent" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    {% with consent=object.confirmed_consent %}
+        <div class="alert alert-{{ consent.revision.is_current|yesno:'success,warning' }}">
+            {% if consent %}
+                {{ consent.revision }} {% if not consent.revision.is_current %}({% trans 'outdated' %}){% endif %}
+                <br>
+                {{ consent|display:'type' }}, <time>{{ consent.updated_at|date }}</time>
+            {% else %}
+                {% trans 'Missing consent' %}
+            {% endif %}
+        </div>
+    {% endwith %}
+{% endblock %}

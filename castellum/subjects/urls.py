@@ -29,6 +29,7 @@ from .views import GuardianSearchView
 from .views import MaintenanceView
 from .views import ParticipationDeleteView
 from .views import ParticipationListView
+from .views import SubjectConsentView
 from .views import SubjectDeleteView
 from .views import SubjectDetailView
 from .views import SubjectExportView
@@ -39,6 +40,7 @@ app_name = 'subjects'
 urlpatterns = [
     path('', SubjectSearchView.as_view(), name='index'),
     path('<int:pk>/', SubjectDetailView.as_view(), name='detail'),
+    path('<int:pk>/consent/', SubjectConsentView.as_view(), name='consent'),
     path('<int:pk>/delete/', SubjectDeleteView.as_view(), name='delete'),
     path('<int:pk>/export/', SubjectExportView.as_view(), name='gdpr'),
     path('<int:pk>/subject/', SubjectUpdateView.as_view(), name='subject'),
