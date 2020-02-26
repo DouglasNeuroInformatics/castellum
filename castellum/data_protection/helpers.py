@@ -31,9 +31,20 @@ from castellum.subjects.models import ConsentConfirmation
 from castellum.subjects.models import Subject
 
 
+def get_export_requested(limit_by):
+    subjects = Subject.objects.filter(export_requested__isnull=False).annotate(
+        due=models.ExpressionWrapper(
+            models.F('export_requested') + settings.CASTELLUM_SUBJECT_DELETION_PERIOD,
+            output_field=models.DateField(),
+        )
+    )
+
+    return subjects[:limit_by], max(subjects.count() - limit_by, 0)
+
+
 def get_to_be_deleted(limit_by):
     subjects = Subject.objects.filter(to_be_deleted__isnull=False).annotate(
-        deletion_due=models.ExpressionWrapper(
+        due=models.ExpressionWrapper(
             models.F('to_be_deleted') + settings.CASTELLUM_SUBJECT_DELETION_PERIOD,
             output_field=models.DateField(),
         )

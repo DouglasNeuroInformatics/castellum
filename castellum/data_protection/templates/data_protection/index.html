@@ -6,6 +6,9 @@
 {% block content %}
     <h1 class="text-center">{% trans 'Data protection dashboard' %}</h1>
 
+    <h2>{% trans 'Export requested' %}</h2>
+    {% include 'data_protection/__subject_list.html' with subjects=export_requested missing=export_requested_missing %}
+
     <h2>{% trans 'To be deleted' %}</h2>
     {% include 'data_protection/__subject_list.html' with subjects=to_be_deleted missing=to_be_deleted_missing %}
 

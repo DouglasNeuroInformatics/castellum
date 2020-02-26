@@ -37,6 +37,7 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['export_requested'], context['export_requested_missing'] = helpers.get_export_requested(self.limit_by)  # noqa
         context['to_be_deleted'], context['to_be_deleted_missing'] = helpers.get_to_be_deleted(self.limit_by)  # noqa
         context['orphans'], context['orphans_missing'] = helpers.get_orphans(self.limit_by)
         context['unreachable'], context['unreachable_missing'] = helpers.get_unreachable(self.limit_by)  # noqa
