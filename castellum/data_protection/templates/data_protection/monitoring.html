@@ -15,13 +15,17 @@
         </div>
     </form>
 
-    <ul class="table-list">
+    <ul class="table-list mt-3">
         {% for logentry in object_list %}
             <li class="table-list-item">
                 <div class="h4 d-inline-block my-1 mr-2">{{ logentry|display:'reason' }}: {{ logentry.message }}</div>
                 <time class="form-text text-muted" datetime="{{ logentry.datetime|date:'Y-m-d' }}" title="{{ logentry.datetime|date }} {{ logentry.datetime|time }}">
                     {{ logentry.datetime|date }}
                 </time>
+            </li>
+        {% empty %}
+            <li class="alert alert-warning">
+                {% trans 'List is empty' %}
             </li>
         {% endfor %}
     </ul>
