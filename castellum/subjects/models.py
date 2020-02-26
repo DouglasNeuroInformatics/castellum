@@ -79,6 +79,12 @@ class Subject(TimeStampedModel):
     ))
     to_be_deleted_notified = models.BooleanField(default=False)
 
+    export_requested = models.DateField(_('Export requested'), blank=True, null=True, help_text=_(
+        'The subject wants to receive an export of all data we have stored about them. '
+        'This includes all data in Castellum and all data collected in studies. '
+        'This option should be used when a subject requests GDPR export.'
+    ))
+
     note_hard_of_hearing = models.BooleanField(_('Hard of hearing'), default=False)
     note_difficult_to_understand = models.BooleanField(_('Difficult to understand'), default=False)
     note_abusive_language = models.BooleanField(_('Abusive language'), default=False)
