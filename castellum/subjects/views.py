@@ -215,6 +215,15 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         return context
 
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.export_requested:
+            self.object.export_requested = None
+        else:
+            self.object.export_requested = datetime.date.today()
+        self.object.save()
+        return redirect('subjects:export', self.object.pk)
+
 
 class SubjectUpdateView(BaseSubjectUpdateView):
     tab = 'subject'
