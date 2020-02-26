@@ -261,3 +261,12 @@ class ConsentConfirmation(models.Model):
     class Meta:
         get_latest_by = 'revision__created_at'
         verbose_name = _('Consent confirmation')
+
+
+class ExportAnswer(models.Model):
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    created_at = models.DateField(_('Created at'), auto_now_add=True)
+    created_by = models.CharField(_('Created by'), max_length=150)
+
+    class Meta:
+        verbose_name = _('Export answer')

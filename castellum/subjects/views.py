@@ -60,6 +60,7 @@ from .mixins import BaseSubjectUpdateView
 from .mixins import SubjectMixin
 from .models import Consent
 from .models import ConsentConfirmation
+from .models import ExportAnswer
 from .models import Subject
 
 monitoring_logger = logging.getLogger('monitoring.subjects')
@@ -219,6 +220,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         self.object = self.get_object()
         if self.object.export_requested:
             self.object.export_requested = None
+            ExportAnswer.objects.create(subject=self.object, created_by=request.user.username)
         else:
             self.object.export_requested = datetime.date.today()
         self.object.save()
