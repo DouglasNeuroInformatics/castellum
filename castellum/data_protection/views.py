@@ -19,7 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.db import models
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 
@@ -60,18 +59,21 @@ class MonitoringView(PermissionRequiredMixin, ListView):
         'castellum_auth.privacy_level_2',
     ]
 
+    def get_reason(self):
+        reason_options = dict(MonitoringEntry.REASONS)
+        try:
+            reason = int(self.request.GET.get('reason'))
+            return reason, reason_options[reason]
+        except (ValueError, TypeError, KeyError):
+            reason = monitoring_logger.LOGIN
+            return reason, reason_options[reason]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['reason_options'] = MonitoringEntry.REASONS
-        reason_options = dict(context['reason_options'])
-        context['reason_label'] = reason_options.get(
-            int(self.request.GET.get('reason', monitoring_logger.LOGIN)),
-            reason_options[monitoring_logger.LOGIN],
-        )
+        __, context['reason_label'] = self.get_reason()
         return context
 
     def get_queryset(self):
-        qs = super().get_queryset()
-        reason = self.request.GET.get('reason', monitoring_logger.LOGIN)
-        qs = qs.filter(models.Q(reason=reason))
-        return qs
+        reason, __ = self.get_reason()
+        return super().get_queryset().filter(reason=reason)
