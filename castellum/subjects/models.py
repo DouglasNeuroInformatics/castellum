@@ -72,7 +72,7 @@ class Subject(TimeStampedModel):
             'This option should be used when a subject withdraws (GDPR) consent for recruitment.'
         ),
     )
-    to_be_deleted = models.DateTimeField(_('To be deleted'), blank=True, null=True, help_text=_(
+    to_be_deleted = models.DateField(_('To be deleted'), blank=True, null=True, help_text=_(
         'All data about this subject should be deleted or fully anonymized. '
         'This includes all data in Castellum and all data collected in studies. '
         'This option should be used when a subject requests GDPR deletion.'

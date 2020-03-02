@@ -1,3 +1,4 @@
+from datetime import date
 from datetime import datetime
 from itertools import cycle
 
@@ -79,7 +80,7 @@ def test_get_next_available_datetime_same_day():
 @pytest.mark.django_db
 def test_to_be_deleted_no_recruitment():
     subject = baker.make(Subject)
-    subject.to_be_deleted = True
+    subject.to_be_deleted = date.today()
     subject.no_recruitment = False
     with pytest.raises(ValidationError):
         subject.clean()
