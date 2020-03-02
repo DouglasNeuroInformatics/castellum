@@ -1,11 +1,9 @@
-{% extends "subjects/base.html" %}
+{% extends "subjects/maintenance_base.html" %}
 {% load i18n bootstrap4 auth %}
 
-{% block title %}{% trans "Maintenance" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% trans "Attributes" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>{% trans 'Maintenance' %}</h1>
-
     <p>{% trans 'The following subjects have incomplete attributesets:' %}</p>
 
     <ul class="table-list">
@@ -40,8 +38,4 @@
             {% bootstrap_pagination page_obj url=request.get_full_path %}
         </nav>
     {% endif %}
-
-    <div class="d-print-none mb-3">
-        <a href="{% url 'subjects:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-    </div>
 {% endblock %}
