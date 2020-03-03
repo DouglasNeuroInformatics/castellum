@@ -85,34 +85,33 @@ class SubjectFilterForm(forms.ModelForm):
 
         selected_description = self._get_selected_description(**kwargs)
 
+        self.fields["value"] = selected_description.field.filter_formfield(required=True)
         self.fields["operator"] = forms.ChoiceField(
-            choices=selected_description.field.available_operators)
+            choices=selected_description.field.available_operators
+        )
 
-        self.fields["value"] = selected_description.field.filter_formfield()
-        self.fields["value"].required = True
-        self.fields["description"].required = True
-
-        # disable fields when study is not in edit status
         try:
-            if self.instance.group.study:
-                if self.instance.group.study.status != Study.EDIT:
-                    self.fields["operator"].widget.attrs["disabled"] = True
-                    self.fields["value"].widget.attrs["disabled"] = True
+            if self.instance.group.study.status != Study.EDIT:
+                self.fields["value"].widget.attrs["disabled"] = True
+                self.fields["operator"].widget.attrs["disabled"] = True
         except ObjectDoesNotExist:
             pass
 
     def _get_selected_description(self, instance=None, data=None, prefix=None, **kwargs):
         if instance:
             return instance.description
-        elif data:
-            pk = data[prefix + '-description' if prefix else 'description']
-            if pk:
-                try:
-                    return AttributeDescription.objects.get(pk=pk)
-                except AttributeDescription.DoesNotExist:
-                    return None
-        elif kwargs.get('initial') and kwargs['initial'].get('description'):
+
+        key = prefix + '-description' if prefix else 'description'
+        if data and data[key]:
+            try:
+                return AttributeDescription.objects.get(pk=data[key])
+            except AttributeDescription.DoesNotExist:
+                return None
+
+        try:
             return kwargs['initial']['description']
+        except KeyError:
+            return None
 
 
 class SubjectFilterFormSet(forms.BaseModelFormSet):
