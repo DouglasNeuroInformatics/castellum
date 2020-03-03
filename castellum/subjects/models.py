@@ -152,7 +152,7 @@ class Subject(TimeStampedModel):
     @cached_property
     def consent(self):
         try:
-            return self.consentconfirmation_set.latest()
+            return self.consentconfirmation_set.filter(revision__is_current=True).latest()
         except ConsentConfirmation.DoesNotExist:
             return None
 
@@ -160,7 +160,8 @@ class Subject(TimeStampedModel):
     def confirmed_consent(self):
         try:
             return self.consentconfirmation_set.filter(
-                status=ConsentConfirmation.CONFIRMED
+                status=ConsentConfirmation.CONFIRMED,
+                revision__is_current=True,
             ).latest()
         except ConsentConfirmation.DoesNotExist:
             return None
@@ -230,6 +231,7 @@ class SubjectNote(models.Model):
 class Consent(models.Model):
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     info = models.CharField(_('Info'), max_length=128)
+    is_current = models.BooleanField(_('Is current'), default=True)
     file = RestrictedFileField(
         _('File'),
         upload_to='consent/',
@@ -242,10 +244,6 @@ class Consent(models.Model):
 
     def __str__(self):
         return _('Version %i') % self.pk
-
-    @cached_property
-    def is_current(self):
-        return not Consent.objects.filter(created_at__gt=self.created_at).exists()
 
 
 class ConsentConfirmation(models.Model):

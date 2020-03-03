@@ -98,7 +98,7 @@ def get_no_consent(limit_by):
             models.Q(consentconfirmation__status=ConsentConfirmation.CONFIRMED) |
             models.Q(consentconfirmation__updated_at__lte=acceptable_datetime)
         ),
-        consentconfirmation__revision=Consent.objects.latest(),
+        consentconfirmation__revision__is_current=True,
     )
 
     return subjects[:limit_by], max(subjects.count() - limit_by, 0)
