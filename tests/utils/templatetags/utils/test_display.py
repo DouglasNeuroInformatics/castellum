@@ -11,8 +11,8 @@ def contact():
 
 
 def test_get_attribute(contact):
-    assert "Max" == display(contact, "first_name")
+    assert display(contact, "first_name") == "Max"
 
 
 def test_get_attribute_display(contact):
-    assert "male" == display(contact, "gender")
+    assert display(contact, "gender") == "male"

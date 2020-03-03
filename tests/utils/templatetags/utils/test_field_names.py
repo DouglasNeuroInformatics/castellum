@@ -11,4 +11,4 @@ def pseudonym():
 
 
 def test_field_names(pseudonym):
-    assert ["domain", "id", "pseudonym", "subject"] == sorted(field_names(pseudonym))
+    assert sorted(field_names(pseudonym)) == ["domain", "id", "pseudonym", "subject"]
