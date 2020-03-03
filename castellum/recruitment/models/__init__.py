@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+# flake8: noqa
+
 from .attributesets import AttributeCategory
 from .attributesets import AttributeChoice
 from .attributesets import AttributeDescription
@@ -28,6 +30,3 @@ from .recruitment import ParticipationRequest
 from .recruitment import ParticipationRequestRevision
 from .subjectfilters import SubjectFilter
 from .subjectfilters import SubjectFilterGroup
-
-__all__ = ParticipationRequest, ParticipationRequestRevision, AttributeSet, AttributeDescription, \
-          AttributeCategory, AttributeChoice, SubjectFilter, SubjectFilterGroup, MailBatch
