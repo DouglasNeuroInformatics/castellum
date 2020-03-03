@@ -1,15 +1,9 @@
 from unittest.mock import patch
 
-from django.contrib.auth.models import AbstractUser as DjangoUser
-
 import pytest
 from model_bakery import baker
 
 from castellum.castellum_auth.models import User
-
-
-def test_castellum_user_is_django_user(user):
-    assert isinstance(user, DjangoUser)
 
 
 @patch('castellum.castellum_auth.models.send_mail')
