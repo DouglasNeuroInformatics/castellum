@@ -74,12 +74,14 @@ class Study(models.Model):
     principal_investigator = models.CharField(_('Principal Investigator'), max_length=254)
     affiliated_scientists = models.CharField(_('Affiliated Scientists'), max_length=254, blank=True)
     affiliated_research_assistants = models.CharField(
-        _('Affiliated Research Assistants'), max_length=254, blank=True)
+        _('Affiliated Research Assistants'), max_length=254, blank=True
+    )
     description = models.TextField(_('Description'), blank=True)
     keywords = models.CharField(_('Keywords'), max_length=254, blank=True)
     study_type = models.ManyToManyField(StudyType, verbose_name=_('Type of study'), blank=True)
     previous_status = models.SmallIntegerField(
-        _('Previous status'), choices=STATUS, default=EDIT)
+        _('Previous status'), choices=STATUS, default=EDIT
+    )
     status = models.SmallIntegerField(_('Status'), choices=STATUS, default=EDIT)
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
     min_subject_count = models.PositiveIntegerField(_('Required number of subjects'), blank=True)
@@ -96,12 +98,14 @@ class Study(models.Model):
     members = models.ManyToManyField(User, through='StudyMembership')
     domain = models.CharField(max_length=64, unique=True, editable=False, default=None)
     advanced_filtering = models.BooleanField(
-        _('Advanced filtering'), help_text=_(
+        _('Advanced filtering'),
+        help_text=_(
             'By default you can create only one filtergroup in which all the filters are joined by '
             'AND operator. Advanced filtering allows you to create multiple filtergroups which are '
             'joined by OR operator.'
         ),
-        default=False)
+        default=False,
+    )
     custom_filter = models.CharField(_('Custom filter'), max_length=254, blank=True)
     is_exclusive = models.BooleanField(
         _('Exclusive subjects'),
@@ -124,7 +128,7 @@ class Study(models.Model):
         default=False,
     )
     excluded_studies = models.ManyToManyField(
-        'studies.Study', verbose_name=_('Excluded studies'), related_name='+', blank=True,
+        'studies.Study', verbose_name=_('Excluded studies'), related_name='+', blank=True
     )
 
     consent = RestrictedFileField(
@@ -166,15 +170,23 @@ class Study(models.Model):
 
     def clean(self):
         if self.subjectfiltergroup_set.count() > 1 and not self.advanced_filtering:
-            raise ValidationError(_(
-                'Studies with more than one filtergroup can\'t be transformed back to basic '
-                'filtering. Delete all but one filtergroup first!'), code='invalid')
+            raise ValidationError(
+                _(
+                    'Studies with more than one filtergroup can\'t be transformed back to basic '
+                    'filtering. Delete all but one filtergroup first!'
+                ),
+                code='invalid',
+            )
 
         mailfields = [self.mail_subject, self.mail_body, self.mail_reply_address]
         if any(mailfields) and not all(mailfields):
-            raise ValidationError(_(
-                'Mail settings have to be filled out completely if you wish to use '
-                'this feature.'), code='invalid')
+            raise ValidationError(
+                _(
+                    'Mail settings have to be filled out completely if you wish to use '
+                    'this feature.'
+                ),
+                code='invalid',
+            )
 
     def save(self, *args, **kwargs):
         if not self.domain:

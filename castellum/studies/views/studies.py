@@ -114,14 +114,16 @@ class StudyFormMixin:
 
     def get_session_formset(self):
         formset_class = forms.modelformset_factory(
-            StudySession, fields=('duration',), form=ReadonlyModelForm, extra=0, can_delete=True,
+            StudySession, fields=('duration',), form=ReadonlyModelForm, extra=0, can_delete=True
         )
         kwargs = self.get_form_kwargs()
         study = kwargs.pop('instance', None)
         readonly = kwargs.pop('readonly', False)
-        return formset_class(queryset=StudySession.objects.filter(study=study), form_kwargs={
-            'readonly': readonly,
-        }, **kwargs)
+        return formset_class(
+            queryset=StudySession.objects.filter(study=study),
+            form_kwargs={'readonly': readonly},
+            **kwargs
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -157,8 +159,7 @@ class StudyCreateView(PermissionRequiredMixin, StudyFormMixin, CreateView):
     def form_valid(self, form, session_formset):
         response = super().form_valid(form, session_formset)
 
-        StudyMembership.objects.get_or_create(
-            user=self.request.user, study=self.object)
+        StudyMembership.objects.get_or_create(user=self.request.user, study=self.object)
 
         return response
 
@@ -205,8 +206,9 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
         return reverse('studies:index')
 
     def delete(self, request, *args, **kwargs):
-        monitoring_logger.info('Study {} deleted by {}'.format(
-            self.study.name, self.request.user.pk))
+        monitoring_logger.info(
+            'Study {} deleted by {}'.format(self.study.name, self.request.user.pk)
+        )
         messages.success(self.request, _('Study has been deleted.'))
         return super().delete(self, request, *args, **kwargs)
 

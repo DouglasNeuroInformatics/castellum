@@ -45,8 +45,11 @@ urlpatterns = [
     path('<int:pk>/contact/', ContactUpdateView.as_view(), name='contact'),
     path('<int:pk>/attributes/', AttributeSetUpdateView.as_view(), name='attributeset'),
     path('<int:pk>/coverletter.docx', CoverletterView.as_view(), name='coverletter'),
-    path('<int:pk>/studyparticipation/', ParticipationListView.as_view(),
-         name='studyparticipation'),
+    path(
+        '<int:pk>/studyparticipation/',
+        ParticipationListView.as_view(),
+        name='studyparticipation',
+    ),
     path('<int:pk>/studyparticipation/add/', AddToStudyView.as_view(), name='add-to-study'),
     path(
         '<int:subject_pk>/studyparticipation/<int:pk>/delete/',

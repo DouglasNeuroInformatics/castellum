@@ -18,8 +18,9 @@ def test_empty_contact_form(user):
     ('t@g.com', ''),
     ('', '+4917691233434'),
 ])
-def test_contact_form_with_email_or_phonenumber_without_address(user, contact_data, email,
-                                                                phone_number):
+def test_contact_form_with_email_or_phonenumber_without_address(
+    user, contact_data, email, phone_number
+):
 
     contact_data.update({
         'email': email,
@@ -37,11 +38,12 @@ def test_contact_form_with_email_or_phonenumber_without_address(user, contact_da
     ('t@g.com', ''),
     ('', '+4917691233434'),
 ])
-def test_contact_form_with_email_or_phonenumber_with_full_address(user, full_data,
-                                                                  email, phone_number):
+def test_contact_form_with_email_or_phonenumber_with_full_address(
+    user, full_data, email, phone_number
+):
     full_data.update({
         'email': email,
-        'phone_number': phone_number
+        'phone_number': phone_number,
     })
 
     form = ContactForm(user=user, data=full_data)
@@ -51,15 +53,15 @@ def test_contact_form_with_email_or_phonenumber_with_full_address(user, full_dat
 
 @pytest.mark.django_db
 def test_contact_form_without_email_or_phonenumber_with_full_address(user, full_data):
-
     form = ContactForm(user=user, data=full_data)
 
     assert form.is_valid() is True
 
 
 @pytest.mark.django_db
-def test_contact_form_without_email_or_phonenumber_with_incomplete_address(user, contact_data,
-                                                                           address):
+def test_contact_form_without_email_or_phonenumber_with_incomplete_address(
+    user, contact_data, address
+):
 
     contact_data.update({
         'country': address.country,
@@ -74,7 +76,6 @@ def test_contact_form_without_email_or_phonenumber_with_incomplete_address(user,
 
 @pytest.mark.django_db
 def test_address_form_given_country_not_in_db(user, address_data):
-
     address_data.update({'country': 'AnyFakeCountryName'})
     form = AddressForm(data=address_data)
 
@@ -83,7 +84,6 @@ def test_address_form_given_country_not_in_db(user, address_data):
 
 @pytest.mark.django_db
 def test_contact_form_contact_is_saved_correctly(user, full_data, address):
-
     full_data.update({
         'email': 't@g.com',
         'phone_number': '+4917691232323',
@@ -127,7 +127,6 @@ def test_contact_form_update_city_country_for_existing_instance_address(user, co
 
 @pytest.mark.django_db
 def test_contact_form_delete_existing_address_if_empty(user, contact, contact_data):
-
     contact_data.update({
         'phone_number': '+4917691232323',
         'phone_number_alternative': '',
@@ -148,7 +147,6 @@ def test_contact_form_delete_existing_address_if_empty(user, contact, contact_da
     ('phone'),
 ])
 def test_contact_form_without_data_with_preferred_contact_method(user, contact_data, method):
-
     contact_data.update({
         'preferred_contact_method': method,
     })
@@ -159,7 +157,6 @@ def test_contact_form_without_data_with_preferred_contact_method(user, contact_d
 
 
 def test_contact_form_with_email_and_preferred_contact_method(user, contact_data):
-
     contact_data.update({
         'email': 't@g.com',
         'preferred_contact_method': 'email',
@@ -171,7 +168,6 @@ def test_contact_form_with_email_and_preferred_contact_method(user, contact_data
 
 
 def test_contact_form_with_email_and_wrong_preferred_contact_method(user, contact_data):
-
     contact_data.update({
         'email': 't@g.com',
         'preferred_contact_method': 'phone',
@@ -183,7 +179,6 @@ def test_contact_form_with_email_and_wrong_preferred_contact_method(user, contac
 
 
 def test_contact_form_with_phone_and_preferred_contact_method(user, contact_data):
-
     contact_data.update({
         'phone_number': '+4917691232323',
         'preferred_contact_method': 'phone',
@@ -195,7 +190,6 @@ def test_contact_form_with_phone_and_preferred_contact_method(user, contact_data
 
 
 def test_contact_form_with_phone_and_wrong_preferred_contact_method(user, contact_data):
-
     contact_data.update({
         'phone_number': '+4917691232323',
         'preferred_contact_method': 'email',
@@ -208,7 +202,6 @@ def test_contact_form_with_phone_and_wrong_preferred_contact_method(user, contac
 
 @pytest.mark.django_db
 def test_contact_form_with_address_and_preferred_contact_method(user, full_data):
-
     full_data.update({
         'preferred_contact_method': 'postal',
     })
@@ -220,7 +213,6 @@ def test_contact_form_with_address_and_preferred_contact_method(user, full_data)
 
 @pytest.mark.django_db
 def test_contact_form_with_address_and_wrong_preferred_contact_method(user, full_data):
-
     full_data.update({
         'preferred_contact_method': 'email',
     })
@@ -232,7 +224,6 @@ def test_contact_form_with_address_and_wrong_preferred_contact_method(user, full
 
 @pytest.mark.django_db
 def test_contact_form_with_guardians_add(user, full_data, contact):
-
     full_data.update({
         'guardians_pane': 'guardians',
         'guardians_add': [contact.subject.pk],
@@ -247,7 +238,6 @@ def test_contact_form_with_guardians_add(user, full_data, contact):
 
 @pytest.mark.django_db
 def test_contact_form_with_guardians_remove(user, full_data, contact):
-
     full_data.update({
         'guardians_pane': 'guardians',
         'guardians_remove': [contact.subject.pk],

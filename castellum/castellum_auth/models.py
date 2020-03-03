@@ -38,10 +38,12 @@ class User(AbstractUser):
     DEMO_PASSWORD = '123'
 
     language = models.CharField(
-        _('Language'), max_length=5, choices=settings.LANGUAGES, blank=True)
+        _('Language'), max_length=5, choices=settings.LANGUAGES, blank=True
+    )
     expiration_date = DateTimeField(_('Expiration date'), blank=True, null=True)
     logout_timeout = models.DurationField(
-        _('Time until automatic logout'), default=settings.LOGOUT_TIMEOUT_DEFAULT)
+        _('Time until automatic logout'), default=settings.LOGOUT_TIMEOUT_DEFAULT
+    )
     token = models.CharField(max_length=64, unique=True, default=generate_token)
 
     class Meta:
@@ -65,13 +67,15 @@ class User(AbstractUser):
                     contact=settings.CASTELLUM_LOCK_USER_CONTACT
                 ),
                 settings.DEFAULT_FROM_EMAIL,
-                [self.email])
+                [self.email],
+            )
         elif self.is_active and not self.__initial_is_active:
             send_mail(
                 settings.CASTELLUM_UNLOCK_USER_NOTIFICATION_SUBJECT,
                 settings.CASTELLUM_UNLOCK_USER_NOTIFICATION_BODY,
                 settings.DEFAULT_FROM_EMAIL,
-                [self.email])
+                [self.email],
+            )
 
     def get_privacy_level(self, obj=None):
         for level in range(2, 0, -1):

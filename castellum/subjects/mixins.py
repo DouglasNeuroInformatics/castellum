@@ -77,8 +77,9 @@ class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         return form_class(prefix='{prefix}')
 
     def get_notes_formset(self):
-        formset_class = forms.modelformset_factory(SubjectNote, fields=('content',),
-                                                   extra=0, can_delete=True)
+        formset_class = forms.modelformset_factory(
+            SubjectNote, fields=('content',), extra=0, can_delete=True
+        )
         kwargs = self.get_form_kwargs()
         kwargs.pop('user')
         kwargs.pop('instance')

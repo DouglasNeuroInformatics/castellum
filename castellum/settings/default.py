@@ -119,8 +119,8 @@ LOGOUT_TIMEOUT_DEFAULT = datetime.timedelta(seconds=15 * 60)
 LANGUAGE_CODE = 'en'
 
 LANGUAGES = [
-  ('de', _('German')),
-  ('en', _('English')),
+    ('de', _('German')),
+    ('en', _('English')),
 ]
 
 PARLER_LANGUAGES = {
@@ -231,7 +231,7 @@ LOGGING = {
         'django.server': {
             '()': 'django.utils.log.ServerFormatter',
             'format': '[%(server_time)s] %(message)s',
-        }
+        },
     },
     'handlers': {
         'console': {

@@ -62,7 +62,7 @@ class CustomFilterMixin:
                     'count': (
                         AttributeSet.objects.filter(
                             filter_queries.study(self.object),
-                            filter_queries.no_recruitment()
+                            filter_queries.no_recruitment(),
                         ).count()
                     ),
                 },
@@ -202,8 +202,8 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
         context['templates'] = {}
         for description in AttributeDescription.objects.all():
             context['templates'][description.pk] = SubjectFilterForm(
-                initial={'description': description},
-                prefix='{prefix}')
+                initial={'description': description}, prefix='{prefix}'
+            )
 
         if 'formset' not in context:
             context['formset'] = self.get_formset()

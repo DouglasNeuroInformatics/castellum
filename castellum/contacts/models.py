@@ -46,8 +46,9 @@ class Address(models.Model):
     zip_code = models.CharField(_('Zip code'), max_length=5)
     street = models.CharField(_('Street'), max_length=128)
     house_number = models.CharField(_('House number'), max_length=5)
-    additional_information = models.CharField(_('Additional information'), max_length=32,
-                                              blank=True)
+    additional_information = models.CharField(
+        _('Additional information'), max_length=32, blank=True
+    )
 
     def lines(self):
         line1 = ' '.join([self.street, self.house_number, self.additional_information]).strip()
@@ -58,8 +59,9 @@ class Address(models.Model):
         return '{}, {}'.format(*self.lines())
 
     class Meta:
-        ordering = ('country', 'city', 'zip_code', 'street', 'house_number',
-                    'additional_information')
+        ordering = (
+            'country', 'city', 'zip_code', 'street', 'house_number', 'additional_information'
+        )
         verbose_name = _('Address')
         verbose_name_plural = _('Addresses')
 
@@ -156,15 +158,18 @@ class Contact(TimeStampedModel):
 
     date_of_birth = DateField(_('Date of birth'), blank=True, null=True)
 
-    address = models.ForeignKey(Address, blank=True, null=True, verbose_name=_('Address'),
-                                on_delete=models.SET_NULL)
+    address = models.ForeignKey(
+        Address, blank=True, null=True, verbose_name=_('Address'), on_delete=models.SET_NULL
+    )
     email = models.EmailField(_('Email'), max_length=128, blank=True)
     phone_number = PhoneNumberField(_('Phone number'), max_length=32, blank=True)
-    phone_number_alternative = PhoneNumberField(_('Phone number alternative'), max_length=32,
-                                                blank=True)
+    phone_number_alternative = PhoneNumberField(
+        _('Phone number alternative'), max_length=32, blank=True
+    )
 
     preferred_contact_method = models.CharField(
-        _('Preferred contact method'), max_length=16, blank=True, choices=CONTACT_METHODS)
+        _('Preferred contact method'), max_length=16, blank=True, choices=CONTACT_METHODS
+    )
 
     guardians = models.ManyToManyField(
         'contacts.Contact', verbose_name=_('Guardians'), related_name='guardian_of', blank=True

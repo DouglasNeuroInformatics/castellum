@@ -38,8 +38,9 @@ class SubjectFilterGroupManager(models.Manager):
 
     def clone_filters(self, original_group, cloned_group):
         for f in original_group.subjectfilter_set.all():
-            yield SubjectFilter(group=cloned_group, description=f.description, operator=f.operator,
-                                value=f.value)
+            yield SubjectFilter(
+                group=cloned_group, description=f.description, operator=f.operator, value=f.value
+            )
 
 
 class SubjectFilterGroup(models.Model):

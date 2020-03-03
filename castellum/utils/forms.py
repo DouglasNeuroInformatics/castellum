@@ -204,7 +204,7 @@ class RestrictedFileField(forms.FileField):
 class BaseImportForm(forms.Form):
     # magic seems to detect 'text/plain' for json files
     file = RestrictedFileField(
-        label=_('File'), content_types=['application/json', 'text/plain'], required=True,
+        label=_('File'), content_types=['application/json', 'text/plain'], required=True
     )
 
     def format_error(self, error):
