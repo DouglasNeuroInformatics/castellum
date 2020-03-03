@@ -1,0 +1,12 @@
+from castellum.utils.management.commands import cleanup_media
+
+
+def test_iter_file_fields():
+    fields = []
+    for model in cleanup_media.iter_models():
+        for field in cleanup_media.iter_file_fields(model):
+            fields.append('%s.%s' % (model._meta.label, field.name))
+    assert fields == [
+        'subjects.Consent.file',
+        'studies.Study.consent',
+    ]
