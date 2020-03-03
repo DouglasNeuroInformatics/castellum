@@ -335,6 +335,13 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         )
         return from_email, connection
 
+    def get_contact_email(self, contact):
+        if contact.email:
+            return contact.email
+        else:
+            for data in contact.guardians.exclude(email='').values('email'):
+                return data['email']
+
     def create_participation_requests(self, batch_size):
         attributesets = get_recruitable(self.study)
 
@@ -342,12 +349,13 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         counter = 0
         while counter < batch_size and attributesets:
             pick = attributesets.pop(random.randrange(0, len(attributesets)))
-            if pick.subject.contact.email:
+            email = self.get_contact_email(pick.subject.contact)
+            if email:
                 mail = EmailMessage(
                     self.study.mail_subject,
                     self.personalize_mail_body(self.study.mail_body, pick.subject.contact),
                     from_email,
-                    [pick.subject.contact.email],
+                    [email],
                     reply_to=[self.study.mail_reply_address],
                     connection=connection,
                 )
