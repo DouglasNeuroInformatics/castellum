@@ -98,3 +98,9 @@
     -ms-hyphens: auto;
     hyphens: auto;
 }
+
+@media print {
+    .alert {
+        display: none;
+    }
+}
