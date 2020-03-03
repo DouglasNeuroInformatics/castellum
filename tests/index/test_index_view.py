@@ -1,6 +1,7 @@
 import pytest
 
 
+@pytest.mark.smoketest
 def test_index_200(client, user):
     client.force_login(user)
     response = client.get('/')

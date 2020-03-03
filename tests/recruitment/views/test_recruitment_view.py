@@ -6,6 +6,7 @@ from model_bakery import baker
 from castellum.recruitment.models import ParticipationRequest
 
 
+@pytest.mark.smoketest
 def test_200(client, member, study_in_execution_status):
     client.force_login(member)
     url = '/recruitment/{}/'.format(study_in_execution_status.pk)

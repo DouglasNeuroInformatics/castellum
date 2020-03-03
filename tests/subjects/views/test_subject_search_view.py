@@ -3,6 +3,7 @@ import pytest
 from castellum.contacts.models import Contact
 
 
+@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     'recruiter',
