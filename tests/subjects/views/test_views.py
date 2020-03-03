@@ -146,6 +146,20 @@ def test_delete_post(client, user, contact):
 
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    'recruiter',
+    'subject_manager',
+    'data_protection_coordinator',
+])
+def test_coverletter_200(request, client, user_fixture, contact):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    url = '/subjects/{}/coverletter.docx'.format(contact.subject.pk)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
     pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
