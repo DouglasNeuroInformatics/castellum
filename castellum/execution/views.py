@@ -31,14 +31,13 @@ from django.views.generic import ListView
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.models import Contact
+from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_subject
 from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import SubjectMixin
 from castellum.utils.views import GetFormView
-
-from .forms import PseudonymForm
 
 
 class StudyListView(LoginRequiredMixin, ListView):
