@@ -20,7 +20,10 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.apps import AppConfig
+from django.db.models.signals import pre_delete
 from django.utils.module_loading import autodiscover_modules
+
+from . import signals
 
 
 class RecruitmentConfig(AppConfig):
@@ -28,3 +31,4 @@ class RecruitmentConfig(AppConfig):
 
     def ready(self):
         autodiscover_modules('custom_filters')
+        pre_delete.connect(signals.delete_participationrequest_pseudonym)
