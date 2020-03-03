@@ -1,5 +1,7 @@
 import pytest
 
+from castellum.contacts.models import Contact
+
 
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
@@ -117,6 +119,41 @@ def test_export_200(request, client, user_fixture, contact):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     url = '/subjects/{}/export/'.format(contact.subject.pk)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
+    'data_protection_coordinator',
+])
+def test_delete_200(request, client, user_fixture, contact):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    url = '/subjects/{}/delete/'.format(contact.subject.pk)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+def test_delete_post(client, user, contact):
+    client.force_login(user)
+    url = '/subjects/{}/delete/'.format(contact.subject.pk)
+    client.post(url)
+    assert not Contact.objects.filter(pk=contact.pk).exists()
+
+
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    'recruiter',
+    'subject_manager',
+    'data_protection_coordinator',
+])
+def test_coverletter_200(request, client, user_fixture, contact):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    url = '/subjects/{}/coverletter.docx'.format(contact.subject.pk)
     response = client.get(url)
     assert response.status_code == 200
 
