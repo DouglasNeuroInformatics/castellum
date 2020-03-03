@@ -21,7 +21,6 @@ def test_empty_contact_form(user):
 def test_contact_form_with_email_or_phonenumber_without_address(
     user, contact_data, email, phone_number
 ):
-
     contact_data.update({
         'email': email,
         'phone_number': phone_number,
@@ -62,7 +61,6 @@ def test_contact_form_without_email_or_phonenumber_with_full_address(user, full_
 def test_contact_form_without_email_or_phonenumber_with_incomplete_address(
     user, contact_data, address
 ):
-
     contact_data.update({
         'country': address.country,
         'city': address.city,
