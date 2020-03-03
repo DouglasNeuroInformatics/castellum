@@ -26,7 +26,6 @@ def test_get_200(request, client, user_fixture):
 
 @pytest.mark.django_db
 def test_redirect_to_studies_after_post(client, study_coordinator):
-
     client.force_login(study_coordinator)
     response = client.post('/studies/create/', {
         'name': 'Test study',
@@ -46,7 +45,6 @@ def test_redirect_to_studies_after_post(client, study_coordinator):
     pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_create_study_on_post(request, client, user_fixture):
-
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     client.post('/studies/create/', {
@@ -62,7 +60,6 @@ def test_create_study_on_post(request, client, user_fixture):
 
 @pytest.mark.django_db
 def test_user_who_created_study_is_study_member(client, study_coordinator):
-
     client.force_login(study_coordinator)
     response = client.post('/studies/create/', {
         'name': 'Test study',
