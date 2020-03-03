@@ -19,12 +19,10 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.contrib import messages
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
 from django.views.generic import DeleteView
 from django.views.generic import FormView
 from django.views.generic import UpdateView
@@ -53,16 +51,8 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['readonly'] = self.object.status == Study.FINISHED
+        context['unprivileged_users'] = list(self.get_unprivileged_members())
         return context
-
-    def get(self, request, **kwargs):
-        unprivileged_users = list(self.get_unprivileged_members())
-        if unprivileged_users:
-            messages.warning(self.request, _(
-                'Some members of this study with access to filters are blocked from managing '
-                'filters due to an insufficient privacy level.\nBlocked users are: '
-            ) + ', '.join(user for user in unprivileged_users))
-        return self.render_to_response(self.get_context_data())
 
     def get_form(self):
         choices = [(None, '---')]

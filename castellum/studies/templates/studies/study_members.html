@@ -4,6 +4,13 @@
 {% block title %}{% trans "Member management" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    {% if unprivileged_users %}
+        <p class="alert alert-warning">
+            {% trans 'Some members of this study with access to filters are blocked from managing filters due to an insufficient privacy level. Blocked users are: ' %}
+            {{ unprivileged_users|join:', ' }}
+        </p>
+    {% endif %}
+
     <form method="post">
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
