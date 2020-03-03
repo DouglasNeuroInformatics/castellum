@@ -20,8 +20,15 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import forms
+from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
 
+class PseudonymField(forms.CharField):
+    def clean(self, value):
+        cleaned = super().clean(value)
+        return settings.CASTELLUM_PSEUDONYM_CLEAN(cleaned)
+
+
 class PseudonymForm(forms.Form):
-    pseudonym = forms.CharField(label=_('Pseudonym'))
+    pseudonym = PseudonymField(label=_('Pseudonym'))
