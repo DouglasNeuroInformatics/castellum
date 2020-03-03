@@ -85,8 +85,9 @@ def test_basic_filtering_302(client, member, study_in_edit_status):
     assert response.status_code == 302
 
 
-def test_get_when_study_has_minimal_subject_count_set_to_zero(client, member, subject_filter_group,
-                                                              study_in_edit_status):
+def test_get_when_study_has_minimal_subject_count_set_to_zero(
+    client, member, subject_filter_group, study_in_edit_status
+):
     study_in_edit_status.advanced_filtering = True
     study_in_edit_status.save()
 
@@ -100,8 +101,9 @@ def test_get_when_study_has_minimal_subject_count_set_to_zero(client, member, su
 
 
 @pytest.mark.django_db
-def test_get_when_study_has_not_enough_subjects_in_filter_group(client, member,
-                                                                study_in_edit_status):
+def test_get_when_study_has_not_enough_subjects_in_filter_group(
+    client, member, study_in_edit_status
+):
     client.force_login(member)
 
     study_in_edit_status.min_subject_count = 100

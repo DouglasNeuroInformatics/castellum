@@ -210,10 +210,12 @@ class AttributeDescription(ImportMixin, TranslatableModel):
     )
 
     field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
-    privacy_level_read = models.PositiveSmallIntegerField(default=0,
-                                                          validators=[MaxValueValidator(2)])
-    privacy_level_write = models.PositiveSmallIntegerField(default=0,
-                                                           validators=[MaxValueValidator(2)])
+    privacy_level_read = models.PositiveSmallIntegerField(
+        default=0, validators=[MaxValueValidator(2)]
+    )
+    privacy_level_write = models.PositiveSmallIntegerField(
+        default=0, validators=[MaxValueValidator(2)]
+    )
     order = models.IntegerField(default=0)
     category = models.ForeignKey(
         AttributeCategory, on_delete=models.SET_NULL, null=True, blank=True)

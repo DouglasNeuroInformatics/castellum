@@ -36,8 +36,10 @@ def test_post_when_study_has_zero_subject_count_set(client, member, study_in_exe
     assert response.status_code == 200
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
-    assert str(messages[0]) == 'This study does not require participants. ' \
-                               'Please, contact the responsible person who can set it up.'
+    assert str(messages[0]) == (
+        'This study does not require participants. '
+        'Please, contact the responsible person who can set it up.'
+    )
 
 
 @pytest.mark.django_db
@@ -56,5 +58,7 @@ def test_post_when_more_then_double_minimal_subject_count(
     assert response.status_code == 200
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
-    assert str(messages[0]) == 'Application privacy does not allow you to add more subjects. ' \
-                               'Please contact provided subjects before adding new ones.'
+    assert str(messages[0]) == (
+        'Application privacy does not allow you to add more subjects. '
+        'Please contact provided subjects before adding new ones.'
+    )

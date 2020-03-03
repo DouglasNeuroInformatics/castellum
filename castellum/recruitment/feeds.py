@@ -92,8 +92,9 @@ class FollowUpFeedForUser(BaseFollowUpFeed):
         for study in Study.objects.filter(status=Study.EXECUTION):
             if not user.has_perms(perms, obj=study):
                 continue
-            qs = (ParticipationRequest.objects.filter(study=study, followup_date__isnull=False)
-                                              .order_by('-followup_date', '-followup_time'))
+            qs = ParticipationRequest.objects\
+                .filter(study=study, followup_date__isnull=False)\
+                .order_by('-followup_date', '-followup_time')
             for participation_request in qs:
                 yield participation_request
 

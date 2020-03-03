@@ -18,8 +18,9 @@ def test_empty_contact_form(user):
     ('t@g.com', ''),
     ('', '+4917691233434'),
 ])
-def test_contact_form_with_email_or_phonenumber_without_address(user, contact_data, email,
-                                                                phone_number):
+def test_contact_form_with_email_or_phonenumber_without_address(
+    user, contact_data, email, phone_number
+):
 
     contact_data.update({
         'email': email,
@@ -37,8 +38,9 @@ def test_contact_form_with_email_or_phonenumber_without_address(user, contact_da
     ('t@g.com', ''),
     ('', '+4917691233434'),
 ])
-def test_contact_form_with_email_or_phonenumber_with_full_address(user, full_data,
-                                                                  email, phone_number):
+def test_contact_form_with_email_or_phonenumber_with_full_address(
+    user, full_data, email, phone_number
+):
     full_data.update({
         'email': email,
         'phone_number': phone_number
@@ -58,8 +60,9 @@ def test_contact_form_without_email_or_phonenumber_with_full_address(user, full_
 
 
 @pytest.mark.django_db
-def test_contact_form_without_email_or_phonenumber_with_incomplete_address(user, contact_data,
-                                                                           address):
+def test_contact_form_without_email_or_phonenumber_with_incomplete_address(
+    user, contact_data, address
+):
 
     contact_data.update({
         'country': address.country,

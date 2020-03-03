@@ -22,8 +22,10 @@ def test_min_subject_count_is_zero(client, member, study_in_execution_status):
 
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
-    assert str(messages[0]) == ("This study does not require participants. "
-                                "Please, contact the responsible person who can set it up.")
+    assert str(messages[0]) == (
+        "This study does not require participants. "
+        "Please, contact the responsible person who can set it up."
+    )
     assert response.status_code == 200
 
 
@@ -31,8 +33,9 @@ def test_min_subject_count_is_zero(client, member, study_in_execution_status):
     10 * settings.CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR,
     11 * settings.CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR,
 ])
-def test_not_contacted_count_is_gte_to_hard_limit(client, member, study_in_execution_status,
-                                                  subject_count):
+def test_not_contacted_count_is_gte_to_hard_limit(
+    client, member, study_in_execution_status, subject_count
+):
     study_in_execution_status.min_subject_count = 10
     study_in_execution_status.save()
 
@@ -45,8 +48,10 @@ def test_not_contacted_count_is_gte_to_hard_limit(client, member, study_in_execu
 
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
-    assert str(messages[0]) == ("Application privacy does not allow you to add more subjects. "
-                                "Please contact provided subjects before adding new ones.")
+    assert str(messages[0]) == (
+        "Application privacy does not allow you to add more subjects. "
+        "Please contact provided subjects before adding new ones."
+    )
     assert response.status_code == 200
 
 
@@ -55,8 +60,9 @@ def test_not_contacted_count_is_gte_to_hard_limit(client, member, study_in_execu
     settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT + 1,
     settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT - settings.CASTELLUM_RECRUITMENT_BATCH_SIZE + 1,
 ])
-def test_not_contacted_count_is_gte_to_soft_limit(client, member, study_in_execution_status,
-                                                  subject_count):
+def test_not_contacted_count_is_gte_to_soft_limit(
+    client, member, study_in_execution_status, subject_count
+):
     study_in_execution_status.min_subject_count = 2 * settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT
     study_in_execution_status.save()
 
@@ -71,8 +77,10 @@ def test_not_contacted_count_is_gte_to_soft_limit(client, member, study_in_execu
 
     messages = list(get_messages(response.wsgi_request))
     assert len(messages) == 1
-    assert str(messages[0]) == ("Such workflow is not intended due to privacy reasons. "
-                                "Please contact provided subjects before adding new ones.")
+    assert str(messages[0]) == (
+        "Such workflow is not intended due to privacy reasons. "
+        "Please contact provided subjects before adding new ones."
+    )
 
     assert response.status_code == 200
 
@@ -87,8 +95,13 @@ def test_no_matching_attribute_sets(
         create_participation_request(study_in_execution_status)
 
     subject_filter_group = baker.make(SubjectFilterGroup, study=study_in_execution_status)
-    baker.make(SubjectFilter, group=subject_filter_group,
-               description=attribute_description, operator="exact", value="left")
+    baker.make(
+        SubjectFilter,
+        group=subject_filter_group,
+        description=attribute_description,
+        operator="exact",
+        value="left",
+    )
 
     client.force_login(member)
     url = "/recruitment/{}/".format(study_in_execution_status.pk)

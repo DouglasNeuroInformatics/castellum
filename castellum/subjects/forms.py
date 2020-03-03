@@ -71,8 +71,9 @@ class SubjectForm(forms.ModelForm):
         if self.cleaned_data['consent_type'] or self.cleaned_data['consent_status']:
             consent_check = [self.cleaned_data['consent_type'], self.cleaned_data['consent_status']]
             if not all(consent_check):
-                raise ValidationError(_("Please, fill out both type and "
-                                        "status of the consent."), code='invalid')
+                raise ValidationError(
+                    _("Please, fill out both type and status of the consent."), code='invalid'
+                )
 
         if self.cleaned_data.get('to_be_deleted') and not self.instance.to_be_deleted:
             self.instance.to_be_deleted = datetime.date.today()
