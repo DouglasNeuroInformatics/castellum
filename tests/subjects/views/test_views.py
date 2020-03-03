@@ -3,6 +3,7 @@ import pytest
 from castellum.contacts.models import Contact
 
 
+@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -17,6 +18,7 @@ def test_create_200(request, client, user_fixture):
     assert response.status_code == 200
 
 
+@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     'recruiter',
@@ -31,6 +33,7 @@ def test_detail_200(request, client, user_fixture, contact):
     assert response.status_code == 200
 
 
+@pytest.mark.smoketest
 def test_detail_with_attributeset_200(client, user, contact, attributeset):
     client.force_login(user)
     url = '/subjects/{}/'.format(contact.subject.pk)
@@ -38,6 +41,7 @@ def test_detail_with_attributeset_200(client, user, contact, attributeset):
     assert response.status_code == 200
 
 
+@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -81,6 +85,7 @@ def test_subject_post_invalid_privacy_level(client, user, contact):
     assert b'Please choose lower privacy level for the subject.' in response.content
 
 
+@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -95,6 +100,7 @@ def test_contact_200(request, client, user_fixture, contact):
     assert response.status_code == 200
 
 
+@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     'recruiter',
@@ -109,6 +115,7 @@ def test_partcipation_list_200(request, client, user_fixture, participation_requ
     assert response.status_code == 200
 
 
+@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -123,6 +130,7 @@ def test_export_200(request, client, user_fixture, contact):
     assert response.status_code == 200
 
 
+@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
@@ -144,6 +152,7 @@ def test_delete_post(client, user, contact):
     assert not Contact.objects.filter(pk=contact.pk).exists()
 
 
+@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     'recruiter',
@@ -158,6 +167,7 @@ def test_coverletter_200(request, client, user_fixture, contact):
     assert response.status_code == 200
 
 
+@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),

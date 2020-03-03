@@ -7,6 +7,7 @@ from castellum.contacts.models import Contact
 from castellum.pseudonyms.models import Pseudonym
 
 
+@pytest.mark.unittest
 @pytest.mark.freeze_time("2020, 10, 31")
 @pytest.mark.parametrize("date_of_birth,age", [
     ((2000, 10, 30), 20),
@@ -18,6 +19,7 @@ def test_age_property(date_of_birth, age):
     assert contact.age == age
 
 
+@pytest.mark.unittest
 @pytest.mark.parametrize('title,expected', (
     ('Dr.', 'Dr. Max Planck'),
     (None, 'Max Planck'),

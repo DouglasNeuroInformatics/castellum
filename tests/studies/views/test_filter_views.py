@@ -8,6 +8,7 @@ from castellum.studies.models import Study
 from castellum.studies.models import StudyMembership
 
 
+@pytest.mark.smoketest
 def test_update_200(client, member, subject_filter_group):
     client.force_login(member)
     study = subject_filter_group.study

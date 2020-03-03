@@ -5,6 +5,7 @@ from castellum.recruitment.models.recruitment import ParticipationRequest
 from castellum.studies.models import StudyMembership
 
 
+@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     'study_conductor',
     'study_coordinator',
@@ -20,6 +21,7 @@ def test_study_list_view(request, client, user_fixture):
     assert response.status_code == 200
 
 
+@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     'study_conductor',
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
@@ -38,6 +40,7 @@ def test_study_detail_view(request, client, user_fixture, study_in_execution_sta
     assert response.status_code == 200
 
 
+@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     'study_conductor',
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),

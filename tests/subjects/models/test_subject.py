@@ -13,12 +13,12 @@ from castellum.subjects.models import TimeSlot
 
 
 @pytest.mark.freeze_time("2020-10-31")
-@pytest.mark.django_db
+@pytest.mark.unittest
 def test_not_available_until_is_in_the_future():
     not_available_until = timezone.make_aware(datetime(2020, 11, 1))
-    subject = baker.make(Subject, not_available_until=not_available_until)
+    subject = baker.prepare(Subject, not_available_until=not_available_until)
 
-    assert False is subject.is_available
+    assert subject.is_available is False
 
 
 @pytest.mark.freeze_time("2020-10-31")
@@ -26,7 +26,7 @@ def test_not_available_until_is_in_the_future():
 def test_contact_is_not_available_at_the_weekend():
     subject = baker.make(Subject)
 
-    assert False is subject.is_available
+    assert subject.is_available is False
 
 
 @pytest.mark.freeze_time("2020-10-27 15:00")
@@ -36,7 +36,7 @@ def test_contact_is_currently_not_available():
     timeslots = baker.make(TimeSlot, hour=cycle([10, 11, 12]), _quantity=3)
     subject.availability_tuesday.add(*timeslots)
 
-    assert False is subject.is_available
+    assert subject.is_available is False
 
 
 @pytest.mark.freeze_time("2020-10-27 15:00")
@@ -46,7 +46,7 @@ def test_contact_is_available():
     timeslots = baker.make(TimeSlot, hour=cycle(range(20)), _quantity=20)
     subject.availability_tuesday.add(*timeslots)
 
-    assert True is subject.is_available
+    assert subject.is_available is True
 
 
 @pytest.mark.freeze_time("2020-10-27 15:00")

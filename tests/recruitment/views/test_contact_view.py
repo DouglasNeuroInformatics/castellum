@@ -5,6 +5,7 @@ from castellum.recruitment.models import ParticipationRequestRevision
 from castellum.studies.models import Study
 
 
+@pytest.mark.smoketest
 def test_200(client, member, participation_request):
     client.force_login(member)
     url = '/recruitment/{}/{}/'.format(participation_request.study.pk, participation_request.pk)

@@ -1,6 +1,7 @@
 import pytest
 
 
+@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     'member',
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),

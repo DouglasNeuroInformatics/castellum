@@ -5,6 +5,7 @@ from castellum.contacts.models import Contact
 from castellum.recruitment.models import ParticipationRequest
 
 
+@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     'study_coordinator',
     'recruiter',
