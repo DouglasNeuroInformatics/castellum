@@ -138,7 +138,11 @@ class StudyMailSettingsView(
 ):
     model = Study
     template_name = 'studies/study_mailsettings.html'
-    fields = ('mail_subject', 'mail_body', 'mail_reply_address',)
+    fields = (
+        'mail_subject',
+        'mail_body',
+        'mail_reply_address',
+    )
     permission_required = 'studies.change_study'
     tab = 'recruitmentsettings'
     subtab = 'mailsettings'

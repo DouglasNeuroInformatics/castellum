@@ -86,7 +86,7 @@ class AttributeSet(TimeStampedModel):
         StudyType,
         verbose_name=_('Does not want to participate in the following study types:'),
         blank=True,
-        related_name='+'
+        related_name='+',
     )
 
     class Meta:

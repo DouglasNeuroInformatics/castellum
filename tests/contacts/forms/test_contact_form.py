@@ -43,7 +43,7 @@ def test_contact_form_with_email_or_phonenumber_with_full_address(
 ):
     full_data.update({
         'email': email,
-        'phone_number': phone_number
+        'phone_number': phone_number,
     })
 
     form = ContactForm(user=user, data=full_data)

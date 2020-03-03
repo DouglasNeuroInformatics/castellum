@@ -76,7 +76,8 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
 
     def form_valid(self, form):
         StudyMembership.objects.get_or_create(
-            user=form.cleaned_data['user'], study=self.object)
+            user=form.cleaned_data['user'], study=self.object
+        )
         return redirect('studies:members', self.object.pk)
 
     def get_unprivileged_members(self):

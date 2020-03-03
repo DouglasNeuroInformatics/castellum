@@ -114,7 +114,8 @@ class AttributeCategoryAdmin(TranslatableAdmin):
             path(
                 'import/',
                 staff_member_required(CategoryImportView.as_view()),
-                name='recruitment_attributecategory_import'),
+                name='recruitment_attributecategory_import',
+            ),
         ] + super().get_urls()
 
 
@@ -141,7 +142,8 @@ class AttributeDescriptionAdmin(TranslatableAdmin):
             path(
                 'import/',
                 staff_member_required(DescriptionImportView.as_view()),
-                name='recruitment_attributedescription_import'),
+                name='recruitment_attributedescription_import',
+            ),
         ] + super().get_urls()
 
 

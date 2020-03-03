@@ -9,5 +9,6 @@ def test_200(client, member, participation_request, attributeset):
 
     client.force_login(member)
     response = client.get('/recruitment/{}/{}/update-attributeset/'.format(
-        participation_request.study.pk, participation_request.pk))
+        participation_request.study.pk, participation_request.pk
+    ))
     assert response.status_code == 200

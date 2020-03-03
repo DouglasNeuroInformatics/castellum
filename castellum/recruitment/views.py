@@ -205,9 +205,11 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         queryset = ParticipationRequest.objects.filter(study=self.study)
         context['all_count'] = queryset.count()
         context['invited_count'] = queryset.filter(
-            status=ParticipationRequest.INVITED).count()
+            status=ParticipationRequest.INVITED
+        ).count()
         context['unsuitable_count'] = queryset.filter(
-            status=ParticipationRequest.UNSUITABLE).count()
+            status=ParticipationRequest.UNSUITABLE
+        ).count()
         context['open_count'] = queryset.filter(status__in=[
             ParticipationRequest.NOT_CONTACTED,
             ParticipationRequest.NOT_REACHED,
@@ -306,7 +308,7 @@ class RecruitmentViewOpen(RecruitmentView):
                 _(
                     'Only {added} out of {batchsize} potential participants '
                     'could be found for this study. These have been added.'
-                ).format(added=added, batchsize=batch_size)
+                ).format(added=added, batchsize=batch_size),
             )
 
         return self.get(request, *args, **kwargs)
@@ -389,7 +391,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                 _(
                     'No potential participants with email addresses could be found for '
                     'this study.'
-                )
+                ),
             )
         elif added < batch_size:
             messages.warning(
@@ -397,7 +399,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                 _(
                     'Only {added} out of {batchsize} potential participants with email '
                     'addresses could be found for this study. These have been contacted.'
-                ).format(added=added, batchsize=batch_size)
+                ).format(added=added, batchsize=batch_size),
             )
         else:
             messages.success(self.request, _('Emails sent successfully!'))
@@ -460,7 +462,8 @@ class ContactUpdateView(StudyMixin, BaseContactUpdateView):
 
     def get_object(self):
         participation_request = get_object_or_404(
-            ParticipationRequest, study=self.study, pk=self.kwargs['pk'])
+            ParticipationRequest, study=self.study, pk=self.kwargs['pk']
+        )
 
         return participation_request.subject.contact
 
@@ -481,7 +484,8 @@ class AttributeSetUpdateView(StudyMixin, BaseAttributeSetUpdateView):
 
     def get_object(self):
         participation_request = get_object_or_404(
-            ParticipationRequest, study=self.study, pk=self.kwargs['pk'])
+            ParticipationRequest, study=self.study, pk=self.kwargs['pk']
+        )
         return participation_request.subject.attributeset
 
     def get_success_url(self):
@@ -496,7 +500,8 @@ class SubjectUpdateView(StudyMixin, BaseSubjectUpdateView):
 
     def get_object(self):
         participation_request = get_object_or_404(
-            ParticipationRequest, study=self.study, pk=self.kwargs['pk'])
+            ParticipationRequest, study=self.study, pk=self.kwargs['pk']
+        )
         return participation_request.subject
 
     def get_success_url(self):

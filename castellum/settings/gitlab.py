@@ -16,7 +16,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'CHANGEME',
         'HOST': 'db_contacts',
-    }
+    },
 }
 
 CASTELLUM_DOMAINS = {

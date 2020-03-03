@@ -26,7 +26,8 @@ from castellum.studies.models import Study
 from castellum.studies.models import StudyMembership
 
 baker.generators.add(
-    'castellum.utils.fields.DateField', baker.generators.default_mapping[DateField])
+    'castellum.utils.fields.DateField', baker.generators.default_mapping[DateField]
+)
 
 # monkey patch to make test isolation work on both databases
 # See https://github.com/pytest-dev/pytest-django/pull/431
@@ -180,4 +181,5 @@ def subject_filter(subject_filter_group, attribute_description):
         description=attribute_description,
         operator='exact',
         value='left',
-        group=subject_filter_group)
+        group=subject_filter_group,
+    )

@@ -59,7 +59,7 @@ class Subject(TimeStampedModel):
         choices=[
             (0, _('0 (regular)')),
             (1, _('1 (increased)')),
-            (2, _('2 (high)'))
+            (2, _('2 (high)')),
         ],
     )
 
@@ -84,15 +84,20 @@ class Subject(TimeStampedModel):
     note_abusive_language = models.BooleanField(_('Abusive language'), default=False)
 
     availability_monday = models.ManyToManyField(
-        TimeSlot, verbose_name=_('Monday'), blank=True, related_name='+')
+        TimeSlot, verbose_name=_('Monday'), blank=True, related_name='+'
+    )
     availability_tuesday = models.ManyToManyField(
-        TimeSlot, verbose_name=_('Tuesday'), blank=True, related_name='+')
+        TimeSlot, verbose_name=_('Tuesday'), blank=True, related_name='+'
+    )
     availability_wednesday = models.ManyToManyField(
-        TimeSlot, verbose_name=_('Wednesday'), blank=True, related_name='+')
+        TimeSlot, verbose_name=_('Wednesday'), blank=True, related_name='+'
+    )
     availability_thursday = models.ManyToManyField(
-        TimeSlot, verbose_name=_('Thursday'), blank=True, related_name='+')
+        TimeSlot, verbose_name=_('Thursday'), blank=True, related_name='+'
+    )
     availability_friday = models.ManyToManyField(
-        TimeSlot, verbose_name=_('Friday'), blank=True, related_name='+')
+        TimeSlot, verbose_name=_('Friday'), blank=True, related_name='+'
+    )
 
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
 

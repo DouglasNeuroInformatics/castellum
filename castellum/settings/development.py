@@ -41,7 +41,7 @@ DATABASES = {
         'PASSWORD': 'CHANGEME',
         'HOST': os.environ.get('DB_CONTACTS_HOST', 'localhost'),
         'PORT': '6671',
-    }
+    },
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

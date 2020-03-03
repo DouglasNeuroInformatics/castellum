@@ -96,7 +96,8 @@ class ParticipationRequest(models.Model):
     study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
 
     status = models.IntegerField(
-        _('Status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED)
+        _('Status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED
+    )
     exclusion_criteria_checked = models.BooleanField(_('Subject may be suitable'), default=False)
 
     followup_date = DateField(_('Follow-up date'), blank=True, null=True)
@@ -132,12 +133,12 @@ class ParticipationRequest(models.Model):
         from castellum.recruitment import filter_queries
         if AttributeSet.objects.filter(
             filter_queries.study(self.study, include_unknown=False),
-            subject=self.subject
+            subject=self.subject,
         ).exists():
             return 'complete'
         elif AttributeSet.objects.filter(
             filter_queries.study(self.study, include_unknown=True),
-            subject=self.subject
+            subject=self.subject,
         ).exists():
             return 'incomplete'
         else:
@@ -183,7 +184,8 @@ class ParticipationRequestRevision(models.Model):
     current = models.ForeignKey(
         ParticipationRequest, related_name='revisions', on_delete=models.CASCADE)
     status = models.IntegerField(
-        choices=ParticipationRequest.STATUS_OPTIONS, default=ParticipationRequest.NOT_CONTACTED)
+        choices=ParticipationRequest.STATUS_OPTIONS, default=ParticipationRequest.NOT_CONTACTED
+    )
     exclusion_criteria_checked = models.BooleanField()
     followup_date = DateField(blank=True, null=True)
     followup_time = models.TimeField(blank=True, null=True)
