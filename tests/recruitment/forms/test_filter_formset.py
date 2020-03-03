@@ -35,12 +35,8 @@ def test_formset_with_arbitary_data(attribute_description):
     )
 
     formset = instantiate_formset(filterFormSet, [
-        {
-            'foo': 'bar1',
-        },
-        {
-            'foo': 'bar2',
-        },
+        {'foo': 'bar1'},
+        {'foo': 'bar2'},
     ])
 
     assert formset.is_valid() is False

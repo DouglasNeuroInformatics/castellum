@@ -119,9 +119,11 @@ class StudyFormMixin:
         kwargs = self.get_form_kwargs()
         study = kwargs.pop('instance', None)
         readonly = kwargs.pop('readonly', False)
-        return formset_class(queryset=StudySession.objects.filter(study=study), form_kwargs={
-            'readonly': readonly,
-        }, **kwargs)
+        return formset_class(
+            queryset=StudySession.objects.filter(study=study),
+            form_kwargs={'readonly': readonly},
+            **kwargs
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

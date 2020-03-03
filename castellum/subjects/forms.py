@@ -64,8 +64,7 @@ class SubjectForm(forms.ModelForm):
         privacy_level = cleaned_data.get('privacy_level', 0)
         if not self.user.has_privacy_level(privacy_level):
             raise ValidationError(
-                _("Please choose lower privacy level for the subject."),
-                code='invalid',
+                _("Please choose lower privacy level for the subject."), code='invalid'
             )
 
         if self.cleaned_data['consent_type'] or self.cleaned_data['consent_status']:

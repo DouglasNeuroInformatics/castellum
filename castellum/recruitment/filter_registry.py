@@ -26,4 +26,5 @@ def register(key):
     def decorator(fn):
         custom_filters[key] = fn
         return fn
+
     return decorator

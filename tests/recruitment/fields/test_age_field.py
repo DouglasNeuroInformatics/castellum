@@ -16,7 +16,7 @@ def test_error_if_age_out_of_limits(
     url = '/studies/{}/recruitmentsettings/filters/{}/'.format(
         subject_filter_group.study.pk, subject_filter_group.pk
     )
-    response = client.post(url,  {
+    response = client.post(url, {
         "form-0-description": 3,
         "form-0-group": subject_filter_group.pk,
         "form-0-id": 1,
