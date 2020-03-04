@@ -14,7 +14,6 @@ from model_bakery import baker
 
 from castellum.castellum_auth.models import User
 from castellum.contacts.models import Contact
-from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.models import Domain
 from castellum.recruitment.management.commands import create_attribute_descriptions
 from castellum.recruitment.models import AttributeDescription
