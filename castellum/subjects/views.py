@@ -458,7 +458,9 @@ class MaintenanceContactView(PermissionRequiredMixin, ListView):
             )\
             .values('subject_id')\
             .order_by()
-        return super().get_queryset().filter(pk__in=[c['subject_id'] for c in contacts])
+        return super().get_queryset()\
+            .filter(pk__in=[c['subject_id'] for c in contacts])\
+            .order_by('pk')
 
 
 class MaintenanceConsentView(PermissionRequiredMixin, ListView):
