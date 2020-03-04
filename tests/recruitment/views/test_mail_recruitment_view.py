@@ -32,6 +32,29 @@ def test_mail_add_to_study(client, user):
     assert len(mail.outbox) == 2
 
 
+def test_guardian_mail_add_to_study(client, user):
+    client.force_login(user)
+    study = baker.make(
+        Study,
+        status=Study.EXECUTION,
+        mail_subject="some subject",
+        mail_body="some body",
+        mail_reply_address="example@example.com",
+    )
+    contact1 = baker.make(Contact, email="example1@example.com")
+    contact2 = baker.make(Contact, guardians=[contact1])
+    baker.make(AttributeSet, subject=contact2.subject)
+
+    study.members.add(user)
+    view = MailRecruitmentView()
+    view.study = study
+    counter = view.create_participation_requests(3)
+
+    assert counter == 1
+    assert study.participationrequest_set.count() == 1
+    assert len(mail.outbox) == 1
+
+
 def test_404_if_study_is_not_provided(client, member):
     client.force_login(member)
     response = client.get('/recruitment/3/mail/')
