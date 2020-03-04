@@ -1,7 +1,6 @@
 import datetime
 import os
 
-from django.conf import settings
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from django.core import serializers
@@ -14,7 +13,6 @@ from model_bakery import baker
 
 from castellum.castellum_auth.models import User
 from castellum.contacts.models import Contact
-from castellum.pseudonyms.models import Domain
 from castellum.recruitment.management.commands import create_attribute_descriptions
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
@@ -56,14 +54,6 @@ def create_user(group_name):
     user.user_permissions.remove(Permission.objects.get(codename='search_execution'))
 
     return user
-
-
-@pytest.fixture(scope='session', autouse=True)
-def contact_domain(django_db_setup, django_db_blocker):
-    with django_db_blocker.unblock():
-        data = settings.CASTELLUM_DOMAINS['contact']
-        domain, __ = Domain.objects.get_or_create(key=data['key'], defaults=data)
-        return domain
 
 
 @pytest.fixture(scope='session', autouse=True)
@@ -148,7 +138,7 @@ def member(study, study_in_execution_status, study_in_edit_status):
 
 
 @pytest.fixture
-def contact(db, contact_domain):
+def contact(db):
     return baker.make(Contact)
 
 

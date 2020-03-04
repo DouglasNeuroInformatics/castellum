@@ -9,7 +9,6 @@ docker-compose pull
 docker-compose up -d
 
 docker-compose run --rm web django-admin migrateall
-docker-compose run --rm web django-admin sync_domains
 
 # Load recommended data
 docker-compose run --rm web django-admin loaddata groups timeslots study_types

@@ -41,17 +41,6 @@ class TimeSlot(models.Model):
         return str(self.hour)
 
 
-class SubjectManager(models.Manager):
-    def get_queryset(self):
-        from castellum.contacts.models import Contact
-        return super().get_queryset().annotate(
-            _contact_pseudonym=models.Max(
-                'pseudonym__pseudonym',
-                filter=models.Q(pseudonym__domain__key=Contact.domain)
-            )
-        ).order_by('pk')
-
-
 class Subject(TimeStampedModel):
     privacy_level = models.PositiveIntegerField(
         _('Privacy level'),
@@ -107,8 +96,6 @@ class Subject(TimeStampedModel):
 
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
 
-    objects = SubjectManager()
-
     class Meta:
         verbose_name = _('Subject')
 
@@ -143,11 +130,7 @@ class Subject(TimeStampedModel):
     @cached_property
     def contact(self):
         from castellum.contacts.models import Contact
-        from castellum.pseudonyms.helpers import get_pseudonym
-        pseudonym = getattr(self, '_contact_pseudonym', None)
-        if not pseudonym:
-            pseudonym = get_pseudonym(self, Contact.domain)
-        return Contact.objects.get(pseudonym=pseudonym)
+        return Contact.objects.get(subject_id=self.pk)
 
     @cached_property
     def consent(self):

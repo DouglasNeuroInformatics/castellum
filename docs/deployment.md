@@ -75,15 +75,7 @@ before you can start using it:
 
         python manage.py migrateall
 
-4.  Sync pseudonym domains from settings to the database:
-
-        python manage.py sync_domains
-
-    **Note**: You need to re-run this if you change the
-    `CASTELLUM_DOMAINS` setting. Otherwise domain reuse might occur
-    which could leak pseudonyms.
-
-5.  Load recommended data. This is not strictly necessary, but it
+4.  Load recommended data. This is not strictly necessary, but it
     usually makes sense to start from these defaults:
 
         python manage.py loaddata groups timeslots study_types
@@ -92,7 +84,7 @@ before you can start using it:
     **Warning**: If you run this command a second time, the database
     will be reset and all edits will be lost.
 
-6.  Create and activate an initial user. This user can then be used to
+5.  Create and activate an initial user. This user can then be used to
     activate (i.e. set expiration dates for) all further users:
 
         python manage.py createsuperuser --username admin

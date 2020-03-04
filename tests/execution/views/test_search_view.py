@@ -40,9 +40,7 @@ def test_only_members(request, client, user_fixture, study_in_execution_status):
     assert response.content.count(b'<li class="my-5">') == 1
 
 
-def test_search_view(
-    client, member, study_in_execution_status, study_in_edit_status, contact_domain
-):
+def test_search_view(client, member, study_in_execution_status, study_in_edit_status):
     contact1 = baker.make(Contact, first_name='foo', last_name='bar')
     contact2 = baker.make(Contact, first_name='asd', last_name='asd')
     contact3 = baker.make(Contact, first_name='foo', last_name='bar')

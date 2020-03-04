@@ -21,8 +21,6 @@
 
 from datetime import date
 
-from django.conf import settings
-from django.core import checks
 from django.db import models
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -30,9 +28,7 @@ from django.utils.translation import gettext_lazy as _
 
 from dateutil.relativedelta import relativedelta
 
-from castellum.pseudonyms.helpers import create_pseudonym
-from castellum.pseudonyms.helpers import delete_pseudonym
-from castellum.pseudonyms.helpers import get_subject
+from castellum.subjects.models import Subject
 from castellum.utils.fields import DateField
 from castellum.utils.fields import PhoneNumberField
 from castellum.utils.models import TimeStampedModel
@@ -133,8 +129,6 @@ class ContactManager(models.Manager):
 
 
 class Contact(TimeStampedModel):
-    domain = settings.CASTELLUM_DOMAINS['contact']['key']
-
     GENDER = (
         ("f", _("female")),
         ("m", _("male")),
@@ -146,7 +140,7 @@ class Contact(TimeStampedModel):
         ("postal", _("postal")),
     )
 
-    pseudonym = models.CharField(max_length=64, unique=True, editable=False, default=None)
+    subject_id = models.IntegerField(unique=True, editable=False, default=None)
 
     first_name = models.CharField(_('First name'), max_length=64)
     first_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
@@ -187,7 +181,7 @@ class Contact(TimeStampedModel):
 
     @cached_property
     def subject(self):
-        return get_subject(self.domain, self.pseudonym)
+        return Subject.objects.get(pk=self.subject_id)
 
     @property
     def is_complete(self):
@@ -208,8 +202,9 @@ class Contact(TimeStampedModel):
         return self.id and self.guardians.exists()
 
     def save(self, *args, **kwargs):
-        if not self.pseudonym:
-            self.pseudonym = create_pseudonym(Contact.domain)
+        if not self.subject_id:
+            subject = Subject.objects.create()
+            self.subject_id = subject.pk
 
         self.first_name_phonetic = phonetic(self.first_name)
         self.last_name_phonetic = phonetic(self.last_name)
@@ -217,23 +212,9 @@ class Contact(TimeStampedModel):
         return super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
-        if self.pseudonym:
-            delete_pseudonym(Contact.domain, self.pseudonym)
         if self.address:
             self.address.delete()
         return super().delete(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('subjects:detail', args=[self.subject.pk])
-
-
-@checks.register(checks.Tags.security, deploy=True)
-def check_domain_unchanged(app_configs, **kwargs):
-    errors = []
-    domain = settings.CASTELLUM_DOMAINS['contact']
-    if domain and domain['key'] == 'CHANGEME':
-        errors.append(checks.Error(
-            'You have not changed the contact domain key.',
-            id='castellum.contacts.E002',
-        ))
-    return errors
