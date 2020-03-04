@@ -1,4 +1,5 @@
 import pytest
+from model_bakery import baker
 
 from castellum.contacts.models import Contact
 
@@ -194,3 +195,13 @@ def test_maintenance_contact_200(request, client, user_fixture):
     url = '/subjects/maintenance/contact/'
     response = client.get(url)
     assert response.status_code == 200
+    assert response.content.count(b'<li class="table-list-item">') == 0
+
+
+def test_maintenance_contact_not_empty(client, user):
+    baker.make(Contact, phone_number='', email='')
+    client.force_login(user)
+    url = '/subjects/maintenance/contact/'
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.content.count(b'<li class="table-list-item">') == 1
