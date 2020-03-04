@@ -27,6 +27,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
+from django.db import models
 from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -88,11 +89,9 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
             .filter(completeness=total)\
             .count()
 
-        context['db_consent_uploaded'] = Consent.objects.exists()
-        if context['db_consent_uploaded']:
-            context['count_consent'] = Subject.objects.filter(
-                consentconfirmation__status=ConsentConfirmation.CONFIRMED
-            ).count()
+        context['count_consent'] = Subject.objects.filter(
+            consentconfirmation__status=ConsentConfirmation.CONFIRMED
+        ).count()
 
         context['is_post'] = self.request.method == 'POST'
         form = kwargs.get('form')
@@ -410,11 +409,12 @@ class GuardianSearchView(SubjectSearchView):
         ))
 
 
-class MaintenanceView(PermissionRequiredMixin, ListView):
+class MaintenanceAttributesView(PermissionRequiredMixin, ListView):
     model = Subject
     paginate_by = 20
     permission_required = 'subjects.change_subject'
-    template_name = 'subjects/maintenance.html'
+    template_name = 'subjects/maintenance_attributes.html'
+    tab = 'attributes'
 
     def get_queryset(self):
         completeness, total = filter_queries.completeness_expr('attributeset__')
@@ -423,6 +423,44 @@ class MaintenanceView(PermissionRequiredMixin, ListView):
             .filter(completeness__lt=total, no_recruitment=False)\
             .order_by('completeness')\
             .select_related('attributeset')
+
+
+class MaintenanceContactView(PermissionRequiredMixin, ListView):
+    model = Subject
+    paginate_by = 20
+    permission_required = 'subjects.change_subject'
+    template_name = 'subjects/maintenance_contact.html'
+    tab = 'contact'
+
+    def get_queryset(self):
+        pseudonyms = Contact.objects\
+            .annotate(guardian_count=models.Count('guardians'))\
+            .filter(
+                guardian_count=0,
+                address=None,
+                email='',
+                phone_number='',
+            )\
+            .values('pseudonym')
+        return super().get_queryset().filter(
+            pseudonym__domain__key=Contact.domain,
+            pseudonym__pseudonym__in=list(pseudonyms),
+        )
+
+
+class MaintenanceConsentView(PermissionRequiredMixin, ListView):
+    model = Subject
+    paginate_by = 20
+    permission_required = 'subjects.change_subject'
+    template_name = 'subjects/maintenance_consent.html'
+    tab = 'consent'
+
+    def get_queryset(self):
+        latest = Consent.objects.latest()
+        return super().get_queryset().exclude(
+            consentconfirmation__status=ConsentConfirmation.CONFIRMED,
+            consentconfirmation__revision=latest,
+        )
 
 
 class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):

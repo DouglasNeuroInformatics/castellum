@@ -174,9 +174,23 @@ def test_coverletter_200(request, client, user_fixture, contact):
     'subject_manager',
     pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
 ])
-def test_maintenance_200(request, client, user_fixture, contact):
+def test_maintenance_attributes_200(request, client, user_fixture, contact):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/maintenance/'.format(contact.subject.pk)
+    url = '/subjects/maintenance/attributes/'.format(contact.subject.pk)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    'subject_manager',
+    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+])
+def test_maintenance_contact_200(request, client, user_fixture, contact):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    url = '/subjects/maintenance/contact/'.format(contact.subject.pk)
     response = client.get(url)
     assert response.status_code == 200
