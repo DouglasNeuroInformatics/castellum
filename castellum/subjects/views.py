@@ -59,7 +59,6 @@ from castellum.utils.views import GetFormView
 from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseSubjectUpdateView
 from .mixins import SubjectMixin
-from .models import Consent
 from .models import ConsentConfirmation
 from .models import ExportAnswer
 from .models import Subject
@@ -91,7 +90,8 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
             .count()
 
         context['count_consent'] = Subject.objects.filter(
-            consentconfirmation__status=ConsentConfirmation.CONFIRMED
+            consentconfirmation__status=ConsentConfirmation.CONFIRMED,
+            consentconfirmation__revision__is_current=True,
         ).count()
 
         context['is_post'] = self.request.method == 'POST'
@@ -476,10 +476,9 @@ class MaintenanceConsentView(PermissionRequiredMixin, ListView):
     tab = 'consent'
 
     def get_queryset(self):
-        latest = Consent.objects.latest()
         return super().get_queryset().exclude(
             consentconfirmation__status=ConsentConfirmation.CONFIRMED,
-            consentconfirmation__revision=latest,
+            consentconfirmation__revision__is_current=True,
         )
 
 
