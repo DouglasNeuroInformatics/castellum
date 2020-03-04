@@ -129,7 +129,8 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
                 monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
                     Contact.domain,
                     contact.pseudonym,
-                    self.request.user.pk))
+                    self.request.user.pk,
+                ))
                 return redirect('subjects:detail', pk=contact.subject.pk)
             else:
                 messages.error(request, _(
@@ -137,7 +138,8 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
                 ))
         return self.render_to_response(self.get_context_data(
             form=form,
-            privacy_level_form=privacy_level_form))
+            privacy_level_form=privacy_level_form,
+        ))
 
 
 class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
@@ -181,8 +183,7 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
         self.object = self.get_object()
         if self.object.participationrequest_set.exists():
             return self.get(request, *args, **kwargs)
-        monitoring_logger.info('Subject deleted by {}'.format(
-            self.request.user.pk))
+        monitoring_logger.info('Subject deleted by {}'.format(self.request.user.pk))
         messages.success(self.request, _('Subject has been deleted.'))
         return super().delete(request, *args, **kwargs)
 
@@ -198,7 +199,8 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         if self.object.export_requested:
             monitoring_logger.info('GDPR-Request export: {} by {}'.format(
-                self.object.pk, self.request.user.pk))
+                self.object.pk, self.request.user.pk
+            ))
 
             context['dataset_list'] = [self.object, self.object.contact]
 
@@ -329,7 +331,8 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
         monitoring_logger.info('ParticipationRequest in Study {} deleted by {}'.format(
-            self.object.study.name, self.request.user.pk))
+            self.object.study.name, self.request.user.pk
+        ))
         return super().delete(self, request, *args, **kwargs)
 
 
@@ -412,7 +415,8 @@ class GuardianSearchView(SubjectSearchView):
             monitoring_logger.info('SubjectData update: {}:{} by {}'.format(
                 Contact.domain,
                 contact.pseudonym,
-                self.request.user.pk))
+                self.request.user.pk,
+            ))
             return TemplateResponse(self.request, 'subjects/guardian_success.html', {
                 'name': contact.full_name,
                 'pk': contact.subject.pk,
