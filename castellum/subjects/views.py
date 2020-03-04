@@ -456,12 +456,9 @@ class MaintenanceContactView(PermissionRequiredMixin, ListView):
                 email='',
                 phone_number='',
             )\
-            .values('pseudonym')\
+            .values('subject_id')\
             .order_by()
-        return super().get_queryset().filter(
-            pseudonym__domain__key=Contact.domain,
-            pseudonym__pseudonym__in=[c['pseudonym'] for c in contacts],
-        )
+        return super().get_queryset().filter(pk__in=[c['subject_id'] for c in contacts])
 
 
 class MaintenanceConsentView(PermissionRequiredMixin, ListView):
