@@ -1025,13 +1025,13 @@ msgstr ""
 
 #: castellum/recruitment/templates/recruitment/participationrequest_confirm_delete.html:10
 msgid ""
-"This should only be done once all external data related to this study has "
-"been destroyed as it would no longer be possible to identify this subject "
-"reliably."
+"This should only be done once all relevant external data related to this "
+"study has been deleted as it would no longer be possible to identify this "
+"subject reliably."
 msgstr ""
-"Dies sollte erst geschehen, sobald alle zu dieser Studie gehörenden externen "
-"Daten gelöscht wurden, da es nicht länger möglich sein wird diese Proband*in "
-"zuverlässig zu identifizieren."
+"Dies sollte erst geschehen, sobald alle relevanten externen Daten zu dieser "
+"Studie gelöscht wurden, da es nicht länger möglich sein wird diese "
+"Proband*in zuverlässig zu identifizieren."
 
 #: castellum/recruitment/templates/recruitment/participationrequest_confirm_delete.html:13
 msgid ""
