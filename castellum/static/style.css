@@ -101,6 +101,6 @@
 
 @media print {
     .alert {
-        display: none;
+        display: none !important;
     }
 }
