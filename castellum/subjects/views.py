@@ -452,7 +452,7 @@ class MaintenanceContactView(PermissionRequiredMixin, ListView):
     tab = 'contact'
 
     def get_queryset(self):
-        pseudonyms = Contact.objects\
+        contacts = Contact.objects\
             .annotate(guardian_count=models.Count('guardians'))\
             .filter(
                 guardian_count=0,
@@ -464,7 +464,7 @@ class MaintenanceContactView(PermissionRequiredMixin, ListView):
             .order_by()
         return super().get_queryset().filter(
             pseudonym__domain__key=Contact.domain,
-            pseudonym__pseudonym__in=list(pseudonyms),
+            pseudonym__pseudonym__in=[c['pseudonym'] for c in contacts],
         )
 
 
