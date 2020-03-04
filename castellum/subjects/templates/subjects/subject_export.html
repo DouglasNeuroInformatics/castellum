@@ -1,9 +1,33 @@
 {% extends "subjects/subject_base.html" %}
-{% load i18n bootstrap4 utils %}
+{% load i18n utils %}
 
 {% block title %}{% trans "GDPR request" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    {% with subject.exportanswer_set.all|list as answers %}
+        {% if answers %}
+            <div class="alert alert-warning">
+                <p><strong>{% blocktrans with count=answers|length %}Export issued {{ count }}× so far:{% endblocktrans %}</strong></p>
+                <ul>
+                    {% for answer in answers %}
+                        <li>{% blocktrans with date=answer.created_at|date name=answer.created_by %}at {{ date }} by {{ name }}{% endblocktrans %}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <form class="alert alert-info d-flex justify-content-between align-items-center" method="post">
+        {% csrf_token %}
+        {% if subject.export_requested %}
+            <span>{% blocktrans with date=subject.export_requested|date %}Export requested on {{ date }}{% endblocktrans %}</span>
+            <button class="btn btn-primary">{% trans 'Mark as answered' %}</button>
+        {% else %}
+            <span>{% trans 'No export requested' %}</span>
+            <button class="btn btn-primary">{% trans 'Request export' %}</button>
+        {% endif %}
+    </form>
+
     {% for dataset in dataset_list %}
         <h1>{{ dataset|model_verbose_name }}</h1>
         <dl class="row">

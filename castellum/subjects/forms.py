@@ -34,7 +34,7 @@ class SubjectForm(forms.ModelForm):
 
     class Meta:
         model = Subject
-        exclude = ('to_be_deleted', 'to_be_deleted_notified')
+        exclude = ('to_be_deleted', 'to_be_deleted_notified', 'export_requested')
         widgets = {
             'privacy_level': forms.RadioSelect,
         }
@@ -45,6 +45,11 @@ class SubjectForm(forms.ModelForm):
         label=_("To be deleted"),
         required=False,
         help_text=Subject._meta.get_field('to_be_deleted').help_text,
+    )
+    export_requested = forms.BooleanField(
+        label=_('Export requested'),
+        required=False,
+        help_text=Subject._meta.get_field('export_requested').help_text,
     )
 
     def __init__(self, user, *args, **kwargs):
@@ -57,6 +62,7 @@ class SubjectForm(forms.ModelForm):
             self.fields['consent_status'].initial = consent.status
 
         self.fields['to_be_deleted'].initial = self.instance.to_be_deleted
+        self.fields['export_requested'].initial = self.instance.export_requested
 
     def clean(self):
         cleaned_data = super().clean()
@@ -78,6 +84,11 @@ class SubjectForm(forms.ModelForm):
             self.instance.to_be_deleted = datetime.date.today()
         elif not self.cleaned_data.get('to_be_deleted') and self.instance.to_be_deleted:
             self.instance.to_be_deleted = None
+
+        if self.cleaned_data.get('export_requested') and not self.instance.export_requested:
+            self.instance.export_requested = datetime.date.today()
+        elif not self.cleaned_data.get('export_requested') and self.instance.export_requested:
+            self.instance.export_requested = None
 
         return cleaned_data
 

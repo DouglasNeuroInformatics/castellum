@@ -61,6 +61,7 @@ from .mixins import BaseSubjectUpdateView
 from .mixins import SubjectMixin
 from .models import Consent
 from .models import ConsentConfirmation
+from .models import ExportAnswer
 from .models import Subject
 
 monitoring_logger = logging.getLogger('monitoring.subjects')
@@ -195,23 +196,37 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        monitoring_logger.info('GDPR-Request export: {} by {}'.format(
-            self.object.pk, self.request.user.pk))
+        if self.object.export_requested:
+            monitoring_logger.info('GDPR-Request export: {} by {}'.format(
+                self.object.pk, self.request.user.pk))
 
-        context['dataset_list'] = [self.object, self.object.contact]
+            context['dataset_list'] = [self.object, self.object.contact]
 
-        try:
-            context['dataset_list'].append(self.object.attributeset)
-        except ObjectDoesNotExist:
-            pass
+            try:
+                context['dataset_list'].append(self.object.attributeset)
+            except ObjectDoesNotExist:
+                pass
 
-        for participation_request in self.object.participationrequest_set.all():
-            context['dataset_list'].append(participation_request)
+            for participation_request in self.object.participationrequest_set.all():
+                context['dataset_list'].append(participation_request)
 
-        for consent in self.object.consentconfirmation_set.all():
-            context['dataset_list'].append(consent)
+            for consent in self.object.consentconfirmation_set.all():
+                context['dataset_list'].append(consent)
+
+            for answer in self.object.exportanswer_set.all():
+                context['dataset_list'].append(answer)
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.export_requested:
+            self.object.export_requested = None
+            ExportAnswer.objects.create(subject=self.object, created_by=request.user.username)
+        else:
+            self.object.export_requested = datetime.date.today()
+        self.object.save()
+        return redirect('subjects:export', self.object.pk)
 
 
 class SubjectUpdateView(BaseSubjectUpdateView):

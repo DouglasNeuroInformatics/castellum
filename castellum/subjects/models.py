@@ -79,6 +79,12 @@ class Subject(TimeStampedModel):
     ))
     to_be_deleted_notified = models.BooleanField(default=False)
 
+    export_requested = models.DateField(_('Export requested'), blank=True, null=True, help_text=_(
+        'The subject wants to receive an export of all data we have stored about them. '
+        'This includes all data in Castellum and all data collected in studies. '
+        'This option should be used when a subject requests GDPR export.'
+    ))
+
     note_hard_of_hearing = models.BooleanField(_('Hard of hearing'), default=False)
     note_difficult_to_understand = models.BooleanField(_('Difficult to understand'), default=False)
     note_abusive_language = models.BooleanField(_('Abusive language'), default=False)
@@ -130,6 +136,8 @@ class Subject(TimeStampedModel):
             'note_difficult_to_understand',
             'note_abusive_language',
             'no_recruitment',
+            'to_be_deleted',
+            'export_requested',
         ]
 
     @cached_property
@@ -260,3 +268,12 @@ class ConsentConfirmation(models.Model):
     class Meta:
         get_latest_by = 'revision__created_at'
         verbose_name = _('Consent confirmation')
+
+
+class ExportAnswer(models.Model):
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    created_at = models.DateField(_('Created at'), auto_now_add=True)
+    created_by = models.CharField(_('Created by'), max_length=150)
+
+    class Meta:
+        verbose_name = _('Export answer')
