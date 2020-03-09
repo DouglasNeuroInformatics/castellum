@@ -451,10 +451,14 @@ class MaintenanceContactView(PermissionRequiredMixin, ListView):
         contacts = Contact.objects\
             .annotate(guardian_count=models.Count('guardians'))\
             .filter(
-                guardian_count=0,
-                address=None,
-                email='',
-                phone_number='',
+                models.Q(
+                    guardian_count=0,
+                    address=None,
+                    email='',
+                    phone_number='',
+                ) | models.Q(
+                    date_of_birth=None,
+                )
             )\
             .values('subject_id')\
             .order_by()
