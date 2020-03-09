@@ -74,7 +74,7 @@ class ContactForm(forms.ModelForm):
 
         if self.instance.has_guardian:
             self.fields['guardians_pane'].initial = 'guardians'
-        elif self.instance.is_complete:
+        elif any([self.instance.address, self.instance.phone_number, self.instance.email]):
             self.fields['guardians_pane'].initial = 'self'
 
         self.fields['guardians_remove'].choices = self.get_guardians_rm_choices(user)
