@@ -282,10 +282,6 @@ LOGGING = {
 
 CASTELLUM_ENABLE_STUDY_EXPORT = True
 
-# timespan after the last test session after which the study is reviewed
-# by the data protection manager
-CASTELLUM_STUDY_DELETION_PERIOD = relativedelta(years=5)
-
 # timespan a subject should be allowed to remain in the database without
 # consent given
 CASTELLUM_CONSENT_REVIEW_PERIOD = relativedelta(weeks=2)
@@ -365,8 +361,6 @@ CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_SUBJECT = '[Castellum] Subject export'
 CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY = 'The following subject should be exported: {url}'
 CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT = '[Castellum] Subject deletion'
 CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY = 'The following subject should be deleted: {url}'
-CASTELLUM_DELETE_STUDY_NOTIFICATION_SUBJECT = '[Castellum] Study deletion'
-CASTELLUM_DELETE_STUDY_NOTIFICATION_BODY = 'The following study should be deleted: {url}'
 
 CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 

@@ -25,7 +25,6 @@ from django.utils import timezone
 
 from castellum.contacts.models import Contact
 from castellum.recruitment.models import ParticipationRequest
-from castellum.studies.models import Study
 from castellum.subjects.models import Consent
 from castellum.subjects.models import ConsentConfirmation
 from castellum.subjects.models import Subject
@@ -112,9 +111,3 @@ def get_all_subjects(limit_by):
         subjects.update(s)
         missing += m
     return subjects, missing
-
-
-def get_studies(limit_by):
-    last_acceptable_datetime = timezone.now() - settings.CASTELLUM_STUDY_DELETION_PERIOD
-    studies = Study.objects.filter(sessions_end__lte=last_acceptable_datetime)
-    return studies[:limit_by], max(studies.count() - limit_by, 0)

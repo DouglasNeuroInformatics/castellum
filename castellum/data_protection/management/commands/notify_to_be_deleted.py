@@ -26,46 +26,7 @@ from django.core.management.base import CommandError
 from django.urls import reverse
 
 from castellum.data_protection import helpers
-from castellum.studies.models import Study
 from castellum.subjects.models import Subject
-
-
-def studies_notify(studies, base_url):
-    count = 0
-    for study in studies:
-        if not study.to_be_deleted_notified:
-            study.to_be_deleted_notified = True
-            study.save()
-            count += 1
-
-            url = base_url + reverse('studies:detail', args=[study.pk])
-            send_mail(
-                settings.CASTELLUM_DELETE_STUDY_NOTIFICATION_SUBJECT,
-                settings.CASTELLUM_DELETE_STUDY_NOTIFICATION_BODY.format(url=url),
-                settings.DEFAULT_FROM_EMAIL,
-                [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
-            )
-    print('notified about %i studies' % count)
-
-
-def studies_reset(studies):
-    count = 0
-    for study in Study.objects.filter(to_be_deleted_notified=True):
-        if study not in studies:
-            study.to_be_deleted_notified = False
-            study.save()
-            count += 1
-    print('reset %i studies that previously were marked as notified' % count)
-
-
-def studies_handle(base_url, limit_by, **options):
-    studies, missing = helpers.get_studies(limit_by)
-    studies_notify(studies, base_url)
-    if missing:
-        print('skipped resetting because %i studies were missing' % missing)
-    else:
-        studies_reset(studies)
-    print()
 
 
 def subjects_notify(subjects, base_url):
@@ -96,18 +57,8 @@ def subjects_reset(subjects):
     print('reset %i subjects that previously were marked as notified' % count)
 
 
-def subjects_handle(base_url, limit_by, **options):
-    subjects, missing = helpers.get_all_subjects(limit_by)
-    subjects_notify(subjects, base_url)
-    if missing:
-        print('skipped resetting because %i subjects were missing' % missing)
-    else:
-        subjects_reset(subjects)
-    print()
-
-
 class Command(BaseCommand):
-    help = 'Automatically notify about content that should be deleted.'
+    help = 'Automatically notify about subjects that should be deleted.'
 
     def add_arguments(self, parser):
         parser.add_argument('base_url')
@@ -117,5 +68,9 @@ class Command(BaseCommand):
         if not settings.CASTELLUM_DELETE_NOTIFICATION_TO:
             raise CommandError('CASTELLUM_DELETE_NOTIFICATION_TO is not set')
 
-        studies_handle(**options)
-        subjects_handle(**options)
+        subjects, missing = helpers.get_all_subjects(options['limit_by'])
+        subjects_notify(subjects, options['base_url'])
+        if missing:
+            print('skipped resetting because %i subjects were missing' % missing)
+        else:
+            subjects_reset(subjects)
