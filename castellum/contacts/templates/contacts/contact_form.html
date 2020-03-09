@@ -17,7 +17,7 @@
         {% endfor %}
 
         {% if not object.is_complete %}
-            <p class="alert alert-warning" role="alert">{% trans "Either email, phone number, address, or guardian should be provided." %}</p>
+            <p class="alert alert-warning" role="alert">{% trans "Date of birth as well as at least one of email, phone number, address, or guardian should be provided." %}</p>
         {% endif %}
 
         {% csrf_token %}
