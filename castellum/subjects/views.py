@@ -434,6 +434,7 @@ class MaintenanceAttributesView(PermissionRequiredMixin, ListView):
     def get_queryset(self):
         completeness, total = filter_queries.completeness_expr('attributeset__')
         return super().get_queryset()\
+            .exclude(attributeset=None)\
             .annotate(completeness=completeness)\
             .filter(completeness__lt=total, no_recruitment=False)\
             .order_by('completeness')\
