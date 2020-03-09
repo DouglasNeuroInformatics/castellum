@@ -27,6 +27,7 @@ from django.db import models
 from django.http import HttpResponseBadRequest
 from django.http import JsonResponse
 from django.http import QueryDict
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -161,6 +162,22 @@ class StudyCreateView(PermissionRequiredMixin, StudyFormMixin, CreateView):
 
         StudyMembership.objects.get_or_create(user=self.request.user, study=self.object)
 
+        if 'duplicate_pk' in self.request.GET:
+            duplicate_pk = self.request.GET['duplicate_pk']
+            study = get_object_or_404(Study, pk=duplicate_pk)
+            self.object.exclusion_criteria = study.exclusion_criteria
+            self.object.recruitment_text = study.recruitment_text
+            self.object.advanced_filtering = study.advanced_filtering
+            self.object.custom_filter = study.custom_filter
+            self.object.is_exclusive = study.is_exclusive
+            self.object.complete_matches_only = study.complete_matches_only
+            self.object.excluded_studies.set(study.excluded_studies.all())
+            self.object.consent = study.consent
+            self.object.mail_subject = study.mail_subject
+            self.object.mail_body = study.mail_body
+            self.object.mail_reply_address = study.mail_reply_address
+            self.object.save()
+
         return response
 
     def get_success_url(self):
@@ -169,6 +186,25 @@ class StudyCreateView(PermissionRequiredMixin, StudyFormMixin, CreateView):
     def post(self, request, *args, **kwargs):
         self.object = None
         return super().post(request, *args, **kwargs)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        if 'duplicate_pk' in self.request.GET:
+            duplicate_pk = self.request.GET['duplicate_pk']
+            study = get_object_or_404(Study, pk=duplicate_pk)
+            initial['name'] = "Copy " + study.name
+            initial['contact_person'] = study.contact_person
+            initial['principal_investigator'] = study.principal_investigator
+            initial['affiliated_scientists'] = study.affiliated_scientists
+            initial['affiliated_research_assistants'] = study.affiliated_research_assistants
+            initial['description'] = study.description
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'duplicate_pk' in self.request.GET:
+            context['duplicate_pk'] = self.request.GET['duplicate_pk']
+        return context
 
 
 class StudyUpdateView(
