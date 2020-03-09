@@ -998,7 +998,7 @@ msgid ""
 "                        "
 msgstr ""
 "\n"
-"%(counter)s E-Mails versendet am %(datetime)s: "
+"%(counter)s E-Mail versendet am %(datetime)s: "
 
 #: castellum/recruitment/templates/recruitment/mail.html:49
 #, python-format
