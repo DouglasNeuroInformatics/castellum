@@ -320,42 +320,6 @@ CASTELLUM_EXPECTED_SUBJECT_FACTOR = 10
 # attempt and another one from a different study recruitment
 CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS = relativedelta(weeks=2)
 
-CASTELLUM_LOCK_USER_CONTACT = 'admin@example.com'
-CASTELLUM_LOCK_USER_NOTIFICATION_SUBJECT = '[Castellum] Verdächtige Aktivität / Suspicious activity'
-CASTELLUM_LOCK_USER_NOTIFICATION_BODY = """(English version below)
-
-Liebe/r Castellum Nutzer/in,
-
-Ihr Castellum-Konto wurde wegen verdächtiger Aktivitäten gesperrt.
-
-Bitte kontaktieren Sie {contact}.
-
-
-* * * * * * * * * * * *
-
-Dear castellum user,
-
-your castellum account has been locked due to suspicious activity.
-
-Please contact {contact}.
-"""
-CASTELLUM_UNLOCK_USER_NOTIFICATION_SUBJECT = (
-    '[Castellum] Verdächtige Aktivität geklärt / Suspicious activity resolved'
-)
-CASTELLUM_UNLOCK_USER_NOTIFICATION_BODY = """(English version below)
-
-Liebe/r Castellum Nutzer/in,
-
-Ihr Castellum-Konto wurde wieder freigegeben.
-
-
-* * * * * * * * * * * *
-
-Dear castellum user,
-
-your castellum account has been unlocked.
-"""
-
 CASTELLUM_DELETE_NOTIFICATION_TO = None
 CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_SUBJECT = '[Castellum] Subject export'
 CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY = 'The following subject should be exported: {url}'
