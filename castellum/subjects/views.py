@@ -169,9 +169,18 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     permission_required = 'subjects.delete_subject'
     tab = 'delete'
 
+    def is_last_guardian(self):
+        if self.object.contact.guardian_of.exists():
+            for ward in Contact.objects.filter(guardians=self.object.contact):
+                if ward.guardians.count() <= 1:
+                    return True
+        else:
+            return False
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['has_participationrequests'] = self.object.participationrequest_set.exists()
+        context['is_last_guardian'] = self.is_last_guardian()
         return context
 
     def get_success_url(self):
