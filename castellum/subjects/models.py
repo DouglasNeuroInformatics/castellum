@@ -135,7 +135,7 @@ class Subject(TimeStampedModel):
     @cached_property
     def consent(self):
         try:
-            return self.consentconfirmation_set.filter(revision__is_current=True).latest()
+            return self.consentconfirmation_set.filter(document__is_current=True).latest()
         except ConsentConfirmation.DoesNotExist:
             return None
 
@@ -144,7 +144,7 @@ class Subject(TimeStampedModel):
         try:
             return self.consentconfirmation_set.filter(
                 status=ConsentConfirmation.CONFIRMED,
-                revision__is_current=True,
+                document__is_current=True,
             ).latest()
         except ConsentConfirmation.DoesNotExist:
             return None
@@ -152,7 +152,7 @@ class Subject(TimeStampedModel):
     @cached_property
     def is_complete(self):
         # these conditions are also checked in the form
-        return self.consent or not Consent.objects.exists()
+        return self.consent or not ConsentDocument.objects.exists()
 
     @property
     def is_available(self):
@@ -211,7 +211,7 @@ class SubjectNote(models.Model):
     content = models.CharField(_('Content'), max_length=128, blank=True)
 
 
-class Consent(models.Model):
+class ConsentDocument(models.Model):
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     info = models.CharField(_('Info'), max_length=128)
     is_current = models.BooleanField(_('Is current'), default=True)
@@ -235,7 +235,7 @@ class ConsentConfirmation(models.Model):
 
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    revision = models.ForeignKey(Consent, on_delete=models.CASCADE)
+    document = models.ForeignKey(ConsentDocument, on_delete=models.CASCADE)
     type = models.CharField(_('Type'), max_length=64, choices=[
         ('online', _('Online form')),
         ('paper', _('Pen & Paper')),
@@ -247,7 +247,7 @@ class ConsentConfirmation(models.Model):
     ])
 
     class Meta:
-        get_latest_by = 'revision__created_at'
+        get_latest_by = 'document__created_at'
         verbose_name = _('Consent confirmation')
 
 

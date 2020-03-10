@@ -25,8 +25,8 @@ from django.utils import timezone
 
 from castellum.contacts.models import Contact
 from castellum.recruitment.models import ParticipationRequest
-from castellum.subjects.models import Consent
 from castellum.subjects.models import ConsentConfirmation
+from castellum.subjects.models import ConsentDocument
 from castellum.subjects.models import Subject
 
 
@@ -88,7 +88,7 @@ def get_unreachable(limit_by):
 
 
 def get_no_consent(limit_by):
-    if not Consent.objects.exists():
+    if not ConsentDocument.objects.exists():
         return [], 0
 
     acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD

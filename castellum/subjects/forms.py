@@ -25,8 +25,8 @@ from django import forms
 from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
 
-from .models import Consent
 from .models import ConsentConfirmation
+from .models import ConsentDocument
 from .models import Subject
 
 
@@ -107,7 +107,7 @@ class SubjectForm(forms.ModelForm):
                 type=self.cleaned_data['consent_type'],
                 status=self.cleaned_data['consent_status'],
                 subject=subject,
-                revision=Consent.objects.filter(is_current=True).latest(),
+                document=ConsentDocument.objects.filter(is_current=True).latest(),
             )
         return subject
 

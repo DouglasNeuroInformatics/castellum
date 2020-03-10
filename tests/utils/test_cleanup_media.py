@@ -7,6 +7,6 @@ def test_iter_file_fields():
         for field in cleanup_media.iter_file_fields(model):
             fields.append('%s.%s' % (model._meta.label, field.name))
     assert fields == [
-        'subjects.Consent.file',
+        'subjects.ConsentDocument.file',
         'studies.Study.consent',
     ]

@@ -37,9 +37,9 @@
                 <legend>{% trans 'Castellum consent' %}</legend>
 
                 {% with consent=object.confirmed_consent %}
-                    <div class="alert alert-{{ consent.revision.is_current|yesno:'success,warning' }}">
+                    <div class="alert alert-{{ consent.document.is_current|yesno:'success,warning' }}">
                         {% if consent %}
-                            {{ consent.revision }} {% if not consent.revision.is_current %}({% trans 'outdated' %}){% endif %}
+                            {{ consent.document }} {% if not consent.document.is_current %}({% trans 'outdated' %}){% endif %}
                             <br>
                             {{ consent|display:'type' }}, <time>{{ consent.updated_at|date }}</time>
                         {% else %}
@@ -49,7 +49,7 @@
                 {% endwith %}
 
                 {% with consent=object.consent %}
-                    {% if consent.status == consent.WAITING or not consent.revision.is_current %}
+                    {% if consent.status == consent.WAITING or not consent.document.is_current %}
                         {% bootstrap_field form.consent_type %}
                         {% bootstrap_field form.consent_status %}
                     {% endif %}
