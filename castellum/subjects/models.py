@@ -22,6 +22,7 @@
 import datetime
 
 from django.conf import settings
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -76,6 +77,18 @@ class SubjectQuerySet(models.QuerySet):
 
 class Subject(TimeStampedModel):
     slug = models.CharField(_('Slug'), max_length=64, default=uuid_str, unique=True)
+
+    attributes = models.JSONField(encoder=DjangoJSONEncoder)
+    onetime_invitation_disinterest = models.BooleanField(
+        _('Does not want to participate in one time invitations'),
+        default=False,
+    )
+    study_type_disinterest = models.ManyToManyField(
+        'studies.StudyType',
+        verbose_name=_('Does not want to participate in the following study types'),
+        blank=True,
+        related_name='+',
+    )
 
     privacy_level = models.PositiveIntegerField(
         _('Privacy level'),
@@ -165,6 +178,8 @@ class Subject(TimeStampedModel):
             'export_requested',
             'deceased',
             'additional_suitability_document',
+            'study_type_disinterest',
+            'onetime_invitation_disinterest',
         ]
 
     @cached_property

@@ -201,7 +201,7 @@ class Contact(TimeStampedModel):
 
     def save(self, *args, **kwargs):
         if not self.subject_id:
-            subject = Subject.objects.create()
+            subject = Subject.objects.create(attributes={})
             self.subject_id = subject.pk
 
         self.first_name_phonetic = phonetic(self.first_name)
