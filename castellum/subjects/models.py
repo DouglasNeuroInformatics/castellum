@@ -20,6 +20,8 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
+from django.contrib.postgres.fields import JSONField
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.forms import ValidationError
 from django.utils import timezone
@@ -42,6 +44,14 @@ class TimeSlot(models.Model):
 
 
 class Subject(TimeStampedModel):
+    attributes = JSONField(encoder=DjangoJSONEncoder)
+    study_type_disinterest = models.ManyToManyField(
+        'studies.StudyType',
+        verbose_name=_('Does not want to participate in the following study types:'),
+        blank=True,
+        related_name='+',
+    )
+
     privacy_level = models.PositiveIntegerField(
         _('Privacy level'),
         default=0,
