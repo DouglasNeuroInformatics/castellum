@@ -25,6 +25,8 @@ from django import forms
 from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
 
+from castellum.utils.forms import DatalistWidget
+
 from .models import Consent
 from .models import ConsentConfirmation
 from .models import Subject
@@ -37,6 +39,9 @@ class SubjectForm(forms.ModelForm):
         exclude = ('to_be_deleted', 'to_be_deleted_notified', 'export_requested')
         widgets = {
             'privacy_level': forms.RadioSelect,
+            'source': DatalistWidget(datalist=(
+                Subject.objects.order_by('source').values_list('source', flat=True).distinct
+            )),
         }
 
     consent_type = ConsentConfirmation._meta.get_field('type').formfield(required=False)

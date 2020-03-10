@@ -74,6 +74,8 @@ class Subject(TimeStampedModel):
         'This option should be used when a subject requests GDPR export.'
     ))
 
+    source = models.CharField(_('Data source'), max_length=128, blank=True)
+
     note_hard_of_hearing = models.BooleanField(_('Hard of hearing'), default=False)
     note_difficult_to_understand = models.BooleanField(_('Difficult to understand'), default=False)
     note_abusive_language = models.BooleanField(_('Abusive language'), default=False)
@@ -122,6 +124,7 @@ class Subject(TimeStampedModel):
             'note_hard_of_hearing',
             'note_difficult_to_understand',
             'note_abusive_language',
+            'source',
             'no_recruitment',
             'to_be_deleted',
             'export_requested',
