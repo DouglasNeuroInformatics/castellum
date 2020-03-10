@@ -58,7 +58,6 @@ from castellum.utils.views import GetFormView
 from .forms import ContactForm
 from .forms import SendMailForm
 from .models import AttributeDescription
-from .models import AttributeSet
 from .models import MailBatch
 from .models import ParticipationRequest
 
@@ -121,8 +120,8 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             desc1 = get_description_by_statistics_rank('primary')
             desc2 = get_description_by_statistics_rank('secondary')
             order_by = [
-                '-subject__attributeset__data__' + desc1.json_key,
-                '-subject__attributeset__data__' + desc2.json_key,
+                '-subject__attributes__' + desc1.json_key,
+                '-subject__attributes__' + desc2.json_key,
                 '-updated_at',
             ]
         else:
@@ -131,14 +130,14 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ]
 
         return ParticipationRequest.objects\
-            .prefetch_related('subject__attributeset')\
+            .prefetch_related('subject')\
             .filter(status__in=self.shown_status, study=self.study)\
             .order_by(*order_by)
 
     def get_statistics(self):
         participation_requests = ParticipationRequest.objects.filter(
             study=self.study, status=ParticipationRequest.INVITED
-        ).prefetch_related('subject__attributeset')
+        ).prefetch_related('subject')
 
         buckets1 = AttributeDescription.get_statistics_buckets('primary')
         buckets2 = AttributeDescription.get_statistics_buckets('secondary')
@@ -148,13 +147,10 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         statistics = defaultdict(lambda: defaultdict(lambda: 0))
         for participation_request in participation_requests:
-            try:
-                attributeset = participation_request.subject.attributeset
-                key1 = attributeset.get_statistics_bucket('primary')
-                key2 = attributeset.get_statistics_bucket('secondary')
-                statistics[key1][key2] += 1
-            except AttributeSet.DoesNotExist:
-                pass
+            subject = participation_request.subject
+            key1 = subject.get_statistics_bucket('primary')
+            key2 = subject.get_statistics_bucket('secondary')
+            statistics[key1][key2] += 1
 
         data = {
             'rows': [{
@@ -177,13 +173,10 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         participants = []
         for participation_request in self.get_queryset():
-            try:
-                attributeset = participation_request.subject.attributeset
-                bucket1 = buckets1[attributeset.get_statistics_bucket('primary')]
-                bucket2 = buckets2[attributeset.get_statistics_bucket('secondary')]
-                buckets = ', '.join(str(bucket) for bucket in [bucket1, bucket2] if bucket)
-            except AttributeSet.DoesNotExist:
-                buckets = ''
+            subject = participation_request.subject
+            bucket1 = buckets1[subject.get_statistics_bucket('primary')]
+            bucket2 = buckets2[subject.get_statistics_bucket('secondary')]
+            buckets = ', '.join(str(bucket) for bucket in [bucket1, bucket2] if bucket)
 
             can_access = self.request.user.has_privacy_level(
                 participation_request.subject.privacy_level

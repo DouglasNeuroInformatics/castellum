@@ -27,12 +27,12 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import gettext_lazy as _
 
 from castellum.studies.models import Study
+from castellum.subjects.models import Subject
 from castellum.utils.forms import BaseImportForm
 from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
 
 from .models import AttributeDescription
-from .models import AttributeSet
 from .models import ParticipationRequest
 from .models import SubjectFilter
 from .models.attributesets import ANSWER_DECLINED
@@ -136,8 +136,8 @@ class SubjectFilterFormSet(forms.BaseModelFormSet):
 class AttributeSetForm(forms.ModelForm):
 
     class Meta:
-        model = AttributeSet
-        exclude = ('data',)
+        model = Subject
+        fields = ('study_type_disinterest',)
         widgets = {
             'study_type_disinterest': forms.CheckboxSelectMultiple(),
         }
@@ -157,11 +157,11 @@ class AttributeSetForm(forms.ModelForm):
         study_type_disinterest = cleaned_data.pop('study_type_disinterest')
         return {
             'study_type_disinterest': study_type_disinterest,
-            'data': cleaned_data,
+            'attributes': cleaned_data,
         }
 
     def save(self):
-        self.instance.data.update(self.cleaned_data['data'])
+        self.instance.attributes.update(self.cleaned_data['attributes'])
         return super().save()
 
     @classmethod

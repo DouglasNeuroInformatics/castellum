@@ -25,10 +25,10 @@ from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import SubjectMixin
+from castellum.subjects.models import Subject
 
 from .forms import AttributeSetForm
 from .models import AttributeDescription
-from .models import AttributeSet
 from .models.attributesets import ANSWER_DECLINED
 from .models.attributesets import UNCATEGORIZED
 
@@ -36,8 +36,9 @@ monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
 class BaseAttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
-    model = AttributeSet
+    model = Subject
     permission_required = 'recruitment.change_attributeset'
+    template_name = 'recruitment/attributeset_form.html'
 
     def get_form_class(self):
         return AttributeSetForm.factory(self.request.user)
@@ -45,7 +46,7 @@ class BaseAttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateVi
     def form_valid(self, form):
         result = super().form_valid(form)
         monitoring_logger.info('AttributeSet update: {} by {}'.format(
-            self.object.subject.pk,
+            self.object.pk,
             self.request.user.pk))
         return result
 
@@ -55,7 +56,7 @@ class BaseAttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateVi
 
         def get_bound_fields(descriptions):
             for description in descriptions:
-                answer_declined = self.object.data.get(description.json_key) == ANSWER_DECLINED
+                answer_declined = self.object.attributes.get(description.json_key) == ANSWER_DECLINED
                 try:
                     yield form['d%i' % description.pk], answer_declined
                 except KeyError:

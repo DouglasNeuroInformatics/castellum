@@ -79,7 +79,7 @@ def study_exclusion(study):
 
 def study_disinterest(study):
     """Exclude subjects who are disinterested in this study's study type."""
-    return ~models.Q(attributeset__study_type_disinterest__in=study.study_type.all())
+    return ~models.Q(study_type_disinterest__in=study.study_type.all())
 
 
 def subjectfilters(subjectfiltergroup, include_unknown=None):
@@ -132,7 +132,7 @@ def completeness_expr():
     completeness = models.Value(0, output_field=models.IntegerField())
     for description in AttributeDescription.objects.all():
         total += 1
-        field_name = 'attributeset__data__' + description.json_key
+        field_name = 'attributes__' + description.json_key
         completeness += models.Case(
             models.When((
                 models.Q(**{field_name: ''}) |

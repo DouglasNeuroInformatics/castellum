@@ -25,7 +25,6 @@ import zipfile
 
 from django.conf import settings
 from django.contrib import messages
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.http import Http404
@@ -51,7 +50,6 @@ from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
-from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.models import Study
 from castellum.utils.views import GetFormView
@@ -151,13 +149,8 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         context['updated_at'] = max(self.object.updated_at, self.object.contact.updated_at)
 
-        try:
-            context['updated_at'] = max(context['updated_at'], self.object.attributeset.updated_at)
-
-            completed, total = self.object.attributeset.get_completeness()
-            context['attributeset_completeness'] = '%i%%' % (100 * completed / (total or 1))
-        except AttributeSet.DoesNotExist:
-            pass
+        completed, total = self.object.get_completeness()
+        context['attribute_completeness'] = '%i%%' % (100 * completed / (total or 1))
 
         context['coverletter_exists'] = bool(settings.CASTELLUM_COVERLETTER_TEMPLATE)
 
@@ -210,11 +203,6 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
             ))
 
             context['dataset_list'] = [self.object, self.object.contact]
-
-            try:
-                context['dataset_list'].append(self.object.attributeset)
-            except ObjectDoesNotExist:
-                pass
 
             for participation_request in self.object.participationrequest_set.all():
                 context['dataset_list'].append(participation_request)
@@ -277,14 +265,8 @@ class ContactUpdateView(BaseContactUpdateView):
 class AttributeSetUpdateView(BaseAttributeSetUpdateView):
     tab = 'attributeset'
 
-    def get_object(self):
-        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
-        attributeset, __ = AttributeSet.objects.get_or_create(
-            subject=subject, defaults={'data': {}})
-        return attributeset
-
     def get_success_url(self):
-        return reverse('subjects:attributeset', args=[self.object.subject.pk])
+        return reverse('subjects:attributeset', args=[self.object.pk])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -365,13 +347,7 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        try:
-            context['attributeset'] = self.object.attributeset
-            context['studies'] = list(self.get_studies(self.object))
-        except AttributeSet.DoesNotExist:
-            pass
-
+        context['studies'] = list(self.get_studies(self.object))
         return context
 
     def post(self, request, *args, **kwargs):
