@@ -59,7 +59,7 @@ from castellum.utils.views import GetFormView
 from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseSubjectUpdateView
 from .mixins import SubjectMixin
-from .models import ConsentConfirmation
+from .models import Consent
 from .models import ExportAnswer
 from .models import Subject
 
@@ -90,8 +90,8 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
             .count()
 
         context['count_consent'] = Subject.objects.filter(
-            consentconfirmation__status=ConsentConfirmation.CONFIRMED,
-            consentconfirmation__revision__is_current=True,
+            consent__status=Consent.CONFIRMED,
+            consent__document__is_current=True,
         ).count()
 
         context['is_post'] = self.request.method == 'POST'
@@ -219,7 +219,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
             for participation_request in self.object.participationrequest_set.all():
                 context['dataset_list'].append(participation_request)
 
-            for consent in self.object.consentconfirmation_set.all():
+            for consent in self.object.consent_set.all():
                 context['dataset_list'].append(consent)
 
             for answer in self.object.exportanswer_set.all():
@@ -482,8 +482,8 @@ class MaintenanceConsentView(PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         return super().get_queryset().exclude(
-            consentconfirmation__status=ConsentConfirmation.CONFIRMED,
-            consentconfirmation__revision__is_current=True,
+            consent__status=Consent.CONFIRMED,
+            consent__document__is_current=True,
         )
 
 

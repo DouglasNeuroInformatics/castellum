@@ -25,7 +25,7 @@ from django.utils import timezone
 
 from castellum.contacts.models import Contact
 from castellum.recruitment.models import ParticipationRequest
-from castellum.subjects.models import ConsentConfirmation
+from castellum.subjects.models import Consent
 from castellum.subjects.models import ConsentDocument
 from castellum.subjects.models import Subject
 
@@ -94,10 +94,10 @@ def get_no_consent(limit_by):
     acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
     subjects = Subject.objects.exclude(
         (
-            models.Q(consentconfirmation__status=ConsentConfirmation.CONFIRMED) |
-            models.Q(consentconfirmation__updated_at__lte=acceptable_datetime)
+            models.Q(consent__status=Consent.CONFIRMED) |
+            models.Q(consent__updated_at__lte=acceptable_datetime)
         ),
-        consentconfirmation__revision__is_current=True,
+        consent__document__is_current=True,
     )
 
     return subjects[:limit_by], max(subjects.count() - limit_by, 0)

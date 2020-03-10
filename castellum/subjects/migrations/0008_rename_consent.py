@@ -23,4 +23,12 @@ class Migration(migrations.Migration):
             old_name='revision',
             new_name='document',
         ),
+        migrations.RenameModel(
+            old_name='ConsentConfirmation',
+            new_name='Consent',
+        ),
+        migrations.AlterModelOptions(
+            name='consent',
+            options={'get_latest_by': 'document__created_at', 'verbose_name': 'Consent'},
+        ),
     ]

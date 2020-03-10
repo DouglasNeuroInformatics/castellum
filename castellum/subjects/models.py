@@ -135,18 +135,18 @@ class Subject(TimeStampedModel):
     @cached_property
     def consent(self):
         try:
-            return self.consentconfirmation_set.filter(document__is_current=True).latest()
-        except ConsentConfirmation.DoesNotExist:
+            return self.consent_set.filter(document__is_current=True).latest()
+        except Consent.DoesNotExist:
             return None
 
     @cached_property
     def confirmed_consent(self):
         try:
-            return self.consentconfirmation_set.filter(
-                status=ConsentConfirmation.CONFIRMED,
+            return self.consent_set.filter(
+                status=Consent.CONFIRMED,
                 document__is_current=True,
             ).latest()
-        except ConsentConfirmation.DoesNotExist:
+        except Consent.DoesNotExist:
             return None
 
     @cached_property
@@ -229,7 +229,7 @@ class ConsentDocument(models.Model):
         return _('Version %i') % self.pk
 
 
-class ConsentConfirmation(models.Model):
+class Consent(models.Model):
     WAITING = 'waiting'
     CONFIRMED = 'confirmed'
 
@@ -248,7 +248,7 @@ class ConsentConfirmation(models.Model):
 
     class Meta:
         get_latest_by = 'document__created_at'
-        verbose_name = _('Consent confirmation')
+        verbose_name = _('Consent')
 
 
 class ExportAnswer(models.Model):
