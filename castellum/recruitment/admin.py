@@ -37,7 +37,6 @@ from .forms import DescriptionImportForm
 from .models import AttributeCategory
 from .models import AttributeChoice
 from .models import AttributeDescription
-from .models import AttributeSet
 from .models import ParticipationRequest
 from .models import ParticipationRequestRevision
 from .models import SubjectFilter
@@ -149,7 +148,6 @@ class AttributeDescriptionAdmin(TranslatableAdmin):
 
 admin.site.register(AttributeCategory, AttributeCategoryAdmin)
 admin.site.register(AttributeDescription, AttributeDescriptionAdmin)
-admin.site.register(AttributeSet)
 admin.site.register(ParticipationRequest)
 admin.site.register(ParticipationRequestRevision)
 admin.site.register(SubjectFilter)

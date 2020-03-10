@@ -79,57 +79,6 @@ class ImportMixin:
         return obj
 
 
-class AttributeSet(TimeStampedModel):
-    subject = models.OneToOneField(Subject, on_delete=models.CASCADE, editable=False)
-    data = JSONField(encoder=DjangoJSONEncoder)
-    study_type_disinterest = models.ManyToManyField(
-        StudyType,
-        verbose_name=_('Does not want to participate in the following study types:'),
-        blank=True,
-        related_name='+',
-    )
-
-    class Meta:
-        verbose_name = _('Attribute set')
-        verbose_name_plural = _('Attribute sets')
-
-    def get_absolute_url(self):
-        return reverse('subjects:detail', args=[self.subject.pk])
-
-    def get_data(self):
-        qs = AttributeDescription.objects.all()
-        return {desc.json_key: desc.field.from_json(self.data.get(desc.json_key)) for desc in qs}
-
-    def get_verbose_name(self, pk):
-        description = AttributeDescription.objects.get(pk=pk)
-        return description.label
-
-    def get_display(self, pk):
-        description = AttributeDescription.objects.get(pk=pk)
-        value = self.data.get(description.json_key)
-        return description.field.get_display(value)
-
-    def get_field_names(self):
-        return AttributeDescription.objects.values_list('pk', flat=True)
-
-    def get_statistics_bucket(self, rank):
-        description = get_description_by_statistics_rank(rank)
-        if not description:
-            return None
-        value = description.field.from_json(self.data.get(description.json_key))
-
-        if not value or value == ANSWER_DECLINED:
-            return None
-
-        return description.field.get_statistics_bucket(value)
-
-    def get_completeness(self):
-        # Needs to match ``filter_queries.completeness_expr()``
-        completed = len([k for k, v in self.data.items() if v not in [None, '']])
-        total = AttributeDescription.objects.count()
-        return completed, total
-
-
 class AttributeCategory(ImportMixin, TranslatableModel):
     import_fields = ['order']
     import_translated_fields = ['label']
