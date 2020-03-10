@@ -4,7 +4,7 @@
 {% block title %}{% trans "Attributes" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <p>{% trans 'The following subjects have incomplete attributesets:' %}</p>
+    <p>{% trans 'The following subjects have incomplete attributes:' %}</p>
 
     <ul class="table-list">
         {% for subject in object_list %}
@@ -13,7 +13,7 @@
                 <div>
                     <div>
                         {% with completeness=subject.attributeset.get_completeness %}
-                            {% trans 'Attributeset completeness' %}: {{ completeness.0 }}/{{ completeness.1 }}
+                            {% trans 'Attribute completeness' %}: {{ completeness.0 }}/{{ completeness.1 }}
                         {% endwith %}
                     </div>
                     <div>
