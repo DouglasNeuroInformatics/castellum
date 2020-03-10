@@ -22,7 +22,6 @@
 from django.views.generic import TemplateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.subjects.models import Consent
 
 from . import helpers
 
@@ -41,6 +40,5 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
         context['to_be_deleted'], context['to_be_deleted_missing'] = helpers.get_to_be_deleted(self.limit_by)  # noqa
         context['orphans'], context['orphans_missing'] = helpers.get_orphans(self.limit_by)
         context['unreachable'], context['unreachable_missing'] = helpers.get_unreachable(self.limit_by)  # noqa
-        context['db_consent_uploaded'] = Consent.objects.exists()
         context['no_consent'], context['no_consent_missing'] = helpers.get_no_consent(self.limit_by)
         return context

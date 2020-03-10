@@ -30,7 +30,6 @@ from django.views.generic import UpdateView
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 
 from .forms import SubjectForm
-from .models import Consent
 from .models import Subject
 from .models import SubjectNote
 
@@ -91,7 +90,6 @@ class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
         if 'notes_formset' not in context:
             context['notes_formset'] = self.get_notes_formset()
         context['template_form'] = self.get_notes_form()
-        context['db_consent_uploaded'] = Consent.objects.exists()
         return context
 
     def post(self, request, *args, **kwargs):

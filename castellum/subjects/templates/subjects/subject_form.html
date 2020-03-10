@@ -1,5 +1,5 @@
 {% extends base_template|default:"subjects/base.html" %}
-{% load static i18n bootstrap4 utils %}
+{% load static i18n bootstrap4 subjects utils %}
 
 {% block title %}
     {% trans "Edit subject" %} &middot; {{ block.super }}
@@ -31,6 +31,7 @@
             {% bootstrap_field form.privacy_level show_label=False %}
         </fieldset>
 
+        {% get_db_consent_uploaded as db_consent_uploaded %}
         {% if db_consent_uploaded %}
             <fieldset>
                 <legend>{% trans 'Castellum consent' %}</legend>
