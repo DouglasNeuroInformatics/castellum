@@ -284,6 +284,30 @@ class Subject(TimeStampedModel):
             key = 'showup_%i' % status
             setattr(self, key, getattr(annotated, key))
 
+    def get_data(self):
+        from castellum.recruitment.models import AttributeDescription
+
+        qs = AttributeDescription.objects.all()
+        return {desc.json_key: self.attributes.get(desc.json_key) for desc in qs}
+
+    def get_statistics_bucket(self, rank):
+        from castellum.recruitment.models.attributesets import get_description_by_statistics_rank
+
+        description = get_description_by_statistics_rank(rank)
+        if not description:
+            return None
+        value = self.attributes.get(description.json_key)
+
+        return description.field.get_statistics_bucket(value)
+
+    def get_completeness(self):
+        from castellum.recruitment.models import AttributeDescription
+
+        # Needs to match ``filter_queries.completeness_expr()``
+        completed = len([k for k, v in self.attributes.items() if v not in [None, '']])
+        total = AttributeDescription.objects.count()
+        return completed, total
+
 
 class SubjectNote(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)

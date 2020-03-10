@@ -25,8 +25,8 @@ import json
 from django.core.management.base import BaseCommand
 
 from castellum.recruitment.models import AttributeDescription
-from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models.attributesets import ANSWER_DECLINED
+from castellum.subjects.models import Subject
 
 TYPES = {
     'IntegerField': 'integer',
@@ -45,7 +45,7 @@ class Command(BaseCommand):
         parser.add_argument('subject_id', type=int)
 
     def handle(self, **options):
-        attributeset = AttributeSet.objects.get(subject_id=options['subject_id'])
+        subject = Subject.objects.get(pk=options['subject_id'])
 
         output = {
             'data': {},
@@ -59,7 +59,7 @@ class Command(BaseCommand):
             key = description.label
             choices = list(description.attributechoice_set.all())
 
-            value = attributeset.data.get(description.json_key)
+            value = subject.attributes.get(description.json_key)
             if value in [None, ANSWER_DECLINED]:
                 pass
             elif choices:

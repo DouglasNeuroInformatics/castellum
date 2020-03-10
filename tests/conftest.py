@@ -20,7 +20,6 @@ from castellum.contacts.models import Contact
 from castellum.recruitment.management.commands import create_attribute_descriptions
 from castellum.recruitment.management.commands import create_demo_content
 from castellum.recruitment.models import AttributeDescription
-from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
@@ -188,11 +187,6 @@ def address(db):
 @pytest.fixture
 def contact(db):
     return baker.make(Contact)
-
-
-@pytest.fixture
-def attributeset(contact):
-    return baker.make(AttributeSet, subject=contact.subject)
 
 
 @pytest.fixture

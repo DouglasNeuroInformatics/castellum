@@ -321,7 +321,7 @@ class ContactUpdateView(ExecutionUpdateMixin, BaseContactUpdateView):
 
 class AttributeSetUpdateView(ExecutionUpdateMixin, BaseAttributeSetUpdateView):
     def get_object(self):
-        return self.participation.subject.attributeset
+        return self.participation.subject
 
 
 class DataProtectionUpdateView(ExecutionUpdateMixin, BaseDataProtectionUpdateView):

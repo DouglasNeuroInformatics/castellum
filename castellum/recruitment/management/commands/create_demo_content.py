@@ -34,7 +34,6 @@ from castellum.contacts.models import Contact
 from castellum.contacts.models import Street
 from castellum.contacts.models import phonetic
 from castellum.recruitment.models import AttributeChoice
-from castellum.recruitment.models import AttributeSet
 from castellum.studies.models import Study
 from castellum.studies.models import StudySession
 from castellum.subjects.models import Consent
@@ -113,7 +112,7 @@ def fake_language():
 
 
 def fake_subject():
-    return Subject(privacy_level=fake.random.randint(0, 2))
+    return Subject(privacy_level=fake.random.randint(0, 2), attributes=fake_attributes())
 
 
 def fake_studysession(study):
@@ -177,17 +176,17 @@ def fake_contact(subject):
     return contact
 
 
-def fake_attributeset(contact):
+def fake_attributes():
     data = {}
     if fake.random.random() < 0.9:
         data['d1'] = 2 if fake.random.random() < 0.15 else 1
     if fake.random.random() < 0.9:
         data['d2'] = fake_language()
     if fake.random.random() < 0.9:
-        data['d3'] = contact.date_of_birth
+        data['d3'] = fake_date_of_birth()
     if fake.random.random() < 0.9:
         data['d4'] = fake.random.choice(get_highest_degree_choices())
-    return AttributeSet(subject_id=contact.subject_id, data=data)
+    return data
 
 
 def generate_geolocations(contacts):
@@ -243,10 +242,6 @@ def generate_subjects(count):
     if 'castellum.geofilters' in settings.INSTALLED_APPS:
         print('Generating geolocations')
         generate_geolocations(contacts)
-
-    print('Generating attributesets')
-    attributesets = [fake_attributeset(contact) for contact in contacts]
-    AttributeSet.objects.bulk_create(attributesets)
 
     print('Generating consents')
     try:

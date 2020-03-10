@@ -56,7 +56,6 @@ from .mixins import ParticipationMixin
 from .mixins import get_recruitable
 from .mixins import send_appointment_notifications
 from .models import AttributeDescription
-from .models import AttributeSet
 from .models import Participation
 from .models.attributesets import get_description_by_statistics_rank
 
@@ -85,8 +84,8 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             desc1 = get_description_by_statistics_rank('primary')
             desc2 = get_description_by_statistics_rank('secondary')
             order_by = [
-                '-subject__attributeset__data__' + desc1.json_key,
-                '-subject__attributeset__data__' + desc2.json_key,
+                '-subject__attributes__' + desc1.json_key,
+                '-subject__attributes__' + desc2.json_key,
                 '-updated_at',
             ]
         else:
@@ -95,14 +94,14 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ]
 
         return Participation.objects\
-            .prefetch_related('subject__attributeset')\
+            .prefetch_related('subject')\
             .filter(status__in=self.shown_status, study=self.study)\
             .order_by(*order_by)
 
     def get_statistics(self):
         participations = Participation.objects.filter(
             study=self.study, status=Participation.INVITED
-        ).prefetch_related('subject__attributeset')
+        ).prefetch_related('subject')
 
         buckets1 = AttributeDescription.get_statistics_buckets('primary')
         buckets2 = AttributeDescription.get_statistics_buckets('secondary')
@@ -112,13 +111,10 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         statistics = defaultdict(lambda: defaultdict(lambda: 0))
         for participation in participations:
-            try:
-                attributeset = participation.subject.attributeset
-                key1 = attributeset.get_statistics_bucket('primary')
-                key2 = attributeset.get_statistics_bucket('secondary')
-                statistics[key1][key2] += 1
-            except AttributeSet.DoesNotExist:
-                pass
+            subject = participation.subject
+            key1 = subject.get_statistics_bucket('primary')
+            key2 = subject.get_statistics_bucket('secondary')
+            statistics[key1][key2] += 1
 
         data = {
             'rows': [{
@@ -141,13 +137,10 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         participations = []
         for participation in self.get_queryset():
-            try:
-                attributeset = participation.subject.attributeset
-                bucket1 = buckets1[attributeset.get_statistics_bucket('primary')]
-                bucket2 = buckets2[attributeset.get_statistics_bucket('secondary')]
-                buckets = ', '.join(str(bucket) for bucket in [bucket1, bucket2] if bucket)
-            except AttributeSet.DoesNotExist:
-                buckets = ''
+            subject = participation.subject
+            bucket1 = buckets1[subject.get_statistics_bucket('primary')]
+            bucket2 = buckets2[subject.get_statistics_bucket('secondary')]
+            buckets = ', '.join(str(bucket) for bucket in [bucket1, bucket2] if bucket)
 
             can_access = self.request.user.has_privacy_level(
                 participation.subject.privacy_level
@@ -353,7 +346,7 @@ class ContactUpdateView(RecruitmentUpdateMixin, BaseContactUpdateView):
 
 class AttributeSetUpdateView(RecruitmentUpdateMixin, BaseAttributeSetUpdateView):
     def get_object(self):
-        return self.participation.subject.attributeset
+        return self.participation.subject
 
 
 class DataProtectionUpdateView(RecruitmentUpdateMixin, BaseDataProtectionUpdateView):
