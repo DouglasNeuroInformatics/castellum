@@ -37,7 +37,6 @@ from .models import Appointment
 from .models import AttributeCategory
 from .models import AttributeChoice
 from .models import AttributeDescription
-from .models import AttributeSet
 from .models import MailBatch
 from .models import NewsMailBatch
 from .models import Participation
@@ -103,7 +102,6 @@ class AttributeDescriptionAdmin(TranslatableAdmin):
 admin.site.register(Appointment)
 admin.site.register(AttributeCategory, TranslatableAdmin)
 admin.site.register(AttributeDescription, AttributeDescriptionAdmin)
-admin.site.register(AttributeSet)
 admin.site.register(MailBatch)
 admin.site.register(NewsMailBatch)
 admin.site.register(Participation)
