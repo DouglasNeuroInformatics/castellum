@@ -34,7 +34,7 @@
         {% get_db_consent_uploaded as db_consent_uploaded %}
         {% if db_consent_uploaded %}
             <fieldset>
-                <legend>{% trans 'Castellum consent' %}</legend>
+                <legend>{% trans 'Recruitment consent' %}</legend>
 
                 {% with consent=object.confirmed_consent %}
                     <div class="alert alert-{{ consent.document.is_current|yesno:'success,warning' }}">
