@@ -32,8 +32,6 @@ from castellum.subjects.models import Subject
 from castellum.utils.fields import DateField
 from castellum.utils.fields import DateTimeField
 
-from .attributesets import AttributeSet
-
 
 class ParticipationRequestManager(models.Manager):
     def get_queryset(self):
@@ -131,14 +129,14 @@ class ParticipationRequest(models.Model):
     @cached_property
     def match(self):
         from castellum.recruitment import filter_queries
-        if AttributeSet.objects.filter(
+        if Subject.objects.filter(
             filter_queries.study(self.study, include_unknown=False),
-            subject=self.subject,
+            pk=self.subject.pk,
         ).exists():
             return 'complete'
-        elif AttributeSet.objects.filter(
+        elif Subject.objects.filter(
             filter_queries.study(self.study, include_unknown=True),
-            subject=self.subject,
+            pk=self.subject.pk,
         ).exists():
             return 'incomplete'
         else:

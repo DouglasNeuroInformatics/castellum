@@ -20,13 +20,13 @@
 # <http://www.gnu.org/licenses/>.
 
 
-"""Filter queries for AttributeSets.
+"""Filter queries for Subjects.
 
-There are many complicted filters for AttributeSets.
+There are many complicted filters for Subjects.
 In order to avoid losing track these are collected in this file.
 
 All of the functions return instances of ``django.db.models.Q``,
-which can be passed to ``AttributeSet.objects.filter()``.
+which can be passed to ``Subjects.objects.filter()``.
 """
 
 
@@ -74,12 +74,12 @@ def study_exclusion(study):
 
     prs = ParticipationRequest._base_manager.filter(pr_q)
 
-    return ~models.Q(subject_id__in=prs.values('subject_id'))
+    return ~models.Q(id__in=prs.values('subject_id'))
 
 
 def study_disinterest(study):
     """Exclude subjects who are disinterested in this study's study type."""
-    return ~models.Q(study_type_disinterest__in=study.study_type.all())
+    return ~models.Q(attributeset__study_type_disinterest__in=study.study_type.all())
 
 
 def subjectfilters(subjectfiltergroup, include_unknown=None):
@@ -97,17 +97,17 @@ def subjectfilters(subjectfiltergroup, include_unknown=None):
 
 def no_recruitment():
     """Exclude subjects who do not want to be contacted for recruitment."""
-    return models.Q(subject__no_recruitment=False)
+    return models.Q(no_recruitment=False)
 
 
 def to_be_deleted():
     """Exclude subjects who want to be deleted."""
-    return models.Q(subject__to_be_deleted__isnull=True)
+    return models.Q(to_be_deleted__isnull=True)
 
 
 def already_in_study(study):
     """Exclude subjects if they already have a participationrequest in this study."""
-    return ~models.Q(subject__participationrequest__study=study)
+    return ~models.Q(participationrequest__study=study)
 
 
 def study_filters(study, include_unknown=None):
@@ -125,14 +125,14 @@ def study_filters(study, include_unknown=None):
     return q
 
 
-def completeness_expr(prefix=''):
+def completeness_expr():
     """Expression that can be used to annotate a queryset."""
     # Needs to match ``AttributeSet.get_completeness()``.
     total = 0
     completeness = models.Value(0, output_field=models.IntegerField())
     for description in AttributeDescription.objects.all():
         total += 1
-        field_name = prefix + 'data__' + description.json_key
+        field_name = 'attributeset__data__' + description.json_key
         completeness += models.Case(
             models.When((
                 models.Q(**{field_name: ''}) |

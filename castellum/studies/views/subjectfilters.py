@@ -39,9 +39,9 @@ from castellum.recruitment.forms import SubjectFilterAddForm
 from castellum.recruitment.forms import SubjectFilterForm
 from castellum.recruitment.forms import SubjectFilterFormSet
 from castellum.recruitment.models import AttributeDescription
-from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
+from castellum.subjects.models import Subject
 from castellum.utils.views import ReadonlyMixin
 
 from ..mixins import StudyMixin
@@ -58,9 +58,9 @@ class CustomFilterMixin:
                 template='studies/filtergroup_blocked.html',
                 context={
                     'study': self.study,
-                    'total_count': AttributeSet.objects.count(),
+                    'total_count': Subject.objects.count(),
                     'count': (
-                        AttributeSet.objects.filter(
+                        Subject.objects.filter(
                             filter_queries.study(self.object),
                             filter_queries.no_recruitment(),
                         ).count()
@@ -96,9 +96,9 @@ class FilterGroupListView(FilterMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_count'] = AttributeSet.objects.count()
+        context['total_count'] = Subject.objects.count()
         context['count'] = (
-            AttributeSet.objects.filter(
+            Subject.objects.filter(
                 filter_queries.study(self.study),
                 filter_queries.no_recruitment()
             ).count()
@@ -190,7 +190,7 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
 
         context['count'] = self.object.get_matches().count()
 
-        context['total_count'] = AttributeSet.objects.count()
+        context['total_count'] = Subject.objects.count()
         context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         context['expected_subject_count'] = (
             self.study.min_subject_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR

@@ -25,9 +25,9 @@ from django.urls import reverse
 
 from castellum.recruitment import filter_queries
 from castellum.studies.models import Study
+from castellum.subjects.models import Subject
 
 from ..models import AttributeDescription
-from ..models import AttributeSet
 
 
 class SubjectFilterGroupManager(models.Manager):
@@ -52,7 +52,7 @@ class SubjectFilterGroup(models.Model):
         return reverse('studies:filtergroup-update', args=[self.study.pk, self.pk])
 
     def get_matches(self):
-        return AttributeSet.objects.filter(
+        return Subject.objects.filter(
             filter_queries.study_exclusion(self.study),
             filter_queries.study_disinterest(self.study),
             filter_queries.subjectfilters(self),
