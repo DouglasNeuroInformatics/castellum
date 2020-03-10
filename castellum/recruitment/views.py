@@ -53,6 +53,7 @@ from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseSubjectUpdateView
 from castellum.subjects.mixins import SubjectMixin
+from castellum.subjects.models import Subject
 from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
@@ -67,7 +68,7 @@ logger = logging.getLogger(__name__)
 
 def get_recruitable(study):
     """Get all subjects who are recruitable for this study, i.e. apply all filters."""
-    qs = AttributeSet.objects.filter(
+    qs = Subject.objects.filter(
         filter_queries.study(study),
         filter_queries.no_recruitment(),
         filter_queries.already_in_study(study),
@@ -75,9 +76,9 @@ def get_recruitable(study):
 
     last_contacted = timezone.now() - settings.CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS
     qs = qs.annotate(last_contacted=models.Max(
-        'subject__participationrequest__revisions__created_at',
+        'participationrequest__revisions__created_at',
         filter=~models.Q(
-            subject__participationrequest__revisions__status=ParticipationRequest.NOT_CONTACTED
+            participationrequest__revisions__status=ParticipationRequest.NOT_CONTACTED
         ),
     )).filter(
         models.Q(last_contacted__lte=last_contacted) |
@@ -249,11 +250,11 @@ class RecruitmentViewOpen(RecruitmentView):
     subtab = 'open'
 
     def create_participation_requests(self, batch_size):
-        attributesets = get_recruitable(self.study)
+        subjects = get_recruitable(self.study)
 
-        added = min(batch_size, len(attributesets))
-        for attributeset in random.sample(attributesets, k=added):
-            ParticipationRequest.objects.create(study=self.study, subject=attributeset.subject)
+        added = min(batch_size, len(subjects))
+        for subject in random.sample(subjects, k=added):
+            ParticipationRequest.objects.create(study=self.study, subject=subject)
 
         return added
 
@@ -348,17 +349,17 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                 return data['email']
 
     def create_participation_requests(self, batch_size):
-        attributesets = get_recruitable(self.study)
+        subjects = get_recruitable(self.study)
 
         from_email, connection = self.get_mail_settings()
         counter = 0
-        while counter < batch_size and attributesets:
-            pick = attributesets.pop(random.randrange(0, len(attributesets)))
-            email = self.get_contact_email(pick.subject.contact)
+        while counter < batch_size and subjects:
+            pick = subjects.pop(random.randrange(0, len(subjects)))
+            email = self.get_contact_email(pick.contact)
             if email:
                 mail = EmailMessage(
                     self.study.mail_subject,
-                    self.personalize_mail_body(self.study.mail_body, pick.subject.contact),
+                    self.personalize_mail_body(self.study.mail_body, pick.contact),
                     from_email,
                     [email],
                     reply_to=[self.study.mail_reply_address],
@@ -372,7 +373,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                 if success:
                     ParticipationRequest.objects.create(
                         study=self.study,
-                        subject=pick.subject,
+                        subject=pick,
                         status=ParticipationRequest.AWAITING_RESPONSE,
                     )
                     counter += 1

@@ -8,6 +8,7 @@ from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.studies.models import Study
 from castellum.studies.models import StudyType
+from castellum.subjects.models import Subject
 
 
 def create_participation_request(
@@ -21,7 +22,7 @@ def create_participation_request(
 def has_match(is_exclusive=False, excluded_studies=[]):
     study = baker.make(Study, is_exclusive=is_exclusive, excluded_studies=excluded_studies)
     baker.make(SubjectFilterGroup, study=study)
-    return AttributeSet.objects.filter(filter_queries.study(study)).exists()
+    return Subject.objects.filter(filter_queries.study(study)).exists()
 
 
 def test_to_q(attributeset):
@@ -48,7 +49,7 @@ def test_to_q_reverse_excluded_study(attributeset):
     pr = create_participation_request(attributeset.subject)
     study = baker.make(Study)
     pr.study.excluded_studies.add(study)
-    assert not AttributeSet.objects.filter(filter_queries.study(study)).exists()
+    assert not Subject.objects.filter(filter_queries.study(study)).exists()
 
 
 def test_to_q_exclusive_study(attributeset):
@@ -69,7 +70,7 @@ def test_to_q_exclusive_study_in_same_study(attributeset):
         study=study,
     )
     q = filter_queries.study_exclusion(study)
-    assert AttributeSet.objects.filter(q).exists()
+    assert Subject.objects.filter(q).exists()
 
 
 def test_to_q_exclusive_study_and_unfinished(attributeset):
@@ -103,7 +104,7 @@ def test_disinterest_in_study_type(db):
     study = baker.make(Study)
     study.study_type.add(study_type)
     baker.make(AttributeSet, study_type_disinterest=[study_type])
-    assert not AttributeSet.objects.filter(filter_queries.study(study)).exists()
+    assert not Subject.objects.filter(filter_queries.study(study)).exists()
 
 
 @pytest.mark.django_db
