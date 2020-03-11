@@ -30,6 +30,7 @@ from django.http import QueryDict
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import CreateView
@@ -162,20 +163,18 @@ class StudyCreateView(PermissionRequiredMixin, StudyFormMixin, CreateView):
 
         StudyMembership.objects.get_or_create(user=self.request.user, study=self.object)
 
-        if 'duplicate_pk' in self.request.GET:
-            duplicate_pk = self.request.GET['duplicate_pk']
-            study = get_object_or_404(Study, pk=duplicate_pk)
-            self.object.exclusion_criteria = study.exclusion_criteria
-            self.object.recruitment_text = study.recruitment_text
-            self.object.advanced_filtering = study.advanced_filtering
-            self.object.custom_filter = study.custom_filter
-            self.object.is_exclusive = study.is_exclusive
-            self.object.complete_matches_only = study.complete_matches_only
-            self.object.excluded_studies.set(study.excluded_studies.all())
-            self.object.consent = study.consent
-            self.object.mail_subject = study.mail_subject
-            self.object.mail_body = study.mail_body
-            self.object.mail_reply_address = study.mail_reply_address
+        if self.duplicate:
+            self.object.exclusion_criteria = self.duplicate.exclusion_criteria
+            self.object.recruitment_text = self.duplicate.recruitment_text
+            self.object.advanced_filtering = self.duplicate.advanced_filtering
+            self.object.custom_filter = self.duplicate.custom_filter
+            self.object.is_exclusive = self.duplicate.is_exclusive
+            self.object.complete_matches_only = self.duplicate.complete_matches_only
+            self.object.excluded_studies.set(self.duplicate.excluded_studies.all())
+            self.object.consent = self.duplicate.consent
+            self.object.mail_subject = self.duplicate.mail_subject
+            self.object.mail_body = self.duplicate.mail_body
+            self.object.mail_reply_address = self.duplicate.mail_reply_address
             self.object.save()
 
         return response
@@ -189,22 +188,26 @@ class StudyCreateView(PermissionRequiredMixin, StudyFormMixin, CreateView):
 
     def get_initial(self):
         initial = super().get_initial()
-        if 'duplicate_pk' in self.request.GET:
-            duplicate_pk = self.request.GET['duplicate_pk']
-            study = get_object_or_404(Study, pk=duplicate_pk)
-            initial['name'] = "Copy " + study.name
-            initial['contact_person'] = study.contact_person
-            initial['principal_investigator'] = study.principal_investigator
-            initial['affiliated_scientists'] = study.affiliated_scientists
-            initial['affiliated_research_assistants'] = study.affiliated_research_assistants
-            initial['description'] = study.description
+        if self.duplicate:
+            initial['name'] = "Copy " + self.duplicate.name
+            initial['contact_person'] = self.duplicate.contact_person
+            initial['principal_investigator'] = self.duplicate.principal_investigator
+            initial['affiliated_scientists'] = self.duplicate.affiliated_scientists
+            initial['affiliated_research_assistants'] = self.duplicate.affiliated_research_assistants  # noqa
+            initial['description'] = self.duplicate.description
         return initial
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if 'duplicate_pk' in self.request.GET:
-            context['duplicate_pk'] = self.request.GET['duplicate_pk']
+        if self.duplicate:
+            context['duplicate'] = self.duplicate
         return context
+
+    @cached_property
+    def duplicate(self):
+        if 'duplicate_pk' in self.request.GET:
+            duplicate_pk = self.request.GET['duplicate_pk']
+            return get_object_or_404(Study, pk=duplicate_pk)
 
 
 class StudyUpdateView(
