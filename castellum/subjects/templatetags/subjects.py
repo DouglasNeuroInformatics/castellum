@@ -21,11 +21,11 @@
 
 from django import template
 
-from castellum.subjects.models import Consent
+from castellum.subjects.models import ConsentDocument
 
 register = template.Library()
 
 
 @register.simple_tag
 def get_db_consent_uploaded():
-    return Consent.objects.exists()
+    return ConsentDocument.objects.exists()

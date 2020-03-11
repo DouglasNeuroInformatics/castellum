@@ -26,7 +26,7 @@ from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from .models import Consent
-from .models import ConsentConfirmation
+from .models import ConsentDocument
 from .models import Subject
 
 
@@ -39,8 +39,8 @@ class SubjectForm(forms.ModelForm):
             'privacy_level': forms.RadioSelect,
         }
 
-    consent_type = ConsentConfirmation._meta.get_field('type').formfield(required=False)
-    consent_status = ConsentConfirmation._meta.get_field('status').formfield(required=False)
+    consent_type = Consent._meta.get_field('type').formfield(required=False)
+    consent_status = Consent._meta.get_field('status').formfield(required=False)
     to_be_deleted = forms.BooleanField(
         label=_("To be deleted"),
         required=False,
@@ -57,7 +57,7 @@ class SubjectForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         consent = self.instance.consent
-        if consent and consent.status == ConsentConfirmation.WAITING:
+        if consent and consent.status == Consent.WAITING:
             self.fields['consent_type'].initial = consent.type
             self.fields['consent_status'].initial = consent.status
 
@@ -94,7 +94,7 @@ class SubjectForm(forms.ModelForm):
     def save(self, commit=True):
         subject = super().save(commit)
         consent = subject.consent
-        if consent and consent.status == ConsentConfirmation.WAITING:
+        if consent and consent.status == Consent.WAITING:
             if (
                 consent.type != self.cleaned_data['consent_type'] or
                 consent.status != self.cleaned_data['consent_status']
@@ -103,11 +103,11 @@ class SubjectForm(forms.ModelForm):
                 consent.status = self.cleaned_data['consent_status']
                 consent.save()
         elif self.cleaned_data['consent_type'] or self.cleaned_data['consent_status']:
-            ConsentConfirmation.objects.create(
+            Consent.objects.create(
                 type=self.cleaned_data['consent_type'],
                 status=self.cleaned_data['consent_status'],
                 subject=subject,
-                revision=Consent.objects.filter(is_current=True).latest(),
+                document=ConsentDocument.objects.filter(is_current=True).latest(),
             )
         return subject
 

@@ -48,7 +48,7 @@
         <dd class="col-sm-6">
             {% if subject.consent %}
                 {{ subject.consent.type }}
-                {% if not subject.consent.revision.is_current %}
+                {% if not subject.consent.document.is_current %}
                     ({% trans "outdated" %})
                 {% endif %}
                 {% if subject.consent.status == "waiting" %}
