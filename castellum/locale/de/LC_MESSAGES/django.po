@@ -280,13 +280,12 @@ msgid "Create new subject"
 msgstr "Neue Proband*in anlegen"
 
 #: castellum/contacts/templates/contacts/contact_form.html:20
-#, fuzzy
-#| msgid "Either email, phone number, address, or guardian should be provided."
 msgid ""
 "Date of birth as well as at least one of email, phone number, address, or "
 "guardian should be provided."
 msgstr ""
-"Entweder E-Mail, Telefonnummer, Adresse oder Vormund müssen angegeben werden!"
+"Das Geburtsdatum, sowie entweder E-Mail, Telefonnummer, Adresse oder Vormund "
+"sollten angegeben werden."
 
 #: castellum/contacts/templates/contacts/contact_form.html:39
 #, python-format
@@ -336,7 +335,7 @@ msgstr "Speichern"
 
 #: castellum/data_protection/templates/data_protection/__subject_list.html:12
 msgid "Due in"
-msgstr ""
+msgstr "Fällig in"
 
 #: castellum/data_protection/templates/data_protection/__subject_list.html:18
 #: castellum/execution/templates/execution/search.html:64
@@ -373,10 +372,8 @@ msgstr "Datenschutz-Dashboard"
 
 #: castellum/data_protection/templates/data_protection/index.html:9
 #: castellum/subjects/forms.py:50 castellum/subjects/models.py:71
-#, fuzzy
-#| msgid "Export key"
 msgid "Export requested"
-msgstr "Export key"
+msgstr "Auskunft beantragt"
 
 #: castellum/data_protection/templates/data_protection/index.html:12
 #: castellum/subjects/forms.py:45 castellum/subjects/models.py:64
@@ -1806,11 +1803,6 @@ msgid "Mail Settings"
 msgstr "E-Mail Einstellungen"
 
 #: castellum/studies/templates/studies/study_members.html:9
-#, fuzzy
-#| msgid ""
-#| "Some members of this study with access to filters are blocked from "
-#| "managing filters due to an insufficient privacy level.\n"
-#| "Blocked users are: "
 msgid ""
 "Some members of this study with access to filters are blocked from managing "
 "filters due to an insufficient privacy level. Blocked users are: "
@@ -1955,20 +1947,15 @@ msgstr ""
 "wenn eine Proband*in DSGVO-Löschung fordert."
 
 #: castellum/subjects/models.py:72
-#, fuzzy
-#| msgid ""
-#| "All data about this subject should be deleted or fully anonymized. This "
-#| "includes all data in Castellum and all data collected in studies. This "
-#| "option should be used when a subject requests GDPR deletion."
 msgid ""
 "The subject wants to receive an export of all data we have stored about "
 "them. This includes all data in Castellum and all data collected in studies. "
 "This option should be used when a subject requests GDPR export."
 msgstr ""
-"Alle Daten über diese Proband*in sollten gelöscht oder vollständig "
-"anonymisiert werden. Dies beinhaltet alle Daten in Castellum sowie alle "
+"Die Proband*in möchte eine Auskunft über alle über sie gespeicherten Daten. "
+"Dies beinhaltet alle Daten in Castellum sowie alle "
 "Daten, die in Studien erhoben wurden. Diese Option sollte benutzt werden, "
-"wenn eine Proband*in DSGVO-Löschung fordert."
+"wenn eine Proband*in DSGVO-Auskunft beantragt."
 
 #: castellum/subjects/models.py:77
 msgid "Hard of hearing"
@@ -2031,7 +2018,7 @@ msgstr "Info"
 
 #: castellum/subjects/models.py:217
 msgid "Is current"
-msgstr ""
+msgstr "Ist aktuell"
 
 #: castellum/subjects/models.py:219 castellum/utils/forms.py:207
 msgid "File"
@@ -2071,16 +2058,12 @@ msgid "Confirmed"
 msgstr "Bestätigt"
 
 #: castellum/subjects/models.py:257
-#, fuzzy
-#| msgid "Created at"
 msgid "Created by"
-msgstr "Erstellt am"
+msgstr "Erstellt von"
 
 #: castellum/subjects/models.py:260
-#, fuzzy
-#| msgid "Export key"
 msgid "Export answer"
-msgstr "Export key"
+msgstr "Antwort auf das Auskunftsgesuch"
 
 #: castellum/subjects/templates/subjects/base.html:6
 #: castellum/subjects/templates/subjects/subject_search.html:4
@@ -2139,16 +2122,12 @@ msgid "Maintenance"
 msgstr "Wartung"
 
 #: castellum/subjects/templates/subjects/maintenance_consent.html:7
-#, fuzzy
-#| msgid "The following subjects have incomplete attributesets:"
 msgid "The following subjects have no consent:"
-msgstr "Die folgenden Proband*innen haben unvollständige Merkmale:"
+msgstr "Die folgenden Proband*innen haben keine Einverständniserklärung:"
 
 #: castellum/subjects/templates/subjects/maintenance_contact.html:7
-#, fuzzy
-#| msgid "The following subjects have incomplete attributesets:"
 msgid "The following subjects have incomplete contact data:"
-msgstr "Die folgenden Proband*innen haben unvollständige Merkmale:"
+msgstr "Die folgenden Proband*innen haben unvollständige Kontaktdaten:"
 
 #: castellum/subjects/templates/subjects/subject_add_to_study.html:4
 #: castellum/subjects/templates/subjects/subject_participationlist.html:36
@@ -2241,10 +2220,8 @@ msgstr "Bitte editieren Sie die Datensätze mit dem folgenden Symbol:"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:21
 #: castellum/subjects/templates/subjects/subject_detail.html:35
-#, fuzzy
-#| msgid "access denied"
 msgid "(access denied)"
-msgstr "Zugriff verweigert"
+msgstr "(Zugriff verweigert)"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:28
 msgid "Guardian of"
@@ -2260,10 +2237,8 @@ msgstr "Zuletzt bearbeitet"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:47
 #: castellum/subjects/templates/subjects/subject_form.html:37
-#, fuzzy
-#| msgid "Recruitment text"
 msgid "Recruitment consent"
-msgstr "Rekrutierungstext"
+msgstr "Einverständnis zur Rekrutierung"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:52
 #: castellum/subjects/templates/subjects/subject_form.html:42
@@ -2285,33 +2260,33 @@ msgstr "DSGVO-Anfrage"
 #: castellum/subjects/templates/subjects/subject_export.html:10
 #, python-format
 msgid "Export issued %(count)s× so far:"
-msgstr ""
+msgstr "Auskunft bisher %(count)s× erteilt:"
 
 #: castellum/subjects/templates/subjects/subject_export.html:13
 #, python-format
 msgid "at %(date)s by %(name)s"
-msgstr ""
+msgstr "am %(date)s durch %(name)s"
 
 #: castellum/subjects/templates/subjects/subject_export.html:23
 #, python-format
 msgid "Export requested on %(date)s"
-msgstr ""
+msgstr "Auskunft beantragt am %(date)s"
 
 #: castellum/subjects/templates/subjects/subject_export.html:24
 msgid "Mark as answered"
-msgstr ""
+msgstr "Als beantwortet markieren"
 
 #: castellum/subjects/templates/subjects/subject_export.html:26
 msgid "No export requested"
-msgstr ""
+msgstr "Keine Auskunft beantragt"
 
 #: castellum/subjects/templates/subjects/subject_export.html:27
 msgid "Request export"
-msgstr ""
+msgstr "Auskunft beantragen"
 
 #: castellum/subjects/templates/subjects/subject_form.html:46
 msgid "No consent needed"
-msgstr ""
+msgstr "Kein Einverständnis benötigt"
 
 #: castellum/subjects/templates/subjects/subject_form.html:71
 msgid "Availability"
@@ -2376,12 +2351,12 @@ msgstr "Verboten"
 
 #: castellum/templates/403.html:13
 msgid "You are not allowed to access this page."
-msgstr ""
+msgstr "Sie haben nicht die nötigen Berechtigungen um diese Seite aufzurufen."
 
 #: castellum/templates/403.html:14 castellum/templates/404.html:14
 #: castellum/templates/500.html:15 castellum/templates/axes-lockout.html:15
 msgid "Go to homepage"
-msgstr ""
+msgstr "Zur Startseite"
 
 #: castellum/templates/404.html:4 castellum/templates/404.html:12
 msgid "Not Found"
@@ -2389,34 +2364,35 @@ msgstr "Nicht gefunden"
 
 #: castellum/templates/404.html:13
 msgid "The page you are looking for might have been deleted or expired."
-msgstr ""
+msgstr "Die gesuchte Seite wurde gelöscht oder ist abgelaufen."
 
 #: castellum/templates/500.html:4 castellum/templates/500.html:12
 msgid "Internal Server Error"
-msgstr ""
+msgstr "Interner Server-Fehler"
 
 #: castellum/templates/500.html:13
 msgid "There is something wrong with the server."
-msgstr ""
+msgstr "Es gibt ein Problem mit dem Server."
 
 #: castellum/templates/500.html:14
 msgid ""
 "If you continue to see this error, please contact the administrators so it "
 "can be fixed."
-msgstr ""
+msgstr "Bitte kontaktieren Sie die Administrator*innen falls Sie diesen "
+"Fehler weiterhin sehen, so dass er behoben werden kann. "
 
 #: castellum/templates/axes-lockout.html:4
 #: castellum/templates/axes-lockout.html:12
 msgid "Account Locked"
-msgstr ""
+msgstr "Konto gesperrt"
 
 #: castellum/templates/axes-lockout.html:13
 msgid "Too many login attempts."
-msgstr ""
+msgstr "Zu viele Login-Versuche"
 
 #: castellum/templates/axes-lockout.html:14
 msgid "Contact an admin to unlock your account."
-msgstr ""
+msgstr "Kontaktieren Sie eine Administrator*in um ihr Konto zu entsperren."
 
 #: castellum/templates/base.html:22
 msgid "Set settings.PRODUCTION to remove this message."
