@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+import logging
 import random
 from collections import defaultdict
 
@@ -60,6 +61,8 @@ from .models import AttributeDescription
 from .models import AttributeSet
 from .models import MailBatch
 from .models import ParticipationRequest
+
+logger = logging.getLogger(__name__)
 
 
 def get_recruitable(study):
@@ -361,7 +364,11 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                     reply_to=[self.study.mail_reply_address],
                     connection=connection,
                 )
-                success = mail.send()
+                try:
+                    success = mail.send()
+                except ValueError:
+                    logger.debug('Failed to send email to subject %i', pick.pk)
+                    success = False
                 if success:
                     ParticipationRequest.objects.create(
                         study=self.study,
