@@ -1,8 +1,17 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n static %}
 
 {% block title %}404 - {% trans "Not Found" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>404 - {% trans "Not Found" %}</h1>
+    <div class="row align-items-center my-5">
+        <div class="col-sm-3 mb-5">
+            <img src="{% static 'images/magnifyingglass.png' %}" class="w-100" alt="">
+        </div>
+        <div class="col-sm-9 mb-5">
+            <h1 class="h3">404 - {% trans "Not Found" %}</h1>
+            <p>{% trans "The page you are looking for might have been deleted or expired." %}</p>
+            <a class="btn btn-primary" href="/">{% trans "Go to homepage" %}</a>
+        </div>
+    </div>
 {% endblock %}

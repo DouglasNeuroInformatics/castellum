@@ -202,6 +202,8 @@ BOOTSTRAP4 = {
     'success_css_class': None,
 }
 
+AXES_LOCKOUT_TEMPLATE = 'axes-lockout.html'
+
 
 """
 Some notes on the logging configuration:

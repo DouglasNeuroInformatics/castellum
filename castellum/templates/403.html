@@ -1,11 +1,17 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n static %}
 
 {% block title %}403 - {% trans "Forbidden" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>403 - {% trans "Forbidden" %}</h1>
-    {% if exception %}
-        <p>{{ exception }}</p>
-    {% endif %}
+    <div class="row align-items-center my-5">
+        <div class="col-sm-3 mb-5">
+            <img src="{% static 'images/roadblock.png' %}" class="w-100" alt="">
+        </div>
+        <div class="col-sm-9 mb-5">
+            <h1 class="h3">403 - {% trans "Forbidden" %}</h1>
+            <p>{% trans "You are not allowed to access this page." %}</p>
+            <a class="btn btn-primary" href="/">{% trans "Go to homepage" %}</a>
+        </div>
+    </div>
 {% endblock %}

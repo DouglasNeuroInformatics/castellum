@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}500 - {% trans "Internal Server Error" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <div class="row align-items-center my-5">
+        <div class="col-sm-3 mb-5">
+            <img src="{% static 'images/bolt.png' %}" class="w-100" alt="">
+        </div>
+        <div class="col-sm-9 mb-5">
+            <h1 class="h3">500 - {% trans "Internal Server Error" %}</h1>
+            <p>{% trans "There is something wrong with the server." %}</p>
+            <p>{% trans "If you continue to see this error, please contact the administrators so it can be fixed." %}</p>
+            <a class="btn btn-primary" href="/">{% trans "Go to homepage" %}</a>
+        </div>
+    </div>
+{% endblock %}
