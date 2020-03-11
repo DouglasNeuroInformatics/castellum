@@ -26,6 +26,7 @@ from django.contrib.auth.views import LogoutView
 from django.http import HttpResponse
 from django.urls import include
 from django.urls import path
+from django.views.generic import RedirectView
 from django.views.generic import TemplateView
 from django.views.i18n import JavaScriptCatalog
 from django.views.static import serve
@@ -45,6 +46,7 @@ urlpatterns = [
         authentication_form=AuthenticationForm,
     ), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('favicon.ico', RedirectView.as_view(url='/static/images/favicon.ico')),
     path('ping/', dummy, name='ping'),
 
     path('i18n/', set_language, name='set_language'),
