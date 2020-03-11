@@ -90,8 +90,10 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
             .count()
 
         context['count_consent'] = Subject.objects.filter(
-            consent__status=Consent.CONFIRMED,
-            consent__document__is_current=True,
+            models.Q(no_recruitment=True) | models.Q(
+                consent__status=Consent.CONFIRMED,
+                consent__document__is_current=True,
+            )
         ).count()
 
         context['is_post'] = self.request.method == 'POST'
@@ -486,8 +488,10 @@ class MaintenanceConsentView(PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         return super().get_queryset().exclude(
-            consent__status=Consent.CONFIRMED,
-            consent__document__is_current=True,
+            models.Q(no_recruitment=True) | models.Q(
+                consent__status=Consent.CONFIRMED,
+                consent__document__is_current=True,
+            )
         )
 
 

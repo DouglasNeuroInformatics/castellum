@@ -96,11 +96,12 @@ def get_no_consent(limit_by):
 
     acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
     subjects = Subject.objects.exclude(
-        (
-            models.Q(consent__status=Consent.CONFIRMED) |
-            models.Q(consent__updated_at__lte=acceptable_datetime)
-        ),
-        consent__document__is_current=True,
+        models.Q(no_recruitment=True) | (
+            models.Q(consent__document__is_current=True) & (
+                models.Q(consent__status=Consent.CONFIRMED) |
+                models.Q(consent__updated_at__lte=acceptable_datetime)
+            )
+        )
     )
 
     return subjects[:limit_by], max(subjects.count() - limit_by, 0)
