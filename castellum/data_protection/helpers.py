@@ -53,21 +53,24 @@ def get_to_be_deleted(limit_by):
 
 
 def get_orphans(limit_by):
-    candidates = Subject.objects\
+    # this query has the biggest potential to shrink down
+    # the number of matches, so it is done first
+    subjects = Subject.objects\
         .annotate(pr_count=models.Count('participationrequest', filter=~models.Q(
             participationrequest__status=ParticipationRequest.UNSUITABLE
         )))\
         .filter(no_recruitment=True, pr_count=0)
+    subject_pks = subjects.values_list('pk', flat=True)
 
-    subjects = []
-    for subject in candidates:
-        if len(subjects) >= limit_by:
-            break
-        if not subject.contact.guardian_of.exists():
-            subjects.append(subject)
+    contacts = Contact.objects\
+        .annotate(guardian_of_count=models.Count('guardian_of'))\
+        .filter(guardian_of_count=0, subject_id__in=list(subject_pks))\
+        .order_by()
+    subject_pks = contacts.values_list('subject_id', flat=True)
 
-    # no way to efficiently determine missing
-    return subjects, 0
+    subjects = Subject.objects.filter(pk__in=list(subject_pks))
+
+    return subjects[:limit_by], max(subjects.count() - limit_by, 0)
 
 
 def get_unreachable(limit_by):
@@ -80,11 +83,11 @@ def get_unreachable(limit_by):
             phone_number='',
         )\
         .order_by()
-    subjects = []
-    for contact in contacts[:limit_by]:
-        subjects.append(contact.subject)
+    subject_pks = contacts.values_list('subject_id', flat=True)
 
-    return subjects, max(contacts.count() - limit_by, 0)
+    subjects = Subject.objects.filter(pk__in=list(subject_pks))
+
+    return subjects[:limit_by], max(subjects.count() - limit_by, 0)
 
 
 def get_no_consent(limit_by):
