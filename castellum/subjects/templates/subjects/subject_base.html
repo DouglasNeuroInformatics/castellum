@@ -44,7 +44,7 @@
             {% endif %}
 
             <li class="nav-item">
-                <a href="{% url 'subjects:studyparticipation' subject.pk %}" class="nav-link {% if view.tab == 'studyparticipation' %}active{% endif %}">{% trans "Study Participations" %}</a>
+                <a href="{% url 'subjects:studyparticipation' subject.pk %}" class="nav-link {% if view.tab == 'participations' %}active{% endif %}">{% trans "Study Participations" %}</a>
             </li>
 
             {% has_perm 'subjects.view_subject' user as can_view_subject %}
