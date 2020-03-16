@@ -2163,8 +2163,8 @@ msgid "Missing values"
 msgstr "Fehlende Werte"
 
 #: castellum/subjects/templates/subjects/subject_base.html:47
-msgid "Study Participation"
-msgstr "Studienteilnahme"
+msgid "Study Participations"
+msgstr "Studienteilnahmen"
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:4
 msgid "Delete subject"
