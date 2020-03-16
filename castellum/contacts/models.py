@@ -140,7 +140,7 @@ class Contact(TimeStampedModel):
         ("postal", _("postal")),
     )
 
-    subject_id = models.IntegerField(unique=True, editable=False, default=None)
+    subject_id = models.PositiveIntegerField(unique=True, editable=False, default=None)
 
     first_name = models.CharField(_('First name'), max_length=64)
     first_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
