@@ -23,6 +23,7 @@ from django.urls import path
 
 from .feeds import FollowUpFeedForStudy
 from .feeds import FollowUpFeedForUser
+from .views import AdditionalInfoUpdateView
 from .views import AttributeSetUpdateView
 from .views import ContactUpdateView
 from .views import ContactView
@@ -32,7 +33,6 @@ from .views import RecruitmentViewOpen
 from .views import RecruitmentViewUnsuitable
 from .views import SearchView
 from .views import StudyListView
-from .views import SubjectUpdateView
 
 app_name = 'recruitment'
 urlpatterns = [
@@ -60,8 +60,8 @@ urlpatterns = [
         name='attributeset-update',
     ),
     path(
-        '<int:study_pk>/<int:pk>/update-subject/',
-        SubjectUpdateView.as_view(),
-        name='subject-update',
+        '<int:study_pk>/<int:pk>/update-additional-info/',
+        AdditionalInfoUpdateView.as_view(),
+        name='additional-info-update',
     ),
 ]

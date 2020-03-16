@@ -21,6 +21,7 @@
 
 from django.urls import path
 
+from .views import AdditionalInfoUpdateView
 from .views import AddToStudyView
 from .views import AttributeSetUpdateView
 from .views import ContactUpdateView
@@ -35,7 +36,6 @@ from .views import SubjectDeleteView
 from .views import SubjectDetailView
 from .views import SubjectExportView
 from .views import SubjectSearchView
-from .views import SubjectUpdateView
 
 app_name = 'subjects'
 urlpatterns = [
@@ -43,9 +43,9 @@ urlpatterns = [
     path('<int:pk>/', SubjectDetailView.as_view(), name='detail'),
     path('<int:pk>/delete/', SubjectDeleteView.as_view(), name='delete'),
     path('<int:pk>/export/', SubjectExportView.as_view(), name='export'),
-    path('<int:pk>/subject/', SubjectUpdateView.as_view(), name='subject'),
     path('<int:pk>/contact/', ContactUpdateView.as_view(), name='contact'),
     path('<int:pk>/attributes/', AttributeSetUpdateView.as_view(), name='attributeset'),
+    path('<int:pk>/additional-info/', AdditionalInfoUpdateView.as_view(), name='additional-info'),
     path('<int:pk>/coverletter.docx', CoverletterView.as_view(), name='coverletter'),
     path(
         '<int:pk>/participations/',

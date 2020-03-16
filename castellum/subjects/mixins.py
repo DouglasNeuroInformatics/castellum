@@ -61,7 +61,7 @@ class SubjectMixin:
         return context
 
 
-class BaseSubjectUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
+class BaseAdditionalInfoUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = Subject
     form_class = SubjectForm
     permission_required = 'subjects.change_subject'

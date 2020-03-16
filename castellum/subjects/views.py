@@ -57,7 +57,7 @@ from castellum.studies.models import Study
 from castellum.utils.views import GetFormView
 
 from .forms import SubjectPrivacyLevelForm
-from .mixins import BaseSubjectUpdateView
+from .mixins import BaseAdditionalInfoUpdateView
 from .mixins import SubjectMixin
 from .models import Consent
 from .models import ExportAnswer
@@ -240,11 +240,11 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return redirect('subjects:export', self.object.pk)
 
 
-class SubjectUpdateView(BaseSubjectUpdateView):
-    tab = 'subject'
+class AdditionalInfoUpdateView(BaseAdditionalInfoUpdateView):
+    tab = 'additional-info'
 
     def get_success_url(self):
-        return reverse('subjects:subject', args=[self.object.pk])
+        return reverse('subjects:additional-info', args=[self.object.pk])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

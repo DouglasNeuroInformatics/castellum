@@ -51,7 +51,7 @@ from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.models.attributesets import get_description_by_statistics_rank
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
-from castellum.subjects.mixins import BaseSubjectUpdateView
+from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import SubjectMixin
 from castellum.utils.views import GetFormView
 
@@ -506,7 +506,7 @@ class AttributeSetUpdateView(StudyMixin, BaseAttributeSetUpdateView):
         return self.get_success_url()
 
 
-class SubjectUpdateView(StudyMixin, BaseSubjectUpdateView):
+class AdditionalInfoUpdateView(StudyMixin, BaseAdditionalInfoUpdateView):
     study_status = [Study.EXECUTION]
 
     def get_object(self):
