@@ -44,6 +44,8 @@ def test_guardian_mail_add_to_study(client, user):
     contact1 = baker.make(Contact, email="example1@example.com")
     contact2 = baker.make(Contact, guardians=[contact1])
     baker.make(AttributeSet, subject=contact2.subject)
+    contact1.subject.no_recruitment = True
+    contact1.subject.save()
 
     study.members.add(user)
     view = MailRecruitmentView()
