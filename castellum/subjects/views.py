@@ -96,7 +96,11 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
         context['is_post'] = self.request.method == 'POST'
         form = kwargs.get('form')
         if form and form.is_valid():
-            context['matches'] = Contact.objects.fuzzy_filter(form.cleaned_data['search'])
+            contacts = Contact.objects.fuzzy_filter(form.cleaned_data['search'])
+            subject_pks = list(contacts.values_list('subject_id', flat=True))
+            context['matches'] = Subject.objects\
+                .filter(pk__in=subject_pks)\
+                .prefetch_related('participationrequest_set')
             if 'privacy_level_form' not in context:
                 context['privacy_level_form'] = SubjectPrivacyLevelForm(user=self.request.user)
         return context
