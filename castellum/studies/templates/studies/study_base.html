@@ -62,6 +62,7 @@
                 {% if enable_export %}
                     <a href="{% url 'studies:export' study.pk %}" class="btn btn-outline-primary mb-1">{% trans 'Export' %}</a>
                 {% endif %}
+                <a href="{% url 'studies:create' %}?duplicate_pk={{ study.pk }}" class="btn btn-outline-primary mb-1">{% trans 'Duplicate' %}</a>
                 {% if can_delete_study %}
                     <a href="{% url 'studies:delete' study.pk %}" class="btn btn-danger mb-1">{% trans 'Delete' %}</a>
                 {% endif %}
