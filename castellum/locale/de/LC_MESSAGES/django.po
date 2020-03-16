@@ -147,7 +147,7 @@ msgstr "Suche nach Name oder E-Mail Adresse"
 
 #: castellum/contacts/models.py:40
 msgid "Country"
-msgstr "Staat "
+msgstr "Staat"
 
 #: castellum/contacts/models.py:41
 msgid "City"
@@ -2379,7 +2379,7 @@ msgid ""
 "If you continue to see this error, please contact the administrators so it "
 "can be fixed."
 msgstr "Bitte kontaktieren Sie die Administrator*innen falls Sie diesen "
-"Fehler weiterhin sehen, so dass er behoben werden kann. "
+"Fehler weiterhin sehen, so dass er behoben werden kann."
 
 #: castellum/templates/axes-lockout.html:4
 #: castellum/templates/axes-lockout.html:12
