@@ -35,6 +35,19 @@
                     {% endif %}
                 </div>
                 <div class="table-list-item-actions">
+                    {% has_perm 'studies.access_study' user study as can_access %}
+                    {% if can_access and study.status == study.EXECUTION %}
+                        {% has_perm 'recruitment.view_participationrequest' user study as can_recruit %}
+                        {% if can_recruit %}
+                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment-open' study.pk %}">{% trans 'Recruitment' %}</a>
+                        {% endif %}
+
+                        {% has_perm 'recruitment.view_participation_pseudonyms' user study as can_conduct %}
+                        {% if can_conduct %}
+                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:study-detail' study.pk %}">{% trans 'Execution' %}</a>
+                        {% endif %}
+                    {% endif %}
+
                     <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:detail' study.pk %}">{% trans 'Details' %}</a>
                 </div>
             </li>
