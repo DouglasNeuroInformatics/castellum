@@ -89,7 +89,6 @@ def get_recruitable(study):
 
 class StudyListView(LoginRequiredMixin, ListView):
     model = Study
-    context_object_name = 'studies'
     template_name = 'recruitment/study_list.html'
 
     def get_queryset(self):
@@ -102,7 +101,6 @@ class StudyListView(LoginRequiredMixin, ListView):
 
 class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     model = ParticipationRequest
-    context_object_name = 'participation_requests'
     template_name = 'recruitment/recruitment.html'
     permission_required = 'recruitment.view_participationrequest'
     study_status = [Study.EXECUTION]
