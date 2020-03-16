@@ -228,7 +228,6 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
 
 class RecruitmentViewInvited(RecruitmentView):
-
     shown_status = [ParticipationRequest.INVITED]
     subtab = 'invited'
 
@@ -239,7 +238,6 @@ class RecruitmentViewUnsuitable(RecruitmentView):
 
 
 class RecruitmentViewOpen(RecruitmentView):
-
     shown_status = [
         ParticipationRequest.NOT_CONTACTED,
         ParticipationRequest.NOT_REACHED,
