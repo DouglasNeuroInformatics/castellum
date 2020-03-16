@@ -68,7 +68,11 @@ class ContactForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
+        is_guardian = kwargs.pop('is_guardian', False)
         super().__init__(*args, **kwargs)
+
+        if self.instance.is_guardian:
+            is_guardian = True
 
         self.address = self.get_address_form(**kwargs)
 
@@ -79,7 +83,7 @@ class ContactForm(forms.ModelForm):
 
         self.fields['guardians_remove'].choices = self.get_guardians_rm_choices(user)
 
-        self.fields['date_of_birth'].required = True
+        self.fields['date_of_birth'].required = not is_guardian
 
     def get_address_form(self, **kwargs):
         address_kwargs = kwargs.copy()
