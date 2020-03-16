@@ -42,6 +42,7 @@ class Pseudonym(models.Model):
     class Meta:
         unique_together = (
             ('domain', 'pseudonym'),
+            ('domain', 'subject'),
         )
 
     def __str__(self):
