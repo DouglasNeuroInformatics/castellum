@@ -130,7 +130,9 @@ class Subject(TimeStampedModel):
     @cached_property
     def contact(self):
         from castellum.contacts.models import Contact
-        return Contact.objects.get(subject_id=self.pk)
+        contact = Contact.objects.get(subject_id=self.pk)
+        contact.__dict__['subject'] = self
+        return contact
 
     @cached_property
     def consent(self):
