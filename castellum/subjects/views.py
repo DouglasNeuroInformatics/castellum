@@ -241,39 +241,32 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return redirect('subjects:export', self.object.pk)
 
 
-class DataProtectionUpdateView(BaseDataProtectionUpdateView):
+class SubjectUpdateMixin:
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = 'subjects/subject_base.html'
+        return context
+
+    def form_valid(self, form, *args):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form, *args)
+
+
+class DataProtectionUpdateView(SubjectUpdateMixin, BaseDataProtectionUpdateView):
     tab = 'data-protection'
 
     def get_success_url(self):
         return reverse('subjects:data-protection', args=[self.object.pk])
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = 'subjects/subject_base.html'
-        return context
 
-    def form_valid(self, form, *args):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form, *args)
-
-
-class AdditionalInfoUpdateView(BaseAdditionalInfoUpdateView):
+class AdditionalInfoUpdateView(SubjectUpdateMixin, BaseAdditionalInfoUpdateView):
     tab = 'additional-info'
 
     def get_success_url(self):
         return reverse('subjects:additional-info', args=[self.object.pk])
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = 'subjects/subject_base.html'
-        return context
 
-    def form_valid(self, form, *args):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form, *args)
-
-
-class ContactUpdateView(BaseContactUpdateView):
+class ContactUpdateView(SubjectUpdateMixin, BaseContactUpdateView):
     tab = 'contact'
 
     def get_object(self):
@@ -283,17 +276,8 @@ class ContactUpdateView(BaseContactUpdateView):
     def get_success_url(self):
         return reverse('subjects:contact', args=[self.object.subject.pk])
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = 'subjects/subject_base.html'
-        return context
 
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
-
-
-class AttributeSetUpdateView(BaseAttributeSetUpdateView):
+class AttributeSetUpdateView(SubjectUpdateMixin, BaseAttributeSetUpdateView):
     tab = 'attributeset'
 
     def get_object(self):
@@ -305,15 +289,6 @@ class AttributeSetUpdateView(BaseAttributeSetUpdateView):
 
     def get_success_url(self):
         return reverse('subjects:attributeset', args=[self.object.subject.pk])
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = "subjects/subject_base.html"
-        return context
-
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
 
 
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):

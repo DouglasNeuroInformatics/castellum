@@ -469,84 +469,48 @@ class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView)
             return reverse('recruitment:recruitment-open', args=[self.object.study.pk])
 
 
-class ContactUpdateView(StudyMixin, BaseContactUpdateView):
+class RecruitmentUpdateMixin(StudyMixin):
     study_status = [Study.EXECUTION]
 
     def get_object(self):
-        participation_request = get_object_or_404(
+        return get_object_or_404(
             ParticipationRequest, study=self.study, pk=self.kwargs['pk']
         )
 
+    def get_success_url(self):
+        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
+
+    def get_back_url(self):
+        return self.get_success_url()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = "recruitment/base.html"
+        return context
+
+
+class ContactUpdateView(RecruitmentUpdateMixin, BaseContactUpdateView):
+    def get_object(self):
+        participation_request = super().get_object()
         return participation_request.subject.contact
 
-    def get_success_url(self):
-        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
 
-    def get_back_url(self):
-        return self.get_success_url()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = "recruitment/base.html"
-        return context
-
-
-class AttributeSetUpdateView(StudyMixin, BaseAttributeSetUpdateView):
-    study_status = [Study.EXECUTION]
-
+class AttributeSetUpdateView(RecruitmentUpdateMixin, BaseAttributeSetUpdateView):
     def get_object(self):
-        participation_request = get_object_or_404(
-            ParticipationRequest, study=self.study, pk=self.kwargs['pk']
-        )
+        participation_request = super().get_object()
         return participation_request.subject.attributeset
 
-    def get_success_url(self):
-        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
 
-    def get_back_url(self):
-        return self.get_success_url()
-
-
-class DataProtectionUpdateView(StudyMixin, BaseDataProtectionUpdateView):
-    study_status = [Study.EXECUTION]
-
+class DataProtectionUpdateView(RecruitmentUpdateMixin, BaseDataProtectionUpdateView):
     def get_object(self):
-        participation_request = get_object_or_404(
-            ParticipationRequest, study=self.study, pk=self.kwargs['pk']
-        )
+        participation_request = super().get_object()
         return participation_request.subject
 
-    def get_success_url(self):
-        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
 
-    def get_back_url(self):
-        return self.get_success_url()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = "recruitment/base.html"
-        return context
-
-
-class AdditionalInfoUpdateView(StudyMixin, BaseAdditionalInfoUpdateView):
-    study_status = [Study.EXECUTION]
-
+class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateView):
     def get_object(self):
-        participation_request = get_object_or_404(
-            ParticipationRequest, study=self.study, pk=self.kwargs['pk']
-        )
+        participation_request = super().get_object()
         return participation_request.subject
-
-    def get_success_url(self):
-        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
-
-    def get_back_url(self):
-        return self.get_success_url()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = "recruitment/base.html"
-        return context
 
 
 class SearchView(LoginRequiredMixin, GetFormView):
