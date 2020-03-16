@@ -27,6 +27,7 @@ from .views import AdditionalInfoUpdateView
 from .views import AttributeSetUpdateView
 from .views import ContactUpdateView
 from .views import ContactView
+from .views import DataProtectionUpdateView
 from .views import MailRecruitmentView
 from .views import RecruitmentViewInvited
 from .views import RecruitmentViewOpen
@@ -58,6 +59,11 @@ urlpatterns = [
         '<int:study_pk>/<int:pk>/update-attributeset/',
         AttributeSetUpdateView.as_view(),
         name='attributeset-update',
+    ),
+    path(
+        '<int:study_pk>/<int:pk>/update-data-protection/',
+        DataProtectionUpdateView.as_view(),
+        name='data-protection-update',
     ),
     path(
         '<int:study_pk>/<int:pk>/update-additional-info/',

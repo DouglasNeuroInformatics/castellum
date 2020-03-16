@@ -52,6 +52,7 @@ from castellum.recruitment.models.attributesets import get_description_by_statis
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
+from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.subjects.mixins import SubjectMixin
 from castellum.utils.views import GetFormView
 
@@ -504,6 +505,27 @@ class AttributeSetUpdateView(StudyMixin, BaseAttributeSetUpdateView):
 
     def get_back_url(self):
         return self.get_success_url()
+
+
+class DataProtectionUpdateView(StudyMixin, BaseDataProtectionUpdateView):
+    study_status = [Study.EXECUTION]
+
+    def get_object(self):
+        participation_request = get_object_or_404(
+            ParticipationRequest, study=self.study, pk=self.kwargs['pk']
+        )
+        return participation_request.subject
+
+    def get_success_url(self):
+        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
+
+    def get_back_url(self):
+        return self.get_success_url()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = "recruitment/base.html"
+        return context
 
 
 class AdditionalInfoUpdateView(StudyMixin, BaseAdditionalInfoUpdateView):

@@ -29,7 +29,7 @@ from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 
-from .forms import SubjectForm
+from .forms import DataProtectionForm
 from .models import Subject
 from .models import SubjectNote
 
@@ -61,53 +61,18 @@ class SubjectMixin:
         return context
 
 
-class BaseAdditionalInfoUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
+class BaseDataProtectionUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
     model = Subject
-    form_class = SubjectForm
+    form_class = DataProtectionForm
     permission_required = 'subjects.change_subject'
+    template_name = 'subjects/subject_data_protection_form.html'
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
 
-    def get_notes_form(self):
-        form_class = forms.modelform_factory(SubjectNote, fields=('content',))
-        return form_class(prefix='{prefix}')
-
-    def get_notes_formset(self):
-        formset_class = forms.modelformset_factory(
-            SubjectNote, fields=('content',), extra=0, can_delete=True
-        )
-        kwargs = self.get_form_kwargs()
-        kwargs.pop('user')
-        kwargs.pop('instance')
-        kwargs.pop('initial')
-        return formset_class(queryset=SubjectNote.objects.filter(subject=self.object), **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if 'notes_formset' not in context:
-            context['notes_formset'] = self.get_notes_formset()
-        context['template_form'] = self.get_notes_form()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-        notes_formset = self.get_notes_formset()
-
-        if form.is_valid() and notes_formset.is_valid():
-            return self.form_valid(form, notes_formset)
-        else:
-            return self.form_invalid(form, notes_formset)
-
-    def form_invalid(self, form, notes_formset):
-        return self.render_to_response(
-            self.get_context_data(form=form, notes_formset=notes_formset)
-        )
-
-    def form_valid(self, form, notes_formset):
+    def form_valid(self, form):
         if settings.CASTELLUM_DELETE_NOTIFICATION_TO:
             old = Subject.objects.get(pk=self.object.pk)
             if self.object.export_requested and not old.export_requested:
@@ -140,6 +105,62 @@ class BaseAdditionalInfoUpdateView(SubjectMixin, PermissionRequiredMixin, Update
                 if old.to_be_deleted:
                     self.object.to_be_deleted_notified = False
 
+        return super().form_valid(form)
+
+
+class BaseAdditionalInfoUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
+    model = Subject
+    fields = (
+        'note_hard_of_hearing',
+        'note_difficult_to_understand',
+        'note_abusive_language',
+        'availability_monday',
+        'availability_tuesday',
+        'availability_wednesday',
+        'availability_thursday',
+        'availability_friday',
+        'not_available_until',
+        'source',
+    )
+    permission_required = 'subjects.change_subject'
+    template_name = 'subjects/subject_additional_info_form.html'
+
+    def get_notes_form(self):
+        form_class = forms.modelform_factory(SubjectNote, fields=('content',))
+        return form_class(prefix='{prefix}')
+
+    def get_notes_formset(self):
+        formset_class = forms.modelformset_factory(
+            SubjectNote, fields=('content',), extra=0, can_delete=True
+        )
+        kwargs = self.get_form_kwargs()
+        kwargs.pop('instance')
+        kwargs.pop('initial')
+        return formset_class(queryset=SubjectNote.objects.filter(subject=self.object), **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'notes_formset' not in context:
+            context['notes_formset'] = self.get_notes_formset()
+        context['template_form'] = self.get_notes_form()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        notes_formset = self.get_notes_formset()
+
+        if form.is_valid() and notes_formset.is_valid():
+            return self.form_valid(form, notes_formset)
+        else:
+            return self.form_invalid(form, notes_formset)
+
+    def form_invalid(self, form, notes_formset):
+        return self.render_to_response(
+            self.get_context_data(form=form, notes_formset=notes_formset)
+        )
+
+    def form_valid(self, form, notes_formset):
         response = super().form_valid(form)
 
         for subform in notes_formset:

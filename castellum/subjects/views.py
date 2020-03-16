@@ -58,6 +58,7 @@ from castellum.utils.views import GetFormView
 
 from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseAdditionalInfoUpdateView
+from .mixins import BaseDataProtectionUpdateView
 from .mixins import SubjectMixin
 from .models import Consent
 from .models import ExportAnswer
@@ -238,6 +239,22 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
             self.object.export_requested = datetime.date.today()
         self.object.save()
         return redirect('subjects:export', self.object.pk)
+
+
+class DataProtectionUpdateView(BaseDataProtectionUpdateView):
+    tab = 'data-protection'
+
+    def get_success_url(self):
+        return reverse('subjects:data-protection', args=[self.object.pk])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = 'subjects/subject_base.html'
+        return context
+
+    def form_valid(self, form, *args):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form, *args)
 
 
 class AdditionalInfoUpdateView(BaseAdditionalInfoUpdateView):

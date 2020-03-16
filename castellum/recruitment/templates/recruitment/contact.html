@@ -78,6 +78,9 @@
                 {% endif %}
                 {% has_perm 'subjects.change_subject' user study as can_change_subject %}
                 {% if can_change_subject %}
+                    <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:data-protection-update' study.pk object.pk %}">
+                        {% trans 'Edit data protection' %}
+                    </a>
                     <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:additional-info-update' study.pk object.pk %}">
                         {% trans 'Edit additional info' %}
                     </a>

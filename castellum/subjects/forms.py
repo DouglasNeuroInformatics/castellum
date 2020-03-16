@@ -32,11 +32,11 @@ from .models import ConsentDocument
 from .models import Subject
 
 
-class SubjectForm(forms.ModelForm):
+class DataProtectionForm(forms.ModelForm):
 
     class Meta:
         model = Subject
-        exclude = ('to_be_deleted', 'to_be_deleted_notified', 'export_requested')
+        fields = ('privacy_level', 'no_recruitment')
         widgets = {
             'privacy_level': forms.RadioSelect,
             'source': DatalistWidget(datalist=(
