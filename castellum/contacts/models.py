@@ -181,7 +181,9 @@ class Contact(TimeStampedModel):
 
     @cached_property
     def subject(self):
-        return Subject.objects.get(pk=self.subject_id)
+        subject = Subject.objects.get(pk=self.subject_id)
+        subject.__dict__['contact'] = self
+        return subject
 
     @property
     def is_complete(self):
