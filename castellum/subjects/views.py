@@ -461,7 +461,10 @@ class MaintenanceContactView(PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         contacts = Contact.objects\
-            .annotate(guardian_count=models.Count('guardians'))\
+            .annotate(
+                guardian_count=models.Count('guardians'),
+                guardian_of_count=models.Count('guardian_of'),
+            )\
             .filter(
                 models.Q(
                     guardian_count=0,
@@ -469,6 +472,7 @@ class MaintenanceContactView(PermissionRequiredMixin, ListView):
                     email='',
                     phone_number='',
                 ) | models.Q(
+                    guardian_of_count=0,
                     date_of_birth=None,
                 )
             )\
