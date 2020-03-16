@@ -21,6 +21,7 @@
 
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import LogoutView
 from django.http import HttpResponse
@@ -35,12 +36,16 @@ from castellum.castellum_auth.forms import AuthenticationForm
 from castellum.castellum_auth.views import set_language
 
 
+class IndexView(LoginRequiredMixin, TemplateView):
+    template_name = 'index.html'
+
+
 def dummy(request):
     return HttpResponse('', status=204)
 
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='index.html'), name='index'),
+    path('', IndexView.as_view(), name='index'),
     path('login/', LoginView.as_view(
         template_name="login.html",
         authentication_form=AuthenticationForm,
