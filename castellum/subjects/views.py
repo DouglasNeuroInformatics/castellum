@@ -282,7 +282,8 @@ class AttributeSetUpdateView(BaseAttributeSetUpdateView):
     def get_object(self):
         subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
         attributeset, __ = AttributeSet.objects.get_or_create(
-            subject=subject, defaults={'data': {}})
+            subject=subject, defaults={'data': {}}
+        )
         return attributeset
 
     def get_success_url(self):

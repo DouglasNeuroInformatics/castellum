@@ -46,7 +46,8 @@ class BaseAttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateVi
         result = super().form_valid(form)
         monitoring_logger.info('AttributeSet update: {} by {}'.format(
             self.object.subject.pk,
-            self.request.user.pk))
+            self.request.user.pk,
+        ))
         return result
 
     def get_context_data(self, **kwargs):
