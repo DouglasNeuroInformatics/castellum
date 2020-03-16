@@ -185,7 +185,11 @@ class Contact(TimeStampedModel):
 
     @property
     def is_complete(self):
-        return self.date_of_birth and any([
+        return self.date_of_birth and self.is_reachable
+
+    @property
+    def is_reachable(self):
+        return any([
             self.address, self.phone_number, self.email, self.has_guardian
         ])
 
@@ -197,7 +201,7 @@ class Contact(TimeStampedModel):
     def age(self):
         return relativedelta(date.today(), self.date_of_birth).years
 
-    @property
+    @cached_property
     def has_guardian(self):
         return self.id and self.guardians.exists()
 
