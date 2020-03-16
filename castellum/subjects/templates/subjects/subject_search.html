@@ -36,7 +36,7 @@
                 <ul class="table-list">
                     {% for contact in matches %}
                         {% has_privacy_level contact.subject.privacy_level user as can_access %}
-                        {% has_perm 'contacts.view_contact' user participation_request.study as can_view_contact %}
+                        {% has_perm 'contacts.view_contact' user as can_view_contact %}
                         <li class="table-list-item">
                             <div>
                                 {% if can_access %}
