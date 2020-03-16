@@ -111,7 +111,7 @@ def test_contact_200(request, client, user_fixture, contact):
 def test_partcipation_list_200(request, client, user_fixture, participation_request):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/studyparticipation/'.format(participation_request.subject.pk)
+    url = '/subjects/{}/participations/'.format(participation_request.subject.pk)
     response = client.get(url)
     assert response.status_code == 200
 

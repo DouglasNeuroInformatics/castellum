@@ -299,7 +299,7 @@ class AttributeSetUpdateView(BaseAttributeSetUpdateView):
 
 
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
-    tab = 'studyparticipation'
+    tab = 'participations'
     model = ParticipationRequest
     template_name = 'subjects/subject_participationlist.html'
     permission_required = 'contacts.view_contact'
@@ -349,7 +349,7 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_add_to_study.html'
     permission_required = 'contacts.view_contact'
-    tab = 'studyparticipation'
+    tab = 'participations'
 
     def get_studies(self, attributeset):
         perms = ('recruitment.add_participationrequest', 'studies.access_study')
@@ -391,7 +391,7 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
             subject=self.object, study=study)
 
         url = reverse('recruitment:contact', args=[study.pk, participation_request.pk])
-        return redirect(url + '?context=subjects:studyparticipation')
+        return redirect(url + '?context=subjects:participation-list')
 
 
 class GuardianSearchView(SubjectSearchView):

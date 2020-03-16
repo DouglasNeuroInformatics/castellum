@@ -48,15 +48,15 @@ urlpatterns = [
     path('<int:pk>/attributes/', AttributeSetUpdateView.as_view(), name='attributeset'),
     path('<int:pk>/coverletter.docx', CoverletterView.as_view(), name='coverletter'),
     path(
-        '<int:pk>/studyparticipation/',
+        '<int:pk>/participations/',
         ParticipationListView.as_view(),
-        name='studyparticipation',
+        name='participation-list',
     ),
-    path('<int:pk>/studyparticipation/add/', AddToStudyView.as_view(), name='add-to-study'),
+    path('<int:pk>/participations/add/', AddToStudyView.as_view(), name='add-to-study'),
     path(
-        '<int:subject_pk>/studyparticipation/<int:pk>/delete/',
+        '<int:subject_pk>/participations/<int:pk>/delete/',
         ParticipationDeleteView.as_view(),
-        name='studyparticipation-delete',
+        name='participation-delete',
     ),
     path('guardians/', GuardianSearchView.as_view(), name='guardian-search'),
     path(
