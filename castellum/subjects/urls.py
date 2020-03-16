@@ -50,13 +50,13 @@ urlpatterns = [
     path(
         '<int:pk>/participations/',
         ParticipationListView.as_view(),
-        name='studyparticipation',
+        name='participation-list',
     ),
     path('<int:pk>/participations/add/', AddToStudyView.as_view(), name='add-to-study'),
     path(
         '<int:subject_pk>/participations/<int:pk>/delete/',
         ParticipationDeleteView.as_view(),
-        name='studyparticipation-delete',
+        name='participation-delete',
     ),
     path('guardians/', GuardianSearchView.as_view(), name='guardian-search'),
     path(

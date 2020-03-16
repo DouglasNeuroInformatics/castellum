@@ -67,7 +67,7 @@ def test_post_redirect_from_contacts(client, member, participation_request):
     participation_request.save()
 
     client.force_login(member)
-    url = '/recruitment/{}/{}/?context=subjects:studyparticipation'.format(
+    url = '/recruitment/{}/{}/?context=subjects:participation-list'.format(
         participation_request.study.pk, participation_request.pk
     )
     response = client.post(url, {'status': 2})

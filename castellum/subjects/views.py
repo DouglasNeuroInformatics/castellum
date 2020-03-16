@@ -391,7 +391,7 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
             subject=self.object, study=study)
 
         url = reverse('recruitment:contact', args=[study.pk, participation_request.pk])
-        return redirect(url + '?context=subjects:studyparticipation')
+        return redirect(url + '?context=subjects:participation-list')
 
 
 class GuardianSearchView(SubjectSearchView):
