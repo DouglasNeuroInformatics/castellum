@@ -33,28 +33,6 @@
             </div>
         {% endif %}
 
-        <div class="col-sm-6 col-md-4 mb-4">
-            <div class="card">
-                <a href="{% url 'recruitment:index' %}" class="card-header" tabindex="-1">
-                    <img class="w-100" src="{% static 'images/circle-icons/recruitment.png' %}" alt="">
-                </a>
-                <div class="card-body">
-                    <a href="{% url 'recruitment:index' %}" class="btn btn-primary btn-block">{% trans "Recruitment" %}</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-md-4 mb-4">
-            <div class="card">
-                <a href="{% url 'execution:index' %}" class="card-header" tabindex="-1">
-                    <img class="w-100" src="{% static 'images/circle-icons/execution.png' %}" alt="">
-                </a>
-                <div class="card-body">
-                    <a href="{% url 'execution:index' %}" class="btn btn-primary btn-block">{% trans "Execution" %}</a>
-                </div>
-            </div>
-        </div>
-
         {% has_perm 'subjects.view_subject' user as can_view_subject %}
         {% has_privacy_level 2 user as has_privacy_level_2 %}
         {% if can_view_subject and has_privacy_level_2 %}

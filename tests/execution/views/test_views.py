@@ -8,22 +8,6 @@ from castellum.studies.models import StudyMembership
 @pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     'study_conductor',
-    'study_coordinator',
-    'recruiter',
-    'subject_manager',
-    'data_protection_coordinator',
-])
-def test_study_list_view(request, client, user_fixture):
-    user = request.getfixturevalue(user_fixture)
-    client.force_login(user)
-
-    response = client.get('/execution/')
-    assert response.status_code == 200
-
-
-@pytest.mark.smoketest
-@pytest.mark.parametrize('user_fixture', [
-    'study_conductor',
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),

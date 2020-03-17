@@ -22,19 +22,6 @@ def test_studies_tile(request, client, user_fixture):
 
 
 @pytest.mark.parametrize('user_fixture', [
-    'study_coordinator',
-    'recruiter',
-    'subject_manager',
-    'data_protection_coordinator',
-])
-def test_recruitment_tile(request, client, user_fixture):
-    user = request.getfixturevalue(user_fixture)
-    client.force_login(user)
-    response = client.get('/')
-    assert b'Recruitment' in response.content
-
-
-@pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     'recruiter',
     'subject_manager',
