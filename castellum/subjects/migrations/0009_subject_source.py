@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('subjects', '0007_consent_is_current'),
+        ('subjects', '0008_rename_consent'),
     ]
 
     operations = [
