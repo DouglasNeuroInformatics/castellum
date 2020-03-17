@@ -1,3 +1,5 @@
+import datetime
+
 import pytest
 from model_bakery import baker
 
@@ -129,6 +131,31 @@ def test_export_200(request, client, user_fixture, contact):
     url = '/subjects/{}/export/'.format(contact.subject.pk)
     response = client.get(url)
     assert response.status_code == 200
+
+
+def test_export_requested(client, user, contact):
+    contact.subject.export_requested = datetime.date.today()
+    contact.subject.save()
+
+    client.force_login(user)
+    url = '/subjects/{}/export/'.format(contact.subject.pk)
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert b'<h1>Subject</h1>' in response.content
+
+
+def test_export_post(client, user, contact):
+    client.force_login(user)
+    url = '/subjects/{}/export/'.format(contact.subject.pk)
+
+    client.post(url)
+    del contact.__dict__['subject']  # clear cached_property
+    assert contact.subject.export_requested
+
+    client.post(url)
+    del contact.__dict__['subject']  # clear cached_property
+    assert not contact.subject.export_requested
 
 
 @pytest.mark.smoketest
