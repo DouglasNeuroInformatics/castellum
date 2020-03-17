@@ -1,4 +1,5 @@
 import pytest
+from model_bakery import baker
 
 from castellum.studies.models import Study
 from castellum.studies.models import StudyMembership
@@ -57,6 +58,36 @@ def test_create_study_on_post(request, client, user_fixture):
 
     assert Study.objects.count() == 1
     assert Study.objects.last().name == 'Test study'
+
+
+def test_duplicate_study_get(client, user):
+    client.force_login(user)
+    original = baker.make(Study, name="Test study")
+    response = client.get('/studies/create/?duplicate_pk=%i' % original.pk)
+
+    assert response.status_code == 200
+    assert b'value="Copy Test study"' in response.content
+
+
+def test_duplicate_study_404(client, user):
+    client.force_login(user)
+    response = client.get('/studies/create/?duplicate_pk=13')
+    assert response.status_code == 404
+
+
+def test_duplicate_study_post(client, user):
+    client.force_login(user)
+    original = baker.make(Study, recruitment_text='foo bar')
+    response = client.post('/studies/create/?duplicate_pk=%i' % original.pk, {
+        'name': 'Test study',
+        'contact_person': 'Mustermann',
+        'principal_investigator': 'Mustermann',
+        **MANAGEMENT_FORM,
+    })
+
+    assert response.status_code == 302
+    assert Study.objects.count() == 2
+    assert Study.objects.last().recruitment_text == 'foo bar'
 
 
 @pytest.mark.django_db
