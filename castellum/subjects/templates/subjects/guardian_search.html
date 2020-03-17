@@ -36,52 +36,54 @@
         <div class="tab-content mb-3 border border-top-0 p-3">
             <div class="tab-pane {{ is_post|yesno:',active' }}" id="matches" role="tabpanel" aria-labelledby="matches-tab">
                 <ul class="table-list">
-                    {% for contact in matches %}
-                        {% has_privacy_level contact.subject.privacy_level user as can_access %}
-                        {% has_perm 'contacts.view_contact' user participation_request.study as can_view_contact %}
-                        <li class="table-list-item">
-                            <div>
-                                {% if can_access %}
-                                    <div class="h4 d-inline-block my-1 mr-2">
-                                        {% if contact.title %}{{ contact.title }}{% endif %}
-                                        {% if contact.first_name|lower == form.cleaned_data.first_name|lower %}
-                                            <mark>{{ contact.first_name }}</mark>
-                                        {% else %}
-                                            {{ contact.first_name }}
-                                        {% endif %}
-                                        {% if contact.last_name|lower == form.cleaned_data.last_name|lower %}
-                                            <mark>{{ contact.last_name }}</mark>
-                                        {% else %}
-                                            {{ contact.last_name }}
-                                        {% endif %}
-                                    </div>
-                                    {% if can_view_contact %}
-                                        <div class="d-inline-block">
-                                            {% if contact.date_of_birth %}
-                                                <div class="d-inline-block my-1 mr-2">{{ contact.date_of_birth }}</div>
+                    {% for subject in matches %}
+                        {% with contact=subject.contact %}
+                            {% has_privacy_level subject.privacy_level user as can_access %}
+                            {% has_perm 'contacts.view_contact' user participation_request.study as can_view_contact %}
+                            <li class="table-list-item">
+                                <div>
+                                    {% if can_access %}
+                                        <div class="h4 d-inline-block my-1 mr-2">
+                                            {% if contact.title %}{{ contact.title }}{% endif %}
+                                            {% if contact.first_name|lower == form.cleaned_data.first_name|lower %}
+                                                <mark>{{ contact.first_name }}</mark>
+                                            {% else %}
+                                                {{ contact.first_name }}
                                             {% endif %}
-                                            <div class="d-inline-block my-1 mr-2">
-                                                {% if contact.email|lower == form.cleaned_data.email|lower %}
-                                                    <mark>{{ contact.email }}</mark>
-                                                {% else %}
-                                                    {{ contact.email }}
-                                                {% endif %}
-                                            </div>
+                                            {% if contact.last_name|lower == form.cleaned_data.last_name|lower %}
+                                                <mark>{{ contact.last_name }}</mark>
+                                            {% else %}
+                                                {{ contact.last_name }}
+                                            {% endif %}
                                         </div>
+                                        {% if can_view_contact %}
+                                            <div class="d-inline-block">
+                                                {% if contact.date_of_birth %}
+                                                    <div class="d-inline-block my-1 mr-2">{{ contact.date_of_birth }}</div>
+                                                {% endif %}
+                                                <div class="d-inline-block my-1 mr-2">
+                                                    {% if contact.email|lower == form.cleaned_data.email|lower %}
+                                                        <mark>{{ contact.email }}</mark>
+                                                    {% else %}
+                                                        {{ contact.email }}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% else %}
+                                        <h3 class="h4 d-inline-block text-muted my-1 mr-2">{{ contact.full_name }}</h3>
+                                        <div class="d-inline-block text-muted my-1 mr-2">{% trans 'access denied' %}</div>
                                     {% endif %}
-                                {% else %}
-                                    <h3 class="h4 d-inline-block text-muted my-1 mr-2">{{ contact.full_name }}</h3>
-                                    <div class="d-inline-block text-muted my-1 mr-2">{% trans 'access denied' %}</div>
-                                {% endif %}
-                            </div>
-                            <div class="table-list-item-actions">
-                                {% if can_access %}
-                                    <button type="button" class="btn btn-primary btn-sm-inline my-1" data-js="guardian-use" data-name="{{ contact.full_name }}" data-pk="{{ contact.subject.pk }}">{% trans 'Set up as guardian' %}</button>
-                                {% else %}
-                                    <button type="button" class="btn btn-primary btn-sm-inline my-1" disabled>{% trans 'Set up as guardian' %}</button>
-                                {% endif %}
-                            </div>
-                        </li>
+                                </div>
+                                <div class="table-list-item-actions">
+                                    {% if can_access %}
+                                        <button type="button" class="btn btn-primary btn-sm-inline my-1" data-js="guardian-use" data-name="{{ contact.full_name }}" data-pk="{{ contact.subject.pk }}">{% trans 'Set up as guardian' %}</button>
+                                    {% else %}
+                                        <button type="button" class="btn btn-primary btn-sm-inline my-1" disabled>{% trans 'Set up as guardian' %}</button>
+                                    {% endif %}
+                                </div>
+                            </li>
+                        {% endwith %}
                     {% empty %}
                         <li class="alert alert-warning" role="alert">{% trans 'No matches found' %}</li>
                     {% endfor %}

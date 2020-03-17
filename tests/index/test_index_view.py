@@ -10,8 +10,8 @@ def test_index_200(client, user):
 
 @pytest.mark.parametrize('user_fixture', [
     'study_coordinator',
-    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
-    pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
+    'recruiter',
+    'subject_manager',
     'data_protection_coordinator',
 ])
 def test_studies_tile(request, client, user_fixture):
@@ -22,7 +22,7 @@ def test_studies_tile(request, client, user_fixture):
 
 
 @pytest.mark.parametrize('user_fixture', [
-    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    'study_coordinator',
     'recruiter',
     'subject_manager',
     'data_protection_coordinator',

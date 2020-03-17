@@ -48,7 +48,10 @@
                         {% endif %}
                     {% endif %}
 
-                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:detail' study.pk %}">{% trans 'Details' %}</a>
+                    {% has_perm 'studies.view_study' user study as can_view_study %}
+                    {% if can_view_study %}
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:detail' study.pk %}">{% trans 'Details' %}</a>
+                    {% endif %}
                 </div>
             </li>
         {% empty %}
