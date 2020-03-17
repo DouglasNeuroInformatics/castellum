@@ -50,7 +50,7 @@ lint:
 
 .PHONY: test
 test: databases
-	$(VIRTUAL_ENV)/bin/pytest
+	$(VIRTUAL_ENV)/bin/pytest --show-capture=no
 
 .PHONY: install
 install: venv
