@@ -46,12 +46,5 @@ DATABASES = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-CASTELLUM_DOMAINS = {
-    'contact': {
-        'key': 'CHANGEME',
-        'bits': 40,
-    }
-}
-
 CASTELLUM_COVERLETTER_TEMPLATE = os.path.join(BASE_DIR, 'subjects', 'fixtures', 'demo_coverletter.docx')
 CASTELLUM_DELETE_NOTIFICATION_TO = 'data-protection@example.com'
