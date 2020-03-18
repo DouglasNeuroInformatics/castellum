@@ -51,19 +51,19 @@ def test_detail_with_attributeset_200(client, user, contact, attributeset):
     'subject_manager',
     pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
 ])
-def test_subject_200(request, client, user_fixture, contact):
+def test_data_protection_200(request, client, user_fixture, contact):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/subject/'.format(contact.subject.pk)
+    url = '/subjects/{}/data-protection/'.format(contact.subject.pk)
     response = client.get(url)
     assert response.status_code == 200
 
 
-def test_subject_post_valid(client, user, contact):
+def test_data_protection_post_valid(client, user, contact):
     client.force_login(user)
     assert contact.subject.privacy_level == 0
 
-    url = '/subjects/{}/subject/'.format(contact.subject.pk)
+    url = '/subjects/{}/data-protection/'.format(contact.subject.pk)
     response = client.post(url, {
         'privacy_level': 1,
         'form-TOTAL_FORMS': 0,
@@ -75,10 +75,10 @@ def test_subject_post_valid(client, user, contact):
     assert contact.subject.privacy_level == 1
 
 
-def test_subject_post_invalid_privacy_level(client, user, contact):
+def test_data_protection_post_invalid_privacy_level(client, user, contact):
     client.force_login(user)
 
-    url = '/subjects/{}/subject/'.format(contact.subject.pk)
+    url = '/subjects/{}/data-protection/'.format(contact.subject.pk)
     response = client.post(url, {
         'privacy_level': 2,
         'form-TOTAL_FORMS': 0,
@@ -86,6 +86,20 @@ def test_subject_post_invalid_privacy_level(client, user, contact):
     })
     assert response.status_code == 200
     assert b'Please choose lower privacy level for the subject.' in response.content
+
+
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    'subject_manager',
+    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+])
+def test_additional_info_200(request, client, user_fixture, contact):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    url = '/subjects/{}/additional-info/'.format(contact.subject.pk)
+    response = client.get(url)
+    assert response.status_code == 200
 
 
 @pytest.mark.smoketest

@@ -57,7 +57,8 @@ from castellum.studies.models import Study
 from castellum.utils.views import GetFormView
 
 from .forms import SubjectPrivacyLevelForm
-from .mixins import BaseSubjectUpdateView
+from .mixins import BaseAdditionalInfoUpdateView
+from .mixins import BaseDataProtectionUpdateView
 from .mixins import SubjectMixin
 from .models import Consent
 from .models import ExportAnswer
@@ -240,12 +241,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return redirect('subjects:export', self.object.pk)
 
 
-class SubjectUpdateView(BaseSubjectUpdateView):
-    tab = 'subject'
-
-    def get_success_url(self):
-        return reverse('subjects:subject', args=[self.object.pk])
-
+class SubjectUpdateMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['base_template'] = 'subjects/subject_base.html'
@@ -256,7 +252,21 @@ class SubjectUpdateView(BaseSubjectUpdateView):
         return super().form_valid(form, *args)
 
 
-class ContactUpdateView(BaseContactUpdateView):
+class DataProtectionUpdateView(SubjectUpdateMixin, BaseDataProtectionUpdateView):
+    tab = 'data-protection'
+
+    def get_success_url(self):
+        return reverse('subjects:data-protection', args=[self.object.pk])
+
+
+class AdditionalInfoUpdateView(SubjectUpdateMixin, BaseAdditionalInfoUpdateView):
+    tab = 'additional-info'
+
+    def get_success_url(self):
+        return reverse('subjects:additional-info', args=[self.object.pk])
+
+
+class ContactUpdateView(SubjectUpdateMixin, BaseContactUpdateView):
     tab = 'contact'
 
     def get_object(self):
@@ -266,17 +276,8 @@ class ContactUpdateView(BaseContactUpdateView):
     def get_success_url(self):
         return reverse('subjects:contact', args=[self.object.subject.pk])
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = 'subjects/subject_base.html'
-        return context
 
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
-
-
-class AttributeSetUpdateView(BaseAttributeSetUpdateView):
+class AttributeSetUpdateView(SubjectUpdateMixin, BaseAttributeSetUpdateView):
     tab = 'attributeset'
 
     def get_object(self):
@@ -288,15 +289,6 @@ class AttributeSetUpdateView(BaseAttributeSetUpdateView):
 
     def get_success_url(self):
         return reverse('subjects:attributeset', args=[self.object.subject.pk])
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = "subjects/subject_base.html"
-        return context
-
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
 
 
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):

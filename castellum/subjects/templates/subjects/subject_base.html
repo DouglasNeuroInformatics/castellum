@@ -24,22 +24,27 @@
                 </li>
             {% endif %}
 
-            {% has_perm 'subjects.change_subject' user as can_change_subject %}
-            {% if can_change_subject %}
-                <li class="nav-item">
-                    <a href="{% url 'subjects:subject' subject.pk %}" class="nav-link {% if view.tab == 'subject' %}active{% endif %}">
-                        {% if not subject.is_complete %}
-                            <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
-                        {% endif %}
-                        {% trans 'Subject' %}
-                    </a>
-                </li>
-            {% endif %}
-
             {% has_perm 'recruitment.change_attributeset' user as can_change_attributeset %}
             {% if can_change_attributeset %}
                 <li class="nav-item">
                     <a href="{% url 'subjects:attributeset' subject.pk %}" class="nav-link {% if view.tab == 'attributeset' %}active{% endif %}">{% trans "Attributes" %}</a>
+                </li>
+            {% endif %}
+
+            {% has_perm 'subjects.change_subject' user as can_change_subject %}
+            {% if can_change_subject %}
+                <li class="nav-item">
+                    <a href="{% url 'subjects:data-protection' subject.pk %}" class="nav-link {% if view.tab == 'data-protection' %}active{% endif %}">
+                        {% if not subject.is_complete %}
+                            <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
+                        {% endif %}
+                        {% trans 'Data Protection' %}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'subjects:additional-info' subject.pk %}" class="nav-link {% if view.tab == 'additional-info' %}active{% endif %}">
+                        {% trans 'Additional Info' %}
+                    </a>
                 </li>
             {% endif %}
 
