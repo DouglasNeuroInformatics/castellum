@@ -18,6 +18,7 @@ def create_projects(apps, schema_editor):
     for study in Study.objects.all():
         study.project = Project.objects.create(
             title=study.name,
+            description=study.description,
             research_unit=dummy_unit,
             principal_investigator=dummy_user,
             local_id=study.pk,
