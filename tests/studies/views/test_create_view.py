@@ -62,7 +62,7 @@ def test_create_study_on_post(request, client, user_fixture):
 
 def test_duplicate_study_get(client, user):
     client.force_login(user)
-    original = baker.make(Study, name="Test study")
+    original = baker.make(Study, name="Test study", members=[user])
     response = client.get('/studies/create/?duplicate_pk=%i' % original.pk)
 
     assert response.status_code == 200
@@ -77,7 +77,7 @@ def test_duplicate_study_404(client, user):
 
 def test_duplicate_study_post(client, user):
     client.force_login(user)
-    original = baker.make(Study, recruitment_text='foo bar')
+    original = baker.make(Study, recruitment_text='foo bar', members=[user])
     response = client.post('/studies/create/?duplicate_pk=%i' % original.pk, {
         'name': 'Test study',
         'contact_person': 'Mustermann',

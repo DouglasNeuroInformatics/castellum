@@ -10,6 +10,7 @@
             <p>{{ study|verbose_name:'contact_person' }}: {{ study.contact_person }}</p>
         </div>
         <div>
+            {% has_perm 'studies.add_study' user as can_add_study %}
             {% has_perm 'studies.access_study' user study as can_access_study %}
             {% has_perm 'studies.change_study' user study as can_change_study %}
             {% has_perm 'studies.delete_study' user study as can_delete_study %}
@@ -57,12 +58,14 @@
                             </button>
                         {% endif %}
                     </form>
+                    {% if can_add_study %}
+                        <a href="{% url 'studies:create' %}?duplicate_pk={{ study.pk }}" class="btn btn-outline-primary mb-1">{% trans 'Duplicate' %}</a>
+                    {% endif %}
                 {% endif %}
                 {% get_enable_study_export as enable_export %}
                 {% if enable_export %}
                     <a href="{% url 'studies:export' study.pk %}" class="btn btn-outline-primary mb-1">{% trans 'Export' %}</a>
                 {% endif %}
-                <a href="{% url 'studies:create' %}?duplicate_pk={{ study.pk }}" class="btn btn-outline-primary mb-1">{% trans 'Duplicate' %}</a>
                 {% if can_delete_study %}
                     <a href="{% url 'studies:delete' study.pk %}" class="btn btn-danger mb-1">{% trans 'Delete' %}</a>
                 {% endif %}

@@ -23,6 +23,7 @@ import logging
 
 from django import forms
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.http import HttpResponseBadRequest
 from django.http import JsonResponse
@@ -205,9 +206,17 @@ class StudyCreateView(PermissionRequiredMixin, StudyFormMixin, CreateView):
 
     @cached_property
     def duplicate(self):
-        if 'duplicate_pk' in self.request.GET:
-            duplicate_pk = self.request.GET['duplicate_pk']
-            return get_object_or_404(Study, pk=duplicate_pk)
+        if 'duplicate_pk' not in self.request.GET:
+            return None
+
+        duplicate_pk = self.request.GET['duplicate_pk']
+        study = get_object_or_404(Study, pk=duplicate_pk)
+
+        perms = ('studies.access_study', 'studies.change_study')
+        if not self.request.user.has_perms(perms, study):
+            raise PermissionDenied()
+
+        return study
 
 
 class StudyUpdateView(
