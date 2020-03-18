@@ -42,8 +42,8 @@ from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment import filter_queries
-from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
+from castellum.subjects.models import Subject
 from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
 from castellum.utils.views import get_next_url
@@ -97,7 +97,7 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['count'] = (
-            AttributeSet.objects.filter(
+            Subject.objects.filter(
                 filter_queries.study(self.object),
                 filter_queries.no_recruitment()
             ).count()

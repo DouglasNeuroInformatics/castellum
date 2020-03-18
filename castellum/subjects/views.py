@@ -84,7 +84,7 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
         ).count()
 
         completeness, total = filter_queries.completeness_expr()
-        context['count_complete'] = AttributeSet.objects\
+        context['count_complete'] = Subject.objects\
             .annotate(completeness=completeness)\
             .filter(completeness=total)\
             .count()
@@ -352,20 +352,17 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     permission_required = 'contacts.view_contact'
     tab = 'participations'
 
-    def get_studies(self, attributeset):
+    def get_studies(self, subject):
         perms = ('recruitment.add_participationrequest', 'studies.access_study')
         studies = (
             Study.objects
             .filter(status=Study.EXECUTION)
-            .exclude(participationrequest__subject=attributeset.subject)
+            .exclude(participationrequest__subject=subject)
         )
         for study in studies:
             if (
                 self.request.user.has_perms(perms, obj=study) and
-                AttributeSet.objects.filter(
-                    filter_queries.study(study),
-                    pk=attributeset.pk,
-                ).exists()
+                Subject.objects.filter(filter_queries.study(study), pk=subject.pk).exists()
             ):
                 yield study
 
@@ -374,7 +371,7 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         try:
             context['attributeset'] = self.object.attributeset
-            context['studies'] = list(self.get_studies(self.object.attributeset))
+            context['studies'] = list(self.get_studies(self.object))
         except AttributeSet.DoesNotExist:
             pass
 
@@ -444,13 +441,12 @@ class MaintenanceAttributesView(PermissionRequiredMixin, ListView):
     tab = 'attributes'
 
     def get_queryset(self):
-        completeness, total = filter_queries.completeness_expr('attributeset__')
+        completeness, total = filter_queries.completeness_expr()
         return super().get_queryset()\
             .exclude(attributeset=None)\
             .annotate(completeness=completeness)\
             .filter(completeness__lt=total, no_recruitment=False)\
-            .order_by('completeness')\
-            .select_related('attributeset')
+            .order_by('completeness')
 
 
 class MaintenanceContactView(PermissionRequiredMixin, ListView):
