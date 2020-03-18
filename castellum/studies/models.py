@@ -204,10 +204,15 @@ class Study(models.Model):
             )
             self.project = Project.objects.create(
                 title=self.name,
+                description=self.description,
                 research_unit=dummy_unit,
                 principal_investigator=dummy_user,
                 local_id=Project.objects.get_next_local_id(dummy_unit),
             )
+        else:
+            self.project.title = self.name
+            self.project.description = self.description
+            self.project.save()
 
         return super().save(*args, **kwargs)
 
