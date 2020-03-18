@@ -82,7 +82,7 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
 
         context['count_participated'] = Subject.objects.filter(
             participationrequest__status=ParticipationRequest.INVITED
-        ).count()
+        ).distinct().count()
 
         completeness, total = filter_queries.completeness_expr()
         context['count_complete'] = Subject.objects\
