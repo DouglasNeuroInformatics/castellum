@@ -27,12 +27,14 @@ from django.core.management.base import CommandError
 
 import phonenumbers
 from faker import Faker
+from freezegun import freeze_time
 
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.contacts.models import phonetic
 from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import AttributeSet
+from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.models import Study
 from castellum.studies.models import StudySession
 from castellum.studies.models import StudyType
@@ -232,12 +234,24 @@ def generate_subjects(count):
     AttributeSet.objects.bulk_create(attributesets)
 
 
+def generate_participation_requests(count):
+    study = fake_study()
+    study.status = Study.EXECUTION
+    study.save()
+
+    for subject in Subject.objects.all()[:count]:
+        status = fake.random.choice(ParticipationRequest.STATUS_OPTIONS)[0]
+        with freeze_time(fake.date_this_decade(before_today=True)):
+            ParticipationRequest.objects.create(study=study, subject=subject, status=status)
+
+
 class Command(BaseCommand):
     help = 'Populate database with demo data.'
 
     def add_arguments(self, parser):
         parser.add_argument('--study-count', default=5, type=int)
         parser.add_argument('--subject-count', default=2000, type=int)
+        parser.add_argument('--participation-request-count', default=50, type=int)
 
     def handle(self, *args, **options):
         if settings.PRODUCTION:
@@ -247,3 +261,5 @@ class Command(BaseCommand):
             generate_studies(options['study_count'])
         if not Subject.objects.exists():
             generate_subjects(options['subject_count'])
+        if not ParticipationRequest.objects.exists():
+            generate_participation_requests(options['participation_request_count'])
