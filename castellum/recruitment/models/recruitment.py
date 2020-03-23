@@ -49,6 +49,7 @@ class ParticipationRequestManager(models.Manager):
                     ParticipationRequest.NOT_REACHED,
                     ParticipationRequest.AWAITING_RESPONSE,
                 ]),
+                distinct=True,
             ),
             followup_urgent=models.Count(
                 'id', filter=models.Q(followup_date__lte=datetime.date.today())
