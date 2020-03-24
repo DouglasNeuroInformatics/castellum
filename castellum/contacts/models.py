@@ -37,6 +37,7 @@ from .utils import phonetic
 
 
 class Address(models.Model):
+    contact = models.OneToOneField(Contact, on_delete=models.CASCADE)
     country = models.CharField(_('Country'), max_length=64)
     city = models.CharField(_('City'), max_length=128)
     zip_code = models.CharField(_('Zip code'), max_length=5)
@@ -152,9 +153,6 @@ class Contact(TimeStampedModel):
 
     date_of_birth = DateField(_('Date of birth'), blank=True, null=True)
 
-    address = models.ForeignKey(
-        Address, blank=True, null=True, verbose_name=_('Address'), on_delete=models.SET_NULL
-    )
     email = models.EmailField(_('Email'), max_length=128, blank=True)
     phone_number = PhoneNumberField(_('Phone number'), max_length=32, blank=True)
     phone_number_alternative = PhoneNumberField(
