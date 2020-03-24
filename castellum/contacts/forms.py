@@ -155,30 +155,29 @@ class ContactForm(forms.ModelForm):
 
         return cleaned_data
 
-    def save(self, commit=True):
+    def save(self):
         contact = super().save(commit=False)
 
         has_address = any(self.data.get(name) for name in self.address.fields)
         if has_address and self.cleaned_data.get('guardians_pane') != 'guardians':
-            contact.address = self.address.save(commit=commit)
+            contact.address = self.address.save()
         elif contact.address:
             contact.address.delete()
             contact.address = None
 
-        if commit:
-            contact.save()
-            self.save_m2m()
+        contact.save()
+        self.save_m2m()
 
-            if self.cleaned_data.get('guardians_pane') == 'guardians':
-                contact.guardians.remove(*[
-                    subject.contact for subject in self.cleaned_data.get('guardians_remove', [])
-                ])
+        if self.cleaned_data.get('guardians_pane') == 'guardians':
+            contact.guardians.remove(*[
+                subject.contact for subject in self.cleaned_data.get('guardians_remove', [])
+            ])
 
-                contact.guardians.add(*[
-                    subject.contact for subject in self.cleaned_data.get('guardians_add', [])
-                ])
-            else:
-                contact.guardians.set([])
+            contact.guardians.add(*[
+                subject.contact for subject in self.cleaned_data.get('guardians_add', [])
+            ])
+        else:
+            contact.guardians.set([])
 
         return contact
 
