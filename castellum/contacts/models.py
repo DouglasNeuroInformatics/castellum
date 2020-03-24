@@ -150,6 +150,12 @@ class Contact(TimeStampedModel):
     def __str__(self):
         return self.full_name
 
+    def get_address(self):
+        try:
+            return self.address
+        except Address.DoesNotExist:
+            return None
+
     @cached_property
     def subject(self):
         subject = Subject.objects.get(pk=self.subject_id)
@@ -163,7 +169,7 @@ class Contact(TimeStampedModel):
     @property
     def is_reachable(self):
         return any([
-            self.address, self.phone_number, self.email, self.has_guardian
+            self.get_address(), self.phone_number, self.email, self.has_guardian
         ])
 
     @property
@@ -191,11 +197,6 @@ class Contact(TimeStampedModel):
         self.last_name_phonetic = phonetic(self.last_name)
 
         return super().save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        if self.address:
-            self.address.delete()
-        return super().delete(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('subjects:detail', args=[self.subject.pk])

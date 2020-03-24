@@ -238,7 +238,7 @@ def test_contact_form_with_guardians_add(user, full_data, contact):
 def test_contact_form_with_guardians_removes_address(user, full_data):
     form = ContactForm(user=user, data=full_data)
     contact = form.save()
-    assert contact.address
+    assert contact.get_address()
 
     data = {
         **full_data,
@@ -248,7 +248,7 @@ def test_contact_form_with_guardians_removes_address(user, full_data):
 
     form = ContactForm(user=user, instance=contact, data=data)
     contact = form.save()
-    assert not contact.address
+    assert not contact.get_address()
 
 
 @pytest.mark.django_db
