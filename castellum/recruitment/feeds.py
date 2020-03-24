@@ -27,6 +27,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 
 from django_ical.views import ICalFeed
+from stronghold.decorators import public
 
 from castellum.castellum_auth.models import User
 from castellum.studies.models import Study
@@ -34,6 +35,7 @@ from castellum.studies.models import Study
 from .models import ParticipationRequest
 
 
+@public
 class BaseFollowUpFeed(ICalFeed):
     def __call__(self, request, *args, **kwargs):
         self.request = request
