@@ -166,7 +166,6 @@ class ContactForm(forms.ModelForm):
             contact.address = None
 
         contact.save()
-        self.save_m2m()
 
         if self.cleaned_data.get('guardians_pane') == 'guardians':
             contact.guardians.remove(*[
