@@ -36,33 +36,6 @@ from castellum.utils.models import TimeStampedModel
 from .utils import phonetic
 
 
-class Address(models.Model):
-    contact = models.OneToOneField(Contact, on_delete=models.CASCADE)
-    country = models.CharField(_('Country'), max_length=64)
-    city = models.CharField(_('City'), max_length=128)
-    zip_code = models.CharField(_('Zip code'), max_length=5)
-    street = models.CharField(_('Street'), max_length=128)
-    house_number = models.CharField(_('House number'), max_length=5)
-    additional_information = models.CharField(
-        _('Additional information'), max_length=32, blank=True
-    )
-
-    def lines(self):
-        line1 = ' '.join([self.street, self.house_number, self.additional_information]).strip()
-        line2 = '{} {}'.format(self.zip_code, self.city)
-        return line1, line2
-
-    def __str__(self):
-        return '{}, {}'.format(*self.lines())
-
-    class Meta:
-        ordering = (
-            'country', 'city', 'zip_code', 'street', 'house_number', 'additional_information'
-        )
-        verbose_name = _('Address')
-        verbose_name_plural = _('Addresses')
-
-
 class ContactManager(models.Manager):
     def fuzzy_filter(self, search):
         parts = search.split()
@@ -226,3 +199,30 @@ class Contact(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse('subjects:detail', args=[self.subject.pk])
+
+
+class Address(models.Model):
+    contact = models.OneToOneField(Contact, on_delete=models.CASCADE)
+    country = models.CharField(_('Country'), max_length=64)
+    city = models.CharField(_('City'), max_length=128)
+    zip_code = models.CharField(_('Zip code'), max_length=5)
+    street = models.CharField(_('Street'), max_length=128)
+    house_number = models.CharField(_('House number'), max_length=5)
+    additional_information = models.CharField(
+        _('Additional information'), max_length=32, blank=True
+    )
+
+    def lines(self):
+        line1 = ' '.join([self.street, self.house_number, self.additional_information]).strip()
+        line2 = '{} {}'.format(self.zip_code, self.city)
+        return line1, line2
+
+    def __str__(self):
+        return '{}, {}'.format(*self.lines())
+
+    class Meta:
+        ordering = (
+            'country', 'city', 'zip_code', 'street', 'house_number', 'additional_information'
+        )
+        verbose_name = _('Address')
+        verbose_name_plural = _('Addresses')
