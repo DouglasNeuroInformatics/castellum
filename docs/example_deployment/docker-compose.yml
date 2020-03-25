@@ -47,3 +47,15 @@ services:
       - db_default
       - db_contacts
       - ldap
+  cron:
+    image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
+    restart: always
+    environment:
+      DJANGO_SETTINGS_MODULE: castellum.settings.deployment
+    command: crond -f -L /log/cron.log
+    volumes:
+      - ./settings.py:/code/castellum/settings/deployment.py:ro
+      - ./crontab:/etc/crontabs/root:ro
+    depends_on:
+      - db_default
+      - db_contacts
