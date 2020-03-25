@@ -1,10 +1,5 @@
 #!/bin/sh
 
-# The depends_on feature in docker-compose does not actually wait
-# until the service is ready. So we have to scedule this manually.
-#
-# See https://docs.docker.com/compose/startup-order/
-
 docker-compose pull
 docker-compose up -d
 
