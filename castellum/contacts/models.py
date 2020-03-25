@@ -71,7 +71,7 @@ class ContactManager(models.Manager):
             self.guardian_full_name_is_matched(parts) |
             self.guardian_email_is_matched(parts)
         )
-        return self.filter(q)
+        return self.filter(q).distinct()
 
     def match_name(self, part, prefix):
         lookup = prefix + '_name_phonetic__contains'

@@ -520,9 +520,9 @@ class SearchView(LoginRequiredMixin, GetFormView):
 
     def get_matches(self, form):
         contacts = Contact.objects.fuzzy_filter(form.cleaned_data['search'])
-        subjects = [c.subject for c in contacts]
+        subject_pks = list(contacts.values_list('subject_id', flat=True))
         participation_requests = ParticipationRequest.objects.filter(
-            subject__in=subjects, study__status=Study.EXECUTION
+            subject_id__in=subject_pks, study__status=Study.EXECUTION
         ).select_related('subject', 'study')
 
         result = {}
