@@ -241,11 +241,6 @@ class Consent(models.Model):
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     document = models.ForeignKey(ConsentDocument, on_delete=models.CASCADE)
-    type = models.CharField(_('Type'), max_length=64, choices=[
-        ('online', _('Online form')),
-        ('paper', _('Pen & Paper')),
-        ('phone', _('Telephone')),
-    ])
     status = models.CharField(_('Status'), max_length=64, choices=[
         (WAITING, _('Waiting for confirmation')),
         (CONFIRMED, _('Confirmed')),

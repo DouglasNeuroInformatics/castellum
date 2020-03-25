@@ -29,7 +29,7 @@
                         {% if consent %}
                             {{ consent.document }} {% if not consent.document.is_current %}({% trans 'outdated' %}){% endif %}
                             <br>
-                            {{ consent|display:'type' }}, <time>{{ consent.updated_at|date }}</time>
+                            <time>{{ consent.updated_at|date }}</time>
                         {% elif object.no_recruitment %}
                             {% trans 'No consent needed' %}
                         {% else %}
@@ -40,7 +40,6 @@
 
                 {% with consent=object.consent %}
                     {% if consent.status == consent.WAITING or not consent.document.is_current %}
-                        {% bootstrap_field form.consent_type %}
                         {% bootstrap_field form.consent_status %}
                     {% endif %}
                 {% endwith %}
