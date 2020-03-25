@@ -65,7 +65,10 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
 
         context['list'] = []
-        for pr in self.study.participationrequest_set.filter(status=ParticipationRequest.INVITED):
+        prs = self.study.participationrequest_set\
+            .filter(status=ParticipationRequest.INVITED)\
+            .select_related('subject')
+        for pr in prs:
             has_access = self.request.user.has_privacy_level(pr.subject.privacy_level)
             context['list'].append((pr, has_access))
 
