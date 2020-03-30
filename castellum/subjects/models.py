@@ -235,19 +235,16 @@ class ConsentDocument(models.Model):
 
 
 class Consent(models.Model):
-    WAITING = 'waiting'
-    CONFIRMED = 'confirmed'
+    requested_at = models.DateField(_('Requested at'))
+    confirmed_at = models.DateField(_('Confirmed at'))
+    withdrawn_at = models.Dateield(_('Withdrawn at'))
 
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    document = models.ForeignKey(ConsentDocument, on_delete=models.CASCADE)
-    status = models.CharField(_('Status'), max_length=64, choices=[
-        (WAITING, _('Waiting for confirmation')),
-        (CONFIRMED, _('Confirmed')),
-    ])
+    subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
+    document = models.ForeignKey(ConsentDocument, on_delete=models.SET_NULL, blank=True)
 
     class Meta:
-        get_latest_by = 'document__created_at'
+        get_latest_by = 'updated_at'
         verbose_name = _('Consent')
 
 
