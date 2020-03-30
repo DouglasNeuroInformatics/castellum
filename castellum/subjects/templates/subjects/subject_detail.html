@@ -47,7 +47,6 @@
         <dt class="col-sm-6">{% trans 'Recruitment consent' %}</dt>
         <dd class="col-sm-6">
             {% if subject.consent %}
-                {{ subject.consent.type }}
                 {% if not subject.consent.document.is_current %}
                     ({% trans "outdated" %})
                 {% endif %}

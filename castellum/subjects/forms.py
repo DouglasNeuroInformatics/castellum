@@ -44,7 +44,6 @@ class DataProtectionForm(forms.ModelForm):
             )),
         }
 
-    consent_type = Consent._meta.get_field('type').formfield(required=False)
     consent_status = Consent._meta.get_field('status').formfield(required=False)
     to_be_deleted = forms.BooleanField(
         label=_("To be deleted"),
@@ -63,7 +62,6 @@ class DataProtectionForm(forms.ModelForm):
 
         consent = self.instance.consent
         if consent and consent.status == Consent.WAITING:
-            self.fields['consent_type'].initial = consent.type
             self.fields['consent_status'].initial = consent.status
 
         self.fields['to_be_deleted'].initial = self.instance.to_be_deleted
@@ -76,12 +74,6 @@ class DataProtectionForm(forms.ModelForm):
         if not self.user.has_privacy_level(privacy_level):
             raise ValidationError(
                 _("Please choose lower privacy level for the subject."), code='invalid'
-            )
-
-        consent_check = [self.cleaned_data['consent_type'], self.cleaned_data['consent_status']]
-        if any(consent_check) and not all(consent_check):
-            raise ValidationError(
-                _("Please, fill out both type and status of the consent."), code='invalid'
             )
 
         if self.cleaned_data.get('to_be_deleted') and not self.instance.to_be_deleted:
@@ -98,18 +90,13 @@ class DataProtectionForm(forms.ModelForm):
 
     def save(self, commit=True):
         subject = super().save(commit)
-        consent = subject.consent
-        if consent and consent.status == Consent.WAITING:
-            if (
-                consent.type != self.cleaned_data['consent_type'] or
-                consent.status != self.cleaned_data['consent_status']
-            ):
-                consent.type = self.cleaned_data['consent_type']
-                consent.status = self.cleaned_data['consent_status']
-                consent.save()
-        elif self.cleaned_data['consent_type'] or self.cleaned_data['consent_status']:
+
+        if subject.consent and subject.consent.status == Consent.WAITING:
+            if subject.consent.status != self.cleaned_data['consent_status']:
+                subject.consent.status = self.cleaned_data['consent_status']
+                subject.consent.save()
+        elif self.cleaned_data['consent_status']:
             Consent.objects.create(
-                type=self.cleaned_data['consent_type'],
                 status=self.cleaned_data['consent_status'],
                 subject=subject,
                 document=ConsentDocument.objects.filter(is_current=True).latest(),
