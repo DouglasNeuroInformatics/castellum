@@ -42,7 +42,7 @@ class BaseFollowUpFeed(ICalFeed):
         return super().__call__(request, *args, **kwargs)
 
     def item_title(self, item):
-        return '{} - Follow-Up'.format(item.study.name)
+        return '{} - Follow-Up'.format(item.study)
 
     def item_start_datetime(self, item):
         if item.followup_time:
