@@ -32,6 +32,8 @@ from django.views.generic import TemplateView
 from django.views.i18n import JavaScriptCatalog
 from django.views.static import serve
 
+from stronghold.decorators import public
+
 from castellum.castellum_auth.forms import AuthenticationForm
 from castellum.castellum_auth.views import set_language
 
@@ -51,7 +53,7 @@ urlpatterns = [
         authentication_form=AuthenticationForm,
     ), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('favicon.ico', RedirectView.as_view(url='/static/images/favicon.ico')),
+    path('favicon.ico', public(RedirectView.as_view(url='/static/images/favicon.ico'))),
     path('ping/', dummy, name='ping'),
 
     path('i18n/', set_language, name='set_language'),

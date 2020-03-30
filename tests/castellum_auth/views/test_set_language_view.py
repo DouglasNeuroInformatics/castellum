@@ -9,6 +9,7 @@ def test_set_language(client, user, language):
     assert user.language == language
 
 
-def test_set_language_next(client):
+def test_set_language_next(client, user):
+    client.force_login(user)
     response = client.post('/i18n/', {'next': '/asd/'})
     assert response.url == '/asd/'

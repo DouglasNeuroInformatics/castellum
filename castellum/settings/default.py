@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'phonenumber_field',
     'parler',
+    'stronghold',
 
     'castellum.utils',
     'castellum.castellum_auth',
@@ -49,6 +50,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'stronghold.middleware.LoginRequiredMiddleware',
 
     'castellum.castellum_auth.middlewares.UserExpirationMiddleware',
     'castellum.castellum_auth.middlewares.AutoLogoutMiddleware',

@@ -19,6 +19,7 @@ setup(
         "django-npm==1.0.0",
         "django-parler==2.0.1",
         "django-phonenumber-field==4.0.0",
+        "django-stronghold==0.4.0",
         "Faker==4.0.2",
         "file-magic==0.4.0",
         "jsonschema==3.2.0",
