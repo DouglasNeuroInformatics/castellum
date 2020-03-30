@@ -218,7 +218,6 @@ class SubjectNote(models.Model):
 
 class ConsentDocument(models.Model):
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
-    info = models.CharField(_('Info'), max_length=128)
     is_current = models.BooleanField(_('Is current'), default=True)
     file = RestrictedFileField(
         _('File'),
