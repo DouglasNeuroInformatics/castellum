@@ -32,6 +32,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.functional import cached_property
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import CreateView
@@ -367,6 +368,6 @@ class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
         }
 
         response = JsonResponse({k: v for k, v in data.items() if v})
-        filename = 'castellum_%s.json' % self.study.name
+        filename = 'castellum_%s.json' % slugify(self.study.name)
         response['Content-Disposition'] = 'attachment; filename="%s"' % filename
         return response
