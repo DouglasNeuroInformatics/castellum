@@ -48,6 +48,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import ContactForm
 from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
+from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
@@ -494,9 +495,9 @@ class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, 
 
     def get_data(self):
         contact = self.object.contact
-        if contact.address:
+        try:
             return (contact.full_name, *contact.address.lines())
-        else:
+        except Address.DoesNotExist:
             return (contact.full_name, '', '')
 
     def patch_document(self, content):

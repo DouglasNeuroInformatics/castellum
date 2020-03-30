@@ -25,11 +25,16 @@ from .models import Address
 from .models import Contact
 
 
+class AddressInline(admin.StackedInline):
+    model = Address
+
+
 class ContactAdmin(admin.ModelAdmin):
     list_display = "first_name", "last_name", "address", "email", "phone_number"
     list_display_links = "first_name", "last_name"
     list_per_page = 200
     search_fields = "first_name", "last_name"
+    inlines = [AddressInline]
 
     fieldsets = (
         (None, {
@@ -41,7 +46,6 @@ class ContactAdmin(admin.ModelAdmin):
         }),
         ("Contact Data", {
             "fields": (
-                "address",
                 "email",
                 ("phone_number", "phone_number_alternative"),
                 "preferred_contact_method",
@@ -54,10 +58,4 @@ class ContactAdmin(admin.ModelAdmin):
         return super().get_queryset(request).select_related('address')
 
 
-class AddressAdmin(admin.ModelAdmin):
-    list_display = "city", "zip_code", "street", "house_number", "additional_information"
-    list_per_page = 200
-
-
-admin.site.register(Address, AddressAdmin)
 admin.site.register(Contact, ContactAdmin)

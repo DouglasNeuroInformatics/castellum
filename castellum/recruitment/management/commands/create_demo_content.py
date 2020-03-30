@@ -134,8 +134,9 @@ def fake_study():
     return study
 
 
-def fake_address():
+def fake_address(contact):
     return Address(
+        contact=contact,
         country='Deutschland',
         city=fake.city(),
         zip_code=fake.postcode(),
@@ -144,7 +145,7 @@ def fake_address():
     )
 
 
-def fake_contact(subject, address):
+def fake_contact(subject):
     if fake.random.random() < 0.5:
         gender = 'f'
         first_name = fake.first_name_female()
@@ -162,7 +163,6 @@ def fake_contact(subject, address):
         last_name_phonetic=phonetic(last_name),
         date_of_birth=fake_date_of_birth(),
         subject_id=subject.pk,
-        address=address,
     )
 
     if fake.random.random() < 0.67:
@@ -203,16 +203,12 @@ def generate_subjects(count):
     # the id on the instances, so we have to get them from the database after bulk_create. This
     # assumes that the database was empty before.
 
-    print('Generating addresses')
-    Address.objects.bulk_create(fake_address() for i in range(count))
-    addresses = Address.objects.all()[:count]
-
     print('Generating pseudonyms')
     Subject.objects.bulk_create([fake_subject() for i in range(count)], batch_size=200)
     subjects = Subject.objects.all()[:count]
 
     print('Generating contacts')
-    contacts = [fake_contact(subjects[i], addresses[i]) for i in range(count-1)]
+    contacts = [fake_contact(subjects[i]) for i in range(count-1)]
     testcontact = Contact(
         gender='*',
         first_name='Muhammad',
@@ -226,6 +222,10 @@ def generate_subjects(count):
     contacts.append(testcontact)
 
     Contact.objects.bulk_create(contacts)
+    contacts = Contact.objects.all()[:count]
+
+    print('Generating addresses')
+    Address.objects.bulk_create(fake_address(contact) for contact in contacts)
 
     print('Generating attributesets')
     attributesets = [fake_attributeset(subjects[i], contacts[i]) for i in range(count)]

@@ -36,32 +36,6 @@ from castellum.utils.models import TimeStampedModel
 from .utils import phonetic
 
 
-class Address(models.Model):
-    country = models.CharField(_('Country'), max_length=64)
-    city = models.CharField(_('City'), max_length=128)
-    zip_code = models.CharField(_('Zip code'), max_length=5)
-    street = models.CharField(_('Street'), max_length=128)
-    house_number = models.CharField(_('House number'), max_length=5)
-    additional_information = models.CharField(
-        _('Additional information'), max_length=32, blank=True
-    )
-
-    def lines(self):
-        line1 = ' '.join([self.street, self.house_number, self.additional_information]).strip()
-        line2 = '{} {}'.format(self.zip_code, self.city)
-        return line1, line2
-
-    def __str__(self):
-        return '{}, {}'.format(*self.lines())
-
-    class Meta:
-        ordering = (
-            'country', 'city', 'zip_code', 'street', 'house_number', 'additional_information'
-        )
-        verbose_name = _('Address')
-        verbose_name_plural = _('Addresses')
-
-
 class ContactManager(models.Manager):
     def fuzzy_filter(self, search):
         parts = search.split()
@@ -152,9 +126,6 @@ class Contact(TimeStampedModel):
 
     date_of_birth = DateField(_('Date of birth'), blank=True, null=True)
 
-    address = models.ForeignKey(
-        Address, blank=True, null=True, verbose_name=_('Address'), on_delete=models.SET_NULL
-    )
     email = models.EmailField(_('Email'), max_length=128, blank=True)
     phone_number = PhoneNumberField(_('Phone number'), max_length=32, blank=True)
     phone_number_alternative = PhoneNumberField(
@@ -179,6 +150,12 @@ class Contact(TimeStampedModel):
     def __str__(self):
         return self.full_name
 
+    def get_address(self):
+        try:
+            return self.address
+        except Address.DoesNotExist:
+            return None
+
     @cached_property
     def subject(self):
         subject = Subject.objects.get(pk=self.subject_id)
@@ -192,7 +169,7 @@ class Contact(TimeStampedModel):
     @property
     def is_reachable(self):
         return any([
-            self.address, self.phone_number, self.email, self.has_guardian
+            self.get_address(), self.phone_number, self.email, self.has_guardian
         ])
 
     @property
@@ -221,10 +198,32 @@ class Contact(TimeStampedModel):
 
         return super().save(*args, **kwargs)
 
-    def delete(self, *args, **kwargs):
-        if self.address:
-            self.address.delete()
-        return super().delete(*args, **kwargs)
-
     def get_absolute_url(self):
         return reverse('subjects:detail', args=[self.subject.pk])
+
+
+class Address(models.Model):
+    contact = models.OneToOneField(Contact, on_delete=models.CASCADE)
+    country = models.CharField(_('Country'), max_length=64)
+    city = models.CharField(_('City'), max_length=128)
+    zip_code = models.CharField(_('Zip code'), max_length=5)
+    street = models.CharField(_('Street'), max_length=128)
+    house_number = models.CharField(_('House number'), max_length=5)
+    additional_information = models.CharField(
+        _('Additional information'), max_length=32, blank=True
+    )
+
+    def lines(self):
+        line1 = ' '.join([self.street, self.house_number, self.additional_information]).strip()
+        line2 = '{} {}'.format(self.zip_code, self.city)
+        return line1, line2
+
+    def __str__(self):
+        return '{}, {}'.format(*self.lines())
+
+    class Meta:
+        ordering = (
+            'country', 'city', 'zip_code', 'street', 'house_number', 'additional_information'
+        )
+        verbose_name = _('Address')
+        verbose_name_plural = _('Addresses')

@@ -43,7 +43,7 @@ class SubjectMultipleChoiceField(forms.ModelMultipleChoiceField):
 class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
-        fields = '__all__'
+        exclude = ['contact']
         widgets = {
             'country': DatalistWidget(datalist=(
                 Address.objects.order_by('country').values_list('country', flat=True).distinct
@@ -64,7 +64,7 @@ class ContactForm(forms.ModelForm):
 
     class Meta:
         model = Contact
-        exclude = ('address', 'guardians')
+        exclude = ['guardians']
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
@@ -78,7 +78,7 @@ class ContactForm(forms.ModelForm):
 
         if self.instance.has_guardian:
             self.fields['guardians_pane'].initial = 'guardians'
-        elif any([self.instance.address, self.instance.phone_number, self.instance.email]):
+        elif any([self.instance.get_address(), self.instance.phone_number, self.instance.email]):
             self.fields['guardians_pane'].initial = 'self'
 
         self.fields['guardians_remove'].choices = self.get_guardians_rm_choices(user)
@@ -88,7 +88,7 @@ class ContactForm(forms.ModelForm):
     def get_address_form(self, **kwargs):
         address_kwargs = kwargs.copy()
         if kwargs.get('instance'):
-            address_kwargs['instance'] = kwargs['instance'].address
+            address_kwargs['instance'] = kwargs['instance'].get_address()
         form = AddressForm(**address_kwargs)
         for field in form.fields.values():
             field.required = False
@@ -155,30 +155,28 @@ class ContactForm(forms.ModelForm):
 
         return cleaned_data
 
-    def save(self, commit=True):
-        contact = super().save(commit=False)
+    def save(self):
+        contact = super().save()
 
         has_address = any(self.data.get(name) for name in self.address.fields)
         if has_address and self.cleaned_data.get('guardians_pane') != 'guardians':
-            contact.address = self.address.save(commit=commit)
-        elif contact.address:
+            self.address.instance.contact = contact
+            self.address.save()
+        elif contact.get_address():
             contact.address.delete()
-            contact.address = None
+            # refresh from db
+            contact = Contact.objects.get(pk=contact.pk)
 
-        if commit:
-            contact.save()
-            self.save_m2m()
+        if self.cleaned_data.get('guardians_pane') == 'guardians':
+            contact.guardians.remove(*[
+                subject.contact for subject in self.cleaned_data.get('guardians_remove', [])
+            ])
 
-            if self.cleaned_data.get('guardians_pane') == 'guardians':
-                contact.guardians.remove(*[
-                    subject.contact for subject in self.cleaned_data.get('guardians_remove', [])
-                ])
-
-                contact.guardians.add(*[
-                    subject.contact for subject in self.cleaned_data.get('guardians_add', [])
-                ])
-            else:
-                contact.guardians.set([])
+            contact.guardians.add(*[
+                subject.contact for subject in self.cleaned_data.get('guardians_add', [])
+            ])
+        else:
+            contact.guardians.set([])
 
         return contact
 
