@@ -71,7 +71,7 @@ before you can start using it:
 
 2.  Check for some common issues:
 
-        python manage.py check --deply
+        python manage.py check --deploy
 
 3.  Run migrations on all databases:
 
