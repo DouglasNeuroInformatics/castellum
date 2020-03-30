@@ -19,12 +19,16 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django.conf import settings
 from django.db import models
 from django.forms import ValidationError
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+
+from dateutil.relativedelta import relativedelta
 
 from castellum.utils.fields import DateTimeField
 from castellum.utils.fields import RestrictedFileField
@@ -242,6 +246,23 @@ class Consent(models.Model):
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
     document = models.ForeignKey(ConsentDocument, on_delete=models.SET_NULL, blank=True)
+
+    @cached_property
+    def status(self):
+        if self.requested_at > (datetime.date.today() - relativedelta(weeks=6)):
+            waiting = True
+
+        if self.requested_at and waiting and not any(self.confirmed_at, self.withdrawn_at):
+            status = 'waiting'
+        elif self.withdrawn_at:
+            status = 'missing'
+        elif not any(self.requested_at, self.confirmed_at, self.withdrawn_at):
+            status = 'missing'
+        elif self.requested_at and not waiting and not any(self.confirmed_at, self.withdrawn_at):
+            status = 'missing'
+        elif not self.withdrawn_at and self.confirmed_at:
+            status = 'confirmed'
+        return status
 
     class Meta:
         get_latest_by = 'updated_at'
