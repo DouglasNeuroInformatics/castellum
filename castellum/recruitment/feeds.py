@@ -79,7 +79,7 @@ class FollowUpFeedForStudy(BaseFollowUpFeed):
             .order_by('-followup_date', '-followup_time')
 
     def file_name(self, study):
-        return 'castellum-{}-followups.ics'.format(slugify(study.name))
+        return 'castellum-{}-followups.ics'.format(slugify(study.project.title))
 
 
 class FollowUpFeedForUser(BaseFollowUpFeed):

@@ -30,7 +30,7 @@ def test_get_200(request, client, user_fixture):
 def test_redirect_to_studies_after_post(client, study_coordinator):
     client.force_login(study_coordinator)
     response = client.post('/studies/create/', {
-        'name': 'Test study',
+        'title': 'Test study',
         'contact_person': 'Mustermann',
         'principal_investigator': 'Mustermann',
         **MANAGEMENT_FORM,
@@ -50,19 +50,19 @@ def test_create_study_on_post(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
     client.post('/studies/create/', {
-        'name': 'Test study',
+        'title': 'Test study',
         'contact_person': 'Mustermann',
         'principal_investigator': 'Mustermann',
         **MANAGEMENT_FORM,
     })
 
     assert Study.objects.count() == 1
-    assert Study.objects.last().name == 'Test study'
+    assert Study.objects.last().project.title == 'Test study'
 
 
 def test_duplicate_study_get(client, user):
     client.force_login(user)
-    original = baker.make(Study, name="Test study", members=[user])
+    original = baker.make(Study, project__title="Test study", members=[user])
     response = client.get('/studies/create/?duplicate_pk=%i' % original.pk)
 
     assert response.status_code == 200
@@ -79,7 +79,7 @@ def test_duplicate_study_post(client, user):
     client.force_login(user)
     original = baker.make(Study, recruitment_text='foo bar', members=[user])
     response = client.post('/studies/create/?duplicate_pk=%i' % original.pk, {
-        'name': 'Test study',
+        'title': 'Test study',
         'contact_person': 'Mustermann',
         'principal_investigator': 'Mustermann',
         **MANAGEMENT_FORM,
@@ -94,21 +94,21 @@ def test_duplicate_study_post(client, user):
 def test_user_who_created_study_is_study_member(client, study_coordinator):
     client.force_login(study_coordinator)
     response = client.post('/studies/create/', {
-        'name': 'Test study',
+        'title': 'Test study',
         'contact_person': 'Mustermann',
         'principal_investigator': 'Mustermann',
         **MANAGEMENT_FORM,
     })
 
     assert response.status_code == 302
-    assert StudyMembership.objects.last().study.name == 'Test study'
+    assert StudyMembership.objects.last().study.project.title == 'Test study'
     assert StudyMembership.objects.last().user.username == study_coordinator.username
 
 
 def test_missing_value(client, user):
     client.force_login(user)
     response = client.post('/studies/create/', {
-        'name': 'Test study',
+        'title': 'Test study',
         'principal_investigator': 'Mustermann',
         **MANAGEMENT_FORM,
     })

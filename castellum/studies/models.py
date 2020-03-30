@@ -29,7 +29,6 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 from huscy.projects.models import Project
-from huscy.projects.models import ResearchUnit
 from parler.models import TranslatableModel
 from parler.models import TranslatedFields
 
@@ -73,14 +72,12 @@ class Study(models.Model):
 
     project = models.OneToOneField(Project, on_delete=models.CASCADE)
 
-    name = models.CharField(_('Name'), max_length=254)
     contact_person = models.CharField(_('Responsible contact person'), max_length=254)
     principal_investigator = models.CharField(_('Principal Investigator'), max_length=254)
     affiliated_scientists = models.CharField(_('Affiliated Scientists'), max_length=254, blank=True)
     affiliated_research_assistants = models.CharField(
         _('Affiliated Research Assistants'), max_length=254, blank=True
     )
-    description = models.TextField(_('Description'), blank=True)
     keywords = models.CharField(_('Keywords'), max_length=254, blank=True)
     study_type = models.ManyToManyField(StudyType, verbose_name=_('Type of study'), blank=True)
     previous_status = models.SmallIntegerField(
@@ -155,13 +152,13 @@ class Study(models.Model):
     mail_reply_address = models.EmailField(_('Reply e-mail-address'), max_length=128, blank=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ['project__title']
         permissions = (
             ('access_study', _('Can access studies')),
         )
 
     def __str__(self):
-        return self.name
+        return self.project.title
 
     def restore_previous_status(self):
         self.status = self.previous_status
@@ -197,23 +194,6 @@ class Study(models.Model):
             self.domain = create_domain(settings.CASTELLUM_STUDY_DOMAIN_BITS)
         if not self.min_subject_count:
             self.min_subject_count = 0
-        if not self.project_id:
-            dummy_user, __ = User.objects.get_or_create(username='dummy')
-            dummy_unit, __ = ResearchUnit.objects.get_or_create(
-                name='dummy', code='dummy', principal_investigator=dummy_user
-            )
-            self.project = Project.objects.create(
-                title=self.name,
-                description=self.description,
-                research_unit=dummy_unit,
-                principal_investigator=dummy_user,
-                local_id=Project.objects.get_next_local_id(dummy_unit),
-            )
-        else:
-            self.project.title = self.name
-            self.project.description = self.description
-            self.project.save()
-
         return super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):

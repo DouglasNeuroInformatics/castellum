@@ -23,6 +23,10 @@ import json
 import os
 
 from django import forms
+from django.utils.translation import gettext_lazy as _
+
+from huscy.projects.models import Project
+from huscy.projects.models import ResearchUnit
 
 from castellum.castellum_auth.models import User
 from castellum.utils.forms import BaseImportForm
@@ -35,15 +39,16 @@ IMPORT_SCHEMA = json.load(open(os.path.join(APP_DIR, 'schemas', 'study.json')))
 
 
 class StudyForm(ReadonlyModelForm):
+    title = Project._meta.get_field('title').formfield(label=_('Name'))
+    description = Project._meta.get_field('description').formfield(label=_('Description'))
+
     class Meta:
         model = models.Study
         fields = [
-            'name',
             'contact_person',
             'principal_investigator',
             'affiliated_scientists',
             'affiliated_research_assistants',
-            'description',
             'keywords',
             'study_type',
             'data_sensitivity',
@@ -56,6 +61,31 @@ class StudyForm(ReadonlyModelForm):
         widgets = {
             'study_type': forms.CheckboxSelectMultiple(),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.project_id:
+            self.initial['title'] = self.instance.project.title
+            self.initial['description'] = self.instance.project.description
+
+    def save(self):
+        if self.instance.project_id:
+            self.instance.project.title = self.cleaned_data['title']
+            self.instance.project.description = self.cleaned_data['description']
+            self.instance.project.save()
+        else:
+            dummy_user, __ = User.objects.get_or_create(username='dummy')
+            dummy_unit, __ = ResearchUnit.objects.get_or_create(
+                name='dummy', code='dummy', principal_investigator=dummy_user
+            )
+            self.instance.project = Project.objects.create(
+                title=self.cleaned_data['title'],
+                description=self.cleaned_data['description'],
+                research_unit=dummy_unit,
+                principal_investigator=dummy_user,
+                local_id=Project.objects.get_next_local_id(dummy_unit),
+            )
+        return super().save()
 
 
 class ExcludedStudiesForm(ReadonlyModelForm):
