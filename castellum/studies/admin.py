@@ -41,13 +41,8 @@ class StudyForm(forms.ModelForm):
         fields = '__all__'
 
 
-class StudySessionInline(admin.TabularInline):
-    model = models.StudySession
-
-
 class StudyAdmin(admin.ModelAdmin):
     form = StudyForm
-    inlines = [StudySessionInline]
     search_fields = ['name']
     readonly_fields = ['domain']
 

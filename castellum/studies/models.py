@@ -258,8 +258,3 @@ class StudyMembership(models.Model):
 
     def __str__(self):
         return '{}:{}'.format(self.study, self.user)
-
-
-class StudySession(models.Model):
-    study = models.ForeignKey(Study, on_delete=models.CASCADE)
-    duration = models.PositiveIntegerField(_('Duration of a session in minutes'))
