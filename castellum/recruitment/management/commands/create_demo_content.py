@@ -37,7 +37,6 @@ from castellum.contacts.models import phonetic
 from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import AttributeSet
 from castellum.studies.models import Study
-from castellum.studies.models import StudySession
 from castellum.studies.models import StudyType
 from castellum.subjects.models import Subject
 
@@ -114,10 +113,6 @@ def fake_language():
 
 def fake_subject():
     return Subject(privacy_level=fake.random.randint(0, 2))
-
-
-def fake_studysession(study):
-    return StudySession(study=study, duration=fake.random.randrange(10, 120, 10))
 
 
 def fake_project(dummy_user, dummy_unit, local_id):
@@ -209,7 +204,6 @@ def generate_studies(count):
     studies = [fake_study(project) for project in projects]
     for study in studies:
         study.save()
-    StudySession.objects.bulk_create(fake_studysession(study) for study in studies)
 
     study_types = list(StudyType.objects.all())
     for study in studies:
