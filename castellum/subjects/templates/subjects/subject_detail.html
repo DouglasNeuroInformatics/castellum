@@ -58,6 +58,9 @@
             {% endif %}
         </dd>
 
+        <dt class="col-sm-6">{% trans 'Legal basis for data retention' %}</dt>
+        <dd class="col-sm-6">{{ legal_basis|join:', '|default:'—' }}</dd>
+
         <dt class="col-sm-6">{% trans 'Attribute set completeness' %}</dt>
         <dd class="col-sm-6">{{ attributeset_completeness|default:'—' }}</dd>
     </dl>
