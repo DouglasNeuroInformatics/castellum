@@ -28,7 +28,7 @@ services:
       - "389:389"
     command: [--copy-service]
     volumes:
-      - ./dummy_data.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif
+      - ./dummy_data.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif:ro
   web:
     ## use the latest pre-built image
     image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
@@ -41,9 +41,23 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./settings.py:/code/castellum/settings/deployment.py
-      - ./uwsgi.ini:/code/uwsgi.ini
+      - ./settings.py:/code/castellum/settings/deployment.py:ro
+      - ./uwsgi.ini:/code/uwsgi.ini:ro
+      - ./log:/log
     depends_on:
       - db_default
       - db_contacts
       - ldap
+  cron:
+    image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
+    restart: always
+    environment:
+      DJANGO_SETTINGS_MODULE: castellum.settings.deployment
+    command: crond -f -L /log/cron.log
+    volumes:
+      - ./settings.py:/code/castellum/settings/deployment.py:ro
+      - ./crontab:/etc/crontabs/root:ro
+      - ./log:/log
+    depends_on:
+      - db_default
+      - db_contacts
