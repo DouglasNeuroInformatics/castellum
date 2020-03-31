@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'stronghold',
 
     'huscy.projects',
+    'huscy.appointments',
 
     'castellum.utils',
     'castellum.castellum_auth',
