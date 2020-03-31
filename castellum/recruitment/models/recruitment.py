@@ -26,6 +26,9 @@ from django.forms import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
+from huscy.appointments.models import Appointment
+from huscy.projects.models import Session
+
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
@@ -198,3 +201,15 @@ class MailBatch(models.Model):
     study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
     datetime = models.DateTimeField(_('Sent date'), auto_now_add=True)
     contacted_size = models.PositiveIntegerField()
+
+
+class Booking(models.Model):
+    session = models.ForeignKey(Session, on_delete=models.CASCADE)
+    participant = models.ForeignKey(ParticipationRequest, on_delete=models.CASCADE)
+    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = [
+            ('participant', 'session'),
+            ('participant', 'appointment'),
+        ]
