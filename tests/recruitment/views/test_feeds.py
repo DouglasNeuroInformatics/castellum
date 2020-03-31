@@ -5,14 +5,14 @@ import pytest
 
 def test_feed_for_study_in_execution_status(client, member, study_in_execution_status):
     response = client.get('/recruitment/{}/followups/?token={}'.format(
-        study_in_execution_status.pk, member.token
+        study_in_execution_status.pk, member.token2
     ))
     assert response.status_code == 200
 
 
 def test_feed_for_study_in_edit_status(client, member, study_in_edit_status):
     response = client.get('/recruitment/{}/followups/?token={}'.format(
-        study_in_edit_status.pk, member.token
+        study_in_edit_status.pk, member.token2
     ))
     assert response.status_code == 404
 
@@ -35,7 +35,7 @@ def test_feed_for_user(request, client, user_fixture, participation_request):
     participation_request.followup_date = datetime.date.today()
     participation_request.save()
 
-    response = client.get('/recruitment/followups/{}/?token={}'.format(user.pk, user.token))
+    response = client.get('/recruitment/followups/{}/?token={}'.format(user.pk, user.token2))
     assert response.status_code == 200
     assert response.content.count(b'BEGIN:VEVENT') == 1
 

@@ -64,7 +64,7 @@ class BaseFollowUpFeed(ICalFeed):
 class FollowUpFeedForStudy(BaseFollowUpFeed):
     def get_object(self, request, *args, **kwargs):
         try:
-            user = User.objects.get(token=request.GET.get('token'))
+            user = User.objects.get(token2=request.GET.get('token'))
         except User.DoesNotExist:
             raise PermissionDenied
         study = get_object_or_404(Study, pk=kwargs.get('study_pk'), status=Study.EXECUTION)
@@ -85,7 +85,7 @@ class FollowUpFeedForStudy(BaseFollowUpFeed):
 class FollowUpFeedForUser(BaseFollowUpFeed):
     def get_object(self, request, *args, **kwargs):
         user = get_object_or_404(User, pk=kwargs.get('user_id'))
-        if user.token != request.GET.get('token'):
+        if user.token2 != request.GET.get('token'):
             raise PermissionDenied
         return user
 
