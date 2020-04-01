@@ -92,7 +92,11 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
             .count()
 
         context['count_consent'] = Subject.objects.filter(
-            models.Q(no_recruitment=True) | models.Q(
+            models.Q(
+                consent__confirmed_at=True,
+                consent__withdrawn_at=False,
+                consent__consent_document__is_deprecated=False,
+            ) | models.Q(
                 consent__status=Consent.CONFIRMED,
                 consent__document__is_current=True,
             )
@@ -460,7 +464,12 @@ class MaintenanceAttributesView(PermissionRequiredMixin, ListView):
         return super().get_queryset()\
             .exclude(attributeset=None)\
             .annotate(completeness=completeness)\
-            .filter(completeness__lt=total, no_recruitment=False)\
+            .filter(
+                completeness__lt=total,
+                consent__confirmed_at=True,
+                consent__withdrawn_at=False,
+                consent__consent_document__is_deprecated=False,
+            )\
             .order_by('completeness')
 
 
@@ -504,7 +513,11 @@ class MaintenanceConsentView(PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         return super().get_queryset().exclude(
-            models.Q(no_recruitment=True) | models.Q(
+            models.Q(
+                consent__confirmed_at=True,
+                consent__withdrawn_at=False,
+                consent__consent_document__is_deprecated=False,
+            ) | models.Q(
                 consent__status=Consent.CONFIRMED,
                 consent__document__is_current=True,
             )
