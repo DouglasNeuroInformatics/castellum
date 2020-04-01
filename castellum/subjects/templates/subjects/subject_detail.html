@@ -44,20 +44,6 @@
         <dt class="col-sm-6">{% trans 'Last edited' %}</dt>
         <dd class="col-sm-6">{{ updated_at }}</dd>
 
-        <dt class="col-sm-6">{% trans 'Recruitment consent' %}</dt>
-        <dd class="col-sm-6">
-            {% if subject.consent %}
-                {% if not subject.consent.document.is_current %}
-                    ({% trans "outdated" %})
-                {% endif %}
-                {% if subject.consent.status == "waiting" %}
-                    ({{ subject.consent|display:'status' }})
-                {% endif %}
-            {% else %}
-                &mdash;
-            {% endif %}
-        </dd>
-
         <dt class="col-sm-6">{% trans 'Legal basis for data processing' %}</dt>
         <dd class="col-sm-6">{{ legal_basis|join:', '|default:'—' }}</dd>
 
