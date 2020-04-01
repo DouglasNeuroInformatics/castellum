@@ -4,4 +4,15 @@
 
 {% block breadcrumbs %}
     <a class="nav-link" href="{% url 'execution:index' %}">{% trans "Execution" %}</a>
+    {% if study %}
+        <div class="d-none d-sm-flex">
+            <span class="navbar-text">/</span>
+            <a class="nav-link" href="{% url 'execution:study-detail' study.pk %}">{{ study.name }}</a>
+            {% if participationrequest %}
+                <span class="navbar-text">/</span>
+                <a class="nav-link" href="{% url 'execution:participationrequest-detail' study.pk participationrequest.pk %}">{{ participationrequest.subject.contact.full_name }}</a>
+            {% endif %}
+        </div>
+    {% endif %}
 {% endblock %}
+

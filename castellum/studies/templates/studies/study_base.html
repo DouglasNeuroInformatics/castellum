@@ -3,6 +3,14 @@
 
 {% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
 
+{% block breadcrumbs %}
+    {{ block.super }}
+    <div class="d-none d-sm-flex">
+        <span class="navbar-text">/</span>
+        <a class="nav-link" href="{% url 'studies:detail' study.pk %}">{{ study.name }}</a>
+    </div>
+{% endblock %}
+
 {% block header %}
     <div class="container text-center my-4">
         <div>

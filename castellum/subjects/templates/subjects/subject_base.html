@@ -1,6 +1,14 @@
 {% extends "subjects/base.html" %}
 {% load i18n auth utils %}
 
+{% block breadcrumbs %}
+    {{ block.super }}
+    <div class="d-none d-sm-flex">
+        <span class="navbar-text">/</span>
+        <a class="nav-link" href="{% url 'subjects:detail' subject.pk %}">{{ subject.contact.full_name }}</a>
+    </div>
+{% endblock %}
+
 {% block header %}
     <div class="container text-center my-4">
         <h1>{{ subject.contact.full_name }}</h1>
