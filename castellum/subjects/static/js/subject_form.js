@@ -3,6 +3,7 @@ $(function() {
     var $toBeDeleted = $('[name="to_be_deleted"]');
     var $consentCheckbox = $('#id_consent_status');
     var $consentConfirm = $('[data-js="consent-confirm"]');
+    var $consentDeprecated = $('[data-js="consent-deprecated"]');
 
     var setConsent = function(value) {
         if (value === 'waiting') {
@@ -17,6 +18,7 @@ $(function() {
             $consentCheckbox.prop('indeterminate', false);
             $consentCheckbox.prop('checked', false);
             $consentConfirm.prop('hidden', true);
+            $consentDeprecated.prop('hidden', true);
         }
         $consent.val(value);
     };
