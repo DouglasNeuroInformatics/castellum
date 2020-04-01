@@ -62,7 +62,6 @@
     {% endif %}
 
     <div class="d-print-none mb-3">
-        <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
         {% has_perm 'studies.add_study' user as can_add_study %}
         {% if can_add_study %}
             {% get_enable_study_export as enable_export %}
