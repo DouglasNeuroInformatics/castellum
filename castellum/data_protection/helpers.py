@@ -98,7 +98,7 @@ def get_no_consent(limit_by):
     acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
     subjects = Subject.objects.exclude(
         ~filter_queries.no_recruitment() | (
-            models.Q(consent__document__is_current=True) & (
+            models.Q(consent__document__current=True) & (
                 models.Q(consent__status=Consent.CONFIRMED) |
                 models.Q(consent__updated_at__lte=acceptable_datetime)
             )

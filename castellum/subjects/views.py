@@ -91,10 +91,12 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
             .filter(completeness=total)\
             .count()
 
+        today = datetime.date.today()
         context['count_consent'] = Subject.objects.filter(
             ~filter_queries.no_recruitment() | models.Q(
                 consent__status=Consent.CONFIRMED,
-                consent__document__is_current=True,
+                consent__document__current=True,
+                consent__document__deprecated__lte=today,
             )
         ).count()
 
@@ -503,10 +505,12 @@ class MaintenanceConsentView(PermissionRequiredMixin, ListView):
     tab = 'consent'
 
     def get_queryset(self):
+        today = datetime.date.today()
         return super().get_queryset().exclude(
             ~filter_queries.no_recruitment() | models.Q(
                 consent__status=Consent.CONFIRMED,
-                consent__document__is_current=True,
+                consent__document__current=True,
+                consent__document__deprecated_lte=today,
             )
         )
 
