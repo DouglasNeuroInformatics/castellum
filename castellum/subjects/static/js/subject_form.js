@@ -1,5 +1,6 @@
 $(function() {
     var $consent = $('[name="consent_status"]');
+    var $toBeDeleted = $('[name="to_be_deleted"]');
     var $consentCheckbox = $('#id_consent_status');
     var $consentConfirm = $('[data-js="consent-confirm"]');
 
@@ -26,8 +27,23 @@ $(function() {
         setConsent('confirmed');
     });
 
+    var oldConsentValue = $consent.val();
+    var setToBeDeleted = function() {
+        if ($toBeDeleted.prop('checked')) {
+            oldConsentValue = $consent.val();
+            setConsent('');
+            $consentCheckbox.prop('disabled', true);
+        } else {
+            setConsent(oldConsentValue);
+            $consentCheckbox.prop('disabled', false);
+        }
+    };
+    $toBeDeleted.on('change', setToBeDeleted);
+
     // initialize
     setConsent($consent.val());
+    setToBeDeleted();
+
     var $totalForms = $('#id_form-TOTAL_FORMS');
     var $notes_container = $('#notes-container');
 
