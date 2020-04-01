@@ -33,6 +33,7 @@ def test_redirect_to_studies_after_post(client, study_coordinator):
         'name': 'Test study',
         'contact_person': 'Mustermann',
         'principal_investigator': 'Mustermann',
+        'min_subject_count': 0,
         **MANAGEMENT_FORM,
     })
 
@@ -53,6 +54,7 @@ def test_create_study_on_post(request, client, user_fixture):
         'name': 'Test study',
         'contact_person': 'Mustermann',
         'principal_investigator': 'Mustermann',
+        'min_subject_count': 0,
         **MANAGEMENT_FORM,
     })
 
@@ -82,6 +84,7 @@ def test_duplicate_study_post(client, user):
         'name': 'Test study',
         'contact_person': 'Mustermann',
         'principal_investigator': 'Mustermann',
+        'min_subject_count': 0,
         **MANAGEMENT_FORM,
     })
 
@@ -97,6 +100,7 @@ def test_user_who_created_study_is_study_member(client, study_coordinator):
         'name': 'Test study',
         'contact_person': 'Mustermann',
         'principal_investigator': 'Mustermann',
+        'min_subject_count': 0,
         **MANAGEMENT_FORM,
     })
 
@@ -110,6 +114,7 @@ def test_missing_value(client, user):
     response = client.post('/studies/create/', {
         'name': 'Test study',
         'principal_investigator': 'Mustermann',
+        'min_subject_count': 0,
         **MANAGEMENT_FORM,
     })
     assert response.status_code == 200
