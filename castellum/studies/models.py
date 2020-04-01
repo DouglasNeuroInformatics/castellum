@@ -257,4 +257,8 @@ class StudyMembership(models.Model):
 
 class StudySession(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    name = models.CharField(_('Name'), max_length=128)
     duration = models.PositiveIntegerField(_('Duration of a session in minutes'))
+
+    def __str__(self):
+        return '{} - {}'.format(self.study, self.name)
