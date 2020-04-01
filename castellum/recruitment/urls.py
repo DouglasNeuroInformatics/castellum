@@ -23,6 +23,7 @@ from django.urls import path
 
 from .feeds import FollowUpFeedForStudy
 from .feeds import FollowUpFeedForUser
+from .feeds import StudyAppointmentFeed
 from .views import AdditionalInfoUpdateView
 from .views import AppointmentView
 from .views import AttributeSetUpdateView
@@ -49,6 +50,7 @@ urlpatterns = [
         name='recruitment-unsuitable',
     ),
     path('<int:study_pk>/mail/', MailRecruitmentView.as_view(), name='mail'),
+    path('<int:pk>/appointments/feed/', StudyAppointmentFeed(), name='study-appointments'),
     path('<int:study_pk>/followups/', FollowUpFeedForStudy(), name='followups'),
     path('<int:study_pk>/<int:pk>/', ContactView.as_view(), name='contact'),
     path(

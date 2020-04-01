@@ -4,7 +4,12 @@
 {% block title %}{{ object }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1 class="text-center">{{ object }}</h1>
+    <div class="h1 text-center">
+        <h1 class="d-inline">{{ object }}</h1>
+        <a href="{% url 'recruitment:study-appointments' study.pk %}?token={{ user.token }}" class="btn btn-sm btn-primary" title="{% trans 'Appointments' %}">
+            <i class="far fa-calendar-plus" role="img" aria-label="{% trans 'Appointments' %}"></i>
+        </a>
+    </div>
 
     <ul class="table-list mt-3">
         {% for participation_request, can_access in list %}
