@@ -44,7 +44,6 @@ class DataProtectionForm(forms.ModelForm):
             )),
         }
 
-    consent_status = Consent._meta.get_field('status').formfield(required=False)
     to_be_deleted = forms.BooleanField(
         label=_("To be deleted"),
         required=False,
@@ -59,10 +58,6 @@ class DataProtectionForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
         self.user = user
         super().__init__(*args, **kwargs)
-
-        consent = self.instance.consent
-        if consent and consent.status == Consent.WAITING:
-            self.fields['consent_status'].initial = consent.status
 
         self.fields['to_be_deleted'].initial = self.instance.to_be_deleted
         self.fields['export_requested'].initial = self.instance.export_requested
