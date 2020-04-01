@@ -21,17 +21,48 @@
 
 import logging
 
+from django.shortcuts import get_object_or_404
+from django.utils.functional import cached_property
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.studies.mixins import StudyMixin
+from castellum.subjects.mixins import SubjectMixin
 
 from .forms import AttributeSetForm
 from .models import AttributeDescription
 from .models import AttributeSet
+from .models import ParticipationRequest
 from .models.attributesets import ANSWER_DECLINED
 from .models.attributesets import UNCATEGORIZED
 
 monitoring_logger = logging.getLogger('monitoring.recruitment')
+
+
+class ParticipationRequestMixin(StudyMixin, SubjectMixin):
+    """Use this on every view that represents a participation request.
+
+    -   pull in StudyMixin and SubjectMixin
+    -   set ``self.participation_request``
+    -   check that ``pk`` and ``study_pk`` refer to the same study
+    -   check that status is in ``participationrequest_status``, otherwise return 404
+
+    Requires PermissionRequiredMixin.
+    """
+
+    participationrequest_status = []
+
+    @cached_property
+    def participationrequest(self):
+        qs = ParticipationRequest.objects.all()
+        if self.participationrequest_status:
+            qs = qs.filter(status__in=self.participationrequest_status)
+        return get_object_or_404(qs, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['participationrequest'] = self.participationrequest
+        return context
 
 
 class BaseAttributeSetUpdateView(PermissionRequiredMixin, UpdateView):
