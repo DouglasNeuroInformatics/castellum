@@ -96,7 +96,7 @@ def subjectfilters(subjectfiltergroup, include_unknown=None):
 
 
 def no_consent():
-    """Exclude subjects without consent."""
+    """Get all subjects with consent."""
     return models.Q(
         consent__confirmed_at=True,
         consent__withdrawn_at=False,
