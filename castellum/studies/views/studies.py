@@ -106,7 +106,7 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
         context['count'] = (
             Subject.objects.filter(
                 filter_queries.study(self.object),
-                filter_queries.no_recruitment()
+                filter_queries.no_consent()
             ).count()
         )
         context['related_studies'] = list(get_related_studies(self.object))

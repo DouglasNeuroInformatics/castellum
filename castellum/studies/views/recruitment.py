@@ -100,7 +100,7 @@ class StudyExcludedStudiesView(
         context['count'] = (
             Subject.objects.filter(
                 filter_queries.study(self.object),
-                filter_queries.no_recruitment()
+                filter_queries.no_consent()
             ).count()
         )
         context['total_count'] = Subject.objects.count()

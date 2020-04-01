@@ -71,7 +71,7 @@ def get_recruitable(study):
     """Get all subjects who are recruitable for this study, i.e. apply all filters."""
     qs = Subject.objects.filter(
         filter_queries.study(study),
-        filter_queries.no_recruitment(),
+        filter_queries.no_consent(),
         filter_queries.already_in_study(study),
     )
 

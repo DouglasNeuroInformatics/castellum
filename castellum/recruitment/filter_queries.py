@@ -95,9 +95,13 @@ def subjectfilters(subjectfiltergroup, include_unknown=None):
     return q
 
 
-def no_recruitment():
-    """Exclude subjects who do not want to be contacted for recruitment."""
-    return models.Q(no_recruitment=False)
+def no_consent():
+    """Exclude subjects without consent."""
+    return models.Q(
+        consent__confirmed_at=True,
+        consent__withdrawn_at=False,
+        consent__consent_document__is_deprecated=False,
+    )
 
 
 def to_be_deleted():
