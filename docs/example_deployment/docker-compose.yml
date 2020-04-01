@@ -43,7 +43,6 @@ services:
     volumes:
       - ./settings.py:/code/castellum/settings/deployment.py:ro
       - ./uwsgi.ini:/code/uwsgi.ini:ro
-      - ./log:/log
     depends_on:
       - db_default
       - db_contacts
@@ -57,7 +56,6 @@ services:
     volumes:
       - ./settings.py:/code/castellum/settings/deployment.py:ro
       - ./crontab:/etc/crontabs/root:ro
-      - ./log:/log
     depends_on:
       - db_default
       - db_contacts
