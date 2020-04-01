@@ -61,7 +61,7 @@ class SubjectMixin:
         return context
 
 
-class BaseDataProtectionUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
+class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
     model = Subject
     form_class = DataProtectionForm
     permission_required = 'subjects.change_subject'
@@ -108,7 +108,7 @@ class BaseDataProtectionUpdateView(SubjectMixin, PermissionRequiredMixin, Update
         return super().form_valid(form)
 
 
-class BaseAdditionalInfoUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
+class BaseAdditionalInfoUpdateView(PermissionRequiredMixin, UpdateView):
     model = Subject
     fields = (
         'note_hard_of_hearing',

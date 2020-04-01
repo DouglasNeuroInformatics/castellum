@@ -24,7 +24,6 @@ import logging
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.contacts.mixins import SubjectMixin
 
 from .forms import AttributeSetForm
 from .models import AttributeDescription
@@ -35,7 +34,7 @@ from .models.attributesets import UNCATEGORIZED
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
-class BaseAttributeSetUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
+class BaseAttributeSetUpdateView(PermissionRequiredMixin, UpdateView):
     model = AttributeSet
     permission_required = 'recruitment.change_attributeset'
 

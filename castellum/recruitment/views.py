@@ -470,7 +470,7 @@ class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView)
             return reverse('recruitment:recruitment-open', args=[self.object.study.pk])
 
 
-class RecruitmentUpdateMixin(StudyMixin):
+class RecruitmentUpdateMixin(StudyMixin, SubjectMixin):
     study_status = [Study.EXECUTION]
 
     def get_object(self):

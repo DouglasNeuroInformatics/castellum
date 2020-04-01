@@ -264,7 +264,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return redirect('subjects:export', self.object.pk)
 
 
-class SubjectUpdateMixin:
+class SubjectUpdateMixin(SubjectMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['base_template'] = 'subjects/subject_base.html'
