@@ -24,6 +24,7 @@ from django.db import models
 from django.utils import timezone
 
 from castellum.contacts.models import Contact
+from castellum.recruitment import filter_queries
 from castellum.recruitment.models import ParticipationRequest
 from castellum.subjects.models import Consent
 from castellum.subjects.models import ConsentDocument
@@ -59,7 +60,7 @@ def get_orphans(limit_by):
         .annotate(pr_count=models.Count('participationrequest', filter=~models.Q(
             participationrequest__status=ParticipationRequest.UNSUITABLE
         )))\
-        .filter(no_recruitment=True, pr_count=0)
+        .filter(~filter_queries.no_recruitment(), pr_count=0)
     subject_pks = subjects.values_list('pk', flat=True)
 
     contacts = Contact.objects\
@@ -96,7 +97,7 @@ def get_no_consent(limit_by):
 
     acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
     subjects = Subject.objects.exclude(
-        models.Q(no_recruitment=True) | (
+        ~filter_queries.no_recruitment() | (
             models.Q(consent__document__is_current=True) & (
                 models.Q(consent__status=Consent.CONFIRMED) |
                 models.Q(consent__updated_at__lte=acceptable_datetime)
