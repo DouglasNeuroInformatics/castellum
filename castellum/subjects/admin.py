@@ -25,7 +25,7 @@ from . import models
 
 
 class ConsentDocumentAdmin(admin.ModelAdmin):
-    list_display = ('created_at', 'is_current')
+    list_display = ('created_at', 'is_current', 'deprecated')
 
 
 admin.site.register(models.Subject)
