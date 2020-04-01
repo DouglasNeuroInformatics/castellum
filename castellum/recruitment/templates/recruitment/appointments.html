@@ -1,0 +1,24 @@
+{% extends "recruitment/base.html" %}
+{% load i18n static bootstrap4 utils auth %}
+
+{% block title %}{% trans "Appointments" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% for error in form.non_field_errors %}
+            <p class="alert alert-danger" role="alert">{{ error }}</p>
+        {% endfor %}
+
+        {% csrf_token %}
+
+        {% for field in form %}
+            {% bootstrap_field field %}
+        {% endfor %}
+
+        <div class="mb-3">
+            <a href="{% url 'recruitment:contact' study.pk object.pk %}" class="btn btn-outline-primary">{% trans 'Back' %}</a>
+            <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" />
+        </div>
+    </form>
+{% endblock %}
+

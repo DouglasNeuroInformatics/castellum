@@ -28,9 +28,11 @@ from django.utils.translation import gettext_lazy as _
 
 from castellum.studies.models import Study
 from castellum.utils.forms import BaseImportForm
+from castellum.utils.forms import DateTimeField
 from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
 
+from .models import Appointment
 from .models import AttributeDescription
 from .models import AttributeSet
 from .models import ParticipationRequest
@@ -169,6 +171,52 @@ class AttributeSetForm(forms.ModelForm):
         allowed_descriptions = AttributeDescription.objects.allowed_write(user, obj=obj)
         form_fields = {desc.json_key: desc.field.formfield() for desc in allowed_descriptions}
         return type('AttributeSetForm', (cls,), form_fields)
+
+
+class AppointmentForm(forms.ModelForm):
+    """A form with one DateTimeField for each session."""
+
+    class Meta:
+        model = ParticipationRequest
+        fields = ()
+
+    @classmethod
+    def factory(cls, instance):
+        props = {'field_order': []}
+        sessions = instance.study.studysession_set.all()
+        for session in sessions:
+            key = 'session-%i' % session.pk
+            props['field_order'].append(key)
+            props[key] = DateTimeField(label=session.name, required=False)
+        return type('AppointmentForm', (cls,), props)
+
+    def __init__(self, instance=None, **kwargs):
+        if not kwargs.get('initial') and instance:
+            kwargs['initial'] = {}
+            for appointment in instance.appointment_set.all():
+                key = 'session-%i' % appointment.session.pk
+                kwargs['initial'][key] = appointment.start
+        super().__init__(instance=instance, **kwargs)
+
+    def save(self):
+        sessions = self.instance.study.studysession_set.all()
+
+        for session in sessions:
+            key = 'session-%i' % session.pk
+            start = self.cleaned_data.get(key)
+            if start:
+                try:
+                    appointment = Appointment.objects.get(
+                        session=session, participant=self.instance
+                    )
+                    appointment.start = start
+                    appointment.save()
+                except Appointment.DoesNotExist:
+                    appointment = Appointment.objects.create(
+                        session=session, participant=self.instance, start=start
+                    )
+            else:
+                Appointment.objects.filter(session=session, participant=self.instance).delete()
 
 
 class ContactForm(forms.ModelForm):
