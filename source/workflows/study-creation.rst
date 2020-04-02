@@ -7,7 +7,7 @@ Creating a new study
    -  In **My studies** you will see the studies you created
    -  Under the field **All studies** you can see all studies that have
       been created
-      -  In the field **Search** you can look for a certain study
+    -   In the field **Search** you can look for a certain study
 3. Click on **Create new study**
 4. Fill in all empty fields on the page:
 
@@ -22,37 +22,33 @@ Creating a new study
       **Affiliated Research Assistants**
    -  Please enter all methods you would like to use in your research in
       the field **Description**
+    -   **Keywords** may include main issues of the desired scientific findings
 5. Select the type of study you are going to use
 
-   -  If you choose between an **online study**, **Behavioral lab**,
-      **Simulation**, **EEG** or **3rd Party**, you have to determine
-      whether the study will contain **sensitive data** or not
-   -  If you choose **FMRI**, it is already determined in advance that
-      the study contains sensitive data
-6. Assign the **number of subjects** you will need for your study
-7. Enter the budget you may use for the study in the field **Expense
-   allowance**
-8.  You can add a **Test session** by clicking on **Add session**
-
-    -  You can add any number of test sessions and must always specify
-       the duration of each session
+   -  You may choose between studies that take place **Online**, **Behavioral
+      lab**, **MRI**, **Simulation**, **EEG** or **3rd Party** studies
+   -  Decide whether the study **Contains sensitive data** or not
+6. Upload the **Consent** form, if it is already available
+7. Assign the **Required number of subjects** to your study
+8. Enter the **Expense allowance** that each subject should receive 
+9. Enter as many **Test sessions** as you like by clicking on **Add session**
+    -  When adding a test session, always specify the duration of each meeting
     -  By clicking on the red button **Delete**, you can erase any test
        session you created
+10. Define both the **Start of test sessions** and the **End of test sessions**
+11. Click on **Save** to record your progress
 
-9.  Enter the start and end of the test sessions in the two following
-    fields
-10. Click on **Save** to record your progress
-
-    -  Your study is now scheduled
+Your study is now scheduled
 
 Start and finish your study
 ---------------------------
 
-When you created a study, it is not started and the recruiting process is not
-yet initiated either.
+When you created a study, it has not yet started and the recruiting process has
+not been initiated yet either.
 
 1.  Go to **Details** next to the study you want to start or finish
-2.  In the right upper corner are two buttons: **Start** and **Finish**
+2.  You can find the button **Start** in the left upper corner under the study
+    name
 
     -  By clicking on **Start** you initiate the recruiting process
 
@@ -61,29 +57,33 @@ yet initiated either.
        -  When you click on **Stop**, you can edit information needed for the
           recruiting process.
 
-          *To release those responsible for the recruitment process for the
-          study, follow the steps in the **Share studies with your
-          recruiters***
-
-3.  When you click on **Finish study**, Castellum will register your study as completed
+          *In order to approve the persons who are supposed to carry out the
+          recruitment process, follow the steps in the **Share studies with
+          your recruiters** (see second next instruction)*
+          
+3.  When you click on **Finish study**, Castellum will register your study as
+    completed and the recruitment process is stopped
 
 Assign access rights and allocate roles
 ---------------------------------------
 
-Some users are already assigned to certain global roles in advance. This can be
-recognized by the fact that the role description is highlighted in grey. Roles
-with blue background can be flexibly defined and changed by the **Study
-coordinator**. To delegate roles amongst different people, proceed as follows:
+To delegate roles amongst different people, proceed as follows:
 
-1. Follow steps 1-5 of the section **Share studies with your      recruiters** below
-   -  Even if the section is about **Recruiters**, you can use it to         assign any role you like
+1. Follow steps 1-5 of the section **Share studies with your recruiters** below
+   -  Even if the section is about **Recruiters**, you can use it to assign any
+      role you like
 2. Select the user for whom you want to change access rights and/or
    roles and click **Add**
-3. After clicking **Edit** next to the selected person, you can assign
-   up to four different roles: **Study coordinator**, **Subject
-   manager** and **Recruiter**
-4. Select the role you want to assign to the selected person and press
-   **Save**
+   -  Some users are already assigned to certain global roles in advance. This
+      can be recognized by the fact that the role description is highlighted in
+      grey.
+   -  Roles with blue background can be flexibly defined and changed by
+      the **Study coordinator**. 
+3. After clicking **Manage groups** next to the selected person, you can assign
+   up to six different roles for the specific study: **Study coordinator**,
+   **Subject manager**, **Recruiter**, **Study conductor**, **Data protection
+   coordinator** and **Receptionist**
+4. Select the role you want to assign to the selected person and press **Save**
 
 Share studies with your recruiters
 ----------------------------------
@@ -99,7 +99,7 @@ participants for your study, please follow the steps below.
 
 3. Click on **Details** of the study for which you want to change access rights
    or role redistribution
-4. Go to **Manage members** on the lower edge
+4. Go to **Member management** on the upper edge
 5. If you click on the field under **Users**, you will be shown all
    possible users to whom you can assign roles
 6. Select the user, who is supposed to take over the recruitment
