@@ -100,20 +100,15 @@ participants for your study, please follow the steps below.
 3. Click on **Details** of the study for which you want to change access rights
    or role redistribution
 4. Go to **Member management** on the upper edge
-5. If you click on the field under **Users**, you will be shown all
+5. If you click on the field under **User**, you will be shown all
    possible users to whom you can assign roles
 6. Select the user, who is supposed to take over the recruitment
 7. Press **Add**
-8. Press **Edit** next to the person you chose
-
-   -  You can now assign one to four different roles to the person
-
+8. Press **Manage groups** next to the person you chose
 9. Select **Recruiter** and press **Save**
 
-   -  If you did not start the study yet, the selected person has still no access to the study, unless you
-      follow the next steps:
-   -  Go **Back**
-   -  Press **Start** on the upper right side
+   -  If you did not start the study yet, the selected person has still no
+      access to the study, unless you press **Start** on the upper left side
 
       -  The study is now in progress and the recruiter has now access
          to the study and can begin to recruit
