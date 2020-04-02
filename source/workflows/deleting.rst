@@ -30,7 +30,7 @@ please proceed as follows:
 
 3.  Click on **Details** next to the subject to be deleted
 
-4.  Click on **Delete**
+4.  Click on **Delete** upper right
 
     -   If you see a message saying **Are you sure you want to permanently
         delete this subject and all related data?**,
@@ -43,8 +43,9 @@ please proceed as follows:
     -   Ask the responsible person to delete all data of the subject you want
         to delete
     -   You can find the responsible person by clicking on **Study
-        Participation**, then press **Contact** next to the person to be
-        deleted
+        details** next to the study name the subject participated in
+    -   Delete all of these study participations by clicking on **Delete** next
+        to **Study details**
 
 Deleting a study from Castellum
 ===============================
@@ -73,10 +74,10 @@ Deleting the study
 
 4.  Before pressing **Delete**, proceed as follows:
 
-    -   Go to the responsible person of the study,
-    -   Ask the person to delete all subject data of the study you want to
-        delete
-    -   You can detect the name of the responsible person in the upper left
-        corner under the study name
+    -   Go to the responsible person of the study and ask him or her to delete
+        all subject data of the study you want to delete
+    -   You can detect the name of the responsible person in the upper corner
+        under the study name
 
-5.  If all data has been deleted, press **Delete**
+5.  If all data has been deleted by the responsible person of the study, press
+    **Delete** under the study name
