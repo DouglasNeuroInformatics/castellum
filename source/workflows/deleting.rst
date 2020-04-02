@@ -33,8 +33,8 @@ please proceed as follows:
 4.  Click on **Delete** upper right
 
     -   If you see a message saying **Are you sure you want to permanently
-        delete this subject and all related data?**,
-    -   Press **Confirm** and the subject will be deleted
+        delete this subject and all related data?**, press **Confirm** and the
+        subject will be deleted
     -   If you see a message saying **This subject cannot be deleted because
         there still is data about them in studies.**, proceed as follows:
 
