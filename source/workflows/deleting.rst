@@ -23,6 +23,9 @@ please proceed as follows:
 
 1.  Log in to Castellum by using your username and password
 
+    -   Please make sure you are connected to the WiFi and use your right
+        username and password
+
 2.  Click on **Data protection** on the front page
 
     -   If the data of a subject should be deleted, you will find the subject
@@ -81,3 +84,7 @@ Deleting the study
 
 5.  If all data has been deleted by the responsible person of the study, press
     **Delete** under the study name
+    
+    -   Confirm the notice **I have made sure that all external data related to
+        this study has been destroyed**
+    -   Press **Confirm**
