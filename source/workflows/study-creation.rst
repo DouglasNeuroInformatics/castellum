@@ -2,12 +2,15 @@ Creating a new study
 ====================
 
 1. Log in to Castellum by using your username and password
+
+   -   Make sure you are connected to the WiFi and use your right username and
+       password
 2. Click on **Studies** on the front page
 
    -  In **My studies** you will see the studies you created
    -  Under the field **All studies** you can see all studies that have
       been created
-    -   In the field **Search** you can look for a certain study
+    - In the field **Search** you can look for a certain study
 3. Click on **Create new study**
 4. Fill in all empty fields on the page:
 
@@ -28,7 +31,7 @@ Creating a new study
    -  You may choose between studies that take place **Online**, **Behavioral
       lab**, **MRI**, **Simulation**, **EEG** or **3rd Party** studies
    -  Decide whether the study **Contains sensitive data** or not
-6. Upload the **Consent** form, if it is already available
+6. Upload the **Consent** form
 7. Assign the **Required number of subjects** to your study
 8. Enter the **Expense allowance** that each subject should receive 
 9. Enter as many **Test sessions** as you like by clicking on **Add session**
@@ -58,8 +61,8 @@ not been initiated yet either.
           recruiting process.
 
           *In order to approve the persons who are supposed to carry out the
-          recruitment process, follow the steps in the **Share studies with
-          your recruiters** (see second next instruction)*
+          recruitment process, follow the steps in the explanation **Share
+          studies with your recruiters** (see second next instruction)*
           
 3.  When you click on **Finish study**, Castellum will register your study as
     completed and the recruitment process is stopped
@@ -92,11 +95,13 @@ If you receive a request for access from a person who is supposed to recruit
 participants for your study, please follow the steps below.
 
 1. Log in to Castellum by using your username and password
+
+   -   Make sure you are connected to the WiFi and use your right username and
+       password
 2. Click on **Studies** on the front page
 
    -  You will see a list of the studies you have created by clicking on **My
       studies**
-
 3. Click on **Details** of the study for which you want to change access rights
    or role redistribution
 4. Go to **Member management** on the upper edge
