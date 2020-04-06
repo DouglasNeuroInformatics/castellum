@@ -3,16 +3,12 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
-    <a class="nav-link" href="{% url 'execution:index' %}">{% trans "Execution" %}</a>
+    <li class="breadcrumb-item"><a href="{% url 'execution:index' %}">{% trans "Execution" %}</a></li>
     {% if study %}
-        <div class="d-none d-sm-flex">
-            <span class="navbar-text">/</span>
-            <a class="nav-link" href="{% url 'execution:study-detail' study.pk %}">{{ study.name }}</a>
-            {% if participationrequest %}
-                <span class="navbar-text">/</span>
-                <a class="nav-link" href="{% url 'execution:participationrequest-detail' study.pk participationrequest.pk %}">{{ participationrequest.subject.contact.full_name }}</a>
-            {% endif %}
-        </div>
+        <li class="breadcrumb-item"><a href="{% url 'execution:study-detail' study.pk %}">{{ study.name }}</a></li>
+    {% endif %}
+    {% if participationrequest %}
+        <li class="breadcrumb-item"><a href="{% url 'execution:participationrequest-detail' study.pk participationrequest.pk %}">{{ participationrequest.subject.contact.full_name }}</a></li>
     {% endif %}
 {% endblock %}
 

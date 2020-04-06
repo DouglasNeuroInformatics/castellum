@@ -3,10 +3,7 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <div class="d-none d-sm-flex">
-        <span class="navbar-text">/</span>
-        <a class="nav-link" href="{% url 'subjects:detail' subject.pk %}">{{ subject.contact.full_name }}</a>
-    </div>
+    <li class="breadcrumb-item"><a href="{% url 'subjects:detail' subject.pk %}">{{ subject.contact.full_name }}</a></li>
 {% endblock %}
 
 {% block header %}

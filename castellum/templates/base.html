@@ -28,9 +28,6 @@
             <div class="container">
                 <div class="row align-items-baseline navbar navbar-expand-sm navbar-dark">
                     <a href="/" rel="home" class="navbar-brand">Castellum</a>
-                    <nav class="navbar-nav" aria-label="{% trans 'Breadcrumbs' %}">
-                        {% block breadcrumbs %}{% endblock %}
-                    </nav>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="{% trans 'Toggle navigation' %}">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -67,6 +64,15 @@
                 </div>
             </div>
         </header>
+
+        <nav class="border-bottom mb-4" aria-label="{% trans 'Breadcrumbs' %}">
+            <div class="container">
+                <ol class="breadcrumb text-secondary bg-transparent m-0 px-0">
+                    <li class="breadcrumb-item"><a href="/" rel="home">{% trans 'Home' %}</a></li>
+                    {% block breadcrumbs %}{% endblock %}
+                </ol>
+            </div>
+        </nav>
     {% endif %}
 
     <main class="pt-3">

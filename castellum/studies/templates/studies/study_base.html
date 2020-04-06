@@ -5,10 +5,7 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <div class="d-none d-sm-flex">
-        <span class="navbar-text">/</span>
-        <a class="nav-link" href="{% url 'studies:detail' study.pk %}">{{ study.name }}</a>
-    </div>
+    <li class="breadcrumb-item"><a href="{% url 'studies:detail' study.pk %}">{{ study.name }}</a></li>
 {% endblock %}
 
 {% block header %}

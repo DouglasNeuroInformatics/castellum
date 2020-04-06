@@ -85,6 +85,13 @@
     background-color: var(--primary);
 }
 
+.breadcrumb {
+    font-size: smaller;
+}
+.breadcrumb a {
+    color: inherit;
+}
+
 .container {
     max-width: var(--breakpoint-md, 768px);
 }
