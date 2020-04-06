@@ -42,10 +42,15 @@ from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
+from huscy.projects.models import Experiment
+from huscy.projects.models import Session
+
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.castellum_auth.models import User
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import ParticipationRequest
 from castellum.subjects.models import Subject
+from castellum.utils.forms import MinutesField
 from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
 from castellum.utils.views import get_next_url
@@ -55,7 +60,6 @@ from ..forms import StudyForm
 from ..mixins import StudyMixin
 from ..models import Study
 from ..models import StudyMembership
-from ..models import StudySession
 from ..models import StudyType
 from .recruitment import get_related_studies
 
@@ -118,18 +122,25 @@ class StudyFormMixin:
     form_class = StudyForm
 
     def get_session_form(self):
-        form_class = forms.modelform_factory(StudySession, fields=('duration',))
+        form_class = forms.modelform_factory(Session, fields=('title', 'duration'))
         return form_class(prefix='{prefix}')
 
     def get_session_formset(self):
         formset_class = forms.modelformset_factory(
-            StudySession, fields=('duration',), form=ReadonlyModelForm, extra=0, can_delete=True
+            Session,
+            fields=('title', 'duration'),
+            field_classes={
+                'duration': MinutesField,
+            },
+            form=ReadonlyModelForm,
+            extra=0,
+            can_delete=True
         )
         kwargs = self.get_form_kwargs()
         study = kwargs.pop('instance', None)
         readonly = kwargs.pop('readonly', False)
         return formset_class(
-            queryset=StudySession.objects.filter(study=study),
+            queryset=Session.objects.filter(experiment__project__study=study),
             form_kwargs={'readonly': readonly},
             **kwargs
         )
@@ -156,8 +167,16 @@ class StudyFormMixin:
 
     def form_valid(self, form, session_formset):
         response = super().form_valid(form)
+
+        dummy_user, __ = User.objects.get_or_create(username='dummy')
+        experiment, __ = Experiment.objects.get_or_create(
+            project=form.instance.project, title='dummy', order=0
+        )
+
         for subform in session_formset:
-            subform.instance.study = form.instance
+            subform.instance.experiment = experiment
+            subform.instance.operator = dummy_user
+            subform.instance.order = 0
         session_formset.save()
         return response
 
