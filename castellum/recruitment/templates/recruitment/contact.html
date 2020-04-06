@@ -3,17 +3,17 @@
 
 {% block title %}{% trans "Recruitment" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
 
-{% block content %}
-    <header class="text-center mb-3">
-        <h1>{{ study.name }}</h1>
-        <div class="h5">
-            {% trans "Recruiting:" %}
-            <strong>{{ contact.full_name }}</strong>
+{% block header %}
+    <div class="container text-center my-4">
+        <h1>
+            {{ contact.full_name }}
             <svg class="identicon" data-jdenticon-value="{{ object.pk }}" aria-hidden="true"></svg>
-            <span class="badge badge-secondary">{{ object|display:'status' }}</span>
-        </div>
-    </header>
+        </h1>
+        <span class="badge badge-secondary">{{ object|display:'status' }}</span>
+    </div>
+{% endblock %}
 
+{% block content %}
     {% if not object.match %}
         <div class="alert alert-danger" role="alert">
             {% trans 'Subject is unsuitable or blocked in another study.' %}
