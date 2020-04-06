@@ -58,16 +58,15 @@
         </div>
     </div>
 
-    <div class="d-print-none mb-3">
-        <a href="{% url 'recruitment:index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-        {% if view.subtab == 'open' %}
-            {% has_perm 'recruitment.add_participationrequest' user study as can_add_participationrequest %}
-            {% if can_add_participationrequest %}
+    {% if view.subtab == 'open' %}
+        {% has_perm 'recruitment.add_participationrequest' user study as can_add_participationrequest %}
+        {% if can_add_participationrequest %}
+            <div class="d-print-none mb-3">
                 <form method="post" class="d-inline">
                     {% csrf_token %}
                     <button class="btn btn-primary">{% trans 'Add' %}</button>
                 </form>
-            {% endif %}
+            </div>
         {% endif %}
-    </div>
+    {% endif %}
 {% endblock %}

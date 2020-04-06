@@ -23,8 +23,4 @@
         <h2>{% trans 'Missing consent' %}</h2>
         {% include 'data_protection/__subject_list.html' with subjects=no_consent missing=no_consent_missing %}
     {% endif %}
-
-    <div class="d-print-none mb-3">
-        <a href="{% url 'index' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-    </div>
 {% endblock %}

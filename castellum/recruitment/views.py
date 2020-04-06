@@ -475,9 +475,6 @@ class RecruitmentUpdateMixin(ParticipationRequestMixin):
     def get_success_url(self):
         return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
 
-    def get_back_url(self):
-        return self.get_success_url()
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['base_template'] = "recruitment/base.html"

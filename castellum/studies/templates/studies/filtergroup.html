@@ -112,10 +112,6 @@
         </div>
 
         <div class="d-print-none mb-3">
-            {% if study.advanced_filtering %}
-                <a href="{% url 'studies:filtergroup-index' study.pk %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
-            {% endif %}
-
             {% if study.status == study.EDIT %}
                 <button class="btn btn-primary" >{% trans 'Apply' %}</button>
             {% endif %}
