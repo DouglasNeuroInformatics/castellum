@@ -102,7 +102,9 @@ class DataProtectionForm(forms.ModelForm):
 
         subject = super().save(commit)
 
-        if subject.consent and subject.consent.status == Consent.WAITING:
+        if subject.consent and not self.cleaned_data['consent_status']:
+            subject.consent.delete()
+        elif subject.consent and subject.consent.status == Consent.WAITING:
             if subject.consent.status != self.cleaned_data['consent_status']:
                 subject.consent.status = self.cleaned_data['consent_status']
                 subject.consent.save()
