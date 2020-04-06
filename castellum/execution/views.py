@@ -22,7 +22,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
@@ -33,10 +32,10 @@ from castellum.contacts.forms import SearchForm
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_subject
+from castellum.recruitment.mixins import ParticipationRequestMixin
 from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
-from castellum.subjects.mixins import SubjectMixin
 from castellum.utils.views import GetFormView
 
 
@@ -75,19 +74,17 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
-class ParticipationRequestDetailView(StudyMixin, SubjectMixin, PermissionRequiredMixin, DetailView):
+class ParticipationRequestDetailView(
+    ParticipationRequestMixin, PermissionRequiredMixin, DetailView
+):
     template_name = 'execution/participationrequest_detail.html'
     model = ParticipationRequest
     permission_required = 'recruitment.view_participation_pseudonyms'
     study_status = [Study.EXECUTION]
+    participationrequest_status = [ParticipationRequest.INVITED]
 
     def get_object(self):
-        return get_object_or_404(
-            ParticipationRequest,
-            pk=self.kwargs['pk'],
-            study=self.study,
-            status=ParticipationRequest.INVITED,
-        )
+        return self.participationrequest
 
 
 class SearchView(LoginRequiredMixin, GetFormView):

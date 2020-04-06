@@ -31,7 +31,6 @@ from django.core.exceptions import PermissionDenied
 from django.core.mail import EmailMessage
 from django.core.mail import get_connection
 from django.db import models
-from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
@@ -53,12 +52,12 @@ from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
-from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
 from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
 from .forms import SendMailForm
+from .mixins import ParticipationRequestMixin
 from .models import AttributeDescription
 from .models import AttributeSet
 from .models import MailBatch
@@ -427,7 +426,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         return redirect('recruitment:mail', self.study.pk)
 
 
-class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
+class ContactView(ParticipationRequestMixin, PermissionRequiredMixin, UpdateView):
     model = ParticipationRequest
     form_class = ContactForm
     template_name = 'recruitment/contact.html'
@@ -448,7 +447,7 @@ class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView)
         return initial
 
     def get_object(self):
-        return get_object_or_404(ParticipationRequest, study=self.study, pk=self.kwargs['pk'])
+        return self.participationrequest
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -470,13 +469,8 @@ class ContactView(StudyMixin, SubjectMixin, PermissionRequiredMixin, UpdateView)
             return reverse('recruitment:recruitment-open', args=[self.object.study.pk])
 
 
-class RecruitmentUpdateMixin(StudyMixin):
+class RecruitmentUpdateMixin(ParticipationRequestMixin):
     study_status = [Study.EXECUTION]
-
-    def get_object(self):
-        return get_object_or_404(
-            ParticipationRequest, study=self.study, pk=self.kwargs['pk']
-        )
 
     def get_success_url(self):
         return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
@@ -492,26 +486,22 @@ class RecruitmentUpdateMixin(StudyMixin):
 
 class ContactUpdateView(RecruitmentUpdateMixin, BaseContactUpdateView):
     def get_object(self):
-        participation_request = super().get_object()
-        return participation_request.subject.contact
+        return self.participationrequest.subject.contact
 
 
 class AttributeSetUpdateView(RecruitmentUpdateMixin, BaseAttributeSetUpdateView):
     def get_object(self):
-        participation_request = super().get_object()
-        return participation_request.subject.attributeset
+        return self.participationrequest.subject.attributeset
 
 
 class DataProtectionUpdateView(RecruitmentUpdateMixin, BaseDataProtectionUpdateView):
     def get_object(self):
-        participation_request = super().get_object()
-        return participation_request.subject
+        return self.participationrequest.subject
 
 
 class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateView):
     def get_object(self):
-        participation_request = super().get_object()
-        return participation_request.subject
+        return self.participationrequest.subject
 
 
 class SearchView(LoginRequiredMixin, GetFormView):

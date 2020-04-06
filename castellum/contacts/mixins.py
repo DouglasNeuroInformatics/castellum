@@ -22,13 +22,12 @@
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.subjects.mixins import SubjectMixin
 
 from .forms import ContactForm
 from .models import Contact
 
 
-class BaseContactUpdateView(SubjectMixin, PermissionRequiredMixin, UpdateView):
+class BaseContactUpdateView(PermissionRequiredMixin, UpdateView):
     model = Contact
     form_class = ContactForm
     permission_required = 'contacts.change_contact'
