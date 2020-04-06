@@ -3,7 +3,7 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <li class="breadcrumb-item"><a href="{% url 'subjects:detail' subject.pk %}">{{ subject.contact.full_name }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'subjects:detail' subject.pk %}">{{ subject.contact.short_name }}</a></li>
 {% endblock %}
 
 {% block header %}
