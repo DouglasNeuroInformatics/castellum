@@ -87,6 +87,9 @@ class DataProtectionForm(forms.ModelForm):
                 _("Please choose lower privacy level for the subject."), code='invalid'
             )
 
+        if cleaned_data.get('to_be_deleted', False):
+            cleaned_data['consent_status'] = ''
+
         return cleaned_data
 
     def save(self, commit=True):
