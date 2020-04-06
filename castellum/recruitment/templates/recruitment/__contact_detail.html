@@ -13,11 +13,7 @@
     <dd class="col-sm-6">{{ contact.address|default:'—' }}</dd>
 </dl>
 
-<h3 class="h5">
-    {% filter upper %}
-        {% trans "Operational hints"%}
-    {% endfilter %}
-</h3>
+<h3 class="h5">{% trans "Operational hints" %}</h3>
 
 <dl class="row">
     <dt class="col-sm-6">{{ contact|verbose_name:'preferred_contact_method' }}</dt>
