@@ -35,7 +35,7 @@
     {% endif %}
 
     {% if study.mailbatch_set.all %}
-        <h3>{% trans "Previous mails" %}</h3>
+        <h3 class="mt-5">{% trans "Previous mails" %}</h3>
         <ul class="table-list mb-3">
         {% for batch in study.mailbatch_set.all %}
             <li class="table-list-item">
