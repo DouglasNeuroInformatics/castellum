@@ -76,6 +76,9 @@ class DataProtectionForm(forms.ModelForm):
                 _("Please choose lower privacy level for the subject."), code='invalid'
             )
 
+        return cleaned_data
+
+    def save(self, commit=True):
         if self.cleaned_data.get('to_be_deleted') and not self.instance.to_be_deleted:
             self.instance.to_be_deleted = datetime.date.today()
         elif not self.cleaned_data.get('to_be_deleted') and self.instance.to_be_deleted:
@@ -86,9 +89,6 @@ class DataProtectionForm(forms.ModelForm):
         elif not self.cleaned_data.get('export_requested') and self.instance.export_requested:
             self.instance.export_requested = None
 
-        return cleaned_data
-
-    def save(self, commit=True):
         subject = super().save(commit)
 
         if subject.consent and subject.consent.status == Consent.WAITING:
