@@ -79,15 +79,15 @@ class DataProtectionForm(forms.ModelForm):
         return cleaned_data
 
     def save(self, commit=True):
-        if self.cleaned_data.get('to_be_deleted') and not self.instance.to_be_deleted:
-            self.instance.to_be_deleted = datetime.date.today()
-        elif not self.cleaned_data.get('to_be_deleted') and self.instance.to_be_deleted:
+        if not self.cleaned_data.get('to_be_deleted'):
             self.instance.to_be_deleted = None
+        elif not self.instance.to_be_deleted:
+            self.instance.to_be_deleted = datetime.date.today()
 
-        if self.cleaned_data.get('export_requested') and not self.instance.export_requested:
-            self.instance.export_requested = datetime.date.today()
-        elif not self.cleaned_data.get('export_requested') and self.instance.export_requested:
+        if not self.cleaned_data.get('export_requested'):
             self.instance.export_requested = None
+        elif not self.instance.export_requested:
+            self.instance.export_requested = datetime.date.today()
 
         subject = super().save(commit)
 
