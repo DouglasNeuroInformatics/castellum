@@ -4,7 +4,6 @@
 {% block title %}{% trans 'Data protection dashboard' %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1 class="text-center">{% trans 'Data protection dashboard' %}</h1>
 
     <h2>{% trans 'Export requested' %}</h2>
     {% include 'data_protection/__subject_list.html' with subjects=export_requested missing=export_requested_missing %}
