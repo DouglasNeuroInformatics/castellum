@@ -64,7 +64,7 @@ monitoring_logger = logging.getLogger('monitoring.studies')
 
 class StudyIndexView(PermissionRequiredMixin, ListView):
     model = Study
-    ordering = 'name'
+    ordering = 'project__title'
     permission_required = 'studies.view_study'
     paginate_by = 15
 
@@ -74,9 +74,9 @@ class StudyIndexView(PermissionRequiredMixin, ListView):
         if q:
             for part in q.split():
                 qs = qs.filter(
-                    models.Q(name__icontains=part) |
+                    models.Q(project__title__icontains=part) |
+                    models.Q(project__description__icontains=part) |
                     models.Q(contact_person__icontains=part) |
-                    models.Q(description__icontains=part) |
                     models.Q(keywords__icontains=part) |
                     models.Q(study_type__translations__label__iexact=part)
                 )
@@ -196,12 +196,12 @@ class StudyCreateView(PermissionRequiredMixin, StudyFormMixin, CreateView):
     def get_initial(self):
         initial = super().get_initial()
         if self.duplicate:
-            initial['name'] = "Copy " + self.duplicate.name
+            initial['title'] = "Copy " + self.duplicate.project.title
             initial['contact_person'] = self.duplicate.contact_person
             initial['principal_investigator'] = self.duplicate.principal_investigator
             initial['affiliated_scientists'] = self.duplicate.affiliated_scientists
             initial['affiliated_research_assistants'] = self.duplicate.affiliated_research_assistants  # noqa
-            initial['description'] = self.duplicate.description
+            initial['description'] = self.duplicate.project.description
         return initial
 
     def get_context_data(self, **kwargs):
@@ -261,7 +261,7 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
 
     def delete(self, request, *args, **kwargs):
         monitoring_logger.info(
-            'Study {} deleted by {}'.format(self.study.name, self.request.user.pk)
+            'Study {} deleted by {}'.format(self.study, self.request.user.pk)
         )
         messages.success(self.request, _('Study has been deleted.'))
         return super().delete(self, request, *args, **kwargs)
@@ -323,7 +323,7 @@ class StudyImportView(PermissionRequiredMixin, FormView):
 
         self.request.POST = QueryDict(mutable=True)
         self.request.POST.update({
-            'name': json['name'],
+            'title': json['name'],
             'contact_person': self.render_person(json.get('contact_person', {})),
             'principal_investigator': self.render_person(json.get('principal_investigator', {})),
             'affiliated_scientists': self.render_persons(json.get('affiliated_scientists', [])),
@@ -356,10 +356,10 @@ class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         data = {
-            'name': self.study.name,
+            'name': self.study.project.name,
             'contact_person': {'name': self.study.contact_person},
             'principal_investigator': {'name': self.study.principal_investigator},
-            'description': self.study.description,
+            'description': self.study.project.description,
             'status': self.STATUS_MAP[self.study.status],
             'sessions_start': self.study.sessions_start,
             'sessions_end': self.study.sessions_end,

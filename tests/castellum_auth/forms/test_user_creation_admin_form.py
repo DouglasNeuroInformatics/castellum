@@ -10,7 +10,7 @@ def test_with_password(db):
     })
     assert form.is_valid()
     form.save()
-    assert User.objects.get().has_usable_password() is True
+    assert User.objects.get(username='test').has_usable_password() is True
 
 
 def test_without_password(db):
@@ -19,4 +19,4 @@ def test_without_password(db):
     })
     assert form.is_valid()
     form.save()
-    assert User.objects.get().has_usable_password() is False
+    assert User.objects.get(username='test').has_usable_password() is False

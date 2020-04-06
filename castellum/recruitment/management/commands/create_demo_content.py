@@ -27,7 +27,10 @@ from django.core.management.base import CommandError
 
 import phonenumbers
 from faker import Faker
+from huscy.projects.models import Project
+from huscy.projects.models import ResearchUnit
 
+from castellum.castellum_auth.models import User
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.contacts.models import phonetic
@@ -117,15 +120,23 @@ def fake_studysession(study):
     return StudySession(study=study, duration=fake.random.randrange(10, 120, 10))
 
 
-def fake_study():
-    description = fake.paragraph(nb_sentences=5, variable_nb_sentences=True)
+def fake_project(dummy_user, dummy_unit, local_id):
+    return Project(
+        title=fake.word().upper(),
+        description=fake.paragraph(nb_sentences=5, variable_nb_sentences=True),
+        research_unit=dummy_unit,
+        principal_investigator=dummy_user,
+        local_id=local_id,
+    )
+
+
+def fake_study(project):
     recruitment_text = fake.paragraph(nb_sentences=5, variable_nb_sentences=True)
     study = Study(
-        name=fake.word().upper(),
+        project=project,
         contact_person=fake.name(),
         principal_investigator=fake.name(),
         min_subject_count=fake.random.randint(0, 50),
-        description=description,
         recruitment_text=recruitment_text,
         expense_allowance=fake.random.randint(20, 50),
         sessions_start=fake.past_date(start_date="-30d"),
@@ -188,7 +199,14 @@ def fake_attributeset(subject, contact):
 
 def generate_studies(count):
     print('Generating studies')
-    studies = [fake_study() for i in range(count)]
+    dummy_user, __ = User.objects.get_or_create(username='dummy')
+    dummy_unit, __ = ResearchUnit.objects.get_or_create(
+        name='dummy', code='dummy', principal_investigator=dummy_user
+    )
+    Project.objects.bulk_create(fake_project(dummy_user, dummy_unit, i + 1) for i in range(count))
+    projects = Project.objects.all()[:count]
+
+    studies = [fake_study(project) for project in projects]
     for study in studies:
         study.save()
     StudySession.objects.bulk_create(fake_studysession(study) for study in studies)

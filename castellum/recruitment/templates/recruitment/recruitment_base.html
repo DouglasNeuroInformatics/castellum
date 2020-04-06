@@ -7,7 +7,7 @@
 
     <div class="container text-center my-4">
         <div class="h1">
-            <h1 class="d-inline">{{ study.name }}</h1>
+            <h1 class="d-inline">{{ study }}</h1>
             <a href="{% url 'recruitment:followups' study.pk %}?token={{ user.token }}" class="btn btn-sm btn-primary" title="{% trans 'Follow-ups' %}">
                 <i class="far fa-calendar-plus" role="img" aria-label="{% trans 'Follow-ups' %}"></i>
             </a>
