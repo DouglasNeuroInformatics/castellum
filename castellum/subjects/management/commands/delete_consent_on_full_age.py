@@ -26,7 +26,7 @@ from django.core.management.base import BaseCommand
 from dateutil.relativedelta import relativedelta
 
 from castellum.contacts.models import Contact
-from castellum.subjects.models import Subject
+from castellum.subjects.models import Consent
 
 FULL_AGE = relativedelta(years=18)
 
@@ -45,11 +45,8 @@ class Command(BaseCommand):
             date_of_birth__gt=today - FULL_AGE - relativedelta(years=1),
         ).values_list('subject_id', flat=True)
 
-        subjects = Subject.objects.filter(
-            consent__document__is_current=True,
-            pk__in=list(contacts),
-        )
+        consents = Consent.objects.filter(subject_id__in=list(contacts)).select_related('subject')
 
-        for subject in subjects:
-            if subject.consent.updated_at.date() < subject.contact.date_of_birth + FULL_AGE:
-                subject.consent.delete()
+        for consent in consents:
+            if consent.updated_at.date() < consent.subject.contact.date_of_birth + FULL_AGE:
+                consent.delete()
