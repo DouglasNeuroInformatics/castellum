@@ -57,6 +57,7 @@ from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
 from castellum.utils.views import GetFormView
 
+from .forms import AppointmentForm
 from .forms import ContactForm
 from .forms import SendMailForm
 from .models import AttributeDescription
@@ -512,6 +513,17 @@ class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateV
     def get_object(self):
         participation_request = super().get_object()
         return participation_request.subject
+
+
+class AppointmentView(RecruitmentUpdateMixin, SubjectMixin, PermissionRequiredMixin, UpdateView):
+    model = ParticipationRequest
+    template_name = 'recruitment/appointments.html'
+    permission_required = (
+        'recruitment.change_participationrequest',
+    )
+
+    def get_form_class(self):
+        return AppointmentForm.factory(self.object)
 
 
 class SearchView(LoginRequiredMixin, GetFormView):

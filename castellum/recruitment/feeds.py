@@ -32,6 +32,7 @@ from stronghold.decorators import public
 from castellum.castellum_auth.models import User
 from castellum.studies.models import Study
 
+from .models import Booking
 from .models import ParticipationRequest
 
 
@@ -64,7 +65,7 @@ class BaseFollowUpFeed(ICalFeed):
 class FollowUpFeedForStudy(BaseFollowUpFeed):
     def get_object(self, request, *args, **kwargs):
         try:
-            user = User.objects.get(token=request.GET.get('token'))
+            user = User.objects.get(token2=request.GET.get('token'))
         except User.DoesNotExist:
             raise PermissionDenied
         study = get_object_or_404(Study, pk=kwargs.get('study_pk'), status=Study.EXECUTION)
@@ -85,7 +86,7 @@ class FollowUpFeedForStudy(BaseFollowUpFeed):
 class FollowUpFeedForUser(BaseFollowUpFeed):
     def get_object(self, request, *args, **kwargs):
         user = get_object_or_404(User, pk=kwargs.get('user_id'))
-        if user.token != request.GET.get('token'):
+        if user.token2 != request.GET.get('token'):
             raise PermissionDenied
         return user
 
@@ -102,3 +103,48 @@ class FollowUpFeedForUser(BaseFollowUpFeed):
 
     def file_name(self, study):
         return 'castellum-followups.ics'
+
+
+class StudyAppointmentFeed(ICalFeed):
+    def get_user(self, request):
+        try:
+            return User.objects.get(token2=request.GET.get('token'))
+        except User.DoesNotExist:
+            raise PermissionDenied
+
+    def get_object(self, request, *args, **kwargs):
+        user = self.get_user(request)
+        study = get_object_or_404(Study, pk=kwargs['pk'], status=Study.EXECUTION)
+        perms = ('recruitment.view_participationrequest', 'studies.access_study')
+        if not user.has_perms(perms, obj=study):
+            raise PermissionDenied
+        return study
+
+    def items(self, study):
+        return Booking.objects.filter(session__study=study)
+
+    def item_title(self, item):
+        return '{} - {}'.format(
+            item.session.name,
+            item.participant.pseudonym,
+        )
+
+    def item_start_datetime(self, item):
+        return item.appointment.start
+
+    def item_end_datetime(self, item):
+        return item.appointment.start + item.session.duration
+
+    def item_link(self, item):
+        # This is not really a usable link, but it is unique
+        url = reverse('execution:participationrequest-detail', args=[
+            item.session.study.pk, item.participant.pk
+        ])
+        return '{}?appointment={}'.format(url, item.pk)
+
+    def item_description(self, item):
+        # prevent default str(item)
+        return ''
+
+    def file_name(self, obj):
+        return 'castellum-%s-appointments.ics' % obj

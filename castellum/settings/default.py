@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'stronghold',
 
     'huscy.projects',
+    'huscy.appointments',
 
     'castellum.utils',
     'castellum.castellum_auth',
@@ -199,6 +200,11 @@ NPM_FILE_PATTERNS = {
         'webfonts/fa-solid-900.woff',
         'webfonts/fa-solid-900.ttf',
         'webfonts/fa-solid-900.svg',
+    ],
+    '@fullcalendar': [
+        '*/main.min.js',
+        '*/main.css',
+        'core/locales/de.js',
     ],
 }
 

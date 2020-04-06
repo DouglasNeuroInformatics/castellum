@@ -25,6 +25,7 @@ from .attributesets import AttributeCategory
 from .attributesets import AttributeChoice
 from .attributesets import AttributeDescription
 from .attributesets import AttributeSet
+from .recruitment import Booking
 from .recruitment import MailBatch
 from .recruitment import ParticipationRequest
 from .recruitment import ParticipationRequestRevision

@@ -22,6 +22,7 @@ setup(
         "django-stronghold==0.4.0",
         "Faker==4.0.2",
         "file-magic==0.4.0",
+        "huscy.appointments==1.0.0",
         "huscy.projects==0.1.0a1",
         "jsonschema==3.2.0",
         "phonenumberslite==8.11.5",

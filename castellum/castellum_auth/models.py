@@ -43,7 +43,7 @@ class User(AbstractUser):
     logout_timeout = models.DurationField(
         _('Time until automatic logout'), default=settings.LOGOUT_TIMEOUT_DEFAULT
     )
-    token = models.CharField(max_length=64, unique=True, default=generate_token)
+    token2 = models.CharField(max_length=64, unique=True, default=generate_token)
 
     class Meta:
         ordering = ('username',)
