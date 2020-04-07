@@ -1,7 +1,13 @@
-{% extends "base.html" %}
+{% extends "base_with_breadcrumbs.html" %}
 
 {% load i18n %}
 
 {% block breadcrumbs %}
-    <a class="nav-link" href="{% url 'recruitment:index' %}">{% trans "Recruitment" %}</a>
+    <li class="breadcrumb-item"><a href="{% url 'recruitment:index' %}">{% trans "Recruitment" %}</a></li>
+    {% if study %}
+        <li class="breadcrumb-item"><a href="{% url 'recruitment:recruitment-open' study.pk %}">{{ study.name }}</a></li>
+    {% endif %}
+    {% if participationrequest %}
+        <li class="breadcrumb-item"><a href="{% url 'recruitment:contact' study.pk participationrequest.pk %}">{{ participationrequest.subject.contact.short_name }}</a></li>
+    {% endif %}
 {% endblock %}

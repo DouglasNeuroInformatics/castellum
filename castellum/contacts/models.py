@@ -177,6 +177,11 @@ class Contact(TimeStampedModel):
         return " ".join(filter(None, [self.title, self.first_name, self.last_name]))
 
     @property
+    def short_name(self):
+        # a bit simplistic, but should be sufficient
+        return '%s. %s' % (self.first_name[0], self.last_name)
+
+    @property
     def age(self):
         return relativedelta(date.today(), self.date_of_birth).years
 

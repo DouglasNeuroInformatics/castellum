@@ -4,8 +4,6 @@
 {% block title %}{% trans "Studies" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h2 class="text-center">{% trans 'Studies' %}</h2>
-
     <div class="d-flex flex-column flex-md-row justify-content-between">
         <div class="my-1">
             <a href="?q={{ q }}" class="btn {{ all|yesno:'btn-link,btn-primary' }}">{% trans 'My studies' %}</a>

@@ -1,6 +1,11 @@
 {% extends "subjects/base.html" %}
 {% load i18n auth utils %}
 
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="breadcrumb-item"><a href="{% url 'subjects:detail' subject.pk %}">{{ subject.contact.short_name }}</a></li>
+{% endblock %}
+
 {% block header %}
     <div class="container text-center my-4">
         <h1>{{ subject.contact.full_name }}</h1>

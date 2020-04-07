@@ -3,6 +3,11 @@
 
 {% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
 
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="breadcrumb-item"><a href="{% url 'studies:detail' study.pk %}">{{ study.name }}</a></li>
+{% endblock %}
+
 {% block header %}
     <div class="container text-center my-4">
         <div>

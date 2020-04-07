@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{% extends "base_with_breadcrumbs.html" %}
 
 {% load i18n %}
 
 {% block breadcrumbs %}
-    <a class="nav-link" href="{% url 'subjects:index' %}">{% trans "Subjects" %}</a>
+    <li class="breadcrumb-item"><a href="{% url 'subjects:index' %}">{% trans "Subjects" %}</a></li>
 {% endblock %}

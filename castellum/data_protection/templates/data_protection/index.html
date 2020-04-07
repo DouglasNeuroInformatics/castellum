@@ -1,11 +1,13 @@
-{% extends "base.html" %}
+{% extends "base_with_breadcrumbs.html" %}
 {% load i18n subjects %}
 
 {% block title %}{% trans 'Data protection dashboard' %} &middot; {{ block.super }}{% endblock %}
 
-{% block content %}
-    <h1 class="text-center">{% trans 'Data protection dashboard' %}</h1>
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'data_protection:index' %}">{% trans "Data protection" %}</a></li>
+{% endblock %}
 
+{% block content %}
     <h2>{% trans 'Export requested' %}</h2>
     {% include 'data_protection/__subject_list.html' with subjects=export_requested missing=export_requested_missing %}
 
