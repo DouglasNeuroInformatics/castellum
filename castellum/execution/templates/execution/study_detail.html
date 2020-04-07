@@ -6,7 +6,7 @@
 {% block content %}
     <div class="h1 text-center">
         <h1 class="d-inline">{{ object }}</h1>
-        <a href="{% url 'recruitment:study-appointments' study.pk %}?token={{ user.token }}" class="btn btn-sm btn-primary" title="{% trans 'Appointments' %}">
+        <a href="{% url 'recruitment:study-appointments' study.pk %}?token={{ user.token2 }}" class="btn btn-sm btn-primary" title="{% trans 'Appointments' %}">
             <i class="far fa-calendar-plus" role="img" aria-label="{% trans 'Appointments' %}"></i>
         </a>
     </div>
