@@ -19,8 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import datetime
-
 from django.conf import settings
 from django.db import models
 from django.forms import ValidationError
@@ -230,33 +228,14 @@ class Consent(models.Model):
     CONFIRMED = 'confirmed'
     WITHDRAWN = 'withdrawn'
 
-    STATUS_CHOICES = [
-        (WAITING, _('Waiting')),
+    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
+    subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
+    document = models.ForeignKey(ConsentDocument, on_delete=models.CASCADE)
+    status = models.CharField(_('Status'), max_length=64, choices=[
+        (WAITING, _('Waiting for confirmation')),
         (CONFIRMED, _('Confirmed')),
         (WITHDRAWN, _('Withdrawn')),
-    ]
-
-    subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
-    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
-
-    document = models.ForeignKey(ConsentDocument, on_delete=models.CASCADE)
-    status = models.CharField(choices=STATUS_CHOICES)
-    previous_document = models.ForeignKey(
-        ConsentDocument, on_delete=models.CASCADE, blank=True, null=True
-    )
-    previous_status = models.CharField(choices=STATUS_CHOICES, blank=True)
-
-    def set_status(self, status):
-        if status == self.WAITING:
-            self.previous_status = self.status
-            self.previous_document = self.document
-        else:
-            self.previous_status = None
-            self.previous_document = None
-
-        self.status = status
-        if status == self.WAITING or (status == self.CONFIRMED and not self.document):
-            self.document = ConsentDocument.objects.filter(is_valid=True).latest()
+    ])
 
     class Meta:
         verbose_name = _('Consent')
