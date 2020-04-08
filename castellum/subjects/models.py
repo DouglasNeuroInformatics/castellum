@@ -221,6 +221,7 @@ class ConsentDocument(models.Model):
     is_current = models.BooleanField(_('Is current'), default=True)
     file = RestrictedFileField(
         _('File'),
+        blank=True,
         upload_to='consent/',
         content_types=['application/pdf'],
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
