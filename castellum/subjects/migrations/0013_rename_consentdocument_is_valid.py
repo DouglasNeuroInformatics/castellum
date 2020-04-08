@@ -21,4 +21,9 @@ class Migration(migrations.Migration):
             name='is_valid',
             field=models.BooleanField(default=True, verbose_name='Is valid'),
         ),
+        migrations.AddField(
+            model_name='consentdocument',
+            name='is_deprecated',
+            field=models.BooleanField(default=False, verbose_name='Is deprecated'),
+        ),
     ]
