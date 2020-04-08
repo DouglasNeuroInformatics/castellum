@@ -21,12 +21,10 @@
 
 from django.conf import settings
 from django.db import models
-from django.utils import timezone
 
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import ParticipationRequest
-from castellum.subjects.models import Consent
 from castellum.subjects.models import Subject
 
 
@@ -91,14 +89,8 @@ def get_unreachable(limit_by):
 
 
 def get_no_consent(limit_by):
-    acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
     subjects = Subject.objects.exclude(
-        ~filter_queries.no_recruitment() | (
-            models.Q(consent__document__is_valid=True) & (
-                models.Q(consent__status=Consent.CONFIRMED) |
-                models.Q(consent__updated_at__lte=acceptable_datetime)
-            )
-        )
+        ~filter_queries.no_recruitment() | filter_queries.has_consent(include_waiting=True)
     )
 
     return subjects[:limit_by], max(subjects.count() - limit_by, 0)

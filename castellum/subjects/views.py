@@ -61,7 +61,6 @@ from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseAdditionalInfoUpdateView
 from .mixins import BaseDataProtectionUpdateView
 from .mixins import SubjectMixin
-from .models import Consent
 from .models import ExportAnswer
 from .models import Subject
 
@@ -92,10 +91,7 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
             .count()
 
         context['count_consent'] = Subject.objects.filter(
-            ~filter_queries.no_recruitment() | models.Q(
-                consent__status=Consent.CONFIRMED,
-                consent__document__is_valid=True,
-            )
+            ~filter_queries.no_recruitment() | filter_queries.has_consent()
         ).count()
 
         context['is_post'] = self.request.method == 'POST'
@@ -504,10 +500,7 @@ class MaintenanceConsentView(PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         return super().get_queryset().exclude(
-            ~filter_queries.no_recruitment() | models.Q(
-                consent__status=Consent.CONFIRMED,
-                consent__document__is_valid=True,
-            )
+            ~filter_queries.no_recruitment() | filter_queries.has_consent()
         )
 
 
