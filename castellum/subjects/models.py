@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django.conf import settings
 from django.db import models
 from django.forms import ValidationError
@@ -224,36 +226,56 @@ class ConsentDocument(models.Model):
 
 
 class Consent(models.Model):
+    UNKNOWN = 'unknown'
+    WAITING = 'waiting'
+    CONFIRMED = 'confirmed'
+    WITHDRAWN = 'withdrawn'
+
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
     document = models.ForeignKey(ConsentDocument, on_delete=models.CASCADE)
 
-    confirmed_at = models.DateField()
-    withdrawn_at = models.DateField()
+    requested_at = models.DateField(_('Requested at'), blank=True, null=True)
+    confirmed_at = models.DateField(_('Confirmed at'), blank=True, null=True)
+    withdrawn_at = models.DateField(_('Withdrawn at'), blank=True, null=True)
 
     @property
     def status(self):
         if self.withdrawn_at:
-            return 'withdrawn'
+            return self.WITHDRAWN
         elif self.confirmed_at:
-            return 'confirmed'
+            return self.CONFIRMED
+        elif self.requested_at:
+            if self.requested_at > datetime.date.today() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD:
+                return self.WAITING
+            else:
+                return self.WITHDRAWN
         else:
-            return 'unknown'
+            return self.UNKNOWN
+
+    def reset(self):
+        self.document = ConsentDocument.objects.filter(is_valid=True).latest()
+        self.requested_at = None
+        self.confirmed_at = None
+        self.withdrawn_at = None
+
+    def request(self):
+        self.requested_at = datetime.date.today()
+
+    def confirm(self):
+        ConsentConfirmation.objects.create(consent=self, document=self.document)
+        self.confirmed_at = datetime.date.today()
+
+    def withdraw(self):
+        self.withdrawn_at = datetime.date.today()
 
     class Meta:
         verbose_name = _('Consent')
 
 
-class ConsentPendingUpdate(models.Model):
-    consent = models.OneToOneField(Consent)
-    document = models.ForeignKey(ConsentDocument, on_delete=models.CASCADE)
+class ConsentConfirmation(models.Model):
     created_at = models.DateField(_('Created at'), auto_now_add=True)
-
-    def confirm(self):
-        self.consent.document = self.document
-        self.consent.withdrawn_at = None
-        self.consent.confirmed_at = today
-        self.consent.save()
-        self.delete()
+    consent = models.OneToOneField(Subject, on_delete=models.CASCADE)
+    document = models.ForeignKey(ConsentDocument, on_delete=models.CASCADE)
 
 
 class ExportAnswer(models.Model):
