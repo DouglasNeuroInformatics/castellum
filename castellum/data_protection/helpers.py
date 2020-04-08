@@ -27,7 +27,6 @@ from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import ParticipationRequest
 from castellum.subjects.models import Consent
-from castellum.subjects.models import ConsentDocument
 from castellum.subjects.models import Subject
 
 
@@ -92,9 +91,6 @@ def get_unreachable(limit_by):
 
 
 def get_no_consent(limit_by):
-    if not ConsentDocument.objects.exists():
-        return [], 0
-
     acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
     subjects = Subject.objects.exclude(
         ~filter_queries.no_recruitment() | (

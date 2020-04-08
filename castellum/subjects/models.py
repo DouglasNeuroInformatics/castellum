@@ -157,7 +157,7 @@ class Subject(TimeStampedModel):
     @cached_property
     def is_complete(self):
         # these conditions are also checked in the form
-        return self.no_recruitment or self.consent or not ConsentDocument.objects.exists()
+        return self.no_recruitment or self.consent
 
     @property
     def is_available(self):

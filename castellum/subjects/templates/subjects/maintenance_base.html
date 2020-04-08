@@ -1,5 +1,5 @@
 {% extends "subjects/base.html" %}
-{% load i18n subjects %}
+{% load i18n %}
 
 {% block title %}{% trans 'Maintenance' %} &middot; {{ block.super }}{% endblock %}
 
@@ -16,12 +16,9 @@
             <li class="nav-item">
                 <a href="{% url 'subjects:maintenance-contact' %}" class="nav-link {% if view.tab == 'contact' %}active{% endif %}">{% trans 'Contact' %}</a>
             </li>
-            {% get_db_consent_uploaded as db_consent_uploaded %}
-            {% if db_consent_uploaded %}
-                <li class="nav-item">
-                    <a href="{% url 'subjects:maintenance-consent' %}" class="nav-link {% if view.tab == 'consent' %}active{% endif %}">{% trans 'Consent' %}</a>
-                </li>
-            {% endif %}
+            <li class="nav-item">
+                <a href="{% url 'subjects:maintenance-consent' %}" class="nav-link {% if view.tab == 'consent' %}active{% endif %}">{% trans 'Consent' %}</a>
+            </li>
         </ul>
     </nav>
 {% endblock %}
