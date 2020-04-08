@@ -226,56 +226,40 @@ class ConsentDocument(models.Model):
 
 
 class Consent(models.Model):
-    UNKNOWN = 'unknown'
     WAITING = 'waiting'
     CONFIRMED = 'confirmed'
     WITHDRAWN = 'withdrawn'
 
+    STATUS_CHOICES = [
+        (WAITING, _('Waiting')),
+        (CONFIRMED, _('Confirmed')),
+        (WITHDRAWN, _('Withdrawn')),
+    ]
+
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
+    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
+
     document = models.ForeignKey(ConsentDocument, on_delete=models.CASCADE)
+    status = models.CharField(choices=STATUS_CHOICES)
+    previous_document = models.ForeignKey(
+        ConsentDocument, on_delete=models.CASCADE, blank=True, null=True
+    )
+    previous_status = models.CharField(choices=STATUS_CHOICES, blank=True)
 
-    requested_at = models.DateField(_('Requested at'), blank=True, null=True)
-    confirmed_at = models.DateField(_('Confirmed at'), blank=True, null=True)
-    withdrawn_at = models.DateField(_('Withdrawn at'), blank=True, null=True)
-
-    @property
-    def status(self):
-        if self.withdrawn_at:
-            return self.WITHDRAWN
-        elif self.confirmed_at:
-            return self.CONFIRMED
-        elif self.requested_at:
-            if self.requested_at > datetime.date.today() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD:
-                return self.WAITING
-            else:
-                return self.WITHDRAWN
+    def set_status(self, status):
+        if status == self.WAITING:
+            self.previous_status = self.status
+            self.previous_document = self.document
         else:
-            return self.UNKNOWN
+            self.previous_status = None
+            self.previous_document = None
 
-    def reset(self):
-        self.document = ConsentDocument.objects.filter(is_valid=True).latest()
-        self.requested_at = None
-        self.confirmed_at = None
-        self.withdrawn_at = None
-
-    def request(self):
-        self.requested_at = datetime.date.today()
-
-    def confirm(self):
-        ConsentConfirmation.objects.create(consent=self, document=self.document)
-        self.confirmed_at = datetime.date.today()
-
-    def withdraw(self):
-        self.withdrawn_at = datetime.date.today()
+        self.status = status
+        if status == self.WAITING or (status == self.CONFIRMED and not self.document):
+            self.document = ConsentDocument.objects.filter(is_valid=True).latest()
 
     class Meta:
         verbose_name = _('Consent')
-
-
-class ConsentConfirmation(models.Model):
-    created_at = models.DateField(_('Created at'), auto_now_add=True)
-    consent = models.OneToOneField(Subject, on_delete=models.CASCADE)
-    document = models.ForeignKey(ConsentDocument, on_delete=models.CASCADE)
 
 
 class ExportAnswer(models.Model):
