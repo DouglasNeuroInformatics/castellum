@@ -50,14 +50,14 @@ def get_to_be_deleted(limit_by):
     return subjects[:limit_by], max(subjects.count() - limit_by, 0)
 
 
-def get_orphans(limit_by):
+def get_no_legal_basis(limit_by):
     # this query has the biggest potential to shrink down
     # the number of matches, so it is done first
     subjects = Subject.objects\
         .annotate(pr_count=models.Count('participationrequest', filter=~models.Q(
             participationrequest__status=ParticipationRequest.UNSUITABLE
         )))\
-        .filter(~filter_queries.no_recruitment(), pr_count=0)
+        .filter(~filter_queries.has_consent(include_waiting=True), pr_count=0)
     subject_pks = subjects.values_list('pk', flat=True)
 
     contacts = Contact.objects\
@@ -88,18 +88,10 @@ def get_unreachable(limit_by):
     return subjects[:limit_by], max(subjects.count() - limit_by, 0)
 
 
-def get_no_consent(limit_by):
-    subjects = Subject.objects.exclude(
-        ~filter_queries.no_recruitment() | filter_queries.has_consent(include_waiting=True)
-    )
-
-    return subjects[:limit_by], max(subjects.count() - limit_by, 0)
-
-
 def get_all_subjects(limit_by):
     subjects = set()
     missing = 0
-    for fn in [get_to_be_deleted, get_orphans, get_unreachable, get_no_consent]:
+    for fn in [get_to_be_deleted, get_no_legal_basis, get_unreachable]:
         s, m = fn(limit_by)
         subjects.update(s)
         missing += m
