@@ -457,7 +457,7 @@ class MaintenanceAttributesView(PermissionRequiredMixin, ListView):
         return super().get_queryset()\
             .exclude(attributeset=None)\
             .annotate(completeness=completeness)\
-            .filter(filter_queries.no_recruitment(), completeness__lt=total)\
+            .filter(filter_queries.has_consent(), completeness__lt=total)\
             .order_by('completeness')
 
 

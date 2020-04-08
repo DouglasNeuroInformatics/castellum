@@ -10,6 +10,7 @@ from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import ParticipationRequestRevision
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
+from castellum.subjects.models import Consent
 
 
 def test_min_subject_count_is_zero(client, member, study_in_execution_status):
@@ -114,6 +115,8 @@ def test_no_matching_attribute_sets(
 
 
 def test_create_revision_on_create(client, member, attributeset, study_in_execution_status):
+    baker.make(Consent, subject=attributeset.subject, status=Consent.CONFIRMED)
+
     study_in_execution_status.min_subject_count = 5
     study_in_execution_status.save()
 
@@ -126,6 +129,7 @@ def test_create_revision_on_create(client, member, attributeset, study_in_execut
 
 def create_attributeset():
     contact = baker.make(Contact)
+    baker.make(Consent, subject=contact.subject, status=Consent.CONFIRMED)
     return baker.make(AttributeSet, data={'d1': 1}, subject=contact.subject)
 
 
