@@ -224,20 +224,36 @@ class ConsentDocument(models.Model):
 
 
 class Consent(models.Model):
-    WAITING = 'waiting'
-    CONFIRMED = 'confirmed'
-
-    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
     document = models.ForeignKey(ConsentDocument, on_delete=models.CASCADE)
-    status = models.CharField(_('Status'), max_length=64, choices=[
-        (WAITING, _('Waiting for confirmation')),
-        (CONFIRMED, _('Confirmed')),
-    ])
+
+    confirmed_at = models.DateField()
+    withdrawn_at = models.DateField()
+
+    @property
+    def status(self):
+        if self.withdrawn_at:
+            return 'withdrawn'
+        elif self.confirmed_at:
+            return 'confirmed'
+        else:
+            return 'unknown'
 
     class Meta:
-        get_latest_by = 'document__created_at'
         verbose_name = _('Consent')
+
+
+class ConsentPendingUpdate(models.Model):
+    consent = models.OneToOneField(Consent)
+    document = models.ForeignKey(ConsentDocument, on_delete=models.CASCADE)
+    created_at = models.DateField(_('Created at'), auto_now_add=True)
+
+    def confirm(self):
+        self.consent.document = self.document
+        self.consent.withdrawn_at = None
+        self.consent.confirmed_at = today
+        self.consent.save()
+        self.delete()
 
 
 class ExportAnswer(models.Model):
