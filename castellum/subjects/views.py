@@ -61,6 +61,7 @@ from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseAdditionalInfoUpdateView
 from .mixins import BaseDataProtectionUpdateView
 from .mixins import SubjectMixin
+from .models import Consent
 from .models import ExportAnswer
 from .models import Subject
 
@@ -499,9 +500,9 @@ class MaintenanceConsentView(PermissionRequiredMixin, ListView):
     tab = 'consent'
 
     def get_queryset(self):
-        return super().get_queryset().exclude(
-            ~filter_queries.no_recruitment() | filter_queries.has_consent()
-        )
+        return super().get_queryset()\
+            .exclude(filter_queries.has_consent())\
+            .filter(consent__status=Consent.CONFIRMED)
 
 
 class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):
