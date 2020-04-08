@@ -61,8 +61,21 @@ criteria.
     -  set the function **Exclusive subjects** and
     -  decide whether **Complete filter matches only** will be shown to the
        recruiters of your study or or there will be some subjects displayed, in
-       which certain characteristics still have to be queried.
-
+       which certain characteristics still have to be queried
+4.  By clicking on **Filters** you are able to set them
+    -  select whether you want to create a filter regarind the **Handedness**,
+       **Language**, **Age** or **Highest degree** > **Add** > define the filters
+       and click **Apply**
+    You may set as many filters as you like.
+    If you wish to create more than one filter group, click on **General**,
+    select **Advanced filtering** and press **Save**
+    -  When you click on **Add new** in **Filters**, you are able to set another
+       filter group with specific filters
+    >  More than one filter group is necessary, for example, if you need subjects
+    both at the age between 20-30 and 50-60.
+5.  In **Excluded studies** you can select certain studies in which your
+    subjects must not have participated
+    
 Start and finish your study
 ---------------------------
 
