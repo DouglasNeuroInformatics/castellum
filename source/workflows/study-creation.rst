@@ -75,6 +75,17 @@ criteria.
     both at the age between 20-30 and 50-60.
 5.  In **Excluded studies** you can select certain studies in which your
     subjects must not have participated
+6.  When you clicking on **Inclusion/exclusion criteria**, you can add
+    **Additional subject characteristics that should be verified during
+    recruitment**
+    >  If it is a MRI-study, the criteria are pre-set for checking during
+       recruitment
+7.  In **Mail Settings**, you can:
+    -  define an **E-mail subject**,
+    -  add an **E-mail body** and
+    -  indicate a **Reply e-mail-address**
+    >  This is relevant if study recruitment is to take place by e-mail or if
+       information is to be sent by e-mail in addition to telephone contact
     
 Start and finish your study
 ---------------------------
