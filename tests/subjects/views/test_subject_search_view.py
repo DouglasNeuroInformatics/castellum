@@ -34,7 +34,7 @@ def test_match(client, user):
     client.force_login(user)
     response = client.get('/subjects/?search=foo+bar')
 
-    assert response.content.count(b'<li class="mb-5">') == 1
+    assert response.content.count(b'<div class="table-list-item">') == 1
 
 
 @pytest.mark.parametrize('user_fixture', [
@@ -90,7 +90,7 @@ def test_matches(client, member, study_in_execution_status, study_in_edit_status
     client.force_login(member)
     response = client.get('/subjects/?search=foo+bar')
 
-    assert response.content.count(b'<li class="mb-5">') == 3
+    assert response.content.count(b'<div class="table-list-item">') == 3
     assert response.content.count(b'<li class="table-list-item">') == 2
     assert response.content.count(b'>Recruitment</a>') == 2
     assert response.content.count(b'>Execution</a>') == 1

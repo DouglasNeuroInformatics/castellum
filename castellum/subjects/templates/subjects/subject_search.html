@@ -37,8 +37,8 @@
                         {% with contact=subject.contact %}
                             {% has_privacy_level subject.privacy_level user as can_access %}
                             {% has_perm 'contacts.view_contact' user as can_view_contact %}
-                            <li class="mb-5">
-                                <div class="table-list-item border-0">
+                            <li>
+                                <div class="table-list-item">
                                     <div>
                                         {% if can_access %}
                                             <div class="h4 d-inline-block my-1 mr-2">

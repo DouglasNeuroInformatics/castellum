@@ -21,6 +21,10 @@
     }
 }
 
+.table-list .table-list .table-list-item {
+    padding: 0.1rem 0 0.1rem 3rem;
+}
+
 .btn-sm-inline {
     display: block;
     width: 100%;
