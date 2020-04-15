@@ -52,15 +52,6 @@ class Subject(TimeStampedModel):
         ],
     )
 
-    no_recruitment = models.BooleanField(
-        _('Do not contact for recruitment'),
-        default=False,
-        help_text=_(
-            'This subject will not be taken into account for future recruitment, '
-            'but the existing data is not deleted. '
-            'This option should be used when a subject withdraws (GDPR) consent for recruitment.'
-        ),
-    )
     to_be_deleted = models.DateField(_('To be deleted'), blank=True, null=True, help_text=_(
         'All data about this subject should be deleted or fully anonymized. '
         'This includes all data in Castellum and all data collected in studies. '
@@ -128,7 +119,6 @@ class Subject(TimeStampedModel):
             'note_difficult_to_understand',
             'note_abusive_language',
             'source',
-            'no_recruitment',
             'to_be_deleted',
             'export_requested',
         ]

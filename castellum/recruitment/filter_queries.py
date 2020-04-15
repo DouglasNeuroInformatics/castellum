@@ -98,11 +98,6 @@ def subjectfilters(subjectfiltergroup, include_unknown=None):
     return q
 
 
-def no_recruitment():
-    """Exclude subjects who do not want to be contacted for recruitment."""
-    return models.Q(no_recruitment=False)
-
-
 def has_consent(include_waiting=False):
     """Exclude subjects who do not want to be contacted for recruitment."""
     if include_waiting:
