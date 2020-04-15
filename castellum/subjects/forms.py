@@ -36,7 +36,7 @@ class DataProtectionForm(forms.ModelForm):
 
     class Meta:
         model = Subject
-        fields = ('privacy_level', 'no_recruitment')
+        fields = ('privacy_level',)
         widgets = {
             'privacy_level': forms.RadioSelect,
             'source': DatalistWidget(datalist=(
