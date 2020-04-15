@@ -44,7 +44,15 @@ class DataProtectionForm(forms.ModelForm):
             )),
         }
 
-    consent_status = Consent._meta.get_field('status').formfield(required=False)
+    consent_status = Consent._meta.get_field('status').formfield(
+        label=_('Recruitment consent'),
+        help_text=_(
+            'Without recruitment consent, this subject will not be '
+            'taken into account for future recruitment. Note that '
+            'existing data is not deleted when consent is withdrawn.'
+        ),
+        required=False,
+    )
     to_be_deleted = forms.BooleanField(
         label=_("To be deleted"),
         required=False,
@@ -59,6 +67,11 @@ class DataProtectionForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
         self.user = user
         super().__init__(*args, **kwargs)
+
+        try:
+            self.fields['consent_status'].initial = self.instance.consent.status
+        except Consent.DoesNotExist:
+            pass
 
         self.fields['to_be_deleted'].initial = self.instance.to_be_deleted
         self.fields['export_requested'].initial = self.instance.export_requested
@@ -86,6 +99,25 @@ class DataProtectionForm(forms.ModelForm):
             self.instance.export_requested = datetime.date.today()
 
         subject = super().save(commit)
+
+        new_status = self.cleaned_data.get('consent_status')
+        if new_status:
+            try:
+                if subject.consent.status != new_status:
+                    subject.consent.status = new_status
+                    subject.consent.save()
+            except Consent.DoesNotExist:
+                try:
+                    document = ConsentDocument.objects.filter(is_valid=True).latest()
+                except ConsentDocument.DoesNotExist:
+                    document = ConsentDocument.objects.create()
+                Consent.objects.create(
+                    subject=subject,
+                    status=new_status,
+                    document=document,
+                )
+        else:
+            Consent.objects.filter(subject=subject).delete()
 
         return subject
 
