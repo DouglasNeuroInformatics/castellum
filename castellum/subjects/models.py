@@ -102,9 +102,12 @@ class Subject(TimeStampedModel):
         verbose_name = _('Subject')
 
     def clean(self):
-        if self.to_be_deleted and not self.no_recruitment:
+        if self.to_be_deleted and self.consent:
             raise ValidationError(
-                _('Subjects who are to be deleted should not be contacted for recruitment.'),
+                _(
+                     'Subjects can either be marked for deletion or have recruitment consent, '
+                     'not both.'
+                ),
                 code='invalid',
             )
 

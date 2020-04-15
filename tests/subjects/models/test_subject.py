@@ -8,6 +8,7 @@ from django.utils import timezone
 import pytest
 from model_bakery import baker
 
+from castellum.subjects.models import Consent
 from castellum.subjects.models import Subject
 from castellum.subjects.models import TimeSlot
 
@@ -78,9 +79,9 @@ def test_get_next_available_datetime_same_day():
 
 
 @pytest.mark.django_db
-def test_to_be_deleted_no_recruitment():
+def test_to_be_deleted_consent_confirmed():
     subject = baker.make(Subject)
     subject.to_be_deleted = date.today()
-    subject.no_recruitment = False
+    baker.make(Consent, subject=subject, status=Consent.CONFIRMED)
     with pytest.raises(ValidationError):
         subject.clean()
