@@ -172,7 +172,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
                 'study consent given '
                 '(Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG)'
             ))
-        if self.object.confirmed_consent:
+        if self.object.has_consent:
             legal_basis.append(_(
                 'recruitment consent given '
                 '(Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR)'

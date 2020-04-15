@@ -93,7 +93,7 @@ class Subject(TimeStampedModel):
         verbose_name = _('Subject')
 
     def clean(self):
-        if self.to_be_deleted and self.consent:
+        if self.to_be_deleted and self.has_consent:
             raise ValidationError(
                 _(
                      'Subjects can either be marked for deletion or have recruitment consent, '
@@ -131,21 +131,12 @@ class Subject(TimeStampedModel):
         return contact
 
     @cached_property
-    def consent(self):
-        try:
-            return self.consent_set.filter(document__is_valid=True).latest()
-        except Consent.DoesNotExist:
-            return None
-
-    @cached_property
-    def confirmed_consent(self):
-        try:
-            return self.consent_set.filter(
-                status=Consent.CONFIRMED,
-                document__is_valid=True,
-            ).latest()
-        except Consent.DoesNotExist:
-            return None
+    def has_consent(self):
+        return Consent.objects.filter(
+            subject=self,
+            status=Consent.CONFIRMED,
+            document__is_valid=True,
+        ).exists()
 
     @property
     def is_available(self):

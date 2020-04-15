@@ -23,7 +23,7 @@
             {% trans 'Subject has missing attributes. Please contact to check if they are suitable.' %}
         </div>
     {% endif %}
-    {% if not subject.confirmed_consent %}
+    {% if not subject.has_consent %}
         <div class="alert alert-warning" role="alert">
             {% trans 'Subject has not given consent for recruitment.' %}
         </div>
