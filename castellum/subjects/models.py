@@ -21,7 +21,6 @@
 
 from django.conf import settings
 from django.db import models
-from django.forms import ValidationError
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -91,16 +90,6 @@ class Subject(TimeStampedModel):
 
     class Meta:
         verbose_name = _('Subject')
-
-    def clean(self):
-        if self.to_be_deleted and self.has_consent:
-            raise ValidationError(
-                _(
-                     'Subjects can either be marked for deletion or have recruitment consent, '
-                     'not both.'
-                ),
-                code='invalid',
-            )
 
     def delete(self):
         self.contact.delete()

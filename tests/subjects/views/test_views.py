@@ -88,6 +88,20 @@ def test_data_protection_post_invalid_privacy_level(client, user, contact):
     assert b'Please choose lower privacy level for the subject.' in response.content
 
 
+def test_data_protection_post_invalid_to_be_deleted_consent(client, user, contact):
+    client.force_login(user)
+
+    url = '/subjects/{}/data-protection/'.format(contact.subject.pk)
+    response = client.post(url, {
+        'privacy_level': 1,
+        'to_be_deleted': 'on',
+        'consent_status': 'confirmed',
+    })
+    msg = b'Subjects can either be marked for deletion or have recruitment consent, not both.'
+    assert response.status_code == 200
+    assert msg in response.content
+
+
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),

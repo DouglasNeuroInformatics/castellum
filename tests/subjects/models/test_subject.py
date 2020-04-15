@@ -1,14 +1,11 @@
-from datetime import date
 from datetime import datetime
 from itertools import cycle
 
-from django.forms import ValidationError
 from django.utils import timezone
 
 import pytest
 from model_bakery import baker
 
-from castellum.subjects.models import Consent
 from castellum.subjects.models import Subject
 from castellum.subjects.models import TimeSlot
 
@@ -76,12 +73,3 @@ def test_get_next_available_datetime_same_day():
     expected = timezone.make_aware(datetime(2020, 10, 27, hour=15))
 
     assert actual == expected
-
-
-@pytest.mark.django_db
-def test_to_be_deleted_consent_confirmed():
-    subject = baker.make(Subject)
-    subject.to_be_deleted = date.today()
-    baker.make(Consent, subject=subject, status=Consent.CONFIRMED)
-    with pytest.raises(ValidationError):
-        subject.clean()
