@@ -60,10 +60,6 @@ class DataProtectionForm(forms.ModelForm):
         self.user = user
         super().__init__(*args, **kwargs)
 
-        consent = self.instance.consent
-        if consent and consent.status == Consent.WAITING:
-            self.fields['consent_status'].initial = consent.status
-
         self.fields['to_be_deleted'].initial = self.instance.to_be_deleted
         self.fields['export_requested'].initial = self.instance.export_requested
 
@@ -91,20 +87,6 @@ class DataProtectionForm(forms.ModelForm):
 
         subject = super().save(commit)
 
-        if subject.consent and subject.consent.status == Consent.WAITING:
-            if subject.consent.status != self.cleaned_data['consent_status']:
-                subject.consent.status = self.cleaned_data['consent_status']
-                subject.consent.save()
-        elif self.cleaned_data['consent_status']:
-            try:
-                document = ConsentDocument.objects.filter(is_valid=True).latest()
-            except ConsentDocument.DoesNotExist:
-                document = ConsentDocument.objects.create()
-            Consent.objects.create(
-                status=self.cleaned_data['consent_status'],
-                subject=subject,
-                document=document,
-            )
         return subject
 
 

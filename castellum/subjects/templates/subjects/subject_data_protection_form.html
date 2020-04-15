@@ -20,28 +20,6 @@
         </fieldset>
 
         <fieldset>
-            <legend>{% trans 'Recruitment consent' %}</legend>
-
-            {% with consent=object.confirmed_consent %}
-                <div class="alert alert-{% if consent.document.is_valid %}success{% else %}warning{% endif %}">
-                    {% if consent %}
-                        {{ consent.document }} {% if not consent.document.is_valid %}({% trans 'outdated' %}){% endif %}
-                        <br>
-                        <time>{{ consent.updated_at|date }}</time>
-                    {% else %}
-                        {% trans 'Missing consent' %}
-                    {% endif %}
-                </div>
-            {% endwith %}
-
-            {% with consent=object.consent %}
-                {% if consent.status == consent.WAITING or not consent.document.is_valid %}
-                    {% bootstrap_field form.consent_status %}
-                {% endif %}
-            {% endwith %}
-        </fieldset>
-
-        <fieldset>
             {% bootstrap_field form.export_requested %}
             {% bootstrap_field form.to_be_deleted %}
         </fieldset>
