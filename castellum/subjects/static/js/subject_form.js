@@ -1,18 +1,30 @@
 $(function() {
     var $consentHidden = $('#id_consent_status_hidden');
     var $consentCheckbox = $('#id_consent_status');
+    var $consentConfirm = $('[data-js="consent-confirm"]');
 
     var setConsent = function(value) {
-        if (value === 'confirmed') {
-            $consentCheckbox.prop('checked', true);
-        } else {
+        if (value === 'waiting') {
+            $consentCheckbox.prop('indeterminate', true);
             $consentCheckbox.prop('checked', false);
+            $consentConfirm.prop('hidden', false);
+        } else if (value === 'confirmed') {
+            $consentCheckbox.prop('indeterminate', false);
+            $consentCheckbox.prop('checked', true);
+            $consentConfirm.prop('hidden', true);
+        } else {
+            $consentCheckbox.prop('indeterminate', false);
+            $consentCheckbox.prop('checked', false);
+            $consentConfirm.prop('hidden', true);
         }
         $consentHidden.val(value);
     };
 
     $consentCheckbox.on('change', function() {
-        setConsent($consentCheckbox.prop('checked') ? 'confirmed' : '');
+        setConsent($consentHidden.val() ? '' : 'waiting');
+    });
+    $consentConfirm.on('click', function() {
+        setConsent('confirmed');
     });
     setConsent($consentHidden.val());
 
