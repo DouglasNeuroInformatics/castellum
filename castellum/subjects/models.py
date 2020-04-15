@@ -157,11 +157,6 @@ class Subject(TimeStampedModel):
         except Consent.DoesNotExist:
             return None
 
-    @cached_property
-    def is_complete(self):
-        # these conditions are also checked in the form
-        return self.no_recruitment or self.consent
-
     @property
     def is_available(self):
         now = timezone.localtime()
