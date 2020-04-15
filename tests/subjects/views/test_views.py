@@ -66,8 +66,6 @@ def test_data_protection_post_valid(client, user, contact):
     url = '/subjects/{}/data-protection/'.format(contact.subject.pk)
     response = client.post(url, {
         'privacy_level': 1,
-        'form-TOTAL_FORMS': 0,
-        'form-INITIAL_FORMS': 0,
     })
     assert response.status_code == 302
 
@@ -81,8 +79,6 @@ def test_data_protection_post_invalid_privacy_level(client, user, contact):
     url = '/subjects/{}/data-protection/'.format(contact.subject.pk)
     response = client.post(url, {
         'privacy_level': 2,
-        'form-TOTAL_FORMS': 0,
-        'form-INITIAL_FORMS': 0,
     })
     assert response.status_code == 200
     assert b'Please choose lower privacy level for the subject.' in response.content
