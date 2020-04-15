@@ -91,9 +91,7 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
             .filter(completeness=total)\
             .count()
 
-        context['count_consent'] = Subject.objects.filter(
-            ~filter_queries.no_recruitment() | filter_queries.has_consent()
-        ).count()
+        context['count_consent'] = Subject.objects.filter(filter_queries.has_consent()).count()
 
         context['is_post'] = self.request.method == 'POST'
         form = kwargs.get('form')
@@ -428,7 +426,6 @@ class GuardianSearchView(SubjectSearchView):
         if form.is_valid() and privacy_level_form.is_valid() and contact_form.is_valid():
             contact = contact_form.save()
             contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
-            contact.subject.no_recruitment = True
             contact.subject.save()
 
             monitoring_logger.info('SubjectData update: {} by {}'.format(
