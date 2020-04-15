@@ -92,7 +92,7 @@ def test_no_matching_attribute_sets(
     study_in_execution_status.save()
 
     for i in range(5):
-        create_participation_request(study_in_execution_status)
+        create_attributeset()
 
     subject_filter_group = baker.make(SubjectFilterGroup, study=study_in_execution_status)
     baker.make(
@@ -100,7 +100,7 @@ def test_no_matching_attribute_sets(
         group=subject_filter_group,
         description=attribute_description,
         operator="exact",
-        value="left",
+        value="foo",
     )
 
     client.force_login(member)
