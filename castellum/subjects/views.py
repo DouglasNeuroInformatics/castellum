@@ -240,8 +240,10 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
             for participation_request in self.object.participationrequest_set.all():
                 context['dataset_list'].append(participation_request)
 
-            for consent in self.object.consent_set.all():
-                context['dataset_list'].append(consent)
+            try:
+                context['dataset_list'].append(self.object.consent)
+            except ObjectDoesNotExist:
+                pass
 
             for answer in self.object.exportanswer_set.all():
                 context['dataset_list'].append(answer)
