@@ -29,6 +29,20 @@ $(function() {
     setConsent($consentHidden.val());
 
 
+    var $toBeDeleted = $('#id_to_be_deleted');
+    var oldConsentValue = $consentHidden.val();
+    $toBeDeleted.on('change', function() {
+        if ($toBeDeleted.prop('checked')) {
+            oldConsentValue = $consentHidden.val();
+            setConsent('');
+            $consentCheckbox.prop('disabled', true);
+        } else {
+            setConsent(oldConsentValue);
+            $consentCheckbox.prop('disabled', false);
+        }
+    });
+
+
     var $totalForms = $('#id_form-TOTAL_FORMS');
     var $notes_container = $('#notes-container');
 
