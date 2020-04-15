@@ -235,7 +235,7 @@ def generate_subjects(count):
 
     print('Generating consents')
     try:
-        document = ConsentDocument.objects.filter(is_current=True).latest()
+        document = ConsentDocument.objects.filter(is_valid=True).latest()
     except ConsentDocument.DoesNotExist:
         document = ConsentDocument.objects.create()
     consents = [Consent(subject=s, document=document, status=Consent.CONFIRMED) for s in subjects]

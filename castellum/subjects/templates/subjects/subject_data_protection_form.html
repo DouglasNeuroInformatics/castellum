@@ -23,9 +23,9 @@
             <legend>{% trans 'Recruitment consent' %}</legend>
 
             {% with consent=object.confirmed_consent %}
-                <div class="alert alert-{% if object.no_recruitment %}info{% elif consent.document.is_current %}success{% else %}warning{% endif %}">
+                <div class="alert alert-{% if object.no_recruitment %}info{% elif consent.document.is_valid %}success{% else %}warning{% endif %}">
                     {% if consent %}
-                        {{ consent.document }} {% if not consent.document.is_current %}({% trans 'outdated' %}){% endif %}
+                        {{ consent.document }} {% if not consent.document.is_valid %}({% trans 'outdated' %}){% endif %}
                         <br>
                         <time>{{ consent.updated_at|date }}</time>
                     {% elif object.no_recruitment %}
@@ -37,7 +37,7 @@
             {% endwith %}
 
             {% with consent=object.consent %}
-                {% if consent.status == consent.WAITING or not consent.document.is_current %}
+                {% if consent.status == consent.WAITING or not consent.document.is_valid %}
                     {% bootstrap_field form.consent_status %}
                 {% endif %}
             {% endwith %}

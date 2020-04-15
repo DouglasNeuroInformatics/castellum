@@ -94,7 +94,7 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
         context['count_consent'] = Subject.objects.filter(
             ~filter_queries.no_recruitment() | models.Q(
                 consent__status=Consent.CONFIRMED,
-                consent__document__is_current=True,
+                consent__document__is_valid=True,
             )
         ).count()
 
@@ -506,7 +506,7 @@ class MaintenanceConsentView(PermissionRequiredMixin, ListView):
         return super().get_queryset().exclude(
             ~filter_queries.no_recruitment() | models.Q(
                 consent__status=Consent.CONFIRMED,
-                consent__document__is_current=True,
+                consent__document__is_valid=True,
             )
         )
 

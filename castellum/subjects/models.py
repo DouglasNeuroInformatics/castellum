@@ -140,7 +140,7 @@ class Subject(TimeStampedModel):
     @cached_property
     def consent(self):
         try:
-            return self.consent_set.filter(document__is_current=True).latest()
+            return self.consent_set.filter(document__is_valid=True).latest()
         except Consent.DoesNotExist:
             return None
 
@@ -149,7 +149,7 @@ class Subject(TimeStampedModel):
         try:
             return self.consent_set.filter(
                 status=Consent.CONFIRMED,
-                document__is_current=True,
+                document__is_valid=True,
             ).latest()
         except Consent.DoesNotExist:
             return None
@@ -218,7 +218,7 @@ class SubjectNote(models.Model):
 
 class ConsentDocument(models.Model):
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
-    is_current = models.BooleanField(_('Is current'), default=True)
+    is_valid = models.BooleanField(_('Is valid'), default=True)
     file = RestrictedFileField(
         _('File'),
         blank=True,
