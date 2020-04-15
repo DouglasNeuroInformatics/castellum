@@ -157,7 +157,7 @@ class Subject(TimeStampedModel):
     @cached_property
     def is_complete(self):
         # these conditions are also checked in the form
-        return self.no_recruitment or self.consent or not ConsentDocument.objects.exists()
+        return self.no_recruitment or self.consent
 
     @property
     def is_available(self):
@@ -221,6 +221,7 @@ class ConsentDocument(models.Model):
     is_current = models.BooleanField(_('Is current'), default=True)
     file = RestrictedFileField(
         _('File'),
+        blank=True,
         upload_to='consent/',
         content_types=['application/pdf'],
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,

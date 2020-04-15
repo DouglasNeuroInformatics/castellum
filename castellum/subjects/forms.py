@@ -96,10 +96,14 @@ class DataProtectionForm(forms.ModelForm):
                 subject.consent.status = self.cleaned_data['consent_status']
                 subject.consent.save()
         elif self.cleaned_data['consent_status']:
+            try:
+                document = ConsentDocument.objects.filter(is_current=True).latest()
+            except ConsentDocument.DoesNotExist:
+                document = ConsentDocument.objects.create()
             Consent.objects.create(
                 status=self.cleaned_data['consent_status'],
                 subject=subject,
-                document=ConsentDocument.objects.filter(is_current=True).latest(),
+                document=document,
             )
         return subject
 

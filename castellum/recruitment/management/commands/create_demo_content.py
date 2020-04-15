@@ -36,6 +36,8 @@ from castellum.recruitment.models import AttributeSet
 from castellum.studies.models import Study
 from castellum.studies.models import StudySession
 from castellum.studies.models import StudyType
+from castellum.subjects.models import Consent
+from castellum.subjects.models import ConsentDocument
 from castellum.subjects.models import Subject
 
 fake = Faker('de_DE')
@@ -230,6 +232,14 @@ def generate_subjects(count):
     print('Generating attributesets')
     attributesets = [fake_attributeset(subjects[i], contacts[i]) for i in range(count)]
     AttributeSet.objects.bulk_create(attributesets)
+
+    print('Generating consents')
+    try:
+        document = ConsentDocument.objects.filter(is_current=True).latest()
+    except ConsentDocument.DoesNotExist:
+        document = ConsentDocument.objects.create()
+    consents = [Consent(subject=s, document=document, status=Consent.CONFIRMED) for s in subjects]
+    Consent.objects.bulk_create(consents)
 
 
 class Command(BaseCommand):
