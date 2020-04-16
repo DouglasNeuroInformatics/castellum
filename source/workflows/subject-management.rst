@@ -1,5 +1,5 @@
-Creating a subject in Castellum
-================================
+Subject Management: Creating a subject in Castellum
+===================================================
 
 Prerequisite
 ------------
