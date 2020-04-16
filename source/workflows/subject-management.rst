@@ -59,6 +59,7 @@ A) If the person is of an adult age, select **Full of age** and continue with
 
 B) If the person is not of an adult age or has a guardian for example due
    to a disability or illness, select **Has legal guardian** > **Add guardian**
+    
     - A new window will open
     - Fill in the first and last name of the subject's legal guardian > **Submit**
     - If a **Match** is found, select it
