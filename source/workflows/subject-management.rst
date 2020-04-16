@@ -85,6 +85,7 @@ B) If the person is not of an adult age or has a guardian for example due
     the person
     
     > For example: The person can be reached by phone between 9 and 11 a.m. on tuesdays.
+   
     - Click on **9** under **Tuesday**,
     - Hold the Shift-button and
     - Click on **11** under **Tuesday**
