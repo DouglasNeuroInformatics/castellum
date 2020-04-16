@@ -41,7 +41,7 @@ In order to create a potential subject in Castellum, please proceed as follows:
 4.  Click on **Submit** and **Create**
     
     - If you notice that you made a spelling mistake with the names, please do not
-    go back and create the person again, but change the name in the following process
+      go back and create the person again, but change the name in the following process
         
 5.  Define the **Privacy level**
     
@@ -70,6 +70,7 @@ B) If the person is not of an adult age or has a guardian for example due
     > The legal guardian is now added. You can also create several guardians.
              
 7.  Click on **Save** and then on **Attributes**
+    
     - Fill in the **Handedness**, **Language**, **Date of birth** and 
       **Highest degree**
     - If the person **Does not want to participate in the following study types**,
@@ -90,6 +91,7 @@ B) If the person is not of an adult age or has a guardian for example due
         
 10.  You may also want to select whether the person is **Hard of hearing**,
      **Difficult to understand** or uses **Abusive language**
+     
      - It is also possible to **Add a note** on your own
     
 11.  Define from which **Data source** the data comes from and press **Save**
