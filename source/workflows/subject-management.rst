@@ -30,7 +30,9 @@ In order to create a potential subject in Castellum, please proceed as follows:
     - Please make sure you are connected to the WiFi and use your right username
       and password
 
+
 2.  Click on **Subjects** on the front page
+
 
 3.  Enter the first name and surname of the person
 
@@ -38,10 +40,12 @@ In order to create a potential subject in Castellum, please proceed as follows:
     - First letters capitalized
     - No commas
     
+    
 4.  Click on **Submit** and **Create**
     
     - If you notice that you made a spelling mistake with the names, please do not
       go back and create the person again, but change the name in the following process
+      
         
 5.  Define the **Privacy level**
     
@@ -49,25 +53,25 @@ In order to create a potential subject in Castellum, please proceed as follows:
     - 1 (increased) indicates children or adults with a legal guardian
     - 2 (high) presents a famous personality and its children
     
+    
 6.  Click on **Create new subject** > **Contact**
     
     - Optionally you can enter the **Title** here
     - You can edit the **First name** and **Last name**
     - Define the **Gender** of the person
     - Fill in the **Date of birth**
-
 A) If the person is of an adult age, select **Full of age** and continue with
    step 7
 
 B) If the person is not of an adult age or has a guardian for example due
    to a disability or illness, select **Has legal guardian** > **Add guardian**
     
-    - A new window will open
-    - Fill in the first and last name of the subject's legal guardian > **Submit**
-    - If a **Match** is found, select it
-    - If **No matches found**, click **Create** > Enter the information in the
-      fields provided > **Create new subject**
-    > The legal guardian is now added. You can also create several guardians.
+- A new window will open
+- Fill in the first and last name of the subject's legal guardian > **Submit**
+- If a **Match** is found, select it
+- If **No matches found**, click **Create** > Enter the information in the fields
+  provided > **Create new subject**
+> The legal guardian is now added. You can also create several guardians.
              
 7.  Click on **Save** and then on **Attributes**
     
