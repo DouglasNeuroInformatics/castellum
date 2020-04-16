@@ -54,11 +54,11 @@ In order to create a potential subject in Castellum, please proceed as follows:
     - Define the **Gender** of the person
     - Fill in the **Date of birth**
 
-6.1. If the person is of an adult age, select **Full of age** and continue with
-     step 7
+A) If the person is of an adult age, select **Full of age** and continue with
+   step 7
 
-6.2. If the person is not of an adult age or has a guardian for example due
-     to a disability or illness, select **Has legal guardian** > **Add guardian**
+B) If the person is not of an adult age or has a guardian for example due
+   to a disability or illness, select **Has legal guardian** > **Add guardian**
     - A new window will open
     - Fill in the first and last name of the subject's legal guardian > **Submit**
     - If a **Match** is found, select it
