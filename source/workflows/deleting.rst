@@ -1,5 +1,5 @@
-Deleting a subject from Castellum
-=================================
+Data Protection: Deleting a subject from Castellum
+==================================================
 
 Prerequisite
 ------------
@@ -7,13 +7,10 @@ Prerequisite
 The subject data of a subject should be completely deleted because of four
 different reasons:
 
-    - the subject either requested it,
-    - it no longer makes sense to keep them in the database,
-    - they cannot be reached due to incorrect or missing contact data or
-    - there is no consent.
-
-You can find the mentioned reasons for the deletion in **data protection** on
-the front page.
+    -   the subject either requested it,
+    -   it no longer makes sense to keep them in the database,
+    -   they cannot be reached due to incorrect or missing contact data or
+    -   there is no consent.
 
 Deletion of externally and internally stored data
 -------------------------------------------------
@@ -31,23 +28,23 @@ please proceed as follows:
 
 3.  Click on **Details** next to the subject to be deleted
 
-4.  Click on **Delete** upper right
-    -   If you see a message saying **Are you sure you want to permanently
-        delete this subject and all related data?**, press **Confirm** and the
-        subject will be deleted
-    -   If you see a message saying **This subject cannot be deleted because
-        there still is data about them in studies.**, proceed as follows:
+4.  Click on **Delete** on the upper right
+    4.1.  If you see a message saying **Are you sure you want to permanently
+          delete this subject and all related data?**, press **Confirm** and the
+          subject will be deleted
+    4.2.  If you see a message saying **This subject cannot be deleted because
+          there still is data about them in studies.**, proceed as follows:
 
-5.  Go to the responsible person of the study
-    -   Ask the responsible person to delete all data of the subject you want
-        to delete
-    -   You can find the responsible person by clicking on **Study
-        details** next to the study name the subject participated in
-    -   Delete all of these study participations by clicking on **Delete** next
-        to **Study details**
+          -   Go to the responsible person of the study
+              -   Ask the responsible person to delete all collected data of
+                  the subject concerned
+              -   You can find the responsible person by clicking on **Study
+                  details** next to the study name the subject participated in
+              -   Delete all of these study participations by clicking on
+                  **Delete** next to **Study details**
 
-Deleting a study from Castellum
-===============================
+Data Maintenance: Deleting a study from Castellum
+=================================================
 
 Prerequisite
 ------------
@@ -55,9 +52,9 @@ Prerequisite
 A study should be completely deleted because of one or more of the following
 reasons:
 
-    - The study is no longer current because it was completed five years or
-      more ago
-    - …
+    -   The study is no longer current because it was completed five years or
+        more ago.
+    -   The study must be discontinued permanently.
 
 >   Before you delete the study, make sure all external data from Castellum is
     deleted.
