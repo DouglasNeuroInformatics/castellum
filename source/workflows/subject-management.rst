@@ -93,6 +93,7 @@ B) If the person is not of an adult age or has a guardian for example due
 9.  Below you can enter a point in time when a person is available again
     
     > For example: The person is abroad for 6 months.
+    
     - Select **Not available until** today in 6 months
         
 10.  You may also want to select whether the person is **Hard of hearing**,
