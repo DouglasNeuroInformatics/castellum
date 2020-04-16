@@ -30,6 +30,7 @@ In order to create a potential subject in Castellum, please proceed as follows:
     - Please make sure you are connected to the WiFi and use your right username
       and password
 
+
 2.  Click on **Subjects** on the front page
 
 
@@ -41,9 +42,8 @@ In order to create a potential subject in Castellum, please proceed as follows:
     
   
 4.  Click on **Submit** and **Create**
-    - If you notice that you made a spelling mistake with the names, please do
-      not go back and create the person again, but change the name in the
-      following process
+    - If you notice that you made a spelling mistake with the names, please do not
+      go back and create the person again, but change the name in the following process
         
 5.  Define the **Privacy level**
     - 0 (regular) describes an adult person without extraordinary features
