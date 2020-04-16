@@ -76,14 +76,14 @@ B) If the person is not of an adult age or has a guardian for example due
 8.  By clicking on **Additional Info**, you can define the **Availability** of
     the person
     > For example: The person can be reached by phone between 9 and 11 a.m.
-        on tuesdays.
-        - Click on **9** under **Tuesday**,
-        - Hold the Shift-button and
-        - Click on **11** under **Tuesday**
+      on tuesdays.
+      - Click on **9** under **Tuesday**,
+      - Hold the Shift-button and
+      - Click on **11** under **Tuesday**
         
 9.  Below you can enter a point in time when a person is available again
     > For example: The person is abroad for 6 months.
-        - Select **Not available until** today in 6 months
+      - Select **Not available until** today in 6 months
         
 10.  You may also want to select whether the person is **Hard of hearing**,
      **Difficult to understand** or uses **Abusive language**
