@@ -55,6 +55,7 @@ reasons:
     -   The study is no longer current because it was completed five years or
         more ago.
     -   The study must be discontinued permanently.
+    -   ...
 
 >   Before you delete the study, make sure all external data from Castellum is
     deleted.
@@ -70,7 +71,7 @@ Deleting the study
 
 4.  Before pressing **Delete**, proceed as follows:
     -   Go to the responsible person of the study and ask him or her to delete
-        all subject data of the study you want to delete
+        all collected subject data of the study you want to delete
     -   You can detect the name of the responsible person in the upper corner
         under the study name
 
