@@ -3,30 +3,30 @@ Study Coordination: Creating a new study
 
 1. Log in to Castellum by using your username and password
 
-   -   Make sure you are connected to the WiFi and use your right username and
-       password
+   - Make sure you are connected to the WiFi and use your right username and
+     password
        
 2. Click on **Studies** on the front page
-   -   In **My studies** you will see the studies you created
-   -   Under the field **All studies** you can see all studies that have
-       been created
-   -   In the field **Search** you can look for a certain study
+   
+   - In **My studies** you will see the studies you created
+   - Under the field **All studies** you can see all studies that have been
+     created
+   - In the field **Search** you can look for a certain study
     
 3. Click on **Create new study**
 
 4. Fill in all empty fields on the page:
-   -   **Name** describes the name of the study you want to create
-   -   **Responsible contact person** is the person who can be contacted
-       if any questions regarding the study occur
-   -   Define the person who is the lead researcher as **Principal
-       Investigator**
-   -   Determine all scientists that take part in the study as
-       **Affiliated Scientists**
-   -   Determine all research assistants that take part in the study as
-       **Affiliated Research Assistants**
-   -   Please enter all methods you would like to use in your research in
-       the field **Description**
-   -   **Keywords** may include main issues of the desired scientific findings
+   
+   - **Name** describes the name of the study you want to create
+   - **Responsible contact person** is the person who can be contacted if any
+     questions regarding the study occur
+   - Define the person who is the lead researcher as **Principal Investigator**
+   - Determine all scientists that take part in the study as **Affiliated Scientists**
+   - Determine all research assistants that take part in the study as **Affiliated
+     Research Assistants**
+   - Please enter all methods you would like to use in your research in the field
+     **Description**
+   - **Keywords** may include main issues of the desired scientific findings
 
 5. Select the type of study you are going to use
    -   You may choose between studies that take place **Online**, **Behavioral
