@@ -8,7 +8,8 @@ Recruitment of participants for a study
     2.1 If you see the message **There are currently no studies you can recruit
     for** (or you do not find a certain study you are supposed to recruit for),
     please follow instruction 2.2.
-    -   If you see the relevant study, go to step 3. 
+    
+    - If you see the relevant study, go to step 3. 
    
    2.2 Contact the responsible person who has access to the role distribution
    of the study you wish to recruit for
@@ -19,27 +20,29 @@ Recruitment of participants for a study
 4.  By clicking on **Add**, relevant probands will be shown to you
 
 5.  Press the **Contact** button to contact the person you want to reach
-   -   **E-Mail**, **Phone number**, a potential **Phone number alternative**
-       and the **Address** will be shown to you in the tab **Contacting details**
-   -   You might also see the **Preferred contact method**, if the person
-       is **Currently available** and some **General recruiting notes**
-   -   Please have a look at the **Talking points** that the study
-       coordinator has defined
+   
+    - **E-Mail**, **Phone number**, a potential **Phone number alternative**
+      and the **Address** will be shown to you in the tab **Contacting details**
+    - You might also see the **Preferred contact method**, if the person is
+      **Currently available** and some **General recruiting notes**
+    - Please have a look at the **Talking points** that the study coordinator has
+      defined
 
 6.  Contact the potential subject using the specified method
 
 7.  Select a **Status of participation request**
-    -   Choose between:
-        a)   **not reached**
-        b)   **unsuitable**
-             >   This may apply if attributes of the person do not comply with
-                 the requirements of the study
-        c)   **invited**
-        d)   **follow-up scheduled**
-             >   Determine the date and time of the recall appointment below
-        e)   **awaiting response**
-             >   This may apply if you sent an e-mail to the person or if you
-                 left a message on the answering machine
+    
+    - Choose between:
+      a) **not reached**
+      b) **unsuitable**
+         > This may apply if attributes of the person do not comply with the
+           requirements of the study
+      c) **invited**
+      d) **follow-up scheduled**
+         > Determine the date and time of the recall appointment below
+      e) **awaiting response**
+         > This may apply if you sent an e-mail to the person or if you left a
+           message on the answering machine
 
     -   When you select the **Status of participant request** and click on
         **Save and show next**, the next contact person will be shown to you
