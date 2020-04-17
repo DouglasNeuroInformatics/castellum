@@ -33,14 +33,21 @@ Recruitment of participants for a study
 7.  Select a **Status of participation request**
     
     - Choose between:
+    
       a) **not reached**
-      b) **unsuitable** (This may apply if attributes of the person do not comply
-         with the requirements of the study)
+      
+      b) **unsuitable**
+         (This may apply if attributes of the person do not comply with the
+         requirements of the study)
+         
       c) **invited**
-      d) **follow-up scheduled** (Determine the date and time of the recall
-         appointment below)
-      e) **awaiting response** (This may apply if you sent an e-mail to the person
-         or if you left a message on the answering machine)
+      
+      d) **follow-up scheduled**
+         (Determine the date and time of the recall appointment below)
+         
+      e) **awaiting response**
+         (This may apply if you sent an e-mail to the person or if you left a
+         message on the answering machine)
 
     -   When you select the **Status of participant request** and click on
         **Save and show next**, the next contact person will be shown to you
