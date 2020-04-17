@@ -74,6 +74,7 @@ or more of the following reasons:
     - thay cannot be reached due to incorrect or missing contact data or
     - there is no consent.
 To delete the data and the subject, please proceed as follows:
+
 1.  Log in to Castellum by using your username and password
     
     - Make sure you are connected to the WiFi and use your right username and
