@@ -92,8 +92,8 @@ criteria.
       filter group with specific filters
     
     
-    > More than one filter group is necessary, for example, if you need subjects
-      both at the age between 20-30 and 50-60.
+> More than one filter group is necessary, for example, if you need subjects
+  both at the age between 20-30 and 50-60.
         
 5.  In **Excluded studies** you can select certain studies in which your
     subjects must not have participated
@@ -110,8 +110,8 @@ criteria.
     - add an **E-mail body** and
     - indicate a **Reply e-mail-address**
     
-    > This is relevant if study recruitment is to take place by e-mail or if
-      information is to be sent by e-mail in addition to telephone contact
+> This is relevant if study recruitment is to take place by e-mail or if
+  information is to be sent by e-mail in addition to telephone contact
     
 Start and finish your study
 ---------------------------
