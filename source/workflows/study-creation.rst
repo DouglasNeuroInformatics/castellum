@@ -88,6 +88,7 @@ criteria.
       - click on **General**,
       - select **Advanced filtering** and
       - press **Save**
+    
     - When you click on **Add new** in **Filters**, you are able to set another
       filter group with specific filters
       (This is necessary, for example, if you need subjects both at the age
@@ -129,9 +130,9 @@ not been initiated yet either.
     - When you click on **Stop**, you can edit information needed for the
       recruiting process
 
-    > In order to approve the persons who are supposed to carry out the
-      recruitment process, follow the steps in the explanation **Share
-      studies with your recruiters** (see second next instruction)
+In order to approve the persons who are supposed to carry out the recruitment
+process, follow the steps in the explanation **Share studies with your recruiters**
+(see second next instruction)
           
 3.  When you click on **Finish study**, Castellum will register your study as
     completed and the recruitment process is stopped
@@ -142,16 +143,18 @@ Assign access rights and allocate roles
 To delegate roles amongst different people, proceed as follows:
 
 1.  Follow steps 1-5 of the section **Share studies with your recruiters** below
-    >   Even if the section is about **Recruiters**, you can use it to assign
+    
+    > Even if the section is about **Recruiters**, you can use it to assign
         any role you like
         
 2.  Select the user for whom you want to change access rights and/or
     roles and click **Add**
-    >   Some users are already assigned to certain global roles in advance.
-        This can be recognized by the fact that the role description is
-        highlighted in grey.
-    >   Roles with blue background can be flexibly defined and changed by
-        the **Study coordinator**.
+    
+    > Some users are already assigned to certain global roles in advance.
+      This can be recognized by the fact that the role description is highlighted
+      in grey.
+    > Roles with blue background can be flexibly defined and changed by the
+      **Study coordinator**.
         
 3.  After clicking **Manage groups** next to the selected person, you can assign
     up to six different roles for the specific study: **Study coordinator**,
@@ -167,12 +170,14 @@ If you receive a request for access from a person who is supposed to recruit
 participants for your study, please follow the steps below.
 
 1.  Log in to Castellum by using your username and password
-    -   Make sure you are connected to the WiFi and use your right username and
-        password
+    
+    - Make sure you are connected to the WiFi and use your right username and
+      password
         
 2.  Click on **Studies** on the front page
-    -   You will see a list of the studies you have created by clicking on **My
-        studies**
+    
+    - You will see a list of the studies you have created by clicking on **My
+      studies**
         
 3.  Click on **Details** of the study for which you want to change access rights
     or role redistribution
@@ -189,10 +194,11 @@ participants for your study, please follow the steps below.
 8.  Press **Manage groups** next to the person you chose
 
 9.  Select **Recruiter** and press **Save**
-   -   If you did not start the study yet, the selected person has still no
-       access to the study, unless you press **Start** on the upper left side
+   
+    - If you did not start the study yet, the selected person has still no
+      access to the study, unless you press **Start** on the upper left side
 
-      >   The study is now in progress and the recruiter has now access to the
-          study and can begin to recruit
-      >   Of course, you may select several persons as recruiters
+The study is now in progress and the recruiter has now access to the study and can
+begin to recruit.
+Of course, you may select several persons as recruiters.
 
