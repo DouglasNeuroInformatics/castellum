@@ -143,18 +143,18 @@ Assign access rights and allocate roles
 To delegate roles amongst different people, proceed as follows:
 
 1.  Follow steps 1-5 of the section **Share studies with your recruiters** below
-    
-    > Even if the section is about **Recruiters**, you can use it to assign
-        any role you like
+
+Even if the section is about **Recruiters**, you can use it to assign any role you
+like
         
 2.  Select the user for whom you want to change access rights and/or
     roles and click **Add**
     
-    > Some users are already assigned to certain global roles in advance.
-      This can be recognized by the fact that the role description is highlighted
-      in grey.
-    > Roles with blue background can be flexibly defined and changed by the
-      **Study coordinator**.
+Some users are already assigned to certain global roles in advance.
+This can be recognized by the fact that the role description is highlighted in grey.
+
+Roles with blue background can be flexibly defined and changed by the **Study
+coordinator**.
         
 3.  After clicking **Manage groups** next to the selected person, you can assign
     up to six different roles for the specific study: **Study coordinator**,
