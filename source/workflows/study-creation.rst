@@ -29,8 +29,9 @@ Study Coordination: Creating a new study
    - **Keywords** may include main issues of the desired scientific findings
 
 5. Select the type of study you are going to use
-   - You may choose between studies that take place **Online**, **Behavioral lab**,
-     **MRI**, **Simulation**, **EEG** or **3rd Party** studies
+  
+   - You may choose between studies that take place **Online**, **Behavioral lab**, **MRI**,
+     **Simulation**, **EEG** or **3rd Party** studies
    - Decide whether the study **Contains sensitive data** or not
    
 6. Upload the **Consent** form
@@ -77,8 +78,11 @@ criteria.
 4.  By clicking on **Filters** you are able to set them
     
     - select whether you want to create a filter regarind the **Handedness**,
-      **Language**, **Age** or **Highest degree** > **Add** > define the
-      filters and click **Apply**
+      **Language**, **Age** or **Highest degree**,
+    - click **Add**,
+    - define the filters and
+    - click **Apply**
+    
     > You may set as many filters as you like.
     > If you wish to create more than one filter group, proceed as follows:
       - click on **General**,
@@ -86,8 +90,9 @@ criteria.
       - press **Save**
     - When you click on **Add new** in **Filters**, you are able to set another
       filter group with specific filters
-    > More than one filter group is necessary, for example, if you need
-      subjects both at the age between 20-30 and 50-60.
+    
+    > More than one filter group is necessary, for example, if you need subjects
+      both at the age between 20-30 and 50-60.
         
 5.  In **Excluded studies** you can select certain studies in which your
     subjects must not have participated
