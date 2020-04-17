@@ -91,6 +91,7 @@ criteria.
     - When you click on **Add new** in **Filters**, you are able to set another
       filter group with specific filters
     
+    
     > More than one filter group is necessary, for example, if you need subjects
       both at the age between 20-30 and 50-60.
         
@@ -108,6 +109,7 @@ criteria.
     - define an **E-mail subject**,
     - add an **E-mail body** and
     - indicate a **Reply e-mail-address**
+    
     > This is relevant if study recruitment is to take place by e-mail or if
       information is to be sent by e-mail in addition to telephone contact
     
@@ -127,9 +129,9 @@ not been initiated yet either.
     -   When you click on **Stop**, you can edit information needed for the
         recruiting process
 
-          *In order to approve the persons who are supposed to carry out the
-          recruitment process, follow the steps in the explanation **Share
-          studies with your recruiters** (see second next instruction)*
+    > In order to approve the persons who are supposed to carry out the
+      recruitment process, follow the steps in the explanation **Share
+      studies with your recruiters** (see second next instruction)
           
 3.  When you click on **Finish study**, Castellum will register your study as
     completed and the recruitment process is stopped
