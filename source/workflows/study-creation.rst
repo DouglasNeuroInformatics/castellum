@@ -90,9 +90,10 @@ criteria.
       - press **Save**
     - When you click on **Add new** in **Filters**, you are able to set another
       filter group with specific filters
-    > More than one filter group is necessary, for example, if you need subjects both
-      at the age between 20-30 and 50-60.
-        
+    
+    > More than one filter group is necessary, for example, if you need subjects
+      both at the age between 20-30 and 50-60.
+
 5.  In **Excluded studies** you can select certain studies in which your
     subjects must not have participated
     
@@ -107,6 +108,7 @@ criteria.
     - define an **E-mail subject**,
     - add an **E-mail body** and
     - indicate a **Reply e-mail-address**
+    
     > This is relevant if study recruitment is to take place by e-mail or if information
       is to be sent by e-mail in addition to telephone contact
     
@@ -120,11 +122,12 @@ not been initiated yet either.
 
 2.  You can find the button **Start** in the left upper corner under the study
     name
-    -   By clicking on **Start** you initiate the recruiting process
-    -   In this mode, you are not able to change any characteristics or
-        talking points that are needed for the recruitment
-    -   When you click on **Stop**, you can edit information needed for the
-        recruiting process
+   
+    - By clicking on **Start** you initiate the recruiting process
+    - In this mode, you are not able to change any characteristics or talking points
+      that are needed for the recruitment
+    - When you click on **Stop**, you can edit information needed for the
+      recruiting process
 
     > In order to approve the persons who are supposed to carry out the
       recruitment process, follow the steps in the explanation **Share
