@@ -29,9 +29,9 @@ Study Coordination: Creating a new study
    - **Keywords** may include main issues of the desired scientific findings
 
 5. Select the type of study you are going to use
-   -   You may choose between studies that take place **Online**, **Behavioral
-       lab**, **MRI**, **Simulation**, **EEG** or **3rd Party** studies
-   -   Decide whether the study **Contains sensitive data** or not
+   - You may choose between studies that take place **Online**, **Behavioral lab**,
+     **MRI**, **Simulation**, **EEG** or **3rd Party** studies
+   - Decide whether the study **Contains sensitive data** or not
    
 6. Upload the **Consent** form
 
@@ -40,9 +40,10 @@ Study Coordination: Creating a new study
 8. Enter the **Expense allowance** that each subject should receive 
 
 9. Enter as many **Test sessions** as you like by clicking on **Add session**
-   -   When adding a test session, always specify the duration of each meeting
-   -   By clicking on the red button **Delete**, you can erase any test
-       session you created
+   
+   - When adding a test session, always specify the duration of each meeting
+   - By clicking on the red button **Delete**, you can erase any test session you
+     created
        
 10. Define both the **Start of test sessions** and the **End of test sessions**
 
@@ -65,26 +66,28 @@ criteria.
 
 3.  By clicking on **General** the **Recruitment text** will be shown to you
     You can:
-    -   edit the **Recruitment text**,
-    -   decide whether you wish to set up the **Advanced filtering**,
-    -   set the function **Exclusive subjects** and
-    -   decide whether **Complete filter matches only** will be shown to the
-        recruiters of your study or or there will be some subjects displayed, in
-        which certain characteristics still have to be queried
+    
+    - edit the **Recruitment text**,
+    - decide whether you wish to set up the **Advanced filtering**,
+    - set the function **Exclusive subjects** and
+    - decide whether **Complete filter matches only** will be shown to the
+      recruiters of your study or or there will be some subjects displayed, in
+      which certain characteristics still have to be queried
        
 4.  By clicking on **Filters** you are able to set them
-    -   select whether you want to create a filter regarind the **Handedness**,
-        **Language**, **Age** or **Highest degree** > **Add** > define the
-        filters and click **Apply**
-    >   You may set as many filters as you like.
-    >   If you wish to create more than one filter group, proceed as follows:
-        -   click on **General**,
-        -   select **Advanced filtering** and
-        -   press **Save**
-    -   When you click on **Add new** in **Filters**, you are able to set
-        another filter group with specific filters
-    >   More than one filter group is necessary, for example, if you need
-        subjects both at the age between 20-30 and 50-60.
+    
+    - select whether you want to create a filter regarind the **Handedness**,
+      **Language**, **Age** or **Highest degree** > **Add** > define the
+      filters and click **Apply**
+    > You may set as many filters as you like.
+    > If you wish to create more than one filter group, proceed as follows:
+      - click on **General**,
+      - select **Advanced filtering** and
+      - press **Save**
+    - When you click on **Add new** in **Filters**, you are able to set another
+      filter group with specific filters
+    > More than one filter group is necessary, for example, if you need
+      subjects both at the age between 20-30 and 50-60.
         
 5.  In **Excluded studies** you can select certain studies in which your
     subjects must not have participated
@@ -92,15 +95,16 @@ criteria.
 6.  When you clicking on **Inclusion/exclusion criteria**, you can add
     **Additional subject characteristics that should be verified during
     recruitment**
-    >   If it is a MRI-study, the criteria are pre-set for checking during
-        recruitment
+    
+    > If it is a MRI-study, the criteria are pre-set for checking during recruitment
         
 7.  In **Mail Settings**, you can:
-    -   define an **E-mail subject**,
-    -   add an **E-mail body** and
-    -   indicate a **Reply e-mail-address**
-    >   This is relevant if study recruitment is to take place by e-mail or if
-        information is to be sent by e-mail in addition to telephone contact
+
+    - define an **E-mail subject**,
+    - add an **E-mail body** and
+    - indicate a **Reply e-mail-address**
+    > This is relevant if study recruitment is to take place by e-mail or if
+      information is to be sent by e-mail in addition to telephone contact
     
 Start and finish your study
 ---------------------------
