@@ -39,12 +39,12 @@ a) If you see a message saying **Are you sure you want to permanently delete
 b) If you see a message saying **This subject cannot be deleted because there still
    is data about them in studies.**, proceed as follows:
 
-   - Go to the responsible person of the study
-   - Ask the responsible person to delete all collected data of the subject concerned
-   - You can find the responsible person by clicking on **Study details** next to
-     the study name the subject participated in
-   - Delete all of these study participations by clicking on **Delete** next to
-     **Study details**
+   1. Go to the responsible person of the study
+   2. Ask the responsible person to delete all collected data of the subject concerned
+   3. You can find the responsible person by clicking on **Study details** next to
+      the study name the subject participated in
+   4. Delete all of these study participations by clicking on **Delete** next to
+      **Study details**
 
 Data Maintenance: Deleting a study from Castellum
 =================================================
