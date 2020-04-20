@@ -22,7 +22,9 @@
 import datetime
 
 from django import forms
+from django.conf import settings
 from django.forms import ValidationError
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from castellum.utils.forms import DatalistWidget
@@ -32,11 +34,24 @@ from .models import ConsentDocument
 from .models import Subject
 
 
+def get_initial_consent_status(subject):
+    try:
+        consent = Consent.objects.get(subject=subject, document__is_valid=True)
+    except Consent.DoesNotExist:
+        return ''
+
+    acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
+    if consent.status == Consent.WAITING and consent.updated_at <= acceptable_datetime:
+        return ''
+
+    return consent.status
+
+
 class DataProtectionForm(forms.ModelForm):
 
     class Meta:
         model = Subject
-        fields = ('privacy_level', 'no_recruitment')
+        fields = ('privacy_level',)
         widgets = {
             'privacy_level': forms.RadioSelect,
             'source': DatalistWidget(datalist=(
@@ -44,7 +59,15 @@ class DataProtectionForm(forms.ModelForm):
             )),
         }
 
-    consent_status = Consent._meta.get_field('status').formfield(required=False)
+    consent_status = Consent._meta.get_field('status').formfield(
+        label=_('Recruitment consent'),
+        help_text=_(
+            'Without recruitment consent, this subject will not be '
+            'taken into account for future recruitment. Note that '
+            'existing data is not deleted when consent is withdrawn.'
+        ),
+        required=False,
+    )
     to_be_deleted = forms.BooleanField(
         label=_("To be deleted"),
         required=False,
@@ -60,12 +83,9 @@ class DataProtectionForm(forms.ModelForm):
         self.user = user
         super().__init__(*args, **kwargs)
 
-        consent = self.instance.consent
-        if consent and consent.status == Consent.WAITING:
-            self.fields['consent_status'].initial = consent.status
-
         self.fields['to_be_deleted'].initial = self.instance.to_be_deleted
         self.fields['export_requested'].initial = self.instance.export_requested
+        self.fields['consent_status'].initial = get_initial_consent_status(self.instance)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -74,6 +94,15 @@ class DataProtectionForm(forms.ModelForm):
         if not self.user.has_privacy_level(privacy_level):
             raise ValidationError(
                 _("Please choose lower privacy level for the subject."), code='invalid'
+            )
+
+        if cleaned_data.get('to_be_deleted') and cleaned_data.get('consent_status'):
+            raise ValidationError(
+                _(
+                     'Subjects can either be marked for deletion or have recruitment consent, '
+                     'not both.'
+                ),
+                code='invalid',
             )
 
         return cleaned_data
@@ -91,20 +120,28 @@ class DataProtectionForm(forms.ModelForm):
 
         subject = super().save(commit)
 
-        if subject.consent and subject.consent.status == Consent.WAITING:
-            if subject.consent.status != self.cleaned_data['consent_status']:
-                subject.consent.status = self.cleaned_data['consent_status']
-                subject.consent.save()
-        elif self.cleaned_data['consent_status']:
+        new_status = self.cleaned_data.get('consent_status')
+        if new_status:
             try:
                 document = ConsentDocument.objects.filter(is_valid=True).latest()
             except ConsentDocument.DoesNotExist:
                 document = ConsentDocument.objects.create()
-            Consent.objects.create(
-                status=self.cleaned_data['consent_status'],
-                subject=subject,
-                document=document,
-            )
+            try:
+                initial_status = get_initial_consent_status(subject)
+                if initial_status != new_status:
+                    if initial_status != Consent.WAITING:
+                        subject.consent.document = document
+                    subject.consent.status = new_status
+                    subject.consent.save()
+            except Consent.DoesNotExist:
+                Consent.objects.create(
+                    subject=subject,
+                    status=new_status,
+                    document=document,
+                )
+        else:
+            Consent.objects.filter(subject=subject).delete()
+
         return subject
 
 

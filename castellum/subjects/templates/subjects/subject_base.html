@@ -40,9 +40,6 @@
             {% if can_change_subject %}
                 <li class="nav-item">
                     <a href="{% url 'subjects:data-protection' subject.pk %}" class="nav-link {% if view.tab == 'data-protection' %}active{% endif %}">
-                        {% if not subject.is_complete %}
-                            <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
-                        {% endif %}
                         {% trans 'Data protection' %}
                     </a>
                 </li>

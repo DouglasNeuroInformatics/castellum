@@ -1,25 +1,46 @@
 $(function() {
-    var oldValue = $('#id_no_recruitment').prop('checked');
+    var $consentHidden = $('#id_consent_status_hidden');
+    var $consentCheckbox = $('#id_consent_status');
+    var $consentConfirm = $('[data-js="consent-confirm"]');
 
-    var setNoRecruitment = function() {
-        var $toBeDeleted = $('#id_to_be_deleted');
-        var $noRecruitment = $('#id_no_recruitment');
-        var $noRecruitmentHidden = $('#id_no_recruitment_hidden');
-
-        if ($toBeDeleted.prop('checked')) {
-            oldValue = $noRecruitment.prop('checked');
-            $noRecruitment.prop('checked', true);
-            $noRecruitment.prop('disabled', true);
-            $noRecruitmentHidden.prop('disabled', false);
+    var setConsent = function(value) {
+        if (value === 'waiting') {
+            $consentCheckbox.prop('indeterminate', true);
+            $consentCheckbox.prop('checked', false);
+            $consentConfirm.prop('hidden', false);
+        } else if (value === 'confirmed') {
+            $consentCheckbox.prop('indeterminate', false);
+            $consentCheckbox.prop('checked', true);
+            $consentConfirm.prop('hidden', true);
         } else {
-            $noRecruitment.prop('checked', oldValue);
-            $noRecruitment.prop('disabled', false);
-            $noRecruitmentHidden.prop('disabled', true);
+            $consentCheckbox.prop('indeterminate', false);
+            $consentCheckbox.prop('checked', false);
+            $consentConfirm.prop('hidden', true);
         }
+        $consentHidden.val(value);
     };
 
-    $(document).on('change', '#id_to_be_deleted', setNoRecruitment);
-    setNoRecruitment();
+    $consentCheckbox.on('change', function() {
+        setConsent($consentHidden.val() ? '' : 'waiting');
+    });
+    $consentConfirm.on('click', function() {
+        setConsent('confirmed');
+    });
+    setConsent($consentHidden.val());
+
+
+    var $toBeDeleted = $('#id_to_be_deleted');
+    var oldConsentValue = $consentHidden.val();
+    $toBeDeleted.on('change', function() {
+        if ($toBeDeleted.prop('checked')) {
+            oldConsentValue = $consentHidden.val();
+            setConsent('');
+            $consentCheckbox.prop('disabled', true);
+        } else {
+            setConsent(oldConsentValue);
+            $consentCheckbox.prop('disabled', false);
+        }
+    });
 
 
     var $totalForms = $('#id_form-TOTAL_FORMS');

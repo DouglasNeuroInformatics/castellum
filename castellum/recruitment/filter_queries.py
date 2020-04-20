@@ -30,9 +30,12 @@ which can be passed to ``Subjects.objects.filter()``.
 """
 
 
+from django.conf import settings
 from django.db import models
+from django.utils import timezone
 
 from castellum.studies.models import Study
+from castellum.subjects.models import Consent
 
 from .filter_registry import custom_filters
 from .models import AttributeDescription
@@ -95,9 +98,19 @@ def subjectfilters(subjectfiltergroup, include_unknown=None):
     return q
 
 
-def no_recruitment():
+def has_consent(include_waiting=False):
     """Exclude subjects who do not want to be contacted for recruitment."""
-    return models.Q(no_recruitment=False)
+    if include_waiting:
+        acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
+        return models.Q(consent__document__is_valid=True) & (
+            models.Q(consent__status=Consent.CONFIRMED) |
+            models.Q(consent__updated_at__lte=acceptable_datetime)
+        )
+    else:
+        return models.Q(
+            consent__status=Consent.CONFIRMED,
+            consent__document__is_valid=True,
+        )
 
 
 def to_be_deleted():

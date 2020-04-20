@@ -23,9 +23,9 @@
             {% trans 'Subject has missing attributes. Please contact to check if they are suitable.' %}
         </div>
     {% endif %}
-    {% if subject.no_recruitment %}
+    {% if not subject.has_consent %}
         <div class="alert alert-warning" role="alert">
-            {% trans 'Subject does not want to be contacted for recruitment.' %}
+            {% trans 'Subject has not given consent for recruitment.' %}
         </div>
     {% endif %}
 

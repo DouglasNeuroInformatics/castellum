@@ -91,12 +91,7 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
             .filter(completeness=total)\
             .count()
 
-        context['count_consent'] = Subject.objects.filter(
-            ~filter_queries.no_recruitment() | models.Q(
-                consent__status=Consent.CONFIRMED,
-                consent__document__is_valid=True,
-            )
-        ).count()
+        context['count_consent'] = Subject.objects.filter(filter_queries.has_consent()).count()
 
         context['is_post'] = self.request.method == 'POST'
         form = kwargs.get('form')
@@ -177,7 +172,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
                 'study consent given '
                 '(Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG)'
             ))
-        if self.object.confirmed_consent:
+        if self.object.has_consent:
             legal_basis.append(_(
                 'recruitment consent given '
                 '(Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR)'
@@ -245,8 +240,10 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
             for participation_request in self.object.participationrequest_set.all():
                 context['dataset_list'].append(participation_request)
 
-            for consent in self.object.consent_set.all():
-                context['dataset_list'].append(consent)
+            try:
+                context['dataset_list'].append(self.object.consent)
+            except ObjectDoesNotExist:
+                pass
 
             for answer in self.object.exportanswer_set.all():
                 context['dataset_list'].append(answer)
@@ -431,7 +428,6 @@ class GuardianSearchView(SubjectSearchView):
         if form.is_valid() and privacy_level_form.is_valid() and contact_form.is_valid():
             contact = contact_form.save()
             contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
-            contact.subject.no_recruitment = True
             contact.subject.save()
 
             monitoring_logger.info('SubjectData update: {} by {}'.format(
@@ -460,7 +456,7 @@ class MaintenanceAttributesView(PermissionRequiredMixin, ListView):
         return super().get_queryset()\
             .exclude(attributeset=None)\
             .annotate(completeness=completeness)\
-            .filter(filter_queries.no_recruitment(), completeness__lt=total)\
+            .filter(filter_queries.has_consent(), completeness__lt=total)\
             .order_by('completeness')
 
 
@@ -503,12 +499,9 @@ class MaintenanceConsentView(PermissionRequiredMixin, ListView):
     tab = 'consent'
 
     def get_queryset(self):
-        return super().get_queryset().exclude(
-            ~filter_queries.no_recruitment() | models.Q(
-                consent__status=Consent.CONFIRMED,
-                consent__document__is_valid=True,
-            )
-        )
+        return super().get_queryset()\
+            .exclude(filter_queries.has_consent())\
+            .filter(consent__status=Consent.CONFIRMED)
 
 
 class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):

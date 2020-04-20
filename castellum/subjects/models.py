@@ -21,7 +21,6 @@
 
 from django.conf import settings
 from django.db import models
-from django.forms import ValidationError
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -52,15 +51,6 @@ class Subject(TimeStampedModel):
         ],
     )
 
-    no_recruitment = models.BooleanField(
-        _('Do not contact for recruitment'),
-        default=False,
-        help_text=_(
-            'This subject will not be taken into account for future recruitment, '
-            'but the existing data is not deleted. '
-            'This option should be used when a subject withdraws (GDPR) consent for recruitment.'
-        ),
-    )
     to_be_deleted = models.DateField(_('To be deleted'), blank=True, null=True, help_text=_(
         'All data about this subject should be deleted or fully anonymized. '
         'This includes all data in Castellum and all data collected in studies. '
@@ -101,13 +91,6 @@ class Subject(TimeStampedModel):
     class Meta:
         verbose_name = _('Subject')
 
-    def clean(self):
-        if self.to_be_deleted and not self.no_recruitment:
-            raise ValidationError(
-                _('Subjects who are to be deleted should not be contacted for recruitment.'),
-                code='invalid',
-            )
-
     def delete(self):
         self.contact.delete()
         return super().delete()
@@ -125,7 +108,6 @@ class Subject(TimeStampedModel):
             'note_difficult_to_understand',
             'note_abusive_language',
             'source',
-            'no_recruitment',
             'to_be_deleted',
             'export_requested',
         ]
@@ -138,26 +120,12 @@ class Subject(TimeStampedModel):
         return contact
 
     @cached_property
-    def consent(self):
-        try:
-            return self.consent_set.filter(document__is_valid=True).latest()
-        except Consent.DoesNotExist:
-            return None
-
-    @cached_property
-    def confirmed_consent(self):
-        try:
-            return self.consent_set.filter(
-                status=Consent.CONFIRMED,
-                document__is_valid=True,
-            ).latest()
-        except Consent.DoesNotExist:
-            return None
-
-    @cached_property
-    def is_complete(self):
-        # these conditions are also checked in the form
-        return self.no_recruitment or self.consent
+    def has_consent(self):
+        return Consent.objects.filter(
+            subject=self,
+            status=Consent.CONFIRMED,
+            document__is_valid=True,
+        ).exists()
 
     @property
     def is_available(self):
@@ -239,7 +207,7 @@ class Consent(models.Model):
     CONFIRMED = 'confirmed'
 
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
     document = models.ForeignKey(ConsentDocument, on_delete=models.CASCADE)
     status = models.CharField(_('Status'), max_length=64, choices=[
         (WAITING, _('Waiting for confirmation')),

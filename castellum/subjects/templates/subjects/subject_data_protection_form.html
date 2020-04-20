@@ -20,34 +20,17 @@
         </fieldset>
 
         <fieldset>
-            <legend>{% trans 'Recruitment consent' %}</legend>
-
-            {% with consent=object.confirmed_consent %}
-                <div class="alert alert-{% if object.no_recruitment %}info{% elif consent.document.is_valid %}success{% else %}warning{% endif %}">
-                    {% if consent %}
-                        {{ consent.document }} {% if not consent.document.is_valid %}({% trans 'outdated' %}){% endif %}
-                        <br>
-                        <time>{{ consent.updated_at|date }}</time>
-                    {% elif object.no_recruitment %}
-                        {% trans 'No consent needed' %}
-                    {% else %}
-                        {% trans 'Missing consent' %}
-                    {% endif %}
-                </div>
-            {% endwith %}
-
-            {% with consent=object.consent %}
-                {% if consent.status == consent.WAITING or not consent.document.is_valid %}
-                    {% bootstrap_field form.consent_status %}
-                {% endif %}
-            {% endwith %}
-        </fieldset>
-
-        <fieldset>
             {% bootstrap_field form.export_requested %}
             {% bootstrap_field form.to_be_deleted %}
-            {% bootstrap_field form.no_recruitment %}
-            <input type="hidden" name="{{ form.no_recruitment.name }}" id="{{ form.no_recruitment.auto_id }}_hidden" value="on" disabled>
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="{{ form.consent_status.id_for_label }}" {% if form.consent_status.value == 'confirmed' %}checked{% endif %} {% if form.to_be_deleted.value %}disabled{% endif %}>
+                    <label class="form-check-label" for="{{ form.consent_status.id_for_label }}">{{ form.consent_status.label }}</label>
+                    <button type="button" data-js="consent-confirm" class="btn btn-primary btn-sm" hidden>{% trans 'Confirm' %}</button>
+                    <small class="form-text text-muted">{{ form.consent_status.help_text }}</small>
+                </div>
+                <input type="hidden" name="{{ form.consent_status.name }}" id="{{ form.consent_status.id_for_label }}_hidden" value="{{ form.consent_status.value|default:'' }}" autocomplete="off">
+            </div>
         </fieldset>
 
         <div class="d-print-none mb-3">
