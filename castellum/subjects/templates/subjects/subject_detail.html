@@ -41,15 +41,19 @@
             <small class="form-text text-muted">{% trans '(Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 1626, 1902 BGB)' %}</small>
         </dt>
         <dd class="col-sm-6">
-            {% if subject.contact.guardian_of.exists %}
-                {% for c in subject.contact.guardian_of.all %}
-                    {% has_privacy_level c.subject.privacy_level user as can_access %}
-                    {% if can_access %}
-                        <a href="{% url 'subjects:detail' c.subject.pk %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
-                    {% else %}
-                        <span class="text-muted">{% trans '(access denied)' %}</span>{% if not forloop.last %},{% endif %}
-                    {% endif %}
-                {% endfor %}
+            {% if legal_basis %}
+                {% if subject.contact.guardian_of.exists %}
+                    {% for c in subject.contact.guardian_of.all %}
+                        {% has_privacy_level c.subject.privacy_level user as can_access %}
+                        {% if can_access %}
+                            <a href="{% url 'subjects:detail' c.subject.pk %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
+                        {% else %}
+                            <span class="text-muted">{% trans '(access denied)' %}</span>{% if not forloop.last %},{% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% else %}
+                <a href="{% url 'subjects:index' %}" class="btn btn-primary btn-block">{% trans "Subject Search" %}</a>
             {% endif %}
         </dd>
 
@@ -57,8 +61,12 @@
             <small class="form-text text-muted">{% trans '(Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR)' %}</small>
         </dt>
         <dd class="col-sm-6">
-            {% if subject.has_consent %}
-                {% trans 'Yes' %}
+            {% if legal_basis %}
+                {% if subject.has_consent %}
+                    {% trans 'Yes' %}
+                {% endif %}
+            {% else %}
+                <a href="{% url 'subjects:data-protection' subject.pk %}" class="btn btn-primary btn-block">{% trans "Data-protection" %}</a>
             {% endif %}
         </dd>
 
@@ -66,9 +74,13 @@
             <small class="form-text text-muted">{% trans '(Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG)' %}</small>
         </dt>
         <dd class="col-sm-6">
-            {% for study in participated_studies %}
-                {{ study.name }}
-            {% endfor %}
+            {% if legal_basis %}
+                {% for study in participated_studies %}
+                    {{ study.name }}
+                {% endfor %}
+            {% else %}
+                <a href="{% url 'subjects:participation-list' subject.pk %}" class="btn btn-primary btn-block">{% trans "Study Participations" %}</a>
+            {% endif %}
         </dd>
     </dl>
 
