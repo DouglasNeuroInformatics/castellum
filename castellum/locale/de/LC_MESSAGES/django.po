@@ -377,7 +377,7 @@ msgstr "Nicht kontaktierbar"
 #: castellum/data_protection/templates/data_protection/index.html:25
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:36
 msgid "Missing consent"
-msgstr "Fehlendes Einverständnis"
+msgstr "Fehlende Einwilligung"
 
 #: castellum/execution/templates/execution/base.html:6
 #: castellum/studies/models.py:68 castellum/templates/index.html:53
@@ -1338,7 +1338,7 @@ msgstr "Ausgeschlossene Studien"
 #: castellum/subjects/templates/subjects/maintenance_base.html:22
 #: castellum/subjects/templates/subjects/maintenance_consent.html:4
 msgid "Consent"
-msgstr "Einverständnis"
+msgstr "Einwilligung"
 
 #: castellum/studies/models.py:142
 msgid "E-mail subject"
@@ -1667,7 +1667,7 @@ msgstr "nicht erreicht"
 
 #: castellum/studies/templates/studies/study_detail.html:28
 msgid "Consent document uploaded"
-msgstr "Einverständniserklärung hochgeladen"
+msgstr "Einwilligungserklärung hochgeladen"
 
 #: castellum/studies/templates/studies/study_detail.html:35
 msgid "Recruiters"
@@ -1904,7 +1904,7 @@ msgid ""
 msgstr ""
 "Diese Proband*in wird zukünftig nicht bei der Rekrutierung berücksichtigt, "
 "die bestehenden Daten werden aber nicht gelöscht. Diese Option sollte "
-"benutzt werden, wenn eine Proband*in ihr (DSGVO-)Einverständnis für die "
+"benutzt werden, wenn eine Proband*in ihre (DSGVO-)Einwilligung für die "
 "Rekrutierung zurückzieht."
 
 #: castellum/subjects/models.py:65
@@ -2078,7 +2078,7 @@ msgstr "Wartung"
 
 #: castellum/subjects/templates/subjects/maintenance_consent.html:7
 msgid "The following subjects have no consent:"
-msgstr "Die folgenden Proband*innen haben keine Einverständniserklärung:"
+msgstr "Die folgenden Proband*innen haben keine Einwilligung:"
 
 #: castellum/subjects/templates/subjects/maintenance_contact.html:7
 msgid "The following subjects have incomplete contact data:"
@@ -2186,7 +2186,7 @@ msgstr ""
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:25
 msgid "Recruitment consent"
-msgstr "Einverständnis zur Rekrutierung"
+msgstr "Einwilligung zur Rekrutierung"
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:30
 msgid "outdated"
@@ -2194,7 +2194,7 @@ msgstr "veraltet"
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:34
 msgid "No consent needed"
-msgstr "Kein Einverständnis benötigt"
+msgstr "Keine Einwilligung benötigt"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:4
 msgid "Subject details"
@@ -2301,7 +2301,7 @@ msgstr "Haben an einer Studie teilgenommen"
 
 #: castellum/subjects/templates/subjects/subject_search.html:141
 msgid "Consent confirmed"
-msgstr "Einverständnis bestätigt"
+msgstr "Einwilligung bestätigt"
 
 #: castellum/subjects/views.py:139
 msgid "Both first and last name must be provided in order to create a subject!"
@@ -2478,49 +2478,3 @@ msgstr "erstellt am"
 #: castellum/utils/models.py:28
 msgid "updated at"
 msgstr "aktualisiert am"
-
-#~ msgid "Back"
-#~ msgstr "Zurück"
-
-#~ msgid "Recruiting:"
-#~ msgstr "Rekrutierung:"
-
-#~ msgid "My follow-ups"
-#~ msgstr "Meine Wiedervorlagen"
-
-#~ msgid "Please, fill out both type and status of the consent."
-#~ msgstr ""
-#~ "Bitte geben Sie sowohl Art als auch Status des Einverständnisses an."
-
-#~ msgid "Info"
-#~ msgstr "Info"
-
-#~ msgid "Type"
-#~ msgstr "Typ"
-
-#~ msgid "Online form"
-#~ msgstr "Online-Formular"
-
-#~ msgid "Pen & Paper"
-#~ msgstr "schriftlich"
-
-#~ msgid "Telephone"
-#~ msgstr "Telefon"
-
-#~ msgid "Not logged in"
-#~ msgstr "Nicht angemeldet"
-
-#~ msgid "Due for deletion in"
-#~ msgstr "Zur Löschung fällig in"
-
-#~ msgid "Expired studies"
-#~ msgstr "Abgelaufene Studien"
-
-#~ msgid "Consent confirmation"
-#~ msgstr "Einverständniserklärung"
-
-#~ msgid "Castellum consent"
-#~ msgstr "Castellum-Einverständnis"
-
-#~ msgid "set on"
-#~ msgstr "angegeben am"
