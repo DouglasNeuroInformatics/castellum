@@ -62,9 +62,9 @@ class DataProtectionForm(forms.ModelForm):
     consent_status = Consent._meta.get_field('status').formfield(
         label=_('Recruitment consent'),
         help_text=_(
-            'Without recruitment consent, this subject will not be '
-            'taken into account for future recruitment. Note that '
-            'existing data is not deleted when consent is withdrawn.'
+            'Without recruitment consent, this subject will not be taken into account for future '
+            'recruitment. Withdrawing recruitment consent has no effect on study consent. '
+            'Therefore no data related to existing studies is deleted.'
         ),
         required=False,
     )
