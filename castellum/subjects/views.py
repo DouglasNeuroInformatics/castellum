@@ -501,7 +501,7 @@ class MaintenanceConsentView(PermissionRequiredMixin, ListView):
     def get_queryset(self):
         return super().get_queryset()\
             .exclude(filter_queries.has_consent())\
-            .filter(consent__status=Consent.CONFIRMED)
+            .filter(consent__status__in=[Consent.CONFIRMED, Consent.EXPIRED])
 
 
 class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):
