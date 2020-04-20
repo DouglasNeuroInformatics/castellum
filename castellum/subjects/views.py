@@ -161,6 +161,11 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         context['coverletter_exists'] = bool(settings.CASTELLUM_COVERLETTER_TEMPLATE)
         context['legal_basis'] = self.get_legal_basis()
 
+        context['participated_studies'] = Study.objects.filter(
+            participationrequest__subject=self.object,
+            participationrequest__status=ParticipationRequest.INVITED
+        )
+
         return context
 
     def get_legal_basis(self):

@@ -24,9 +24,24 @@
             </dd>
         {% endif %}
 
-        {% if subject.contact.guardian_of.exists %}
-            <dt class="col-sm-6">{% trans 'Guardian of' %}</dt>
-            <dd class="col-sm-6">
+        <dt class="col-sm-6">{% trans 'Subject data registered' %}</dt>
+        <dd class="col-sm-6">{{ subject.created_at }}</dd>
+
+        <dt class="col-sm-6">{% trans 'Last edited' %}</dt>
+        <dd class="col-sm-6">{{ updated_at }}</dd>
+
+        <dt class="col-sm-6">{% trans 'Attribute set completeness' %}</dt>
+        <dd class="col-sm-6">{{ attributeset_completeness|default:'—' }}</dd>
+    </dl>
+
+    <dl class="row">
+        <h2 class="h4">{% trans 'Legal basis for data processing' %}</h2>
+
+        <dt class="col-sm-6">{% trans 'Guardianship' %}
+            <small class="form-text text-muted">{% trans '(Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 1626, 1902 BGB)' %}</small>
+        </dt>
+        <dd class="col-sm-6">
+            {% if subject.contact.guardian_of.exists %}
                 {% for c in subject.contact.guardian_of.all %}
                     {% has_privacy_level c.subject.privacy_level user as can_access %}
                     {% if can_access %}
@@ -35,20 +50,26 @@
                         <span class="text-muted">{% trans '(access denied)' %}</span>{% if not forloop.last %},{% endif %}
                     {% endif %}
                 {% endfor %}
-            </dd>
-        {% endif %}
+            {% endif %}
+        </dd>
 
-        <dt class="col-sm-6">{% trans 'Subject data registered' %}</dt>
-        <dd class="col-sm-6">{{ subject.created_at }}</dd>
+        <dt class="col-sm-6">{% trans 'Recruitment consent' %}
+            <small class="form-text text-muted">{% trans '(Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR)' %}</small>
+        </dt>
+        <dd class="col-sm-6">
+            {% if subject.has_consent %}
+                {% trans 'Yes' %}
+            {% endif %}
+        </dd>
 
-        <dt class="col-sm-6">{% trans 'Last edited' %}</dt>
-        <dd class="col-sm-6">{{ updated_at }}</dd>
-
-        <dt class="col-sm-6">{% trans 'Legal basis for data processing' %}</dt>
-        <dd class="col-sm-6">{{ legal_basis|join:', '|default:'—' }}</dd>
-
-        <dt class="col-sm-6">{% trans 'Attribute set completeness' %}</dt>
-        <dd class="col-sm-6">{{ attributeset_completeness|default:'—' }}</dd>
+        <dt class="col-sm-6">{% trans 'Study consent' %}
+            <small class="form-text text-muted">{% trans '(Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG)' %}</small>
+        </dt>
+        <dd class="col-sm-6">
+            {% for study in participated_studies %}
+                {{ study.name }}
+            {% endfor %}
+        </dd>
     </dl>
 
     {% if coverletter_exists %}
