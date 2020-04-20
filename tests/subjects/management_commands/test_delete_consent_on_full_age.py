@@ -19,7 +19,8 @@ def test_delete_consent_on_full_age():
         cmd = Command()
         cmd.handle()
 
-    assert Consent.objects.count() == 0
+    consent = Consent.objects.get(subject=contact.subject)
+    assert consent.status == Consent.EXPIRED
 
 
 @pytest.mark.django_db
@@ -32,7 +33,8 @@ def test_delete_consent_on_full_age_not_full_age():
         cmd = Command()
         cmd.handle()
 
-    assert Consent.objects.count() == 1
+    consent = Consent.objects.get(subject=contact.subject)
+    assert consent.status != Consent.EXPIRED
 
 
 @pytest.mark.django_db
@@ -45,4 +47,5 @@ def test_delete_consent_on_full_age_newer_consent():
         cmd = Command()
         cmd.handle()
 
-    assert Consent.objects.count() == 1
+    consent = Consent.objects.get(subject=contact.subject)
+    assert consent.status != Consent.EXPIRED

@@ -49,4 +49,5 @@ class Command(BaseCommand):
 
         for consent in consents:
             if consent.updated_at.date() < consent.subject.contact.date_of_birth + FULL_AGE:
-                consent.delete()
+                consent.status = Consent.EXPIRED
+                consent.save()
