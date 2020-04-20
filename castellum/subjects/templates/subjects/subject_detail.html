@@ -4,7 +4,7 @@
 {% block title %}{% trans "Subject details" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    {% if not subject.contact.is_complete %}
+    {% if not subject.contact.is_complete or not subject.has_legal_basis %}
         <p class="alert alert-danger" role="alert">
             <strong>{% trans 'Incomplete data' %}.</strong> {% trans 'Please edit data sets marked with' %} <i class="fa fa-exclamation-triangle" role="img" aria-label="{% trans 'Missing values' %}"></i>
         </p>
@@ -50,6 +50,10 @@
     </dl>
 
     <h2 class="h4">{% trans 'Legal basis for data processing' %}</h2>
+
+    {% if not subject.has_legal_basis %}
+        <p class="alert alert-warning">{% trans 'Currently there is no legal basis for storing this subject. Please provide at least one of these options.' %}
+    {% endif %}
 
     <dl class="row">
         <dt class="col-sm-6">

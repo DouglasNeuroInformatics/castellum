@@ -14,7 +14,12 @@
     <nav class="d-print-none" aria-label="{% trans 'Tabs' %}">
         <ul class="nav nav-tabs justify-content-center mb-3">
             <li class="nav-item">
-                <a href="{% url 'subjects:detail' subject.pk %}" class="nav-link {% if view.tab == 'detail' %}active{% endif %}">{% trans 'Overview' %}</a>
+                <a href="{% url 'subjects:detail' subject.pk %}" class="nav-link {% if view.tab == 'detail' %}active{% endif %}">
+                    {% if not subject.has_legal_basis %}
+                        <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'No legal basis' %}" aria-label="{% trans 'No legal basis' %}"></i>
+                    {% endif %}
+                    {% trans 'Overview' %}
+                </a>
             </li>
 
             {% has_perm 'contacts.change_contact' user as can_change_contact %}
