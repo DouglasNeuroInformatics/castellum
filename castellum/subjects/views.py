@@ -173,7 +173,15 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
             status=ParticipationRequest.INVITED
         ).exists()
 
-        if has_study_consent or self.object.has_consent or self.object.contact.is_guardian:
+        has_recruitment_consent = Consent.objects.filter(
+            subject=self.object,
+            document__is_valid=True,
+            ).filter(models.Q(
+                status=Consent.CONFIRMED,
+            ) | models.Q(status=Consent.WAITING)
+        ).exists()
+
+        if has_study_consent or has_recruitment_consent or self.object.contact.is_guardian:
             return True
         else:
             return False
