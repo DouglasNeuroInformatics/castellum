@@ -127,6 +127,18 @@ class Subject(TimeStampedModel):
             document__is_valid=True,
         ).exists()
 
+    @cached_property
+    def has_consent_or_waiting(self):
+        from castellum.recruitment import filter_queries
+        return Subject.objects.filter(
+            filter_queries.has_consent(include_waiting=True), pk=self.pk,
+        ).exists()
+
+    @cached_property
+    def has_study_consent(self):
+        from castellum.recruitment.models import ParticipationRequest
+        return self.participationrequest_set.filter(status=ParticipationRequest.INVITED).exists()
+
     @property
     def is_available(self):
         now = timezone.localtime()
