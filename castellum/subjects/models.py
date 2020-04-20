@@ -205,6 +205,7 @@ class ConsentDocument(models.Model):
 class Consent(models.Model):
     WAITING = 'waiting'
     CONFIRMED = 'confirmed'
+    EXPIRED = 'expired'
 
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
@@ -212,6 +213,7 @@ class Consent(models.Model):
     status = models.CharField(_('Status'), max_length=64, choices=[
         (WAITING, _('Waiting for confirmation')),
         (CONFIRMED, _('Confirmed')),
+        (EXPIRED, _('Expired')),
     ])
 
     class Meta:
