@@ -388,6 +388,44 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return redirect(url + '?context=subjects:participation-list')
 
 
+class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
+    model = Subject
+    template_name = 'subjects/subject_add_to_study.html'
+    permission_required = 'contacts.view_contact'
+    tab = 'participations'
+
+    def get_studies(self, subject):
+        perms = ('recruitment.add_participationrequest', 'studies.access_study')
+        studies = (
+            Study.objects
+            .filter(status=Study.FINISHED)
+            .exclude(participationrequest__subject=subject)
+        )
+        for study in studies:
+            if self.request.user.has_perms(perms, obj=study):
+                yield study
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['attributeset'] = True
+        context['studies'] = list(self.get_studies(self.object))
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        study = get_object_or_404(Study, pk=request.POST['study'], status=Study.FINISHED)
+
+        perms = ('recruitment.add_participationrequest', 'studies.access_study')
+        if not request.user.has_perms(perms, obj=study):
+            raise PermissionDenied
+
+        ParticipationRequest.objects.create(
+            subject=self.object, study=study, status=ParticipationRequest.INVITED
+        )
+
+        return redirect('subjects:participation-list', self.object.pk)
+
+
 class GuardianSearchView(SubjectSearchView):
     template_name = 'subjects/guardian_search.html'
     nochrome = True
