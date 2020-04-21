@@ -305,14 +305,19 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
             self.request.user.has_perm('recruitment.change_participationrequest', obj=study)
         )
 
-    def get_queryset(self):
+    def get_queryset(self, study_status=Study.EXECUTION):
         queryset = self.model.objects\
-            .filter(subject=self.subject, study__status=Study.EXECUTION)\
+            .filter(subject=self.subject, study__status=study_status)\
             .order_by('-updated_at')
         return [
             participation_request for participation_request in queryset
             if self.is_permitted(participation_request.study)
         ]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['finished_list'] = self.get_queryset(study_status=Study.FINISHED)
+        return context
 
 
 class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):

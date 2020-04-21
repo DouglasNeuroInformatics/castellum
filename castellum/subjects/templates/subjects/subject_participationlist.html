@@ -32,6 +32,19 @@
         {% endfor %}
     </ul>
 
+    <details class="mb-3">
+        <summary>{% trans 'Finished studies' %}</summary>
+        <ul class="table-list mb-3">
+            {% for participationrequest in finished_list %}
+                <li class="table-list-item">
+                    <div class="h4 d-inline-block my-1 mr-2">{{ participationrequest.study }}</div>
+                </li>
+            {% empty %}
+                <li class="alert alert-warning" role="alert">{% trans 'No participations found' %}</li>
+            {% endfor %}
+        </ul>
+    </details>
+
     <div class="d-print-none mb-3">
         <a href="{% url 'subjects:add-to-study' subject.pk %}" class="btn btn-primary">{% trans 'Add study participation' %}</a>
     </div>
