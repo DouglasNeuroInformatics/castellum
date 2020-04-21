@@ -376,12 +376,13 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
         self.object = self.get_object()
         study = get_object_or_404(Study, pk=request.POST['study'], status=Study.EXECUTION)
 
-        for perm in ['recruitment.add_participationrequest', 'studies.access_study']:
-            if not request.user.has_perm(perm, obj=study):
-                raise PermissionDenied
+        perms = ('recruitment.add_participationrequest', 'studies.access_study')
+        if not request.user.has_perms(perms, obj=study):
+            raise PermissionDenied
 
         participation_request = ParticipationRequest.objects.create(
-            subject=self.object, study=study)
+            subject=self.object, study=study
+        )
 
         url = reverse('recruitment:contact', args=[study.pk, participation_request.pk])
         return redirect(url + '?context=subjects:participation-list')
