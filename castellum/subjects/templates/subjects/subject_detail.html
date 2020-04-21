@@ -4,11 +4,12 @@
 {% block title %}{% trans "Subject details" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    {% if not subject.contact.is_complete %}
+    {% if not subject.contact.is_complete or not subject.has_legal_basis %}
         <p class="alert alert-danger" role="alert">
             <strong>{% trans 'Incomplete data' %}.</strong> {% trans 'Please edit data sets marked with' %} <i class="fa fa-exclamation-triangle" role="img" aria-label="{% trans 'Missing values' %}"></i>
         </p>
     {% endif %}
+
     <dl class="row">
         {% if subject.contact.guardians.exists %}
             <dt class="col-sm-6">{{ subject.contact|verbose_name:'guardians' }}</dt>
@@ -44,11 +45,55 @@
         <dt class="col-sm-6">{% trans 'Last edited' %}</dt>
         <dd class="col-sm-6">{{ updated_at }}</dd>
 
-        <dt class="col-sm-6">{% trans 'Legal basis for data processing' %}</dt>
-        <dd class="col-sm-6">{{ legal_basis|join:', '|default:'—' }}</dd>
-
         <dt class="col-sm-6">{% trans 'Attribute set completeness' %}</dt>
         <dd class="col-sm-6">{{ attributeset_completeness|default:'—' }}</dd>
+    </dl>
+
+    <h2 class="h4">{% trans 'Legal basis for data processing' %}</h2>
+
+    {% if not subject.has_legal_basis %}
+        <p class="alert alert-warning">{% trans 'Currently there is no legal basis for storing this subject. Please provide at least one of these options.' %}
+    {% endif %}
+
+    <dl class="row">
+        <dt class="col-sm-6">
+            {% trans 'Recruitment consent' %}
+            <small class="d-block text-muted">{% trans 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR' %}</small>
+        </dt>
+        <dd class="col-sm-6">
+            {% if subject.has_legal_basis %}
+                {{ subject|display:'has_consent_or_waiting' }}
+            {% else %}
+                {% url 'subjects:data-protection' subject.pk as url %}
+                {% blocktrans with url=url %}If applicable, <a href="{{ url }}">set consent status</a>.{% endblocktrans %}
+            {% endif %}
+        </dd>
+
+        <dt class="col-sm-6">
+            {% trans 'Study consent' %}
+            <small class="d-block text-muted">{% trans 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG' %}</small>
+        </dt>
+        <dd class="col-sm-6">
+            {% if subject.has_legal_basis %}
+                {{ subject|display:'has_study_consent' }}
+            {% else %}
+                {% url 'subjects:add-to-study' subject.pk as url %}
+                {% blocktrans with url=url %}If applicable, <a href="{{ url }}">add to a study</a>.{% endblocktrans %}
+            {% endif %}
+        </dd>
+
+        <dt class="col-sm-6">
+            {% trans 'Guardianship' %}
+            <small class="d-block text-muted">{% trans 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 1626, 1902 BGB' %}</small>
+        </dt>
+        <dd class="col-sm-6">
+            {% if subject.has_legal_basis %}
+                {{ subject.contact|display:'is_guardian' }}
+            {% else %}
+                {% url 'subjects:index' as url %}
+                {% blocktrans with url=url %}If applicable, <a href="{{ url }}">find or create a subject</a> and set this one as their guardian.{% endblocktrans %}
+            {% endif %}
+        </dd>
     </dl>
 
     {% if coverletter_exists %}

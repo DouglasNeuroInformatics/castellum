@@ -159,30 +159,8 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
             pass
 
         context['coverletter_exists'] = bool(settings.CASTELLUM_COVERLETTER_TEMPLATE)
-        context['legal_basis'] = self.get_legal_basis()
 
         return context
-
-    def get_legal_basis(self):
-        legal_basis = []
-        if self.object.participationrequest_set.filter(
-            status=ParticipationRequest.INVITED
-        ).exists():
-            legal_basis.append(_(
-                'study consent given '
-                '(Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG)'
-            ))
-        if self.object.has_consent:
-            legal_basis.append(_(
-                'recruitment consent given '
-                '(Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR)'
-            ))
-        if self.object.contact.is_guardian:
-            legal_basis.append(_(
-                'legal guardian of another subject '
-                '(Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 1626, 1902 BGB)'
-            ))
-        return legal_basis
 
 
 class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
