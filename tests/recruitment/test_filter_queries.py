@@ -1,0 +1,27 @@
+from freezegun import freeze_time
+from model_bakery import baker
+
+from castellum.recruitment import filter_queries
+from castellum.subjects.models import Consent
+from castellum.subjects.models import Subject
+
+
+def has_match(q):
+    return Subject.objects.filter(q).exists()
+
+
+def test_has_consent(contact):
+    q = filter_queries.has_consent()
+    assert not has_match(q)
+    baker.make(Consent, subject=contact.subject, status=Consent.CONFIRMED)
+    assert has_match(q)
+
+
+def test_has_consent_include_waiting(contact):
+    with freeze_time('1990-01-01 12:00:00'):
+        consent = baker.make(Consent, subject=contact.subject, status=Consent.WAITING)
+    with freeze_time('2000-01-01 12:00:00'):
+        q = filter_queries.has_consent(include_waiting=True)
+        assert not has_match(q)
+        consent.save()
+        assert has_match(q)

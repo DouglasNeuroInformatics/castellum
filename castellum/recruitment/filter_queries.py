@@ -104,7 +104,7 @@ def has_consent(include_waiting=False):
         acceptable_datetime = timezone.now() - settings.CASTELLUM_CONSENT_REVIEW_PERIOD
         return models.Q(consent__document__is_valid=True) & (
             models.Q(consent__status=Consent.CONFIRMED) |
-            models.Q(consent__updated_at__lte=acceptable_datetime)
+            models.Q(consent__updated_at__gte=acceptable_datetime)
         )
     else:
         return models.Q(
