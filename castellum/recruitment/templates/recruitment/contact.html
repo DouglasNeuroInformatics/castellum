@@ -70,11 +70,11 @@
 
                 {% has_perm 'contacts.change_contact' user study as can_change_contact %}
                 {% if can_change_contact %}
-                    <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:contact-update' study.pk object.pk %}">{% trans 'Edit contact data'%}</a>
+                    <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:contact-update' study.pk object.pk %}">{% trans 'Edit contact data' %}</a>
                 {% endif %}
                 {% has_perm 'recruitment.change_attributeset' user study as can_change_attributeset %}
                 {% if can_change_attributeset %}
-                    <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:attributeset-update' study.pk object.pk %}">{% trans 'Edit attributes'%}</a>
+                    <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:attributeset-update' study.pk object.pk %}">{% trans 'Edit attributes' %}</a>
                 {% endif %}
                 {% has_perm 'subjects.change_subject' user study as can_change_subject %}
                 {% if can_change_subject %}
@@ -153,7 +153,7 @@
         </div>
 
         <div class="form-group">
-            <label for="id_execution_url">{% trans 'Execution URL'%}</label>
+            <label for="id_execution_url">{% trans 'Execution URL' %}</label>
             <div class="input-group">
                 <input id="id_execution_url" class="form-control" value="{% absolute_url 'execution:participationrequest-detail' study.pk object.pk %}" readonly>
                 <div class="input-group-append">

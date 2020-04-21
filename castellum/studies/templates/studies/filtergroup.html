@@ -32,7 +32,7 @@
                 <input type="hidden" name="{{ form.prefix }}-operator" value="exact" />
             {% endif %}
             <div class="col-sm">
-                {% bootstrap_field form.value show_label=False%}
+                {% bootstrap_field form.value show_label=False %}
             </div>
 
             {% if study.status == study.EDIT %}
@@ -82,7 +82,7 @@
                                 <input type="hidden" name="{{ form.prefix }}-operator" value="exact" />
                             {% endif %}
                             <div class="col-sm">
-                                {% bootstrap_field form.value show_label=False%}
+                                {% bootstrap_field form.value show_label=False %}
                             </div>
 
                             {% if study.status == study.EDIT %}
