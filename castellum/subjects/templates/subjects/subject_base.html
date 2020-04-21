@@ -62,14 +62,24 @@
             {% has_perm 'subjects.view_subject' user as can_view_subject %}
             {% if can_view_subject %}
                 <li class="nav-item">
-                    <a href="{% url 'subjects:export' subject.pk %}" class="nav-link {% if view.tab == 'export' %}active{% endif %}">{% trans 'Export' %}</a>
+                    <a href="{% url 'subjects:export' subject.pk %}" class="nav-link {% if view.tab == 'export' %}active{% endif %}">
+                        {% if subject.export_requested %}
+                            <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Export requested' %}" aria-label="{% trans 'Export requested' %}"></i>
+                        {% endif %}
+                        {% trans 'Export' %}
+                    </a>
                 </li>
             {% endif %}
 
             {% has_perm 'subjects.delete_subject' user as can_delete_subject %}
             {% if can_delete_subject %}
                 <li class="nav-item">
-                    <a href="{% url 'subjects:delete' subject.pk %}" class="nav-link {% if view.tab == 'delete' %}active{% endif %}">{% trans 'Delete' %}</a>
+                    <a href="{% url 'subjects:delete' subject.pk %}" class="nav-link {% if view.tab == 'delete' %}active{% endif %}">
+                        {% if subject.to_be_deleted %}
+                            <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'To be deleted' %}" aria-label="{% trans 'To be deleted' %}"></i>
+                        {% endif %}
+                        {% trans 'Delete' %}
+                    </a>
                 </li>
             {% endif %}
         </ul>
