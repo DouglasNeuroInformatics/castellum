@@ -13,11 +13,7 @@
 
         {% csrf_token %}
 
-        <fieldset>
-            <legend>{% trans 'Privacy level' %}</legend>
-
-            {% bootstrap_field form.privacy_level show_label=False %}
-        </fieldset>
+        {% bootstrap_field form.privacy_level %}
 
         <fieldset>
             {% bootstrap_field form.export_requested %}
