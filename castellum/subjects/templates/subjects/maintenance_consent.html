@@ -4,7 +4,7 @@
 {% block title %}{% trans "Consent" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <p>{% trans 'The following subjects have no consent:' %}</p>
+    <p>{% trans 'The following subjects have an outdated consent:' %}</p>
 
     <ul class="table-list">
         {% for subject in object_list %}
