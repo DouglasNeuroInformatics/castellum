@@ -25,3 +25,11 @@ def test_has_consent_include_waiting(contact):
         assert not has_match(q)
         consent.save()
         assert has_match(q)
+
+
+def test_has_consent_exclude_deprecated(contact):
+    baker.make(
+        Consent, subject=contact.subject, status=Consent.CONFIRMED, document__is_deprecated=True
+    )
+    assert has_match(filter_queries.has_consent())
+    assert not has_match(filter_queries.has_consent(exclude_deprecated=True))
