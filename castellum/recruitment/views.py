@@ -39,6 +39,7 @@ from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
+from dateutil.relativedelta import relativedelta
 from simplecharts import StackedColumnRenderer
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -449,6 +450,16 @@ class ContactView(ParticipationRequestMixin, PermissionRequiredMixin, UpdateView
     def get_object(self):
         return self.participationrequest
 
+    def get_show_of_age_alert(self):
+        today = datetime.date.today()
+        subject = self.object.subject
+        full_age = subject.contact.date_of_birth + relativedelta(years=18)
+        return (
+            subject.has_consent and
+            full_age < today and
+            full_age > subject.consent.updated_at
+        )
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -458,6 +469,8 @@ class ContactView(ParticipationRequestMixin, PermissionRequiredMixin, UpdateView
 
         context['context'] = self.request.GET.get('context')
         context['contact'] = self.object.subject.contact
+
+        context['show_of_age_alert'] = self.get_show_of_age_alert()
 
         return context
 
