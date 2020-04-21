@@ -27,6 +27,13 @@
                     <input type="checkbox" class="form-check-input" id="{{ form.consent_status.id_for_label }}" {% if form.consent_status.value == 'confirmed' %}checked{% endif %} {% if form.to_be_deleted.value %}disabled{% endif %}>
                     <label class="form-check-label" for="{{ form.consent_status.id_for_label }}">{{ form.consent_status.label }}</label>
                     <button type="button" data-js="consent-confirm" class="btn btn-primary btn-sm" hidden>{% trans 'Confirm' %}</button>
+                    <small class="form-text bg-warning p-1" data-js="consent-deprecated" {% if not object.consent.document.is_deprecated %}hidden{% endif %}>
+                        {% blocktrans %}
+                            The current consent refers to an outdated document and will soon expire.
+                            Please contact this subject and ask them to consent to the latest document.
+                            This message will be removed once you change the value of the checkbox.
+                        {% endblocktrans %}
+                    </small>
                     <small class="form-text text-muted">{{ form.consent_status.help_text }}</small>
                 </div>
                 <input type="hidden" name="{{ form.consent_status.name }}" id="{{ form.consent_status.id_for_label }}_hidden" value="{{ form.consent_status.value|default:'' }}" autocomplete="off">
