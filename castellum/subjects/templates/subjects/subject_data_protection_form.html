@@ -29,9 +29,9 @@
                     <button type="button" data-js="consent-confirm" class="btn btn-primary btn-sm" hidden>{% trans 'Confirm' %}</button>
                     <small class="form-text bg-warning p-1" data-js="consent-deprecated" {% if not object.consent.document.is_deprecated %}hidden{% endif %}>
                         {% blocktrans %}
-                            The current consent refers to an outdated document and will soon expire.
-                            Please contact this subject and ask them to consent to the latest document.
-                            This message will be removed once you change the value of the checkbox.
+                            The current consent refers to an outdated document and will soon expire, thus rendering the recruitment consent invalid.
+                            Please contact this subject and ask them to consent to the latest document or withdraw their consent.
+                            This message will disappear once you change the value of the checkbox.
                         {% endblocktrans %}
                     </small>
                     <small class="form-text text-muted">{{ form.consent_status.help_text }}</small>
