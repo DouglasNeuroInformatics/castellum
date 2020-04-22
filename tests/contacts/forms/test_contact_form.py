@@ -268,7 +268,7 @@ def test_contact_form_with_guardians_remove(user, full_data, contact):
 
 @pytest.mark.django_db
 def test_contact_form_underage_without_guardian(user, full_data):
-    msg = 'Subjects under the age of 18 need a legal guardian.'
+    msg = 'Subjects under the age of 16 need a legal guardian.'
     full_data.update({
         'date_of_birth': '%i-01-01' % datetime.date.today().year,
     })
