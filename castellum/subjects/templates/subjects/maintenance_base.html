@@ -17,6 +17,9 @@
                 <a href="{% url 'subjects:maintenance-contact' %}" class="nav-link {% if view.tab == 'contact' %}active{% endif %}">{% trans 'Contact' %}</a>
             </li>
             <li class="nav-item">
+                <a href="{% url 'subjects:maintenance-duplicates' %}" class="nav-link {% if view.tab == 'duplicates' %}active{% endif %}">{% trans 'Duplicates' %}</a>
+            </li>
+            <li class="nav-item">
                 <a href="{% url 'subjects:maintenance-consent' %}" class="nav-link {% if view.tab == 'consent' %}active{% endif %}">{% trans 'Consent' %}</a>
             </li>
         </ul>

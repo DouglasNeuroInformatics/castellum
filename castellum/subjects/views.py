@@ -469,6 +469,34 @@ class MaintenanceContactView(PermissionRequiredMixin, ListView):
             .order_by('pk')
 
 
+class MaintenanceDuplicatesView(PermissionRequiredMixin, ListView):
+    model = Contact
+    paginate_by = 20
+    permission_required = 'subjects.change_subject'
+    template_name = 'subjects/maintenance_duplicates.html'
+    tab = 'duplicates'
+
+    def get_queryset(self):
+        duplicates = []
+
+        names = Contact.objects\
+            .values('first_name', 'last_name')\
+            .annotate(count=models.Count('id'))\
+            .filter(count__gt=1)
+
+        for name in names:
+            date_of_birth_count = Contact.objects.filter(
+                first_name=name['first_name'],
+                last_name=name['last_name'],
+                date_of_birth__isnull=False,
+            ).values('date_of_birth').distinct().count()
+
+            if date_of_birth_count < name['count']:
+                duplicates.append(name)
+
+        return duplicates
+
+
 class MaintenanceConsentView(PermissionRequiredMixin, ListView):
     model = Subject
     paginate_by = 20
