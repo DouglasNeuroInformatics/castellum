@@ -371,7 +371,7 @@ msgstr "Zur Löschung vorgemerkt"
 #: castellum/data_protection/templates/data_protection/index.html:17
 #: castellum/subjects/templates/subjects/subject_base.html:19
 msgid "No legal basis"
-msgstr ""
+msgstr "Keine Rechtsgrundlage"
 
 #: castellum/data_protection/templates/data_protection/index.html:20
 msgid "Unreachable"
@@ -1878,6 +1878,10 @@ msgid ""
 "future recruitment. Withdrawing recruitment consent has no effect on study "
 "consent. Therefore no data related to existing studies is deleted."
 msgstr ""
+"Ohne Einwilligung zur Rekrutierung wird diese Proband*in nicht für zukünftige "
+"Rekrutierungen berücksichtigt. Der Widerruf der Rekrutierungseinwilligung hat "
+"keine Auswirkungen auf die Studieneinwilligungen. Entsprechend werden auch "
+"keine Daten im Kontext bereits existierender Studien gelöscht."
 
 #: castellum/subjects/forms.py:96 castellum/subjects/forms.py:167
 msgid "Please choose lower privacy level for the subject."
@@ -1888,7 +1892,8 @@ msgstr ""
 msgid ""
 "Subjects can either be marked for deletion or have recruitment consent, not "
 "both."
-msgstr ""
+msgstr "Proband*innen können entweder zur Löschung vorgemerkt werden oder "
+"eine Rekrutierungseinwilligung haben, nicht beides."
 
 #: castellum/subjects/models.py:34
 msgid "hour"
@@ -1986,11 +1991,11 @@ msgstr "Erstellt am"
 
 #: castellum/subjects/models.py:205
 msgid "Is valid"
-msgstr ""
+msgstr "Ist gültig"
 
 #: castellum/subjects/models.py:206
 msgid "Is deprecated"
-msgstr ""
+msgstr "Ist überholt"
 
 #: castellum/subjects/models.py:208 castellum/utils/forms.py:207
 msgid "File"
@@ -2078,10 +2083,8 @@ msgid "Maintenance"
 msgstr "Wartung"
 
 #: castellum/subjects/templates/subjects/maintenance_consent.html:7
-#, fuzzy
-#| msgid "The following subjects have no consent:"
 msgid "The following subjects have an outdated consent:"
-msgstr "Die folgenden Proband*innen haben keine Einwilligung:"
+msgstr "Die Einwilligung der folgenden Proband*innen ist nicht mehr aktuell:"
 
 #: castellum/subjects/templates/subjects/maintenance_contact.html:7
 msgid "The following subjects have incomplete contact data:"
@@ -2199,6 +2202,15 @@ msgid ""
 "value of the checkbox.\n"
 "                        "
 msgstr ""
+"\n"
+"                            Da sich die gegenwärtige Einwilligung auf ein "
+"veraltetes Dokument bezieht wird sie demnächst ablaufen und die "
+"Rekrutierungseinwilligung somit ungültig machen.\n"
+"                            Bitte kontaktieren Sie die Proband*in um die "
+"Einwilligung in die aktuellste Erklärung einzuholen oder den Widerruf "
+"der Einwilligung festzuhalten.\n"
+"                            Diese Nachricht wird verschwinden sobald Sie "
+"den Wert der Checkbox ändern."
 
 #: castellum/subjects/templates/subjects/subject_detail.html:4
 msgid "Subject details"
@@ -2242,64 +2254,48 @@ msgid ""
 "Currently there is no legal basis for storing this subject. Please provide "
 "at least one of these options."
 msgstr ""
+"Aktuell gibt es keine gültige Rechtsgrundlage um die Daten dieser Proband*in "
+"zu speichern. Bitte wählen Sie mindestens eine dieser Optionen aus."
 
 #: castellum/subjects/templates/subjects/subject_detail.html:61
-#, fuzzy
-#| msgid ""
-#| "recruitment consent given (Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR)"
 msgid "Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR"
 msgstr ""
-"Rekrutierungseinwilligung gegeben (Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. "
-"a DSGVO)"
+"Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a DSGVO"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:68
 #, python-format
 msgid "If applicable, <a href=\"%(url)s\">set consent status</a>."
 msgstr ""
+"<a href=\"%(url)s\">Status der Einwilligungserklärung angeben</a>, sofern anwendbar"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:73
-#, fuzzy
-#| msgid "Study details"
 msgid "Study consent"
-msgstr "Studiendetails"
+msgstr "Studieneinwilligung"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:74
-#, fuzzy
-#| msgid ""
-#| "study consent given (Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. "
-#| "27 BDSG)"
 msgid "Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG"
-msgstr ""
-"Studieneinwilligung gegeben (Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a "
-"DSGVO und Art. 27 BDSG)"
+msgstr "Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a DSGVO und Art. 27 BDSG"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:81
 #, python-format
 msgid "If applicable, <a href=\"%(url)s\">add to a study</a>."
-msgstr ""
+msgstr "<a href=\"%(url)s\">Zur Studie hinzufügen</a>, sofern anwendbar"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:86
-#, fuzzy
-#| msgid "Guardians"
 msgid "Guardianship"
-msgstr "Vormünder"
+msgstr "Vormundschaft"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:87
-#, fuzzy
-#| msgid ""
-#| "legal guardian of another subject (Art. 6 (1) lit. a, Art. 9 (2) lit. a "
-#| "GDPR and Art. 1626, 1902 BGB)"
 msgid "Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 1626, 1902 BGB"
-msgstr ""
-"Vormund einer anderen Proband*in (Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a "
-"DSGVO und Art. 1626, 1902 BGB)"
+msgstr "Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a DSGVO und Art. 1626, 1902 BGB"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:94
 #, python-format
 msgid ""
 "If applicable, <a href=\"%(url)s\">find or create a subject</a> and set this "
 "one as their guardian."
-msgstr ""
+msgstr "<a href=\"%(url)s\">Proband*in finden oder erstellen</a> und diese Person "
+"als deren Vormund eintragen"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:101
 msgid "Download cover letter"
@@ -2524,41 +2520,3 @@ msgstr "erstellt am"
 #: castellum/utils/models.py:28
 msgid "updated at"
 msgstr "aktualisiert am"
-
-#~ msgid "Unrecruitable"
-#~ msgstr "Nicht rekrutierbar"
-
-#~ msgid "Missing consent"
-#~ msgstr "Fehlende Einwilligung"
-
-#~ msgid "Subject does not want to be contacted for recruitment."
-#~ msgstr ""
-#~ "Die Proband*in möchte nicht für die Rekrutierung kontaktiert werden."
-
-#~ msgid "Do not contact for recruitment"
-#~ msgstr "Nicht für die Rekrutierung kontaktieren"
-
-#~ msgid ""
-#~ "This subject will not be taken into account for future recruitment, but "
-#~ "the existing data is not deleted. This option should be used when a "
-#~ "subject withdraws (GDPR) consent for recruitment."
-#~ msgstr ""
-#~ "Diese Proband*in wird zukünftig nicht bei der Rekrutierung "
-#~ "berücksichtigt, die bestehenden Daten werden aber nicht gelöscht. Diese "
-#~ "Option sollte benutzt werden, wenn eine Proband*in ihre "
-#~ "(DSGVO-)Einwilligung für die Rekrutierung zurückzieht."
-
-#~ msgid ""
-#~ "Subjects who are to be deleted should not be contacted for recruitment."
-#~ msgstr ""
-#~ "Proband*innen die zur Löschung vorgemerkt sind sollten nicht für die "
-#~ "Rekrutierung kontaktiert werden."
-
-#~ msgid "Is current"
-#~ msgstr "Ist aktuell"
-
-#~ msgid "outdated"
-#~ msgstr "veraltet"
-
-#~ msgid "No consent needed"
-#~ msgstr "Keine Einwilligung benötigt"
