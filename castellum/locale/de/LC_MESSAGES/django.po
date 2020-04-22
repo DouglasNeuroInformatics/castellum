@@ -2282,7 +2282,7 @@ msgstr "Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a DSGVO und Art. 27 BDSG"
 #: castellum/subjects/templates/subjects/subject_detail.html:81
 #, python-format
 msgid "If applicable, <a href=\"%(url)s\">add to a study</a>."
-msgstr "<a href=\"%(url)s\">Zur Studie hinzufügen</a>, sofern anwendbar"
+msgstr "<a href=\"%(url)s\">Zu einer Studie hinzufügen</a>, sofern anwendbar"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:86
 msgid "Guardianship"
