@@ -11,11 +11,12 @@ from castellum.subjects.models import Consent
 
 @pytest.mark.django_db
 def test_delete_consent_on_full_age():
-    with freeze_time('2017-01-10'):
-        contact = baker.make(Contact, date_of_birth=datetime.date(2000, 1, 1))
+    contact = baker.make(Contact, date_of_birth=datetime.date(2000, 1, 1))
+
+    with freeze_time('2014-01-01'):
         baker.make(Consent, status=Consent.CONFIRMED, subject=contact.subject)
 
-    with freeze_time('2018-01-10'):
+    with freeze_time('2018-01-01'):
         cmd = Command()
         cmd.handle()
 
@@ -24,11 +25,12 @@ def test_delete_consent_on_full_age():
 
 @pytest.mark.django_db
 def test_delete_consent_on_full_age_not_full_age():
-    with freeze_time('2017-01-10'):
-        contact = baker.make(Contact, date_of_birth=datetime.date(2002, 1, 1))
+    contact = baker.make(Contact, date_of_birth=datetime.date(2010, 1, 1))
+
+    with freeze_time('2014-01-01'):
         baker.make(Consent, status=Consent.CONFIRMED, subject=contact.subject)
 
-    with freeze_time('2018-01-10'):
+    with freeze_time('2018-01-01'):
         cmd = Command()
         cmd.handle()
 
@@ -37,11 +39,12 @@ def test_delete_consent_on_full_age_not_full_age():
 
 @pytest.mark.django_db
 def test_delete_consent_on_full_age_newer_consent():
-    with freeze_time('2019-01-10'):
-        contact = baker.make(Contact, date_of_birth=datetime.date(2000, 1, 1))
+    contact = baker.make(Contact, date_of_birth=datetime.date(2000, 1, 1))
+
+    with freeze_time('2017-01-01'):
         baker.make(Consent, status=Consent.CONFIRMED, subject=contact.subject)
 
-    with freeze_time('2018-01-10'):
+    with freeze_time('2018-01-01'):
         cmd = Command()
         cmd.handle()
 
