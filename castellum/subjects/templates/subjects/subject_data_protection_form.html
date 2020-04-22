@@ -16,8 +16,6 @@
         {% bootstrap_field form.privacy_level %}
 
         <fieldset>
-            {% bootstrap_field form.export_requested %}
-            {% bootstrap_field form.to_be_deleted %}
             <div class="form-group">
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="{{ form.consent_status.id_for_label }}" {% if form.consent_status.value == 'confirmed' %}checked{% endif %} {% if form.to_be_deleted.value %}disabled{% endif %}>
@@ -36,6 +34,8 @@
                 </div>
                 <input type="hidden" name="{{ form.consent_status.name }}" id="{{ form.consent_status.id_for_label }}_hidden" value="{{ form.consent_status.value|default:'' }}" autocomplete="off">
             </div>
+            {% bootstrap_field form.export_requested %}
+            {% bootstrap_field form.to_be_deleted %}
         </fieldset>
 
         <div class="d-print-none mb-3">
