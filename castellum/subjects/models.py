@@ -203,6 +203,7 @@ class SubjectNote(models.Model):
 class ConsentDocument(models.Model):
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     is_valid = models.BooleanField(_('Is valid'), default=True)
+    is_deprecated = models.BooleanField(_('Is deprecated'), default=False)
     file = RestrictedFileField(
         _('File'),
         blank=True,
