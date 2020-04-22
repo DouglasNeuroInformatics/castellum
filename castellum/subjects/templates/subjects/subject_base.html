@@ -45,7 +45,7 @@
             {% if can_change_subject %}
                 <li class="nav-item">
                     <a href="{% url 'subjects:data-protection' subject.pk %}" class="nav-link {% if view.tab == 'data-protection' %}active{% endif %}">
-                        {% if subject.consent.document.is_deprecated %}
+                        {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age %}
                             <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
                         {% endif %}
                         {% trans 'Data protection' %}

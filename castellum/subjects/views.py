@@ -476,10 +476,30 @@ class MaintenanceConsentView(PermissionRequiredMixin, ListView):
     template_name = 'subjects/maintenance_consent.html'
     tab = 'consent'
 
-    def get_queryset(self):
-        return super().get_queryset()\
+    def get_by_consent_from_before_full_age(self):
+        today = datetime.date.today()
+
+        # date_of_birth is stored in Contact, so we cannot query it
+        # directly. As an optimization, we only look at subjects that
+        # came of age in the past year.
+        contacts = Contact.objects.filter(
+            date_of_birth__lt=today - relativedelta(years=settings.CASTELLUM_FULL_AGE),
+            date_of_birth__gt=today - relativedelta(years=settings.CASTELLUM_FULL_AGE + 1),
+        )
+
+        pks = [c.subject.pk for c in contacts if c.subject.has_consent_from_before_full_age]
+        return Subject.objects.filter(pk__in=pks)
+
+    def get_by_outdated_document(self):
+        return Subject.objects\
             .exclude(filter_queries.has_consent(exclude_deprecated=True))\
             .filter(consent__status=Consent.CONFIRMED)
+
+    def get_queryset(self):
+        return Subject.objects.none().union(
+            self.get_by_consent_from_before_full_age(),
+            self.get_by_outdated_document(),
+        )
 
 
 class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):

@@ -30,6 +30,14 @@
                             {% endblocktrans %}
                         </small>
                     {% endif %}
+                    {% if object.has_consent_from_before_full_age %}
+                        <small class="form-text bg-warning p-1">
+                            {% blocktrans %}
+                                The subject has recently come of age. Please ask them to renew or withdraw their consent.
+                                This message will disappear once you change the value of the checkbox.
+                            {% endblocktrans %}
+                        </small>
+                    {% endif %}
                     <small class="form-text text-muted">{{ form.consent_status.help_text }}</small>
                 </div>
                 <input type="hidden" name="{{ form.consent_status.name }}" id="{{ form.consent_status.id_for_label }}_hidden" value="{{ form.consent_status.value|default:'' }}" autocomplete="off">

@@ -353,3 +353,5 @@ CASTELLUM_STUDY_DOMAIN_BITS = 20
 # Must be in .docx format
 # The placeholders "{name}", "{address1}", and "{address2}" will be replaced.
 CASTELLUM_COVERLETTER_TEMPLATE = None
+
+CASTELLUM_FULL_AGE = 16

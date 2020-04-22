@@ -2,4 +2,3 @@
 0	1	*	*	*	django-admin clear_sessions
 0	1	*	*	*	django-admin cleanup_media
 0	1	*	*	*	django-admin notify_to_be_deleted https://castellum.mpib-berlin.mpg.de
-0	1	*	*	*	django-admin delete_consent_on_full_age

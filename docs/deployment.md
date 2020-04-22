@@ -59,8 +59,6 @@ user requests. We provide the following management commands for that:
 -   `cleanup_media`: Delete unused uploaded files.
 -   `notify_to_be_deleted`: Automatically notify about content that
     should be deleted.
--   `delete_consent_on_full_age`: Invalidate recruitment consent for all
-    children that come of age.
 
 ## Initial setup
 

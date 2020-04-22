@@ -22,6 +22,7 @@
 import datetime
 
 from django import forms
+from django.conf import settings
 from django.forms import ValidationError
 from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy as _
@@ -124,8 +125,10 @@ class ContactForm(forms.ModelForm):
         # validate guardian required for underage subjects
         if date_of_birth:
             age = datetime.date.today() - date_of_birth
-            if not is_guardians_pane and age.days // 365 < 18:
-                msg = _('Subjects under the age of 18 need a legal guardian.')
+            if not is_guardians_pane and age.days // 365 < settings.CASTELLUM_FULL_AGE:
+                msg = _(
+                    'Subjects under the age of %i need a legal guardian.'
+                ) % settings.CASTELLUM_FULL_AGE
                 raise ValidationError(msg, code='invalid')
 
         # validate address
