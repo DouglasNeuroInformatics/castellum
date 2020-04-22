@@ -910,6 +910,9 @@ msgid ""
 "Subject does not want to be contacted for recruitment. Answering a request "
 "when approached by the subject is permitted, but initiating contact is not."
 msgstr ""
+"Die Proband*in möchte nicht für Rekrutierungen kontaktiert werden. Auf "
+"Anfragen der Proband*in zu antworten ist erlaubt, selbst auf sie zugehen "
+"aber nicht."
 
 #: castellum/recruitment/templates/recruitment/contact.html:34
 msgid "Contacting details"
