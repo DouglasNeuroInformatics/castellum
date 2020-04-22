@@ -530,6 +530,17 @@ class MaintenanceConsentView(PermissionRequiredMixin, ListView):
         )
 
 
+class MaintenanceWaitingView(PermissionRequiredMixin, ListView):
+    model = Subject
+    paginate_by = 20
+    permission_required = 'subjects.change_subject'
+    template_name = 'subjects/maintenance_waiting.html'
+    tab = 'waiting'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(consent__status=Consent.WAITING)
+
+
 class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):
     model = Subject
     permission_required = 'contacts.view_contact'
