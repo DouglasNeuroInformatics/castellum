@@ -4,7 +4,7 @@
 {% block title %}{% trans "Duplicates" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <p>{% trans 'The following names exists more than once:' %}</p>
+    <p>{% trans 'The following names exist more than once:' %}</p>
 
     <ul class="table-list">
         {% for contact in object_list %}
