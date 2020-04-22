@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-07 11:06+0200\n"
+"POT-Creation-Date: 2020-04-22 10:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,7 +216,7 @@ msgstr "Vormünder"
 #: castellum/contacts/models.py:147
 #: castellum/subjects/templates/subjects/maintenance_base.html:17
 #: castellum/subjects/templates/subjects/maintenance_contact.html:4
-#: castellum/subjects/templates/subjects/subject_base.html:27
+#: castellum/subjects/templates/subjects/subject_base.html:32
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -310,7 +310,7 @@ msgstr "Vormund hinzufügen"
 #: castellum/studies/templates/studies/study_recruitmentsettings_form.html:22
 #: castellum/studies/templates/studies/studymembership_form.html:31
 #: castellum/subjects/templates/subjects/subject_additional_info_form.html:85
-#: castellum/subjects/templates/subjects/subject_data_protection_form.html:57
+#: castellum/subjects/templates/subjects/subject_data_protection_form.html:40
 msgid "Save"
 msgstr "Speichern"
 
@@ -351,33 +351,31 @@ msgid "Data protection dashboard"
 msgstr "Datenschutz-Dashboard"
 
 #: castellum/data_protection/templates/data_protection/index.html:7
-#: castellum/subjects/templates/subjects/subject_base.html:46
+#: castellum/subjects/templates/subjects/subject_base.html:51
 #: castellum/templates/index.html:67
 msgid "Data protection"
 msgstr "Datenschutz"
 
 #: castellum/data_protection/templates/data_protection/index.html:11
-#: castellum/subjects/forms.py:54 castellum/subjects/models.py:71
+#: castellum/subjects/forms.py:77 castellum/subjects/models.py:61
+#: castellum/subjects/templates/subjects/subject_base.html:70
 msgid "Export requested"
 msgstr "Auskunft beantragt"
 
 #: castellum/data_protection/templates/data_protection/index.html:14
-#: castellum/subjects/forms.py:49 castellum/subjects/models.py:64
+#: castellum/subjects/forms.py:72 castellum/subjects/models.py:54
+#: castellum/subjects/templates/subjects/subject_base.html:82
 msgid "To be deleted"
 msgstr "Zur Löschung vorgemerkt"
 
 #: castellum/data_protection/templates/data_protection/index.html:17
-msgid "Unrecruitable"
-msgstr "Nicht rekrutierbar"
+#: castellum/subjects/templates/subjects/subject_base.html:19
+msgid "No legal basis"
+msgstr "Keine Rechtsgrundlage"
 
 #: castellum/data_protection/templates/data_protection/index.html:20
 msgid "Unreachable"
 msgstr "Nicht kontaktierbar"
-
-#: castellum/data_protection/templates/data_protection/index.html:25
-#: castellum/subjects/templates/subjects/subject_data_protection_form.html:36
-msgid "Missing consent"
-msgstr "Fehlende Einwilligung"
 
 #: castellum/execution/templates/execution/base.html:6
 #: castellum/studies/models.py:68 castellum/templates/index.html:53
@@ -908,8 +906,10 @@ msgstr ""
 "herauszufinden, ob sie geeignet ist."
 
 #: castellum/recruitment/templates/recruitment/contact.html:28
-msgid "Subject does not want to be contacted for recruitment."
-msgstr "Die Proband*in möchte nicht für die Rekrutierung kontaktiert werden."
+msgid ""
+"Subject does not want to be contacted for recruitment. Answering a request "
+"when approached by the subject is permitted, but initiating contact is not."
+msgstr ""
 
 #: castellum/recruitment/templates/recruitment/contact.html:34
 msgid "Contacting details"
@@ -1047,6 +1047,7 @@ msgstr "Abbrechen"
 #: castellum/studies/templates/studies/study_confirm_delete.html:21
 #: castellum/studies/templates/studies/studymembership_confirm_delete.html:12
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:56
+#: castellum/subjects/templates/subjects/subject_data_protection_form.html:25
 msgid "Confirm"
 msgstr "Bestätigen"
 
@@ -1250,7 +1251,7 @@ msgstr "Studientyp"
 msgid "Previous status"
 msgstr "Vorheriger Status"
 
-#: castellum/studies/models.py:85 castellum/subjects/models.py:243
+#: castellum/studies/models.py:85 castellum/subjects/models.py:229
 msgid "Status"
 msgstr "Status"
 
@@ -1334,8 +1335,8 @@ msgstr ""
 msgid "Excluded studies"
 msgstr "Ausgeschlossene Studien"
 
-#: castellum/studies/models.py:135 castellum/subjects/models.py:250
-#: castellum/subjects/templates/subjects/maintenance_base.html:22
+#: castellum/studies/models.py:135 castellum/subjects/models.py:236
+#: castellum/subjects/templates/subjects/maintenance_base.html:20
 #: castellum/subjects/templates/subjects/maintenance_consent.html:4
 msgid "Consent"
 msgstr "Einwilligung"
@@ -1444,7 +1445,7 @@ msgstr ""
 #: castellum/studies/templates/studies/study_confirm_delete.html:4
 #: castellum/studies/templates/studies/study_form.html:17
 #: castellum/studies/templates/studies/study_form.html:58
-#: castellum/subjects/templates/subjects/subject_base.html:70
+#: castellum/subjects/templates/subjects/subject_base.html:84
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:39
 msgid "Delete"
 msgstr "Löschen"
@@ -1597,12 +1598,12 @@ msgid "Finish study"
 msgstr "Studie beenden"
 
 #: castellum/studies/templates/studies/study_base.html:72
-#: castellum/subjects/templates/subjects/subject_base.html:63
+#: castellum/subjects/templates/subjects/subject_base.html:72
 msgid "Export"
 msgstr "Exportieren"
 
 #: castellum/studies/templates/studies/study_base.html:87
-#: castellum/subjects/templates/subjects/subject_base.html:17
+#: castellum/subjects/templates/subjects/subject_base.html:21
 msgid "Overview"
 msgstr "Überblick"
 
@@ -1849,7 +1850,7 @@ msgstr ""
 #: castellum/studies/views/recruitment.py:111
 #: castellum/studies/views/recruitment.py:132
 #: castellum/studies/views/recruitment.py:157
-#: castellum/studies/views/studies.py:250 castellum/subjects/views.py:274
+#: castellum/studies/views/studies.py:250 castellum/subjects/views.py:249
 msgid "Data has been saved."
 msgstr "Eingabe wurde gespeichert"
 
@@ -1866,48 +1867,55 @@ msgid "The filters have been duplicated. You can now edit the duplicate."
 msgstr ""
 "Die Filter wurden dupliziert. Sie können jetzt das Duplikat bearbeiten."
 
-#: castellum/subjects/forms.py:76 castellum/subjects/forms.py:126
+#: castellum/subjects/forms.py:63
+#: castellum/subjects/templates/subjects/subject_detail.html:60
+msgid "Recruitment consent"
+msgstr "Einwilligung zur Rekrutierung"
+
+#: castellum/subjects/forms.py:65
+msgid ""
+"Without recruitment consent, this subject will not be taken into account for "
+"future recruitment. Withdrawing recruitment consent has no effect on study "
+"consent. Therefore no data related to existing studies is deleted."
+msgstr ""
+"Ohne Einwilligung zur Rekrutierung wird diese Proband*in nicht für zukünftige "
+"Rekrutierungen berücksichtigt. Der Widerruf der Rekrutierungseinwilligung hat "
+"keine Auswirkungen auf die Studieneinwilligungen. Entsprechend werden auch "
+"keine Daten im Kontext bereits existierender Studien gelöscht."
+
+#: castellum/subjects/forms.py:96 castellum/subjects/forms.py:167
 msgid "Please choose lower privacy level for the subject."
 msgstr ""
 "Bitte wählen Sie eine niedrigere Vertraulichkeitsstufe für diese Proband*in."
 
-#: castellum/subjects/models.py:35
+#: castellum/subjects/forms.py:102
+msgid ""
+"Subjects can either be marked for deletion or have recruitment consent, not "
+"both."
+msgstr "Proband*innen können entweder zur Löschung vorgemerkt werden oder "
+"eine Rekrutierungseinwilligung haben, nicht beides."
+
+#: castellum/subjects/models.py:34
 msgid "hour"
 msgstr "Stunde"
 
-#: castellum/subjects/models.py:46
-#: castellum/subjects/templates/subjects/subject_data_protection_form.html:17
+#: castellum/subjects/models.py:45
 msgid "Privacy level"
 msgstr "Vertraulichkeitsstufe"
 
-#: castellum/subjects/models.py:49
+#: castellum/subjects/models.py:48
 msgid "0 (regular)"
 msgstr "0 (regulär)"
 
-#: castellum/subjects/models.py:50
+#: castellum/subjects/models.py:49
 msgid "1 (increased)"
 msgstr "1 (erhöht)"
 
-#: castellum/subjects/models.py:51
+#: castellum/subjects/models.py:50
 msgid "2 (high)"
 msgstr "2 (hoch)"
 
-#: castellum/subjects/models.py:56
-msgid "Do not contact for recruitment"
-msgstr "Nicht für die Rekrutierung kontaktieren"
-
-#: castellum/subjects/models.py:59
-msgid ""
-"This subject will not be taken into account for future recruitment, but the "
-"existing data is not deleted. This option should be used when a subject "
-"withdraws (GDPR) consent for recruitment."
-msgstr ""
-"Diese Proband*in wird zukünftig nicht bei der Rekrutierung berücksichtigt, "
-"die bestehenden Daten werden aber nicht gelöscht. Diese Option sollte "
-"benutzt werden, wenn eine Proband*in ihre (DSGVO-)Einwilligung für die "
-"Rekrutierung zurückzieht."
-
-#: castellum/subjects/models.py:65
+#: castellum/subjects/models.py:55
 msgid ""
 "All data about this subject should be deleted or fully anonymized. This "
 "includes all data in Castellum and all data collected in studies. This "
@@ -1918,7 +1926,7 @@ msgstr ""
 "Daten, die in Studien erhoben wurden. Diese Option sollte benutzt werden, "
 "wenn eine Proband*in DSGVO-Löschung fordert."
 
-#: castellum/subjects/models.py:72
+#: castellum/subjects/models.py:62
 msgid ""
 "The subject wants to receive an export of all data we have stored about "
 "them. This includes all data in Castellum and all data collected in studies. "
@@ -1929,94 +1937,92 @@ msgstr ""
 "erhoben wurden. Diese Option sollte benutzt werden, wenn eine Proband*in "
 "DSGVO-Auskunft beantragt."
 
-#: castellum/subjects/models.py:77
+#: castellum/subjects/models.py:67
 msgid "Data source"
 msgstr "Datenquelle"
 
-#: castellum/subjects/models.py:79
+#: castellum/subjects/models.py:69
 msgid "Hard of hearing"
 msgstr "Schwerhörig"
 
-#: castellum/subjects/models.py:80
+#: castellum/subjects/models.py:70
 msgid "Difficult to understand"
 msgstr "Schwer zu verstehen"
 
-#: castellum/subjects/models.py:81
+#: castellum/subjects/models.py:71
 msgid "Abusive language"
 msgstr "Beleidigende Sprache"
 
-#: castellum/subjects/models.py:84
+#: castellum/subjects/models.py:74
 msgid "Monday"
 msgstr "Montag"
 
-#: castellum/subjects/models.py:87
+#: castellum/subjects/models.py:77
 msgid "Tuesday"
 msgstr "Dienstag"
 
-#: castellum/subjects/models.py:90
+#: castellum/subjects/models.py:80
 msgid "Wednesday"
 msgstr "Mittwoch"
 
-#: castellum/subjects/models.py:93
+#: castellum/subjects/models.py:83
 msgid "Thursday"
 msgstr "Donnerstag"
 
-#: castellum/subjects/models.py:96
+#: castellum/subjects/models.py:86
 msgid "Friday"
 msgstr "Freitag"
 
-#: castellum/subjects/models.py:99
+#: castellum/subjects/models.py:89
 msgid "not available until"
 msgstr "nicht erreichbar bis"
 
-#: castellum/subjects/models.py:102
+#: castellum/subjects/models.py:92
 msgid "Subject"
 msgstr "Proband*in"
 
-#: castellum/subjects/models.py:107
-msgid "Subjects who are to be deleted should not be contacted for recruitment."
-msgstr ""
-"Proband*innen die zur Löschung vorgemerkt sind sollten nicht für die "
-"Rekrutierung kontaktiert werden."
-
-#: castellum/subjects/models.py:216
+#: castellum/subjects/models.py:200
 msgid "Content"
 msgstr "Inhalt"
 
-#: castellum/subjects/models.py:220 castellum/subjects/models.py:255
+#: castellum/subjects/models.py:204 castellum/subjects/models.py:241
 msgid "Created at"
 msgstr "Erstellt am"
 
-#: castellum/subjects/models.py:221
-msgid "Is current"
-msgstr "Ist aktuell"
+#: castellum/subjects/models.py:205
+msgid "Is valid"
+msgstr "Ist gültig"
 
-#: castellum/subjects/models.py:223 castellum/utils/forms.py:207
+#: castellum/subjects/models.py:206
+msgid "Is deprecated"
+msgstr "Ist überholt"
+
+#: castellum/subjects/models.py:208 castellum/utils/forms.py:207
 msgid "File"
 msgstr "Datei"
 
-#: castellum/subjects/models.py:233
+#: castellum/subjects/models.py:219
 #, python-format
 msgid "Version %i"
 msgstr "Version %i"
 
-#: castellum/subjects/models.py:240
+#: castellum/subjects/models.py:226
 msgid "Updated at"
 msgstr "Aktualisiert am"
 
-#: castellum/subjects/models.py:244
+#: castellum/subjects/models.py:230
 msgid "Waiting for confirmation"
 msgstr "Warten auf Bestätigung"
 
-#: castellum/subjects/models.py:245
+#: castellum/subjects/models.py:231
 msgid "Confirmed"
 msgstr "Bestätigt"
 
-#: castellum/subjects/models.py:256
+#: castellum/subjects/models.py:242
 msgid "Created by"
 msgstr "Erstellt von"
 
-#: castellum/subjects/models.py:259
+#: castellum/subjects/models.py:245
 msgid "Export answer"
 msgstr "Antwort auf das Auskunftsgesuch"
 
@@ -2052,7 +2058,7 @@ msgstr "Als Vormund auswählen"
 
 #: castellum/subjects/templates/subjects/maintenance_attributes.html:4
 #: castellum/subjects/templates/subjects/maintenance_base.html:14
-#: castellum/subjects/templates/subjects/subject_base.html:35
+#: castellum/subjects/templates/subjects/subject_base.html:40
 msgid "Attributes"
 msgstr "Merkmale"
 
@@ -2077,8 +2083,8 @@ msgid "Maintenance"
 msgstr "Wartung"
 
 #: castellum/subjects/templates/subjects/maintenance_consent.html:7
-msgid "The following subjects have no consent:"
-msgstr "Die folgenden Proband*innen haben keine Einwilligung:"
+msgid "The following subjects have an outdated consent:"
+msgstr "Die Einwilligung der folgenden Proband*innen ist nicht mehr aktuell:"
 
 #: castellum/subjects/templates/subjects/maintenance_contact.html:7
 msgid "The following subjects have incomplete contact data:"
@@ -2128,17 +2134,17 @@ msgstr "Notizen"
 msgid "Add note"
 msgstr "Notiz hinzufügen"
 
-#: castellum/subjects/templates/subjects/subject_base.html:25
-#: castellum/subjects/templates/subjects/subject_base.html:44
+#: castellum/subjects/templates/subjects/subject_base.html:30
+#: castellum/subjects/templates/subjects/subject_base.html:49
 #: castellum/subjects/templates/subjects/subject_detail.html:9
 msgid "Missing values"
 msgstr "Fehlende Werte"
 
-#: castellum/subjects/templates/subjects/subject_base.html:51
+#: castellum/subjects/templates/subjects/subject_base.html:56
 msgid "Additional Info"
 msgstr "Zusätzliche Informationen"
 
-#: castellum/subjects/templates/subjects/subject_base.html:57
+#: castellum/subjects/templates/subjects/subject_base.html:62
 msgid "Study Participations"
 msgstr "Studienteilnahmen"
 
@@ -2184,17 +2190,27 @@ msgstr ""
 "Sind Sie sicher, dass Sie diese Proband*in und alle zugehörigen Daten "
 "<strong>unwiederbringlich</strong> löschen möchten?"
 
-#: castellum/subjects/templates/subjects/subject_data_protection_form.html:25
-msgid "Recruitment consent"
-msgstr "Einwilligung zur Rekrutierung"
-
-#: castellum/subjects/templates/subjects/subject_data_protection_form.html:30
-msgid "outdated"
-msgstr "veraltet"
-
-#: castellum/subjects/templates/subjects/subject_data_protection_form.html:34
-msgid "No consent needed"
-msgstr "Keine Einwilligung benötigt"
+#: castellum/subjects/templates/subjects/subject_data_protection_form.html:27
+msgid ""
+"\n"
+"                            The current consent refers to an outdated "
+"document and will soon expire, thus rendering the recruitment consent "
+"invalid.\n"
+"                            Please contact this subject and ask them to "
+"consent to the latest document or withdraw their consent.\n"
+"                            This message will disappear once you change the "
+"value of the checkbox.\n"
+"                        "
+msgstr ""
+"\n"
+"                            Da sich die gegenwärtige Einwilligung auf ein "
+"veraltetes Dokument bezieht wird sie demnächst ablaufen und die "
+"Rekrutierungseinwilligung somit ungültig machen.\n"
+"                            Bitte kontaktieren Sie die Proband*in um die "
+"Einwilligung in die aktuellste Erklärung einzuholen oder den Widerruf "
+"der Einwilligung festzuhalten.\n"
+"                            Diese Nachricht wird verschwinden sobald Sie "
+"den Wert der Checkbox ändern."
 
 #: castellum/subjects/templates/subjects/subject_detail.html:4
 msgid "Subject details"
@@ -2208,32 +2224,80 @@ msgstr "Unvollständige Daten"
 msgid "Please edit data sets marked with"
 msgstr "Bitte editieren Sie die Datensätze mit dem folgenden Symbol:"
 
-#: castellum/subjects/templates/subjects/subject_detail.html:21
-#: castellum/subjects/templates/subjects/subject_detail.html:35
+#: castellum/subjects/templates/subjects/subject_detail.html:22
+#: castellum/subjects/templates/subjects/subject_detail.html:36
 msgid "(access denied)"
 msgstr "(Zugriff verweigert)"
 
-#: castellum/subjects/templates/subjects/subject_detail.html:28
+#: castellum/subjects/templates/subjects/subject_detail.html:29
 msgid "Guardian of"
 msgstr "Vormund von"
 
-#: castellum/subjects/templates/subjects/subject_detail.html:41
+#: castellum/subjects/templates/subjects/subject_detail.html:42
 msgid "Subject data registered"
 msgstr "Proband*innen-Daten registriert"
 
-#: castellum/subjects/templates/subjects/subject_detail.html:44
+#: castellum/subjects/templates/subjects/subject_detail.html:45
 msgid "Last edited"
 msgstr "Zuletzt bearbeitet"
 
-#: castellum/subjects/templates/subjects/subject_detail.html:47
-msgid "Legal basis for data processing"
-msgstr "Rechtsgrundlage für die Datenverarbeitung"
-
-#: castellum/subjects/templates/subjects/subject_detail.html:50
+#: castellum/subjects/templates/subjects/subject_detail.html:48
 msgid "Attribute set completeness"
 msgstr "Vollständigkeit der Merkmale"
 
-#: castellum/subjects/templates/subjects/subject_detail.html:56
+#: castellum/subjects/templates/subjects/subject_detail.html:52
+msgid "Legal basis for data processing"
+msgstr "Rechtsgrundlage für die Datenverarbeitung"
+
+#: castellum/subjects/templates/subjects/subject_detail.html:55
+msgid ""
+"Currently there is no legal basis for storing this subject. Please provide "
+"at least one of these options."
+msgstr ""
+"Aktuell gibt es keine gültige Rechtsgrundlage um die Daten dieser Proband*in "
+"zu speichern. Bitte wählen Sie mindestens eine dieser Optionen aus."
+
+#: castellum/subjects/templates/subjects/subject_detail.html:61
+msgid "Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR"
+msgstr ""
+"Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a DSGVO"
+
+#: castellum/subjects/templates/subjects/subject_detail.html:68
+#, python-format
+msgid "If applicable, <a href=\"%(url)s\">set consent status</a>."
+msgstr ""
+"<a href=\"%(url)s\">Status der Einwilligungserklärung angeben</a>, sofern anwendbar"
+
+#: castellum/subjects/templates/subjects/subject_detail.html:73
+msgid "Study consent"
+msgstr "Studieneinwilligung"
+
+#: castellum/subjects/templates/subjects/subject_detail.html:74
+msgid "Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG"
+msgstr "Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a DSGVO und Art. 27 BDSG"
+
+#: castellum/subjects/templates/subjects/subject_detail.html:81
+#, python-format
+msgid "If applicable, <a href=\"%(url)s\">add to a study</a>."
+msgstr "<a href=\"%(url)s\">Zur Studie hinzufügen</a>, sofern anwendbar"
+
+#: castellum/subjects/templates/subjects/subject_detail.html:86
+msgid "Guardianship"
+msgstr "Vormundschaft"
+
+#: castellum/subjects/templates/subjects/subject_detail.html:87
+msgid "Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 1626, 1902 BGB"
+msgstr "Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a DSGVO und Art. 1626, 1902 BGB"
+
+#: castellum/subjects/templates/subjects/subject_detail.html:94
+#, python-format
+msgid ""
+"If applicable, <a href=\"%(url)s\">find or create a subject</a> and set this "
+"one as their guardian."
+msgstr "<a href=\"%(url)s\">Proband*in finden oder erstellen</a> und diese Person "
+"als deren Vormund eintragen"
+
+#: castellum/subjects/templates/subjects/subject_detail.html:101
 msgid "Download cover letter"
 msgstr "Anschreiben herunterladen"
 
@@ -2287,7 +2351,7 @@ msgstr "Kontaktdaten in den letzten 6 Monaten aktualisiert"
 #: castellum/subjects/templates/subjects/subject_search.html:122
 #: castellum/subjects/templates/subjects/subject_search.html:128
 #: castellum/subjects/templates/subjects/subject_search.html:134
-#: castellum/subjects/templates/subjects/subject_search.html:142
+#: castellum/subjects/templates/subjects/subject_search.html:140
 msgid "subjects"
 msgstr "Proband*innen"
 
@@ -2299,39 +2363,17 @@ msgstr "Merkmale vollständig"
 msgid "Took part in a study"
 msgstr "Haben an einer Studie teilgenommen"
 
-#: castellum/subjects/templates/subjects/subject_search.html:141
+#: castellum/subjects/templates/subjects/subject_search.html:139
 msgid "Consent confirmed"
 msgstr "Einwilligung bestätigt"
 
-#: castellum/subjects/views.py:139
+#: castellum/subjects/views.py:134
 msgid "Both first and last name must be provided in order to create a subject!"
 msgstr ""
 "Sowohl Vor- als auch Nachname müssen angegeben werden um eine Proband*in "
 "anzulegen!"
 
-#: castellum/subjects/views.py:177
-msgid ""
-"study consent given (Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 "
-"BDSG)"
-msgstr ""
-"Studieneinwilligung gegeben (Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a "
-"DSGVO und Art. 27 BDSG)"
-
-#: castellum/subjects/views.py:182
-msgid "recruitment consent given (Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR)"
-msgstr ""
-"Rekrutierungseinwilligung gegeben (Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. "
-"a DSGVO)"
-
-#: castellum/subjects/views.py:187
-msgid ""
-"legal guardian of another subject (Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR "
-"and Art. 1626, 1902 BGB)"
-msgstr ""
-"Vormund einer anderen Proband*in (Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a "
-"DSGVO und Art. 1626, 1902 BGB)"
-
-#: castellum/subjects/views.py:220
+#: castellum/subjects/views.py:193
 msgid "Subject has been deleted."
 msgstr "Die Proband*in wurde gelöscht"
 
