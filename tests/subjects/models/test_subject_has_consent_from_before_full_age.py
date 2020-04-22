@@ -5,47 +5,37 @@ from freezegun import freeze_time
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
-from castellum.subjects.management.commands.delete_consent_on_full_age import Command
 from castellum.subjects.models import Consent
 
 
 @pytest.mark.django_db
-def test_delete_consent_on_full_age():
+def test_has_consent_from_before_full_age():
     contact = baker.make(Contact, date_of_birth=datetime.date(2000, 1, 1))
 
     with freeze_time('2014-01-01'):
         baker.make(Consent, status=Consent.CONFIRMED, subject=contact.subject)
 
     with freeze_time('2018-01-01'):
-        cmd = Command()
-        cmd.handle()
-
-    assert Consent.objects.count() == 0
+        assert contact.subject.has_consent_from_before_full_age
 
 
 @pytest.mark.django_db
-def test_delete_consent_on_full_age_not_full_age():
+def test_has_consent_from_before_full_age_not_full_age():
     contact = baker.make(Contact, date_of_birth=datetime.date(2010, 1, 1))
 
     with freeze_time('2014-01-01'):
         baker.make(Consent, status=Consent.CONFIRMED, subject=contact.subject)
 
     with freeze_time('2018-01-01'):
-        cmd = Command()
-        cmd.handle()
-
-    assert Consent.objects.count() == 1
+        assert not contact.subject.has_consent_from_before_full_age
 
 
 @pytest.mark.django_db
-def test_delete_consent_on_full_age_newer_consent():
+def test_has_consent_from_before_full_age_newer_consent():
     contact = baker.make(Contact, date_of_birth=datetime.date(2000, 1, 1))
 
     with freeze_time('2017-01-01'):
         baker.make(Consent, status=Consent.CONFIRMED, subject=contact.subject)
 
     with freeze_time('2018-01-01'):
-        cmd = Command()
-        cmd.handle()
-
-    assert Consent.objects.count() == 1
+        assert not contact.subject.has_consent_from_before_full_age
