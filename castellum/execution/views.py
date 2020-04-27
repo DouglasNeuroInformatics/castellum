@@ -23,19 +23,24 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import ListView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import SearchForm
+from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Contact
 from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_subject
+from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.mixins import ParticipationRequestMixin
 from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
+from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
+from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.utils.views import GetFormView
 
 
@@ -142,3 +147,44 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, GetFormView):
         except ObjectDoesNotExist:
             messages.warning(self.request, _('No match found'))
             return super().form_valid(form)
+
+
+class ExecutionUpdateMixin(ParticipationRequestMixin):
+    study_status = [Study.EXECUTION]
+    participationrequest_status = [ParticipationRequest.INVITED]
+
+    def get_success_url(self):
+        return reverse(
+            'execution:participationrequest-detail',
+            args=[self.kwargs['study_pk'], self.kwargs['pk']],
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = "execution/base.html"
+        return context
+
+    def get_permission_required(self):
+        permission_required = {'recruitment.view_participation_pseudonyms'}
+        permission_required.update(super().get_permission_required())
+        return permission_required
+
+
+class ContactUpdateView(ExecutionUpdateMixin, BaseContactUpdateView):
+    def get_object(self):
+        return self.participationrequest.subject.contact
+
+
+class AttributeSetUpdateView(ExecutionUpdateMixin, BaseAttributeSetUpdateView):
+    def get_object(self):
+        return self.participationrequest.subject.attributeset
+
+
+class DataProtectionUpdateView(ExecutionUpdateMixin, BaseDataProtectionUpdateView):
+    def get_object(self):
+        return self.participationrequest.subject
+
+
+class AdditionalInfoUpdateView(ExecutionUpdateMixin, BaseAdditionalInfoUpdateView):
+    def get_object(self):
+        return self.participationrequest.subject
