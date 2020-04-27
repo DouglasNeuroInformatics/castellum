@@ -21,6 +21,10 @@
 
 from django.urls import path
 
+from .views import AdditionalInfoUpdateView
+from .views import AttributeSetUpdateView
+from .views import ContactUpdateView
+from .views import DataProtectionUpdateView
 from .views import ParticipationRequestDetailView
 from .views import ResolveView
 from .views import SearchView
@@ -37,5 +41,25 @@ urlpatterns = [
         '<int:study_pk>/<int:pk>/',
         ParticipationRequestDetailView.as_view(),
         name='participationrequest-detail',
+    ),
+    path(
+        '<int:study_pk>/<int:pk>/update-contact/',
+        ContactUpdateView.as_view(),
+        name='contact-update',
+    ),
+    path(
+        '<int:study_pk>/<int:pk>/update-attributeset/',
+        AttributeSetUpdateView.as_view(),
+        name='attributeset-update',
+    ),
+    path(
+        '<int:study_pk>/<int:pk>/update-data-protection/',
+        DataProtectionUpdateView.as_view(),
+        name='data-protection-update',
+    ),
+    path(
+        '<int:study_pk>/<int:pk>/update-additional-info/',
+        AdditionalInfoUpdateView.as_view(),
+        name='additional-info-update',
     ),
 ]
