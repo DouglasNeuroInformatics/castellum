@@ -46,7 +46,7 @@
     </details>
 
     <div class="d-print-none mb-3">
-        <a href="{% url 'subjects:add-to-study' subject.pk %}" class="btn btn-primary">{% trans 'Add study participation' %}</a>
-        <a href="{% url 'subjects:add-to-finished-study' subject.pk %}" class="btn btn-secondary">{% trans 'Add finished study participation' %}</a>
+        <a href="{% url 'subjects:add-to-study' subject.pk %}" class="btn btn-primary">{% trans 'Add to study' %}</a>
+        <a href="{% url 'subjects:add-to-finished-study' subject.pk %}" class="btn btn-secondary">{% trans 'Add to finished study' %}</a>
     </div>
 {% endblock %}
