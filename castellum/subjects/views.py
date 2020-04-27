@@ -305,14 +305,19 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
             self.request.user.has_perm('recruitment.change_participationrequest', obj=study)
         )
 
-    def get_queryset(self):
+    def get_queryset(self, study_status=Study.EXECUTION):
         queryset = self.model.objects\
-            .filter(subject=self.subject, study__status=Study.EXECUTION)\
+            .filter(subject=self.subject, study__status=study_status)\
             .order_by('-updated_at')
         return [
             participation_request for participation_request in queryset
             if self.is_permitted(participation_request.study)
         ]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['finished_list'] = self.get_queryset(study_status=Study.FINISHED)
+        return context
 
 
 class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
@@ -371,15 +376,54 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
         self.object = self.get_object()
         study = get_object_or_404(Study, pk=request.POST['study'], status=Study.EXECUTION)
 
-        for perm in ['recruitment.add_participationrequest', 'studies.access_study']:
-            if not request.user.has_perm(perm, obj=study):
-                raise PermissionDenied
+        perms = ('recruitment.add_participationrequest', 'studies.access_study')
+        if not request.user.has_perms(perms, obj=study):
+            raise PermissionDenied
 
         participation_request = ParticipationRequest.objects.create(
-            subject=self.object, study=study)
+            subject=self.object, study=study
+        )
 
         url = reverse('recruitment:contact', args=[study.pk, participation_request.pk])
         return redirect(url + '?context=subjects:participation-list')
+
+
+class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
+    model = Subject
+    template_name = 'subjects/subject_add_to_study.html'
+    permission_required = 'contacts.view_contact'
+    tab = 'participations'
+
+    def get_studies(self, subject):
+        perms = ('recruitment.add_participationrequest', 'studies.access_study')
+        studies = (
+            Study.objects
+            .filter(status=Study.FINISHED)
+            .exclude(participationrequest__subject=subject)
+        )
+        for study in studies:
+            if self.request.user.has_perms(perms, obj=study):
+                yield study
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['attributeset'] = True
+        context['studies'] = list(self.get_studies(self.object))
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        study = get_object_or_404(Study, pk=request.POST['study'], status=Study.FINISHED)
+
+        perms = ('recruitment.add_participationrequest', 'studies.access_study')
+        if not request.user.has_perms(perms, obj=study):
+            raise PermissionDenied
+
+        ParticipationRequest.objects.create(
+            subject=self.object, study=study, status=ParticipationRequest.INVITED
+        )
+
+        return redirect('subjects:participation-list', self.object.pk)
 
 
 class GuardianSearchView(SubjectSearchView):

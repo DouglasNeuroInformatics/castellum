@@ -22,6 +22,7 @@
 from django.urls import path
 
 from .views import AdditionalInfoUpdateView
+from .views import AddToFinishedStudyView
 from .views import AddToStudyView
 from .views import AttributeSetUpdateView
 from .views import ContactUpdateView
@@ -57,6 +58,11 @@ urlpatterns = [
         name='participation-list',
     ),
     path('<int:pk>/participations/add/', AddToStudyView.as_view(), name='add-to-study'),
+    path(
+        '<int:pk>/participations/add-finished/',
+        AddToFinishedStudyView.as_view(),
+        name='add-to-finished-study',
+    ),
     path(
         '<int:subject_pk>/participations/<int:pk>/delete/',
         ParticipationDeleteView.as_view(),

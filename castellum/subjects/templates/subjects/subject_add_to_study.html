@@ -14,10 +14,13 @@
             {% for study in studies %}
                 <li class="table-list-item">
                     <div class ="h4 d-inline-block my-1 mr-2">{{ study }}</div>
+                    {% if study.status == study.FINISHED %}
+                        <span class="badge badge-secondary">{% trans 'Finished' %}</span>
+                    {% endif %}
                     <form class ="table-list-item-actions" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="study" value="{{ study.pk }}">
-                        <button class="btn btn-outline-primary btn-sm-inline my-1 ">{% trans 'Add' %}</button>
+                        <button class="btn btn-outline-primary btn-sm-inline my-1 ">{% trans 'Add to study' %}</button>
                     </form>
                 </li>
             {% empty %}
