@@ -17,7 +17,10 @@ $(function() {
             $consentCheckbox.prop('checked', false);
             $consentConfirm.prop('hidden', true);
         }
-        $consentHidden.val(value);
+        if (value !== $consentHidden.val()) {
+            $consentHidden.val(value);
+            $consentHidden.trigger('change');
+        }
     };
 
     $consentCheckbox.on('change', function() {
