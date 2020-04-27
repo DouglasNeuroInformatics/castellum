@@ -118,10 +118,8 @@ msgid "Has legal guardian"
 msgstr "Hat Vormund"
 
 #: castellum/contacts/forms.py:130
-#, fuzzy, python-format
-#| msgid "Subjects under the age of 18 need a legal guardian."
 msgid "Subjects under the age of %i need a legal guardian."
-msgstr "Proband*innen unter 18 Jahren brauchen einen Vormund."
+msgstr "Proband*innen unter %i Jahren müssen einen gesetzlichen Vormund haben."
 
 #: castellum/contacts/forms.py:146
 msgid "Provide more details for the address."
@@ -2108,17 +2106,13 @@ msgstr "Wartung"
 
 #: castellum/subjects/templates/subjects/maintenance_base.html:20
 #: castellum/subjects/templates/subjects/maintenance_duplicates.html:4
-#, fuzzy
-#| msgid "Duplicate"
 msgid "Duplicates"
-msgstr "Duplizieren"
+msgstr "Duplikate"
 
 #: castellum/subjects/templates/subjects/maintenance_base.html:26
 #: castellum/subjects/templates/subjects/maintenance_waiting.html:4
-#, fuzzy
-#| msgid "Waiting for confirmation"
 msgid "Waiting for consent"
-msgstr "Warten auf Bestätigung"
+msgstr "Warten auf Einwilligung"
 
 #: castellum/subjects/templates/subjects/maintenance_consent.html:7
 msgid "The following subjects have an outdated consent:"
@@ -2129,16 +2123,13 @@ msgid "The following subjects have incomplete contact data:"
 msgstr "Die folgenden Proband*innen haben unvollständige Kontaktdaten:"
 
 #: castellum/subjects/templates/subjects/maintenance_duplicates.html:7
-#, fuzzy
-#| msgid "The following subjects have an outdated consent:"
 msgid "The following names exist more than once:"
-msgstr "Die Einwilligung der folgenden Proband*innen ist nicht mehr aktuell:"
+msgstr "Die folgenden Namen gibt es mehr als einmal:"
 
 #: castellum/subjects/templates/subjects/maintenance_waiting.html:7
-#, fuzzy
-#| msgid "The following subjects have an outdated consent:"
 msgid "The following subjects have been contacted for recruitment consent:"
-msgstr "Die Einwilligung der folgenden Proband*innen ist nicht mehr aktuell:"
+msgstr "Die folgenden Proband*innen wurden für eine Rekrutierungseinwilligung "
+"kontaktiert:"
 
 #: castellum/subjects/templates/subjects/subject_add_to_study.html:4
 msgid "Add study participation"
@@ -2158,10 +2149,8 @@ msgstr ""
 
 #: castellum/subjects/templates/subjects/subject_add_to_study.html:23
 #: castellum/subjects/templates/subjects/subject_participationlist.html:49
-#, fuzzy
-#| msgid "Type of study"
 msgid "Add to study"
-msgstr "Studientyp"
+msgstr "Zu Studie hinzufügen"
 
 #: castellum/subjects/templates/subjects/subject_add_to_study.html:28
 msgid "No matching studies found"
@@ -2241,23 +2230,10 @@ msgstr ""
 "<strong>unwiederbringlich</strong> löschen möchten?"
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:25
-#, fuzzy
-#| msgid "Waiting for confirmation"
 msgid "Waiting for confirmation by the subject."
-msgstr "Warten auf Bestätigung"
+msgstr "Warten auf Bestätigung durch die Proband*in."
 
-#: castellum/subjects/templates/subjects/subject_data_protection_form.html:31
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                            The current consent refers to an outdated "
-#| "document and will soon expire, thus rendering the recruitment consent "
-#| "invalid.\n"
-#| "                            Please contact this subject and ask them to "
-#| "consent to the latest document or withdraw their consent.\n"
-#| "                            This message will disappear once you change "
-#| "the value of the checkbox.\n"
-#| "                        "
+#: castellum/subjects/templates/subjects/subject_data_protection_form.html:31                     "
 msgid ""
 "\n"
 "                                The current consent refers to an outdated "
@@ -2280,17 +2256,6 @@ msgstr ""
 "Wert der Checkbox ändern."
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:40
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                            The current consent refers to an outdated "
-#| "document and will soon expire, thus rendering the recruitment consent "
-#| "invalid.\n"
-#| "                            Please contact this subject and ask them to "
-#| "consent to the latest document or withdraw their consent.\n"
-#| "                            This message will disappear once you change "
-#| "the value of the checkbox.\n"
-#| "                        "
 msgid ""
 "\n"
 "                                The subject has recently come of age. Please "
@@ -2300,12 +2265,9 @@ msgid ""
 "                            "
 msgstr ""
 "\n"
-"                            Da sich die gegenwärtige Einwilligung auf ein "
-"veraltetes Dokument bezieht wird sie demnächst ablaufen und die "
-"Rekrutierungseinwilligung somit ungültig machen.\n"
-"                            Bitte kontaktieren Sie die Proband*in um die "
-"Einwilligung in die aktuellste Erklärung einzuholen oder den Widerruf der "
-"Einwilligung festzuhalten.\n"
+"                            Die Proband*in ist kürzlich volljährig geworden. "
+"Bitte kontaktieren Sie sie um die Einwilligung in die aktuellste Erklärung "
+"einzuholen oder den Widerruf der Einwilligung festzuhalten.\n"
 "                            Diese Nachricht wird verschwinden sobald Sie den "
 "Wert der Checkbox ändern."
 
@@ -2440,16 +2402,12 @@ msgid "Go to execution"
 msgstr "Zur Durchführung"
 
 #: castellum/subjects/templates/subjects/subject_participationlist.html:36
-#, fuzzy
-#| msgid "Finish study"
 msgid "Finished studies"
-msgstr "Studie beenden"
+msgstr "Beendete Studien"
 
 #: castellum/subjects/templates/subjects/subject_participationlist.html:50
-#, fuzzy
-#| msgid "Finish study"
 msgid "Add to finished study"
-msgstr "Studie beenden"
+msgstr "Zu einer beendeten Studie hinzufügen"
 
 #: castellum/subjects/templates/subjects/subject_search.html:118
 msgid "Current data situation"
