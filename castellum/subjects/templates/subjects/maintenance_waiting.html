@@ -4,7 +4,7 @@
 {% block title %}{% trans "Waiting for consent" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <p>{% trans 'The following subjects have waiting consent:' %}</p>
+    <p>{% trans 'The following subjects have been contacted for recruitment consent:' %}</p>
 
     <ul class="table-list">
         {% for subject in object_list %}
