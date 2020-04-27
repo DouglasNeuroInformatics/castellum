@@ -23,7 +23,7 @@ $(function() {
     $consentCheckbox.on('change', function() {
         setConsent($consentHidden.val() ? '' : 'waiting');
     });
-    $consentConfirm.on('click', function() {
+    $consentConfirm.on('click', 'button', function() {
         setConsent('confirmed');
     });
     setConsent($consentHidden.val());
