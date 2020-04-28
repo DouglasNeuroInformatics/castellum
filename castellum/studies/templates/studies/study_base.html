@@ -71,7 +71,7 @@
                 {% if enable_export %}
                     <a href="{% url 'studies:export' study.pk %}" class="btn btn-outline-primary mb-1">{% trans 'Export' %}</a>
                 {% endif %}
-                {% if can_delete_study %}
+                {% if study.status == study.FINISHED and can_delete_study %}
                     <a href="{% url 'studies:delete' study.pk %}" class="btn btn-danger mb-1">{% trans 'Delete' %}</a>
                 {% endif %}
             {% endif %}
