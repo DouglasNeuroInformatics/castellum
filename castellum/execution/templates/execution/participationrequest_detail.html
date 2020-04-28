@@ -4,23 +4,23 @@
 {% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1 class="text-center">{{ object.subject.contact.full_name }}</h1>
+    <h1 class="text-center">{{ subject.contact.full_name }}</h1>
 
     <dl>
         <dt>{% trans 'Pseudonym' %}</dt>
         <dd>{{ object.pseudonym }}</dd>
 
-        <dt>{{ object.subject.contact|verbose_name:'phone_number' }}</dt>
-        <dd>{{ object.subject.contact|display:'phone_number' }}</dd>
+        <dt>{{ subject.contact|verbose_name:'phone_number' }}</dt>
+        <dd>{{ subject.contact|display:'phone_number' }}</dd>
 
-        <dt>{{ object.subject.contact|verbose_name:'phone_number_alternative' }}</dt>
-        <dd>{{ object.subject.contact|display:'phone_number_alternative' }}</dd>
+        <dt>{{ subject.contact|verbose_name:'phone_number_alternative' }}</dt>
+        <dd>{{ subject.contact|display:'phone_number_alternative' }}</dd>
     </dl>
 
     {% has_perm 'contacts.change_contact' user study as can_change_contact %}
     {% if can_change_contact %}
         <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:contact-update' study.pk object.pk %}">
-            {% if not contact.is_complete %}
+            {% if not subject.contact.is_complete %}
                 <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
             {% endif %}
             {% trans 'Edit contact data' %}
