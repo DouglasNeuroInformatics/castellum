@@ -20,7 +20,7 @@
     {% has_perm 'contacts.change_contact' user study as can_change_contact %}
     {% if can_change_contact %}
         <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:contact-update' study.pk object.pk %}">
-            {% if not contact.is_complete %}
+            {% if not subject.contact.is_complete %}
                 <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
             {% endif %}
             {% trans 'Edit contact data' %}
