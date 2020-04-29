@@ -35,7 +35,6 @@ from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import AttributeSet
 from castellum.studies.models import Study
 from castellum.studies.models import StudySession
-from castellum.studies.models import StudyType
 from castellum.subjects.models import Consent
 from castellum.subjects.models import ConsentDocument
 from castellum.subjects.models import Subject
@@ -194,10 +193,6 @@ def generate_studies(count):
     for study in studies:
         study.save()
     StudySession.objects.bulk_create(fake_studysession(study) for study in studies)
-
-    study_types = list(StudyType.objects.all())
-    for study in studies:
-        study.study_type.add(fake.random.choice(study_types))
 
 
 def generate_subjects(count):
