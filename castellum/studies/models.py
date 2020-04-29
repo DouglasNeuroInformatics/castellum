@@ -40,7 +40,7 @@ from castellum.utils.fields import RestrictedFileField
 
 class StudyType(TranslatableModel):
     # see also schemas/study.json
-    EXPORT_KEYS = 'Online', 'Behavioral lab', 'MRI', 'Simulation', 'EEG', '3rd party'
+    EXPORT_KEYS = 'Online', 'Behavioral lab', 'MRI', 'Simulation', 'EEG'
 
     translations = TranslatedFields(
         label=models.CharField(_('Label'), max_length=64),
