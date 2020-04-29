@@ -457,7 +457,6 @@ class ContactView(ParticipationRequestMixin, PermissionRequiredMixin, UpdateView
         status_field.widget.choices = choices
 
         context['context'] = self.request.GET.get('context')
-        context['contact'] = self.object.subject.contact
 
         return context
 
