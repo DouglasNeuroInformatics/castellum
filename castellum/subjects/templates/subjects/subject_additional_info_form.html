@@ -6,6 +6,12 @@
 {% endblock %}
 
 {% block content %}
+    {% if subject.contact.has_guardian %}
+        <p class="alert alert-warning" role="alert">
+            {% trans 'This subject has a legal guardian. For information on availability and notes please find their details.' %}
+        </p>
+    {% endif %}
+
     <template id="note-data-template">
         <div class="form-group">
             <div class="form-check">
