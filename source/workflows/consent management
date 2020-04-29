@@ -1,5 +1,7 @@
-Consent Management: Checking the Consent documents
-===================================================
+Consent Management
+===================
+Checking the Consent Documents
+-------------------------------
 
 1. Log in to Castellum by using your username and password
 
@@ -12,5 +14,18 @@ Consent Management: Checking the Consent documents
    
    - You will see a list of all consent documents that have been created
    - Additional information that will be shown to you: date of creation and
-     whether the consent document is valid ir not 
+     whether the consent document is valid or not
+     
+Updating the Consent Documents
+-------------------------------
+
+1. If you wish to upload a consent document that is currently valid, proceed as
+   follows:
+   
+   - Click on **ADD CONSENT DOCUMENT** on the upper left
+   - 
+   
+Updating the Status of a Consent Document
+------------------------------------------
+
 
