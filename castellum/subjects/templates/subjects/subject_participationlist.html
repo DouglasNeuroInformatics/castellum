@@ -47,6 +47,9 @@
 
     <div class="d-print-none mb-3">
         <a href="{% url 'subjects:add-to-study' subject.pk %}" class="btn btn-primary">{% trans 'Add to study' %}</a>
-        <a href="{% url 'subjects:add-to-finished-study' subject.pk %}" class="btn btn-secondary">{% trans 'Add to finished study' %}</a>
+        {% has_perm 'subjects.change_subject' user as can_change_subject %}
+        {% if can_change_subject %}
+            <a href="{% url 'subjects:add-to-finished-study' subject.pk %}" class="btn btn-secondary">{% trans 'Add to finished study' %}</a>
+        {% endif %}
     </div>
 {% endblock %}
