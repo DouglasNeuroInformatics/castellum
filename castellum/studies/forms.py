@@ -45,14 +45,19 @@ class StudyForm(ReadonlyModelForm):
             'affiliated_research_assistants',
             'description',
             'keywords',
-            'study_type',
             'data_sensitivity',
             'consent',
             'min_subject_count',
             'expense_allowance',
         ]
+
+
+class SessionForm(ReadonlyModelForm):
+    class Meta:
+        model = models.StudySession
+        fields = ('name', 'duration', 'resource', 'type')
         widgets = {
-            'study_type': forms.CheckboxSelectMultiple(),
+            'type': forms.CheckboxSelectMultiple(),
         }
 
 
