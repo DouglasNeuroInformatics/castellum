@@ -391,19 +391,15 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
 class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_add_to_study.html'
-    permission_required = 'contacts.view_contact'
+    permission_required = 'subjects.change_subject'
     tab = 'participations'
 
     def get_studies(self, subject):
-        perms = ('recruitment.add_participationrequest', 'studies.access_study')
-        studies = (
+        return (
             Study.objects
             .filter(status=Study.FINISHED)
             .exclude(participationrequest__subject=subject)
         )
-        for study in studies:
-            if self.request.user.has_perms(perms, obj=study):
-                yield study
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
