@@ -45,15 +45,6 @@
     }
 },
 {
-    "model": "studies.studytype",
-    "pk": 6,
-    "fields": {
-        "exclusion_criteria": "",
-        "export_key": "3rd party",
-        "data_sensitivity": false
-    }
-},
-{
     "model": "studies.studytypetranslation",
     "pk": 1,
     "fields": {
@@ -109,15 +100,6 @@
 },
 {
     "model": "studies.studytypetranslation",
-    "pk": 7,
-    "fields": {
-        "language_code": "en",
-        "label": "3rd party",
-        "master": 6
-    }
-},
-{
-    "model": "studies.studytypetranslation",
     "pk": 8,
     "fields": {
         "language_code": "de",
@@ -150,15 +132,6 @@
         "language_code": "de",
         "label": "EEG",
         "master": 5
-    }
-},
-{
-    "model": "studies.studytypetranslation",
-    "pk": 12,
-    "fields": {
-        "language_code": "de",
-        "label": "Verarbeitung externer Daten",
-        "master": 6
     }
 }
 ]
