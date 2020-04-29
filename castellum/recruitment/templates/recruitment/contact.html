@@ -6,7 +6,7 @@
 {% block header %}
     <div class="container text-center my-4">
         <h1>
-            {{ contact.full_name }}
+            {{ subject.contact.full_name }}
             <svg class="identicon" data-jdenticon-value="{{ object.pk }}" aria-hidden="true"></svg>
         </h1>
         <span class="badge badge-secondary">{{ object|display:'status' }}</span>
@@ -49,7 +49,7 @@
     <form method="post">
         <div class="tab-content mb-3 border border-top-0 p-3">
             <div class="tab-pane active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                {% for guardian in contact.guardians.all %}
+                {% for guardian in subject.contact.guardians.all %}
                     {% has_privacy_level guardian.subject.privacy_level user as can_access %}
                     {% if can_access %}
                         <dl class="row mb-0">
@@ -65,13 +65,13 @@
                     {% endif %}
                     <hr>
                 {% empty %}
-                    {% include 'recruitment/__contact_detail.html' with contact=contact %}
+                    {% include 'recruitment/__contact_detail.html' with contact=subject.contact %}
                 {% endfor %}
 
                 {% has_perm 'contacts.change_contact' user study as can_change_contact %}
                 {% if can_change_contact %}
                     <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:contact-update' study.pk object.pk %}">
-                        {% if not contact.is_complete %}
+                        {% if not subject.contact.is_complete %}
                             <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
                         {% endif %}
                         {% trans 'Edit contact data' %}
