@@ -12,7 +12,9 @@ $(function() {
 
     $(document).on('click', '[data-js="session-delete"]', function(event) {
         var $fieldset = $(event.target).closest('fieldset');
+        $fieldset.find('[name="form-' + $fieldset.index() + '-name"]').remove();
         $fieldset.find('[name="form-' + $fieldset.index() + '-duration"]').remove();
+        $fieldset.find('[name="form-' + $fieldset.index() + '-resource"]').remove();
         $fieldset.append($('<input type="hidden" name="form-' + $fieldset.index() + '-DELETE" value="on">'));
         $fieldset.attr('hidden', true);
     });
