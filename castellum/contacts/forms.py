@@ -36,7 +36,7 @@ from .models import Contact
 
 class SubjectMultipleChoiceField(forms.ModelMultipleChoiceField):
     def label_from_instance(self, obj):
-        # Getting subject.contact is expensive (pseudonym service).
+        # Getting subject.contact is expensive (separate database).
         # Since we only render the selected choices it makes sense to calculate it lazily.
         return lazy(lambda: obj.contact.full_name, str)
 
