@@ -84,7 +84,6 @@ criteria.
     - click **Apply**
     
     > You may set as many filters as you like.
-    
     > If you wish to create more than one filter group, proceed as follows:
       - click on **General**,
       - select **Advanced filtering** and
