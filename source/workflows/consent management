@@ -19,10 +19,21 @@ Checking the Consent Documents
 Updating the Consent Documents
 -------------------------------
 
-1. If you wish to upload a consent document that is currently valid, proceed as
+It is possible for a consent document to become invalid because of 
+- a change in the legislation
+- a present date on which the validity expires
+- ...
+
+A) There are two options you may implement when a consent document becomes invalid
+   - The consent form can be marked as **Is deprecated** or
+   - If you uncheck the box saying **Is valid**, the consent document is marked
+     as invalid
+
+
+B) If you wish to upload a consent document that is currently valid, proceed as
    follows:
    
-   - Click on **ADD CONSENT DOCUMENT** on the upper left
+   - Click on **ADD CONSENT DOCUMENT** on the upper right
    - 
    
 Updating the Status of a Consent Document
