@@ -25,9 +25,21 @@ It is possible for a consent document to become invalid because of
 - ...
 
 A) There are two options you may implement when a consent document becomes invalid
-   - The consent form can be marked as **Is deprecated** or
-   - If you uncheck the box saying **Is valid**, the consent document is marked
-     as invalid
+1. The consent form can be marked as **Is deprecated** and **Is valid**
+   - This can be considered as an intermediate step between the validity and
+     invalidity of a consent document
+   - The subjects may remain in the database and may be recruited but a a new
+     consent document should be obtained soon
+     
+2. If you uncheck the box saying **Is valid**, the consent document is marked as
+   invalid
+   - If the invalidity of the consent is saved, there is no longer any consent
+     for the recruitment of a test person in the database
+This does not apply when the **Legal basis for data processing** is a **Study
+consent** or **Guardianship**. You can see the legal basis for data processing
+for each subject individually, if you select a person and go to the tab
+**Overview**
+
 
 
 B) If you wish to upload a consent document that is currently valid, proceed as
@@ -38,5 +50,15 @@ B) If you wish to upload a consent document that is currently valid, proceed as
    
 Updating the Status of a Consent Document
 ------------------------------------------
+
+Maintenance of Recruitment Consents
+------------------------------------
+In order to get an overview of all subjects for whom a new recruiting consent is
+required, proceed as follows:
+
+1. Click on **Subjects** on the front page
+2. Go to **Maintenance**
+3. Click on the fourth tab **Consent**
+4. You can see which **subjects have an outdated consent**
 
 
