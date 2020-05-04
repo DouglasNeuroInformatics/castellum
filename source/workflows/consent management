@@ -3,6 +3,9 @@ Consent Management
 Checking the Consent Documents
 -------------------------------
 
+Castellum is mainly intended for the management of recruitment consents. Study
+consents must be obtained separately from the respective study conducters.
+
 1. Log in to Castellum by using your username and password
 
    - Make sure you are connected to the WiFi and use your right username and
@@ -25,6 +28,10 @@ It is possible for a consent document to become invalid because of
 - ...
 
 A) There are two options you may implement when a consent document becomes invalid
+   To see the options, go to **Admin** on the front page > **Consent documents**
+   in the last section **SUBJECTS** > click on the date the consent document
+   you want to change the status for has been created
+   
 1. The consent form can be marked as **Is deprecated** and **Is valid**
    - This can be considered as an intermediate step between the validity and
      invalidity of a consent document
@@ -59,6 +66,9 @@ required, proceed as follows:
 1. Click on **Subjects** on the front page
 2. Go to **Maintenance**
 3. Click on the fourth tab **Consent**
-4. You can see which **subjects have an outdated consent**
+   - You can see which **subjects have an outdated consent** in a list
+4. Click on **Details** next to **Last updated on: XY**
+   - A new window will be open for each subject
+5. Go to **Data Protection** 
 
 
