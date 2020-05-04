@@ -305,9 +305,9 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
             self.request.user.has_perm('recruitment.change_participationrequest', obj=study)
         )
 
-    def get_queryset(self, study_status=Study.EXECUTION):
-        queryset = self.model.objects\
-            .filter(subject=self.subject, study__status=study_status)\
+    def get_queryset(self):
+        queryset = ParticipationRequest.objects\
+            .filter(subject=self.subject, study__status=Study.EXECUTION)\
             .order_by('-updated_at')
         return [
             participation_request for participation_request in queryset
@@ -316,7 +316,9 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['finished_list'] = self.get_queryset(study_status=Study.FINISHED)
+        context['finished_list'] = ParticipationRequest.objects\
+            .filter(subject=self.subject, study__status=Study.FINISHED)\
+            .order_by('-updated_at')
         return context
 
 
@@ -410,10 +412,6 @@ class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         study = get_object_or_404(Study, pk=request.POST['study'], status=Study.FINISHED)
-
-        perms = ('recruitment.add_participationrequest', 'studies.access_study')
-        if not request.user.has_perms(perms, obj=study):
-            raise PermissionDenied
 
         ParticipationRequest.objects.create(
             subject=self.object, study=study, status=ParticipationRequest.INVITED
