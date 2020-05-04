@@ -29,6 +29,7 @@ from .views.recruitment import StudyExcludedStudiesView
 from .views.recruitment import StudyExclusionCriteriaView
 from .views.recruitment import StudyMailSettingsView
 from .views.recruitment import StudyRecruitmentSettingsUpdateView
+from .views.recruitment import StudySessionsView
 from .views.studies import StudyCreateView
 from .views.studies import StudyDeleteView
 from .views.studies import StudyDetailView
@@ -84,6 +85,7 @@ urlpatterns = [
         StudyExcludedStudiesView.as_view(),
         name='excluded-studies',
     ),
+    path('<int:pk>/recruitmentsettings/sessions/', StudySessionsView.as_view(), name='sessions'),
     path(
         '<int:study_pk>/recruitmentsettings/filters/',
         FilterGroupListView.as_view(),

@@ -133,6 +133,26 @@ class StudyExclusionCriteriaView(
         return super().form_valid(form)
 
 
+class StudySessionsView(
+    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
+):
+    model = Study
+    template_name = 'studies/study_sessions.html'
+    fields = (
+        'sessions_start',
+        'sessions_end',
+    )
+    permission_required = 'studies.change_study'
+    tab = 'recruitmentsettings'
+    subtab = 'sessions'
+
+    def get_readonly(self):
+        return self.object.status == Study.FINISHED
+
+    def get_success_url(self):
+        return reverse('studies:sessions', args=[self.object.pk])
+
+
 class StudyMailSettingsView(
     StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
 ):
