@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django import forms
 from django.contrib import messages
 from django.db import models
 from django.urls import reverse
@@ -33,11 +34,13 @@ from castellum.recruitment import filter_queries
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import SubjectFilter
 from castellum.subjects.models import Subject
+from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
 
 from ..forms import ExcludedStudiesForm
 from ..mixins import StudyMixin
 from ..models import Study
+from ..models import StudySession
 
 
 def get_related_studies(study):
@@ -131,6 +134,76 @@ class StudyExclusionCriteriaView(
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
+
+
+class StudySessionsView(
+    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
+):
+    model = Study
+    template_name = 'studies/study_sessions.html'
+    fields = (
+        'sessions_start',
+        'sessions_end',
+    )
+    permission_required = 'studies.change_study'
+    tab = 'recruitmentsettings'
+    subtab = 'sessions'
+
+    def get_session_form(self):
+        form_class = forms.modelform_factory(StudySession, fields=('name', 'duration', 'resource'))
+        return form_class(prefix='{prefix}')
+
+    def get_session_formset(self):
+        formset_class = forms.modelformset_factory(
+            StudySession,
+            fields=('name', 'duration', 'resource'),
+            form=ReadonlyModelForm,
+            extra=0,
+            can_delete=True,
+        )
+        kwargs = self.get_form_kwargs()
+        study = kwargs.pop('instance', None)
+        readonly = kwargs.pop('readonly', False)
+        return formset_class(
+            queryset=StudySession.objects.filter(study=study),
+            form_kwargs={'readonly': readonly},
+            **kwargs
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'session_formset' not in context:
+            context['session_formset'] = self.get_session_formset()
+        context["template_form"] = self.get_session_form()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        session_formset = self.get_session_formset()
+        if form.is_valid() and session_formset.is_valid():
+            return self.form_valid(form, session_formset)
+        else:
+            return self.form_invalid(form, session_formset)
+
+    def form_invalid(self, form, session_formset):
+        return self.render_to_response(
+            self.get_context_data(form=form, session_formset=session_formset)
+        )
+
+    def form_valid(self, form, session_formset):
+        messages.success(self.request, _('Data has been saved.'))
+        response = super().form_valid(form)
+        for subform in session_formset:
+            subform.instance.study = form.instance
+        session_formset.save()
+        return response
+
+    def get_readonly(self):
+        return self.object.status == Study.FINISHED
+
+    def get_success_url(self):
+        return reverse('studies:sessions', args=[self.object.pk])
 
 
 class StudyMailSettingsView(

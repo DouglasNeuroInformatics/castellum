@@ -50,8 +50,6 @@ class StudyForm(ReadonlyModelForm):
             'consent',
             'min_subject_count',
             'expense_allowance',
-            'sessions_start',
-            'sessions_end',
         ]
         widgets = {
             'study_type': forms.CheckboxSelectMultiple(),
