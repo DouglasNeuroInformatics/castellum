@@ -39,7 +39,6 @@
         {% bootstrap_field form.keywords %}
         {% bootstrap_field form.study_type %}
         {% bootstrap_field form.data_sensitivity %}
-        <input type="hidden" name="{{ form.data_sensitivity.name }}" id="{{ form.data_sensitivity.auto_id }}_hidden" value="on" disabled>
         {% include "file_field.html" with field=form.consent %}
         {% bootstrap_field form.min_subject_count %}
         {% bootstrap_field form.expense_allowance addon_after=_('EUR') %}
