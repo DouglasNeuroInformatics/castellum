@@ -11,7 +11,11 @@
             </button>
             {% bootstrap_field template_form.name %}
             {% bootstrap_field template_form.duration %}
-            {% bootstrap_field template_form.resource %}
+            {% if has_resources %}
+                {% bootstrap_field template_form.resource %}
+            {% else %}
+                <input name="resource" type="hidden">
+            {% endif %}
         </fieldset>
     </template>
 
@@ -35,7 +39,11 @@
                     {% endif %}
                     {% bootstrap_field subform.name %}
                     {% bootstrap_field subform.duration %}
-                    {% bootstrap_field subform.resource %}
+                    {% if has_resources %}
+                        {% bootstrap_field subform.resource %}
+                    {% else %}
+                        <input name="resource" type="hidden">
+                    {% endif %}
                 </fieldset>
             {% endfor %}
         </div>
