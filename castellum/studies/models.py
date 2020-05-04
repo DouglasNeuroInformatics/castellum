@@ -86,6 +86,15 @@ class Study(models.Model):
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
     min_subject_count = models.PositiveIntegerField(_('Required number of subjects'), default=0)
     expense_allowance = models.PositiveIntegerField(_('Expense allowance'), blank=True, null=True)
+    session_instructions = models.TextField(
+        _('Session instructions'),
+        help_text=_(
+            'Please describe any requirements for carrying out the sessions listed below. '
+            'For example, specify time intervals between sessions that need to be '
+            'considered for booking appointments.'
+        ),
+        blank=True,
+    )
     sessions_start = DateField(_('Start of test sessions'), blank=True, null=True)
     sessions_end = DateField(_('End of test sessions'), blank=True, null=True)
     exclusion_criteria = models.TextField(

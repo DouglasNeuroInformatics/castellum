@@ -143,6 +143,7 @@ class StudySessionsView(
     model = Study
     template_name = 'studies/study_sessions.html'
     fields = (
+        'session_instructions',
         'sessions_start',
         'sessions_end',
     )
