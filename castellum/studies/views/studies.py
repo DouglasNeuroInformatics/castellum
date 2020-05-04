@@ -264,10 +264,6 @@ class StudyImportView(PermissionRequiredMixin, FormView):
 
         json = form.cleaned_data['json']
 
-        study_types = StudyType.objects\
-            .filter(export_key__in=json.get('type', []))\
-            .values_list('pk', flat=True)
-
         self.request.POST = QueryDict(mutable=True)
         self.request.POST.update({
             'name': json['name'],
@@ -279,15 +275,8 @@ class StudyImportView(PermissionRequiredMixin, FormView):
             ),
             'description': json.get('description'),
             'keywords': ', '.join(json.get('keywords', [])),
-            'sessions_start': json.get('sessions_start'),
-            'sessions_end': json.get('sessions_end'),
             'min_subject_count': json.get('number_participants_expected'),
-
-            # management form is required
-            'form-TOTAL_FORMS': 0,
-            'form-INITIAL_FORMS': 0,
         })
-        self.request.POST.setlist('study_type', study_types)
 
         create_view = StudyCreateView.as_view()
         return create_view(self.request)
