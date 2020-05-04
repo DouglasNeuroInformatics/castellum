@@ -39,6 +39,7 @@ from castellum.utils.views import ReadonlyMixin
 
 from ..forms import ExcludedStudiesForm
 from ..mixins import StudyMixin
+from ..models import Resource
 from ..models import Study
 from ..models import StudySession
 
@@ -175,6 +176,7 @@ class StudySessionsView(
         if 'session_formset' not in context:
             context['session_formset'] = self.get_session_formset()
         context["template_form"] = self.get_session_form()
+        context['has_resources'] = Resource.objects.exists()
         return context
 
     def post(self, request, *args, **kwargs):
