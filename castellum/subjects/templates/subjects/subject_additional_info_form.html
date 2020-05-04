@@ -1,5 +1,5 @@
 {% extends base_template|default:"subjects/base.html" %}
-{% load static i18n bootstrap4 utils %}
+{% load static i18n bootstrap4 utils auth %}
 
 {% block title %}
     {% trans "Edit subject" %} &middot; {{ block.super }}
@@ -8,7 +8,15 @@
 {% block content %}
     {% if subject.contact.has_guardian %}
         <p class="alert alert-warning" role="alert">
-            {% trans 'This subject has a legal guardian. For information on availability and notes please find their details.' %}
+            {% trans 'This subject has a legal guardian. For information on availability and notes please find their details here:' %}
+            {% for c in subject.contact.guardians.all %}
+                {% has_perm 'contacts.view_contact' user as can_view_contact %}
+                {% if can_view_contact %}
+                    <a href="{% url 'subjects:detail' c.subject.pk %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
+                {% else %}
+                    <span class="text-muted">{% trans '(access denied)' %}</span>{% if not forloop.last %},{% endif %}
+                {% endif %}
+            {% endfor %}
         </p>
     {% endif %}
 
