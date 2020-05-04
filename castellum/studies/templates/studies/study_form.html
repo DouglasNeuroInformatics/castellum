@@ -11,19 +11,7 @@
 {% endblock %}
 
 {% block content %}
-    <template id="session-data-template">
-        <fieldset class="rounded-lg border bg-light p-3 mb-2">
-            <button type="button" class="btn btn-sm btn-danger float-right mb-2" data-js="session-delete">
-                {% trans 'Delete' %}
-            </button>
-            {% bootstrap_field template_form.name %}
-            {% bootstrap_field template_form.duration %}
-            {% bootstrap_field template_form.resource %}
-        </fieldset>
-    </template>
-
     <form method="post" enctype="multipart/form-data" {% if not object %}action="{% url 'studies:create' %}{% if duplicate %}?duplicate_pk={{ duplicate.pk }}{% endif %}"{% endif %}>
-
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
@@ -44,55 +32,10 @@
         {% bootstrap_field form.min_subject_count %}
         {% bootstrap_field form.expense_allowance addon_after=_('EUR') %}
 
-        <hr>
-
-        <fieldset>
-            <legend>{% trans 'Test sessions' %}</legend>
-
-            {{ session_formset.management_form }}
-            <div id="sessions-container">
-                {% for subform in session_formset %}
-                    <fieldset class="rounded-lg border bg-light p-3 mb-2" {% if subform.DELETE.value %}hidden{% endif %}>
-                        {{ subform.id.as_hidden }}
-                        {{ subform.DELETE.as_hidden }}
-                        {% if not readonly %}
-                            <button type="button" class="btn btn-sm btn-danger float-right mb-2" data-js="session-delete">
-                                {% trans 'Delete' %}
-                            </button>
-                        {% endif %}
-                        {% bootstrap_field subform.name %}
-                        {% bootstrap_field subform.duration %}
-                        {% bootstrap_field subform.resource %}
-                    </fieldset>
-                {% endfor %}
-            </div>
-
-            {% if not readonly %}
-                <div class="mb-3">
-                    <button type="button" class="btn btn-primary" data-js="session-add">
-                        {% trans "Add session" %}
-                    </button>
-                </div>
-            {% endif %}
-
-            <div class="form-row">
-                <div class="col-md-6">
-                    {% bootstrap_field form.sessions_start %}
-                </div>
-                <div class="col-md-6">
-                    {% bootstrap_field form.sessions_end %}
-                </div>
-            </div>
-        </fieldset>
-
         <div class="d-print-none mb-3">
             {% if not readonly %}
                 <button class="btn btn-primary" >{% trans 'Save' %}</button>
             {% endif %}
         </div>
     </form>
-{% endblock %}
-
-{% block extra_scripts %}
-    <script src="{% static 'js/study_form.js' %}"></script>
 {% endblock %}
