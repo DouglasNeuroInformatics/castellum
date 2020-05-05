@@ -3,6 +3,12 @@ Consent Management
 Checking the Consent Documents
 -------------------------------
 
+There are three options that justify a **Legal basis for data processing**:
+- **Recruitment consent** (Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR)
+- **Study consent** (Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG)
+- **Guardianship** (Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 1626, 1902
+  BGB)
+
 Castellum is mainly intended for the management of recruitment consents. Study
 consents must be obtained separately from the respective study conducters.
 
@@ -69,6 +75,13 @@ required, proceed as follows:
    - You can see which **subjects have an outdated consent** in a list
 4. Click on **Details** next to **Last updated on: XY**
    - A new window will be open for each subject
-5. Go to **Data Protection** 
+5. Go to **Data protection** (fourth tab)
+   - If you see an orange description field that says **The current consent refers
+     to an outdated document and will soon expire, thus rendering the recruitment
+     consent invalid. Please contact this subject and ask them to consent to the
+     latest document or withdraw their consent. This message will disappear once
+     you change the value of the checkbox.**, proceed with steps 6-XY
+6. Obtain valid consent for recruitment either online, by telephone or postal
+7
 
 
