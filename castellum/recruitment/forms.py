@@ -19,11 +19,13 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import itertools
 import json
 import os
 
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from castellum.studies.models import Study
@@ -32,10 +34,12 @@ from castellum.utils.forms import DateTimeField
 from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
 
+from .models import Appointment
 from .models import AttributeDescription
 from .models import AttributeSet
 from .models import ParticipationRequest
 from .models import SubjectFilter
+from .models.appointments import MINUTE
 from .models.attributesets import ANSWER_DECLINED
 from .models.attributesets import UNCATEGORIZED
 
@@ -194,6 +198,38 @@ class ContactForm(forms.ModelForm):
             ]
         elif self.instance.match == 'incomplete':
             self.fields['status'].widget.disabled_choices = [ParticipationRequest.INVITED]
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        appointments = []
+        for session in self.instance.study.studysession_set.all():
+            key = 'appointment-%i' % session.pk
+            start = cleaned_data.get(key)
+            if start:
+                appointments.append((session, key, start, start + session.duration * MINUTE))
+
+        for a, b in itertools.combinations(appointments, 2):
+            __, key1, start1, end1 = a
+            __, key2, start2, end2 = b
+            if start1 < end2 and start2 < end1:
+                self.add_error(key1, _('Appointments must not overlap.'))
+                self.add_error(key2, _('Appointments must not overlap.'))
+                break
+
+        qs = Appointment.objects\
+            .exclude(participant=self.instance)\
+            .filter(participant__status=ParticipationRequest.INVITED)\
+            .annotate(end=models.ExpressionWrapper(
+                models.F('start') + models.F('session__duration') * MINUTE,
+                output_field=models.DateTimeField(),
+            ))
+
+        for session, key, start, end in appointments:
+            if session.resource and qs.filter(
+                session__resource=session.resource, end__gt=start, start__lt=end,
+            ).exists():
+                self.add_error(key, _('The required resource is not available at this time'))
 
     def save(self):
         pariticipationrequest = super().save()
