@@ -182,8 +182,11 @@ class ContactForm(forms.ModelForm):
 
         for session, appointment in self.instance.get_appointments():
             key = 'appointment-%i' % session.pk
-            initial = appointment.start if appointment else None
-            self.fields[key] = DateTimeField(label=session.name, initial=initial, required=False)
+            self.fields[key] = DateTimeField(
+                label=self.format_session_name(session),
+                initial=appointment.start if appointment else None,
+                required=False,
+            )
 
         model_status = ParticipationRequest._meta.get_field('status')
         self.fields['status'] = DisabledChoiceField(
@@ -198,6 +201,9 @@ class ContactForm(forms.ModelForm):
             ]
         elif self.instance.match == 'incomplete':
             self.fields['status'].widget.disabled_choices = [ParticipationRequest.INVITED]
+
+    def format_session_name(self, session):
+        return '%s - %s' % (session.name, _('%imin') % session.duration)
 
     def clean(self):
         cleaned_data = super().clean()
