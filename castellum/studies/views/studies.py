@@ -134,11 +134,12 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             self.object.save()
 
             for session in self.duplicate.studysession_set.all():
-                self.object.studysession_set.create(
+                s = self.object.studysession_set.create(
                     name=session.name,
                     duration=session.duration,
                     resource_id=session.resource_id,
                 )
+                s.type.set(session.type.all())
 
         return response
 
