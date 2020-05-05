@@ -26,6 +26,8 @@
 
         {% csrf_token %}
 
+        {% bootstrap_field form.session_instructions %}
+
         {{ session_formset.management_form }}
         <div id="sessions-container">
             {% for subform in session_formset %}
