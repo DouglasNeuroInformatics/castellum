@@ -32,13 +32,9 @@ from .views import MailRecruitmentView
 from .views import RecruitmentViewInvited
 from .views import RecruitmentViewOpen
 from .views import RecruitmentViewUnsuitable
-from .views import SearchView
-from .views import StudyListView
 
 app_name = 'recruitment'
 urlpatterns = [
-    path('', StudyListView.as_view(), name='index'),
-    path('search/', SearchView.as_view(), name='search'),
     path('followups/<int:user_id>/', FollowUpFeedForUser(), name='all-studies-followups'),
     path('<int:study_pk>/', RecruitmentViewOpen.as_view(), name='recruitment-open'),
     path('<int:study_pk>/invited/', RecruitmentViewInvited.as_view(), name='recruitment-invited'),

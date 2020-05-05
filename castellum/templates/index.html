@@ -5,52 +5,24 @@
 
 {% block content %}
     <div class="row">
-        {% has_perm 'studies.view_study' user as can_view_study %}
-        {% if can_view_study %}
-            <div class="col-sm-6 col-md-4 mb-4">
-                <div class="card">
-                    <a href="{% url 'studies:index' %}" class="card-header" tabindex="-1">
-                        <img class="w-100" src="{% static 'images/circle-icons/study_management.png' %}" alt="">
-                    </a>
-                    <div class="card-body">
-                        <a href="{% url 'studies:index' %}" class="btn btn-primary btn-block">{% trans "Studies" %}</a>
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-
-        {% has_perm 'contacts.view_contact' user as can_view_contact %}
-        {% if can_view_contact %}
-            <div class="col-sm-6 col-md-4 mb-4">
-                <div class="card">
-                    <a href="{% url 'subjects:index' %}" class="card-header" tabindex="-1">
-                        <img class="w-100" src="{% static 'images/circle-icons/subject_management.png' %}" alt="">
-                    </a>
-                    <div class="card-body">
-                        <a href="{% url 'subjects:index' %}" class="btn btn-primary btn-block">{% trans "Subjects" %}</a>
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-
         <div class="col-sm-6 col-md-4 mb-4">
             <div class="card">
-                <a href="{% url 'recruitment:index' %}" class="card-header" tabindex="-1">
-                    <img class="w-100" src="{% static 'images/circle-icons/recruitment.png' %}" alt="">
+                <a href="{% url 'studies:index' %}" class="card-header" tabindex="-1">
+                    <img class="w-100" src="{% static 'images/circle-icons/study_management.png' %}" alt="">
                 </a>
                 <div class="card-body">
-                    <a href="{% url 'recruitment:index' %}" class="btn btn-primary btn-block">{% trans "Recruitment" %}</a>
+                    <a href="{% url 'studies:index' %}" class="btn btn-primary btn-block">{% trans "Studies" %}</a>
                 </div>
             </div>
         </div>
 
         <div class="col-sm-6 col-md-4 mb-4">
             <div class="card">
-                <a href="{% url 'execution:index' %}" class="card-header" tabindex="-1">
-                    <img class="w-100" src="{% static 'images/circle-icons/execution.png' %}" alt="">
+                <a href="{% url 'subjects:index' %}" class="card-header" tabindex="-1">
+                    <img class="w-100" src="{% static 'images/circle-icons/subject_management.png' %}" alt="">
                 </a>
                 <div class="card-body">
-                    <a href="{% url 'execution:index' %}" class="btn btn-primary btn-block">{% trans "Execution" %}</a>
+                    <a href="{% url 'subjects:index' %}" class="btn btn-primary btn-block">{% trans "Subjects" %}</a>
                 </div>
             </div>
         </div>

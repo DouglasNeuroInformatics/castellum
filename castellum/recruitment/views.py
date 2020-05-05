@@ -26,7 +26,6 @@ from collections import defaultdict
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.core.mail import EmailMessage
 from django.core.mail import get_connection
@@ -42,9 +41,7 @@ from django.views.generic import UpdateView
 from simplecharts import StackedColumnRenderer
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
-from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.models.attributesets import get_description_by_statistics_rank
@@ -53,7 +50,6 @@ from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.subjects.models import Subject
-from castellum.utils.views import GetFormView
 
 from .forms import ContactForm
 from .forms import SendMailForm
@@ -86,18 +82,6 @@ def get_recruitable(study):
     )
 
     return list(qs)
-
-
-class StudyListView(LoginRequiredMixin, ListView):
-    model = Study
-    template_name = 'recruitment/study_list.html'
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        perms = ('recruitment.add_participationrequest', 'studies.access_study')
-        return [study for study in qs.filter(status=Study.EXECUTION) if (
-            self.request.user.has_perms(perms, obj=study)
-        )]
 
 
 class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
@@ -498,34 +482,3 @@ class DataProtectionUpdateView(RecruitmentUpdateMixin, BaseDataProtectionUpdateV
 class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateView):
     def get_object(self):
         return self.participationrequest.subject
-
-
-class SearchView(LoginRequiredMixin, GetFormView):
-    template_name = 'recruitment/search.html'
-    form_class = SearchForm
-
-    def get_matches(self, form):
-        contacts = Contact.objects.fuzzy_filter(form.cleaned_data['search'])
-        subject_pks = list(contacts.values_list('subject_id', flat=True))
-        participation_requests = ParticipationRequest.objects.filter(
-            subject_id__in=subject_pks, study__status=Study.EXECUTION
-        ).select_related('subject', 'study')
-
-        result = {}
-        perms = ('studies.access_study',) + ContactView.permission_required
-        for pr in participation_requests:
-            if (
-                self.request.user.has_perms(perms, pr.study) and
-                self.request.user.has_privacy_level(pr.subject.privacy_level)
-            ):
-                result.setdefault(pr.subject, [])
-                result[pr.subject].append(pr)
-
-        return list(result.items())
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        form = kwargs.get('form')
-        if form and form.is_valid():
-            context['object_list'] = self.get_matches(form)
-        return context

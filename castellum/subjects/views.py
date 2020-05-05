@@ -25,6 +25,7 @@ import zipfile
 
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
 from django.db import models
@@ -68,9 +69,8 @@ from .models import Subject
 monitoring_logger = logging.getLogger('monitoring.subjects')
 
 
-class SubjectSearchView(PermissionRequiredMixin, GetFormView):
+class SubjectSearchView(LoginRequiredMixin, GetFormView):
     template_name = 'subjects/subject_search.html'
-    permission_required = 'contacts.view_contact'
     form_class = SearchForm
 
     def get_context_data(self, **kwargs):
@@ -96,7 +96,11 @@ class SubjectSearchView(PermissionRequiredMixin, GetFormView):
         context['is_post'] = self.request.method == 'POST'
         form = kwargs.get('form')
         if form and form.is_valid():
-            context['matches'] = Contact.objects.fuzzy_filter(form.cleaned_data['search'])
+            contacts = Contact.objects.fuzzy_filter(form.cleaned_data['search'])
+            subject_pks = list(contacts.values_list('subject_id', flat=True))
+            context['matches'] = Subject.objects\
+                .filter(pk__in=subject_pks)\
+                .prefetch_related('participationrequest_set')
             if 'privacy_level_form' not in context:
                 context['privacy_level_form'] = SubjectPrivacyLevelForm(user=self.request.user)
         return context
@@ -420,8 +424,9 @@ class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return redirect('subjects:participation-list', self.object.pk)
 
 
-class GuardianSearchView(SubjectSearchView):
+class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
     template_name = 'subjects/guardian_search.html'
+    permission_required = 'contacts.view_contact'
     nochrome = True
 
     def get_context_data(self, **kwargs):

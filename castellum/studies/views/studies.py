@@ -22,6 +22,7 @@
 import logging
 
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.http import HttpResponseBadRequest
@@ -58,10 +59,9 @@ from .recruitment import get_related_studies
 monitoring_logger = logging.getLogger('monitoring.studies')
 
 
-class StudyIndexView(PermissionRequiredMixin, ListView):
+class StudyIndexView(LoginRequiredMixin, ListView):
     model = Study
     ordering = 'name'
-    permission_required = 'studies.view_study'
     paginate_by = 15
 
     def get_queryset(self):
