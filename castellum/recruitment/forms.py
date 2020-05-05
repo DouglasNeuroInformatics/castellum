@@ -28,6 +28,7 @@ from django.utils.translation import gettext_lazy as _
 
 from castellum.studies.models import Study
 from castellum.utils.forms import BaseImportForm
+from castellum.utils.forms import DateTimeField
 from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
 
@@ -175,6 +176,11 @@ class ContactForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        for session, appointment in self.instance.get_appointments():
+            key = 'appointment-%i' % session.pk
+            initial = appointment.start if appointment else None
+            self.fields[key] = DateTimeField(label=session.name, initial=initial, required=False)
+
         model_status = ParticipationRequest._meta.get_field('status')
         self.fields['status'] = DisabledChoiceField(
             label=model_status.verbose_name,
@@ -188,6 +194,32 @@ class ContactForm(forms.ModelForm):
             ]
         elif self.instance.match == 'incomplete':
             self.fields['status'].widget.disabled_choices = [ParticipationRequest.INVITED]
+
+    def save(self):
+        pariticipationrequest = super().save()
+
+        for session, appointment in pariticipationrequest.get_appointments():
+            start = self.cleaned_data.get('appointment-%i' % session.pk)
+
+            if appointment:
+                if not start:
+                    appointment.delete()
+                elif start != appointment.start:
+                    appointment.start = start
+                    appointment.save()
+            elif start:
+                pariticipationrequest.appointment_set.create(
+                    session=session,
+                    start=start,
+                )
+
+        return pariticipationrequest
+
+    @property
+    def appointments(self):
+        for name in self.fields:
+            if name.startswith('appointment-'):
+                yield self[name]
 
     class Meta:
         model = ParticipationRequest
