@@ -47,6 +47,7 @@
         {% if study.studysession_set.exists %}
             <li class="nav-item">
                 <a class="nav-link" id="appointments-tab" data-toggle="tab" href="#appointments" role="tab" aria-controls="appointments" aria-selected="false">
+                    <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'no appointment' %}" aria-label="{% trans 'no appointment' %}" {% if object.appointment_set.exists %}hidden{% endif %}></i>
                     {% trans 'Appointments' %}
                 </a>
             </li>
