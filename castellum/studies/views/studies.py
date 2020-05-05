@@ -133,6 +133,13 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             self.object.mail_reply_address = self.duplicate.mail_reply_address
             self.object.save()
 
+            for session in self.duplicate.studysession_set.all():
+                self.object.studysession_set.create(
+                    name=session.name,
+                    duration=session.duration,
+                    resource_id=session.resource_id,
+                )
+
         return response
 
     def get_success_url(self):
