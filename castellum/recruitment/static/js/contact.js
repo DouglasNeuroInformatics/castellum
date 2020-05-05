@@ -47,4 +47,8 @@ $(function() {
     $(document).on('change', '[name^="appointment-"]', function() {
         $('#appointments-tab .fa-exclamation-triangle').prop('hidden', !needsAppointment());
     });
+
+    if ($('#appointments .is-invalid').length) {
+        $('#appointments-tab').tab('show');
+    }
 });
