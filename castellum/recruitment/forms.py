@@ -203,7 +203,12 @@ class ContactForm(forms.ModelForm):
             self.fields['status'].widget.disabled_choices = [ParticipationRequest.INVITED]
 
     def format_session_name(self, session):
-        return '%s - %s' % (session.name, _('%imin') % session.duration)
+        duration = _('%imin') % session.duration
+        types = ', '.join(str(t) for t in session.type.order_by('pk'))
+        if types:
+            return '%s (%s) - %s' % (session.name, types, duration)
+        else:
+            return '%s - %s' % (session.name, duration)
 
     def clean(self):
         cleaned_data = super().clean()
