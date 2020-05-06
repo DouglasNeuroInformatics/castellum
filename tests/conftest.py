@@ -5,6 +5,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from django.core import serializers
 from django.db.models import DateField
+from django.db.models import DateTimeField
 from django.test import TestCase
 from django.utils import timezone
 
@@ -24,6 +25,9 @@ from castellum.studies.models import StudyMembership
 
 baker.generators.add(
     'castellum.utils.fields.DateField', baker.generators.default_mapping[DateField]
+)
+baker.generators.add(
+    'castellum.utils.fields.DateTimeField', baker.generators.default_mapping[DateTimeField]
 )
 
 # monkey patch to make test isolation work on both databases

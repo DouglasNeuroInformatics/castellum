@@ -21,6 +21,7 @@
 
 import datetime
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.forms import ValidationError
 from django.utils.functional import cached_property
@@ -142,6 +143,14 @@ class ParticipationRequest(models.Model):
             return 'incomplete'
         else:
             return False
+
+    def get_appointments(self):
+        for session in self.study.studysession_set.order_by('pk'):
+            try:
+                appointment = self.appointment_set.get(session=session)
+            except ObjectDoesNotExist:
+                appointment = None
+            yield session, appointment
 
     def clean(self):
         if self.status == self.FOLLOWUP_APPOINTED and not self.followup_date:

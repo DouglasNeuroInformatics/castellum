@@ -34,6 +34,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 
 from .forms import CategoryImportForm
 from .forms import DescriptionImportForm
+from .models import Appointment
 from .models import AttributeCategory
 from .models import AttributeChoice
 from .models import AttributeDescription
@@ -147,6 +148,7 @@ class AttributeDescriptionAdmin(TranslatableAdmin):
         ] + super().get_urls()
 
 
+admin.site.register(Appointment)
 admin.site.register(AttributeCategory, AttributeCategoryAdmin)
 admin.site.register(AttributeDescription, AttributeDescriptionAdmin)
 admin.site.register(AttributeSet)
