@@ -67,4 +67,7 @@
             {% trans 'Please double check missing entries before start of recruitment' %}
         </p>
     {% endif %}
+
+    <h3 class="h5">{% trans "Description" %}</h3>
+    {{ study.description|linebreaks }}
 {% endblock %}
