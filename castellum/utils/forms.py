@@ -38,6 +38,9 @@ class ReadonlyFormMixin:
         self.readonly = kwargs.pop('readonly', False)
         super().__init__(*args, **kwargs)
 
+        if callable(self.readonly):
+            self.readonly = self.readonly(self)
+
         if self.readonly:
             for field in self.fields.values():
                 if hasattr(field, 'choices'):
