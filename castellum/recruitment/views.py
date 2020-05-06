@@ -487,6 +487,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     model = Study
     permission_required = 'recruitment.view_participationrequest'
     study_status = [Study.EXECUTION]
+    nochrome = True
 
     def get_appointments(self):
         return super().get_appointments().filter(session__study=self.object)

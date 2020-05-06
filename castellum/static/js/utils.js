@@ -45,4 +45,12 @@ $(function() {
             document.execCommand('copy');
         }
     });
+
+    $(document).on('click', '[data-js="popup"]', function(event) {
+        event.preventDefault();
+        // copied from django
+        var config = 'height=500,width=800,resizable=yes,scrollbars=yes';
+        var win = window.open(event.target.href, null, config);
+        win.focus();
+    });
 });
