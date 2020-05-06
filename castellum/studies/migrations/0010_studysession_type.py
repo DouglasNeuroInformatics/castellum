@@ -18,7 +18,7 @@ def migrate_data(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('studies', '0008_study_type_rm_3rd_party')
+        ('studies', '0009_study_session_instructions')
     ]
 
     operations = [
