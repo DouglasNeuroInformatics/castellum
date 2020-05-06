@@ -113,15 +113,6 @@
                     <dt class="col-sm-6">{% trans 'Type of study' %}</dt>
                     <dd class="col-sm-6">{{ study|display:'study_type' }}</dd>
 
-                    <dt class="col-sm-6">{{ study|verbose_name:'expense_allowance' }}</dt>
-                    <dd class="col-sm-6">
-                        {% if study.expense_allowance %}
-                            {{ study.expense_allowance }}€
-                        {% else %}
-                            &mdash;
-                        {% endif %}
-                    </dd>
-
                     <dt class="col-sm-6">{% trans 'Duration of sessions in minutes' %}</dt>
                     <dd class="col-sm-6">
                         {% if study.studysession_set.all %}
