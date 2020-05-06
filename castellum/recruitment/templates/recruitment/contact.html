@@ -161,6 +161,15 @@
                 {% if study.session_instructions %}
                     {{ study.session_instructions|linebreaks }}
                 {% endif %}
+
+                <dl class="row">
+                    <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
+                    <dd class="col-sm-6">{{ study|display:'sessions_start' }}</dd>
+
+                    <dt class="col-sm-6">{{ study|verbose_name:'sessions_end' }}</dt>
+                    <dd class="col-sm-6">{{ study|display:'sessions_end' }}</dd>
+                </dl>
+
                 {% for field in form.appointments %}
                     {% bootstrap_field field %}
                 {% endfor %}
