@@ -50,6 +50,12 @@
     display: block !important;
 }
 
+/* if we cannot put the form text inside form-group */
+.form-text-hack {
+    position: relative;
+    top: -1rem;
+}
+
 .list-icon {
     width: 1.5em;
     line-height: 1.5;

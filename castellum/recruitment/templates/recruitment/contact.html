@@ -161,8 +161,15 @@
                     <dd class="col-sm-6">{{ study|display:'sessions_end' }}</dd>
                 </dl>
 
-                {% for field in form.appointments %}
+                {% for session, field in form.appointments %}
                     {% bootstrap_field field %}
+                    {% if session.resource %}
+                        <small class="form-text form-text-hack">
+                            <a href="{% url 'recruitment:resource-calendar' session.resource.pk %}" data-js="popup">
+                                {% blocktrans with resource=session.resource %}{{ resource }} calendar{% endblocktrans %}
+                            </a>
+                        </small>
+                    {% endif %}
                 {% endfor %}
                 <a href="{% url 'recruitment:study-calendar' study.pk %}" class="btn btn-secondary" data-js="popup">{% trans 'Study calendar' %}</a>
             </div>

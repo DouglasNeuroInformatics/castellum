@@ -264,9 +264,9 @@ class ContactForm(forms.ModelForm):
 
     @property
     def appointments(self):
-        for name in self.fields:
-            if name.startswith('appointment-'):
-                yield self[name]
+        for session in self.instance.study.studysession_set.order_by('pk'):
+            key = 'appointment-%i' % session.pk
+            yield session, self[key]
 
     class Meta:
         model = ParticipationRequest
