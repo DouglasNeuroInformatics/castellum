@@ -7,6 +7,7 @@ from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.studies.models import Study
+from castellum.studies.models import StudySession
 from castellum.studies.models import StudyType
 from castellum.subjects.models import Subject
 
@@ -102,7 +103,8 @@ def test_to_q_first_study_exclusive_second_study_unfinished(attributeset):
 def test_disinterest_in_study_type(db):
     study_type = StudyType.objects.first()
     study = baker.make(Study)
-    study.study_type.add(study_type)
+    session = baker.make(StudySession, study=study)
+    session.type.add(study_type)
     baker.make(AttributeSet, study_type_disinterest=[study_type])
     assert not Subject.objects.filter(filter_queries.study(study)).exists()
 

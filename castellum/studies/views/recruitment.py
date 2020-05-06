@@ -34,10 +34,10 @@ from castellum.recruitment import filter_queries
 from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import SubjectFilter
 from castellum.subjects.models import Subject
-from castellum.utils.forms import ReadonlyModelForm
 from castellum.utils.views import ReadonlyMixin
 
 from ..forms import ExcludedStudiesForm
+from ..forms import SessionForm
 from ..mixins import StudyMixin
 from ..models import Resource
 from ..models import Study
@@ -152,16 +152,11 @@ class StudySessionsView(
     subtab = 'sessions'
 
     def get_session_form(self):
-        form_class = forms.modelform_factory(StudySession, fields=('name', 'duration', 'resource'))
-        return form_class(prefix='{prefix}')
+        return SessionForm(prefix='{prefix}')
 
     def get_session_formset(self):
         formset_class = forms.modelformset_factory(
-            StudySession,
-            fields=('name', 'duration', 'resource'),
-            form=ReadonlyModelForm,
-            extra=0,
-            can_delete=True,
+            StudySession, form=SessionForm, extra=0, can_delete=True
         )
         kwargs = self.get_form_kwargs()
         study = kwargs.pop('instance', None)

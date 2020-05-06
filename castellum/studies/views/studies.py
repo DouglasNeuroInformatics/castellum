@@ -74,7 +74,7 @@ class StudyIndexView(LoginRequiredMixin, ListView):
                     models.Q(contact_person__icontains=part) |
                     models.Q(description__icontains=part) |
                     models.Q(keywords__icontains=part) |
-                    models.Q(study_type__translations__label__iexact=part)
+                    models.Q(studysession__study_type__translations__label__iexact=part)
                 )
         if 'all' not in self.request.GET:
             qs = qs.filter(studymembership__user=self.request.user)
@@ -134,11 +134,12 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             self.object.save()
 
             for session in self.duplicate.studysession_set.all():
-                self.object.studysession_set.create(
+                s = self.object.studysession_set.create(
                     name=session.name,
                     duration=session.duration,
                     resource_id=session.resource_id,
                 )
+                s.type.set(session.type.all())
 
         return response
 

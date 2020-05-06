@@ -78,7 +78,6 @@ class Study(models.Model):
     )
     description = models.TextField(_('Description'), blank=True)
     keywords = models.CharField(_('Keywords'), max_length=254, blank=True)
-    study_type = models.ManyToManyField(StudyType, verbose_name=_('Type of study'), blank=True)
     previous_status = models.SmallIntegerField(
         _('Previous status'), choices=STATUS, default=EDIT
     )
@@ -213,6 +212,10 @@ class Study(models.Model):
         return result[key + '__max'] or 0
 
     @property
+    def study_type(self):
+        return StudyType.objects.filter(studysession__study=self).distinct()
+
+    @property
     def followup_urgent(self):
         today = datetime.date.today()
         return self.participationrequest_set.filter(followup_date__lte=today).exists()
@@ -275,6 +278,7 @@ class StudySession(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
     name = models.CharField(_('Name'), max_length=128)
     duration = models.PositiveIntegerField(_('Duration of a session in minutes'))
+    type = models.ManyToManyField(StudyType, verbose_name=_('Type'), blank=True)
     resource = models.ForeignKey(
         Resource, on_delete=models.SET_NULL, verbose_name=_('Resource'), blank=True, null=True
     )

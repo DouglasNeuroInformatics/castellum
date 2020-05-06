@@ -16,6 +16,7 @@
             {% else %}
                 <input name="resource" type="hidden">
             {% endif %}
+            {% bootstrap_field template_form.type %}
         </fieldset>
     </template>
 
@@ -46,6 +47,7 @@
                     {% else %}
                         <input name="resource" type="hidden">
                     {% endif %}
+                    {% bootstrap_field subform.type %}
                 </fieldset>
             {% endfor %}
         </div>
