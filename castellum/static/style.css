@@ -115,3 +115,11 @@
         display: none !important;
     }
 }
+
+.fc-resource-0 {background-color: #377eb8 !important}
+.fc-resource-1 {background-color: #4daf4a !important}
+.fc-resource-2 {background-color: #984ea3 !important}
+.fc-resource-3 {background-color: #ff7f00 !important}
+.fc-resource-4 {background-color: #ffff33 !important; color: #000 !important}
+.fc-resource-5 {background-color: #e41a1c !important}
+.fc-other-study {opacity: 0.5}

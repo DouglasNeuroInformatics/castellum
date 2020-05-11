@@ -490,4 +490,19 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     nochrome = True
 
     def get_appointments(self):
-        return super().get_appointments().filter(session__study=self.object)
+        return super().get_appointments().filter(
+            models.Q(session__study=self.object) |
+            models.Q(session__resource__studysession__study=self.object)
+        ).distinct()
+
+    def render_appointment(self, appointment):
+        s = appointment.session
+        class_names = ['fc-resource-%i' % ((s.resource.pk % 6) if s.resource else 0)]
+        if s.study != self.object:
+            class_names.append('fc-other-study')
+        return {
+            'title': s.resource.name if s.resource else '',
+            'start': appointment.start,
+            'end': appointment.end,
+            'classNames': class_names,
+        }
