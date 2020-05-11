@@ -28,6 +28,11 @@
             {% trans 'Subject does not want to be contacted for recruitment. Answering a request when approached by the subject is permitted, but initiating contact is not.' %}
         </div>
     {% endif %}
+    {% if study.has_exclusion_criteria %}
+        <div class="alert alert-warning" role="alert" data-js="exclusion_criteria_alert" {% if object.exclusion_criteria_checked %}hidden{% endif %}>
+            {% trans 'Please check that the subject matches the exclusion criteria before the status of the participation request can be set to invited.' %}
+        </div>
+    {% endif %}
 
     <ul class="nav nav-tabs justify-content-center" role="tablist">
         <li class="nav-item">
