@@ -53,6 +53,7 @@ from castellum.subjects.models import Subject
 
 from .forms import ContactForm
 from .forms import SendMailForm
+from .mixins import BaseCalendarView
 from .mixins import ParticipationRequestMixin
 from .models import AttributeDescription
 from .models import AttributeSet
@@ -480,3 +481,12 @@ class DataProtectionUpdateView(RecruitmentUpdateMixin, BaseDataProtectionUpdateV
 class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateView):
     def get_object(self):
         return self.participationrequest.subject
+
+
+class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
+    model = Study
+    permission_required = 'recruitment.view_participationrequest'
+    study_status = [Study.EXECUTION]
+
+    def get_appointments(self):
+        return super().get_appointments().filter(session__study=self.object)

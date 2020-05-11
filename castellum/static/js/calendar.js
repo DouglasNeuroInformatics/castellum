@@ -4,6 +4,7 @@ $(function() {
             plugins: ['dayGrid', 'timeGrid', 'bootstrap'],
             themeSystem: 'bootstrap',
             locale: $('html').attr('lang'),
+            events: '?events',
             height: function() {
                 return $(window).height() - $(el).offset().top - parseInt($(el).css('margin-bottom'), 10);
             },
