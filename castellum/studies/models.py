@@ -84,7 +84,6 @@ class Study(models.Model):
     status = models.SmallIntegerField(_('Status'), choices=STATUS, default=EDIT)
     data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
     min_subject_count = models.PositiveIntegerField(_('Required number of subjects'), default=0)
-    expense_allowance = models.PositiveIntegerField(_('Expense allowance'), blank=True, null=True)
     session_instructions = models.TextField(
         _('Session instructions'),
         help_text=_(
@@ -100,7 +99,16 @@ class Study(models.Model):
         _('Additional subject characteristics that should be verified during recruitment'),
         blank=True,
     )
-    recruitment_text = models.TextField(_('Recruitment text'), blank=True)
+    recruitment_text = models.TextField(
+        _('Recruitment text'),
+        help_text=_(
+            'This text will be used during recruitment dialogue. Thus, please describe the study '
+            'from the perspective of recruiters and potential participants: What is it about? '
+            'How long will it take? Are there any potential benefits or risks for participants? '
+            'If applicable, also present the amount of expense allowance and related requirements.'
+        ),
+        blank=True,
+    )
     to_be_deleted_notified = models.BooleanField(default=False)
 
     members = models.ManyToManyField(User, through='StudyMembership')

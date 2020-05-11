@@ -48,7 +48,6 @@ class StudyForm(ReadonlyModelForm):
             'data_sensitivity',
             'consent',
             'min_subject_count',
-            'expense_allowance',
         ]
 
 
