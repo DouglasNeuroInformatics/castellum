@@ -29,6 +29,15 @@
 
         {% bootstrap_field form.session_instructions %}
 
+        <div class="form-row">
+            <div class="col-md-6">
+                {% bootstrap_field form.sessions_start %}
+            </div>
+            <div class="col-md-6">
+                {% bootstrap_field form.sessions_end %}
+            </div>
+        </div>
+
         {{ session_formset.management_form }}
         <div id="sessions-container">
             {% for subform in session_formset %}
@@ -59,15 +68,6 @@
                 </button>
             </div>
         {% endif %}
-
-        <div class="form-row">
-            <div class="col-md-6">
-                {% bootstrap_field form.sessions_start %}
-            </div>
-            <div class="col-md-6">
-                {% bootstrap_field form.sessions_end %}
-            </div>
-        </div>
 
         {% if not readonly %}
             <div class="d-print-none mb-3">
