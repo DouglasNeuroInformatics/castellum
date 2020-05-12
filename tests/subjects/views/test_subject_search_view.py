@@ -28,7 +28,15 @@ def test_with_parameters_200(client, user):
     assert b'create-tab' in response.content
 
 
-def test_match(client, user):
+@pytest.mark.parametrize('user_fixture', [
+    'subject_manager',
+    'recruiter',
+    pytest.param('study_conductor', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+])
+def test_match(request, client, user_fixture):
+    user = request.getfixturevalue(user_fixture)
+
     baker.make(Contact, first_name='foo', last_name='bar')
 
     client.force_login(user)

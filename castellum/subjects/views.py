@@ -93,8 +93,10 @@ class SubjectSearchView(LoginRequiredMixin, GetFormView):
                     can_conduct = invited and user.has_perm(
                         'recruitment.view_participation_pseudonyms', obj=pr.study
                     )
-                    prs.append((pr, can_recruit, can_conduct))
-            yield subject, subject.contact, prs, can_view_contact, has_privacy_level
+                    if can_recruit or can_conduct:
+                        prs.append((pr, can_recruit, can_conduct))
+            if prs or can_view_contact:
+                yield subject, subject.contact, prs, can_view_contact, has_privacy_level
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
