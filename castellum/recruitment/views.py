@@ -26,6 +26,7 @@ from collections import defaultdict
 
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.core.mail import EmailMessage
 from django.core.mail import get_connection
@@ -46,6 +47,7 @@ from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.models.attributesets import get_description_by_statistics_rank
 from castellum.studies.mixins import StudyMixin
+from castellum.studies.models import Resource
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
@@ -483,7 +485,15 @@ class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateV
         return self.participationrequest.subject
 
 
-class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
+class ResourceCalendarView(LoginRequiredMixin, BaseCalendarView):
+    model = Resource
+    nochrome = True
+
+    def get_appointments(self):
+        return super().get_appointments().filter(session__resource=self.object)
+
+
+class StudyCalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     model = Study
     permission_required = 'recruitment.view_participationrequest'
     study_status = [Study.EXECUTION]

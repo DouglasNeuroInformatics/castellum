@@ -25,7 +25,6 @@ from .feeds import FollowUpFeedForStudy
 from .feeds import FollowUpFeedForUser
 from .views import AdditionalInfoUpdateView
 from .views import AttributeSetUpdateView
-from .views import CalendarView
 from .views import ContactUpdateView
 from .views import ContactView
 from .views import DataProtectionUpdateView
@@ -33,10 +32,13 @@ from .views import MailRecruitmentView
 from .views import RecruitmentViewInvited
 from .views import RecruitmentViewOpen
 from .views import RecruitmentViewUnsuitable
+from .views import ResourceCalendarView
+from .views import StudyCalendarView
 
 app_name = 'recruitment'
 urlpatterns = [
     path('followups/<int:user_id>/', FollowUpFeedForUser(), name='all-studies-followups'),
+    path('resource/<int:pk>/calendar/', ResourceCalendarView.as_view(), name='resource-calendar'),
     path('<int:study_pk>/', RecruitmentViewOpen.as_view(), name='recruitment-open'),
     path('<int:study_pk>/invited/', RecruitmentViewInvited.as_view(), name='recruitment-invited'),
     path(
@@ -45,7 +47,7 @@ urlpatterns = [
         name='recruitment-unsuitable',
     ),
     path('<int:study_pk>/mail/', MailRecruitmentView.as_view(), name='mail'),
-    path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),
+    path('<int:pk>/calendar/', StudyCalendarView.as_view(), name='study-calendar'),
     path('<int:study_pk>/followups/', FollowUpFeedForStudy(), name='followups'),
     path('<int:study_pk>/<int:pk>/', ContactView.as_view(), name='contact'),
     path(
