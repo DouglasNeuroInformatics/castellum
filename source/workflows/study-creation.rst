@@ -8,16 +8,16 @@ Study Coordination: Creating a new study
        
 2. Click on **Studies** on the front page
    
-   - In **My studies** you will see the studies you created
+   - In **My studies** you will see the studies you created. You may also use the
+     **Search** field to filter a specific study
    - Under the field **All studies** you can see all studies that have been
-     created
-   - In the field **Search** you can look for a certain study
+     created. In the field **Search** you can look for a certain study
     
 3. Click on **Create new study**
 
 4. Fill in all empty fields on the page:
    
-   - **Name** describes the name of the study you want to create
+   - **Name** describes the name or title of the study you want to create
    - **Responsible contact person** is the person who can be contacted if any
      questions regarding the study occur
    - Define the person who is the lead researcher as **Principal Investigator**
@@ -30,11 +30,12 @@ Study Coordination: Creating a new study
 
 5. Select the type of study you are going to use
   
-   - You may choose between studies that take place **Online**, **Behavioral lab**, **MRI**,
-     **Simulation**, **EEG** or **3rd Party** studies
+   - You may choose between studies such as a **Simulation**, an **EEG** study,
+     a **3rd Party** study, a study that takes place **Online**, **Behavioral
+     lab** or a **MRI** study
    - Decide whether the study **Contains sensitive data** or not
    
-6. Upload the **Consent** form
+6. Upload the **Consent** form(-s) of your study
 
 7. Assign the **Required number of subjects** to your study
 
@@ -42,7 +43,8 @@ Study Coordination: Creating a new study
 
 9. Enter as many **Test sessions** as you like by clicking on **Add session**
    
-   - When adding a test session, always specify the duration of each meeting
+   - When adding a test session, always specify the **Duration of a session in
+     minutes**
    - By clicking on the red button **Delete**, you can erase any test session you
      created
        
