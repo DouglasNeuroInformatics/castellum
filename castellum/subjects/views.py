@@ -81,20 +81,28 @@ class SubjectSearchView(LoginRequiredMixin, GetFormView):
             can_view_contact = user.has_perm('contacts.view_contact')
             has_privacy_level = user.has_privacy_level(subject.privacy_level)
             prs = []
-            if has_privacy_level:
-                for pr in subject.participationrequest_set.filter(study__status=Study.EXECUTION):
-                    can_access_study = user.has_perm('studies.access_study', obj=pr.study)
-                    if not can_access_study:
-                        continue
-                    invited = pr.status == ParticipationRequest.INVITED
-                    can_recruit = can_view_contact and user.has_perm(
+            for pr in subject.participationrequest_set.filter(study__status=Study.EXECUTION):
+                can_access_study = user.has_perm('studies.access_study', obj=pr.study)
+                invited = pr.status == ParticipationRequest.INVITED
+                can_recruit = (
+                    has_privacy_level and
+                    can_access_study and
+                    can_view_contact and
+                    user.has_perm(
                         'recruitment.change_participationrequest', obj=pr.study
                     )
-                    can_conduct = invited and user.has_perm(
+                )
+                can_conduct = (
+                    has_privacy_level and
+                    can_access_study and
+                    invited and
+                    user.has_perm(
                         'recruitment.view_participation_pseudonyms', obj=pr.study
                     )
-                    if can_recruit or can_conduct:
-                        prs.append((pr, can_recruit, can_conduct))
+                )
+                can_search = invited and user.has_perm('recruitment.search_execution')
+                if can_recruit or can_conduct or can_search:
+                    prs.append((pr, can_recruit, can_conduct))
             if prs or can_view_contact:
                 yield subject, subject.contact, prs, can_view_contact, has_privacy_level
 

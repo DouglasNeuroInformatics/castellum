@@ -109,6 +109,11 @@ def data_protection_coordinator(db):
 
 
 @pytest.fixture
+def receptionist(db):
+    return create_user('Receptionist')
+
+
+@pytest.fixture
 def admin(db):
     user = create_user(None)
     user.is_staff = True
