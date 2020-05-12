@@ -151,6 +151,11 @@ class StudySessionsView(
     tab = 'recruitmentsettings'
     subtab = 'sessions'
 
+    def get_session_form_readonly(self, form):
+        return self.get_readonly() or (
+            form.instance.appointment_set.exists()
+        )
+
     def get_session_form(self):
         return SessionForm(prefix='{prefix}')
 
@@ -160,10 +165,10 @@ class StudySessionsView(
         )
         kwargs = self.get_form_kwargs()
         study = kwargs.pop('instance', None)
-        readonly = kwargs.pop('readonly', False)
+        kwargs.pop('readonly', False)
         return formset_class(
             queryset=StudySession.objects.filter(study=study),
-            form_kwargs={'readonly': readonly},
+            form_kwargs={'readonly': self.get_session_form_readonly},
             **kwargs
         )
 
