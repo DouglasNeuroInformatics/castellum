@@ -32,7 +32,7 @@ please proceed as follows:
 
 4.  Click on **Delete** on the upper right
     
-a) If you see a message saying **Are you sure you want to permanently delete
+a) When you see a message saying **Are you sure you want to permanently delete
    this subject and all related data?**, press **Confirm** and the subject will
    be deleted
     
