@@ -54,11 +54,10 @@ class BaseFollowUpFeed(ICalFeed):
         return item.updated_at
 
     def item_link(self, item):
-        rel = reverse('recruitment:contact', args=[item.study.pk, item.pk])
-        return self.request.build_absolute_uri(rel)
+        return reverse('recruitment:contact', args=[item.study.pk, item.pk])
 
     def item_description(self, item):
-        return self.item_link(item)
+        return self.request.build_absolute_uri(self.item_link(item))
 
 
 class FollowUpFeedForStudy(BaseFollowUpFeed):
