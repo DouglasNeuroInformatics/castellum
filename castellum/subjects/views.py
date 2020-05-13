@@ -459,6 +459,11 @@ class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
     permission_required = 'contacts.view_contact'
     nochrome = True
 
+    def get_matches(self, search):
+        contacts = Contact.objects.fuzzy_filter(search)
+        subject_pks = list(contacts.values_list('subject_id', flat=True))
+        return Subject.objects.filter(pk__in=subject_pks)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         form = kwargs.get('form')
