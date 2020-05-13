@@ -21,6 +21,7 @@
 
 from django.urls import path
 
+from .feeds import AppointmentFeed
 from .views import AdditionalInfoUpdateView
 from .views import AttributeSetUpdateView
 from .views import CalendarView
@@ -35,6 +36,7 @@ urlpatterns = [
     path('<int:study_pk>/', StudyDetailView.as_view(), name='study-detail'),
     path('<int:study_pk>/resolve/', ResolveView.as_view(), name='resolve'),
     path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),
+    path('<int:pk>/calendar/feed/', AppointmentFeed(), name='calendar-feed'),
     path(
         '<int:study_pk>/<int:pk>/',
         ParticipationRequestDetailView.as_view(),
