@@ -28,7 +28,16 @@ def test_with_parameters_200(client, user):
     assert b'create-tab' in response.content
 
 
-def test_match(client, user):
+@pytest.mark.parametrize('user_fixture', [
+    'subject_manager',
+    'recruiter',
+    pytest.param('receptionist', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('study_conductor', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+])
+def test_match(request, client, user_fixture):
+    user = request.getfixturevalue(user_fixture)
+
     baker.make(Contact, first_name='foo', last_name='bar')
 
     client.force_login(user)
@@ -39,13 +48,19 @@ def test_match(client, user):
 
 @pytest.mark.parametrize('user_fixture', [
     'member',
+    'receptionist',
     pytest.param('user', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_only_members(request, client, user_fixture, study_in_execution_status):
     user = request.getfixturevalue(user_fixture)
 
     contact = baker.make(Contact, first_name='foo', last_name='bar')
-    baker.make(ParticipationRequest, study=study_in_execution_status, subject=contact.subject)
+    baker.make(
+        ParticipationRequest,
+        study=study_in_execution_status,
+        subject=contact.subject,
+        status=ParticipationRequest.INVITED,
+    )
 
     client.force_login(user)
     response = client.get('/subjects/?search=foo+bar')

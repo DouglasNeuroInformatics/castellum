@@ -1,4 +1,5 @@
 import pytest
+from model_bakery import baker
 
 from castellum.contacts.models import Contact
 
@@ -24,6 +25,15 @@ def test_with_parameters_200(client, user):
     response = client.get(url)
     assert response.status_code == 200
     assert b'create-tab' in response.content
+
+
+def test_match(request, client, user):
+    baker.make(Contact, first_name='foo', last_name='bar')
+
+    client.force_login(user)
+    response = client.get('/subjects/guardians/?search=foo+bar')
+
+    assert response.content.count(b'<li class="table-list-item">') == 1
 
 
 @pytest.mark.parametrize('user_fixture', [

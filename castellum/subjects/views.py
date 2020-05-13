@@ -73,6 +73,39 @@ class SubjectSearchView(LoginRequiredMixin, GetFormView):
     template_name = 'subjects/subject_search.html'
     form_class = SearchForm
 
+    def get_matches(self, search):
+        user = self.request.user
+        contacts = Contact.objects.fuzzy_filter(search)
+        subject_pks = list(contacts.values_list('subject_id', flat=True))
+        for subject in Subject.objects.filter(pk__in=subject_pks):
+            can_view_contact = user.has_perm('contacts.view_contact')
+            has_privacy_level = user.has_privacy_level(subject.privacy_level)
+            prs = []
+            for pr in subject.participationrequest_set.filter(study__status=Study.EXECUTION):
+                can_access_study = user.has_perm('studies.access_study', obj=pr.study)
+                invited = pr.status == ParticipationRequest.INVITED
+                can_recruit = (
+                    has_privacy_level and
+                    can_access_study and
+                    can_view_contact and
+                    user.has_perm(
+                        'recruitment.change_participationrequest', obj=pr.study
+                    )
+                )
+                can_conduct = (
+                    has_privacy_level and
+                    can_access_study and
+                    invited and
+                    user.has_perm(
+                        'recruitment.view_participation_pseudonyms', obj=pr.study
+                    )
+                )
+                can_search = invited and user.has_perm('recruitment.search_execution')
+                if can_recruit or can_conduct or can_search:
+                    prs.append((pr, can_recruit, can_conduct))
+            if prs or can_view_contact:
+                yield subject, subject.contact, prs, can_view_contact, has_privacy_level
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -96,11 +129,8 @@ class SubjectSearchView(LoginRequiredMixin, GetFormView):
         context['is_post'] = self.request.method == 'POST'
         form = kwargs.get('form')
         if form and form.is_valid():
-            contacts = Contact.objects.fuzzy_filter(form.cleaned_data['search'])
-            subject_pks = list(contacts.values_list('subject_id', flat=True))
-            context['matches'] = Subject.objects\
-                .filter(pk__in=subject_pks)\
-                .prefetch_related('participationrequest_set')
+            context['matches'] = self.get_matches(form.cleaned_data['search'])
+
             if 'privacy_level_form' not in context:
                 context['privacy_level_form'] = SubjectPrivacyLevelForm(user=self.request.user)
         return context
@@ -428,6 +458,11 @@ class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
     template_name = 'subjects/guardian_search.html'
     permission_required = 'contacts.view_contact'
     nochrome = True
+
+    def get_matches(self, search):
+        contacts = Contact.objects.fuzzy_filter(search)
+        subject_pks = list(contacts.values_list('subject_id', flat=True))
+        return Subject.objects.filter(pk__in=subject_pks)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
