@@ -21,8 +21,10 @@
 
 import logging
 
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils.functional import cached_property
+from django.views.generic import DetailView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -30,6 +32,7 @@ from castellum.studies.mixins import StudyMixin
 from castellum.subjects.mixins import SubjectMixin
 
 from .forms import AttributeSetForm
+from .models import Appointment
 from .models import AttributeDescription
 from .models import AttributeSet
 from .models import ParticipationRequest
@@ -100,3 +103,24 @@ class BaseAttributeSetUpdateView(PermissionRequiredMixin, UpdateView):
         }
 
         return context
+
+
+class BaseCalendarView(DetailView):
+    template_name = 'recruitment/calendar.html'
+
+    def get_appointments(self):
+        return Appointment.objects.filter(participant__status=ParticipationRequest.INVITED)
+
+    def render_appointment(self, appointment):
+        return {
+            'start': appointment.start,
+            'end': appointment.end,
+        }
+
+    def get(self, request, *args, **kwargs):
+        if 'events' in request.GET:
+            self.object = self.get_object()
+            events = [self.render_appointment(a) for a in self.get_appointments()]
+            return JsonResponse({'events': events})
+        else:
+            return super().get(request, *args, **kwargs)

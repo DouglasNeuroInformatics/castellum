@@ -164,6 +164,7 @@
                 {% for field in form.appointments %}
                     {% bootstrap_field field %}
                 {% endfor %}
+                <a href="{% url 'recruitment:calendar' study.pk %}" class="btn btn-secondary" data-js="popup">{% trans 'Calendar' %}</a>
             </div>
         </div>
 

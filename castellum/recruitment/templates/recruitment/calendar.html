@@ -1,0 +1,27 @@
+{% extends base_template|default:"recruitment/base.html" %}
+{% load static %}
+
+{% block title %}{{ object }} &middot; {{ block.super }}{% endblock %}
+
+{% block container_class %}container-lg{% endblock%}
+
+{% block content %}
+    <h1 class="text-center">{{ object }}</h1>
+    <div class="my-5" data-js="calendar"></div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static '@fullcalendar/core/main.min.js' %}"></script>
+    <script src="{% static '@fullcalendar/core/locales/de.js' %}"></script>
+    <script src="{% static '@fullcalendar/daygrid/main.min.js' %}"></script>
+    <script src="{% static '@fullcalendar/timegrid/main.min.js' %}"></script>
+    <script src="{% static '@fullcalendar/bootstrap/main.min.js' %}"></script>
+    <script src="{% static 'js/calendar.js' %}"></script>
+{% endblock %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" type="text/css" href="{% static '@fullcalendar/core/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '@fullcalendar/daygrid/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '@fullcalendar/timegrid/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '@fullcalendar/bootstrap/main.css' %}">
+{% endblock %}
