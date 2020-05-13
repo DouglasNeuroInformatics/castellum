@@ -24,7 +24,6 @@ import datetime
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
-from django.utils.text import slugify
 
 from django_ical.views import ICalFeed
 from stronghold.decorators import public
@@ -77,9 +76,6 @@ class FollowUpFeedForStudy(BaseFollowUpFeed):
             .filter(study=study, followup_date__isnull=False)\
             .order_by('-followup_date', '-followup_time')
 
-    def file_name(self, study):
-        return 'castellum-{}-followups.ics'.format(slugify(study.name))
-
 
 class FollowUpFeedForUser(BaseFollowUpFeed):
     def get_object(self, request, *args, **kwargs):
@@ -99,5 +95,4 @@ class FollowUpFeedForUser(BaseFollowUpFeed):
             for participation_request in qs:
                 yield participation_request
 
-    def file_name(self, study):
-        return 'castellum-followups.ics'
+
