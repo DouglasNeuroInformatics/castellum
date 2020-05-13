@@ -426,7 +426,7 @@ class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
 class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
     template_name = 'subjects/guardian_search.html'
-    permission_required = 'contacts.view_contact'
+    permission_required = 'contacts.change_contact'
     nochrome = True
 
     def get_context_data(self, **kwargs):

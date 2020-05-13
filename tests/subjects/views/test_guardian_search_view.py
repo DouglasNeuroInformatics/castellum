@@ -5,9 +5,9 @@ from castellum.contacts.models import Contact
 
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
-    'recruiter',
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     'subject_manager',
-    'data_protection_coordinator',
+    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
