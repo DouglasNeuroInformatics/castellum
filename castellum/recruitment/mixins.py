@@ -121,6 +121,6 @@ class BaseCalendarView(DetailView):
         if 'events' in request.GET:
             self.object = self.get_object()
             events = [self.render_appointment(a) for a in self.get_appointments()]
-            return JsonResponse(events, safe=False)
+            return JsonResponse({'events': events})
         else:
             return super().get(request, *args, **kwargs)

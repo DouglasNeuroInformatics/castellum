@@ -5,6 +5,9 @@ $(function() {
             themeSystem: 'bootstrap',
             locale: $('html').attr('lang'),
             events: '?events',
+            eventSourceSuccess: function(raw) {
+                return raw.events;
+            },
             height: function() {
                 return $(window).height() - $(el).offset().top - parseInt($(el).css('margin-bottom'), 10);
             },
