@@ -52,27 +52,36 @@ Study Coordination: Creating a new study
 
 11. Click on **Save** to record your progress
 
-    >   Your study is now scheduled
+    >   You can find your study in the list
+
 
 Setting up the recruitment process
 ----------------------------------
 
-In order to limit the search for subjects in castellum, filters, inclusion and
-exclusion criteria should be defined.
-Remember to **Stop** the study first in order to be able to edit filters and 
-criteria.
+In order to limit the search for subjects in Castellum,
+- filters,
+- inclusion criteria and
+- exclusion criteria should be defined.
 
 1.  Go to **Studies** on the front page, click **Details** next to the study
     you wish to set up filters and criteria for
     
+> If you have already started the study, click on **Stop** on the upper left.
+> If you did not start it yet, you will be able to edit filters and criteria right
+  away.
+
+
+    
 2.  Click on **Recruitment Settings**
 
-3.  By clicking on **General** the **Recruitment text** will be shown to you
+3.  By clicking on **General** the **Recruitment text** will be shown to you.
     You can:
     
-    - edit the **Recruitment text**,
-    - decide whether you wish to set up the **Advanced filtering**,
-    - set the function **Exclusive subjects** and
+    - edit the **Recruitment text** (this text will be shown to the recruiters and
+      will be used by them to recruit subjects for your study),
+    - decide whether you wish to set up the **Advanced filtering** (this allows
+      you to create multiple filtergroups that are not linked to each other),
+    - set the function **Exclusive subjects** () and
     - decide whether **Complete filter matches only** will be shown to the
       recruiters of your study or or there will be some subjects displayed, in
       which certain characteristics still have to be queried
