@@ -19,10 +19,12 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
 import logging
 
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.utils.functional import cached_property
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
@@ -30,6 +32,7 @@ from django.views.generic import UpdateView
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.studies.mixins import StudyMixin
 from castellum.subjects.mixins import SubjectMixin
+from castellum.utils.feeds import BaseICalFeed
 
 from .forms import AttributeSetForm
 from .models import Appointment
@@ -124,3 +127,23 @@ class BaseCalendarView(DetailView):
             return JsonResponse({'events': events})
         else:
             return super().get(request, *args, **kwargs)
+
+
+class BaseFollowUpFeed(BaseICalFeed):
+    def item_title(self, item):
+        return '{} - Follow-Up'.format(item.study.name)
+
+    def item_start_datetime(self, item):
+        if item.followup_time:
+            return datetime.combine(item.followup_date, item.followup_time)
+        else:
+            return item.followup_date
+
+    def item_updateddate(self, item):
+        return item.updated_at
+
+    def item_link(self, item):
+        return reverse('recruitment:contact', args=[item.study.pk, item.pk])
+
+    def item_description(self, item):
+        return self.request.build_absolute_uri(self.item_link(item))
