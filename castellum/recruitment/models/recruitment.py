@@ -129,6 +129,10 @@ class ParticipationRequest(models.Model):
         return get_pseudonym(self.subject, self.study.domain)
 
     @cached_property
+    def appointment_today(self):
+        return self.appointment_set.filter(start__date=datetime.date.today()).exists()
+
+    @cached_property
     def match(self):
         from castellum.recruitment import filter_queries
         if Subject.objects.filter(
