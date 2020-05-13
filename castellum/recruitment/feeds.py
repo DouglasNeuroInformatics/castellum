@@ -24,6 +24,7 @@ from django.shortcuts import get_object_or_404
 
 from castellum.studies.models import Study
 
+from .mixins import BaseAppointmentFeed
 from .mixins import BaseFollowUpFeed
 from .models import ParticipationRequest
 
@@ -56,3 +57,19 @@ class FollowUpFeedForUser(BaseFollowUpFeed):
                 .order_by('-followup_date', '-followup_time')
             for participation_request in qs:
                 yield participation_request
+
+
+class AppointmentFeed(BaseAppointmentFeed):
+    def get_object(self, request, *args, **kwargs):
+        study = get_object_or_404(Study, pk=kwargs['pk'], status=Study.EXECUTION)
+        perms = ('recruitment.view_participationrequest', 'studies.access_study')
+        if not self.request.user.has_perms(perms, obj=study):
+            raise PermissionDenied
+        return study
+
+    def items(self, study):
+        return super().items(study).filter(session__study=study)
+
+    def item_link(self, item):
+        # This is not really a usable link, but it is unique
+        return '/appointments/%i/' % item.pk

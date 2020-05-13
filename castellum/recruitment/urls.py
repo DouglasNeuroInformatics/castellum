@@ -21,6 +21,7 @@
 
 from django.urls import path
 
+from .feeds import AppointmentFeed
 from .feeds import FollowUpFeedForStudy
 from .feeds import FollowUpFeedForUser
 from .views import AdditionalInfoUpdateView
@@ -46,6 +47,7 @@ urlpatterns = [
     ),
     path('<int:study_pk>/mail/', MailRecruitmentView.as_view(), name='mail'),
     path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),
+    path('<int:pk>/calendar/feed/', AppointmentFeed(), name='calendar-feed'),
     path('<int:study_pk>/followups/', FollowUpFeedForStudy(), name='followups'),
     path('<int:study_pk>/<int:pk>/', ContactView.as_view(), name='contact'),
     path(

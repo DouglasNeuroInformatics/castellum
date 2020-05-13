@@ -147,3 +147,14 @@ class BaseFollowUpFeed(BaseICalFeed):
 
     def item_description(self, item):
         return self.request.build_absolute_uri(self.item_link(item))
+
+
+class BaseAppointmentFeed(BaseICalFeed):
+    def items(self, obj):
+        return Appointment.objects.filter(participant__status=ParticipationRequest.INVITED)
+
+    def item_start_datetime(self, item):
+        return item.start
+
+    def item_end_datetime(self, item):
+        return item.end
