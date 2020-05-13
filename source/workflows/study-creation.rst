@@ -70,7 +70,6 @@ In order to limit the search for subjects in Castellum,
 > If you did not start it yet, you will be able to edit filters and criteria right
   away.
 
-
     
 2.  Click on **Recruitment Settings**
 
@@ -81,14 +80,17 @@ In order to limit the search for subjects in Castellum,
       will be used by them to recruit subjects for your study),
     - decide whether you wish to set up the **Advanced filtering** (this allows
       you to create multiple filtergroups that are not linked to each other),
-    - set the function **Exclusive subjects** () and
+    - set the function **Exclusive subjects** (If you select this feature, potential
+      subjects for your study cannot be recruited for other studies. Please note
+      that this may prevent other researchers from finding enough participants.)
+      and
     - decide whether **Complete filter matches only** will be shown to the
-      recruiters of your study or or there will be some subjects displayed, in
+      recruiters of your study or if there will be some subjects displayed, in
       which certain characteristics still have to be queried
        
 4.  By clicking on **Filters** you are able to set them
     
-    - select whether you want to create a filter regarind the **Handedness**,
+    - select whether you want to create a filter regarding the **Handedness**,
       **Language**, **Age** or **Highest degree**,
     - click **Add**,
     - define the filters and
@@ -103,32 +105,31 @@ In order to limit the search for subjects in Castellum,
     - When you click on **Add new** in **Filters**, you are able to set another
       filter group with specific filters
       (This is necessary, for example, if you need subjects both at the age
-      between 20-30 and 50-60.)
+      between 20-30 and 50-60)
 
 
 5.  In **Excluded studies** you can select certain studies in which your
     subjects must not have participated
     
-6.  When you clicking on **Inclusion/exclusion criteria**, you can add
-    **Additional subject characteristics that should be verified during
-    recruitment**
+6.  When you click on **Inclusion/exclusion criteria**, you can add **Additional
+    subject characteristics that should be verified during the recruitment process**
     
     > If it is a MRI-study, the criteria are pre-set for checking during recruitment
         
-7.  In **Mail Settings**, you can:
-
+7.  If recruitment is to take place by e-mail or if information is to be sent by
+    e-mail in addition to telephone contact, proceed as follows:
+ 
+    - click on **Mail Settings**,
     - define an **E-mail subject**,
     - add an **E-mail body** and
     - indicate a **Reply e-mail-address**
-      (This is relevant if study recruitment is to take place by e-mail or if
-      information is to be sent by e-mail in addition to telephone contact.)
-    
+
     
 Start and finish your study
 ---------------------------
 
-When you created a study, it has not yet started and the recruiting process has
-not been initiated yet either.
+When you just created a study, it has not yet started and the recruiting process
+has not been initiated yet either.
 
 1.  Go to **Details** next to the study you want to start or finish
 
@@ -136,17 +137,57 @@ not been initiated yet either.
     name
    
     - By clicking on **Start** you initiate the recruiting process
-    - In this mode, you are not able to change any characteristics or talking points
-      that are needed for the recruitment
+    - In this mode, you will not able to change any characteristics or talking
+      points that are needed for recruitment
     - When you click on **Stop**, you can edit information needed for the
       recruiting process
 
 In order to approve the persons who are supposed to carry out the recruitment
 process, follow the steps in the explanation **Share studies with your recruiters**
-(see second next instruction)
+(see next instruction)
           
 3.  When you click on **Finish study**, Castellum will register your study as
     completed and the recruitment process is stopped
+
+Share studies with your recruiters
+----------------------------------
+
+If you receive a request for access from a person who is supposed to recruit
+participants for your study, please follow the steps below.
+
+1.  Log in to Castellum by using your username and password
+    
+    - Make sure you are connected to the WiFi and use your right username and
+      password
+        
+2.  Click on **Studies** on the front page
+    
+    - You will see a list of the studies you have created by clicking on **My
+      studies**
+        
+3.  Click on **Details** of the study for which you want to change access rights
+    or role redistribution
+   
+4.  Go to **Member management**
+
+5.  If you click on the field under **User**, you will be shown all possible
+    users to whom you can assign roles
+    
+6.  Select the user, who is supposed to take over the recruitment
+
+7.  Press **Add**
+
+8.  Press **Manage groups** next to the person you have chosen
+
+9.  Select **Recruiter** and press **Save**
+   
+    - If you did not start the study yet, the selected person has still no
+      access to the study, unless you press **Start** on the upper left side
+
+The study is now in progress and the recruiter has now access to the study and can
+begin to recruit.
+Of course, you may select several persons as recruiters.
+
 
 Assign access rights and allocate roles
 ---------------------------------------
@@ -173,43 +214,3 @@ coordinator**.
     coordinator** and **Receptionist**
    
 4.  Select the role you want to assign to the selected person and press **Save**
-
-Share studies with your recruiters
-----------------------------------
-
-If you receive a request for access from a person who is supposed to recruit
-participants for your study, please follow the steps below.
-
-1.  Log in to Castellum by using your username and password
-    
-    - Make sure you are connected to the WiFi and use your right username and
-      password
-        
-2.  Click on **Studies** on the front page
-    
-    - You will see a list of the studies you have created by clicking on **My
-      studies**
-        
-3.  Click on **Details** of the study for which you want to change access rights
-    or role redistribution
-   
-4.  Go to **Member management** on the upper edge
-
-5.  If you click on the field under **User**, you will be shown all possible
-    users to whom you can assign roles
-    
-6.  Select the user, who is supposed to take over the recruitment
-
-7.  Press **Add**
-
-8.  Press **Manage groups** next to the person you chose
-
-9.  Select **Recruiter** and press **Save**
-   
-    - If you did not start the study yet, the selected person has still no
-      access to the study, unless you press **Start** on the upper left side
-
-The study is now in progress and the recruiter has now access to the study and can
-begin to recruit.
-Of course, you may select several persons as recruiters.
-
