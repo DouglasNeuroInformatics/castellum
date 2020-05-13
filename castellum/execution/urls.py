@@ -23,6 +23,7 @@ from django.urls import path
 
 from .views import AdditionalInfoUpdateView
 from .views import AttributeSetUpdateView
+from .views import CalendarView
 from .views import ContactUpdateView
 from .views import DataProtectionUpdateView
 from .views import ParticipationRequestDetailView
@@ -33,6 +34,7 @@ app_name = 'execution'
 urlpatterns = [
     path('<int:study_pk>/', StudyDetailView.as_view(), name='study-detail'),
     path('<int:study_pk>/resolve/', ResolveView.as_view(), name='resolve'),
+    path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),
     path(
         '<int:study_pk>/<int:pk>/',
         ParticipationRequestDetailView.as_view(),
