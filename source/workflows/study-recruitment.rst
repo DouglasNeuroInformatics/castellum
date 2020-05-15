@@ -37,6 +37,7 @@ Recruitment of participants for a study
          requirements of the study)
          
       c) **invited**
+         (Please note the appointment in the calendar)
       
       d) **follow-up scheduled**
          (Determine the date and time of the recall appointment below)
@@ -54,11 +55,14 @@ Editing contact data, attributes and information
 If you wish to edit contact data, attributes and information of a subject,
 proceed as follows:
     
-    - Click on **Contact** next to the subject in the area **Recruitment** in
-      a certain study
-    - Below the **Operational hints**, you can select what kind of information
-      you wish to edit
-    - Always press **Save** once before leaving a page
+    - Click on **Contact** next to the subject in the area **Recruitment**
+    - Select what kind of information you would like to edit by clicking on
+    1. **Edit contact data**,
+    2. **Edit attributes**,
+    3. **Edit data protection** or
+    4. **Edit additional info**
+    - Make the necessary modifications and press **Save** once before leaving the
+      page
 
 Approve subjects for deletion
 ------------------------------
