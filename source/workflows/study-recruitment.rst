@@ -61,6 +61,7 @@ proceed as follows:
     2. **Edit attributes**,
     3. **Edit data protection** or
     4. **Edit additional info**
+    
     - Make the necessary modifications and press **Save** once before leaving the
       page
 
