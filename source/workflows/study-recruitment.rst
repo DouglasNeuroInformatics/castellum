@@ -25,7 +25,8 @@ Recruitment of participants for a study
 
 6.  Contact the potential subject using the specified method
 
-7.  Select a **Status of participation request**
+7.  When you received a response from the potential subject, select a **Status
+    of participation request**
     
     - Choose between:
     
