@@ -71,9 +71,12 @@ You may want personal data and subjects to be completely deleted because of one
 or more of the following reasons:
    
     - the subjects either requested it,
-    - it no longer makes sense to keep them in the database,
-    - thay cannot be reached due to incorrect or missing contact data or
+    - it no longer makes sense to keep him or her in the database,
+    - he or she cannot be reached due to incorrect or missing contact data or
     - there is no consent.
+      The consent may be based on **Recruitment consent**, **Study consent** and/
+      or **Guardianship**.
+      
 To delete the data and the subject, please proceed as follows:
 
 1.  Log in to Castellum by using your username and password
@@ -86,12 +89,11 @@ To delete the data and the subject, please proceed as follows:
 3.  Write in the empty fields first name and surname of the subject to be
     deleted and press **Submit**
     
-4.  Click on **Details** and then **Subject** on the horizontal line
+4.  Click on **Details** and then **Delete** on the horizontal line
 
-5.  Check the box **To be deletd** under **Operational hints**
+5.  Confirm that **you want to permanently delete this subject and all related
+    data**
 
-6.  Press **Save** at the very bottom
-    
     - The subject is now cleared for deletion from the database and deletion of
       its associated data
     - Please note that there may still be data stored in the backup even though
