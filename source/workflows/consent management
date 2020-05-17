@@ -17,7 +17,7 @@ consents must be obtained separately from the respective study conducters.
    - Make sure you are connected to the WiFi and use your right username and
      password
      
-2. Click on **Consent documents** and then on **Admin** on the front page
+2. Click on **Admin** on the front page
 
 3. Scroll all the way down and press **Consent documents**
    
@@ -35,22 +35,23 @@ It is possible for a consent document to become invalid because of
 
 A) There are two options you may implement when a consent document becomes invalid
    To see the options, go to **Admin** on the front page > **Consent documents**
-   in the last section **SUBJECTS** > click on the date the consent document
-   you want to change the status for has been created
+   in the last section > click on the date the consent document you want to change
+   the status for has been created
    
 1. The consent form can be marked as **Is deprecated** and **Is valid**
    - This can be considered as an intermediate step between the validity and
      invalidity of a consent document
-   - The subjects may remain in the database and may be recruited but a a new
-     consent document should be obtained soon
+   - The subjects may remain in the database and may be recruited but a new consent
+     document should be obtained soon
      
-2. If you uncheck the box saying **Is valid**, the consent document is marked as
-   invalid
+2. If you uncheck the box saying **Is valid** but leave the check in the box saying
+   **Is deprecated**, the consent document is marked as invalid
    - If the invalidity of the consent is saved, there is no longer any consent
-     for the recruitment of a test person in the database
+     for the recruitment of a subject in the database
 This does not apply when the **Legal basis for data processing** is a **Study
-consent** or **Guardianship**. You can see the legal basis for data processing
-for each subject individually, if you select a person and go to the tab
+consent** or **Guardianship**.
+You can see the legal basis for data processing for each subject individually by
+following the if you select a person and go to the tab
 **Overview**
 
 
