@@ -120,7 +120,7 @@ msgstr "Hat Vormund"
 #: castellum/contacts/forms.py:130
 #, python-format
 msgid "Subjects under the age of %i need a legal guardian."
-msgstr "Proband*innen unter %i Jahren müssen einen gesetzlichen Vormund haben."
+msgstr "Proband*innen unter %i Jahren müssen einen Vormund haben."
 
 #: castellum/contacts/forms.py:146
 msgid "Provide more details for the address."
@@ -390,10 +390,8 @@ msgid "Studies"
 msgstr "Studien"
 
 #: castellum/execution/templates/execution/base.html:8
-#, fuzzy
-#| msgid "Execution"
 msgid "Execution for"
-msgstr "Durchführung"
+msgstr "Durchführung für"
 
 #: castellum/execution/templates/execution/participationrequest_detail.html:10
 #: castellum/pseudonyms/forms.py:34
@@ -403,13 +401,11 @@ msgstr "Pseudonym"
 #: castellum/execution/templates/execution/participationrequest_detail.html:20
 #: castellum/recruitment/templates/recruitment/contact.html:51
 msgid "Appointments"
-msgstr ""
+msgstr "Termine"
 
 #: castellum/execution/templates/execution/participationrequest_detail.html:33
-#, fuzzy
-#| msgid "Test sessions"
 msgid "No sessions"
-msgstr "Testsitzungen"
+msgstr "Keine Sitzungen"
 
 #: castellum/execution/templates/execution/participationrequest_detail.html:41
 #: castellum/execution/templates/execution/participationrequest_detail.html:56
@@ -467,7 +463,7 @@ msgstr "Pseudonym auflösen"
 #: castellum/execution/templates/execution/study_detail.html:38
 #: castellum/recruitment/templates/recruitment/contact.html:167
 msgid "Calendar"
-msgstr ""
+msgstr "Kalender"
 
 #: castellum/execution/templates/execution/study_resolve.html:17
 #: castellum/subjects/templates/subjects/guardian_search.html:18
@@ -631,25 +627,23 @@ msgstr ""
 #: castellum/recruitment/forms.py:206
 #, python-format
 msgid "%imin"
-msgstr ""
+msgstr "%imin"
 
 #: castellum/recruitment/forms.py:227 castellum/recruitment/forms.py:228
 msgid "Appointments must not overlap."
-msgstr ""
+msgstr "Termine dürfen sich nicht überschneiden."
 
 #: castellum/recruitment/forms.py:243
 msgid "The required resource is not available at this time"
-msgstr ""
+msgstr "Die benötigte Ressource ist zu diesem Zeitpunkt nicht verfügbar"
 
 #: castellum/recruitment/forms.py:278
 msgid "How many subjects do you want to contact?"
 msgstr "Wie viele Proband*innen wollen Sie kontaktieren?"
 
 #: castellum/recruitment/models/appointments.py:39
-#, fuzzy
-#| msgid "Add session"
 msgid "Session"
-msgstr "Sitzung hinzufügen"
+msgstr "Sitzung"
 
 #: castellum/recruitment/models/appointments.py:40
 #: castellum/studies/templates/studies/study_base.html:35
@@ -659,18 +653,13 @@ msgid "Start"
 msgstr "Start"
 
 #: castellum/recruitment/models/appointments.py:44
-#, fuzzy
-#| msgid "Participation request"
 msgid "Participant"
-msgstr "Teilnahmeanfrage"
+msgstr "Teilnehmer*in"
 
 #: castellum/recruitment/models/appointments.py:57
-#, fuzzy
-#| msgid "No potential participants could be found for this study."
 msgid "Session and participant do not belong to the same study"
 msgstr ""
-"Es konnten keine potentiellen Teilnehmer*innen für diese Studie gefunden "
-"werden."
+"Sitzung und Teilnehmer*in gehören nicht zur selben Studie"
 
 #: castellum/recruitment/models/attributesets.py:87
 msgid "Does not want to participate in the following study types:"
@@ -951,10 +940,8 @@ msgid "List is empty"
 msgstr "Die Liste ist leer"
 
 #: castellum/recruitment/templates/recruitment/base.html:8
-#, fuzzy
-#| msgid "Recruitment"
 msgid "Recruitment for"
-msgstr "Rekrutierung"
+msgstr "Rekrutierung für"
 
 #: castellum/recruitment/templates/recruitment/contact.html:4
 #: castellum/recruitment/templates/recruitment/recruitment.html:4
@@ -997,14 +984,12 @@ msgid "not checked"
 msgstr "nicht überprüft"
 
 #: castellum/recruitment/templates/recruitment/contact.html:43
-#, fuzzy
-#| msgid "Criteria for:"
 msgid "Criteria"
-msgstr "Kriterien für:"
+msgstr "Kriterien"
 
 #: castellum/recruitment/templates/recruitment/contact.html:50
 msgid "no appointment"
-msgstr ""
+msgstr "kein Termin"
 
 #: castellum/recruitment/templates/recruitment/contact.html:64
 #: castellum/recruitment/templates/recruitment/contact.html:70
@@ -1327,7 +1312,7 @@ msgstr "Benötigte Anzahl von Proband*innen"
 
 #: castellum/studies/models.py:88
 msgid "Session instructions"
-msgstr ""
+msgstr "Sitzungshinweise"
 
 #: castellum/studies/models.py:90
 msgid ""
@@ -1335,6 +1320,9 @@ msgid ""
 "For example, specify time intervals between sessions that need to be "
 "considered for booking appointments."
 msgstr ""
+"Bitte beschreiben Sie alle Voraussetzungen um die unten angegebenen Sitzungen durchzuführen. "
+"Geben Sie z.B. Zeitabstände zwischen Sitzungen an, welche für die Terminbuchung "
+"beachtet werden müssen."
 
 #: castellum/studies/models.py:96
 msgid "Start of test sessions"
@@ -1356,6 +1344,11 @@ msgid ""
 "risks for participants? If applicable, also present the amount of expense "
 "allowance and related requirements."
 msgstr ""
+"Dieser Text wird während des Rekrutierungsgesprächs verwendet. Bitte beschreiben Sie die "
+"Studie aus Sicht der Rekrutierer*innen und potentieller Teilnehmer*innen: "
+"Worum geht es? Wie lange wird es dauern? Was sind die möglichen Vorteile oder Risiken für "
+"Teilnehmer*innen? Falls zutreffend, klären Sie ebenfalls über die Höhe der "
+"Aufwandsentschädigung sowie darauf bezogene Voraussetzungen auf."
 
 #: castellum/studies/models.py:117
 msgid "Advanced filtering"
@@ -1471,13 +1464,11 @@ msgstr "Sitzungsdauer in Minuten"
 
 #: castellum/studies/models.py:289
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #: castellum/studies/models.py:291
-#, fuzzy
-#| msgid "Data source"
 msgid "Resource"
-msgstr "Datenquelle"
+msgstr "Ressource"
 
 #: castellum/studies/templates/studies/__filtergroup_common.html:5
 msgid ""
@@ -1890,10 +1881,8 @@ msgstr "Keine Mitglieder"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings_base.html:28
 #: castellum/studies/templates/studies/study_sessions.html:4
-#, fuzzy
-#| msgid "permissions"
 msgid "Sessions"
-msgstr "Rechte"
+msgstr "Sitzungen"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings_form.html:5
 msgid "General recruitment settings"
@@ -2254,6 +2243,8 @@ msgid ""
 "This subject has a legal guardian. For information on availability and notes "
 "please find their details."
 msgstr ""
+"Diese Proband*in hat einen Vormund. Informationen zu Verfügbarkeit sowie "
+"Notizen sind unter dessen Details zu finden."
 
 #: castellum/subjects/templates/subjects/subject_additional_info_form.html:35
 msgid "Availability"
