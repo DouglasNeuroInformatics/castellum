@@ -91,6 +91,7 @@ In order to create a potential subject in Castellum, please proceed as follows:
 - If a **Match** is found, select it
 - If **No matches found** applies, click **Create** > Enter necessary information
   in the fields provided > **Create new subject**
+
 > The legal guardian is now added. You can also create several guardians. By
   clicking on **Remove** next to the guardian's name, you can delete him or her
   as the guardian of the subject
