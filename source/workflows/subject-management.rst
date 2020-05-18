@@ -107,8 +107,7 @@ In order to create a potential subject in Castellum, please proceed as follows:
 10. By clicking on **Additional Info**, you can define the **Availability** of
     the person
     
-    > For example: The person can be reached by phone between 9 and 11 a.m. on
-      tuesdays.
+    > For example: The person can be reached by phone between 9 and 11 a.m. on tuesdays.
    
     - Click on **9** under **Tuesday**,
     - Hold the Shift-button and
