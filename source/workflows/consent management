@@ -86,18 +86,35 @@ In order to get an overview of all subjects for whom a new recruiting consent is
 required, proceed as follows:
 
 1. Click on **Subjects** on the front page
+
 2. Go to **Maintenance**
+
 3. Click on the fourth tab **Consent**
+
    - You can see which **subjects have an outdated consent** in a list
+
 4. Click on **Details** next to **Last updated on: XY**
+
    - A new window will open for each subject for whom consent is no longer valid
+
 5. Go to **Data protection** (fourth tab)
+
    - If you see an orange description field that says **The current consent refers
      to an outdated document and will soon expire, thus rendering the recruitment
      consent invalid. Please contact this subject and ask them to consent to the
      latest document or withdraw their consent. This message will disappear once
-     you change the value of the checkbox.**, proceed with steps 6-XY
+     you change the value of the checkbox.**, proceed with steps 6-7
+
 6. Obtain valid consent for recruitment either online, by telephone or postal
-7. If the subject consents to the latest document or withdrawed their consent
+   
+   - As an intermediate step, check the box **Recruitment consent** once
+  
+7. If the subject consents to the latest document or withdraws its consent, that
+   has to be marked
+
+   - If the subject consents to the latest document: Press **Confirm** in the box
+     **Recruitment consent** and press **Save**
+   - If the subject requests GDPR deletion, check the box **To be deleted** and 
+     press **Save**
 
 
