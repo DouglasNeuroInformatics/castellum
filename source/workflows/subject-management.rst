@@ -48,7 +48,7 @@ In order to create a potential subject in Castellum, please proceed as follows:
     
 4.  Click on **Submit**
     
-4.1. If there is a **Match** found, the subject is already created in the database
+    a) If there is a **Match** found, the subject is already created in the database
      - You may edit or add information by clicking on **Details** next to the subject
    
 4.2. If **No matches can be found**, click on **Create**
