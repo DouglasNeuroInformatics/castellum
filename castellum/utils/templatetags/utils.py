@@ -95,13 +95,6 @@ def is_today(date):
     return date == datetime.date.today()
 
 
-@register.filter
-def percent(value, total=1):
-    if not value:
-        return 0
-    return int(value / total * 100)
-
-
 @register.simple_tag(takes_context=True)
 def absolute_url(context, view_name, *args, **kwargs):
     request = context['request']

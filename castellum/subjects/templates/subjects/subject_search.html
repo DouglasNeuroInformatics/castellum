@@ -142,25 +142,25 @@
             <dt class="col-sm-5">{% trans 'Contact data updated in last 6 months' %}</dt>
             <dd class="col-sm-3">{{ count_updated }} {% trans 'subjects' %}</dd>
             <dd class="col-sm-4">
-                {% include 'subjects/__bar.html' with value=count_updated|percent:count_total %}
+                <meter class="w-100" max="{{ count_total }}" value="{{ count_updated }}"></meter>
             </dd>
 
             <dt class="col-sm-5">{% trans 'Complete attribute set' %}</dt>
             <dd class="col-sm-3">{{ count_complete }} {% trans 'subjects' %}</dd>
             <dd class="col-sm-4">
-                {% include 'subjects/__bar.html' with value=count_complete|percent:count_total %}
+                <meter class="w-100" max="{{ count_total }}" value="{{ count_complete }}"></meter>
             </dd>
 
             <dt class="col-sm-5">{% trans 'Took part in a study' %}</dt>
             <dd class="col-sm-3">{{ count_participated }} {% trans 'subjects' %}</dd>
             <dd class="col-sm-4">
-                {% include 'subjects/__bar.html' with value=count_participated|percent:count_total %}
+                <meter class="w-100" max="{{ count_total }}" value="{{ count_participated }}"></meter>
             </dd>
 
             <dt class="col-sm-5">{% trans 'Consent confirmed' %}</dt>
             <dd class="col-sm-3">{{ count_consent }} {% trans 'subjects' %}</dd>
             <dd class="col-sm-4">
-                {% include 'subjects/__bar.html' with value=count_consent|percent:count_total %}
+                <meter class="w-100" max="{{ count_total }}" value="{{ count_consent }}"></meter>
             </dd>
         </dl>
     </aside>
