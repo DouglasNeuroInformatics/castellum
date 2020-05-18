@@ -67,8 +67,8 @@ In order to limit the search for subjects in Castellum,
     you wish to set up filters and criteria for
     
 > If you have already started the study, click on **Stop** on the upper left.
-> If you did not start it yet, you will be able to edit filters and criteria right
-  away.
+> If you did not start it yet, you will be able to edit filters and criteria
+  right away.
 
     
 2.  Click on **Recruitment Settings**
@@ -97,6 +97,7 @@ In order to limit the search for subjects in Castellum,
     - click **Apply**
     
     > You may set as many filters as you like.
+    
     > If you wish to create more than one filter group, proceed as follows:
       - click on **General**,
       - select **Advanced filtering** and
