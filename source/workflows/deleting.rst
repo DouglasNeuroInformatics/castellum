@@ -48,7 +48,6 @@ b) If you see a message saying **This subject cannot be deleted because there st
 
 Data Maintenance: Deleting a study from Castellum
 =================================================
-
 Prerequisite
 ------------
 
