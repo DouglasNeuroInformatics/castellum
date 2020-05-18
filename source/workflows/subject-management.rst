@@ -15,7 +15,7 @@ least the following:
    - **Date of birth**
    - Information on whether the person is **Full of age** or **has legal guardian**,
      If the subject has a legal guardian, you will need to **Add guardian** (see
-     instruction 8.2.)
+     instruction 8.b.)
    - **E-mail** address and/or **Phone number** and/or full postal address or
      contacting details of the legal guardian,
    - **Handedness**,
@@ -51,7 +51,7 @@ In order to create a potential subject in Castellum, please proceed as follows:
     a) If there is a **Match** found, the subject is already created in the database
      - You may edit or add information by clicking on **Details** next to the subject
    
-4.2. If **No matches can be found**, click on **Create**
+    b) If **No matches can be found**, click on **Create**
      - If you notice that you made a spelling mistake with the names, please do not
       go back and create the person again, but change the name in the following
       process
@@ -80,11 +80,11 @@ In order to create a potential subject in Castellum, please proceed as follows:
     - Define the **Gender** of the person
     - Fill in the **Date of birth**
 
-8.1. If the person is of an adult age, select **Full of age** and continue with
-     step 7
+    a) If the person is of an adult age, select **Full of age** and continue with
+       step 7
 
-8.2. If the person is not of an adult age or has a guardian for example due
-     to a disability or illness, select **Has legal guardian** > **Add guardian**
+    b) If the person is not of an adult age or has a guardian for example due to
+       a disability or illness, select **Has legal guardian** > **Add guardian**
     
 - A new window will open
 - Fill in the first and last name of the subject's legal guardian > **Submit**
