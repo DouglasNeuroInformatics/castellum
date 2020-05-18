@@ -142,6 +142,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     model = Study
     permission_required = 'recruitment.view_participationrequest'
     study_status = [Study.EXECUTION]
+    feed = 'execution:calendar-feed'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
