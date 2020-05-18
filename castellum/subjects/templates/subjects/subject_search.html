@@ -34,6 +34,10 @@
         <div class="tab-content mb-3 border border-top-0 p-3">
             <div class="tab-pane {{ is_post|yesno:',active' }}" id="matches" role="tabpanel" aria-labelledby="matches-tab">
                 <ul class="table-list">
+                    {% if not can_view_contact %}
+                        <p class="alert alert-warning">{% trans 'This list may be restricted based on your permissions.' %}</p>
+                    {% endif %}
+
                     {% for subject, contact, prs, can_access in matches %}
                         <li>
                             <div class="table-list-item">
