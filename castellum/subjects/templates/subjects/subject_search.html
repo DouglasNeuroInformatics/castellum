@@ -18,6 +18,7 @@
 
     {% if form.is_valid %}
         {% has_perm 'contacts.add_contact' user as can_add_contact %}
+        {% has_perm 'contacts.view_contact' user as can_view_contact %}
 
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
@@ -33,7 +34,7 @@
         <div class="tab-content mb-3 border border-top-0 p-3">
             <div class="tab-pane {{ is_post|yesno:',active' }}" id="matches" role="tabpanel" aria-labelledby="matches-tab">
                 <ul class="table-list">
-                    {% for subject, contact, prs, can_view_contact, can_access in matches %}
+                    {% for subject, contact, prs, can_access in matches %}
                         <li>
                             <div class="table-list-item">
                                 <div>

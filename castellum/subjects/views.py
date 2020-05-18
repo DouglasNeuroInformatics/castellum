@@ -77,8 +77,8 @@ class SubjectSearchView(LoginRequiredMixin, GetFormView):
         user = self.request.user
         contacts = Contact.objects.fuzzy_filter(search)
         subject_pks = list(contacts.values_list('subject_id', flat=True))
+        can_view_contact = user.has_perm('contacts.view_contact')
         for subject in Subject.objects.filter(pk__in=subject_pks):
-            can_view_contact = user.has_perm('contacts.view_contact')
             has_privacy_level = user.has_privacy_level(subject.privacy_level)
             prs = []
             for pr in subject.participationrequest_set.filter(study__status=Study.EXECUTION):
@@ -87,10 +87,10 @@ class SubjectSearchView(LoginRequiredMixin, GetFormView):
                 can_recruit = (
                     has_privacy_level and
                     can_access_study and
-                    can_view_contact and
-                    user.has_perm(
-                        'recruitment.change_participationrequest', obj=pr.study
-                    )
+                    user.has_perms((
+                        'contacts.view_contact',
+                        'recruitment.change_participationrequest',
+                    ), obj=pr.study)
                 )
                 can_conduct = (
                     has_privacy_level and
@@ -104,7 +104,7 @@ class SubjectSearchView(LoginRequiredMixin, GetFormView):
                 if can_recruit or can_conduct or can_search:
                     prs.append((pr, can_recruit, can_conduct))
             if prs or can_view_contact:
-                yield subject, subject.contact, prs, can_view_contact, has_privacy_level
+                yield subject, subject.contact, prs, has_privacy_level
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
