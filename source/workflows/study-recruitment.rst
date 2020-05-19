@@ -57,11 +57,14 @@ If you wish to edit contact data, attributes and information of a subject,
 proceed as follows:
 
 - Click on **Contact** next to the subject in the area **Recruitment**
+
 - Select what kind of information you would like to edit by clicking on
-    1. **Edit contact data**,
-    2. **Edit attributes**,
-    3. **Edit data protection** or
-    4. **Edit additional info**
+
+  1. **Edit contact data**,
+  2. **Edit attributes**,
+  3. **Edit data protection** or
+  4. **Edit additional info**
+
 - Make the necessary modifications and click on **Save** once before leaving
   the page
 
