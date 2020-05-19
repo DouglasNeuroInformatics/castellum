@@ -39,6 +39,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
+from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import View
 from django.views.generic.detail import SingleObjectMixin
@@ -56,7 +57,6 @@ from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.models import Study
-from castellum.utils.views import GetFormView
 
 from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseAdditionalInfoUpdateView
@@ -69,7 +69,7 @@ from .models import Subject
 monitoring_logger = logging.getLogger('monitoring.subjects')
 
 
-class SubjectSearchView(LoginRequiredMixin, GetFormView):
+class SubjectSearchView(LoginRequiredMixin, FormView):
     template_name = 'subjects/subject_search.html'
     form_class = SearchForm
 
@@ -139,13 +139,16 @@ class SubjectSearchView(LoginRequiredMixin, GetFormView):
             'Subject search: search term: "{search}" by {user}'
         ).format(user=self.request.user.pk, **form.cleaned_data))
 
-        return super().form_valid(form)
+        return self.render_to_response(self.get_context_data(form=form))
 
     def post(self, request, *args, **kwargs):
+        if 'privacy_level' not in request.POST:
+            return super().post(request, *args, **kwargs)
+
         if not request.user.has_perm('contacts.add_contact'):
             raise PermissionDenied
 
-        form = SearchForm(data=request.GET)
+        form = SearchForm(data=request.POST)
         privacy_level_form = SubjectPrivacyLevelForm(user=self.request.user, data=request.POST)
 
         if form.is_valid() and privacy_level_form.is_valid():
@@ -473,10 +476,13 @@ class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
         return context
 
     def post(self, request, *args, **kwargs):
+        if 'privacy_level' not in request.POST:
+            return super().post(request, *args, **kwargs)
+
         if not request.user.has_perm('contacts.add_contact'):
             raise PermissionDenied
 
-        form = SearchForm(data=request.GET)
+        form = SearchForm(data=request.POST)
         privacy_level_form = SubjectPrivacyLevelForm(user=self.request.user, data=request.POST)
         contact_form = ContactForm(user=self.request.user, data=request.POST, is_guardian=True)
 

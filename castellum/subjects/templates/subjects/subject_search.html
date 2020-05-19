@@ -4,11 +4,12 @@
 {% block title %}{% trans "Subjects" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <form method="get">
+    <form method="post">
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
 
+        {% csrf_token %}
         {% bootstrap_field form.search %}
 
         <div class="mb-4">
@@ -128,6 +129,7 @@
                             <dd>{{ form.cleaned_data.last_name }}</dd>
                         </dl>
                         {% bootstrap_field privacy_level_form.privacy_level %}
+                        {{ form.search.as_hidden }}
                         <button class="btn btn-primary">{% trans "Create new subject" %}</button>
                     </form>
                 </div>

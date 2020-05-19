@@ -22,8 +22,7 @@ def test_200(request, client, user_fixture):
 
 def test_with_parameters_200(client, user):
     client.force_login(user)
-    url = '/subjects/?search=foo+bar'
-    response = client.get(url)
+    response = client.post('/subjects/', {'search': 'foo bar'})
     assert response.status_code == 200
     assert b'create-tab' in response.content
 
@@ -41,7 +40,7 @@ def test_match(request, client, user_fixture):
     baker.make(Contact, first_name='foo', last_name='bar')
 
     client.force_login(user)
-    response = client.get('/subjects/?search=foo+bar')
+    response = client.post('/subjects/', {'search': 'foo bar'})
 
     assert response.content.count(b'<div class="table-list-item">') == 1
 
@@ -63,7 +62,7 @@ def test_only_members(request, client, user_fixture, study_in_execution_status):
     )
 
     client.force_login(user)
-    response = client.get('/subjects/?search=foo+bar')
+    response = client.post('/subjects/', {'search': 'foo bar'})
 
     assert response.content.count(b'<li class="table-list-item">') == 1
 
@@ -103,7 +102,7 @@ def test_matches(client, member, study_in_execution_status, study_in_edit_status
     )
 
     client.force_login(member)
-    response = client.get('/subjects/?search=foo+bar')
+    response = client.post('/subjects/', {'search': 'foo bar'})
 
     assert response.content.count(b'<div class="table-list-item">') == 3
     assert response.content.count(b'<li class="table-list-item">') == 2
@@ -113,8 +112,7 @@ def test_matches(client, member, study_in_execution_status, study_in_edit_status
 
 def test_no_create_tab_on_incomplete_name(client, user):
     client.force_login(user)
-    url = '/subjects/?search=foo+foo@example.com'
-    response = client.get(url)
+    response = client.post('/subjects/', {'search': 'foo foo@example.com'})
     assert response.status_code == 200
     assert b'create-tab' not in response.content
 
@@ -128,8 +126,10 @@ def test_no_create_tab_on_incomplete_name(client, user):
 def test_create(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/?search=foo+bar+foo@example.com'
-    response = client.post(url, {'privacy_level': 0})
+    response = client.post('/subjects/', {
+        'search': 'foo bar foo@example.com',
+        'privacy_level': 0,
+    })
     assert response.status_code == 302
     qs = Contact.objects.filter(first_name='foo', last_name='bar', email='foo@example.com')
     assert qs.exists()
@@ -138,13 +138,14 @@ def test_create(request, client, user_fixture):
 
 def test_create_only_email(client, user):
     client.force_login(user)
-    url = '/subjects/?search=foo@example.com'
-    response = client.post(url, {'privacy_level': 0})
+    response = client.post('/subjects/', {
+        'search': 'foo@example.com',
+        'privacy_level': 0,
+    })
     assert response.status_code == 200
 
 
 def test_create_no_search(client, user):
     client.force_login(user)
-    url = '/subjects/'
-    response = client.post(url, {'privacy_level': 0})
+    response = client.post('/subjects/', {'privacy_level': 0})
     assert response.status_code == 200
