@@ -99,7 +99,7 @@ In order to limit the search for subjects in Castellum,
     > If you wish to create more than one filter group, proceed as follows:
       - click on **General**,
       - select **Advanced filtering** and
-      - press **Save**
+      - click on **Save**
     
     - When you click on **Add new** in **Filters**, you are able to set another
       filter group with specific filters
@@ -174,14 +174,14 @@ participants for your study, please follow the steps below.
     
 6.  Select the user, who is supposed to take over the recruitment
 
-7.  Press **Add**
+7.  Click on **Add**
 
-8.  Press **Manage groups** next to the person you have chosen
+8.  Click **Manage groups** next to the person you have chosen
 
-9.  Select **Recruiter** and press **Save**
+9.  Select **Recruiter** and click on **Save**
    
     - If you did not start the study yet, the selected person has still no
-      access to the study, unless you press **Start** on the upper left side
+      access to the study, unless you click on **Start** on the upper left side
 
 The study is now in progress and the recruiter has now access to the study and can
 begin to recruit.
@@ -212,4 +212,4 @@ coordinator**.
     **Subject manager**, **Recruiter**, **Study conductor**, **Data protection
     coordinator** and **Receptionist**
    
-4.  Select the role you want to assign to the selected person and press **Save**
+4.  Select the role you want to assign to the selected person and click on **Save**
