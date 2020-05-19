@@ -62,8 +62,8 @@ proceed as follows:
     3. **Edit data protection** or
     4. **Edit additional info**
     
-    - Make the necessary modifications and press **Save** once before leaving the
-      page
+    - Make the necessary modifications and click on **Save** once before leaving
+      the page
 
 Approve subjects for deletion
 ------------------------------
@@ -87,7 +87,7 @@ To delete the data and the subject, please proceed as follows:
 2.  Click on **Subjects** on the front page
 
 3.  Write in the empty fields first name and surname of the subject to be
-    deleted and press **Submit**
+    deleted and click on **Submit**
     
 4.  Click on **Details** and then **Delete** on the horizontal line
 
