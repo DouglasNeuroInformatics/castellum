@@ -25,6 +25,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
+from django.views.generic import FormView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
@@ -38,7 +39,6 @@ from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
-from castellum.utils.views import GetFormView
 
 
 class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
@@ -77,7 +77,7 @@ class ParticipationRequestDetailView(
         return self.participationrequest
 
 
-class ResolveView(StudyMixin, PermissionRequiredMixin, GetFormView):
+class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
     template_name = 'execution/study_resolve.html'
     permission_required = 'recruitment.view_participation_pseudonyms'
     study_status = [Study.EXECUTION]
@@ -94,7 +94,7 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, GetFormView):
             return redirect('execution:participationrequest-detail', self.study.pk, pr.pk)
         except ObjectDoesNotExist:
             messages.warning(self.request, _('No match found'))
-            return super().form_valid(form)
+            return self.render_to_response(self.get_context_data(form=form))
 
 
 class ExecutionUpdateMixin(ParticipationRequestMixin):
