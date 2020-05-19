@@ -126,7 +126,6 @@ class SubjectSearchView(LoginRequiredMixin, GetFormView):
 
         context['count_consent'] = Subject.objects.filter(filter_queries.has_consent()).count()
 
-        context['is_post'] = self.request.method == 'POST'
         form = kwargs.get('form')
         if form and form.is_valid():
             context['matches'] = self.get_matches(form.cleaned_data['search'])
