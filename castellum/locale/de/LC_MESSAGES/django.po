@@ -1017,7 +1017,7 @@ msgid ""
 "with"
 msgstr ""
 "Die Teilnahme kann nicht auf \"eingeladen\" gesetzt werden. Bitte überprüfen "
-"Sie die Tabs mit dem folgenden Symbol:"
+"Sie die Reiter mit dem folgenden Symbol:"
 
 #: castellum/recruitment/templates/recruitment/contact.html:189
 msgid "Execution URL"
