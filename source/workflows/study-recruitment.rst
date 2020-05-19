@@ -71,7 +71,7 @@ You may want personal data and subjects to be completely deleted because of one
 or more of the following reasons:
 
 - the subjects either requested it,
-- it no longer makes sense to keep him or her in the database,
+- it no longer makes sense to keep them in the database,
 - he or she cannot be reached due to incorrect or missing contact data or
 - there is no consent.
   The consent may be based on **Recruitment consent**, **Study consent** and/
@@ -95,7 +95,7 @@ To delete the data and the subject, please proceed as follows:
     data**
 
     - The subject is now cleared for deletion from the database and deletion of
-      its associated data. The data protection officer will take care of final
+      their associated data. The data protection officer will take care of final
       deletion
     - Please note that there may still be data stored in the backup even though
       the person was deleted from Castellum

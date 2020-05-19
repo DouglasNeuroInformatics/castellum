@@ -4,7 +4,7 @@ Subject Management: Creating a subject in Castellum
 Prerequisite
 ------------
 
-You have a person on the phone or its contact information and other important
+You have a person on the phone or their contact information and other important
 attributes are available. This person is interested in participating in
 studies at the MPIB.
 
@@ -57,7 +57,7 @@ In order to create a potential subject in Castellum, please proceed as follows:
 
     - 0 (regular) describes an adult person without extraordinary features
     - 1 (increased) indicates children or adults with a legal guardian
-    - 2 (high) presents a famous personality and its children
+    - 2 (high) presents a famous personality and their children
 
 6.  Click on **Create new subject**
 
@@ -87,7 +87,7 @@ In order to create a potential subject in Castellum, please proceed as follows:
        - If **No matches found** applies, click **Create** > Enter necessary information
          in the fields provided > **Create new subject**
 
-       The legal guardian is now added. You can also create several guardians. By clicking on **Remove** next to the guardian's name, you can delete him or her as the guardian of the subject
+       The legal guardian is now added. You can also create several guardians. By clicking on **Remove** next to the guardian's name, you can delete them as the guardian of the subject
 
 9.  Click on **Save** and then on **Attributes**
 

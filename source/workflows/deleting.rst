@@ -73,7 +73,7 @@ Deleting the study
 
 4.  Before clicking on **Delete**, proceed as follows:
 
-    - Go to the responsible person of the study and ask him or her to delete all
+    - Go to the responsible person of the study and ask them to delete all
       collected subject data of the study you want to delete
     - You can detect the name of the responsible person in the upper corner under
       the study name
