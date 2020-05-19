@@ -100,7 +100,7 @@ In order to create a potential subject in Castellum, please proceed as follows:
       degree**
     - If the person **Does not want to participate in the following study types**,
       select one or more
-    - Press **Save**
+    - Click on **Save**
         
 10. By clicking on **Additional Info**, you can define the **Availability** of
     the person
@@ -123,14 +123,14 @@ In order to create a potential subject in Castellum, please proceed as follows:
      - It is also possible to **Add a note** on your own
        Please be aware that the use of note fields should be very sparing
        
-13. Define from which **Data source** the data comes from and press **Save**
+13. Define from which **Data source** the data comes from and click on **Save**
 
 14. In **Study Participations** you can add any studies in which the subject has
     participated
     
     - By clicking on **Finished studies**, a list of previous study participations
       is displayed
-    - Press **Add to finished study**
+    - Click **Add to finished study**
     - Hold the **CTRL** key on your keyboard while pressing **F** to open the
       search function of the browser
     - When you found the study the subject participated in, click on **Add to study**
