@@ -18,11 +18,13 @@ $(function() {
     setVisibility();
 
     var $invited = $('[name="status"] [value="3"]');
+    var $alert = $('[data-js="blocking_invitation_alert"]');
     if (!$invited.prop('disabled')) {
         var setInvitedDisabled = function() {
             var $checked = $('[name="exclusion_criteria_checked"]');
             var needsCheck = $checked.length && !$checked.prop('checked');
             $invited.prop('disabled', needsCheck);
+            $alert.prop('hidden', !needsCheck);
         };
 
         $(document).on('change', '[name="exclusion_criteria_checked"]', setInvitedDisabled);
