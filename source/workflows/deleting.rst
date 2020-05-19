@@ -33,7 +33,7 @@ please proceed as follows:
 4.  Click on **Delete** on the upper right
     
 a) When you see a message saying **Are you sure you want to permanently delete
-   this subject and all related data?**, press **Confirm** and the subject will
+   this subject and all related data?**, click on **Confirm** and the subject will
    be deleted
     
 b) If you see a message saying **This subject cannot be deleted because there still
@@ -68,18 +68,18 @@ Deleting the study
 
 2.  Click on **All studies** to see all proposed studies
 
-3.  Choose the study you want to delete by pressing **Details** next to it
+3.  Choose the study you want to delete by clicking on **Details** next to it
 
-4.  Before pressing **Delete**, proceed as follows:
+4.  Before clicking on **Delete**, proceed as follows:
     
     - Go to the responsible person of the study and ask him or her to delete all
       collected subject data of the study you want to delete
     - You can detect the name of the responsible person in the upper corner under
       the study name
 
-5.  If all data has been deleted by the responsible person of the study, press
+5.  If all data has been deleted by the responsible person of the study, click on
     **Delete** under the study name
    
     - Confirm the notice **I have made sure that all external data related to
       this study has been destroyed**
-    - Press **Confirm**
+    - Click on **Confirm**
