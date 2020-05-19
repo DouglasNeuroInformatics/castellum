@@ -52,7 +52,7 @@ Study Coordination: Creating a new study
 
 11. Click on **Save** to record your progress
 
-    > You can find your study in the list
+Now you can find your study in the list
 
 
 Setting up the recruitment process
@@ -67,8 +67,8 @@ In order to limit the search for subjects in Castellum,
 1.  Go to **Studies** on the front page, click **Details** next to the study
     you wish to set up filters and criteria for
 
-    > If you have already started the study, click on **Stop** on the upper left.
-    > If you did not start it yet, you will be able to edit filters and criteria right away.
+    If you have already started the study, click on **Stop** on the upper left.
+    If you did not start it yet, you will be able to edit filters and criteria right away.
 
 2.  Click on **Recruitment Settings**
 
@@ -95,8 +95,8 @@ In order to limit the search for subjects in Castellum,
     - define the filters and
     - click **Apply**
 
-    > You may set as many filters as you like.
-    > If you wish to create more than one filter group, proceed as follows:
+    You may set as many filters as you like.
+    If you wish to create more than one filter group, proceed as follows:
 
     - click on **General**,
     - select **Advanced filtering** and
@@ -107,14 +107,13 @@ In order to limit the search for subjects in Castellum,
       (This is necessary, for example, if you need subjects both at the age
       between 20-30 and 50-60)
 
-
 5.  In **Excluded studies** you can select certain studies in which your
     subjects must not have participated
 
 6.  When you click on **Inclusion/exclusion criteria**, you can add **Additional
     subject characteristics that should be verified during the recruitment process**
 
-    > If it is a MRI-study, the criteria are pre-set for checking during recruitment
+    If it is a MRI-study, the criteria are pre-set for checking during recruitment
 
 7.  If recruitment is to take place by e-mail or if information is to be sent by
     e-mail in addition to telephone contact, proceed as follows:

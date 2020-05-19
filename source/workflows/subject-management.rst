@@ -87,7 +87,7 @@ In order to create a potential subject in Castellum, please proceed as follows:
        - If **No matches found** applies, click **Create** > Enter necessary information
          in the fields provided > **Create new subject**
 
-       > The legal guardian is now added. You can also create several guardians. By clicking on **Remove** next to the guardian's name, you can delete him or her as the guardian of the subject
+       The legal guardian is now added. You can also create several guardians. By clicking on **Remove** next to the guardian's name, you can delete him or her as the guardian of the subject
 
 9.  Click on **Save** and then on **Attributes**
 
@@ -97,20 +97,24 @@ In order to create a potential subject in Castellum, please proceed as follows:
       select one or more
     - Click on **Save**
 
-10. By clicking on **Additional Info**, you can define the **Availability** of
-    the person
+10.  By clicking on **Additional Info**, you can define the **Availability** of
+     the person
 
-    > For example: The person can be reached by phone between 9 and 11 a.m. on tuesdays.
+     .. note::
 
-    - Click on **9** under **Tuesday**,
-    - Hold the Shift-button and
-    - Click on **11** under **Tuesday**
+        Example: The person can be reached by phone between 9 and 11 a.m. on tuesdays.
+
+        - Click on **9** under **Tuesday**,
+        - Hold the Shift-button and
+        - Click on **11** under **Tuesday**
 
 11.  Below you can enter a point in time when a person is available again
 
-    > For example: The person is abroad for 6 months.
+     .. note::
 
-    - Select **Not available until** today in 6 months
+        Example: The person is abroad for 6 months.
+
+        - Select **Not available until** today in 6 months
 
 12.  You may also want to select whether the subject is **Hard of hearing**,
      **Difficult to understand** or uses **Abusive language**
