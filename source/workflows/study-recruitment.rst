@@ -3,17 +3,17 @@ Recruitment of participants for a study
 
 1.  Log in to Castellum by using your username and password
 
-2.  Click on **Studies** on the front page 
-    
+2.  Click on **Studies** on the front page
+
     - When you click on **All studies**, a list of all studies will be shown to
-      you. 
-   
+      you.
+
 3.  Click on **Recruitment** next to the study you want to recruit subjects for
-    
+
 4.  By clicking on **Add**, relevant probands will be shown to you
 
 5.  Press the **Contact** button to contact the person you want to reach
-   
+
     - **E-Mail**, **Phone number**, a potential **Phone number alternative**
       and the **Address** will be shown to you in the tab **Contacting details**.
       Remember that every telephone contact with a test person requires a comparison
@@ -27,21 +27,21 @@ Recruitment of participants for a study
 
 7.  When you received a response from the potential subject, select a **Status
     of participation request**
-    
+
     - Choose between:
-    
+
       a) **not reached**
-      
+
       b) **unsuitable**
          (This may apply if attributes of the person do not comply with the
          requirements of the study)
-         
+
       c) **invited**
          (Please note the appointment in the calendar)
-      
+
       d) **follow-up scheduled**
          (Determine the date and time of the recall appointment below)
-         
+
       e) **awaiting response**
          (This may apply if you sent an e-mail to the person or if you left a
          message on the answering machine)
@@ -51,44 +51,44 @@ Recruitment of participants for a study
         automatically
 
 Editing contact data, attributes and information
-------------------------------------------------------------------
+------------------------------------------------
+
 If you wish to edit contact data, attributes and information of a subject,
 proceed as follows:
-    
-    - Click on **Contact** next to the subject in the area **Recruitment**
-    - Select what kind of information you would like to edit by clicking on
+
+- Click on **Contact** next to the subject in the area **Recruitment**
+- Select what kind of information you would like to edit by clicking on
     1. **Edit contact data**,
     2. **Edit attributes**,
     3. **Edit data protection** or
     4. **Edit additional info**
-    
-    - Make the necessary modifications and click on **Save** once before leaving
-      the page
+- Make the necessary modifications and click on **Save** once before leaving
+  the page
 
 Approve subjects for deletion
 ------------------------------
 You may want personal data and subjects to be completely deleted because of one
 or more of the following reasons:
-   
-    - the subjects either requested it,
-    - it no longer makes sense to keep him or her in the database,
-    - he or she cannot be reached due to incorrect or missing contact data or
-    - there is no consent.
-      The consent may be based on **Recruitment consent**, **Study consent** and/
-      or **Guardianship**.
-      
+
+- the subjects either requested it,
+- it no longer makes sense to keep him or her in the database,
+- he or she cannot be reached due to incorrect or missing contact data or
+- there is no consent.
+  The consent may be based on **Recruitment consent**, **Study consent** and/
+  or **Guardianship**.
+
 To delete the data and the subject, please proceed as follows:
 
 1.  Log in to Castellum by using your username and password
-    
+
     - Make sure you are connected to the WiFi and use your right username and
      password
-       
+
 2.  Click on **Subjects** on the front page
 
 3.  Write in the empty fields first name and surname of the subject to be
     deleted and click on **Submit**
-    
+
 4.  Click on **Details** and then **Delete** on the horizontal line
 
 5.  Confirm that **you want to permanently delete this subject and all related
