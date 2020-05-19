@@ -28,9 +28,9 @@ consents must be obtained separately from the respective study conducters
 Updating the Consent Documents
 -------------------------------
 
-It is possible for a consent document to become invalid because of 
-- a change in the legislation
-- a present date on which the validity expires
+It is possible for a consent document to become invalid because 
+- the legislation has changed
+- the document has expired
 - ...
 
 1. There are two options you may implement when a consent document becomes invalid
@@ -39,8 +39,8 @@ It is possible for a consent document to become invalid because of
    the status for has been created
    
 1.1. The consent form can be marked as **Is deprecated** AND **Is valid**
-     - This can be considered as an intermediate step between the validity and
-       invalidity of a consent document
+     - **Is deprecated** can be considered as an intermediate step between the
+       validity and invalidity of a consent document
      - with this option, the subjects may remain in the database and may be recruited
        but a new consent document should be obtained soon
      
