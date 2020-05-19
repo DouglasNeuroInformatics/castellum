@@ -14,12 +14,12 @@ consents must be obtained separately from the respective study conducters
 
 1. Log in to Castellum by using your username and password
 
-   - Make sure you are connected to the WiFi and use your right username and
+   - Make sure you are connected to the Internet and use your right username and
      password
      
 2. Click on **Admin** on the front page
 
-3. Scroll all the way down and press **Consent documents**
+3. Scroll all the way down and click on **Consent documents**
    
    - You will see a list of all consent documents that have been created
    - Additional information displayed is the date of creation and whether the
@@ -33,38 +33,38 @@ It is possible for a consent document to become invalid because of
 - a present date on which the validity expires
 - ...
 
-A) There are two options you may implement when a consent document becomes invalid
+1. There are two options you may implement when a consent document becomes invalid
    For both options first go to **Admin** on the front page > **Consent documents**
    in the last section > click on the date the consent document you want to change
    the status for has been created
    
-1. The consent form can be marked as **Is deprecated** AND **Is valid**
-   - This can be considered as an intermediate step between the validity and
-     invalidity of a consent document
-   - with this option, the subjects may remain in the database and may be recruited
-     but a new consent document should be obtained soon
+1.1. The consent form can be marked as **Is deprecated** AND **Is valid**
+     - This can be considered as an intermediate step between the validity and
+       invalidity of a consent document
+     - with this option, the subjects may remain in the database and may be recruited
+       but a new consent document should be obtained soon
      
-2. If you uncheck the box saying **Is valid** but leave the check in the box stating
-   **Is deprecated**, the consent document is generally marked as no longer valid
-   - If the invalidity of the consent is saved, there is no longer consent for
-     the recruitment of a subject in the database
+1.2. If you uncheck the box saying **Is valid** but leave the check in the box stating
+     **Is deprecated**, the consent document is generally marked as no longer valid
+     - If the invalidity of the consent is saved, there is no longer consent for
+       the recruitment of a subject in the database
 This does not apply when the **Legal basis for data processing** is a **Study
 consent** or **Guardianship**.
 You can see the legal basis for data processing for each subject individually by
 following the instructions below:
 
    - Click on **Subjects** on the front page
-   - Type in the first and last name of the subject and press **Submit**
+   - Type in the first and last name of the subject and click on **Submit**
    - Click on **details** next to the subject
    - In the tab **Overview** you can see the three possibilities for consent and
      which of them apply to the respective subject
 
 
-B) If you wish to upload a consent document that is currently valid, proceed as
+2. If you wish to upload a consent document that is currently valid, proceed as
    follows:
    
    - Click on **Admin** on the front page
-   - Scroll down and press **Consent documents**
+   - Scroll down and click on **Consent documents**
    - Click **ADD CONSENT DOCUMENT** (grey oval on the upper right)
    - Select a file
    - Choose one of the three saving options
@@ -73,9 +73,9 @@ B) If you wish to upload a consent document that is currently valid, proceed as
 Deletion of a Consent Document
 ------------------------------
 1. Click on **Admin** on the front page
-2. Scroll down and press **Consent documents**
-3. Choose the consent document to be deleted
-4. Press **Delete**
+2. Scroll down and click on **Consent documents**
+3. Click on the consent document to be deleted
+4. Click on **Delete**
 5. Confirm the question regarding the deletion of the consent document by clicking
    **Yes, I'm sure**
 
@@ -95,7 +95,7 @@ required, proceed as follows:
 
 4. Click on **Details** next to **Last updated on: XY**
 
-   - A new window will open for each subject for whom consent is no longer valid
+   - A new tab will open for each subject for whom consent is deprecated or invalid
 
 5. Go to **Data protection** (fourth tab)
 
