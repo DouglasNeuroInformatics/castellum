@@ -945,7 +945,7 @@ msgstr "Rekrutierung für"
 #: castellum/recruitment/templates/recruitment/calendar.html:12
 #: castellum/recruitment/templates/recruitment/calendar.html:13
 msgid "Feed"
-msgstr ""
+msgstr "Feed"
 
 #: castellum/recruitment/templates/recruitment/contact.html:4
 #: castellum/recruitment/templates/recruitment/recruitment.html:4
@@ -985,10 +985,8 @@ msgstr "Gesprächspunkte"
 
 #: castellum/recruitment/templates/recruitment/contact.html:42
 #: castellum/recruitment/templates/recruitment/contact.html:176
-#, fuzzy
-#| msgid "Toggle navigation"
 msgid "blocking invitation"
-msgstr "Navigation umschalten"
+msgstr "blockiert die Einladung"
 
 #: castellum/recruitment/templates/recruitment/contact.html:43
 msgid "Criteria"
@@ -1018,6 +1016,8 @@ msgid ""
 "Participation cannot be set to \"invited\" yet. Please check the tabs marked "
 "with"
 msgstr ""
+"Die Teilnahme kann nicht auf \"eingeladen\" gesetzt werden. Bitte überprüfen "
+"Sie die Tabs mit dem folgenden Symbol:"
 
 #: castellum/recruitment/templates/recruitment/contact.html:189
 msgid "Execution URL"
@@ -2501,6 +2501,7 @@ msgstr "Zu einer beendeten Studie hinzufügen"
 #: castellum/subjects/templates/subjects/subject_search.html:38
 msgid "This list may be restricted based on your permissions."
 msgstr ""
+"Diese Liste ist möglicherweise basierend auf Ihren Rechten eingeschränkt."
 
 #: castellum/subjects/templates/subjects/subject_search.html:144
 msgid "Current data situation"
