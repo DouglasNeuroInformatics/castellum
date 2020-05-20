@@ -4,12 +4,12 @@ from model_bakery import baker
 from castellum.castellum_auth.models import User
 from castellum.contacts.models import Contact
 from castellum.contacts.routers import APP_LABEL
-from castellum.contacts.routers import ContactsRouter
+from castellum.contacts.routers import Router
 
 
 @pytest.fixture
 def router():
-    return ContactsRouter()
+    return Router()
 
 
 @pytest.mark.unittest

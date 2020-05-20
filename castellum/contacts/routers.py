@@ -19,24 +19,24 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-APP_LABEL = "contacts"
+APP_LABEL = 'contacts'
+DB_LABEL = 'contacts'
 
 
-class ContactsRouter:
+class Router:
     def db_for_read(self, model, **hints):
         if model._meta.app_label == APP_LABEL:
-            return APP_LABEL
+            return DB_LABEL
 
     def db_for_write(self, model, **hints):
-        if model._meta.app_label == APP_LABEL:
-            return APP_LABEL
+        return self.db_for_read(model, **hints)
 
     def allow_relation(self, obj1, obj2, **hints):
-        if obj1._meta.app_label == obj2._meta.app_label and obj1._meta.app_label == APP_LABEL:
+        if obj1._meta.app_label == APP_LABEL and obj2._meta.app_label == APP_LABEL:
             return True
 
     def allow_migrate(self, db, app_label, **hints):
-        if db == APP_LABEL:
+        if db == DB_LABEL:
             return app_label == APP_LABEL
         elif app_label == APP_LABEL:
             return False

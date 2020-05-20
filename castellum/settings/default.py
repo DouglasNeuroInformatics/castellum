@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'castellum.wsgi.application'
 
 
 DATABASE_ROUTERS = [
-    'castellum.contacts.routers.ContactsRouter',
+    'castellum.contacts.routers.Router',
 ]
 
 # Password validation
