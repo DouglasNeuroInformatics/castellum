@@ -4,11 +4,12 @@
 {% block title %}{% trans "Subjects" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <form method="get">
+    <form method="post">
         {% for error in form.non_field_errors %}
             <p class="alert alert-danger" role="alert">{{ error }}</p>
         {% endfor %}
 
+        {% csrf_token %}
         {% bootstrap_field form.search %}
 
         <div class="mb-4">
@@ -22,17 +23,17 @@
 
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link {{ is_post|yesno:',active' }}" id="matches-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="matches" aria-selected="{{ is_post|yesno:'false,true' }}">{% trans "Matches" %}</a>
+                <a class="nav-link active" id="matches-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="matches" aria-selected="true">{% trans "Matches" %}</a>
             </li>
             {% if can_add_contact and form.cleaned_data.last_name %}
                 <li class="nav-item">
-                    <a class="nav-link {{ is_post|yesno:'active,' }}" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create" aria-selected="{{ is_post|yesno:'true,false' }}">{% trans "Create" %}</a>
+                    <a class="nav-link" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create">{% trans "Create" %}</a>
                 </li>
             {% endif %}
         </ul>
 
         <div class="tab-content mb-3 border border-top-0 p-3">
-            <div class="tab-pane {{ is_post|yesno:',active' }}" id="matches" role="tabpanel" aria-labelledby="matches-tab">
+            <div class="tab-pane active" id="matches" role="tabpanel" aria-labelledby="matches-tab">
                 <ul class="table-list">
                     {% if not can_view_contact %}
                         <p class="alert alert-warning">{% trans 'This list may be restricted based on your permissions.' %}</p>
@@ -114,7 +115,7 @@
             </div>
 
             {% if can_add_contact and form.cleaned_data.last_name %}
-                <div class="tab-pane {{ is_post|yesno:'active,' }}" id="create" role="tabpanel" aria-labelledby="create-tab">
+                <div class="tab-pane" id="create" role="tabpanel" aria-labelledby="create-tab">
                     <form method="post">
                         {% for error in privacy_level_form.non_field_errors %}
                             <p class="alert alert-danger" role="alert">{{ error }}</p>
@@ -128,6 +129,7 @@
                             <dd>{{ form.cleaned_data.last_name }}</dd>
                         </dl>
                         {% bootstrap_field privacy_level_form.privacy_level %}
+                        {{ form.search.as_hidden }}
                         <button class="btn btn-primary">{% trans "Create new subject" %}</button>
                     </form>
                 </div>

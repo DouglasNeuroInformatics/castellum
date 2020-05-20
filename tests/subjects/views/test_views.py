@@ -9,21 +9,6 @@ from castellum.contacts.models import Contact
 @pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
-    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
-    'subject_manager',
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
-])
-def test_create_200(request, client, user_fixture):
-    user = request.getfixturevalue(user_fixture)
-    client.force_login(user)
-    url = '/subjects/'
-    response = client.post(url)
-    assert response.status_code == 200
-
-
-@pytest.mark.smoketest
-@pytest.mark.parametrize('user_fixture', [
-    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     'recruiter',
     'subject_manager',
     'data_protection_coordinator',
