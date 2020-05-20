@@ -27,5 +27,6 @@ setup(
         "psycopg2-binary==2.8.5",
         "python-dateutil==2.8.1",
         "simplecharts==0.0.2",
+        "geopy==1.22.0",
     ],
 )
