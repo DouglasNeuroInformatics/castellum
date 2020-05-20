@@ -1,0 +1,25 @@
+{% extends "base_with_breadcrumbs.html" %}
+{% load i18n %}
+
+{% block title %}{% trans 'Reception' %} &middot; {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'execution:reception' %}">{% trans "Reception" %}</a></li>
+{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Today's appointments" %}</h1>
+
+    <ul class="table-list">
+        {% for appointment in object_list %}
+            <li class="table-list-item">
+                {{ appointment.start|time }}
+                <span class="h4 d-inline-block mx-1">{{ appointment.participant.subject.contact.full_name }}</span>
+                {{ appointment.participant.study }}
+                {{ appointment.participant.study.contact_person }}
+            </li>
+        {% empty %}
+            <li class="alert alert-info">{% trans 'No appointments today' %}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
@@ -26,6 +28,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import FormView
+from django.views.generic import ListView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
@@ -34,6 +37,7 @@ from castellum.pseudonyms.helpers import get_subject
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.mixins import BaseCalendarView
 from castellum.recruitment.mixins import ParticipationRequestMixin
+from castellum.recruitment.models import Appointment
 from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
@@ -161,3 +165,15 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
 
     def get_appointments(self):
         return super().get_appointments().filter(session__study=self.object)
+
+
+class ReceptionView(PermissionRequiredMixin, ListView):
+    model = Appointment
+    template_name = 'execution/reception.html'
+    permission_required = 'recruitment.search_execution'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            participant__status=ParticipationRequest.INVITED,
+            start__date=datetime.date.today(),
+        ).order_by('start')
