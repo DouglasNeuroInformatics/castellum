@@ -56,7 +56,7 @@ reasons:
     -   The study must be discontinued permanently.
     -   ...
 
-Before you delete the study, make sure all external data from Castellum is deleted.
+Before you delete the study, make sure all external data from Castellum is deleted
 
 Deleting the study
 ------------------
