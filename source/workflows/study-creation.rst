@@ -30,9 +30,7 @@ Study Coordination: Creating a new study
 
 5. Select the type of study you are going to use
 
-   - You may choose between studies such as a **Simulation**, an **EEG** study,
-     a **3rd Party** study, a study that takes place **Online**, **Behavioral
-     lab** or a **MRI** study
+   - You may choose between several study types
    - Decide whether the study **Contains sensitive data** or not
 
 6. Upload the **Consent** form(-s) of your study
