@@ -5,8 +5,7 @@ Recruitment of participants for a study
 
 2.  Click on **Studies** on the front page
 
-    - When you click on **All studies**, a list of all studies will be shown to
-      you.
+    When you click on **All studies**, a list of all studies will be shown to you.
 
 3.  Click on **Recruitment** next to the study you want to recruit subjects for
 
@@ -84,8 +83,8 @@ To delete the data and the subject, please proceed as follows:
 
 1.  Log in to Castellum by using your username and password
 
-    - Make sure you are connected to the WiFi and use your right username and
-     password
+    Make sure you are connected to the internet and use your right username and
+    password
 
 2.  Click on **Subjects** on the front page
 
