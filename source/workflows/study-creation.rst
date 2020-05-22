@@ -2,6 +2,7 @@ Study Coordination: Creating a new study
 ========================================
 
 1. Log in to Castellum by using your username and password
+   
    Make sure you are connected to the internet and use your right username and
    password
 
