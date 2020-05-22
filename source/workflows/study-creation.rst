@@ -100,10 +100,10 @@ In order to limit the search for subjects in Castellum,
     - select **Advanced filtering** and
     - click on **Save**
 
-    - When you click on **Add new** in **Filters**, you are able to set another
-      filter group with specific filters
-      (This is necessary, for example, if you need subjects both at the age
-      between 20-30 and 50-60)
+    When you click on **Add new** in **Filters**, you are able to set another
+    filter group with specific filters
+    (This is necessary, for example, if you need subjects both at the age between
+    20-30 and 50-60)
 
 5.  In **Excluded studies** you can select certain studies in which your
     subjects must not have participated
@@ -154,13 +154,12 @@ participants for your study, please follow the steps below.
 
 1.  Log in to Castellum by using your username and password
 
-    - Make sure you are connected to the WiFi and use your right username and
-      password
+    Make sure you are connected to the WiFi and use your right username and
+    password
 
 2.  Click on **Studies** on the front page
 
-    - You will see a list of the studies you have created by clicking on **My
-      studies**
+    You will see a list of the studies you have created by clicking on **My studies**
 
 3.  Click on **Details** of the study for which you want to change access rights
     or role redistribution
@@ -178,8 +177,8 @@ participants for your study, please follow the steps below.
 
 9.  Select **Recruiter** and click on **Save**
 
-    - If you did not start the study yet, the selected person has still no
-      access to the study, unless you click on **Start** on the upper left side
+    If you did not start the study yet, the selected person has still no
+    access to the study, unless you click on **Start** on the upper left side
 
 The study is now in progress and the recruiter has now access to the study and can
 begin to recruit.
