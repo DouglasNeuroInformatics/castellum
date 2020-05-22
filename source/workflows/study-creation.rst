@@ -37,16 +37,18 @@ Study Coordination: Creating a new study
 
 7. Assign the **Required number of subjects** to your study
 
-8. Enter as many **Test sessions** as you like by clicking on **Add session**
+8. Define the **Expense allowance**
+
+9. Enter as many **Test sessions** as you like by clicking on **Add session**
 
    - When adding a test session, always specify the **Duration of a session in
      minutes**
    - By clicking on the red button **Delete**, you can erase any test session you
      created
 
-9. Define both the **Start of test sessions** and the **End of test sessions**
+10. Define both the **Start of test sessions** and the **End of test sessions**
 
-10. Click on **Save** to record your progress
+11. Click on **Save** to record your progress
 
 Now you can find your study in the list
 
