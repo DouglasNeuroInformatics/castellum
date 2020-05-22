@@ -181,9 +181,9 @@ participants for your study, please follow the steps below.
     If you did not start the study yet, the selected person has still no
     access to the study, unless you click on **Start** on the upper left side
 
-The study is now in progress and the recruiter has now access to the study and can
-begin to recruit.
-Of course, you may select several persons as recruiters.
+    .. note::
+       The study is now in progress and the recruiter has now access to the study
+       and can begin to recruit. Of course, you may select several persons as recruiters.
 
 
 Assign access rights and allocate roles
@@ -199,11 +199,12 @@ To delegate roles amongst different people, proceed as follows:
 2.  Select the user for whom you want to change access rights and/or
     roles and click **Add**
 
-    Some users are already assigned to certain global roles in advance.
-    This can be recognized by the fact that the role description is highlighted in grey.
-
-    Roles with blue background can be flexibly defined and changed by the **Study
-    coordinator**.
+    .. note::
+       Some users are already assigned to certain global roles in advance.
+       This can be recognized by the fact that the role description is highlighted
+       in grey.
+       Roles with blue background can be flexibly defined and changed by the **Study
+       coordinator**.
 
 3.  After clicking **Manage groups** next to the selected person, you can assign
     up to six different roles for the specific study: **Study coordinator**,
