@@ -33,8 +33,7 @@ please proceed as follows:
 
 4.1. When you see a message saying **Are you sure you want to permanently delete this subject and all related data?**, click on **Confirm** and the subject will be deleted
 
-4.2. If you see a message saying **This subject cannot be deleted because there
-     still is data about them in studies.**, proceed as follows:
+4.2. If you see a message saying **This subject cannot be deleted because there still is data about them in studies.**, proceed as follows:
 
    - Go to the responsible person of the study
    - Ask the responsible person to delete all collected data of the subject concerned
