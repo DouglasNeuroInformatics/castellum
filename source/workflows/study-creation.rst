@@ -112,7 +112,7 @@ In order to limit the search for subjects in Castellum,
     subject characteristics that should be verified during the recruitment process**
 
     .. note::
-    If it is a MRI-study, the criteria are pre-set for checking during recruitment
+       If it is a MRI-study, the criteria are pre-set for checking during recruitment
 
 7.  If recruitment is to take place by e-mail or if information is to be sent by
     e-mail in addition to telephone contact, proceed as follows:
