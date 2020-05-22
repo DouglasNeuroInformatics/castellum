@@ -19,24 +19,24 @@ please proceed as follows:
 
 1.  Log in to Castellum by using your username and password
 
-    - Please make sure you are connected to the WiFi and use your right username
-      and password
+    Please make sure you are connected to the WiFi and use your right username
+    and password
 
 2.  Click on **Data protection** on the front page
 
-    - If the data of a subject should be deleted, you will find the subject
-      assigned to one or more deletion options
+    If the data of a subject should be deleted, you will find the subject assigned
+    to one or more deletion options
 
 3.  Click on **Details** next to the subject to be deleted
 
 4.  Click on **Delete** on the upper right
 
-a) When you see a message saying **Are you sure you want to permanently delete
-   this subject and all related data?**, click on **Confirm** and the subject will
-   be deleted
+4.1. When you see a message saying **Are you sure you want to permanently delete
+     this subject and all related data?**, click on **Confirm** and the subject 
+     will be deleted
 
-b) If you see a message saying **This subject cannot be deleted because there still
-   is data about them in studies.**, proceed as follows:
+4.2. If you see a message saying **This subject cannot be deleted because there
+     still is data about them in studies.**, proceed as follows:
 
    - Go to the responsible person of the study
    - Ask the responsible person to delete all collected data of the subject concerned
