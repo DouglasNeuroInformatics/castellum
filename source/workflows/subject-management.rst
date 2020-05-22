@@ -31,8 +31,8 @@ In order to create a potential subject in Castellum, please proceed as follows:
 
 1.  Log in to Castellum by using your username and password
 
-    - Please make sure you are connected to the WiFi and use your right username
-      and password
+    Please make sure you are connected to the WiFi and use your right username
+    and password
 
 2.  Click on **Subjects** on the front page
 
@@ -45,13 +45,9 @@ In order to create a potential subject in Castellum, please proceed as follows:
 
 4.  Click on **Submit**
 
-    a) If there is a **Match** found, the subject is already created in the database
-       - You may edit or add information by clicking on **Details** next to the subject
+4.1. If there is a **Match** found, the subject is already created in the database. You may edit or add information by clicking on **Details** next to the subject
 
-    b) If **No matches can be found**, click on **Create**
-       - If you notice that you made a spelling mistake with the names, please do not
-         go back and create the person again, but change the name in the following
-         process
+4.2. If **No matches can be found**, click on **Create**. If you notice that you made a spelling mistake with the names, please do not go back and create the person again, but change the name in the following process
 
 5.  Define the **Privacy level**
 
@@ -61,7 +57,7 @@ In order to create a potential subject in Castellum, please proceed as follows:
 
 6.  Click on **Create new subject**
 
-    - In this tab, different legal basis for consent can be found
+    In this tab, different legal basis for consent can be found
 
 7.  Add the consent that applies:
     - **Recruitment consent**,
@@ -75,11 +71,9 @@ In order to create a potential subject in Castellum, please proceed as follows:
     - Define the **Gender** of the person
     - Fill in the **Date of birth**
 
-    a) If the person is of an adult age, select **Full of age** and continue with
-       step 7
+8.1. If the person is of an adult age, select **Full of age** and continue with step 7
 
-    b) If the person is not of an adult age or has a guardian for example due to
-       a disability or illness, select **Has legal guardian** > **Add guardian**
+8.2. If the person is not of an adult age or has a guardian for example due to a disability or illness, select **Has legal guardian** > **Add guardian**
 
        - A new window will open
        - Fill in the first and last name of the subject's legal guardian > **Submit**
@@ -119,8 +113,8 @@ In order to create a potential subject in Castellum, please proceed as follows:
 12.  You may also want to select whether the subject is **Hard of hearing**,
      **Difficult to understand** or uses **Abusive language**
 
-     - It is also possible to **Add a note** on your own
-       Please be aware that the use of note fields should be very sparing
+     It is also possible to **Add a note** on your own
+     Please be aware that the use of note fields should be very sparing
 
 13. Define from which **Data source** the data comes from and click on **Save**
 
