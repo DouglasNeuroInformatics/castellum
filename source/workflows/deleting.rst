@@ -8,9 +8,8 @@ The subject data of a subject should be completely deleted because of four
 different reasons:
 
 -   the subject either requested it,
--   it no longer makes sense to keep them in the database,
 -   they cannot be reached due to incorrect or missing contact data or
--   there is no consent.
+-   there is no legal basis for consent.
 
 Deletion of externally and internally stored data
 -------------------------------------------------
