@@ -19,7 +19,7 @@ please proceed as follows:
 
 1.  Log in to Castellum by using your username and password
 
-    Please make sure you are connected to the WiFi and use your right username
+    Please make sure you are connected to the internet and use your right username
     and password
 
 2.  Click on **Data protection** on the front page
