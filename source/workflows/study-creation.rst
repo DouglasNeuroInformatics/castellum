@@ -111,6 +111,7 @@ In order to limit the search for subjects in Castellum,
 6.  When you click on **Inclusion/exclusion criteria**, you can add **Additional
     subject characteristics that should be verified during the recruitment process**
 
+    .. note::
     If it is a MRI-study, the criteria are pre-set for checking during recruitment
 
 7.  If recruitment is to take place by e-mail or if information is to be sent by
