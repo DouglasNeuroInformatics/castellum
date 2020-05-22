@@ -2,9 +2,8 @@ Study Coordination: Creating a new study
 ========================================
 
 1. Log in to Castellum by using your username and password
-
-   - Make sure you are connected to the WiFi and use your right username and
-     password
+   Make sure you are connected to the WiFi and use your right username and
+   password
 
 2. Click on **Studies** on the front page
 
