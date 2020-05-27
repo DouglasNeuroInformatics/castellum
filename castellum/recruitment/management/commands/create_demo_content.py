@@ -241,7 +241,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--study-count', default=5, type=int)
-        parser.add_argument('--subject-count', default=2000, type=int)
+        parser.add_argument('--subject-count', default=5, type=int)
 
     def handle(self, *args, **options):
         if settings.PRODUCTION:
