@@ -97,8 +97,8 @@ To delete the data and the subject, please proceed as follows:
     data**
 
     .. note::
-       The subject is now cleared for deletion from the database and deletion of
-       their associated data. The data protection officer will take care of final
-       deletion
-       Please note that there may still be data stored in the backup even though
+      The subject is now cleared for deletion from the database and deletion of
+      their associated data. The data protection officer will take care of final
+      deletion
+      Please note that there may still be data stored in the backup even though
       the person was deleted from Castellum

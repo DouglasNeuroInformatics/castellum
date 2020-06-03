@@ -1,0 +1,197 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2019, Goettel et al.
+# This file is distributed under the same license as the castellum-docs
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: castellum-docs \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-03 15:22+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.7.0\n"
+
+#: ../../source/workflows/deleting.rst:2
+msgid "Data Protection: Deleting a subject from Castellum"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:5 ../../source/workflows/deleting.rst:49
+msgid "Prerequisite"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:7
+msgid ""
+"The subject data of a subject should be completely deleted because of "
+"four different reasons:"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:10
+msgid "the subject either requested it,"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:11
+msgid "they cannot be reached due to incorrect or missing contact data or"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:12
+msgid "there is no legal basis for consent."
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:15
+msgid "Deletion of externally and internally stored data"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:17
+msgid ""
+"In order to delete the externally and internally stored data of a "
+"subject, please proceed as follows:"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:20
+msgid "Log in to Castellum by using your username and password"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:22
+msgid ""
+"Please make sure you are connected to the internet and use your right "
+"username and password"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:25
+msgid "Click on **Data protection** on the front page"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:27
+msgid ""
+"If the data of a subject should be deleted, you will find the subject "
+"assigned to one or more deletion options"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:30
+msgid "Click on **Details** next to the subject to be deleted"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:32
+msgid "Click on **Delete** on the upper right"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:34
+msgid ""
+"4.1. When you see a message saying **Are you sure you want to permanently"
+" delete this subject and all related data?**, click on **Confirm** and "
+"the subject will be deleted"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:36
+msgid ""
+"4.2. If you see a message saying **This subject cannot be deleted because"
+" there still is data about them in studies.**, proceed as follows:"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:38
+msgid "Go to the responsible person of the study"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:39
+msgid ""
+"Ask the responsible person to delete all collected data of the subject "
+"concerned"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:40
+msgid ""
+"You can find the responsible person by clicking on **Study details** next"
+" to the study name the subject participated in"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:42
+msgid ""
+"Delete all of these study participations by clicking on **Delete** next "
+"to **Study details**"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:46
+msgid "Data Maintenance: Deleting a study from Castellum"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:51
+msgid ""
+"A study should be completely deleted because of one or more of the "
+"following reasons:"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:54
+msgid ""
+"The study is no longer current because it was completed five years or "
+"more ago."
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:56
+msgid "The study must be discontinued permanently."
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:57
+msgid "..."
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:59
+msgid ""
+"Before you delete the study, make sure all external data from Castellum "
+"is deleted"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:62
+msgid "Deleting the study"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:64
+msgid "Go to **Studies** on the front page"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:66
+msgid "Click on **All studies** to see all proposed studies"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:68
+msgid "Choose the study you want to delete by clicking on **Details** next to it"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:70
+msgid "Before clicking on **Delete**, proceed as follows:"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:72
+msgid ""
+"Go to the responsible person of the study and ask them to delete all "
+"collected subject data of the study you want to delete"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:74
+msgid ""
+"You can detect the name of the responsible person in the upper corner "
+"under the study name"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:77
+msgid ""
+"If all data has been deleted by the responsible person of the study, "
+"click on **Delete** under the study name"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:80
+msgid ""
+"Confirm the notice **I have made sure that all external data related to "
+"this study has been destroyed**"
+msgstr ""
+
+#: ../../source/workflows/deleting.rst:82
+msgid "Click on **Confirm**"
+msgstr ""
+

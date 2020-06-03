@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: castellum-docs \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-18 12:52+0200\n"
+"POT-Creation-Date: 2020-06-03 15:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -130,5 +130,15 @@ msgid ""
 "system across several databases on different servers or even in different"
 " organizations does not help much if there is still a single point of "
 "entry."
+msgstr ""
+
+#: ../../source/organizational/security.rst:73
+msgid "Monitoring"
+msgstr ""
+
+#: ../../source/organizational/security.rst:75
+msgid ""
+"In order to allow detecting suspicious behavior, critical actions such as"
+" search, deletion, or login attempts are logged to a separate log file."
 msgstr ""
 

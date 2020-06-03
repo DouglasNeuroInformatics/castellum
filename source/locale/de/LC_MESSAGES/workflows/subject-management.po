@@ -1,0 +1,334 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2019, Goettel et al.
+# This file is distributed under the same license as the castellum-docs
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: castellum-docs \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-03 15:22+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.7.0\n"
+
+#: ../../source/workflows/subject-management.rst:2
+msgid "Subject Management: Creating a subject in Castellum"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:5
+msgid "Prerequisite"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:7
+msgid ""
+"You have a person on the phone or their contact information and other "
+"important attributes are available. This person is interested in "
+"participating in studies at the MPIB."
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:11
+msgid ""
+"The information you need to create the subject in the database should "
+"include at least the following:"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:14
+msgid "**First name** and **Last name**,"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:15
+msgid "**Gender**,"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:16
+msgid "**Date of birth**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:17
+msgid ""
+"Information on whether the person is **Full of age** or **has legal "
+"guardian**, If the subject has a legal guardian, you will need to **Add "
+"guardian** (see instruction 8.b.)"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:20
+msgid ""
+"**E-mail** address and/or **Phone number** and/or full postal address or "
+"contacting details of the legal guardian,"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:22
+msgid "**Handedness**,"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:23
+msgid "**Language** (Mother tongue) and"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:24
+msgid "**Highest degree** (in educational manner)"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:26
+msgid ""
+"You can either ask for this information during a telephone call or you "
+"can transfer it from another source."
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:30
+msgid ""
+"In order to create a potential subject in Castellum, please proceed as "
+"follows:"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:32
+msgid "Log in to Castellum by using your username and password"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:34
+msgid ""
+"Please make sure you are connected to the internet and use your right "
+"username and password"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:37
+msgid "Click on **Subjects** on the front page"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:39
+msgid "Enter the first name and surname of the person"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:41
+msgid "The second first name can be specified, but does not have to be"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:42
+msgid "Keep the order as indicated"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:43
+msgid "First letters capitalized"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:44
+msgid "No comma needed"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:46
+msgid "Click on **Submit**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:48
+msgid ""
+"4.1. If there is a **Match** found, the subject is already created in the"
+" database. You may edit or add information by clicking on **Details** "
+"next to the subject"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:50
+msgid ""
+"4.2. If **No matches can be found**, click on **Create**. If you notice "
+"that you made a spelling mistake with the names, please do not go back "
+"and create the person again, but change the name in the following process"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:52
+msgid "Define the **Privacy level**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:54
+msgid "0 (regular) describes an adult person without extraordinary features"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:55
+msgid "1 (increased) indicates children or adults with a legal guardian"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:56
+msgid "2 (high) presents a famous personality and their children"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:58
+msgid "Click on **Create new subject**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:60
+msgid "In this tab, different legal basis for consent can be found"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:62
+msgid ""
+"Add the consent that applies: - **Recruitment consent**, - **Study "
+"consent** and/or - **Guardianship**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:67
+msgid "Click on **Contact**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:69
+msgid "Optionally you can enter the **Title** here"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:70
+msgid "You can edit the **First name** and **Last name**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:71
+msgid "Define the **Gender** of the person"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:72
+msgid "Fill in the **Date of birth**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:74
+msgid ""
+"8.1. If the person is of an adult age, select **Full of age** and "
+"continue with step 7"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:76
+msgid ""
+"8.2. If the person is not of an adult age or has a guardian for example "
+"due to a disability or illness, select **Has legal guardian** > **Add "
+"guardian**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:78
+msgid "A new window will open"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:79
+msgid ""
+"Fill in the first and last name of the subject's legal guardian > "
+"**Submit**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:80
+msgid "If a **Match** is found, select it"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:81
+msgid ""
+"If **No matches found** applies, click **Create** > Enter necessary "
+"information in the fields provided > **Create new subject**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:85
+msgid ""
+"The legal guardian is now added. You can also create several guardians. "
+"By clicking on **Remove** next to the guardian's name, you can delete "
+"them as the guardian of the subject"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:89
+msgid "Click on **Save** and then on **Attributes**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:91
+msgid ""
+"Fill in the **Handedness**, **Language**, **Date of birth** and **Highest"
+" degree**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:93
+msgid ""
+"If the person **Does not want to participate in the following study "
+"types**, select one or more"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:95
+msgid "Click on **Save**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:97
+msgid ""
+"By clicking on **Additional Info**, you can define the **Availability** "
+"of the person"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:102
+msgid ""
+"Example: The person can be reached by phone between 9 and 11 a.m. on "
+"tuesdays."
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:104
+msgid "Click on **9** under **Tuesday**,"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:105
+msgid "Hold the Shift-button and"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:106
+msgid "Click on **11** under **Tuesday**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:108
+msgid "Below you can enter a point in time when a person is available again"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:112
+msgid "Example: The person is abroad for 6 months."
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:114
+msgid "Select **Not available until** today in 6 months"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:116
+msgid ""
+"You may also want to select whether the subject is **Hard of hearing**, "
+"**Difficult to understand** or uses **Abusive language**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:119
+msgid ""
+"It is also possible to **Add a note** on your own Please be aware that "
+"the use of note fields should be very sparing"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:122
+msgid ""
+"Define from which **Data source** the data comes from and click on "
+"**Save**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:124
+msgid ""
+"In **Study Participations** you can add any studies in which the subject "
+"has participated"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:127
+msgid ""
+"By clicking on **Finished studies**, a list of previous study "
+"participations is displayed"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:129
+msgid "Click **Add to finished study**"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:130
+msgid ""
+"Hold the **CTRL** key on your keyboard while pressing **F** to open the "
+"search function of the browser"
+msgstr ""
+
+#: ../../source/workflows/subject-management.rst:132
+msgid ""
+"When you found the study the subject participated in, click on **Add to "
+"study**"
+msgstr ""
+
