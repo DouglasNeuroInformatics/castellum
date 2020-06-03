@@ -3,6 +3,7 @@ image: alpine
 pages:
   script:
   - apk --no-cache add python3-dev
+  - apk --no-cache add py3-pip
   - pip3 install sphinx
   - pip3 install sphinx-rtd-theme
   - apk --no-cache add make
