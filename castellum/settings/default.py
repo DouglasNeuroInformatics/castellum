@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'castellum.studies',
     'castellum.contacts',
     'castellum.data_protection',
+    'castellum.geofilters',
 ]
 
 MIDDLEWARE = [
@@ -84,6 +85,7 @@ WSGI_APPLICATION = 'castellum.wsgi.application'
 
 DATABASE_ROUTERS = [
     'castellum.contacts.routers.Router',
+    'castellum.geofilters.routers.Router'
 ]
 
 # Password validation
