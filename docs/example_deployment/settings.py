@@ -49,3 +49,7 @@ INSTALLED_APPS.append('axes')
 AUTHENTICATION_BACKENDS.insert(0, 'axes.backends.AxesBackend')
 MIDDLEWARE.append('axes.middleware.AxesMiddleware')
 AXES_META_PRECEDENCE_ORDER = ['HTTP_X_REAL_IP']
+
+# Setup geofilters
+INSTALLED_APPS.append('castellum.geofilters')
+DATABASE_ROUTERS.append('castellum.geofilters.routers.Router')
