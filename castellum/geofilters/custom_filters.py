@@ -20,7 +20,6 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.db import models
-from django.db.models.functions import Concat
 
 from geopy.geocoders import Nominatim
 
@@ -29,11 +28,15 @@ from castellum.recruitment import filter_registry
 from castellum.geofilter.models import Geolocation
 
 
-@filter_registry.register('geofilter')
-def geofilter(**kwargs):
+def fetch_missing_geolocations():
     geolocator = Nominatim(user_agent="geofilter")
-    subject_pks = set()
-    for contact in Contact.objects.select_related('address'):
+    geolocations = set()
+    contacts = (
+        Contact.objects
+        .exclude(pk__in=Geolocation.objects.values('contact_id'))
+        .select_related('address')
+    )
+    for contact in contacts:
         full_address = ' '.join([
             contact.address.street,
             contact.address.house_number,
@@ -43,10 +46,25 @@ def geofilter(**kwargs):
 
         resolved = geolocator.geocode(full_address)
         if resolved:
-            Geolocation.objects.create(
+            geolocations.add(Geolocation(
                 contact=contact,
                 longitude=resolved.longitude,
                 latitude=resolved.latitude,
-            )
-            subject_pks.add(contact.subject_id)
-    return models.Q(pk__in=subject_pks)
+            ))
+    Geolocation.objects.bulk_create(geolocations)
+
+
+@filter_registry.register('dummy_geo_filter')
+def dummy_geo_filter(**kwargs):
+    fetch_missing_geolocations()
+
+    locations = Geolocation.objects.select_related('contact')
+    filtered = set()
+    for loc in locations:
+        # this is an example query. It doesn't do anything sensible.
+        if loc.longitude == 0 and loc.latitude == 0:
+            filtered.add(loc.contact.pk)
+    return models.Q(data__d1='foo', pk__in=filtered)
+
+
+    
