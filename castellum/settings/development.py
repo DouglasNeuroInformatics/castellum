@@ -51,4 +51,4 @@ CASTELLUM_DELETE_NOTIFICATION_TO = 'data-protection@example.com'
 
 # Setup geofilters
 INSTALLED_APPS.append('castellum.geofilters')
-DATABASE_ROUTERS.append('castellum.geofilters.routers.Router')
+APP_DB_ROUTER['geofilters'] = 'contacts'
