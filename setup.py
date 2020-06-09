@@ -13,7 +13,7 @@ setup(
 
     install_requires=[
         "cologne-phonetics==1.2.3",
-        "Django==3.0.7",
+        "Django==3.0.6",
         "django-bootstrap4==2.0.1",
         "django-ical==1.7.0",
         "django-npm==1.0.0",
