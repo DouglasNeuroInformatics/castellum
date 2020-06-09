@@ -19,7 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-APP_LABEL = 'geofilter'
+APP_LABEL = 'geofilters'
 DB_LABEL = 'contacts'
 
 

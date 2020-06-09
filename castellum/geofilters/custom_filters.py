@@ -25,7 +25,8 @@ from geopy.geocoders import Nominatim
 
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_registry
-from castellum.geofilter.models import Geolocation
+
+from .models import Geolocation
 
 
 def fetch_missing_geolocations():
