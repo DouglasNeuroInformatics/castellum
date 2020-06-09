@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.contrib.gis.geos import Point
+from django.contrib.gis.measure import D
 from django.db import models
 
 from castellum.recruitment import filter_registry
@@ -31,10 +33,7 @@ from .models import Geolocation
 def dummy_geo_filter(**kwargs):
     fetch_missing_geolocations()
 
-    locations = Geolocation.objects.select_related('contact')
-    filtered = set()
-    for loc in locations:
-        # this is an example query. It doesn't do anything sensible.
-        if loc.longitude == 0 and loc.latitude == 0:
-            filtered.add(loc.contact.pk)
-    return models.Q(data__d1='foo', pk__in=filtered)
+    center = Point(52.4685095, 13.3037248)
+    locations = Geolocation.objects.filter(point__distance_lt=(center, D(km=3)))
+    pks = locations.values_list('contact__subject_id', flat=True)
+    return models.Q(pk__in=list(pks))

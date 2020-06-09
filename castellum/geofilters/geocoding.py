@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.contrib.gis.geos import Point
+
 import requests
 
 from castellum.contacts.models import Contact
@@ -58,7 +60,6 @@ def fetch_missing_geolocations():
         if resolved:
             geolocations.add(Geolocation(
                 contact=contact,
-                longitude=resolved[0],
-                latitude=resolved[1],
+                point=Point(*resolved),
             ))
     Geolocation.objects.bulk_create(geolocations)

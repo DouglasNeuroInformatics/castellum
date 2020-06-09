@@ -19,13 +19,11 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.contrib.gis.db import models
 
 from castellum.contacts.models import Contact
 
 
 class Geolocation(models.Model):
-    longitude = models.FloatField(_("Longitude"))
-    latitude = models.FloatField(_("Latitude"))
+    point = models.PointField()
     contact = models.OneToOneField(Contact, on_delete=models.CASCADE)
