@@ -21,38 +21,10 @@
 
 from django.db import models
 
-from geopy.geocoders import Nominatim
-
-from castellum.contacts.models import Contact
 from castellum.recruitment import filter_registry
 
+from .geocoding import fetch_missing_geolocations
 from .models import Geolocation
-
-
-def fetch_missing_geolocations():
-    geolocator = Nominatim(user_agent="geofilter")
-    geolocations = set()
-    contacts = (
-        Contact.objects
-        .exclude(pk__in=Geolocation.objects.values('contact_id'))
-        .select_related('address')
-    )
-    for contact in contacts:
-        full_address = ' '.join([
-            contact.address.street,
-            contact.address.house_number,
-            contact.address.zip_code,
-            contact.address.city,
-        ])
-
-        resolved = geolocator.geocode(full_address)
-        if resolved:
-            geolocations.add(Geolocation(
-                contact=contact,
-                longitude=resolved.longitude,
-                latitude=resolved.latitude,
-            ))
-    Geolocation.objects.bulk_create(geolocations)
 
 
 @filter_registry.register('dummy_geo_filter')
