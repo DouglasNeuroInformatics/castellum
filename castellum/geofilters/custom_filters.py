@@ -66,6 +66,3 @@ def dummy_geo_filter(**kwargs):
         if loc.longitude == 0 and loc.latitude == 0:
             filtered.add(loc.contact.pk)
     return models.Q(data__d1='foo', pk__in=filtered)
-
-
-    

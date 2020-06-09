@@ -19,7 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
