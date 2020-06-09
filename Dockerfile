@@ -1,8 +1,8 @@
 FROM alpine
 
 ENV PYTHONUNBUFFERED 1
-ENV BUILDPKGS gcc musl-dev postgresql-dev openldap-dev cyrus-sasl-dev python3-dev gettext nodejs-npm py3-pip
-ENV RUNTIMEPKGS uwsgi uwsgi-python python3 openldap postgresql-libs libressl libmagic
+ENV BUILDPKGS gcc musl-dev postgresql-dev openldap-dev cyrus-sasl-dev python3-dev gettext nodejs-npm
+ENV RUNTIMEPKGS uwsgi uwsgi-python python3 py3-pip openldap postgresql-libs libressl libmagic
 
 RUN adduser -D -g '' uwsgi
 
