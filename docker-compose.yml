@@ -23,3 +23,11 @@ services:
       - "6671:5432"
     environment:
       POSTGRES_PASSWORD: "CHANGEME"
+  nominatim:
+    image: mediagis/nominatim
+    ports:
+      - "7070:8080"
+    volumes:
+      - ./nominatim:/data
+      - ./nominatim/postgresdata:/var/lib/postgresql/11/main
+    command: ["bash", "/app/start.sh"]
