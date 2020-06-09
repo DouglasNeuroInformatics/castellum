@@ -19,15 +19,34 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from geopy.geocoders import Nominatim
+import requests
 
 from castellum.contacts.models import Contact
 
 from .models import Geolocation
 
+NOMINATIM_URL = 'https://nominatim.openstreetmap.org/search'
+
+
+def geocode(address):
+    query = {
+        'country': address.country,
+        'city': address.city,
+        'street': '%s %s' % (address.street, address.house_number),
+        'limit': 1,
+        'format': 'json',
+    }
+    try:
+        r = requests.get(NOMINATIM_URL, query)
+        r.raise_for_status()
+        data = r.json()
+        return float(data[0]['lat']), float(data[0]['lon'])
+    except:
+        # FIXME: error handling
+        pass
+
 
 def fetch_missing_geolocations():
-    geolocator = Nominatim(user_agent="geofilter")
     geolocations = set()
     contacts = (
         Contact.objects
@@ -35,18 +54,11 @@ def fetch_missing_geolocations():
         .select_related('address')
     )
     for contact in contacts:
-        full_address = ' '.join([
-            contact.address.street,
-            contact.address.house_number,
-            contact.address.zip_code,
-            contact.address.city,
-        ])
-
-        resolved = geolocator.geocode(full_address)
+        resolved = geocode(contact.address)
         if resolved:
             geolocations.add(Geolocation(
                 contact=contact,
-                longitude=resolved.longitude,
-                latitude=resolved.latitude,
+                longitude=resolved[0],
+                latitude=resolved[1],
             ))
     Geolocation.objects.bulk_create(geolocations)
