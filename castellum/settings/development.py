@@ -51,4 +51,5 @@ CASTELLUM_DELETE_NOTIFICATION_TO = 'data-protection@example.com'
 
 # Setup geofilters
 INSTALLED_APPS.append('castellum.geofilters')
+INSTALLED_APPS.append('castellum.geofilters-example')
 NOMINATIM = {'user_agent': 'castellum'}
