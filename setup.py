@@ -28,4 +28,7 @@ setup(
         "python-dateutil==2.8.1",
         "simplecharts==0.0.2",
     ],
+    extras_require={
+        "geofilters": ["geopy==1.22.0"],
+    },
 )
