@@ -88,6 +88,7 @@ DATABASE_ROUTERS = [
 
 APP_DB_ROUTER = {
     'contacts': 'contacts',
+    'geofilters': 'contacts',
 }
 
 # Password validation
