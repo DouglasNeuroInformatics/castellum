@@ -31,17 +31,6 @@ def test_db_for_write(router, model, expected):
 
 
 @pytest.mark.unittest
-@pytest.mark.parametrize("obj1,obj2,expected", [
-    (baker.prepare(Contact), baker.prepare(Contact), True),
-    (baker.prepare(Contact), baker.prepare(User), None),
-    (baker.prepare(User), baker.prepare(Contact), None),
-    (baker.prepare(User), baker.prepare(User), None),
-])
-def test_allow_relation(router, obj1, obj2, expected):
-    assert expected == router.allow_relation(obj1, obj2)
-
-
-@pytest.mark.unittest
 @pytest.mark.parametrize("db,app_label,expected", [
     (APP_LABEL, APP_LABEL, True),
     ("default", APP_LABEL, False),

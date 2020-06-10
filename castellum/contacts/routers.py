@@ -31,10 +31,6 @@ class Router:
     def db_for_write(self, model, **hints):
         return self.db_for_read(model, **hints)
 
-    def allow_relation(self, obj1, obj2, **hints):
-        if obj1._meta.app_label == APP_LABEL and obj2._meta.app_label == APP_LABEL:
-            return True
-
     def allow_migrate(self, db, app_label, **hints):
         if db == DB_LABEL:
             return app_label == APP_LABEL
