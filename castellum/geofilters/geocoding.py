@@ -49,7 +49,7 @@ def geocode(address):
 
 
 def fetch_missing_geolocations():
-    geolocations = set()
+    geolocations = []
     contacts = (
         Contact.objects
         .exclude(pk__in=Geolocation.objects.values('contact_id'))
@@ -58,7 +58,7 @@ def fetch_missing_geolocations():
     for contact in contacts:
         resolved = geocode(contact.address)
         if resolved:
-            geolocations.add(Geolocation(
+            geolocations.append(Geolocation(
                 contact=contact,
                 point=Point(*resolved),
             ))
