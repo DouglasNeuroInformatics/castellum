@@ -143,6 +143,7 @@ def study_filters(study, include_unknown=None):
 
 def geofilter(study):
     feature = json.load(study.geo_filter)
+    study.geo_filter.seek(0)
     polygon = GEOSGeometry(json.dumps(feature['geometry']))
     locations = Geolocation.objects.filter(point__within=polygon)
     pks = locations.values_list('contact__subject_id', flat=True)
