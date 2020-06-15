@@ -157,11 +157,17 @@ def completeness_expr():
     return completeness, total
 
 
-def study(study, include_unknown=None):
-    """Combine all filters related to ``study``."""
+def study_except_filters(study):
     q = models.Q()
     q &= study_exclusion(study)
     q &= study_disinterest(study)
-    q &= study_filters(study, include_unknown=include_unknown)
     q &= to_be_deleted()
     return q
+
+
+def study(study, include_unknown=None):
+    """Combine all filters related to ``study``."""
+    return (
+        study_filters(study, include_unknown=include_unknown)
+        & study_except_filters(study)
+    )
