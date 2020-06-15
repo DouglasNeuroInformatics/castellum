@@ -123,6 +123,17 @@ class Study(models.Model):
         default=False,
     )
     custom_filter = models.CharField(_('Custom filter'), max_length=254, blank=True)
+    geo_filter = RestrictedFileField(
+        _('Geo filter file'),
+        help_text=_(
+            'A GeoJSON file that contains only a single (multi)polygon. '
+            'Only subjects who live inside this polygon will be considered for this study.'
+        ),
+        blank=True,
+        upload_to='studies/geofilters/',
+        content_types=['application/json', 'text/plain'],
+        max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
+    )
     is_exclusive = models.BooleanField(
         _('Exclusive subjects'),
         help_text=_(

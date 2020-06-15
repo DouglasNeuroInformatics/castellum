@@ -8,5 +8,6 @@ def test_iter_file_fields():
             fields.append('%s.%s' % (model._meta.label, field.name))
     assert fields == [
         'subjects.ConsentDocument.file',
+        'studies.Study.geo_filter',
         'studies.Study.consent',
     ]
