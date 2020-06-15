@@ -173,7 +173,7 @@ def study_except_filters(study):
     q &= study_exclusion(study)
     q &= study_disinterest(study)
     q &= to_be_deleted()
-    if study.geo_filter:
+    if 'castellum.geofilters' in settings.INSTALLED_APPS and study.geo_filter:
         q &= geofilter(study)
     return q
 
