@@ -141,12 +141,21 @@ def study_filters(study, include_unknown=None):
     return q
 
 
-def geofilter(study):
+def geofilter(study, include_unknown=None):
+    if include_unknown is None:
+        include_unknown = not study.complete_matches_only
+
     feature = json.load(study.geo_filter)
     polygon = GEOSGeometry(json.dumps(feature['geometry']))
-    locations = Geolocation.objects.filter(point__within=polygon)
-    pks = locations.values_list('contact__subject_id', flat=True)
-    return models.Q(pk__in=list(pks))
+
+    if include_unknown:
+        locations = Geolocation.objects.exclude(point__within=polygon)
+        pks = locations.values_list('contact__subject_id', flat=True)
+        return ~models.Q(pk__in=list(pks))
+    else:
+        locations = Geolocation.objects.filter(point__within=polygon)
+        pks = locations.values_list('contact__subject_id', flat=True)
+        return models.Q(pk__in=list(pks))
 
 
 def completeness_expr():
@@ -168,13 +177,13 @@ def completeness_expr():
     return completeness, total
 
 
-def study_except_filters(study):
+def study_except_filters(study, include_unknown=None):
     q = models.Q()
     q &= study_exclusion(study)
     q &= study_disinterest(study)
     q &= to_be_deleted()
     if 'castellum.geofilters' in settings.INSTALLED_APPS and study.geo_filter:
-        q &= geofilter(study)
+        q &= geofilter(study, include_unknown=include_unknown)
     return q
 
 
@@ -182,5 +191,5 @@ def study(study, include_unknown=None):
     """Combine all filters related to ``study``."""
     return (
         study_filters(study, include_unknown=include_unknown)
-        & study_except_filters(study)
+        & study_except_filters(study, include_unknown=include_unknown)
     )
