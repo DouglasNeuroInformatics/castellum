@@ -66,7 +66,13 @@ class StudyRecruitmentSettingsUpdateView(
     StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
 ):
     model = Study
-    fields = ('advanced_filtering', 'recruitment_text', 'is_exclusive', 'complete_matches_only')
+    fields = (
+        'advanced_filtering',
+        'recruitment_text',
+        'is_exclusive',
+        'complete_matches_only',
+        'geo_filter',
+    )
     permission_required = 'studies.change_study'
     template_name = 'studies/study_recruitmentsettings_form.html'
     tab = 'recruitmentsettings'

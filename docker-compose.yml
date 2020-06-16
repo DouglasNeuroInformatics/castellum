@@ -18,7 +18,7 @@ services:
     environment:
       POSTGRES_PASSWORD: "CHANGEME"
   db_contacts:
-    image: postgres
+    image: postgis/postgis
     ports:
       - "6671:5432"
     environment:

@@ -3,7 +3,7 @@ services:
   - docker:dind
   - name: postgres:latest
     alias: db_default
-  - name: postgres:latest
+  - name: postgis/postgis:latest
     alias: db_contacts
 
 stages:
@@ -14,7 +14,7 @@ stages:
 
 variables:
   PYTHON_IMAGE: python:3.6
-  PYTHON_IMAGE_DEPENDENCIES: "python3-dev libldap-2.4-2 libldap2-dev libsasl2-dev npm hunspell hunspell-de-de"
+  PYTHON_IMAGE_DEPENDENCIES: "python3-dev libldap-2.4-2 libldap2-dev libsasl2-dev npm hunspell hunspell-de-de libproj-dev gdal-bin"
   CONTAINER_TEST_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:$CI_COMMIT_REF_NAME
   CONTAINER_RELEASE_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
   DJANGO_SETTINGS_MODULE: "castellum.settings.gitlab"

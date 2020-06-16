@@ -53,8 +53,7 @@ class SubjectFilterGroup(models.Model):
 
     def get_matches(self):
         return Subject.objects.filter(
-            filter_queries.study_exclusion(self.study),
-            filter_queries.study_disinterest(self.study),
+            filter_queries.study_except_filters(self.study),
             filter_queries.subjectfilters(self),
             filter_queries.has_consent(),
         )

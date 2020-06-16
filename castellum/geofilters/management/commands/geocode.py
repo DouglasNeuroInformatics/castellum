@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
+from django.contrib.gis.geos import Point
 from django.core.management.base import BaseCommand
 
 from geopy.geocoders import Nominatim
@@ -56,8 +57,7 @@ def fetch_missing_geolocations():
         if resolved:
             geolocations.append(Geolocation(
                 contact=contact,
-                lon=resolved.longitude,
-                lat=resolved.latitude,
+                point=Point(resolved.longitude, resolved.latitude),
             ))
     Geolocation.objects.bulk_create(geolocations)
 

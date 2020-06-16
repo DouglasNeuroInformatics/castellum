@@ -29,11 +29,14 @@ All of the functions return instances of ``django.db.models.Q``,
 which can be passed to ``Subjects.objects.filter()``.
 """
 
+import json
 
 from django.conf import settings
+from django.contrib.gis.geos import GEOSGeometry
 from django.db import models
 from django.utils import timezone
 
+from castellum.geofilters.models import Geolocation
 from castellum.studies.models import Study
 from castellum.subjects.models import Consent
 
@@ -138,6 +141,14 @@ def study_filters(study, include_unknown=None):
     return q
 
 
+def geofilter(study):
+    feature = json.load(study.geo_filter)
+    polygon = GEOSGeometry(json.dumps(feature['geometry']))
+    locations = Geolocation.objects.filter(point__within=polygon)
+    pks = locations.values_list('contact__subject_id', flat=True)
+    return models.Q(pk__in=list(pks))
+
+
 def completeness_expr():
     """Expression that can be used to annotate a queryset."""
     # Needs to match ``AttributeSet.get_completeness()``.
@@ -157,11 +168,19 @@ def completeness_expr():
     return completeness, total
 
 
-def study(study, include_unknown=None):
-    """Combine all filters related to ``study``."""
+def study_except_filters(study):
     q = models.Q()
     q &= study_exclusion(study)
     q &= study_disinterest(study)
-    q &= study_filters(study, include_unknown=include_unknown)
     q &= to_be_deleted()
+    if 'castellum.geofilters' in settings.INSTALLED_APPS and study.geo_filter:
+        q &= geofilter(study)
     return q
+
+
+def study(study, include_unknown=None):
+    """Combine all filters related to ``study``."""
+    return (
+        study_filters(study, include_unknown=include_unknown)
+        & study_except_filters(study)
+    )
