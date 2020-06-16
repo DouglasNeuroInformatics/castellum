@@ -12,7 +12,7 @@ $(function() {
         });
     };
 
-    $(document).on('click', 'a:not([data-js="cancel"]):not([href^="#"])', function(event){
+    $(document).on('click', 'a:not([data-js="cancel"]):not([href^="#"]):not([data-js="popup"]):not([target])', function(event){
         if (unsavedForms.length) {
             event.preventDefault();
             var $modal = $('#unsaved-changes-modal');
