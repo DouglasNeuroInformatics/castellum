@@ -20,3 +20,6 @@ DATABASES = {
 }
 
 CASTELLUM_COVERLETTER_TEMPLATE = os.path.join(BASE_DIR, 'subjects', 'fixtures', 'demo_coverletter.docx')
+
+# Setup geofilters
+INSTALLED_APPS.append('castellum.geofilters')

@@ -22,13 +22,11 @@ setup(
         "django-stronghold==0.4.0",
         "Faker==4.1.0",
         "file-magic==0.4.0",
+        "geopy==1.22.0",
         "jsonschema==3.2.0",
         "phonenumberslite==8.12.5",
         "psycopg2-binary==2.8.5",
         "python-dateutil==2.8.1",
         "simplecharts==0.0.2",
     ],
-    extras_require={
-        "geofilters": ["geopy==1.22.0"],
-    },
 )

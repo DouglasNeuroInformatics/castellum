@@ -56,7 +56,7 @@ test: databases
 install: venv
 	$(VIRTUAL_ENV)/bin/pip install -U pip
 	$(VIRTUAL_ENV)/bin/pip install -r requirements-dev.txt
-	$(VIRTUAL_ENV)/bin/pip install -e .[geofilters]
+	$(VIRTUAL_ENV)/bin/pip install -e .
 	npm install
 
 .PHONY: venv
