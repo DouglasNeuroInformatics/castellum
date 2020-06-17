@@ -15,6 +15,7 @@ describes how this feature can be activated and used.
 -   Most dependencies are already installed and configured with
     castellum by default. However, some additional steps are needed.
 
+
 ## Geocoding
 
 ### Nominatim
@@ -56,21 +57,24 @@ Further reading:
 
 ### GeoJSON format
 
-Provide a valid GeoJSON file with exactly one feature of type polygon or multipolygon.
-Castellum will then filter all subjects that live inside this (multi)polygon,
-so it should enclose all areas where the conditions for recruitment are met.
-Castellum will assume the Coordinate Reference System (CRS) of the GeoJSON file to be WGS 84 (EPSG:4326)
+Provide a valid GeoJSON file with exactly one feature of type polygon or
+multipolygon. Castellum will then filter all subjects that live inside
+this (multi)polygon, so it should enclose all areas where the conditions
+for recruitment are met. Castellum will assume the Coordinate Reference
+System (CRS) of the GeoJSON file to be WGS 84 (EPSG:4326)
 (https://tools.ietf.org/html/rfc7946#section-4).
 
 ### How to convert a shapefile to GeoJSON
 
-Most Geographic Information Systems (GIS) such as QGIS or ArcGIS support this conversion out of the box.
-Before exporting the GeoJSON file merge all polygons and multipolygons in the layer into one feature,
-as the geofilter will fail if there is more than one feature in the file.
-As mentioned above, the CRS of GeoJSON is by default WGS84. Desktop GIS applications should automatically reproject
-the shapefile to WGS84 during the export to GeoJSON format, so this consideration really only applies if you
-intend to build the GeoJSON file yourself
-This is an example of a valid GeoJSON file:
+Most Geographic Information Systems (GIS) such as QGIS or ArcGIS support
+this conversion out of the box. Before exporting the GeoJSON file merge
+all polygons and multipolygons in the layer into one feature, as the
+geofilter will fail if there is more than one feature in the file. As
+mentioned above, the CRS of GeoJSON is by default WGS84. Desktop GIS
+applications should automatically reproject the shapefile to WGS84
+during the export to GeoJSON format, so this consideration really only
+applies if you intend to build the GeoJSON file yourself This is an
+example of a valid GeoJSON file:
 
 ```
 {
@@ -78,32 +82,37 @@ This is an example of a valid GeoJSON file:
   "properties": {},
   "geometry": {
     "type": "Polygon",
-    "coordinates": [ [
-      [ 13.3517429, 52.5189382 ],
-      [ 13.2908489, 52.5165476 ],
-      [ 13.346341, 52.4848593 ],
-      [ 13.3512518, 52.446863 ],
-      [ 13.3964313, 52.4785787 ],
-      [ 13.4627272, 52.4504546 ],
-      [ 13.4308069, 52.4893448 ],
-      [ 13.4730399, 52.519237 ],
-      [ 13.4141102, 52.5180417 ],
-      [ 13.3821899, 52.5604549 ],
-      [ 13.3517429, 52.5189382 ]
-    ] ]
+    "coordinates": [[
+      [13.3517429, 52.5189382],
+      [13.2908489, 52.5165476],
+      [13.3463410, 52.4848593],
+      [13.3512518, 52.4468630],
+      [13.3964313, 52.4785787],
+      [13.4627272, 52.4504546],
+      [13.4308069, 52.4893448],
+      [13.4730399, 52.5192370],
+      [13.4141102, 52.5180417],
+      [13.3821899, 52.5604549],
+      [13.3517429, 52.5189382]
+    ]]
   }
 }
 ```
 
 ### How to optimize GeoJSON for performance
 
-The duration of the calculation scales roughly linearly to the number of vertices in the GeoJSON file.
-If the calculation takes too long, try to reduce the number of vertices in the file.
-This can be achieved in two ways:
+The duration of the calculation scales roughly linearly to the number of
+vertices in the GeoJSON file. If the calculation takes too long, try to
+reduce the number of vertices in the file. This can be achieved in two
+ways:
 
--   Crop the spatial extent of your geographic data to the extent of the area where the subjects live (or at least most of them)
-    This makes sense if most of your subjects are from the same city or state.
--   Generalize your polygon. This reduces the amount of vertices while retaining the general shape of the polygon.
-    This makes sense of the resolution of your data is very high. Remember that Castellum derives the subjects' geolocations
-    from their addresses, which refer to houses. Therefore, a polygon with a resolution of 10cm has no advantage over one with
-    a resolution of 10m, as address data is resolved to 10m at best, as determined by typical house sizes.
+-   Crop the spatial extent of your geographic data to the extent of the
+    area where the subjects live (or at least most of them) This makes
+    sense if most of your subjects are from the same city or state.
+-   Generalize your polygon. This reduces the amount of vertices while
+    retaining the general shape of the polygon. This makes sense of the
+    resolution of your data is very high. Remember that Castellum
+    derives the subjects' geolocations from their addresses, which refer
+    to houses. Therefore, a polygon with a resolution of 10cm has no
+    advantage over one with a resolution of 10m, as address data is
+    resolved to 10m at best, as determined by typical house sizes.
