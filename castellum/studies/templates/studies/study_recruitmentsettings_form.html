@@ -16,7 +16,7 @@
         {% bootstrap_field form.advanced_filtering %}
         {% bootstrap_field form.is_exclusive %}
         {% bootstrap_field form.complete_matches_only %}
-        {% bootstrap_field form.geo_filter %}
+        {% include "file_field.html" with field=form.geo_filter %}
 
         {% if not readonly %}
             <div class="d-print-none mb-3">
