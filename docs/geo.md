@@ -55,5 +55,26 @@ Further reading:
 ## Create a geo filter
 
 ### GeoJSON format
+
+Provide a valid GeoJSON file with exactly one feature of type polygon or multipolygon.
+Castellum will then filter all subjects that live inside this (multi)polygon,
+so it should enclose all areas where the conditions for recruitment are met.
+
 ### How to convert a shapefile to GeoJSON
+
+Most Geographic Information Systems (GIS) such as QGIS or ArcGIS support this conversion out of the box.
+Before exporting the GeoJSON file merge all polygons and multipolygons in the layer into one feature,
+as the geofilter will fail if there is more than one feature in the file.
+
 ### How to optimize GeoJSON for performance
+
+The duration of the calculation scales roughly linearly to the number of vertices in the GeoJSON file.
+If the calculation takes too long, try to reduce the number of vertices in the file.
+This can be achieved in two ways:
+
+-   Crop the spatial extent of your geographic data to the extent of the area where the subjects live (or at least most of them)
+    This makes sense if most of your subjects are from the same city or state.
+-   Generalize your polygon. This reduces the amount of vertices while retaining the general shape of the polygon.
+    This makes sense of the resolution of your data is very high. Remember that Castellum derives the subjects' geolocations
+    from their addresses, which refer to houses. Therefore, a polygon with a resolution of 10cm has no advantage over one with
+    a resolution of 10m, as address data is resolved to 10m at best, as determined by typical house sizes.
