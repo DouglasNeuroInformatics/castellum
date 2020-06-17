@@ -59,12 +59,22 @@ Further reading:
 Provide a valid GeoJSON file with exactly one feature of type polygon or multipolygon.
 Castellum will then filter all subjects that live inside this (multi)polygon,
 so it should enclose all areas where the conditions for recruitment are met.
+Castellum will assume the Coordinate Reference System (CRS) of the GeoJSON file to be WGS 84 (EPSG:4326)
+(https://tools.ietf.org/html/rfc7946#section-4).
 
 ### How to convert a shapefile to GeoJSON
 
 Most Geographic Information Systems (GIS) such as QGIS or ArcGIS support this conversion out of the box.
 Before exporting the GeoJSON file merge all polygons and multipolygons in the layer into one feature,
 as the geofilter will fail if there is more than one feature in the file.
+As mentioned above, the CRS of GeoJSON is by default WGS84. Desktop GIS applications should automatically reproject
+the shapefile to WGS84 during the export to GeoJSON format, so this consideration really only applies if you
+intend to build the GeoJSON file yourself
+This is an example of a valid GeoJSON file:
+
+```
+  1 { "type": "Feature", "properties": { }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ 13.3517429, 52.5189382 ], [ 13.2908489, 52.5165476 ], [ 13.346341, 52.4848593 ], [ 1    3.3512518, 52.446863 ], [ 13.3964313, 52.4785787 ], [ 13.4627272, 52.4504546 ], [ 13.4308069, 52.4893448 ], [ 13.4730399, 52.519237 ], [ 13.4141102, 52.5180417 ], [ 13.3821899, 52.56045    49 ], [ 13.3517429, 52.5189382 ] ] ] ] } }
+```
 
 ### How to optimize GeoJSON for performance
 
