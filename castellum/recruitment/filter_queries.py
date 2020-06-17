@@ -36,7 +36,6 @@ from django.contrib.gis.geos import GEOSGeometry
 from django.db import models
 from django.utils import timezone
 
-from castellum.geofilters.models import Geolocation
 from castellum.studies.models import Study
 from castellum.subjects.models import Consent
 
@@ -142,6 +141,8 @@ def study_filters(study, include_unknown=None):
 
 
 def geofilter(study, include_unknown=None):
+    from castellum.geofilters.models import Geolocation
+
     if include_unknown is None:
         include_unknown = not study.complete_matches_only
 
