@@ -62,11 +62,9 @@ def get_no_legal_basis(limit_by):
 
     contacts = Contact.objects\
         .annotate(guardian_of_count=models.Count('guardian_of'))\
-        .filter(guardian_of_count=0, subject_id__in=list(subject_pks))\
-        .order_by()
-    subject_pks = contacts.values_list('subject_id', flat=True)
+        .filter(guardian_of_count=0, subject_id__in=list(subject_pks))
 
-    subjects = Subject.objects.filter(pk__in=list(subject_pks))
+    subjects = Subject.objects.filter(filter_queries.pk_filter(contacts))
 
     return subjects[:limit_by], max(subjects.count() - limit_by, 0)
 
@@ -81,9 +79,8 @@ def get_unreachable(limit_by):
             phone_number='',
         )\
         .order_by()
-    subject_pks = contacts.values_list('subject_id', flat=True)
 
-    subjects = Subject.objects.filter(pk__in=list(subject_pks))
+    subjects = Subject.objects.filter(filter_queries.pk_filter(contacts))
 
     return subjects[:limit_by], max(subjects.count() - limit_by, 0)
 

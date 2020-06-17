@@ -76,9 +76,8 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
     def get_matches(self, search):
         user = self.request.user
         contacts = Contact.objects.fuzzy_filter(search)
-        subject_pks = list(contacts.values_list('subject_id', flat=True))
         can_view_contact = user.has_perm('contacts.view_contact')
-        for subject in Subject.objects.filter(pk__in=subject_pks):
+        for subject in Subject.objects.filter(filter_queries.pk_filter(contacts)):
             has_privacy_level = user.has_privacy_level(subject.privacy_level)
             prs = []
             for pr in subject.participationrequest_set.filter(study__status=Study.EXECUTION):
@@ -463,8 +462,7 @@ class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
 
     def get_matches(self, search):
         contacts = Contact.objects.fuzzy_filter(search)
-        subject_pks = list(contacts.values_list('subject_id', flat=True))
-        return Subject.objects.filter(pk__in=subject_pks)
+        return Subject.objects.filter(filter_queries.pk_filter(contacts))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
