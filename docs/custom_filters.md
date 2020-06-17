@@ -45,5 +45,11 @@ After restarting castellum, you can assign a custom filter to a study
 from the admin interface. If a custom filter is assigned, the regular
 filter interface is blocked.
 
+## Security considerations
+
+Custom filters are executed in the context of castellum and have read
+and write access to all data. They should therefore be carefully
+reviewed before installation.
+
 [1]: https://docs.djangoproject.com/en/stable/intro/reusable-apps/
 [2]: https://docs.djangoproject.com/en/stable/ref/models/querysets/#django.db.models.Q
