@@ -25,7 +25,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'bootstrap4',
+    'django-bs4',
+    'django.forms',
+
     'phonenumber_field',
     'parler',
     'stronghold',
@@ -78,6 +80,8 @@ TEMPLATES = [
         },
     },
 ]
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 WSGI_APPLICATION = 'castellum.wsgi.application'
 
@@ -214,11 +218,6 @@ NPM_FILE_PATTERNS = {
         'bootstrap/main.min.js',
         'bootstrap/main.css',
     ],
-}
-
-BOOTSTRAP4 = {
-    'set_placeholder': False,
-    'success_css_class': None,
 }
 
 AXES_LOCKOUT_TEMPLATE = 'axes-lockout.html'
