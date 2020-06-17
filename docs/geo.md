@@ -57,24 +57,14 @@ Further reading:
 
 ### GeoJSON format
 
-Provide a valid GeoJSON file with exactly one feature of type polygon or
-multipolygon. Castellum will then filter all subjects that live inside
-this (multi)polygon, so it should enclose all areas where the conditions
-for recruitment are met. Castellum will assume the Coordinate Reference
-System (CRS) of the GeoJSON file to be WGS 84 (EPSG:4326)
-(https://tools.ietf.org/html/rfc7946#section-4).
+Provide a valid [GeoJSON](https://tools.ietf.org/html/rfc7946) file with
+exactly one feature of type "Polygon" or "MultiPolygon". Castellum will
+then filter all subjects that live inside this (multi)polygon, so it
+should enclose all areas where the conditions for recruitment are met.
+Note that the Coordinate Reference System (CRS) must be WGS84
+(EPSG:4326).
 
-### How to convert a shapefile to GeoJSON
-
-Most Geographic Information Systems (GIS) such as QGIS or ArcGIS support
-this conversion out of the box. Before exporting the GeoJSON file merge
-all polygons and multipolygons in the layer into one feature, as the
-geofilter will fail if there is more than one feature in the file. As
-mentioned above, the CRS of GeoJSON is by default WGS84. Desktop GIS
-applications should automatically reproject the shapefile to WGS84
-during the export to GeoJSON format, so this consideration really only
-applies if you intend to build the GeoJSON file yourself This is an
-example of a valid GeoJSON file:
+This is an example of a valid GeoJSON file:
 
 ```
 {
@@ -99,6 +89,15 @@ example of a valid GeoJSON file:
 }
 ```
 
+### How to convert a shapefile to GeoJSON
+
+Most Geographic Information Systems (GIS) such as QGIS or ArcGIS support
+the conversion to GeoJSON out of the box. Before exporting the GeoJSON
+file merge all polygons and multipolygons in the layer into one feature,
+as the geofilter will fail if there is more than one feature in the
+file. Desktop GIS applications should automatically reproject the
+shapefile to WGS84 during the export to GeoJSON format.
+
 ### How to optimize GeoJSON for performance
 
 The duration of the calculation scales roughly linearly to the number of
@@ -107,7 +106,7 @@ reduce the number of vertices in the file. This can be achieved in two
 ways:
 
 -   Crop the spatial extent of your geographic data to the extent of the
-    area where the subjects live (or at least most of them) This makes
+    area where the subjects live (or at least most of them). This makes
     sense if most of your subjects are from the same city or state.
 -   Generalize your polygon. This reduces the amount of vertices while
     retaining the general shape of the polygon. This makes sense of the
