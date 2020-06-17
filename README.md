@@ -16,7 +16,7 @@ yet.
 
 The following commands will install everything and start a local testserver (on ubuntu):
 
-    sudo apt install python3 npm libpq5 libmagic1 docker-compose gettext
+    sudo apt install python3-venv npm make docker-compose gettext gdal-bin
     cd castellum
     make install_githooks
     make  # start castellum
