@@ -19,11 +19,10 @@ def test_error_if_age_out_of_limits(
     response = client.post(url, {
         "form-0-description": 3,
         "form-0-group": subject_filter_group.pk,
-        "form-0-id": 1,
         "form-0-operator": "gt",
         "form-0-value_0": age,
         "form-0-value_1": "years",
-        "form-INITIAL_FORMS": 1,
+        "form-INITIAL_FORMS": 0,
         "form-MAX_NUM_FORMS": 1000,
         "form-MIN_NUM_FORMS": 0,
         "form-TOTAL_FORMS": 1,
