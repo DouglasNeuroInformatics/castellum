@@ -26,7 +26,7 @@ test-branch:
   script:
     - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
     - pip install -r requirements-dev.txt
-    - pip install -e .[geofilters]
+    - pip install -e .
     - npm install
     - pytest --ds=$DJANGO_SETTINGS_MODULE
     - flake8

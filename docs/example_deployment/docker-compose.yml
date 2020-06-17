@@ -29,6 +29,14 @@ services:
     command: [--copy-service]
     volumes:
       - ./dummy_data.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif:ro
+  nominatim:
+    image: mediagis/nominatim
+    ports:
+      - "7070:8080"
+    volumes:
+      - ./nominatim:/data
+      - ./nominatim/postgresdata:/var/lib/postgresql/11/main
+    command: ["bash", "/app/start.sh"]
   web:
     ## use the latest pre-built image
     image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
@@ -47,6 +55,7 @@ services:
       - db_default
       - db_contacts
       - ldap
+      - nominatim
   cron:
     image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
     restart: always

@@ -30,14 +30,7 @@ from castellum.geofilters.models import Geolocation
 
 
 def fetch_missing_geolocations():
-    # see https://geopy.readthedocs.io/en/stable/#geopy.geocoders.Nominatim
-    try:
-        config = settings.NOMINATIM
-    except AttributeError:
-        print('settings.NOMINATIM required')
-        return
-
-    geolocator = Nominatim(**config)
+    geolocator = Nominatim(**settings.NOMINATIM)
     geolocations = []
     contacts = (
         Contact.objects
