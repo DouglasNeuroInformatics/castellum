@@ -20,11 +20,9 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import forms
-from django.contrib import messages
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 from django.views.generic import UpdateView
 
 from dateutil.relativedelta import relativedelta
@@ -35,6 +33,7 @@ from castellum.recruitment.models import ParticipationRequest
 from castellum.recruitment.models import SubjectFilter
 from castellum.subjects.models import Subject
 from castellum.utils.views import ReadonlyMixin
+from castellum.utils.views import TabFormMixin
 
 from ..forms import ExcludedStudiesForm
 from ..forms import SessionForm
@@ -63,7 +62,7 @@ def get_related_studies(study):
 
 
 class StudyRecruitmentSettingsUpdateView(
-    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
+    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, TabFormMixin, UpdateView
 ):
     model = Study
     fields = (
@@ -84,13 +83,9 @@ class StudyRecruitmentSettingsUpdateView(
     def get_success_url(self):
         return reverse('studies:recruitmentsettings', kwargs={'pk': self.object.pk})
 
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
-
 
 class StudyExcludedStudiesView(
-    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
+    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, TabFormMixin, UpdateView
 ):
     model = Study
     template_name = 'studies/study_excluded_studies.html'
@@ -117,13 +112,9 @@ class StudyExcludedStudiesView(
         context['related_studies'] = list(get_related_studies(self.object))
         return context
 
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
-
 
 class StudyExclusionCriteriaView(
-    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
+    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, TabFormMixin, UpdateView
 ):
     model = Study
     template_name = 'studies/study_exclusioncriteria.html'
@@ -138,13 +129,9 @@ class StudyExclusionCriteriaView(
     def get_success_url(self):
         return reverse('studies:exclusioncriteria', args=[self.object.pk])
 
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
-
 
 class StudySessionsView(
-    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
+    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, TabFormMixin, UpdateView
 ):
     model = Study
     template_name = 'studies/study_sessions.html'
@@ -201,7 +188,6 @@ class StudySessionsView(
         )
 
     def form_valid(self, form, session_formset):
-        messages.success(self.request, _('Data has been saved.'))
         response = super().form_valid(form)
         for subform in session_formset:
             subform.instance.study = form.instance
@@ -216,7 +202,7 @@ class StudySessionsView(
 
 
 class StudyMailSettingsView(
-    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
+    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, TabFormMixin, UpdateView
 ):
     model = Study
     template_name = 'studies/study_mailsettings.html'
@@ -234,7 +220,3 @@ class StudyMailSettingsView(
 
     def get_success_url(self):
         return reverse('studies:mailsettings', args=[self.object.pk])
-
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)

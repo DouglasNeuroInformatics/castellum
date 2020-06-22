@@ -57,6 +57,7 @@ from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import ParticipationRequest
 from castellum.studies.models import Study
+from castellum.utils.views import TabFormMixin
 
 from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseAdditionalInfoUpdateView
@@ -274,15 +275,11 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return redirect('subjects:export', self.object.pk)
 
 
-class SubjectUpdateMixin(SubjectMixin):
+class SubjectUpdateMixin(TabFormMixin, SubjectMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['base_template'] = 'subjects/subject_base.html'
         return context
-
-    def form_valid(self, form, *args):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form, *args)
 
 
 class DataProtectionUpdateView(SubjectUpdateMixin, BaseDataProtectionUpdateView):

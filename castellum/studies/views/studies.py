@@ -47,6 +47,7 @@ from castellum.recruitment import filter_queries
 from castellum.recruitment.models import ParticipationRequest
 from castellum.subjects.models import Subject
 from castellum.utils.views import ReadonlyMixin
+from castellum.utils.views import TabFormMixin
 from castellum.utils.views import get_next_url
 
 from ..forms import ImportForm
@@ -183,7 +184,7 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
 
 
 class StudyUpdateView(
-    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
+    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, TabFormMixin, UpdateView
 ):
     model = Study
     form_class = StudyForm
@@ -200,10 +201,6 @@ class StudyUpdateView(
         context = super().get_context_data(**kwargs)
         context['base_template'] = 'studies/study_base.html'
         return context
-
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
 
 
 class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):

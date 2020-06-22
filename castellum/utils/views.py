@@ -20,9 +20,11 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import forms
+from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponseBadRequest
 from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils.translation import gettext_lazy as _
 
 from .forms import ReadonlyFormMixin
 from .forms import ReadonlyModelForm
@@ -55,6 +57,12 @@ class ReadonlyMixin:
         if self.get_readonly():
             return HttpResponseBadRequest()
         return super().post(request, *args, **kwargs)
+
+
+class TabFormMixin:
+    def form_valid(self, form, *args):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form, *args)
 
 
 def get_next_url(request, default='/'):
