@@ -6,11 +6,9 @@
 {% block content %}
     <h2>{% trans 'Import study' %}</h2>
     <form enctype="multipart/form-data" method="post">
-        {% for error in form.non_field_errors %}
-            <p class="alert alert-danger" role="alert">{{ error }}</p>
-        {% endfor %}
-
+        {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
+
         {% bootstrap_field form.file %}
 
         <div class="d-print-none mb-3">

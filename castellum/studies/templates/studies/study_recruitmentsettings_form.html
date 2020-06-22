@@ -7,11 +7,9 @@
 
 {% block content %}
     <form method="post" enctype="multipart/form-data">
-        {% for error in form.non_field_errors %}
-            <p class="alert alert-danger" role="alert">{{ error }}</p>
-        {% endfor %}
-
+        {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
+
         {% bootstrap_field form.recruitment_text %}
         {% bootstrap_field form.advanced_filtering %}
         {% bootstrap_field form.is_exclusive %}

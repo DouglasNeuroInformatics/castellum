@@ -9,11 +9,7 @@
         <p class="alert alert-danger" role="alert">{% trans "Mail recruitment has not been set up!" %}</p>
     {% else %}
         <form method="post">
-
-            {% for error in form.non_field_errors %}
-                <p class="alert alert-danger" role="alert">{{ error }}</p>
-            {% endfor %}
-
+            {% include 'utils/form_errors.html' with form=form %}
             {% csrf_token %}
 
             <div class="form-group">
