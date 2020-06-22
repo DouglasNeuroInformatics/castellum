@@ -25,6 +25,7 @@ import json
 from django import forms
 from django.forms import ValidationError
 from django.forms.widgets import TextInput
+from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
 
 import jsonschema
@@ -204,6 +205,7 @@ class RestrictedFileField(forms.FileField):
         return attrs
 
 
+@deconstructible
 class JsonFileValidator:
     def __init__(self, schema, schema_ref):
         self.schema = {'$ref': schema_ref}
@@ -212,6 +214,9 @@ class JsonFileValidator:
     def format_error(self, error):
         path = '.'.join(str(x) for x in error.path)
         return '%s %s' % (path, error.message)
+
+    def __eq__(self, other):
+        return self.schema == other.schema and self.schema_ref == other.schema_ref
 
     def __call__(self, fh):
         try:
