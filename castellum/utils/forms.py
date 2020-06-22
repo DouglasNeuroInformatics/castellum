@@ -204,17 +204,16 @@ class RestrictedFileField(forms.FileField):
         return attrs
 
 
-class BaseImportForm(forms.Form):
-    # magic seems to detect 'text/plain' for json files
-    file = RestrictedFileField(
-        label=_('File'), content_types=['application/json', 'text/plain'], required=True
-    )
+class JsonFileValidator:
+    def __init__(self, schema, schema_ref):
+        self.schema = {'$ref': schema_ref}
+        self.schema.update(schema)
 
     def format_error(self, error):
         path = '.'.join(str(x) for x in error.path)
         return '%s %s' % (path, error.message)
 
-    def validate_json(self, fh):
+    def __call__(self, fh):
         try:
             reader = codecs.getreader('utf-8')
             data = json.load(reader(fh))
@@ -223,10 +222,7 @@ class BaseImportForm(forms.Form):
         except UnicodeDecodeError:
             raise ValidationError(_('Uploaded file must be UTF-8 encoded.'), code='invalid')
 
-        schema = {'$ref': self.schema_ref}
-        schema.update(self.schema)
-        validator = jsonschema.Draft7Validator(schema)
-
+        validator = jsonschema.Draft7Validator(self.schema)
         errors = list(validator.iter_errors(data))
         if errors:
             raise ValidationError([
@@ -235,8 +231,16 @@ class BaseImportForm(forms.Form):
 
         return data
 
+
+class BaseImportForm(forms.Form):
+    # magic seems to detect 'text/plain' for json files
+    file = RestrictedFileField(
+        label=_('File'), content_types=['application/json', 'text/plain'], required=True
+    )
+
     def clean(self):
         cleaned_data = super().clean()
         if 'file' in cleaned_data:
-            cleaned_data['json'] = self.validate_json(cleaned_data['file'])
+            validator = JsonFileValidator(self.schema, self.schema_ref)
+            cleaned_data['json'] = validator(cleaned_data['file'])
         return cleaned_data
