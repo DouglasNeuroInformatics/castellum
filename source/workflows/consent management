@@ -13,9 +13,6 @@ Castellum is mainly intended for the management of recruitment consents. Study
 consents must be obtained separately from the respective study conducters
 
 1. Log in to Castellum by using your username and password
-
-   - Make sure you are connected to the Internet and use your right username and
-     password
      
 2. Click on **Admin** on the front page
 
@@ -28,10 +25,8 @@ consents must be obtained separately from the respective study conducters
 Updating the Consent Documents
 -------------------------------
 
-It is possible for a consent document to become invalid because 
-- the legislation has changed
-- the document has expired
-- ...
+Consent documents are marked invalid when a change in legislation, substantial changes
+in the old document or other reasons require the signature of a new document.
 
 1. There are two options you may implement when a consent document becomes invalid
    For both options first go to **Admin** on the front page > **Consent documents**
