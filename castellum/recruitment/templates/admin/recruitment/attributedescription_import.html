@@ -18,7 +18,7 @@
             {% endif %}
             {% csrf_token %}
             {{ form.file }}
-            <button>{% trans 'Import' %}</button>
+            <input type="submit" value="{% trans 'Import' %}">
         </form>
     </div>
 {% endblock %}
