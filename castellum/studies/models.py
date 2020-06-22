@@ -139,7 +139,7 @@ class Study(models.Model):
         upload_to='studies/geofilters/',
         content_types=['application/json', 'text/plain'],
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
-        validators=[JsonFileValidator(GEOJSON_SCHEMA, '#/$defs/Feature')],
+        validators=[JsonFileValidator(GEOJSON_SCHEMA, '#/$defs/AnyPolygon')],
     )
     is_exclusive = models.BooleanField(
         _('Exclusive subjects'),

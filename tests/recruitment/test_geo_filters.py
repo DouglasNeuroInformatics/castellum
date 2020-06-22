@@ -11,18 +11,14 @@ from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 
 POLYGON = StringIO("""{
-    "properties": null,
-    "type": "Feature",
-    "geometry": {
-        "type": "Polygon",
-        "coordinates": [[
-            [12, 51],
-            [14, 51],
-            [14, 53],
-            [12, 53],
-            [12, 51]
-        ]]
-    }
+    "type": "Polygon",
+    "coordinates": [[
+        [12, 51],
+        [14, 51],
+        [14, 53],
+        [12, 53],
+        [12, 51]
+    ]]
 }""")
 
 INSIDE = Point(13, 52)

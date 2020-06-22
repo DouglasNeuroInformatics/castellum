@@ -29,8 +29,6 @@ All of the functions return instances of ``django.db.models.Q``,
 which can be passed to ``Subjects.objects.filter()``.
 """
 
-import json
-
 from django.conf import settings
 from django.contrib.gis.geos import GEOSGeometry
 from django.db import models
@@ -160,9 +158,8 @@ def geofilter(study, include_unknown=None):
     if include_unknown is None:
         include_unknown = not study.complete_matches_only
 
-    feature = json.load(study.geo_filter)
+    polygon = GEOSGeometry(study.geo_filter.read())
     study.geo_filter.seek(0)
-    polygon = GEOSGeometry(json.dumps(feature['geometry']))
 
     if include_unknown:
         locations = Geolocation.objects.exclude(point__within=polygon)
