@@ -34,6 +34,7 @@ services:
     volumes:
       - ./nominatim:/data
       - ./nominatim/postgresdata:/var/lib/postgresql/11/main
+      - ./nominatim/local.php:/app/src/build/settings/local.php:ro
     command: ["bash", "/app/start.sh"]
   web:
     ## use the latest pre-built image
