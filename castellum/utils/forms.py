@@ -25,6 +25,7 @@ import json
 from django import forms
 from django.forms import ValidationError
 from django.forms.widgets import TextInput
+from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
 
 import jsonschema
@@ -204,39 +205,47 @@ class RestrictedFileField(forms.FileField):
         return attrs
 
 
+@deconstructible
+class JsonFileValidator:
+    def __init__(self, schema, schema_ref):
+        self.schema = {'$ref': schema_ref}
+        self.schema.update(schema)
+
+    def format_error(self, error):
+        path = '.'.join(str(x) for x in error.path)
+        return '%s %s' % (path, error.message)
+
+    def __eq__(self, other):
+        return self.schema == other.schema and self.schema_ref == other.schema_ref
+
+    def __call__(self, fh):
+        try:
+            reader = codecs.getreader('utf-8')
+            data = json.load(reader(fh))
+        except json.JSONDecodeError:
+            raise ValidationError(_('Uploaded file does not contain valid JSON.'), code='encoding')
+        except UnicodeDecodeError:
+            raise ValidationError(_('Uploaded file must be UTF-8 encoded.'), code='json')
+
+        validator = jsonschema.Draft7Validator(self.schema)
+        errors = list(validator.iter_errors(data))
+        if errors:
+            raise ValidationError([
+                ValidationError(self.format_error(error), code='schema') for error in errors
+            ])
+
+        return data
+
+
 class BaseImportForm(forms.Form):
     # magic seems to detect 'text/plain' for json files
     file = RestrictedFileField(
         label=_('File'), content_types=['application/json', 'text/plain'], required=True
     )
 
-    def format_error(self, error):
-        path = '.'.join(str(x) for x in error.path)
-        return '%s %s' % (path, error.message)
-
-    def validate_json(self, fh):
-        try:
-            reader = codecs.getreader('utf-8')
-            data = json.load(reader(fh))
-        except json.JSONDecodeError:
-            raise ValidationError(_('Uploaded file does not contain valid JSON.'), code='invalid')
-        except UnicodeDecodeError:
-            raise ValidationError(_('Uploaded file must be UTF-8 encoded.'), code='invalid')
-
-        schema = {'$ref': self.schema_ref}
-        schema.update(self.schema)
-        validator = jsonschema.Draft7Validator(schema)
-
-        errors = list(validator.iter_errors(data))
-        if errors:
-            raise ValidationError([
-                ValidationError(self.format_error(error), code='invalid') for error in errors
-            ])
-
-        return data
-
     def clean(self):
         cleaned_data = super().clean()
         if 'file' in cleaned_data:
-            cleaned_data['json'] = self.validate_json(cleaned_data['file'])
+            validator = JsonFileValidator(self.schema, self.schema_ref)
+            cleaned_data['json'] = validator(cleaned_data['file'])
         return cleaned_data

@@ -20,6 +20,8 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+import json
+import os
 
 from django.conf import settings
 from django.contrib.auth.models import Group
@@ -36,6 +38,10 @@ from castellum.pseudonyms.helpers import create_domain
 from castellum.pseudonyms.helpers import delete_domain
 from castellum.utils.fields import DateField
 from castellum.utils.fields import RestrictedFileField
+from castellum.utils.forms import JsonFileValidator
+
+APP_DIR = os.path.dirname(__file__)
+GEOJSON_SCHEMA = json.load(open(os.path.join(APP_DIR, 'schemas', 'geojson.json')))
 
 
 class StudyType(TranslatableModel):
@@ -133,6 +139,7 @@ class Study(models.Model):
         upload_to='studies/geofilters/',
         content_types=['application/json', 'text/plain'],
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
+        validators=[JsonFileValidator(GEOJSON_SCHEMA, '#/$defs/Feature')],
     )
     is_exclusive = models.BooleanField(
         _('Exclusive subjects'),
