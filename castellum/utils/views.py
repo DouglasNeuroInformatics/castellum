@@ -60,6 +60,10 @@ class ReadonlyMixin:
 
 
 class TabFormMixin:
+    def form_invalid(self, form):
+        messages.error(self.request, _('Please correct the issues listed on the fields.'))
+        return super().form_invalid(form)
+
     def form_valid(self, form, *args):
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form, *args)
