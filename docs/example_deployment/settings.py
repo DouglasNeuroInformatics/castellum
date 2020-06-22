@@ -54,5 +54,6 @@ AXES_META_PRECEDENCE_ORDER = ['HTTP_X_REAL_IP']
 INSTALLED_APPS.append('castellum.geofilters')
 NOMINATIM = {
     # see https://geopy.readthedocs.io/en/stable/#geopy.geocoders.Nominatim
-    'domain': 'nominatim:8080'
+    'domain': 'nominatim:8080',
+    'scheme': 'http',
 }
