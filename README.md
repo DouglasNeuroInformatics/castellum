@@ -1,6 +1,3 @@
-![pipeline status](https://git.mpib-berlin.mpg.de/castellum/castellum/badges/master/pipeline.svg)
-![coverage report](https://git.mpib-berlin.mpg.de/castellum/castellum/badges/master/coverage.svg)
-
 # Castellum
 
 Castellum is a privacy-compliant subject database for scientific
