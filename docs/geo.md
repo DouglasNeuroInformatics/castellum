@@ -7,14 +7,24 @@ describes how this feature can be activated and used.
 
 ## Overview
 
--   In order to make geographical calculations, addresses first need
-    to be translated to coordinates (geocoding). This is a slow
-    operation which should be done in a cron job.
+-   In order to make spatial queries, addresses first need to be
+    translated to coordinates (geocoding). This is a slow operation
+    which should be done in a cron job.
 -   After that we can check wether the subject lives inside of a
     user-defined area.
 -   Most dependencies are already installed and configured with
     castellum by default. However, some additional steps are needed.
 
+
+## Example use case
+
+If the desired participants for a study should be older than 40 years
+and live in an area where the noise from an airport is over 40dB you
+would create and upload a GeoJSON file with a (multi)polygon spanning
+the area where this condition applies. Afterwards proceed as usual with
+setting the filter for age in the study filter UI.  The resulting
+subjects in the recruitment interface match the filter condition AND
+their contact address is located inside the uploaded polygon.
 
 ## Geocoding
 
@@ -26,10 +36,10 @@ geocoding and also for better privacy, it is strongly encouraged to host
 a local instance.
 
 Nominatim is already included as a docker service in the example
-deployment. However, the software itself is not very useful without any
-data. The import is very demanding and can take hours, depending on the
-data. This is an example for loading the address data for Berlin
-(~20mins):
+deployment. However, in order to be usable the software needs to be
+initialized with data from OSM. The import is very demanding and can take
+hours, depending on the data. This is an example for loading the address
+data for Berlin (~20mins):
 
     cd docs/example_deployment/
     wget 'https://download.geofabrik.de/europe/germany/berlin-latest.osm.pbf' -O nominatim/berlin.osm.pbf
@@ -53,9 +63,21 @@ Further reading:
 ### Configure Castellum
 
 -   Add `'castellum.geofilters'` to `INSTALLED_APPS`
--   Configure `NOMINATIM`. The [geopy documentation](https://geopy.readthedocs.io/en/stable/#geopy.geocoders.Nominatim)
-    lists available options.
--   setup a cron job for geocoding
+-   Configure `NOMINATIM`. You only have to set `domain` to point geopy
+    to the domain of your local Nominatim instance. The port only needs
+    to be set if it's a non-standard one. The [geopy documentation]
+    (https://geopy.readthedocs.io/en/stable/#geopy.geocoders.Nominatim)
+    also lists available options.
+-   setup a cron job for geocoding. Running it once a week is
+    recommended. The management command to use is called `geocode`.
+    Note that invalid addresses will be sent to the geocoder every time
+    the script is run. Therefore the time required to run the geocoding
+    script depends on the number of invalid addresses as well as the
+    number of not yet geocoded addresses.  Running the script repeatedly
+    only speeds up the second part, not the first.  Castellum has no way
+    to determine if an address doesn't exist at all, is misspelled or
+    can't be geocoded because it's not in the database used for
+    geocoding.
 
 
 ## Create a geo filter
