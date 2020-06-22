@@ -30,7 +30,7 @@ services:
     volumes:
       - ./dummy_data.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif:ro
   nominatim:
-    image: mediagis/nominatim
+    image: mediagis/nominatim:3.4
     volumes:
       - ./nominatim:/data
       - ./nominatim/postgresdata:/var/lib/postgresql/11/main
