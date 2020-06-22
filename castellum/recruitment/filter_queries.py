@@ -38,6 +38,7 @@ from django.utils import timezone
 
 from castellum.studies.models import Study
 from castellum.subjects.models import Consent
+from castellum.subjects.models import Subject
 
 from .filter_registry import custom_filters
 from .models import AttributeDescription
@@ -140,6 +141,19 @@ def study_filters(study, include_unknown=None):
     return q
 
 
+def pk_filter(qs, key='subject_id'):
+    # This is a mirco-optimization to avoid large IN queries in postgres
+    # See https://dba.stackexchange.com/questions/91247
+    pks = list(qs.values_list(key, flat=True).order_by())
+    total = Subject.objects.count()
+    if len(pks) > total / 2:
+        all_pks = Subject.objects.values_list('pk', flat=True)
+        pks = set(all_pks).difference(pks)
+        return ~models.Q(pk__in=pks)
+    else:
+        return models.Q(pk__in=pks)
+
+
 def geofilter(study, include_unknown=None):
     from castellum.geofilters.models import Geolocation
 
@@ -152,12 +166,10 @@ def geofilter(study, include_unknown=None):
 
     if include_unknown:
         locations = Geolocation.objects.exclude(point__within=polygon)
-        pks = locations.values_list('contact__subject_id', flat=True)
-        return ~models.Q(pk__in=list(pks))
+        return ~pk_filter(locations, 'contact__subject_id')
     else:
         locations = Geolocation.objects.filter(point__within=polygon)
-        pks = locations.values_list('contact__subject_id', flat=True)
-        return models.Q(pk__in=list(pks))
+        return pk_filter(locations, 'contact__subject_id')
 
 
 def completeness_expr():
