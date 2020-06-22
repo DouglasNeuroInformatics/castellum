@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import forms
+from django.conf import settings
 from django.contrib import messages
 from django.db import models
 from django.urls import reverse
@@ -71,7 +72,6 @@ class StudyRecruitmentSettingsUpdateView(
         'recruitment_text',
         'is_exclusive',
         'complete_matches_only',
-        'geo_filter',
     )
     permission_required = 'studies.change_study'
     template_name = 'studies/study_recruitmentsettings_form.html'
@@ -87,6 +87,11 @@ class StudyRecruitmentSettingsUpdateView(
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
+
+    def get_form_class(self):
+        if 'castellum.geofilters' in settings.INSTALLED_APPS:
+            self.fields = (*self.fields, 'geo_filter')
+        return super().get_form_class()
 
 
 class StudyExcludedStudiesView(
