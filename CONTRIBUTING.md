@@ -47,7 +47,7 @@ should also include tests for new features. The test coverage should
 never drop below 80%.
 
 All code will be reviewed by a member of the core team before it is
-merged into the master branch. The reviewers will probably leave some
+merged into the main branch. The reviewers will probably leave some
 comments and requests. Please respond to those within two weeks. If we
 do not hear back from you we will expect you lost interest.
 
