@@ -211,7 +211,7 @@ def generate_subjects(count):
     # the id on the instances, so we have to get them from the database after bulk_create. This
     # assumes that the database was empty before.
 
-    print('Generating pseudonyms')
+    print('Generating subjects')
     Subject.objects.bulk_create([fake_subject() for i in range(count)], batch_size=200)
     subjects = Subject.objects.all()[:count]
 
