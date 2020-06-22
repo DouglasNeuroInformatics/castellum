@@ -218,15 +218,15 @@ class JsonFileValidator:
             reader = codecs.getreader('utf-8')
             data = json.load(reader(fh))
         except json.JSONDecodeError:
-            raise ValidationError(_('Uploaded file does not contain valid JSON.'), code='invalid')
+            raise ValidationError(_('Uploaded file does not contain valid JSON.'), code='encoding')
         except UnicodeDecodeError:
-            raise ValidationError(_('Uploaded file must be UTF-8 encoded.'), code='invalid')
+            raise ValidationError(_('Uploaded file must be UTF-8 encoded.'), code='json')
 
         validator = jsonschema.Draft7Validator(self.schema)
         errors = list(validator.iter_errors(data))
         if errors:
             raise ValidationError([
-                ValidationError(self.format_error(error), code='invalid') for error in errors
+                ValidationError(self.format_error(error), code='schema') for error in errors
             ])
 
         return data
