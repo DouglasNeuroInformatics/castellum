@@ -28,15 +28,15 @@
         }
     });
 
-    $(document).on('click', '[data-multi-reset]', function(event) {
-        var $target = $($(event.target).data('multi-reset'));
+    $(document).on('click', '[data-multi-reset]', function() {
+        var $target = $($(this).data('multi-reset'));
         $target.find('option').each(function(i, element) {
             $(element).prop('selected', false);
         });
     });
 
-    $(document).on('click', '[data-clipboard]', function(event) {
-        var $target = $($(event.target).data('clipboard'));
+    $(document).on('click', '[data-clipboard]', function() {
+        var $target = $($(this).data('clipboard'));
         if (navigator.clipboard) {
             navigator.clipboard.writeText($target.val());
         } else {
@@ -50,7 +50,7 @@
         event.preventDefault();
         // copied from django
         var config = 'height=500,width=800,resizable=yes,scrollbars=yes';
-        var win = window.open(event.target.href, null, config);
+        var win = window.open(this.href, null, config);
         win.focus();
     });
 })();

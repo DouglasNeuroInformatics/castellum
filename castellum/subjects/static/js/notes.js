@@ -10,8 +10,8 @@
         $totalForms.val(parseInt($totalForms.val(), 10) + 1);
     });
 
-    $(document).on('click', '[data-js="note-delete"]', function(event) {
-        var $delete = $('#' + event.target.id.slice(0, -6));
-        $delete.val(event.target.checked ? '' : 'on');
+    $(document).on('click', '[data-js="note-delete"]', function() {
+        var $delete = $('#' + this.id.slice(0, -6));
+        $delete.val(this.checked ? '' : 'on');
     });
 })();

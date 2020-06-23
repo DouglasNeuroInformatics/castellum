@@ -10,8 +10,8 @@
         $totalForms.val(parseInt($totalForms.val(), 10) + 1);
     });
 
-    $(document).on('click', '[data-js="session-delete"]', function(event) {
-        var $fieldset = $(event.target).closest('fieldset');
+    $(document).on('click', '[data-js="session-delete"]', function() {
+        var $fieldset = $(this).closest('fieldset');
         $fieldset.find('[name="form-' + $fieldset.index() + '-name"]').remove();
         $fieldset.find('[name="form-' + $fieldset.index() + '-duration"]').remove();
         $fieldset.find('[name="form-' + $fieldset.index() + '-resource"]').remove();

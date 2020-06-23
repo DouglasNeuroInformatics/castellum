@@ -2,8 +2,8 @@
     var $totalForms = $('#id_form-TOTAL_FORMS');
     var $container = $('#filter-forms');
 
-    $(document).on('click', '[data-js="filter-add"]', function(event) {
-        var pk = event.target.form.description.value;
+    $(document).on('click', '[data-js="filter-add"]', function() {
+        var pk = this.form.description.value;
         var $template = $('#template-' + pk);
         if ($template.length) {
             var html = $template.html().replace(/{prefix}/g, 'form-' + $totalForms.val());
@@ -13,8 +13,8 @@
         }
     });
 
-    $(document).on('click', '[data-js="filter-delete"]', function(event) {
-        var $formrow = $(event.target).closest('.form-row');
+    $(document).on('click', '[data-js="filter-delete"]', function() {
+        var $formrow = $(this).closest('.form-row');
         $formrow.find('[name^="form-' + $formrow.index() + '-value"]').remove();
         $formrow.append($('<input type="hidden" name="form-' + $formrow.index() + '-DELETE" value="on">'));
         $formrow.attr('hidden', true);

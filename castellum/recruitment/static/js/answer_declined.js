@@ -1,6 +1,6 @@
 (function() {
-    var disableInput = function(event) {
-        var $answer_declined = $(event.target);
+    var disableInput = function() {
+        var $answer_declined = $(this);
         var $target = $('#' + $answer_declined.data('target'));
         $target.prop('disabled', $answer_declined.prop('checked'));
     };

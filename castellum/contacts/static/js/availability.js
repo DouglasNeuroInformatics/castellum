@@ -32,19 +32,19 @@
     generateCheckboxes();
     var $wholeWeek = $('[data-js="toggle-all"]');
 
-    $availability.on('change', 'select', function(event) {
+    $availability.on('change', 'select', function() {
         // hours --> day
-        var $wrapperDay = $(event.target);
-        var $wholeDay = $(event.target).closest('.form-group').find('[data-js="toggle-day"]');
+        var $wrapperDay = $(this);
+        var $wholeDay = $(this).closest('.form-group').find('[data-js="toggle-day"]');
         setCheckbox($wrapperDay, $wholeDay);
 
         // hours --> week
         setCheckbox($availability, $wholeWeek);
     });
 
-    $availability.on('change', '[data-js="toggle-day"]', function(event) {
+    $availability.on('change', '[data-js="toggle-day"]', function() {
         // day --> hours
-        var $wholeDay = $(event.target);
+        var $wholeDay = $(this);
         var $select = $wholeDay.closest('.form-group').find('select');
         $select.find('option').prop('selected', $wholeDay.prop('checked'));
 
@@ -54,7 +54,7 @@
 
     $availability.on('change', '[data-js="toggle-all"]', function() {
         // week --> hours
-        var $wholeWeek = $(event.target);
+        var $wholeWeek = $(this);
         $availability.find('option').prop('selected', $wholeWeek.prop('checked'));
 
         // week --> days
