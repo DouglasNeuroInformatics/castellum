@@ -3,7 +3,7 @@ $(function() {
         var calendar = new FullCalendar.Calendar(el, {
             themeSystem: 'bootstrap',
             locale: $('html').attr('lang'),
-            events: '?events',
+            events: location.search ? (location.search + '&events') : '?events',
             eventSourceSuccess: function(raw) {
                 return raw.events;
             },
