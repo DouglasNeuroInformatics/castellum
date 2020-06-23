@@ -51,9 +51,12 @@ If everything worked out you can query nominatim like this:
     curl 'http://localhost:7070/search?city=berlin&country=germany&street=Lentzeallee%2094&limit=1&format=json'
 
 Nominatim is also capable of automatically updating the data.
-Unfortunately this was broken at the time of writing (see
-https://github.com/mediagis/nominatim-docker/issues/123). We recommend
-to import the data from scratch instead.
+For that you need to adapt `CONST_Replication_Url` in the nominatim
+config (`nominatim/local.php` in the example deployment). Then run these
+commands:
+
+    docker exec -it exampledeployment_nominatim_1 sudo -u postgres ./src/build/utils/update.php --init-updates
+    docker exec -it exampledeployment_nominatim_1 sudo -u postgres ./src/build/utils/update.php --import-osmosis-all
 
 Further reading:
 
