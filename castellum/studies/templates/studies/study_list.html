@@ -6,15 +6,14 @@
 {% block content %}
     <div class="d-flex flex-column flex-md-row justify-content-between">
         <div class="my-1">
-            <a href="?q={{ q }}" class="btn {{ all|yesno:'btn-link,btn-primary' }}">{% trans 'My studies' %}</a>
-            <a href="?q={{ q }}&all=1" class="btn {{ all|yesno:'btn-primary,btn-link' }}">{% trans 'All studies' %}</a>
+            <a href="?q={{ q }}" class="btn {% if tab == 'my' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'My studies' %}</a>
+            <a href="?q={{ q }}&tab=all" class="btn {% if tab == 'all' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'All studies' %}</a>
+            <a href="?q={{ q }}&tab=calendar" class="btn {% if tab == 'calendar' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'Calendar' %}</a>
         </div>
         <form class="my-1" method="get" aria-label="{% trans 'Search' %}">
             <div class="input-group">
                 <input type="search" class="form-control" name="q" value="{{ q }}" placeholder="{% trans 'Search' %}" title="{% trans 'Search for title or contact person' %}">
-                {% if all %}
-                    <input type="hidden" name="all" value="1">
-                {% endif %}
+                <input type="hidden" name="tab" value="{{ tab }}">
                 <div class="input-group-append">
                     <button class="btn btn-outline-primary" >{% trans 'Go' %}</button>
                 </div>

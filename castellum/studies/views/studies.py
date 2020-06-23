@@ -76,14 +76,15 @@ class StudyIndexView(LoginRequiredMixin, ListView):
                     models.Q(keywords__icontains=part) |
                     models.Q(studysession__type__translations__label__iexact=part)
                 )
-        if 'all' not in self.request.GET:
+        tab = self.request.GET.get('tab', 'my')
+        if tab == 'my':
             qs = qs.filter(studymembership__user=self.request.user)
         return qs.distinct()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['q'] = self.request.GET.get('q', '')
-        context['all'] = 'all' in self.request.GET
+        context['tab'] = self.request.GET.get('tab', 'my')
         return context
 
 
