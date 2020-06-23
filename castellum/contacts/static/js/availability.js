@@ -1,75 +1,81 @@
 (function() {
-    var setCheckbox = function($wrapper, $checkbox) {
-        if ($wrapper.find('option:selected').length === 0) {
-            $checkbox.prop('checked', false);
-            $checkbox.prop('indeterminate', false);
-        } else if ($wrapper.find('option:selected').length < $wrapper.find('option').length) {
-            $checkbox.prop('checked', false);
-            $checkbox.prop('indeterminate', true);
+    var setCheckbox = function(wrapper, checkbox) {
+        var options = wrapper.querySelectorAll('option');
+        if (Array.prototype.every.call(options, o => !o.selected)) {
+            checkbox.checked = false;
+            checkbox.indeterminate = false;
+        } else if (!Array.prototype.every.call(options, o => o.selected)) {
+            checkbox.checked = false;
+            checkbox.indeterminate = true;
         } else {
-            $checkbox.prop('checked', true);
-            $checkbox.prop('indeterminate', false);
+            checkbox.checked = true;
+            checkbox.indeterminate = false;
         }
     };
 
     var generateCheckboxes = function() {
         // whole week
-        var $label = $('<label class="form-check mb-0">');
-        $label.append($('<input type="checkbox" class="form-check-input" data-js="toggle-all">'));
-        $label.append($('<span class="form-check-label">' + django.gettext('All week') + '</span>'));
-        $availability.append($label);
+        var label = document.createElement('label');
+        label.className = 'form-check mb-0';
+        label.innerHTML = '<input type="checkbox" class="form-check-input" data-js="toggle-all">' +
+            '<span class="form-check-label"></span>';
+        label.querySelector('span').textContent = django.gettext('All week');
+        availability.append(label);
 
         // whole days
-        $availability.find('select').each(function(i, select) {
-            var $label = $('<label class="d-block mb-0 mt-n1">');
-            $label.append($('<input type="checkbox" data-js="toggle-day">'));
-            $label.append($('<span class="sr-only">' + django.gettext('All day') + '</span>'));
-            $label.insertBefore(select);
+        availability.querySelectorAll('select').forEach(function(select) {
+            var label = document.createElement('label');
+            label.className = 'd-block mb-0 mt-n1';
+            label.innerHTML = '<input type="checkbox" data-js="toggle-day">' +
+                '<span class="sr-only"></span>';
+            label.querySelector('span').textContent = django.gettext('All day');
+            select.before(label);
         });
     };
 
-    var $availability = $('[data-js="availability"]');
+    var availability = document.querySelector('[data-js="availability"]');
     generateCheckboxes();
-    var $wholeWeek = $('[data-js="toggle-all"]');
+    var wholeWeek = document.querySelector('[data-js="toggle-all"]');
 
-    $availability.on('change', 'select', function() {
+    $$.on(availability, 'change', 'select', function() {
         // hours --> day
-        var $wrapperDay = $(this);
-        var $wholeDay = $(this).closest('.form-group').find('[data-js="toggle-day"]');
-        setCheckbox($wrapperDay, $wholeDay);
+        var wholeDay = this.closest('.form-group').querySelector('[data-js="toggle-day"]');
+        setCheckbox(this, wholeDay);
 
         // hours --> week
-        setCheckbox($availability, $wholeWeek);
+        setCheckbox(availability, wholeWeek);
     });
 
-    $availability.on('change', '[data-js="toggle-day"]', function() {
+    $$.on(availability, 'change', '[data-js="toggle-day"]', function() {
         // day --> hours
-        var $wholeDay = $(this);
-        var $select = $wholeDay.closest('.form-group').find('select');
-        $select.find('option').prop('selected', $wholeDay.prop('checked'));
+        var select = this.closest('.form-group').querySelector('select');
+        select.querySelectorAll('option').forEach(option => {
+            option.selected = this.checked;
+        });
 
         // day --> week
-        setCheckbox($availability, $wholeWeek);
+        setCheckbox(availability, wholeWeek);
     });
 
-    $availability.on('change', '[data-js="toggle-all"]', function() {
+    $$.on(availability, 'change', '[data-js="toggle-all"]', function() {
         // week --> hours
-        var $wholeWeek = $(this);
-        $availability.find('option').prop('selected', $wholeWeek.prop('checked'));
+        availability.querySelectorAll('option').forEach(option => {
+            option.selected = this.checked;
+        });
 
         // week --> days
-        var $wholeDay = $availability.find('[data-js="toggle-day"]');
-        $wholeDay.prop('checked', $wholeWeek.prop('checked'));
-        $wholeDay.prop('indeterminate', false);
+        availability.querySelectorAll('[data-js="toggle-day"]').forEach(wholeDay => {
+            wholeDay.checked = this.checked;
+            wholeDay.indeterminate = false;
+        });
     });
 
     // set initial state of day checkboxes
-    $('[data-js="toggle-day"]').each(function(i, wholeDay) {
-        var $wholeDay = $(wholeDay);
-        var $select = $wholeDay.closest('.form-group').find('select');
-        setCheckbox($select, $wholeDay);
+    document.querySelectorAll('[data-js="toggle-day"]').forEach(function(wholeDay) {
+        var select = wholeDay.closest('.form-group').querySelector('select');
+        setCheckbox(select, wholeDay);
     });
 
     // set initial state of week checkbox
-    setCheckbox($availability, $wholeWeek);
+    setCheckbox(availability, wholeWeek);
 })();

@@ -1,47 +1,46 @@
 (function() {
-    var $consentHidden = $('#id_consent_status_hidden');
-    var $consentCheckbox = $('#id_consent_status');
-    var $consentConfirm = $('[data-js="consent-confirm"]');
+    var consentHidden = document.getElementById('id_consent_status_hidden');
+    var consentCheckbox = document.getElementById('id_consent_status');
+    var consentConfirm = document.querySelector('[data-js="consent-confirm"]');
 
     var setConsent = function(value) {
         if (value === 'waiting') {
-            $consentCheckbox.prop('indeterminate', true);
-            $consentCheckbox.prop('checked', false);
-            $consentConfirm.prop('hidden', false);
+            consentCheckbox.indeterminate = true;
+            consentCheckbox.checked = false;
+            consentConfirm.hidden = false;
         } else if (value === 'confirmed') {
-            $consentCheckbox.prop('indeterminate', false);
-            $consentCheckbox.prop('checked', true);
-            $consentConfirm.prop('hidden', true);
+            consentCheckbox.indeterminate = false;
+            consentCheckbox.checked = true;
+            consentConfirm.hidden = true;
         } else {
-            $consentCheckbox.prop('indeterminate', false);
-            $consentCheckbox.prop('checked', false);
-            $consentConfirm.prop('hidden', true);
+            consentCheckbox.indeterminate = false;
+            consentCheckbox.checked = false;
+            consentConfirm.hidden = true;
         }
-        if (value !== $consentHidden.val()) {
-            $consentHidden.val(value);
-            $consentHidden.trigger('change');
+        if (value !== consentHidden.value) {
+            consentHidden.value = value;
+            $$.trigger(consentHidden, 'change');
         }
     };
 
-    $consentCheckbox.on('change', function() {
-        setConsent($consentHidden.val() ? '' : 'waiting');
+    $$.on(document, 'change', '#id_consent_status', function() {
+        setConsent(consentHidden.value ? '' : 'waiting');
     });
-    $consentConfirm.on('click', 'button', function() {
+    $$.on(document, 'click', '[data-js="consent-confirm"] button', function() {
         setConsent('confirmed');
     });
-    setConsent($consentHidden.val());
+    setConsent(consentHidden.value);
 
 
-    var $toBeDeleted = $('#id_to_be_deleted');
-    var oldConsentValue = $consentHidden.val();
-    $toBeDeleted.on('change', function() {
-        if ($toBeDeleted.prop('checked')) {
-            oldConsentValue = $consentHidden.val();
+    var oldConsentValue = consentHidden.value;
+    $$.on(document, 'change', '#id_to_be_deleted', function() {
+        if (this.checked) {
+            oldConsentValue = consentHidden.value;
             setConsent('');
-            $consentCheckbox.prop('disabled', true);
+            consentCheckbox.disabled = true;
         } else {
             setConsent(oldConsentValue);
-            $consentCheckbox.prop('disabled', false);
+            consentCheckbox.disabled = false;
         }
     });
 })();

@@ -2,7 +2,7 @@
     var unsavedForms = [];
 
     var registerBeforeUnload = function() {
-        $(window).on('beforeunload', function(event) {
+        window.addEventListener('beforeunload', function(event) {
             if (unsavedForms.length) {
                 event.preventDefault();
                 // Chrome requires returnValue to be set.
@@ -15,9 +15,9 @@
     $$.on(document, 'click', 'a:not([data-js="cancel"]):not([href^="#"])', function(event){
         if (unsavedForms.length) {
             event.preventDefault();
-            var $modal = $('#unsaved-changes-modal');
-            $modal.find('[data-js="cancel"]').prop('href', this.href);
-            $modal.modal('show');
+            var modal = document.querySelector('#unsaved-changes-modal');
+            modal.querySelector('[data-js="cancel"]').href = this.href;
+            $(modal).modal('show');
         }
     });
 

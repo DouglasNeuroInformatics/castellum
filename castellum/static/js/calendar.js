@@ -1,16 +1,16 @@
-$('[data-js="calendar"]').each(function(i, el) {
-    var layout = $(el).data('layout');
+document.querySelectorAll('[data-js="calendar"]').forEach(function(el) {
+    var layout = el.dataset.layout;
     var calendar = new FullCalendar.Calendar(el, {
         schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
         plugins: ['dayGrid', 'timeGrid', 'bootstrap', 'timeline'],
         themeSystem: 'bootstrap',
-        locale: $('html').attr('lang'),
+        locale: document.documentElement.lang,
         events: location.search ? (location.search + '&events') : '?events',
         eventSourceSuccess: function(raw) {
             return raw.events;
         },
         height: function() {
-            return $(window).height() - $(el).offset().top - parseInt($(el).css('margin-bottom'), 10);
+            return window.innerHeight - el.offsetTop - parseInt(getComputedStyle(el).marginBottom, 10);
         },
         header: {
             left: layout === 'year' ? 'timelineMonth,timelineYear' : 'timeGridWeek,dayGridMonth',

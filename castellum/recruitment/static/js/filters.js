@@ -1,23 +1,34 @@
 (function() {
-    var $totalForms = $('#id_form-TOTAL_FORMS');
-    var $container = $('#filter-forms');
+    var totalForms = document.getElementById('id_form-TOTAL_FORMS');
+    var container = document.getElementById('filter-forms');
 
     $$.on(document, 'click', '[data-js="filter-add"]', function() {
         var pk = this.form.description.value;
-        var $template = $('#template-' + pk);
-        if ($template.length) {
-            var html = $template.html().replace(/{prefix}/g, 'form-' + $totalForms.val());
-            var $formrow = $('<div class="form-row mb-3">').html(html);
-            $container.append($formrow);
-            $totalForms.val(parseInt($totalForms.val(), 10) + 1).trigger('change');
+        var template = document.getElementById('template-' + pk);
+        if (template) {
+            var formrow = document.createElement('div');
+            formrow.className = 'form-row mb-3';
+            formrow.innerHTML = template.innerHTML.replace(/{prefix}/g, 'form-' + totalForms.value);
+            container.append(formrow);
+            totalForms.value = parseInt(totalForms.value, 10) + 1;
+            $$.trigger(totalForms, 'change');
         }
     });
 
     $$.on(document, 'click', '[data-js="filter-delete"]', function() {
-        var $formrow = $(this).closest('.form-row');
-        $formrow.find('[name^="form-' + $formrow.index() + '-value"]').remove();
-        $formrow.append($('<input type="hidden" name="form-' + $formrow.index() + '-DELETE" value="on">'));
-        $formrow.attr('hidden', true);
-        $formrow.find('input').trigger('change');
+        var formrow = this.closest('.form-row');
+        var index = Array.prototype.indexOf.call(formrow.parentElement.children, formrow);
+
+        formrow.querySelector('[name^="form-' + index + '-value"]').remove();
+
+        var hidden = document.createElement('input');
+        hidden.type = 'hidden';
+        hidden.name = 'form-' + index + '-DELETE';
+        hidden.value = 'on';
+
+        formrow.append(hidden);
+        formrow.hidden = true;
+
+        $$.trigger(formrow.querySelector('input'), 'change');
     });
 })();

@@ -8,6 +8,11 @@
                 }
             });
         },
+        trigger: function(el, eventName) {
+            var event = document.createEvent('HTMLEvents');
+            event.initEvent(eventName, true, false);
+            el.dispatchEvent(event);
+        },
     };
 
     var preventDoubleClick = false;
@@ -23,10 +28,10 @@
     });
 
     $$.on(document, 'change', '[data-js="confirm-delete"]', function() {
-        $(this.form).find('[type="submit"],button:not([type])').prop('disabled', !this.checked);
+        this.form.querySelector('[type="submit"],button:not([type])').disabled = !this.checked;
     });
 
-    $('[type="date"]').each(function(i, e) {
+    document.querySelectorAll('[type="date"]').forEach(function(e) {
         if (e.type !== 'date') {
             $(e).datepicker({
                 format: 'yyyy-mm-dd',
@@ -40,19 +45,21 @@
     });
 
     $$.on(document, 'click', '[data-multi-reset]', function() {
-        var $target = $($(this).data('multi-reset'));
-        $target.find('option').each(function(i, element) {
-            $(element).prop('selected', false);
+        var targetId = this.dataset.multiReset;
+        var target = document.getElementById(targetId);
+        target.querySelectorAll('option').forEach(function(element) {
+            element.selected = false;
         });
     });
 
     $$.on(document, 'click', '[data-clipboard]', function() {
-        var $target = $($(this).data('clipboard'));
+        var targetId = this.dataset.clipboard;
+        var target = document.getElementById(targetId);
         if (navigator.clipboard) {
-            navigator.clipboard.writeText($target.val());
+            navigator.clipboard.writeText(target.value);
         } else {
-            $target.focus();
-            $target[0].setSelectionRange(0, 1000);
+            target.focus();
+            target.setSelectionRange(0, 1000);
             document.execCommand('copy');
         }
     });
