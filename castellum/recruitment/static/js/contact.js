@@ -14,7 +14,7 @@
         }
     };
 
-    $(document).on('change', '[name="status"]', setVisibility);
+    $$.on(document, 'change', '[name="status"]', setVisibility);
     setVisibility();
 
     var $invited = $('[name="status"] [value="3"]');
@@ -27,11 +27,11 @@
             $alert.prop('hidden', !needsCheck);
         };
 
-        $(document).on('change', '[name="exclusion_criteria_checked"]', setInvitedDisabled);
+        $$.on(document, 'change', '[name="exclusion_criteria_checked"]', setInvitedDisabled);
         setInvitedDisabled();
     }
 
-    $(document).on('change', '[name="exclusion_criteria_checked"]', function() {
+    $$.on(document, 'change', '[name="exclusion_criteria_checked"]', function() {
         $('#criteria-tab .fa-exclamation-triangle').prop('hidden', this.checked);
     });
 
@@ -44,7 +44,7 @@
         return s ? new Date(s) : null;
     };
 
-    $(document).on('submit', 'form', function(event) {
+    $$.on(document, 'submit', 'form', function(event) {
         var start = getDate('#sessions-start');
         var end = getDate('#sessions-end');
         var warn = false;

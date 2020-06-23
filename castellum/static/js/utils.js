@@ -1,6 +1,17 @@
 (function() {
+    window.$$ = {
+        on: function(el, eventName, selector, fn) {
+            el.addEventListener(eventName, function(event) {
+                var target = event.target.closest(selector);
+                if (target) {
+                    fn.call(target, event);
+                }
+            });
+        },
+    };
+
     var preventDoubleClick = false;
-    $(document).on('submit', 'form', function(event) {
+    $$.on(document, 'submit', 'form', function(event) {
         if (preventDoubleClick) {
             event.preventDefault();
         } else {
@@ -11,7 +22,7 @@
         }
     });
 
-    $(document).on('change', '[data-js="confirm-delete"]', function() {
+    $$.on(document, 'change', '[data-js="confirm-delete"]', function() {
         $(this.form).find('[type="submit"],button:not([type])').prop('disabled', !this.checked);
     });
 
@@ -28,14 +39,14 @@
         }
     });
 
-    $(document).on('click', '[data-multi-reset]', function() {
+    $$.on(document, 'click', '[data-multi-reset]', function() {
         var $target = $($(this).data('multi-reset'));
         $target.find('option').each(function(i, element) {
             $(element).prop('selected', false);
         });
     });
 
-    $(document).on('click', '[data-clipboard]', function() {
+    $$.on(document, 'click', '[data-clipboard]', function() {
         var $target = $($(this).data('clipboard'));
         if (navigator.clipboard) {
             navigator.clipboard.writeText($target.val());
@@ -46,7 +57,7 @@
         }
     });
 
-    $(document).on('click', '[data-js="popup"]', function(event) {
+    $$.on(document, 'click', '[data-js="popup"]', function(event) {
         event.preventDefault();
         // copied from django
         var config = 'height=500,width=800,resizable=yes,scrollbars=yes';

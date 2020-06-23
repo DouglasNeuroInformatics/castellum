@@ -12,7 +12,7 @@
         });
     };
 
-    $(document).on('click', 'a:not([data-js="cancel"]):not([href^="#"])', function(event){
+    $$.on(document, 'click', 'a:not([data-js="cancel"]):not([href^="#"])', function(event){
         if (unsavedForms.length) {
             event.preventDefault();
             var $modal = $('#unsaved-changes-modal');
@@ -21,18 +21,18 @@
         }
     });
 
-    $(document).on('change', 'form[method="post"]', function() {
+    $$.on(document, 'change', 'form[method="post"]', function() {
         // beforeunload prevents caching, so only register it when necessary
         registerBeforeUnload();
         if (!unsavedForms.includes(this)) {
             unsavedForms.push(this);
         }
     });
-    $(document).on('submit', 'form', function() {
+    $$.on(document, 'submit', 'form', function() {
         unsavedForms = unsavedForms.filter(f => f !== this);
     });
 
-    $(document).on('click', '[data-js="cancel"]', function() {
+    $$.on(document, 'click', '[data-js="cancel"]', function() {
         unsavedForms = [];
     });
 })();

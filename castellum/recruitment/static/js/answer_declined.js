@@ -5,7 +5,7 @@
         $target.prop('disabled', $answer_declined.prop('checked'));
     };
 
-    $(document).on('change', '[data-js="answer-declined"]', disableInput);
+    $$.on(document, 'change', '[data-js="answer-declined"]', disableInput);
 
     $('[data-js="answer-declined"]').each(function(i, element) {
         disableInput({target: element});

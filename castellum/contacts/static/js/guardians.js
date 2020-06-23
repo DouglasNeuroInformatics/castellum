@@ -1,5 +1,5 @@
 (function() {
-    $(document).on('change', '[name="guardians_pane"]', function() {
+    $$.on(document, 'change', '[name="guardians_pane"]', function() {
         ['self', 'guardians'].forEach(function(id) {
             var $pane = $('#contact-' + id);
             var $radio = $('[name="guardians_pane"][value="' + id + '"]');
@@ -7,7 +7,7 @@
         });
     });
 
-    $(document).on('submit', '[data-js="contact-completeness"]', function(event) {
+    $$.on(document, 'submit', '[data-js="contact-completeness"]', function(event) {
         var complete = false;
         if ($('[name="guardians_pane"][value="guardians"]').prop('checked')) {
             complete = (
@@ -44,11 +44,11 @@
         }
     };
 
-    $(document).on('click', '[data-js="guardian-remove"]', function() {
+    $$.on(document, 'click', '[data-js="guardian-remove"]', function() {
         toggleGuardian(this, true);
     });
 
-    $(document).on('click', '[data-js="guardian-restore"]', function() {
+    $$.on(document, 'click', '[data-js="guardian-restore"]', function() {
         toggleGuardian(this, false);
     });
 
@@ -63,7 +63,7 @@
         $button.before($el);
     };
 
-    $(document).on('click', '[data-js="guardian-add"]', function() {
+    $$.on(document, 'click', '[data-js="guardian-add"]', function() {
         // copied from django
         var config = 'height=500,width=800,resizable=yes,scrollbars=yes';
         var win = window.open('/subjects/guardians/', 'guardian-add', config);
@@ -78,7 +78,7 @@
         win.close();
     };
 
-    $(document).on('click', '[data-js="guardian-dismiss"]', function() {
+    $$.on(document, 'click', '[data-js="guardian-dismiss"]', function() {
         window.close();
     });
 
@@ -87,6 +87,6 @@
         opener.closeGuardianPopup(window, data);
     };
 
-    $(document).on('click', '[data-js="guardian-use"]', use);
+    $$.on(document, 'click', '[data-js="guardian-use"]', use);
     $('[data-js="guardian-use-auto"]').each(use);
 })();
