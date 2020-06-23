@@ -1,5 +1,5 @@
 {% extends "studies/base.html" %}
-{% load i18n auth bootstrap4 utils %}
+{% load i18n static auth bootstrap4 utils %}
 
 {% block title %}{% trans "Studies" %} &middot; {{ block.super }}{% endblock %}
 
@@ -21,58 +21,62 @@
         </form>
     </div>
 
-    <ul class="table-list mb-3">
-        {% for study in object_list %}
-            <li class="table-list-item">
-                <div>
-                    <div class="h4 d-inline-block my-1 mr-2">{{ study.name }}</div>
-                    {% if study.contact_person %}
-                        <div class="d-inline-block my-1 mr-2">{{ study.contact_person }}</div>
-                    {% endif %}
-                    {% if study.status == study.FINISHED %}
-                        <span class="badge badge-secondary">{% trans 'Finished' %}</span>
-                    {% endif %}
-                </div>
-                <div class="table-list-item-actions">
-                    {% has_perm 'studies.access_study' user study as can_access %}
-                    {% if can_access and study.status == study.EXECUTION %}
-                        {% has_perm 'recruitment.view_participationrequest' user study as can_recruit %}
-                        {% if can_recruit %}
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment-open' study.pk %}">{% trans 'Recruitment' %}</a>
+    {% if tab == 'calendar' %}
+        <div class="my-5" data-js="calendar"></div>
+    {% else %}
+        <ul class="table-list mb-3">
+            {% for study in object_list %}
+                <li class="table-list-item">
+                    <div>
+                        <div class="h4 d-inline-block my-1 mr-2">{{ study.name }}</div>
+                        {% if study.contact_person %}
+                            <div class="d-inline-block my-1 mr-2">{{ study.contact_person }}</div>
+                        {% endif %}
+                        {% if study.status == study.FINISHED %}
+                            <span class="badge badge-secondary">{% trans 'Finished' %}</span>
+                        {% endif %}
+                    </div>
+                    <div class="table-list-item-actions">
+                        {% has_perm 'studies.access_study' user study as can_access %}
+                        {% if can_access and study.status == study.EXECUTION %}
+                            {% has_perm 'recruitment.view_participationrequest' user study as can_recruit %}
+                            {% if can_recruit %}
+                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment-open' study.pk %}">{% trans 'Recruitment' %}</a>
+                            {% endif %}
+
+                            {% has_perm 'recruitment.view_participation_pseudonyms' user study as can_conduct %}
+                            {% if can_conduct %}
+                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:study-detail' study.pk %}">{% trans 'Execution' %}</a>
+                            {% endif %}
                         {% endif %}
 
-                        {% has_perm 'recruitment.view_participation_pseudonyms' user study as can_conduct %}
-                        {% if can_conduct %}
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:study-detail' study.pk %}">{% trans 'Execution' %}</a>
+                        {% has_perm 'studies.view_study' user study as can_view_study %}
+                        {% if can_view_study %}
+                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:detail' study.pk %}">{% trans 'Details' %}</a>
                         {% endif %}
-                    {% endif %}
-
-                    {% has_perm 'studies.view_study' user study as can_view_study %}
-                    {% if can_view_study %}
-                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:detail' study.pk %}">{% trans 'Details' %}</a>
-                    {% endif %}
-                </div>
-            </li>
-        {% empty %}
-            <li class="alert alert-warning">
-                {% if q %}
-                    {% trans 'No results found.' %}
-                {% else %}
-                    {% if all %}
-                        {% trans 'No studies' %}
+                    </div>
+                </li>
+            {% empty %}
+                <li class="alert alert-warning">
+                    {% if q %}
+                        {% trans 'No results found.' %}
                     {% else %}
-                        {% trans 'No personal studies' %}
+                        {% if all %}
+                            {% trans 'No studies' %}
+                        {% else %}
+                            {% trans 'No personal studies' %}
+                        {% endif %}
                     {% endif %}
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+                </li>
+            {% endfor %}
+        </ul>
 
-    {% if is_paginated %}
-        <nav aria-label="{% trans 'Page navigation' %}">
-            {% bootstrap_pagination page_obj url=request.get_full_path %}
-        </nav>
-    {% endif %}
+        {% if is_paginated %}
+            <nav aria-label="{% trans 'Page navigation' %}">
+                {% bootstrap_pagination page_obj url=request.get_full_path %}
+            </nav>
+        {% endif %}
+    {% endif  %}
 
     <div class="d-print-none mb-3">
         {% has_perm 'studies.add_study' user as can_add_study %}
@@ -84,4 +88,14 @@
             <a href="{% url 'studies:create' %}" class="btn btn-primary">{% trans "Create new study" %}</a>
         {% endif %}
     </div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'fullcalendar/main.js' %}"></script>
+    <script src="{% static 'fullcalendar/locales/de.js' %}"></script>
+    <script src="{% static 'js/calendar.js' %}"></script>
+{% endblock %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'fullcalendar/main.css' %}">
 {% endblock %}
