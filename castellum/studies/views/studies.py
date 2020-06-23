@@ -64,6 +64,13 @@ class StudyIndexView(LoginRequiredMixin, ListView):
     ordering = 'name'
     paginate_by = 15
 
+    def get(self, request, *args, **kwargs):
+        if 'events' in request.GET:
+            events = [self.render_event(study) for study in self.get_queryset()]
+            return JsonResponse({'events': events})
+        else:
+            return super().get(request, *args, **kwargs)
+
     def get_queryset(self):
         qs = super().get_queryset()
         q = self.request.GET.get('q')
@@ -80,6 +87,14 @@ class StudyIndexView(LoginRequiredMixin, ListView):
         if tab == 'my':
             qs = qs.filter(studymembership__user=self.request.user)
         return qs.distinct()
+
+    def render_event(self, study):
+        return {
+            'start': study.sessions_start,
+            'end': study.sessions_end,
+            'title': study.name,
+            'url': reverse('studies:detail', args=[study.pk]),
+        }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
