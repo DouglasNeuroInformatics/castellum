@@ -1,4 +1,4 @@
-$(function() {
+(function() {
     var unsavedForms = [];
 
     var registerBeforeUnload = function() {
@@ -35,4 +35,4 @@ $(function() {
     $(document).on('click', '[data-js="cancel"]', function() {
         unsavedForms = [];
     });
-});
+})();

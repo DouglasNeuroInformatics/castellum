@@ -1,4 +1,4 @@
-$(function() {
+(function() {
     var $consentHidden = $('#id_consent_status_hidden');
     var $consentCheckbox = $('#id_consent_status');
     var $consentConfirm = $('[data-js="consent-confirm"]');
@@ -44,4 +44,4 @@ $(function() {
             $consentCheckbox.prop('disabled', false);
         }
     });
-});
+})();

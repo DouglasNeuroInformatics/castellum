@@ -1,4 +1,4 @@
-$(function() {
+(function() {
     var $totalForms = $('#id_form-TOTAL_FORMS');
     var $notes_container = $('#notes-container');
 
@@ -14,4 +14,4 @@ $(function() {
         var $delete = $('#' + event.target.id.slice(0, -6));
         $delete.val(event.target.checked ? '' : 'on');
     });
-});
+})();

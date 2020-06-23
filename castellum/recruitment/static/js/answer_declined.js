@@ -1,4 +1,4 @@
-$(function() {
+(function() {
     var disableInput = function(event) {
         var $answer_declined = $(event.target);
         var $target = $('#' + $answer_declined.data('target'));
@@ -10,4 +10,4 @@ $(function() {
     $('[data-js="answer-declined"]').each(function(i, element) {
         disableInput({target: element});
     });
-});
+})();

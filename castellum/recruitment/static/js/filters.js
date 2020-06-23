@@ -1,4 +1,4 @@
-$(function() {
+(function() {
     var $totalForms = $('#id_form-TOTAL_FORMS');
     var $container = $('#filter-forms');
 
@@ -20,4 +20,4 @@ $(function() {
         $formrow.attr('hidden', true);
         $formrow.find('input').trigger('change');
     });
-});
+})();

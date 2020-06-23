@@ -1,4 +1,4 @@
-$(function() {
+(function() {
     var preventDoubleClick = false;
     $(document).on('submit', 'form', function(event) {
         if (preventDoubleClick) {
@@ -53,4 +53,4 @@ $(function() {
         var win = window.open(event.target.href, null, config);
         win.focus();
     });
-});
+})();

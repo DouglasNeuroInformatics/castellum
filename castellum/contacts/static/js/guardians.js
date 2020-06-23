@@ -1,4 +1,4 @@
-$(function() {
+(function() {
     $(document).on('change', '[name="guardians_pane"]', function() {
         ['self', 'guardians'].forEach(function(id) {
             var $pane = $('#contact-' + id);
@@ -89,4 +89,4 @@ $(function() {
 
     $(document).on('click', '[data-js="guardian-use"]', use);
     $('[data-js="guardian-use-auto"]').each(use);
-});
+})();

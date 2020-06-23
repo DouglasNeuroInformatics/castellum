@@ -1,4 +1,4 @@
-$(function() {
+(function() {
     var $totalForms = $('#id_form-TOTAL_FORMS');
     var $sessions_container = $('#sessions-container');
 
@@ -18,4 +18,4 @@ $(function() {
         $fieldset.append($('<input type="hidden" name="form-' + $fieldset.index() + '-DELETE" value="on">'));
         $fieldset.attr('hidden', true);
     });
-});
+})();

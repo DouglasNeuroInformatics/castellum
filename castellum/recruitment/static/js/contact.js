@@ -1,4 +1,4 @@
-$(function() {
+(function() {
     var setVisibility = function() {
         var $status = $('[name="status"]');
         var $followupInputs = $('[name="followup_date"]');
@@ -60,4 +60,4 @@ $(function() {
             event.preventDefault();
         }
     });
-});
+})();

@@ -1,4 +1,4 @@
-$(function() {
+(function() {
     var setCheckbox = function($wrapper, $checkbox) {
         if ($wrapper.find('option:selected').length === 0) {
             $checkbox.prop('checked', false);
@@ -72,4 +72,4 @@ $(function() {
 
     // set initial state of week checkbox
     setCheckbox($availability, $wholeWeek);
-});
+})();
