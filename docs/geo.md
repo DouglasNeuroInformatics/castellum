@@ -46,10 +46,6 @@ data for Berlin (~20mins):
     docker-compose run --rm nominatim sh /app/init.sh /data/berlin.osm.pbf postgresdata 4
     rm nominatim/berlin.osm.pbf
 
-If everything worked out you can query nominatim like this:
-
-    curl 'http://localhost:7070/search?city=berlin&country=germany&street=Lentzeallee%2094&limit=1&format=json'
-
 Nominatim is also capable of automatically updating the data.
 For that you need to adapt `CONST_Replication_Url` in the nominatim
 config (`nominatim/local.php` in the example deployment). Then run these
@@ -118,6 +114,8 @@ This is an example of a valid GeoJSON file:
   }
 }
 ```
+
+<http://geojson.io> is a simple tool to preview and edit GeoJSON.
 
 ### How to convert a shapefile to GeoJSON
 
