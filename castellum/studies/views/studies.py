@@ -86,6 +86,10 @@ class StudyIndexView(LoginRequiredMixin, ListView):
         tab = self.request.GET.get('tab', 'my')
         if tab == 'my':
             qs = qs.filter(studymembership__user=self.request.user)
+        if 'start' in self.request.GET:
+            qs = qs.filter(sessions_end__gte=self.request.GET['start'][:10])
+        if 'end' in self.request.GET:
+            qs = qs.filter(sessions_start__lte=self.request.GET['end'][:10])
         return qs.distinct()
 
     def render_event(self, study):
