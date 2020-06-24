@@ -17,10 +17,7 @@
     </ul>
 
     <form method="post">
-        {% for error in form.non_field_errors %}
-            <p class="alert alert-danger" role="alert">{{ error }}</p>
-        {% endfor %}
-
+        {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 
         <h3>{% trans "Additional groups in this study" %}</h3>
