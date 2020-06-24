@@ -154,22 +154,15 @@ def pk_filter(qs, key='subject_id'):
         return models.Q(pk__in=pks)
 
 
-def geofilter(study, include_unknown=None):
+def geofilter(study):
     from castellum.geofilters.models import Geolocation
-
-    if include_unknown is None:
-        include_unknown = not study.complete_matches_only
 
     feature = json.load(study.geo_filter)
     study.geo_filter.seek(0)
     polygon = GEOSGeometry(json.dumps(feature['geometry']))
 
-    if include_unknown:
-        locations = Geolocation.objects.exclude(point__within=polygon)
-        return ~pk_filter(locations, 'contact__subject_id')
-    else:
-        locations = Geolocation.objects.filter(point__within=polygon)
-        return pk_filter(locations, 'contact__subject_id')
+    locations = Geolocation.objects.filter(point__within=polygon)
+    return pk_filter(locations, 'contact__subject_id')
 
 
 def completeness_expr():
@@ -197,7 +190,7 @@ def study_except_filters(study, include_unknown=None):
     q &= study_disinterest(study)
     q &= to_be_deleted()
     if 'castellum.geofilters' in settings.INSTALLED_APPS and study.geo_filter:
-        q &= geofilter(study, include_unknown=include_unknown)
+        q &= geofilter(study)
     return q
 
 
