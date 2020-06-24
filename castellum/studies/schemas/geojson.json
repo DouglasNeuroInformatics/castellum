@@ -3,12 +3,15 @@
     "$defs": {
         "PolygonCoordinates": {
             "type": "array",
-            "minItems": 4,
             "items": {
                 "type": "array",
-                "minItems": 2,
+                "minItems": 4,
                 "items": {
-                    "type": "number"
+                    "type": "array",
+                    "minItems": 2,
+                    "items": {
+                        "type": "number"
+                    }
                 }
             }
         },
