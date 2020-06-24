@@ -32,7 +32,6 @@ from faker import Faker
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.contacts.models import phonetic
-from castellum.geofilters.models import Geolocation
 from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import AttributeSet
 from castellum.studies.models import Study
@@ -147,16 +146,6 @@ def fake_address(contact):
     )
 
 
-def fake_geolocation(contact):
-    return Geolocation(
-        contact=contact,
-        point=Point(
-            fake.random.uniform(13.2378, 13.6224),
-            fake.random.uniform(52.4085, 52.5753),
-        ),
-    )
-
-
 def fake_contact(subject):
     if fake.random.random() < 0.5:
         gender = 'f'
@@ -198,6 +187,18 @@ def fake_attributeset(subject, contact):
     return AttributeSet(subject=subject, data=data)
 
 
+def generate_geolocations(contacts):
+    from castellum.geofilters.models import Geolocation
+
+    Geolocation.objects.bulk_create(Geolocation(
+        contact=contact,
+        point=Point(
+            fake.random.uniform(13.2378, 13.6224),
+            fake.random.uniform(52.4085, 52.5753),
+        ),
+    ) for contact in contacts)
+
+
 def generate_studies(count):
     print('Generating studies')
     studies = [fake_study() for i in range(count)]
@@ -237,7 +238,7 @@ def generate_subjects(count):
 
     if 'castellum.geofilters' in settings.INSTALLED_APPS:
         print('Generating geolocations')
-        Geolocation.objects.bulk_create(fake_geolocation(contact) for contact in contacts)
+        generate_geolocations(contacts)
 
     print('Generating attributesets')
     attributesets = [fake_attributeset(subjects[i], contacts[i]) for i in range(count)]
