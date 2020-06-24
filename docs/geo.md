@@ -119,6 +119,8 @@ This is an example of a valid GeoJSON file:
 }
 ```
 
+<http://geojson.io> is a simple tool to preview and edit GeoJSON.
+
 ### How to convert a shapefile to GeoJSON
 
 Most Geographic Information Systems (GIS) such as QGIS or ArcGIS support
