@@ -1,8 +1,0 @@
-{# workaround for https://github.com/zostera/django-bootstrap4/issues/212 #}
-<div class="form-group">
-    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-    <div>{{ field }}</div>
-    {% for error in field.errors %}
-        <div class="form-text text-danger">{{ error }}</div>
-    {% endfor %}
-</div>

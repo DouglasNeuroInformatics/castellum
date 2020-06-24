@@ -203,16 +203,10 @@ NPM_FILE_PATTERNS = {
         'webfonts/fa-solid-900.ttf',
         'webfonts/fa-solid-900.svg',
     ],
-    '@fullcalendar': [
-        'core/main.min.js',
-        'core/main.css',
-        'core/locales/de.js',
-        'daygrid/main.min.js',
-        'daygrid/main.css',
-        'timegrid/main.min.js',
-        'timegrid/main.css',
-        'bootstrap/main.min.js',
-        'bootstrap/main.css',
+    'fullcalendar': [
+        'main.js',
+        'main.css',
+        'locales/de.js',
     ],
 }
 

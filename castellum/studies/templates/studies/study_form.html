@@ -23,7 +23,7 @@
         {% bootstrap_field form.description %}
         {% bootstrap_field form.keywords %}
         {% bootstrap_field form.data_sensitivity %}
-        {% include "file_field.html" with field=form.consent %}
+        {% bootstrap_field form.consent %}
         {% bootstrap_field form.min_subject_count %}
 
         <div class="d-print-none mb-3">
