@@ -93,6 +93,8 @@ then filter all subjects that live inside this (multi)polygon, so it
 should enclose all areas where the conditions for recruitment are met.
 Note that the Coordinate Reference System (CRS) must be WGS84
 (EPSG:4326).
+For tasks that translate to simple polygons with not too many points
+you can create the file manually at [geojson.io](https://geojson.io).
 
 This is an example of a valid GeoJSON file:
 
