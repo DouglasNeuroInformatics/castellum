@@ -25,8 +25,9 @@ consents must be obtained separately from the respective study conducters
 Updating the Consent Documents
 -------------------------------
 
-Consent documents are marked invalid when a change in legislation, substantial changes
-in the old document or other reasons require the signature of a new document.
+Consent documents are marked as invalid if a change in legislation occurs, substantial
+changes have been made to the old document or other reasons require the signing
+of a new document.
 
 1. There are two options you may implement when a consent document becomes invalid
    For both options first go to **Admin** on the front page > **Consent documents**
