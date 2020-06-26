@@ -13,7 +13,25 @@ Classification
 --------------
 
 You can think of many kinds of scientific databases that handle personal
-information:
+information. What castellum is:
+
+recruting database
+    contains some data about (potential) test subjects that allows you to
+    find out which ones you should contact for your next study
+
+contact database
+    a central list of contact information shared by all other databases
+
+    by having this in a central place, contact information can be updated
+    for all studies at the same time.
+
+    by having this in a central place, the other databases can work with
+    pseudonyms instead.
+
+pseudonym service
+    used to store relations between the different datasets
+
+What castellum is not:
 
 study database
     contains all data that is collected during a study
@@ -33,46 +51,15 @@ research archive
 
     examples include image archives and biobanks
 
-recruting database
-    contains some data about (potential) test subjects that allows you to
-    find out which ones you should contact for your next study
+How do we decide what to integrate?
+-----------------------------------
 
-contact database
-    a central list of contact information shared by all other databases
+Some workflows need to be deeply integrated with contact management. A good
+example for this is the recruitment, which is centered around communication
+with the subject. These workflows are integrated in castellum.
 
-    by having this in a central place, contact information can be updated
-    for all studies at the same time.
-
-    by having this in a central place, the other databases can work with
-    pseudonyms instead.
-
-pseudonym service
-    used to store relations between the different datasets
-
-Of these, castellum implements a recruting database, a contact database, and a
-pseudonym service. All data that is actually related to studies must be
-stored separately.
-
-Boundaries
-----------
-
-Internal steps
-``````````````
-
-Some steps need to be deeply integrated with contact management. A good example
-for this is the recruitment, which is centered around communication with the
-subject.
-
-Django works best when all data is in the same database. However, it is also
-possible to split some data to a separate database. We use this mechanism for
-contact data. The data is still held internally, but there is an additional
-layer of security.
-
-External steps
-``````````````
-
-Some steps should be kept completely separated. For example, research data
-should not be stored inside castellum. Note that there is no need for a
+Any other workflows should be kept completely separated. For example, research
+data should not be stored inside castellum. Note that there is no need for a
 streamlined, integrated UI because research data is (or at least could be)
 handled by completely different staff than contact data and recruitment.
 
@@ -81,7 +68,7 @@ handled by completely different staff than contact data and recruitment.
    search attributes both contain traces of research data, but are required for
    the recruitment process.
 
-Steps will also be kept out of Castellum if there are well established
+Workflows will also be kept out of Castellum if there are well established
 processes that do not need to be replaced. Examples might include calendars or
 room management.
 
