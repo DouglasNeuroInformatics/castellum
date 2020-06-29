@@ -52,7 +52,7 @@ config (`nominatim/local.php` in the example deployment). Then run these
 commands:
 
     docker exec -it exampledeployment_nominatim_1 sudo -u postgres ./src/build/utils/update.php --init-updates
-    docker exec -it exampledeployment_nominatim_1 sudo -u postgres ./src/build/utils/update.php --import-osmosis-all
+    docker exec -it exampledeployment_nominatim_1 sudo -u postgres ./src/build/utils/update.php --import-osmosis
 
 Further reading:
 
