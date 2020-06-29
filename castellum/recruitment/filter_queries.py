@@ -165,7 +165,7 @@ def geofilter(study):
     outside = Geolocation.objects.exclude(point__within=polygon)
     wards = (
         Contact.objects
-        .exclude(guardians=None)
+        .exclude(guardians__geolocation=None)
         .exclude(guardians__geolocation__in=outside)
     )
     contacts = Contact.objects.filter(
