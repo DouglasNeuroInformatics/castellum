@@ -168,11 +168,11 @@ def geofilter(study):
         .exclude(guardians=None)
         .exclude(guardians__geolocation__in=outside)
     )
-    locations = Geolocation.objects.filter(
-        models.Q(point__within=polygon)
-        | models.Q(contact__in=wards)
+    contacts = Contact.objects.filter(
+        models.Q(geolocation__point__within=polygon)
+        | models.Q(id__in=wards.values('id'))
     )
-    return pk_filter(locations, 'contact__subject_id')
+    return pk_filter(contacts)
 
 
 def completeness_expr():
