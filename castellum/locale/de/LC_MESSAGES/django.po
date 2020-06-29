@@ -441,22 +441,16 @@ msgstr "Zusätzliche Informationen bearbeiten"
 #: castellum/execution/templates/execution/reception.html:4
 #: castellum/execution/templates/execution/reception.html:7
 #: castellum/templates/index.html:38
-#, fuzzy
-#| msgid "Description"
 msgid "Reception"
-msgstr "Beschreibung"
+msgstr "Empfang"
 
 #: castellum/execution/templates/execution/reception.html:11
-#, fuzzy
-#| msgid "no appointment"
 msgid "Today's appointments"
-msgstr "kein Termin"
+msgstr "Die heutigen Termine"
 
 #: castellum/execution/templates/execution/reception.html:22
-#, fuzzy
-#| msgid "no appointment"
 msgid "No appointments today"
-msgstr "kein Termin"
+msgstr "Heute keine Termine"
 
 #: castellum/execution/templates/execution/study_detail.html:16
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:23
@@ -992,6 +986,8 @@ msgid ""
 "This study uses a geographic filter. Please verify that the subjects lives "
 "at the same address as one of their guardians."
 msgstr ""
+"Diese Studie benutzt einen geographischen Filter. Bitte stellen Sie sicher, "
+"dass die Proband*in an der gleichen Adresse wie einer der Vormünder lebt."
 
 #: castellum/recruitment/templates/recruitment/contact.html:35
 msgid ""
@@ -1406,16 +1402,17 @@ msgid "Custom filter"
 msgstr "Spezieller Filter"
 
 #: castellum/studies/models.py:133
-#, fuzzy
-#| msgid "No filters"
 msgid "Geo filter file"
-msgstr "Keine Filter"
+msgstr "Geofilter Datei"
 
 #: castellum/studies/models.py:135
 msgid ""
 "A GeoJSON file that contains only a single (multi)polygon. Only subjects who "
 "live inside this polygon will be considered for this study."
 msgstr ""
+"Eine GeoJSON Datei die nur ein einzelnen (Multi)Polygon enthält. Nur "
+"Proband*innen die innerhalb dieses Polygons leben werden für diese Studie "
+"berücksichtigt."
 
 #: castellum/studies/models.py:145
 msgid "Exclusive subjects"
@@ -2725,25 +2722,4 @@ msgstr "aktualisiert am"
 
 #: castellum/utils/templates/utils/form_errors.html:7
 msgid "Please correct the errors listed on the fields."
-msgstr ""
-
-#~ msgid "not checked"
-#~ msgstr "nicht überprüft"
-
-#~ msgid "Find subjects"
-#~ msgstr "Proband*innen finden"
-
-#~ msgid "There are currently no studies you can conduct."
-#~ msgstr "Es gibt aktuell keine Studien, die Sie durchführen können."
-
-#~ msgid "Recruit subjects"
-#~ msgstr "Proband*innen rekrutieren"
-
-#~ msgid "There are currently no studies you can recruit for."
-#~ msgstr "Es gibt aktuell keine Studien, für die Sie rekrutieren können."
-
-#~ msgid "Expense allowance"
-#~ msgstr "Aufwandsentschädigung"
-
-#~ msgid "EUR"
-#~ msgstr "EUR"
+msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
