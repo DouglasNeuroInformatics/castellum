@@ -8,9 +8,8 @@ def migrate_data(apps, schema_editor):
     for study in Study.objects.all():
         if not study.study_type.exists():
             continue
-        try:
-            session = study.studysession_set.first()
-        except StudySession.DoesNotExist:
+        session = study.studysession_set.first()
+        if not session:
             session = study.studysession_set.create(name='session', duration=0)
         session.type.set(study.study_type.all())
 
