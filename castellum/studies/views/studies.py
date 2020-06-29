@@ -64,6 +64,13 @@ class StudyIndexView(LoginRequiredMixin, ListView):
     ordering = 'name'
     paginate_by = 15
 
+    def get(self, request, *args, **kwargs):
+        if 'events' in request.GET:
+            events = [self.render_event(study) for study in self.get_queryset()]
+            return JsonResponse({'events': events})
+        else:
+            return super().get(request, *args, **kwargs)
+
     def get_queryset(self):
         qs = super().get_queryset()
         q = self.request.GET.get('q')
@@ -76,14 +83,27 @@ class StudyIndexView(LoginRequiredMixin, ListView):
                     models.Q(keywords__icontains=part) |
                     models.Q(studysession__type__translations__label__iexact=part)
                 )
-        if 'all' not in self.request.GET:
+        tab = self.request.GET.get('tab', 'my')
+        if tab == 'my':
             qs = qs.filter(studymembership__user=self.request.user)
+        if 'start' in self.request.GET:
+            qs = qs.filter(sessions_end__gte=self.request.GET['start'][:10])
+        if 'end' in self.request.GET:
+            qs = qs.filter(sessions_start__lte=self.request.GET['end'][:10])
         return qs.distinct()
+
+    def render_event(self, study):
+        return {
+            'start': study.sessions_start,
+            'end': study.sessions_end,
+            'title': study.name,
+            'url': reverse('studies:detail', args=[study.pk]),
+        }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['q'] = self.request.GET.get('q', '')
-        context['all'] = 'all' in self.request.GET
+        context['tab'] = self.request.GET.get('tab', 'my')
         return context
 
 
