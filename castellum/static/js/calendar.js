@@ -1,5 +1,6 @@
 $(function() {
     $('[data-js="calendar"]').each(function(i, el) {
+        var layout = $(el).data('layout');
         var calendar = new FullCalendar.Calendar(el, {
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
             themeSystem: 'bootstrap',
@@ -9,12 +10,20 @@ $(function() {
                 return raw.events;
             },
             headerToolbar: {
-                left: 'timeGridWeek,dayGridMonth',
+                left: layout === 'year' ? 'timelineMonth,timelineYear' : 'timeGridWeek,dayGridMonth',
                 center: 'title',
                 right: 'prev,next',
             },
-            initialView: 'timeGridWeek',
+            initialView: layout === 'year' ? 'timelineMonth' : 'timeGridWeek',
             views: {
+                timelineMonth: {
+                    duration: {months: 1},
+                    slotDuration: {days: 1},
+                },
+                timelineYear: {
+                    duration: {years: 1},
+                    slotDuration: {weeks: 1},
+                },
                 timeGridWeek: {
                     allDaySlot: false,
                     slotDuration: '00:30:00',
