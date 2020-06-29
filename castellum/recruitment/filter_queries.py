@@ -36,6 +36,7 @@ from django.contrib.gis.geos import GEOSGeometry
 from django.db import models
 from django.utils import timezone
 
+from castellum.contacts.models import Contact
 from castellum.studies.models import Study
 from castellum.subjects.models import Consent
 from castellum.subjects.models import Subject
@@ -161,8 +162,17 @@ def geofilter(study):
     study.geo_filter.seek(0)
     polygon = GEOSGeometry(json.dumps(feature['geometry']))
 
-    locations = Geolocation.objects.filter(point__within=polygon)
-    return pk_filter(locations, 'contact__subject_id')
+    outside = Geolocation.objects.exclude(point__within=polygon)
+    wards = (
+        Contact.objects
+        .exclude(guardians__geolocation=None)
+        .exclude(guardians__geolocation__in=outside)
+    )
+    contacts = Contact.objects.filter(
+        models.Q(geolocation__point__within=polygon)
+        | models.Q(id__in=wards.values('id'))
+    )
+    return pk_filter(contacts)
 
 
 def completeness_expr():
