@@ -174,7 +174,7 @@ def fake_contact(subject):
     return contact
 
 
-def fake_attributeset(subject, contact):
+def fake_attributeset(contact):
     data = {}
     if fake.random.random() < 0.9:
         data['d1'] = 2 if fake.random.random() < 0.15 else 1
@@ -184,7 +184,7 @@ def fake_attributeset(subject, contact):
         data['d3'] = contact.date_of_birth
     if fake.random.random() < 0.9:
         data['d4'] = fake.random.choice(get_highest_degree_choices())
-    return AttributeSet(subject=subject, data=data)
+    return AttributeSet(subject_id=contact.subject_id, data=data)
 
 
 def generate_geolocations(contacts):
@@ -241,7 +241,7 @@ def generate_subjects(count):
         generate_geolocations(contacts)
 
     print('Generating attributesets')
-    attributesets = [fake_attributeset(subjects[i], contacts[i]) for i in range(count)]
+    attributesets = [fake_attributeset(contact) for contact in contacts]
     AttributeSet.objects.bulk_create(attributesets)
 
     print('Generating consents')
