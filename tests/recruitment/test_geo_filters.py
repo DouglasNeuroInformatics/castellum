@@ -30,22 +30,19 @@ OUTSIDE = Point(3, 20)
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('point,include_unknown,expected', [
-    (INSIDE, False, True),
-    (OUTSIDE, False, False),
-    (None, False, False),
-    (INSIDE, True, True),
-    (OUTSIDE, True, False),
-    (None, True, True),
+@pytest.mark.parametrize('point,expected', [
+    (INSIDE, True),
+    (OUTSIDE, False),
+    (None, False),
 ])
-def test_geofilter(point, include_unknown, expected):
+def test_geofilter(point, expected):
     if point is None:
         baker.make(Subject)
     else:
         baker.make(Geolocation, point=point)
 
     study = baker.prepare(Study, geo_filter=POLYGON)
-    q = filter_queries.geofilter(study, include_unknown=include_unknown)
+    q = filter_queries.geofilter(study)
 
     if expected:
         assert Subject.objects.filter(q).exists()
