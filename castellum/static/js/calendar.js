@@ -3,18 +3,22 @@ $(function() {
         var layout = $(el).data('layout');
         var calendar = new FullCalendar.Calendar(el, {
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+            plugins: ['dayGrid', 'timeGrid', 'bootstrap', 'timeline'],
             themeSystem: 'bootstrap',
             locale: $('html').attr('lang'),
             events: location.search ? (location.search + '&events') : '?events',
             eventSourceSuccess: function(raw) {
                 return raw.events;
             },
-            headerToolbar: {
+            height: function() {
+                return $(window).height() - $(el).offset().top - parseInt($(el).css('margin-bottom'), 10);
+            },
+            header: {
                 left: layout === 'year' ? 'timelineMonth,timelineYear' : 'timeGridWeek,dayGridMonth',
                 center: 'title',
                 right: 'prev,next',
             },
-            initialView: layout === 'year' ? 'timelineMonth' : 'timeGridWeek',
+            defaultView: layout === 'year' ? 'timelineMonth' : 'timeGridWeek',
             views: {
                 timelineMonth: {
                     duration: {months: 1},
@@ -30,10 +34,6 @@ $(function() {
                     scrollTime: '08:00:00',
                 },
             },
-        });
-        $(window).on('resize', function() {
-            var height = $(window).height() - $(el).offset().top - parseInt($(el).css('margin-bottom'), 10);
-            calendar.setOption('height', height);
         });
         setInterval(function() {
             calendar.refetchEvents();
