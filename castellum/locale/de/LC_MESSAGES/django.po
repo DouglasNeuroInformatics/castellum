@@ -983,8 +983,8 @@ msgstr ""
 
 #: castellum/recruitment/templates/recruitment/contact.html:29
 msgid ""
-"This study uses a geographic filter. Please verify that the subjects lives "
-"at the same address as one of their guardians."
+"This study uses a geographic filter. Please verify that the subject lives at "
+"the same address as one of their guardians."
 msgstr ""
 "Diese Studie benutzt einen geographischen Filter. Bitte stellen Sie sicher, "
 "dass die Proband*in an der gleichen Adresse wie einer der Vormünder lebt."
