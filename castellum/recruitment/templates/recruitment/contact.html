@@ -18,10 +18,17 @@
         <div class="alert alert-danger" role="alert">
             {% trans 'Subject is unsuitable or blocked in another study.' %}
         </div>
-    {% elif object.match == 'incomplete' %}
-        <div class="alert alert-warning" role="alert">
-            {% trans 'Subject has missing attributes. Please contact to check if they are suitable.' %}
-        </div>
+    {% else %}
+        {% if object.match == 'incomplete' %}
+            <div class="alert alert-warning" role="alert">
+                {% trans 'Subject has missing attributes. Please contact to check if they are suitable.' %}
+            </div>
+        {% endif %}
+        {% if subject.contact.has_guardian and study.geo_filter %}
+            <div class="alert alert-warning" role="alert">
+                {% trans 'This study uses a geographic filter. Please verify that the subjects lives at the same address as one of their guardians.' %}
+            </div>
+        {% endif %}
     {% endif %}
     {% if not subject.has_consent %}
         <div class="alert alert-warning" role="alert">
