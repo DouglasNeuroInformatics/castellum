@@ -20,3 +20,4 @@ settings
 lit.
 Checkbox
 Rekrutierer
+Geofilter
