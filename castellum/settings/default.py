@@ -203,7 +203,7 @@ NPM_FILE_PATTERNS = {
         'webfonts/fa-solid-900.ttf',
         'webfonts/fa-solid-900.svg',
     ],
-    'fullcalendar': [
+    'fullcalendar-scheduler': [
         'main.js',
         'main.css',
         'locales/de.js',

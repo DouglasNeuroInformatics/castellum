@@ -1,6 +1,7 @@
 $(function() {
     $('[data-js="calendar"]').each(function(i, el) {
         var calendar = new FullCalendar.Calendar(el, {
+            schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
             themeSystem: 'bootstrap',
             locale: $('html').attr('lang'),
             events: location.search ? (location.search + '&events') : '?events',
