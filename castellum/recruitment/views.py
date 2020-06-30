@@ -55,6 +55,7 @@ from .forms import ContactForm
 from .forms import SendMailForm
 from .mixins import BaseCalendarView
 from .mixins import ParticipationMixin
+from .models import Appointment
 from .models import AttributeDescription
 from .models import AttributeSet
 from .models import MailBatch
@@ -432,6 +433,31 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     def get_object(self):
         return self.participation
 
+    def get_showup_stats(self):
+        raw = (
+            Appointment.objects
+            .filter(participation__subject=self.subject, show_up__isnull=False)
+            .values('show_up')
+            .annotate(models.Count('show_up'))
+            .order_by()
+        )
+        stats = {item['show_up']: item['show_up__count'] for item in raw}
+
+        weights = {
+            Appointment.SHOWUP: -1,
+            Appointment.LATE: 1,
+            Appointment.EXCUSED: 2,
+            Appointment.NOSHOW: 3,
+        }
+        score = 0
+        labelled = []
+        for key, label in Appointment.SHOWUP_CHOICES:
+            count = stats.get(key, 0)
+            labelled.append((label, count))
+            score += count * weights[key]
+
+        return labelled, score
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -440,6 +466,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         status_field.widget.choices = choices
 
         context['context'] = self.request.GET.get('context')
+        context['showup_stats'], context['showup_score'] = self.get_showup_stats()
 
         return context
 
