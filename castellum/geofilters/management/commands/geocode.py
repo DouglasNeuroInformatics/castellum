@@ -25,31 +25,26 @@ from django.core.management.base import BaseCommand
 
 from geopy.geocoders import Nominatim
 
-from castellum.contacts.models import Contact
+from castellum.contacts.models import Address
 from castellum.geofilters.models import Geolocation
 
 
 def fetch_missing_geolocations():
     geolocator = Nominatim(**settings.NOMINATIM)
     geolocations = []
-    contacts = (
-        Contact.objects
-        .exclude(pk__in=Geolocation.objects.values('contact_id'))
-        .select_related('address')
-    )
-    for contact in contacts:
+    for address in Address.objects.filter(contact__geolocation=None):
         resolved = geolocator.geocode({
             'street': ' '.join([
-                contact.address.street,
-                contact.address.house_number,
+                address.street,
+                address.house_number,
             ]),
-            'city': contact.address.city,
-            'country': contact.address.country,
-            'postalcode': contact.address.zip_code,
+            'city': address.city,
+            'country': address.country,
+            'postalcode': address.zip_code,
         })
         if resolved:
             geolocations.append(Geolocation(
-                contact=contact,
+                contact_id=address.contact_id,
                 point=Point(resolved.longitude, resolved.latitude),
             ))
     Geolocation.objects.bulk_create(geolocations)
