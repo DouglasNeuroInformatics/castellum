@@ -21,6 +21,7 @@
 
 import datetime
 
+from django import forms
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
@@ -81,6 +82,17 @@ class ParticipationDetailView(
 
     def get_object(self):
         return self.participation
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['appointments'] = []
+        form_cls = forms.modelform_factory(Appointment, fields=('show_up',))
+        for session, appointment in self.object.get_appointments():
+            form = form_cls(instance=appointment)
+            context['appointments'].append((session, appointment, form))
+
+        return context
 
 
 class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):

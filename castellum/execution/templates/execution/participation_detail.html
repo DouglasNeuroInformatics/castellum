@@ -1,5 +1,5 @@
 {% extends "execution/base.html" %}
-{% load i18n utils auth %}
+{% load i18n bootstrap4 utils auth %}
 
 {% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
 
@@ -19,11 +19,18 @@
 
     <h2>{% trans 'Appointments' %}</h2>
     <dl>
-        {% for session, appointment in object.get_appointments %}
+        {% for session, appointment, form in appointments %}
             <dt>{{ session.name }}</dt>
             <dd>
                 {% if appointment %}
-                    <time>{{ appointment.start|date }} {{ appointment.start|time }}</time>
+                    <div class="d-flex justify-content-between">
+                        <time>{{ appointment.start|date }} {{ appointment.start|time }}</time>
+                        <form method="POST" class="form-inline" action="{% url 'execution:show-up' study.pk object.pk appointment.pk %}">
+                            {% csrf_token %}
+                            {% bootstrap_field form.show_up show_label=False %}
+                            <button class="btn btn-primary ml-2">{% trans 'Save' %}</button>
+                        </form>
+                    </div>
                 {% else %}
                     &mdash;
                 {% endif %}
