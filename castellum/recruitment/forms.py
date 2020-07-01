@@ -244,17 +244,21 @@ class ContactForm(forms.ModelForm):
 
     def save(self):
         pariticipationrequest = super().save()
+        self.appointment_changes = []
 
         for session, appointment in pariticipationrequest.get_appointments():
             start = self.cleaned_data.get('appointment-%i' % session.pk)
 
             if appointment:
                 if not start:
+                    self.appointment_changes.append((appointment.start, None))
                     appointment.delete()
                 elif start != appointment.start:
+                    self.appointment_changes.append((appointment.start, start))
                     appointment.start = start
                     appointment.save()
             elif start:
+                self.appointment_changes.append((None, start))
                 pariticipationrequest.appointment_set.create(
                     session=session,
                     start=start,

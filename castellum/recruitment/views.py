@@ -450,6 +450,46 @@ class ContactView(ParticipationRequestMixin, PermissionRequiredMixin, UpdateView
         else:
             return reverse('recruitment:recruitment-open', args=[self.object.study.pk])
 
+    def send_appointment_notifications(self, changes):
+        start = timezone.now()
+        end = start + timezone.timedelta(days=2)
+        relevant_changes = [
+            change for change in changes if (
+                (change[0] and change[0] >= start and change[0] <= end) or
+                (change[1] and change[1] >= start and change[1] <= end)
+            )
+        ]
+
+        if not relevant_changes:
+            return
+
+        body = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY.format(
+            study=self.study,
+            changes='\n'.join('%s -> %s' % change for change in relevant_changes),
+            url=self.request.build_absolute_uri(reverse(
+                'execution:participationrequest-detail',
+                args=[self.study.pk, self.object.pk]
+            )),
+        )
+
+        perm = 'recruitment.view_participation_pseudonyms'
+        connection = get_connection()
+        for user in self.study.members.all():
+            if user != self.request.user and user.has_perm(perm, obj=self.study):
+                msg = EmailMessage(
+                    settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT,
+                    body,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [user.email],
+                    connection=connection,
+                )
+                msg.send()
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.send_appointment_notifications(form.appointment_changes)
+        return response
+
 
 class RecruitmentUpdateMixin(ParticipationRequestMixin):
     study_status = [Study.EXECUTION]
