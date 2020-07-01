@@ -38,4 +38,26 @@ $(function() {
     if ($('#appointments .is-invalid').length) {
         $('#appointments-tab').tab('show');
     }
+
+    var getDate = function(selector) {
+        var s = $(selector).prop('dateTime');
+        return s ? new Date(s) : null;
+    };
+
+    $(document).on('submit', 'form', function(event) {
+        var start = getDate('#sessions-start');
+        var end = getDate('#sessions-end');
+        var warn = false;
+        $('[name^="appointment"][type="date"]').each(function(i, el) {
+            if (el.value) {
+                var date = new Date(el.value)
+                if ((start && date < start) || (end && date > end)) {
+                    warn = true;
+                }
+            }
+        });
+        if (warn && !confirm(django.gettext('Some of the appointments are outside of the planned time period. Do you want to save it anyway?'))) {
+            event.preventDefault();
+        }
+    });
 });
