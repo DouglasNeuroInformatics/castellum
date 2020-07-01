@@ -453,6 +453,8 @@ class ContactView(ParticipationRequestMixin, PermissionRequiredMixin, UpdateView
     def send_appointment_notifications(self, changes):
         start = timezone.now()
         end = start + timezone.timedelta(days=2)
+        while end.isoweekday() in [1, 6, 7]:
+            end += timezone.timedelta(days=1)
         relevant_changes = [
             change for change in changes if (
                 (change[0] and change[0] >= start and change[0] <= end) or
