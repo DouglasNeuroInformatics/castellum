@@ -55,7 +55,7 @@ class Appointment(models.Model):
         on_delete=models.CASCADE,
         verbose_name=_('Participation'),
     )
-    show_up = models.SmallIntegerField(_('Show up'), blank=True, null=True, choices=SHOWUP_CHOICES)
+    show_up = models.SmallIntegerField(_('Show up'), default=SHOWUP, choices=SHOWUP_CHOICES)
 
     class Meta:
         ordering = ('start',)

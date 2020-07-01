@@ -436,7 +436,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     def get_showup_stats(self):
         raw = (
             Appointment.objects
-            .filter(participation__subject=self.subject, show_up__isnull=False)
+            .filter(participation__subject=self.subject, start__lt=timezone.now())
             .values('show_up')
             .annotate(models.Count('show_up'))
             .order_by()

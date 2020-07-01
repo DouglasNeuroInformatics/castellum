@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='appointment',
             name='show_up',
-            field=models.SmallIntegerField(blank=True, choices=[(1, 'show up'), (2, 'late'), (3, 'excused'), (4, 'no show')], null=True, verbose_name='Show up'),
+            field=models.SmallIntegerField(choices=[(1, 'show up'), (2, 'late'), (3, 'excused'), (4, 'no show')], default=1, verbose_name='Show up'),
         ),
     ]
