@@ -38,23 +38,23 @@ MINUTE = datetime.timedelta(seconds=60)
 class Appointment(models.Model):
     session = models.ForeignKey(StudySession, verbose_name=_('Session'), on_delete=models.CASCADE)
     start = DateTimeField(_('Start'))
-    participant = models.ForeignKey(
+    participation = models.ForeignKey(
         Participation,
         on_delete=models.CASCADE,
-        verbose_name=_('Participant'),
+        verbose_name=_('Participation'),
     )
 
     class Meta:
         ordering = ('start',)
-        unique_together = ['session', 'participant']
+        unique_together = ['session', 'participation']
 
     def __str__(self):
         return '%s %s' % (date_format(self.start), time_format(self.start))
 
     def clean(self):
-        if self.session.study != self.participant.study:
+        if self.session.study != self.participation.study:
             raise ValidationError(
-                _('Session and participant do not belong to the same study'), code='study'
+                _('Session and participation do not belong to the same study'), code='study'
             )
 
     @property

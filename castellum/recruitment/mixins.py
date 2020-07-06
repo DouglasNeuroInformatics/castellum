@@ -112,7 +112,7 @@ class BaseCalendarView(DetailView):
     template_name = 'recruitment/calendar.html'
 
     def get_appointments(self):
-        return Appointment.objects.filter(participant__status=Participation.INVITED)
+        return Appointment.objects.filter(participation__status=Participation.INVITED)
 
     def render_appointment(self, appointment):
         return {
@@ -151,7 +151,7 @@ class BaseFollowUpFeed(BaseICalFeed):
 
 class BaseAppointmentFeed(BaseICalFeed):
     def items(self, obj):
-        return Appointment.objects.filter(participant__status=Participation.INVITED)
+        return Appointment.objects.filter(participation__status=Participation.INVITED)
 
     def item_start_datetime(self, item):
         return item.start

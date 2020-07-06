@@ -38,14 +38,14 @@ class AppointmentFeed(BaseAppointmentFeed):
     def items(self, study):
         return super().items(study)\
             .filter(session__study=study)\
-            .select_related('participant__subject', 'session__study')
+            .select_related('participation__subject', 'session__study')
 
     def item_title(self, item):
-        return '{} - {}'.format(item.participant.subject.contact.full_name, item.session.name)
+        return '{} - {}'.format(item.participation.subject.contact.full_name, item.session.name)
 
     def item_link(self, item):
         return reverse('execution:participation-detail', args=[
-            item.session.study.pk, item.participant.pk
+            item.session.study.pk, item.participation.pk
         ])
 
     def item_description(self, item):

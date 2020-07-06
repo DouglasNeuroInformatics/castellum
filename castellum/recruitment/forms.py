@@ -229,8 +229,8 @@ class ContactForm(forms.ModelForm):
                 break
 
         qs = Appointment.objects\
-            .exclude(participant=self.instance)\
-            .filter(participant__status=Participation.INVITED)\
+            .exclude(participation=self.instance)\
+            .filter(participation__status=Participation.INVITED)\
             .annotate(end=models.ExpressionWrapper(
                 models.F('start') + models.F('session__duration') * MINUTE,
                 output_field=models.DateTimeField(),

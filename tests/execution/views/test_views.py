@@ -128,7 +128,7 @@ def test_calendar_view_events(client, member, study_in_execution_status, contact
     )
     baker.make(
         Appointment,
-        participant=participation,
+        participation=participation,
         session__study=study_in_execution_status,
     )
 

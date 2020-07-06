@@ -159,7 +159,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
             'start': appointment.start,
             'end': appointment.end,
             'url': reverse('execution:participation-detail', args=[
-                self.object.pk, appointment.participant.pk
+                self.object.pk, appointment.participation.pk
             ]),
         }
 
@@ -174,6 +174,6 @@ class ReceptionView(PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(
-            participant__status=Participation.INVITED,
+            participation__status=Participation.INVITED,
             start__date=datetime.date.today(),
         ).order_by('start')

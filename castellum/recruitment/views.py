@@ -161,7 +161,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         buckets1 = dict(AttributeDescription.get_statistics_buckets('primary'))
         buckets2 = dict(AttributeDescription.get_statistics_buckets('secondary'))
 
-        participants = []
+        participations = []
         for participation in self.get_queryset():
             try:
                 attributeset = participation.subject.attributeset
@@ -175,8 +175,8 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
                 participation.subject.privacy_level
             )
 
-            participants.append((participation, buckets, can_access))
-        context['participants'] = participants
+            participations.append((participation, buckets, can_access))
+        context['participations'] = participations
 
         context['sort_options'] = [
             ('relevance', _('Relevance')),

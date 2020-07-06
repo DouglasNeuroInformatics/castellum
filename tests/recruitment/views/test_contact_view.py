@@ -97,7 +97,7 @@ def test_appointment(client, member, participation):
 
     appointment = participation.appointment_set.first()
     assert appointment.session == session
-    assert appointment.participant == participation
+    assert appointment.participation == participation
 
 
 def test_appointment_delete(client, member, participation):
@@ -105,7 +105,7 @@ def test_appointment_delete(client, member, participation):
     baker.make(
         Appointment,
         session=session,
-        participant=participation,
+        participation=participation,
     )
 
     client.force_login(member)
@@ -164,8 +164,8 @@ def test_appointment_resource_overlap(client, member, participation, time):
         Appointment,
         session=session,
         start=timezone.make_aware(timezone.datetime(2020, 1, 1, 12)),
-        participant__study=participation.study,
-        participant__status=Participation.INVITED,
+        participation__study=participation.study,
+        participation__status=Participation.INVITED,
     )
 
     client.force_login(member)
@@ -189,8 +189,8 @@ def test_appointment_resource_overlap_ignore_not_invited(client, member, partici
         Appointment,
         session=session,
         start=timezone.make_aware(timezone.datetime(2020, 1, 1, 12)),
-        participant__study=participation.study,
-        participant__status=Participation.UNSUITABLE,
+        participation__study=participation.study,
+        participation__status=Participation.UNSUITABLE,
     )
 
     client.force_login(member)

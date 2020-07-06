@@ -2,7 +2,7 @@
 
 <ul class="table-list mt-3">
     {% has_perm 'recruitment.change_participation' user study as can_change_participation %}
-    {% for participation, buckets, can_access in participants %}
+    {% for participation, buckets, can_access in participations %}
         <li class="table-list-item">
             {% if can_access %}
                 {% if participation.status == participation.FOLLOWUP_APPOINTED %}
