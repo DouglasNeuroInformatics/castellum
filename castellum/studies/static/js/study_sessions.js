@@ -16,7 +16,10 @@
 
         fieldset.querySelector('[name="form-' + index + '-name"]').remove();
         fieldset.querySelector('[name="form-' + index + '-duration"]').remove();
-        fieldset.querySelector('[name="form-' + index + '-resource"]').remove();
+        var resourceInput = fieldset.querySelector('[name="form-' + index + '-resource"]');
+        if (resourceInput) {
+            resourceInput.remove();
+        }
 
         var hidden = document.createElement('input');
         hidden.type = 'hidden';

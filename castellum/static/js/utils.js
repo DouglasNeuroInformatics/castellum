@@ -45,16 +45,16 @@
     });
 
     $$.on(document, 'click', '[data-multi-reset]', function() {
-        var targetId = this.dataset.multiReset;
-        var target = document.getElementById(targetId);
+        var targetSelector = this.dataset.multiReset;
+        var target = document.querySelector(targetSelector);
         target.querySelectorAll('option').forEach(function(element) {
             element.selected = false;
         });
     });
 
     $$.on(document, 'click', '[data-clipboard]', function() {
-        var targetId = this.dataset.clipboard;
-        var target = document.getElementById(targetId);
+        var targetSelector = this.dataset.clipboard;
+        var target = document.querySelector(targetSelector);
         if (navigator.clipboard) {
             navigator.clipboard.writeText(target.value);
         } else {

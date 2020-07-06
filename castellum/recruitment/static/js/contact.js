@@ -24,7 +24,9 @@
             var checked = document.querySelector('[name="exclusion_criteria_checked"]');
             var needsCheck = checked && !checked.checked;
             invited.disabled = needsCheck;
-            alert.hidden = !needsCheck;
+            if (alert) {
+                alert.hidden = !needsCheck;
+            }
         };
 
         $$.on(document, 'change', '[name="exclusion_criteria_checked"]', setInvitedDisabled);
