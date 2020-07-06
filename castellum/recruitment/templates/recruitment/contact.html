@@ -161,10 +161,14 @@
 
                 <dl class="row">
                     <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
-                    <dd class="col-sm-6">{{ study|display:'sessions_start' }}</dd>
+                    <dd class="col-sm-6">
+                        <time id="sessions-start" datetime="{{ study.sessions_start|date:'c' }}">{{ study|display:'sessions_start' }}</time>
+                    </dd>
 
                     <dt class="col-sm-6">{{ study|verbose_name:'sessions_end' }}</dt>
-                    <dd class="col-sm-6">{{ study|display:'sessions_end' }}</dd>
+                    <dd class="col-sm-6">
+                        <time id="sessions-end" datetime="{{ study.sessions_end|date:'c' }}">{{ study|display:'sessions_end' }}<time>
+                    </dd>
                 </dl>
 
                 {% for field in form.appointments %}
