@@ -89,19 +89,19 @@
                 "contact"
             ],
             [
-                "add_participationrequest",
+                "add_participation",
                 "recruitment",
-                "participationrequest"
+                "participation"
             ],
             [
-                "change_participationrequest",
+                "change_participation",
                 "recruitment",
-                "participationrequest"
+                "participation"
             ],
             [
-                "view_participationrequest",
+                "view_participation",
                 "recruitment",
-                "participationrequest"
+                "participation"
             ]
         ]
     }
@@ -115,7 +115,7 @@
             [
                 "view_participation_pseudonyms",
                 "recruitment",
-                "participationrequest"
+                "participation"
             ]
         ]
     }
@@ -132,14 +132,14 @@
                 "contact"
             ],
             [
-                "delete_participationrequest",
+                "delete_participation",
                 "recruitment",
-                "participationrequest"
+                "participation"
             ],
             [
                 "view_participation_pseudonyms",
                 "recruitment",
-                "participationrequest"
+                "participation"
             ],
             [
                 "view_subject",
@@ -188,7 +188,7 @@
             [
                 "search_execution",
                 "recruitment",
-                "participationrequest"
+                "participation"
             ]
         ]
     }

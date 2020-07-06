@@ -31,4 +31,4 @@ class RecruitmentConfig(AppConfig):
 
     def ready(self):
         autodiscover_modules('custom_filters')
-        pre_delete.connect(signals.delete_participationrequest_pseudonym)
+        pre_delete.connect(signals.delete_participation_pseudonym)

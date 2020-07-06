@@ -17,7 +17,7 @@ from castellum.contacts.models import Contact
 from castellum.recruitment.management.commands import create_attribute_descriptions
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
-from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.studies.models import Study
@@ -157,9 +157,9 @@ def attributeset(contact):
 
 
 @pytest.fixture
-def participation_request(contact, study_in_execution_status):
+def participation(contact, study_in_execution_status):
     return baker.make(
-        ParticipationRequest, study=study_in_execution_status, subject=contact.subject
+        Participation, study=study_in_execution_status, subject=contact.subject
     )
 
 

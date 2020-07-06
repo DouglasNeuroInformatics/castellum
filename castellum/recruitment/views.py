@@ -54,11 +54,11 @@ from castellum.subjects.models import Subject
 from .forms import ContactForm
 from .forms import SendMailForm
 from .mixins import BaseCalendarView
-from .mixins import ParticipationRequestMixin
+from .mixins import ParticipationMixin
 from .models import AttributeDescription
 from .models import AttributeSet
 from .models import MailBatch
-from .models import ParticipationRequest
+from .models import Participation
 
 logger = logging.getLogger(__name__)
 
@@ -73,9 +73,9 @@ def get_recruitable(study):
 
     last_contacted = timezone.now() - settings.CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS
     qs = qs.annotate(last_contacted=models.Max(
-        'participationrequest__revisions__created_at',
+        'participation__revisions__created_at',
         filter=~models.Q(
-            participationrequest__revisions__status=ParticipationRequest.NOT_CONTACTED
+            participation__revisions__status=Participation.NOT_CONTACTED
         ),
     )).filter(
         models.Q(last_contacted__lte=last_contacted) |
@@ -86,9 +86,9 @@ def get_recruitable(study):
 
 
 class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
-    model = ParticipationRequest
+    model = Participation
     template_name = 'recruitment/recruitment.html'
-    permission_required = 'recruitment.view_participationrequest'
+    permission_required = 'recruitment.view_participation'
     study_status = [Study.EXECUTION]
     shown_status = []
     tab = 'recruitment'
@@ -116,14 +116,14 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
                 '-followup_urgent', 'status', 'followup_date', 'followup_time', '-updated_at'
             ]
 
-        return ParticipationRequest.objects\
+        return Participation.objects\
             .prefetch_related('subject__attributeset')\
             .filter(status__in=self.shown_status, study=self.study)\
             .order_by(*order_by)
 
     def get_statistics(self):
-        participation_requests = ParticipationRequest.objects.filter(
-            study=self.study, status=ParticipationRequest.INVITED
+        participations = Participation.objects.filter(
+            study=self.study, status=Participation.INVITED
         ).prefetch_related('subject__attributeset')
 
         buckets1 = AttributeDescription.get_statistics_buckets('primary')
@@ -133,9 +133,9 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             return None
 
         statistics = defaultdict(lambda: defaultdict(lambda: 0))
-        for participation_request in participation_requests:
+        for participation in participations:
             try:
-                attributeset = participation_request.subject.attributeset
+                attributeset = participation.subject.attributeset
                 key1 = attributeset.get_statistics_bucket('primary')
                 key2 = attributeset.get_statistics_bucket('secondary')
                 statistics[key1][key2] += 1
@@ -162,9 +162,9 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         buckets2 = dict(AttributeDescription.get_statistics_buckets('secondary'))
 
         participants = []
-        for participation_request in self.get_queryset():
+        for participation in self.get_queryset():
             try:
-                attributeset = participation_request.subject.attributeset
+                attributeset = participation.subject.attributeset
                 bucket1 = buckets1[attributeset.get_statistics_bucket('primary')]
                 bucket2 = buckets2[attributeset.get_statistics_bucket('secondary')]
                 buckets = ', '.join(str(bucket) for bucket in [bucket1, bucket2] if bucket)
@@ -172,10 +172,10 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
                 buckets = ''
 
             can_access = self.request.user.has_privacy_level(
-                participation_request.subject.privacy_level
+                participation.subject.privacy_level
             )
 
-            participants.append((participation_request, buckets, can_access))
+            participants.append((participation, buckets, can_access))
         context['participants'] = participants
 
         context['sort_options'] = [
@@ -189,19 +189,19 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         context['statistics'] = self.get_statistics()
 
-        queryset = ParticipationRequest.objects.filter(study=self.study)
+        queryset = Participation.objects.filter(study=self.study)
         context['all_count'] = queryset.count()
         context['invited_count'] = queryset.filter(
-            status=ParticipationRequest.INVITED
+            status=Participation.INVITED
         ).count()
         context['unsuitable_count'] = queryset.filter(
-            status=ParticipationRequest.UNSUITABLE
+            status=Participation.UNSUITABLE
         ).count()
         context['open_count'] = queryset.filter(status__in=[
-            ParticipationRequest.NOT_CONTACTED,
-            ParticipationRequest.NOT_REACHED,
-            ParticipationRequest.FOLLOWUP_APPOINTED,
-            ParticipationRequest.AWAITING_RESPONSE,
+            Participation.NOT_CONTACTED,
+            Participation.NOT_REACHED,
+            Participation.FOLLOWUP_APPOINTED,
+            Participation.AWAITING_RESPONSE,
         ]).count()
 
         context['last_agreeable_contact_time'] = (
@@ -212,35 +212,35 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
 
 class RecruitmentViewInvited(RecruitmentView):
-    shown_status = [ParticipationRequest.INVITED]
+    shown_status = [Participation.INVITED]
     subtab = 'invited'
 
 
 class RecruitmentViewUnsuitable(RecruitmentView):
-    shown_status = [ParticipationRequest.UNSUITABLE]
+    shown_status = [Participation.UNSUITABLE]
     subtab = 'unsuitable'
 
 
 class RecruitmentViewOpen(RecruitmentView):
     shown_status = [
-        ParticipationRequest.NOT_CONTACTED,
-        ParticipationRequest.NOT_REACHED,
-        ParticipationRequest.FOLLOWUP_APPOINTED,
-        ParticipationRequest.AWAITING_RESPONSE,
+        Participation.NOT_CONTACTED,
+        Participation.NOT_REACHED,
+        Participation.FOLLOWUP_APPOINTED,
+        Participation.AWAITING_RESPONSE,
     ]
     subtab = 'open'
 
-    def create_participation_requests(self, batch_size):
+    def create_participations(self, batch_size):
         subjects = get_recruitable(self.study)
 
         added = min(batch_size, len(subjects))
         for subject in random.sample(subjects, k=added):
-            ParticipationRequest.objects.create(study=self.study, subject=subject)
+            Participation.objects.create(study=self.study, subject=subject)
 
         return added
 
     def post(self, request, *args, **kwargs):
-        if not request.user.has_perm('recruitment.add_participationrequest', obj=self.study):
+        if not request.user.has_perm('recruitment.add_participation', obj=self.study):
             raise PermissionDenied
 
         if self.study.min_subject_count == 0:
@@ -251,7 +251,7 @@ class RecruitmentViewOpen(RecruitmentView):
             return self.get(request, *args, **kwargs)
 
         not_contacted_count = self.get_queryset()\
-            .filter(status=ParticipationRequest.NOT_CONTACTED).count()
+            .filter(status=Participation.NOT_CONTACTED).count()
         hard_limit = self.study.min_subject_count * settings.CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 
         if not_contacted_count >= hard_limit:
@@ -268,7 +268,7 @@ class RecruitmentViewOpen(RecruitmentView):
             hard_limit - not_contacted_count,
         )
         try:
-            added = self.create_participation_requests(batch_size)
+            added = self.create_participations(batch_size)
         except KeyError:
             added = 0
             messages.error(request, _(
@@ -300,7 +300,7 @@ class RecruitmentViewOpen(RecruitmentView):
 
 
 class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
-    permission_required = 'recruitment.view_participationrequest'
+    permission_required = 'recruitment.view_participation'
     study_status = [Study.EXECUTION]
     template_name = 'recruitment/mail.html'
     tab = 'mail'
@@ -329,7 +329,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
             for data in contact.guardians.exclude(email='').values('email'):
                 return data['email']
 
-    def create_participation_requests(self, batch_size):
+    def create_participations(self, batch_size):
         subjects = get_recruitable(self.study)
 
         from_email, connection = self.get_mail_settings()
@@ -352,10 +352,10 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                     logger.debug('Failed to send email to subject %i', pick.pk)
                     success = False
                 if success:
-                    ParticipationRequest.objects.create(
+                    Participation.objects.create(
                         study=self.study,
                         subject=pick,
-                        status=ParticipationRequest.AWAITING_RESPONSE,
+                        status=Participation.AWAITING_RESPONSE,
                     )
                     counter += 1
 
@@ -375,7 +375,7 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     def form_valid(self, form):
         batch_size = form.cleaned_data['batch_size']
         try:
-            added = self.create_participation_requests(batch_size)
+            added = self.create_participations(batch_size)
         except KeyError:
             added = 0
             messages.error(self.request, _(
@@ -411,31 +411,31 @@ class MailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         return redirect('recruitment:mail', self.study.pk)
 
 
-class ContactView(ParticipationRequestMixin, PermissionRequiredMixin, UpdateView):
-    model = ParticipationRequest
+class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
+    model = Participation
     form_class = ContactForm
     template_name = 'recruitment/contact.html'
     permission_required = (
         'contacts.view_contact',
-        'recruitment.change_participationrequest',
+        'recruitment.change_participation',
     )
     study_status = [Study.EXECUTION]
 
     def get_initial(self):
         initial = super().get_initial()
         if not self.object.match:
-            initial['status'] = ParticipationRequest.UNSUITABLE
+            initial['status'] = Participation.UNSUITABLE
             initial['followup_date'] = None
             initial['followup_time'] = None
         return initial
 
     def get_object(self):
-        return self.participationrequest
+        return self.participation
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        choices = [(None, '---')] + list(ParticipationRequest.STATUS_OPTIONS[1:])
+        choices = [(None, '---')] + list(Participation.STATUS_OPTIONS[1:])
         status_field = context['form'].fields['status']
         status_field.widget.choices = choices
 
@@ -451,7 +451,7 @@ class ContactView(ParticipationRequestMixin, PermissionRequiredMixin, UpdateView
             return reverse('recruitment:recruitment-open', args=[self.object.study.pk])
 
 
-class RecruitmentUpdateMixin(ParticipationRequestMixin):
+class RecruitmentUpdateMixin(ParticipationMixin):
     study_status = [Study.EXECUTION]
 
     def get_success_url(self):
@@ -465,27 +465,27 @@ class RecruitmentUpdateMixin(ParticipationRequestMixin):
 
 class ContactUpdateView(RecruitmentUpdateMixin, BaseContactUpdateView):
     def get_object(self):
-        return self.participationrequest.subject.contact
+        return self.participation.subject.contact
 
 
 class AttributeSetUpdateView(RecruitmentUpdateMixin, BaseAttributeSetUpdateView):
     def get_object(self):
-        return self.participationrequest.subject.attributeset
+        return self.participation.subject.attributeset
 
 
 class DataProtectionUpdateView(RecruitmentUpdateMixin, BaseDataProtectionUpdateView):
     def get_object(self):
-        return self.participationrequest.subject
+        return self.participation.subject
 
 
 class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateView):
     def get_object(self):
-        return self.participationrequest.subject
+        return self.participation.subject
 
 
 class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     model = Study
-    permission_required = 'recruitment.view_participationrequest'
+    permission_required = 'recruitment.view_participation'
     study_status = [Study.EXECUTION]
     nochrome = True
     feed = 'recruitment:calendar-feed'

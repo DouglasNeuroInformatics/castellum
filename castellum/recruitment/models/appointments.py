@@ -30,7 +30,7 @@ from django.utils.translation import gettext_lazy as _
 from castellum.studies.models import StudySession
 from castellum.utils.fields import DateTimeField
 
-from .recruitment import ParticipationRequest
+from .recruitment import Participation
 
 MINUTE = datetime.timedelta(seconds=60)
 
@@ -39,7 +39,7 @@ class Appointment(models.Model):
     session = models.ForeignKey(StudySession, verbose_name=_('Session'), on_delete=models.CASCADE)
     start = DateTimeField(_('Start'))
     participant = models.ForeignKey(
-        ParticipationRequest,
+        Participation,
         on_delete=models.CASCADE,
         verbose_name=_('Participant'),
     )

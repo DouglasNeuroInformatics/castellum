@@ -59,8 +59,8 @@
     </div>
 
     {% if view.subtab == 'open' %}
-        {% has_perm 'recruitment.add_participationrequest' user study as can_add_participationrequest %}
-        {% if can_add_participationrequest %}
+        {% has_perm 'recruitment.add_participation' user study as can_add_participation %}
+        {% if can_add_participation %}
             <div class="d-print-none mb-3">
                 <form method="post" class="d-inline">
                     {% csrf_token %}

@@ -29,17 +29,17 @@ def test_feed_for_study_without_token(client, study_in_edit_status):
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
     pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
 ])
-def test_feed_for_user(request, client, user_fixture, participation_request):
+def test_feed_for_user(request, client, user_fixture, participation):
     user = request.getfixturevalue(user_fixture)
 
-    participation_request.followup_date = datetime.date.today()
-    participation_request.save()
+    participation.followup_date = datetime.date.today()
+    participation.save()
 
     response = client.get('/recruitment/followups/{}/?token={}'.format(user.pk, user.token))
     assert response.status_code == 200
     assert response.content.count(b'BEGIN:VEVENT') == 1
 
 
-def test_feed_for_user_without_token(client, user, participation_request):
+def test_feed_for_user_without_token(client, user, participation):
     response = client.get('/recruitment/followups/{}/'.format(user.pk))
     assert response.status_code == 403

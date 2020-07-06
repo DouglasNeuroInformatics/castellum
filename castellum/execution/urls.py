@@ -27,7 +27,7 @@ from .views import AttributeSetUpdateView
 from .views import CalendarView
 from .views import ContactUpdateView
 from .views import DataProtectionUpdateView
-from .views import ParticipationRequestDetailView
+from .views import ParticipationDetailView
 from .views import ReceptionView
 from .views import ResolveView
 from .views import StudyDetailView
@@ -41,8 +41,8 @@ urlpatterns = [
     path('<int:pk>/calendar/feed/', AppointmentFeed(), name='calendar-feed'),
     path(
         '<int:study_pk>/<int:pk>/',
-        ParticipationRequestDetailView.as_view(),
-        name='participationrequest-detail',
+        ParticipationDetailView.as_view(),
+        name='participation-detail',
     ),
     path(
         '<int:study_pk>/<int:pk>/update-contact/',

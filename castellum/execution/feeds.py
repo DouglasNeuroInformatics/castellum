@@ -44,7 +44,7 @@ class AppointmentFeed(BaseAppointmentFeed):
         return '{} - {}'.format(item.participant.subject.contact.full_name, item.session.name)
 
     def item_link(self, item):
-        return reverse('execution:participationrequest-detail', args=[
+        return reverse('execution:participation-detail', args=[
             item.session.study.pk, item.participant.pk
         ])
 

@@ -55,7 +55,7 @@ from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.models import AttributeSet
-from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
 
 from .forms import SubjectPrivacyLevelForm
@@ -79,31 +79,31 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         can_view_contact = user.has_perm('contacts.view_contact')
         for subject in Subject.objects.filter(filter_queries.pk_filter(contacts)):
             has_privacy_level = user.has_privacy_level(subject.privacy_level)
-            prs = []
-            for pr in subject.participationrequest_set.filter(study__status=Study.EXECUTION):
-                can_access_study = user.has_perm('studies.access_study', obj=pr.study)
-                invited = pr.status == ParticipationRequest.INVITED
+            participations = []
+            for participation in subject.participation_set.filter(study__status=Study.EXECUTION):
+                can_access_study = user.has_perm('studies.access_study', obj=participation.study)
+                invited = participation.status == Participation.INVITED
                 can_recruit = (
                     has_privacy_level and
                     can_access_study and
                     user.has_perms((
                         'contacts.view_contact',
-                        'recruitment.change_participationrequest',
-                    ), obj=pr.study)
+                        'recruitment.change_participation',
+                    ), obj=participation.study)
                 )
                 can_conduct = (
                     has_privacy_level and
                     can_access_study and
                     invited and
                     user.has_perm(
-                        'recruitment.view_participation_pseudonyms', obj=pr.study
+                        'recruitment.view_participation_pseudonyms', obj=participation.study
                     )
                 )
                 can_search = invited and user.has_perm('recruitment.search_execution')
                 if can_recruit or can_conduct or can_search:
-                    prs.append((pr, can_recruit, can_conduct))
-            if prs or can_view_contact:
-                yield subject, subject.contact, prs, has_privacy_level
+                    participations.append((participation, can_recruit, can_conduct))
+            if participations or can_view_contact:
+                yield subject, subject.contact, participations, has_privacy_level
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -114,7 +114,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         context['count_updated'] = Contact.objects.filter(updated_at__gte=start).count()
 
         context['count_participated'] = Subject.objects.filter(
-            participationrequest__status=ParticipationRequest.INVITED
+            participation__status=Participation.INVITED
         ).distinct().count()
 
         completeness, total = filter_queries.completeness_expr()
@@ -213,7 +213,7 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['has_participationrequests'] = self.object.participationrequest_set.exists()
+        context['has_participations'] = self.object.participation_set.exists()
         context['is_last_guardian'] = self.is_last_guardian()
         return context
 
@@ -222,7 +222,7 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if self.object.participationrequest_set.exists():
+        if self.object.participation_set.exists():
             return self.get(request, *args, **kwargs)
         monitoring_logger.info('Subject deleted by {}'.format(self.request.user.pk))
         messages.success(self.request, _('Subject has been deleted.'))
@@ -250,8 +250,8 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
             except ObjectDoesNotExist:
                 pass
 
-            for participation_request in self.object.participationrequest_set.all():
-                context['dataset_list'].append(participation_request)
+            for participation in self.object.participation_set.all():
+                context['dataset_list'].append(participation)
 
             try:
                 context['dataset_list'].append(self.object.consent)
@@ -326,7 +326,7 @@ class AttributeSetUpdateView(SubjectUpdateMixin, BaseAttributeSetUpdateView):
 
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     tab = 'participations'
-    model = ParticipationRequest
+    model = Participation
     template_name = 'subjects/subject_participationlist.html'
     permission_required = 'contacts.view_contact'
 
@@ -337,21 +337,21 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     def is_permitted(self, study):
         return self.request.user.has_perm('studies.access_study', obj=study) and (
             self.request.user.has_perm('recruitment.view_participation_pseudonyms', obj=study) or
-            self.request.user.has_perm('recruitment.change_participationrequest', obj=study)
+            self.request.user.has_perm('recruitment.change_participation', obj=study)
         )
 
     def get_queryset(self):
-        queryset = ParticipationRequest.objects\
+        queryset = Participation.objects\
             .filter(subject=self.subject, study__status=Study.EXECUTION)\
             .order_by('-updated_at')
         return [
-            participation_request for participation_request in queryset
-            if self.is_permitted(participation_request.study)
+            participation for participation in queryset
+            if self.is_permitted(participation.study)
         ]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['finished_list'] = ParticipationRequest.objects\
+        context['finished_list'] = Participation.objects\
             .filter(subject=self.subject, study__status=Study.FINISHED)\
             .order_by('-updated_at')
         return context
@@ -359,12 +359,12 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
 
 class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     tab = 'delete'
-    model = ParticipationRequest
-    permission_required = ['studies.access_study', 'recruitment.delete_participationrequest']
+    model = Participation
+    permission_required = ['studies.access_study', 'recruitment.delete_participation']
 
     def get_object(self):
         return get_object_or_404(
-            ParticipationRequest, pk=self.kwargs['pk'], subject_id=self.kwargs['subject_pk']
+            Participation, pk=self.kwargs['pk'], subject_id=self.kwargs['subject_pk']
         )
 
     def get_success_url(self):
@@ -372,7 +372,7 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        monitoring_logger.info('ParticipationRequest in Study {} deleted by {}'.format(
+        monitoring_logger.info('Participation in Study {} deleted by {}'.format(
             self.object.study.name, self.request.user.pk
         ))
         return super().delete(self, request, *args, **kwargs)
@@ -385,11 +385,11 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     tab = 'participations'
 
     def get_studies(self, subject):
-        perms = ('recruitment.add_participationrequest', 'studies.access_study')
+        perms = ('recruitment.add_participation', 'studies.access_study')
         studies = (
             Study.objects
             .filter(status=Study.EXECUTION)
-            .exclude(participationrequest__subject=subject)
+            .exclude(participation__subject=subject)
         )
         for study in studies:
             if (
@@ -413,15 +413,15 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
         self.object = self.get_object()
         study = get_object_or_404(Study, pk=request.POST['study'], status=Study.EXECUTION)
 
-        perms = ('recruitment.add_participationrequest', 'studies.access_study')
+        perms = ('recruitment.add_participation', 'studies.access_study')
         if not request.user.has_perms(perms, obj=study):
             raise PermissionDenied
 
-        participation_request = ParticipationRequest.objects.create(
+        participation = Participation.objects.create(
             subject=self.object, study=study
         )
 
-        url = reverse('recruitment:contact', args=[study.pk, participation_request.pk])
+        url = reverse('recruitment:contact', args=[study.pk, participation.pk])
         return redirect(url + '?context=subjects:participation-list')
 
 
@@ -435,7 +435,7 @@ class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return (
             Study.objects
             .filter(status=Study.FINISHED)
-            .exclude(participationrequest__subject=subject)
+            .exclude(participation__subject=subject)
         )
 
     def get_context_data(self, **kwargs):
@@ -448,8 +448,8 @@ class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
         self.object = self.get_object()
         study = get_object_or_404(Study, pk=request.POST['study'], status=Study.FINISHED)
 
-        ParticipationRequest.objects.create(
-            subject=self.object, study=study, status=ParticipationRequest.INVITED
+        Participation.objects.create(
+            subject=self.object, study=study, status=Participation.INVITED
         )
 
         return redirect('subjects:participation-list', self.object.pk)

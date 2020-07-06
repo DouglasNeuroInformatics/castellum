@@ -20,11 +20,11 @@
 # <http://www.gnu.org/licenses/>.
 
 
-def delete_participationrequest_pseudonym(sender, instance, using, **kwargs):
+def delete_participation_pseudonym(sender, instance, using, **kwargs):
     from castellum.pseudonyms.models import Pseudonym
-    from .models import ParticipationRequest
+    from .models import Participation
 
-    if sender is ParticipationRequest:
+    if sender is Participation:
         Pseudonym.objects\
             .filter(domain__key=instance.study.domain, subject=instance.subject)\
             .update(subject=None)

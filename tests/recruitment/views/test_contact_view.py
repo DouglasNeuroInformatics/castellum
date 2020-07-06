@@ -4,89 +4,89 @@ import pytest
 from model_bakery import baker
 
 from castellum.recruitment.models import Appointment
-from castellum.recruitment.models import ParticipationRequest
-from castellum.recruitment.models import ParticipationRequestRevision
+from castellum.recruitment.models import Participation
+from castellum.recruitment.models import ParticipationRevision
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
 from castellum.studies.models import StudySession
 
 
 @pytest.mark.smoketest
-def test_200(client, member, participation_request):
+def test_200(client, member, participation):
     client.force_login(member)
-    url = '/recruitment/{}/{}/'.format(participation_request.study.pk, participation_request.pk)
+    url = '/recruitment/{}/{}/'.format(participation.study.pk, participation.pk)
     response = client.get(url)
     assert response.status_code == 200
 
 
-def test_404_if_study_is_not_provided(client, member, participation_request):
+def test_404_if_study_is_not_provided(client, member, participation):
     client.force_login(member)
-    url = '/recruitment/3/{}/'.format(participation_request.pk)
+    url = '/recruitment/3/{}/'.format(participation.pk)
     response = client.get(url)
     assert response.status_code == 404
 
 
-def test_404_if_wrong_study_is_provided(client, member, participation_request, study):
+def test_404_if_wrong_study_is_provided(client, member, participation, study):
     client.force_login(member)
-    url = '/recruitment/{}/{}/'.format(study.pk, participation_request.pk)
+    url = '/recruitment/{}/{}/'.format(study.pk, participation.pk)
     response = client.get(url)
     assert response.status_code == 404
 
 
-def test_404_if_study_in_edit_status(client, member, participation_request):
-    participation_request.study.status = Study.EDIT
-    participation_request.study.save()
+def test_404_if_study_in_edit_status(client, member, participation):
+    participation.study.status = Study.EDIT
+    participation.study.save()
 
     client.force_login(member)
-    url = '/recruitment/{}/{}/'.format(participation_request.study.pk, participation_request.pk)
+    url = '/recruitment/{}/{}/'.format(participation.study.pk, participation.pk)
     response = client.get(url)
     assert response.status_code == 404
 
 
-def test_post_redirect(client, member, participation_request):
+def test_post_redirect(client, member, participation):
     client.force_login(member)
-    url = '/recruitment/{}/{}/'.format(participation_request.study.pk, participation_request.pk)
-    response = client.post(url, {'status': ParticipationRequest.UNSUITABLE})
+    url = '/recruitment/{}/{}/'.format(participation.study.pk, participation.pk)
+    response = client.post(url, {'status': Participation.UNSUITABLE})
     assert response.status_code == 302
-    assert response.url == '/recruitment/{}/'.format(participation_request.study.pk)
+    assert response.url == '/recruitment/{}/'.format(participation.study.pk)
 
 
 @pytest.mark.freeze_time('2018-01-01')
-def test_post_updated_at(client, member, participation_request):
+def test_post_updated_at(client, member, participation):
     client.force_login(member)
-    url = '/recruitment/{}/{}/'.format(participation_request.study.pk, participation_request.pk)
-    client.post(url, {'status': ParticipationRequest.UNSUITABLE})
-    participation_request = ParticipationRequest.objects.get()
-    assert participation_request.updated_at.strftime('%Y-%m-%d') == '2018-01-01'
+    url = '/recruitment/{}/{}/'.format(participation.study.pk, participation.pk)
+    client.post(url, {'status': Participation.UNSUITABLE})
+    participation = Participation.objects.get()
+    assert participation.updated_at.strftime('%Y-%m-%d') == '2018-01-01'
 
 
-def test_create_revision_on_update(client, member, participation_request):
+def test_create_revision_on_update(client, member, participation):
     client.force_login(member)
-    url = '/recruitment/{}/{}/'.format(participation_request.study.pk, participation_request.pk)
+    url = '/recruitment/{}/{}/'.format(participation.study.pk, participation.pk)
     client.post(url, {'status': 2})
 
-    assert ParticipationRequestRevision.objects.count() == 2
+    assert ParticipationRevision.objects.count() == 2
 
 
-def test_post_redirect_from_contacts(client, member, participation_request):
-    participation_request.status = 1
-    participation_request.save()
+def test_post_redirect_from_contacts(client, member, participation):
+    participation.status = 1
+    participation.save()
 
     client.force_login(member)
     url = '/recruitment/{}/{}/?context=subjects:participation-list'.format(
-        participation_request.study.pk, participation_request.pk
+        participation.study.pk, participation.pk
     )
     response = client.post(url, {'status': 2})
     assert response.status_code == 302
     assert response.url.startswith('/subjects/')
 
 
-def test_appointment(client, member, participation_request):
-    session = baker.make(StudySession, study=participation_request.study)
+def test_appointment(client, member, participation):
+    session = baker.make(StudySession, study=participation.study)
 
     client.force_login(member)
     url = '/recruitment/{}/{}/'.format(
-        participation_request.study.pk, participation_request.pk
+        participation.study.pk, participation.pk
     )
     response = client.post(url, {
         'status': 2,
@@ -95,28 +95,28 @@ def test_appointment(client, member, participation_request):
     })
     assert response.status_code == 302
 
-    appointment = participation_request.appointment_set.first()
+    appointment = participation.appointment_set.first()
     assert appointment.session == session
-    assert appointment.participant == participation_request
+    assert appointment.participant == participation
 
 
-def test_appointment_delete(client, member, participation_request):
-    session = baker.make(StudySession, study=participation_request.study)
+def test_appointment_delete(client, member, participation):
+    session = baker.make(StudySession, study=participation.study)
     baker.make(
         Appointment,
         session=session,
-        participant=participation_request,
+        participant=participation,
     )
 
     client.force_login(member)
     url = '/recruitment/{}/{}/'.format(
-        participation_request.study.pk, participation_request.pk
+        participation.study.pk, participation.pk
     )
     response = client.post(url, {
         'status': 2,
     })
     assert response.status_code == 302
-    assert not participation_request.appointment_set.exists()
+    assert not participation.appointment_set.exists()
 
 
 @pytest.mark.parametrize('time', (
@@ -128,13 +128,13 @@ def test_appointment_delete(client, member, participation_request):
     '13:00',
     '13:30',
 ))
-def test_appointment_overlap(client, member, participation_request, time):
-    session1 = baker.make(StudySession, study=participation_request.study, duration=60)
-    session2 = baker.make(StudySession, study=participation_request.study, duration=60)
+def test_appointment_overlap(client, member, participation, time):
+    session1 = baker.make(StudySession, study=participation.study, duration=60)
+    session2 = baker.make(StudySession, study=participation.study, duration=60)
 
     client.force_login(member)
     url = '/recruitment/{}/{}/'.format(
-        participation_request.study.pk, participation_request.pk
+        participation.study.pk, participation.pk
     )
     response = client.post(url, {
         'status': 2,
@@ -155,22 +155,22 @@ def test_appointment_overlap(client, member, participation_request, time):
     '13:00',
     '13:30',
 ))
-def test_appointment_resource_overlap(client, member, participation_request, time):
+def test_appointment_resource_overlap(client, member, participation, time):
     resource = baker.make(Resource)
     session = baker.make(
-        StudySession, study=participation_request.study, duration=60, resource=resource
+        StudySession, study=participation.study, duration=60, resource=resource
     )
     baker.make(
         Appointment,
         session=session,
         start=timezone.make_aware(timezone.datetime(2020, 1, 1, 12)),
-        participant__study=participation_request.study,
-        participant__status=ParticipationRequest.INVITED,
+        participant__study=participation.study,
+        participant__status=Participation.INVITED,
     )
 
     client.force_login(member)
     url = '/recruitment/{}/{}/'.format(
-        participation_request.study.pk, participation_request.pk
+        participation.study.pk, participation.pk
     )
     response = client.post(url, {
         'status': 2,
@@ -180,22 +180,22 @@ def test_appointment_resource_overlap(client, member, participation_request, tim
     assert response.status_code == 302
 
 
-def test_appointment_resource_overlap_ignore_not_invited(client, member, participation_request):
+def test_appointment_resource_overlap_ignore_not_invited(client, member, participation):
     resource = baker.make(Resource)
     session = baker.make(
-        StudySession, study=participation_request.study, duration=60, resource=resource
+        StudySession, study=participation.study, duration=60, resource=resource
     )
     baker.make(
         Appointment,
         session=session,
         start=timezone.make_aware(timezone.datetime(2020, 1, 1, 12)),
-        participant__study=participation_request.study,
-        participant__status=ParticipationRequest.UNSUITABLE,
+        participant__study=participation.study,
+        participant__status=Participation.UNSUITABLE,
     )
 
     client.force_login(member)
     url = '/recruitment/{}/{}/'.format(
-        participation_request.study.pk, participation_request.pk
+        participation.study.pk, participation.pk
     )
     response = client.post(url, {
         'status': 2,

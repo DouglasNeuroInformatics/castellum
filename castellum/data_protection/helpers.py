@@ -24,7 +24,7 @@ from django.db import models
 
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
-from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import Participation
 from castellum.subjects.models import Subject
 
 
@@ -54,8 +54,8 @@ def get_no_legal_basis(limit_by):
     # this query has the biggest potential to shrink down
     # the number of matches, so it is done first
     subjects = Subject.objects\
-        .annotate(pr_count=models.Count('participationrequest', filter=~models.Q(
-            participationrequest__status=ParticipationRequest.UNSUITABLE
+        .annotate(pr_count=models.Count('participation', filter=~models.Q(
+            participation__status=Participation.UNSUITABLE
         )))\
         .filter(~filter_queries.has_consent(include_waiting=True), pr_count=0)
     subject_pks = subjects.values_list('pk', flat=True)

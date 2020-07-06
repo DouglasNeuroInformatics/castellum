@@ -26,19 +26,19 @@ from castellum.studies.models import Study
 
 from .mixins import BaseAppointmentFeed
 from .mixins import BaseFollowUpFeed
-from .models import ParticipationRequest
+from .models import Participation
 
 
 class FollowUpFeedForStudy(BaseFollowUpFeed):
     def get_object(self, request, *args, **kwargs):
         study = get_object_or_404(Study, pk=kwargs.get('study_pk'), status=Study.EXECUTION)
-        perms = ('recruitment.add_participationrequest', 'studies.access_study')
+        perms = ('recruitment.add_participation', 'studies.access_study')
         if not self.request.user.has_perms(perms, obj=study):
             raise PermissionDenied
         return study
 
     def items(self, study):
-        return ParticipationRequest.objects\
+        return Participation.objects\
             .filter(study=study, followup_date__isnull=False)\
             .order_by('-followup_date', '-followup_time')
 
@@ -48,21 +48,21 @@ class FollowUpFeedForUser(BaseFollowUpFeed):
         return self.request.user
 
     def items(self, user):
-        perms = ('recruitment.add_participationrequest', 'studies.access_study')
+        perms = ('recruitment.add_participation', 'studies.access_study')
         for study in Study.objects.filter(status=Study.EXECUTION):
             if not user.has_perms(perms, obj=study):
                 continue
-            qs = ParticipationRequest.objects\
+            qs = Participation.objects\
                 .filter(study=study, followup_date__isnull=False)\
                 .order_by('-followup_date', '-followup_time')
-            for participation_request in qs:
-                yield participation_request
+            for participation in qs:
+                yield participation
 
 
 class AppointmentFeed(BaseAppointmentFeed):
     def get_object(self, request, *args, **kwargs):
         study = get_object_or_404(Study, pk=kwargs['pk'], status=Study.EXECUTION)
-        perms = ('recruitment.view_participationrequest', 'studies.access_study')
+        perms = ('recruitment.view_participation', 'studies.access_study')
         if not self.request.user.has_perms(perms, obj=study):
             raise PermissionDenied
         return study

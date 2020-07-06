@@ -2,7 +2,7 @@ import pytest
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
-from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import Participation
 
 
 @pytest.mark.smoketest
@@ -55,10 +55,10 @@ def test_only_members(request, client, user_fixture, study_in_execution_status):
 
     contact = baker.make(Contact, first_name='foo', last_name='bar')
     baker.make(
-        ParticipationRequest,
+        Participation,
         study=study_in_execution_status,
         subject=contact.subject,
-        status=ParticipationRequest.INVITED,
+        status=Participation.INVITED,
     )
 
     client.force_login(user)
@@ -75,30 +75,30 @@ def test_matches(client, member, study_in_execution_status, study_in_edit_status
 
     # no item because of name
     baker.make(
-        ParticipationRequest,
+        Participation,
         study=study_in_execution_status,
         subject=contact1.subject,
-        status=ParticipationRequest.INVITED,
+        status=Participation.INVITED,
     )
     # no subitem because of study status
     baker.make(
-        ParticipationRequest,
+        Participation,
         study=study_in_edit_status,
         subject=contact2.subject,
-        status=ParticipationRequest.INVITED,
+        status=Participation.INVITED,
     )
     # no execution button because of particiaption status
     baker.make(
-        ParticipationRequest,
+        Participation,
         study=study_in_execution_status,
         subject=contact3.subject,
-        status=ParticipationRequest.UNSUITABLE,
+        status=Participation.UNSUITABLE,
     )
     baker.make(
-        ParticipationRequest,
+        Participation,
         study=study_in_execution_status,
         subject=contact4.subject,
-        status=ParticipationRequest.INVITED,
+        status=Participation.INVITED,
     )
 
     client.force_login(member)

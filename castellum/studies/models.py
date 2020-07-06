@@ -244,7 +244,7 @@ class Study(models.Model):
     @property
     def followup_urgent(self):
         today = datetime.date.today()
-        return self.participationrequest_set.filter(followup_date__lte=today).exists()
+        return self.participation_set.filter(followup_date__lte=today).exists()
 
     @cached_property
     def has_filters(self):
@@ -264,7 +264,7 @@ class Study(models.Model):
     def recruiters(self):
         recruiters = []
         for user in self.members.all():
-            if user.has_perm('recruitment.add_participationrequest', obj=self):
+            if user.has_perm('recruitment.add_participation', obj=self):
                 recruiters.append(user)
         return recruiters
 

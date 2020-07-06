@@ -5,20 +5,20 @@
 
 {% block content %}
     <ul class="table-list mb-3">
-        {% for participationrequest in object_list %}
+        {% for participation in object_list %}
             <li class="table-list-item">
-                <div class="h4 d-inline-block my-1 mr-2">{{ participationrequest.study }}</div>
+                <div class="h4 d-inline-block my-1 mr-2">{{ participation.study }}</div>
                 <div class="table-list-item-actions">
-                    {% has_perm 'recruitment.view_participation_pseudonyms' user participationrequest.study as can_view_participation_pseudonyms %}
+                    {% has_perm 'recruitment.view_participation_pseudonyms' user participation.study as can_view_participation_pseudonyms %}
                     {% if can_view_participation_pseudonyms %}
-                        {% if participationrequest.status == participationrequest.INVITED %}
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participationrequest-detail' participationrequest.study.pk participationrequest.pk %}">{% trans 'Go to execution' %}</a>
+                        {% if participation.status == participation.INVITED %}
+                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participation-detail' participation.study.pk participation.pk %}">{% trans 'Go to execution' %}</a>
                         {% endif %}
                     {% endif %}
-                    {% has_perm 'recruitment.change_participationrequest' user participationrequest.study as can_change_participationrequest %}
-                    {% if can_change_participationrequest %}
-                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participationrequest.study.pk participationrequest.pk %}?context=subjects:participation-list">
-                            {% if participationrequest.status_open %}
+                    {% has_perm 'recruitment.change_participation' user participation.study as can_change_participation %}
+                    {% if can_change_participation %}
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participation.study.pk participation.pk %}?context=subjects:participation-list">
+                            {% if participation.status_open %}
                                 {% trans 'Contact' context 'verb' %}
                             {% else %}
                                 {% trans 'Review' %}
@@ -35,9 +35,9 @@
     <details class="mb-3">
         <summary>{% trans 'Finished studies' %}</summary>
         <ul class="table-list mb-3">
-            {% for participationrequest in finished_list %}
+            {% for participation in finished_list %}
                 <li class="table-list-item">
-                    <div class="h4 d-inline-block my-1 mr-2">{{ participationrequest.study }}</div>
+                    <div class="h4 d-inline-block my-1 mr-2">{{ participation.study }}</div>
                 </li>
             {% empty %}
                 <li class="alert alert-warning" role="alert">{% trans 'No participations found' %}</li>

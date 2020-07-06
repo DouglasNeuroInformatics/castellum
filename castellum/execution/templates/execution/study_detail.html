@@ -7,17 +7,17 @@
     <h1 class="text-center">{{ object }}</h1>
 
     <ul class="table-list mt-3">
-        {% for participation_request, can_access in list %}
+        {% for participation, can_access in list %}
             <li class="table-list-item">
                 {% if can_access %}
                     <div class="d-inline-block my-1 mr-2">
-                        {{ participation_request.subject.contact.full_name }}
-                        {% if participation_request.appointment_today %}
+                        {{ participation.subject.contact.full_name }}
+                        {% if participation.appointment_today %}
                             <span class="badge badge-primary">{% trans 'today' %}</span>
                         {% endif %}
                     </div>
                     <div class="table-list-item-actions">
-                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participationrequest-detail' study.pk participation_request.pk %}">{% trans 'Details' %}</a>
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participation-detail' study.pk participation.pk %}">{% trans 'Details' %}</a>
                     </div>
                 {% else %}
                     <div class="text-muted">

@@ -197,7 +197,7 @@
         <div class="form-group">
             <label for="id_execution_url">{% trans 'Execution URL' %}</label>
             <div class="input-group">
-                <input id="id_execution_url" class="form-control" value="{% absolute_url 'execution:participationrequest-detail' study.pk object.pk %}" readonly>
+                <input id="id_execution_url" class="form-control" value="{% absolute_url 'execution:participation-detail' study.pk object.pk %}" readonly>
                 <div class="input-group-append">
                     <button type="button" class="btn btn-outline-secondary" tabindex="-1" data-clipboard="#id_execution_url">{% trans 'Copy' %}</button>
                 </div>
