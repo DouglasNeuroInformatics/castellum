@@ -19,14 +19,18 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import logging
+
 from django.conf import settings
 
+from geopy.exc import GeopyError
 from geopy.geocoders import Nominatim
+
+logger = logging.getLogger(__name__)
 
 
 def geocode_address(address):
-    geolocator = Nominatim(**settings.NOMINATIM)
-    return geolocator.geocode({
+    query = {
         'street': ' '.join([
             address.street,
             address.house_number,
@@ -34,4 +38,10 @@ def geocode_address(address):
         'city': address.city,
         'country': address.country,
         'postalcode': address.zip_code,
-    })
+    }
+    try:
+        geolocator = Nominatim(**settings.NOMINATIM)
+        return geolocator.geocode(query)
+    except GeopyError:
+        logger.info('Geocoding failed for subject with pk "%s"' % address.contact.subject_id)
+        return None
