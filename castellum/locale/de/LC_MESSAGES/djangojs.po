@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-06 15:29+0100\n"
+"POT-Creation-Date: 2020-07-06 19:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,12 +26,18 @@ msgstr "Ganze Woche"
 msgid "All day"
 msgstr "Ganzer Tag"
 
-#: castellum/contacts/static/js/guardians.js:21
+#: castellum/contacts/static/js/guardians.js:25
 msgid "There is no way to contact this subject. Are you sure you want to save?"
 msgstr ""
 "Es gibt keine Möglichkeit, diese Proband*in zu kontaktieren. Sind Sie "
 "sicher, dass Sie speichern wollen?"
 
-#: castellum/static/autologout.js:20
+#: castellum/recruitment/static/js/contact.js:59
+msgid ""
+"Some of the appointments are outside of the planned time period. Do you want "
+"to save it anyway?"
+msgstr ""
+
+#: castellum/static/js/autologout.js:20
 msgid "If you do nothing your session will expire"
 msgstr "Wenn Sie nichts tun wird ihre Sitzung ablaufen"
