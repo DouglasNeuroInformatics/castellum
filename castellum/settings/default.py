@@ -355,7 +355,8 @@ Upcoming appointments for a participant in the study "{study}" have changed:
 
 {changes}
 
-You can find the complete list of appointments at {url}.
+Participant details: {participant_url}
+Study calendar: {calendar_url}
 """
 
 CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
