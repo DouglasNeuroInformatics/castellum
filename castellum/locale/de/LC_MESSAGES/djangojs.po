@@ -37,6 +37,8 @@ msgid ""
 "Some of the appointments are outside of the planned time period. Do you want "
 "to save it anyway?"
 msgstr ""
+"Einige der Termine liegen außerhalb des vorgesehenen Zeitraums. Trotzdem "
+"speichern?"
 
 #: castellum/static/js/autologout.js:20
 msgid "If you do nothing your session will expire"
