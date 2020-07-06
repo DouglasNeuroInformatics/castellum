@@ -20,8 +20,8 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.apps import AppConfig
+from django.db.models.signals import post_save
 from django.db.models.signals import pre_delete
-from django.db.models.signals import pre_save
 
 from . import signals
 
@@ -31,4 +31,4 @@ class GeofiltersConfig(AppConfig):
 
     def ready(self):
         pre_delete.connect(signals.delete_geolocation_on_address_change)
-        pre_save.connect(signals.delete_geolocation_on_address_change)
+        post_save.connect(signals.geocode_on_address_change)

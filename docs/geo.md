@@ -68,7 +68,7 @@ Further reading:
     (https://geopy.readthedocs.io/en/stable/#geopy.geocoders.Nominatim)
     also lists available options.
 -   setup a cron job for geocoding. Running it once a week is
-    recommended. The management command to use is called `geocode`.
+    recommended. The management command to use is called `geocode_all`.
     Note that invalid addresses will be sent to the geocoder every time
     the script is run. Therefore the time required to run the geocoding
     script depends on the number of invalid addresses as well as the

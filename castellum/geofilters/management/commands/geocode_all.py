@@ -19,33 +19,22 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.conf import settings
 from django.contrib.gis.geos import Point
 from django.core.management.base import BaseCommand
 
-from geopy.geocoders import Nominatim
-
 from castellum.contacts.models import Address
+from castellum.geofilters.geocode import geocode_address
 from castellum.geofilters.models import Geolocation
 
 
 def fetch_missing_geolocations():
-    geolocator = Nominatim(**settings.NOMINATIM)
     geolocations = []
     for address in Address.objects.filter(contact__geolocation=None):
-        resolved = geolocator.geocode({
-            'street': ' '.join([
-                address.street,
-                address.house_number,
-            ]),
-            'city': address.city,
-            'country': address.country,
-            'postalcode': address.zip_code,
-        })
-        if resolved:
+        geocoded = geocode_address(address)
+        if geocoded:
             geolocations.append(Geolocation(
                 contact_id=address.contact_id,
-                point=Point(resolved.longitude, resolved.latitude),
+                point=Point(geocoded.longitude, geocoded.latitude),
             ))
     Geolocation.objects.bulk_create(geolocations)
 
