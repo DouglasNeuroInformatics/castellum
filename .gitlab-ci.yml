@@ -10,7 +10,6 @@ stages:
   - test
   - build
   - release
-  - publish_coverage
 
 variables:
   PYTHON_IMAGE: python:3.6
@@ -35,9 +34,6 @@ test-branch:
     - pospell -l de_DE -p .spelling/de_DE.txt castellum/locale/de/LC_MESSAGES/django.po
     - python manage.py makemigrations --dry-run --check --noinput
   coverage: '/TOTAL.*\s+(\d+\%)/'
-  artifacts:
-    paths:
-      - ./htmlcov/
 
 build:
   stage: build
@@ -55,14 +51,3 @@ release-image:
     - docker push $CONTAINER_RELEASE_IMAGE
   only:
     - main
-
-pages:
-  stage: publish_coverage
-  only:
-    - main
-  script:
-    - mv ./htmlcov/ public/
-  artifacts:
-    paths:
-      - public
-    expire_in: 3 days
