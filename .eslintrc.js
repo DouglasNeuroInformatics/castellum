@@ -8,6 +8,7 @@ module.exports = {
     "extends": "eslint:recommended",
     "globals": {
         "$": "readonly",
+        "$$": "readonly",
         "django": "readonly",
         "FullCalendar": "readonly"
     }

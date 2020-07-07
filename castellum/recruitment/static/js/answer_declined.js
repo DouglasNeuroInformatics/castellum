@@ -1,13 +1,13 @@
-$(function() {
-    var disableInput = function(event) {
-        var $answer_declined = $(event.target);
-        var $target = $('#' + $answer_declined.data('target'));
-        $target.prop('disabled', $answer_declined.prop('checked'));
+(function() {
+    var disableInput = function() {
+        var targetId = this.dataset.target;
+        var target = document.getElementById(targetId);
+        target.disabled = this.checked;
     };
 
-    $(document).on('change', '[data-js="answer-declined"]', disableInput);
+    $$.on(document, 'change', '[data-js="answer-declined"]', disableInput);
 
-    $('[data-js="answer-declined"]').each(function(i, element) {
-        disableInput({target: element});
+    document.querySelectorAll('[data-js="answer-declined"]').forEach(function(element) {
+        disableInput.call(element);
     });
-});
+})();

@@ -1,24 +1,24 @@
-$(function() {
-    $(document).on('change', '[name="guardians_pane"]', function() {
+(function() {
+    $$.on(document, 'change', '[name="guardians_pane"]', function() {
         ['self', 'guardians'].forEach(function(id) {
-            var $pane = $('#contact-' + id);
-            var $radio = $('[name="guardians_pane"][value="' + id + '"]');
-            $pane.prop('hidden', !$radio.prop('checked'));
+            var pane = document.getElementById('contact-' + id);
+            var radio = document.querySelector('[name="guardians_pane"][value="' + id + '"]');
+            pane.hidden = !radio.checked;
         });
     });
 
-    $(document).on('submit', '[data-js="contact-completeness"]', function(event) {
+    $$.on(document, 'submit', '[data-js="contact-completeness"]', function(event) {
         var complete = false;
-        if ($('[name="guardians_pane"][value="guardians"]').prop('checked')) {
+        if (document.querySelector('[name="guardians_pane"][value="guardians"]').checked) {
             complete = (
-                $('[name="guardians_remove"]:disabled').length ||
-                $('[name="guardians_add"]:not(:disabled)').length
+                document.querySelector('[name="guardians_remove"]:disabled') ||
+                document.querySelector('[name="guardians_add"]:not(:disabled)')
             );
         } else {
             complete = (
-                $('[name="email"]').val() ||
-                $('[name="phone_number"]').val() ||
-                $('[name="street"]').val()
+                document.querySelector('[name="email"]').value ||
+                document.querySelector('[name="phone_number"]').value ||
+                document.querySelector('[name="street"]').value
             );
         }
         if (!complete) {
@@ -29,41 +29,41 @@ $(function() {
     });
 
     var toggleGuardian = function(el, removed) {
-        var $wrapper = $(el).closest('[data-js="guardian-wrapper"]');
-        var $remove = $wrapper.find('[data-js="guardian-remove"]');
-        var $restore = $wrapper.find('[data-js="guardian-restore"]');
-        var $input = $wrapper.find('input');
+        var wrapper = el.closest('[data-js="guardian-wrapper"]');
+        var remove = wrapper.querySelector('[data-js="guardian-remove"]');
+        var restore = wrapper.querySelector('[data-js="guardian-restore"]');
+        var input = wrapper.querySelector('input');
 
-        $wrapper.toggleClass('text-muted', removed);
-        $remove.prop('hidden', removed);
-        $restore.prop('hidden', !removed);
-        if ($input.attr('name') === 'guardians_remove') {
-            $input.prop('disabled', !removed);
+        wrapper.classList.toggle('text-muted', removed);
+        remove.hidden = removed;
+        restore.hidden = !removed;
+        if (input.name === 'guardians_remove') {
+            input.disabled = !removed;
         } else {
-            $input.prop('disabled', removed);
+            input.disabled = removed;
         }
     };
 
-    $(document).on('click', '[data-js="guardian-remove"]', function() {
+    $$.on(document, 'click', '[data-js="guardian-remove"]', function() {
         toggleGuardian(this, true);
     });
 
-    $(document).on('click', '[data-js="guardian-restore"]', function() {
+    $$.on(document, 'click', '[data-js="guardian-restore"]', function() {
         toggleGuardian(this, false);
     });
 
     var addGuardian = function(name, pk) {
-        var $template = $('#guardian-template');
-        var $button = $('[data-js="guardian-add"]');
+        var template = document.getElementById('guardian-template');
+        var button = document.querySelector('[data-js="guardian-add"]');
 
-        var html = $template.html().replace(/{pk}/g, pk);
-        var $el = $(html);
-        $el.find('label').text(name);
+        var wrapper = document.createElement('div');
+        wrapper.innerHTML = template.innerHTML.replace(/{pk}/g, pk);
+        wrapper.querySelector('label').textContent = name;
 
-        $button.before($el);
+        button.before(wrapper.children[0]);
     };
 
-    $(document).on('click', '[data-js="guardian-add"]', function() {
+    $$.on(document, 'click', '[data-js="guardian-add"]', function() {
         // copied from django
         var config = 'height=500,width=800,resizable=yes,scrollbars=yes';
         var win = window.open('/subjects/guardians/', 'guardian-add', config);
@@ -78,15 +78,15 @@ $(function() {
         win.close();
     };
 
-    $(document).on('click', '[data-js="guardian-dismiss"]', function() {
+    $$.on(document, 'click', '[data-js="guardian-dismiss"]', function() {
         window.close();
     });
 
     var use = function() {
-        var data = JSON.stringify($(this).data());
+        var data = JSON.stringify(this.dataset);
         opener.closeGuardianPopup(window, data);
     };
 
-    $(document).on('click', '[data-js="guardian-use"]', use);
-    $('[data-js="guardian-use-auto"]').each(use);
-});
+    $$.on(document, 'click', '[data-js="guardian-use"]', use);
+    document.querySelectorAll('[data-js="guardian-use-auto"]').forEach(use);
+})();

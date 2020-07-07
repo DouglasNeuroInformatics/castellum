@@ -1,6 +1,22 @@
-$(function() {
+(function() {
+    window.$$ = {
+        on: function(el, eventName, selector, fn) {
+            el.addEventListener(eventName, function(event) {
+                var target = event.target.closest(selector);
+                if (target) {
+                    fn.call(target, event);
+                }
+            });
+        },
+        trigger: function(el, eventName) {
+            var event = document.createEvent('HTMLEvents');
+            event.initEvent(eventName, true, false);
+            el.dispatchEvent(event);
+        },
+    };
+
     var preventDoubleClick = false;
-    $(document).on('submit', 'form', function(event) {
+    $$.on(document, 'submit', 'form', function(event) {
         if (preventDoubleClick) {
             event.preventDefault();
         } else {
@@ -11,11 +27,11 @@ $(function() {
         }
     });
 
-    $(document).on('change', '[data-js="confirm-delete"]', function() {
-        $(this.form).find('[type="submit"],button:not([type])').prop('disabled', !this.checked);
+    $$.on(document, 'change', '[data-js="confirm-delete"]', function() {
+        this.form.querySelector('[type="submit"],button:not([type])').disabled = !this.checked;
     });
 
-    $('[type="date"]').each(function(i, e) {
+    document.querySelectorAll('[type="date"]').forEach(function(e) {
         if (e.type !== 'date') {
             $(e).datepicker({
                 format: 'yyyy-mm-dd',
@@ -28,29 +44,31 @@ $(function() {
         }
     });
 
-    $(document).on('click', '[data-multi-reset]', function(event) {
-        var $target = $($(event.target).data('multi-reset'));
-        $target.find('option').each(function(i, element) {
-            $(element).prop('selected', false);
+    $$.on(document, 'click', '[data-multi-reset]', function() {
+        var targetSelector = this.dataset.multiReset;
+        var target = document.querySelector(targetSelector);
+        target.querySelectorAll('option').forEach(function(element) {
+            element.selected = false;
         });
     });
 
-    $(document).on('click', '[data-clipboard]', function(event) {
-        var $target = $($(event.target).data('clipboard'));
+    $$.on(document, 'click', '[data-clipboard]', function() {
+        var targetSelector = this.dataset.clipboard;
+        var target = document.querySelector(targetSelector);
         if (navigator.clipboard) {
-            navigator.clipboard.writeText($target.val());
+            navigator.clipboard.writeText(target.value);
         } else {
-            $target.focus();
-            $target[0].setSelectionRange(0, 1000);
+            target.focus();
+            target.setSelectionRange(0, 1000);
             document.execCommand('copy');
         }
     });
 
-    $(document).on('click', '[data-js="popup"]', function(event) {
+    $$.on(document, 'click', '[data-js="popup"]', function(event) {
         event.preventDefault();
         // copied from django
         var config = 'height=500,width=800,resizable=yes,scrollbars=yes';
-        var win = window.open(event.target.href, null, config);
+        var win = window.open(this.href, null, config);
         win.focus();
     });
-});
+})();
