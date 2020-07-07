@@ -19,7 +19,9 @@ RUN mkdir -p /media
 RUN chown uwsgi /media
 VOLUME /media
 
-RUN apt-get update -q && apt-get install -y $BUILDPKGS $RUNTIMEPKGS
+RUN apt-get update -q && \
+    apt-get install --no-install-recommends -y $BUILDPKGS $RUNTIMEPKGS && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY castellum/ code/castellum/
 COPY setup.py LICENSE code/
