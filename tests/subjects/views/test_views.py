@@ -119,10 +119,10 @@ def test_contact_200(request, client, user_fixture, contact):
     'subject_manager',
     'data_protection_coordinator',
 ])
-def test_partcipation_list_200(request, client, user_fixture, participation_request):
+def test_partcipation_list_200(request, client, user_fixture, participation):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/participations/'.format(participation_request.subject.pk)
+    url = '/subjects/{}/participations/'.format(participation.subject.pk)
     response = client.get(url)
     assert response.status_code == 200
 

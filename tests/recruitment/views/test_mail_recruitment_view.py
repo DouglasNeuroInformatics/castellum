@@ -28,10 +28,10 @@ def test_mail_add_to_study(client, user):
     study.members.add(user)
     view = MailRecruitmentView()
     view.study = study
-    counter = view.create_participation_requests(3)
+    counter = view.create_participations(3)
 
     assert counter == 2
-    assert study.participationrequest_set.count() == 2
+    assert study.participation_set.count() == 2
     assert len(mail.outbox) == 2
 
 
@@ -52,10 +52,10 @@ def test_guardian_mail_add_to_study(client, user):
     study.members.add(user)
     view = MailRecruitmentView()
     view.study = study
-    counter = view.create_participation_requests(3)
+    counter = view.create_participations(3)
 
     assert counter == 1
-    assert study.participationrequest_set.count() == 1
+    assert study.participation_set.count() == 1
     assert len(mail.outbox) == 1
 
 

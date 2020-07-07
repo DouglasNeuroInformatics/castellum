@@ -36,9 +36,9 @@ from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_subject
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.mixins import BaseCalendarView
-from castellum.recruitment.mixins import ParticipationRequestMixin
+from castellum.recruitment.mixins import ParticipationMixin
 from castellum.recruitment.models import Appointment
-from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import Participation
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
@@ -58,27 +58,27 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
 
         context['list'] = []
-        prs = self.study.participationrequest_set\
-            .filter(status=ParticipationRequest.INVITED)\
+        participations = self.study.participation_set\
+            .filter(status=Participation.INVITED)\
             .select_related('subject')
-        for pr in prs:
-            has_access = self.request.user.has_privacy_level(pr.subject.privacy_level)
-            context['list'].append((pr, has_access))
+        for participation in participations:
+            has_access = self.request.user.has_privacy_level(participations.subject.privacy_level)
+            context['list'].append((participations, has_access))
 
         return context
 
 
-class ParticipationRequestDetailView(
-    ParticipationRequestMixin, PermissionRequiredMixin, DetailView
+class ParticipationDetailView(
+    ParticipationMixin, PermissionRequiredMixin, DetailView
 ):
-    template_name = 'execution/participationrequest_detail.html'
-    model = ParticipationRequest
+    template_name = 'execution/participation_detail.html'
+    model = Participation
     permission_required = 'recruitment.view_participation_pseudonyms'
     study_status = [Study.EXECUTION]
-    participationrequest_status = [ParticipationRequest.INVITED]
+    participation_status = [Participation.INVITED]
 
     def get_object(self):
-        return self.participationrequest
+        return self.participation
 
 
 class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
@@ -90,24 +90,24 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
     def form_valid(self, form):
         try:
             subject = get_subject(self.study.domain, form.cleaned_data['pseudonym'])
-            pr = ParticipationRequest.objects.filter(
+            participations = Participation.objects.filter(
                 study=self.study,
                 subject=subject,
-                status=ParticipationRequest.INVITED,
+                status=Participation.INVITED,
             ).get()
-            return redirect('execution:participationrequest-detail', self.study.pk, pr.pk)
+            return redirect('execution:participation-detail', self.study.pk, participations.pk)
         except ObjectDoesNotExist:
             messages.warning(self.request, _('No match found'))
             return self.render_to_response(self.get_context_data(form=form))
 
 
-class ExecutionUpdateMixin(ParticipationRequestMixin):
+class ExecutionUpdateMixin(ParticipationMixin):
     study_status = [Study.EXECUTION]
-    participationrequest_status = [ParticipationRequest.INVITED]
+    participation_status = [Participation.INVITED]
 
     def get_success_url(self):
         return reverse(
-            'execution:participationrequest-detail',
+            'execution:participation-detail',
             args=[self.kwargs['study_pk'], self.kwargs['pk']],
         )
 
@@ -124,27 +124,27 @@ class ExecutionUpdateMixin(ParticipationRequestMixin):
 
 class ContactUpdateView(ExecutionUpdateMixin, BaseContactUpdateView):
     def get_object(self):
-        return self.participationrequest.subject.contact
+        return self.participation.subject.contact
 
 
 class AttributeSetUpdateView(ExecutionUpdateMixin, BaseAttributeSetUpdateView):
     def get_object(self):
-        return self.participationrequest.subject.attributeset
+        return self.participation.subject.attributeset
 
 
 class DataProtectionUpdateView(ExecutionUpdateMixin, BaseDataProtectionUpdateView):
     def get_object(self):
-        return self.participationrequest.subject
+        return self.participation.subject
 
 
 class AdditionalInfoUpdateView(ExecutionUpdateMixin, BaseAdditionalInfoUpdateView):
     def get_object(self):
-        return self.participationrequest.subject
+        return self.participation.subject
 
 
 class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     model = Study
-    permission_required = 'recruitment.view_participationrequest'
+    permission_required = 'recruitment.view_participation'
     study_status = [Study.EXECUTION]
     feed = 'execution:calendar-feed'
 
@@ -158,8 +158,8 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
             'title': appointment.session.name,
             'start': appointment.start,
             'end': appointment.end,
-            'url': reverse('execution:participationrequest-detail', args=[
-                self.object.pk, appointment.participant.pk
+            'url': reverse('execution:participation-detail', args=[
+                self.object.pk, appointment.participation.pk
             ]),
         }
 
@@ -174,6 +174,6 @@ class ReceptionView(PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(
-            participant__status=ParticipationRequest.INVITED,
+            participation__status=Participation.INVITED,
             start__date=datetime.date.today(),
         ).order_by('start')

@@ -7,7 +7,7 @@
     {% if study %}
         <li class="breadcrumb-item"><a href="{% url 'recruitment:recruitment-open' study.pk %}">{% trans 'Recruitment for' %} {{ study.name }}</a></li>
     {% endif %}
-    {% if participationrequest %}
-        <li class="breadcrumb-item"><a href="{% url 'recruitment:contact' study.pk participationrequest.pk %}">{{ participationrequest.subject.contact.short_name }}</a></li>
+    {% if participation %}
+        <li class="breadcrumb-item"><a href="{% url 'recruitment:contact' study.pk participation.pk %}">{{ participation.subject.contact.short_name }}</a></li>
     {% endif %}
 {% endblock %}

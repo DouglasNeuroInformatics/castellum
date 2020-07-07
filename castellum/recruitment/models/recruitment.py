@@ -34,9 +34,9 @@ from castellum.utils.fields import DateField
 from castellum.utils.fields import DateTimeField
 
 
-class ParticipationRequestManager(models.Manager):
+class ParticipationManager(models.Manager):
     def get_queryset(self):
-        others = ParticipationRequestRevision.objects\
+        others = ParticipationRevision.objects\
             .filter(current_id=models.OuterRef('id'))\
             .exclude(status=models.OuterRef('status'))
         other_status_at = others.order_by('-created_at').values('created_at')[:1]
@@ -47,8 +47,8 @@ class ParticipationRequestManager(models.Manager):
             status_not_reached=models.Count(
                 'id',
                 filter=models.Q(status__in=[
-                    ParticipationRequest.NOT_REACHED,
-                    ParticipationRequest.AWAITING_RESPONSE,
+                    Participation.NOT_REACHED,
+                    Participation.AWAITING_RESPONSE,
                 ]),
                 distinct=True,
             ),
@@ -65,18 +65,18 @@ class ParticipationRequestManager(models.Manager):
                 distinct=True,
             ),
             last_contacted_elsewhere=models.Max(
-                'subject__participationrequest__revisions__created_at',
+                'subject__participation__revisions__created_at',
                 filter=(
-                    ~models.Q(subject__participationrequest__study=models.F('study'))
+                    ~models.Q(subject__participation__study=models.F('study'))
                     & ~models.Q(
-                        subject__participationrequest__revisions__status=ParticipationRequest.NOT_CONTACTED # noqa
+                        subject__participation__revisions__status=Participation.NOT_CONTACTED
                     )
                 ),
             ),
         )
 
 
-class ParticipationRequest(models.Model):
+class Participation(models.Model):
     NOT_CONTACTED = 0
     NOT_REACHED = 1
     UNSUITABLE = 2
@@ -96,18 +96,18 @@ class ParticipationRequest(models.Model):
     study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
 
     status = models.IntegerField(
-        _('Status of participation request'), choices=STATUS_OPTIONS, default=NOT_CONTACTED
+        _('Status of participation'), choices=STATUS_OPTIONS, default=NOT_CONTACTED
     )
     exclusion_criteria_checked = models.BooleanField(_('Subject may be suitable'), default=False)
 
     followup_date = DateField(_('Follow-up date'), blank=True, null=True)
     followup_time = models.TimeField(_('Follow-up time'), blank=True, null=True)
 
-    objects = ParticipationRequestManager()
+    objects = ParticipationManager()
 
     class Meta:
-        verbose_name = _('Participation request')
-        verbose_name_plural = _('Participation requests')
+        verbose_name = _('Participation')
+        verbose_name_plural = _('Participations')
         unique_together = ('study', 'subject')
         permissions = (
             ('view_participation_pseudonyms', _('Can view participation pseudonyms')),
@@ -117,10 +117,10 @@ class ParticipationRequest(models.Model):
     @property
     def status_open(self):
         return self.status in [
-            ParticipationRequest.NOT_CONTACTED,
-            ParticipationRequest.NOT_REACHED,
-            ParticipationRequest.FOLLOWUP_APPOINTED,
-            ParticipationRequest.AWAITING_RESPONSE,
+            Participation.NOT_CONTACTED,
+            Participation.NOT_REACHED,
+            Participation.FOLLOWUP_APPOINTED,
+            Participation.AWAITING_RESPONSE,
         ]
 
     @cached_property
@@ -171,7 +171,7 @@ class ParticipationRequest(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        ParticipationRequestRevision.objects.create(
+        ParticipationRevision.objects.create(
             current=self,
             status=self.status,
             exclusion_criteria_checked=self.exclusion_criteria_checked,
@@ -180,23 +180,24 @@ class ParticipationRequest(models.Model):
         )
 
 
-class ParticipationRequestRevision(models.Model):
-    """Revision history for ParticipationRequest.
+class ParticipationRevision(models.Model):
+    """Revision history for Participation.
 
-    Each time a ParticipationRequest is saved, an instance of ParticipationRequestRevision
-    if created. This way, we have a history of the ParticipationRequest.
+    Each time a Participation is saved, an instance of ParticipationRevision
+    is created. This way, we have a history of the Participation.
 
     The history is saved in separate model because of these reasons:
 
-    -   ``ParticipationRequest.pseudonym`` is unique.
-    -   Saving the history in the same ParticipationRequest model would degrade
+    -   ``Participation.pseudonym`` is unique.
+    -   Saving the history in the same Participation model would degrade
         performance because the table would be filled up with old revision.
     """
 
     current = models.ForeignKey(
-        ParticipationRequest, related_name='revisions', on_delete=models.CASCADE)
+        Participation, related_name='revisions', on_delete=models.CASCADE
+    )
     status = models.IntegerField(
-        choices=ParticipationRequest.STATUS_OPTIONS, default=ParticipationRequest.NOT_CONTACTED
+        choices=Participation.STATUS_OPTIONS, default=Participation.NOT_CONTACTED
     )
     exclusion_criteria_checked = models.BooleanField()
     followup_date = DateField(blank=True, null=True)

@@ -88,17 +88,17 @@
                             </div>
                             {% if can_access %}
                                 <ul class="table-list">
-                                    {% for pr, can_recruit, can_conduct in prs %}
+                                    {% for participations, can_recruit, can_conduct in prs %}
                                         <li class="table-list-item">
-                                            <span class="h5 d-inline-block my-1 mr-2">{{ pr.study }}</span>
-                                            <span class="d-inline-block my-1 mr-2">{{ pr.study.contact_person }}</span>
-                                            <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ pr|display:'status' }}</span>
+                                            <span class="h5 d-inline-block my-1 mr-2">{{ participations.study }}</span>
+                                            <span class="d-inline-block my-1 mr-2">{{ participations.study.contact_person }}</span>
+                                            <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participations|display:'status' }}</span>
                                             <div class="table-list-item-actions">
                                                 {% if can_recruit %}
-                                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' pr.study.pk pr.pk %}">{% trans 'Recruitment' %}</a>
+                                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participations.study.pk participations.pk %}">{% trans 'Recruitment' %}</a>
                                                 {% endif %}
                                                 {% if can_conduct %}
-                                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participationrequest-detail' pr.study.pk pr.pk %}">{% trans 'Execution' %}</a>
+                                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participation-detail' participations.study.pk participations.pk %}">{% trans 'Execution' %}</a>
                                                 {% endif %}
                                             </div>
                                         </li>

@@ -6,8 +6,8 @@ from model_bakery import baker
 
 from castellum.contacts.models import Contact
 from castellum.recruitment.models import AttributeSet
-from castellum.recruitment.models import ParticipationRequest
-from castellum.recruitment.models import ParticipationRequestRevision
+from castellum.recruitment.models import Participation
+from castellum.recruitment.models import ParticipationRevision
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.subjects.models import Consent
@@ -41,7 +41,7 @@ def test_not_contacted_count_is_gte_to_hard_limit(
     study_in_execution_status.save()
 
     for i in range(subject_count):
-        create_participation_request(study_in_execution_status)
+        create_participation(study_in_execution_status)
 
     client.force_login(member)
     url = "/recruitment/{}/".format(study_in_execution_status.pk)
@@ -68,7 +68,7 @@ def test_not_contacted_count_is_gte_to_soft_limit(
     study_in_execution_status.save()
 
     for i in range(subject_count):
-        create_participation_request(study_in_execution_status)
+        create_participation(study_in_execution_status)
     for i in range(settings.CASTELLUM_RECRUITMENT_BATCH_SIZE):
         create_attributeset()
 
@@ -124,7 +124,7 @@ def test_create_revision_on_create(client, member, attributeset, study_in_execut
     url = "/recruitment/{}/".format(study_in_execution_status.pk)
     client.post(url)
 
-    assert ParticipationRequestRevision.objects.count() == 1
+    assert ParticipationRevision.objects.count() == 1
 
 
 def create_attributeset():
@@ -133,6 +133,6 @@ def create_attributeset():
     return baker.make(AttributeSet, data={'d1': 1}, subject=contact.subject)
 
 
-def create_participation_request(study, status=ParticipationRequest.NOT_CONTACTED):
+def create_participation(study, status=Participation.NOT_CONTACTED):
     attributeset = create_attributeset()
-    baker.make(ParticipationRequest, subject=attributeset.subject, study=study, status=status)
+    baker.make(Participation, subject=attributeset.subject, study=study, status=status)

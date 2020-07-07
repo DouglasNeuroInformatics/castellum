@@ -37,7 +37,7 @@ from castellum.utils.forms import DisabledModelChoiceField
 from .models import Appointment
 from .models import AttributeDescription
 from .models import AttributeSet
-from .models import ParticipationRequest
+from .models import Participation
 from .models import SubjectFilter
 from .models.appointments import MINUTE
 from .models.attributesets import ANSWER_DECLINED
@@ -188,7 +188,7 @@ class ContactForm(forms.ModelForm):
                 required=False,
             )
 
-        model_status = ParticipationRequest._meta.get_field('status')
+        model_status = Participation._meta.get_field('status')
         self.fields['status'] = DisabledChoiceField(
             label=model_status.verbose_name,
             choices=model_status.choices,
@@ -196,11 +196,11 @@ class ContactForm(forms.ModelForm):
         )
         if not self.instance.match:
             self.fields['status'].widget.disabled_choices = [
-                choice for choice, label in ParticipationRequest.STATUS_OPTIONS
-                if choice != ParticipationRequest.UNSUITABLE
+                choice for choice, label in Participation.STATUS_OPTIONS
+                if choice != Participation.UNSUITABLE
             ]
         elif self.instance.match == 'incomplete':
-            self.fields['status'].widget.disabled_choices = [ParticipationRequest.INVITED]
+            self.fields['status'].widget.disabled_choices = [Participation.INVITED]
 
     def format_session_name(self, session):
         duration = _('%imin') % session.duration
@@ -229,8 +229,8 @@ class ContactForm(forms.ModelForm):
                 break
 
         qs = Appointment.objects\
-            .exclude(participant=self.instance)\
-            .filter(participant__status=ParticipationRequest.INVITED)\
+            .exclude(participation=self.instance)\
+            .filter(participation__status=Participation.INVITED)\
             .annotate(end=models.ExpressionWrapper(
                 models.F('start') + models.F('session__duration') * MINUTE,
                 output_field=models.DateTimeField(),
@@ -269,7 +269,7 @@ class ContactForm(forms.ModelForm):
                 yield self[name]
 
     class Meta:
-        model = ParticipationRequest
+        model = Participation
         fields = ['status', 'followup_date', 'followup_time', 'exclusion_criteria_checked']
 
 

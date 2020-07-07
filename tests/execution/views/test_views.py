@@ -2,7 +2,7 @@ import pytest
 from model_bakery import baker
 
 from castellum.recruitment.models import Appointment
-from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import Participation
 from castellum.studies.models import StudyMembership
 
 
@@ -33,39 +33,39 @@ def test_study_detail_view(request, client, user_fixture, study_in_execution_sta
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
     'data_protection_coordinator',
 ])
-def test_participation_request_detail_view_invited(
+def test_participation_detail_view_invited(
     request, client, user_fixture, contact, study_in_execution_status
 ):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
 
-    participationrequest = baker.make(
-        ParticipationRequest,
+    participation = baker.make(
+        Participation,
         study=study_in_execution_status,
-        status=ParticipationRequest.INVITED,
+        status=Participation.INVITED,
         subject=contact.subject,
     )
     baker.make(StudyMembership, user=user, study=study_in_execution_status)
 
-    url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participationrequest.pk)
+    url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
     response = client.get(url)
     assert response.status_code == 200
 
 
-def test_participation_request_detail_view_unsuitable(
+def test_participation_detail_view_unsuitable(
     request, client, contact, study_conductor, study_in_execution_status
 ):
     client.force_login(study_conductor)
 
-    participationrequest = baker.make(
-        ParticipationRequest,
+    participation = baker.make(
+        Participation,
         study=study_in_execution_status,
-        status=ParticipationRequest.UNSUITABLE,
+        status=Participation.UNSUITABLE,
         subject=contact.subject,
     )
     baker.make(StudyMembership, user=study_conductor, study=study_in_execution_status)
 
-    url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participationrequest.pk)
+    url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
     response = client.get(url)
     assert response.status_code == 404
 
@@ -74,21 +74,21 @@ def test_participation_request_detail_view_unsuitable(
 def test_resolve_view(client, member, study_in_execution_status, contact):
     client.force_login(member)
 
-    participationrequest = baker.make(
-        ParticipationRequest,
+    participation = baker.make(
+        Participation,
         study=study_in_execution_status,
-        status=ParticipationRequest.INVITED,
+        status=Participation.INVITED,
         subject=contact.subject,
     )
 
     url = '/execution/%i/resolve/' % study_in_execution_status.pk
     response = client.post(url, {
-        'pseudonym': participationrequest.pseudonym,
+        'pseudonym': participation.pseudonym,
     })
 
     assert response.status_code == 302
     assert response.url == '/execution/%i/%i/' % (
-        study_in_execution_status.pk, participationrequest.pk
+        study_in_execution_status.pk, participation.pk
     )
 
 
@@ -96,15 +96,15 @@ def test_resolve_view(client, member, study_in_execution_status, contact):
 def test_update_contact_view(client, member, study_in_execution_status, contact):
     client.force_login(member)
 
-    participationrequest = baker.make(
-        ParticipationRequest,
+    participation = baker.make(
+        Participation,
         study=study_in_execution_status,
-        status=ParticipationRequest.INVITED,
+        status=Participation.INVITED,
         subject=contact.subject,
     )
 
     response = client.get('/execution/%i/%i/update-contact/' % (
-        study_in_execution_status.pk, participationrequest.pk
+        study_in_execution_status.pk, participation.pk
     ))
 
     assert response.status_code == 200
@@ -120,15 +120,15 @@ def test_calendar_view(client, member, study_in_execution_status):
 def test_calendar_view_events(client, member, study_in_execution_status, contact):
     client.force_login(member)
 
-    participationrequest = baker.make(
-        ParticipationRequest,
+    participation = baker.make(
+        Participation,
         study=study_in_execution_status,
-        status=ParticipationRequest.INVITED,
+        status=Participation.INVITED,
         subject=contact.subject,
     )
     baker.make(
         Appointment,
-        participant=participationrequest,
+        participation=participation,
         session__study=study_in_execution_status,
     )
 
@@ -140,7 +140,7 @@ def test_calendar_view_events(client, member, study_in_execution_status, contact
     assert 'events' in data
     assert len(data['events']) == 1
     assert data['events'][0]['url'] == '/execution/%i/%i/' % (
-        study_in_execution_status.pk, participationrequest.pk
+        study_in_execution_status.pk, participation.pk
     )
 
 

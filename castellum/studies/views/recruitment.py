@@ -32,7 +32,7 @@ from dateutil.relativedelta import relativedelta
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment import filter_queries
-from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.subjects.models import Subject
 from castellum.utils.views import ReadonlyMixin
@@ -51,13 +51,13 @@ def get_related_studies(study):
         return Study.objects.none()
 
     dt = timezone.now() - relativedelta(years=2)
-    related_prs = ParticipationRequest.objects.filter(
+    related_prs = Participation.objects.filter(
         updated_at__gte=dt,
-        status=ParticipationRequest.INVITED,
+        status=Participation.INVITED,
         subject__in=Subject.objects.filter(filter_queries.study(study))
     )
     return Study.objects\
-        .filter(participationrequest__in=related_prs)\
+        .filter(participation__in=related_prs)\
         .annotate(count=models.Count('pk'))\
         .exclude(pk=study.pk)\
         .order_by('-count')[:5]

@@ -2,7 +2,7 @@ from model_bakery import baker
 
 from castellum.contacts.models import Contact
 from castellum.data_protection import helpers
-from castellum.recruitment.models import ParticipationRequest
+from castellum.recruitment.models import Participation
 
 
 def test_get_no_legal_basis(db):
@@ -29,7 +29,7 @@ def test_get_no_legal_basis_guardians(db):
 def test_get_no_legal_basis_participation(db):
     contact = baker.make(Contact)
 
-    baker.make(ParticipationRequest, subject=contact.subject)
+    baker.make(Participation, subject=contact.subject)
 
     actual, missing = helpers.get_no_legal_basis(10)
 

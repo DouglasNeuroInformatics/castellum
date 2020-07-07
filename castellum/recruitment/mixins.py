@@ -38,36 +38,36 @@ from .forms import AttributeSetForm
 from .models import Appointment
 from .models import AttributeDescription
 from .models import AttributeSet
-from .models import ParticipationRequest
+from .models import Participation
 from .models.attributesets import ANSWER_DECLINED
 from .models.attributesets import UNCATEGORIZED
 
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
-class ParticipationRequestMixin(StudyMixin, SubjectMixin):
-    """Use this on every view that represents a participation request.
+class ParticipationMixin(StudyMixin, SubjectMixin):
+    """Use this on every view that represents a participation.
 
     -   pull in StudyMixin and SubjectMixin
-    -   set ``self.participation_request``
+    -   set ``self.participation``
     -   check that ``pk`` and ``study_pk`` refer to the same study
-    -   check that status is in ``participationrequest_status``, otherwise return 404
+    -   check that status is in ``participation_status``, otherwise return 404
 
     Requires PermissionRequiredMixin.
     """
 
-    participationrequest_status = []
+    participation_status = []
 
     @cached_property
-    def participationrequest(self):
-        qs = ParticipationRequest.objects.all()
-        if self.participationrequest_status:
-            qs = qs.filter(status__in=self.participationrequest_status)
+    def participation(self):
+        qs = Participation.objects.all()
+        if self.participation_status:
+            qs = qs.filter(status__in=self.participation_status)
         return get_object_or_404(qs, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk'])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['participationrequest'] = self.participationrequest
+        context['participation'] = self.participation
         return context
 
 
@@ -112,7 +112,7 @@ class BaseCalendarView(DetailView):
     template_name = 'recruitment/calendar.html'
 
     def get_appointments(self):
-        return Appointment.objects.filter(participant__status=ParticipationRequest.INVITED)
+        return Appointment.objects.filter(participation__status=Participation.INVITED)
 
     def render_appointment(self, appointment):
         return {
@@ -151,7 +151,7 @@ class BaseFollowUpFeed(BaseICalFeed):
 
 class BaseAppointmentFeed(BaseICalFeed):
     def items(self, obj):
-        return Appointment.objects.filter(participant__status=ParticipationRequest.INVITED)
+        return Appointment.objects.filter(participation__status=Participation.INVITED)
 
     def item_start_datetime(self, item):
         return item.start

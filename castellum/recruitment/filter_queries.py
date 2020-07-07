@@ -43,7 +43,7 @@ from castellum.subjects.models import Subject
 
 from .filter_registry import custom_filters
 from .models import AttributeDescription
-from .models import ParticipationRequest
+from .models import Participation
 
 
 def study_exclusion(study):
@@ -52,14 +52,14 @@ def study_exclusion(study):
     # Excluded studies
     pr_q = models.Q(
         study__in=study.excluded_studies.all(),
-        status=ParticipationRequest.INVITED,
+        status=Participation.INVITED,
     )
 
     # Reverse excluded studies:
     # Exclude studies which exclude this study.
     pr_q |= models.Q(
         study__excluded_studies=study,
-        status=ParticipationRequest.INVITED,
+        status=Participation.INVITED,
     )
 
     if study.is_exclusive:
@@ -67,7 +67,7 @@ def study_exclusion(study):
         # Exclude all other studies (including exclusive studies).
         pr_q |= models.Q(
             ~models.Q(study__status=Study.FINISHED),
-            ~models.Q(status=ParticipationRequest.UNSUITABLE),
+            ~models.Q(status=Participation.UNSUITABLE),
             ~models.Q(study__pk=study.pk),
         )
     else:
@@ -75,11 +75,11 @@ def study_exclusion(study):
         # All other studies still exclude exclusive studies.
         pr_q |= models.Q(
             ~models.Q(study__status=Study.FINISHED),
-            ~models.Q(status=ParticipationRequest.UNSUITABLE),
+            ~models.Q(status=Participation.UNSUITABLE),
             study__is_exclusive=True,
         )
 
-    prs = ParticipationRequest._base_manager.filter(pr_q)
+    prs = Participation._base_manager.filter(pr_q)
 
     return ~models.Q(id__in=prs.values('subject_id'))
 
@@ -123,8 +123,8 @@ def to_be_deleted():
 
 
 def already_in_study(study):
-    """Exclude subjects if they already have a participationrequest in this study."""
-    return ~models.Q(participationrequest__study=study)
+    """Exclude subjects if they already have a participation in this study."""
+    return ~models.Q(participation__study=study)
 
 
 def study_filters(study, include_unknown=None):
