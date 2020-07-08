@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post" enctype="multipart/form-data" {% if not object %}action="{% url 'studies:create' %}{% if duplicate %}?duplicate_pk={{ duplicate.pk }}{% endif %}"{% endif %}>
+    <form method="post" enctype="multipart/form-data" {% if duplicate %}action="?duplicate_pk={{ duplicate.pk }}"{% endif %}>
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 
