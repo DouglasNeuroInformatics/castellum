@@ -450,11 +450,19 @@ class ContactView(ParticipationRequestMixin, PermissionRequiredMixin, UpdateView
         else:
             return reverse('recruitment:recruitment-open', args=[self.object.study.pk])
 
+    def add_working_days(self, dt, days):
+        for i in range(days):
+            if dt.isoweekday() == 5:  # friday
+                dt += timezone.timedelta(days=3)
+            elif dt.isoweekday() == 6:  # saturday
+                dt += timezone.timedelta(days=2)
+            else:
+                dt += timezone.timedelta(days=1)
+        return dt
+
     def send_appointment_notifications(self, changes):
         start = timezone.now()
-        end = start + timezone.timedelta(days=2)
-        while end.isoweekday() in [1, 6, 7]:
-            end += timezone.timedelta(days=1)
+        end = self.add_working_days(start, 2)
         relevant_changes = [
             (old, new) for (old, new) in changes if (
                 (old and old >= start and old <= end) or
