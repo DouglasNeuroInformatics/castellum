@@ -14,27 +14,31 @@
         <dt class="col-sm-6">{% trans 'Type of study' %}</dt>
         <dd class="col-sm-6">{{ object|display:'study_type' }}</dd>
 
-        <dt class="col-sm-6">{% trans 'Scheduled runtime' %}</dt>
-        <dd class="col-sm-6">
-            {% if object.sessions_start and object.sessions_end %}
-                {{ object.sessions_start }} - {{ object.sessions_end }}
-            {% elif object.sessions_start %}
-                {{ object.sessions_start }} - {% trans 'not defined' %}
-            {% else %}
-                &mdash;
-            {% endif %}
-        </dd>
+        {% if not object.is_onetime_invitation %}
+            <dt class="col-sm-6">{% trans 'Scheduled runtime' %}</dt>
+            <dd class="col-sm-6">
+                {% if object.sessions_start and object.sessions_end %}
+                    {{ object.sessions_start }} - {{ object.sessions_end }}
+                {% elif object.sessions_start %}
+                    {{ object.sessions_start }} - {% trans 'not defined' %}
+                {% else %}
+                    &mdash;
+                {% endif %}
+            </dd>
+        {% endif %}
 
         <dt class="col-sm-6">{% trans 'Consent document uploaded' %}</dt>
         <dd class="col-sm-6">{% if object.consent %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</dd>
     </dl>
 
-    <h3 class="h5">{% trans "Member management" %}</h3>
+    {% if not object.is_onetime_invitation %}
+        <h3 class="h5">{% trans "Member management" %}</h3>
 
-    <dl class="row">
-        <dt class="col-sm-6">{% trans 'Recruiters' %}</dt>
-        <dd class="col-sm-6">{{ object.recruiters|join:', '|default:'—' }}</dd>
-    </dl>
+        <dl class="row">
+            <dt class="col-sm-6">{% trans 'Recruiters' %}</dt>
+            <dd class="col-sm-6">{{ object.recruiters|join:', '|default:'—' }}</dd>
+        </dl>
+    {% endif %}
 
     <h3 class="h5">{% trans "Recruitment settings" %}</h3>
 
@@ -51,14 +55,18 @@
             {% endfor %}
         </dd>
 
-        <dt class="col-sm-6">{% trans 'Recruitment text provided' %}</dt>
-        <dd class="col-sm-6">{% if object.recruitment_text %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</dd>
+        {% if not object.is_onetime_invitation %}
+            <dt class="col-sm-6">{% trans 'Recruitment text provided' %}</dt>
+            <dd class="col-sm-6">{% if object.recruitment_text %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</dd>
+        {% endif %}
 
         <dt class="col-sm-6">{% trans 'Recruitment filters set' %}</dt>
         <dd class="col-sm-6">{% if study.has_filters %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</dd>
 
-        <dt class="col-sm-6">{% trans 'Exclusion criteria provided' %}</dt>
-        <dd class="col-sm-6">{% if object.exclusion_criteria %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</dd>
+        {% if not object.is_onetime_invitation %}
+            <dt class="col-sm-6">{% trans 'Exclusion criteria provided' %}</dt>
+            <dd class="col-sm-6">{% if object.exclusion_criteria %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</dd>
+        {% endif %}
     </dl>
 
     {% has_perm 'studies.change_study' user study as can_change_study %}

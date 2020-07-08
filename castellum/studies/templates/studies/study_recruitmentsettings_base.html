@@ -24,8 +24,10 @@
                 {% endif %}
 
                 <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'excluded-studies' %}active{% endif %}" href="{% url 'studies:excluded-studies' study.pk %}">{% trans 'Excluded studies' %}</a>
-                <a class="list-group-item list-group-item-custom list-group-item-action text-hyphens {% if view.subtab == 'exclusioncriteria' %}active{% endif %}" href="{% url 'studies:exclusioncriteria' study.pk %}">{% trans 'Inclusion/exclusion criteria' %}</a>
-                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'sessions' %}active{% endif %}" href="{% url 'studies:sessions' study.pk %}">{% trans 'Sessions' %}</a>
+                {% if not study.is_onetime_invitation %}
+                    <a class="list-group-item list-group-item-custom list-group-item-action text-hyphens {% if view.subtab == 'exclusioncriteria' %}active{% endif %}" href="{% url 'studies:exclusioncriteria' study.pk %}">{% trans 'Inclusion/exclusion criteria' %}</a>
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'sessions' %}active{% endif %}" href="{% url 'studies:sessions' study.pk %}">{% trans 'Sessions' %}</a>
+                {% endif %}
                 <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'mailsettings' %}active{% endif %}" href="{% url 'studies:mailsettings' study.pk %}">{% trans 'Mail Settings' %}</a>
             </div>
         </div>
