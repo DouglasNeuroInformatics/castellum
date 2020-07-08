@@ -453,7 +453,8 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         labelled = []
         for key, label in Appointment.SHOWUP_CHOICES:
             count = stats.get(key, 0)
-            labelled.append((label, count))
+            if count:
+                labelled.append((label, count))
             score += count * weights[key]
 
         return labelled, score
