@@ -62,8 +62,8 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
             .filter(status=Participation.INVITED)\
             .select_related('subject')
         for participation in participations:
-            has_access = self.request.user.has_privacy_level(participations.subject.privacy_level)
-            context['list'].append((participations, has_access))
+            has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
+            context['list'].append((participation, has_access))
 
         return context
 
@@ -90,12 +90,12 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
     def form_valid(self, form):
         try:
             subject = get_subject(self.study.domain, form.cleaned_data['pseudonym'])
-            participations = Participation.objects.filter(
+            participation = Participation.objects.filter(
                 study=self.study,
                 subject=subject,
                 status=Participation.INVITED,
             ).get()
-            return redirect('execution:participation-detail', self.study.pk, participations.pk)
+            return redirect('execution:participation-detail', self.study.pk, participation.pk)
         except ObjectDoesNotExist:
             messages.warning(self.request, _('No match found'))
             return self.render_to_response(self.get_context_data(form=form))
