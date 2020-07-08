@@ -29,7 +29,7 @@ test-branch:
     - npm install
     - pytest --ds=$DJANGO_SETTINGS_MODULE
     - flake8
-    - isort -c
+    - isort -c castellum tests
     - npx eslint castellum
     - pospell -l de_DE -p .spelling/de_DE.txt castellum/locale/de/LC_MESSAGES/django.po
     - python manage.py makemigrations --dry-run --check --noinput
