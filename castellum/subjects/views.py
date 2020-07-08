@@ -194,6 +194,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
             pass
 
         context['coverletter_exists'] = bool(settings.CASTELLUM_COVERLETTER_TEMPLATE)
+        context['showup_stats'], context['showup_score'] = self.object.get_showup_stats()
 
         return context
 
