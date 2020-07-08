@@ -475,7 +475,10 @@ class ContactView(ParticipationRequestMixin, PermissionRequiredMixin, UpdateView
 
         body = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY.format(
             study=self.study,
-            changes='\n'.join('%s -> %s' % (old, new) for (old, new) in relevant_changes),
+            changes='\n'.join('%s -> %s' % (
+                timezone.localtime(old),
+                timezone.localtime(new),
+            ) for (old, new) in relevant_changes),
             participant_url=self.request.build_absolute_uri(reverse(
                 'execution:participationrequest-detail',
                 args=[self.study.pk, self.object.pk]

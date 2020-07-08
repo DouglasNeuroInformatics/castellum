@@ -26,7 +26,6 @@ import os
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from castellum.studies.models import Study
@@ -252,10 +251,10 @@ class ContactForm(forms.ModelForm):
 
             if appointment:
                 if not start:
-                    self.appointment_changes.append((timezone.localtime(appointment.start), None))
+                    self.appointment_changes.append((appointment.start, None))
                     appointment.delete()
                 elif start != appointment.start:
-                    self.appointment_changes.append((timezone.localtime(appointment.start), start))
+                    self.appointment_changes.append((appointment.start, start))
                     appointment.start = start
                     appointment.save()
             elif start:
