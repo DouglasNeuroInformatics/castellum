@@ -456,9 +456,9 @@ class ContactView(ParticipationRequestMixin, PermissionRequiredMixin, UpdateView
         while end.isoweekday() in [1, 6, 7]:
             end += timezone.timedelta(days=1)
         relevant_changes = [
-            change for change in changes if (
-                (change[0] and change[0] >= start and change[0] <= end) or
-                (change[1] and change[1] >= start and change[1] <= end)
+            (old, new) for (old, new) in changes if (
+                (old and old >= start and old <= end) or
+                (new and new >= start and new <= end)
             )
         ]
 
@@ -467,7 +467,7 @@ class ContactView(ParticipationRequestMixin, PermissionRequiredMixin, UpdateView
 
         body = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY.format(
             study=self.study,
-            changes='\n'.join('%s -> %s' % change for change in relevant_changes),
+            changes='\n'.join('%s -> %s' % (old, new) for (old, new) in relevant_changes),
             participant_url=self.request.build_absolute_uri(reverse(
                 'execution:participationrequest-detail',
                 args=[self.study.pk, self.object.pk]
