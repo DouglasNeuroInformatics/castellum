@@ -6,7 +6,7 @@ FROM ubuntu
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BUILDPKGS gcc python3-pip libldap2-dev libsasl2-dev libssl-dev python3-dev gettext
-ENV RUNTIMEPKGS uwsgi uwsgi-plugin-python3 python3 libmagic1 gdal-bin
+ENV RUNTIMEPKGS uwsgi uwsgi-plugin-python3 python3 libmagic1 gdal-bin busybox-static
 
 RUN adduser --disabled-login --gecos '' uwsgi
 
