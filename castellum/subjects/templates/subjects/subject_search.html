@@ -37,7 +37,7 @@
                         <p class="alert alert-warning">{% trans 'This list may be restricted based on your permissions.' %}</p>
                     {% endif %}
 
-                    {% for subject, contact, prs, can_access in matches %}
+                    {% for subject, contact, participations, can_access in matches %}
                         <li>
                             <div class="table-list-item">
                                 <div>
@@ -88,17 +88,17 @@
                             </div>
                             {% if can_access %}
                                 <ul class="table-list">
-                                    {% for participations, can_recruit, can_conduct in prs %}
+                                    {% for participation, can_recruit, can_conduct in participations %}
                                         <li class="table-list-item">
-                                            <span class="h5 d-inline-block my-1 mr-2">{{ participations.study }}</span>
-                                            <span class="d-inline-block my-1 mr-2">{{ participations.study.contact_person }}</span>
-                                            <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participations|display:'status' }}</span>
+                                            <span class="h5 d-inline-block my-1 mr-2">{{ participation.study }}</span>
+                                            <span class="d-inline-block my-1 mr-2">{{ participation.study.contact_person }}</span>
+                                            <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</span>
                                             <div class="table-list-item-actions">
                                                 {% if can_recruit %}
-                                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participations.study.pk participations.pk %}">{% trans 'Recruitment' %}</a>
+                                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participation.study.pk participation.pk %}">{% trans 'Recruitment' %}</a>
                                                 {% endif %}
                                                 {% if can_conduct %}
-                                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participation-detail' participations.study.pk participations.pk %}">{% trans 'Execution' %}</a>
+                                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participation-detail' participation.study.pk participation.pk %}">{% trans 'Execution' %}</a>
                                                 {% endif %}
                                             </div>
                                         </li>
