@@ -22,6 +22,7 @@
 
 def delete_participation_pseudonym(sender, instance, using, **kwargs):
     from castellum.pseudonyms.models import Pseudonym
+
     from .models import Participation
 
     if sender is Participation:
