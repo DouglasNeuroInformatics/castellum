@@ -7,7 +7,7 @@ FROM buildpack-deps
 ENV PYTHONUNBUFFERED 1
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BUILDPKGS gettext python3-pip python3-wheel python3-setuptools
-ENV RUNTIMEPKGS uwsgi uwsgi-plugin-python3 python3 python3-psycopg2 python3-ldap libmagic1 gdal-bin
+ENV RUNTIMEPKGS uwsgi uwsgi-plugin-python3 python3 python3-psycopg2 python3-ldap libmagic1 gdal-bin busybox-static
 
 RUN adduser --disabled-login --gecos '' uwsgi
 
