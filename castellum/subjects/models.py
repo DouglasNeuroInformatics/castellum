@@ -206,6 +206,34 @@ class Subject(TimeStampedModel):
         else:
             return self.get_next_available_datetime(now)
 
+    def get_showup_stats(self):
+        from castellum.recruitment.models import Appointment
+
+        raw = (
+            Appointment.objects
+            .filter(participation__subject=self, start__lt=timezone.now())
+            .values('show_up')
+            .annotate(models.Count('show_up'))
+            .order_by()
+        )
+        stats = {item['show_up']: item['show_up__count'] for item in raw}
+
+        weights = {
+            Appointment.SHOWUP: -1,
+            Appointment.LATE: 1,
+            Appointment.EXCUSED: 2,
+            Appointment.NOSHOW: 3,
+        }
+        score = 0
+        labelled = []
+        for key, label in Appointment.SHOWUP_CHOICES:
+            count = stats.get(key, 0)
+            if count:
+                labelled.append((label, count))
+            score += count * weights[key]
+
+        return labelled, score
+
 
 class SubjectNote(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
