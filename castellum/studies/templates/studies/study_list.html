@@ -6,13 +6,13 @@
 {% block content %}
     <div class="d-flex flex-column flex-md-row justify-content-between">
         <div class="my-1">
-            <a href="?q={{ q }}" class="btn {% if tab == 'my' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'My studies' %}</a>
-            <a href="?q={{ q }}&tab=calendar" class="btn {% if tab == 'calendar' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'Calendar' %}</a>
+            <a href="?q={{ q }}&my=1" class="btn {% if display == 'list' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'List' %}</a>
+            <a href="?q={{ q }}&display=calendar" class="btn {% if display == 'calendar' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'Calendar' %}</a>
         </div>
         <form class="my-1" method="get" aria-label="{% trans 'Search' %}">
             <div class="input-group">
                 <input type="search" class="form-control" name="q" value="{{ q }}" placeholder="{% trans 'Search' %}" title="{% trans 'Search for title or contact person' %}">
-                <input type="hidden" name="tab" value="{{ tab }}">
+                <input type="hidden" name="display" value="{{ display }}">
                 <div class="input-group-append">
                     <button class="btn btn-outline-primary" >{% trans 'Go' %}</button>
                 </div>
@@ -20,7 +20,7 @@
         </form>
     </div>
 
-    {% if tab == 'calendar' %}
+    {% if display == 'calendar' %}
         <div class="my-5" data-js="calendar" data-layout="year"></div>
     {% else %}
         <ul class="table-list mb-3">
