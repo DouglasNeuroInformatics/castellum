@@ -1,0 +1,36 @@
+{% extends "subjects/maintenance_base.html" %}
+{% load i18n bootstrap4 auth %}
+
+{% block title %}{% trans "Waiting for consent" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <p>{% trans 'The following subjects have a record of coming late or not at all:' %}</p>
+
+    <ul class="table-list">
+        {% for subject in object_list %}
+            {% has_privacy_level subject.privacy_level user as can_access %}
+            <li class="table-list-item">
+                <div>
+                    <div>
+                        {% trans 'Last updated on' %}: {{ subject.updated_at|date }}
+                    </div>
+                </div>
+                <div class="table-list-item-actions">
+                    {% if can_access %}
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:detail' subject.pk %}" target="_blank">{% trans 'Details' %}</a>
+                    {% else %}
+                        <button class="btn btn-outline-primary btn-sm-inline my-1" disabled>{% trans 'Details' %}</button>
+                    {% endif %}
+                </div>
+            </li>
+        {% empty %}
+            <li class="alert alert-success" role="alert">{% trans 'Nothing to do' %}</li>
+        {% endfor %}
+    </ul>
+
+    {% if is_paginated %}
+        <nav aria-label="{% trans 'Page navigation' %}">
+            {% bootstrap_pagination page_obj url=request.get_full_path %}
+        </nav>
+    {% endif %}
+{% endblock %}

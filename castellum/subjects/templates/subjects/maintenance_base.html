@@ -25,6 +25,9 @@
             <li class="nav-item">
                 <a href="{% url 'subjects:maintenance-waiting' %}" class="nav-link {% if view.tab == 'waiting' %}active{% endif %}">{% trans 'Waiting for consent' %}</a>
             </li>
+            <li class="nav-item">
+                <a href="{% url 'subjects:maintenance-showup' %}" class="nav-link {% if view.tab == 'showup' %}active{% endif %}">{% trans 'Show up rate' %}</a>
+            </li>
         </ul>
     </nav>
 {% endblock %}

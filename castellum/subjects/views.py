@@ -620,6 +620,19 @@ class MaintenanceWaitingView(BaseMaintenanceView):
         )
 
 
+class MaintenanceShowupView(BaseMaintenanceView):
+    template_name = 'subjects/maintenance_showup.html'
+    tab = 'showup'
+
+    def get_queryset(self):
+        return (
+            Subject.objects
+            .annotate_showup()
+            .filter(showup_score__gte=6)
+            .order_by('-showup_score')
+        )
+
+
 class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):
     model = Subject
     permission_required = 'contacts.view_contact'
