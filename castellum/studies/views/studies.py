@@ -54,6 +54,7 @@ from ..forms import StudyForm
 from ..mixins import StudyMixin
 from ..models import Study
 from ..models import StudyMembership
+from ..models import StudyType
 from .recruitment import get_related_studies
 
 monitoring_logger = logging.getLogger('monitoring.studies')
@@ -83,8 +84,12 @@ class StudyIndexView(LoginRequiredMixin, ListView):
                     models.Q(description__icontains=part) |
                     models.Q(keywords__icontains=part)
                 )
-        if self.request.GET.get('my'):
+        if self.request.GET.get('member', 'my') == 'my':
             qs = qs.filter(studymembership__user=self.request.user)
+        if 'status' in self.request.GET:
+            qs = qs.filter(status=self.request.GET['status'])
+        if 'type' in self.request.GET:
+            qs = qs.filter(studysession__type__pk=self.request.GET['type'])
         if 'start' in self.request.GET:
             qs = qs.filter(sessions_end__gte=self.request.GET['start'][:10])
         if 'end' in self.request.GET:
@@ -103,6 +108,7 @@ class StudyIndexView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['q'] = self.request.GET.get('q', '')
         context['display'] = self.request.GET.get('display', 'list')
+        context['study_types'] = StudyType.objects.all()
         return context
 
 

@@ -8,8 +8,8 @@
 {% block content %}
     <div class="d-flex flex-column flex-md-row justify-content-between">
         <div class="my-1">
-            <a href="?q={{ q }}&my=1" class="btn {% if display == 'list' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'List' %}</a>
-            <a href="?q={{ q }}&display=calendar" class="btn {% if display == 'calendar' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'Calendar' %}</a>
+            <a href="{% url_replace_param member=None display=None %}" class="btn {% if display == 'list' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'List' %}</a>
+            <a href="{% url_replace_param member='all' display='calendar' %}" class="btn {% if display == 'calendar' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'Calendar' %}</a>
         </div>
         <form class="my-1" method="get" aria-label="{% trans 'Search' %}">
             <div class="input-group">
@@ -24,6 +24,31 @@
 
     <div class="row">
         <div class="col-md-3 order-1 my-2" role="landmark" aria-label="{% trans 'Filter' %}">
+            <div class="card mb-3">
+                <div class="card-header">{% trans 'Membership' %}</div>
+                <div class="list-group list-group-flush">
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if request.GET.member != 'all' %}active{% endif %}" href="{% url_replace_param member=None %}">{% trans 'Mine' %}</a>
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if request.GET.member == 'all' %}active{% endif %}" href="{% url_replace_param member='all' %}">{% trans 'All' %}</a>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header">{% trans 'Status' %}</div>
+                <div class="list-group list-group-flush">
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if not request.GET.status %}active{% endif %}" href="{% url_replace_param status=None %}">{% trans 'All' %}</a>
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if request.GET.status == '0' %}active{% endif %}" href="{% url_replace_param status='0' %}">{% trans 'Edit' %}</a>
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if request.GET.status == '1' %}active{% endif %}" href="{% url_replace_param status='1' %}">{% trans 'Execution' %}</a>
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if request.GET.status == '2' %}active{% endif %}" href="{% url_replace_param status='2' %}">{% trans 'Finished' %}</a>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header">{% trans 'Type' %}</div>
+                <div class="list-group list-group-flush">
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if not request.GET.type %}active{% endif %}" href="{% url_replace_param type=None %}">{% trans 'All' %}</a>
+                    {% for study_type in study_types %}
+                        <a class="list-group-item list-group-item-custom list-group-item-action {% if request.GET.type == study_type.pk|upper %}active{% endif %}" href="{% url_replace_param type=study_type.pk %}">{{ study_type.label }}</a>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
 
         <div class="col-md-9">
@@ -67,7 +92,7 @@
                             {% if q %}
                                 {% trans 'No results found.' %}
                             {% else %}
-                                {% if all %}
+                                {% if request.GET.member == 'all' %}
                                     {% trans 'No studies' %}
                                 {% else %}
                                     {% trans 'No personal studies' %}
