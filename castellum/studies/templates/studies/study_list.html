@@ -3,6 +3,8 @@
 
 {% block title %}{% trans "Studies" %} &middot; {{ block.super }}{% endblock %}
 
+{% block container_class %}container-lg{% endblock %}
+
 {% block content %}
     <div class="d-flex flex-column flex-md-row justify-content-between">
         <div class="my-1">
@@ -20,72 +22,79 @@
         </form>
     </div>
 
-    {% if display == 'calendar' %}
-        <div class="my-5" data-js="calendar" data-layout="year"></div>
-    {% else %}
-        <ul class="table-list mb-3">
-            {% for study in object_list %}
-                <li class="table-list-item">
-                    <div>
-                        <div class="h4 d-inline-block my-1 mr-2">{{ study.name }}</div>
-                        {% if study.contact_person %}
-                            <div class="d-inline-block my-1 mr-2">{{ study.contact_person }}</div>
-                        {% endif %}
-                        {% if study.status == study.FINISHED %}
-                            <span class="badge badge-secondary">{% trans 'Finished' %}</span>
-                        {% endif %}
-                    </div>
-                    <div class="table-list-item-actions">
-                        {% has_perm 'studies.access_study' user study as can_access %}
-                        {% if can_access and study.status == study.EXECUTION %}
-                            {% has_perm 'recruitment.view_participation' user study as can_recruit %}
-                            {% if can_recruit %}
-                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment-open' study.pk %}">{% trans 'Recruitment' %}</a>
-                            {% endif %}
+    <div class="row">
+        <div class="col-md-3 order-1 my-2" role="landmark" aria-label="{% trans 'Filter' %}">
+        </div>
 
-                            {% has_perm 'recruitment.view_participation_pseudonyms' user study as can_conduct %}
-                            {% if can_conduct %}
-                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:study-detail' study.pk %}">{% trans 'Execution' %}</a>
-                            {% endif %}
-                        {% endif %}
+        <div class="col-md-9">
+            {% if display == 'calendar' %}
+                <div class="my-5" data-js="calendar" data-layout="year"></div>
+            {% else %}
+                <ul class="table-list mb-3">
+                    {% for study in object_list %}
+                        <li class="table-list-item">
+                            <div>
+                                <div class="h4 d-inline-block my-1 mr-2">{{ study.name }}</div>
+                                {% if study.contact_person %}
+                                    <div class="d-inline-block my-1 mr-2">{{ study.contact_person }}</div>
+                                {% endif %}
+                                {% if study.status == study.FINISHED %}
+                                    <span class="badge badge-secondary">{% trans 'Finished' %}</span>
+                                {% endif %}
+                            </div>
+                            <div class="table-list-item-actions">
+                                {% has_perm 'studies.access_study' user study as can_access %}
+                                {% if can_access and study.status == study.EXECUTION %}
+                                    {% has_perm 'recruitment.view_participation' user study as can_recruit %}
+                                    {% if can_recruit %}
+                                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment-open' study.pk %}">{% trans 'Recruitment' %}</a>
+                                    {% endif %}
 
-                        {% has_perm 'studies.view_study' user study as can_view_study %}
-                        {% if can_view_study %}
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:detail' study.pk %}">{% trans 'Details' %}</a>
-                        {% endif %}
-                    </div>
-                </li>
-            {% empty %}
-                <li class="alert alert-warning">
-                    {% if q %}
-                        {% trans 'No results found.' %}
-                    {% else %}
-                        {% if all %}
-                            {% trans 'No studies' %}
-                        {% else %}
-                            {% trans 'No personal studies' %}
-                        {% endif %}
+                                    {% has_perm 'recruitment.view_participation_pseudonyms' user study as can_conduct %}
+                                    {% if can_conduct %}
+                                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:study-detail' study.pk %}">{% trans 'Execution' %}</a>
+                                    {% endif %}
+                                {% endif %}
+
+                                {% has_perm 'studies.view_study' user study as can_view_study %}
+                                {% if can_view_study %}
+                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:detail' study.pk %}">{% trans 'Details' %}</a>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li class="alert alert-warning">
+                            {% if q %}
+                                {% trans 'No results found.' %}
+                            {% else %}
+                                {% if all %}
+                                    {% trans 'No studies' %}
+                                {% else %}
+                                    {% trans 'No personal studies' %}
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                {% if is_paginated %}
+                    <nav aria-label="{% trans 'Page navigation' %}">
+                        {% bootstrap_pagination page_obj url=request.get_full_path %}
+                    </nav>
+                {% endif %}
+            {% endif  %}
+
+            <div class="d-print-none mb-3">
+                {% has_perm 'studies.add_study' user as can_add_study %}
+                {% if can_add_study %}
+                    {% get_enable_study_export as enable_export %}
+                    {% if enable_export %}
+                        <a href="{% url 'studies:import' %}" class="btn btn-primary">{% trans "Import study" %}</a>
                     {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-
-        {% if is_paginated %}
-            <nav aria-label="{% trans 'Page navigation' %}">
-                {% bootstrap_pagination page_obj url=request.get_full_path %}
-            </nav>
-        {% endif %}
-    {% endif  %}
-
-    <div class="d-print-none mb-3">
-        {% has_perm 'studies.add_study' user as can_add_study %}
-        {% if can_add_study %}
-            {% get_enable_study_export as enable_export %}
-            {% if enable_export %}
-                <a href="{% url 'studies:import' %}" class="btn btn-primary">{% trans "Import study" %}</a>
-            {% endif %}
-            <a href="{% url 'studies:create' %}" class="btn btn-primary">{% trans "Create new study" %}</a>
-        {% endif %}
+                    <a href="{% url 'studies:create' %}" class="btn btn-primary">{% trans "Create new study" %}</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
 {% endblock %}
 
