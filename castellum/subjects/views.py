@@ -504,10 +504,13 @@ class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
         ))
 
 
-class MaintenanceAttributesView(PermissionRequiredMixin, ListView):
+class BaseMaintenanceView(PermissionRequiredMixin, ListView):
     model = Subject
     paginate_by = 20
     permission_required = 'subjects.change_subject'
+
+
+class MaintenanceAttributesView(BaseMaintenanceView):
     template_name = 'subjects/maintenance_attributes.html'
     tab = 'attributes'
 
@@ -520,10 +523,7 @@ class MaintenanceAttributesView(PermissionRequiredMixin, ListView):
             .order_by('completeness')
 
 
-class MaintenanceContactView(PermissionRequiredMixin, ListView):
-    model = Subject
-    paginate_by = 20
-    permission_required = 'subjects.change_subject'
+class MaintenanceContactView(BaseMaintenanceView):
     template_name = 'subjects/maintenance_contact.html'
     tab = 'contact'
 
@@ -551,10 +551,8 @@ class MaintenanceContactView(PermissionRequiredMixin, ListView):
             .order_by('pk')
 
 
-class MaintenanceDuplicatesView(PermissionRequiredMixin, ListView):
+class MaintenanceDuplicatesView(BaseMaintenanceView):
     model = Contact
-    paginate_by = 20
-    permission_required = 'subjects.change_subject'
     template_name = 'subjects/maintenance_duplicates.html'
     tab = 'duplicates'
 
@@ -579,10 +577,7 @@ class MaintenanceDuplicatesView(PermissionRequiredMixin, ListView):
         return duplicates
 
 
-class MaintenanceConsentView(PermissionRequiredMixin, ListView):
-    model = Subject
-    paginate_by = 20
-    permission_required = 'subjects.change_subject'
+class MaintenanceConsentView(BaseMaintenanceView):
     template_name = 'subjects/maintenance_consent.html'
     tab = 'consent'
 
@@ -612,10 +607,7 @@ class MaintenanceConsentView(PermissionRequiredMixin, ListView):
         )
 
 
-class MaintenanceWaitingView(PermissionRequiredMixin, ListView):
-    model = Subject
-    paginate_by = 20
-    permission_required = 'subjects.change_subject'
+class MaintenanceWaitingView(BaseMaintenanceView):
     template_name = 'subjects/maintenance_waiting.html'
     tab = 'waiting'
 
