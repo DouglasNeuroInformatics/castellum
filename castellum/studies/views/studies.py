@@ -79,9 +79,9 @@ class StudyIndexView(LoginRequiredMixin, ListView):
                 qs = qs.filter(
                     models.Q(name__icontains=part) |
                     models.Q(contact_person__icontains=part) |
+                    models.Q(principal_investigator__icontains=part) |
                     models.Q(description__icontains=part) |
-                    models.Q(keywords__icontains=part) |
-                    models.Q(studysession__type__translations__label__iexact=part)
+                    models.Q(keywords__icontains=part)
                 )
         if self.request.GET.get('my'):
             qs = qs.filter(studymembership__user=self.request.user)
