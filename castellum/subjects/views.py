@@ -562,7 +562,8 @@ class MaintenanceDuplicatesView(BaseMaintenanceView):
         names = Contact.objects\
             .values('first_name', 'last_name')\
             .annotate(count=models.Count('id'))\
-            .filter(count__gt=1)
+            .filter(count__gt=1)\
+            .order_by('last_name', 'first_name')
 
         for name in names:
             date_of_birth_count = Contact.objects.filter(
@@ -604,7 +605,7 @@ class MaintenanceConsentView(BaseMaintenanceView):
         return Subject.objects.none().union(
             self.get_by_consent_from_before_full_age(),
             self.get_by_outdated_document(),
-        )
+        ).order_by('pk')
 
 
 class MaintenanceWaitingView(BaseMaintenanceView):
@@ -612,7 +613,11 @@ class MaintenanceWaitingView(BaseMaintenanceView):
     tab = 'waiting'
 
     def get_queryset(self):
-        return super().get_queryset().filter(consent__status=Consent.WAITING)
+        return (
+            super().get_queryset()
+            .filter(consent__status=Consent.WAITING)
+            .order_by('pk')
+        )
 
 
 class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):
