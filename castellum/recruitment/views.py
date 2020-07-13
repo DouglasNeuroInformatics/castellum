@@ -479,8 +479,8 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
                 timezone.localtime(old),
                 timezone.localtime(new),
             ) for (old, new) in relevant_changes),
-            participant_url=self.request.build_absolute_uri(reverse(
-                'execution:participationrequest-detail',
+            participation_url=self.request.build_absolute_uri(reverse(
+                'execution:participation-detail',
                 args=[self.study.pk, self.object.pk]
             )),
             calendar_url=self.request.build_absolute_uri(reverse(
