@@ -355,7 +355,7 @@ Upcoming appointments for a participant in the study "{study}" have changed:
 
 {changes}
 
-Participant details: {participant_url}
+Participant details: {participation_url}
 Study calendar: {calendar_url}
 """
 
