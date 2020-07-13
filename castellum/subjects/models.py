@@ -44,6 +44,34 @@ class TimeSlot(models.Model):
         return str(self.hour)
 
 
+class SubjectManager(models.Manager):
+    def annotate_showup(self):
+        from castellum.recruitment.models import Appointment
+
+        now = timezone.now()
+        weights = {
+            Appointment.SHOWUP: -1,
+            Appointment.LATE: 1,
+            Appointment.EXCUSED: 2,
+            Appointment.NOSHOW: 3,
+        }
+
+        counts = {}
+        score = []
+        for status, label in Appointment.SHOWUP_CHOICES:
+            key = 'showup_%i' % status
+            counts[key] = models.Count(
+                'participation__appointment',
+                filter=models.Q(
+                    participation__appointment__show_up=status,
+                    participation__appointment__start__lt=now,
+                )
+            )
+            score.append(models.F(key) * weights[status])
+
+        return self.get_queryset().annotate(**counts, showup_score=sum(score))
+
+
 class Subject(TimeStampedModel):
     privacy_level = models.PositiveIntegerField(
         _('Privacy level'),
@@ -91,6 +119,8 @@ class Subject(TimeStampedModel):
     )
 
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
+
+    objects = SubjectManager()
 
     class Meta:
         verbose_name = _('Subject')
@@ -209,30 +239,15 @@ class Subject(TimeStampedModel):
     def get_showup_stats(self):
         from castellum.recruitment.models import Appointment
 
-        raw = (
-            Appointment.objects
-            .filter(participation__subject=self, start__lt=timezone.now())
-            .values('show_up')
-            .annotate(models.Count('show_up'))
-            .order_by()
-        )
-        stats = {item['show_up']: item['show_up__count'] for item in raw}
+        raw = Subject.objects.annotate_showup().get(pk=self.pk)
 
-        weights = {
-            Appointment.SHOWUP: -1,
-            Appointment.LATE: 1,
-            Appointment.EXCUSED: 2,
-            Appointment.NOSHOW: 3,
-        }
-        score = 0
         labelled = []
-        for key, label in Appointment.SHOWUP_CHOICES:
-            count = stats.get(key, 0)
+        for status, label in Appointment.SHOWUP_CHOICES:
+            count = getattr(raw, 'showup_%i' % status)
             if count:
                 labelled.append((label, count))
-            score += count * weights[key]
 
-        return labelled, score
+        return labelled, raw.showup_score
 
 
 class SubjectNote(models.Model):
