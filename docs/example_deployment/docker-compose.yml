@@ -60,7 +60,7 @@ services:
     restart: always
     environment:
       DJANGO_SETTINGS_MODULE: castellum.settings.deployment
-    command: crond -f -L /log/cron.log
+    command: busybox crond -f -L /log/cron.log
     volumes:
       - ./settings.py:/code/castellum/settings/deployment.py:ro
       - ./crontab:/etc/crontabs/root:ro
