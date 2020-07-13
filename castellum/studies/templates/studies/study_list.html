@@ -7,7 +7,6 @@
     <div class="d-flex flex-column flex-md-row justify-content-between">
         <div class="my-1">
             <a href="?q={{ q }}" class="btn {% if tab == 'my' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'My studies' %}</a>
-            <a href="?q={{ q }}&tab=all" class="btn {% if tab == 'all' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'All studies' %}</a>
             <a href="?q={{ q }}&tab=calendar" class="btn {% if tab == 'calendar' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'Calendar' %}</a>
         </div>
         <form class="my-1" method="get" aria-label="{% trans 'Search' %}">
