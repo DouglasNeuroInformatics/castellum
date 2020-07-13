@@ -8,8 +8,8 @@
 {% block content %}
     <div class="d-flex flex-column flex-md-row justify-content-between">
         <div class="my-1">
-            <a href="{% url_replace_param member=None display=None %}" class="btn {% if display == 'list' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'List' %}</a>
-            <a href="{% url_replace_param member='all' display='calendar' %}" class="btn {% if display == 'calendar' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'Calendar' %}</a>
+            <a href="{% url_replace_param display=None %}" class="btn {% if display == 'list' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'List' %}</a>
+            <a href="{% url_replace_param display='calendar' %}" class="btn {% if display == 'calendar' %}btn-primary{% else %}btn-link{% endif %}">{% trans 'Calendar' %}</a>
         </div>
         <form class="my-1" method="get" aria-label="{% trans 'Search' %}">
             <div class="input-group">
