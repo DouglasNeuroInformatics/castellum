@@ -349,6 +349,16 @@ CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY = 'The following subject should be ex
 CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT = '[Castellum] Subject deletion'
 CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY = 'The following subject should be deleted: {url}'
 
+CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT = '[Castelum] Upcoming appointment changed'
+CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY = """
+Upcoming appointments for a participant in the study "{study}" have changed:
+
+{changes}
+
+Participant details: {participant_url}
+Study calendar: {calendar_url}
+"""
+
 CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 
 # A function that generates a random pseudonym.

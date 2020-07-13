@@ -44,7 +44,7 @@ def load_django_fixture(app_label, name):
 
 def create_user(group_name):
     future = timezone.now() + datetime.timedelta(days=10000)
-    user = User.objects.create(expiration_date=future)
+    user = baker.make(User, expiration_date=future, email='test@example.com')
 
     if group_name:
         group = Group.objects.get(name=group_name)

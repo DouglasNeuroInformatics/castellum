@@ -450,6 +450,63 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         else:
             return reverse('recruitment:recruitment-open', args=[self.object.study.pk])
 
+    def add_working_days(self, dt, days):
+        for i in range(days):
+            if dt.isoweekday() == 5:  # friday
+                dt += timezone.timedelta(days=3)
+            elif dt.isoweekday() == 6:  # saturday
+                dt += timezone.timedelta(days=2)
+            else:
+                dt += timezone.timedelta(days=1)
+        return dt
+
+    def send_appointment_notifications(self, changes):
+        start = timezone.now()
+        end = self.add_working_days(start, 2)
+        relevant_changes = [
+            (old, new) for (old, new) in changes if (
+                (old and old >= start and old <= end) or
+                (new and new >= start and new <= end)
+            )
+        ]
+
+        if not relevant_changes:
+            return
+
+        body = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY.format(
+            study=self.study,
+            changes='\n'.join('%s -> %s' % (
+                timezone.localtime(old),
+                timezone.localtime(new),
+            ) for (old, new) in relevant_changes),
+            participant_url=self.request.build_absolute_uri(reverse(
+                'execution:participationrequest-detail',
+                args=[self.study.pk, self.object.pk]
+            )),
+            calendar_url=self.request.build_absolute_uri(reverse(
+                'execution:calendar',
+                args=[self.study.pk]
+            )),
+        )
+
+        perm = 'recruitment.view_participation_pseudonyms'
+        connection = get_connection()
+        for user in self.study.members.all():
+            if user != self.request.user and user.has_perm(perm, obj=self.study):
+                msg = EmailMessage(
+                    settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT,
+                    body,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [user.email],
+                    connection=connection,
+                )
+                msg.send()
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.send_appointment_notifications(form.appointment_changes)
+        return response
+
 
 class RecruitmentUpdateMixin(ParticipationMixin):
     study_status = [Study.EXECUTION]
