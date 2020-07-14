@@ -15,7 +15,11 @@
         <form class="my-1" method="get" aria-label="{{ form.q.label }}">
             <div class="input-group">
                 <input type="search" class="form-control" name="{{ form.q.name }}" value="{{ form.cleaned_data.q }}" placeholder="{{ form.q.label }}" title="{{ form.q.help_text }}">
-                <input type="hidden" name="display" value="{{ display }}">
+                {% for field in form %}
+                    {% if field.name != 'q' and field.value %}
+                        {{ field.as_hidden }}
+                    {% endif %}
+                {% endfor %}
                 <div class="input-group-append">
                     <button class="btn btn-outline-primary" >{% trans 'Go' %}</button>
                 </div>
