@@ -437,6 +437,8 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
                         'title': '[%s] %s' % (feed.study_type, event.get('SUMMARY', '')),
                         'start': event.get('DTSTART').dt,
                         'end': event.get('DTEND').dt,
+                        'backgroundColor': feed.color,
+                        'borderColor': feed.color,
                     }
             except Exception as e:
                 logger.error('Fetching StudyTypeEventFeed %i failed: %s' % (feed.pk, e))
