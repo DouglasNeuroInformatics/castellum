@@ -38,6 +38,8 @@ from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
+import requests
+from icalendar import Calendar
 from simplecharts import StackedColumnRenderer
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -47,6 +49,7 @@ from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.models.attributesets import get_description_by_statistics_rank
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
+from castellum.studies.models import StudyTypeEventFeed
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.subjects.models import Subject
@@ -550,3 +553,21 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
 
     def get_appointments(self):
         return super().get_appointments().filter(session__study=self.object)
+
+    def get_external_events(self):
+        for feed in StudyTypeEventFeed.objects.filter(study_type__studysession__study=self.object):
+            try:
+                r = requests.get(feed.url)
+                r.raise_for_status()
+                calendar = Calendar.from_ical(r.text)
+                for event in calendar.walk('VEVENT'):
+                    yield {
+                        'title': '[%s] %s' % (feed.study_type, event.get('SUMMARY')),
+                        'start': event.get('DTSTART').dt,
+                        'end': event.get('DTEND').dt,
+                    }
+            except Exception as e:
+                logger.error('Fetching StudyTypeEventFeed %i failed: %s' % (feed.pk, e))
+
+    def get_events(self):
+        return super().get_events() + list(self.get_external_events())
