@@ -21,6 +21,24 @@
 
 import uuid
 
+from django.core.cache import cache
+
+import requests
+
 
 def uuid_str():
     return str(uuid.uuid4())
+
+
+def cached_request(url, timeout=300):
+    key = 'cached_request:' + url
+
+    value = cache.get(key)
+    if value:
+        return value
+
+    r = requests.get(url)
+    r.raise_for_status()
+    value = r.text
+    cache.set(key, value, timeout=timeout)
+    return value

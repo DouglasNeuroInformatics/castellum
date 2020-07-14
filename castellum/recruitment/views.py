@@ -38,7 +38,6 @@ from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
-import requests
 from icalendar import Calendar
 from simplecharts import StackedColumnRenderer
 
@@ -53,6 +52,7 @@ from castellum.studies.models import StudyTypeEventFeed
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.subjects.models import Subject
+from castellum.utils import cached_request
 
 from .forms import ContactForm
 from .forms import SendMailForm
@@ -557,9 +557,8 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     def get_external_events(self):
         for feed in StudyTypeEventFeed.objects.filter(study_type__studysession__study=self.object):
             try:
-                r = requests.get(feed.url)
-                r.raise_for_status()
-                calendar = Calendar.from_ical(r.text)
+                text = cached_request(feed.url, timeout=60)
+                calendar = Calendar.from_ical(text)
                 for event in calendar.walk('VEVENT'):
                     yield {
                         'title': '[%s] %s' % (feed.study_type, event.get('SUMMARY')),
