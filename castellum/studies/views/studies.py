@@ -50,11 +50,11 @@ from castellum.utils.views import ReadonlyMixin
 from castellum.utils.views import get_next_url
 
 from ..forms import ImportForm
+from ..forms import StudyFilterForm
 from ..forms import StudyForm
 from ..mixins import StudyMixin
 from ..models import Study
 from ..models import StudyMembership
-from ..models import StudyType
 from .recruitment import get_related_studies
 
 monitoring_logger = logging.getLogger('monitoring.studies')
@@ -66,6 +66,12 @@ class StudyIndexView(LoginRequiredMixin, ListView):
     paginate_by = 15
 
     def get(self, request, *args, **kwargs):
+        self.form = StudyFilterForm(self.request.GET)
+        self.form.data
+        self.form.full_clean()
+        self.form.cleaned_data.setdefault('display', 'list')
+        self.form.cleaned_data.setdefault('member', 'my')
+
         if 'events' in request.GET:
             events = [self.render_event(study) for study in self.get_queryset()]
             return JsonResponse({'events': events})
@@ -74,7 +80,7 @@ class StudyIndexView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        q = self.request.GET.get('q')
+        q = self.form.cleaned_data.get('q')
         if q:
             for part in q.split():
                 qs = qs.filter(
@@ -84,16 +90,16 @@ class StudyIndexView(LoginRequiredMixin, ListView):
                     models.Q(description__icontains=part) |
                     models.Q(keywords__icontains=part)
                 )
-        if self.request.GET.get('member', 'my') == 'my':
+        if self.form.cleaned_data['member'] == 'my':
             qs = qs.filter(studymembership__user=self.request.user)
-        if 'status' in self.request.GET:
-            qs = qs.filter(status=self.request.GET['status'])
-        if 'type' in self.request.GET:
-            qs = qs.filter(studysession__type__pk=self.request.GET['type'])
-        if 'start' in self.request.GET:
-            qs = qs.filter(sessions_end__gte=self.request.GET['start'][:10])
-        if 'end' in self.request.GET:
-            qs = qs.filter(sessions_start__lte=self.request.GET['end'][:10])
+        if self.form.cleaned_data.get('status'):
+            qs = qs.filter(status=self.form.cleaned_data['status'])
+        if self.form.cleaned_data.get('type'):
+            qs = qs.filter(studysession__type=self.form.cleaned_data['type'])
+        if self.form.cleaned_data.get('start'):
+            qs = qs.filter(sessions_end__gte=self.form.cleaned_data['start'].date())
+        if self.form.cleaned_data.get('end'):
+            qs = qs.filter(sessions_start__lte=self.form.cleaned_data['end'].date())
         return qs.distinct()
 
     def render_event(self, study):
@@ -106,9 +112,7 @@ class StudyIndexView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['q'] = self.request.GET.get('q', '')
-        context['display'] = self.request.GET.get('display', 'list')
-        context['study_types'] = StudyType.objects.all()
+        context['form'] = self.form
         return context
 
 
