@@ -56,6 +56,15 @@ class ReadonlyModelForm(ReadonlyFormMixin, forms.ModelForm):
     pass
 
 
+class ColorInput(forms.TextInput):
+    input_type = 'color'
+
+
+class AdminColorInputWidget(ColorInput):
+    def __init__(self, attrs=None):
+        super().__init__(attrs={'class': 'vTextField', **(attrs or {})})
+
+
 class DateInput(forms.DateInput):
     def __init__(self, attrs=None):
         defaults = {
@@ -87,6 +96,10 @@ class DateTimeInput(forms.SplitDateTimeWidget):
             time_defaults.update(time_attrs)
 
         super().__init__(date_format='%Y-%m-%d', date_attrs=date_defaults, time_attrs=time_defaults)
+
+
+class ColorField(forms.CharField):
+    widget = ColorInput
 
 
 class DateField(forms.DateField):
