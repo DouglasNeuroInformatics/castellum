@@ -103,6 +103,11 @@
                 <li class="nav-item">
                     <a class="nav-link {% if view.tab == 'recruitmentsettings' %}active{% endif %}" href="{% url 'studies:recruitmentsettings' study.pk %}">{% trans 'Recruitment Settings' %}</a>
                 </li>
+                {% if study.is_onetime_invitation %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if view.tab == 'mail' %}active{% endif %}" href="{% url 'studies:mail' study.pk %}">{% trans 'Mail' %}</a>
+                    </li>
+                {% endif %}
             {% endif %}
         </ul>
     </nav>

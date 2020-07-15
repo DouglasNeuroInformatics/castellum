@@ -23,6 +23,7 @@ from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.db import models
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -32,6 +33,7 @@ from dateutil.relativedelta import relativedelta
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment import filter_queries
+from castellum.recruitment.mixins import BaseMailRecruitmentView
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.subjects.models import Subject
@@ -245,3 +247,19 @@ class StudyMailSettingsView(
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
+
+
+class OneTimeInvitationMailRecruitmentView(BaseMailRecruitmentView):
+    permission_required = 'studies.change_study'
+    is_onetime_invitation = True
+    participation_status = Participation.INVITED
+    tab = 'mail'
+
+    def form_valid(self, form):
+        self._form_valid(form)
+        return redirect('studies:mail', self.study.pk)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = 'studies/study_base.html'
+        return context
