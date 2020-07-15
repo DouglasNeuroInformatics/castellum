@@ -33,6 +33,7 @@ from .views import MaintenanceAttributesView
 from .views import MaintenanceConsentView
 from .views import MaintenanceContactView
 from .views import MaintenanceDuplicatesView
+from .views import MaintenanceShowupView
 from .views import MaintenanceWaitingView
 from .views import ParticipationDeleteView
 from .views import ParticipationListView
@@ -82,4 +83,5 @@ urlpatterns = [
         name='maintenance-duplicates',
     ),
     path('maintenance/waiting/', MaintenanceWaitingView.as_view(), name='maintenance-waiting'),
+    path('maintenance/showup/', MaintenanceShowupView.as_view(), name='maintenance-showup'),
 ]

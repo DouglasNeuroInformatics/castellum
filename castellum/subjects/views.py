@@ -504,10 +504,13 @@ class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
         ))
 
 
-class MaintenanceAttributesView(PermissionRequiredMixin, ListView):
+class BaseMaintenanceView(PermissionRequiredMixin, ListView):
     model = Subject
     paginate_by = 20
     permission_required = 'subjects.change_subject'
+
+
+class MaintenanceAttributesView(BaseMaintenanceView):
     template_name = 'subjects/maintenance_attributes.html'
     tab = 'attributes'
 
@@ -520,10 +523,7 @@ class MaintenanceAttributesView(PermissionRequiredMixin, ListView):
             .order_by('completeness')
 
 
-class MaintenanceContactView(PermissionRequiredMixin, ListView):
-    model = Subject
-    paginate_by = 20
-    permission_required = 'subjects.change_subject'
+class MaintenanceContactView(BaseMaintenanceView):
     template_name = 'subjects/maintenance_contact.html'
     tab = 'contact'
 
@@ -551,10 +551,8 @@ class MaintenanceContactView(PermissionRequiredMixin, ListView):
             .order_by('pk')
 
 
-class MaintenanceDuplicatesView(PermissionRequiredMixin, ListView):
+class MaintenanceDuplicatesView(BaseMaintenanceView):
     model = Contact
-    paginate_by = 20
-    permission_required = 'subjects.change_subject'
     template_name = 'subjects/maintenance_duplicates.html'
     tab = 'duplicates'
 
@@ -564,7 +562,8 @@ class MaintenanceDuplicatesView(PermissionRequiredMixin, ListView):
         names = Contact.objects\
             .values('first_name', 'last_name')\
             .annotate(count=models.Count('id'))\
-            .filter(count__gt=1)
+            .filter(count__gt=1)\
+            .order_by('last_name', 'first_name')
 
         for name in names:
             date_of_birth_count = Contact.objects.filter(
@@ -579,10 +578,7 @@ class MaintenanceDuplicatesView(PermissionRequiredMixin, ListView):
         return duplicates
 
 
-class MaintenanceConsentView(PermissionRequiredMixin, ListView):
-    model = Subject
-    paginate_by = 20
-    permission_required = 'subjects.change_subject'
+class MaintenanceConsentView(BaseMaintenanceView):
     template_name = 'subjects/maintenance_consent.html'
     tab = 'consent'
 
@@ -609,18 +605,32 @@ class MaintenanceConsentView(PermissionRequiredMixin, ListView):
         return Subject.objects.none().union(
             self.get_by_consent_from_before_full_age(),
             self.get_by_outdated_document(),
-        )
+        ).order_by('pk')
 
 
-class MaintenanceWaitingView(PermissionRequiredMixin, ListView):
-    model = Subject
-    paginate_by = 20
-    permission_required = 'subjects.change_subject'
+class MaintenanceWaitingView(BaseMaintenanceView):
     template_name = 'subjects/maintenance_waiting.html'
     tab = 'waiting'
 
     def get_queryset(self):
-        return super().get_queryset().filter(consent__status=Consent.WAITING)
+        return (
+            super().get_queryset()
+            .filter(consent__status=Consent.WAITING)
+            .order_by('pk')
+        )
+
+
+class MaintenanceShowupView(BaseMaintenanceView):
+    template_name = 'subjects/maintenance_showup.html'
+    tab = 'showup'
+
+    def get_queryset(self):
+        return (
+            Subject.objects
+            .annotate_showup()
+            .filter(showup_score__gte=6)
+            .order_by('-showup_score')
+        )
 
 
 class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):
