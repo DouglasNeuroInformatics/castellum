@@ -21,14 +21,17 @@
 
 import datetime
 
+from django import forms
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import FormView
 from django.views.generic import ListView
+from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
@@ -80,6 +83,17 @@ class ParticipationDetailView(
     def get_object(self):
         return self.participation
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['appointments'] = []
+        form_cls = forms.modelform_factory(Appointment, fields=('show_up',))
+        for session, appointment in self.object.get_appointments():
+            form = form_cls(instance=appointment)
+            context['appointments'].append((session, appointment, form))
+
+        return context
+
 
 class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
     template_name = 'execution/study_resolve.html'
@@ -120,6 +134,23 @@ class ExecutionUpdateMixin(ParticipationMixin):
         permission_required = {'recruitment.view_participation_pseudonyms'}
         permission_required.update(super().get_permission_required())
         return permission_required
+
+
+class ShowUpUpdateView(ExecutionUpdateMixin, UpdateView):
+    model = Appointment
+    fields = ('show_up',)
+    http_method_names = ['post']
+
+    def get_object(self):
+        return get_object_or_404(
+            Appointment,
+            pk=self.kwargs['appointment_pk'],
+            participation=self.participation,
+        )
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form)
 
 
 class ContactUpdateView(ExecutionUpdateMixin, BaseContactUpdateView):
