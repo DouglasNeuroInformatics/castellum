@@ -10,7 +10,8 @@ document.querySelectorAll('[data-js="calendar"]').forEach(function(el) {
             return raw.events;
         },
         height: function() {
-            return window.innerHeight - el.offsetTop - parseInt(getComputedStyle(el).marginBottom, 10);
+            var offsetTop = el.getBoundingClientRect().top + window.scrollY;
+            return window.innerHeight - offsetTop - parseInt(getComputedStyle(el).marginBottom, 10);
         },
         header: {
             left: layout === 'year' ? 'timelineMonth,timelineYear' : 'timeGridWeek,dayGridMonth',
