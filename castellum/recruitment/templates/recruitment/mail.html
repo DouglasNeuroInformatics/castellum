@@ -1,4 +1,4 @@
-{% extends "recruitment/recruitment_base.html" %}
+{% extends base_template|default:"recruitment/recruitment_base.html" %}
 {% load i18n auth bootstrap4 humanize %}
 
 {% block title %}{% trans "Mail recruitment" %} &middot; {{ block.super }}{% endblock %}

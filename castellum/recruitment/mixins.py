@@ -30,7 +30,6 @@ from django.core.mail import get_connection
 from django.db import models
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -41,7 +40,6 @@ from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.studies.mixins import StudyMixin
-from castellum.studies.models import Study
 from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
 from castellum.utils.feeds import BaseICalFeed
@@ -205,11 +203,9 @@ class BaseAppointmentFeed(BaseICalFeed):
 
 
 class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
-    permission_required = 'recruitment.view_participation'
-    study_status = [Study.EXECUTION]
     template_name = 'recruitment/mail.html'
-    tab = 'mail'
     form_class = SendMailForm
+    participation_status = None
 
     def personalize_mail_body(self, mail_body, contact):
         replace_first = mail_body.replace("{firstname}", contact.first_name)
@@ -260,7 +256,7 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                     Participation.objects.create(
                         study=self.study,
                         subject=pick,
-                        status=Participation.AWAITING_RESPONSE,
+                        status=self.participation_status,
                     )
                     counter += 1
 
@@ -277,7 +273,7 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         )
         confirmation.send()
 
-    def form_valid(self, form):
+    def _form_valid(self, form):
         batch_size = form.cleaned_data['batch_size']
         try:
             added = self.create_participations(batch_size)
@@ -312,5 +308,3 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                 contacted_size=added,
             )
             self.send_confirmation_mail(added)
-
-        return redirect('recruitment:mail', self.study.pk)

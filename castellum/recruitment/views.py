@@ -29,6 +29,7 @@ from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.core.mail import EmailMessage
 from django.core.mail import get_connection
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -276,7 +277,14 @@ class RecruitmentViewOpen(RecruitmentView):
 
 
 class MailRecruitmentView(BaseMailRecruitmentView):
-    pass
+    permission_required = 'recruitment.view_participation'
+    study_status = [Study.EXECUTION]
+    participation_status = Participation.AWAITING_RESPONSE
+    tab = 'mail'
+
+    def form_valid(self, form):
+        self._form_valid(form)
+        return redirect('recruitment:mail', self.study.pk)
 
 
 class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
