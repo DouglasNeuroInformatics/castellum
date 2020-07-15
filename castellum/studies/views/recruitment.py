@@ -134,6 +134,7 @@ class StudyExclusionCriteriaView(
     template_name = 'studies/study_exclusioncriteria.html'
     fields = ('exclusion_criteria',)
     permission_required = 'studies.change_study'
+    is_onetime_invitation = False
     tab = 'recruitmentsettings'
     subtab = 'exclusioncriteria'
 
@@ -159,6 +160,7 @@ class StudySessionsView(
         'sessions_end',
     )
     permission_required = 'studies.change_study'
+    is_onetime_invitation = False
     tab = 'recruitmentsettings'
     subtab = 'sessions'
 

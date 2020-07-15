@@ -252,6 +252,7 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
 
 class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'studies.change_study'
+    is_onetime_invitation = False
 
     def post(self, request, study_pk):
         if self.study.status != self.study.FINISHED:

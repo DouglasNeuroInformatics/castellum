@@ -28,19 +28,24 @@ class StudyMixin:
     """Use this on every view that belongs to a study.
 
     -   set ``self.study``
-    -   check ``access_study`` permission (basically allow access only to study members)
-    -   check that status is in ``study_status``, otherwise return 404
+    -   check ``access_study`` permission (basically allow access only
+        to study members)
+    -   check that status is in ``study_status`` and matches
+        ``is_onetime_invitation``, otherwise return 404
     -   use study as permission object
 
     Requires PermissionRequiredMixin.
     """
 
     study_status = []
+    is_onetime_invitation = None
 
     def get_study(self):
         qs = Study.objects.all()
         if self.study_status:
             qs = qs.filter(status__in=self.study_status)
+        if self.is_onetime_invitation is not None:
+            qs = qs.filter(is_onetime_invitation=self.is_onetime_invitation)
         key = 'study_pk' if 'study_pk' in self.kwargs else 'pk'
         return get_object_or_404(qs, pk=self.kwargs.get(key))
 
