@@ -21,28 +21,66 @@
 
 import datetime
 import logging
+import random
 
+from django.conf import settings
+from django.contrib import messages
+from django.core.mail import EmailMessage
+from django.core.mail import get_connection
+from django.db import models
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.functional import cached_property
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
+from django.views.generic import FormView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.studies.mixins import StudyMixin
+from castellum.studies.models import Study
 from castellum.subjects.mixins import SubjectMixin
+from castellum.subjects.models import Subject
 from castellum.utils.feeds import BaseICalFeed
 
+from . import filter_queries
 from .forms import AttributeSetForm
+from .forms import SendMailForm
 from .models import Appointment
 from .models import AttributeDescription
 from .models import AttributeSet
+from .models import MailBatch
 from .models import Participation
 from .models.attributesets import ANSWER_DECLINED
 from .models.attributesets import UNCATEGORIZED
 
+logger = logging.getLogger(__name__)
 monitoring_logger = logging.getLogger('monitoring.recruitment')
+
+
+def get_recruitable(study):
+    """Get all subjects who are recruitable for this study, i.e. apply all filters."""
+    qs = Subject.objects.filter(
+        filter_queries.study(study),
+        filter_queries.has_consent(),
+        filter_queries.already_in_study(study),
+    )
+
+    last_contacted = timezone.now() - settings.CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS
+    qs = qs.annotate(last_contacted=models.Max(
+        'participation__revisions__created_at',
+        filter=~models.Q(
+            participation__revisions__status=Participation.NOT_CONTACTED
+        ),
+    )).filter(
+        models.Q(last_contacted__lte=last_contacted) |
+        models.Q(last_contacted__isnull=True)
+    )
+
+    return list(qs)
 
 
 class ParticipationMixin(StudyMixin, SubjectMixin):
@@ -164,3 +202,115 @@ class BaseAppointmentFeed(BaseICalFeed):
 
     def item_end_datetime(self, item):
         return item.end
+
+
+class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
+    permission_required = 'recruitment.view_participation'
+    study_status = [Study.EXECUTION]
+    template_name = 'recruitment/mail.html'
+    tab = 'mail'
+    form_class = SendMailForm
+
+    def personalize_mail_body(self, mail_body, contact):
+        replace_first = mail_body.replace("{firstname}", contact.first_name)
+        replace_second = replace_first.replace("{lastname}", contact.last_name)
+        return replace_second
+
+    def get_mail_settings(self):
+        from_email = settings.CASTELLUM_RECRUITMENT_EMAIL or settings.DEFAULT_FROM_EMAIL
+        connection = get_connection(
+            host=settings.CASTELLUM_RECRUITMENT_EMAIL_HOST,
+            port=settings.CASTELLUM_RECRUITMENT_EMAIL_PORT,
+            username=settings.CASTELLUM_RECRUITMENT_EMAIL_USER,
+            password=settings.CASTELLUM_RECRUITMENT_EMAIL_PASSWORD,
+            use_tls=settings.CASTELLUM_RECRUITMENT_EMAIL_USE_TLS,
+        )
+        return from_email, connection
+
+    def get_contact_email(self, contact):
+        if contact.email:
+            return contact.email
+        else:
+            for data in contact.guardians.exclude(email='').values('email'):
+                return data['email']
+
+    def create_participations(self, batch_size):
+        subjects = get_recruitable(self.study)
+
+        from_email, connection = self.get_mail_settings()
+        counter = 0
+        while counter < batch_size and subjects:
+            pick = subjects.pop(random.randrange(0, len(subjects)))
+            email = self.get_contact_email(pick.contact)
+            if email:
+                mail = EmailMessage(
+                    self.study.mail_subject,
+                    self.personalize_mail_body(self.study.mail_body, pick.contact),
+                    from_email,
+                    [email],
+                    reply_to=[self.study.mail_reply_address],
+                    connection=connection,
+                )
+                try:
+                    success = mail.send()
+                except ValueError:
+                    logger.debug('Failed to send email to subject %i', pick.pk)
+                    success = False
+                if success:
+                    Participation.objects.create(
+                        study=self.study,
+                        subject=pick,
+                        status=Participation.AWAITING_RESPONSE,
+                    )
+                    counter += 1
+
+        return counter
+
+    def send_confirmation_mail(self, counter):
+        from_email, connection = self.get_mail_settings()
+        confirmation = EmailMessage(
+            self.study.mail_subject,
+            '%i emails have been sent.\n\n---\n\n%s' % (counter, self.study.mail_body),
+            from_email,
+            [self.study.mail_reply_address],
+            connection=connection,
+        )
+        confirmation.send()
+
+    def form_valid(self, form):
+        batch_size = form.cleaned_data['batch_size']
+        try:
+            added = self.create_participations(batch_size)
+        except KeyError:
+            added = 0
+            messages.error(self.request, _(
+                'The custom filter that is set for this study does not exist.'
+            ))
+
+        if added == 0:
+            messages.error(
+                self.request,
+                _(
+                    'No potential participants with email addresses could be found for '
+                    'this study.'
+                ),
+            )
+        elif added < batch_size:
+            messages.warning(
+                self.request,
+                _(
+                    'Only {added} out of {batchsize} potential participants with email '
+                    'addresses could be found for this study. These have been contacted.'
+                ).format(added=added, batchsize=batch_size),
+            )
+        else:
+            messages.success(self.request, _('Emails sent successfully!'))
+
+        if added > 0:
+            MailBatch.objects.create(
+                study=self.study,
+                contacted_size=added,
+            )
+            self.send_confirmation_mail(added)
+
+        return redirect('recruitment:mail', self.study.pk)
