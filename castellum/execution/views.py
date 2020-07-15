@@ -86,6 +86,7 @@ class ParticipationDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        # The forms post to ShowUpUpdateView
         context['appointments'] = []
         form_cls = forms.modelform_factory(Appointment, fields=('show_up',))
         for session, appointment in self.object.get_appointments():
@@ -137,6 +138,8 @@ class ExecutionUpdateMixin(ParticipationMixin):
 
 
 class ShowUpUpdateView(ExecutionUpdateMixin, UpdateView):
+    # Used by ParticipationDetailView
+
     model = Appointment
     fields = ('show_up',)
     http_method_names = ['post']
