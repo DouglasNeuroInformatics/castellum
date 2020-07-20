@@ -23,7 +23,6 @@ from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.urls import reverse
 
-from castellum.recruitment import filter_queries
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 
@@ -52,6 +51,7 @@ class SubjectFilterGroup(models.Model):
         return reverse('studies:filtergroup-update', args=[self.study.pk, self.pk])
 
     def get_matches(self):
+        from .. import filter_queries
         return Subject.objects.filter(
             filter_queries.study_except_filters(self.study),
             filter_queries.subjectfilters(self),

@@ -43,9 +43,6 @@ from simplecharts import StackedColumnRenderer
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
-from castellum.recruitment import filter_queries
-from castellum.recruitment.mixins import BaseAttributeSetUpdateView
-from castellum.recruitment.models.attributesets import get_description_by_statistics_rank
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.studies.models import StudyTypeEventFeed
@@ -54,14 +51,17 @@ from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.subjects.models import Subject
 from castellum.utils import cached_request
 
+from . import filter_queries
 from .forms import ContactForm
 from .forms import SendMailForm
+from .mixins import BaseAttributeSetUpdateView
 from .mixins import BaseCalendarView
 from .mixins import ParticipationMixin
 from .models import AttributeDescription
 from .models import AttributeSet
 from .models import MailBatch
 from .models import Participation
+from .models.attributesets import get_description_by_statistics_rank
 
 logger = logging.getLogger(__name__)
 

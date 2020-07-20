@@ -134,7 +134,7 @@ class Participation(models.Model):
 
     @cached_property
     def match(self):
-        from castellum.recruitment import filter_queries
+        from .. import filter_queries
         if Subject.objects.filter(
             filter_queries.study(self.study, include_unknown=False),
             pk=self.subject.pk,
