@@ -124,11 +124,13 @@ class BaseCalendarView(DetailView):
             'end': appointment.end,
         }
 
+    def get_events(self):
+        self.object = self.get_object()
+        return [self.render_appointment(a) for a in self.get_appointments()]
+
     def get(self, request, *args, **kwargs):
         if 'events' in request.GET:
-            self.object = self.get_object()
-            events = [self.render_appointment(a) for a in self.get_appointments()]
-            return JsonResponse({'events': events})
+            return JsonResponse({'events': self.get_events()})
         else:
             return super().get(request, *args, **kwargs)
 
