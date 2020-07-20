@@ -49,6 +49,7 @@ class StudyForm(ReadonlyModelForm):
             'data_sensitivity',
             'consent',
             'min_subject_count',
+            'is_onetime_invitation',
         ]
 
 

@@ -187,6 +187,7 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             initial['affiliated_scientists'] = self.duplicate.affiliated_scientists
             initial['affiliated_research_assistants'] = self.duplicate.affiliated_research_assistants  # noqa
             initial['description'] = self.duplicate.description
+            initial['is_onetime_invitation'] = self.duplicate.is_onetime_invitation
         return initial
 
     def get_context_data(self, **kwargs):
