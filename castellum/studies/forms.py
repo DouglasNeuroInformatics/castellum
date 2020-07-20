@@ -64,7 +64,7 @@ class StudyFilterForm(forms.Form):
     ])
     status = forms.ChoiceField(label=_('Status'), choices=models.Study.STATUS)
     type = forms.ModelChoiceField(
-        label=_('type'), queryset=models.StudyType.objects, empty_label=None
+        label=_('Type'), queryset=models.StudyType.objects, empty_label=None
     )
     start = forms.DateTimeField()
     end = forms.DateTimeField()

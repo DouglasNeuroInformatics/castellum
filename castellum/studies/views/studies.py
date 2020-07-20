@@ -67,7 +67,6 @@ class StudyIndexView(LoginRequiredMixin, ListView):
 
     def get(self, request, *args, **kwargs):
         self.form = StudyFilterForm(self.request.GET)
-        self.form.data
         self.form.full_clean()
         self.form.cleaned_data.setdefault('display', 'list')
         self.form.cleaned_data.setdefault('member', 'my')
