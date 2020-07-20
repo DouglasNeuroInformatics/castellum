@@ -23,6 +23,7 @@ import json
 import os
 
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
 from castellum.castellum_auth.models import User
 from castellum.utils.forms import BaseImportForm
@@ -49,6 +50,24 @@ class StudyForm(ReadonlyModelForm):
             'consent',
             'min_subject_count',
         ]
+
+
+class StudyFilterForm(forms.Form):
+    q = forms.CharField(label=_('Search'), help_text=_('Search for title or contact person'))
+    display = forms.ChoiceField(choices=[
+        ('list', _('List')),
+        ('calendar', _('Calendar')),
+    ])
+    member = forms.ChoiceField(label=_('Membership'), choices=[
+        ('my', _('Mine')),
+        ('all', _('All')),
+    ])
+    status = forms.ChoiceField(label=_('Status'), choices=models.Study.STATUS)
+    type = forms.ModelChoiceField(
+        label=_('type'), queryset=models.StudyType.objects, empty_label=None
+    )
+    start = forms.DateTimeField()
+    end = forms.DateTimeField()
 
 
 class SessionForm(ReadonlyModelForm):
