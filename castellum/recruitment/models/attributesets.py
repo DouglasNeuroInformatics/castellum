@@ -82,6 +82,7 @@ class ImportMixin:
 class AttributeSet(TimeStampedModel):
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE, editable=False)
     data = JSONField(encoder=DjangoJSONEncoder)
+    onetime_invitation_disinterest = models.BooleanField(_('One time invitation'), default=False)
     study_type_disinterest = models.ManyToManyField(
         StudyType,
         verbose_name=_('Does not want to participate in the following study types:'),

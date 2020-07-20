@@ -160,8 +160,10 @@ class AttributeSetForm(forms.ModelForm):
             if key + '_answer_declined' in self.data:
                 cleaned_data[key] = ANSWER_DECLINED
         study_type_disinterest = cleaned_data.pop('study_type_disinterest')
+        onetime_invitation_disinterest = cleaned_data.pop('onetime_invitation_disinterest')
         return {
             'study_type_disinterest': study_type_disinterest,
+            'onetime_invitation_disinterest': onetime_invitation_disinterest,
             'data': cleaned_data,
         }
 

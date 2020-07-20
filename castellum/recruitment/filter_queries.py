@@ -86,7 +86,10 @@ def study_exclusion(study):
 
 def study_disinterest(study):
     """Exclude subjects who are disinterested in this study's study type."""
-    return ~models.Q(attributeset__study_type_disinterest__in=study.study_type.all())
+    if study.is_onetime_invitation:
+        return models.Q(attributeset__onetime_invitation_disinterest=False)
+    else:
+        return ~models.Q(attributeset__study_type_disinterest__in=study.study_type.all())
 
 
 def subjectfilters(subjectfiltergroup, include_unknown=None):
