@@ -159,7 +159,6 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             self.object.mail_subject = self.duplicate.mail_subject
             self.object.mail_body = self.duplicate.mail_body
             self.object.mail_reply_address = self.duplicate.mail_reply_address
-            self.object.is_onetime_invitation = self.duplicate.is_onetime_invitation
             self.object.save()
 
             for session in self.duplicate.studysession_set.all():
@@ -209,14 +208,6 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             raise PermissionDenied()
 
         return study
-
-
-class OneTimeInvitationCreateView(StudyCreateView):
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        self.object.is_onetime_invitation = True
-        self.object.save()
-        return response
 
 
 class StudyUpdateView(

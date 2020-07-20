@@ -30,7 +30,6 @@ from .views.recruitment import StudyExclusionCriteriaView
 from .views.recruitment import StudyMailSettingsView
 from .views.recruitment import StudyRecruitmentSettingsUpdateView
 from .views.recruitment import StudySessionsView
-from .views.studies import OneTimeInvitationCreateView
 from .views.studies import StudyCreateView
 from .views.studies import StudyDeleteView
 from .views.studies import StudyDetailView
@@ -50,7 +49,6 @@ app_name = 'studies'
 urlpatterns = [
     path('', StudyIndexView.as_view(), name='index'),
     path('create/', StudyCreateView.as_view(), name='create'),
-    path('onetime_invitation/', OneTimeInvitationCreateView.as_view(), name='onetime_invitation'),
     path('<int:pk>/', StudyDetailView.as_view(), name='detail'),
     path('<int:pk>/update/', StudyUpdateView.as_view(), name='update'),
     path('<int:pk>/delete/', StudyDeleteView.as_view(), name='delete'),
