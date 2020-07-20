@@ -66,6 +66,7 @@ class StudyFilterForm(forms.Form):
     type = forms.ModelChoiceField(
         label=_('Type'), queryset=models.StudyType.objects, empty_label=None
     )
+    is_onetime_invitation = forms.BooleanField(label=_('One time invitation'))
     start = forms.DateTimeField()
     end = forms.DateTimeField()
 
