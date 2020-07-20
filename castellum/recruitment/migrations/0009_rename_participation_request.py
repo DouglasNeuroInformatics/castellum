@@ -6,6 +6,7 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
+    atomic = False
 
     dependencies = [
         ('studies', '0013_geojson_validator'),

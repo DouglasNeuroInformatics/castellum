@@ -42,4 +42,4 @@ CASTELLUM_COVERLETTER_TEMPLATE = os.path.join(BASE_DIR, 'subjects', 'fixtures', 
 CASTELLUM_DELETE_NOTIFICATION_TO = 'data-protection@example.com'
 
 # Setup geofilters
-INSTALLED_APPS.append('castellum.geofilters')
+# INSTALLED_APPS.append('castellum.geofilters')
