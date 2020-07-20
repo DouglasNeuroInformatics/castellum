@@ -69,5 +69,5 @@
     {% endif %}
 
     <h3 class="h5">{% trans "Description" %}</h3>
-    {{ study.description|linebreaks }}
+    {{ study.description|default:'—'|linebreaks }}
 {% endblock %}
