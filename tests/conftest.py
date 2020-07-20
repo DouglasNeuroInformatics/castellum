@@ -13,6 +13,7 @@ import pytest
 from model_bakery import baker
 
 from castellum.castellum_auth.models import User
+from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.recruitment.management.commands import create_attribute_descriptions
 from castellum.recruitment.models import AttributeDescription
@@ -144,6 +145,11 @@ def member(study, study_in_execution_status, study_in_edit_status):
     StudyMembership.objects.create(user=user, study=study_in_execution_status)
     StudyMembership.objects.create(user=user, study=study_in_edit_status)
     return user
+
+
+@pytest.fixture
+def address(db):
+    return baker.make(Address)
 
 
 @pytest.fixture
