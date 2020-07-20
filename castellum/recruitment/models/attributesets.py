@@ -22,7 +22,6 @@
 import functools
 from collections import OrderedDict
 
-from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MaxValueValidator
@@ -81,7 +80,7 @@ class ImportMixin:
 
 class AttributeSet(TimeStampedModel):
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE, editable=False)
-    data = JSONField(encoder=DjangoJSONEncoder)
+    data = models.JSONField(encoder=DjangoJSONEncoder)
     study_type_disinterest = models.ManyToManyField(
         StudyType,
         verbose_name=_('Does not want to participate in the following study types:'),
