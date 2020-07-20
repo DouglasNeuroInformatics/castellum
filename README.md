@@ -22,7 +22,7 @@ You can login with user "admin" and password "123".
 
 ## Testing
 
-The command `pytest` will execute all tests. (postgres needs to be running)
+The command `pytest` will execute all tests.
 
 ## Links
 
