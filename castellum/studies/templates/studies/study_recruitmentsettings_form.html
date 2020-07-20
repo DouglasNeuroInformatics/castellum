@@ -10,7 +10,12 @@
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 
-        {% bootstrap_field form.recruitment_text %}
+        {% if study.is_onetime_invitation %}
+            {{ form.recruitment_text.as_hidden }}
+        {% else %}
+            {% bootstrap_field form.recruitment_text %}
+        {% endif %}
+
         {% bootstrap_field form.advanced_filtering %}
         {% bootstrap_field form.is_exclusive %}
         {% bootstrap_field form.complete_matches_only %}

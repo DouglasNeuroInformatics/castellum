@@ -25,6 +25,7 @@ from django.urls import path
 from .views.members import StudyMembershipRemoveView
 from .views.members import StudyMembershipUpdateView
 from .views.members import StudyMembersView
+from .views.recruitment import OneTimeInvitationMailRecruitmentView
 from .views.recruitment import StudyExcludedStudiesView
 from .views.recruitment import StudyExclusionCriteriaView
 from .views.recruitment import StudyMailSettingsView
@@ -111,6 +112,7 @@ urlpatterns = [
         FilterGroupDuplicateView.as_view(),
         name='filtergroup-duplicate',
     ),
+    path('<int:pk>/mail/', OneTimeInvitationMailRecruitmentView.as_view(), name='mail'),
 ]
 
 if settings.CASTELLUM_ENABLE_STUDY_EXPORT:

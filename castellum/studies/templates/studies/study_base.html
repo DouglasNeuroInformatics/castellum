@@ -26,28 +26,32 @@
                             {% csrf_token %}
                             <input type="hidden" name="next" value="{{ request.path }}">
 
-                            {% if study.status == study.EXECUTION %}
-                                <button class="btn btn-outline-primary active mb-1" title="{% trans 'Stop recruitment and execution for this study' %}">
-                                    {% trans 'Stop' %}
-                                </button>
-                            {% else %}
-                                <button class="btn btn-outline-primary mb-1" title="{% trans 'Start recruitment and execution for this study' %}">
-                                    {% trans 'Start' %}
-                                </button>
+                            {% if not study.is_onetime_invitation %}
+                                {% if study.status == study.EXECUTION %}
+                                    <button class="btn btn-outline-primary active mb-1" title="{% trans 'Stop recruitment and execution for this study' %}">
+                                        {% trans 'Stop' %}
+                                    </button>
+                                {% else %}
+                                    <button class="btn btn-outline-primary mb-1" title="{% trans 'Start recruitment and execution for this study' %}">
+                                        {% trans 'Start' %}
+                                    </button>
+                                {% endif %}
                             {% endif %}
                         </form>
                     {% else %}
-                        <form class="d-inline">
-                            {% if study.previous_status == study.EXECUTION %}
-                                <button class="btn btn-outline-primary active mb-1" title="{% trans 'Stop recruitment and execution for this study' %}" disabled>
-                                    {% trans 'Stop' %}
-                                </button>
-                            {% else %}
-                                <button class="btn btn-outline-primary mb-1" title="{% trans 'Start recruitment and execution for this study' %}" disabled>
-                                    {% trans 'Start' %}
-                                </button>
-                            {% endif %}
-                        </form>
+                        {% if not study.is_onetime_invitation %}
+                            <form class="d-inline">
+                                {% if study.previous_status == study.EXECUTION %}
+                                    <button class="btn btn-outline-primary active mb-1" title="{% trans 'Stop recruitment and execution for this study' %}" disabled>
+                                        {% trans 'Stop' %}
+                                    </button>
+                                {% else %}
+                                    <button class="btn btn-outline-primary mb-1" title="{% trans 'Start recruitment and execution for this study' %}" disabled>
+                                        {% trans 'Start' %}
+                                    </button>
+                                {% endif %}
+                            </form>
+                        {% endif %}
                     {% endif %}
                     <form class="d-inline" method="post" action="{% url 'studies:finish-recruitment' study.pk %}">
                         {% csrf_token %}
@@ -91,12 +95,19 @@
                 <li class="nav-item">
                     <a class="nav-link {% if view.tab == 'update' %}active{% endif %}" href="{% url 'studies:update' study.pk %}">{% trans 'General' %}</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if view.tab == 'members' %}active{% endif %}" href="{% url 'studies:members' study.pk %}">{% trans 'Member management' %}</a>
-                </li>
+                {% if not study.is_onetime_invitation %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if view.tab == 'members' %}active{% endif %}" href="{% url 'studies:members' study.pk %}">{% trans 'Member management' %}</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link {% if view.tab == 'recruitmentsettings' %}active{% endif %}" href="{% url 'studies:recruitmentsettings' study.pk %}">{% trans 'Recruitment Settings' %}</a>
                 </li>
+                {% if study.is_onetime_invitation %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if view.tab == 'mail' %}active{% endif %}" href="{% url 'studies:mail' study.pk %}">{% trans 'Mail' %}</a>
+                    </li>
+                {% endif %}
             {% endif %}
         </ul>
     </nav>
