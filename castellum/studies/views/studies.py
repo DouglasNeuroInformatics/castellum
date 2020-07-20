@@ -95,6 +95,8 @@ class StudyIndexView(LoginRequiredMixin, ListView):
             qs = qs.filter(status=self.form.cleaned_data['status'])
         if self.form.cleaned_data.get('type'):
             qs = qs.filter(studysession__type=self.form.cleaned_data['type'])
+        if self.form.cleaned_data.get('is_onetime_invitation'):
+            qs = qs.filter(is_onetime_invitation=True)
         if self.form.cleaned_data.get('start'):
             qs = qs.filter(sessions_end__gte=self.form.cleaned_data['start'].date())
         if self.form.cleaned_data.get('end'):
