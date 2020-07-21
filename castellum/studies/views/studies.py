@@ -154,7 +154,7 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
         'min_subject_count',
         'is_onetime_invitation',
     ]
-    permission_required = 'studies.add_study'
+    permission_required = 'studies.change_study'
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -295,7 +295,7 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
 
 
 class StudyImportView(PermissionRequiredMixin, FormView):
-    permission_required = 'studies.add_study'
+    permission_required = 'studies.change_study'
     template_name = 'studies/study_import.html'
     form_class = ImportForm
 

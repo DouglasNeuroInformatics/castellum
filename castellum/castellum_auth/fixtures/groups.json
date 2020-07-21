@@ -6,11 +6,6 @@
         "name": "Study coordinator",
         "permissions": [
             [
-                "add_study",
-                "studies",
-                "study"
-            ],
-            [
                 "change_study",
                 "studies",
                 "study"

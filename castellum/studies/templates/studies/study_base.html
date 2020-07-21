@@ -15,7 +15,7 @@
             <p>{{ study|verbose_name:'contact_person' }}: {{ study.contact_person }}</p>
         </div>
         <div>
-            {% has_perm 'studies.add_study' user as can_add_study %}
+            {% has_perm 'studies.change_study' user as can_add_study %}
             {% has_perm 'studies.access_study' user study as can_access_study %}
             {% has_perm 'studies.change_study' user study as can_change_study %}
             {% has_perm 'studies.delete_study' user study as can_delete_study %}
