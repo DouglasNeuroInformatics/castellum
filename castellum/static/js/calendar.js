@@ -2,23 +2,18 @@ document.querySelectorAll('[data-js="calendar"]').forEach(function(el) {
     var layout = el.dataset.layout;
     var calendar = new FullCalendar.Calendar(el, {
         schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-        plugins: ['dayGrid', 'timeGrid', 'bootstrap', 'timeline'],
         themeSystem: 'bootstrap',
         locale: document.documentElement.lang,
         events: location.search ? (location.search + '&events') : '?events',
         eventSourceSuccess: function(raw) {
             return raw.events;
         },
-        height: function() {
-            var offsetTop = el.getBoundingClientRect().top + window.scrollY;
-            return window.innerHeight - offsetTop - parseInt(getComputedStyle(el).marginBottom, 10);
-        },
-        header: {
+        headerToolbar: {
             left: layout === 'year' ? 'timelineMonth,timelineYear' : 'timeGridWeek,dayGridMonth',
             center: 'title',
             right: 'prev,next',
         },
-        defaultView: layout === 'year' ? 'timelineMonth' : 'timeGridWeek',
+        initialView: layout === 'year' ? 'timelineMonth' : 'timeGridWeek',
         views: {
             timelineMonth: {
                 duration: {months: 1},
@@ -34,6 +29,11 @@ document.querySelectorAll('[data-js="calendar"]').forEach(function(el) {
                 scrollTime: '08:00:00',
             },
         },
+    });
+    window.addEventListener('resize', function() {
+        var offsetTop = el.getBoundingClientRect().top + window.scrollY;
+        var height = window.innerHeight - offsetTop - parseInt(getComputedStyle(el).marginBottom, 10);
+        calendar.setOption('height', height);
     });
     setInterval(function() {
         calendar.refetchEvents();

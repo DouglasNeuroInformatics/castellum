@@ -131,19 +131,11 @@
 {% endblock %}
 
 {% block extra_scripts %}
-    <script src="{% static '@fullcalendar/core/main.min.js' %}"></script>
-    <script src="{% static '@fullcalendar/core/locales/de.js' %}"></script>
-    <script src="{% static '@fullcalendar/daygrid/main.min.js' %}"></script>
-    <script src="{% static '@fullcalendar/timegrid/main.min.js' %}"></script>
-    <script src="{% static '@fullcalendar/timeline/main.min.js' %}"></script>
-    <script src="{% static '@fullcalendar/bootstrap/main.min.js' %}"></script>
+    <script src="{% static 'fullcalendar-scheduler/main.js' %}"></script>
+    <script src="{% static 'fullcalendar-scheduler/locales/de.js' %}"></script>
     <script src="{% static 'js/calendar.js' %}"></script>
 {% endblock %}
 
 {% block extra_styles %}
-    <link rel="stylesheet" type="text/css" href="{% static '@fullcalendar/core/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static '@fullcalendar/daygrid/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static '@fullcalendar/timegrid/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static '@fullcalendar/timeline/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static '@fullcalendar/bootstrap/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fullcalendar-scheduler/main.css' %}">
 {% endblock %}
