@@ -17,7 +17,7 @@
 
     {% if form.is_valid %}
         {% has_perm 'contacts.add_contact' user as can_add_contact %}
-        {% has_perm 'contacts.view_contact' user as can_view_contact %}
+        {% has_perm 'subjects.view_subject' user as can_view_subject %}
 
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
@@ -33,7 +33,7 @@
         <div class="tab-content mb-3 border border-top-0 p-3">
             <div class="tab-pane active" id="matches" role="tabpanel" aria-labelledby="matches-tab">
                 <ul class="table-list">
-                    {% if not can_view_contact %}
+                    {% if not can_view_subject %}
                         <p class="alert alert-warning">{% trans 'This list may be restricted based on your permissions.' %}</p>
                     {% endif %}
 
@@ -55,7 +55,7 @@
                                                 {{ contact.last_name }}
                                             {% endif %}
                                         </div>
-                                        {% if can_view_contact %}
+                                        {% if can_view_subject %}
                                             <div class="d-inline-block">
                                                 {% if contact.date_of_birth %}
                                                     <div class="d-inline-block my-1 mr-2">{{ contact.date_of_birth }}</div>
@@ -77,7 +77,7 @@
                                     {% endif %}
                                 </div>
                                 <div class="table-list-item-actions">
-                                    {% if can_view_contact %}
+                                    {% if can_view_subject %}
                                         {% if can_access %}
                                             <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:detail' subject.pk %}">{% trans 'Details' %}</a>
                                         {% else %}

@@ -35,9 +35,9 @@
                 "contact"
             ],
             [
-                "view_contact",
-                "contacts",
-                "contact"
+                "view_subject",
+                "subjects",
+                "subject"
             ],
             [
                 "view_attributeset",
@@ -59,9 +59,9 @@
         "name": "Recruiter",
         "permissions": [
             [
-                "view_contact",
-                "contacts",
-                "contact"
+                "view_subject",
+                "subjects",
+                "subject"
             ],
             [
                 "recruit",
@@ -92,9 +92,9 @@
         "name": "Data protection coordinator",
         "permissions": [
             [
-                "view_contact",
-                "contacts",
-                "contact"
+                "view_subject",
+                "subjects",
+                "subject"
             ],
             [
                 "delete_participation",

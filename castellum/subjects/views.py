@@ -76,7 +76,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
     def get_matches(self, search):
         user = self.request.user
         contacts = Contact.objects.fuzzy_filter(search)
-        can_view_contact = user.has_perm('contacts.view_contact')
+        can_view_subject = user.has_perm('subjects.view_subject')
         for subject in Subject.objects.filter(filter_queries.pk_filter(contacts)):
             has_privacy_level = user.has_privacy_level(subject.privacy_level)
             participations = []
@@ -97,7 +97,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 can_search = invited and user.has_perm('recruitment.search_execution')
                 if can_recruit or can_conduct or can_search:
                     participations.append((participation, can_recruit, can_conduct))
-            if participations or can_view_contact:
+            if participations or can_view_subject:
                 yield subject, subject.contact, participations, has_privacy_level
 
     def get_context_data(self, **kwargs):
@@ -171,7 +171,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
 
 class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
-    permission_required = 'contacts.view_contact'
+    permission_required = 'subjects.view_subject'
     template_name = 'subjects/subject_detail.html'
     tab = 'detail'
 
@@ -324,7 +324,7 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     tab = 'participations'
     model = Participation
     template_name = 'subjects/subject_participationlist.html'
-    permission_required = 'contacts.view_contact'
+    permission_required = 'subjects.view_subject'
 
     @cached_property
     def subject(self):
@@ -377,7 +377,7 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_add_to_study.html'
-    permission_required = 'contacts.view_contact'
+    permission_required = 'subjects.view_subject'
     tab = 'participations'
 
     def get_studies(self, subject):
@@ -453,7 +453,7 @@ class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
 class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
     template_name = 'subjects/guardian_search.html'
-    permission_required = 'contacts.view_contact'
+    permission_required = 'subjects.view_subject'
     nochrome = True
 
     def get_matches(self, search):
@@ -630,7 +630,7 @@ class MaintenanceShowupView(BaseMaintenanceView):
 
 class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):
     model = Subject
-    permission_required = 'contacts.view_contact'
+    permission_required = 'subjects.view_subject'
 
     def get_data(self):
         contact = self.object.contact
