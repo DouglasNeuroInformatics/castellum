@@ -22,8 +22,8 @@
                 </a>
             </li>
 
-            {% has_perm 'contacts.change_contact' user as can_change_contact %}
-            {% if can_change_contact %}
+            {% has_perm 'subjects.change_subject' user as can_change_subject %}
+            {% if can_change_subject %}
                 <li class="nav-item">
                     <a href="{% url 'subjects:contact' subject.pk %}" class="nav-link {% if view.tab == 'contact' %}active{% endif %}">
                         {% if not subject.contact.is_complete %}
@@ -32,17 +32,9 @@
                         {% trans 'Contact' %}
                     </a>
                 </li>
-            {% endif %}
-
-            {% has_perm 'recruitment.change_attributeset' user as can_change_attributeset %}
-            {% if can_change_attributeset %}
                 <li class="nav-item">
                     <a href="{% url 'subjects:attributeset' subject.pk %}" class="nav-link {% if view.tab == 'attributeset' %}active{% endif %}">{% trans "Attributes" %}</a>
                 </li>
-            {% endif %}
-
-            {% has_perm 'subjects.change_subject' user as can_change_subject %}
-            {% if can_change_subject %}
                 <li class="nav-item">
                     <a href="{% url 'subjects:data-protection' subject.pk %}" class="nav-link {% if view.tab == 'data-protection' %}active{% endif %}">
                         {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age %}

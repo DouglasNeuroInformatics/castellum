@@ -30,7 +30,7 @@ from .models import Contact
 class BaseContactUpdateView(PermissionRequiredMixin, UpdateView):
     model = Contact
     form_class = ContactForm
-    permission_required = 'contacts.change_contact'
+    permission_required = 'subjects.change_subject'
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

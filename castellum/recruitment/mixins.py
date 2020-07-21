@@ -113,7 +113,7 @@ class ParticipationMixin(StudyMixin, SubjectMixin):
 
 class BaseAttributeSetUpdateView(PermissionRequiredMixin, UpdateView):
     model = AttributeSet
-    permission_required = 'recruitment.change_attributeset'
+    permission_required = 'subjects.change_subject'
 
     def get_form_class(self):
         return AttributeSetForm.factory(self.request.user)

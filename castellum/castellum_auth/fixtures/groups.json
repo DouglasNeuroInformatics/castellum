@@ -35,19 +35,9 @@
                 "contact"
             ],
             [
-                "change_contact",
-                "contacts",
-                "contact"
-            ],
-            [
                 "view_contact",
                 "contacts",
                 "contact"
-            ],
-            [
-                "change_attributeset",
-                "recruitment",
-                "attributeset"
             ],
             [
                 "view_attributeset",
