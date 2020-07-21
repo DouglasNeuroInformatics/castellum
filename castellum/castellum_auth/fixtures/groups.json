@@ -30,11 +30,6 @@
         "name": "Subject manager",
         "permissions": [
             [
-                "add_contact",
-                "contacts",
-                "contact"
-            ],
-            [
                 "view_subject",
                 "subjects",
                 "subject"

@@ -16,14 +16,14 @@
     </form>
 
     {% if form.is_valid %}
-        {% has_perm 'contacts.add_contact' user as can_add_contact %}
+        {% has_perm 'subjects.change_subject' user as can_change_subject %}
         {% has_perm 'subjects.view_subject' user as can_view_subject %}
 
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="matches-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="matches" aria-selected="true">{% trans "Matches" %}</a>
             </li>
-            {% if can_add_contact and form.cleaned_data.last_name %}
+            {% if can_change_subject and form.cleaned_data.last_name %}
                 <li class="nav-item">
                     <a class="nav-link" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create">{% trans "Create" %}</a>
                 </li>
@@ -112,7 +112,7 @@
                 </ul>
             </div>
 
-            {% if can_add_contact and form.cleaned_data.last_name %}
+            {% if can_change_subject and form.cleaned_data.last_name %}
                 <div class="tab-pane" id="create" role="tabpanel" aria-labelledby="create-tab">
                     <form method="post">
                         {% for error in privacy_level_form.non_field_errors %}

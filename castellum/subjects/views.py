@@ -139,7 +139,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         if 'privacy_level' not in request.POST:
             return super().post(request, *args, **kwargs)
 
-        if not request.user.has_perm('contacts.add_contact'):
+        if not request.user.has_perm('subjects.change_subject'):
             raise PermissionDenied
 
         form = SearchForm(data=request.POST)
@@ -473,7 +473,7 @@ class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
         if 'privacy_level' not in request.POST:
             return super().post(request, *args, **kwargs)
 
-        if not request.user.has_perm('contacts.add_contact'):
+        if not request.user.has_perm('subjects.change_subject'):
             raise PermissionDenied
 
         form = SearchForm(data=request.POST)
