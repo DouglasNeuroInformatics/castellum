@@ -291,10 +291,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     model = Participation
     form_class = ContactForm
     template_name = 'recruitment/contact.html'
-    permission_required = (
-        'contacts.view_contact',
-        'recruitment.change_participation',
-    )
+    permission_required = 'recruitment.change_participation'
     study_status = [Study.EXECUTION]
 
     def get_initial(self):

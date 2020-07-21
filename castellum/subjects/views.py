@@ -86,10 +86,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 can_recruit = (
                     has_privacy_level and
                     can_access_study and
-                    user.has_perms((
-                        'contacts.view_contact',
-                        'recruitment.change_participation',
-                    ), obj=participation.study)
+                    user.has_perm('recruitment.change_participation', obj=participation.study)
                 )
                 can_conduct = (
                     has_privacy_level and
