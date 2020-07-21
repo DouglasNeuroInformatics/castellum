@@ -92,11 +92,6 @@
                 "subject"
             ],
             [
-                "delete_participation",
-                "recruitment",
-                "participation"
-            ],
-            [
                 "conduct_study",
                 "recruitment",
                 "participation"
