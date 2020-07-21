@@ -178,7 +178,7 @@ class AdditionalInfoUpdateView(ExecutionUpdateMixin, BaseAdditionalInfoUpdateVie
 
 class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     model = Study
-    permission_required = 'recruitment.view_participation'
+    permission_required = 'recruitment.view_participation_pseudonyms'
     study_status = [Study.EXECUTION]
     feed = 'execution:calendar-feed'
 
