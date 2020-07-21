@@ -230,7 +230,7 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
 class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_export.html'
-    permission_required = 'subjects.view_subject'
+    permission_required = 'subjects.export_subject'
     tab = 'export'
 
     def get_context_data(self, **kwargs):

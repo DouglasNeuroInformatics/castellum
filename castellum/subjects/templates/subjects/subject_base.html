@@ -62,8 +62,8 @@
                 <a href="{% url 'subjects:participation-list' subject.pk %}" class="nav-link {% if view.tab == 'participations' %}active{% endif %}">{% trans "Study Participations" %}</a>
             </li>
 
-            {% has_perm 'subjects.view_subject' user as can_view_subject %}
-            {% if can_view_subject %}
+            {% has_perm 'subjects.export_subject' user as can_export_subject %}
+            {% if can_export_subject %}
                 <li class="nav-item">
                     <a href="{% url 'subjects:export' subject.pk %}" class="nav-link {% if view.tab == 'export' %}active{% endif %}">
                         {% if subject.export_requested %}
