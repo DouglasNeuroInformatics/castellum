@@ -6,16 +6,6 @@
         "name": "Study coordinator",
         "permissions": [
             [
-                "change_subjectfilter",
-                "recruitment",
-                "subjectfilter"
-            ],
-            [
-                "view_subjectfilter",
-                "recruitment",
-                "subjectfilter"
-            ],
-            [
                 "add_study",
                 "studies",
                 "study"

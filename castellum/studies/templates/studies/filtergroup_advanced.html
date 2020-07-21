@@ -16,7 +16,6 @@
             </span>
         </div>
         <div class="card-body">
-            {% has_perm 'recruitment.change_subjectfilter' user study as can_change_subjectfilter %}
             {% for group in object_list %}
                 <div class="card mb-3">
                     <div class="card-header d-flex justify-content-between">
@@ -45,35 +44,31 @@
                             {% endwith %}
                         </div>
                         <div>
-                            {% if can_change_subjectfilter %}
-                                {% if study.status != study.EDIT %}
-                                    <span class="btn btn-outline-primary disabled mb-1">{% trans "Duplicate" %}</span>
-                                    <a href="{% url 'studies:filtergroup-update' study.pk group.pk %}" class="btn btn-outline-primary mb-1">{% trans "View" %}</a>
-                                    <span class="btn btn-danger disabled">{% trans "Delete" %}</span>
-                                {% else %}
-                                    <form class="d-inline" method="post" action="{% url 'studies:filtergroup-duplicate' study.pk group.pk %}">
-                                        {% csrf_token %}
-                                        <button class="btn btn-outline-primary mb-1" >{% trans "Duplicate" %}</button>
-                                    </form>
-                                    <a href="{% url 'studies:filtergroup-update' study.pk group.pk %}" class="btn btn-outline-primary mb-1">{% trans "Edit" %}</a>
-                                    <a href="{% url 'studies:filtergroup-delete' study.pk group.pk %}" class="btn btn-danger mb-1">{% trans "Delete" %}</a>
-                                {% endif %}
+                            {% if study.status != study.EDIT %}
+                                <span class="btn btn-outline-primary disabled mb-1">{% trans "Duplicate" %}</span>
+                                <a href="{% url 'studies:filtergroup-update' study.pk group.pk %}" class="btn btn-outline-primary mb-1">{% trans "View" %}</a>
+                                <span class="btn btn-danger disabled">{% trans "Delete" %}</span>
+                            {% else %}
+                                <form class="d-inline" method="post" action="{% url 'studies:filtergroup-duplicate' study.pk group.pk %}">
+                                    {% csrf_token %}
+                                    <button class="btn btn-outline-primary mb-1" >{% trans "Duplicate" %}</button>
+                                </form>
+                                <a href="{% url 'studies:filtergroup-update' study.pk group.pk %}" class="btn btn-outline-primary mb-1">{% trans "Edit" %}</a>
+                                <a href="{% url 'studies:filtergroup-delete' study.pk group.pk %}" class="btn btn-danger mb-1">{% trans "Delete" %}</a>
                             {% endif %}
                         </div>
                     </div>
                 </div>
             {% endfor %}
 
-            {% if can_change_subjectfilter %}
-                <form action="{% url 'studies:filtergroup-create' study.pk %}" method="post">
-                    {% if study.status != study.EDIT %}
-                        <button class="btn btn-primary" disabled>{% trans 'Add new' %}</button>
-                    {% else %}
-                        {% csrf_token %}
-                        <button class="btn btn-primary">{% trans 'Add new' %}</button>
-                    {% endif %}
-                </form>
-            {% endif %}
+            <form action="{% url 'studies:filtergroup-create' study.pk %}" method="post">
+                {% if study.status != study.EDIT %}
+                    <button class="btn btn-primary" disabled>{% trans 'Add new' %}</button>
+                {% else %}
+                    {% csrf_token %}
+                    <button class="btn btn-primary">{% trans 'Add new' %}</button>
+                {% endif %}
+            </form>
         </div>
     </div>
 {% endblock %}
