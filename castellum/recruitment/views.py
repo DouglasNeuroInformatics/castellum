@@ -47,6 +47,7 @@ from castellum.studies.models import StudyTypeEventFeed
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.utils import cached_request
+from castellum.utils import contrast_color
 
 from .forms import ContactForm
 from .mixins import BaseAttributeSetUpdateView
@@ -439,6 +440,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
                         'end': event.get('DTEND').dt,
                         'backgroundColor': feed.color,
                         'borderColor': feed.color,
+                        'textColor': contrast_color(feed.color),
                     }
             except Exception as e:
                 logger.error('Fetching StudyTypeEventFeed %i failed: %s' % (feed.pk, e))
