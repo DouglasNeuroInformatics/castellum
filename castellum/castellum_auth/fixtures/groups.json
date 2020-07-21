@@ -141,9 +141,14 @@
         "name": "Receptionist",
         "permissions": [
             [
-                "search_execution",
+                "search_participations",
                 "recruitment",
                 "participation"
+            ],
+            [
+                "view_current_appointments",
+                "recruitment",
+                "appointment"
             ]
         ]
     }

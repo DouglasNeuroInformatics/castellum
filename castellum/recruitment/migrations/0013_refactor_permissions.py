@@ -11,7 +11,11 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterModelOptions(
+            name='appointment',
+            options={'ordering': ('start',), 'permissions': [('view_current_appointments', 'Can view current appointments')]},
+        ),
+        migrations.AlterModelOptions(
             name='participation',
-            options={'permissions': (('conduct_study', 'Can conduct studies'), ('search_execution', 'Can search in execution'), ('recruit', 'Can recruit')), 'verbose_name': 'Participation', 'verbose_name_plural': 'Participations'},
+            options={'permissions': (('conduct_study', 'Can conduct studies'), ('search_participations', 'Can search for any participation'), ('recruit', 'Can recruit')), 'verbose_name': 'Participation', 'verbose_name_plural': 'Participations'},
         ),
     ]

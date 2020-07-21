@@ -27,8 +27,8 @@
             </div>
         </div>
 
-        {% has_perm 'recruitment.search_execution' user as can_search_execution %}
-        {% if can_search_execution %}
+        {% has_perm 'recruitment.view_current_appointments' user as can_view_current_appointments %}
+        {% if can_view_current_appointments %}
             <div class="col-sm-6 col-md-4 mb-4">
                 <div class="card">
                     <a href="{% url 'execution:reception' %}" class="card-header" tabindex="-1">

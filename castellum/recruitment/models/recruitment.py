@@ -111,7 +111,7 @@ class Participation(models.Model):
         unique_together = ('study', 'subject')
         permissions = (
             ('conduct_study', _('Can conduct studies')),
-            ('search_execution', _('Can search in execution')),
+            ('search_participations', _('Can search for any participation')),
             ('recruit', _('Can recruit')),
         )
 

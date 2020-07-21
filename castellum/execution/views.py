@@ -204,7 +204,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
 class ReceptionView(PermissionRequiredMixin, ListView):
     model = Appointment
     template_name = 'execution/reception.html'
-    permission_required = 'recruitment.search_execution'
+    permission_required = 'recruitment.view_current_appointments'
 
     def get_queryset(self):
         return super().get_queryset().filter(
