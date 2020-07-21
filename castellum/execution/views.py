@@ -51,7 +51,7 @@ from castellum.subjects.mixins import BaseDataProtectionUpdateView
 class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
     template_name = 'execution/study_detail.html'
     model = Study
-    permission_required = 'recruitment.view_participation_pseudonyms'
+    permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
 
     def get_object(self):
@@ -76,7 +76,7 @@ class ParticipationDetailView(
 ):
     template_name = 'execution/participation_detail.html'
     model = Participation
-    permission_required = 'recruitment.view_participation_pseudonyms'
+    permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     participation_status = [Participation.INVITED]
 
@@ -98,7 +98,7 @@ class ParticipationDetailView(
 
 class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
     template_name = 'execution/study_resolve.html'
-    permission_required = 'recruitment.view_participation_pseudonyms'
+    permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     form_class = PseudonymForm
 
@@ -132,7 +132,7 @@ class ExecutionUpdateMixin(ParticipationMixin):
         return context
 
     def get_permission_required(self):
-        permission_required = {'recruitment.view_participation_pseudonyms'}
+        permission_required = {'recruitment.conduct_study'}
         permission_required.update(super().get_permission_required())
         return permission_required
 
@@ -178,7 +178,7 @@ class AdditionalInfoUpdateView(ExecutionUpdateMixin, BaseAdditionalInfoUpdateVie
 
 class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     model = Study
-    permission_required = 'recruitment.view_participation_pseudonyms'
+    permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     feed = 'execution:calendar-feed'
 

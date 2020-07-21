@@ -363,7 +363,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
             )),
         )
 
-        perm = 'recruitment.view_participation_pseudonyms'
+        perm = 'recruitment.conduct_study'
         connection = get_connection()
         for user in self.study.members.all():
             if user != self.request.user and user.has_perm(perm, obj=self.study):

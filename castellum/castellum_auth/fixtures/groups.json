@@ -113,7 +113,7 @@
         "name": "Study conductor",
         "permissions": [
             [
-                "view_participation_pseudonyms",
+                "conduct_study",
                 "recruitment",
                 "participation"
             ]
@@ -137,7 +137,7 @@
                 "participation"
             ],
             [
-                "view_participation_pseudonyms",
+                "conduct_study",
                 "recruitment",
                 "participation"
             ],

@@ -82,7 +82,7 @@
                                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment-open' study.pk %}">{% trans 'Recruitment' %}</a>
                                     {% endif %}
 
-                                    {% has_perm 'recruitment.view_participation_pseudonyms' user study as can_conduct %}
+                                    {% has_perm 'recruitment.conduct_study' user study as can_conduct %}
                                     {% if can_conduct %}
                                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:study-detail' study.pk %}">{% trans 'Execution' %}</a>
                                     {% endif %}

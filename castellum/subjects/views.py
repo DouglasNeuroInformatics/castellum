@@ -92,9 +92,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                     has_privacy_level and
                     can_access_study and
                     invited and
-                    user.has_perm(
-                        'recruitment.view_participation_pseudonyms', obj=participation.study
-                    )
+                    user.has_perm('recruitment.conduct_study', obj=participation.study)
                 )
                 can_search = invited and user.has_perm('recruitment.search_execution')
                 if can_recruit or can_conduct or can_search:
@@ -334,7 +332,7 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
 
     def is_permitted(self, study):
         return self.request.user.has_perm('studies.access_study', obj=study) and (
-            self.request.user.has_perm('recruitment.view_participation_pseudonyms', obj=study) or
+            self.request.user.has_perm('recruitment.conduct_study', obj=study) or
             self.request.user.has_perm('recruitment.change_participation', obj=study)
         )
 
