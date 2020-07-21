@@ -77,7 +77,7 @@
                             <div class="table-list-item-actions">
                                 {% has_perm 'studies.access_study' user study as can_access %}
                                 {% if can_access and study.status == study.EXECUTION %}
-                                    {% has_perm 'recruitment.view_participation' user study as can_recruit %}
+                                    {% has_perm 'recruitment.recruit' user study as can_recruit %}
                                     {% if can_recruit %}
                                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment-open' study.pk %}">{% trans 'Recruitment' %}</a>
                                     {% endif %}

@@ -1,7 +1,6 @@
 {% load i18n auth utils %}
 
 <ul class="table-list mt-3">
-    {% has_perm 'recruitment.change_participation' user study as can_change_participation %}
     {% for participation, buckets, can_access in participations %}
         <li class="table-list-item">
             {% if can_access %}
@@ -78,17 +77,15 @@
                         </div>
                     </div>
                 {% endif %}
-                {% if can_change_participation %}
-                    <div class="table-list-item-actions">
-                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pk %}">
-                            {% if participation.status_open %}
-                                {% trans 'Contact' context 'verb' %}
-                            {% else %}
-                                {% trans 'Review' %}
-                            {% endif %}
-                        </a>
-                    </div>
-                {% endif %}
+                <div class="table-list-item-actions">
+                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pk %}">
+                        {% if participation.status_open %}
+                            {% trans 'Contact' context 'verb' %}
+                        {% else %}
+                            {% trans 'Review' %}
+                        {% endif %}
+                    </a>
+                </div>
             {% else %}
                 <div class="text-muted">
                     <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
@@ -97,11 +94,9 @@
                         <i class="fas fa-ban list-icon bg-danger text-light" role="img" aria-hidden="true"></i>
                     </div>
                 </div>
-                {% if can_change_participation %}
-                    <div class="table-list-item-actions">
-                        <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Contact' context 'verb' %}</a>
-                    </div>
-                {% endif %}
+                <div class="table-list-item-actions">
+                    <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Contact' context 'verb' %}</a>
+                </div>
             {% endif %}
         </li>
     {% empty %}
@@ -109,8 +104,8 @@
             {% if view.subtab == 'open' %}
                 <strong>{% trans 'No one to contact for recruitment!' %}</strong>
                 {% trans 'Currently, there are no open potential subjects.' %}
-                {% has_perm 'recruitment.add_participation' user study as can_add_participation %}
-                {% if can_add_participation %}
+                {% has_perm 'recruitment.recruit' user study as can_recruit %}
+                {% if can_recruit %}
                     {% trans 'Please add a set of potential subjects using the Add button.' %}
                 {% endif %}
             {% elif view.subtab == 'invited' %}

@@ -15,8 +15,8 @@
                             <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participation-detail' participation.study.pk participation.pk %}">{% trans 'Go to execution' %}</a>
                         {% endif %}
                     {% endif %}
-                    {% has_perm 'recruitment.change_participation' user participation.study as can_change_participation %}
-                    {% if can_change_participation %}
+                    {% has_perm 'recruitment.recruit' user participation.study as can_recruit %}
+                    {% if can_recruit %}
                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participation.study.pk participation.pk %}?context=subjects:participation-list">
                             {% if participation.status_open %}
                                 {% trans 'Contact' context 'verb' %}

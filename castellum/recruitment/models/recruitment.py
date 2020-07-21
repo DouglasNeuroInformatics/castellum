@@ -112,6 +112,7 @@ class Participation(models.Model):
         permissions = (
             ('conduct_study', _('Can conduct studies')),
             ('search_execution', _('Can search in execution')),
+            ('recruit', _('Can recruit')),
         )
 
     @property

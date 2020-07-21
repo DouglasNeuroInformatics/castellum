@@ -12,6 +12,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='participation',
-            options={'permissions': (('conduct_study', 'Can conduct studies'), ('search_execution', 'Can search in execution')), 'verbose_name': 'Participation', 'verbose_name_plural': 'Participations'},
+            options={'permissions': (('conduct_study', 'Can conduct studies'), ('search_execution', 'Can search in execution'), ('recruit', 'Can recruit')), 'verbose_name': 'Participation', 'verbose_name_plural': 'Participations'},
         ),
     ]

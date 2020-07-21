@@ -89,17 +89,7 @@
                 "contact"
             ],
             [
-                "add_participation",
-                "recruitment",
-                "participation"
-            ],
-            [
-                "change_participation",
-                "recruitment",
-                "participation"
-            ],
-            [
-                "view_participation",
+                "recruit",
                 "recruitment",
                 "participation"
             ]
