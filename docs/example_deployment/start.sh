@@ -5,6 +5,9 @@ set -e
 docker-compose pull
 docker-compose up -d
 
+# wait for databases
+docker-compose run --rm db_wait
+
 docker-compose run --rm web django-admin migrateall
 
 # Load recommended data
