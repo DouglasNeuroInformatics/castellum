@@ -12,9 +12,11 @@
                 <div>
                     {{ contact.first_name }} {{ contact.last_name }}
                 </div>
-                <div class="table-list-item-actions">
-                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:index' %}?search={{ contact.first_name|iriencode }}+{{ contact.last_name|iriencode }}" target="_blank">{% trans 'Search' %}</a>
-                </div>
+                <form class="table-list-item-actions" method="post" action="{% url 'subjects:index' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="search" value="{{ contact.first_name }} {{ contact.last_name }}">
+                    <button class="btn btn-outline-primary btn-sm-inline my-1">{% trans 'Search' %}</button>
+                </form>
             </li>
         {% empty %}
             <li class="alert alert-success" role="alert">{% trans 'Nothing to do' %}</li>
