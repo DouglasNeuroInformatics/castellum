@@ -49,11 +49,6 @@
         "name": "Recruiter",
         "permissions": [
             [
-                "view_subject",
-                "subjects",
-                "subject"
-            ],
-            [
                 "recruit",
                 "recruitment",
                 "participation"
