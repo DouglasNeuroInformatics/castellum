@@ -88,7 +88,7 @@ class FilterMixin(StudyMixin, PermissionRequiredMixin, CustomFilterMixin):
 class FilterGroupListView(FilterMixin, ListView):
     model = SubjectFilterGroup
     template_name = 'studies/filtergroup_advanced.html'
-    permission_required = 'recruitment.view_subjectfilter'
+    permission_required = 'studies.change_study'
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -120,7 +120,7 @@ class FilterGroupListView(FilterMixin, ListView):
 
 
 class FilterGroupCreateView(FilterMixin, View):
-    permission_required = 'recruitment.change_subjectfilter'
+    permission_required = 'studies.change_study'
     study_status = [Study.EDIT]
 
     def post(self, *args, **kwargs):
@@ -132,7 +132,7 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
     model = SubjectFilterGroup
     fields = []
     template_name = "studies/filtergroup.html"
-    permission_required = 'recruitment.change_subjectfilter'
+    permission_required = 'studies.change_study'
 
     def get_object(self):
         return get_object_or_404(SubjectFilterGroup, study=self.study, pk=self.kwargs['pk'])
@@ -175,7 +175,7 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
     def get_inaccessible_attributedescriptions(self):
         min_privacy_level = 2
         for member in self.study.members.all():
-            if member.has_perm('recruitment.view_subjectfilter', obj=self.study):
+            if member.has_perm('studies.change_study', obj=self.study):
                 privacy_level = member.get_privacy_level(obj=self.study)
                 if privacy_level < min_privacy_level:
                     min_privacy_level = privacy_level
@@ -214,7 +214,7 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
 class FilterGroupDeleteView(FilterMixin, DeleteView):
     model = SubjectFilterGroup
     template_name = 'studies/filtergroup_confirm_delete.html'
-    permission_required = 'recruitment.change_subjectfilter'
+    permission_required = 'studies.change_study'
     study_status = [Study.EDIT]
 
     def get_object(self):
@@ -225,7 +225,7 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
 
 
 class FilterGroupDuplicateView(FilterMixin, View):
-    permission_required = 'recruitment.change_subjectfilter'
+    permission_required = 'studies.change_study'
     study_status = [Study.EDIT]
 
     def post(self, request, study_pk, pk):

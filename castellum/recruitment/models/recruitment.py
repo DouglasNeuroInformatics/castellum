@@ -110,8 +110,9 @@ class Participation(models.Model):
         verbose_name_plural = _('Participations')
         unique_together = ('study', 'subject')
         permissions = (
-            ('view_participation_pseudonyms', _('Can view participation pseudonyms')),
-            ('search_execution', _('Can search in execution')),
+            ('conduct_study', _('Can conduct studies')),
+            ('search_participations', _('Can search for any participation')),
+            ('recruit', _('Can recruit')),
         )
 
     @property

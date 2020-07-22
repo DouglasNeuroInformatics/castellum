@@ -26,7 +26,6 @@ from collections import defaultdict
 
 from django.conf import settings
 from django.contrib import messages
-from django.core.exceptions import PermissionDenied
 from django.core.mail import EmailMessage
 from django.core.mail import get_connection
 from django.shortcuts import redirect
@@ -65,7 +64,7 @@ logger = logging.getLogger(__name__)
 class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     model = Participation
     template_name = 'recruitment/recruitment.html'
-    permission_required = 'recruitment.view_participation'
+    permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
     shown_status = []
     tab = 'recruitment'
@@ -217,9 +216,6 @@ class RecruitmentViewOpen(RecruitmentView):
         return added
 
     def post(self, request, *args, **kwargs):
-        if not request.user.has_perm('recruitment.add_participation', obj=self.study):
-            raise PermissionDenied
-
         if self.study.min_subject_count == 0:
             messages.error(request, _(
                 'This study does not require participants. '
@@ -277,7 +273,7 @@ class RecruitmentViewOpen(RecruitmentView):
 
 
 class MailRecruitmentView(BaseMailRecruitmentView):
-    permission_required = 'recruitment.view_participation'
+    permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
     participation_status = Participation.AWAITING_RESPONSE
     tab = 'mail'
@@ -291,10 +287,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     model = Participation
     form_class = ContactForm
     template_name = 'recruitment/contact.html'
-    permission_required = (
-        'contacts.view_contact',
-        'recruitment.change_participation',
-    )
+    permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
 
     def get_initial(self):
@@ -366,7 +359,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
             )),
         )
 
-        perm = 'recruitment.view_participation_pseudonyms'
+        perm = 'recruitment.conduct_study'
         connection = get_connection()
         for user in self.study.members.all():
             if user != self.request.user and user.has_perm(perm, obj=self.study):
@@ -419,7 +412,7 @@ class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateV
 
 class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     model = Study
-    permission_required = 'recruitment.view_participation'
+    permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
     nochrome = True
     feed = 'recruitment:calendar-feed'

@@ -75,7 +75,7 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
         max_privacy_level = self.object.get_filter_max_privacy_level()
 
         for user in self.object.members.all():
-            if user.has_perm('recruitment.view_subjectfilter', obj=self.object):
+            if user.has_perm('studies.change_study', obj=self.object):
                 if user.get_privacy_level() < max_privacy_level:
                     yield user.username
 

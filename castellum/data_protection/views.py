@@ -29,7 +29,7 @@ from . import helpers
 class DataProtectionView(PermissionRequiredMixin, TemplateView):
     template_name = 'data_protection/index.html'
     permission_required = [
-        'subjects.view_subject',
+        'subjects.export_subject',
         'castellum_auth.privacy_level_2',
     ]
     limit_by = 10

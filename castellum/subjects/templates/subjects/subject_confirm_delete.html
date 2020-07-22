@@ -33,12 +33,9 @@
                             {% if can_view_study %}
                                 <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:detail' participation.study.pk %}">{% trans 'Study details' %}</a>
                             {% endif %}
-                            {% has_perm 'recruitment.delete_participation' user participation.study as can_delete_participation %}
-                            {% if can_delete_participation %}
-                                <a class="btn btn-danger btn-sm-inline my-1" href="{% url 'subjects:participation-delete' subject.pk participation.pk %}">
-                                    {% trans 'Delete' %}
-                                </a>
-                            {% endif %}
+                            <a class="btn btn-danger btn-sm-inline my-1" href="{% url 'subjects:participation-delete' subject.pk participation.pk %}">
+                                {% trans 'Delete' %}
+                            </a>
                         </div>
                     </li>
                 {% endfor %}

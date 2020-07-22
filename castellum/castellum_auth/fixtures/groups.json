@@ -6,21 +6,6 @@
         "name": "Study coordinator",
         "permissions": [
             [
-                "change_subjectfilter",
-                "recruitment",
-                "subjectfilter"
-            ],
-            [
-                "view_subjectfilter",
-                "recruitment",
-                "subjectfilter"
-            ],
-            [
-                "add_study",
-                "studies",
-                "study"
-            ],
-            [
                 "change_study",
                 "studies",
                 "study"
@@ -45,29 +30,9 @@
         "name": "Subject manager",
         "permissions": [
             [
-                "add_contact",
-                "contacts",
-                "contact"
-            ],
-            [
-                "change_contact",
-                "contacts",
-                "contact"
-            ],
-            [
-                "view_contact",
-                "contacts",
-                "contact"
-            ],
-            [
-                "change_attributeset",
-                "recruitment",
-                "attributeset"
-            ],
-            [
-                "view_attributeset",
-                "recruitment",
-                "attributeset"
+                "view_subject",
+                "subjects",
+                "subject"
             ],
             [
                 "change_subject",
@@ -84,22 +49,7 @@
         "name": "Recruiter",
         "permissions": [
             [
-                "view_contact",
-                "contacts",
-                "contact"
-            ],
-            [
-                "add_participation",
-                "recruitment",
-                "participation"
-            ],
-            [
-                "change_participation",
-                "recruitment",
-                "participation"
-            ],
-            [
-                "view_participation",
+                "recruit",
                 "recruitment",
                 "participation"
             ]
@@ -113,7 +63,7 @@
         "name": "Study conductor",
         "permissions": [
             [
-                "view_participation_pseudonyms",
+                "conduct_study",
                 "recruitment",
                 "participation"
             ]
@@ -127,22 +77,12 @@
         "name": "Data protection coordinator",
         "permissions": [
             [
-                "view_contact",
-                "contacts",
-                "contact"
-            ],
-            [
-                "delete_participation",
-                "recruitment",
-                "participation"
-            ],
-            [
-                "view_participation_pseudonyms",
-                "recruitment",
-                "participation"
-            ],
-            [
                 "view_subject",
+                "subjects",
+                "subject"
+            ],
+            [
+                "export_subject",
                 "subjects",
                 "subject"
             ],
@@ -186,9 +126,14 @@
         "name": "Receptionist",
         "permissions": [
             [
-                "search_execution",
+                "search_participations",
                 "recruitment",
                 "participation"
+            ],
+            [
+                "view_current_appointments",
+                "recruitment",
+                "appointment"
             ]
         ]
     }

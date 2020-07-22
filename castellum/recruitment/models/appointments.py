@@ -60,6 +60,9 @@ class Appointment(models.Model):
     class Meta:
         ordering = ('start',)
         unique_together = ['session', 'participation']
+        permissions = [
+            ('view_current_appointments', _('Can view current appointments')),
+        ]
 
     def __str__(self):
         return '%s %s' % (date_format(self.start), time_format(self.start))

@@ -281,7 +281,7 @@ class Study(models.Model):
     def recruiters(self):
         recruiters = []
         for user in self.members.all():
-            if user.has_perm('recruitment.add_participation', obj=self):
+            if user.has_perm('recruitment.recruit', obj=self):
                 recruiters.append(user)
         return recruiters
 

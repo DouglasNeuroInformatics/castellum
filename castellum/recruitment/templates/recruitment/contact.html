@@ -90,7 +90,7 @@
                     </dd>
                 </dl>
 
-                {% has_perm 'contacts.change_contact' user study as can_change_contact %}
+                {% has_perm 'subjects.change_subject' user study as can_change_subject %}
                 {% if can_change_contact %}
                     <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:contact-update' study.pk object.pk %}">
                         {% if not subject.contact.is_complete %}
@@ -98,15 +98,7 @@
                         {% endif %}
                         {% trans 'Edit contact data' %}
                     </a>
-                {% endif %}
-
-                {% has_perm 'recruitment.change_attributeset' user study as can_change_attributeset %}
-                {% if can_change_attributeset %}
                     <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:attributeset-update' study.pk object.pk %}">{% trans 'Edit attributes' %}</a>
-                {% endif %}
-
-                {% has_perm 'subjects.change_subject' user study as can_change_subject %}
-                {% if can_change_subject %}
                     <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:data-protection-update' study.pk object.pk %}">
                         {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age %}
                             <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>

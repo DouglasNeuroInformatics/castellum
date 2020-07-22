@@ -124,6 +124,9 @@ class Subject(TimeStampedModel):
 
     class Meta:
         verbose_name = _('Subject')
+        permissions = [
+            ('export_subject', _('Can export all data related to a subject')),
+        ]
 
     def delete(self):
         self.contact.delete()

@@ -76,7 +76,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
     def get_matches(self, search):
         user = self.request.user
         contacts = Contact.objects.fuzzy_filter(search)
-        can_view_contact = user.has_perm('contacts.view_contact')
+        can_view_subject = user.has_perm('subjects.view_subject')
         for subject in Subject.objects.filter(filter_queries.pk_filter(contacts)):
             has_privacy_level = user.has_privacy_level(subject.privacy_level)
             participations = []
@@ -86,23 +86,18 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 can_recruit = (
                     has_privacy_level and
                     can_access_study and
-                    user.has_perms((
-                        'contacts.view_contact',
-                        'recruitment.change_participation',
-                    ), obj=participation.study)
+                    user.has_perm('recruitment.recruit', obj=participation.study)
                 )
                 can_conduct = (
                     has_privacy_level and
                     can_access_study and
                     invited and
-                    user.has_perm(
-                        'recruitment.view_participation_pseudonyms', obj=participation.study
-                    )
+                    user.has_perm('recruitment.conduct_study', obj=participation.study)
                 )
-                can_search = invited and user.has_perm('recruitment.search_execution')
+                can_search = invited and user.has_perm('recruitment.search_participations')
                 if can_recruit or can_conduct or can_search:
                     participations.append((participation, can_recruit, can_conduct))
-            if participations or can_view_contact:
+            if participations or can_view_subject:
                 yield subject, subject.contact, participations, has_privacy_level
 
     def get_context_data(self, **kwargs):
@@ -144,7 +139,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         if 'privacy_level' not in request.POST:
             return super().post(request, *args, **kwargs)
 
-        if not request.user.has_perm('contacts.add_contact'):
+        if not request.user.has_perm('subjects.change_subject'):
             raise PermissionDenied
 
         form = SearchForm(data=request.POST)
@@ -176,7 +171,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
 
 class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
-    permission_required = 'contacts.view_contact'
+    permission_required = 'subjects.view_subject'
     template_name = 'subjects/subject_detail.html'
     tab = 'detail'
 
@@ -233,7 +228,7 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
 class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_export.html'
-    permission_required = 'subjects.view_subject'
+    permission_required = 'subjects.export_subject'
     tab = 'export'
 
     def get_context_data(self, **kwargs):
@@ -329,7 +324,7 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     tab = 'participations'
     model = Participation
     template_name = 'subjects/subject_participationlist.html'
-    permission_required = 'contacts.view_contact'
+    permission_required = 'subjects.view_subject'
 
     @cached_property
     def subject(self):
@@ -337,8 +332,8 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
 
     def is_permitted(self, study):
         return self.request.user.has_perm('studies.access_study', obj=study) and (
-            self.request.user.has_perm('recruitment.view_participation_pseudonyms', obj=study) or
-            self.request.user.has_perm('recruitment.change_participation', obj=study)
+            self.request.user.has_perm('recruitment.conduct_study', obj=study) or
+            self.request.user.has_perm('recruitment.recruit', obj=study)
         )
 
     def get_queryset(self):
@@ -361,7 +356,7 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
 class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     tab = 'delete'
     model = Participation
-    permission_required = ['studies.access_study', 'recruitment.delete_participation']
+    permission_required = ['studies.access_study', 'subjects.delete_subject']
 
     def get_object(self):
         return get_object_or_404(
@@ -382,11 +377,11 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_add_to_study.html'
-    permission_required = 'contacts.view_contact'
+    permission_required = 'subjects.view_subject'
     tab = 'participations'
 
     def get_studies(self, subject):
-        perms = ('recruitment.add_participation', 'studies.access_study')
+        perms = ('recruitment.recruit', 'studies.access_study')
         studies = (
             Study.objects
             .filter(status=Study.EXECUTION)
@@ -414,7 +409,7 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
         self.object = self.get_object()
         study = get_object_or_404(Study, pk=request.POST['study'], status=Study.EXECUTION)
 
-        perms = ('recruitment.add_participation', 'studies.access_study')
+        perms = ('recruitment.recruit', 'studies.access_study')
         if not request.user.has_perms(perms, obj=study):
             raise PermissionDenied
 
@@ -458,7 +453,7 @@ class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
 class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
     template_name = 'subjects/guardian_search.html'
-    permission_required = 'contacts.view_contact'
+    permission_required = 'subjects.view_subject'
     nochrome = True
 
     def get_matches(self, search):
@@ -478,7 +473,7 @@ class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
         if 'privacy_level' not in request.POST:
             return super().post(request, *args, **kwargs)
 
-        if not request.user.has_perm('contacts.add_contact'):
+        if not request.user.has_perm('subjects.change_subject'):
             raise PermissionDenied
 
         form = SearchForm(data=request.POST)
@@ -635,7 +630,7 @@ class MaintenanceShowupView(BaseMaintenanceView):
 
 class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):
     model = Subject
-    permission_required = 'contacts.view_contact'
+    permission_required = 'subjects.view_subject'
 
     def get_data(self):
         contact = self.object.contact
