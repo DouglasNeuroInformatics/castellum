@@ -22,7 +22,7 @@ msgstr "abgelaufen"
 
 #: castellum/castellum_auth/admin.py:44
 #, fuzzy, python-format
-#| msgid "%(days)s days left"
+#| msgid "%i days left"
 msgid "%i days left"
 msgstr "%(days)s Tage verbleibend"
 
@@ -692,19 +692,19 @@ msgstr "E-Mails erfolgreich versendet!"
 
 #: castellum/recruitment/models/appointments.py:45
 msgid "show up"
-msgstr ""
+msgstr "erschienen"
 
 #: castellum/recruitment/models/appointments.py:46
 msgid "late"
-msgstr ""
+msgstr "zu spät"
 
 #: castellum/recruitment/models/appointments.py:47
 msgid "excused"
-msgstr ""
+msgstr "entschuldigt"
 
 #: castellum/recruitment/models/appointments.py:48
 msgid "no show"
-msgstr ""
+msgstr "nicht erschienen"
 
 #: castellum/recruitment/models/appointments.py:51
 msgid "Session"
@@ -719,31 +719,25 @@ msgstr "Start"
 
 #: castellum/recruitment/models/appointments.py:56
 #: castellum/recruitment/models/recruitment.py:109
-#, fuzzy
-#| msgid "Participant"
 msgid "Participation"
-msgstr "Teilnehmer*in"
+msgstr "Teilnahme"
 
 #: castellum/recruitment/models/appointments.py:58
 msgid "Show up"
-msgstr ""
+msgstr "Erscheinen"
 
 #: castellum/recruitment/models/appointments.py:64
 msgid "Can view current appointments"
-msgstr ""
+msgstr "Darf aktuelle Termine anschauen"
 
 #: castellum/recruitment/models/appointments.py:73
-#, fuzzy
-#| msgid "Session and participant do not belong to the same study"
 msgid "Session and participation do not belong to the same study"
-msgstr "Sitzung und Teilnehmer*in gehören nicht zur selben Studie"
+msgstr "Sitzung und Teilnahme gehören nicht zur selben Studie"
 
 #: castellum/recruitment/models/attributesets.py:85
 #: castellum/studies/forms.py:69
-#, fuzzy
-#| msgid "blocking invitation"
 msgid "One time invitation"
-msgstr "blockiert die Einladung"
+msgstr "Einmalige Einladung"
 
 #: castellum/recruitment/models/attributesets.py:88
 msgid "Does not want to participate in the following study types:"
@@ -851,8 +845,6 @@ msgid "Study"
 msgstr "Studie"
 
 #: castellum/recruitment/models/recruitment.py:99
-#, fuzzy
-#| msgid "Status of participation request"
 msgid "Status of participation"
 msgstr "Teilnahmestatus"
 
@@ -870,28 +862,20 @@ msgid "Follow-up time"
 msgstr "Wiedervorlagezeit"
 
 #: castellum/recruitment/models/recruitment.py:110
-#, fuzzy
-#| msgid "Study Participations"
 msgid "Participations"
-msgstr "Studienteilnahmen"
+msgstr "Teilnahmen"
 
 #: castellum/recruitment/models/recruitment.py:113
-#, fuzzy
-#| msgid "Can access studies"
 msgid "Can conduct studies"
-msgstr "Darf auf Studien zugreifen"
+msgstr "Darf Studien durchführen"
 
 #: castellum/recruitment/models/recruitment.py:114
-#, fuzzy
-#| msgid "Can search in execution"
 msgid "Can search for any participation"
-msgstr "Kann in der Durchführung suchen"
+msgstr "Darf nach jeder Teilnahme suchen"
 
 #: castellum/recruitment/models/recruitment.py:115
-#, fuzzy
-#| msgid "Mail recruitment"
 msgid "Can recruit"
-msgstr "E-Mail Rekrutierung"
+msgstr "Darf rekrutieren"
 
 #: castellum/recruitment/models/recruitment.py:162
 msgid "No follow-up set"
@@ -1109,7 +1093,7 @@ msgstr "Vertraulichkeitsstufe nicht ausreichend"
 #: castellum/subjects/templates/subjects/maintenance_base.html:29
 #: castellum/subjects/templates/subjects/subject_detail.html:51
 msgid "Show up rate"
-msgstr ""
+msgstr "Erscheinungsrate"
 
 #: castellum/recruitment/templates/recruitment/contact.html:119
 #: castellum/studies/templates/studies/study_detail.html:14
@@ -1242,8 +1226,6 @@ msgid "Unsuitable"
 msgstr "nicht geeignet"
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:36
-#, fuzzy
-#| msgid "All"
 msgctxt "total"
 msgid "All"
 msgstr "Gesamt"
@@ -1339,24 +1321,22 @@ msgstr "Suche nach Titel oder verantwortlicher Kontaktperson"
 
 #: castellum/studies/forms.py:58
 msgid "List"
-msgstr ""
+msgstr "Liste"
 
 #: castellum/studies/forms.py:61
 #: castellum/studies/templates/studies/study_list.html:33
-#, fuzzy
-#| msgid "No members"
 msgid "Membership"
-msgstr "Keine Mitglieder"
+msgstr "Mitgliedschaft"
 
 #: castellum/studies/forms.py:62
 msgid "Mine"
-msgstr ""
+msgstr "Meine"
 
 #: castellum/studies/forms.py:63
 #: castellum/studies/templates/studies/study_list.html:43
 #: castellum/studies/templates/studies/study_list.html:52
 msgid "All"
-msgstr "Gesamt"
+msgstr "Alle"
 
 #: castellum/studies/forms.py:65 castellum/studies/models.py:98
 #: castellum/subjects/models.py:287
@@ -1388,7 +1368,7 @@ msgstr "Export key"
 
 #: castellum/studies/models.py:69
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: castellum/studies/models.py:81
 #: castellum/studies/templates/studies/filtergroup_advanced.html:56
@@ -1561,16 +1541,17 @@ msgid "Excluded studies"
 msgstr "Ausgeschlossene Studien"
 
 #: castellum/studies/models.py:177
-#, fuzzy
-#| msgid "blocking invitation"
 msgid "Is a one time invitation"
-msgstr "blockiert die Einladung"
+msgstr "Ist eine einmalige Einladung"
 
 #: castellum/studies/models.py:179
 msgid ""
 "Use this if you want to bypass the usual recruitment workflow and just send "
 "an email to subjects, e.g. to invite them to an anonymous online survey."
 msgstr ""
+"Diese Option erlaubt es, den üblichen Rekrutierungsprozess zu umgehen und "
+"nur eine E-Mail an die Proband*innen zu verschicken, z.B. um sie zu einer "
+"anonymen Umfrage einzuladen."
 
 #: castellum/studies/models.py:186 castellum/subjects/models.py:294
 #: castellum/subjects/templates/subjects/maintenance_base.html:23
@@ -1969,8 +1950,6 @@ msgid "Go"
 msgstr "Los"
 
 #: castellum/studies/templates/studies/study_list.html:31
-#, fuzzy
-#| msgid "Filters"
 msgid "Filter"
 msgstr "Filter"
 
@@ -2207,7 +2186,7 @@ msgstr "Proband*in"
 
 #: castellum/subjects/models.py:128
 msgid "Can export all data related to a subject"
-msgstr ""
+msgstr "Darf alle Daten zu einer Proband*in exportieren"
 
 #: castellum/subjects/models.py:258
 msgid "Content"
@@ -2341,10 +2320,8 @@ msgid "The following names exist more than once:"
 msgstr "Die folgenden Namen gibt es mehr als einmal:"
 
 #: castellum/subjects/templates/subjects/maintenance_showup.html:7
-#, fuzzy
-#| msgid "The following subjects have incomplete contact data:"
 msgid "The following subjects have a record of coming late or not at all:"
-msgstr "Die folgenden Proband*innen haben unvollständige Kontaktdaten:"
+msgstr "Die folgenden Proband*innen kommen oft zu spät oder garnicht:"
 
 #: castellum/subjects/templates/subjects/maintenance_waiting.html:7
 msgid "The following subjects have been contacted for recruitment consent:"
