@@ -46,11 +46,11 @@ class User(AbstractUser):
     token = models.CharField(max_length=64, unique=True, default=generate_token)
 
     class Meta:
-        ordering = ('username',)
-        permissions = (
+        ordering = ['username']
+        permissions = [
             ('privacy_level_1', _('Can access privacy level 1')),
             ('privacy_level_2', _('Can access privacy level 2')),
-        )
+        ]
 
     def get_privacy_level(self, obj=None):
         for level in range(2, 0, -1):

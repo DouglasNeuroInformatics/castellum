@@ -83,14 +83,14 @@ class Participation(models.Model):
     INVITED = 3
     FOLLOWUP_APPOINTED = 4
     AWAITING_RESPONSE = 5
-    STATUS_OPTIONS = (
+    STATUS_OPTIONS = [
         (NOT_CONTACTED, _('not contacted')),
         (NOT_REACHED, _('not reached')),
         (UNSUITABLE, _('unsuitable')),
         (INVITED, _('invited')),
         (FOLLOWUP_APPOINTED, _('follow-up scheduled')),
         (AWAITING_RESPONSE, _('awaiting response')),
-    )
+    ]
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, editable=False)
     study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
@@ -108,12 +108,12 @@ class Participation(models.Model):
     class Meta:
         verbose_name = _('Participation')
         verbose_name_plural = _('Participations')
-        unique_together = ('study', 'subject')
-        permissions = (
+        unique_together = ['study', 'subject']
+        permissions = [
             ('conduct_study', _('Can conduct studies')),
             ('search_participations', _('Can search for any participation')),
             ('recruit', _('Can recruit')),
-        )
+        ]
 
     @property
     def status_open(self):

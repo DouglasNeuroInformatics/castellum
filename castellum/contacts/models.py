@@ -103,16 +103,16 @@ class ContactManager(models.Manager):
 
 
 class Contact(TimeStampedModel):
-    GENDER = (
+    GENDER = [
         ("f", _("female")),
         ("m", _("male")),
         ("*", _("diverse")),
-    )
-    CONTACT_METHODS = (
+    ]
+    CONTACT_METHODS = [
         ("phone", _("phone")),
         ("email", _("email")),
         ("postal", _("postal")),
-    )
+    ]
 
     subject_id = models.PositiveIntegerField(unique=True, editable=False, default=None)
 
@@ -143,7 +143,7 @@ class Contact(TimeStampedModel):
     objects = ContactManager()
 
     class Meta:
-        ordering = ('last_name', 'first_name')
+        ordering = ['last_name', 'first_name']
         verbose_name = _('Contact')
         verbose_name_plural = _('Contacts')
 
@@ -227,8 +227,8 @@ class Address(models.Model):
         return '{}, {}'.format(*self.lines())
 
     class Meta:
-        ordering = (
+        ordering = [
             'country', 'city', 'zip_code', 'street', 'house_number', 'additional_information'
-        )
+        ]
         verbose_name = _('Address')
         verbose_name_plural = _('Addresses')

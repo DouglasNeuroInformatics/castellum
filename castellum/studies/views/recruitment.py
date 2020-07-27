@@ -69,12 +69,12 @@ class StudyRecruitmentSettingsUpdateView(
     StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
 ):
     model = Study
-    fields = (
+    fields = [
         'advanced_filtering',
         'recruitment_text',
         'is_exclusive',
         'complete_matches_only',
-    )
+    ]
     permission_required = 'studies.change_study'
     template_name = 'studies/study_recruitmentsettings_form.html'
     tab = 'recruitmentsettings'
@@ -92,7 +92,7 @@ class StudyRecruitmentSettingsUpdateView(
 
     def get_form_class(self):
         if 'castellum.geofilters' in settings.INSTALLED_APPS:
-            self.fields = (*self.fields, 'geo_filter')
+            self.fields = [*self.fields, 'geo_filter']
         return super().get_form_class()
 
 
@@ -134,7 +134,7 @@ class StudyExclusionCriteriaView(
 ):
     model = Study
     template_name = 'studies/study_exclusioncriteria.html'
-    fields = ('exclusion_criteria',)
+    fields = ['exclusion_criteria']
     permission_required = 'studies.change_study'
     is_onetime_invitation = False
     tab = 'recruitmentsettings'
@@ -161,11 +161,11 @@ class StudySessionsView(
 ):
     model = Study
     template_name = 'studies/study_sessions.html'
-    fields = (
+    fields = [
         'session_instructions',
         'sessions_start',
         'sessions_end',
-    )
+    ]
     permission_required = 'studies.change_study'
     is_onetime_invitation = False
     tab = 'recruitmentsettings'
@@ -234,11 +234,11 @@ class StudyMailSettingsView(
 ):
     model = Study
     template_name = 'studies/study_mailsettings.html'
-    fields = (
+    fields = [
         'mail_subject',
         'mail_body',
         'mail_reply_address',
-    )
+    ]
     permission_required = 'studies.change_study'
     tab = 'recruitmentsettings'
     subtab = 'mailsettings'

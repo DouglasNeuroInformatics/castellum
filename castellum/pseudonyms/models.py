@@ -40,10 +40,10 @@ class Pseudonym(models.Model):
     pseudonym = models.CharField(max_length=64, default=None)
 
     class Meta:
-        unique_together = (
-            ('domain', 'pseudonym'),
-            ('domain', 'subject'),
-        )
+        unique_together = [
+            ['domain', 'pseudonym'],
+            ['domain', 'subject'],
+        ]
 
     def __str__(self):
         return self.pseudonym

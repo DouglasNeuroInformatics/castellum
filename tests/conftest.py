@@ -33,7 +33,7 @@ baker.generators.add(
 
 # monkey patch to make test isolation work on both databases
 # See https://github.com/pytest-dev/pytest-django/pull/431
-TestCase.databases = ('default', 'contacts')
+TestCase.databases = ['default', 'contacts']
 
 
 def load_django_fixture(app_label, name):

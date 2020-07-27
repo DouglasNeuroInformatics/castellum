@@ -381,7 +381,7 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     tab = 'participations'
 
     def get_studies(self, subject):
-        perms = ('recruitment.recruit', 'studies.access_study')
+        perms = ['recruitment.recruit', 'studies.access_study']
         studies = (
             Study.objects
             .filter(status=Study.EXECUTION)
@@ -409,7 +409,7 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
         self.object = self.get_object()
         study = get_object_or_404(Study, pk=request.POST['study'], status=Study.EXECUTION)
 
-        perms = ('recruitment.recruit', 'studies.access_study')
+        perms = ['recruitment.recruit', 'studies.access_study']
         if not request.user.has_perms(perms, obj=study):
             raise PermissionDenied
 

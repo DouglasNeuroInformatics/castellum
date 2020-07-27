@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Address',
                 'verbose_name_plural': 'Addresses',
-                'ordering': ('country', 'city', 'zip_code', 'street', 'house_number', 'additional_information'),
+                'ordering': ['country', 'city', 'zip_code', 'street', 'house_number', 'additional_information'],
             },
         ),
         migrations.CreateModel(
@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Contact',
                 'verbose_name_plural': 'Contacts',
-                'ordering': ('last_name', 'first_name'),
+                'ordering': ['last_name', 'first_name'],
             },
         ),
     ]

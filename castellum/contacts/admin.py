@@ -36,7 +36,7 @@ class ContactAdmin(admin.ModelAdmin):
     search_fields = "first_name", "last_name"
     inlines = [AddressInline]
 
-    fieldsets = (
+    fieldsets = [
         (None, {
             "fields": (
                 ("first_name", "last_name", "title"),
@@ -52,7 +52,7 @@ class ContactAdmin(admin.ModelAdmin):
                 "guardians",
             )
         }),
-    )
+    ]
 
     def get_queryset(self, request):  # pragma: no cover
         return super().get_queryset(request).select_related('address')

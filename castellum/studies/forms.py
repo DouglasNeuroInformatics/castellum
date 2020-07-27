@@ -74,7 +74,7 @@ class StudyFilterForm(forms.Form):
 class SessionForm(ReadonlyModelForm):
     class Meta:
         model = models.StudySession
-        fields = ('name', 'duration', 'resource', 'type')
+        fields = ['name', 'duration', 'resource', 'type']
         widgets = {
             'type': forms.CheckboxSelectMultiple(),
         }
@@ -83,7 +83,7 @@ class SessionForm(ReadonlyModelForm):
 class ExcludedStudiesForm(ReadonlyModelForm):
     class Meta:
         model = models.Study
-        fields = ('excluded_studies',)
+        fields = ['excluded_studies']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -98,7 +98,7 @@ class AddMemberForm(forms.Form):
 class MemberForm(forms.ModelForm):
     class Meta:
         model = models.StudyMembership
-        fields = ('groups',)
+        fields = ['groups']
         widgets = {
             'groups': forms.CheckboxSelectMultiple(),
         }

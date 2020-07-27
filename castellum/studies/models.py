@@ -203,9 +203,9 @@ class Study(models.Model):
 
     class Meta:
         ordering = ['name']
-        permissions = (
+        permissions = [
             ('access_study', _('Can access studies')),
-        )
+        ]
 
     def __str__(self):
         return self.name
@@ -308,7 +308,7 @@ class StudyMembership(models.Model):
     groups = models.ManyToManyField(Group, blank=True, related_name='+')
 
     class Meta:
-        unique_together = ('study', 'user')
+        unique_together = ['study', 'user']
 
     def __str__(self):
         return '{}:{}'.format(self.study, self.user)
