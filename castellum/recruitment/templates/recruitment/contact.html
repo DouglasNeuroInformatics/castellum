@@ -149,6 +149,10 @@
                             {{ study_type.exclusion_criteria|linebreaks }}
                         {% endif %}
                     {% endfor %}
+                    {% if general_criteria %}
+                        <h2>{% trans 'General criteria' %}</h2>
+                        {{ general_criteria|linebreaks }}
+                    {% endif %}
 
                     {% bootstrap_field form.exclusion_criteria_checked %}
                 </div>

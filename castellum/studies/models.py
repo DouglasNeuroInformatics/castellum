@@ -270,7 +270,11 @@ class Study(models.Model):
 
     @cached_property
     def has_exclusion_criteria(self):
-        return self.exclusion_criteria or self.study_type.exclude(exclusion_criteria='').exists()
+        return (
+            settings.CASTELLUM_GENERAL_EXCLUSION_CRITERIA or
+            self.exclusion_criteria or
+            self.study_type.exclude(exclusion_criteria='').exists()
+        )
 
     @cached_property
     def is_sensitive(self):
