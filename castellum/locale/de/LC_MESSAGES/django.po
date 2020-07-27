@@ -1093,7 +1093,7 @@ msgstr "Vertraulichkeitsstufe nicht ausreichend"
 #: castellum/subjects/templates/subjects/maintenance_base.html:29
 #: castellum/subjects/templates/subjects/subject_detail.html:51
 msgid "Show up rate"
-msgstr "Erscheinungsrate"
+msgstr "Show Up Rate"
 
 #: castellum/recruitment/templates/recruitment/contact.html:119
 #: castellum/studies/templates/studies/study_detail.html:14
@@ -2321,7 +2321,7 @@ msgstr "Die folgenden Namen gibt es mehr als einmal:"
 
 #: castellum/subjects/templates/subjects/maintenance_showup.html:7
 msgid "The following subjects have a record of coming late or not at all:"
-msgstr "Die folgenden Proband*innen kommen oft zu spät oder garnicht:"
+msgstr "Die folgenden Proband*innen kommen oft zu spät oder gar nicht:"
 
 #: castellum/subjects/templates/subjects/maintenance_waiting.html:7
 msgid "The following subjects have been contacted for recruitment consent:"
