@@ -1104,6 +1104,11 @@ msgstr "Studientyp"
 msgid "Duration of sessions in minutes"
 msgstr "Sitzungsdauer in Minuten"
 
+#: castellum/recruitment/templates/recruitment/contact.html:153
+#: castellum/studies/templates/studies/study_exclusioncriteria.html:15
+msgid "General criteria"
+msgstr "Allgemeine Kriterien"
+
 #: castellum/recruitment/templates/recruitment/contact.html:184
 msgid ""
 "Participation cannot be set to \"invited\" yet. Please check the tabs marked "
