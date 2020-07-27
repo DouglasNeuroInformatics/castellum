@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='study',
             name='is_onetime_invitation',
-            field=models.BooleanField(default=False, help_text='Use this if you want to bypass the usual recruitment workflow and just send an email to subjects, e.g. to invite them to an anonymous online survey.', verbose_name='Is a one time invitation'),
+            field=models.BooleanField(default=False, help_text='Use this if you want to skip the usual recruitment workflow and just send an email to subjects, e.g. to invite them to an anonymous online survey.', verbose_name='Is a one time invitation'),
         ),
     ]
