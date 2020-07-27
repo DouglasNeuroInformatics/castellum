@@ -58,7 +58,7 @@ class Appointment(models.Model):
     show_up = models.SmallIntegerField(_('Show up'), default=SHOWUP, choices=SHOWUP_CHOICES)
 
     class Meta:
-        ordering = ('start',)
+        ordering = ['start']
         unique_together = ['session', 'participation']
         permissions = [
             ('view_current_appointments', _('Can view current appointments')),

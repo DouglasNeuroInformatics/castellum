@@ -22,8 +22,8 @@ class Migration(migrations.Migration):
                 ('session', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='studies.StudySession', verbose_name='Session')),
             ],
             options={
-                'ordering': ('start',),
-                'unique_together': {('session', 'participant')},
+                'ordering': ['start'],
+                'unique_together': [('session', 'participant')],
             },
         ),
     ]

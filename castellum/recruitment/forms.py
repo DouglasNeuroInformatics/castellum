@@ -142,7 +142,7 @@ class AttributeSetForm(forms.ModelForm):
 
     class Meta:
         model = AttributeSet
-        exclude = ('data',)
+        exclude = ['data']
         widgets = {
             'study_type_disinterest': forms.CheckboxSelectMultiple(),
         }

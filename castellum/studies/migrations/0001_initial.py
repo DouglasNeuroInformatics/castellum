@@ -51,7 +51,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'ordering': ['name'],
-                'permissions': (('access_study', 'Can access studies'),),
+                'permissions': [('access_study', 'Can access studies')],
             },
         ),
         migrations.CreateModel(

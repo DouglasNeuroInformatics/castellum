@@ -185,7 +185,7 @@ class AttributeDescriptionManager(TranslatableManager):
 
 
 class AttributeDescription(ImportMixin, TranslatableModel):
-    FIELD_TYPE_CHOICES = (
+    FIELD_TYPE_CHOICES = [
         ('CharField', _('CharField')),
         ('ChoiceField', _('ChoiceField')),
         ('MultipleChoiceField', _('MultipleChoiceField')),
@@ -194,11 +194,11 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         ('BooleanField', _('BooleanField')),
         ('DateField', _('DateField')),
         ('AgeField', _('AgeField')),
-    )
-    STATISTICS_RANK_CHOICES = (
+    ]
+    STATISTICS_RANK_CHOICES = [
         ('primary', _('primary')),
         ('secondary', _('secondary')),
-    )
+    ]
     STATISTICS_TYPES = ['ChoiceField', 'OrderedChoiceField', 'BooleanField', 'AgeField']
 
     import_fields = ['field_type', 'privacy_level_read', 'privacy_level_write', 'order']

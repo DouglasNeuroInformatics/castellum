@@ -218,7 +218,7 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
         duplicate_pk = self.request.GET['duplicate_pk']
         study = get_object_or_404(Study, pk=duplicate_pk)
 
-        perms = ('studies.access_study', 'studies.change_study')
+        perms = ['studies.access_study', 'studies.change_study']
         if not self.request.user.has_perms(perms, study):
             raise PermissionDenied()
 

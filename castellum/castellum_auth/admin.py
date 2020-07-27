@@ -55,7 +55,7 @@ class UserAdmin(BaseUserAdmin):
     add_form = UserCreationAdminForm
     list_display = BaseUserAdmin.list_display + (expiration_date_repr,)
     actions = ['list_permissions']
-    fieldsets = (
+    fieldsets = [
         (None, {
             'fields': ('username', 'password')
         }),
@@ -68,7 +68,7 @@ class UserAdmin(BaseUserAdmin):
         (_('important dates'), {
             'fields': ('last_login', 'date_joined', 'expiration_date', 'logout_timeout')
         }),
-    )
+    ]
 
     def list_permissions(self, request, queryset):
         return render(request, 'admin/castellum_auth/user_permissions.html', {

@@ -110,7 +110,7 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
 
 class BaseAdditionalInfoUpdateView(PermissionRequiredMixin, UpdateView):
     model = Subject
-    fields = (
+    fields = [
         'note_hard_of_hearing',
         'note_difficult_to_understand',
         'note_abusive_language',
@@ -121,17 +121,17 @@ class BaseAdditionalInfoUpdateView(PermissionRequiredMixin, UpdateView):
         'availability_friday',
         'not_available_until',
         'source',
-    )
+    ]
     permission_required = 'subjects.change_subject'
     template_name = 'subjects/subject_additional_info_form.html'
 
     def get_notes_form(self):
-        form_class = forms.modelform_factory(SubjectNote, fields=('content',))
+        form_class = forms.modelform_factory(SubjectNote, fields=['content'])
         return form_class(prefix='{prefix}')
 
     def get_notes_formset(self):
         formset_class = forms.modelformset_factory(
-            SubjectNote, fields=('content',), extra=0, can_delete=True
+            SubjectNote, fields=['content'], extra=0, can_delete=True
         )
         kwargs = self.get_form_kwargs()
         kwargs.pop('instance')

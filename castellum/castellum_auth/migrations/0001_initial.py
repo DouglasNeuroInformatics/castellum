@@ -38,8 +38,8 @@ class Migration(migrations.Migration):
                 ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.Permission', verbose_name='user permissions')),
             ],
             options={
-                'ordering': ('username',),
-                'permissions': (('privacy_level_1', 'Can access privacy level 1'), ('privacy_level_2', 'Can access privacy level 2')),
+                'ordering': ['username'],
+                'permissions': [('privacy_level_1', 'Can access privacy level 1'), ('privacy_level_2', 'Can access privacy level 2')],
             },
             managers=[
                 ('objects', django.contrib.auth.models.UserManager()),
