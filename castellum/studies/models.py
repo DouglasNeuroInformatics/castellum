@@ -176,7 +176,7 @@ class Study(models.Model):
     is_onetime_invitation = models.BooleanField(
         _('Is a one time invitation'),
         help_text=_(
-            'Use this if you want to bypass the usual recruitment workflow and just send an '
+            'Use this if you want to skip the usual recruitment workflow and just send an '
             'email to subjects, e.g. to invite them to an anonymous online survey.'
         ),
         default=False

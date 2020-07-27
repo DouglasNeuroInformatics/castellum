@@ -1546,10 +1546,10 @@ msgstr "Ist eine einmalige Einladung"
 
 #: castellum/studies/models.py:179
 msgid ""
-"Use this if you want to bypass the usual recruitment workflow and just send "
+"Use this if you want to skip the usual recruitment workflow and just send "
 "an email to subjects, e.g. to invite them to an anonymous online survey."
 msgstr ""
-"Diese Option erlaubt es, den üblichen Rekrutierungsprozess zu umgehen und "
+"Diese Option erlaubt es, den üblichen Rekrutierungsprozess auszulassen und "
 "nur eine E-Mail an die Proband*innen zu verschicken, z.B. um sie zu einer "
 "anonymen Umfrage einzuladen."
 
