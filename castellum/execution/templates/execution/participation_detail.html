@@ -14,6 +14,11 @@
         <li class="nav-item">
             <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">{% trans "Overview" %}</a>
         </li>
+        {% if study.has_exclusion_criteria %}
+            <li class="nav-item">
+                <a class="nav-link" id="criteria-tab" data-toggle="tab" href="#criteria" role="tab" aria-controls="criteria" aria-selected="false">{% trans 'Criteria' %}</a>
+            </li>
+        {% endif %}
         {% if study.studysession_set.exists %}
             <li class="nav-item">
                 <a class="nav-link" id="appointments-tab" data-toggle="tab" href="#appointments" role="tab" aria-controls="appointments" aria-selected="false">{% trans 'Appointments' %}</a>
@@ -54,6 +59,24 @@
                 </a>
             {% endif %}
         </div>
+
+        {% if study.has_exclusion_criteria %}
+            <div class="tab-pane" id="criteria" role="tabpanel" aria-labelledby="criteria-tab">
+                {% if study.exclusion_criteria %}
+                    {{ study.exclusion_criteria|linebreaks }}
+                {% endif %}
+                {% for study_type in study.study_type.all %}
+                    {% if study_type.exclusion_criteria %}
+                        <h2>{{ study_type.label }}</h2>
+                        {{ study_type.exclusion_criteria|linebreaks }}
+                    {% endif %}
+                {% endfor %}
+                {% if general_criteria %}
+                    <h2>{% trans 'General criteria' %}</h2>
+                    {{ general_criteria|linebreaks }}
+                {% endif %}
+            </div>
+        {% endif %}
 
         {% if study.studysession_set.exists %}
             <div class="tab-pane" id="appointments" role="tabpanel" aria-labelledby="appointments-tab">

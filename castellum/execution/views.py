@@ -22,6 +22,7 @@
 import datetime
 
 from django import forms
+from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
@@ -92,6 +93,8 @@ class ParticipationDetailView(
         for session, appointment in self.object.get_appointments():
             form = form_cls(instance=appointment)
             context['appointments'].append((session, appointment, form))
+
+        context['general_criteria'] = settings.CASTELLUM_GENERAL_EXCLUSION_CRITERIA
 
         return context
 
