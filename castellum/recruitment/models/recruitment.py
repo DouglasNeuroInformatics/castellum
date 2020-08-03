@@ -42,8 +42,6 @@ class ParticipationManager(models.Manager):
         other_status_at = others.order_by('-created_at').values('created_at')[:1]
 
         return super().get_queryset().annotate(
-            updated_at=models.Max('revisions__created_at'),
-            created_at=models.Min('revisions__created_at'),
             status_not_reached=models.Count(
                 'id',
                 filter=models.Q(status__in=[
@@ -65,11 +63,11 @@ class ParticipationManager(models.Manager):
                 distinct=True,
             ),
             last_contacted_elsewhere=models.Max(
-                'subject__participation__revisions__created_at',
+                'subject__participation__updated_at',
                 filter=(
                     ~models.Q(subject__participation__study=models.F('study'))
                     & ~models.Q(
-                        subject__participation__revisions__status=Participation.NOT_CONTACTED
+                        subject__participation__status=Participation.NOT_CONTACTED
                     )
                 ),
             ),
@@ -91,6 +89,9 @@ class Participation(models.Model):
         (FOLLOWUP_APPOINTED, _('follow-up scheduled')),
         (AWAITING_RESPONSE, _('awaiting response')),
     ]
+
+    created_at = DateTimeField(_('created at'), auto_now_add=True)
+    updated_at = DateTimeField(_('updated at'), auto_now=True)
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, editable=False)
     study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)

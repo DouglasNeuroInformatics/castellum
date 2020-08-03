@@ -4,7 +4,6 @@ from model_bakery import baker
 
 from castellum.pseudonyms.models import Pseudonym
 from castellum.recruitment.models import Participation
-from castellum.recruitment.models import ParticipationRevision
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 
@@ -20,14 +19,11 @@ def test_last_contacted_elsewhere():
         participation_2 = baker.make(Participation, study=study_2, subject=subject)
 
     with freeze_time("2011-11-11 11:11"):
-        revision = baker.make(
-            ParticipationRevision,
-            current=participation_2,
-            status=Participation.NOT_REACHED,
-        )
+        participation_2.status = Participation.NOT_REACHED
+        participation_2.save()
 
     participation_1 = Participation.objects.get(pk=participation_1.pk)
-    assert participation_1.last_contacted_elsewhere == revision.created_at
+    assert participation_1.last_contacted_elsewhere == participation_2.updated_at
 
 
 @pytest.mark.django_db
@@ -41,24 +37,17 @@ def test_last_contacted_elsewhere_several_others():
         participation_2 = baker.make(Participation, study=study_2, subject=subject)
 
     with freeze_time("2020-12-13 08:00"):
-        baker.make(ParticipationRevision, current=participation_1)
+        participation_1.save()
 
     with freeze_time("2011-11-11 11:11"):
-        baker.make(
-            ParticipationRevision,
-            current=participation_2,
-            status=Participation.NOT_REACHED,
-        )
+        participation_2.status = Participation.NOT_REACHED
+        participation_2.save()
 
     with freeze_time("2021-11-11 11:11"):
-        revision = baker.make(
-            ParticipationRevision,
-            current=participation_2,
-            status=Participation.NOT_REACHED,
-        )
+        participation_2.save()
 
     participation_1 = Participation.objects.get(pk=participation_1.pk)
-    assert participation_1.last_contacted_elsewhere == revision.created_at
+    assert participation_1.last_contacted_elsewhere == participation_2.updated_at
 
 
 @pytest.mark.django_db
@@ -70,18 +59,11 @@ def test_last_contacted_elsewhere_no_others():
         participation_1 = baker.make(Participation, study=study_1, subject=subject)
 
     with freeze_time("2011-11-11 11:11"):
-        baker.make(
-            ParticipationRevision,
-            current=participation_1,
-            status=Participation.NOT_REACHED,
-        )
+        participation_1.status = Participation.NOT_REACHED
+        participation_1.save()
 
     with freeze_time("2021-11-11 11:11"):
-        baker.make(
-            ParticipationRevision,
-            current=participation_1,
-            status=Participation.NOT_REACHED,
-        )
+        participation_1.save()
 
     participation_1 = Participation.objects.get(pk=participation_1.pk)
     assert participation_1.last_contacted_elsewhere is None
@@ -100,21 +82,15 @@ def test_last_contacted_elsewhere_several_studies():
         participation_3 = baker.make(Participation, study=study_3, subject=subject)
 
     with freeze_time("2011-11-11 11:11"):
-        baker.make(
-            ParticipationRevision,
-            current=participation_2,
-            status=Participation.NOT_REACHED,
-        )
+        participation_2.status = Participation.NOT_REACHED
+        participation_2.save()
 
     with freeze_time("2021-11-11 11:11"):
-        revision = baker.make(
-            ParticipationRevision,
-            current=participation_3,
-            status=Participation.NOT_REACHED,
-        )
+        participation_3.status = Participation.NOT_REACHED
+        participation_3.save()
 
     participation_1 = Participation.objects.get(pk=participation_1.pk)
-    assert participation_1.last_contacted_elsewhere == revision.created_at
+    assert participation_1.last_contacted_elsewhere == participation_3.updated_at
 
 
 @pytest.mark.django_db
@@ -128,11 +104,8 @@ def test_last_contacted_elsewhere_not_contacted():
         participation_2 = baker.make(Participation, study=study_2, subject=subject)
 
     with freeze_time("2011-11-11 11:11"):
-        baker.make(
-            ParticipationRevision,
-            current=participation_2,
-            status=Participation.NOT_CONTACTED,
-        )
+        participation_2.status = Participation.NOT_CONTACTED
+        participation_2.save()
 
     participation_1 = Participation.objects.get(pk=participation_1.pk)
     assert participation_1.last_contacted_elsewhere is None

@@ -69,9 +69,9 @@ def get_recruitable(study):
 
     last_contacted = timezone.now() - settings.CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS
     qs = qs.annotate(last_contacted=models.Max(
-        'participation__revisions__created_at',
+        'participation__updated_at',
         filter=~models.Q(
-            participation__revisions__status=Participation.NOT_CONTACTED
+            participation__status=Participation.NOT_CONTACTED
         ),
     )).filter(
         models.Q(last_contacted__lte=last_contacted) |
