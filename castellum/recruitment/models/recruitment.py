@@ -36,11 +36,6 @@ from castellum.utils.fields import DateTimeField
 
 class ParticipationManager(models.Manager):
     def get_queryset(self):
-        others = ParticipationRevision.objects\
-            .filter(current_id=models.OuterRef('id'))\
-            .exclude(status=models.OuterRef('status'))
-        other_status_at = others.order_by('-created_at').values('created_at')[:1]
-
         return super().get_queryset().annotate(
             status_not_reached=models.Count(
                 'id',
@@ -52,15 +47,6 @@ class ParticipationManager(models.Manager):
             ),
             followup_urgent=models.Count(
                 'id', filter=models.Q(followup_date__lte=datetime.date.today())
-            ),
-            other_status_at=models.Subquery(other_status_at),
-            tries=models.Count(
-                'revisions',
-                filter=(
-                    models.Q(revisions__created_at__gt=models.F('other_status_at')) |
-                    models.Q(other_status_at__isnull=True)
-                ),
-                distinct=True,
             ),
             last_contacted_elsewhere=models.Max(
                 'subject__participation__updated_at',
@@ -101,6 +87,8 @@ class Participation(models.Model):
     )
     exclusion_criteria_checked = models.BooleanField(_('Subject may be suitable'), default=False)
 
+    tries = models.IntegerField(_('Tries'), default=0)
+
     followup_date = DateField(_('Follow-up date'), blank=True, null=True)
     followup_time = models.TimeField(_('Follow-up time'), blank=True, null=True)
 
@@ -115,6 +103,10 @@ class Participation(models.Model):
             ('search_participations', _('Can search for any participation')),
             ('recruit', _('Can recruit')),
         ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._old_status = self.status
 
     @property
     def status_open(self):
@@ -172,6 +164,10 @@ class Participation(models.Model):
             raise ValidationError(msg, code='invalid')
 
     def save(self, *args, **kwargs):
+        if self.status == self._old_status:
+            self.tries += 1
+        else:
+            self.tries = 0
         super().save(*args, **kwargs)
         ParticipationRevision.objects.create(
             current=self,
