@@ -7,7 +7,6 @@ from model_bakery import baker
 from castellum.contacts.models import Contact
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import Participation
-from castellum.recruitment.models import ParticipationRevision
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.subjects.models import Consent
@@ -112,19 +111,6 @@ def test_no_matching_attribute_sets(
     assert len(messages) == 1
     assert str(messages[0]) == "No potential participants could be found for this study."
     assert response.status_code == 200
-
-
-def test_create_revision_on_create(client, member, attributeset, study_in_execution_status):
-    baker.make(Consent, subject=attributeset.subject, status=Consent.CONFIRMED)
-
-    study_in_execution_status.min_subject_count = 5
-    study_in_execution_status.save()
-
-    client.force_login(member)
-    url = "/recruitment/{}/".format(study_in_execution_status.pk)
-    client.post(url)
-
-    assert ParticipationRevision.objects.count() == 1
 
 
 def create_attributeset():

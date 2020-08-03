@@ -169,41 +169,6 @@ class Participation(models.Model):
         else:
             self.tries = 0
         super().save(*args, **kwargs)
-        ParticipationRevision.objects.create(
-            current=self,
-            status=self.status,
-            exclusion_criteria_checked=self.exclusion_criteria_checked,
-            followup_date=self.followup_date,
-            followup_time=self.followup_time,
-        )
-
-
-class ParticipationRevision(models.Model):
-    """Revision history for Participation.
-
-    Each time a Participation is saved, an instance of ParticipationRevision
-    is created. This way, we have a history of the Participation.
-
-    The history is saved in separate model because of these reasons:
-
-    -   ``Participation.pseudonym`` is unique.
-    -   Saving the history in the same Participation model would degrade
-        performance because the table would be filled up with old revision.
-    """
-
-    current = models.ForeignKey(
-        Participation, related_name='revisions', on_delete=models.CASCADE
-    )
-    status = models.IntegerField(
-        choices=Participation.STATUS_OPTIONS, default=Participation.NOT_CONTACTED
-    )
-    exclusion_criteria_checked = models.BooleanField()
-    followup_date = DateField(blank=True, null=True)
-    followup_time = models.TimeField(blank=True, null=True)
-    created_at = DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return '{}: {}'.format(self.created_at, self.get_status_display())
 
 
 class MailBatch(models.Model):

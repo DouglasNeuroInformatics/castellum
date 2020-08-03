@@ -5,7 +5,6 @@ from model_bakery import baker
 
 from castellum.recruitment.models import Appointment
 from castellum.recruitment.models import Participation
-from castellum.recruitment.models import ParticipationRevision
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
 from castellum.studies.models import StudySession
@@ -58,14 +57,6 @@ def test_post_updated_at(client, member, participation):
     client.post(url, {'status': Participation.UNSUITABLE})
     participation = Participation.objects.get()
     assert participation.updated_at.strftime('%Y-%m-%d') == '2018-01-01'
-
-
-def test_create_revision_on_update(client, member, participation):
-    client.force_login(member)
-    url = '/recruitment/{}/{}/'.format(participation.study.pk, participation.pk)
-    client.post(url, {'status': 2})
-
-    assert ParticipationRevision.objects.count() == 2
 
 
 def test_post_redirect_from_contacts(client, member, participation):

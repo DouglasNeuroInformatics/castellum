@@ -40,7 +40,6 @@ from .models import AttributeChoice
 from .models import AttributeDescription
 from .models import AttributeSet
 from .models import Participation
-from .models import ParticipationRevision
 from .models import SubjectFilter
 from .models import SubjectFilterGroup
 
@@ -153,6 +152,5 @@ admin.site.register(AttributeCategory, AttributeCategoryAdmin)
 admin.site.register(AttributeDescription, AttributeDescriptionAdmin)
 admin.site.register(AttributeSet)
 admin.site.register(Participation)
-admin.site.register(ParticipationRevision)
 admin.site.register(SubjectFilter)
 admin.site.register(SubjectFilterGroup)
