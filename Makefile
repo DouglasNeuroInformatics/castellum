@@ -38,6 +38,7 @@ remove_databases:
 .PHONY: databases
 databases:
 	docker-compose up -d
+	docker-compose up db_wait
 
 .PHONY: reset_databases
 reset_databases: remove_databases migrate populate
