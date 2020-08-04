@@ -171,6 +171,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
 
 class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
+    query_pk_and_slug = True
     permission_required = 'subjects.view_subject'
     template_name = 'subjects/subject_detail.html'
     tab = 'detail'
@@ -196,6 +197,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
 class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     model = Subject
+    query_pk_and_slug = True
     permission_required = 'subjects.delete_subject'
     tab = 'delete'
 
@@ -227,6 +229,7 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
 
 class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
+    query_pk_and_slug = True
     template_name = 'subjects/subject_export.html'
     permission_required = 'subjects.export_subject'
     tab = 'export'
@@ -271,6 +274,8 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
 
 class SubjectUpdateMixin(SubjectMixin):
+    query_pk_and_slug = True
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['base_template'] = 'subjects/subject_base.html'
@@ -292,32 +297,32 @@ class AdditionalInfoUpdateView(SubjectUpdateMixin, BaseAdditionalInfoUpdateView)
     tab = 'additional-info'
 
     def get_success_url(self):
-        return reverse('subjects:additional-info', args=[self.object.pk])
+        return reverse('subjects:additional-info', args=[self.subject.pk, self.subject.slug])
 
 
 class ContactUpdateView(SubjectUpdateMixin, BaseContactUpdateView):
     tab = 'contact'
 
     def get_object(self):
-        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
+        subject = get_object_or_404(Subject, pk=self.kwargs['pk'], slug=self.kwargs['slug'])
         return subject.contact
 
     def get_success_url(self):
-        return reverse('subjects:contact', args=[self.object.subject.pk])
+        return reverse('subjects:contact', args=[self.subject.pk, self.subject.slug])
 
 
 class AttributeSetUpdateView(SubjectUpdateMixin, BaseAttributeSetUpdateView):
     tab = 'attributeset'
 
     def get_object(self):
-        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
+        subject = get_object_or_404(Subject, pk=self.kwargs['pk'], slug=self.kwargs['slug'])
         attributeset, __ = AttributeSet.objects.get_or_create(
             subject=subject, defaults={'data': {}}
         )
         return attributeset
 
     def get_success_url(self):
-        return reverse('subjects:attributeset', args=[self.object.subject.pk])
+        return reverse('subjects:attributeset', args=[self.subject.pk, self.subject.slug])
 
 
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
@@ -328,7 +333,7 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
 
     @cached_property
     def subject(self):
-        return get_object_or_404(Subject, pk=self.kwargs['pk'])
+        return get_object_or_404(Subject, pk=self.kwargs['pk'], slug=self.kwargs['slug'])
 
     def is_permitted(self, study):
         return self.request.user.has_perm('studies.access_study', obj=study) and (
@@ -359,9 +364,10 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
     permission_required = ['studies.access_study', 'subjects.delete_subject']
 
     def get_object(self):
-        return get_object_or_404(
-            Participation, pk=self.kwargs['pk'], subject_id=self.kwargs['subject_pk']
+        subject = get_object_or_404(
+            Subject, pk=self.kwargs['subject_pk'], slug=self.kwargs['subject_slug']
         )
+        return get_object_or_404(Participation, pk=self.kwargs['pk'], subject=subject)
 
     def get_success_url(self):
         return reverse('subjects:delete', args=[self.subject.pk])
@@ -376,6 +382,7 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 
 class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
+    query_pk_and_slug = True
     template_name = 'subjects/subject_add_to_study.html'
     permission_required = 'subjects.view_subject'
     tab = 'participations'
@@ -630,6 +637,7 @@ class MaintenanceShowupView(BaseMaintenanceView):
 
 class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):
     model = Subject
+    query_pk_and_slug = True
     permission_required = 'subjects.view_subject'
 
     def get_data(self):
