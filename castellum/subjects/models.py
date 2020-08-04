@@ -24,6 +24,7 @@ import datetime
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.utils.crypto import get_random_string
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
@@ -32,6 +33,10 @@ from dateutil.relativedelta import relativedelta
 from castellum.utils.fields import DateTimeField
 from castellum.utils.fields import RestrictedFileField
 from castellum.utils.models import TimeStampedModel
+
+
+def generate_slug():
+    return get_random_string(6)
 
 
 class TimeSlot(models.Model):
@@ -73,6 +78,8 @@ class SubjectManager(models.Manager):
 
 
 class Subject(TimeStampedModel):
+    slug = models.CharField(_('Slug'), max_length=6, default=generate_slug)
+
     privacy_level = models.PositiveIntegerField(
         _('Privacy level'),
         default=0,
