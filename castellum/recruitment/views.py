@@ -80,11 +80,11 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             order_by = ['followup_date', 'followup_time', '-updated_at']
         elif self.sort == 'last_contact_attempt':
             order_by = ['-status_not_reached', '-updated_at']
-        elif self.sort == 'statistics':
+        elif (self.sort or '').startswith('stat-'):
+            pk = int(self.sort[5:])
+            desc = self.study.stat_attributes.get(pk=pk)
             order_by = [
-                '-subject__attributeset__data__' + desc.json_key
-                for desc in self.study.stat_attributes.all()
-            ] + [
+                'subject__attributeset__data__' + desc.json_key,
                 '-updated_at',
             ]
         else:
@@ -165,8 +165,9 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ('relevance', _('Relevance')),
             ('followup', _('Follow-up date')),
             ('last_contact_attempt', _('Last contact attempt')),
-            ('statistics', _('Statistics')),
         ]
+        for desc in self.study.stat_attributes.all():
+            context['sort_options'].append(('stat-%i' % desc.pk, desc.label))
         sort_options = dict(context['sort_options'])
         context['sort_label'] = sort_options.get(self.sort, _('Relevance'))
 
