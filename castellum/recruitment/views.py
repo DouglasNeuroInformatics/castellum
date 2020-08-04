@@ -99,38 +99,39 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             .order_by(*order_by)
 
     def get_statistics(self):
+        charts = []
+
         participations = Participation.objects.filter(
             study=self.study, status=Participation.INVITED
         ).prefetch_related('subject__attributeset')
 
-        buckets1 = AttributeDescription.get_statistics_buckets('primary')
-        buckets2 = AttributeDescription.get_statistics_buckets('secondary')
-
-        if len(buckets1) == 1:
-            return None
-
-        statistics = defaultdict(lambda: defaultdict(lambda: 0))
-        for participation in participations:
-            try:
-                attributeset = participation.subject.attributeset
-                key1 = attributeset.get_statistics_bucket('primary')
-                key2 = attributeset.get_statistics_bucket('secondary')
-                statistics[key1][key2] += 1
-            except AttributeSet.DoesNotExist:
-                pass
-
-        data = {
-            'rows': [{
-                'label': str(label1),
-                'values': [statistics[key1][key2] for key2, label2 in buckets2]
-            } for key1, label1 in buckets1],
-        }
-
-        if len(buckets2) > 1:
-            data['legend'] = [str(label2) for key2, label2 in buckets2]
-
         renderer = StackedColumnRenderer(width=760, height=320)
-        return renderer.render(data)
+
+        for description in self.study.stat_attributes.all():
+            buckets = description.field.get_statistics_buckets() + [
+                (None, _('Other')),
+            ]
+            statistics = defaultdict(lambda: 0)
+            for participation in participations:
+                try:
+                    attributeset = participation.subject.attributeset
+                    value = description.field.from_json(attributeset.data.get(description.json_key))
+                    if not value or value == ANSWER_DECLINED:
+                        bucket = None
+                    else:
+                        bucket = description.field.get_statistics_bucket(value)
+                    statistics[bucket] += 1
+                except AttributeSet.DoesNotExist:
+                    pass
+
+            charts.append(renderer.render({
+                'rows': [{
+                    'label': label,
+                    'values': [statistics[key]]
+                } for key, label in buckets],
+            }))
+
+        return '\n'.join(charts)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
