@@ -191,6 +191,14 @@ class Study(models.Model):
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
 
+    exportable_attributes = models.ManyToManyField(
+        'recruitment.AttributeDescription',
+        verbose_name=_('Exportable attributes'),
+        related_name='+',
+        blank=True,
+        limit_choices_to={'privacy_level_read': 0},
+    )
+
     mail_subject = models.CharField(_('E-mail subject'), max_length=254, blank=True)
     mail_body = models.TextField(
         _('E-mail body'),
