@@ -150,7 +150,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
                     else:
                         bucket = description.field.get_statistics_bucket(value)
                         label = str(buckets.get(bucket, bucket))
-                    stats.append(label)
+                    stats.append((description.label, label))
             except AttributeSet.DoesNotExist:
                 stats = []
 
@@ -158,7 +158,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
                 participation.subject.privacy_level
             )
 
-            participations.append((participation, ', '.join(stats), can_access))
+            participations.append((participation, stats, can_access))
         context['participations'] = participations
 
         context['sort_options'] = [
