@@ -46,5 +46,6 @@
         <a href="{% url 'execution:resolve' study.pk %}" class="btn btn-secondary">{% translate 'Resolve pseudonym' %}</a>
         <a href="{% url 'execution:calendar' study.pk %}" class="btn btn-secondary">{% translate 'Calendar' %}</a>
         <a href="{% url 'execution:news-mail' study.pk %}" class="btn btn-secondary">{% translate 'News mail' %}</a>
+        <a href="?csv" class="btn btn-secondary">{% trans 'Export as CSV' %}</a>
     </div>
 {% endblock %}
