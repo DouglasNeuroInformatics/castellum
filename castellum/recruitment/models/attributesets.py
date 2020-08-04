@@ -90,7 +90,7 @@ class AttributeSet(TimeStampedModel):
 
     def get_data(self):
         qs = AttributeDescription.objects.all()
-        return {desc.json_key: desc.field.from_json(self.data.get(desc.json_key)) for desc in qs}
+        return {desc.json_key: self.data.get(desc.json_key) for desc in qs}
 
     def get_verbose_name(self, pk):
         description = AttributeDescription.objects.get(pk=pk)

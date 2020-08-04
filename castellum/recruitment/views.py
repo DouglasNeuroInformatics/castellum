@@ -112,7 +112,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             for participation in participations:
                 try:
                     attributeset = participation.subject.attributeset
-                    value = description.field.from_json(attributeset.data.get(description.json_key))
+                    value = attributeset.data.get(description.json_key)
                     if not value or value == ANSWER_DECLINED:
                         bucket = None
                     else:

@@ -161,7 +161,7 @@ class Participation(models.Model):
         stats = []
         for description in self.study.stat_attributes.all():
             buckets = dict(description.field.get_statistics_buckets())
-            value = description.field.from_json(attributeset.data.get(description.json_key))
+            value = attributeset.data.get(description.json_key)
             if not value or value == ANSWER_DECLINED:
                 label = _('Other')
             else:
