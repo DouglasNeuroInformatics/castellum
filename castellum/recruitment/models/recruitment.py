@@ -161,8 +161,11 @@ class Participation(models.Model):
         stats = []
         for description, buckets in get_stat_context(self.study_id):
             value = attributeset.data.get(description.json_key)
-            bucket = description.field.get_statistics_bucket(value)
-            label = dict(buckets).get(bucket, bucket)
+            if len(buckets) > 1:
+                bucket = description.field.get_statistics_bucket(value)
+                label = dict(buckets)[bucket]
+            else:
+                label = description.field.get_display(value)
             stats.append((description.label, label))
         return stats
 
