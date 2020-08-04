@@ -34,6 +34,9 @@
         {% empty %}
             <li class="alert alert-warning" role="alert">{% trans 'No participations found' %}</li>
         {% endfor %}
+        <div class="my-1 text-right">
+            <a href="?csv" class="btn btn-light btn-sm">{% trans 'Export as CSV' %}</a>
+        </div>
     </ul>
 
     <div class="d-print-none mb-3">
