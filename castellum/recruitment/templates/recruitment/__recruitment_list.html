@@ -1,8 +1,9 @@
 {% load i18n auth utils %}
 
 <ul class="table-list mt-3">
-    {% for participation, can_access in participations %}
+    {% for participation in object_list %}
         <li class="table-list-item">
+            {% has_privacy_level participation.subject.privacy_level user as can_access %}
             {% if can_access %}
                 {% if participation.status == participation.FOLLOWUP_APPOINTED %}
                     <div>

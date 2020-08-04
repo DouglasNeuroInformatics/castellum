@@ -133,15 +133,6 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        participations = []
-        for participation in self.get_queryset():
-            can_access = self.request.user.has_privacy_level(
-                participation.subject.privacy_level
-            )
-
-            participations.append((participation, can_access))
-        context['participations'] = participations
-
         context['sort_options'] = [
             ('relevance', _('Relevance')),
             ('followup', _('Follow-up date')),
