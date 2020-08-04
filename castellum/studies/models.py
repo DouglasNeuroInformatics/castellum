@@ -193,7 +193,7 @@ class Study(models.Model):
     stat_attributes = models.ManyToManyField(
         'recruitment.AttributeDescription',
         verbose_name=_('Relevant attributes for recruitment'),
-        related_name='+',
+        related_name='stat_studies',
         blank=True,
         limit_choices_to={'privacy_level_read': 0}
     )

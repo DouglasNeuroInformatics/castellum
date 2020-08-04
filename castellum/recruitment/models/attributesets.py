@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import functools
 from collections import OrderedDict
 
 from django.contrib.postgres.fields import JSONField
@@ -42,6 +43,15 @@ from .. import attribute_fields
 from ..attribute_fields import ANSWER_DECLINED  # noqa
 
 UNCATEGORIZED = "UNCATEGORIZED"
+
+
+@functools.lru_cache()
+def get_stat_context(study_pk):
+    result = []
+    for description in AttributeDescription.objects.filter(stat_studies__pk=study_pk):
+        buckets = description.field.get_statistics_buckets()
+        result.append((description, buckets))
+    return result
 
 
 class ImportMixin:

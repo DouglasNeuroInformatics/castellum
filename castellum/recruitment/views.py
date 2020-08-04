@@ -55,6 +55,7 @@ from .mixins import ParticipationMixin
 from .mixins import get_recruitable
 from .models import AttributeSet
 from .models import Participation
+from .models.attributesets import get_stat_context
 
 logger = logging.getLogger(__name__)
 
@@ -103,8 +104,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         renderer = StackedColumnRenderer(width=760, height=320)
 
-        for description in self.study.stat_attributes.all():
-            buckets = description.field.get_statistics_buckets()
+        for description, buckets in get_stat_context(self.study.pk):
             statistics = defaultdict(lambda: 0)
             for participation in participations:
                 try:

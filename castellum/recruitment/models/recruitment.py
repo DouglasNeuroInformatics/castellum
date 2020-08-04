@@ -33,6 +33,7 @@ from castellum.subjects.models import Subject
 from castellum.utils.fields import DateField
 from castellum.utils.fields import DateTimeField
 
+from .attributesets import get_stat_context
 
 
 class ParticipationManager(models.Manager):
@@ -158,11 +159,10 @@ class Participation(models.Model):
             return []
 
         stats = []
-        for description in self.study.stat_attributes.all():
-            buckets = dict(description.field.get_statistics_buckets())
+        for description, buckets in get_stat_context(self.study_id):
             value = attributeset.data.get(description.json_key)
             bucket = description.field.get_statistics_bucket(value)
-            label = str(buckets.get(bucket, bucket))
+            label = dict(buckets).get(bucket, bucket)
             stats.append((description.label, label))
         return stats
 
