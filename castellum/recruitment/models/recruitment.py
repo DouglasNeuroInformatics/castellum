@@ -76,6 +76,15 @@ class Participation(models.Model):
         (AWAITING_RESPONSE, _('awaiting response')),
     ]
 
+    NOT_INTERESTED = 1
+    VIA_POSTAL = 2
+    VIA_EMAIL = 3
+    OUTCOME_INTEREST_OPTIONS = [
+        (NOT_INTERESTED, _('not interested')),
+        (VIA_POSTAL, _('via postal mail')),
+        (VIA_EMAIL, _('via email')),
+    ]
+
     created_at = DateTimeField(_('created at'), auto_now_add=True)
     updated_at = DateTimeField(_('updated at'), auto_now=True)
 
@@ -91,6 +100,10 @@ class Participation(models.Model):
 
     followup_date = DateField(_('Follow-up date'), blank=True, null=True)
     followup_time = models.TimeField(_('Follow-up time'), blank=True, null=True)
+
+    outcome_interest = models.IntegerField(
+        _('Interest in study outcome'), choices=OUTCOME_INTEREST_OPTIONS, default=NOT_INTERESTED
+    )
 
     objects = ParticipationManager()
 
