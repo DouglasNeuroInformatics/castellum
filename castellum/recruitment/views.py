@@ -81,11 +81,10 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         elif self.sort == 'last_contact_attempt':
             order_by = ['-status_not_reached', '-updated_at']
         elif self.sort == 'statistics':
-            desc1 = get_description_by_statistics_rank('primary')
-            desc2 = get_description_by_statistics_rank('secondary')
             order_by = [
-                '-subject__attributeset__data__' + desc1.json_key,
-                '-subject__attributeset__data__' + desc2.json_key,
+                '-subject__attributeset__data__' + desc.json_key
+                for desc in self.study.stat_attributes.all()
+            ] + [
                 '-updated_at',
             ]
         else:
