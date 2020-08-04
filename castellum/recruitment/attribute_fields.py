@@ -86,16 +86,13 @@ class BaseAttributeField:
             else:
                 return q
 
-    def from_json(self, value):
-        return value
-
     def get_display(self, value):
         if value is None:
             return '—'
         elif value is ANSWER_DECLINED:
             return _('Declined to answer')
         else:
-            return self.from_json(value)
+            return value
 
     def get_filter_display(self, operator, value):
         operator = dict(self.available_operators)[operator]
@@ -115,11 +112,16 @@ class DateAttributeField(BaseAttributeField):
         ("gt", _("after")),
     ]
 
-    def from_json(self, value):
-        if value in [None, ANSWER_DECLINED]:
-            return value
+    def parse_date(self, value):
         dt = datetime.datetime.strptime(value, '%Y-%m-%d')
         return dt.date()
+
+    def get_display(self, value):
+        if not value:
+            return super().get_display(None)
+        if value == ANSWER_DECLINED:
+            return super().get_display(value)
+        return self.parse_date(value)
 
 
 class NumberAttributeField(BaseAttributeField):
@@ -262,6 +264,7 @@ class AgeAttributeField(DateAttributeField):
         return super().get_filter_display(operator, value)
 
     def get_statistics_bucket(self, value):
+        value = self.parse_date(value)
         today = datetime.date.today()
         if today < value + relativedelta(years=18):
             return '<18'

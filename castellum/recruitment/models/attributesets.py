@@ -99,7 +99,7 @@ class AttributeSet(TimeStampedModel):
 
     def get_data(self):
         qs = AttributeDescription.objects.all()
-        return {desc.json_key: desc.field.from_json(self.data.get(desc.json_key)) for desc in qs}
+        return {desc.json_key: self.data.get(desc.json_key) for desc in qs}
 
     def get_verbose_name(self, pk):
         description = AttributeDescription.objects.get(pk=pk)
@@ -117,7 +117,7 @@ class AttributeSet(TimeStampedModel):
         description = get_description_by_statistics_rank(rank)
         if not description:
             return None
-        value = description.field.from_json(self.data.get(description.json_key))
+        value = self.data.get(description.json_key)
 
         if not value or value == ANSWER_DECLINED:
             return None
