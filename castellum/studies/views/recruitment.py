@@ -73,6 +73,7 @@ class StudyRecruitmentSettingsUpdateView(
         'advanced_filtering',
         'recruitment_text',
         'is_exclusive',
+        'stat_attributes',
         'complete_matches_only',
     ]
     permission_required = 'studies.change_study'
