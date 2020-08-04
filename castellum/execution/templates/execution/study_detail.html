@@ -12,6 +12,9 @@
                 {% if can_access %}
                     <div class="d-inline-block my-1 mr-2">
                         {{ participation.subject.contact.full_name }}
+                        {% for key, value in participation.stats %}
+                            <span class="badge badge-light">{{ key }}: {{ value }}</span>
+                        {% endfor %}
                         {% if participation.appointment_today %}
                             <span class="badge badge-primary">{% trans 'today' %}</span>
                         {% endif %}

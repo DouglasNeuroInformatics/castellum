@@ -6,6 +6,11 @@
 {% block header %}
     <div class="container text-center my-4">
         <h1>{{ subject.contact.full_name }}</h1>
+        <div>
+            {% for key, value in participation.stats %}
+                <span class="badge badge-light">{{ key }}: {{ value }}</span>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
 
