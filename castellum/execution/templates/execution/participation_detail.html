@@ -14,6 +14,9 @@
         <li class="nav-item">
             <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">{% trans "Overview" %}</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" id="outcome-tab" data-toggle="tab" href="#outcome" role="tab" aria-controls="outcome" aria-selected="true">{% trans "Outcome" %}</a>
+        </li>
         {% if study.has_exclusion_criteria %}
             <li class="nav-item">
                 <a class="nav-link" id="criteria-tab" data-toggle="tab" href="#criteria" role="tab" aria-controls="criteria" aria-selected="false">{% trans 'Criteria' %}</a>
@@ -58,6 +61,14 @@
                     {% trans 'Edit additional info' %}
                 </a>
             {% endif %}
+        </div>
+
+        <div class="tab-pane" id="outcome" role="tabpanel" aria-labelledby="outcome-tab">
+            <form method="post">
+                {% csrf_token %}
+                {% bootstrap_field form.outcome_interest %}
+                <button class="btn btn-primary">{% trans 'Submit' %}</button>
+            </form>
         </div>
 
         {% if study.has_exclusion_criteria %}
