@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import csv
 import datetime
 
 from django import forms
@@ -26,6 +27,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -83,6 +85,33 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
         context['session_count'] = self.study.studysession_set.count()
 
         return context
+
+    def export_csv(self):
+        fieldnames = ['pseudonym']
+        attr_descs = list(self.study.exportable_attributes.all())
+        for desc in attr_descs:
+            fieldnames.append(desc.label)
+
+        response = HttpResponse(content_type='text/csv')
+        writer = csv.DictWriter(response, fieldnames=fieldnames)
+        writer.writeheader()
+
+        for participation in self.study.participation_set.filter(status=Participation.INVITED):
+            has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
+            if has_access:
+                row = {'pseudonym': participation.pseudonym}
+                for desc in attr_descs:
+                    value = participation.subject.attributes.get(desc.json_key)
+                    row[desc.label] = desc.field.get_display(value)
+                writer.writerow(row)
+
+        return response
+
+    def get(self, request, *args, **kwargs):
+        if 'csv' in request.GET:
+            return self.export_csv()
+        else:
+            return super().get(request, *args, **kwargs)
 
 
 class ParticipationDetailMixin(ParticipationMixin, PermissionRequiredMixin):
