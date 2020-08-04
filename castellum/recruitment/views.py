@@ -47,7 +47,6 @@ from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.utils import cached_request
 
-from .attribute_fields import ANSWER_DECLINED
 from .forms import ContactForm
 from .mixins import BaseAttributeSetUpdateView
 from .mixins import BaseCalendarView
@@ -105,18 +104,13 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         renderer = StackedColumnRenderer(width=760, height=320)
 
         for description in self.study.stat_attributes.all():
-            buckets = description.field.get_statistics_buckets() + [
-                (None, _('Other')),
-            ]
+            buckets = description.field.get_statistics_buckets()
             statistics = defaultdict(lambda: 0)
             for participation in participations:
                 try:
                     attributeset = participation.subject.attributeset
                     value = attributeset.data.get(description.json_key)
-                    if not value or value == ANSWER_DECLINED:
-                        bucket = None
-                    else:
-                        bucket = description.field.get_statistics_bucket(value)
+                    bucket = description.field.get_statistics_bucket(value)
                     statistics[bucket] += 1
                 except AttributeSet.DoesNotExist:
                     pass

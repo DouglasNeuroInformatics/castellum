@@ -33,7 +33,6 @@ from castellum.subjects.models import Subject
 from castellum.utils.fields import DateField
 from castellum.utils.fields import DateTimeField
 
-from ..attribute_fields import ANSWER_DECLINED
 
 
 class ParticipationManager(models.Manager):
@@ -162,11 +161,8 @@ class Participation(models.Model):
         for description in self.study.stat_attributes.all():
             buckets = dict(description.field.get_statistics_buckets())
             value = attributeset.data.get(description.json_key)
-            if not value or value == ANSWER_DECLINED:
-                label = _('Other')
-            else:
-                bucket = description.field.get_statistics_bucket(value)
-                label = str(buckets.get(bucket, bucket))
+            bucket = description.field.get_statistics_bucket(value)
+            label = str(buckets.get(bucket, bucket))
             stats.append((description.label, label))
         return stats
 
