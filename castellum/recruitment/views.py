@@ -54,10 +54,8 @@ from .mixins import BaseCalendarView
 from .mixins import BaseMailRecruitmentView
 from .mixins import ParticipationMixin
 from .mixins import get_recruitable
-from .models import AttributeDescription
 from .models import AttributeSet
 from .models import Participation
-from .models.attributesets import get_description_by_statistics_rank
 
 logger = logging.getLogger(__name__)
 

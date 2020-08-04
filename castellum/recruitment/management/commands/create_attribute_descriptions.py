@@ -41,7 +41,6 @@ ATTRIBUTE_DESCRIPTIONS = [{
             'en': 'Left',
         }
     }],
-    'statistics_rank': 'secondary',
 }, {
     'field_type': 'CharField',
     'order': 1,
@@ -60,7 +59,6 @@ ATTRIBUTE_DESCRIPTIONS = [{
         'de': 'Alter',
         'en': 'Age',
     },
-    'statistics_rank': 'primary',
 }, {
     'field_type': 'OrderedChoiceField',
     'order': 3,
@@ -109,10 +107,7 @@ ATTRIBUTE_DESCRIPTIONS = [{
 
 def generate_attribute_descriptions():
     for data in ATTRIBUTE_DESCRIPTIONS:
-        description = AttributeDescription._import(data)
-        if 'statistics_rank' in data:
-            description.statistics_rank = data['statistics_rank']
-            description.save()
+        AttributeDescription._import(data)
 
 
 class Command(BaseCommand):

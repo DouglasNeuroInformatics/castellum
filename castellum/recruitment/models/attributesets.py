@@ -19,7 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import functools
 from collections import OrderedDict
 
 from django.contrib.postgres.fields import JSONField
@@ -40,17 +39,9 @@ from castellum.subjects.models import Subject
 from castellum.utils.models import TimeStampedModel
 
 from .. import attribute_fields
-from ..attribute_fields import ANSWER_DECLINED
+from ..attribute_fields import ANSWER_DECLINED  # noqa
 
 UNCATEGORIZED = "UNCATEGORIZED"
-
-
-@functools.lru_cache(maxsize=2)
-def get_description_by_statistics_rank(rank):
-    try:
-        return AttributeDescription.objects.get(statistics_rank=rank)
-    except AttributeDescription.DoesNotExist:
-        return None
 
 
 class ImportMixin:
@@ -112,17 +103,6 @@ class AttributeSet(TimeStampedModel):
 
     def get_field_names(self):
         return AttributeDescription.objects.values_list('pk', flat=True)
-
-    def get_statistics_bucket(self, rank):
-        description = get_description_by_statistics_rank(rank)
-        if not description:
-            return None
-        value = description.field.from_json(self.data.get(description.json_key))
-
-        if not value or value == ANSWER_DECLINED:
-            return None
-
-        return description.field.get_statistics_bucket(value)
 
     def get_completeness(self):
         # Needs to match ``filter_queries.completeness_expr()``
@@ -195,10 +175,6 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         ('DateField', _('DateField')),
         ('AgeField', _('AgeField')),
     ]
-    STATISTICS_RANK_CHOICES = [
-        ('primary', _('primary')),
-        ('secondary', _('secondary')),
-    ]
     STATISTICS_TYPES = ['ChoiceField', 'OrderedChoiceField', 'BooleanField', 'AgeField']
 
     import_fields = ['field_type', 'privacy_level_read', 'privacy_level_write', 'order']
@@ -219,9 +195,8 @@ class AttributeDescription(ImportMixin, TranslatableModel):
     )
     order = models.IntegerField(default=0)
     category = models.ForeignKey(
-        AttributeCategory, on_delete=models.SET_NULL, null=True, blank=True)
-    statistics_rank = models.CharField(
-        max_length=16, choices=STATISTICS_RANK_CHOICES, null=True, blank=True, unique=True)
+        AttributeCategory, on_delete=models.SET_NULL, null=True, blank=True
+    )
 
     objects = AttributeDescriptionManager()
 
@@ -237,10 +212,6 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         if self.privacy_level_read > self.privacy_level_write:
             raise ValidationError(
                 _('Privacy level for reading may not be higher than for writing.'), code='invalid')
-
-        if self.statistics_rank and self.field_type not in self.STATISTICS_TYPES:
-            msg = _('Statistics rank can only be set for the following field types: %s')
-            raise ValidationError(msg, code='invalid', params=', '.join(self.STATISTICS_TYPES))
 
     @property
     def json_key(self):
@@ -264,16 +235,6 @@ class AttributeDescription(ImportMixin, TranslatableModel):
             'AgeField': attribute_fields.AgeAttributeField,
         }
         return MAPPING[self.field_type](self)
-
-    @classmethod
-    def get_statistics_buckets(cls, rank):
-        description = get_description_by_statistics_rank(rank)
-        if not description:
-            return [(None, None)]
-
-        return description.field.get_statistics_buckets() + [
-            (None, _('Other')),
-        ]
 
     def export(self):
         data = super().export()
