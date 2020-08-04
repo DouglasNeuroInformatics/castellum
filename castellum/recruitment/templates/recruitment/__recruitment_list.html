@@ -1,7 +1,7 @@
 {% load i18n auth utils %}
 
 <ul class="table-list mt-3">
-    {% for participation, stats, can_access in participations %}
+    {% for participation, can_access in participations %}
         <li class="table-list-item">
             {% if can_access %}
                 {% if participation.status == participation.FOLLOWUP_APPOINTED %}
@@ -9,7 +9,7 @@
                         <div>
                             <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
                             <div class="d-inline-block my-1 mr-2">
-                                {% for key, value in stats %}
+                                {% for key, value in participation.stats %}
                                     <span class="badge badge-light">{{ key }}: {{ value }}</span>
                                 {% endfor %}
                             </div>
@@ -46,7 +46,7 @@
                         <div>
                             <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
                             <div class="d-inline-block my-1 mr-2">
-                                {% for key, value in stats %}
+                                {% for key, value in participation.stats %}
                                     <span class="badge badge-light">{{ key }}: {{ value }}</span>
                                 {% endfor %}
                             </div>
@@ -64,7 +64,7 @@
                         <div>
                             <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
                             <div class="d-inline-block my-1 mr-2">
-                                {% for key, value in stats %}
+                                {% for key, value in participation.stats %}
                                     <span class="badge badge-light">{{ key }}: {{ value }}</span>
                                 {% endfor %}
                             </div>
@@ -86,7 +86,7 @@
                         <div>
                             <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
                             <div class="d-inline-block my-1 mr-2">
-                                {% for key, value in stats %}
+                                {% for key, value in participation.stats %}
                                     <span class="badge badge-light">{{ key }}: {{ value }}</span>
                                 {% endfor %}
                             </div>

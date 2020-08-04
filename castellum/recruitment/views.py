@@ -133,30 +133,13 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        stat_attributes = list(self.study.stat_attributes.all())
-
         participations = []
         for participation in self.get_queryset():
-            try:
-                attributeset = participation.subject.attributeset
-                stats = []
-                for description in stat_attributes:
-                    buckets = dict(description.field.get_statistics_buckets())
-                    value = description.field.from_json(attributeset.data.get(description.json_key))
-                    if not value or value == ANSWER_DECLINED:
-                        label = _('Other')
-                    else:
-                        bucket = description.field.get_statistics_bucket(value)
-                        label = str(buckets.get(bucket, bucket))
-                    stats.append((description.label, label))
-            except AttributeSet.DoesNotExist:
-                stats = []
-
             can_access = self.request.user.has_privacy_level(
                 participation.subject.privacy_level
             )
 
-            participations.append((participation, stats, can_access))
+            participations.append((participation, can_access))
         context['participations'] = participations
 
         context['sort_options'] = [

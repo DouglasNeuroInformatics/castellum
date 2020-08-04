@@ -33,6 +33,8 @@ from castellum.subjects.models import Subject
 from castellum.utils.fields import DateField
 from castellum.utils.fields import DateTimeField
 
+from ..attribute_fields import ANSWER_DECLINED
+
 
 class ParticipationManager(models.Manager):
     def get_queryset(self):
@@ -148,6 +150,25 @@ class Participation(models.Model):
             return 'incomplete'
         else:
             return False
+
+    @cached_property
+    def stats(self):
+        try:
+            attributeset = self.subject.attributeset
+        except ObjectDoesNotExist:
+            return []
+
+        stats = []
+        for description in self.study.stat_attributes.all():
+            buckets = dict(description.field.get_statistics_buckets())
+            value = description.field.from_json(attributeset.data.get(description.json_key))
+            if not value or value == ANSWER_DECLINED:
+                label = _('Other')
+            else:
+                bucket = description.field.get_statistics_bucket(value)
+                label = str(buckets.get(bucket, bucket))
+            stats.append((description.label, label))
+        return stats
 
     def get_appointments(self):
         for session in self.study.studysession_set.order_by('pk'):
