@@ -40,7 +40,7 @@ from castellum.subjects.models import Subject
 from castellum.utils.models import TimeStampedModel
 
 from .. import attribute_fields
-from ..attribute_fields import ANSWER_DECLINED
+from ..attribute_fields import ANSWER_DECLINED  # noqa
 
 UNCATEGORIZED = "UNCATEGORIZED"
 
@@ -118,9 +118,6 @@ class AttributeSet(TimeStampedModel):
         if not description:
             return None
         value = self.data.get(description.json_key)
-
-        if not value or value == ANSWER_DECLINED:
-            return None
 
         return description.field.get_statistics_bucket(value)
 
@@ -270,10 +267,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         description = get_description_by_statistics_rank(rank)
         if not description:
             return [(None, None)]
-
-        return description.field.get_statistics_buckets() + [
-            (None, _('Other')),
-        ]
+        return description.field.get_statistics_buckets()
 
     def export(self):
         data = super().export()

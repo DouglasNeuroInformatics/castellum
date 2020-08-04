@@ -99,9 +99,13 @@ class BaseAttributeField:
         return '{} {} {}'.format(self.description.filter_label, operator, value)
 
     def get_statistics_buckets(self):
-        return self.statistics_buckets
+        return self.statistics_buckets + [
+            (None, _('Other')),
+        ]
 
     def get_statistics_bucket(self, value):
+        if value == ANSWER_DECLINED:
+            return None
         return value
 
 
@@ -181,6 +185,8 @@ class ChoiceAttributeField(BaseAttributeField):
     def get_statistics_buckets(self):
         return [
             (choice.pk, choice.label) for choice in self.description.attributechoice_set.all()
+        ] + [
+            (None, _('Other')),
         ]
 
 
@@ -264,6 +270,8 @@ class AgeAttributeField(DateAttributeField):
         return super().get_filter_display(operator, value)
 
     def get_statistics_bucket(self, value):
+        if not value or value == ANSWER_DECLINED:
+            return None
         value = self.parse_date(value)
         today = datetime.date.today()
         if today < value + relativedelta(years=18):
