@@ -53,6 +53,7 @@ class StudyForm(ReadonlyModelForm):
             'data_sensitivity',
             'consent',
             'min_subject_count',
+            'exportable_attributes',
         ]
         help_texts = {
             'announce_status_changes': (
