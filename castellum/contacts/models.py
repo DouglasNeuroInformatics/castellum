@@ -204,7 +204,7 @@ class Contact(TimeStampedModel):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('subjects:detail', args=[self.subject.pk])
+        return reverse('subjects:detail', args=[self.subject.pk, self.subject.slug])
 
 
 class Address(models.Model):

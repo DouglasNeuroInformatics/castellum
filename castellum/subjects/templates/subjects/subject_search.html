@@ -79,7 +79,7 @@
                                 <div class="table-list-item-actions">
                                     {% if can_view_subject %}
                                         {% if can_access %}
-                                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:detail' subject.pk %}">{% trans 'Details' %}</a>
+                                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:detail' subject.pk subject.slug %}">{% trans 'Details' %}</a>
                                         {% else %}
                                             <button class="btn btn-outline-primary btn-sm-inline my-1" disabled>{% trans 'Details' %}</button>
                                         {% endif %}

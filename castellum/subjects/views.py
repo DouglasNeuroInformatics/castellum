@@ -158,7 +158,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 monitoring_logger.info('SubjectData update: {} by {}'.format(
                     contact.subject_id, self.request.user.pk
                 ))
-                return redirect('subjects:detail', pk=contact.subject.pk)
+                return redirect('subjects:detail', pk=contact.subject.pk, slug=contact.subject.slug)
             else:
                 messages.error(request, _(
                     'Both first and last name must be provided in order to create a subject!'
@@ -270,7 +270,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         else:
             self.object.export_requested = datetime.date.today()
         self.object.save()
-        return redirect('subjects:export', self.object.pk)
+        return redirect('subjects:export', self.object.pk, self.object.slug)
 
 
 class SubjectUpdateMixin(SubjectMixin):
@@ -290,7 +290,7 @@ class DataProtectionUpdateView(SubjectUpdateMixin, BaseDataProtectionUpdateView)
     tab = 'data-protection'
 
     def get_success_url(self):
-        return reverse('subjects:data-protection', args=[self.object.pk])
+        return reverse('subjects:data-protection', args=[self.subject.pk, self.subject.slug])
 
 
 class AdditionalInfoUpdateView(SubjectUpdateMixin, BaseAdditionalInfoUpdateView):
@@ -370,7 +370,7 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
         return get_object_or_404(Participation, pk=self.kwargs['pk'], subject=subject)
 
     def get_success_url(self):
-        return reverse('subjects:delete', args=[self.subject.pk])
+        return reverse('subjects:delete', args=[self.subject.pk, self.subject.slug])
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -455,7 +455,7 @@ class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
             subject=self.object, study=study, status=Participation.INVITED
         )
 
-        return redirect('subjects:participation-list', self.object.pk)
+        return redirect('subjects:participation-list', self.subject.pk, self.subject.slug)
 
 
 class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
