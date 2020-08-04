@@ -47,6 +47,7 @@ from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.utils import cached_request
 
+from .attribute_fields import ANSWER_DECLINED
 from .forms import ContactForm
 from .mixins import BaseAttributeSetUpdateView
 from .mixins import BaseCalendarView
@@ -134,24 +135,30 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        buckets1 = dict(AttributeDescription.get_statistics_buckets('primary'))
-        buckets2 = dict(AttributeDescription.get_statistics_buckets('secondary'))
+        stat_attributes = list(self.study.stat_attributes.all())
 
         participations = []
         for participation in self.get_queryset():
             try:
                 attributeset = participation.subject.attributeset
-                bucket1 = buckets1[attributeset.get_statistics_bucket('primary')]
-                bucket2 = buckets2[attributeset.get_statistics_bucket('secondary')]
-                buckets = ', '.join(str(bucket) for bucket in [bucket1, bucket2] if bucket)
+                stats = []
+                for description in stat_attributes:
+                    buckets = dict(description.field.get_statistics_buckets())
+                    value = description.field.from_json(attributeset.data.get(description.json_key))
+                    if not value or value == ANSWER_DECLINED:
+                        label = _('Other')
+                    else:
+                        bucket = description.field.get_statistics_bucket(value)
+                        label = str(buckets.get(bucket, bucket))
+                    stats.append(label)
             except AttributeSet.DoesNotExist:
-                buckets = ''
+                stats = []
 
             can_access = self.request.user.has_privacy_level(
                 participation.subject.privacy_level
             )
 
-            participations.append((participation, buckets, can_access))
+            participations.append((participation, ', '.join(stats), can_access))
         context['participations'] = participations
 
         context['sort_options'] = [
