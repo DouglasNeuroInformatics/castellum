@@ -33,7 +33,7 @@
                             {% if can_view_study %}
                                 <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:detail' participation.study.pk %}">{% trans 'Study details' %}</a>
                             {% endif %}
-                            <a class="btn btn-danger btn-sm-inline my-1" href="{% url 'subjects:participation-delete' subject.pk participation.pk %}">
+                            <a class="btn btn-danger btn-sm-inline my-1" href="{% url 'subjects:participation-delete' subject.slug participation.pk %}">
                                 {% trans 'Delete' %}
                             </a>
                         </div>
@@ -49,7 +49,7 @@
         {% endif %}
 
         <div class="d-print-none mb-3">
-            <a href="{% url 'subjects:detail' object.pk %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% trans 'Cancel' %}</a>
+            <a href="{% url 'subjects:detail' object.slug %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% trans 'Cancel' %}</a>
             <button class="btn btn-danger mb-1" {% if has_participations %}disabled{% endif %} >{% trans 'Confirm' %}</button>
         </div>
     </form>

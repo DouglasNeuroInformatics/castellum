@@ -95,7 +95,7 @@ class AttributeSet(TimeStampedModel):
         verbose_name_plural = _('Attribute sets')
 
     def get_absolute_url(self):
-        return reverse('subjects:detail', args=[self.subject.pk])
+        return reverse('subjects:detail', args=[self.subject.slug])
 
     def get_data(self):
         qs = AttributeDescription.objects.all()

@@ -15,7 +15,7 @@
                 {% endif %}
             </div>
             <div class="table-list-item-actions">
-                <a class="btn btn-outline-primary" href="{% url 'subjects:detail' subject.pk %}">{% trans 'Details' %}</a>
+                <a class="btn btn-outline-primary" href="{% url 'subjects:detail' subject.slug %}">{% trans 'Details' %}</a>
             </div>
         </li>
     {% empty %}
