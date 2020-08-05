@@ -115,8 +115,3 @@
         display: none !important;
     }
 }
-
-/* workaround for https://git.mpib-berlin.mpg.de/castellum/castellum/-/issues/102 */
-[class^="col"] {
-    min-width: auto;
-}
