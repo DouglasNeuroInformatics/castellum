@@ -3,11 +3,7 @@
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",
-    "@fullcalendar/bootstrap": "^4.4.2",
-    "@fullcalendar/core": "^4.4.2",
-    "@fullcalendar/daygrid": "^4.4.2",
-    "@fullcalendar/timegrid": "^4.4.2",
-    "@fullcalendar/timeline": "^4.4.2",
+    "fullcalendar-scheduler": "^5.2.0",
     "bootstrap": "^4.5.0",
     "bootstrap-datepicker": "^1.9.0",
     "jdenticon": "^2.2.0",
