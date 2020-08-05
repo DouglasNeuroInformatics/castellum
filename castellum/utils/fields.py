@@ -19,14 +19,30 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
 from django.db import models
 
 from phonenumber_field.modelfields import PhoneNumberField as _PhoneNumberField
 
+from .forms import AdminColorInputWidget
+from .forms import ColorField as ColorFormField
 from .forms import DateField as DateFormField
 from .forms import DateTimeField as DateTimeFormField
 from .forms import PhoneNumberField as PhoneNumberFormField
 from .forms import RestrictedFileField as RestrictedFileFormField
+
+
+class ColorField(models.CharField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('max_length', 7)
+        super().__init__(*args, **kwargs)
+
+    def formfield(self, **kwargs):
+        kwargs.setdefault('form_class', ColorFormField)
+        return super().formfield(**kwargs)
+
+
+FORMFIELD_FOR_DBFIELD_DEFAULTS[ColorField] = {'widget': AdminColorInputWidget}
 
 
 class DateField(models.DateField):

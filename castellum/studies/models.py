@@ -36,6 +36,7 @@ from parler.models import TranslatedFields
 from castellum.castellum_auth.models import User
 from castellum.pseudonyms.helpers import create_domain
 from castellum.pseudonyms.helpers import delete_domain
+from castellum.utils.fields import ColorField
 from castellum.utils.fields import DateField
 from castellum.utils.fields import RestrictedFileField
 from castellum.utils.forms import JsonFileValidator
@@ -67,6 +68,7 @@ class StudyType(TranslatableModel):
 class StudyTypeEventFeed(models.Model):
     study_type = models.ForeignKey(StudyType, on_delete=models.CASCADE)
     url = models.URLField(_('URL'))
+    color = ColorField(_('Color'))
 
     def __str__(self):
         return '%s %s' % (self.study_type, self.url)

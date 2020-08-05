@@ -42,3 +42,12 @@ def cached_request(url, timeout=300):
     value = r.text
     cache.set(key, value, timeout=timeout)
     return value
+
+
+def contrast_color(color):
+    # https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio
+    r = (int(color[1:3], 16) / 255) ** 2.4
+    g = (int(color[3:5], 16) / 255) ** 2.4
+    b = (int(color[5:7], 16) / 255) ** 2.4
+    lightness = 0.2126 * r + 0.7152 * g + 0.0722 * b
+    return '#ffffff' if lightness < 0.18 else '#000000'
