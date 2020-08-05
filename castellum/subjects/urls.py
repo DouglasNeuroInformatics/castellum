@@ -45,6 +45,21 @@ from .views import SubjectSearchView
 app_name = 'subjects'
 urlpatterns = [
     path('', SubjectSearchView.as_view(), name='index'),
+    path('guardians/', GuardianSearchView.as_view(), name='guardian-search'),
+    path(
+        'maintenance/attributes/',
+        MaintenanceAttributesView.as_view(),
+        name='maintenance-attributes',
+    ),
+    path('maintenance/contact/', MaintenanceContactView.as_view(), name='maintenance-contact'),
+    path('maintenance/consent/', MaintenanceConsentView.as_view(), name='maintenance-consent'),
+    path(
+        'maintenance/duplicates/',
+        MaintenanceDuplicatesView.as_view(),
+        name='maintenance-duplicates',
+    ),
+    path('maintenance/waiting/', MaintenanceWaitingView.as_view(), name='maintenance-waiting'),
+    path('maintenance/showup/', MaintenanceShowupView.as_view(), name='maintenance-showup'),
     path('<slug>/', SubjectDetailView.as_view(), name='detail'),
     path('<slug>/delete/', SubjectDeleteView.as_view(), name='delete'),
     path('<slug>/export/', SubjectExportView.as_view(), name='export'),
@@ -69,19 +84,4 @@ urlpatterns = [
         ParticipationDeleteView.as_view(),
         name='participation-delete',
     ),
-    path('guardians/', GuardianSearchView.as_view(), name='guardian-search'),
-    path(
-        'maintenance/attributes/',
-        MaintenanceAttributesView.as_view(),
-        name='maintenance-attributes',
-    ),
-    path('maintenance/contact/', MaintenanceContactView.as_view(), name='maintenance-contact'),
-    path('maintenance/consent/', MaintenanceConsentView.as_view(), name='maintenance-consent'),
-    path(
-        'maintenance/duplicates/',
-        MaintenanceDuplicatesView.as_view(),
-        name='maintenance-duplicates',
-    ),
-    path('maintenance/waiting/', MaintenanceWaitingView.as_view(), name='maintenance-waiting'),
-    path('maintenance/showup/', MaintenanceShowupView.as_view(), name='maintenance-showup'),
 ]
