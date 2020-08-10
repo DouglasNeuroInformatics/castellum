@@ -72,12 +72,8 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
-class ParticipationDetailView(
-    ParticipationMixin, PermissionRequiredMixin, UpdateView
-):
-    template_name = 'execution/participation_detail.html'
+class ParticipationDetailMixin(ParticipationMixin, PermissionRequiredMixin):
     model = Participation
-    fields = ['outcome_interest']
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     participation_status = [Participation.INVITED]
@@ -85,11 +81,45 @@ class ParticipationDetailView(
     def get_object(self):
         return self.participation
 
+
+class ParticipationDetailView(ParticipationDetailMixin, DetailView):
+    template_name = 'execution/participation_detail.html'
+    tab = 'overview'
+
+
+class ParticipationOutcomeView(ParticipationDetailMixin, UpdateView):
+    template_name = 'execution/participation_outcome.html'
+    fields = ['outcome_interest']
+    tab = 'outcome'
+
     def get_success_url(self):
         return reverse(
             'execution:participation-detail',
             args=[self.object.study.pk, self.object.pk],
         )
+
+    def form_invalid(self, form):
+        print(form.errors)
+        return super().form_invalid(form)
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form)
+
+
+class ParticipationCriteriaView(ParticipationDetailMixin, DetailView):
+    template_name = 'execution/participation_criteria.html'
+    tab = 'criteria'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['general_criteria'] = settings.CASTELLUM_GENERAL_EXCLUSION_CRITERIA
+        return context
+
+
+class ParticipationAppointmentsView(ParticipationDetailMixin, DetailView):
+    template_name = 'execution/participation_appointments.html'
+    tab = 'appointments'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -101,9 +131,31 @@ class ParticipationDetailView(
             form = form_cls(instance=appointment)
             context['appointments'].append((session, appointment, form))
 
-        context['general_criteria'] = settings.CASTELLUM_GENERAL_EXCLUSION_CRITERIA
-
         return context
+
+
+class ShowUpUpdateView(ParticipationMixin, UpdateView):
+    # Used by ParticipationAppointmentsView
+
+    model = Appointment
+    fields = ['show_up']
+    http_method_names = ['post']
+    permission_required = 'recruitment.conduct_study'
+    study_status = [Study.EXECUTION]
+    participation_status = [Participation.INVITED]
+
+    def get_object(self):
+        return get_object_or_404(
+            Appointment,
+            pk=self.kwargs['appointment_pk'],
+            participation=self.participation,
+        )
+
+    def get_success_url(self):
+        return reverse(
+            'execution:participation-appointments',
+            args=[self.kwargs['study_pk'], self.kwargs['pk']],
+        )
 
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
@@ -133,6 +185,7 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
 class ExecutionUpdateMixin(ParticipationMixin):
     study_status = [Study.EXECUTION]
     participation_status = [Participation.INVITED]
+    tab = 'overview'
 
     def get_success_url(self):
         return reverse(
@@ -142,32 +195,13 @@ class ExecutionUpdateMixin(ParticipationMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['base_template'] = "execution/base.html"
+        context['base_template'] = "execution/participation_base.html"
         return context
 
     def get_permission_required(self):
         permission_required = {'recruitment.conduct_study'}
         permission_required.update(super().get_permission_required())
         return permission_required
-
-
-class ShowUpUpdateView(ExecutionUpdateMixin, UpdateView):
-    # Used by ParticipationDetailView
-
-    model = Appointment
-    fields = ['show_up']
-    http_method_names = ['post']
-
-    def get_object(self):
-        return get_object_or_404(
-            Appointment,
-            pk=self.kwargs['appointment_pk'],
-            participation=self.participation,
-        )
-
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
 
 
 class ContactUpdateView(ExecutionUpdateMixin, BaseContactUpdateView):

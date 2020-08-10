@@ -1,0 +1,27 @@
+{% extends "execution/participation_base.html" %}
+{% load i18n bootstrap4 utils %}
+
+{% block content %}
+    <dl>
+        {% for session, appointment, form in appointments %}
+            <dt>{{ session.name }}</dt>
+            <dd>
+                {% if appointment %}
+                    <div class="d-flex justify-content-between">
+                        <time>{{ appointment.start|date }} {{ appointment.start|time }}</time>
+                        <form method="POST" class="form-inline" action="{% url 'execution:show-up' study.pk object.pk appointment.pk %}">
+                            {% csrf_token %}
+                            {% bootstrap_field form.show_up show_label=False %}
+                            <button class="btn btn-primary ml-2">{% trans 'Save' %}</button>
+                        </form>
+                    </div>
+                {% else %}
+                    &mdash;
+                {% endif %}
+            </dd>
+        {% empty %}
+            <dt></dt>
+            <dd>{% trans 'No sessions' %}</dd>
+        {% endfor %}
+    </dl>
+{% endblock %}

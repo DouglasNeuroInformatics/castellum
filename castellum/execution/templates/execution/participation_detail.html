@@ -1,119 +1,35 @@
-{% extends "execution/base.html" %}
-{% load i18n bootstrap4 utils auth %}
-
-{% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
-
-{% block header %}
-    <div class="container text-center my-4">
-        <h1>{{ subject.contact.full_name }}</h1>
-    </div>
-{% endblock %}
+{% extends "execution/participation_base.html" %}
+{% load i18n utils auth %}
 
 {% block content %}
-    <ul class="nav nav-tabs justify-content-center" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">{% trans "Overview" %}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="outcome-tab" data-toggle="tab" href="#outcome" role="tab" aria-controls="outcome" aria-selected="true">{% trans "Outcome" %}</a>
-        </li>
-        {% if study.has_exclusion_criteria %}
-            <li class="nav-item">
-                <a class="nav-link" id="criteria-tab" data-toggle="tab" href="#criteria" role="tab" aria-controls="criteria" aria-selected="false">{% trans 'Criteria' %}</a>
-            </li>
-        {% endif %}
-        {% if study.studysession_set.exists %}
-            <li class="nav-item">
-                <a class="nav-link" id="appointments-tab" data-toggle="tab" href="#appointments" role="tab" aria-controls="appointments" aria-selected="false">{% trans 'Appointments' %}</a>
-            </li>
-        {% endif %}
-    </ul>
+    <dl>
+        <dt>{% trans 'Pseudonym' %}</dt>
+        <dd>{{ object.pseudonym }}</dd>
 
-    <div class="tab-content mb-3 border border-top-0 p-3">
-        <div class="tab-pane active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
-            <dl>
-                <dt>{% trans 'Pseudonym' %}</dt>
-                <dd>{{ object.pseudonym }}</dd>
+        <dt>{{ subject.contact|verbose_name:'phone_number' }}</dt>
+        <dd>{{ subject.contact|display:'phone_number' }}</dd>
 
-                <dt>{{ subject.contact|verbose_name:'phone_number' }}</dt>
-                <dd>{{ subject.contact|display:'phone_number' }}</dd>
+        <dt>{{ subject.contact|verbose_name:'phone_number_alternative' }}</dt>
+        <dd>{{ subject.contact|display:'phone_number_alternative' }}</dd>
+    </dl>
 
-                <dt>{{ subject.contact|verbose_name:'phone_number_alternative' }}</dt>
-                <dd>{{ subject.contact|display:'phone_number_alternative' }}</dd>
-            </dl>
-
-            {% has_perm 'subjects.change_subject' user study as can_change_subject %}
-            {% if can_change_subject %}
-                <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:contact-update' study.pk object.pk %}">
-                    {% if not subject.contact.is_complete %}
-                        <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
-                    {% endif %}
-                    {% trans 'Edit contact data' %}
-                </a>
-                <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:attributeset-update' study.pk object.pk %}">{% trans 'Edit attributes' %}</a>
-                <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:data-protection-update' study.pk object.pk %}">
-                    {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age %}
-                        <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
-                    {% endif %}
-                    {% trans 'Edit data protection' %}
-                </a>
-                <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:additional-info-update' study.pk object.pk %}">
-                    {% trans 'Edit additional info' %}
-                </a>
+    {% has_perm 'subjects.change_subject' user study as can_change_subject %}
+    {% if can_change_subject %}
+        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:contact-update' study.pk object.pk %}">
+            {% if not subject.contact.is_complete %}
+                <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
             {% endif %}
-        </div>
-
-        <div class="tab-pane" id="outcome" role="tabpanel" aria-labelledby="outcome-tab">
-            <form method="post">
-                {% csrf_token %}
-                {% bootstrap_field form.outcome_interest %}
-                <button class="btn btn-primary">{% trans 'Submit' %}</button>
-            </form>
-        </div>
-
-        {% if study.has_exclusion_criteria %}
-            <div class="tab-pane" id="criteria" role="tabpanel" aria-labelledby="criteria-tab">
-                {% if study.exclusion_criteria %}
-                    {{ study.exclusion_criteria|linebreaks }}
-                {% endif %}
-                {% for study_type in study.study_type.all %}
-                    {% if study_type.exclusion_criteria %}
-                        <h2>{{ study_type.label }}</h2>
-                        {{ study_type.exclusion_criteria|linebreaks }}
-                    {% endif %}
-                {% endfor %}
-                {% if general_criteria %}
-                    <h2>{% trans 'General criteria' %}</h2>
-                    {{ general_criteria|linebreaks }}
-                {% endif %}
-            </div>
-        {% endif %}
-
-        {% if study.studysession_set.exists %}
-            <div class="tab-pane" id="appointments" role="tabpanel" aria-labelledby="appointments-tab">
-                <dl>
-                    {% for session, appointment, form in appointments %}
-                        <dt>{{ session.name }}</dt>
-                        <dd>
-                            {% if appointment %}
-                                <div class="d-flex justify-content-between">
-                                    <time>{{ appointment.start|date }} {{ appointment.start|time }}</time>
-                                    <form method="POST" class="form-inline" action="{% url 'execution:show-up' study.pk object.pk appointment.pk %}">
-                                        {% csrf_token %}
-                                        {% bootstrap_field form.show_up show_label=False %}
-                                        <button class="btn btn-primary ml-2">{% trans 'Save' %}</button>
-                                    </form>
-                                </div>
-                            {% else %}
-                                &mdash;
-                            {% endif %}
-                        </dd>
-                    {% empty %}
-                        <dt></dt>
-                        <dd>{% trans 'No sessions' %}</dd>
-                    {% endfor %}
-                </dl>
-            </div>
-        {% endif %}
-    </div>
+            {% trans 'Edit contact data' %}
+        </a>
+        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:attributeset-update' study.pk object.pk %}">{% trans 'Edit attributes' %}</a>
+        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:data-protection-update' study.pk object.pk %}">
+            {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age %}
+                <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
+            {% endif %}
+            {% trans 'Edit data protection' %}
+        </a>
+        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:additional-info-update' study.pk object.pk %}">
+            {% trans 'Edit additional info' %}
+        </a>
+    {% endif %}
 {% endblock %}
