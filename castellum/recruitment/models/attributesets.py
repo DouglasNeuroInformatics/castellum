@@ -40,7 +40,7 @@ from castellum.subjects.models import Subject
 from castellum.utils.models import TimeStampedModel
 
 from .. import attribute_fields
-from ..attribute_fields import ANSWER_DECLINED
+from ..attribute_fields import ANSWER_DECLINED  # noqa
 
 UNCATEGORIZED = "UNCATEGORIZED"
 
@@ -99,7 +99,7 @@ class AttributeSet(TimeStampedModel):
 
     def get_data(self):
         qs = AttributeDescription.objects.all()
-        return {desc.json_key: desc.field.from_json(self.data.get(desc.json_key)) for desc in qs}
+        return {desc.json_key: self.data.get(desc.json_key) for desc in qs}
 
     def get_verbose_name(self, pk):
         description = AttributeDescription.objects.get(pk=pk)
@@ -117,10 +117,7 @@ class AttributeSet(TimeStampedModel):
         description = get_description_by_statistics_rank(rank)
         if not description:
             return None
-        value = description.field.from_json(self.data.get(description.json_key))
-
-        if not value or value == ANSWER_DECLINED:
-            return None
+        value = self.data.get(description.json_key)
 
         return description.field.get_statistics_bucket(value)
 
@@ -270,10 +267,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         description = get_description_by_statistics_rank(rank)
         if not description:
             return [(None, None)]
-
-        return description.field.get_statistics_buckets() + [
-            (None, _('Other')),
-        ]
+        return description.field.get_statistics_buckets()
 
     def export(self):
         data = super().export()

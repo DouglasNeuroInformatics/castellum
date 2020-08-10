@@ -86,25 +86,26 @@ class BaseAttributeField:
             else:
                 return q
 
-    def from_json(self, value):
-        return value
-
     def get_display(self, value):
         if value is None:
             return '—'
         elif value is ANSWER_DECLINED:
             return _('Declined to answer')
         else:
-            return self.from_json(value)
+            return value
 
     def get_filter_display(self, operator, value):
         operator = dict(self.available_operators)[operator]
         return '{} {} {}'.format(self.description.filter_label, operator, value)
 
     def get_statistics_buckets(self):
-        return self.statistics_buckets
+        return self.statistics_buckets + [
+            (None, _('Other')),
+        ]
 
     def get_statistics_bucket(self, value):
+        if value == ANSWER_DECLINED:
+            return None
         return value
 
 
@@ -115,11 +116,16 @@ class DateAttributeField(BaseAttributeField):
         ("gt", _("after")),
     ]
 
-    def from_json(self, value):
-        if value in [None, ANSWER_DECLINED]:
-            return value
+    def parse_date(self, value):
         dt = datetime.datetime.strptime(value, '%Y-%m-%d')
         return dt.date()
+
+    def get_display(self, value):
+        if not value:
+            return super().get_display(None)
+        if value == ANSWER_DECLINED:
+            return super().get_display(value)
+        return self.parse_date(value)
 
 
 class NumberAttributeField(BaseAttributeField):
@@ -179,6 +185,8 @@ class ChoiceAttributeField(BaseAttributeField):
     def get_statistics_buckets(self):
         return [
             (choice.pk, choice.label) for choice in self.description.attributechoice_set.all()
+        ] + [
+            (None, _('Other')),
         ]
 
 
@@ -262,6 +270,9 @@ class AgeAttributeField(DateAttributeField):
         return super().get_filter_display(operator, value)
 
     def get_statistics_bucket(self, value):
+        if not value or value == ANSWER_DECLINED:
+            return None
+        value = self.parse_date(value)
         today = datetime.date.today()
         if today < value + relativedelta(years=18):
             return '<18'
