@@ -5,6 +5,38 @@ import castellum.utils.fields
 import django.utils.timezone
 
 
+def migrate_data(apps, schema_editor):
+    Participation = apps.get_model('recruitment', 'Participation')
+    ParticipationRevision = apps.get_model('recruitment', 'ParticipationRevision')
+
+    others = ParticipationRevision.objects\
+        .filter(current_id=models.OuterRef('id'))\
+        .exclude(status=models.OuterRef('status'))
+    other_status_at = others.order_by('-created_at').values('created_at')[:1]
+
+    participations = Participation.objects.annotate(
+        old_updated_at=models.Max('revisions__created_at'),
+        old_created_at=models.Min('revisions__created_at'),
+        other_status_at=models.Subquery(other_status_at),
+        old_tries=models.Count(
+            'revisions',
+            filter=(
+                models.Q(revisions__created_at__gt=models.F('other_status_at')) |
+                models.Q(other_status_at__isnull=True)
+            ),
+            distinct=True,
+        ),
+    )
+
+    for participation in participations:
+        # Use update() instead of save() to avoid auto_now
+        Participation.objects.filter(pk=participation.pk).update(
+            updated_at=participation.old_updated_at,
+            created_at=participation.old_created_at,
+            tries=participation.old_tries,
+        )
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -28,6 +60,7 @@ class Migration(migrations.Migration):
             name='tries',
             field=models.IntegerField(default=0, verbose_name='Tries'),
         ),
+        migrations.RunPython(migrate_data),
         migrations.DeleteModel(
             name='ParticipationRevision',
         ),
