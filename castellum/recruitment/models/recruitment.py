@@ -164,8 +164,11 @@ class Participation(models.Model):
             raise ValidationError(msg, code='invalid')
 
     def save(self, *args, **kwargs):
-        if self.status == self._old_status:
-            self.tries += 1
+        if self.status in [self.NOT_REACHED, self.AWAITING_RESPONSE]:
+            if self.status == self._old_status:
+                self.tries += 1
+            else:
+                self.tries = 0
         else:
             self.tries = 0
         super().save(*args, **kwargs)
