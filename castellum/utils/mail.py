@@ -22,6 +22,8 @@
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.core.mail import get_connection
+from django.template import Context
+from django.template import Engine
 
 
 def get_context(name=None):
@@ -36,7 +38,15 @@ def get_context(name=None):
     return context
 
 
+def render_template_string(template_string, params):
+    engine = Engine.get_default()
+    template = engine.from_string(template_string)
+    return template.render(Context(params))
+
+
 def prepare_body(body, context):
+    if not isinstance(body, str):
+        body = render_template_string(*body)
     body += context['signature']
     return body
 
