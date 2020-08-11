@@ -24,11 +24,13 @@ from django.core.mail import EmailMessage
 from django.core.mail import get_connection
 from django.template import Context
 from django.template import Engine
+from django.utils import translation
 
 
 def get_context(name=None):
     context = {
         'from_email': settings.DEFAULT_FROM_EMAIL,
+        'language': settings.LANGUAGE_CODE,
         'subject_prefix': '',
         'signature': '',
         'connection': {}
@@ -46,7 +48,8 @@ def render_template_string(template_string, params):
 
 def prepare_body(body, context):
     if not isinstance(body, str):
-        body = render_template_string(*body)
+        with translation.override(context['language']):
+            body = render_template_string(*body)
     body += context['signature']
     return body
 

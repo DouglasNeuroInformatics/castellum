@@ -312,6 +312,7 @@ CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 # Complete example:
 # {
 #     'from_email': 'Castellum <castellum@example.com>',
+#     'language': 'en',
 #     'subject_prefix': '[Castellum] ',
 #     'signature': '\n\n-- \nAutomatically send by castellum',
 #     'connection': {
