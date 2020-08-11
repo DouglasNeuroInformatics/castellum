@@ -168,7 +168,7 @@ class Participation(models.Model):
             if self.status == self._old_status:
                 self.tries += 1
             else:
-                self.tries = 0
+                self.tries = 1
         else:
             self.tries = 0
         super().save(*args, **kwargs)
