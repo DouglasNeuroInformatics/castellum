@@ -252,7 +252,7 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
             self.study.mail_subject,
             '%i emails have been sent.\n\n---\n\n%s' % (counter, self.study.mail_body),
             [self.study.mail_reply_address],
-            context='recruitment',
+            context='internal',
         )
 
     def _form_valid(self, form):
