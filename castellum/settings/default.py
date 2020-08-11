@@ -309,12 +309,20 @@ CASTELLUM_SUBJECT_DELETION_PERIOD = datetime.timedelta(days=30)
 CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 
 # settings for sending recruitment mails (defaults to general settings)
-CASTELLUM_RECRUITMENT_EMAIL = None
-CASTELLUM_RECRUITMENT_EMAIL_HOST = None
-CASTELLUM_RECRUITMENT_EMAIL_PORT = None
-CASTELLUM_RECRUITMENT_EMAIL_USER = None
-CASTELLUM_RECRUITMENT_EMAIL_PASSWORD = None
-CASTELLUM_RECRUITMENT_EMAIL_USE_TLS = None
+# Complete example:
+# {
+#     'from_email': 'Castellum <castellum@example.com>',
+#     'connection': {
+#         # The full list of options is available at
+#         # https://docs.djangoproject.com/en/stable/topics/email/#django.core.mail.get_connection
+#         'username': 'mailuser',
+#         'password': 'mailpassword',
+#     }
+# }
+CASTELLUM_MAIL = {
+    'recruitment': {},
+    'internal': {},
+}
 
 # used to show the warning message when
 # number of users exceeds the number of subjects

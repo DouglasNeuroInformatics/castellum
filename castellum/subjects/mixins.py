@@ -22,12 +22,12 @@
 from django import forms
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
-from django.core.mail import send_mail
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.utils.mail import send_mail
 
 from .forms import DataProtectionForm
 from .models import Subject
@@ -82,8 +82,8 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
                 self.object.to_be_deleted_notified = send_mail(
                     settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_SUBJECT,
                     settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY.format(url=url),
-                    settings.DEFAULT_FROM_EMAIL,
                     [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
+                    context='internal',
                 )
 
             if self.object.to_be_deleted and not self.object.to_be_deleted_notified:
@@ -93,8 +93,8 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
                 self.object.to_be_deleted_notified = send_mail(
                     settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
                     settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY.format(url=url),
-                    settings.DEFAULT_FROM_EMAIL,
                     [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
+                    context='internal',
                 )
 
             # If a user explicitly removes the ``to_be_deleted`` they
