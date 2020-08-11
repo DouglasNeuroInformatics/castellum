@@ -27,6 +27,7 @@ from django.core.mail import get_connection
 def get_context(name=None):
     context = {
         'from_email': settings.DEFAULT_FROM_EMAIL,
+        'subject_prefix': '',
         'signature': '',
         'connection': {}
     }
@@ -45,7 +46,7 @@ def send_mass_mail(datatuples, context=None):
     connection = get_connection(**context['connection'])
     messages = [
         EmailMessage(
-            subject=subject,
+            subject=context['subject_prefix'] + subject,
             body=prepare_body(body, context),
             from_email=context['from_email'],
             to=recipients,
