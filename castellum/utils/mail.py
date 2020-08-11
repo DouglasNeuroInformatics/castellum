@@ -27,6 +27,7 @@ from django.core.mail import get_connection
 def get_context(name=None):
     context = {
         'from_email': settings.DEFAULT_FROM_EMAIL,
+        'signature': '',
         'connection': {}
     }
     if name:
@@ -35,6 +36,7 @@ def get_context(name=None):
 
 
 def prepare_body(body, context):
+    body += context['signature']
     return body
 
 
