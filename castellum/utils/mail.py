@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import textwrap
+
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.core.mail import get_connection
@@ -36,7 +38,12 @@ def get_context(name=None):
     return context
 
 
+def auto_wrap(text, width=78):
+    return '\n'.join(textwrap.fill(line, width=width) for line in text.splitlines())
+
+
 def prepare_body(body, context):
+    body = auto_wrap(body)
     body += context['signature']
     return body
 
