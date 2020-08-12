@@ -2,4 +2,5 @@
 0	1	*	*	*	django-admin clear_sessions
 0	1	*	*	*	django-admin cleanup_media
 0	1	*	*	*	django-admin notify_to_be_deleted http://example.com
+0	1	*	*	*	django-admin send_appointment_reminders http://example.com
 0	1	*	*	1	django-admin geocode_all
