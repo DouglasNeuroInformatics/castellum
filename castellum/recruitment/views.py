@@ -344,21 +344,11 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         if not relevant_changes:
             return
 
-        body = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY.format(
-            study=self.study,
-            changes='\n'.join('%s -> %s' % (
-                timezone.localtime(old),
-                timezone.localtime(new),
-            ) for (old, new) in relevant_changes),
-            participation_url=self.request.build_absolute_uri(reverse(
-                'execution:participation-detail',
-                args=[self.study.pk, self.object.pk]
-            )),
-            calendar_url=self.request.build_absolute_uri(reverse(
-                'execution:calendar',
-                args=[self.study.pk]
-            )),
-        )
+        body = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY, {
+            'study': self.study,
+            'participation': self.object,
+            'changes': relevant_changes,
+        }
 
         perm = 'recruitment.conduct_study'
         msgs = []

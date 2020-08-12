@@ -350,18 +350,18 @@ CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS = relativedelta(weeks=2)
 
 CASTELLUM_DELETE_NOTIFICATION_TO = None
 CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_SUBJECT = 'Subject export'
-CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY = 'The following subject should be exported: {url}'
+CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY = 'The following subject should be exported: {{ url }}'
 CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT = 'Subject deletion'
-CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY = 'The following subject should be deleted: {url}'
+CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY = 'The following subject should be deleted: {{ url }}'
 
 CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT = 'Upcoming appointment changed'
 CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY = """
-Upcoming appointments for a participant in the study "{study}" have changed:
+Upcoming appointments for a participant in the study "{{ study }}" have changed:
 
-{changes}
+{% for old, new in changes %}{{ old|date:'SHORT_DATETIME_FORMAT' }} -> {{ new|date:'SHORT_DATETIME_FORMAT' }}{% endfor %}
 
-Participant details: {participation_url}
-Study calendar: {calendar_url}
+Participant details: {% url 'execution:participation-detail' study.pk participation.pk %}
+Study calendar: {% url 'execution:calendar' study.pk %}
 """
 
 CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000

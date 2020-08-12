@@ -40,7 +40,7 @@ def subjects_notify(subjects, base_url):
             url = base_url + reverse('subjects:detail', args=[subject.pk])
             send_mail(
                 settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
-                settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY.format(url=url),
+                (settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY, {'url': url}),
                 [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
                 context='internal',
             )

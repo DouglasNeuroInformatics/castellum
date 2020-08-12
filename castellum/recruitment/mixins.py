@@ -206,11 +206,6 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     form_class = SendMailForm
     participation_status = None
 
-    def personalize_mail_body(self, mail_body, contact):
-        replace_first = mail_body.replace("{firstname}", contact.first_name)
-        replace_second = replace_first.replace("{lastname}", contact.last_name)
-        return replace_second
-
     def get_contact_email(self, contact):
         if contact.email:
             return contact.email
@@ -229,7 +224,10 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                 try:
                     success = send_mail(
                         self.study.mail_subject,
-                        self.personalize_mail_body(self.study.mail_body, pick.contact),
+                        (self.study.mail_body, {
+                            'firstname': pick.contact.first_name,
+                            'lastname': pick.contact.last_name,
+                        })
                         [email],
                         reply_to=[self.study.mail_reply_address],
                         context='recruitment'
@@ -250,7 +248,10 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     def send_confirmation_mail(self, counter):
         send_mail(
             self.study.mail_subject,
-            '%i emails have been sent.\n\n---\n\n%s' % (counter, self.study.mail_body),
+            ('{{ counter }} emails have been sent.\n\n---\n\n{{ body }}', {
+                'counter': counter,
+                'body': self.study.mail_body,
+            }),
             [self.study.mail_reply_address],
             context='internal',
         )
