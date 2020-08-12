@@ -59,6 +59,9 @@ user requests. We provide the following management commands for that:
 -   `cleanup_media`: Delete unused uploaded files.
 -   `notify_to_be_deleted`: Automatically notify about content that
     should be deleted.
+-   `send_appointment_reminders`: Send email reminders to subjects with
+    upcoming appointments. If the subjects have no email address, a note
+    is sent to the respective study coordinators instead.
 
 ## Initial setup
 

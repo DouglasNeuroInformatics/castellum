@@ -305,6 +305,18 @@ CASTELLUM_CONSENT_REVIEW_PERIOD = relativedelta(weeks=2)
 # after requesting to be deleted
 CASTELLUM_SUBJECT_DELETION_PERIOD = datetime.timedelta(days=30)
 
+CASTELLUM_APPOINTMENT_REMINDER_PERIOD = datetime.timedelta(days=2)
+CASTELLUM_APPOINTMENT_MAIL_SUBJECT = "Reminder: You have an appointment"
+CASTELLUM_APPOINTMENT_MAIL_BODY = (
+    "Dear {subject},\n\nPlease remember your appointment in study {study} is on {date}. "
+    "If you wish to cancel or postpone, please get in touch with {reply_to}."
+)
+CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_SUBJECT = "Appointment reminders for {study}"
+CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY = (
+    "The following subjects have upcoming appointments, but could not be reached by email. "
+    "Please contact them by other means to remind them of their appointment:\n\n{urls}"
+)
+
 # the number of subjects that is added to the recruitment list every time
 CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 
