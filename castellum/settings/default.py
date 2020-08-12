@@ -309,12 +309,24 @@ CASTELLUM_SUBJECT_DELETION_PERIOD = datetime.timedelta(days=30)
 CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 
 # settings for sending recruitment mails (defaults to general settings)
-CASTELLUM_RECRUITMENT_EMAIL = None
-CASTELLUM_RECRUITMENT_EMAIL_HOST = None
-CASTELLUM_RECRUITMENT_EMAIL_PORT = None
-CASTELLUM_RECRUITMENT_EMAIL_USER = None
-CASTELLUM_RECRUITMENT_EMAIL_PASSWORD = None
-CASTELLUM_RECRUITMENT_EMAIL_USE_TLS = None
+# Complete example:
+# {
+#     'from_email': 'Castellum <castellum@example.com>',
+#     'subject_prefix': '[Castellum] ',
+#     'signature': '\n\n-- \nAutomatically send by castellum',
+#     'connection': {
+#         # The full list of options is available at
+#         # https://docs.djangoproject.com/en/stable/topics/email/#django.core.mail.get_connection
+#         'username': 'mailuser',
+#         'password': 'mailpassword',
+#     }
+# }
+CASTELLUM_MAIL = {
+    'recruitment': {},
+    'internal': {
+        'subject_prefix': '[Castellum] '
+    },
+}
 
 # used to show the warning message when
 # number of users exceeds the number of subjects
@@ -336,12 +348,12 @@ CASTELLUM_EXPECTED_SUBJECT_FACTOR = 10
 CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS = relativedelta(weeks=2)
 
 CASTELLUM_DELETE_NOTIFICATION_TO = None
-CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_SUBJECT = '[Castellum] Subject export'
+CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_SUBJECT = 'Subject export'
 CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY = 'The following subject should be exported: {url}'
-CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT = '[Castellum] Subject deletion'
+CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT = 'Subject deletion'
 CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY = 'The following subject should be deleted: {url}'
 
-CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT = '[Castelum] Upcoming appointment changed'
+CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT = 'Upcoming appointment changed'
 CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY = """
 Upcoming appointments for a participant in the study "{study}" have changed:
 

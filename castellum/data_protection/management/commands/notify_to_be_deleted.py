@@ -20,13 +20,13 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
-from django.core.mail import send_mail
 from django.core.management.base import BaseCommand
 from django.core.management.base import CommandError
 from django.urls import reverse
 
 from castellum.data_protection import helpers
 from castellum.subjects.models import Subject
+from castellum.utils.mail import send_mail
 
 
 def subjects_notify(subjects, base_url):
@@ -41,8 +41,8 @@ def subjects_notify(subjects, base_url):
             send_mail(
                 settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
                 settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY.format(url=url),
-                settings.DEFAULT_FROM_EMAIL,
                 [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
+                context='internal',
             )
     print('notified about %i subjects' % count)
 

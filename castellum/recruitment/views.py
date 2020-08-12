@@ -26,8 +26,6 @@ from collections import defaultdict
 
 from django.conf import settings
 from django.contrib import messages
-from django.core.mail import EmailMessage
-from django.core.mail import get_connection
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
@@ -47,6 +45,7 @@ from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.utils import cached_request
 from castellum.utils import contrast_color
+from castellum.utils.mail import send_mass_mail
 
 from .forms import ContactForm
 from .mixins import BaseAttributeSetUpdateView
@@ -362,17 +361,12 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         )
 
         perm = 'recruitment.conduct_study'
-        connection = get_connection()
+        msgs = []
+        mail_subject = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT
         for user in self.study.members.all():
             if user != self.request.user and user.has_perm(perm, obj=self.study):
-                msg = EmailMessage(
-                    settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT,
-                    body,
-                    settings.DEFAULT_FROM_EMAIL,
-                    [user.email],
-                    connection=connection,
-                )
-                msg.send()
+                msgs.append((mail_subject, body, [user.email], {}))
+        send_mass_mail(msgs, context='internal')
 
     def form_valid(self, form):
         response = super().form_valid(form)

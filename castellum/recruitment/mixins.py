@@ -25,8 +25,6 @@ import random
 
 from django.conf import settings
 from django.contrib import messages
-from django.core.mail import EmailMessage
-from django.core.mail import get_connection
 from django.db import models
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
@@ -43,6 +41,7 @@ from castellum.studies.mixins import StudyMixin
 from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
 from castellum.utils.feeds import BaseICalFeed
+from castellum.utils.mail import send_mail
 
 from . import filter_queries
 from .forms import AttributeSetForm
@@ -212,17 +211,6 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         replace_second = replace_first.replace("{lastname}", contact.last_name)
         return replace_second
 
-    def get_mail_settings(self):
-        from_email = settings.CASTELLUM_RECRUITMENT_EMAIL or settings.DEFAULT_FROM_EMAIL
-        connection = get_connection(
-            host=settings.CASTELLUM_RECRUITMENT_EMAIL_HOST,
-            port=settings.CASTELLUM_RECRUITMENT_EMAIL_PORT,
-            username=settings.CASTELLUM_RECRUITMENT_EMAIL_USER,
-            password=settings.CASTELLUM_RECRUITMENT_EMAIL_PASSWORD,
-            use_tls=settings.CASTELLUM_RECRUITMENT_EMAIL_USE_TLS,
-        )
-        return from_email, connection
-
     def get_contact_email(self, contact):
         if contact.email:
             return contact.email
@@ -233,22 +221,19 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     def create_participations(self, batch_size):
         subjects = get_recruitable(self.study)
 
-        from_email, connection = self.get_mail_settings()
         counter = 0
         while counter < batch_size and subjects:
             pick = subjects.pop(random.randrange(0, len(subjects)))
             email = self.get_contact_email(pick.contact)
             if email:
-                mail = EmailMessage(
-                    self.study.mail_subject,
-                    self.personalize_mail_body(self.study.mail_body, pick.contact),
-                    from_email,
-                    [email],
-                    reply_to=[self.study.mail_reply_address],
-                    connection=connection,
-                )
                 try:
-                    success = mail.send()
+                    success = send_mail(
+                        self.study.mail_subject,
+                        self.personalize_mail_body(self.study.mail_body, pick.contact),
+                        [email],
+                        reply_to=[self.study.mail_reply_address],
+                        context='recruitment'
+                    )
                 except ValueError:
                     logger.debug('Failed to send email to subject %i', pick.pk)
                     success = False
@@ -263,15 +248,12 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         return counter
 
     def send_confirmation_mail(self, counter):
-        from_email, connection = self.get_mail_settings()
-        confirmation = EmailMessage(
+        send_mail(
             self.study.mail_subject,
             '%i emails have been sent.\n\n---\n\n%s' % (counter, self.study.mail_body),
-            from_email,
             [self.study.mail_reply_address],
-            connection=connection,
+            context='internal',
         )
-        confirmation.send()
 
     def _form_valid(self, form):
         batch_size = form.cleaned_data['batch_size']
