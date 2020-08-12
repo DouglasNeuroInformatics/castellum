@@ -50,6 +50,7 @@ class Appointment(models.Model):
 
     session = models.ForeignKey(StudySession, verbose_name=_('Session'), on_delete=models.CASCADE)
     start = DateTimeField(_('Start'))
+    reminded = models.BooleanField(_('Reminded'), default=False)
     participation = models.ForeignKey(
         Participation,
         on_delete=models.CASCADE,

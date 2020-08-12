@@ -258,6 +258,7 @@ class ContactForm(forms.ModelForm):
                 elif start != appointment.start:
                     self.appointment_changes.append((appointment.start, start))
                     appointment.start = start
+                    appointment.reminded = False
                     appointment.save()
             elif start:
                 self.appointment_changes.append((None, start))

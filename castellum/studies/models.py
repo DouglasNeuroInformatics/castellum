@@ -291,6 +291,14 @@ class Study(models.Model):
                 recruiters.append(user)
         return recruiters
 
+    @cached_property
+    def study_conductors(self):
+        study_conductors = []
+        for user in self.members.all():
+            if user.has_perm('recruitment.conduct_study', obj=self):
+                study_conductors.append(user)
+        return study_conductors
+
     def has_missing_values(self):
         return not all([
             self.principal_investigator,

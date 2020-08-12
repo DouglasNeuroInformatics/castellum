@@ -360,11 +360,10 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
             )),
         )
 
-        perm = 'recruitment.conduct_study'
         msgs = []
         mail_subject = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT
-        for user in self.study.members.all():
-            if user != self.request.user and user.has_perm(perm, obj=self.study):
+        for user in self.study.study_conductors:
+            if user != self.request.user:
                 msgs.append((mail_subject, body, [user.email], {}))
         send_mass_mail(msgs, context='internal')
 

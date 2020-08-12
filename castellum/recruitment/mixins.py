@@ -211,20 +211,13 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         replace_second = replace_first.replace("{lastname}", contact.last_name)
         return replace_second
 
-    def get_contact_email(self, contact):
-        if contact.email:
-            return contact.email
-        else:
-            for data in contact.guardians.exclude(email='').values('email'):
-                return data['email']
-
     def create_participations(self, batch_size):
         subjects = get_recruitable(self.study)
 
         counter = 0
         while counter < batch_size and subjects:
             pick = subjects.pop(random.randrange(0, len(subjects)))
-            email = self.get_contact_email(pick.contact)
+            email = pick.contact.own_or_guardian_email
             if email:
                 try:
                     success = send_mail(
