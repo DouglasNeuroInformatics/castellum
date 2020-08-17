@@ -21,8 +21,6 @@ msgid "expired"
 msgstr "abgelaufen"
 
 #: castellum/castellum_auth/admin.py:44
-#, fuzzy, python-format
-#| msgid "%i days left"
 msgid "%i days left"
 msgstr "%(days)s Tage verbleibend"
 
@@ -741,7 +739,7 @@ msgstr "Start"
 
 #: castellum/recruitment/models/appointments.py:53
 msgid "Reminded"
-msgstr ""
+msgstr "Erinnert"
 
 #: castellum/recruitment/models/appointments.py:57
 #: castellum/recruitment/models/recruitment.py:98
@@ -753,10 +751,8 @@ msgid "Show up"
 msgstr "Erscheinen"
 
 #: castellum/recruitment/models/appointments.py:62
-#, fuzzy
-#| msgid "Appointments"
 msgid "Appointment"
-msgstr "Termine"
+msgstr "Termin"
 
 #: castellum/recruitment/models/appointments.py:66
 msgid "Can view current appointments"
@@ -889,8 +885,8 @@ msgid "Subject may be suitable"
 msgstr "Proband*in ist potentiell geeignet"
 
 #: castellum/recruitment/models/recruitment.py:90
-msgid "Tries"
-msgstr ""
+msgid "Attempts"
+msgstr "Versuche"
 
 #: castellum/recruitment/models/recruitment.py:92
 #: castellum/recruitment/views.py:159
@@ -994,14 +990,13 @@ msgid "recently contacted in another recruitment"
 msgstr "wurde vor kurzem in einer anderen Rekrutierung kontaktiert"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:63
-#, python-format
 msgid ""
 "\n"
-"                                    %(tries)s try\n"
+"                                    %(attempts)s attempt\n"
 "                                "
 msgid_plural ""
 "\n"
-"                                    %(tries)s tries\n"
+"                                    %(attempts)s attempts\n"
 "                                "
 msgstr[0] ""
 "\n"
@@ -1408,7 +1403,7 @@ msgstr "URL"
 
 #: castellum/studies/models.py:71
 msgid "Color"
-msgstr ""
+msgstr "Farbe"
 
 #: castellum/studies/models.py:83
 #: castellum/studies/templates/studies/filtergroup_advanced.html:56
