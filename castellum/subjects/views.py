@@ -248,6 +248,8 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
             for participation in self.object.participation_set.all():
                 context['dataset_list'].append(participation)
+                for appointment in participation.appointment_set.all():
+                    context['dataset_list'].append(appointment)
 
             try:
                 context['dataset_list'].append(self.object.consent)

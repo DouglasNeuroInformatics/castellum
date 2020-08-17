@@ -59,6 +59,7 @@ class Appointment(models.Model):
     show_up = models.SmallIntegerField(_('Show up'), default=SHOWUP, choices=SHOWUP_CHOICES)
 
     class Meta:
+        verbose_name = _('Appointment')
         ordering = ['start']
         unique_together = ['session', 'participation']
         permissions = [
