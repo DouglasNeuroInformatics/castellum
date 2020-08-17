@@ -87,7 +87,7 @@ class Participation(models.Model):
     )
     exclusion_criteria_checked = models.BooleanField(_('Subject may be suitable'), default=False)
 
-    tries = models.IntegerField(_('Tries'), default=0)
+    attempts = models.IntegerField(_('Attempts'), default=0)
 
     followup_date = DateField(_('Follow-up date'), blank=True, null=True)
     followup_time = models.TimeField(_('Follow-up time'), blank=True, null=True)
@@ -166,11 +166,11 @@ class Participation(models.Model):
     def save(self, *args, **kwargs):
         if self.status in [self.NOT_REACHED, self.AWAITING_RESPONSE]:
             if self.status == self._old_status:
-                self.tries += 1
+                self.attempts += 1
             else:
-                self.tries = 1
+                self.attempts = 1
         else:
-            self.tries = 0
+            self.attempts = 0
         super().save(*args, **kwargs)
 
 
