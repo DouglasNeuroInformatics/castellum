@@ -60,10 +60,10 @@
                         </div>
                         <div class="mr-2">
                             <div class="d-inline-block my-1">
-                                {% blocktrans count tries=participation.tries %}
-                                    {{ tries }} try
+                                {% blocktrans count attempts=participation.attempts %}
+                                    {{ attempts }} attempt
                                 {% plural %}
-                                    {{ tries }} tries
+                                    {{ attempts }} attempts
                                 {% endblocktrans %}
                             </div>,
                             <div class="d-inline-block my-1">{% trans 'last' %}: <time>{{ participation.updated_at|date }}</time></div>

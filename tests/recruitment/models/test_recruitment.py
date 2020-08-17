@@ -112,7 +112,7 @@ def test_last_contacted_elsewhere_not_contacted():
 
 
 @pytest.mark.django_db
-def test_tries():
+def test_attempts():
     with freeze_time("1970-01-01 12:00"):
         participation = baker.make(
             Participation, status=Participation.NOT_REACHED
@@ -131,16 +131,16 @@ def test_tries():
         participation.save()
 
     participation = Participation.objects.get(pk=participation.pk)
-    assert participation.tries == 2
+    assert participation.attempts == 2
 
 
 @pytest.mark.django_db
-def test_tries_single_revision():
+def test_attempts_single_revision():
     participation = baker.make(
         Participation, status=Participation.AWAITING_RESPONSE
     )
     participation = Participation.objects.get(pk=participation.pk)
-    assert participation.tries == 1
+    assert participation.attempts == 1
 
 
 @pytest.mark.django_db
