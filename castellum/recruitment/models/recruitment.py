@@ -36,14 +36,7 @@ from castellum.utils.fields import DateTimeField
 
 class ParticipationManager(models.Manager):
     def get_queryset(self):
-        others = ParticipationRevision.objects\
-            .filter(current_id=models.OuterRef('id'))\
-            .exclude(status=models.OuterRef('status'))
-        other_status_at = others.order_by('-created_at').values('created_at')[:1]
-
         return super().get_queryset().annotate(
-            updated_at=models.Max('revisions__created_at'),
-            created_at=models.Min('revisions__created_at'),
             status_not_reached=models.Count(
                 'id',
                 filter=models.Q(status__in=[
@@ -55,21 +48,12 @@ class ParticipationManager(models.Manager):
             followup_urgent=models.Count(
                 'id', filter=models.Q(followup_date__lte=datetime.date.today())
             ),
-            other_status_at=models.Subquery(other_status_at),
-            tries=models.Count(
-                'revisions',
-                filter=(
-                    models.Q(revisions__created_at__gt=models.F('other_status_at')) |
-                    models.Q(other_status_at__isnull=True)
-                ),
-                distinct=True,
-            ),
             last_contacted_elsewhere=models.Max(
-                'subject__participation__revisions__created_at',
+                'subject__participation__updated_at',
                 filter=(
                     ~models.Q(subject__participation__study=models.F('study'))
                     & ~models.Q(
-                        subject__participation__revisions__status=Participation.NOT_CONTACTED
+                        subject__participation__status=Participation.NOT_CONTACTED
                     )
                 ),
             ),
@@ -92,6 +76,9 @@ class Participation(models.Model):
         (AWAITING_RESPONSE, _('awaiting response')),
     ]
 
+    created_at = DateTimeField(_('created at'), auto_now_add=True)
+    updated_at = DateTimeField(_('updated at'), auto_now=True)
+
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, editable=False)
     study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
 
@@ -99,6 +86,8 @@ class Participation(models.Model):
         _('Status of participation'), choices=STATUS_OPTIONS, default=NOT_CONTACTED
     )
     exclusion_criteria_checked = models.BooleanField(_('Subject may be suitable'), default=False)
+
+    tries = models.IntegerField(_('Tries'), default=0)
 
     followup_date = DateField(_('Follow-up date'), blank=True, null=True)
     followup_time = models.TimeField(_('Follow-up time'), blank=True, null=True)
@@ -114,6 +103,10 @@ class Participation(models.Model):
             ('search_participations', _('Can search for any participation')),
             ('recruit', _('Can recruit')),
         ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._old_status = self.status
 
     @property
     def status_open(self):
@@ -171,42 +164,14 @@ class Participation(models.Model):
             raise ValidationError(msg, code='invalid')
 
     def save(self, *args, **kwargs):
+        if self.status in [self.NOT_REACHED, self.AWAITING_RESPONSE]:
+            if self.status == self._old_status:
+                self.tries += 1
+            else:
+                self.tries = 1
+        else:
+            self.tries = 0
         super().save(*args, **kwargs)
-        ParticipationRevision.objects.create(
-            current=self,
-            status=self.status,
-            exclusion_criteria_checked=self.exclusion_criteria_checked,
-            followup_date=self.followup_date,
-            followup_time=self.followup_time,
-        )
-
-
-class ParticipationRevision(models.Model):
-    """Revision history for Participation.
-
-    Each time a Participation is saved, an instance of ParticipationRevision
-    is created. This way, we have a history of the Participation.
-
-    The history is saved in separate model because of these reasons:
-
-    -   ``Participation.pseudonym`` is unique.
-    -   Saving the history in the same Participation model would degrade
-        performance because the table would be filled up with old revision.
-    """
-
-    current = models.ForeignKey(
-        Participation, related_name='revisions', on_delete=models.CASCADE
-    )
-    status = models.IntegerField(
-        choices=Participation.STATUS_OPTIONS, default=Participation.NOT_CONTACTED
-    )
-    exclusion_criteria_checked = models.BooleanField()
-    followup_date = DateField(blank=True, null=True)
-    followup_time = models.TimeField(blank=True, null=True)
-    created_at = DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return '{}: {}'.format(self.created_at, self.get_status_display())
 
 
 class MailBatch(models.Model):

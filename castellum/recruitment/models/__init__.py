@@ -28,6 +28,5 @@ from .attributesets import AttributeDescription
 from .attributesets import AttributeSet
 from .recruitment import MailBatch
 from .recruitment import Participation
-from .recruitment import ParticipationRevision
 from .subjectfilters import SubjectFilter
 from .subjectfilters import SubjectFilterGroup
