@@ -4,7 +4,7 @@ Data Protection: Deleting a subject from Castellum
 Prerequisite
 ------------
 
-The subject data of a subject should be completely deleted because of four
+The subject data of a subject should be completely deleted because of three
 different reasons:
 
 -   the subject either requested it,
