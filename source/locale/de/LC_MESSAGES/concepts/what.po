@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: castellum-docs \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-03 15:22+0200\n"
+"POT-Creation-Date: 2020-08-24 09:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,154 +47,136 @@ msgstr ""
 #: ../../source/concepts/what.rst:15
 msgid ""
 "You can think of many kinds of scientific databases that handle personal "
-"information:"
+"information. What Castellum is:"
 msgstr ""
 
-#: ../../source/concepts/what.rst:22
-msgid "study database"
-msgstr ""
-
-#: ../../source/concepts/what.rst:19
-msgid "contains all data that is collected during a study"
-msgstr ""
-
-#: ../../source/concepts/what.rst:21
-msgid ""
-"only the researchers that are involved with the study have access to the "
-"data"
-msgstr ""
-
-#: ../../source/concepts/what.rst:26
-msgid "study archive"
-msgstr ""
-
-#: ../../source/concepts/what.rst:25
-msgid ""
-"contains data from past studies that is relevant for scientific reasons, "
-"e.g. reproducibility"
-msgstr ""
-
-#: ../../source/concepts/what.rst:34
-msgid "research archive"
-msgstr ""
-
-#: ../../source/concepts/what.rst:29
-msgid ""
-"contains data that has been collected during one study, but may be reused"
-" in another one"
-msgstr ""
-
-#: ../../source/concepts/what.rst:32
-msgid "reusing data saves time for both the researcher and the test subject"
-msgstr ""
-
-#: ../../source/concepts/what.rst:34
-msgid "examples include image archives and biobanks"
-msgstr ""
-
-#: ../../source/concepts/what.rst:38
+#: ../../source/concepts/what.rst:20
 msgid "recruting database"
 msgstr ""
 
-#: ../../source/concepts/what.rst:37
+#: ../../source/concepts/what.rst:19
 msgid ""
 "contains some data about (potential) test subjects that allows you to "
 "find out which ones you should contact for your next study"
 msgstr ""
 
-#: ../../source/concepts/what.rst:47
+#: ../../source/concepts/what.rst:29
 msgid "contact database"
 msgstr ""
 
-#: ../../source/concepts/what.rst:41
+#: ../../source/concepts/what.rst:23
 msgid "a central list of contact information shared by all other databases"
 msgstr ""
 
-#: ../../source/concepts/what.rst:43
+#: ../../source/concepts/what.rst:25
 msgid ""
 "by having this in a central place, contact information can be updated for"
 " all studies at the same time."
 msgstr ""
 
-#: ../../source/concepts/what.rst:46
+#: ../../source/concepts/what.rst:28
 msgid ""
 "by having this in a central place, the other databases can work with "
 "pseudonyms instead."
 msgstr ""
 
-#: ../../source/concepts/what.rst:50
+#: ../../source/concepts/what.rst:32
 msgid "pseudonym service"
 msgstr ""
 
-#: ../../source/concepts/what.rst:50
+#: ../../source/concepts/what.rst:32
 msgid "used to store relations between the different datasets"
 msgstr ""
 
-#: ../../source/concepts/what.rst:52
+#: ../../source/concepts/what.rst:34
+msgid "What Castellum is not:"
+msgstr ""
+
+#: ../../source/concepts/what.rst:40
+msgid "study database"
+msgstr ""
+
+#: ../../source/concepts/what.rst:37
+msgid "contains all data that is collected during a study"
+msgstr ""
+
+#: ../../source/concepts/what.rst:39
 msgid ""
-"Of these, castellum implements a recruting database, a contact database, "
-"and a pseudonym service. All data that is actually related to studies "
-"must be stored separately."
+"only the researchers that are involved with the study have access to the "
+"data"
+msgstr ""
+
+#: ../../source/concepts/what.rst:44
+msgid "study archive"
+msgstr ""
+
+#: ../../source/concepts/what.rst:43
+msgid ""
+"contains data from past studies that is relevant for scientific reasons, "
+"e.g. reproducibility"
+msgstr ""
+
+#: ../../source/concepts/what.rst:52
+msgid "research archive"
+msgstr ""
+
+#: ../../source/concepts/what.rst:47
+msgid ""
+"contains data that has been collected during one study, but may be reused"
+" in another one"
+msgstr ""
+
+#: ../../source/concepts/what.rst:50
+msgid "reusing data saves time for both the researcher and the test subject"
+msgstr ""
+
+#: ../../source/concepts/what.rst:52
+msgid "examples include image archives and biobanks"
+msgstr ""
+
+#: ../../source/concepts/what.rst:55
+msgid "How do we decide what to integrate?"
 msgstr ""
 
 #: ../../source/concepts/what.rst:57
-msgid "Boundaries"
-msgstr ""
-
-#: ../../source/concepts/what.rst:60
-msgid "Internal steps"
-msgstr ""
-
-#: ../../source/concepts/what.rst:62
 msgid ""
-"Some steps need to be deeply integrated with contact management. A good "
-"example for this is the recruitment, which is centered around "
-"communication with the subject."
+"Some workflows need to be deeply integrated with contact management. A "
+"good example for this is the recruitment, which is centered around "
+"communication with the subject. These workflows are integrated in "
+"Castellum."
 msgstr ""
 
-#: ../../source/concepts/what.rst:66
+#: ../../source/concepts/what.rst:61
 msgid ""
-"Django works best when all data is in the same database. However, it is "
-"also possible to split some data to a separate database. We use this "
-"mechanism for contact data. The data is still held internally, but there "
-"is an additional layer of security."
+"Any other workflows should be kept completely separated. For example, "
+"research data should not be stored inside Castellum. Note that there is "
+"no need for a streamlined, integrated UI because research data is (or at "
+"least could be) handled by completely different staff than contact data "
+"and recruitment."
 msgstr ""
 
-#: ../../source/concepts/what.rst:72
-msgid "External steps"
-msgstr ""
-
-#: ../../source/concepts/what.rst:74
-msgid ""
-"Some steps should be kept completely separated. For example, research "
-"data should not be stored inside castellum. Note that there is no need "
-"for a streamlined, integrated UI because research data is (or at least "
-"could be) handled by completely different staff than contact data and "
-"recruitment."
-msgstr ""
-
-#: ../../source/concepts/what.rst:80
+#: ../../source/concepts/what.rst:67
 msgid ""
 "There are only two notable exceptions to this rule: Study participations "
 "and search attributes both contain traces of research data, but are "
 "required for the recruitment process."
 msgstr ""
 
-#: ../../source/concepts/what.rst:84
+#: ../../source/concepts/what.rst:71
 msgid ""
-"Steps will also be kept out of Castellum if there are well established "
-"processes that do not need to be replaced. Examples might include "
-"calendars or room management."
+"Workflows will also be kept out of Castellum if there are well "
+"established processes that do not need to be replaced. Examples might "
+"include calendars or room management."
 msgstr ""
 
-#: ../../source/concepts/what.rst:88
+#: ../../source/concepts/what.rst:75
 msgid ""
 "The integration with external processes is usually manual. For example, a"
-" pseudonym generated by castellum would usually be entered into a MRI "
+" pseudonym generated by Castellum would usually be entered into a MRI "
 "device by hand."
 msgstr ""
 
-#: ../../source/concepts/what.rst:92
+#: ../../source/concepts/what.rst:79
 msgid ""
 "However, if sufficiently established protocols are available, we try to "
 "support them. For example, authentication can be handled via a central "
@@ -206,5 +188,75 @@ msgstr ""
 #~ "test subjects that allows you can "
 #~ "find out which ones you should "
 #~ "contact for your next study"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "You can think of many kinds of "
+#~ "scientific databases that handle personal "
+#~ "information:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Of these, castellum implements a "
+#~ "recruting database, a contact database, "
+#~ "and a pseudonym service. All data "
+#~ "that is actually related to studies "
+#~ "must be stored separately."
+#~ msgstr ""
+
+#~ msgid "Boundaries"
+#~ msgstr ""
+
+#~ msgid "Internal steps"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Some steps need to be deeply "
+#~ "integrated with contact management. A "
+#~ "good example for this is the "
+#~ "recruitment, which is centered around "
+#~ "communication with the subject."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Django works best when all data is"
+#~ " in the same database. However, it"
+#~ " is also possible to split some "
+#~ "data to a separate database. We "
+#~ "use this mechanism for contact data. "
+#~ "The data is still held internally, "
+#~ "but there is an additional layer "
+#~ "of security."
+#~ msgstr ""
+
+#~ msgid "External steps"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Some steps should be kept completely "
+#~ "separated. For example, research data "
+#~ "should not be stored inside castellum."
+#~ " Note that there is no need for"
+#~ " a streamlined, integrated UI because "
+#~ "research data is (or at least "
+#~ "could be) handled by completely "
+#~ "different staff than contact data and"
+#~ " recruitment."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Steps will also be kept out of "
+#~ "Castellum if there are well established"
+#~ " processes that do not need to "
+#~ "be replaced. Examples might include "
+#~ "calendars or room management."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The integration with external processes "
+#~ "is usually manual. For example, a "
+#~ "pseudonym generated by castellum would "
+#~ "usually be entered into a MRI "
+#~ "device by hand."
 #~ msgstr ""
 
