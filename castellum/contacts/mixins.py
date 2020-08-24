@@ -19,9 +19,13 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
+from django.contrib import messages
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.geofilters.geocode import geocode_address
 
 from .forms import ContactForm
 from .models import Contact
@@ -40,3 +44,8 @@ class BaseContactUpdateView(PermissionRequiredMixin, UpdateView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        if hasattr(settings, 'NOMINATIM') and self.address and not geocode_address(self.address):
+            messages.warning(self.request, _('Address could not be found. Please check again.'))
+        return super().form_valid(form)
