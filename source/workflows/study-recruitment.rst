@@ -3,9 +3,13 @@ Recruitment of participants for a study
 
 1.  Log in to Castellum by using your username and password
 
+    Make sure you are connected to the internet and use your right username and
+    password
+    
 2.  Click on **Studies** on the front page
 
-    When you click on **All studies**, a list of all studies will be shown to you.
+    - When you click on **All** in **Membership** and **Execution** in the field
+    **Status**, you will be shown a list with studies for which you should recruit
 
 3.  Click on **Recruitment** next to the study you want to recruit subjects for
 
@@ -13,10 +17,13 @@ Recruitment of participants for a study
 
 5.  Press the **Contact** button to contact the person you want to reach
 
-    - **E-Mail**, **Phone number**, a potential **Phone number alternative**
-      and the **Address** will be shown to you in the tab **Contacting details**.
-      Remember that every telephone contact with a test person requires a comparison
-      of these data.
+    - **Email**, **Phone number**, a potential **Phone number alternative**
+      and / or the **Address** will be shown to you in the tab **Contacting details**.
+      
+    .. note::
+      Compare the data in the "Contact" and "Attributes" tabs for each telephone
+      contact for completeness and timeliness.
+      
     - You might also see the **Preferred contact method**, if the person is
       **Currently available** and some **General recruiting notes**
     - Please have a look at the **Talking points** that the study coordinator has
@@ -25,7 +32,7 @@ Recruitment of participants for a study
 6.  Contact the potential subject using the specified method
 
 7.  When you received a response from the potential subject, select a **Status
-    of participation request**
+    of participation**
 
     - Choose between:
 
@@ -42,12 +49,11 @@ Recruitment of participants for a study
          (Determine the date and time of the recall appointment below)
 
       e) **awaiting response**
-         (This may apply if you sent an e-mail to the person or if you left a
-         message on the answering machine)
+         (This may apply if you left a message on the answering machine. If you
+         sent an e-mail to the person, this **Status of participation** will be
+         determined automatically.)
 
-    -   When you select the **Status of participant request** and click on
-        **Save and show next**, the next contact person will be shown to you
-        automatically
+    -   Click on **Save** when you selected the **Status of participant**
 
 Editing contact data, attributes and information
 ------------------------------------------------
@@ -91,10 +97,9 @@ To delete the data and the subject, please proceed as follows:
 3.  Write in the empty fields first name and surname of the subject to be
     deleted and click on **Submit**
 
-4.  Click on **Details** and then **Delete** on the horizontal line
+4.  Click on **Details** and then **Data protection** on the horizontal line
 
-5.  Confirm that **you want to permanently delete this subject and all related
-    data**
+5.  Select the checkbox **To be deleted**
 
     .. note::
       The subject is now cleared for deletion from the database and deletion of
