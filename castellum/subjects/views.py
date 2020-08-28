@@ -37,6 +37,7 @@ from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import FormView
@@ -62,6 +63,7 @@ from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseAdditionalInfoUpdateView
 from .mixins import BaseDataProtectionUpdateView
 from .mixins import SubjectMixin
+from .models import Certificate
 from .models import Consent
 from .models import ExportAnswer
 from .models import Subject
@@ -673,3 +675,21 @@ class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, 
             self.patch_zipfile(zin, zresponse)
 
         return response
+
+
+class CertificateUploadView(PermissionRequiredMixin, CreateView):
+    model = Certificate
+    template_name = 'subjects/certificate_upload.html'
+    permission_required = 'subjects.change_subject'
+    fields = ('description', 'file', 'subject')
+
+    def form_valid(self, form):
+        certificate = form.save(commit=False)
+        certificate.subject = get_object_or_404(Subject, pk=self.kwargs.get('pk'))
+        certificate.save()
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['subject'] = get_object_or_404(Subject, pk=self.kwargs.get('pk'))
+        return context

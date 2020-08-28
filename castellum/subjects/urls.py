@@ -25,6 +25,7 @@ from .views import AdditionalInfoUpdateView
 from .views import AddToFinishedStudyView
 from .views import AddToStudyView
 from .views import AttributeSetUpdateView
+from .views import CertificateUploadView
 from .views import ContactUpdateView
 from .views import CoverletterView
 from .views import DataProtectionUpdateView
@@ -53,6 +54,11 @@ urlpatterns = [
     path('<int:pk>/data-protection/', DataProtectionUpdateView.as_view(), name='data-protection'),
     path('<int:pk>/additional-info/', AdditionalInfoUpdateView.as_view(), name='additional-info'),
     path('<int:pk>/coverletter.docx', CoverletterView.as_view(), name='coverletter'),
+    path(
+        '<int:pk>/certificate-upload/',
+        CertificateUploadView.as_view(),
+        name='certificate-upload'
+    ),
     path(
         '<int:pk>/participations/',
         ParticipationListView.as_view(),

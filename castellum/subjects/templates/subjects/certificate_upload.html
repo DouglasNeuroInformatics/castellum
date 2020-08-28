@@ -1,0 +1,25 @@
+{% extends "subjects/base.html" %}
+{% load i18n bootstrap4 utils auth %}
+
+{% block title %} Subjects &middot; {{ block.super }}{% endblock %}
+
+{% block header %}
+    <div class="container text-center my-4">
+        <h1>{{ subject.contact.full_name }}</h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h2 class="h3">{% trans 'Upload document' %}</h2>
+    <form enctype="multipart/form-data" method="post">
+        {% include 'utils/form_errors.html' with form=form %}
+        {% csrf_token %}
+
+        {% bootstrap_field form.file %}
+        {% bootstrap_field form.description %}
+
+        <div class="d-print-none mb-3">
+            <button class="btn btn-primary" >{% trans 'Upload' %}</button>
+        </div>
+    </form>
+{% endblock %}

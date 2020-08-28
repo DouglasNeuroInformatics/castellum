@@ -109,6 +109,7 @@
         {% endif %}
         <div class="tab-pane" id="certificates" role="tabpanel" aria-labelledby="certificates-tab">
             <h2>{% trans 'Document list' %}</h2>
+            <a class="btn btn-primary btn-sm-inline my-1" href="{% url 'subjects:certificate-upload' object.pk %}">{% trans 'Upload certificate' %}</a>
             <dl>
                 {% for document in certificates %}
                     <dt>{{ document.description }}</dt>
