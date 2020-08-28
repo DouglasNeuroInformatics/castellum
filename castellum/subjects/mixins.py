@@ -121,6 +121,7 @@ class BaseAdditionalInfoUpdateView(PermissionRequiredMixin, UpdateView):
         'availability_friday',
         'not_available_until',
         'source',
+        'additional_suitability_document',
     ]
     permission_required = 'subjects.change_subject'
     template_name = 'subjects/subject_additional_info_form.html'
