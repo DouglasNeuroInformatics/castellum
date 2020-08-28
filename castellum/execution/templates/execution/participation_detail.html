@@ -24,6 +24,9 @@
                 <a class="nav-link" id="appointments-tab" data-toggle="tab" href="#appointments" role="tab" aria-controls="appointments" aria-selected="false">{% trans 'Appointments' %}</a>
             </li>
         {% endif %}
+        <li class="nav-item">
+            <a class="nav-link" id="certificates-tab" data-toggle="tab" href="#certificates" role="tab" aria-controls="certificates" aria-selected="false">{% trans 'Certificates' %}</a>
+        </li>
     </ul>
 
     <div class="tab-content mb-3 border border-top-0 p-3">
@@ -104,5 +107,14 @@
                 </dl>
             </div>
         {% endif %}
+        <div class="tab-pane" id="certificates" role="tabpanel" aria-labelledby="certificates-tab">
+            <h2>{% trans 'Document list' %}</h2>
+            <dl>
+                {% for document in certificates %}
+                    <dt>{{ document.description }}</dt>
+                    <dd>{{ document.created_at }}</dd>
+                {% endfor %}
+            </dl>
+        </div>
     </div>
 {% endblock %}

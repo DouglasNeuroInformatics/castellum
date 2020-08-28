@@ -47,6 +47,7 @@ from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
+from castellum.subjects.models import Certificate
 
 
 class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
@@ -95,6 +96,7 @@ class ParticipationDetailView(
             context['appointments'].append((session, appointment, form))
 
         context['general_criteria'] = settings.CASTELLUM_GENERAL_EXCLUSION_CRITERIA
+        context['certificates'] = Certificate.objects.filter(subject=self.object.subject)
 
         return context
 
