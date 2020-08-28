@@ -258,6 +258,19 @@ class SubjectNote(models.Model):
     content = models.CharField(_('Content'), max_length=128, blank=True)
 
 
+class Certificate(models.Model):
+    description = models.CharField(_('Description'), max_length=128)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='certificates')
+    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
+    file = RestrictedFileField(
+        _('File'),
+        blank=True,
+        upload_to='certificates/',
+        content_types=['application/pdf'],
+        max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
+    )
+
+
 class ConsentDocument(models.Model):
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     is_valid = models.BooleanField(_('Is valid'), default=True)
