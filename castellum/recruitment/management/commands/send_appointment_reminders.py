@@ -30,10 +30,30 @@ from django.utils import timezone
 from castellum.recruitment.models import Appointment
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
+from castellum.utils.mail import MailBody
 from castellum.utils.mail import get_context
 from castellum.utils.mail import send_mail
 
 logger = logging.getLogger(__name__)
+
+
+class ReminderMailBody(MailBody):
+    text = settings.CASTELLUM_APPOINTMENT_MAIL_BODY
+    fallback = settings.CASTELLUM_APPOINTMENT_MAIL_BODY_EN
+
+    def __init__(self, appointment, study, reply_to):
+        self.appointment = appointment
+        self.study = study
+        self.reply_to = reply_to
+
+    def get_data(self):
+        contact = self.appointment.participation.subject.contact
+        return {
+            'subject': contact.full_name,
+            'study': self.study.name,
+            'date': formats.date_format(self.appointment.start, 'DATETIME_FORMAT'),
+            'reply_to': self.reply_to,
+        }
 
 
 def send_mail_to_subject(study, appointment, reply_to):
@@ -41,22 +61,10 @@ def send_mail_to_subject(study, appointment, reply_to):
     if not contact.own_or_guardian_email:
         return False
 
-    def get_mail_data():
-        return {
-            'subject': contact.full_name,
-            'study': study.name,
-            'date': formats.date_format(appointment.start, 'DATETIME_FORMAT'),
-            'reply_to': reply_to,
-        }
-
     try:
         return send_mail(
             settings.CASTELLUM_APPOINTMENT_MAIL_SUBJECT,
-            (
-                get_mail_data,
-                settings.CASTELLUM_APPOINTMENT_MAIL_BODY,
-                settings.CASTELLUM_APPOINTMENT_MAIL_BODY_EN,
-            ),
+            ReminderMailBody(appointment, study, reply_to),
             [contact.own_or_guardian_email],
             reply_to=[reply_to],
             context='recruitment',
