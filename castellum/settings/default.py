@@ -295,6 +295,14 @@ LOGGING = {
     },
 }
 
+# Secondary language in emails for readers who do not understand the
+# primary language
+CASTELLUM_FALLBACK_LANGUAGE = 'en'
+CASTELLUM_FALLBACK_LANGUAGE_MARKERS = (
+    '++++ FOR ENGLISH VERSION SEE BELOW ++++',
+    '++++ ENGLISH VERSION ++++',
+)
+
 CASTELLUM_ENABLE_STUDY_EXPORT = True
 
 # timespan a subject should be allowed to remain in the database without

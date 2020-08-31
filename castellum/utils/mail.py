@@ -38,24 +38,24 @@ def get_context(name=None):
     return context
 
 
-def en_fallback(get_mail_data, text, text_en=None, lang=None):
+def render_body_with_fallback(get_mail_data, text, fallback=None, lang=None):
     """Render text and english fallback text in the correct locale context."""
 
     with translation.override(lang):
         s = text.format(**get_mail_data())
 
-    if lang != 'en' and text_en:
-        s = '++++ FOR ENGLISH VERSION SEE BELOW ++++\n\n\n' + s
-        s += '\n\n\n++++ ENGLISH VERSION ++++\n\n\n'
-        with translation.override('en'):
-            s += text_en.format(**get_mail_data())
+    if lang != settings.CASTELLUM_FALLBACK_LANGUAGE and fallback:
+        before, after = settings.CASTELLUM_FALLBACK_LANGUAGE_MARKERS
+        with translation.override(settings.CASTELLUM_FALLBACK_LANGUAGE):
+            s_fallback = fallback.format(**get_mail_data())
+        s = '\n\n\n'.join([before, s, after, s_fallback])
 
     return s
 
 
 def prepare_body(body, context):
     if not isinstance(body, str):
-        body = en_fallback(*body, lang=context['language'])
+        body = render_body_with_fallback(*body, lang=context['language'])
     body += context['signature']
     return body
 
