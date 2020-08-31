@@ -1,0 +1,31 @@
+{% extends "execution/base.html" %}
+{% load i18n auth %}
+
+{% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
+
+{% block header %}
+    <div class="container text-center my-4">
+        <h1>{{ subject.contact.full_name }}</h1>
+    </div>
+
+    <nav class="d-print-none" aria-label="{% trans 'Tabs' %}">
+        <ul class="nav nav-tabs justify-content-center mb-3">
+            <li class="nav-item">
+                <a href="{% url 'execution:participation-detail' study.pk participation.pk %}" class="nav-link {% if view.tab == 'overview' %}active{% endif %}">{% trans 'Overview' %}</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'execution:participation-outcome' study.pk participation.pk %}" class="nav-link {% if view.tab == 'outcome' %}active{% endif %}">{% trans 'Outcome' %}</a>
+            </li>
+            {% if study.has_exclusion_criteria %}
+                <li class="nav-item">
+                    <a href="{% url 'execution:participation-criteria' study.pk participation.pk %}" class="nav-link {% if view.tab == 'criteria' %}active{% endif %}">{% trans 'Criteria' %}</a>
+                </li>
+            {% endif %}
+            {% if study.studysession_set.exists %}
+                <li class="nav-item">
+                    <a href="{% url 'execution:participation-appointments' study.pk participation.pk %}" class="nav-link {% if view.tab == 'appointments' %}active{% endif %}">{% trans 'Appointments' %}</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}

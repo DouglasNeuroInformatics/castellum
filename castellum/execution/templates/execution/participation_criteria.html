@@ -1,0 +1,18 @@
+{% extends "execution/participation_base.html" %}
+{% load i18n utils %}
+
+{% block content %}
+    {% if study.exclusion_criteria %}
+        {{ study.exclusion_criteria|linebreaks }}
+    {% endif %}
+    {% for study_type in study.study_type.all %}
+        {% if study_type.exclusion_criteria %}
+            <h2>{{ study_type.label }}</h2>
+            {{ study_type.exclusion_criteria|linebreaks }}
+        {% endif %}
+    {% endfor %}
+    {% if general_criteria %}
+        <h2>{% trans 'General criteria' %}</h2>
+        {{ general_criteria|linebreaks }}
+    {% endif %}
+{% endblock %}
