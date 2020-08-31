@@ -308,8 +308,18 @@ CASTELLUM_SUBJECT_DELETION_PERIOD = datetime.timedelta(days=30)
 CASTELLUM_APPOINTMENT_REMINDER_PERIOD = datetime.timedelta(days=2)
 CASTELLUM_APPOINTMENT_MAIL_SUBJECT = "Reminder: You have an appointment"
 CASTELLUM_APPOINTMENT_MAIL_BODY = (
-    "Dear {subject},\n\nPlease remember your appointment in study {study} is on {date}. "
-    "If you wish to cancel or postpone, please get in touch with {reply_to}."
+    "++++ FOR ENGLISH VERSION SEE BELOW ++++\n\n\n"
+    "Guten Tag {subject},\n\n"
+    "wir möchten Sie an ihren Termin in der Studie {study} am {date} erinnern.\n"
+    "Falls Sie absagen oder den Termin verschieben möchten, so melden Sie sich "
+    "bitte bei {reply_to}.\n\n"
+    "Mit freundlichen Grüßen\ndas Rekrutierungsteam"
+    "\n\n\n"
+    "++++ ENGLISH VERSION ++++\n\n\n"
+    "Dear {subject},\n\nwe would like to kindly remind you of your appointment in "
+    "study {study} on {date}.\n"
+    "If you wish to cancel or postpone, please get in touch with {reply_to}.\n\n"
+    "Sincerely yours\nthe recruitment team"
 )
 CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_SUBJECT = "Appointment reminders for {study}"
 CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY = (
