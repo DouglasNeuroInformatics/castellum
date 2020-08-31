@@ -73,16 +73,23 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
 
 
 class ParticipationDetailView(
-    ParticipationMixin, PermissionRequiredMixin, DetailView
+    ParticipationMixin, PermissionRequiredMixin, UpdateView
 ):
     template_name = 'execution/participation_detail.html'
     model = Participation
+    fields = ['outcome_interest']
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     participation_status = [Participation.INVITED]
 
     def get_object(self):
         return self.participation
+
+    def get_success_url(self):
+        return reverse(
+            'execution:participation-detail',
+            args=[self.object.study.pk, self.object.pk],
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -97,6 +104,10 @@ class ParticipationDetailView(
         context['general_criteria'] = settings.CASTELLUM_GENERAL_EXCLUSION_CRITERIA
 
         return context
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form)
 
 
 class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
