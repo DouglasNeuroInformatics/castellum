@@ -204,8 +204,33 @@ class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
             context='recruitment',
         )
 
+    def render_urls(self, participations):
+        return '\n'.join(
+            self.request.build_absolute_uri(reverse(
+                'execution:participation-detail',
+                args=[self.study.pk, participation.pk],
+            ))
+            for participation in participations
+        )
+
     def send_summary(self, succeeded, failed):
+        postal = list(self.study.participation_set.filter(
+            outcome_interest=Participation.VIA_POSTAL
+        ))
+
         body = 'You sent outcome emails to %i subjects.' % len(succeeded)
+
+        if failed:
+            body += (
+                '\n\nThe following subjects asked to be informed via '
+                'email but could not be reached:\n'
+            )
+            body += self.render_urls(failed)
+
+        if postal:
+            body += '\n\nThe following subjects asked to be informed via postal mail:\n'
+            body += self.render_urls(postal)
+
         return send_mail(
             '[%s] outcome email send' % self.study.name,
             body,
@@ -229,7 +254,8 @@ class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
         self.send_summary(succeeded, failed)
         messages.success(self.request, _(
             'Mail was sent to %i subjects. '
-            'An email was sent to all study conductors with further information.'
+            'An email was sent to all study conductors with further information. '
+            'That email also lists potential next steps.'
         ) % len(succeeded))
 
         return redirect('execution:study-detail', self.study.pk)
