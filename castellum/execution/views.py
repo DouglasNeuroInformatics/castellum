@@ -48,6 +48,8 @@ from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
 
+from .forms import OutcomeMailForm
+
 
 class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
     template_name = 'execution/study_detail.html'
@@ -180,6 +182,15 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
         except ObjectDoesNotExist:
             messages.warning(self.request, _('No match found'))
             return self.render_to_response(self.get_context_data(form=form))
+
+
+class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
+    template_name = 'execution/study_outcome_mail.html'
+    permission_required = 'recruitment.conduct_study'
+    study_status = [Study.EXECUTION]
+    form_class = OutcomeMailForm
+    def form_valid(self, form):
+        return redirect('execution:study-detail', self.study.pk)
 
 
 class ExecutionUpdateMixin(ParticipationMixin):

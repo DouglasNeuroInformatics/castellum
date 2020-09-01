@@ -36,5 +36,6 @@
     <div class="d-print-none mb-3">
         <a href="{% url 'execution:resolve' study.pk %}" class="btn btn-secondary">{% trans 'Resolve pseudonym' %}</a>
         <a href="{% url 'execution:calendar' study.pk %}" class="btn btn-secondary">{% trans 'Calendar' %}</a>
+        <a href="{% url 'execution:outcome-mail' study.pk %}" class="btn btn-secondary">{% trans 'Outcome mail' %}</a>
     </div>
 {% endblock %}
