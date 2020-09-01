@@ -47,6 +47,7 @@ from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
+from castellum.utils.mail import send_mail
 
 from .forms import OutcomeMailForm
 
@@ -189,7 +190,25 @@ class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     form_class = OutcomeMailForm
+
+    def send_mail(self, participation, subject=None, body=None):
+        contact = participation.subject.contact
+        if not contact.own_or_guardian_email:
+            return False
+
+        return send_mail(
+            subject,
+            body,
+            [contact.own_or_guardian_email],
+            reply_to=[self.study.mail_reply_address] if self.study.mail_reply_address else [],
+            context='recruitment',
+        )
+
     def form_valid(self, form):
+        for participation in self.study.participation_set.filter(
+            outcome_interest=Participation.VIA_EMAIL
+        ):
+            self.send_mail(participation, **form.cleaned_data)
         return redirect('execution:study-detail', self.study.pk)
 
 
