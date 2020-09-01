@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('recruitment', '0016_auto_20200817_1351'),
+        ('recruitment', '0017_participation_rename_tries_attempts'),
     ]
 
     operations = [

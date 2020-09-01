@@ -40,7 +40,7 @@ def migrate_data(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('recruitment', '0013_refactor_permissions'),
+        ('recruitment', '0015_appointment_verbose_name'),
     ]
 
     operations = [

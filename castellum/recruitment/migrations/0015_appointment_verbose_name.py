@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('recruitment', '0013_refactor_permissions'),
+        ('recruitment', '0014_appointment_reminded'),
     ]
 
     operations = [
