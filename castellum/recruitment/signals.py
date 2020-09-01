@@ -29,3 +29,14 @@ def delete_participation_pseudonym(sender, instance, using, **kwargs):
         Pseudonym.objects\
             .filter(domain__key=instance.study.domain, subject=instance.subject)\
             .update(subject=None)
+
+
+def delete_attribute_data(sender, instance, using, **kwargs):
+    from .models import AttributeDescription
+    from .models import AttributeSet
+
+    if sender is AttributeDescription:
+        objs = list(AttributeSet.objects.filter(data__has_key=instance.json_key))
+        for attributeset in objs:
+            del attributeset.data[instance.json_key]
+        AttributeSet.objects.bulk_update(objs, ['data'])
