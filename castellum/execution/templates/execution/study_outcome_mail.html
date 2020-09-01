@@ -6,6 +6,8 @@
 {% block content %}
     <h1 class="text-center">{{ study }}</h1>
 
+    <p>{% trans 'This form allows you to send a message to all subjects who indicated interest in the study outcome. You cannot attach a document to the email, but you can include a link.' %}</p>
+
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
