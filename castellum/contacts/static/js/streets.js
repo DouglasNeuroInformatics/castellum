@@ -5,7 +5,7 @@
     input.after(list);
     input.setAttribute('list', list.id);
 
-    $$.on(document, 'input', '[name="street"]', function() {
+    $$.on(document, 'input', '[name="street"]', $$.throttled(function() {
         fetch('/contacts/streets/?q=' + this.value, {credentials: 'same-origin'})
             .then(response => response.json())
             .then(json => {
@@ -16,5 +16,5 @@
                     list.append(option);
                 }
             });
-    });
+    }, 500));
 })();
