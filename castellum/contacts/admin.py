@@ -23,6 +23,7 @@ from django.contrib import admin
 
 from .models import Address
 from .models import Contact
+from .models import Street
 
 
 class AddressInline(admin.StackedInline):
@@ -59,3 +60,4 @@ class ContactAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Contact, ContactAdmin)
+admin.site.register(Street)

@@ -240,3 +240,7 @@ class Address(models.Model):
         ]
         verbose_name = _('Address')
         verbose_name_plural = _('Addresses')
+
+
+class Street(models.Model):
+    name = models.CharField(_('Name'), max_length=64)
