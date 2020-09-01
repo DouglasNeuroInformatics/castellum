@@ -204,11 +204,34 @@ class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
             context='recruitment',
         )
 
+    def send_summary(self, succeeded, failed):
+        body = 'You sent outcome emails to %i subjects.' % len(succeeded)
+        return send_mail(
+            '[%s] outcome email send' % self.study.name,
+            body,
+            [user.email for user in self.study.study_conductors],
+            context='internal',
+        )
+
     def form_valid(self, form):
+        succeeded = []
+        failed = []
+
         for participation in self.study.participation_set.filter(
             outcome_interest=Participation.VIA_EMAIL
         ):
-            self.send_mail(participation, **form.cleaned_data)
+            success = self.send_mail(participation, **form.cleaned_data)
+            if success:
+                succeeded.append(participation)
+            else:
+                failed.append(participation)
+
+        self.send_summary(succeeded, failed)
+        messages.success(self.request, _(
+            'Mail was sent to %i subjects. '
+            'An email was sent to all study conductors with further information.'
+        ) % len(succeeded))
+
         return redirect('execution:study-detail', self.study.pk)
 
 
