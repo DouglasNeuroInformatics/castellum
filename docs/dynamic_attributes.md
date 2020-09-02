@@ -55,3 +55,9 @@ migration using the available django interfaces.
 
 As a general rule, we recommend creating a new `AttributeDescription`
 and deprecating the old one over modifying an existing one.
+
+## Deleting Attribute Descriptions
+
+If you delete an attribute description, all related data will
+automatically be deleted along with it. Note that subject filters for
+this attribute will also be deleted.
