@@ -31,6 +31,7 @@ from faker import Faker
 
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
+from castellum.contacts.models import Street
 from castellum.contacts.models import phonetic
 from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import AttributeSet
@@ -253,12 +254,19 @@ def generate_subjects(count):
     Consent.objects.bulk_create(consents)
 
 
+def generate_streets(count):
+    print('Generating streets')
+    streets = [Street(name=fake.street_name()) for i in range(count)]
+    Street.objects.bulk_create(streets, batch_size=200)
+
+
 class Command(BaseCommand):
     help = 'Populate database with demo data.'
 
     def add_arguments(self, parser):
         parser.add_argument('--study-count', default=5, type=int)
         parser.add_argument('--subject-count', default=2000, type=int)
+        parser.add_argument('--street-count', default=1000, type=int)
 
     def handle(self, *args, **options):
         if settings.PRODUCTION:
@@ -268,3 +276,5 @@ class Command(BaseCommand):
             generate_studies(options['study_count'])
         if not Subject.objects.exists():
             generate_subjects(options['subject_count'])
+        if not Street.objects.exists():
+            generate_streets(options['street_count'])

@@ -13,6 +13,18 @@
             event.initEvent(eventName, true, false);
             el.dispatchEvent(event);
         },
+        throttled: function(fn, timeout) {
+            var blocked = false;
+            return function() {
+                if (!blocked) {
+                    blocked = true;
+                    setTimeout(() => {
+                        fn.apply(this, arguments);
+                        blocked = false;
+                    }, timeout);
+                }
+            };
+        },
     };
 
     var preventDoubleClick = false;
