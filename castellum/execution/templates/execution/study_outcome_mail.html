@@ -1,5 +1,5 @@
 {% extends "execution/base.html" %}
-{% load i18n bootstrap4 %}
+{% load i18n bootstrap4 humanize %}
 
 {% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
 
@@ -19,4 +19,30 @@
             <button class="btn btn-primary">{% trans 'Send' %}</button>
         </div>
     </form>
+
+    {% if study.outcomemailbatch_set.all %}
+        <h3 class="mt-5">{% trans "Previous mails" %}</h3>
+        <ul class="table-list mb-3">
+        {% for batch in study.outcomemailbatch_set.all %}
+            <li class="table-list-item">
+                <div>
+                    <small class="text-muted">
+                        {% blocktrans with datetime=batch.datetime|date counter=forloop.counter|ordinal %}
+                            {{ counter }} mail sent on {{ datetime }}:
+                        {% endblocktrans %}
+                    </small>
+                    <div>
+                        {% blocktrans with contacted_size=batch.contacted_size other_size=batch.other_size %}
+                            {{ contacted_size }} subjects contacted, {{ other_size }} more want to be contacted
+                        {% endblocktrans %}
+                    </div>
+                    <details>
+                        <summary>{{ batch.mail_subject }}</summary>
+                        {{ batch.mail_body|linebreaks }}
+                    </details>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}
