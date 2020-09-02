@@ -187,7 +187,20 @@ class Participation(models.Model):
         super().save(*args, **kwargs)
 
 
-class MailBatch(models.Model):
+class BaseMailBatch(models.Model):
     study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
     datetime = models.DateTimeField(_('Sent date'), auto_now_add=True)
     contacted_size = models.PositiveIntegerField()
+
+    class Meta:
+        abstract = True
+
+
+class MailBatch(BaseMailBatch):
+    pass
+
+
+class OutcomeMailBatch(BaseMailBatch):
+    other_size = models.PositiveIntegerField()
+    mail_subject = models.CharField(_('E-mail subject'), max_length=128)
+    mail_body = models.TextField(_('E-mail body'))
