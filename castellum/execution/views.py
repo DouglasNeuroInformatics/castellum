@@ -42,6 +42,7 @@ from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.mixins import BaseCalendarView
 from castellum.recruitment.mixins import ParticipationMixin
 from castellum.recruitment.models import Appointment
+from castellum.recruitment.models import OutcomeMailBatch
 from castellum.recruitment.models import Participation
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
@@ -233,6 +234,14 @@ class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
 
         body += '\n\n-------- Original Message --------\n'
         body += 'Subject: {subject}\n\n{body}'.format(**form.cleaned_data)
+
+        OutcomeMailBatch.objects.create(
+            study=self.study,
+            contacted_size=len(succeeded),
+            other_size=len(failed) + len(postal),
+            mail_subject=form.cleaned_data['subject'],
+            mail_body=form.cleaned_data['body'],
+        )
 
         return send_mail(
             '[%s] outcome email send' % self.study.name,
