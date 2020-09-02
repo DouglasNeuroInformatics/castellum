@@ -6,6 +6,7 @@ from castellum.settings.default import *  # isort:skip
 # FIXME: These values need to be changed
 SECRET_KEY = 'CHANGEME'
 
+# Only postgres/postgis are officially supported for castellum.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
