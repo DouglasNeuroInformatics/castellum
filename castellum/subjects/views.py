@@ -557,9 +557,17 @@ class MaintenanceDuplicatesView(BaseMaintenanceView):
     tab = 'duplicates'
 
     def get_queryset(self):
+        to_be_deleted = list(
+            Subject.objects
+            .filter(to_be_deleted__isnull=False)
+            .values_list('pk', flat=True)
+            .order_by()
+        )
+
         return (
             Contact.objects
             .values('first_name', 'last_name')
+            .exclude(subject_id__in=to_be_deleted)
             .annotate(
                 count=models.Count('id'),
                 date_of_birth_count=models.Count('date_of_birth', distinct=True),

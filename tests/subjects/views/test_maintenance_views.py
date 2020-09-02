@@ -83,6 +83,19 @@ def test_maintenance_duplicates_different_date_of_birth(client, user):
     assert response.content.count(b'<li class="table-list-item">') == 0
 
 
+def test_maintenance_duplicates_to_be_deleted(client, user):
+    baker.make(Contact, first_name='Foo', last_name='Bar', date_of_birth=date(2000, 1, 1))
+    contact = baker.make(Contact, first_name='Foo', last_name='Bar', date_of_birth=date(2000, 1, 1))
+    contact.subject.to_be_deleted = timezone.now()
+    contact.subject.save()
+
+    client.force_login(user)
+    url = '/subjects/maintenance/duplicates/'
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.content.count(b'<li class="table-list-item">') == 0
+
+
 @pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
