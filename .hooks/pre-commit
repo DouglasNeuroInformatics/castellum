@@ -1,11 +1,7 @@
 #!/bin/sh
 
 tmp=$(mktemp -d)
-
-cleanup() {
-  rm -r "$tmp"
-}
-trap cleanup EXIT
+trap 'rm -r "$tmp"' EXIT
 
 nonempty() {
     while read -r path; do
