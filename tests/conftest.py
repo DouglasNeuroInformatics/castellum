@@ -3,9 +3,11 @@ import os
 
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
+from django.contrib.postgres.fields import JSONField as PostgresJSONField
 from django.core import serializers
 from django.db.models import DateField
 from django.db.models import DateTimeField
+from django.db.models import JSONField
 from django.test import TestCase
 from django.utils import timezone
 
@@ -29,6 +31,9 @@ baker.generators.add(
 )
 baker.generators.add(
     'castellum.utils.fields.DateTimeField', baker.generators.default_mapping[DateTimeField]
+)
+baker.generators.add(
+    JSONField, baker.generators.default_mapping[PostgresJSONField]
 )
 
 # monkey patch to make test isolation work on both databases

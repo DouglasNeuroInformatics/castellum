@@ -31,13 +31,15 @@ class Command(BaseCommand):
         migrate = MigrateCommand()
 
         options = {
+            'skip_checks': False,
             'app_label': None,
             'migration_name': None,
             'interactive': True,
             'fake': False,
             'fake_initial': False,
-            'run_syncdb': False,
             'plan': False,
+            'run_syncdb': False,
+            'check_unapplied': False,
         }
         options.update(kwargs)
 
