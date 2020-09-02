@@ -82,7 +82,7 @@
                 {% if messages %}
                     {% for message in messages %}
                         <div class="{{ message|bootstrap_message_classes }}" role="alert">
-                            {{ message|capfirst|linebreaksbr }}
+                            {{ message|linebreaks }}
                         </div>
                     {% endfor %}
                 {% endif %}
