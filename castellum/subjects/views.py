@@ -506,6 +506,9 @@ class BaseMaintenanceView(PermissionRequiredMixin, ListView):
     paginate_by = 20
     permission_required = 'subjects.change_subject'
 
+    def get_queryset(self):
+        return super().get_queryset().filter(to_be_deleted__isnull=True)
+
 
 class MaintenanceAttributesView(BaseMaintenanceView):
     template_name = 'subjects/maintenance_attributes.html'
@@ -554,25 +557,27 @@ class MaintenanceDuplicatesView(BaseMaintenanceView):
     tab = 'duplicates'
 
     def get_queryset(self):
-        duplicates = []
+        to_be_deleted = list(
+            Subject.objects
+            .filter(to_be_deleted__isnull=False)
+            .values_list('pk', flat=True)
+            .order_by()
+        )
 
-        names = Contact.objects\
-            .values('first_name', 'last_name')\
-            .annotate(count=models.Count('id'))\
-            .filter(count__gt=1)\
+        return (
+            Contact.objects
+            .values('first_name', 'last_name')
+            .exclude(subject_id__in=to_be_deleted)
+            .annotate(
+                count=models.Count('id'),
+                date_of_birth_count=models.Count('date_of_birth', distinct=True),
+            )
+            .filter(
+                count__gt=1,
+                date_of_birth_count__lt=models.F('count'),
+            )
             .order_by('last_name', 'first_name')
-
-        for name in names:
-            date_of_birth_count = Contact.objects.filter(
-                first_name=name['first_name'],
-                last_name=name['last_name'],
-                date_of_birth__isnull=False,
-            ).values('date_of_birth').distinct().count()
-
-            if date_of_birth_count < name['count']:
-                duplicates.append(name)
-
-        return duplicates
+        )
 
 
 class MaintenanceConsentView(BaseMaintenanceView):
@@ -591,10 +596,10 @@ class MaintenanceConsentView(BaseMaintenanceView):
         )
 
         pks = [c.subject.pk for c in contacts if c.subject.has_consent_from_before_full_age]
-        return Subject.objects.filter(pk__in=pks)
+        return super().get_queryset().filter(pk__in=pks)
 
     def get_by_outdated_document(self):
-        return Subject.objects\
+        return super().get_queryset()\
             .exclude(filter_queries.has_consent(exclude_deprecated=True))\
             .filter(consent__status=Consent.CONFIRMED)
 
@@ -625,7 +630,10 @@ class MaintenanceShowupView(BaseMaintenanceView):
         return (
             Subject.objects
             .annotate_showup()
-            .filter(showup_score__gte=6)
+            .filter(
+                to_be_deleted__isnull=True,
+                showup_score__gte=6,
+            )
             .order_by('-showup_score')
         )
 
