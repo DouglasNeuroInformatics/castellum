@@ -68,5 +68,6 @@ class Command(BaseCommand):
         used_files = get_used_files()
         for path in iter_media_files():
             if path not in used_files:
-                print('Deleting', path)
+                if options['verbosity'] > 0:
+                    self.stdout.write('Deleting', path)
                 os.unlink(path)

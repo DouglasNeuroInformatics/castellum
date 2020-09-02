@@ -44,7 +44,7 @@ def subjects_notify(subjects, base_url):
                 [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
                 context='internal',
             )
-    print('notified about %i subjects' % count)
+    return count
 
 
 def subjects_reset(subjects):
@@ -54,7 +54,7 @@ def subjects_reset(subjects):
             subject.to_be_deleted_notified = False
             subject.save()
             count += 1
-    print('reset %i subjects that previously were marked as notified' % count)
+    return count
 
 
 class Command(BaseCommand):
@@ -69,8 +69,15 @@ class Command(BaseCommand):
             raise CommandError('CASTELLUM_DELETE_NOTIFICATION_TO is not set')
 
         subjects, missing = helpers.get_all_subjects(options['limit_by'])
-        subjects_notify(subjects, options['base_url'])
+        count = subjects_notify(subjects, options['base_url'])
+        if options['verbosity'] > 0:
+            self.stdout.write('notified about %i subjects' % count)
         if missing:
-            print('skipped resetting because %i subjects were missing' % missing)
+            if options['verbosity'] > 0:
+                self.stdout.write('skipped resetting because %i subjects were missing' % missing)
         else:
-            subjects_reset(subjects)
+            count = subjects_reset(subjects)
+            if options['verbosity'] > 0:
+                self.stdout.write(
+                    'reset %i subjects that previously were marked as notified' % count
+                )
