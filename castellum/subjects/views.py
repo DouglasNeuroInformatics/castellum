@@ -506,6 +506,9 @@ class BaseMaintenanceView(PermissionRequiredMixin, ListView):
     paginate_by = 20
     permission_required = 'subjects.change_subject'
 
+    def get_queryset(self):
+        return super().get_queryset().filter(to_be_deleted__isnull=True)
+
 
 class MaintenanceAttributesView(BaseMaintenanceView):
     template_name = 'subjects/maintenance_attributes.html'
@@ -591,10 +594,10 @@ class MaintenanceConsentView(BaseMaintenanceView):
         )
 
         pks = [c.subject.pk for c in contacts if c.subject.has_consent_from_before_full_age]
-        return Subject.objects.filter(pk__in=pks)
+        return super().get_queryset().filter(pk__in=pks)
 
     def get_by_outdated_document(self):
-        return Subject.objects\
+        return super().get_queryset()\
             .exclude(filter_queries.has_consent(exclude_deprecated=True))\
             .filter(consent__status=Consent.CONFIRMED)
 
@@ -625,7 +628,10 @@ class MaintenanceShowupView(BaseMaintenanceView):
         return (
             Subject.objects
             .annotate_showup()
-            .filter(showup_score__gte=6)
+            .filter(
+                to_be_deleted__isnull=True,
+                showup_score__gte=6,
+            )
             .order_by('-showup_score')
         )
 
