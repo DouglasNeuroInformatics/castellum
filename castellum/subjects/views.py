@@ -557,25 +557,19 @@ class MaintenanceDuplicatesView(BaseMaintenanceView):
     tab = 'duplicates'
 
     def get_queryset(self):
-        duplicates = []
-
-        names = Contact.objects\
-            .values('first_name', 'last_name')\
-            .annotate(count=models.Count('id'))\
-            .filter(count__gt=1)\
+        return (
+            Contact.objects
+            .values('first_name', 'last_name')
+            .annotate(
+                count=models.Count('id'),
+                date_of_birth_count=models.Count('date_of_birth', distinct=True),
+            )
+            .filter(
+                count__gt=1,
+                date_of_birth_count__lt=models.F('count'),
+            )
             .order_by('last_name', 'first_name')
-
-        for name in names:
-            date_of_birth_count = Contact.objects.filter(
-                first_name=name['first_name'],
-                last_name=name['last_name'],
-                date_of_birth__isnull=False,
-            ).values('date_of_birth').distinct().count()
-
-            if date_of_birth_count < name['count']:
-                duplicates.append(name)
-
-        return duplicates
+        )
 
 
 class MaintenanceConsentView(BaseMaintenanceView):
