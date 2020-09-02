@@ -41,7 +41,7 @@ This GUI also allows to export and import attribute descriptions as
 JSON. This allows organizations to easily exchange attribute
 descriptions.
 
-## Changing Attributes
+## Changing Attribute Descriptions
 
 While changing informational data such as label and help text is safe,
 changing behavior (field type and choices) usually requires custom data
