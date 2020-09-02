@@ -213,7 +213,7 @@ class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
             for participation in participations
         )
 
-    def send_summary(self, succeeded, failed):
+    def send_summary(self, succeeded, failed, form):
         postal = list(self.study.participation_set.filter(
             outcome_interest=Participation.VIA_POSTAL
         ))
@@ -230,6 +230,9 @@ class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
         if postal:
             body += '\n\nThe following subjects asked to be informed via postal mail:\n'
             body += self.render_urls(postal)
+
+        body += '\n\n-------- Original Message --------\n'
+        body += 'Subject: {subject}\n\n{body}'.format(**form.cleaned_data)
 
         return send_mail(
             '[%s] outcome email send' % self.study.name,
@@ -251,7 +254,7 @@ class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
             else:
                 failed.append(participation)
 
-        self.send_summary(succeeded, failed)
+        self.send_summary(succeeded, failed, form)
         messages.success(self.request, _(
             'Mail was sent to %i subjects. '
             'An email was sent to all study conductors with further information. '
