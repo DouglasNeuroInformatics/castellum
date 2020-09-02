@@ -22,6 +22,24 @@ they are collected into meaningful groups (aka roles). Castellum comes
 with some pre-defined sample groups, but you can adapt them to your
 needs.
 
+Note that the django framework automatically generates a lot of
+permissions. Only a few of them are actually used. The full list is:
+
+-  ``studies.view_study``
+-  ``studies.change_study``
+-  ``studies.delete_study``
+-  ``studies.access_study``
+-  ``subjects.view_subject``
+-  ``subjects.change_subject``
+-  ``subjects.delete_subject``
+-  ``subjects.export_subject``
+-  ``recruitment.recruit``
+-  ``recruitment.conduct_study``
+-  ``recruitment.search_participations``
+-  ``recruitment.view_current_appointments``
+-  ``castellum_auth.privacy_level_1``
+-  ``castellum_auth.privacy_level_2``
+
 Study membership
 ~~~~~~~~~~~~~~~~
 
