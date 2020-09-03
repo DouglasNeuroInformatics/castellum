@@ -47,6 +47,9 @@ from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
+from castellum.utils.mail import send_mail
+
+from .forms import OutcomeMailForm
 
 
 class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
@@ -180,6 +183,85 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
         except ObjectDoesNotExist:
             messages.warning(self.request, _('No match found'))
             return self.render_to_response(self.get_context_data(form=form))
+
+
+class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
+    template_name = 'execution/study_outcome_mail.html'
+    permission_required = 'recruitment.conduct_study'
+    study_status = [Study.EXECUTION]
+    form_class = OutcomeMailForm
+
+    def send_mail(self, participation, subject=None, body=None):
+        contact = participation.subject.contact
+        if not contact.own_or_guardian_email:
+            return False
+
+        return send_mail(
+            subject,
+            body,
+            [contact.own_or_guardian_email],
+            reply_to=[self.study.mail_reply_address] if self.study.mail_reply_address else [],
+            context='recruitment',
+        )
+
+    def render_urls(self, participations):
+        return '\n'.join(
+            self.request.build_absolute_uri(reverse(
+                'execution:participation-detail',
+                args=[self.study.pk, participation.pk],
+            ))
+            for participation in participations
+        )
+
+    def send_summary(self, succeeded, failed, form):
+        postal = list(self.study.participation_set.filter(
+            outcome_interest=Participation.VIA_POSTAL
+        ))
+
+        body = 'You sent outcome emails to %i subjects.' % len(succeeded)
+
+        if failed:
+            body += (
+                '\n\nThe following subjects asked to be informed via '
+                'email but could not be reached:\n'
+            )
+            body += self.render_urls(failed)
+
+        if postal:
+            body += '\n\nThe following subjects asked to be informed via postal mail:\n'
+            body += self.render_urls(postal)
+
+        body += '\n\n-------- Original Message --------\n'
+        body += 'Subject: {subject}\n\n{body}'.format(**form.cleaned_data)
+
+        return send_mail(
+            '[%s] outcome email send' % self.study.name,
+            body,
+            [user.email for user in self.study.study_conductors],
+            context='internal',
+        )
+
+    def form_valid(self, form):
+        succeeded = []
+        failed = []
+
+        for participation in self.study.participation_set.filter(
+            outcome_interest=Participation.VIA_EMAIL
+        ):
+            success = self.send_mail(participation, **form.cleaned_data)
+            if success:
+                succeeded.append(participation)
+            else:
+                failed.append(participation)
+
+        self.send_summary(succeeded, failed, form)
+        messages.success(self.request, _(
+            'Mail was sent to %i subjects. '
+            'An email was sent to all study conductors with further information. '
+            'That email also lists potential next steps.'
+        ) % len(succeeded))
+
+        return redirect('execution:study-detail', self.study.pk)
 
 
 class ExecutionUpdateMixin(ParticipationMixin):
