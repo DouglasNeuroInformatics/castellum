@@ -38,11 +38,13 @@ def fetch_missing_geolocations():
             ))
     Geolocation.objects.bulk_create(geolocations)
 
-    print('Created %i geolocations' % len(geolocations))
+    return len(geolocations)
 
 
 class Command(BaseCommand):
     help = 'Fetch missing geolocations.'
 
     def handle(self, *args, **options):
-        fetch_missing_geolocations()
+        count = fetch_missing_geolocations()
+        if options['verbosity'] > 0:
+            self.stdout.write('Created %i geolocations' % count)

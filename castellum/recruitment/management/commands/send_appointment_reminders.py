@@ -116,8 +116,7 @@ def send_appointment_reminders(base_url):
 
         due_appointments.update(reminded=True)
 
-    print('Direct: {}'.format(reached_count))
-    print('Indirect: {}'.format(not_reached_count))
+    return reached_count, not_reached_count
 
 
 class Command(BaseCommand):
@@ -127,4 +126,7 @@ class Command(BaseCommand):
         parser.add_argument('base_url')
 
     def handle(self, *args, **options):
-        send_appointment_reminders(options['base_url'])
+        reached_count, not_reached_count = send_appointment_reminders(options['base_url'])
+        if options['verbosity'] > 0:
+            self.stdout.write('Direct: {}'.format(reached_count))
+            self.stdout.write('Indirect: {}'.format(not_reached_count))
