@@ -158,7 +158,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 monitoring_logger.info('SubjectData update: {} by {}'.format(
                     contact.subject_id, self.request.user.pk
                 ))
-                return redirect('subjects:detail', pk=contact.subject.pk)
+                return redirect('subjects:detail', slug=contact.subject.slug)
             else:
                 messages.error(request, _(
                     'Both first and last name must be provided in order to create a subject!'
@@ -269,7 +269,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         else:
             self.object.export_requested = datetime.date.today()
         self.object.save()
-        return redirect('subjects:export', self.object.pk)
+        return redirect('subjects:export', self.object.slug)
 
 
 class SubjectUpdateMixin(SubjectMixin):
@@ -287,39 +287,39 @@ class DataProtectionUpdateView(SubjectUpdateMixin, BaseDataProtectionUpdateView)
     tab = 'data-protection'
 
     def get_success_url(self):
-        return reverse('subjects:data-protection', args=[self.object.pk])
+        return reverse('subjects:data-protection', args=[self.object.slug])
 
 
 class AdditionalInfoUpdateView(SubjectUpdateMixin, BaseAdditionalInfoUpdateView):
     tab = 'additional-info'
 
     def get_success_url(self):
-        return reverse('subjects:additional-info', args=[self.object.pk])
+        return reverse('subjects:additional-info', args=[self.object.slug])
 
 
 class ContactUpdateView(SubjectUpdateMixin, BaseContactUpdateView):
     tab = 'contact'
 
     def get_object(self):
-        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
+        subject = get_object_or_404(Subject, slug=self.kwargs['slug'])
         return subject.contact
 
     def get_success_url(self):
-        return reverse('subjects:contact', args=[self.object.subject.pk])
+        return reverse('subjects:contact', args=[self.object.subject.slug])
 
 
 class AttributeSetUpdateView(SubjectUpdateMixin, BaseAttributeSetUpdateView):
     tab = 'attributeset'
 
     def get_object(self):
-        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
+        subject = get_object_or_404(Subject, slug=self.kwargs['slug'])
         attributeset, __ = AttributeSet.objects.get_or_create(
             subject=subject, defaults={'data': {}}
         )
         return attributeset
 
     def get_success_url(self):
-        return reverse('subjects:attributeset', args=[self.object.subject.pk])
+        return reverse('subjects:attributeset', args=[self.object.subject.slug])
 
 
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
@@ -330,7 +330,7 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
 
     @cached_property
     def subject(self):
-        return get_object_or_404(Subject, pk=self.kwargs['pk'])
+        return get_object_or_404(Subject, slug=self.kwargs['slug'])
 
     def is_permitted(self, study):
         return self.request.user.has_perm('studies.access_study', obj=study) and (
@@ -362,11 +362,11 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 
     def get_object(self):
         return get_object_or_404(
-            Participation, pk=self.kwargs['pk'], subject_id=self.kwargs['subject_pk']
+            Participation, pk=self.kwargs['pk'], subject__slug=self.kwargs['subject_slug']
         )
 
     def get_success_url(self):
-        return reverse('subjects:delete', args=[self.subject.pk])
+        return reverse('subjects:delete', args=[self.subject.slug])
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -450,7 +450,7 @@ class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
             subject=self.object, study=study, status=Participation.INVITED
         )
 
-        return redirect('subjects:participation-list', self.object.pk)
+        return redirect('subjects:participation-list', self.object.slug)
 
 
 class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):

@@ -45,30 +45,6 @@ from .views import SubjectSearchView
 app_name = 'subjects'
 urlpatterns = [
     path('', SubjectSearchView.as_view(), name='index'),
-    path('<int:pk>/', SubjectDetailView.as_view(), name='detail'),
-    path('<int:pk>/delete/', SubjectDeleteView.as_view(), name='delete'),
-    path('<int:pk>/export/', SubjectExportView.as_view(), name='export'),
-    path('<int:pk>/contact/', ContactUpdateView.as_view(), name='contact'),
-    path('<int:pk>/attributes/', AttributeSetUpdateView.as_view(), name='attributeset'),
-    path('<int:pk>/data-protection/', DataProtectionUpdateView.as_view(), name='data-protection'),
-    path('<int:pk>/additional-info/', AdditionalInfoUpdateView.as_view(), name='additional-info'),
-    path('<int:pk>/coverletter.docx', CoverletterView.as_view(), name='coverletter'),
-    path(
-        '<int:pk>/participations/',
-        ParticipationListView.as_view(),
-        name='participation-list',
-    ),
-    path('<int:pk>/participations/add/', AddToStudyView.as_view(), name='add-to-study'),
-    path(
-        '<int:pk>/participations/add-finished/',
-        AddToFinishedStudyView.as_view(),
-        name='add-to-finished-study',
-    ),
-    path(
-        '<int:subject_pk>/participations/<int:pk>/delete/',
-        ParticipationDeleteView.as_view(),
-        name='participation-delete',
-    ),
     path('guardians/', GuardianSearchView.as_view(), name='guardian-search'),
     path(
         'maintenance/attributes/',
@@ -84,4 +60,28 @@ urlpatterns = [
     ),
     path('maintenance/waiting/', MaintenanceWaitingView.as_view(), name='maintenance-waiting'),
     path('maintenance/showup/', MaintenanceShowupView.as_view(), name='maintenance-showup'),
+    path('<slug>/', SubjectDetailView.as_view(), name='detail'),
+    path('<slug>/delete/', SubjectDeleteView.as_view(), name='delete'),
+    path('<slug>/export/', SubjectExportView.as_view(), name='export'),
+    path('<slug>/contact/', ContactUpdateView.as_view(), name='contact'),
+    path('<slug>/attributes/', AttributeSetUpdateView.as_view(), name='attributeset'),
+    path('<slug>/data-protection/', DataProtectionUpdateView.as_view(), name='data-protection'),
+    path('<slug>/additional-info/', AdditionalInfoUpdateView.as_view(), name='additional-info'),
+    path('<slug>/coverletter.docx', CoverletterView.as_view(), name='coverletter'),
+    path(
+        '<slug>/participations/',
+        ParticipationListView.as_view(),
+        name='participation-list',
+    ),
+    path('<slug>/participations/add/', AddToStudyView.as_view(), name='add-to-study'),
+    path(
+        '<slug>/participations/add-finished/',
+        AddToFinishedStudyView.as_view(),
+        name='add-to-finished-study',
+    ),
+    path(
+        '<subject_slug>/participations/<int:pk>/delete/',
+        ParticipationDeleteView.as_view(),
+        name='participation-delete',
+    ),
 ]

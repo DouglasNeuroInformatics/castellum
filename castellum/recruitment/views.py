@@ -317,7 +317,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     def get_success_url(self):
         context = self.request.GET.get('context')
         if context == 'subjects:participation-list':
-            return reverse(context, args=[self.object.subject.pk])
+            return reverse(context, args=[self.object.subject.slug])
         else:
             return reverse('recruitment:recruitment-open', args=[self.object.study.pk])
 

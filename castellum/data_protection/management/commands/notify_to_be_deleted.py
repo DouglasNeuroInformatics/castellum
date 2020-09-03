@@ -37,7 +37,7 @@ def subjects_notify(subjects, base_url):
             subject.save()
             count += 1
 
-            url = base_url + reverse('subjects:detail', args=[subject.pk])
+            url = base_url + reverse('subjects:detail', args=[subject.slug])
             send_mail(
                 settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
                 settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY.format(url=url),

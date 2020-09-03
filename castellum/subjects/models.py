@@ -29,6 +29,7 @@ from django.utils.translation import gettext_lazy as _
 
 from dateutil.relativedelta import relativedelta
 
+from castellum.utils import uuid_str
 from castellum.utils.fields import DateTimeField
 from castellum.utils.fields import RestrictedFileField
 from castellum.utils.models import TimeStampedModel
@@ -73,6 +74,8 @@ class SubjectManager(models.Manager):
 
 
 class Subject(TimeStampedModel):
+    slug = models.CharField(_('Slug'), max_length=64, default=uuid_str, unique=True)
+
     privacy_level = models.PositiveIntegerField(
         _('Privacy level'),
         default=0,

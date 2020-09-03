@@ -17,7 +17,7 @@
                 {% for c in subject.contact.guardians.all %}
                     {% has_privacy_level c.subject.privacy_level user as can_access %}
                     {% if can_access %}
-                        <a href="{% url 'subjects:detail' c.subject.pk %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
+                        <a href="{% url 'subjects:detail' c.subject.slug %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
                     {% else %}
                         <span class="text-muted">{% trans '(access denied)' %}</span>{% if not forloop.last %},{% endif %}
                     {% endif %}
@@ -31,7 +31,7 @@
                 {% for c in subject.contact.guardian_of.all %}
                     {% has_privacy_level c.subject.privacy_level user as can_access %}
                     {% if can_access %}
-                        <a href="{% url 'subjects:detail' c.subject.pk %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
+                        <a href="{% url 'subjects:detail' c.subject.slug %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
                     {% else %}
                         <span class="text-muted">{% trans '(access denied)' %}</span>{% if not forloop.last %},{% endif %}
                     {% endif %}
@@ -70,7 +70,7 @@
             {% if subject.has_legal_basis %}
                 {{ subject|display:'has_consent_or_waiting' }}
             {% else %}
-                {% url 'subjects:data-protection' subject.pk as url %}
+                {% url 'subjects:data-protection' subject.slug as url %}
                 {% blocktrans with url=url %}If applicable, <a href="{{ url }}">set consent status</a>.{% endblocktrans %}
             {% endif %}
         </dd>
@@ -83,7 +83,7 @@
             {% if subject.has_legal_basis %}
                 {{ subject|display:'has_study_consent' }}
             {% else %}
-                {% url 'subjects:add-to-study' subject.pk as url %}
+                {% url 'subjects:add-to-study' subject.slug as url %}
                 {% blocktrans with url=url %}If applicable, <a href="{{ url }}">add to a study</a>.{% endblocktrans %}
             {% endif %}
         </dd>
@@ -104,7 +104,7 @@
 
     {% if coverletter_exists %}
         <div class="d-print-none mb-3">
-            <a href="{% url 'subjects:coverletter' object.pk %}" class="btn btn-secondary">{% trans 'Download cover letter' %}</a>
+            <a href="{% url 'subjects:coverletter' object.slug %}" class="btn btn-secondary">{% trans 'Download cover letter' %}</a>
         </div>
     {% endif %}
 {% endblock %}
