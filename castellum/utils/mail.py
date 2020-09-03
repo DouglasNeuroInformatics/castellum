@@ -22,11 +22,13 @@
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.core.mail import get_connection
+from django.utils import translation
 
 
 def get_context(name=None):
     context = {
         'from_email': settings.DEFAULT_FROM_EMAIL,
+        'language': settings.LANGUAGE_CODE,
         'subject_prefix': '',
         'signature': '',
         'connection': {}
@@ -36,7 +38,24 @@ def get_context(name=None):
     return context
 
 
+def render_body_with_fallback(get_mail_data, text, fallback=None, lang=None):
+    """Render text and english fallback text in the correct locale context."""
+
+    with translation.override(lang):
+        s = text.format(**get_mail_data())
+
+    if lang != settings.CASTELLUM_FALLBACK_LANGUAGE and fallback:
+        before, after = settings.CASTELLUM_FALLBACK_LANGUAGE_MARKERS
+        with translation.override(settings.CASTELLUM_FALLBACK_LANGUAGE):
+            s_fallback = fallback.format(**get_mail_data())
+        s = '\n\n\n'.join([before, s, after, s_fallback])
+
+    return s
+
+
 def prepare_body(body, context):
+    if not isinstance(body, str):
+        body = render_body_with_fallback(*body, lang=context['language'])
     body += context['signature']
     return body
 

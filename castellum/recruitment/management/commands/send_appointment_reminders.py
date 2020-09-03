@@ -41,14 +41,21 @@ def send_mail_to_subject(study, appointment, reply_to):
     if not contact.own_or_guardian_email:
         return False
 
+    def get_mail_data():
+        return {
+            'subject': contact.full_name,
+            'study': study.name,
+            'date': formats.date_format(appointment.start, 'DATETIME_FORMAT'),
+            'reply_to': reply_to,
+        }
+
     try:
         return send_mail(
             settings.CASTELLUM_APPOINTMENT_MAIL_SUBJECT,
-            settings.CASTELLUM_APPOINTMENT_MAIL_BODY.format(
-                subject=contact.full_name,
-                study=study.name,
-                date=formats.date_format(appointment.start, 'DATETIME_FORMAT'),
-                reply_to=reply_to,
+            (
+                get_mail_data,
+                settings.CASTELLUM_APPOINTMENT_MAIL_BODY,
+                settings.CASTELLUM_APPOINTMENT_MAIL_BODY_EN,
             ),
             [contact.own_or_guardian_email],
             reply_to=[reply_to],
