@@ -43,7 +43,7 @@ def send_mail_to_subject(study, appointment, reply_to):
 
     def get_mail_data():
         return {
-            'subject': contact.full_name,
+            'name': contact.full_name,
             'study': study.name,
             'date': formats.date_format(appointment.start, 'DATETIME_FORMAT'),
             'reply_to': reply_to,
