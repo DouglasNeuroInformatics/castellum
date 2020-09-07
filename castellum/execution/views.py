@@ -198,7 +198,7 @@ class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
 
         return send_mail(
             subject,
-            body,
+            body.replace('{name}', contact.full_name),
             [contact.own_or_guardian_email],
             reply_to=[self.study.mail_reply_address] if self.study.mail_reply_address else [],
             context='recruitment',

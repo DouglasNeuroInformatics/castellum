@@ -25,4 +25,12 @@ from django.utils.translation import gettext_lazy as _
 
 class OutcomeMailForm(forms.Form):
     subject = forms.CharField(label=_('E-mail subject'), required=True)
-    body = forms.CharField(label=_('E-mail body'), widget=forms.Textarea, required=True)
+    body = forms.CharField(
+        label=_('E-mail body'),
+        help_text=_(
+            'Any "{name}"-tags included in the e-mail-body will '
+            'automatically be replaced with the name of the subject.'
+        ),
+        widget=forms.Textarea,
+        required=True,
+    )
