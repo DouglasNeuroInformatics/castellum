@@ -21,10 +21,9 @@ msgid "expired"
 msgstr "abgelaufen"
 
 #: castellum/castellum_auth/admin.py:44
-#, fuzzy, python-format
-#| msgid "%i days left"
+#, python-format
 msgid "%i days left"
-msgstr "%(days)s Tage verbleibend"
+msgstr "%i Tage verbleibend"
 
 #: castellum/castellum_auth/admin.py:50
 msgid "expiration date"
@@ -399,17 +398,13 @@ msgid "E-mail body"
 msgstr "E-Mail Inhalt"
 
 #: castellum/execution/forms.py:31 castellum/studies/models.py:197
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Any \"{firstname}\" and \"{lastname}\"-tags included in the e-mail-body "
-#| "will automatically be replaced with the first and last name of the "
-#| "subject."
+#, python-brace-format
 msgid ""
 "Any \"{name}\"-tags included in the e-mail-body will automatically be "
 "replaced with the full name of the subject."
 msgstr ""
-"Alle \"{firstname}\" und \"{lastname}\"-Tags im E-Mail-Inhalt werden "
-"automatisch durch den Vor- und Nachnamen der Proband*in ersetzt."
+"Alle \"{name}\"-Tags im E-Mail-Inhalt werden automatisch durch den vollen "
+"Namen der Proband*in ersetzt."
 
 #: castellum/execution/templates/execution/base.html:6
 #: castellum/recruitment/templates/recruitment/base.html:6
@@ -443,7 +438,7 @@ msgstr "Überblick"
 
 #: castellum/execution/templates/execution/participation_base.html:17
 msgid "News"
-msgstr ""
+msgstr "Neuigkeiten"
 
 #: castellum/execution/templates/execution/participation_base.html:21
 #: castellum/recruitment/templates/recruitment/contact.html:50
@@ -547,10 +542,8 @@ msgid "Calendar"
 msgstr "Kalender"
 
 #: castellum/execution/templates/execution/study_detail.html:39
-#, fuzzy
-#| msgid "email"
 msgid "News mail"
-msgstr "E-Mail"
+msgstr "Neuigkeiten E-Mail"
 
 #: castellum/execution/templates/execution/study_news_mail.html:9
 msgid ""
@@ -558,6 +551,9 @@ msgid ""
 "interest in study news. You cannot attach a document to the email, but you "
 "can include a link."
 msgstr ""
+"Dieses Formular erlaubt es, eine E-Mail an alle Proband*innen zu senden, die "
+"Interesse an Neuigkeiten zu dieser Studie bekundet haben. Es gibt keine "
+"Anhänge, aber Sie können einen Link einfügen."
 
 #: castellum/execution/templates/execution/study_news_mail.html:19
 #: castellum/recruitment/templates/recruitment/mail.html:27
@@ -581,12 +577,7 @@ msgstr ""
 "%(counter)s E-Mails versendet am %(datetime)s: "
 
 #: castellum/execution/templates/execution/study_news_mail.html:35
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                            %(contacted_size)s potential subjects "
-#| "contacted\n"
-#| "                        "
+#, python-format
 msgid ""
 "\n"
 "                            %(contacted_size)s subjects contacted, "
@@ -594,7 +585,8 @@ msgid ""
 "                        "
 msgstr ""
 "\n"
-"%(contacted_size)s potentielle Proband*innen kontaktiert"
+"%(contacted_size)s potentielle Proband*innen kontaktiert, %(other_size)s "
+"mussten auf dem Postweg kontaktiert werden"
 
 #: castellum/execution/views.py:106 castellum/execution/views.py:161
 #: castellum/studies/views/recruitment.py:90
@@ -616,6 +608,9 @@ msgid ""
 "Mail was sent to %i subjects. An email was sent to all study conductors with "
 "further information. That email also lists potential next steps."
 msgstr ""
+"E-Mail wurde an %i Proband*innen versendet. Eine E-Mail mit weiteren "
+"Informationen wurde an die durchführenden Personen verschickt. Diese E-Mail "
+"enthält auch mögliche weitere Schritte."
 
 #: castellum/pseudonyms/generators/md5.py:86
 msgid "Pseudonym contains invalid characters"
@@ -967,22 +962,16 @@ msgid "awaiting response"
 msgstr "auf Antwort wartend"
 
 #: castellum/recruitment/models/recruitment.py:83
-#, fuzzy
-#| msgid "not contacted"
 msgid "not interested"
-msgstr "nicht kontaktiert"
+msgstr "nicht interessiert"
 
 #: castellum/recruitment/models/recruitment.py:84
-#, fuzzy
-#| msgid "Previous mails"
 msgid "via postal mail"
-msgstr "Vorherige E-Mails"
+msgstr "auf dem Postweg"
 
 #: castellum/recruitment/models/recruitment.py:85
-#, fuzzy
-#| msgid "email"
 msgid "via email"
-msgstr "E-Mail"
+msgstr "per E-Mail"
 
 #: castellum/recruitment/models/recruitment.py:88 castellum/utils/models.py:27
 msgid "created at"
@@ -1020,7 +1009,7 @@ msgstr "Wiedervorlagezeit"
 
 #: castellum/recruitment/models/recruitment.py:105
 msgid "Interest in study news"
-msgstr ""
+msgstr "Interesse an Neuigkeiten zur Studie"
 
 #: castellum/recruitment/models/recruitment.py:112
 msgid "Participations"
@@ -1115,15 +1104,7 @@ msgid "recently contacted in another recruitment"
 msgstr "wurde vor kurzem in einer anderen Rekrutierung kontaktiert"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:63
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                    %(attempts)s attempt\n"
-#| "                                "
-#| msgid_plural ""
-#| "\n"
-#| "                                    %(attempts)s attempts\n"
-#| "                                "
+#, python-format
 msgid ""
 "\n"
 "                                    %(attempts)s attempt\n"
@@ -1134,10 +1115,10 @@ msgid_plural ""
 "                                "
 msgstr[0] ""
 "\n"
-"%(tries)s Versuch"
+"%(attempts)s Versuch"
 msgstr[1] ""
 "\n"
-"%(tries)s Versuche"
+"%(attempts)s Versuche"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:69
 msgid "last"
@@ -2221,7 +2202,7 @@ msgstr "Stunde"
 
 #: castellum/subjects/models.py:78
 msgid "Slug"
-msgstr ""
+msgstr "Slug"
 
 #: castellum/subjects/models.py:81
 msgid "Privacy level"
@@ -2279,7 +2260,7 @@ msgstr "Beleidigende Sprache"
 
 #: castellum/subjects/models.py:111
 msgid "Additional suitability document for study type"
-msgstr ""
+msgstr "Zusätzliches Eignungsdokument für Studientyp"
 
 #: castellum/subjects/models.py:119
 msgid "Monday"
@@ -2921,21 +2902,3 @@ msgstr "Die Datei muss mit UTF-8 kodiert sein."
 #: castellum/utils/templates/utils/form_errors.html:7
 msgid "Please correct the errors listed on the fields."
 msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
-
-#~ msgid "%(month)s/%(day)s/%(year)s"
-#~ msgstr "%(day)s.%(month)s.%(year)s"
-
-#~ msgid "Participation request"
-#~ msgstr "Teilnahmeanfrage"
-
-#~ msgid "Participation requests"
-#~ msgstr "Teilnahmeanfragen"
-
-#~ msgid "Can view participation pseudonyms"
-#~ msgstr "Kann Teilnahme-Pseudonyme sehen"
-
-#~ msgid "My studies"
-#~ msgstr "Meine Studien"
-
-#~ msgid "All studies"
-#~ msgstr "Alle Studien"
