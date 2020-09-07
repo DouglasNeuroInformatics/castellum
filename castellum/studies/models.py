@@ -196,8 +196,8 @@ class Study(models.Model):
     mail_body = models.TextField(
         _('E-mail body'),
         help_text=_(
-            'Any "{firstname}" and "{lastname}"-tags included in the e-mail-body will '
-            'automatically be replaced with the first and last name of the subject.'
+            'Any "{name}"-tags included in the e-mail-body will '
+            'automatically be replaced with the name of the subject.'
         ),
         blank=True,
     )
