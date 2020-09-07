@@ -41,7 +41,11 @@ This GUI also allows to export and import attribute descriptions as
 JSON. This allows organizations to easily exchange attribute
 descriptions.
 
-## Changing Attributes
+The management command `create_attribute_descriptions` will create a
+small set of example attribute descriptions. If you don't want to create
+your schema from scratch you can use them as a starting point.
+
+## Changing Attribute Descriptions
 
 While changing informational data such as label and help text is safe,
 changing behavior (field type and choices) usually requires custom data
@@ -51,3 +55,9 @@ migration using the available django interfaces.
 
 As a general rule, we recommend creating a new `AttributeDescription`
 and deprecating the old one over modifying an existing one.
+
+## Deleting Attribute Descriptions
+
+If you delete an attribute description, all related data will
+automatically be deleted along with it. Note that subject filters for
+this attribute will also be deleted.
