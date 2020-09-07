@@ -29,6 +29,7 @@ from django.views.generic import UpdateView
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.utils.mail import send_mail
 
+from .forms import AdditionalInfoForm
 from .forms import DataProtectionForm
 from .models import Subject
 from .models import SubjectNote
@@ -110,19 +111,7 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
 
 class BaseAdditionalInfoUpdateView(PermissionRequiredMixin, UpdateView):
     model = Subject
-    fields = [
-        'note_hard_of_hearing',
-        'note_difficult_to_understand',
-        'note_abusive_language',
-        'availability_monday',
-        'availability_tuesday',
-        'availability_wednesday',
-        'availability_thursday',
-        'availability_friday',
-        'not_available_until',
-        'source',
-        'additional_suitability_document',
-    ]
+    form_class = AdditionalInfoForm
     permission_required = 'subjects.change_subject'
     template_name = 'subjects/subject_additional_info_form.html'
 
