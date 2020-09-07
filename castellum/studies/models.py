@@ -34,8 +34,6 @@ from parler.models import TranslatableModel
 from parler.models import TranslatedFields
 
 from castellum.castellum_auth.models import User
-from castellum.pseudonyms.helpers import create_domain
-from castellum.pseudonyms.helpers import delete_domain
 from castellum.utils.fields import ColorField
 from castellum.utils.fields import DateField
 from castellum.utils.fields import RestrictedFileField
@@ -240,16 +238,6 @@ class Study(models.Model):
                 ),
                 code='invalid',
             )
-
-    def save(self, *args, **kwargs):
-        if not self.domain:
-            self.domain = create_domain(settings.CASTELLUM_STUDY_DOMAIN_BITS)
-        return super().save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        if self.domain:
-            delete_domain(self.domain)
-        return super().delete(*args, **kwargs)
 
     def get_filter_max_privacy_level(self):
         key = 'subjectfilter__description__privacy_level_read'

@@ -168,3 +168,25 @@ class SubjectPrivacyLevelForm(forms.ModelForm):
                 code='invalid',
             )
         return cleaned_data
+
+
+class AdditionalInfoForm(forms.ModelForm):
+
+    class Meta:
+        model = Subject
+        fields = [
+            'note_hard_of_hearing',
+            'note_difficult_to_understand',
+            'note_abusive_language',
+            'availability_monday',
+            'availability_tuesday',
+            'availability_wednesday',
+            'availability_thursday',
+            'availability_friday',
+            'not_available_until',
+            'source',
+            'additional_suitability_document',
+        ]
+        widgets = {
+            'additional_suitability_document': forms.CheckboxSelectMultiple(),
+        }

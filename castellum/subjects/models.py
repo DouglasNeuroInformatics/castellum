@@ -29,6 +29,7 @@ from django.utils.translation import gettext_lazy as _
 
 from dateutil.relativedelta import relativedelta
 
+from castellum.studies.models import StudyType
 from castellum.utils import uuid_str
 from castellum.utils.fields import DateTimeField
 from castellum.utils.fields import RestrictedFileField
@@ -105,6 +106,15 @@ class Subject(TimeStampedModel):
     note_difficult_to_understand = models.BooleanField(_('Difficult to understand'), default=False)
     note_abusive_language = models.BooleanField(_('Abusive language'), default=False)
 
+    additional_suitability_document = models.ManyToManyField(
+        StudyType,
+        verbose_name=_('Additional suitability document for study type'),
+        related_name='+',
+        help_text=(
+            'Additional suitability documents are records that certify that a subject may safely '
+            'undergo all types of exams or tests conducted in the respective type of study.'
+        ),
+    )
     availability_monday = models.ManyToManyField(
         TimeSlot, verbose_name=_('Monday'), blank=True, related_name='+'
     )
