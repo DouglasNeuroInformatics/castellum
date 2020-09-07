@@ -207,9 +207,7 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     participation_status = None
 
     def personalize_mail_body(self, mail_body, contact):
-        replace_first = mail_body.replace("{firstname}", contact.first_name)
-        replace_second = replace_first.replace("{lastname}", contact.last_name)
-        return replace_second
+        return mail_body.replace('{name}', contact.full_name)
 
     def create_participations(self, batch_size):
         subjects = get_recruitable(self.study)
