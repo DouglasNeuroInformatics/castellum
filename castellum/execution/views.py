@@ -102,10 +102,6 @@ class ParticipationOutcomeView(ParticipationDetailMixin, UpdateView):
             args=[self.object.study.pk, self.object.pk],
         )
 
-    def form_invalid(self, form):
-        print(form.errors)
-        return super().form_invalid(form)
-
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
