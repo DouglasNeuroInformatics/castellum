@@ -244,3 +244,6 @@ class Address(models.Model):
 
 class Street(models.Model):
     name = models.CharField(_('Name'), max_length=64)
+
+    def __str__(self):
+        return self.name
