@@ -63,6 +63,14 @@ user requests. We provide the following management commands for that:
     upcoming appointments. If the subjects have no email address, a note
     is sent to the respective study coordinators instead.
 
+## Optional features
+
+There are some optional features that are described in separate
+documents:
+
+-   geo filters
+-   street autocompletion
+
 ## Initial setup
 
 After installing castellum on your server there are some more steps
