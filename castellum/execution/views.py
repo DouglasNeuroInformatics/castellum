@@ -266,7 +266,7 @@ class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
             'That email also lists potential next steps.'
         ) % len(succeeded))
 
-        return redirect('execution:study-detail', self.study.pk)
+        return redirect('execution:outcome-mail', self.study.pk)
 
 
 class ExecutionUpdateMixin(ParticipationMixin):
