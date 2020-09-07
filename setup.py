@@ -17,7 +17,7 @@ setup(
         "django-bootstrap4==2.2.0",
         "django-ical==1.7.1",
         "django-npm==1.0.0",
-        "django-parler==2.1.0",
+        "django-parler==2.2.0",
         "django-phonenumber-field==5.0.0",
         "django-stronghold==0.4.0",
         "Faker==4.1.2",
