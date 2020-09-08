@@ -114,6 +114,7 @@ class Subject(TimeStampedModel):
             'Additional suitability documents are records that certify that a subject may safely '
             'undergo all types of exams or tests conducted in the respective type of study.'
         ),
+        blank=True,
     )
     availability_monday = models.ManyToManyField(
         TimeSlot, verbose_name=_('Monday'), blank=True, related_name='+'

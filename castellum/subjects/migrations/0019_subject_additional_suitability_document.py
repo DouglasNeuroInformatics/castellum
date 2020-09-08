@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='subject',
             name='additional_suitability_document',
-            field=models.ManyToManyField(help_text='Additional suitability documents are records that certify that a subject may safely undergo all types of exams or tests conducted in the respective type of study.', related_name='_subject_additional_suitability_document_+', to='studies.StudyType', verbose_name='Additional suitability document for study type'),
+            field=models.ManyToManyField(help_text='Additional suitability documents are records that certify that a subject may safely undergo all types of exams or tests conducted in the respective type of study.', related_name='_subject_additional_suitability_document_+', to='studies.StudyType', verbose_name='Additional suitability document for study type', blank=True),
         ),
     ]
