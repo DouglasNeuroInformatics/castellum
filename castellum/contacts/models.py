@@ -193,12 +193,11 @@ class Contact(TimeStampedModel):
         return self.id and self.guardians.exists()
 
     @cached_property
-    def own_or_guardian_email(self):
+    def own_or_guardian_emails(self):
         if self.email:
-            return self.email
+            return [self.email]
         else:
-            for data in self.guardians.exclude(email='').values('email'):
-                return data['email']
+            return self.guardians.exclude(email='').values_list('email', flat=True)
 
     def save(self, *args, **kwargs):
         if not self.subject_id:

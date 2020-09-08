@@ -37,7 +37,7 @@ logger = logging.getLogger(__name__)
 
 def send_mail_to_subject(study, appointment):
     contact = appointment.participation.subject.contact
-    if not contact.own_or_guardian_email:
+    if not contact.own_or_guardian_emails:
         return False
 
     def get_mail_data():
@@ -56,7 +56,7 @@ def send_mail_to_subject(study, appointment):
                 settings.CASTELLUM_APPOINTMENT_MAIL_BODY,
                 settings.CASTELLUM_APPOINTMENT_MAIL_BODY_EN,
             ),
-            [contact.own_or_guardian_email],
+            contact.own_or_guardian_emails,
             reply_to=[study.email],
             context='recruitment',
         )

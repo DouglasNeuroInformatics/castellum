@@ -254,13 +254,13 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         counter = 0
         while counter < batch_size and subjects:
             pick = subjects.pop(random.randrange(0, len(subjects)))
-            email = pick.contact.own_or_guardian_email
-            if email:
+            emails = pick.contact.own_or_guardian_emails
+            if emails:
                 try:
                     success = send_mail(
                         self.study.mail_subject,
                         self.personalize_mail_body(self.study.mail_body, pick.contact),
-                        [email],
+                        emails,
                         reply_to=[self.study.email],
                         context='recruitment'
                     )

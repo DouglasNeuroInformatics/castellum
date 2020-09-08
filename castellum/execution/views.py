@@ -213,13 +213,13 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
 
     def send_mail(self, participation, subject=None, body=None):
         contact = participation.subject.contact
-        if not contact.own_or_guardian_email:
+        if not contact.own_or_guardian_emails:
             return False
 
         return send_mail(
             subject,
             body.replace('{name}', contact.full_name),
-            [contact.own_or_guardian_email],
+            contact.own_or_guardian_emails,
             reply_to=[self.study.email],
             context='recruitment',
         )
