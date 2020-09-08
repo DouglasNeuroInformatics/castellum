@@ -14,7 +14,7 @@
                 <a href="{% url 'execution:participation-detail' study.pk participation.pk %}" class="nav-link {% if view.tab == 'overview' %}active{% endif %}">{% trans 'Overview' %}</a>
             </li>
             <li class="nav-item">
-                <a href="{% url 'execution:participation-outcome' study.pk participation.pk %}" class="nav-link {% if view.tab == 'outcome' %}active{% endif %}">{% trans 'Outcome' %}</a>
+                <a href="{% url 'execution:participation-news' study.pk participation.pk %}" class="nav-link {% if view.tab == 'news' %}active{% endif %}">{% trans 'News' %}</a>
             </li>
             {% if study.has_exclusion_criteria %}
                 <li class="nav-item">
