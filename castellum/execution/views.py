@@ -98,7 +98,7 @@ class ParticipationNewsView(ParticipationDetailMixin, UpdateView):
 
     def get_success_url(self):
         return reverse(
-            'execution:participation-detail',
+            'execution:participation-news',
             args=[self.object.study.pk, self.object.pk],
         )
 

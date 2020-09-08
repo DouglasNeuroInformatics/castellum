@@ -6,6 +6,6 @@
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
         {% bootstrap_field form.news_interest %}
-        <button class="btn btn-primary">{% trans 'Submit' %}</button>
+        <button class="btn btn-primary">{% trans 'Save' %}</button>
     </form>
 {% endblock %}
