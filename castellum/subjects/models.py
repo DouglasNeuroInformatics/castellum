@@ -161,6 +161,7 @@ class Subject(TimeStampedModel):
             'source',
             'to_be_deleted',
             'export_requested',
+            'additional_suitability_document',
         ]
 
     @cached_property
