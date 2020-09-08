@@ -26,7 +26,6 @@ from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MaxValueValidator
 from django.db import models
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from parler.managers import TranslatableManager
@@ -92,9 +91,6 @@ class AttributeSet(TimeStampedModel):
     class Meta:
         verbose_name = _('Attribute set')
         verbose_name_plural = _('Attribute sets')
-
-    def get_absolute_url(self):
-        return reverse('subjects:detail', args=[self.subject.slug])
 
     def get_data(self):
         qs = AttributeDescription.objects.all()
