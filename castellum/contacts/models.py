@@ -22,7 +22,6 @@
 from datetime import date
 
 from django.db import models
-from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
@@ -210,9 +209,6 @@ class Contact(TimeStampedModel):
         self.last_name_phonetic = phonetic(self.last_name)
 
         return super().save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return reverse('subjects:detail', args=[self.subject.slug])
 
 
 class Address(models.Model):
