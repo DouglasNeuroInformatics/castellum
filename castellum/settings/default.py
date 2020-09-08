@@ -343,7 +343,7 @@ CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 #     'from_email': 'Castellum <castellum@example.com>',
 #     'language': 'en',
 #     'subject_prefix': '[Castellum] ',
-#     'signature': '\n\n-- \nAutomatically send by castellum',
+#     'signature': '\n\n-- \nAutomatically sent by castellum',
 #     'connection': {
 #         # The full list of options is available at
 #         # https://docs.djangoproject.com/en/stable/topics/email/#django.core.mail.get_connection
