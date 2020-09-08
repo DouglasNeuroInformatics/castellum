@@ -29,7 +29,7 @@ class NewsMailForm(forms.Form):
         label=_('E-mail body'),
         help_text=_(
             'Any "{name}"-tags included in the e-mail-body will '
-            'automatically be replaced with the name of the subject.'
+            'automatically be replaced with the full name of the subject.'
         ),
         widget=forms.Textarea,
         required=True,

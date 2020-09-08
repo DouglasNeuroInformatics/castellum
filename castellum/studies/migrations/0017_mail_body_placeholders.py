@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='study',
             name='mail_body',
-            field=models.TextField(blank=True, help_text='Any "{name}"-tags included in the e-mail-body will automatically be replaced with the name of the subject.', verbose_name='E-mail body'),
+            field=models.TextField(blank=True, help_text='Any "{name}"-tags included in the e-mail-body will automatically be replaced with the full name of the subject.', verbose_name='E-mail body'),
         ),
     ]
