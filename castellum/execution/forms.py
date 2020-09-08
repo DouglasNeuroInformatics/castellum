@@ -23,7 +23,7 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 
-class OutcomeMailForm(forms.Form):
+class NewsMailForm(forms.Form):
     subject = forms.CharField(label=_('E-mail subject'), required=True)
     body = forms.CharField(
         label=_('E-mail body'),

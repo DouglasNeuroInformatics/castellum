@@ -27,11 +27,11 @@ from .views import AttributeSetUpdateView
 from .views import CalendarView
 from .views import ContactUpdateView
 from .views import DataProtectionUpdateView
-from .views import OutcomeMailView
+from .views import NewsMailView
 from .views import ParticipationAppointmentsView
 from .views import ParticipationCriteriaView
 from .views import ParticipationDetailView
-from .views import ParticipationOutcomeView
+from .views import ParticipationNewsView
 from .views import ReceptionView
 from .views import ResolveView
 from .views import ShowUpUpdateView
@@ -42,7 +42,7 @@ urlpatterns = [
     path('reception/', ReceptionView.as_view(), name='reception'),
     path('<int:study_pk>/', StudyDetailView.as_view(), name='study-detail'),
     path('<int:study_pk>/resolve/', ResolveView.as_view(), name='resolve'),
-    path('<int:study_pk>/outcome/', OutcomeMailView.as_view(), name='outcome-mail'),
+    path('<int:study_pk>/news/', NewsMailView.as_view(), name='news-mail'),
     path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),
     path('<int:pk>/calendar/feed/', AppointmentFeed(), name='calendar-feed'),
     path(
@@ -51,9 +51,9 @@ urlpatterns = [
         name='participation-detail',
     ),
     path(
-        '<int:study_pk>/<int:pk>/outcome/',
-        ParticipationOutcomeView.as_view(),
-        name='participation-outcome',
+        '<int:study_pk>/<int:pk>/news/',
+        ParticipationNewsView.as_view(),
+        name='participation-news',
     ),
     path(
         '<int:study_pk>/<int:pk>/criteria/',

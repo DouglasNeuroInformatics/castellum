@@ -42,7 +42,7 @@ from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.mixins import BaseCalendarView
 from castellum.recruitment.mixins import ParticipationMixin
 from castellum.recruitment.models import Appointment
-from castellum.recruitment.models import OutcomeMailBatch
+from castellum.recruitment.models import NewsMailBatch
 from castellum.recruitment.models import Participation
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
@@ -50,7 +50,7 @@ from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.utils.mail import send_mail
 
-from .forms import OutcomeMailForm
+from .forms import NewsMailForm
 
 
 class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
@@ -91,10 +91,10 @@ class ParticipationDetailView(ParticipationDetailMixin, DetailView):
     tab = 'overview'
 
 
-class ParticipationOutcomeView(ParticipationDetailMixin, UpdateView):
-    template_name = 'execution/participation_outcome.html'
-    fields = ['outcome_interest']
-    tab = 'outcome'
+class ParticipationNewsView(ParticipationDetailMixin, UpdateView):
+    template_name = 'execution/participation_news.html'
+    fields = ['news_interest']
+    tab = 'news'
 
     def get_success_url(self):
         return reverse(
@@ -182,11 +182,11 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
             return self.render_to_response(self.get_context_data(form=form))
 
 
-class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
-    template_name = 'execution/study_outcome_mail.html'
+class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
+    template_name = 'execution/study_news_mail.html'
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
-    form_class = OutcomeMailForm
+    form_class = NewsMailForm
 
     def send_mail(self, participation, subject=None, body=None):
         contact = participation.subject.contact
@@ -212,10 +212,10 @@ class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
 
     def send_summary(self, succeeded, failed, form):
         postal = list(self.study.participation_set.filter(
-            outcome_interest=Participation.VIA_POSTAL
+            news_interest=Participation.VIA_POSTAL
         ))
 
-        body = 'You sent outcome emails to %i subjects.' % len(succeeded)
+        body = 'You sent news emails to %i subjects.' % len(succeeded)
 
         if failed:
             body += (
@@ -231,7 +231,7 @@ class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
         body += '\n\n-------- Original Message --------\n'
         body += 'Subject: {subject}\n\n{body}'.format(**form.cleaned_data)
 
-        OutcomeMailBatch.objects.create(
+        NewsMailBatch.objects.create(
             study=self.study,
             contacted_size=len(succeeded),
             other_size=len(failed) + len(postal),
@@ -240,7 +240,7 @@ class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
         )
 
         return send_mail(
-            '[%s] outcome email send' % self.study.name,
+            '[%s] news email send' % self.study.name,
             body,
             [user.email for user in self.study.study_conductors],
             context='internal',
@@ -251,7 +251,7 @@ class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
         failed = []
 
         for participation in self.study.participation_set.filter(
-            outcome_interest=Participation.VIA_EMAIL
+            news_interest=Participation.VIA_EMAIL
         ):
             success = self.send_mail(participation, **form.cleaned_data)
             if success:
@@ -266,7 +266,7 @@ class OutcomeMailView(StudyMixin, PermissionRequiredMixin, FormView):
             'That email also lists potential next steps.'
         ) % len(succeeded))
 
-        return redirect('execution:outcome-mail', self.study.pk)
+        return redirect('execution:news-mail', self.study.pk)
 
 
 class ExecutionUpdateMixin(ParticipationMixin):
