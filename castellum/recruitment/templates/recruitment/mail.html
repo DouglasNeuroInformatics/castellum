@@ -37,12 +37,12 @@
             <li class="table-list-item">
                 <div>
                     <small class="text-muted">
-                        {% blocktrans with datetime=batch.datetime|date counter=forloop.counter|ordinal %}
+                        {% blocktranslate with datetime=batch.datetime|date counter=forloop.counter|ordinal %}
                             {{ counter }} mail sent on {{ datetime }}:
                         {% endblocktrans %}
                     </small>
                     <div>
-                        {% blocktrans with contacted_size=batch.contacted_size %}
+                        {% blocktranslate with contacted_size=batch.contacted_size %}
                             {{ contacted_size }} potential subjects contacted
                         {% endblocktrans %}
                     </div>

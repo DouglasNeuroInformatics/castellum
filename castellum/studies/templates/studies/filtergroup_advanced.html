@@ -11,8 +11,8 @@
             <span title="{% translate 'Subjects must match any of the following filtergroups.' %}">
                 {% translate 'Any of these' %}
             </span>
-            <span class="text-right" title="{% translate 'required' %}: {{ study.min_subject_count }} {% translate 'total' %}: {{ total_count }}" aria-label="{% blocktrans %}{{ count }} potential subjects in total{% endblocktrans %}">
-                {% blocktrans %}{{ count }} potential subjects in total{% endblocktrans %}
+            <span class="text-right" title="{% translate 'required' %}: {{ study.min_subject_count }} {% translate 'total' %}: {{ total_count }}" aria-label="{% blocktranslate %}{{ count }} potential subjects in total{% endblocktrans %}">
+                {% blocktranslate %}{{ count }} potential subjects in total{% endblocktrans %}
             </span>
         </div>
         <div class="card-body">
@@ -22,14 +22,14 @@
                         <span title="{% translate 'Subjects must match all of the following filters.' %}">
                             {% translate 'All of these' %}
                         </span>
-                        <span class="text-right">{% blocktrans with count=group.get_matches.count %}{{ count }} potential subjects{% endblocktrans %}</span>
+                        <span class="text-right">{% blocktranslate with count=group.get_matches.count %}{{ count }} potential subjects{% endblocktrans %}</span>
                     </div>
                     <div class="card-body d-flex justify-content-between flex-column flex-lg-row">
                         <div>
                             {% with filters=group.subjectfilter_set.all|list %}
                                 <details>
                                     <summary>
-                                        {% blocktrans count count=filters|length %}
+                                        {% blocktranslate count count=filters|length %}
                                             {{ count }} filter
                                         {% plural %}
                                             {{ count }} filters

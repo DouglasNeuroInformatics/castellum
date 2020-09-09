@@ -34,7 +34,7 @@
             </template>
 
             {% if form.guardians_blocked > 0 %}
-                <p class="text-muted">{% blocktrans with count=form.guardians_blocked %}{{ count }} guardians not listed because of insufficient privacy level.{% endblocktrans %}</p>
+                <p class="text-muted">{% blocktranslate with count=form.guardians_blocked %}{{ count }} guardians not listed because of insufficient privacy level.{% endblocktrans %}</p>
             {% endif %}
 
             {% for widget in form.guardians_remove %}

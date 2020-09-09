@@ -29,7 +29,7 @@
         {% else %}
             {% translate "No" %}
             <i class="fas fa-phone-slash list-icon bg-warning text-dark" role="img" aria-hidden="true"></i>
-            {% blocktrans with next_available=contact.subject.next_available %}
+            {% blocktranslate with next_available=contact.subject.next_available %}
                 (not until {{ next_available }})
             {% endblocktrans %}
         {% endif %}

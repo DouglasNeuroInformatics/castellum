@@ -26,7 +26,7 @@
             </ul>
 
             {% for membership in user.studymembership_set.all %}
-                <h3>{% blocktrans with study=membership.study %}In {{ study }}{% endblocktrans %}</h3>
+                <h3>{% blocktranslate with study=membership.study %}In {{ study }}{% endblocktrans %}</h3>
                 <ul>
                     {% for group in membership.groups.all %}
                         <li>{{ group }}</li>

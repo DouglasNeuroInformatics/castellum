@@ -15,18 +15,18 @@
                             <div class="d-inline-block my-1">
                                 {% if participation.followup_date|is_today %}
                                     {% if participation.followup_time %}
-                                        {% blocktrans with time=participation.followup_time|time %}
+                                        {% blocktranslate with time=participation.followup_time|time %}
                                             today at {{ time }}
                                         {% endblocktrans %}
                                     {% else %}
                                         {% translate 'today' %}
                                     {% endif %}
                                 {% else %}
-                                    {% blocktrans with date=participation.followup_date|date %}
+                                    {% blocktranslate with date=participation.followup_date|date %}
                                         on {{ date }}
                                     {% endblocktrans %}
                                     {% if participation.followup_time %}
-                                        {% blocktrans with time=participation.followup_time|time %}
+                                        {% blocktranslate with time=participation.followup_time|time %}
                                             at {{ time }}
                                         {% endblocktrans %}
                                     {% endif %}
@@ -60,7 +60,7 @@
                         </div>
                         <div class="mr-2">
                             <div class="d-inline-block my-1">
-                                {% blocktrans count attempts=participation.attempts %}
+                                {% blocktranslate count attempts=participation.attempts %}
                                     {{ attempts }} attempt
                                 {% plural %}
                                     {{ attempts }} attempts
@@ -109,7 +109,7 @@
                     {% translate 'Please add a set of potential subjects using the Add button.' %}
                 {% endif %}
             {% elif view.subtab == 'invited' %}
-                {% blocktrans with subjectcount=study.min_subject_count %}
+                {% blocktranslate with subjectcount=study.min_subject_count %}
                     You are still in search for {{ subjectcount }} participants.
                 {% endblocktrans %}
             {% else %}

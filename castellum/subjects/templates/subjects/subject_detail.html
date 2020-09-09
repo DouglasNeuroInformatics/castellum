@@ -71,7 +71,7 @@
                 {{ subject|display:'has_consent_or_waiting' }}
             {% else %}
                 {% url 'subjects:data-protection' subject.slug as url %}
-                {% blocktrans with url=url %}If applicable, <a href="{{ url }}">set consent status</a>.{% endblocktrans %}
+                {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">set consent status</a>.{% endblocktrans %}
             {% endif %}
         </dd>
 
@@ -84,7 +84,7 @@
                 {{ subject|display:'has_study_consent' }}
             {% else %}
                 {% url 'subjects:add-to-study' subject.slug as url %}
-                {% blocktrans with url=url %}If applicable, <a href="{{ url }}">add to a study</a>.{% endblocktrans %}
+                {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">add to a study</a>.{% endblocktrans %}
             {% endif %}
         </dd>
 
@@ -97,7 +97,7 @@
                 {{ subject.contact|display:'is_guardian' }}
             {% else %}
                 {% url 'subjects:index' as url %}
-                {% blocktrans with url=url %}If applicable, <a href="{{ url }}">find or create a subject</a> and set this one as their guardian.{% endblocktrans %}
+                {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">find or create a subject</a> and set this one as their guardian.{% endblocktrans %}
             {% endif %}
         </dd>
     </dl>
