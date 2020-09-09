@@ -30,7 +30,6 @@ Study Coordination: Creating a new study
    - Decide whether the study **Contains sensitive data** or not
 
 5. Upload templates of **Consent** form(-s) of your study
-   
 
 6. Assign the **Required number of subjects** to your study
 
