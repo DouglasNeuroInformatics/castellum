@@ -28,7 +28,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import ListView
 from django.views.generic import UpdateView
@@ -43,10 +42,8 @@ from castellum.studies.models import Study
 from castellum.studies.models import StudyTypeEventFeed
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
-from castellum.utils import add_working_days
 from castellum.utils import cached_request
 from castellum.utils import contrast_color
-from castellum.utils.mail import send_mass_mail
 
 from .forms import ContactForm
 from .mixins import BaseAttributeSetUpdateView
@@ -54,6 +51,7 @@ from .mixins import BaseCalendarView
 from .mixins import BaseMailRecruitmentView
 from .mixins import ParticipationMixin
 from .mixins import get_recruitable
+from .mixins import send_appointment_notifications
 from .models import AttributeDescription
 from .models import AttributeSet
 from .models import Participation
@@ -322,45 +320,9 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         else:
             return reverse('recruitment:recruitment-open', args=[self.object.study.pk])
 
-    def send_appointment_notifications(self, changes):
-        start = timezone.now()
-        end = add_working_days(start, 2)
-        relevant_changes = [
-            (old, new) for (old, new) in changes if (
-                (old and old >= start and old <= end) or
-                (new and new >= start and new <= end)
-            )
-        ]
-
-        if not relevant_changes:
-            return
-
-        body = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY.format(
-            study=self.study,
-            changes='\n'.join('%s -> %s' % (
-                timezone.localtime(old),
-                timezone.localtime(new),
-            ) for (old, new) in relevant_changes),
-            participation_url=self.request.build_absolute_uri(reverse(
-                'execution:participation-detail',
-                args=[self.study.pk, self.object.pk]
-            )),
-            calendar_url=self.request.build_absolute_uri(reverse(
-                'execution:calendar',
-                args=[self.study.pk]
-            )),
-        )
-
-        msgs = []
-        mail_subject = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT
-        for user in self.study.study_conductors:
-            if user != self.request.user:
-                msgs.append((mail_subject, body, [user.email], {}))
-        send_mass_mail(msgs, context='internal')
-
     def form_valid(self, form):
         response = super().form_valid(form)
-        self.send_appointment_notifications(form.appointment_changes)
+        send_appointment_notifications(self.request, self.object, form.appointment_changes)
         return response
 
 
