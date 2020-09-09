@@ -39,12 +39,12 @@
                     <small class="text-muted">
                         {% blocktranslate with datetime=batch.datetime|date counter=forloop.counter|ordinal %}
                             {{ counter }} mail sent on {{ datetime }}:
-                        {% endblocktrans %}
+                        {% endblocktranslate %}
                     </small>
                     <div>
                         {% blocktranslate with contacted_size=batch.contacted_size %}
                             {{ contacted_size }} potential subjects contacted
-                        {% endblocktrans %}
+                        {% endblocktranslate %}
                     </div>
                 </div>
             </li>

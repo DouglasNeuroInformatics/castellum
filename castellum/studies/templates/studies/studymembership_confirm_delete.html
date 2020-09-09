@@ -6,7 +6,7 @@
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        <p>{% blocktranslate with username=object.user.username %}Are you sure you want to remove "{{ username }}" from this study?{% endblocktrans %}</p>
+        <p>{% blocktranslate with username=object.user.username %}Are you sure you want to remove "{{ username }}" from this study?{% endblocktranslate %}</p>
         <div class="d-print-none mb-3">
             <a href="{% url 'studies:members' object.study.pk %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% translate 'Cancel' %}</a>
             <button class="btn btn-danger mb-1" >{% translate 'Confirm' %}</button>

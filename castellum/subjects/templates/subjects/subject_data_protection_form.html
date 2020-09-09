@@ -29,7 +29,7 @@
                                 The current consent refers to an outdated document and will soon expire, thus rendering the recruitment consent invalid.
                                 Please contact this subject and ask them to consent to the latest document or withdraw their consent.
                                 This message will disappear once you change the value of the checkbox.
-                            {% endblocktrans %}
+                            {% endblocktranslate %}
                         </small>
                     {% endif %}
                     {% if object.has_consent_from_before_full_age %}
@@ -37,7 +37,7 @@
                             {% blocktranslate %}
                                 The subject has recently come of age. Please ask them to renew or withdraw their consent.
                                 This message will disappear once you change the value of the checkbox.
-                            {% endblocktrans %}
+                            {% endblocktranslate %}
                         </small>
                     {% endif %}
                     <small class="form-text text-muted">{{ form.consent_status.help_text }}</small>

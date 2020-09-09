@@ -17,18 +17,18 @@
                                     {% if participation.followup_time %}
                                         {% blocktranslate with time=participation.followup_time|time %}
                                             today at {{ time }}
-                                        {% endblocktrans %}
+                                        {% endblocktranslate %}
                                     {% else %}
                                         {% translate 'today' %}
                                     {% endif %}
                                 {% else %}
                                     {% blocktranslate with date=participation.followup_date|date %}
                                         on {{ date }}
-                                    {% endblocktrans %}
+                                    {% endblocktranslate %}
                                     {% if participation.followup_time %}
                                         {% blocktranslate with time=participation.followup_time|time %}
                                             at {{ time }}
-                                        {% endblocktrans %}
+                                        {% endblocktranslate %}
                                     {% endif %}
                                 {% endif %}
                                 {% if participation.followup_urgent %}
@@ -64,7 +64,7 @@
                                     {{ attempts }} attempt
                                 {% plural %}
                                     {{ attempts }} attempts
-                                {% endblocktrans %}
+                                {% endblocktranslate %}
                             </div>,
                             <div class="d-inline-block my-1">{% translate 'last' %}: <time>{{ participation.updated_at|date }}</time></div>
                         </div>
@@ -111,7 +111,7 @@
             {% elif view.subtab == 'invited' %}
                 {% blocktranslate with subjectcount=study.min_subject_count %}
                     You are still in search for {{ subjectcount }} participants.
-                {% endblocktrans %}
+                {% endblocktranslate %}
             {% else %}
                 {% translate 'List is empty' %}
             {% endif %}
