@@ -43,6 +43,7 @@ from castellum.studies.models import Study
 from castellum.studies.models import StudyTypeEventFeed
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
+from castellum.utils import add_working_days
 from castellum.utils import cached_request
 from castellum.utils import contrast_color
 from castellum.utils.mail import send_mass_mail
@@ -321,19 +322,9 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         else:
             return reverse('recruitment:recruitment-open', args=[self.object.study.pk])
 
-    def add_working_days(self, dt, days):
-        for i in range(days):
-            if dt.isoweekday() == 5:  # friday
-                dt += timezone.timedelta(days=3)
-            elif dt.isoweekday() == 6:  # saturday
-                dt += timezone.timedelta(days=2)
-            else:
-                dt += timezone.timedelta(days=1)
-        return dt
-
     def send_appointment_notifications(self, changes):
         start = timezone.now()
-        end = self.add_working_days(start, 2)
+        end = add_working_days(start, 2)
         relevant_changes = [
             (old, new) for (old, new) in changes if (
                 (old and old >= start and old <= end) or
