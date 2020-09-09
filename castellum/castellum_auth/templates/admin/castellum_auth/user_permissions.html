@@ -3,16 +3,16 @@
 
 {% block breadcrumbs %}
     <div class="breadcrumbs">
-        <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+        <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
         &rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a>
         &rsaquo; <a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>
-        &rsaquo; {% trans 'Permissions' %}
+        &rsaquo; {% translate 'Permissions' %}
     </div>
 {% endblock %}
 
 {% block content %}
     <div id="content-main">
-        <h1 class="text-center">{% trans 'Users' %}</h1>
+        <h1 class="text-center">{% translate 'Users' %}</h1>
 
         {% for user in users %}
             <h2>{{ user }}</h2>
@@ -35,7 +35,7 @@
             {% endfor %}
         {% endfor %}
 
-        <h1>{% trans 'Groups' %}</h1>
+        <h1>{% translate 'Groups' %}</h1>
 
         {% for group in groups %}
             <h2>{{ group }}</h2>

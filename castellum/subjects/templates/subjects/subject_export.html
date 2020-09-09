@@ -1,7 +1,7 @@
 {% extends "subjects/subject_base.html" %}
 {% load i18n utils %}
 
-{% block title %}{% trans "GDPR request" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "GDPR request" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     {% with subject.exportanswer_set.all|list as answers %}
@@ -21,10 +21,10 @@
         {% csrf_token %}
         {% if subject.export_requested %}
             <span>{% blocktrans with date=subject.export_requested|date %}Export requested on {{ date }}{% endblocktrans %}</span>
-            <button class="btn btn-primary">{% trans 'Mark as answered' %}</button>
+            <button class="btn btn-primary">{% translate 'Mark as answered' %}</button>
         {% else %}
-            <span>{% trans 'No export requested' %}</span>
-            <button class="btn btn-primary">{% trans 'Request export' %}</button>
+            <span>{% translate 'No export requested' %}</span>
+            <button class="btn btn-primary">{% translate 'Request export' %}</button>
         {% endif %}
     </form>
 

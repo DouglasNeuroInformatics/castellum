@@ -3,7 +3,7 @@
 
 {% block content %}
     <dl>
-        <dt>{% trans 'Pseudonym' %}</dt>
+        <dt>{% translate 'Pseudonym' %}</dt>
         <dd>{{ object.pseudonym }}</dd>
 
         <dt>{{ subject.contact|verbose_name:'phone_number' }}</dt>
@@ -17,19 +17,19 @@
     {% if can_change_subject %}
         <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:contact-update' study.pk object.pk %}">
             {% if not subject.contact.is_complete %}
-                <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
+                <i class="fa fa-exclamation-triangle" role="img" title="{% translate 'Missing values' %}" aria-label="{% translate 'Missing values' %}"></i>
             {% endif %}
-            {% trans 'Edit contact data' %}
+            {% translate 'Edit contact data' %}
         </a>
-        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:attributeset-update' study.pk object.pk %}">{% trans 'Edit attributes' %}</a>
+        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:attributeset-update' study.pk object.pk %}">{% translate 'Edit attributes' %}</a>
         <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:data-protection-update' study.pk object.pk %}">
             {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age %}
-                <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
+                <i class="fa fa-exclamation-triangle" role="img" title="{% translate 'Missing values' %}" aria-label="{% translate 'Missing values' %}"></i>
             {% endif %}
-            {% trans 'Edit data protection' %}
+            {% translate 'Edit data protection' %}
         </a>
         <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:additional-info-update' study.pk object.pk %}">
-            {% trans 'Edit additional info' %}
+            {% translate 'Edit additional info' %}
         </a>
     {% endif %}
 {% endblock %}

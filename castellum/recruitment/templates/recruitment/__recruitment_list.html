@@ -19,7 +19,7 @@
                                             today at {{ time }}
                                         {% endblocktrans %}
                                     {% else %}
-                                        {% trans 'today' %}
+                                        {% translate 'today' %}
                                     {% endif %}
                                 {% else %}
                                     {% blocktrans with date=participation.followup_date|date %}
@@ -32,7 +32,7 @@
                                     {% endif %}
                                 {% endif %}
                                 {% if participation.followup_urgent %}
-                                    <i class="far fa-bell list-icon bg-success text-light" role="img" title="{% trans 'follow-up urgent' %}"></i>
+                                    <i class="far fa-bell list-icon bg-success text-light" role="img" title="{% translate 'follow-up urgent' %}"></i>
                                 {% endif %}
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                             {% endif %}
                         </div>
                         <div class="mr-2">
-                            {% trans 'recently contacted in another recruitment' %}
+                            {% translate 'recently contacted in another recruitment' %}
                             <i class="fas fa-phone-slash list-icon bg-warning text-dark" role="img" aria-hidden="true"></i>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                                     {{ attempts }} attempts
                                 {% endblocktrans %}
                             </div>,
-                            <div class="d-inline-block my-1">{% trans 'last' %}: <time>{{ participation.updated_at|date }}</time></div>
+                            <div class="d-inline-block my-1">{% translate 'last' %}: <time>{{ participation.updated_at|date }}</time></div>
                         </div>
                     </div>
                 {% else %}
@@ -80,9 +80,9 @@
                 <div class="table-list-item-actions">
                     <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pk %}">
                         {% if participation.status_open %}
-                            {% trans 'Contact' context 'verb' %}
+                            {% translate 'Contact' context 'verb' %}
                         {% else %}
-                            {% trans 'Review' %}
+                            {% translate 'Review' %}
                         {% endif %}
                     </a>
                 </div>
@@ -90,30 +90,30 @@
                 <div class="text-muted">
                     <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
                     <div class="d-inline-block my-1 mr-2">
-                        {% trans 'access denied' %}
+                        {% translate 'access denied' %}
                         <i class="fas fa-ban list-icon bg-danger text-light" role="img" aria-hidden="true"></i>
                     </div>
                 </div>
                 <div class="table-list-item-actions">
-                    <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Contact' context 'verb' %}</a>
+                    <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% translate 'Contact' context 'verb' %}</a>
                 </div>
             {% endif %}
         </li>
     {% empty %}
         <li class="alert alert-warning">
             {% if view.subtab == 'open' %}
-                <strong>{% trans 'No one to contact for recruitment!' %}</strong>
-                {% trans 'Currently, there are no open potential subjects.' %}
+                <strong>{% translate 'No one to contact for recruitment!' %}</strong>
+                {% translate 'Currently, there are no open potential subjects.' %}
                 {% has_perm 'recruitment.recruit' user study as can_recruit %}
                 {% if can_recruit %}
-                    {% trans 'Please add a set of potential subjects using the Add button.' %}
+                    {% translate 'Please add a set of potential subjects using the Add button.' %}
                 {% endif %}
             {% elif view.subtab == 'invited' %}
                 {% blocktrans with subjectcount=study.min_subject_count %}
                     You are still in search for {{ subjectcount }} participants.
                 {% endblocktrans %}
             {% else %}
-                {% trans 'List is empty' %}
+                {% translate 'List is empty' %}
             {% endif %}
         </li>
     {% endfor %}

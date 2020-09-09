@@ -5,7 +5,7 @@
 {% block object-tools-items %}
     {% if opts.label == 'recruitment.AttributeDescription' or opts.label == 'recruitment.AttributeCategory' %}
         <li>
-            <a href="{% url opts|admin_urlname:'import' %}">{% trans 'Import' %}</a>
+            <a href="{% url opts|admin_urlname:'import' %}">{% translate 'Import' %}</a>
         </li>
     {% endif %}
     {{ block.super }}

@@ -1,7 +1,7 @@
 {% extends "recruitment/base.html" %}
 {% load i18n static bootstrap4 utils auth %}
 
-{% block title %}{% trans "Recruitment" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Recruitment" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
 
 {% block header %}
     <div class="container text-center my-4">
@@ -16,45 +16,45 @@
 {% block content %}
     {% if not object.match %}
         <div class="alert alert-danger" role="alert">
-            {% trans 'Subject is unsuitable or blocked in another study.' %}
+            {% translate 'Subject is unsuitable or blocked in another study.' %}
         </div>
     {% else %}
         {% if object.match == 'incomplete' %}
             <div class="alert alert-warning" role="alert">
-                {% trans 'Subject has missing attributes. Please contact to check if they are suitable.' %}
+                {% translate 'Subject has missing attributes. Please contact to check if they are suitable.' %}
             </div>
         {% endif %}
         {% if subject.contact.has_guardian and study.geo_filter %}
             <div class="alert alert-warning" role="alert">
-                {% trans 'This study uses a geographic filter. Please verify that the subject lives at the same address as one of their guardians.' %}
+                {% translate 'This study uses a geographic filter. Please verify that the subject lives at the same address as one of their guardians.' %}
             </div>
         {% endif %}
     {% endif %}
     {% if not subject.has_consent %}
         <div class="alert alert-warning" role="alert">
-            {% trans 'Subject does not want to be contacted for recruitment. Answering a request when approached by the subject is permitted, but initiating contact is not.' %}
+            {% translate 'Subject does not want to be contacted for recruitment. Answering a request when approached by the subject is permitted, but initiating contact is not.' %}
         </div>
     {% endif %}
 
     <ul class="nav nav-tabs justify-content-center" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="true">{% trans "Contacting details" %}</a>
+            <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="true">{% translate "Contacting details" %}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="study-tab" data-toggle="tab" href="#study" role="tab" aria-controls="study" aria-selected="false">{% trans "Talking points" %}</a>
+            <a class="nav-link" id="study-tab" data-toggle="tab" href="#study" role="tab" aria-controls="study" aria-selected="false">{% translate "Talking points" %}</a>
         </li>
         {% if study.has_exclusion_criteria %}
             <li class="nav-item">
                 <a class="nav-link" id="criteria-tab" data-toggle="tab" href="#criteria" role="tab" aria-controls="criteria" aria-selected="false">
-                    <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'blocking invitation' %}" aria-label="{% trans 'blocking invitation' %}" {% if object.exclusion_criteria_checked %}hidden{% endif %}></i>
-                    {% trans 'Criteria' %}
+                    <i class="fa fa-exclamation-triangle" role="img" title="{% translate 'blocking invitation' %}" aria-label="{% translate 'blocking invitation' %}" {% if object.exclusion_criteria_checked %}hidden{% endif %}></i>
+                    {% translate 'Criteria' %}
                 </a>
             </li>
         {% endif %}
         {% if study.studysession_set.exists %}
             <li class="nav-item">
                 <a class="nav-link" id="appointments-tab" data-toggle="tab" href="#appointments" role="tab" aria-controls="appointments" aria-selected="false">
-                    {% trans 'Appointments' %}
+                    {% translate 'Appointments' %}
                 </a>
             </li>
         {% endif %}
@@ -67,14 +67,14 @@
                     {% has_privacy_level guardian.subject.privacy_level user as can_access %}
                     {% if can_access %}
                         <dl class="row mb-0">
-                            <dt class="col-sm-6">{% trans 'Legal guardian' %}</dt>
+                            <dt class="col-sm-6">{% translate 'Legal guardian' %}</dt>
                             <dd class="col-sm-6">{{ guardian.full_name }}</dd>
                         </dl>
                         {% include 'recruitment/__contact_detail.html' with contact=guardian %}
                     {% else %}
                         <dl class="row">
-                            <dt class="col-sm-6 text-muted">{% trans 'Legal guardian' %}</dt>
-                            <dd class="col-sm-6 text-muted">{% trans 'Insufficient privacy level' %}</dd>
+                            <dt class="col-sm-6 text-muted">{% translate 'Legal guardian' %}</dt>
+                            <dd class="col-sm-6 text-muted">{% translate 'Insufficient privacy level' %}</dd>
                         </dl>
                     {% endif %}
                     <hr>
@@ -83,7 +83,7 @@
                 {% endfor %}
 
                 <dl class="row">
-                    <dt class="col-sm-6">{% trans "Show up rate" %}</dt>
+                    <dt class="col-sm-6">{% translate "Show up rate" %}</dt>
                     <dd class="col-sm-6">
                         <span class="text-{% if showup_score > 6 %}danger{% elif showup_score > 2 %}warning{% else %}success{% endif %}" aria-hidden="true">&#9679;</span>
                         {% if showup_stats %}({% for label, count in showup_stats %}{{ label }}: {{ count }}{% if not forloop.last %}, {% endif %}{% endfor %}){% endif %}
@@ -94,19 +94,19 @@
                 {% if can_change_subject %}
                     <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:contact-update' study.pk object.pk %}">
                         {% if not subject.contact.is_complete %}
-                            <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
+                            <i class="fa fa-exclamation-triangle" role="img" title="{% translate 'Missing values' %}" aria-label="{% translate 'Missing values' %}"></i>
                         {% endif %}
-                        {% trans 'Edit contact data' %}
+                        {% translate 'Edit contact data' %}
                     </a>
-                    <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:attributeset-update' study.pk object.pk %}">{% trans 'Edit attributes' %}</a>
+                    <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:attributeset-update' study.pk object.pk %}">{% translate 'Edit attributes' %}</a>
                     <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:data-protection-update' study.pk object.pk %}">
                         {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age %}
-                            <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
+                            <i class="fa fa-exclamation-triangle" role="img" title="{% translate 'Missing values' %}" aria-label="{% translate 'Missing values' %}"></i>
                         {% endif %}
-                        {% trans 'Edit data protection' %}
+                        {% translate 'Edit data protection' %}
                     </a>
                     <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:additional-info-update' study.pk object.pk %}">
-                        {% trans 'Edit additional info' %}
+                        {% translate 'Edit additional info' %}
                     </a>
                 {% endif %}
             </div>
@@ -116,10 +116,10 @@
                     <dt class="col-sm-6">{{ study|verbose_name:'recruitment_text' }}</dt>
                     <dd class="col-sm-6">{{ study|display:'recruitment_text' }}</dd>
 
-                    <dt class="col-sm-6">{% trans 'Type of study' %}</dt>
+                    <dt class="col-sm-6">{% translate 'Type of study' %}</dt>
                     <dd class="col-sm-6">{{ study|display:'study_type' }}</dd>
 
-                    <dt class="col-sm-6">{% trans 'Duration of sessions in minutes' %}</dt>
+                    <dt class="col-sm-6">{% translate 'Duration of sessions in minutes' %}</dt>
                     <dd class="col-sm-6">
                         {% if study.studysession_set.all %}
                             {% for session in study.studysession_set.all %}
@@ -150,7 +150,7 @@
                         {% endif %}
                     {% endfor %}
                     {% if general_criteria %}
-                        <h2>{% trans 'General criteria' %}</h2>
+                        <h2>{% translate 'General criteria' %}</h2>
                         {{ general_criteria|linebreaks }}
                     {% endif %}
 
@@ -178,15 +178,15 @@
                 {% for field in form.appointments %}
                     {% bootstrap_field field %}
                 {% endfor %}
-                <a href="{% url 'recruitment:calendar' study.pk %}" class="btn btn-secondary" data-js="popup">{% trans 'Calendar' %}</a>
+                <a href="{% url 'recruitment:calendar' study.pk %}" class="btn btn-secondary" data-js="popup">{% translate 'Calendar' %}</a>
             </div>
         </div>
 
         {% include 'utils/form_errors.html' with form=form %}
         {% if study.has_exclusion_criteria %}
             <div class="alert alert-warning" role="alert" data-js="blocking_invitation_alert" {% if object.exclusion_criteria_checked %}hidden{% endif %}>
-                {% trans 'Participation cannot be set to "invited" yet. Please check the tabs marked with' %}
-                <i class="fa fa-exclamation-triangle" role="img" aria-label="{% trans 'blocking invitation' %}"></i>
+                {% translate 'Participation cannot be set to "invited" yet. Please check the tabs marked with' %}
+                <i class="fa fa-exclamation-triangle" role="img" aria-label="{% translate 'blocking invitation' %}"></i>
             </div>
         {% endif %}
 
@@ -199,17 +199,17 @@
         </div>
 
         <div class="form-group">
-            <label for="id_execution_url">{% trans 'Execution URL' %}</label>
+            <label for="id_execution_url">{% translate 'Execution URL' %}</label>
             <div class="input-group">
                 <input id="id_execution_url" class="form-control" value="{% absolute_url 'execution:participation-detail' study.pk object.pk %}" readonly>
                 <div class="input-group-append">
-                    <button type="button" class="btn btn-outline-secondary" tabindex="-1" data-clipboard="#id_execution_url">{% trans 'Copy' %}</button>
+                    <button type="button" class="btn btn-outline-secondary" tabindex="-1" data-clipboard="#id_execution_url">{% translate 'Copy' %}</button>
                 </div>
             </div>
         </div>
 
         <div class="d-print-none mb-3">
-            <button class="btn btn-primary">{% trans 'Save' %}</button>
+            <button class="btn btn-primary">{% translate 'Save' %}</button>
         </div>
     </form>
 

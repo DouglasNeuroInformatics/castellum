@@ -1,7 +1,7 @@
 {% extends "subjects/subject_base.html" %}
 {% load static i18n %}
 
-{% block title %}{% trans "Delete study participation" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Delete study participation" %} &middot; {{ block.super }}{% endblock %}
 
 {% block header %}{% endblock %}
 
@@ -9,14 +9,14 @@
     <form method="post">
         {% csrf_token %}
         <p>{% blocktrans with study=object.study %}Are you sure you want to <strong>permanently delete</strong> the participation in {{ study }}?{% endblocktrans %}</p>
-        <p>{% trans "This should only be done once all relevant external data related to this study has been deleted as it would no longer be possible to identify this subject reliably." %}</p>
+        <p>{% translate "This should only be done once all relevant external data related to this study has been deleted as it would no longer be possible to identify this subject reliably." %}</p>
         <label class="form-check">
             <input type="checkbox" class="form-check-input" data-js="confirm-delete">
-            <span class="form-check-label">{% trans "I have made sure that all external data related to this study participation has been destroyed" %}</span>
+            <span class="form-check-label">{% translate "I have made sure that all external data related to this study participation has been destroyed" %}</span>
         </label>
         <div class="d-print-none mb-3">
-            <a href="{% url 'subjects:delete' subject.slug %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% trans 'Cancel' %}</a>
-            <button class="btn btn-danger mb-1" disabled >{% trans 'Confirm' %}</button>
+            <a href="{% url 'subjects:delete' subject.slug %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% translate 'Cancel' %}</a>
+            <button class="btn btn-danger mb-1" disabled >{% translate 'Confirm' %}</button>
         </div>
     </form>
 {% endblock %}

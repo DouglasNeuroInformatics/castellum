@@ -1,7 +1,7 @@
 {% extends "studies/study_recruitmentsettings_base.html" %}
 {% load static i18n bootstrap4 utils %}
 
-{% block title %}{% trans "Filters" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Filters" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     {% if not study.advanced_filtering %}
@@ -10,7 +10,7 @@
 
     {% if inaccessible %}
         <p class="alert alert-warning" role="alert">
-            {% trans 'At least one member of this study with access to filters does not have a sufficient privacy level to view the following attributes:' %}
+            {% translate 'At least one member of this study with access to filters does not have a sufficient privacy level to view the following attributes:' %}
             {{ inaccessible|join:', ' }}
         </p>
     {% endif %}
@@ -37,7 +37,7 @@
 
             {% if study.status == study.EDIT %}
                 <div class="col-sm flex-grow-0">
-                    <button type="button" class="btn btn-danger" data-js="filter-delete">{% trans 'Delete' %}</button>
+                    <button type="button" class="btn btn-danger" data-js="filter-delete">{% translate 'Delete' %}</button>
                 </div>
             {% endif %}
         </template>
@@ -49,10 +49,10 @@
 
         <div class="card mb-3">
             <div class="card-header d-flex justify-content-between">
-                <span title="{% trans 'Subjects must match all of the following filters.' %}">
-                    {% trans 'All of these' %}
+                <span title="{% translate 'Subjects must match all of the following filters.' %}">
+                    {% translate 'All of these' %}
                 </span>
-                <span class="text-right" title="{% trans 'required' %}: {{ study.min_subject_count }} {% trans 'total' %}: {{ total_count }}" aria-label="{% blocktrans %}{{ count }} potential subjects{% endblocktrans %}">
+                <span class="text-right" title="{% translate 'required' %}: {{ study.min_subject_count }} {% translate 'total' %}: {{ total_count }}" aria-label="{% blocktrans %}{{ count }} potential subjects{% endblocktrans %}">
                     {% blocktrans %}{{ count }} potential subjects{% endblocktrans %}
                 </span>
             </div>
@@ -87,13 +87,13 @@
 
                             {% if study.status == study.EDIT %}
                                 <div class="col-sm flex-grow-0">
-                                    <button type="button" class="btn btn-danger" data-js="filter-delete">{% trans 'Delete' %}</button>
+                                    <button type="button" class="btn btn-danger" data-js="filter-delete">{% translate 'Delete' %}</button>
                                 </div>
                             {% endif %}
                         </div>
                     {% empty %}
                         {% if readonly %}
-                            <p>{% trans 'No filters' %}</p>
+                            <p>{% translate 'No filters' %}</p>
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -104,7 +104,7 @@
                             {% bootstrap_field add_form.description show_label=False %}
                         </div>
                         <div class="col-sm">
-                            <button type="button" class="btn btn-primary" data-js="filter-add">{% trans "Add" %}</button>
+                            <button type="button" class="btn btn-primary" data-js="filter-add">{% translate "Add" %}</button>
                         </div>
                     </div>
                 {% endif %}
@@ -113,7 +113,7 @@
 
         <div class="d-print-none mb-3">
             {% if study.status == study.EDIT %}
-                <button class="btn btn-primary" >{% trans 'Apply' %}</button>
+                <button class="btn btn-primary" >{% translate 'Apply' %}</button>
             {% endif %}
         </div>
     </form>

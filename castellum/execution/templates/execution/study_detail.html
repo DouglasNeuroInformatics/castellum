@@ -13,29 +13,29 @@
                     <div class="d-inline-block my-1 mr-2">
                         {{ participation.subject.contact.full_name }}
                         {% if participation.appointment_today %}
-                            <span class="badge badge-primary">{% trans 'today' %}</span>
+                            <span class="badge badge-primary">{% translate 'today' %}</span>
                         {% endif %}
                     </div>
                     <div class="table-list-item-actions">
-                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participation-detail' study.pk participation.pk %}">{% trans 'Details' %}</a>
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participation-detail' study.pk participation.pk %}">{% translate 'Details' %}</a>
                     </div>
                 {% else %}
                     <div class="text-muted">
                         <div class="d-inline-block my-1 mr-2">
-                            {% trans 'access denied' %}
+                            {% translate 'access denied' %}
                             <i class="fas fa-ban list-icon bg-danger text-light" role="img" aria-hidden="true"></i>
                         </div>
                     </div>
                 {% endif %}
             </li>
         {% empty %}
-            <li class="alert alert-warning" role="alert">{% trans 'No participations found' %}</li>
+            <li class="alert alert-warning" role="alert">{% translate 'No participations found' %}</li>
         {% endfor %}
     </ul>
 
     <div class="d-print-none mb-3">
-        <a href="{% url 'execution:resolve' study.pk %}" class="btn btn-secondary">{% trans 'Resolve pseudonym' %}</a>
-        <a href="{% url 'execution:calendar' study.pk %}" class="btn btn-secondary">{% trans 'Calendar' %}</a>
-        <a href="{% url 'execution:news-mail' study.pk %}" class="btn btn-secondary">{% trans 'News mail' %}</a>
+        <a href="{% url 'execution:resolve' study.pk %}" class="btn btn-secondary">{% translate 'Resolve pseudonym' %}</a>
+        <a href="{% url 'execution:calendar' study.pk %}" class="btn btn-secondary">{% translate 'Calendar' %}</a>
+        <a href="{% url 'execution:news-mail' study.pk %}" class="btn btn-secondary">{% translate 'News mail' %}</a>
     </div>
 {% endblock %}

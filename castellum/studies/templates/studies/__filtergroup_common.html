@@ -2,7 +2,7 @@
 
 {% if not study.min_subject_count %}
     <p class="alert alert-warning" role="alert">
-        {% trans 'Weak recruitment process. Please, define the number of subjects for this study.' %}
+        {% translate 'Weak recruitment process. Please, define the number of subjects for this study.' %}
     </p>
 {% elif count < expected_subject_count %}
     <p class="alert alert-warning" role="alert">

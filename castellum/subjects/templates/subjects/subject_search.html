@@ -1,7 +1,7 @@
 {% extends "subjects/base.html" %}
 {% load i18n bootstrap4 auth utils %}
 
-{% block title %}{% trans "Subjects" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Subjects" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     <form method="post">
@@ -11,7 +11,7 @@
         {% bootstrap_field form.search %}
 
         <div class="mb-4">
-            <button class="btn btn-primary" >{% trans 'Submit' %}</button>
+            <button class="btn btn-primary" >{% translate 'Submit' %}</button>
         </div>
     </form>
 
@@ -21,11 +21,11 @@
 
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="matches-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="matches" aria-selected="true">{% trans "Matches" %}</a>
+                <a class="nav-link active" id="matches-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="matches" aria-selected="true">{% translate "Matches" %}</a>
             </li>
             {% if can_change_subject and form.cleaned_data.last_name %}
                 <li class="nav-item">
-                    <a class="nav-link" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create">{% trans "Create" %}</a>
+                    <a class="nav-link" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create">{% translate "Create" %}</a>
                 </li>
             {% endif %}
         </ul>
@@ -34,7 +34,7 @@
             <div class="tab-pane active" id="matches" role="tabpanel" aria-labelledby="matches-tab">
                 <ul class="table-list">
                     {% if not can_view_subject %}
-                        <p class="alert alert-warning">{% trans 'This list may be restricted based on your permissions.' %}</p>
+                        <p class="alert alert-warning">{% translate 'This list may be restricted based on your permissions.' %}</p>
                     {% endif %}
 
                     {% for subject, contact, participations, can_access in matches %}
@@ -73,15 +73,15 @@
                                         {% endif %}
                                     {% else %}
                                         <h3 class="h4 d-inline-block text-muted my-1 mr-2">{{ contact.full_name }}</h3>
-                                        <div class="d-inline-block text-muted my-1 mr-2">{% trans 'access denied' %}</div>
+                                        <div class="d-inline-block text-muted my-1 mr-2">{% translate 'access denied' %}</div>
                                     {% endif %}
                                 </div>
                                 <div class="table-list-item-actions">
                                     {% if can_view_subject %}
                                         {% if can_access %}
-                                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:detail' subject.slug %}">{% trans 'Details' %}</a>
+                                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:detail' subject.slug %}">{% translate 'Details' %}</a>
                                         {% else %}
-                                            <button class="btn btn-outline-primary btn-sm-inline my-1" disabled>{% trans 'Details' %}</button>
+                                            <button class="btn btn-outline-primary btn-sm-inline my-1" disabled>{% translate 'Details' %}</button>
                                         {% endif %}
                                     {% endif %}
                                 </div>
@@ -95,10 +95,10 @@
                                             <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</span>
                                             <div class="table-list-item-actions">
                                                 {% if can_recruit %}
-                                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participation.study.pk participation.pk %}">{% trans 'Recruitment' %}</a>
+                                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participation.study.pk participation.pk %}">{% translate 'Recruitment' %}</a>
                                                 {% endif %}
                                                 {% if can_conduct %}
-                                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participation-detail' participation.study.pk participation.pk %}">{% trans 'Execution' %}</a>
+                                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participation-detail' participation.study.pk participation.pk %}">{% translate 'Execution' %}</a>
                                                 {% endif %}
                                             </div>
                                         </li>
@@ -107,7 +107,7 @@
                             {% endif %}
                         </li>
                     {% empty %}
-                        <li class="alert alert-warning" role="alert">{% trans 'No matches found' %}</li>
+                        <li class="alert alert-warning" role="alert">{% translate 'No matches found' %}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -120,15 +120,15 @@
                         {% endfor %}
                         {% csrf_token %}
                         <dl>
-                            <dt>{% trans 'First name' %}</dt>
+                            <dt>{% translate 'First name' %}</dt>
                             <dd>{{ form.cleaned_data.first_name }}</dd>
 
-                            <dt>{% trans 'Last name' %}</dt>
+                            <dt>{% translate 'Last name' %}</dt>
                             <dd>{{ form.cleaned_data.last_name }}</dd>
                         </dl>
                         {% bootstrap_field privacy_level_form.privacy_level %}
                         {{ form.search.as_hidden }}
-                        <button class="btn btn-primary">{% trans "Create new subject" %}</button>
+                        <button class="btn btn-primary">{% translate "Create new subject" %}</button>
                     </form>
                 </div>
             {% endif %}
@@ -138,32 +138,32 @@
     <aside class="border bg-light p-3 mb-3 mt-5" aria-labelledby="stats">
         {% has_perm 'subjects.change_subject' user as can_change_subject %}
         {% if can_change_subject %}
-            <a href="{% url 'subjects:maintenance-attributes' %}" class="btn btn-primary float-right">{% trans 'Maintenance' %}</a>
+            <a href="{% url 'subjects:maintenance-attributes' %}" class="btn btn-primary float-right">{% translate 'Maintenance' %}</a>
         {% endif %}
 
-        <h2 id="stats" class="h4">{% trans 'Current data situation' %}</h2>
-        <p>{% trans 'Total number of subjects' %}: {{ count_total }}</p>
+        <h2 id="stats" class="h4">{% translate 'Current data situation' %}</h2>
+        <p>{% translate 'Total number of subjects' %}: {{ count_total }}</p>
         <dl class="row">
-            <dt class="col-sm-5">{% trans 'Contact data updated in last 6 months' %}</dt>
-            <dd class="col-sm-3">{{ count_updated }} {% trans 'subjects' %}</dd>
+            <dt class="col-sm-5">{% translate 'Contact data updated in last 6 months' %}</dt>
+            <dd class="col-sm-3">{{ count_updated }} {% translate 'subjects' %}</dd>
             <dd class="col-sm-4">
                 <meter class="w-100" max="{{ count_total }}" value="{{ count_updated }}"></meter>
             </dd>
 
-            <dt class="col-sm-5">{% trans 'Complete attribute set' %}</dt>
-            <dd class="col-sm-3">{{ count_complete }} {% trans 'subjects' %}</dd>
+            <dt class="col-sm-5">{% translate 'Complete attribute set' %}</dt>
+            <dd class="col-sm-3">{{ count_complete }} {% translate 'subjects' %}</dd>
             <dd class="col-sm-4">
                 <meter class="w-100" max="{{ count_total }}" value="{{ count_complete }}"></meter>
             </dd>
 
-            <dt class="col-sm-5">{% trans 'Took part in a study' %}</dt>
-            <dd class="col-sm-3">{{ count_participated }} {% trans 'subjects' %}</dd>
+            <dt class="col-sm-5">{% translate 'Took part in a study' %}</dt>
+            <dd class="col-sm-3">{{ count_participated }} {% translate 'subjects' %}</dd>
             <dd class="col-sm-4">
                 <meter class="w-100" max="{{ count_total }}" value="{{ count_participated }}"></meter>
             </dd>
 
-            <dt class="col-sm-5">{% trans 'Consent confirmed' %}</dt>
-            <dd class="col-sm-3">{{ count_consent }} {% trans 'subjects' %}</dd>
+            <dt class="col-sm-5">{% translate 'Consent confirmed' %}</dt>
+            <dd class="col-sm-3">{{ count_consent }} {% translate 'subjects' %}</dd>
             <dd class="col-sm-4">
                 <meter class="w-100" max="{{ count_total }}" value="{{ count_consent }}"></meter>
             </dd>

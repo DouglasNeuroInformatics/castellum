@@ -1,7 +1,7 @@
 {% extends "subjects/subject_base.html" %}
 {% load i18n auth %}
 
-{% block title %}{% trans "Subject Study Participation" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Subject Study Participation" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     <ul class="table-list mb-3">
@@ -12,44 +12,44 @@
                     {% has_perm 'recruitment.conduct_study' user participation.study as can_view_participation_pseudonyms %}
                     {% if can_view_participation_pseudonyms %}
                         {% if participation.status == participation.INVITED %}
-                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participation-detail' participation.study.pk participation.pk %}">{% trans 'Go to execution' %}</a>
+                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participation-detail' participation.study.pk participation.pk %}">{% translate 'Go to execution' %}</a>
                         {% endif %}
                     {% endif %}
                     {% has_perm 'recruitment.recruit' user participation.study as can_recruit %}
                     {% if can_recruit %}
                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participation.study.pk participation.pk %}?context=subjects:participation-list">
                             {% if participation.status_open %}
-                                {% trans 'Contact' context 'verb' %}
+                                {% translate 'Contact' context 'verb' %}
                             {% else %}
-                                {% trans 'Review' %}
+                                {% translate 'Review' %}
                             {% endif %}
                         </a>
                     {% endif %}
                 </div>
             </li>
         {% empty %}
-            <li class="alert alert-warning" role="alert">{% trans 'No participations found' %}</li>
+            <li class="alert alert-warning" role="alert">{% translate 'No participations found' %}</li>
         {% endfor %}
     </ul>
 
     <details class="mb-3">
-        <summary>{% trans 'Finished studies' %}</summary>
+        <summary>{% translate 'Finished studies' %}</summary>
         <ul class="table-list mb-3">
             {% for participation in finished_list %}
                 <li class="table-list-item">
                     <div class="h4 d-inline-block my-1 mr-2">{{ participation.study }}</div>
                 </li>
             {% empty %}
-                <li class="alert alert-warning" role="alert">{% trans 'No participations found' %}</li>
+                <li class="alert alert-warning" role="alert">{% translate 'No participations found' %}</li>
             {% endfor %}
         </ul>
     </details>
 
     <div class="d-print-none mb-3">
-        <a href="{% url 'subjects:add-to-study' subject.slug %}" class="btn btn-primary">{% trans 'Add to study' %}</a>
+        <a href="{% url 'subjects:add-to-study' subject.slug %}" class="btn btn-primary">{% translate 'Add to study' %}</a>
         {% has_perm 'subjects.change_subject' user as can_change_subject %}
         {% if can_change_subject %}
-            <a href="{% url 'subjects:add-to-finished-study' subject.slug %}" class="btn btn-secondary">{% trans 'Add to finished study' %}</a>
+            <a href="{% url 'subjects:add-to-finished-study' subject.slug %}" class="btn btn-secondary">{% translate 'Add to finished study' %}</a>
         {% endif %}
     </div>
 {% endblock %}

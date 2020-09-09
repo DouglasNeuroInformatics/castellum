@@ -1,15 +1,15 @@
 {% extends "studies/study_base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Remove member" %} &middot; {{ object.study }} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Remove member" %} &middot; {{ object.study }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     <form method="post">
         {% csrf_token %}
         <p>{% blocktrans with username=object.user.username %}Are you sure you want to remove "{{ username }}" from this study?{% endblocktrans %}</p>
         <div class="d-print-none mb-3">
-            <a href="{% url 'studies:members' object.study.pk %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% trans 'Cancel' %}</a>
-            <button class="btn btn-danger mb-1" >{% trans 'Confirm' %}</button>
+            <a href="{% url 'studies:members' object.study.pk %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% translate 'Cancel' %}</a>
+            <button class="btn btn-danger mb-1" >{% translate 'Confirm' %}</button>
         </div>
     </form>
 {% endblock %}

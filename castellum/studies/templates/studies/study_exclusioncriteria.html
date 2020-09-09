@@ -1,7 +1,7 @@
 {% extends "studies/study_recruitmentsettings_base.html" %}
 {% load i18n auth bootstrap4 %}
 
-{% block title %}{% trans "Inclusion/exclusion criteria" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Inclusion/exclusion criteria" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     <form method="post">
@@ -12,7 +12,7 @@
 
         {% if general_criteria %}
             <details class="mb-3">
-                <summary class="mb-2">{% trans 'General criteria' %}</summary>
+                <summary class="mb-2">{% translate 'General criteria' %}</summary>
                 <blockquote class="blockquote">
                     {{ general_criteria|linebreaks }}
                 </blockquote>
@@ -22,7 +22,7 @@
         {% for study_type in study.study_type.all %}
             {% if study_type.exclusion_criteria %}
                 <details class="mb-3">
-                    <summary class="mb-2">{% trans 'Criteria for:' %} {{ study_type.label }}</summary>
+                    <summary class="mb-2">{% translate 'Criteria for:' %} {{ study_type.label }}</summary>
                     <blockquote class="blockquote">
                         {{ study_type.exclusion_criteria|linebreaks }}
                     </blockquote>
@@ -32,7 +32,7 @@
 
         {% if not readonly %}
             <div class="d-print-none mb-3">
-                <button class="btn btn-primary" >{% trans 'Save' %}</button>
+                <button class="btn btn-primary" >{% translate 'Save' %}</button>
             </div>
         {% endif %}
     </form>

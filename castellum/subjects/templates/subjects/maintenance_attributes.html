@@ -1,10 +1,10 @@
 {% extends "subjects/maintenance_base.html" %}
 {% load i18n bootstrap4 auth %}
 
-{% block title %}{% trans "Attributes" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Attributes" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <p>{% trans 'The following subjects have incomplete attributesets:' %}</p>
+    <p>{% translate 'The following subjects have incomplete attributesets:' %}</p>
 
     <ul class="table-list">
         {% for subject in object_list %}
@@ -13,28 +13,28 @@
                 <div>
                     <div>
                         {% with completeness=subject.attributeset.get_completeness %}
-                            {% trans 'Attributeset completeness' %}: {{ completeness.0 }}/{{ completeness.1 }}
+                            {% translate 'Attributeset completeness' %}: {{ completeness.0 }}/{{ completeness.1 }}
                         {% endwith %}
                     </div>
                     <div>
-                        {% trans 'Last updated on' %}: {{ subject.attributeset.updated_at|date }}
+                        {% translate 'Last updated on' %}: {{ subject.attributeset.updated_at|date }}
                     </div>
                 </div>
                 <div class="table-list-item-actions">
                     {% if can_access %}
-                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:detail' subject.slug %}" target="_blank">{% trans 'Details' %}</a>
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:detail' subject.slug %}" target="_blank">{% translate 'Details' %}</a>
                     {% else %}
-                        <button class="btn btn-outline-primary btn-sm-inline my-1" disabled>{% trans 'Details' %}</button>
+                        <button class="btn btn-outline-primary btn-sm-inline my-1" disabled>{% translate 'Details' %}</button>
                     {% endif %}
                 </div>
             </li>
         {% empty %}
-            <li class="alert alert-success" role="alert">{% trans 'Nothing to do' %}</li>
+            <li class="alert alert-success" role="alert">{% translate 'Nothing to do' %}</li>
         {% endfor %}
     </ul>
 
     {% if is_paginated %}
-        <nav aria-label="{% trans 'Page navigation' %}">
+        <nav aria-label="{% translate 'Page navigation' %}">
             {% bootstrap_pagination page_obj url=request.get_full_path %}
         </nav>
     {% endif %}

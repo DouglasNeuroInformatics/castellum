@@ -1,12 +1,12 @@
 {% extends "studies/study_base.html" %}
 {% load i18n bootstrap4 %}
 
-{% block title %}{% trans "Member management" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Member management" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     {% if unprivileged_users %}
         <p class="alert alert-warning">
-            {% trans 'Some members of this study with access to filters are blocked from managing filters due to an insufficient privacy level. Blocked users are: ' %}
+            {% translate 'Some members of this study with access to filters are blocked from managing filters due to an insufficient privacy level. Blocked users are: ' %}
             {{ unprivileged_users|join:', ' }}
         </p>
     {% endif %}
@@ -22,28 +22,28 @@
                         <div class="h4 d-inline-block my-1 mr-2">{{ membership.user }}</div>
                         <ul class="d-inline-block p-0">
                             {% for group in membership.user.groups.all %}
-                                <li class="badge badge-secondary my-1 mr-2" title="{% trans 'local group' %}" aria-label="{{ group }}">{{ group }}</li>
+                                <li class="badge badge-secondary my-1 mr-2" title="{% translate 'local group' %}" aria-label="{{ group }}">{{ group }}</li>
                             {% endfor %}
                         </ul>
                         <ul class="d-inline-block p-0">
                             {% for group in membership.groups.all %}
-                                <li class="badge badge-primary my-1 mr-2" title="{% trans 'global group' %}" aria-label="{{ group }}">{{ group }}</li>
+                                <li class="badge badge-primary my-1 mr-2" title="{% translate 'global group' %}" aria-label="{{ group }}">{{ group }}</li>
                             {% endfor %}
                         </ul>
                     </div>
                     {% if not readonly %}
                         <div class="table-list-item-actions">
-                            <a href="{% url 'studies:member' object.pk membership.pk %}" class="btn btn-primary btn-sm-inline my-1">{% trans 'Manage groups' %}</a>
+                            <a href="{% url 'studies:member' object.pk membership.pk %}" class="btn btn-primary btn-sm-inline my-1">{% translate 'Manage groups' %}</a>
                             {% if membership.user == request.user %}
-                                <a href="#" class="btn btn-danger btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% trans 'Remove' %}</a>
+                                <a href="#" class="btn btn-danger btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% translate 'Remove' %}</a>
                             {% else %}
-                                <a href="{% url 'studies:delete-member' object.pk membership.pk %}" class="btn btn-danger btn-sm-inline my-1">{% trans 'Remove' %}</a>
+                                <a href="{% url 'studies:delete-member' object.pk membership.pk %}" class="btn btn-danger btn-sm-inline my-1">{% translate 'Remove' %}</a>
                             {% endif %}
                         </div>
                     {% endif %}
                 </li>
             {% empty %}
-                <li class="alert alert-warning">{% trans 'No members' %}</li>
+                <li class="alert alert-warning">{% translate 'No members' %}</li>
             {% endfor %}
         </ul>
 
@@ -53,7 +53,7 @@
 
         {% if not readonly %}
             <div class="d-print-none mb-3">
-                <button class="btn btn-primary" >{% trans 'Add' %}</button>
+                <button class="btn btn-primary" >{% translate 'Add' %}</button>
             </div>
         {% endif %}
     </form>

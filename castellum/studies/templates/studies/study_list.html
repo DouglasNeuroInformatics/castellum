@@ -1,7 +1,7 @@
 {% extends "studies/base.html" %}
 {% load i18n static auth bootstrap4 utils %}
 
-{% block title %}{% trans "Studies" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Studies" %} &middot; {{ block.super }}{% endblock %}
 
 {% block container_class %}container-lg{% endblock %}
 
@@ -21,16 +21,16 @@
                     {% endif %}
                 {% endfor %}
                 <div class="input-group-append">
-                    <button class="btn btn-outline-primary" >{% trans 'Go' %}</button>
+                    <button class="btn btn-outline-primary" >{% translate 'Go' %}</button>
                 </div>
             </div>
         </form>
     </div>
 
     <div class="row">
-        <div class="col-md-3 order-1 my-2" role="region" aria-label="{% trans 'Filter' %}">
+        <div class="col-md-3 order-1 my-2" role="region" aria-label="{% translate 'Filter' %}">
             <div class="card mb-3">
-                <div class="card-header">{% trans 'Membership' %}</div>
+                <div class="card-header">{% translate 'Membership' %}</div>
                 <div class="list-group list-group-flush">
                     {% for value, label in form.member.field.choices %}
                         <a class="list-group-item list-group-item-custom list-group-item-action {% if form.cleaned_data.member == value|lower %}active{% endif %}" href="{% url_replace_param member=value %}">{{ label }}</a>
@@ -40,7 +40,7 @@
             <div class="card mb-3">
                 <div class="card-header">{{ form.status.label }}</div>
                 <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-custom list-group-item-action {% if not form.status.value %}active{% endif %}" href="{% url_replace_param status=None %}">{% trans 'All' %}</a>
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if not form.status.value %}active{% endif %}" href="{% url_replace_param status=None %}">{% translate 'All' %}</a>
                     {% for value, label in form.status.field.choices %}
                         <a class="list-group-item list-group-item-custom list-group-item-action {% if form.status.value == value|lower %}active{% endif %}" href="{% url_replace_param status=value %}">{{ label }}</a>
                     {% endfor %}
@@ -49,7 +49,7 @@
             <div class="card mb-3">
                 <div class="card-header">{{ form.type.label }}</div>
                 <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-custom list-group-item-action {% if not form.type.value and not form.is_onetime_invitation.value %}active{% endif %}" href="{% url_replace_param type=None is_onetime_invitation=None %}">{% trans 'All' %}</a>
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if not form.type.value and not form.is_onetime_invitation.value %}active{% endif %}" href="{% url_replace_param type=None is_onetime_invitation=None %}">{% translate 'All' %}</a>
                     {% for value, label in form.type.field.choices %}
                         <a class="list-group-item list-group-item-custom list-group-item-action {% if form.type.value == value|lower %}active{% endif %}" href="{% url_replace_param type=value is_onetime_invitation=None %}">{{ label }}</a>
                     {% endfor %}
@@ -71,7 +71,7 @@
                                     <div class="d-inline-block my-1 mr-2">{{ study.contact_person }}</div>
                                 {% endif %}
                                 {% if study.status == study.FINISHED %}
-                                    <span class="badge badge-secondary">{% trans 'Finished' %}</span>
+                                    <span class="badge badge-secondary">{% translate 'Finished' %}</span>
                                 {% endif %}
                             </div>
                             <div class="table-list-item-actions">
@@ -79,30 +79,30 @@
                                 {% if can_access and study.status == study.EXECUTION %}
                                     {% has_perm 'recruitment.recruit' user study as can_recruit %}
                                     {% if can_recruit %}
-                                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment-open' study.pk %}">{% trans 'Recruitment' %}</a>
+                                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:recruitment-open' study.pk %}">{% translate 'Recruitment' %}</a>
                                     {% endif %}
 
                                     {% has_perm 'recruitment.conduct_study' user study as can_conduct %}
                                     {% if can_conduct %}
-                                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:study-detail' study.pk %}">{% trans 'Execution' %}</a>
+                                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:study-detail' study.pk %}">{% translate 'Execution' %}</a>
                                     {% endif %}
                                 {% endif %}
 
                                 {% has_perm 'studies.view_study' user study as can_view_study %}
                                 {% if can_view_study %}
-                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:detail' study.pk %}">{% trans 'Details' %}</a>
+                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:detail' study.pk %}">{% translate 'Details' %}</a>
                                 {% endif %}
                             </div>
                         </li>
                     {% empty %}
                         <li class="alert alert-warning">
                             {% if q %}
-                                {% trans 'No results found.' %}
+                                {% translate 'No results found.' %}
                             {% else %}
                                 {% if request.GET.member == 'all' %}
-                                    {% trans 'No studies' %}
+                                    {% translate 'No studies' %}
                                 {% else %}
-                                    {% trans 'No personal studies' %}
+                                    {% translate 'No personal studies' %}
                                 {% endif %}
                             {% endif %}
                         </li>
@@ -110,7 +110,7 @@
                 </ul>
 
                 {% if is_paginated %}
-                    <nav aria-label="{% trans 'Page navigation' %}">
+                    <nav aria-label="{% translate 'Page navigation' %}">
                         {% bootstrap_pagination page_obj url=request.get_full_path %}
                     </nav>
                 {% endif %}
@@ -121,9 +121,9 @@
                 {% if can_add_study %}
                     {% get_enable_study_export as enable_export %}
                     {% if enable_export %}
-                        <a href="{% url 'studies:import' %}" class="btn btn-primary">{% trans "Import study" %}</a>
+                        <a href="{% url 'studies:import' %}" class="btn btn-primary">{% translate "Import study" %}</a>
                     {% endif %}
-                    <a href="{% url 'studies:create' %}" class="btn btn-primary">{% trans "Create new study" %}</a>
+                    <a href="{% url 'studies:create' %}" class="btn btn-primary">{% translate "Create new study" %}</a>
                 {% endif %}
             </div>
         </div>

@@ -1,10 +1,10 @@
 {% extends "subjects/maintenance_base.html" %}
 {% load i18n bootstrap4 auth %}
 
-{% block title %}{% trans "Duplicates" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Duplicates" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <p>{% trans 'The following names exist more than once:' %}</p>
+    <p>{% translate 'The following names exist more than once:' %}</p>
 
     <ul class="table-list">
         {% for contact in object_list %}
@@ -15,16 +15,16 @@
                 <form class="table-list-item-actions" method="post" action="{% url 'subjects:index' %}">
                     {% csrf_token %}
                     <input type="hidden" name="search" value="{{ contact.first_name }} {{ contact.last_name }}">
-                    <button class="btn btn-outline-primary btn-sm-inline my-1">{% trans 'Search' %}</button>
+                    <button class="btn btn-outline-primary btn-sm-inline my-1">{% translate 'Search' %}</button>
                 </form>
             </li>
         {% empty %}
-            <li class="alert alert-success" role="alert">{% trans 'Nothing to do' %}</li>
+            <li class="alert alert-success" role="alert">{% translate 'Nothing to do' %}</li>
         {% endfor %}
     </ul>
 
     {% if is_paginated %}
-        <nav aria-label="{% trans 'Page navigation' %}">
+        <nav aria-label="{% translate 'Page navigation' %}">
             {% bootstrap_pagination page_obj url=request.get_full_path %}
         </nav>
     {% endif %}

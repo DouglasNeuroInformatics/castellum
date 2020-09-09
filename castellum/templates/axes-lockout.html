@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n static %}
 
-{% block title %}{% trans "Account Locked" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Account Locked" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     <div class="row align-items-center my-5">
@@ -9,10 +9,10 @@
             <img src="{% static 'images/circle-icons/magnifyingglass.png' %}" class="w-100" alt="">
         </div>
         <div class="col-sm-9 mb-5">
-            <h1 class="h3">{% trans "Account Locked" %}</h1>
-            <p>{% trans "Too many login attempts." %}</p>
-            <p>{% trans "Contact an admin to unlock your account." %}</p>
-            <a class="btn btn-primary" href="/">{% trans "Go to homepage" %}</a>
+            <h1 class="h3">{% translate "Account Locked" %}</h1>
+            <p>{% translate "Too many login attempts." %}</p>
+            <p>{% translate "Contact an admin to unlock your account." %}</p>
+            <a class="btn btn-primary" href="/">{% translate "Go to homepage" %}</a>
         </div>
     </div>
 {% endblock %}
