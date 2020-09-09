@@ -1,39 +1,39 @@
 {% extends "studies/study_recruitmentsettings_base.html" %}
 {% load i18n auth utils %}
 
-{% block title %}{% trans "Filter Groups" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Filter Groups" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     {% include 'studies/__filtergroup_common.html' %}
 
     <div class="card mb-3">
         <div class="card-header d-flex justify-content-between">
-            <span title="{% trans 'Subjects must match any of the following filtergroups.' %}">
-                {% trans 'Any of these' %}
+            <span title="{% translate 'Subjects must match any of the following filtergroups.' %}">
+                {% translate 'Any of these' %}
             </span>
-            <span class="text-right" title="{% trans 'required' %}: {{ study.min_subject_count }} {% trans 'total' %}: {{ total_count }}" aria-label="{% blocktrans %}{{ count }} potential subjects in total{% endblocktrans %}">
-                {% blocktrans %}{{ count }} potential subjects in total{% endblocktrans %}
+            <span class="text-right" title="{% translate 'required' %}: {{ study.min_subject_count }} {% translate 'total' %}: {{ total_count }}" aria-label="{% blocktranslate %}{{ count }} potential subjects in total{% endblocktranslate %}">
+                {% blocktranslate %}{{ count }} potential subjects in total{% endblocktranslate %}
             </span>
         </div>
         <div class="card-body">
             {% for group in object_list %}
                 <div class="card mb-3">
                     <div class="card-header d-flex justify-content-between">
-                        <span title="{% trans 'Subjects must match all of the following filters.' %}">
-                            {% trans 'All of these' %}
+                        <span title="{% translate 'Subjects must match all of the following filters.' %}">
+                            {% translate 'All of these' %}
                         </span>
-                        <span class="text-right">{% blocktrans with count=group.get_matches.count %}{{ count }} potential subjects{% endblocktrans %}</span>
+                        <span class="text-right">{% blocktranslate with count=group.get_matches.count %}{{ count }} potential subjects{% endblocktranslate %}</span>
                     </div>
                     <div class="card-body d-flex justify-content-between flex-column flex-lg-row">
                         <div>
                             {% with filters=group.subjectfilter_set.all|list %}
                                 <details>
                                     <summary>
-                                        {% blocktrans count count=filters|length %}
+                                        {% blocktranslate count count=filters|length %}
                                             {{ count }} filter
                                         {% plural %}
                                             {{ count }} filters
-                                        {% endblocktrans %}
+                                        {% endblocktranslate %}
                                     </summary>
                                     <ul>
                                         {% for f in filters %}
@@ -45,16 +45,16 @@
                         </div>
                         <div>
                             {% if study.status != study.EDIT %}
-                                <span class="btn btn-outline-primary disabled mb-1">{% trans "Duplicate" %}</span>
-                                <a href="{% url 'studies:filtergroup-update' study.pk group.pk %}" class="btn btn-outline-primary mb-1">{% trans "View" %}</a>
-                                <span class="btn btn-danger disabled">{% trans "Delete" %}</span>
+                                <span class="btn btn-outline-primary disabled mb-1">{% translate "Duplicate" %}</span>
+                                <a href="{% url 'studies:filtergroup-update' study.pk group.pk %}" class="btn btn-outline-primary mb-1">{% translate "View" %}</a>
+                                <span class="btn btn-danger disabled">{% translate "Delete" %}</span>
                             {% else %}
                                 <form class="d-inline" method="post" action="{% url 'studies:filtergroup-duplicate' study.pk group.pk %}">
                                     {% csrf_token %}
-                                    <button class="btn btn-outline-primary mb-1" >{% trans "Duplicate" %}</button>
+                                    <button class="btn btn-outline-primary mb-1" >{% translate "Duplicate" %}</button>
                                 </form>
-                                <a href="{% url 'studies:filtergroup-update' study.pk group.pk %}" class="btn btn-outline-primary mb-1">{% trans "Edit" %}</a>
-                                <a href="{% url 'studies:filtergroup-delete' study.pk group.pk %}" class="btn btn-danger mb-1">{% trans "Delete" %}</a>
+                                <a href="{% url 'studies:filtergroup-update' study.pk group.pk %}" class="btn btn-outline-primary mb-1">{% translate "Edit" %}</a>
+                                <a href="{% url 'studies:filtergroup-delete' study.pk group.pk %}" class="btn btn-danger mb-1">{% translate "Delete" %}</a>
                             {% endif %}
                         </div>
                     </div>
@@ -63,10 +63,10 @@
 
             <form action="{% url 'studies:filtergroup-create' study.pk %}" method="post">
                 {% if study.status != study.EDIT %}
-                    <button class="btn btn-primary" disabled>{% trans 'Add new' %}</button>
+                    <button class="btn btn-primary" disabled>{% translate 'Add new' %}</button>
                 {% else %}
                     {% csrf_token %}
-                    <button class="btn btn-primary">{% trans 'Add new' %}</button>
+                    <button class="btn btn-primary">{% translate 'Add new' %}</button>
                 {% endif %}
             </form>
         </div>

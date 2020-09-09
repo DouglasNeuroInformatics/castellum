@@ -11,14 +11,14 @@
         <h1>{{ subject.contact.full_name }}</h1>
     </div>
 
-    <nav class="d-print-none" aria-label="{% trans 'Tabs' %}">
+    <nav class="d-print-none" aria-label="{% translate 'Tabs' %}">
         <ul class="nav nav-tabs justify-content-center mb-3">
             <li class="nav-item">
                 <a href="{% url 'subjects:detail' subject.slug %}" class="nav-link {% if view.tab == 'detail' %}active{% endif %}">
                     {% if not subject.has_legal_basis %}
-                        <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'No legal basis' %}" aria-label="{% trans 'No legal basis' %}"></i>
+                        <i class="fa fa-exclamation-triangle" role="img" title="{% translate 'No legal basis' %}" aria-label="{% translate 'No legal basis' %}"></i>
                     {% endif %}
-                    {% trans 'Overview' %}
+                    {% translate 'Overview' %}
                 </a>
             </li>
 
@@ -27,31 +27,31 @@
                 <li class="nav-item">
                     <a href="{% url 'subjects:contact' subject.slug %}" class="nav-link {% if view.tab == 'contact' %}active{% endif %}">
                         {% if not subject.contact.is_complete %}
-                            <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
+                            <i class="fa fa-exclamation-triangle" role="img" title="{% translate 'Missing values' %}" aria-label="{% translate 'Missing values' %}"></i>
                         {% endif %}
-                        {% trans 'Contact' %}
+                        {% translate 'Contact' %}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'subjects:attributeset' subject.slug %}" class="nav-link {% if view.tab == 'attributeset' %}active{% endif %}">{% trans "Attributes" %}</a>
+                    <a href="{% url 'subjects:attributeset' subject.slug %}" class="nav-link {% if view.tab == 'attributeset' %}active{% endif %}">{% translate "Attributes" %}</a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'subjects:data-protection' subject.slug %}" class="nav-link {% if view.tab == 'data-protection' %}active{% endif %}">
                         {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age %}
-                            <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Missing values' %}" aria-label="{% trans 'Missing values' %}"></i>
+                            <i class="fa fa-exclamation-triangle" role="img" title="{% translate 'Missing values' %}" aria-label="{% translate 'Missing values' %}"></i>
                         {% endif %}
-                        {% trans 'Data protection' %}
+                        {% translate 'Data protection' %}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'subjects:additional-info' subject.slug %}" class="nav-link {% if view.tab == 'additional-info' %}active{% endif %}">
-                        {% trans 'Additional Info' %}
+                        {% translate 'Additional Info' %}
                     </a>
                 </li>
             {% endif %}
 
             <li class="nav-item">
-                <a href="{% url 'subjects:participation-list' subject.slug %}" class="nav-link {% if view.tab == 'participations' %}active{% endif %}">{% trans "Study Participations" %}</a>
+                <a href="{% url 'subjects:participation-list' subject.slug %}" class="nav-link {% if view.tab == 'participations' %}active{% endif %}">{% translate "Study Participations" %}</a>
             </li>
 
             {% has_perm 'subjects.export_subject' user as can_export_subject %}
@@ -59,9 +59,9 @@
                 <li class="nav-item">
                     <a href="{% url 'subjects:export' subject.slug %}" class="nav-link {% if view.tab == 'export' %}active{% endif %}">
                         {% if subject.export_requested %}
-                            <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'Export requested' %}" aria-label="{% trans 'Export requested' %}"></i>
+                            <i class="fa fa-exclamation-triangle" role="img" title="{% translate 'Export requested' %}" aria-label="{% translate 'Export requested' %}"></i>
                         {% endif %}
-                        {% trans 'Export' %}
+                        {% translate 'Export' %}
                     </a>
                 </li>
             {% endif %}
@@ -71,9 +71,9 @@
                 <li class="nav-item">
                     <a href="{% url 'subjects:delete' subject.slug %}" class="nav-link {% if view.tab == 'delete' %}active{% endif %}">
                         {% if subject.to_be_deleted %}
-                            <i class="fa fa-exclamation-triangle" role="img" title="{% trans 'To be deleted' %}" aria-label="{% trans 'To be deleted' %}"></i>
+                            <i class="fa fa-exclamation-triangle" role="img" title="{% translate 'To be deleted' %}" aria-label="{% translate 'To be deleted' %}"></i>
                         {% endif %}
-                        {% trans 'Delete' %}
+                        {% translate 'Delete' %}
                     </a>
                 </li>
             {% endif %}

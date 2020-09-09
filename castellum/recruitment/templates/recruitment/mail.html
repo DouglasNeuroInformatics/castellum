@@ -1,12 +1,12 @@
 {% extends base_template|default:"recruitment/recruitment_base.html" %}
 {% load i18n auth bootstrap4 humanize %}
 
-{% block title %}{% trans "Mail recruitment" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Mail recruitment" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
 
     {% if not study.mail_body %}
-        <p class="alert alert-danger" role="alert">{% trans "Mail recruitment has not been set up!" %}</p>
+        <p class="alert alert-danger" role="alert">{% translate "Mail recruitment has not been set up!" %}</p>
     {% else %}
         <form method="post">
             {% include 'utils/form_errors.html' with form=form %}
@@ -14,7 +14,7 @@
 
             <div class="form-group">
                 <label class="d-block">
-                    {% trans "E-mail text" %}
+                    {% translate "E-mail text" %}
                     <textarea readonly class="form-control">{{ study.mail_body }}</textarea>
                 </label>
             </div>
@@ -24,27 +24,27 @@
             </div>
 
             <div class="mb-3">
-                <button class="btn btn-primary" >{% trans 'Send' %}</button>
+                <button class="btn btn-primary" >{% translate 'Send' %}</button>
             </div>
 
         </form>
     {% endif %}
 
     {% if study.mailbatch_set.all %}
-        <h3 class="mt-5">{% trans "Previous mails" %}</h3>
+        <h3 class="mt-5">{% translate "Previous mails" %}</h3>
         <ul class="table-list mb-3">
         {% for batch in study.mailbatch_set.all %}
             <li class="table-list-item">
                 <div>
                     <small class="text-muted">
-                        {% blocktrans with datetime=batch.datetime|date counter=forloop.counter|ordinal %}
+                        {% blocktranslate with datetime=batch.datetime|date counter=forloop.counter|ordinal %}
                             {{ counter }} mail sent on {{ datetime }}:
-                        {% endblocktrans %}
+                        {% endblocktranslate %}
                     </small>
                     <div>
-                        {% blocktrans with contacted_size=batch.contacted_size %}
+                        {% blocktranslate with contacted_size=batch.contacted_size %}
                             {{ contacted_size }} potential subjects contacted
-                        {% endblocktrans %}
+                        {% endblocktranslate %}
                     </div>
                 </div>
             </li>

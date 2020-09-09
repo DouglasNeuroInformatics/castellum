@@ -1,25 +1,25 @@
 {% extends "base_with_breadcrumbs.html" %}
 {% load i18n auth %}
 
-{% block title %}{% trans 'Data protection dashboard' %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate 'Data protection dashboard' %} &middot; {{ block.super }}{% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'data_protection:index' %}">{% trans "Data protection" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'data_protection:index' %}">{% translate "Data protection" %}</a></li>
 {% endblock %}
 
 {% block content %}
-    <h2>{% trans 'Export requested' %}</h2>
+    <h2>{% translate 'Export requested' %}</h2>
     {% include 'data_protection/__subject_list.html' with subjects=export_requested missing=export_requested_missing %}
 
     {% has_perm 'subjects.delete_subject' user as can_delete_subject %}
     {% if can_delete_subject %}
-        <h2>{% trans 'To be deleted' %}</h2>
+        <h2>{% translate 'To be deleted' %}</h2>
         {% include 'data_protection/__subject_list.html' with subjects=to_be_deleted missing=to_be_deleted_missing %}
 
-        <h2>{% trans 'No legal basis' %}</h2>
+        <h2>{% translate 'No legal basis' %}</h2>
         {% include 'data_protection/__subject_list.html' with subjects=no_legal_basis missing=no_legal_basis_missing %}
 
-        <h2>{% trans 'Unreachable' %}</h2>
+        <h2>{% translate 'Unreachable' %}</h2>
         {% include 'data_protection/__subject_list.html' with subjects=unreachable missing=unreachable_missing %}
     {% endif %}
 {% endblock %}

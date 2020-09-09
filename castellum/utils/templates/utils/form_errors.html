@@ -4,6 +4,6 @@
     <p class="alert alert-danger" role="alert">{{ error }}</p>
 {% empty %}
     {% if form.errors %}
-        <p class="alert alert-danger" role="alert">{% trans 'Please correct the errors listed on the fields.' %}</p>
+        <p class="alert alert-danger" role="alert">{% translate 'Please correct the errors listed on the fields.' %}</p>
     {% endif %}
 {% endfor %}

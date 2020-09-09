@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% load i18n static bootstrap4 auth %}
 
-{% block title %}{% trans "Guardians" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Guardians" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <p>{% trans 'Total number of subjects' %}: {{ count_total }}</p>
+    <p>{% translate 'Total number of subjects' %}: {{ count_total }}</p>
 
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
@@ -13,8 +13,8 @@
         {% bootstrap_field form.search %}
 
         <div class="mb-4">
-            <button type="button" class="btn btn-outline-primary" data-js="guardian-dismiss">{% trans "Dismiss" %}</button>
-            <button class="btn btn-primary" >{% trans 'Submit' %}</button>
+            <button type="button" class="btn btn-outline-primary" data-js="guardian-dismiss">{% translate "Dismiss" %}</button>
+            <button class="btn btn-primary" >{% translate 'Submit' %}</button>
         </div>
     </form>
 
@@ -23,11 +23,11 @@
 
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link {{ is_post|yesno:',active' }}" id="matches-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="matches" aria-selected="{{ is_post|yesno:'false,true' }}">{% trans "Matches" %}</a>
+                <a class="nav-link {{ is_post|yesno:',active' }}" id="matches-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="matches" aria-selected="{{ is_post|yesno:'false,true' }}">{% translate "Matches" %}</a>
             </li>
             {% if can_change_subject %}
                 <li class="nav-item">
-                    <a class="nav-link {{ is_post|yesno:'active,' }}" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create" aria-selected="{{ is_post|yesno:'true,false' }}">{% trans "Create" %}</a>
+                    <a class="nav-link {{ is_post|yesno:'active,' }}" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create" aria-selected="{{ is_post|yesno:'true,false' }}">{% translate "Create" %}</a>
                 </li>
             {% endif %}
         </ul>
@@ -68,20 +68,20 @@
                                         </div>
                                     {% else %}
                                         <h3 class="h4 d-inline-block text-muted my-1 mr-2">{{ contact.full_name }}</h3>
-                                        <div class="d-inline-block text-muted my-1 mr-2">{% trans 'access denied' %}</div>
+                                        <div class="d-inline-block text-muted my-1 mr-2">{% translate 'access denied' %}</div>
                                     {% endif %}
                                 </div>
                                 <div class="table-list-item-actions">
                                     {% if can_access %}
-                                        <button type="button" class="btn btn-primary btn-sm-inline my-1" data-js="guardian-use" data-name="{{ contact.full_name }}" data-pk="{{ contact.subject.pk }}">{% trans 'Set up as guardian' %}</button>
+                                        <button type="button" class="btn btn-primary btn-sm-inline my-1" data-js="guardian-use" data-name="{{ contact.full_name }}" data-pk="{{ contact.subject.pk }}">{% translate 'Set up as guardian' %}</button>
                                     {% else %}
-                                        <button type="button" class="btn btn-primary btn-sm-inline my-1" disabled>{% trans 'Set up as guardian' %}</button>
+                                        <button type="button" class="btn btn-primary btn-sm-inline my-1" disabled>{% translate 'Set up as guardian' %}</button>
                                     {% endif %}
                                 </div>
                             </li>
                         {% endwith %}
                     {% empty %}
-                        <li class="alert alert-warning" role="alert">{% trans 'No matches found' %}</li>
+                        <li class="alert alert-warning" role="alert">{% translate 'No matches found' %}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -105,7 +105,7 @@
                         {% include 'contacts/__contact_form_self.html' with form=contact_form %}
                         {{ form.search.as_hidden }}
 
-                        <button class="btn btn-primary">{% trans "Create new subject" %}</button>
+                        <button class="btn btn-primary">{% translate "Create new subject" %}</button>
                     </form>
                 </div>
             {% endif %}

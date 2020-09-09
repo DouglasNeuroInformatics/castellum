@@ -3,9 +3,9 @@
 
 {% block title %}
     {% if object %}
-        {% trans "Edit contact" %}
+        {% translate "Edit contact" %}
     {% else %}
-        {% trans "Create new subject" %}
+        {% translate "Create new subject" %}
     {% endif %}
     &middot; {{ block.super }}
 {% endblock %}
@@ -15,7 +15,7 @@
         {% include 'utils/form_errors.html' with form=form %}
 
         {% if not object.is_complete %}
-            <p class="alert alert-warning" role="alert">{% trans "Date of birth as well as at least one of email, phone number, address, or guardian should be provided." %}</p>
+            <p class="alert alert-warning" role="alert">{% translate "Date of birth as well as at least one of email, phone number, address, or guardian should be provided." %}</p>
         {% endif %}
 
         {% csrf_token %}
@@ -34,7 +34,7 @@
             </template>
 
             {% if form.guardians_blocked > 0 %}
-                <p class="text-muted">{% blocktrans with count=form.guardians_blocked %}{{ count }} guardians not listed because of insufficient privacy level.{% endblocktrans %}</p>
+                <p class="text-muted">{% blocktranslate with count=form.guardians_blocked %}{{ count }} guardians not listed because of insufficient privacy level.{% endblocktranslate %}</p>
             {% endif %}
 
             {% for widget in form.guardians_remove %}
@@ -47,11 +47,11 @@
                 {% endif %}
             {% endfor %}
 
-            <button type="button" class="btn btn-primary" data-js="guardian-add">{% trans 'Add guardian' %}</button>
+            <button type="button" class="btn btn-primary" data-js="guardian-add">{% translate 'Add guardian' %}</button>
         </div>
 
         <div class="d-print-none mb-3">
-            <button class="btn btn-primary">{% trans 'Save' %}</button>
+            <button class="btn btn-primary">{% translate 'Save' %}</button>
         </div>
     </form>
 {% endblock %}

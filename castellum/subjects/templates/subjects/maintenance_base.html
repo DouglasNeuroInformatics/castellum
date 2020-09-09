@@ -1,32 +1,32 @@
 {% extends "subjects/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans 'Maintenance' %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate 'Maintenance' %} &middot; {{ block.super }}{% endblock %}
 
 {% block header %}
     <div class="container text-center my-4">
-        <h1>{% trans 'Maintenance' %}</h1>
+        <h1>{% translate 'Maintenance' %}</h1>
     </div>
 
-    <nav class="d-print-none" aria-label="{% trans 'Tabs' %}">
+    <nav class="d-print-none" aria-label="{% translate 'Tabs' %}">
         <ul class="nav nav-tabs justify-content-center mb-3">
             <li class="nav-item">
-                <a href="{% url 'subjects:maintenance-attributes' %}" class="nav-link {% if view.tab == 'attributes' %}active{% endif %}">{% trans 'Attributes' %}</a>
+                <a href="{% url 'subjects:maintenance-attributes' %}" class="nav-link {% if view.tab == 'attributes' %}active{% endif %}">{% translate 'Attributes' %}</a>
             </li>
             <li class="nav-item">
-                <a href="{% url 'subjects:maintenance-contact' %}" class="nav-link {% if view.tab == 'contact' %}active{% endif %}">{% trans 'Contact' %}</a>
+                <a href="{% url 'subjects:maintenance-contact' %}" class="nav-link {% if view.tab == 'contact' %}active{% endif %}">{% translate 'Contact' %}</a>
             </li>
             <li class="nav-item">
-                <a href="{% url 'subjects:maintenance-duplicates' %}" class="nav-link {% if view.tab == 'duplicates' %}active{% endif %}">{% trans 'Duplicates' %}</a>
+                <a href="{% url 'subjects:maintenance-duplicates' %}" class="nav-link {% if view.tab == 'duplicates' %}active{% endif %}">{% translate 'Duplicates' %}</a>
             </li>
             <li class="nav-item">
-                <a href="{% url 'subjects:maintenance-consent' %}" class="nav-link {% if view.tab == 'consent' %}active{% endif %}">{% trans 'Consent' %}</a>
+                <a href="{% url 'subjects:maintenance-consent' %}" class="nav-link {% if view.tab == 'consent' %}active{% endif %}">{% translate 'Consent' %}</a>
             </li>
             <li class="nav-item">
-                <a href="{% url 'subjects:maintenance-waiting' %}" class="nav-link {% if view.tab == 'waiting' %}active{% endif %}">{% trans 'Waiting for consent' %}</a>
+                <a href="{% url 'subjects:maintenance-waiting' %}" class="nav-link {% if view.tab == 'waiting' %}active{% endif %}">{% translate 'Waiting for consent' %}</a>
             </li>
             <li class="nav-item">
-                <a href="{% url 'subjects:maintenance-showup' %}" class="nav-link {% if view.tab == 'showup' %}active{% endif %}">{% trans 'Show up rate' %}</a>
+                <a href="{% url 'subjects:maintenance-showup' %}" class="nav-link {% if view.tab == 'showup' %}active{% endif %}">{% translate 'Show up rate' %}</a>
             </li>
         </ul>
     </nav>

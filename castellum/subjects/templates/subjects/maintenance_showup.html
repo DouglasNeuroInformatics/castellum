@@ -1,10 +1,10 @@
 {% extends "subjects/maintenance_base.html" %}
 {% load i18n bootstrap4 auth %}
 
-{% block title %}{% trans "Waiting for consent" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Waiting for consent" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <p>{% trans 'The following subjects have a record of coming late or not at all:' %}</p>
+    <p>{% translate 'The following subjects have a record of coming late or not at all:' %}</p>
 
     <ul class="table-list">
         {% for subject in object_list %}
@@ -12,24 +12,24 @@
             <li class="table-list-item">
                 <div>
                     <div>
-                        {% trans 'Last updated on' %}: {{ subject.updated_at|date }}
+                        {% translate 'Last updated on' %}: {{ subject.updated_at|date }}
                     </div>
                 </div>
                 <div class="table-list-item-actions">
                     {% if can_access %}
-                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:detail' subject.slug %}" target="_blank">{% trans 'Details' %}</a>
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:detail' subject.slug %}" target="_blank">{% translate 'Details' %}</a>
                     {% else %}
-                        <button class="btn btn-outline-primary btn-sm-inline my-1" disabled>{% trans 'Details' %}</button>
+                        <button class="btn btn-outline-primary btn-sm-inline my-1" disabled>{% translate 'Details' %}</button>
                     {% endif %}
                 </div>
             </li>
         {% empty %}
-            <li class="alert alert-success" role="alert">{% trans 'Nothing to do' %}</li>
+            <li class="alert alert-success" role="alert">{% translate 'Nothing to do' %}</li>
         {% endfor %}
     </ul>
 
     {% if is_paginated %}
-        <nav aria-label="{% trans 'Page navigation' %}">
+        <nav aria-label="{% translate 'Page navigation' %}">
             {% bootstrap_pagination page_obj url=request.get_full_path %}
         </nav>
     {% endif %}

@@ -1,24 +1,24 @@
 {% extends "studies/study_base.html" %}
 {% load static i18n %}
 
-{% block title %}{% trans "Delete" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Delete" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        <p>{% trans "Are you sure you want to <strong>permanently delete</strong> this study and all related data? This includes:" %}</p>
+        <p>{% translate "Are you sure you want to <strong>permanently delete</strong> this study and all related data? This includes:" %}</p>
         <ul>
-            <li>{% trans "All information on who participated in this study." %}</li>
-            <li>{% trans "All pseudonyms related to this study." %}</li>
+            <li>{% translate "All information on who participated in this study." %}</li>
+            <li>{% translate "All pseudonyms related to this study." %}</li>
         </ul>
-        <p>{% trans "This should only be done once all external data related to these pseudonyms has been destroyed as it would no longer be possible to identify subjects reliably." %}</p>
+        <p>{% translate "This should only be done once all external data related to these pseudonyms has been destroyed as it would no longer be possible to identify subjects reliably." %}</p>
         <label class="form-check">
             <input type="checkbox" class="form-check-input" data-js="confirm-delete">
-            <span class="form-check-label">{% trans "I have made sure that all external data related to this study has been destroyed" %}</span>
+            <span class="form-check-label">{% translate "I have made sure that all external data related to this study has been destroyed" %}</span>
         </label>
         <div class="d-print-none mb-3">
-            <a href="{% url 'studies:detail' study.pk %}" class="btn btn-outline-primary" data-js="cancel">{% trans 'Cancel' %}</a>
-            <button class="btn btn-danger" disabled >{% trans 'Confirm' %}</button>
+            <a href="{% url 'studies:detail' study.pk %}" class="btn btn-outline-primary" data-js="cancel">{% translate 'Cancel' %}</a>
+            <button class="btn btn-danger" disabled >{% translate 'Confirm' %}</button>
         </div>
     </form>
 {% endblock %}

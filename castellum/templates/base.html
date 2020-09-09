@@ -20,8 +20,8 @@
 </head>
 <body {% if user.is_authenticated %}data-logout-timeout="{{ user.logout_timeout.total_seconds }}"{% endif %}>
     {% if not PRODUCTION %}
-        <div class="bg-warning p-2 text-center" title="{% trans 'Set settings.PRODUCTION to remove this message.' %}">
-            {% trans 'Running in Demo mode.' %}
+        <div class="bg-warning p-2 text-center" title="{% translate 'Set settings.PRODUCTION to remove this message.' %}">
+            {% translate 'Running in Demo mode.' %}
         </div>
     {% endif %}
     {% if not view.nochrome %}
@@ -29,13 +29,13 @@
             <div class="container">
                 <div class="row align-items-baseline navbar navbar-expand-sm navbar-dark">
                     <a href="/" rel="home" class="navbar-brand">Castellum</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="{% trans 'Toggle navigation' %}">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="{% translate 'Toggle navigation' %}">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
                     <div class="collapse navbar-collapse justify-content-end" id="navbarToggler">
                         {% if user.is_authenticated %}
-                            <div class="btn-group mr-5" role="region" aria-label="{% trans 'Set language' %}">
+                            <div class="btn-group mr-5" role="region" aria-label="{% translate 'Set language' %}">
                                 {% for lang, label in LANGUAGES %}
                                     <form class="btn-group" action="{% url 'set_language' %}" method="post">
                                         {# Bootstrap uses :firstchild for styling #}
@@ -56,10 +56,10 @@
                         {% if request.user.is_authenticated %}
                             <div>
                                 <span class="navbar-text">{{ request.user }}</span>
-                                <a href="{% url 'logout' %}?next={{ request.get_full_path|iriencode }}" class="btn btn-secondary">{% trans 'Logout' %}</a>
+                                <a href="{% url 'logout' %}?next={{ request.get_full_path|iriencode }}" class="btn btn-secondary">{% translate 'Logout' %}</a>
                             </div>
                         {% else %}
-                            <a href="{% url 'login' %}?next={{ request.get_full_path|iriencode }}" class="btn btn-primary">{% trans 'Login' %}</a>
+                            <a href="{% url 'login' %}?next={{ request.get_full_path|iriencode }}" class="btn btn-primary">{% translate 'Login' %}</a>
                         {% endif %}
                     </div>
                 </div>
@@ -75,7 +75,7 @@
             {% block content_with_messages %}
                 {% if subject.to_be_deleted %}
                     <div class="alert alert-warning" role="alert">
-                        {% trans 'This subject is marked for deletion' %}
+                        {% translate 'This subject is marked for deletion' %}
                     </div>
                 {% endif %}
 
@@ -96,14 +96,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title h4" id="unsaved-changes-modal-title">{% trans 'Unsaved Changes' %}</h1>
+                    <h1 class="modal-title h4" id="unsaved-changes-modal-title">{% translate 'Unsaved Changes' %}</h1>
                 </div>
                 <div class="modal-body">
-                    <p>{% trans "Your changes will be lost if you leave before saving." %}</p>
+                    <p>{% translate "Your changes will be lost if you leave before saving." %}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">{% trans "Stay on Page" %}</button>
-                    <a class="btn btn-outline-primary" data-js="cancel">{% trans "Discard Changes" %}</a>
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">{% translate "Stay on Page" %}</button>
+                    <a class="btn btn-outline-primary" data-js="cancel">{% translate "Discard Changes" %}</a>
                 </div>
             </div>
         </div>

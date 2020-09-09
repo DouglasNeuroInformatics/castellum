@@ -3,9 +3,9 @@
 
 {% block title %}
     {% if object %}
-        {% trans "Edit" %}
+        {% translate "Edit" %}
     {% else %}
-        {% trans "Create new study" %}
+        {% translate "Create new study" %}
     {% endif %}
     &middot; {{ block.super }}
 {% endblock %}
@@ -31,7 +31,7 @@
 
         <div class="d-print-none mb-3">
             {% if not readonly %}
-                <button class="btn btn-primary" >{% trans 'Save' %}</button>
+                <button class="btn btn-primary" >{% translate 'Save' %}</button>
             {% endif %}
         </div>
     </form>

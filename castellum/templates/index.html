@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n static auth %}
 
-{% block title %}{% trans "Start" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Start" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -11,7 +11,7 @@
                     <img class="w-100" src="{% static 'images/circle-icons/study_management.png' %}" alt="">
                 </a>
                 <div class="card-body">
-                    <a href="{% url 'studies:index' %}" class="btn btn-primary btn-block">{% trans "Studies" %}</a>
+                    <a href="{% url 'studies:index' %}" class="btn btn-primary btn-block">{% translate "Studies" %}</a>
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@
                     <img class="w-100" src="{% static 'images/circle-icons/subject_management.png' %}" alt="">
                 </a>
                 <div class="card-body">
-                    <a href="{% url 'subjects:index' %}" class="btn btn-primary btn-block">{% trans "Subjects" %}</a>
+                    <a href="{% url 'subjects:index' %}" class="btn btn-primary btn-block">{% translate "Subjects" %}</a>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
                         <img class="w-100" src="{% static 'images/circle-icons/booklet.png' %}" alt="">
                     </a>
                     <div class="card-body">
-                        <a href="{% url 'execution:reception' %}" class="btn btn-primary btn-block">{% trans "Reception" %}</a>
+                        <a href="{% url 'execution:reception' %}" class="btn btn-primary btn-block">{% translate "Reception" %}</a>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                         <img class="w-100" src="{% static 'images/circle-icons/data_protection.png' %}" alt="">
                     </a>
                     <div class="card-body">
-                        <a href="{% url 'data_protection:index' %}" class="btn btn-primary btn-block">{% trans "Data protection" %}</a>
+                        <a href="{% url 'data_protection:index' %}" class="btn btn-primary btn-block">{% translate "Data protection" %}</a>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                         <img class="w-100" src="{% static 'images/circle-icons/admin.png' %}" alt="">
                     </a>
                     <div class="card-body">
-                        <a href="{% url 'admin:index' %}" class="btn btn-primary btn-block">{% trans "Admin" %}</a>
+                        <a href="{% url 'admin:index' %}" class="btn btn-primary btn-block">{% translate "Admin" %}</a>
                     </div>
                 </div>
             </div>

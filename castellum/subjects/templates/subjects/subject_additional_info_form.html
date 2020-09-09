@@ -2,13 +2,13 @@
 {% load static i18n bootstrap4 utils %}
 
 {% block title %}
-    {% trans "Edit subject" %} &middot; {{ block.super }}
+    {% translate "Edit subject" %} &middot; {{ block.super }}
 {% endblock %}
 
 {% block content %}
     {% if subject.contact.has_guardian %}
         <p class="alert alert-warning" role="alert">
-            {% trans 'This subject has a legal guardian. For information on availability and notes please find their details.' %}
+            {% translate 'This subject has a legal guardian. For information on availability and notes please find their details.' %}
         </p>
     {% endif %}
 
@@ -29,7 +29,7 @@
         {% csrf_token %}
 
         <fieldset data-js="availability" class="mb-3">
-            <legend class="h5">{% trans "Availability" %}</legend>
+            <legend class="h5">{% translate "Availability" %}</legend>
 
             <div class="form-row">
                 <div class="col-6 col-sm-2">
@@ -53,7 +53,7 @@
         {% bootstrap_field form.not_available_until %}
 
         <fieldset>
-            <legend class="h5">{% trans "Notes" %}</legend>
+            <legend class="h5">{% translate "Notes" %}</legend>
 
             {% bootstrap_field form.note_hard_of_hearing %}
             {% bootstrap_field form.note_difficult_to_understand %}
@@ -77,7 +77,7 @@
 
             <div class="mb-3">
                 <button type="button" class="btn btn-primary" data-js="note-add">
-                    {% trans "Add note" %}
+                    {% translate "Add note" %}
                 </button>
             </div>
         </fieldset>
@@ -86,7 +86,7 @@
         {% bootstrap_field form.additional_suitability_document %}
 
         <div class="d-print-none mb-3">
-            <button class="btn btn-primary" >{% trans 'Save' %}</button>
+            <button class="btn btn-primary" >{% translate 'Save' %}</button>
         </div>
     </form>
 {% endblock %}

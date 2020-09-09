@@ -2,15 +2,15 @@
 
 {% if not study.min_subject_count %}
     <p class="alert alert-warning" role="alert">
-        {% trans 'Weak recruitment process. Please, define the number of subjects for this study.' %}
+        {% translate 'Weak recruitment process. Please, define the number of subjects for this study.' %}
     </p>
 {% elif count < expected_subject_count %}
     <p class="alert alert-warning" role="alert">
-        {% blocktrans %}
+        {% blocktranslate %}
             For a smooth recruitment process, your institution recommends at least
             {{ expected_subject_factor }}× more potential than required subjects
             (i.e. {{ expected_subject_count }} for this study). Current amount of potential
             subjects: {{ count }}
-        {% endblocktrans %}
+        {% endblocktranslate %}
     </p>
 {% endif %}

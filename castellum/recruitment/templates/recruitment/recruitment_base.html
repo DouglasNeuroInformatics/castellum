@@ -8,19 +8,19 @@
     <div class="container text-center my-4">
         <div class="h1">
             <h1 class="d-inline">{{ study.name }}</h1>
-            <a href="{% url 'recruitment:followups' study.pk %}?token={{ user.token }}" class="btn btn-sm btn-primary" title="{% trans 'Follow-ups' %}">
-                <i class="far fa-calendar-plus" role="img" aria-label="{% trans 'Follow-ups' %}"></i>
+            <a href="{% url 'recruitment:followups' study.pk %}?token={{ user.token }}" class="btn btn-sm btn-primary" title="{% translate 'Follow-ups' %}">
+                <i class="far fa-calendar-plus" role="img" aria-label="{% translate 'Follow-ups' %}"></i>
             </a>
         </div>
     </div>
 
-    <nav class="d-print-none" aria-label="{% trans 'Tabs' %}">
+    <nav class="d-print-none" aria-label="{% translate 'Tabs' %}">
         <ul class="nav nav-tabs justify-content-center mb-3">
             <li class="nav-item">
-                <a class="nav-link {% if view.tab == 'recruitment' %}active{% endif %}" href="{% url 'recruitment:recruitment-open' study.pk %}">{% trans 'Recruitment' %}</a>
+                <a class="nav-link {% if view.tab == 'recruitment' %}active{% endif %}" href="{% url 'recruitment:recruitment-open' study.pk %}">{% translate 'Recruitment' %}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if view.tab == 'mail' %}active{% endif %}" href="{% url 'recruitment:mail' study.pk %}">{% trans 'Mail' %}</a>
+                <a class="nav-link {% if view.tab == 'mail' %}active{% endif %}" href="{% url 'recruitment:mail' study.pk %}">{% translate 'Mail' %}</a>
             </li>
         </ul>
     </nav>

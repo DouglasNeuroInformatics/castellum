@@ -1,12 +1,12 @@
 {% extends "subjects/subject_base.html" %}
 {% load i18n bootstrap4 utils auth %}
 
-{% block title %}{% trans "Subject details" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Subject details" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     {% if not subject.contact.is_complete or not subject.has_legal_basis %}
         <p class="alert alert-danger" role="alert">
-            <strong>{% trans 'Incomplete data' %}.</strong> {% trans 'Please edit data sets marked with' %} <i class="fa fa-exclamation-triangle" role="img" aria-label="{% trans 'Missing values' %}"></i>
+            <strong>{% translate 'Incomplete data' %}.</strong> {% translate 'Please edit data sets marked with' %} <i class="fa fa-exclamation-triangle" role="img" aria-label="{% translate 'Missing values' %}"></i>
         </p>
     {% endif %}
 
@@ -19,92 +19,92 @@
                     {% if can_access %}
                         <a href="{% url 'subjects:detail' c.subject.slug %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
                     {% else %}
-                        <span class="text-muted">{% trans '(access denied)' %}</span>{% if not forloop.last %},{% endif %}
+                        <span class="text-muted">{% translate '(access denied)' %}</span>{% if not forloop.last %},{% endif %}
                     {% endif %}
                 {% endfor %}
             </dd>
         {% endif %}
 
         {% if subject.contact.guardian_of.exists %}
-            <dt class="col-sm-6">{% trans 'Guardian of' %}</dt>
+            <dt class="col-sm-6">{% translate 'Guardian of' %}</dt>
             <dd class="col-sm-6">
                 {% for c in subject.contact.guardian_of.all %}
                     {% has_privacy_level c.subject.privacy_level user as can_access %}
                     {% if can_access %}
                         <a href="{% url 'subjects:detail' c.subject.slug %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
                     {% else %}
-                        <span class="text-muted">{% trans '(access denied)' %}</span>{% if not forloop.last %},{% endif %}
+                        <span class="text-muted">{% translate '(access denied)' %}</span>{% if not forloop.last %},{% endif %}
                     {% endif %}
                 {% endfor %}
             </dd>
         {% endif %}
 
-        <dt class="col-sm-6">{% trans 'Subject data registered' %}</dt>
+        <dt class="col-sm-6">{% translate 'Subject data registered' %}</dt>
         <dd class="col-sm-6">{{ subject.created_at }}</dd>
 
-        <dt class="col-sm-6">{% trans 'Last edited' %}</dt>
+        <dt class="col-sm-6">{% translate 'Last edited' %}</dt>
         <dd class="col-sm-6">{{ updated_at }}</dd>
 
-        <dt class="col-sm-6">{% trans 'Attribute set completeness' %}</dt>
+        <dt class="col-sm-6">{% translate 'Attribute set completeness' %}</dt>
         <dd class="col-sm-6">{{ attributeset_completeness|default:'—' }}</dd>
 
-        <dt class="col-sm-6">{% trans "Show up rate" %}</dt>
+        <dt class="col-sm-6">{% translate "Show up rate" %}</dt>
         <dd class="col-sm-6">
             <span class="text-{% if showup_score > 6 %}danger{% elif showup_score > 2 %}warning{% else %}success{% endif %}" aria-hidden="true">&#9679;</span>
             {% if showup_stats %}({% for label, count in showup_stats %}{{ label }}: {{ count }}{% if not forloop.last %}, {% endif %}{% endfor %}){% endif %}
         </dd>
     </dl>
 
-    <h2 class="h4">{% trans 'Legal basis for data processing' %}</h2>
+    <h2 class="h4">{% translate 'Legal basis for data processing' %}</h2>
 
     {% if not subject.has_legal_basis %}
-        <p class="alert alert-warning">{% trans 'Currently there is no legal basis for storing this subject. Please provide at least one of these options.' %}</p>
+        <p class="alert alert-warning">{% translate 'Currently there is no legal basis for storing this subject. Please provide at least one of these options.' %}</p>
     {% endif %}
 
     <dl class="row">
         <dt class="col-sm-6">
-            {% trans 'Recruitment consent' %}
-            <small class="d-block text-muted">{% trans 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR' %}</small>
+            {% translate 'Recruitment consent' %}
+            <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR' %}</small>
         </dt>
         <dd class="col-sm-6">
             {% if subject.has_legal_basis %}
                 {{ subject|display:'has_consent_or_waiting' }}
             {% else %}
                 {% url 'subjects:data-protection' subject.slug as url %}
-                {% blocktrans with url=url %}If applicable, <a href="{{ url }}">set consent status</a>.{% endblocktrans %}
+                {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">set consent status</a>.{% endblocktranslate %}
             {% endif %}
         </dd>
 
         <dt class="col-sm-6">
-            {% trans 'Study consent' %}
-            <small class="d-block text-muted">{% trans 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG' %}</small>
+            {% translate 'Study consent' %}
+            <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG' %}</small>
         </dt>
         <dd class="col-sm-6">
             {% if subject.has_legal_basis %}
                 {{ subject|display:'has_study_consent' }}
             {% else %}
                 {% url 'subjects:add-to-study' subject.slug as url %}
-                {% blocktrans with url=url %}If applicable, <a href="{{ url }}">add to a study</a>.{% endblocktrans %}
+                {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">add to a study</a>.{% endblocktranslate %}
             {% endif %}
         </dd>
 
         <dt class="col-sm-6">
-            {% trans 'Guardianship' %}
-            <small class="d-block text-muted">{% trans 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 1626, 1902 BGB' %}</small>
+            {% translate 'Guardianship' %}
+            <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 1626, 1902 BGB' %}</small>
         </dt>
         <dd class="col-sm-6">
             {% if subject.has_legal_basis %}
                 {{ subject.contact|display:'is_guardian' }}
             {% else %}
                 {% url 'subjects:index' as url %}
-                {% blocktrans with url=url %}If applicable, <a href="{{ url }}">find or create a subject</a> and set this one as their guardian.{% endblocktrans %}
+                {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">find or create a subject</a> and set this one as their guardian.{% endblocktranslate %}
             {% endif %}
         </dd>
     </dl>
 
     {% if coverletter_exists %}
         <div class="d-print-none mb-3">
-            <a href="{% url 'subjects:coverletter' object.slug %}" class="btn btn-secondary">{% trans 'Download cover letter' %}</a>
+            <a href="{% url 'subjects:coverletter' object.slug %}" class="btn btn-secondary">{% translate 'Download cover letter' %}</a>
         </div>
     {% endif %}
 {% endblock %}

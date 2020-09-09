@@ -1,20 +1,20 @@
 {% extends "subjects/subject_base.html" %}
 {% load i18n auth utils %}
 
-{% block title %}{% trans "Delete subject" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Delete subject" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     <form method="post">
         {% if is_last_guardian %}
             <p class="alert alert-danger">
-                {% trans "This subject is the last guardian of another subject. Deletion means that this subject's ward becomes unreachable!" %}
+                {% translate "This subject is the last guardian of another subject. Deletion means that this subject's ward becomes unreachable!" %}
             </p>
         {% endif %}
         {% if has_participations %}
             <p class="alert alert-danger">
-                {% trans "This subject cannot be deleted because there still is data about them in studies." %}
+                {% translate "This subject cannot be deleted because there still is data about them in studies." %}
             </p>
-            <p>{% trans "Please delete all of these study participations:" %}</p>
+            <p>{% translate "Please delete all of these study participations:" %}</p>
             <ul class="table-list mb-3">
                 {% for participation in object.participation_set.all %}
                     {% has_perm 'studies.view_study' user participation.study as can_view_study %}
@@ -31,10 +31,10 @@
                         </div>
                         <div class="table-list-item-actions">
                             {% if can_view_study %}
-                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:detail' participation.study.pk %}">{% trans 'Study details' %}</a>
+                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:detail' participation.study.pk %}">{% translate 'Study details' %}</a>
                             {% endif %}
                             <a class="btn btn-danger btn-sm-inline my-1" href="{% url 'subjects:participation-delete' subject.slug participation.pk %}">
-                                {% trans 'Delete' %}
+                                {% translate 'Delete' %}
                             </a>
                         </div>
                     </li>
@@ -43,14 +43,14 @@
         {% else %}
             {% csrf_token %}
             <p class="alert alert-success">
-                {% trans "This subject does not have any data in studies that would block deletion." %}
+                {% translate "This subject does not have any data in studies that would block deletion." %}
             </p>
-            <p>{% trans "Are you sure you want to <strong>permanently delete</strong> this subject and all related data?" %}</p>
+            <p>{% translate "Are you sure you want to <strong>permanently delete</strong> this subject and all related data?" %}</p>
         {% endif %}
 
         <div class="d-print-none mb-3">
-            <a href="{% url 'subjects:detail' object.slug %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% trans 'Cancel' %}</a>
-            <button class="btn btn-danger mb-1" {% if has_participations %}disabled{% endif %} >{% trans 'Confirm' %}</button>
+            <a href="{% url 'subjects:detail' object.slug %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% translate 'Cancel' %}</a>
+            <button class="btn btn-danger mb-1" {% if has_participations %}disabled{% endif %} >{% translate 'Confirm' %}</button>
         </div>
     </form>
 {% endblock %}

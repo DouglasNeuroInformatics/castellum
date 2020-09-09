@@ -9,33 +9,33 @@
 
     <dt class="col-sm-6">{{ contact|verbose_name:'phone_number_alternative' }}</dt>
     <dd class="col-sm-6">{{ contact|display:'phone_number_alternative' }}</dd>
-    <dt class="col-sm-6">{% trans 'Address' %}</dt>
+    <dt class="col-sm-6">{% translate 'Address' %}</dt>
     <dd class="col-sm-6">{{ contact.address|default:'—' }}</dd>
 </dl>
 
-<h3 class="h5">{% trans "Operational hints" %}</h3>
+<h3 class="h5">{% translate "Operational hints" %}</h3>
 
 <dl class="row">
     <dt class="col-sm-6">{{ contact|verbose_name:'preferred_contact_method' }}</dt>
     <dd class="col-sm-6">{{ contact|display:'preferred_contact_method' }}</dd>
 
-    <dt class="col-sm-6">{% trans "Currently available" %}</dt>
+    <dt class="col-sm-6">{% translate "Currently available" %}</dt>
     <dd class="col-sm-6">
         {% if contact.subject.is_available %}
-            {% trans "Yes" %}
+            {% translate "Yes" %}
             <i class="fas fa-phone list-icon bg-success text-light" role="img" aria-hidden="true"></i>
         {% elif not contact.subject.next_available %}
             &mdash;
         {% else %}
-            {% trans "No" %}
+            {% translate "No" %}
             <i class="fas fa-phone-slash list-icon bg-warning text-dark" role="img" aria-hidden="true"></i>
-            {% blocktrans with next_available=contact.subject.next_available %}
+            {% blocktranslate with next_available=contact.subject.next_available %}
                 (not until {{ next_available }})
-            {% endblocktrans %}
+            {% endblocktranslate %}
         {% endif %}
     </dd>
 
-    <dt class="col-sm-6">{% trans "General recruiting notes" %}</dt>
+    <dt class="col-sm-6">{% translate "General recruiting notes" %}</dt>
     <dd class="col-sm-6">
         {% if contact.subject.note_hard_of_hearing or contact.subject.note_difficult_to_understand or contact.subject.note_abusive_language or contact.subject.subjectnote_set.exists %}
             {% if contact.subject.note_hard_of_hearing %}

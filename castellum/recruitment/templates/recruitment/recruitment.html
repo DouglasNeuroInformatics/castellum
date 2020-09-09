@@ -1,13 +1,13 @@
 {% extends "recruitment/recruitment_base.html" %}
 {% load i18n static auth %}
 
-{% block title %}{% trans "Recruitment" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Recruitment" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
 
     {% if statistics %}
         <details class="mb-4">
-            <summary class="mb-2">{% trans 'Statistics' %}</summary>
+            <summary class="mb-2">{% translate 'Statistics' %}</summary>
             {{ statistics|safe }}
         </details>
     {% endif %}
@@ -16,24 +16,24 @@
         <ul class="nav nav-pills">
             <li class="nav-item">
                 <a class="nav-link {% if view.subtab == 'open' %}active{% endif %}" href="{% url 'recruitment:recruitment-open' study.pk %}">
-                    {% trans 'Open' %}
+                    {% translate 'Open' %}
                     <span class="badge badge-light">{{ open_count }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if view.subtab == 'invited' %}active{% endif %}" href="{% url 'recruitment:recruitment-invited' study.pk %}">
-                    {% trans 'Invited' %}
+                    {% translate 'Invited' %}
                     <span class="badge badge-light">{{ invited_count }}/{{ study.min_subject_count }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if view.subtab == 'unsuitable' %}active{% endif %}" href="{% url 'recruitment:recruitment-unsuitable' study.pk %}">
-                    {% trans 'Unsuitable' %}
+                    {% translate 'Unsuitable' %}
                     <span class="badge badge-light">{{ unsuitable_count }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled">{% trans 'All' context 'total' %} <span class="badge badge-light">{{all_count}}</span></a>
+                <a class="nav-link disabled">{% translate 'All' context 'total' %} <span class="badge badge-light">{{all_count}}</span></a>
             </li>
         </ul>
 
@@ -62,7 +62,7 @@
         <div class="d-print-none mb-3">
             <form method="post" class="d-inline">
                 {% csrf_token %}
-                <button class="btn btn-primary">{% trans 'Add' %}</button>
+                <button class="btn btn-primary">{% translate 'Add' %}</button>
             </form>
         </div>
     {% endif %}

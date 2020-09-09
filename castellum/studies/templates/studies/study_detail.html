@@ -2,7 +2,7 @@
 {% load i18n auth utils %}
 
 {% block content %}
-    <h3 class="h5">{% trans "General" %}</h3>
+    <h3 class="h5">{% translate "General" %}</h3>
 
     <dl class="row">
         <dt class="col-sm-6">{{ object|verbose_name:'principal_investigator' }}</dt>
@@ -11,42 +11,42 @@
         <dt class="col-sm-6">{{ object|verbose_name:'affiliated_scientists' }}</dt>
         <dd class="col-sm-6">{{ object|display:'affiliated_scientists' }}</dd>
 
-        <dt class="col-sm-6">{% trans 'Type of study' %}</dt>
+        <dt class="col-sm-6">{% translate 'Type of study' %}</dt>
         <dd class="col-sm-6">{{ object|display:'study_type' }}</dd>
 
         {% if not object.is_onetime_invitation %}
-            <dt class="col-sm-6">{% trans 'Scheduled runtime' %}</dt>
+            <dt class="col-sm-6">{% translate 'Scheduled runtime' %}</dt>
             <dd class="col-sm-6">
                 {% if object.sessions_start and object.sessions_end %}
                     {{ object.sessions_start }} - {{ object.sessions_end }}
                 {% elif object.sessions_start %}
-                    {{ object.sessions_start }} - {% trans 'not defined' %}
+                    {{ object.sessions_start }} - {% translate 'not defined' %}
                 {% else %}
                     &mdash;
                 {% endif %}
             </dd>
         {% endif %}
 
-        <dt class="col-sm-6">{% trans 'Consent document uploaded' %}</dt>
-        <dd class="col-sm-6">{% if object.consent %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</dd>
+        <dt class="col-sm-6">{% translate 'Consent document uploaded' %}</dt>
+        <dd class="col-sm-6">{% if object.consent %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
     </dl>
 
     {% if not object.is_onetime_invitation %}
-        <h3 class="h5">{% trans "Member management" %}</h3>
+        <h3 class="h5">{% translate "Member management" %}</h3>
 
         <dl class="row">
-            <dt class="col-sm-6">{% trans 'Recruiters' %}</dt>
+            <dt class="col-sm-6">{% translate 'Recruiters' %}</dt>
             <dd class="col-sm-6">{{ object.recruiters|join:', '|default:'—' }}</dd>
         </dl>
     {% endif %}
 
-    <h3 class="h5">{% trans "Recruitment settings" %}</h3>
+    <h3 class="h5">{% translate "Recruitment settings" %}</h3>
 
     <dl class="row">
-        <dt class="col-sm-6">{% trans 'Potential subjects' %}</dt>
+        <dt class="col-sm-6">{% translate 'Potential subjects' %}</dt>
         <dd class="col-sm-6">{{ count }}</dd>
 
-        <dt class="col-sm-6">{% trans 'Studies in which potential subjects have pariticipated' %}</dt>
+        <dt class="col-sm-6">{% translate 'Studies in which potential subjects have pariticipated' %}</dt>
         <dd class="col-sm-6">
             {% for study in related_studies %}
                 {{ study }} ({{ study.count }}){% if not forloop.last %},{% endif %}
@@ -56,26 +56,26 @@
         </dd>
 
         {% if not object.is_onetime_invitation %}
-            <dt class="col-sm-6">{% trans 'Recruitment text provided' %}</dt>
-            <dd class="col-sm-6">{% if object.recruitment_text %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</dd>
+            <dt class="col-sm-6">{% translate 'Recruitment text provided' %}</dt>
+            <dd class="col-sm-6">{% if object.recruitment_text %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
         {% endif %}
 
-        <dt class="col-sm-6">{% trans 'Recruitment filters set' %}</dt>
-        <dd class="col-sm-6">{% if study.has_filters %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</dd>
+        <dt class="col-sm-6">{% translate 'Recruitment filters set' %}</dt>
+        <dd class="col-sm-6">{% if study.has_filters %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
 
         {% if not object.is_onetime_invitation %}
-            <dt class="col-sm-6">{% trans 'Exclusion criteria provided' %}</dt>
-            <dd class="col-sm-6">{% if object.exclusion_criteria %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</dd>
+            <dt class="col-sm-6">{% translate 'Exclusion criteria provided' %}</dt>
+            <dd class="col-sm-6">{% if object.exclusion_criteria %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
         {% endif %}
     </dl>
 
     {% has_perm 'studies.change_study' user study as can_change_study %}
     {% if study.has_missing_values and can_access_study and can_change_study %}
         <p class="alert alert-warning" role="alert">
-            {% trans 'Please double check missing entries before start of recruitment' %}
+            {% translate 'Please double check missing entries before start of recruitment' %}
         </p>
     {% endif %}
 
-    <h3 class="h5">{% trans "Description" %}</h3>
+    <h3 class="h5">{% translate "Description" %}</h3>
     {{ study.description|default:'—'|linebreaks }}
 {% endblock %}

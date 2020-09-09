@@ -3,9 +3,9 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'studies:index' %}">{% trans "Studies" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'studies:index' %}">{% translate "Studies" %}</a></li>
     {% if study %}
-        <li class="breadcrumb-item"><a href="{% url 'execution:study-detail' study.pk %}">{% trans 'Execution for' %} {{ study.name }}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'execution:study-detail' study.pk %}">{% translate 'Execution for' %} {{ study.name }}</a></li>
     {% endif %}
     {% if participation %}
         <li class="breadcrumb-item"><a href="{% url 'execution:participation-detail' study.pk participation.pk %}">{{ participation.subject.contact.short_name }}</a></li>

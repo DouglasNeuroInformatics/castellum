@@ -7,25 +7,25 @@
     <div class="row">
         <div class="col-md-3">
             <div class="list-group mb-3">
-                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'update' %}active{% endif %}" href="{% url 'studies:recruitmentsettings' study.pk %}">{% trans 'General' %}</a>
+                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'update' %}active{% endif %}" href="{% url 'studies:recruitmentsettings' study.pk %}">{% translate 'General' %}</a>
 
                 {% has_privacy_level study.get_filter_max_privacy_level user as sufficient_privacy_level %}
                 {% if sufficient_privacy_level %}
                     <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'filters' %}active{% endif %}" href="{% url 'studies:filtergroup-index' study.pk %}">
-                        {% trans 'Filters' %}
+                        {% translate 'Filters' %}
                     </a>
                 {% else %}
-                    <button class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'filters' %}active{% endif %}" title="{% trans 'Insufficient privacy level' %}" aria-label="{% trans 'Filters' %}" disabled>
-                        {% trans 'Filters' %}
+                    <button class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'filters' %}active{% endif %}" title="{% translate 'Insufficient privacy level' %}" aria-label="{% translate 'Filters' %}" disabled>
+                        {% translate 'Filters' %}
                     </button>
                 {% endif %}
 
-                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'excluded-studies' %}active{% endif %}" href="{% url 'studies:excluded-studies' study.pk %}">{% trans 'Excluded studies' %}</a>
+                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'excluded-studies' %}active{% endif %}" href="{% url 'studies:excluded-studies' study.pk %}">{% translate 'Excluded studies' %}</a>
                 {% if not study.is_onetime_invitation %}
-                    <a class="list-group-item list-group-item-custom list-group-item-action text-hyphens {% if view.subtab == 'exclusioncriteria' %}active{% endif %}" href="{% url 'studies:exclusioncriteria' study.pk %}">{% trans 'Inclusion/exclusion criteria' %}</a>
-                    <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'sessions' %}active{% endif %}" href="{% url 'studies:sessions' study.pk %}">{% trans 'Sessions' %}</a>
+                    <a class="list-group-item list-group-item-custom list-group-item-action text-hyphens {% if view.subtab == 'exclusioncriteria' %}active{% endif %}" href="{% url 'studies:exclusioncriteria' study.pk %}">{% translate 'Inclusion/exclusion criteria' %}</a>
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'sessions' %}active{% endif %}" href="{% url 'studies:sessions' study.pk %}">{% translate 'Sessions' %}</a>
                 {% endif %}
-                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'mailsettings' %}active{% endif %}" href="{% url 'studies:mailsettings' study.pk %}">{% trans 'Mail Settings' %}</a>
+                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'mailsettings' %}active{% endif %}" href="{% url 'studies:mailsettings' study.pk %}">{% translate 'Mail Settings' %}</a>
             </div>
         </div>
 

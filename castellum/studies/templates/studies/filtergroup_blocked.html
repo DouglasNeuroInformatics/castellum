@@ -1,12 +1,12 @@
 {% extends "studies/study_recruitmentsettings_base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Filters" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Filters" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <p>{% trans 'matches' %}: {{ count }} / {{ total_count }}</p>
+    <p>{% translate 'matches' %}: {{ count }} / {{ total_count }}</p>
 
     <p class="alert alert-warning">
-        {% trans "This study uses a custom filter. Regular filters are not available." %}
+        {% translate "This study uses a custom filter. Regular filters are not available." %}
     </p>
 {% endblock %}
