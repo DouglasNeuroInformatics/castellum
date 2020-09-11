@@ -17,7 +17,7 @@ consents** must be obtained separately from the database by the respective
    Please make sure you have a stable internet connection and use your right 
    username and password
    
-2. Click on **Admin** at the front page
+2. Click on **Admin** on the front page
 
 3. Go to **Consent documents** in the **Subjects**-field
    - There you will see a list of all consent documents that have already been
@@ -40,8 +40,8 @@ subjects's signature on a new document
 1.1. The consent document can be marked as **Is valid** AND **Is deprecated**
      - **Is deprecated** can be seen as a intermediate step in the process of
        declaring a valid consent document to be invalid
-     - If both checkboxes are marked, the subjects can remain in the database
-       and be recruited. However, a new declaration of consent should be
+     - If both checkboxes are marked, the subjects remain in the database
+       and may be recruited. However, a new declaration of consent should be
        obtained as soon as possible
 
 1.2. If only the box **Is deprecated** is ticked, the consent document is
@@ -59,7 +59,7 @@ subjects's signature on a new document
      - You can see three different **Legal basis for data processing** in 
        **Overview** and which of those apply to the respective subject
 
-2. If you wish to upload a valid and current consent dodument, proceed as follows:
+2. If you wish to upload a valid and current consent document, proceed as follows:
    - Click on **Admin** on the front page
    - Go to **Consent documents**
    - Click on **Add Consent Document** (oval with grey background)
@@ -89,7 +89,7 @@ required, proceed as follows:
 2. Go to **Maintenance** (blue button)
 
 3. Choose the fourth tab **Consent**
-   - You will see a list of all subjects with a recruitment consent that is not
+   - You will see a list of all subjects with recruitment consents that are not
      current
 
 4. Click on **Details** next to the indication **Last updated on: XY**
