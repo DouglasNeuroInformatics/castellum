@@ -52,3 +52,64 @@ subjects's signature on a new document
      **Study consent** or a **Guardianship**.
      The **Legal basis for data processing** can be viewed for each individual
      subject by following the instructions below:
+     
+     - Go to **Subjects** on the front page
+     - Enter the first and last name of the subject and click on **Submit**
+     - Go to **Details** next to the subject
+     - You can see three different **Legal basis for data processing** in 
+       **Overview** and which of those apply to the respective subject
+
+2. If you wish to upload a valid and current consent dodument, proceed as follows:
+   - Click on **Admin** on the front page
+   - Go to **Consent documents**
+   - Click on **Add Consent Document** (oval with grey background)
+   - Choose the file you want to upload
+   - Click on one of the saving options
+   
+Deletion of a consent document
+-------------------------------
+1. Click on **Admin** on the front page
+
+2. Go to **Consent documents**
+
+3. Choose the consent document to be deleted
+
+4. Click on **Delete**
+
+5. Confirm the query about whether the version should be deleted by clicking on
+   **Yes, I am sure**
+
+Maintenance of Recruitment consent
+-----------------------------------
+To get an overview of all subjects for whom a new **Recruitment consent** is
+required, proceed as follows:
+
+1. Click on **Subjects** on the front page
+
+2. Go to **Maintenance** (blue button)
+
+3. Choose the fourth tab **Consent**
+   - You will see a list of all subjects with a recruitment consent that is not
+     current
+
+4. Click on **Details** next to the indication **Last updated on: XY**
+   - A new window will open for each subject with invalid recruitment consent
+
+5. Go to the fourth tab **Data protection** individually
+   - You will see an orange field that indicates the following text: **The
+     subject has recently come of age. Please ask them to renew or withdraw
+     their consent. This message will disappear once you change the value of the
+     checkbox.**
+     
+6. Obtain a valid recruitment consent either by E-Mail, telephone or post
+   - As an intermediate step, click once on the checkbox **Recruitment
+     consent**. This is how you note that you are waiting for confirmation from
+     the subject
+     
+7. If the subject agrees or withdraws his/her consent in the current consent
+   document, this must be indicated
+   - If the subject agrees, click on **Confirm** below **Recruitment consent**
+     and **Save**
+   - If the subject requests a deletion according to GDPR, click on **To be
+     deleted** and save your submission
+
