@@ -1,0 +1,54 @@
+Consent Management
+===================
+Review of the legal basis for data processing
+-----------------------------------------------------------
+
+There are three options that justify **Legal basis for data processing**:
+- **Recruitment consent** (Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR)
+- **Study consent** (Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG)
+- **Guardianship** (Art. 6 (1) lit. a, Art. 9 (2) lit. a DSGVO and Art.
+  1626, 1902 BGB)
+  
+Castellum is mainly used for the management of **Recruitment consent**. **Study 
+consents** must be obtained separately from the database by the respective 
+**Study conductor** at the execution level
+
+1. Log in to Castellum by entering your username and password
+   Please make sure you have a stable internet connection and use your right 
+   username and password
+   
+2. Click on **Admin** at the front page
+
+3. Go to **Consent documents** in the **Subjects**-field
+   - There you will see a list of all consent documents that have already been
+     created
+   - As additional information, the date of creation and the validity of the
+     consent document are displayed
+     
+Updating consent forms
+----------------------
+Consent documents are marked as invalid if a change in the law occurs,
+significant changes are made to the old document, or other reasons require the
+subjects's signature on a new document
+
+1. There are two options that can be implemented when a consent document becomes
+   invalid.
+   - For both options, first go to **Admin** at the front page > **Consent
+     documents** > click on the creation date of the consent document to be
+     modified
+
+1.1. The consent document can be marked as **Is valid** AND **Is deprecated**
+     - **Is deprecated** can be seen as a intermediate step in the process of
+       declaring a valid consent document to be invalid
+     - If both checkboxes are marked, the subjects can remain in the database
+       and be recruited. However, a new declaration of consent should be
+       obtained as soon as possible
+
+1.2. If only the box **Is deprecated** is ticked, the consent document is
+     presumed to be invalid in general
+     - If the invalidity of the document is saved, there is no longer any
+       recruitment consent of subjects in the database
+     This does not apply if the **Legal basis for data processing** refers to a
+     **Study consent** or a **Guardianship**.
+     The **Legal basis for data processing** can be viewed for each individual
+     subject by following the instructions below:
