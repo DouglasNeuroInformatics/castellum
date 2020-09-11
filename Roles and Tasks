@@ -78,5 +78,31 @@ The **Subject Manager** enters data records of subjects in Castellum and makes
 changes to existing ones. Castellum offers the **Subject Manager** the following
 possibilities:
 -   Search for individual subjects in the database,
--   See 
+-   See, add and edit contact data and attributes ob individual subjects and
+-   Obtain recruitment consents of subjects.
+If persons take on the role of **Recruiter** and additionally **Subject Manager**,
+they can simultaneously ensure data maintenance in Castellum when contacting
+subjects for recruitment purposes. For this purpose, characteristics and contact
+details of subjects are continuously updated and supplemented.
 
+Study Conductor
+~~~~~~~~~~~~~~~
+We envisage this role for employees from the study programme who collect
+scientific data in a study with or on subjects. In order to implement this with
+the help of Castellum, the **Study Conductor** can view the participation
+pseudonyms of the respective subjects in the database.
+If a subject is participating in a study for the first time, the **Study
+Conductor** can obtain both the study consent and the recruitment consent on site.
+
+Study Coordinator
+~~~~~~~~~~~~~~~~~
+The study coordination is embodied by the **Study Coordinator**. This person
+inserts studies into the database and defines the settings for them. To fulfil
+this task, the **Study Coordinator** can perform the following functions in
+Castellum:
+-   Generate, start, break and stop studies,
+-   See and edit filters for study recruitment,
+-   Allocate a role within the study to certain persons via **Member management**
+    (e.g. define recruiters for the study),
+-   Define **Recruitment texts** and 
+-   Upload templates of study consent documents for studies.
