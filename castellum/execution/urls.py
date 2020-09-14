@@ -28,6 +28,7 @@ from .views import CalendarView
 from .views import ContactUpdateView
 from .views import DataProtectionUpdateView
 from .views import NewsMailView
+from .views import ParticipationAppointmentsUpdateView
 from .views import ParticipationAppointmentsView
 from .views import ParticipationCriteriaView
 from .views import ParticipationDetailView
@@ -64,6 +65,11 @@ urlpatterns = [
         '<int:study_pk>/<int:pk>/appointments/',
         ParticipationAppointmentsView.as_view(),
         name='participation-appointments',
+    ),
+    path(
+        '<int:study_pk>/<int:pk>/appointments/update/',
+        ParticipationAppointmentsUpdateView.as_view(),
+        name='participation-appointments-update',
     ),
     path(
         '<int:study_pk>/<int:pk>/update-contact/',

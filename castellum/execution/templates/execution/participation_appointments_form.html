@@ -1,0 +1,41 @@
+{% extends "execution/participation_base.html" %}
+{% load i18n static bootstrap4 utils %}
+
+{% block content %}
+    {% if study.session_instructions %}
+        {{ study.session_instructions|linebreaks }}
+    {% endif %}
+
+    <form method="post">
+        {% include 'utils/form_errors.html' with form=form %}
+        {% csrf_token %}
+
+        <dl class="row">
+            <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
+            <dd class="col-sm-6">
+                <time id="sessions-start" datetime="{{ study.sessions_start|date:'c' }}">{{ study|display:'sessions_start' }}</time>
+            </dd>
+
+            <dt class="col-sm-6">{{ study|verbose_name:'sessions_end' }}</dt>
+            <dd class="col-sm-6">
+                <time id="sessions-end" datetime="{{ study.sessions_end|date:'c' }}">{{ study|display:'sessions_end' }}</time>
+            </dd>
+        </dl>
+
+        {% for field in form.appointments %}
+            {% bootstrap_field field %}
+        {% endfor %}
+
+        <div class="d-print-none mb-3">
+            <a href="{% url 'execution:calendar' study.pk %}" class="btn btn-secondary" data-js="popup">{% translate 'Calendar' %}</a>
+        </div>
+
+        <div class="d-print-none mb-3">
+            <button class="btn btn-primary">{% translate 'Save' %}</button>
+        </div>
+    </form>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/appointments-form.js' %}"></script>
+{% endblock %}
