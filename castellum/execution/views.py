@@ -71,8 +71,7 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
             .select_related('subject')
         for participation in participations:
             has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
-            showup_stats, showup_score = participation.subject.get_showup_stats()
-            context['list'].append((participation, has_access, showup_stats, showup_score))
+            context['list'].append((participation, has_access))
 
         return context
 
@@ -90,11 +89,6 @@ class ParticipationDetailMixin(ParticipationMixin, PermissionRequiredMixin):
 class ParticipationDetailView(ParticipationDetailMixin, DetailView):
     template_name = 'execution/participation_detail.html'
     tab = 'overview'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['showup_stats'], context['showup_score'] = self.subject.get_showup_stats()
-        return context
 
 
 class ParticipationNewsView(ParticipationDetailMixin, UpdateView):

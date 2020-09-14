@@ -1,5 +1,5 @@
 {% extends "execution/base.html" %}
-{% load i18n %}
+{% load i18n appointments %}
 
 {% block title %}{{ object }} &middot; {{ block.super }}{% endblock %}
 
@@ -7,7 +7,7 @@
     <h1 class="text-center">{{ object }}</h1>
 
     <ul class="table-list mt-3">
-        {% for participation, can_access, showup_stats, showup_score in list %}
+        {% for participation, can_access in list %}
             <li class="table-list-item">
                 {% if can_access %}
                     <div class="d-inline-block my-1 mr-2">
@@ -15,11 +15,9 @@
                         {% if participation.appointment_today %}
                             <span class="badge badge-primary">{% translate 'today' %}</span>
                         {% endif %}
-                        <span
-                            class="text-{% if showup_score > 6 %}danger{% elif showup_score > 2 %}warning{% else %}success{% endif %}"
-                            aria-label="{% for label, count in showup_stats %}{{ label }}: {{ count }}{% if not forloop.last %}, {% endif %}{% endfor %}"
-                            title="{% for label, count in showup_stats %}{{ label }}: {{ count }}{% if not forloop.last %}, {% endif %}{% endfor %}"
-                        >&#9679;</span>
+                        {% with summary=participation.subject|showup_summary %}
+                            <span class="text-{{ participation.subject|showup_level }}" aria-label="{{ summary }}" title="{{ summary }}">&#9679;</span>
+                        {% endwith %}
                     </div>
                     <div class="table-list-item-actions">
                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participation-detail' study.pk participation.pk %}">{% translate 'Details' %}</a>
