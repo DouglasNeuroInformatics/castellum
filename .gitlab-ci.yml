@@ -12,8 +12,9 @@ stages:
   - release
 
 variables:
-  PYTHON_IMAGE: python:3.6
-  PYTHON_IMAGE_DEPENDENCIES: "npm hunspell hunspell-de-de gdal-bin python3-psycopg2"
+  DEBIAN_FRONTEND: noninteractive
+  PYTHON_IMAGE: buildpack-deps
+  PYTHON_IMAGE_DEPENDENCIES: "python3-pip npm hunspell hunspell-de-de gdal-bin python3-psycopg2"
   CONTAINER_TEST_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:$CI_COMMIT_REF_NAME
   CONTAINER_RELEASE_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
   DJANGO_SETTINGS_MODULE: "castellum.settings.gitlab"
@@ -24,15 +25,15 @@ test-branch:
   image: $PYTHON_IMAGE
   script:
     - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
-    - pip install -r requirements-dev.txt
-    - pip install -e .
+    - pip3 install -r requirements-dev.txt
+    - pip3 install -e .
     - npm install
     - pytest --ds=$DJANGO_SETTINGS_MODULE
     - flake8
     - isort -c castellum tests
     - npx eslint castellum
     - pospell -l de_DE -p .spelling/de_DE.txt castellum/locale/de/LC_MESSAGES/django.po
-    - python manage.py makemigrations --dry-run --check --noinput
+    - python3 manage.py makemigrations --dry-run --check --noinput
   coverage: '/TOTAL.*\s+(\d+\%)/'
 
 build:
