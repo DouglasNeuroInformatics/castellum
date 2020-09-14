@@ -5,8 +5,8 @@ RUN npm install --production
 FROM alpine
 
 ENV PYTHONUNBUFFERED 1
-ENV BUILDPKGS gcc musl-dev openldap-dev cyrus-sasl-dev python3-dev gettext
-ENV RUNTIMEPKGS uwsgi uwsgi-python python3 py3-pip py3-psycopg2 openldap libressl libmagic proj gdal
+ENV BUILDPKGS gettext
+ENV RUNTIMEPKGS uwsgi uwsgi-python python3 py3-pip py3-psycopg2 py3-pyldap libmagic proj gdal
 
 RUN adduser -D -g '' uwsgi
 
