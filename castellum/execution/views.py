@@ -25,6 +25,7 @@ from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import models
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -48,6 +49,7 @@ from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
+from castellum.subjects.models import Subject
 from castellum.utils.mail import send_mail
 
 from .forms import NewsMailForm
@@ -68,7 +70,9 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
         context['list'] = []
         participations = self.study.participation_set\
             .filter(status=Participation.INVITED)\
-            .select_related('subject')
+            .prefetch_related(
+                models.Prefetch('subject', queryset=Subject.objects.annotate_showup())
+            )
         for participation in participations:
             has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
             context['list'].append((participation, has_access))
