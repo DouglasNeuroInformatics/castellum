@@ -13,7 +13,7 @@ stages:
 
 variables:
   PYTHON_IMAGE: python:3.6
-  PYTHON_IMAGE_DEPENDENCIES: "npm hunspell hunspell-de-de gdal-bin"
+  PYTHON_IMAGE_DEPENDENCIES: "npm hunspell hunspell-de-de gdal-bin python3-psycopg2"
   CONTAINER_TEST_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:$CI_COMMIT_REF_NAME
   CONTAINER_RELEASE_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
   DJANGO_SETTINGS_MODULE: "castellum.settings.gitlab"

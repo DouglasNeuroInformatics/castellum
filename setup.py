@@ -26,7 +26,6 @@ setup(
         "icalendar==4.0.6",
         "jsonschema==3.2.0",
         "phonenumberslite==8.12.9",
-        "psycopg2-binary==2.8.5",
         "python-dateutil==2.8.1",
         "requests==2.24.0",
         "simplecharts==0.0.2",
