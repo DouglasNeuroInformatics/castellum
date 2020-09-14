@@ -309,7 +309,6 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         status_field.widget.choices = choices
 
         context['context'] = self.request.GET.get('context')
-        context['showup_stats'], context['showup_score'] = self.subject.get_showup_stats()
         context['general_criteria'] = settings.CASTELLUM_GENERAL_EXCLUSION_CRITERIA
 
         return context
