@@ -12,8 +12,9 @@ stages:
   - release
 
 variables:
-  PYTHON_IMAGE: python:3.6
-  PYTHON_IMAGE_DEPENDENCIES: "npm hunspell hunspell-de-de gdal-bin"
+  DEBIAN_FRONTEND: noninteractive
+  PYTHON_IMAGE: buildpack-deps
+  PYTHON_IMAGE_DEPENDENCIES: "python3-pip npm hunspell hunspell-de-de gdal-bin python3-psycopg2"
   CONTAINER_TEST_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:$CI_COMMIT_REF_NAME
   CONTAINER_RELEASE_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
   DJANGO_SETTINGS_MODULE: "castellum.settings.gitlab"
@@ -24,15 +25,15 @@ test-branch:
   image: $PYTHON_IMAGE
   script:
     - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
-    - pip install -r requirements-dev.txt
-    - pip install -e .
+    - pip3 install -e .
+    - pip3 install -r requirements-dev.txt
     - npm install
-    - pytest --ds=$DJANGO_SETTINGS_MODULE
-    - flake8
     - isort -c castellum tests
+    - flake8
     - npx eslint castellum
     - pospell -l de_DE -p .spelling/de_DE.txt castellum/locale/de/LC_MESSAGES/django.po
-    - python manage.py makemigrations --dry-run --check --noinput
+    - python3 manage.py makemigrations --dry-run --check --noinput
+    - pytest --ds=$DJANGO_SETTINGS_MODULE
   coverage: '/TOTAL.*\s+(\d+\%)/'
 
 build:
@@ -41,6 +42,7 @@ build:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
     - docker build -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
+    - docker image ls
 
 release-image:
   stage: release
