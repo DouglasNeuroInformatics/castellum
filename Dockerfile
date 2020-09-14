@@ -2,13 +2,14 @@ FROM node
 COPY package.json .
 RUN npm install --production
 
-FROM alpine
+FROM buildpack-deps
 
 ENV PYTHONUNBUFFERED 1
-ENV BUILDPKGS gettext py3-pip py3-wheel
-ENV RUNTIMEPKGS uwsgi uwsgi-python python3 py3-psycopg2 py3-pyldap libmagic proj gdal
+ENV DEBIAN_FRONTEND=noninteractive
+ENV BUILDPKGS gettext python3-pip python3-wheel python3-setuptools
+ENV RUNTIMEPKGS uwsgi uwsgi-plugin-python3 python3 python3-psycopg2 python3-ldap libmagic1 gdal-bin
 
-RUN adduser -D -g '' uwsgi
+RUN adduser --disabled-login --gecos '' uwsgi
 
 RUN mkdir -p /log
 RUN chown uwsgi /log
@@ -18,7 +19,7 @@ RUN mkdir -p /media
 RUN chown uwsgi /media
 VOLUME /media
 
-RUN apk update && echo $BUILDPKGS $RUNTIMEPKGS && apk add $BUILDPKGS $RUNTIMEPKGS
+RUN apt-get update -q && apt-get install -y $BUILDPKGS $RUNTIMEPKGS
 
 COPY castellum/ code/castellum/
 COPY setup.py LICENSE code/
