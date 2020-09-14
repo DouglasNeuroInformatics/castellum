@@ -25,15 +25,15 @@ test-branch:
   image: $PYTHON_IMAGE
   script:
     - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
-    - pip3 install -r requirements-dev.txt
     - pip3 install -e .
+    - pip3 install -r requirements-dev.txt
     - npm install
-    - pytest --ds=$DJANGO_SETTINGS_MODULE
-    - flake8
     - isort -c castellum tests
+    - flake8
     - npx eslint castellum
     - pospell -l de_DE -p .spelling/de_DE.txt castellum/locale/de/LC_MESSAGES/django.po
     - python3 manage.py makemigrations --dry-run --check --noinput
+    - pytest --ds=$DJANGO_SETTINGS_MODULE
   coverage: '/TOTAL.*\s+(\d+\%)/'
 
 build:
