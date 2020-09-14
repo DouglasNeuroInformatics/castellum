@@ -71,7 +71,8 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
             .select_related('subject')
         for participation in participations:
             has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
-            context['list'].append((participation, has_access))
+            showup_stats, showup_score = participation.subject.get_showup_stats()
+            context['list'].append((participation, has_access, showup_stats, showup_score))
 
         return context
 
