@@ -1,5 +1,5 @@
 {% extends "subjects/subject_base.html" %}
-{% load i18n bootstrap4 utils auth %}
+{% load i18n bootstrap4 utils auth appointments %}
 
 {% block title %}{% translate "Subject details" %} &middot; {{ block.super }}{% endblock %}
 
@@ -50,8 +50,10 @@
 
         <dt class="col-sm-6">{% translate "Show up rate" %}</dt>
         <dd class="col-sm-6">
-            <span class="text-{% if showup_score > 6 %}danger{% elif showup_score > 2 %}warning{% else %}success{% endif %}" aria-hidden="true">&#9679;</span>
-            {% if showup_stats %}({% for label, count in showup_stats %}{{ label }}: {{ count }}{% if not forloop.last %}, {% endif %}{% endfor %}){% endif %}
+            <span class="text-{{ subject|showup_level }}" aria-hidden="true">&#9679;</span>
+            {% with summary=subject|showup_summary %}
+                {% if summary %}({{ summary }}){% endif %}
+            {% endwith %}
         </dd>
     </dl>
 

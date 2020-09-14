@@ -1,5 +1,5 @@
 {% extends "execution/base.html" %}
-{% load i18n %}
+{% load i18n appointments %}
 
 {% block title %}{{ object }} &middot; {{ block.super }}{% endblock %}
 
@@ -15,6 +15,9 @@
                         {% if participation.appointment_today %}
                             <span class="badge badge-primary">{% translate 'today' %}</span>
                         {% endif %}
+                        {% with summary=participation.subject|showup_summary %}
+                            <span class="text-{{ participation.subject|showup_level }}" aria-label="{{ summary }}" title="{{ summary }}">&#9679;</span>
+                        {% endwith %}
                     </div>
                     <div class="table-list-item-actions">
                         <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participation-detail' study.pk participation.pk %}">{% translate 'Details' %}</a>
