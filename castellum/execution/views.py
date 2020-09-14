@@ -90,6 +90,11 @@ class ParticipationDetailView(ParticipationDetailMixin, DetailView):
     template_name = 'execution/participation_detail.html'
     tab = 'overview'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['showup_stats'], context['showup_score'] = self.subject.get_showup_stats()
+        return context
+
 
 class ParticipationNewsView(ParticipationDetailMixin, UpdateView):
     template_name = 'execution/participation_news.html'
@@ -294,11 +299,6 @@ class ExecutionUpdateMixin(ParticipationMixin):
 class ContactUpdateView(ExecutionUpdateMixin, BaseContactUpdateView):
     def get_object(self):
         return self.participation.subject.contact
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['showup_stats'], context['showup_score'] = self.subject.get_showup_stats()
-        return context
 
 
 class AttributeSetUpdateView(ExecutionUpdateMixin, BaseAttributeSetUpdateView):
