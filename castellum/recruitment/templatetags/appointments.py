@@ -28,11 +28,11 @@ register = template.Library()
 
 @register.filter
 def showup_level(subject):
-    annotated = subject.get_showup_stats()
+    subject.annotate_showup_stats()
 
-    if annotated.showup_score > 6:
+    if subject.showup_score > 6:
         return 'danger'
-    elif annotated.showup_score > 2:
+    elif subject.showup_score > 2:
         return 'warning'
     else:
         return 'success'
@@ -40,11 +40,11 @@ def showup_level(subject):
 
 @register.filter
 def showup_summary(subject):
-    annotated = subject.get_showup_stats()
+    subject.annotate_showup_stats()
 
     labelled = []
     for status, label in Appointment.SHOWUP_CHOICES:
-        count = getattr(annotated, 'showup_%i' % status)
+        count = getattr(subject, 'showup_%i' % status)
         if count:
             labelled.append((label, count))
 

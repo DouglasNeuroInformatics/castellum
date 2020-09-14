@@ -254,8 +254,17 @@ class Subject(TimeStampedModel):
         else:
             return self.get_next_available_datetime(now)
 
-    def get_showup_stats(self):
-        return Subject.objects.annotate_showup().get(pk=self.pk)
+    def annotate_showup_stats(self):
+        from castellum.recruitment.models import Appointment
+
+        if hasattr(self, 'showup_score'):
+            return
+
+        annotated = Subject.objects.annotate_showup().get(pk=self.pk)
+        self.showup_score = annotated.showup_score
+        for status, label in Appointment.SHOWUP_CHOICES:
+            key = 'showup_%i' % status
+            setattr(self, key, getattr(annotated, key))
 
 
 class SubjectNote(models.Model):
