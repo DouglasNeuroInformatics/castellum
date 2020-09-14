@@ -51,3 +51,14 @@ def contrast_color(color):
     b = (int(color[5:7], 16) / 255) ** 2.4
     lightness = 0.2126 * r + 0.7152 * g + 0.0722 * b
     return '#ffffff' if lightness < 0.18 else '#000000'
+
+
+def annotate_instance(instance, queryset):
+    keys = list(queryset.query.annotations.keys())
+
+    if all(hasattr(instance, key) for key in keys):
+        return
+
+    annotations = queryset.get(pk=instance.pk)
+    for key in keys:
+        setattr(instance, key, getattr(annotations, key))
