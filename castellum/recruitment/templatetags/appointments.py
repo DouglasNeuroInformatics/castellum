@@ -21,16 +21,18 @@
 
 from django import template
 
+from castellum.recruitment.models import Appointment
+
 register = template.Library()
 
 
 @register.filter
 def showup_level(subject):
-    showup_stats, showup_score = subject.get_showup_stats()
+    annotated = subject.get_showup_stats()
 
-    if showup_score > 6:
+    if annotated.showup_score > 6:
         return 'danger'
-    elif showup_score > 2:
+    elif annotated.showup_score > 2:
         return 'warning'
     else:
         return 'success'
@@ -38,5 +40,12 @@ def showup_level(subject):
 
 @register.filter
 def showup_summary(subject):
-    showup_stats, showup_score = subject.get_showup_stats()
-    return ', '.join('%s: %s' % i for i in showup_stats)
+    annotated = subject.get_showup_stats()
+
+    labelled = []
+    for status, label in Appointment.SHOWUP_CHOICES:
+        count = getattr(annotated, 'showup_%i' % status)
+        if count:
+            labelled.append((label, count))
+
+    return ', '.join('%s: %s' % i for i in labelled)
