@@ -62,7 +62,7 @@ class FollowUpFeedForUser(BaseFollowUpFeed):
 class AppointmentFeed(BaseAppointmentFeed):
     def get_object(self, request, *args, **kwargs):
         study = get_object_or_404(Study, pk=kwargs['pk'], status=Study.EXECUTION)
-        perms = ['recruitment.recruit', 'studies.access_study']
+        perms = ['recruitment.change_appointment', 'studies.access_study']
         if not self.request.user.has_perms(perms, obj=study):
             raise PermissionDenied
         return study

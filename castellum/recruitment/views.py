@@ -366,7 +366,7 @@ class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateV
 
 class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     model = Study
-    permission_required = 'recruitment.recruit'
+    permission_required = 'recruitment.change_appointment'
     study_status = [Study.EXECUTION]
     nochrome = True
     feed = 'recruitment:calendar-feed'
