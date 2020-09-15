@@ -22,6 +22,7 @@
 import uuid
 
 from django.core.cache import cache
+from django.utils import timezone
 
 import requests
 
@@ -51,3 +52,14 @@ def contrast_color(color):
     b = (int(color[5:7], 16) / 255) ** 2.4
     lightness = 0.2126 * r + 0.7152 * g + 0.0722 * b
     return '#ffffff' if lightness < 0.18 else '#000000'
+
+
+def add_working_days(dt, days):
+    for i in range(days):
+        if dt.isoweekday() == 5:  # friday
+            dt += timezone.timedelta(days=3)
+        elif dt.isoweekday() == 6:  # saturday
+            dt += timezone.timedelta(days=2)
+        else:
+            dt += timezone.timedelta(days=1)
+    return dt

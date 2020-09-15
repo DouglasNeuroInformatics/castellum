@@ -39,9 +39,11 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_subject
+from castellum.recruitment.forms import AppointmentsForm
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
 from castellum.recruitment.mixins import BaseCalendarView
 from castellum.recruitment.mixins import ParticipationMixin
+from castellum.recruitment.mixins import send_appointment_notifications
 from castellum.recruitment.models import Appointment
 from castellum.recruitment.models import NewsMailBatch
 from castellum.recruitment.models import Participation
@@ -136,6 +138,22 @@ class ParticipationAppointmentsView(ParticipationDetailMixin, DetailView):
             context['appointments'].append((session, appointment, form))
 
         return context
+
+
+class ParticipationAppointmentsUpdateView(ParticipationDetailMixin, UpdateView):
+    template_name = 'execution/participation_appointments_form.html'
+    form_class = AppointmentsForm
+    tab = 'appointments'
+
+    def get_success_url(self):
+        return reverse('execution:participation-appointments', args=[
+            self.object.study.pk, self.object.pk
+        ])
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        send_appointment_notifications(self.request, self.object, form.appointment_changes)
+        return response
 
 
 class ShowUpUpdateView(ParticipationMixin, UpdateView):

@@ -40,8 +40,10 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.studies.mixins import StudyMixin
 from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
+from castellum.utils import add_working_days
 from castellum.utils.feeds import BaseICalFeed
 from castellum.utils.mail import send_mail
+from castellum.utils.mail import send_mass_mail
 
 from . import filter_queries
 from .forms import AttributeSetForm
@@ -78,6 +80,43 @@ def get_recruitable(study):
     )
 
     return list(qs)
+
+
+def send_appointment_notifications(request, participation, changes):
+    start = timezone.now()
+    end = add_working_days(start, 2)
+    relevant_changes = [
+        (old, new) for (old, new) in changes if (
+            (old and old >= start and old <= end) or
+            (new and new >= start and new <= end)
+        )
+    ]
+
+    if not relevant_changes:
+        return
+
+    body = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY.format(
+        study=participation.study,
+        changes='\n'.join('%s -> %s' % (
+            timezone.localtime(old),
+            timezone.localtime(new),
+        ) for (old, new) in relevant_changes),
+        participation_url=request.build_absolute_uri(reverse(
+            'execution:participation-detail',
+            args=[participation.study.pk, participation.pk]
+        )),
+        calendar_url=request.build_absolute_uri(reverse(
+            'execution:calendar',
+            args=[participation.study.pk]
+        )),
+    )
+
+    msgs = []
+    mail_subject = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT
+    for user in participation.study.study_conductors:
+        if user != request.user:
+            msgs.append((mail_subject, body, [user.email], {}))
+    return send_mass_mail(msgs, context='internal')
 
 
 class ParticipationMixin(StudyMixin, SubjectMixin):

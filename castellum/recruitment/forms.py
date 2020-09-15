@@ -178,7 +178,11 @@ class AttributeSetForm(forms.ModelForm):
         return type('AttributeSetForm', (cls,), form_fields)
 
 
-class ContactForm(forms.ModelForm):
+class AppointmentsForm(forms.ModelForm):
+    class Meta:
+        model = Participation
+        fields = []
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -189,20 +193,6 @@ class ContactForm(forms.ModelForm):
                 initial=appointment.start if appointment else None,
                 required=False,
             )
-
-        model_status = Participation._meta.get_field('status')
-        self.fields['status'] = DisabledChoiceField(
-            label=model_status.verbose_name,
-            choices=model_status.choices,
-            coerce=int,
-        )
-        if not self.instance.match:
-            self.fields['status'].widget.disabled_choices = [
-                choice for choice, label in Participation.STATUS_OPTIONS
-                if choice != Participation.UNSUITABLE
-            ]
-        elif self.instance.match == 'incomplete':
-            self.fields['status'].widget.disabled_choices = [Participation.INVITED]
 
     def format_session_name(self, session):
         duration = _('%imin') % session.duration
@@ -276,9 +266,28 @@ class ContactForm(forms.ModelForm):
             if name.startswith('appointment-'):
                 yield self[name]
 
+
+class ContactForm(AppointmentsForm):
     class Meta:
         model = Participation
         fields = ['status', 'followup_date', 'followup_time', 'exclusion_criteria_checked']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        model_status = Participation._meta.get_field('status')
+        self.fields['status'] = DisabledChoiceField(
+            label=model_status.verbose_name,
+            choices=model_status.choices,
+            coerce=int,
+        )
+        if not self.instance.match:
+            self.fields['status'].widget.disabled_choices = [
+                choice for choice, label in Participation.STATUS_OPTIONS
+                if choice != Participation.UNSUITABLE
+            ]
+        elif self.instance.match == 'incomplete':
+            self.fields['status'].widget.disabled_choices = [Participation.INVITED]
 
 
 class SendMailForm(forms.Form):
