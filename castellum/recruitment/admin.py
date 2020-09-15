@@ -32,7 +32,6 @@ from parler.admin import TranslatableTabularInline
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 
-from .forms import CategoryImportForm
 from .forms import DescriptionImportForm
 from .models import Appointment
 from .models import AttributeCategory
@@ -44,32 +43,6 @@ from .models import NewsMailBatch
 from .models import Participation
 from .models import SubjectFilter
 from .models import SubjectFilterGroup
-
-
-class CategoryImportView(PermissionRequiredMixin, FormView):
-    template_name = 'admin/recruitment/attributedescription_import.html'
-    permission_required = [
-        'recruitment.view_attributecategory',
-        'recruitment.add_attributecategory',
-    ]
-    model = AttributeCategory
-    form_class = CategoryImportForm
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['opts'] = self.model._meta
-        context['title'] = _('Import')
-        return context
-
-    def form_valid(self, form):
-        json = form.cleaned_data['json']
-        for data in json['categories']:
-            AttributeCategory._import(data)
-        messages.success(
-            self.request,
-            _('Successfully imported %i attribute categories.' % len(json['categories']))
-        )
-        return self.form_invalid(form)
 
 
 class DescriptionImportView(PermissionRequiredMixin, FormView):
@@ -97,28 +70,6 @@ class DescriptionImportView(PermissionRequiredMixin, FormView):
             _('Successfully imported %i attribute descriptions.' % len(json['descriptions']))
         )
         return self.form_invalid(form)
-
-
-class AttributeCategoryAdmin(TranslatableAdmin):
-    model = AttributeCategory
-    actions = ['export_json']
-
-    def export_json(self, request, queryset):
-        response = JsonResponse({
-            'categories': [category.export() for category in queryset.all()],
-        })
-        response['Content-Disposition'] = 'attachment; filename="castellum_categories.json"'
-        return response
-    export_json.short_description = _('Export as JSON')
-
-    def get_urls(self):
-        return [
-            path(
-                'import/',
-                staff_member_required(CategoryImportView.as_view()),
-                name='recruitment_attributecategory_import',
-            ),
-        ] + super().get_urls()
 
 
 class AttributeChoiceInline(TranslatableTabularInline):
@@ -150,7 +101,7 @@ class AttributeDescriptionAdmin(TranslatableAdmin):
 
 
 admin.site.register(Appointment)
-admin.site.register(AttributeCategory, AttributeCategoryAdmin)
+admin.site.register(AttributeCategory, TranslatableAdmin)
 admin.site.register(AttributeDescription, AttributeDescriptionAdmin)
 admin.site.register(AttributeSet)
 admin.site.register(MailBatch)

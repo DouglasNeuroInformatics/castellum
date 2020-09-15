@@ -123,10 +123,7 @@ class AttributeSet(TimeStampedModel):
         return completed, total
 
 
-class AttributeCategory(ImportMixin, TranslatableModel):
-    import_fields = ['order']
-    import_translated_fields = ['label']
-
+class AttributeCategory(TranslatableModel):
     order = models.IntegerField(default=0)
 
     translations = TranslatedFields(
@@ -140,18 +137,6 @@ class AttributeCategory(ImportMixin, TranslatableModel):
 
     def __str__(self):
         return self.label
-
-    def export(self):
-        data = super().export()
-        data['descriptions'] = [desc.export() for desc in self.attributedescription_set.all()]
-        return data
-
-    @classmethod
-    def _import(cls, data):
-        category = super()._import(data)
-        for description in data.get('descriptions', []):
-            AttributeDescription._import(description, category=category)
-        return category
 
 
 class AttributeDescriptionManager(TranslatableManager):
