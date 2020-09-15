@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import template
+from django.utils.translation import gettext_lazy as _
 
 from castellum.recruitment.models import Appointment
 
@@ -48,4 +49,5 @@ def showup_summary(subject):
         if count:
             labelled.append((label, count))
 
-    return ', '.join('%s: %s' % i for i in labelled)
+    formatted = ', '.join('%s: %s' % i for i in labelled)
+    return formatted or _('no appointments so far')
