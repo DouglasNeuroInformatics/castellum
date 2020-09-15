@@ -54,7 +54,6 @@ from .models import AttributeSet
 from .models import MailBatch
 from .models import Participation
 from .models.attributesets import ANSWER_DECLINED
-from .models.attributesets import UNCATEGORIZED
 
 logger = logging.getLogger(__name__)
 monitoring_logger = logging.getLogger('monitoring.recruitment')
@@ -168,20 +167,13 @@ class BaseAttributeSetUpdateView(PermissionRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         form = context['form']
 
-        def get_bound_fields(descriptions):
-            for description in descriptions:
-                answer_declined = self.object.data.get(description.json_key) == ANSWER_DECLINED
-                try:
-                    yield form['d%i' % description.pk], answer_declined
-                except KeyError:
-                    pass
-
-        categories = AttributeDescription.objects.by_category()
-        context['uncategorized'] = get_bound_fields(categories.pop(UNCATEGORIZED))
-        context['categories'] = {
-            category: get_bound_fields(descriptions)
-            for category, descriptions in categories.items()
-        }
+        context['fields'] = []
+        for description in AttributeDescription.objects.all():
+            answer_declined = self.object.data.get(description.json_key) == ANSWER_DECLINED
+            try:
+                context['fields'].append((form['d%i' % description.pk], answer_declined))
+            except KeyError:
+                pass
 
         return context
 
