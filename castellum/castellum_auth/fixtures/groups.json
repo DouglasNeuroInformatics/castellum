@@ -52,6 +52,11 @@
                 "recruit",
                 "recruitment",
                 "participation"
+            ],
+            [
+                "change_appointment",
+                "recruitment",
+                "appointment"
             ]
         ]
     }
@@ -66,6 +71,11 @@
                 "conduct_study",
                 "recruitment",
                 "participation"
+            ],
+            [
+                "change_appointment",
+                "recruitment",
+                "appointment"
             ]
         ]
     }
