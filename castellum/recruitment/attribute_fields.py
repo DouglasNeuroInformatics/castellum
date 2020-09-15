@@ -104,7 +104,7 @@ class BaseAttributeField:
         ]
 
     def get_statistics_bucket(self, value):
-        if value == ANSWER_DECLINED:
+        if value in [ANSWER_DECLINED, '']:
             return None
         return value
 
