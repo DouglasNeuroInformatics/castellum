@@ -287,11 +287,6 @@ class SendMailForm(forms.Form):
     )
 
 
-class CategoryImportForm(BaseImportForm):
-    schema = IMPORT_SCHEMA
-    schema_ref = '#/$defs/AttributeCategoryExport'
-
-
 class DescriptionImportForm(BaseImportForm):
     schema = IMPORT_SCHEMA
     schema_ref = '#/$defs/AttributeDescriptionExport'

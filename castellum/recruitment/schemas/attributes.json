@@ -17,40 +17,6 @@
             ],
             "title": "AttributeDescriptionExport"
         },
-        "AttributeCategoryExport": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "categories": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/Category"
-                    }
-                }
-            },
-            "required": [
-                "categories"
-            ],
-            "title": "AttributeCategoryExport"
-        },
-        "Category": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "order": {
-                    "type": "integer"
-                },
-                "label": {
-                    "$ref": "#/$defs/TranslatedString"
-                },
-                "descriptions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/Description"
-                    }
-                }
-            }
-        },
         "Description": {
             "type": "object",
             "additionalProperties": false,
