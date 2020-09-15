@@ -1,5 +1,5 @@
 {% extends "execution/participation_base.html" %}
-{% load i18n bootstrap4 utils %}
+{% load i18n auth bootstrap4 utils %}
 
 {% block content %}
     <dl>
@@ -25,7 +25,10 @@
         {% endfor %}
     </dl>
 
-    <div class="d-print-none mb-3">
-        <a href="{% url 'execution:participation-appointments-update' study.pk participation.pk %}" class="btn btn-secondary">{% translate 'Update' %}</a>
-    </div>
+    {% has_perm 'recruitment.change_appointment' user study as can_change_appointment %}
+    {% if can_change_appointment %}
+        <div class="d-print-none mb-3">
+            <a href="{% url 'execution:participation-appointments-update' study.pk participation.pk %}" class="btn btn-secondary">{% translate 'Update' %}</a>
+        </div>
+    {% endif %}
 {% endblock %}
