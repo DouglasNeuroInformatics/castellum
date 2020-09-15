@@ -1,5 +1,5 @@
 {% extends "execution/base.html" %}
-{% load i18n %}
+{% load i18n auth %}
 
 {% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
 
@@ -21,7 +21,8 @@
                     <a href="{% url 'execution:participation-criteria' study.pk participation.pk %}" class="nav-link {% if view.tab == 'criteria' %}active{% endif %}">{% translate 'Criteria' %}</a>
                 </li>
             {% endif %}
-            {% if study.studysession_set.exists %}
+            {% has_perm 'recruitment.change_appointment' user study as can_change_appointment %}
+            {% if can_change_appointment and study.studysession_set.exists %}
                 <li class="nav-item">
                     <a href="{% url 'execution:participation-appointments' study.pk participation.pk %}" class="nav-link {% if view.tab == 'appointments' %}active{% endif %}">{% translate 'Appointments' %}</a>
                 </li>

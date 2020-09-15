@@ -125,6 +125,7 @@ class ParticipationCriteriaView(ParticipationDetailMixin, DetailView):
 
 class ParticipationAppointmentsView(ParticipationDetailMixin, DetailView):
     template_name = 'execution/participation_appointments.html'
+    permission_required = ['recruitment.conduct_study', 'recruitment.change_appointment']
     tab = 'appointments'
 
     def get_context_data(self, **kwargs):
