@@ -1,12 +1,17 @@
+import datetime
+
+from django.contrib.auth.models import Permission
 from django.utils import timezone
 
 import pytest
 from model_bakery import baker
 
+from castellum.castellum_auth.models import User
 from castellum.recruitment.models import Appointment
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
+from castellum.studies.models import StudyMembership
 from castellum.studies.models import StudySession
 
 
@@ -194,3 +199,33 @@ def test_appointment_resource_overlap_ignore_not_invited(client, member, partici
         'appointment-%i_1' % session.pk: '12:00',
     })
     assert response.status_code == 302
+
+
+def test_appointment_change_appointment_permission(client, member, participation):
+    future = timezone.now() + datetime.timedelta(days=10000)
+    user = baker.make(User, expiration_date=future, email='test@example.com')
+    user.user_permissions.add(Permission.objects.get(codename='privacy_level_1'))
+    user.user_permissions.add(Permission.objects.get(codename='recruit'))
+    StudyMembership.objects.create(user=user, study=participation.study)
+
+    session = baker.make(StudySession, study=participation.study, duration=60)
+
+    url = '/recruitment/{}/{}/'.format(participation.study.pk, participation.pk)
+
+    client.force_login(user)
+    response = client.post(url, {
+        'status': 2,
+        'appointment-%i_0' % session.pk: '2020-01-01',
+        'appointment-%i_1' % session.pk: '12:00',
+    })
+    assert response.status_code == 302
+    assert not participation.appointment_set.exists()
+
+    client.force_login(member)
+    response = client.post(url, {
+        'status': 2,
+        'appointment-%i_0' % session.pk: '2020-01-01',
+        'appointment-%i_1' % session.pk: '12:00',
+    })
+    assert response.status_code == 302
+    assert participation.appointment_set.exists()

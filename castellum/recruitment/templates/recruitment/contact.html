@@ -36,6 +36,8 @@
         </div>
     {% endif %}
 
+    {% has_perm 'recruitment.change_appointment' user study as can_change_appointment %}
+
     <ul class="nav nav-tabs justify-content-center" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="true">{% translate "Contacting details" %}</a>
@@ -51,7 +53,7 @@
                 </a>
             </li>
         {% endif %}
-        {% if study.studysession_set.exists %}
+        {% if can_change_appointment and study.studysession_set.exists %}
             <li class="nav-item">
                 <a class="nav-link" id="appointments-tab" data-toggle="tab" href="#appointments" role="tab" aria-controls="appointments" aria-selected="false">
                     {% translate 'Appointments' %}
@@ -160,28 +162,30 @@
                 </div>
             {% endif %}
 
-            <div class="tab-pane" id="appointments" role="tabpanel" aria-labelledby="appointments-tab">
-                {% if study.session_instructions %}
-                    {{ study.session_instructions|linebreaks }}
-                {% endif %}
+            {% if can_change_appointment %}
+                <div class="tab-pane" id="appointments" role="tabpanel" aria-labelledby="appointments-tab">
+                    {% if study.session_instructions %}
+                        {{ study.session_instructions|linebreaks }}
+                    {% endif %}
 
-                <dl class="row">
-                    <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
-                    <dd class="col-sm-6">
-                        <time id="sessions-start" datetime="{{ study.sessions_start|date:'c' }}">{{ study|display:'sessions_start' }}</time>
-                    </dd>
+                    <dl class="row">
+                        <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
+                        <dd class="col-sm-6">
+                            <time id="sessions-start" datetime="{{ study.sessions_start|date:'c' }}">{{ study|display:'sessions_start' }}</time>
+                        </dd>
 
-                    <dt class="col-sm-6">{{ study|verbose_name:'sessions_end' }}</dt>
-                    <dd class="col-sm-6">
-                        <time id="sessions-end" datetime="{{ study.sessions_end|date:'c' }}">{{ study|display:'sessions_end' }}</time>
-                    </dd>
-                </dl>
+                        <dt class="col-sm-6">{{ study|verbose_name:'sessions_end' }}</dt>
+                        <dd class="col-sm-6">
+                            <time id="sessions-end" datetime="{{ study.sessions_end|date:'c' }}">{{ study|display:'sessions_end' }}</time>
+                        </dd>
+                    </dl>
 
-                {% for field in form.appointments %}
-                    {% bootstrap_field field %}
-                {% endfor %}
-                <a href="{% url 'recruitment:calendar' study.pk %}" class="btn btn-secondary" data-js="popup">{% translate 'Calendar' %}</a>
-            </div>
+                    {% for field in form.appointments %}
+                        {% bootstrap_field field %}
+                    {% endfor %}
+                    <a href="{% url 'recruitment:calendar' study.pk %}" class="btn btn-secondary" data-js="popup">{% translate 'Calendar' %}</a>
+                </div>
+            {% endif %}
         </div>
 
         {% include 'utils/form_errors.html' with form=form %}
