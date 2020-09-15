@@ -255,8 +255,8 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         return data
 
     @classmethod
-    def _import(cls, data, category=None):
-        description = super()._import(data, category=category)
+    def _import(cls, data):
+        description = super()._import(data)
         for index, choice in enumerate(data.get('choices', [])):
             AttributeChoice._import(choice, description=description, order=index * 10)
         return description
