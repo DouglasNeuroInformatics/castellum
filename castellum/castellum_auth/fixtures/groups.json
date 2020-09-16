@@ -137,5 +137,24 @@
             ]
         ]
     }
+},
+{
+    "model": "auth.group",
+    "pk": 7,
+    "fields": {
+        "name": "Study approver",
+        "permissions": [
+            [
+                "view_study",
+                "studies",
+                "study"
+            ],
+            [
+                "approve_study",
+                "studies",
+                "study"
+            ]
+        ]
+    }
 }
 ]
