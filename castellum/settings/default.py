@@ -126,11 +126,6 @@ LOGOUT_TIMEOUT_DEFAULT = datetime.timedelta(seconds=15 * 60)
 
 LANGUAGE_CODE = 'en'
 
-LANGUAGES = [
-    ('de', _('German')),
-    ('en', _('English')),
-]
-
 PARLER_LANGUAGES = {
     None: (
         {'code': 'de'},

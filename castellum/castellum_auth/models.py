@@ -26,6 +26,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from castellum.utils import get_parler_languages
 from castellum.utils.fields import DateTimeField
 
 
@@ -37,7 +38,7 @@ class User(AbstractUser):
     DEMO_PASSWORD = '123'
 
     language = models.CharField(
-        _('Language'), max_length=5, choices=settings.LANGUAGES, blank=True
+        _('Language'), max_length=5, choices=get_parler_languages(), blank=True
     )
     expiration_date = DateTimeField(_('Expiration date'), blank=True, null=True)
     logout_timeout = models.DurationField(
