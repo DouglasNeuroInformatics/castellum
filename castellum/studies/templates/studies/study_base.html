@@ -19,8 +19,9 @@
             {% has_perm 'studies.access_study' user study as can_access_study %}
             {% has_perm 'studies.change_study' user study as can_change_study %}
             {% has_perm 'studies.delete_study' user study as can_delete_study %}
+            {% has_perm 'studies.approve_study' user as can_approve_study %}
             {% if can_access_study %}
-                {% if can_change_study %}
+                {% if can_approve_study %}
                     {% if study.status != study.FINISHED %}
                         <form class="d-inline" method="post" action="{% url 'studies:start' study.pk %}">
                             {% csrf_token %}
@@ -53,6 +54,8 @@
                             </form>
                         {% endif %}
                     {% endif %}
+                {% endif %}
+                {% if can_change_study %}
                     <form class="d-inline" method="post" action="{% url 'studies:finish-recruitment' study.pk %}">
                         {% csrf_token %}
                             <input type="hidden" name="next" value="{{ request.path }}">
