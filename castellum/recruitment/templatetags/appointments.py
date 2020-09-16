@@ -29,8 +29,6 @@ register = template.Library()
 
 @register.filter
 def showup_level(subject):
-    subject.annotate_showup_stats()
-
     if subject.showup_score > 6:
         return 'danger'
     elif subject.showup_score > 2:
@@ -41,8 +39,6 @@ def showup_level(subject):
 
 @register.filter
 def showup_summary(subject):
-    subject.annotate_showup_stats()
-
     labelled = []
     for status, label in Appointment.SHOWUP_CHOICES:
         count = getattr(subject, 'showup_%i' % status)
