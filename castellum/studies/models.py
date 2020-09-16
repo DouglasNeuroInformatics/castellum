@@ -205,6 +205,7 @@ class Study(models.Model):
         ordering = ['name']
         permissions = [
             ('access_study', _('Can access studies')),
+            ('approve_study', _('Can approve studies')),
         ]
 
     def __str__(self):
