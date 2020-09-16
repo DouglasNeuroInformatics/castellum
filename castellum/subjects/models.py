@@ -100,6 +100,8 @@ class Subject(TimeStampedModel):
         'This option should be used when a subject requests GDPR export.'
     ))
 
+    deceased = models.BooleanField(_('Subject is deceased'), default=False)
+
     source = models.CharField(_('Data source'), max_length=128, blank=True)
 
     note_hard_of_hearing = models.BooleanField(_('Hard of hearing'), default=False)
@@ -161,6 +163,7 @@ class Subject(TimeStampedModel):
             'source',
             'to_be_deleted',
             'export_requested',
+            'deceased',
             'additional_suitability_document',
         ]
 

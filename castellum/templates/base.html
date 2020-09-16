@@ -73,6 +73,11 @@
 
         <div class="{% block container_class %}container{% endblock %}">
             {% block content_with_messages %}
+                {% if subject.deceased %}
+                    <div class="alert alert-warning" role="alert">
+                        {% translate 'This subject is deceased' %}
+                    </div>
+                {% endif %}
                 {% if subject.to_be_deleted %}
                     <div class="alert alert-warning" role="alert">
                         {% translate 'This subject is marked for deletion' %}
