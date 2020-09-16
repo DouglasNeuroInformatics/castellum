@@ -175,6 +175,7 @@ class AdditionalInfoForm(forms.ModelForm):
     class Meta:
         model = Subject
         fields = [
+            'deceased',
             'note_hard_of_hearing',
             'note_difficult_to_understand',
             'note_abusive_language',
