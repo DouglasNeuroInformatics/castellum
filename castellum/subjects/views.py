@@ -115,7 +115,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         completeness, total = filter_queries.completeness_expr()
         context['count_complete'] = Subject.objects\
             .annotate(completeness=completeness)\
-            .filter(completeness=total)\
+            .filter(completeness=total, deceased=False)\
             .count()
 
         context['count_consent'] = Subject.objects.filter(filter_queries.has_consent()).count()
@@ -518,7 +518,7 @@ class MaintenanceAttributesView(BaseMaintenanceView):
         return super().get_queryset()\
             .exclude(attributeset=None)\
             .annotate(completeness=completeness)\
-            .filter(filter_queries.has_consent(), completeness__lt=total)\
+            .filter(filter_queries.has_consent(), deceased=False, completeness__lt=total)\
             .order_by('completeness')
 
 
