@@ -63,3 +63,10 @@ def add_working_days(dt, days):
         else:
             dt += timezone.timedelta(days=1)
     return dt
+
+
+def annotate_instance(instance, queryset, force=False):
+    keys = list(queryset.query.annotations.keys())
+    values = queryset.values(*keys).get(pk=instance.pk)
+    instance.__dict__.update(values)
+    return values

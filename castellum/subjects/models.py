@@ -30,6 +30,7 @@ from django.utils.translation import gettext_lazy as _
 from dateutil.relativedelta import relativedelta
 
 from castellum.studies.models import StudyType
+from castellum.utils import annotate_instance
 from castellum.utils import uuid_str
 from castellum.utils.fields import DateTimeField
 from castellum.utils.fields import RestrictedFileField
@@ -259,15 +260,10 @@ class Subject(TimeStampedModel):
 
     def __getattr__(self, key):
         if key.startswith('showup_'):
-            from castellum.recruitment.models import Appointment
-
-            annotated = Subject.objects.annotate_showup().get(pk=self.pk)
-            self.showup_score = annotated.showup_score
-            for status, label in Appointment.SHOWUP_CHOICES:
-                key = 'showup_%i' % status
-                setattr(self, key, getattr(annotated, key))
-
-        return super().__getattribute__(key)
+            values = annotate_instance(self, Subject.objects.annotate_showup())
+            return values[key]
+        else:
+            return super().__getattribute__(key)
 
 
 class SubjectNote(models.Model):
