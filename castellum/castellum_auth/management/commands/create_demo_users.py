@@ -37,7 +37,7 @@ USERS = {
     'Sabine': ['Receptionist'],
 
     # first testing group
-    'Vera': ['Study coordinator', 'Study conductor'],
+    'Vera': ['Study coordinator', 'Study conductor', 'Study approver'],
     'Arne': ['Subject manager'],
     'Edwin': ['Subject manager', 'Recruiter'],
 
