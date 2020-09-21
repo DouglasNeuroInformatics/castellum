@@ -115,10 +115,12 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         completeness, total = filter_queries.completeness_expr()
         context['count_complete'] = Subject.objects\
             .annotate(completeness=completeness)\
-            .filter(completeness=total)\
+            .filter(completeness=total, deceased=False)\
             .count()
 
-        context['count_consent'] = Subject.objects.filter(filter_queries.has_consent()).count()
+        context['count_consent'] = Subject.objects.filter(
+            filter_queries.has_consent(), deceased=False
+        ).count()
 
         form = kwargs.get('form')
         if form and form.is_valid():
@@ -518,7 +520,7 @@ class MaintenanceAttributesView(BaseMaintenanceView):
         return super().get_queryset()\
             .exclude(attributeset=None)\
             .annotate(completeness=completeness)\
-            .filter(filter_queries.has_consent(), completeness__lt=total)\
+            .filter(filter_queries.has_consent(), deceased=False, completeness__lt=total)\
             .order_by('completeness')
 
 
@@ -595,12 +597,12 @@ class MaintenanceConsentView(BaseMaintenanceView):
         )
 
         pks = [c.subject.pk for c in contacts if c.subject.has_consent_from_before_full_age]
-        return super().get_queryset().filter(pk__in=pks)
+        return super().get_queryset().filter(pk__in=pks, deceased=False)
 
     def get_by_outdated_document(self):
         return super().get_queryset()\
             .exclude(filter_queries.has_consent(exclude_deprecated=True))\
-            .filter(consent__status=Consent.CONFIRMED)
+            .filter(consent__status=Consent.CONFIRMED, deceased=False)
 
     def get_queryset(self):
         return Subject.objects.none().union(
@@ -616,7 +618,7 @@ class MaintenanceWaitingView(BaseMaintenanceView):
     def get_queryset(self):
         return (
             super().get_queryset()
-            .filter(consent__status=Consent.WAITING)
+            .filter(consent__status=Consent.WAITING, deceased=False)
             .order_by('pk')
         )
 

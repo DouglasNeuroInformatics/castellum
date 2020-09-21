@@ -202,6 +202,7 @@ def study_except_filters(study, include_unknown=None):
     q &= study_exclusion(study)
     q &= study_disinterest(study)
     q &= to_be_deleted()
+    q &= models.Q(deceased=False)
     if 'castellum.geofilters' in settings.INSTALLED_APPS and study.geo_filter:
         q &= geofilter(study)
     return q
