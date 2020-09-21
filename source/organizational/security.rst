@@ -25,6 +25,8 @@ needs.
 Note that the django framework automatically generates a lot of
 permissions. Only a few of them are actually used. The full list is:
 
+
+-  ``studies.approve_study``
 -  ``studies.view_study``
 -  ``studies.change_study``
 -  ``studies.delete_study``
@@ -37,6 +39,7 @@ permissions. Only a few of them are actually used. The full list is:
 -  ``recruitment.conduct_study``
 -  ``recruitment.search_participations``
 -  ``recruitment.view_current_appointments``
+-  ``recruitment.change_appointments``
 -  ``castellum_auth.privacy_level_1``
 -  ``castellum_auth.privacy_level_2``
 
