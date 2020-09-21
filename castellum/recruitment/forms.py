@@ -267,7 +267,7 @@ class AppointmentsForm(forms.ModelForm):
                 yield self[name]
 
 
-class ContactForm(AppointmentsForm):
+class ContactForm(forms.ModelForm):
     class Meta:
         model = Participation
         fields = ['status', 'followup_date', 'followup_time', 'exclusion_criteria_checked']
@@ -288,6 +288,10 @@ class ContactForm(AppointmentsForm):
             ]
         elif self.instance.match == 'incomplete':
             self.fields['status'].widget.disabled_choices = [Participation.INVITED]
+
+
+class ContactAndAppointmentsForm(ContactForm, AppointmentsForm):
+    pass
 
 
 class SendMailForm(forms.Form):

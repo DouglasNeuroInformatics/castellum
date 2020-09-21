@@ -45,6 +45,7 @@ from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.utils import cached_request
 from castellum.utils import contrast_color
 
+from .forms import ContactAndAppointmentsForm
 from .forms import ContactForm
 from .mixins import BaseAttributeSetUpdateView
 from .mixins import BaseCalendarView
@@ -284,10 +285,15 @@ class MailRecruitmentView(BaseMailRecruitmentView):
 
 class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     model = Participation
-    form_class = ContactForm
     template_name = 'recruitment/contact.html'
     permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
+
+    def get_form_class(self):
+        if self.request.user.has_perm('recruitment.change_appointment', self.study):
+            return ContactAndAppointmentsForm
+        else:
+            return ContactForm
 
     def get_initial(self):
         initial = super().get_initial()
@@ -321,7 +327,8 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        send_appointment_notifications(self.request, self.object, form.appointment_changes)
+        if isinstance(form, ContactAndAppointmentsForm):
+            send_appointment_notifications(self.request, self.object, form.appointment_changes)
         return response
 
 
@@ -359,7 +366,7 @@ class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateV
 
 class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     model = Study
-    permission_required = 'recruitment.recruit'
+    permission_required = 'recruitment.change_appointment'
     study_status = [Study.EXECUTION]
     nochrome = True
     feed = 'recruitment:calendar-feed'

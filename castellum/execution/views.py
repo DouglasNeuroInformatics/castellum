@@ -142,6 +142,7 @@ class ParticipationAppointmentsView(ParticipationDetailMixin, DetailView):
 
 class ParticipationAppointmentsUpdateView(ParticipationDetailMixin, UpdateView):
     template_name = 'execution/participation_appointments_form.html'
+    permission_required = ['recruitment.conduct_study', 'recruitment.change_appointment']
     form_class = AppointmentsForm
     tab = 'appointments'
 
