@@ -57,11 +57,13 @@ Castellum does not provide special features to translate content (e.g.
 study descriptions). You can of course enter several language version
 into a single text field.
 
-## Example: Italian
+## Example: Non-german
 
-Castellum does not provide an Italian translation. Assuming everyone
-involved knows english but hardly anyone knows german the simplest
-option is to remove german from the set of available languages:
+Say your organization is located in Italy, so most people speak italian
+and everyone knows english, but hardly anyone konws german. Castellum
+does not provide an Italian translation and providing one yourself is
+tedious. So the simplest option is to remove german from the set of
+available languages, which only leaves english:
 
     LANGUAGE_CODE = 'en'
     PARLER_LANGUAGES = {
@@ -70,8 +72,9 @@ option is to remove german from the set of available languages:
         ],
     }
 
-However, you can provide Italian texts for all recruitment mails and
-configure castellum to use the corresponding locale:
+Even though italian is not available in the UI, you can provide italian
+texts for all recruitment mails and configure castellum to use the
+corresponding locale:
 
     CASTELLUM_FALLBACK_LANGUAGE = 'en'
     CASTELLUM_MAIL = {
