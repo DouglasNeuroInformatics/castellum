@@ -266,18 +266,30 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
 
 
 class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
-    permission_required = 'studies.change_study'
+    permission_required = 'studies.view_study'
     is_onetime_invitation = False
 
     def post(self, request, study_pk):
-        if self.study.status != self.study.FINISHED:
-            if self.study.status == self.study.EXECUTION:
-                self.study.set_status(self.study.EDIT)
-            else:
-                self.study.set_status(self.study.EXECUTION)
-            return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
-        else:
+        # check 'approve_study' without study context to prevent
+        # privilege escalation
+        if not self.request.user.has_perm('studies.approve_study'):
+            raise PermissionDenied
+
+        if self.study.status == self.study.FINISHED:
             return HttpResponseBadRequest()
+
+        if self.study.status == self.study.EXECUTION:
+            self.study.set_status(self.study.EDIT)
+            monitoring_logger.info(
+                'Study {} started by {}'.format(self.study.name, self.request.user.pk)
+            )
+        else:
+            self.study.set_status(self.study.EXECUTION)
+            monitoring_logger.info(
+                'Study {} stopped by {}'.format(self.study.name, self.request.user.pk)
+            )
+
+        return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
 
 
 class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):

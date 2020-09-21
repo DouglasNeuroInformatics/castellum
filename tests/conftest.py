@@ -90,6 +90,11 @@ def user(db):
 
 
 @pytest.fixture
+def study_approver(db):
+    return create_user('Study approver')
+
+
+@pytest.fixture
 def study_conductor(db):
     return create_user('Study conductor')
 
