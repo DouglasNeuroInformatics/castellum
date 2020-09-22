@@ -371,3 +371,12 @@ class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
         filename = 'castellum_%s.json' % slugify(self.study.name)
         response['Content-Disposition'] = 'attachment; filename="%s"' % filename
         return response
+
+
+class StudyPublicView(ListView):
+    model = Study
+    permission_required = 'studies.view_study'
+    template_name = 'studies/study_public.html'
+
+    def get_queryset(self):
+        return Study.objects.filter(status=Study.EXECUTION)
