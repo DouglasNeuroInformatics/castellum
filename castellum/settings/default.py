@@ -11,6 +11,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 ALLOWED_HOSTS = []
 
+# Set this to True to prevent creating insecure demo content in production
 PRODUCTION = False
 
 
