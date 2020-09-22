@@ -218,11 +218,6 @@ BOOTSTRAP4 = {
 AXES_LOCKOUT_TEMPLATE = 'axes-lockout.html'
 
 
-if os.access('/log', os.W_OK):
-    LOG_DIR = '/log'
-else:
-    LOG_DIR = BASE_DIR
-
 # See https://docs.djangoproject.com/en/stable/topics/logging/
 LOGGING = {
     'version': 1,
@@ -237,11 +232,6 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
         },
-        'monitoring-file': {
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(LOG_DIR, 'monitoring.log'),
-            'formatter': 'verbose',
-        },
     },
     'loggers': {
         'django': {
@@ -251,7 +241,7 @@ LOGGING = {
         # 'monitoring' is our custom logger namespace to monitor user behavior.
         # It contains potentially sensitive information (e.g. subject search terms).
         'monitoring': {
-            'handlers': ['monitoring-file'],
+            'handlers': ['console'],
             'level': 'INFO',
         },
     },

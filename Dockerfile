@@ -10,10 +10,6 @@ ENV RUNTIMEPKGS uwsgi uwsgi-python python3 py3-psycopg2 py3-pyldap libmagic proj
 
 RUN adduser -D -g '' uwsgi
 
-RUN mkdir -p /log
-RUN chown uwsgi /log
-VOLUME /log
-
 RUN mkdir -p /media
 RUN chown uwsgi /media
 VOLUME /media
