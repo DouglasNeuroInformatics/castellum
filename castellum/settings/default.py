@@ -250,7 +250,6 @@ LOGGING = {
     },
     'handlers': {
         'console': {
-            'level': 'INFO',
             'class': 'logging.StreamHandler',
         },
         'debug-file': {
@@ -260,13 +259,11 @@ LOGGING = {
             'formatter': 'verbose',
         },
         'monitoring-file': {
-            'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': os.path.join(LOG_DIR, 'monitoring.log'),
             'formatter': 'verbose',
         },
         'django.server': {
-            'level': 'INFO',
             'class': 'logging.StreamHandler',
             'formatter': 'django.server',
         },
@@ -274,15 +271,15 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['debug-file', 'console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
         },
         'monitoring': {
             'handlers': ['monitoring-file'],
-            'level': 'DEBUG',
+            'level': 'INFO',
         },
         'django.server': {
             'handlers': ['django.server'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': False,
         },
     },
