@@ -267,6 +267,13 @@ class Study(models.Model):
             self.study_type.exclude(exclusion_criteria='').exists()
         )
 
+    @property
+    def is_started(self):
+        if self.status == Study.FINISHED:
+            return self.previous_status == Study.EXECUTION
+        else:
+            return self.status == Study.EXECUTION
+
     @cached_property
     def is_sensitive(self):
         return self.data_sensitivity or self.study_type.filter(data_sensitivity=True).exists()

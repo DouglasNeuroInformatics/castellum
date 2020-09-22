@@ -12,6 +12,12 @@
     <div class="container text-center my-4">
         <div>
             <h1>{{ study }}</h1>
+            {% if study.is_started %}
+                <span class="badge badge-secondary">{% translate 'Started' %}</span>
+            {% endif %}
+            {% if study.status == study.FINISHED %}
+                <span class="badge badge-secondary">{% translate 'Finished' %}</span>
+            {% endif %}
             <p>{{ study|verbose_name:'contact_person' }}: {{ study.contact_person }}</p>
         </div>
         <div>
