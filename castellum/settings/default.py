@@ -218,35 +218,6 @@ BOOTSTRAP4 = {
 AXES_LOCKOUT_TEMPLATE = 'axes-lockout.html'
 
 
-# See https://docs.djangoproject.com/en/stable/topics/logging/
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '[%(asctime)s] %(levelname)s %(name)s %(message)s'
-        },
-    },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-        },
-        # 'monitoring' is our custom logger namespace to monitor user behavior.
-        # It contains potentially sensitive information (e.g. subject search terms).
-        'monitoring': {
-            'handlers': ['console'],
-            'level': 'INFO',
-        },
-    },
-}
-
 # Secondary language in emails for readers who do not understand the
 # primary language
 CASTELLUM_FALLBACK_LANGUAGE = 'en'

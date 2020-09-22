@@ -28,6 +28,35 @@ ALLOWED_HOSTS = ['*']
 
 MEDIA_ROOT = '/media'
 
+# See https://docs.djangoproject.com/en/stable/topics/logging/
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[%(asctime)s] %(levelname)s %(name)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        # 'monitoring' is our custom logger namespace to monitor user behavior.
+        # It contains potentially sensitive information (e.g. subject search terms).
+        'monitoring': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
+}
+
 # The example deployment does not contain a mail server, so use dummy instead
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
