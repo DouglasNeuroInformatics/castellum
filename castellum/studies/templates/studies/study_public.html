@@ -6,6 +6,11 @@
         <h2>{{ study.name }}</h2>
         {{ study.description|linebreaks }}
         <p>
+            {% with filters=study.get_filters_display %}
+                {% if filters %}
+                    <strong>{% trans 'Prerequisite for participating' %}:</strong> {{ filters }}<br>
+                {% endif %}
+            {% endwith %}
             <strong>{% trans 'Contact Person' %}:</strong> {{ study.contact_person }}<br>
             {% if study.mail_reply_address %}
                 <strong>{% trans 'Email' %}:</strong> <a href="mailto:{{ study.mail_reply_address }}">{{ study.mail_reply_address }}</a><br>

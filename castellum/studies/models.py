@@ -307,6 +307,26 @@ class Study(models.Model):
             self.has_filters,
         ])
 
+    def get_common_filters(self):
+        from castellum.recruitment.models import SubjectFilter
+
+        count = self.subjectfiltergroup_set.count()
+
+        strings = {}
+        for f in SubjectFilter.objects.filter(group__study=self):
+            s = str(f)
+            if s in strings:
+                strings[s] += 1
+            else:
+                strings[s] = 1
+
+        for s, c in strings.items():
+            if c == count:
+                yield s
+
+    def get_filters_display(self):
+        return ', '.join(self.get_common_filters())
+
 
 class StudyMembership(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
