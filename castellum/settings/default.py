@@ -218,30 +218,18 @@ BOOTSTRAP4 = {
 AXES_LOCKOUT_TEMPLATE = 'axes-lockout.html'
 
 
-"""
-Some notes on the logging configuration:
-
--   Loggers are hierarchical, so everything eventually ends up at ''.
--   Most logger correspond to modules (e.g. django.server).
--   'monitoring' is our custom logger namespace to monitor user behavior.
--   'django.server' is the development server. It is not used in production.
--   'django' logs to console by default. It is listed here only to remove that handler
-    (as this is already covered by '').
-
-See also https://docs.djangoproject.com/en/stable/topics/logging/
-
-"""
 if os.access('/log', os.W_OK):
     LOG_DIR = '/log'
 else:
     LOG_DIR = BASE_DIR
 
+# See https://docs.djangoproject.com/en/stable/topics/logging/
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': '%(asctime)s %(levelname)s %(name)s %(message)s'
+            'format': '[%(asctime)s] %(levelname)s %(name)s %(message)s'
         },
         'django.server': {
             '()': 'django.utils.log.ServerFormatter',
@@ -250,46 +238,34 @@ LOGGING = {
     },
     'handlers': {
         'console': {
-            'level': 'INFO',
             'class': 'logging.StreamHandler',
-        },
-        'debug-file': {
-            'level': 'WARNING',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(LOG_DIR, 'debug.log'),
             'formatter': 'verbose',
         },
         'monitoring-file': {
-            'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': os.path.join(LOG_DIR, 'monitoring.log'),
             'formatter': 'verbose',
         },
         'django.server': {
-            'level': 'INFO',
             'class': 'logging.StreamHandler',
             'formatter': 'django.server',
         },
     },
     'loggers': {
-        '': {
-            'handlers': ['debug-file', 'console'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
         'django': {
-            'handlers': [],
-            'level': 'DEBUG',
-            'propagate': True,
+            'handlers': ['console'],
+            'level': 'INFO',
         },
+        # 'monitoring' is our custom logger namespace to monitor user behavior.
+        # It contains potentially sensitive information (e.g. subject search terms).
         'monitoring': {
             'handlers': ['monitoring-file'],
-            'level': 'DEBUG',
-            'propagate': False,
+            'level': 'INFO',
         },
+        # 'django.server' is the development server. It is not used in production.
         'django.server': {
             'handlers': ['django.server'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': False,
         },
     },
