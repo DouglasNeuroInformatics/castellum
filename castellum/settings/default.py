@@ -231,10 +231,6 @@ LOGGING = {
         'verbose': {
             'format': '[%(asctime)s] %(levelname)s %(name)s %(message)s'
         },
-        'django.server': {
-            '()': 'django.utils.log.ServerFormatter',
-            'format': '[%(server_time)s] %(message)s',
-        },
     },
     'handlers': {
         'console': {
@@ -245,10 +241,6 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': os.path.join(LOG_DIR, 'monitoring.log'),
             'formatter': 'verbose',
-        },
-        'django.server': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'django.server',
         },
     },
     'loggers': {
@@ -261,12 +253,6 @@ LOGGING = {
         'monitoring': {
             'handlers': ['monitoring-file'],
             'level': 'INFO',
-        },
-        # 'django.server' is the development server. It is not used in production.
-        'django.server': {
-            'handlers': ['django.server'],
-            'level': 'INFO',
-            'propagate': False,
         },
     },
 }
