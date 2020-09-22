@@ -379,4 +379,10 @@ class StudyPublicView(ListView):
     template_name = 'studies/study_public.html'
 
     def get_queryset(self):
-        return Study.objects.filter(status=Study.EXECUTION)
+        return (
+            Study.objects
+            .annotate(invited=models.Count(
+                'pk', filter=models.Q(participation__status=Participation.INVITED)
+            ))
+            .filter(status=Study.EXECUTION, invited__lt=models.F('min_subject_count'))
+        )
