@@ -218,24 +218,12 @@ BOOTSTRAP4 = {
 AXES_LOCKOUT_TEMPLATE = 'axes-lockout.html'
 
 
-"""
-Some notes on the logging configuration:
-
--   Loggers are hierarchical, so everything eventually ends up at ''.
--   Most logger correspond to modules (e.g. django.server).
--   'monitoring' is our custom logger namespace to monitor user behavior.
--   'django.server' is the development server. It is not used in production.
--   'django' logs to console by default. It is listed here only to remove that handler
-    (as this is already covered by '').
-
-See also https://docs.djangoproject.com/en/stable/topics/logging/
-
-"""
 if os.access('/log', os.W_OK):
     LOG_DIR = '/log'
 else:
     LOG_DIR = BASE_DIR
 
+# See https://docs.djangoproject.com/en/stable/topics/logging/
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -268,10 +256,12 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'INFO',
         },
+        # 'monitoring' is our custom logger namespace to monitor user behavior.
         'monitoring': {
             'handlers': ['monitoring-file'],
             'level': 'INFO',
         },
+        # 'django.server' is the development server. It is not used in production.
         'django.server': {
             'handlers': ['django.server'],
             'level': 'INFO',
