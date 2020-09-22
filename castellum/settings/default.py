@@ -257,6 +257,7 @@ LOGGING = {
             'level': 'INFO',
         },
         # 'monitoring' is our custom logger namespace to monitor user behavior.
+        # It contains potentially sensitive information (e.g. subject search terms).
         'monitoring': {
             'handlers': ['monitoring-file'],
             'level': 'INFO',
