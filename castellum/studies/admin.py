@@ -54,6 +54,7 @@ class StudyAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Resource)
 admin.site.register(models.Study, StudyAdmin)
+admin.site.register(models.StudyGroup)
 admin.site.register(models.StudyMembership)
 admin.site.register(models.StudyType, TranslatableAdmin)
 admin.site.register(models.StudyTypeEventFeed)

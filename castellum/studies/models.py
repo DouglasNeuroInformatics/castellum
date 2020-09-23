@@ -25,6 +25,7 @@ import os
 
 from django.conf import settings
 from django.contrib.auth.models import Group
+from django.contrib.auth.models import Permission
 from django.db import models
 from django.forms import ValidationError
 from django.utils.functional import cached_property
@@ -305,6 +306,14 @@ class Study(models.Model):
             self.recruitment_text,
             self.has_filters,
         ])
+
+
+class StudyGroup(models.Model):
+    name = models.CharField(_('name'), max_length=150, unique=True)
+    permissions = models.ManyToManyField(Permission, verbose_name=_('permissions'), blank=True)
+
+    def __str__(self):
+        return self.name
 
 
 class StudyMembership(models.Model):
