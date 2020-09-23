@@ -24,7 +24,6 @@ import json
 import os
 
 from django.conf import settings
-from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from django.db import models
 from django.forms import ValidationError
@@ -319,7 +318,7 @@ class StudyGroup(models.Model):
 class StudyMembership(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    groups = models.ManyToManyField(Group, blank=True, related_name='+')
+    groups = models.ManyToManyField(StudyGroup, blank=True, related_name='+')
 
     class Meta:
         unique_together = ['study', 'user']

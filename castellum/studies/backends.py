@@ -20,7 +20,6 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth.backends import BaseBackend
-from django.contrib.auth.models import Permission
 
 from .models import Study
 from .models import StudyMembership
@@ -40,7 +39,7 @@ class StudyPermissionBackend(BaseBackend):
                 if membership:
                     perms.add('studies.access_study')
                     for group in membership.groups.all():
-                        permissions = Permission.objects.filter(group=group)
+                        permissions = group.permissions.all()
                         perms.update(self._permissions_to_strings(permissions))
                 setattr(user, perm_cache_name, perms)
             return getattr(user, perm_cache_name)
