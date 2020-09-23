@@ -44,44 +44,6 @@
 },
 {
     "model": "auth.group",
-    "pk": 3,
-    "fields": {
-        "name": "Recruiter",
-        "permissions": [
-            [
-                "recruit",
-                "recruitment",
-                "participation"
-            ],
-            [
-                "change_appointment",
-                "recruitment",
-                "appointment"
-            ]
-        ]
-    }
-},
-{
-    "model": "auth.group",
-    "pk": 4,
-    "fields": {
-        "name": "Study conductor",
-        "permissions": [
-            [
-                "conduct_study",
-                "recruitment",
-                "participation"
-            ],
-            [
-                "change_appointment",
-                "recruitment",
-                "appointment"
-            ]
-        ]
-    }
-},
-{
-    "model": "auth.group",
     "pk": 5,
     "fields": {
         "name": "Data protection coordinator",

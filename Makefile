@@ -17,7 +17,7 @@ migrate: databases
 
 .PHONY: populate
 populate: databases
-	$(MANAGEPY) loaddata groups timeslots study_types
+	$(MANAGEPY) loaddata groups timeslots study_types study_groups
 	$(MANAGEPY) create_attribute_descriptions
 	$(MANAGEPY) create_demo_users
 	$(MANAGEPY) create_demo_content

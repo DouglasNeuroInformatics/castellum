@@ -11,7 +11,7 @@ docker-compose run --rm db_wait
 docker-compose run --rm web django-admin migrateall
 
 # Load recommended data
-docker-compose run --rm web django-admin loaddata groups timeslots study_types
+docker-compose run --rm web django-admin loaddata groups timeslots study_types study_groups
 docker-compose run --rm web django-admin create_attribute_descriptions
 
 # Load optional demo data (WARNING: do not use in production!)
