@@ -24,6 +24,7 @@ from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.studies.models import Study
+from castellum.studies.models import StudyGroup
 from castellum.studies.models import StudyMembership
 
 baker.generators.add(
@@ -52,16 +53,31 @@ def create_user(group_name):
     future = timezone.now() + datetime.timedelta(days=10000)
     user = baker.make(User, expiration_date=future, email='test@example.com')
 
-    if group_name:
+    if group_name == "all":
+        user.user_permissions.set(Permission.objects.all())
+    elif group_name:
         group = Group.objects.get(name=group_name)
         user.groups.add(group)
-    else:
-        user.user_permissions.set(Permission.objects.all())
 
     user.user_permissions.add(Permission.objects.get(codename='privacy_level_1'))
     user.user_permissions.remove(Permission.objects.get(codename='privacy_level_2'))
     user.user_permissions.remove(Permission.objects.get(codename='access_study'))
     user.user_permissions.remove(Permission.objects.get(codename='search_participations'))
+
+    return user
+
+
+def create_member(group_name, studies):
+    if group_name == "all":
+        user = create_user("all")
+    else:
+        user = create_user(None)
+
+    for study in studies:
+        membership = StudyMembership.objects.create(user=user, study=study)
+        if group_name and group_name != "all":
+            group = StudyGroup.objects.get(name=group_name)
+            membership.groups.add(group)
 
     return user
 
@@ -84,9 +100,15 @@ def study_types(django_db_setup, django_db_blocker):
         load_django_fixture('studies', 'study_types')
 
 
+@pytest.fixture(scope='session', autouse=True)
+def study_groups(django_db_setup, django_db_blocker):
+    with django_db_blocker.unblock():
+        load_django_fixture('studies', 'study_groups')
+
+
 @pytest.fixture
 def user(db):
-    return create_user(None)
+    return create_user("all")
 
 
 @pytest.fixture
@@ -95,8 +117,11 @@ def study_approver(db):
 
 
 @pytest.fixture
-def study_conductor(db):
-    return create_user('Study conductor')
+def study_conductor(study, study_in_execution_status, study_in_edit_status):
+    return create_member(
+        'Study conductor',
+        [study, study_in_execution_status, study_in_edit_status],
+    )
 
 
 @pytest.fixture
@@ -110,8 +135,8 @@ def subject_manager(db):
 
 
 @pytest.fixture
-def recruiter(db):
-    return create_user('Recruiter')
+def recruiter(study, study_in_execution_status, study_in_edit_status):
+    return create_member('Recruiter', [study, study_in_execution_status, study_in_edit_status])
 
 
 @pytest.fixture
@@ -126,7 +151,7 @@ def receptionist(db):
 
 @pytest.fixture
 def admin(db):
-    user = create_user(None)
+    user = create_user("all")
     user.is_staff = True
     user.is_superuser = True
     user.save()
@@ -150,11 +175,7 @@ def study_in_edit_status(db):
 
 @pytest.fixture
 def member(study, study_in_execution_status, study_in_edit_status):
-    user = create_user(None)
-    StudyMembership.objects.create(user=user, study=study)
-    StudyMembership.objects.create(user=user, study=study_in_execution_status)
-    StudyMembership.objects.create(user=user, study=study_in_edit_status)
-    return user
+    return create_member("all", [study, study_in_execution_status, study_in_edit_status])
 
 
 @pytest.fixture
