@@ -31,6 +31,8 @@ from django.db import models
 from django.shortcuts import reverse
 from django.utils.translation import gettext_lazy as _
 
+from castellum.utils import get_parler_languages
+
 register = template.Library()
 
 
@@ -137,3 +139,6 @@ def get_production():
 @register.simple_tag
 def get_enable_study_export():
     return settings.CASTELLUM_ENABLE_STUDY_EXPORT
+
+
+register.simple_tag(get_parler_languages)

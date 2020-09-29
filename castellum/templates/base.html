@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% load i18n static bootstrap4 utils %}
 {% get_current_language as LANGUAGE_CODE %}
-{% get_available_languages as LANGUAGES %}
+{% get_parler_languages as LANGUAGES %}
 {% get_production as PRODUCTION %}
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
@@ -34,7 +34,7 @@
                     </button>
 
                     <div class="collapse navbar-collapse justify-content-end" id="navbarToggler">
-                        {% if user.is_authenticated %}
+                        {% if user.is_authenticated and LANGUAGES|length > 1 %}
                             <div class="btn-group mr-5" role="region" aria-label="{% translate 'Set language' %}">
                                 {% for lang, label in LANGUAGES %}
                                     <form class="btn-group" action="{% url 'set_language' %}" method="post">

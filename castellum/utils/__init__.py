@@ -21,6 +21,7 @@
 
 import uuid
 
+from django.conf import settings
 from django.core.cache import cache
 from django.utils import timezone
 
@@ -63,3 +64,9 @@ def add_working_days(dt, days):
         else:
             dt += timezone.timedelta(days=1)
     return dt
+
+
+def get_parler_languages(site_id=None):
+    names = dict(settings.LANGUAGES)
+    codes = [lang['code'] for lang in settings.PARLER_LANGUAGES.get(site_id, [])]
+    return [(code, names[code]) for code in codes]
