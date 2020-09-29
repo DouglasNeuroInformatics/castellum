@@ -5,10 +5,11 @@
     <dd class="col-sm-6">{{ contact|display:'email' }}</dd>
 
     <dt class="col-sm-6">{{ contact|verbose_name:'phone_number' }}</dt>
-    <dd class="col-sm-6">{{ contact|display:'phone_number' }}</dd>
+    <dd class="col-sm-6"><a {% if contact.phone_number %}href="tel:{{ contact.phone_number }}"{% endif %}>{{ contact|display:'phone_number' }}</a></dd>
 
     <dt class="col-sm-6">{{ contact|verbose_name:'phone_number_alternative' }}</dt>
-    <dd class="col-sm-6">{{ contact|display:'phone_number_alternative' }}</dd>
+    <dd class="col-sm-6"><a {% if contact.phone_number_alternative %}href="tel:{{ contact.phone_number_alternative }}"{% endif %}>{{ contact|display:'phone_number_alternative' }}</a></dd>
+
     <dt class="col-sm-6">{% translate 'Address' %}</dt>
     <dd class="col-sm-6">{{ contact.address|default:'—' }}</dd>
 </dl>
