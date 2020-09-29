@@ -7,10 +7,10 @@
         <dd>{{ object.pseudonym }}</dd>
 
         <dt>{{ subject.contact|verbose_name:'phone_number' }}</dt>
-        <dd>{{ subject.contact|display:'phone_number' }}</dd>
+        <dd><a {% if subject.contact.phone_number %}href="tel:{{ subject.contact.phone_number }}"{% endif %}>{{ subject.contact|display:'phone_number' }}</a></dd>
 
         <dt>{{ subject.contact|verbose_name:'phone_number_alternative' }}</dt>
-        <dd>{{ subject.contact|display:'phone_number_alternative' }}</dd>
+        <dd><a {% if subject.contact.phone_number_alternative %}href="tel:{{ subject.contact.phone_number_alternative }}"{% endif %}>{{ subject.contact|display:'phone_number_alternative' }}</a></dd>
 
         <dt>{% trans "Show up rate" %}</dt>
         <dd>
