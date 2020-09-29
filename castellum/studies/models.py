@@ -123,7 +123,6 @@ class Study(models.Model):
         ),
         blank=True,
     )
-    to_be_deleted_notified = models.BooleanField(default=False)
 
     members = models.ManyToManyField(User, through='StudyMembership')
     domain = models.CharField(max_length=64, unique=True, editable=False, default=None)
