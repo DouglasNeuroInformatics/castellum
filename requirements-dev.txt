@@ -11,3 +11,5 @@ lxml
 flake8
 isort
 pospell
+
+psycopg2-binary
