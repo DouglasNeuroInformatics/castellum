@@ -12,7 +12,7 @@
         <dt>{{ subject.contact|verbose_name:'phone_number_alternative' }}</dt>
         <dd>{{ subject.contact|display:'phone_number_alternative' }}</dd>
 
-        <dt>{% trans "Show up rate" %}</dt>
+        <dt>{% translate "Show up rate" %}</dt>
         <dd>
             <span class="text-{{ subject|showup_level }}" aria-hidden="true">&#9679;</span>
             {% with summary=subject|showup_summary %}
