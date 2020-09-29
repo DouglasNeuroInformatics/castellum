@@ -425,10 +425,8 @@ msgid "No sessions"
 msgstr "Keine Sitzungen"
 
 #: castellum/execution/templates/execution/participation_appointments.html:31
-#, fuzzy
-#| msgid "Updated at"
 msgid "Update"
-msgstr "Aktualisiert am"
+msgstr "Aktualisieren"
 
 #: castellum/execution/templates/execution/participation_appointments_form.html:30
 #: castellum/execution/templates/execution/study_detail.html:41
@@ -1379,10 +1377,8 @@ msgid "Mail"
 msgstr "E-Mail"
 
 #: castellum/recruitment/templatetags/appointments.py:53
-#, fuzzy
-#| msgid "No appointments today"
 msgid "no appointments so far"
-msgstr "Heute keine Termine"
+msgstr "bisher keine Termine"
 
 #: castellum/recruitment/views.py:158 castellum/recruitment/views.py:164
 msgid "Relevance"
@@ -1691,10 +1687,8 @@ msgid "Can access studies"
 msgstr "Darf auf Studien zugreifen"
 
 #: castellum/studies/models.py:207
-#, fuzzy
-#| msgid "Can access studies"
 msgid "Can approve studies"
-msgstr "Darf auf Studien zugreifen"
+msgstr "Darf Studien genehmigen"
 
 #: castellum/studies/models.py:226
 msgid ""
@@ -1889,10 +1883,8 @@ msgstr ""
 "löschen wollen?"
 
 #: castellum/studies/templates/studies/study_base.html:16
-#, fuzzy
-#| msgid "Start"
 msgid "Started"
-msgstr "Start"
+msgstr "Gestartet"
 
 #: castellum/studies/templates/studies/study_base.html:38
 #: castellum/studies/templates/studies/study_base.html:52
@@ -2258,10 +2250,8 @@ msgstr ""
 "DSGVO-Auskunft beantragt."
 
 #: castellum/subjects/models.py:103
-#, fuzzy
-#| msgid "Subject details"
 msgid "Subject is deceased"
-msgstr "Proband*innendetails"
+msgstr "Proband*in ist verstorben"
 
 #: castellum/subjects/models.py:105
 msgid "Data source"
@@ -2859,10 +2849,8 @@ msgid "Login"
 msgstr "Anmelden"
 
 #: castellum/templates/base.html:78
-#, fuzzy
-#| msgid "This subject is marked for deletion"
 msgid "This subject is deceased"
-msgstr "Diese Proband*in ist zur Löschung vorgemerkt."
+msgstr "Diese Proband*in ist verstorben."
 
 #: castellum/templates/base.html:83
 msgid "This subject is marked for deletion"
@@ -2929,12 +2917,3 @@ msgstr "Die Datei muss mit UTF-8 kodiert sein."
 #: castellum/utils/templates/utils/form_errors.html:7
 msgid "Please correct the errors listed on the fields."
 msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
-
-#~ msgid "Successfully imported %i attribute categories."
-#~ msgstr "%i Merkmalskategorien erfolgreich importiert."
-
-#~ msgid "German"
-#~ msgstr "Deutsch"
-
-#~ msgid "English"
-#~ msgstr "Englisch"
