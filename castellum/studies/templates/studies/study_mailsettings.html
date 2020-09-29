@@ -12,11 +12,8 @@
         {% bootstrap_field form.mail_body %}
         {% bootstrap_field form.mail_reply_address %}
 
-        {% if not readonly %}
-            <div class="d-print-none mb-3">
-                <button class="btn btn-primary" >{% translate 'Save' %}</button>
-            </div>
-        {% endif %}
-
+        <div class="d-print-none mb-3">
+            <button class="btn btn-primary" >{% translate 'Save' %}</button>
+        </div>
     </form>
 {% endblock %}

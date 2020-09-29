@@ -51,7 +51,6 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['readonly'] = self.object.status == Study.FINISHED
         context['unprivileged_users'] = list(self.get_unprivileged_members())
         return context
 

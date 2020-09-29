@@ -46,7 +46,6 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
 from castellum.subjects.models import Subject
-from castellum.utils.views import ReadonlyMixin
 from castellum.utils.views import get_next_url
 
 from ..forms import ImportForm
@@ -226,15 +225,12 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
 
 
 class StudyUpdateView(
-    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
+    StudyMixin, PermissionRequiredMixin, UpdateView
 ):
     model = Study
     form_class = StudyForm
     permission_required = 'studies.change_study'
     tab = 'update'
-
-    def get_readonly(self):
-        return self.object.status == Study.FINISHED
 
     def get_success_url(self):
         return reverse('studies:update', args=[self.object.pk])
