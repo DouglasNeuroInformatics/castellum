@@ -110,7 +110,11 @@ class Participation(models.Model):
     class Meta:
         verbose_name = _('Participation')
         verbose_name_plural = _('Participations')
-        unique_together = ['study', 'subject']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['study', 'subject'], name='prevent multiple participations'
+            ),
+        ]
         permissions = [
             ('conduct_study', _('Can conduct studies')),
             ('search_participations', _('Can search for any participation')),

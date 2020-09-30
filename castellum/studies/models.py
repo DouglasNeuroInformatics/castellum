@@ -313,7 +313,9 @@ class StudyMembership(models.Model):
     groups = models.ManyToManyField(Group, blank=True, related_name='+')
 
     class Meta:
-        unique_together = ['study', 'user']
+        constraints = [
+            models.UniqueConstraint(fields=['study', 'user'], name='unique study membership')
+        ]
 
     def __str__(self):
         return '{}:{}'.format(self.study, self.user)

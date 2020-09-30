@@ -61,7 +61,12 @@ class Appointment(models.Model):
     class Meta:
         verbose_name = _('Appointment')
         ordering = ['start']
-        unique_together = ['session', 'participation']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['session', 'participation'],
+                name='prevent multiple appointments per session',
+            ),
+        ]
         permissions = [
             ('view_current_appointments', _('Can view current appointments')),
         ]

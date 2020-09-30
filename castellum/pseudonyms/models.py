@@ -40,9 +40,11 @@ class Pseudonym(models.Model):
     pseudonym = models.CharField(max_length=64, default=None)
 
     class Meta:
-        unique_together = [
-            ['domain', 'pseudonym'],
-            ['domain', 'subject'],
+        constraints = [
+            models.UniqueConstraint(fields=['domain', 'pseudonym'], name='unique for domain'),
+            models.UniqueConstraint(
+                fields=['domain', 'subject'], name='prevent multiple pseudonyms per subject'
+            ),
         ]
 
     def __str__(self):
