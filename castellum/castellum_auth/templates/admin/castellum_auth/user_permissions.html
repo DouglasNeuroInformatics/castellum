@@ -45,5 +45,17 @@
                 {% endfor %}
             </ul>
         {% endfor %}
+
+        <h1>{% translate 'Study groups' %}</h1>
+
+        {% for group in studygroups %}
+            <h2>{{ group }}</h2>
+            <ul>
+                {% for permission in group.permissions.all %}
+                    <li>{{ permission.name }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+
     </div>
 {% endblock %}
