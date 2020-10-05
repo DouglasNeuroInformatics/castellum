@@ -16,7 +16,6 @@ def test_mail_add_to_study(client, user):
         status=Study.EXECUTION,
         mail_subject="some subject",
         mail_body="some body",
-        email="example@example.com",
     )
     contact1 = baker.make(Contact, email="example1@example.com")
     contact2 = baker.make(Contact, email="example2@example.com")
@@ -42,7 +41,6 @@ def test_guardian_mail_add_to_study(client, user):
         status=Study.EXECUTION,
         mail_subject="some subject",
         mail_body="some body",
-        email="example@example.com",
     )
     contact1 = baker.make(Contact, email="example1@example.com")
     contact2 = baker.make(Contact, guardians=[contact1])
@@ -72,7 +70,6 @@ def test_200_if_study_in_execution_status_and_mail_settings(client, user):
         status=Study.EXECUTION,
         mail_subject="some subject",
         mail_body="some body",
-        email="example@example.com",
     )
     study.members.add(user)
     url = '/recruitment/{}/mail/'.format(study.pk)
@@ -100,7 +97,6 @@ def test_404_if_study_in_edit_status(client, user):
         status=Study.EDIT,
         mail_subject="some subject",
         mail_body="some body",
-        email="example@example.com",
     )
     study.members.add(user)
     url = '/recruitment/{}/mail/'.format(study.pk)
