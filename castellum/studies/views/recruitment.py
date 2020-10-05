@@ -37,7 +37,6 @@ from castellum.recruitment.mixins import BaseMailRecruitmentView
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.subjects.models import Subject
-from castellum.utils.views import ReadonlyMixin
 
 from ..forms import ExcludedStudiesForm
 from ..forms import SessionForm
@@ -65,9 +64,7 @@ def get_related_studies(study):
         .order_by('-count')[:5]
 
 
-class StudyRecruitmentSettingsUpdateView(
-    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
-):
+class StudyRecruitmentSettingsUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView):
     model = Study
     fields = [
         'advanced_filtering',
@@ -79,9 +76,6 @@ class StudyRecruitmentSettingsUpdateView(
     template_name = 'studies/study_recruitmentsettings_form.html'
     tab = 'recruitmentsettings'
     subtab = 'update'
-
-    def get_readonly(self):
-        return self.object.status == Study.FINISHED
 
     def get_success_url(self):
         return reverse('studies:recruitmentsettings', kwargs={'pk': self.object.pk})
@@ -96,18 +90,13 @@ class StudyRecruitmentSettingsUpdateView(
         return super().get_form_class()
 
 
-class StudyExcludedStudiesView(
-    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
-):
+class StudyExcludedStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
     model = Study
     template_name = 'studies/study_excluded_studies.html'
     form_class = ExcludedStudiesForm
     permission_required = 'studies.change_study'
     tab = 'recruitmentsettings'
     subtab = 'excluded-studies'
-
-    def get_readonly(self):
-        return self.object.status == Study.FINISHED
 
     def get_success_url(self):
         return reverse('studies:excluded-studies', args=[self.object.pk])
@@ -129,9 +118,7 @@ class StudyExcludedStudiesView(
         return super().form_valid(form)
 
 
-class StudyExclusionCriteriaView(
-    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
-):
+class StudyExclusionCriteriaView(StudyMixin, PermissionRequiredMixin, UpdateView):
     model = Study
     template_name = 'studies/study_exclusioncriteria.html'
     fields = ['exclusion_criteria']
@@ -139,9 +126,6 @@ class StudyExclusionCriteriaView(
     is_onetime_invitation = False
     tab = 'recruitmentsettings'
     subtab = 'exclusioncriteria'
-
-    def get_readonly(self):
-        return self.object.status == Study.FINISHED
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -156,9 +140,7 @@ class StudyExclusionCriteriaView(
         return super().form_valid(form)
 
 
-class StudySessionsView(
-    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
-):
+class StudySessionsView(StudyMixin, PermissionRequiredMixin, UpdateView):
     model = Study
     template_name = 'studies/study_sessions.html'
     fields = [
@@ -171,11 +153,6 @@ class StudySessionsView(
     tab = 'recruitmentsettings'
     subtab = 'sessions'
 
-    def get_session_form_readonly(self, form):
-        return self.get_readonly() or (
-            form.instance.appointment_set.exists()
-        )
-
     def get_session_form(self):
         return SessionForm(prefix='{prefix}')
 
@@ -185,12 +162,7 @@ class StudySessionsView(
         )
         kwargs = self.get_form_kwargs()
         study = kwargs.pop('instance', None)
-        kwargs.pop('readonly', False)
-        return formset_class(
-            queryset=StudySession.objects.filter(study=study),
-            form_kwargs={'readonly': self.get_session_form_readonly},
-            **kwargs
-        )
+        return formset_class(queryset=StudySession.objects.filter(study=study), **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -222,16 +194,11 @@ class StudySessionsView(
         session_formset.save()
         return response
 
-    def get_readonly(self):
-        return self.object.status == Study.FINISHED
-
     def get_success_url(self):
         return reverse('studies:sessions', args=[self.object.pk])
 
 
-class StudyMailSettingsView(
-    StudyMixin, PermissionRequiredMixin, ReadonlyMixin, UpdateView
-):
+class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):
     model = Study
     template_name = 'studies/study_mailsettings.html'
     fields = [
@@ -242,9 +209,6 @@ class StudyMailSettingsView(
     permission_required = 'studies.change_study'
     tab = 'recruitmentsettings'
     subtab = 'mailsettings'
-
-    def get_readonly(self):
-        return self.object.status == Study.FINISHED
 
     def get_success_url(self):
         return reverse('studies:mailsettings', args=[self.object.pk])
