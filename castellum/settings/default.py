@@ -3,9 +3,8 @@ import os
 
 from django.utils.translation import gettext_lazy as _
 
+import castellum_pseudonyms
 from dateutil.relativedelta import relativedelta
-
-from castellum.pseudonyms.generators import md5
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -372,7 +371,7 @@ CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 # A function that generates a random pseudonym.
 # (bits: int) -> str (maximum 64 chars)
 # First argument is a hint about the number of random bits that should be included.
-CASTELLUM_PSEUDONYM_GENERATE = md5.generate
+CASTELLUM_PSEUDONYM_GENERATE = castellum_pseudonyms.generate
 
 # A function that raises a ValidationError if the pseudonym's format is invalid.
 #
@@ -381,7 +380,7 @@ CASTELLUM_PSEUDONYM_GENERATE = md5.generate
 # value.
 #
 # See also https://docs.djangoproject.com/en/stable/ref/forms/fields/#django.forms.Field.clean
-CASTELLUM_PSEUDONYM_CLEAN = md5.clean
+CASTELLUM_PSEUDONYM_CLEAN = castellum_pseudonyms.clean
 
 CASTELLUM_STUDY_DOMAIN_BITS = 20
 

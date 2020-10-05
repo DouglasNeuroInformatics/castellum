@@ -12,6 +12,7 @@ setup(
     include_package_data=True,
 
     install_requires=[
+        "castellum-pseudonyms==0.0.1",
         "cologne-phonetics==1.2.3",
         "Django==3.1.1",
         "django-bootstrap4==2.2.0",
