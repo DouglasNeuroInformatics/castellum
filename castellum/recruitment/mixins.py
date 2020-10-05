@@ -254,26 +254,26 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         counter = 0
         while counter < batch_size and subjects:
             pick = subjects.pop(random.randrange(0, len(subjects)))
-            emails = pick.contact.own_or_guardian_emails
-            if emails:
-                try:
-                    success = send_mail(
-                        self.study.mail_subject,
-                        self.personalize_mail_body(self.study.mail_body, pick.contact),
-                        emails,
-                        reply_to=[self.study.email],
-                        context='recruitment'
-                    )
-                except ValueError:
-                    logger.debug('Failed to send email to subject %i', pick.pk)
-                    success = False
-                if success:
-                    Participation.objects.create(
-                        study=self.study,
-                        subject=pick,
-                        status=self.participation_status,
-                    )
-                    counter += 1
+            msgs = []
+            for email in pick.contact.own_or_guardian_emails:
+                msgs.append((
+                    self.study.mail_subject,
+                    self.personalize_mail_body(self.study.mail_body, pick.contact),
+                    [email],
+                    {'reply_to': [self.study.email]}
+                ))
+            try:
+                success = send_mass_mail(msgs, context='recruitment')
+            except ValueError:
+                logger.debug('Failed to send email to subject %i', pick.pk)
+                success = False
+            if success:
+                Participation.objects.create(
+                    study=self.study,
+                    subject=pick,
+                    status=self.participation_status,
+                )
+                counter += 1
 
         return counter
 

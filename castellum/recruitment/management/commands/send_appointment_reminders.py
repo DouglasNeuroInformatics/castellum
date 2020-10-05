@@ -31,14 +31,14 @@ from castellum.recruitment.models import Appointment
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
 from castellum.utils.mail import send_mail
+from castellum.utils.mail import send_mass_mail
 
 logger = logging.getLogger(__name__)
 
 
 def send_mail_to_subject(study, appointment):
     contact = appointment.participation.subject.contact
-    if not contact.own_or_guardian_emails:
-        return False
+    msgs = []
 
     def get_mail_data():
         return {
@@ -48,18 +48,20 @@ def send_mail_to_subject(study, appointment):
             'reply_to': study.email,
         }
 
-    try:
-        return send_mail(
+    for email in contact.own_or_guardian_emails:
+        msgs.append((
             settings.CASTELLUM_APPOINTMENT_MAIL_SUBJECT,
             (
                 get_mail_data,
                 settings.CASTELLUM_APPOINTMENT_MAIL_BODY,
                 settings.CASTELLUM_APPOINTMENT_MAIL_BODY_EN,
             ),
-            contact.own_or_guardian_emails,
-            reply_to=[study.email],
-            context='recruitment',
-        )
+            [email],
+            {'reply_to': [study.email]},
+        ))
+
+    try:
+        return send_mass_mail(msgs, context='recruitment')
     except ValueError:
         logger.debug('Failed to send email to subject %i', contact.subject.pk)
         return False
