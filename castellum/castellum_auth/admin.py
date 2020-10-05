@@ -27,6 +27,8 @@ from django.utils import formats
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from castellum.studies.models import StudyGroup
+
 from .forms import UserCreationAdminForm
 from .models import User
 
@@ -76,5 +78,6 @@ class UserAdmin(BaseUserAdmin):
             'title': _('Permission list'),
             'users': queryset.all(),
             'groups': Group.objects.all(),
+            'studygroups': StudyGroup.objects.all(),
         })
     list_permissions.short_description = _('List all permissions')

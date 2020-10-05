@@ -25,7 +25,7 @@ def test_feed_for_study_without_token(client, study_in_edit_status):
 @pytest.mark.parametrize('user_fixture', [
     'member',
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
-    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    'recruiter',
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
     pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
 ])

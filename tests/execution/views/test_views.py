@@ -3,7 +3,6 @@ from model_bakery import baker
 
 from castellum.recruitment.models import Appointment
 from castellum.recruitment.models import Participation
-from castellum.studies.models import StudyMembership
 
 
 @pytest.mark.smoketest
@@ -17,8 +16,6 @@ from castellum.studies.models import StudyMembership
 def test_study_detail_view(request, client, user_fixture, study_in_execution_status):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-
-    baker.make(StudyMembership, user=user, study=study_in_execution_status)
 
     url = '/execution/{}/'.format(study_in_execution_status.pk)
     response = client.get(url)
@@ -45,7 +42,6 @@ def test_participation_detail_view_invited(
         status=Participation.INVITED,
         subject=contact.subject,
     )
-    baker.make(StudyMembership, user=user, study=study_in_execution_status)
 
     url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
     response = client.get(url)
@@ -63,7 +59,6 @@ def test_participation_detail_view_unsuitable(
         status=Participation.UNSUITABLE,
         subject=contact.subject,
     )
-    baker.make(StudyMembership, user=study_conductor, study=study_in_execution_status)
 
     url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
     response = client.get(url)
