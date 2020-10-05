@@ -34,6 +34,8 @@ def test_redirect_to_studies_after_post(client, study_coordinator):
         'contact_person': 'Mustermann',
         'principal_investigator': 'Mustermann',
         'min_subject_count': 0,
+        'phone': "030123456789",
+        'email': "test@example.com",
         **MANAGEMENT_FORM,
     })
 
@@ -55,6 +57,8 @@ def test_create_study_on_post(request, client, user_fixture):
         'contact_person': 'Mustermann',
         'principal_investigator': 'Mustermann',
         'min_subject_count': 0,
+        'phone': "030123456789",
+        'email': "test@example.com",
         **MANAGEMENT_FORM,
     })
 
@@ -85,6 +89,8 @@ def test_duplicate_study_post(client, user):
         'contact_person': 'Mustermann',
         'principal_investigator': 'Mustermann',
         'min_subject_count': 0,
+        'phone': "030123456789",
+        'email': "test@example.com",
         **MANAGEMENT_FORM,
     })
 
@@ -101,6 +107,8 @@ def test_user_who_created_study_is_study_member(client, study_coordinator):
         'contact_person': 'Mustermann',
         'principal_investigator': 'Mustermann',
         'min_subject_count': 0,
+        'phone': "030123456789",
+        'email': "test@example.com",
         **MANAGEMENT_FORM,
     })
 

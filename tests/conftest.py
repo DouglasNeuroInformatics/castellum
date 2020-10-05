@@ -18,6 +18,7 @@ from castellum.castellum_auth.models import User
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.recruitment.management.commands import create_attribute_descriptions
+from castellum.recruitment.management.commands import create_demo_content
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import Participation
@@ -35,6 +36,10 @@ baker.generators.add(
 )
 baker.generators.add(
     JSONField, baker.generators.default_mapping[PostgresJSONField]
+)
+baker.generators.add(
+    'castellum.utils.fields.PhoneNumberField',
+    create_demo_content.fake_phone_number,
 )
 
 # monkey patch to make test isolation work on both databases

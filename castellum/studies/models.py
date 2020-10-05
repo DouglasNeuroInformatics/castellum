@@ -36,6 +36,7 @@ from parler.models import TranslatedFields
 from castellum.castellum_auth.models import User
 from castellum.utils.fields import ColorField
 from castellum.utils.fields import DateField
+from castellum.utils.fields import PhoneNumberField
 from castellum.utils.fields import RestrictedFileField
 from castellum.utils.forms import JsonFileValidator
 
@@ -198,7 +199,8 @@ class Study(models.Model):
         ),
         blank=True,
     )
-    mail_reply_address = models.EmailField(_('Reply e-mail-address'), max_length=128, blank=True)
+    email = models.EmailField(_('E-mail-address'), max_length=128)
+    phone = PhoneNumberField(_('Phone number'), max_length=32)
 
     class Meta:
         ordering = ['name']
@@ -229,7 +231,7 @@ class Study(models.Model):
                 code='invalid',
             )
 
-        mailfields = [self.mail_subject, self.mail_body, self.mail_reply_address]
+        mailfields = [self.mail_subject, self.mail_body]
         if any(mailfields) and not all(mailfields):
             raise ValidationError(
                 _(
