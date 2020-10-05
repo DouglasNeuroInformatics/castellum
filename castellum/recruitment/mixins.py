@@ -261,7 +261,7 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                         self.study.mail_subject,
                         self.personalize_mail_body(self.study.mail_body, pick.contact),
                         [email],
-                        reply_to=[self.study.mail_reply_address],
+                        reply_to=[self.study.email],
                         context='recruitment'
                     )
                 except ValueError:
@@ -281,7 +281,7 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         send_mail(
             self.study.mail_subject,
             '%i emails have been sent.\n\n---\n\n%s' % (counter, self.study.mail_body),
-            [self.study.mail_reply_address],
+            [self.study.email],
             context='internal',
         )
 

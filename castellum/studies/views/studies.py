@@ -178,7 +178,8 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             self.object.consent = self.duplicate.consent
             self.object.mail_subject = self.duplicate.mail_subject
             self.object.mail_body = self.duplicate.mail_body
-            self.object.mail_reply_address = self.duplicate.mail_reply_address
+            self.object.email = self.duplicate.email
+            self.object.phone = self.duplicate.phone
             self.object.save()
 
             for session in self.duplicate.studysession_set.all():

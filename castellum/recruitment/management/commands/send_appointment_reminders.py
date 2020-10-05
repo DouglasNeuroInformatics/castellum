@@ -30,13 +30,12 @@ from django.utils import timezone
 from castellum.recruitment.models import Appointment
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
-from castellum.utils.mail import get_context
 from castellum.utils.mail import send_mail
 
 logger = logging.getLogger(__name__)
 
 
-def send_mail_to_subject(study, appointment, reply_to):
+def send_mail_to_subject(study, appointment):
     contact = appointment.participation.subject.contact
     if not contact.own_or_guardian_email:
         return False
@@ -46,7 +45,7 @@ def send_mail_to_subject(study, appointment, reply_to):
             'name': contact.full_name,
             'study': study.name,
             'date': formats.date_format(appointment.start, 'DATETIME_FORMAT'),
-            'reply_to': reply_to,
+            'reply_to': study.email,
         }
 
     try:
@@ -58,7 +57,7 @@ def send_mail_to_subject(study, appointment, reply_to):
                 settings.CASTELLUM_APPOINTMENT_MAIL_BODY_EN,
             ),
             [contact.own_or_guardian_email],
-            reply_to=[reply_to],
+            reply_to=[study.email],
             context='recruitment',
         )
     except ValueError:
@@ -96,15 +95,9 @@ def send_appointment_reminders(base_url):
             participation__status=Participation.INVITED,
         ).select_related('participation__subject')
         not_reachable = []
-        recruitment_mail = get_context('recruitment')['from_email']
-        reply_to = (
-            study.mail_reply_address
-            or recruitment_mail
-            or settings.DEFAULT_FROM_EMAIL
-        )
 
         for appointment in due_appointments:
-            success = send_mail_to_subject(study, appointment, reply_to)
+            success = send_mail_to_subject(study, appointment)
             if success:
                 reached_count += 1
             else:
