@@ -2,24 +2,12 @@
 {% load i18n utils auth appointments %}
 
 {% block content %}
-    <dl>
-        <dt>{% translate 'Pseudonym' %}</dt>
-        <dd>{{ object.pseudonym }}</dd>
-
-        <dt>{{ subject.contact|verbose_name:'phone_number' }}</dt>
-        <dd><a {% if subject.contact.phone_number %}href="tel:{{ subject.contact.phone_number }}"{% endif %}>{{ subject.contact|display:'phone_number' }}</a></dd>
-
-        <dt>{{ subject.contact|verbose_name:'phone_number_alternative' }}</dt>
-        <dd><a {% if subject.contact.phone_number_alternative %}href="tel:{{ subject.contact.phone_number_alternative }}"{% endif %}>{{ subject.contact|display:'phone_number_alternative' }}</a></dd>
-
-        <dt>{% translate "Show up rate" %}</dt>
-        <dd>
-            <span class="text-{{ subject|showup_level }}" aria-hidden="true">&#9679;</span>
-            {% with summary=subject|showup_summary %}
-                {% if summary %}({{ summary }}){% endif %}
-            {% endwith %}
-        </dd>
+    <dl class="row">
+        <dt class="col-sm-6">{% translate 'Pseudonym' %}</dt>
+        <dd class="col-sm-6">{{ object.pseudonym }}</dd>
     </dl>
+
+    {% include 'contacts/__contact.html' with subject=subject %}
 
     {% has_perm 'subjects.change_subject' user study as can_change_subject %}
     {% if can_change_subject %}
