@@ -9,7 +9,7 @@ document.querySelectorAll('[data-js="calendar"]').forEach(function(el) {
             return raw.events;
         },
         headerToolbar: {
-            left: layout === 'year' ? 'timelineMonth,timelineYear' : 'timeGridWeek,dayGridMonth',
+            left: layout === 'year' ? 'timelineMonth,timelineYear' : 'timeGridWeek,dayGridMonth,listMonth',
             center: 'title',
             right: 'prev,next',
         },
