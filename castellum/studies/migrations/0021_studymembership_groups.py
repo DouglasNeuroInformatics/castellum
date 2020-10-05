@@ -3,6 +3,27 @@
 from django.db import migrations, models
 
 
+def migrate_memberships(apps, schema_editor):
+    StudyMembership = apps.get_model('studies', 'StudyMembership')
+    StudyGroup = apps.get_model('studies', 'StudyGroup')
+
+    mapping = {
+        'Subject manager': StudyGroup.objects.get(name='Subject manager'),
+        'Recruiter': StudyGroup.objects.get(name='Recruiter'),
+        'Study conductor': StudyGroup.objects.get(name='Study conductor'),
+    }
+
+    for membership in StudyMembership.objects.all():
+        studygroups = set()
+        for group in membership.groups.all():
+            if group.name in mapping:
+                studygroups.add(mapping[group.name])
+        for group in membership.user.groups.all():
+            if group.name in ['Recruiter', 'Study conductor']:
+                studygroups.add(mapping[group.name])
+        membership.studygroups.set(studygroups)
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -10,9 +31,19 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
+        migrations.AddField(
+            model_name='studymembership',
+            name='studygroups',
+            field=models.ManyToManyField(blank=True, related_name='_studymembership_groups_+', to='studies.StudyGroup'),
+        ),
+        migrations.RunPython(migrate_memberships),
+        migrations.RemoveField(
             model_name='studymembership',
             name='groups',
-            field=models.ManyToManyField(blank=True, related_name='_studymembership_groups_+', to='studies.StudyGroup'),
+        ),
+        migrations.RenameField(
+            model_name='studymembership',
+            old_name='studygroups',
+            new_name='groups',
         ),
     ]
