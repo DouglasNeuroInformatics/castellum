@@ -46,7 +46,7 @@ class TimeSlot(models.Model):
         return str(self.hour)
 
 
-class SubjectManager(models.Manager):
+class SubjectQuerySet(models.QuerySet):
     def annotate_showup(self):
         from castellum.recruitment.models import Appointment
 
@@ -71,7 +71,7 @@ class SubjectManager(models.Manager):
             )
             score.append(models.F(key) * weights[status])
 
-        return self.get_queryset().annotate(**counts, showup_score=sum(score))
+        return self.annotate(**counts, showup_score=sum(score))
 
 
 class Subject(TimeStampedModel):
@@ -136,7 +136,7 @@ class Subject(TimeStampedModel):
 
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
 
-    objects = SubjectManager()
+    objects = SubjectQuerySet.as_manager()
 
     class Meta:
         verbose_name = _('Subject')

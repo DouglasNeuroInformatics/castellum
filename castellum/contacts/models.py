@@ -35,7 +35,7 @@ from castellum.utils.models import TimeStampedModel
 from .utils import phonetic
 
 
-class ContactManager(models.Manager):
+class ContactQuerySet(models.QuerySet):
     def fuzzy_filter(self, search):
         parts = search.split()
         q = self.all_parts_match(parts) & (
@@ -139,7 +139,7 @@ class Contact(TimeStampedModel):
         'contacts.Contact', verbose_name=_('Guardians'), related_name='guardian_of', blank=True
     )
 
-    objects = ContactManager()
+    objects = ContactQuerySet.as_manager()
 
     class Meta:
         ordering = ['last_name', 'first_name']

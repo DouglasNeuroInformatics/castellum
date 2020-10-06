@@ -28,7 +28,7 @@ from django.core.validators import MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from parler.managers import TranslatableManager
+from parler.managers import TranslatableQuerySet
 from parler.models import TranslatableModel
 from parler.models import TranslatedFields
 from parler.utils.context import switch_language
@@ -139,7 +139,7 @@ class AttributeCategory(TranslatableModel):
         return self.label
 
 
-class AttributeDescriptionManager(TranslatableManager):
+class AttributeDescriptionQuerySet(TranslatableQuerySet):
     def allowed_read(self, user, obj=None):
         privacy_level = user.get_privacy_level(obj=obj)
         return self.filter(privacy_level_read__lte=privacy_level)
@@ -200,7 +200,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
     statistics_rank = models.CharField(
         max_length=16, choices=STATISTICS_RANK_CHOICES, null=True, blank=True, unique=True)
 
-    objects = AttributeDescriptionManager()
+    objects = AttributeDescriptionQuerySet.as_manager()
 
     class Meta:
         ordering = ['order']
