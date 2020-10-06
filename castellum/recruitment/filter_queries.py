@@ -46,6 +46,14 @@ from .models import AttributeDescription
 from .models import Participation
 
 
+def _reverse_exclusive_studies():
+    return models.Q(
+        ~models.Q(study__status=Study.FINISHED),
+        ~models.Q(status=Participation.UNSUITABLE),
+        study__is_exclusive=True,
+    )
+
+
 def study_exclusion(study):
     """Handle the different kinds of exclusiveness between studies."""
 
@@ -73,11 +81,7 @@ def study_exclusion(study):
     else:
         # Reverse exclusive studies:
         # All other studies still exclude exclusive studies.
-        pr_q |= models.Q(
-            ~models.Q(study__status=Study.FINISHED),
-            ~models.Q(status=Participation.UNSUITABLE),
-            study__is_exclusive=True,
-        )
+        pr_q |= _reverse_exclusive_studies()
 
     prs = Participation._base_manager.filter(pr_q)
 

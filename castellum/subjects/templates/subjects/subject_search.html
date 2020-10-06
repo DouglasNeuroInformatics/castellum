@@ -162,10 +162,10 @@
                 <meter class="w-100" max="{{ count_total }}" value="{{ count_participated }}"></meter>
             </dd>
 
-            <dt class="col-sm-5">{% translate 'Consent confirmed' %}</dt>
-            <dd class="col-sm-3">{{ count_consent }} {% translate 'subjects' %}</dd>
+            <dt class="col-sm-5">{% translate 'Currently recruitable' %}</dt>
+            <dd class="col-sm-3">{{ count_recruitable }} {% translate 'subjects' %}</dd>
             <dd class="col-sm-4">
-                <meter class="w-100" max="{{ count_total }}" value="{{ count_consent }}"></meter>
+                <meter class="w-100" max="{{ count_total }}" value="{{ count_recruitable }}"></meter>
             </dd>
         </dl>
     </aside>
