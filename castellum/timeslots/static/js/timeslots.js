@@ -71,6 +71,18 @@
         return formatter.format(date);
     };
 
+    var replaceServerDateFormats = function(table) {
+        for (let th of table.querySelectorAll('thead th')) {
+            if (th.dataset.value) {
+                th.textContent = formatDate('1970-01-01 ' + th.dataset.value, 'TIME_FORMAT');
+            }
+        }
+        for (let tr of table.querySelectorAll('tbody tr')) {
+            let th = tr.querySelector('th');
+            th.textContent = formatDate(tr.dataset.value, 'DATE_FORMAT');
+        }
+    };
+
     var createCell = function(date, time) {
         var td = document.createElement('td');
         var checkbox = document.createElement('input');
@@ -97,7 +109,7 @@
         var tr = document.createElement('tr');
         tr.dataset.value = date;
 
-        for (var col of table.querySelectorAll('thead th')) {
+        for (let col of table.querySelectorAll('thead th')) {
             var time = col.dataset.value;
             var td;
             if (!time) {  // first column
@@ -119,7 +131,7 @@
     var addTime = function(table, time) {
         var index = getInsertIndex(table.querySelectorAll('thead th'), time, 1);
 
-        for (var tr of table.querySelectorAll('tr')) {
+        for (let tr of table.querySelectorAll('tr')) {
             var date = tr.dataset.value;
             var td;
             if (!date) {  // first row
@@ -163,4 +175,6 @@
 
     $$.on(el, 'click', 'thead th', rmCol);
     $$.on(el, 'click', 'tbody th', rmRow);
+
+    replaceServerDateFormats(el);
 })();
