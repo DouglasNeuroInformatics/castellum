@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'castellum.studies',
     'castellum.contacts',
     'castellum.data_protection',
+    'castellum.timeslots',
 ]
 
 MIDDLEWARE = [
