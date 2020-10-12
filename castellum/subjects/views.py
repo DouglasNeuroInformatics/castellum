@@ -118,8 +118,12 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
             .filter(completeness=total, deceased=False)\
             .count()
 
-        context['count_consent'] = Subject.objects.filter(
-            filter_queries.has_consent(), deceased=False
+        context['count_recruitable'] = Subject.objects.filter(
+            filter_queries.has_consent(), filter_queries.to_be_deleted(), deceased=False,
+        ).exclude(
+            pk__in=Participation._base_manager.filter(
+                filter_queries._reverse_exclusive_studies()
+            ).values('subject_id')
         ).count()
 
         form = kwargs.get('form')
