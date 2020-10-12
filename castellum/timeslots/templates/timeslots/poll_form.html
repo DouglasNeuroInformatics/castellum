@@ -32,7 +32,7 @@
                         <th>{{ date }}</th>
                         {% for time, checked in row.items %}
                             <td>
-                                <input type="checkbox" name="timeslots" value="{{ date }} {{ time }}" {% if checked %}checked{% endif %}>
+                                <input type="checkbox" name="timeslots" value="{{ date|date:'Y-m-d' }} {{ time|date:'H:i' }}" {% if checked %}checked{% endif %}>
                             </td>
                         {% endfor %}
                     </tr>
