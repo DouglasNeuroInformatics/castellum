@@ -71,15 +71,17 @@
         return formatter.format(date);
     };
 
-    var replaceServerDateFormats = function(table) {
+    var updateServerRendered = function(table) {
         for (let th of table.querySelectorAll('thead th')) {
             if (th.dataset.value) {
-                th.textContent = formatDate('1970-01-01 ' + th.dataset.value, 'TIME_FORMAT');
+                th.textContent = formatDate('1970-01-01 ' + th.dataset.value, 'TIME_FORMAT') + ' ';
+                th.append(createDeleteButton());
             }
         }
         for (let tr of table.querySelectorAll('tbody tr')) {
             let th = tr.querySelector('th');
-            th.textContent = formatDate(tr.dataset.value, 'DATE_FORMAT');
+            th.textContent = formatDate(tr.dataset.value, 'DATE_FORMAT') + ' ';
+            th.append(createDeleteButton());
         }
     };
 
@@ -92,6 +94,20 @@
         checkbox.checked = true;
         td.append(checkbox);
         return td;
+    };
+
+    var createDeleteButton = function() {
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn btn-sm btn-light';
+
+        var icon = document.createElement('i');
+        icon.className = 'fa fa-trash';
+        icon.title = django.gettext('Delete');
+        icon.setAttribute('aria-label', django.gettext('Delete'));
+        button.append(icon);
+
+        return button;
     };
 
     var getInsertIndex = function(elements, value, start) {
@@ -114,7 +130,8 @@
             var td;
             if (!time) {  // first column
                 td = document.createElement('th');
-                td.textContent = formatDate(date, 'DATE_FORMAT');
+                td.textContent = formatDate(date, 'DATE_FORMAT') + ' ';
+                td.append(createDeleteButton());
             } else {
                 td = createCell(date, time);
             }
@@ -137,7 +154,8 @@
             if (!date) {  // first row
                 td = document.createElement('th');
                 td.dataset.value = time;
-                td.textContent = formatDate('1970-01-01 ' + time, 'TIME_FORMAT');
+                td.textContent = formatDate('1970-01-01 ' + time, 'TIME_FORMAT') + ' ';
+                td.append(createDeleteButton());
             } else {
                 td = createCell(date, time);
             }
@@ -173,8 +191,8 @@
         addTime(el, event.target.input.value);
     });
 
-    $$.on(el, 'click', 'thead th', rmCol);
-    $$.on(el, 'click', 'tbody th', rmRow);
+    $$.on(el, 'click', 'thead button', rmCol);
+    $$.on(el, 'click', 'tbody button', rmRow);
 
-    replaceServerDateFormats(el);
+    updateServerRendered(el);
 })();
