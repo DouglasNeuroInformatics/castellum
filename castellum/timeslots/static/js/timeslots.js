@@ -10,6 +10,67 @@
         return i;
     };
 
+    var djangoFormatToOptions = function(format) {
+        // https://docs.djangoproject.com/en/3.1/ref/templates/builtins/#date
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat
+        var options = {};
+        if (format.includes('d')) {
+            options.day = '2-digit';
+        } else if (format.includes('j')) {
+            options.day = 'numeric';
+        }
+        if (format.includes('D')) {
+            options.weekday = 'short';
+        } else if (format.includes('l')) {
+            options.weekday = 'long';
+        }
+        if (format.includes('m')) {
+            options.month = '2-digit';
+        } else if (format.includes('n')) {
+            options.month = 'numeric';
+        } else if (format.includes('M') || format.includes('b') || format.includes('N')) {
+            options.month = 'short';
+        } else if (format.includes('E') || format.includes('F')) {
+            options.month = 'long';
+        }
+        if (format.includes('y')) {
+            options.year = '2-digit';
+        } else if (format.includes('Y') || format.includes('o')) {
+            options.year = 'numeric';
+        }
+        if (format.includes('g') || format.includes('G')) {
+            options.hour = 'numeric';
+        } else if (format.includes('h') || format.includes('H')) {
+            options.hour = '2-digit';
+        }
+        if (format.includes('i')) {
+            options.minute = '2-digit';
+        }
+        if (format.includes('s')) {
+            options.second = '2-digit';
+        }
+        if (format.includes('f') || format.includes('P')) {
+            options.hour = 'numeric';
+            options.minute = 'numeric';
+        }
+        if (format.includes('e')) {
+            options.timeZoneName = 'short';
+        }
+        if (format.includes('e')) {
+            options.timeZoneName = 'short';
+        }
+        return options;
+    };
+
+    var formatDate = function(s, formatName) {
+        var format = django.get_format(formatName);
+        var options = djangoFormatToOptions(format);
+        var lang = document.documentElement.lang;
+        var formatter = new Intl.DateTimeFormat(lang, options);
+        var date = new Date(s);
+        return formatter.format(date);
+    };
+
     var createCell = function(date, time) {
         var td = document.createElement('td');
         var checkbox = document.createElement('input');
@@ -41,7 +102,7 @@
             var td;
             if (!time) {  // first column
                 td = document.createElement('th');
-                td.textContent = date;
+                td.textContent = formatDate(date, 'DATE_FORMAT');
             } else {
                 td = createCell(date, time);
             }
@@ -64,7 +125,7 @@
             if (!date) {  // first row
                 td = document.createElement('th');
                 td.dataset.value = time;
-                td.textContent = time;
+                td.textContent = formatDate('1970-01-01 ' + time, 'TIME_FORMAT');
             } else {
                 td = createCell(date, time);
             }
