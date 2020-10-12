@@ -11,34 +11,58 @@
 {% endblock %}
 
 {% block content %}
+    <form id="add_date"></form>
+    <form id="add_time"></form>
+
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 
         {% bootstrap_field form.title %}
 
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th></th>
-                    {% for time in times %}
-                        <th>{{ time }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for date, row in timeslots.items %}
+        <fieldset>
+            <legend>{% translate 'Timeslots' %}</legend>
+
+            <div class="form-row">
+                <div class="form-group col col-sm-4">
+                    <input type="date" form="add_date" name="input" class="form-control" required>
+                </div>
+                <div class="col">
+                    <button form="add_date" class="btn btn-secondary">{% translate 'Add date' %}</button>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col col-sm-4">
+                    <input type="time" form="add_time" name="input" class="form-control" required>
+                </div>
+                <div class="col">
+                    <button form="add_time" class="btn btn-secondary">{% translate 'Add time' %}</button>
+                </div>
+            </div>
+
+            <table class="table table-hover">
+                <thead>
                     <tr>
-                        <th>{{ date }}</th>
-                        {% for time, checked in row.items %}
-                            <td>
-                                <input type="checkbox" name="timeslots" value="{{ date|date:'Y-m-d' }} {{ time|date:'H:i' }}" {% if checked %}checked{% endif %}>
-                            </td>
+                        <th></th>
+                        {% for time in times %}
+                            <th data-value="{{ time|date:'H:i' }}">{{ time }}</th>
                         {% endfor %}
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for date, row in timeslots.items %}
+                        <tr data-value="{{ date|date:'Y-m-d' }}">
+                            <th>{{ date }}</th>
+                            {% for time, checked in row.items %}
+                                <td>
+                                    <input type="checkbox" name="timeslots" value="{{ date|date:'Y-m-d' }} {{ time|date:'H:i' }}" {% if checked %}checked{% endif %}>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </fieldset>
 
         <div class="d-print-none mb-3">
             <button class="btn btn-primary" >{% translate 'Save' %}</button>
@@ -47,4 +71,8 @@
             {% endif %}
         </div>
     </form>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/timeslots.js' %}"></script>
 {% endblock %}
