@@ -17,6 +17,29 @@
 
         {% bootstrap_field form.title %}
 
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    {% for time in times %}
+                        <th>{{ time }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for date, row in timeslots.items %}
+                    <tr>
+                        <th>{{ date }}</th>
+                        {% for time, checked in row.items %}
+                            <td>
+                                <input type="checkbox" name="timeslots" value="{{ date }} {{ time }}" {% if checked %}checked{% endif %}>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
         <div class="d-print-none mb-3">
             <button class="btn btn-primary" >{% translate 'Save' %}</button>
             {% if object %}
