@@ -26,6 +26,7 @@ from collections import defaultdict
 
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -38,6 +39,7 @@ from simplecharts import StackedColumnRenderer
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.studies.mixins import StudyMixin
+from castellum.studies.models import Resource
 from castellum.studies.models import Study
 from castellum.studies.models import StudyTypeEventFeed
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
@@ -393,3 +395,8 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
 
     def get_events(self):
         return super().get_events() + list(self.get_external_events())
+
+
+class ResourceListView(LoginRequiredMixin, ListView):
+    model = Resource
+    template_name = 'recruitment/resource_list.html'

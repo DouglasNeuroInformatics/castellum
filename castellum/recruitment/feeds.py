@@ -22,6 +22,7 @@
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 
+from castellum.studies.models import Resource
 from castellum.studies.models import Study
 
 from .mixins import BaseAppointmentFeed
@@ -69,6 +70,25 @@ class AppointmentFeed(BaseAppointmentFeed):
 
     def items(self, study):
         return super().items(study).filter(session__study=study)
+
+    def item_link(self, item):
+        # This is not really a usable link, but it is unique
+        return '/appointments/%i/' % item.pk
+
+
+class ResourceFeed(BaseAppointmentFeed):
+    def get_object(self, request, *args, **kwargs):
+        return get_object_or_404(Resource, pk=kwargs['pk'])
+
+    def items(self, resource):
+        return (
+            super().items(resource)
+            .filter(session__resource=resource)
+            .exclude(session__study__status=Study.FINISHED)
+        )
+
+    def item_title(self, item):
+        return item.session.study.name
 
     def item_link(self, item):
         # This is not really a usable link, but it is unique

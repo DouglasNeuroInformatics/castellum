@@ -24,6 +24,7 @@ from django.urls import path
 from .feeds import AppointmentFeed
 from .feeds import FollowUpFeedForStudy
 from .feeds import FollowUpFeedForUser
+from .feeds import ResourceFeed
 from .views import AdditionalInfoUpdateView
 from .views import AttributeSetUpdateView
 from .views import CalendarView
@@ -34,10 +35,13 @@ from .views import MailRecruitmentView
 from .views import RecruitmentViewInvited
 from .views import RecruitmentViewOpen
 from .views import RecruitmentViewUnsuitable
+from .views import ResourceListView
 
 app_name = 'recruitment'
 urlpatterns = [
     path('followups/<int:user_id>/', FollowUpFeedForUser(), name='all-studies-followups'),
+    path('resources/', ResourceListView.as_view(), name='resources'),
+    path('resources/<int:pk>/', ResourceFeed(), name='resource-feed'),
     path('<int:study_pk>/', RecruitmentViewOpen.as_view(), name='recruitment-open'),
     path('<int:study_pk>/invited/', RecruitmentViewInvited.as_view(), name='recruitment-invited'),
     path(
