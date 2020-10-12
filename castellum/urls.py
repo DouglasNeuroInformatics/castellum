@@ -68,6 +68,7 @@ urlpatterns = [
     path(
         'data-protection/', include('castellum.data_protection.urls', namespace='data_protection')
     ),
+    path('polls/', include('castellum.timeslots.urls', namespace='timeslots')),
 ]
 
 if settings.DEBUG:

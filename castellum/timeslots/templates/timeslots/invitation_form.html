@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static i18n bootstrap4 %}
+
+{% block title %}{% translate "Book appointment" %}{% endblock %}
+
+{% block content %}
+    <h1>{{ object.poll }}</h1>
+
+    <form method="post">
+        {% include 'utils/form_errors.html' with form=form %}
+        {% csrf_token %}
+
+        {% bootstrap_field form.timeslot %}
+
+        <div class="d-print-none mb-3">
+            <button class="btn btn-primary" >{% translate 'Save' %}</button>
+        </div>
+    </form>
+{% endblock %}
