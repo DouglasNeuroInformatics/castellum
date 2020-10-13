@@ -393,3 +393,6 @@ CASTELLUM_FULL_AGE = 16
 
 # Criteria that apply to all studies
 CASTELLUM_GENERAL_EXCLUSION_CRITERIA = ''
+
+# Email address of PR department (for announcing new public studies)
+CASTELLUM_PR_NOTIFICATION_TO = None

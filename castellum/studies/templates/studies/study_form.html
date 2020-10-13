@@ -1,5 +1,5 @@
 {% extends base_template|default:"studies/base.html" %}
-{% load static i18n bootstrap4 %}
+{% load static i18n bootstrap4 utils %}
 
 {% block title %}
     {% if object %}
@@ -24,7 +24,12 @@
         {% bootstrap_field form.email %}
         {% bootstrap_field form.description %}
         {% bootstrap_field form.keywords %}
-        {% bootstrap_field form.is_relevant_for_pr %}
+        {% get_pr_notification_to as CASTELLUM_PR_NOTIFICATION_TO %}
+        {% if CASTELLUM_PR_NOTIFICATION_TO %}
+            {% bootstrap_field form.is_relevant_for_pr %}
+        {% else %}
+            {{ form.is_relevant_for_pr.as_hidden }}
+        {% endif %}
         {% bootstrap_field form.data_sensitivity %}
         {% bootstrap_field form.consent %}
         {% bootstrap_field form.min_subject_count %}
