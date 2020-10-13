@@ -23,8 +23,10 @@ import datetime
 
 from django import forms
 from django.core.exceptions import ValidationError
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from .models import Invitation
 from .models import Poll
 
 
@@ -102,3 +104,24 @@ class PollForm(forms.ModelForm):
         self.save_timeslots(poll)
         self.save_invitations(poll)
         return poll
+
+
+class InvitationForm(forms.ModelForm):
+    class Meta:
+        model = Invitation
+        fields = ['timeslot']
+        widgets = {
+            'timeslot': forms.RadioSelect,
+        }
+
+    def __init__(self, **kwargs):
+        form = super().__init__(**kwargs)
+
+        qs = self.instance.poll.timeslot_set.filter(
+            models.Q(invitation=None) | models.Q(invitation=self.instance)
+        )
+        self.fields['timeslot'].choices = [
+            (None, '---'),
+        ] + [(t.pk, str(t)) for t in qs]
+
+        return form

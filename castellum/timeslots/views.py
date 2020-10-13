@@ -30,6 +30,7 @@ from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import UpdateView
 
+from .forms import InvitationForm
 from .forms import PollForm
 from .models import Invitation
 from .models import Poll
@@ -94,7 +95,7 @@ class InvitationUpdateView(UpdateView):
     model = Invitation
     slug_field = 'pseudonym'
     slug_url_kwarg = 'pseudonym'
-    fields = ['timeslot']
+    form_class = InvitationForm
 
     def get_object(self):
         return get_object_or_404(
@@ -107,5 +108,5 @@ class InvitationUpdateView(UpdateView):
         return reverse('timeslots:invitation', args=[self.object.poll.pk, self.object.pseudonym])
 
     def form_valid(self, form, *args):
-        messages.success(self.request, _('Data has been saved.'))
+        messages.success(self.request, _('Your reservation has been saved.'))
         return super().form_valid(form, *args)
