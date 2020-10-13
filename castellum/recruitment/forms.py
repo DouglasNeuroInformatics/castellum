@@ -235,10 +235,10 @@ class AppointmentsForm(forms.ModelForm):
                 self.add_error(key, _('The required resource is not available at this time'))
 
     def save(self):
-        pariticipationrequest = super().save()
+        pariticipation = super().save()
         self.appointment_changes = []
 
-        for session, appointment in pariticipationrequest.get_appointments():
+        for session, appointment in pariticipation.get_appointments():
             start = self.cleaned_data.get('appointment-%i' % session.pk)
 
             if appointment:
@@ -253,12 +253,12 @@ class AppointmentsForm(forms.ModelForm):
                     appointment.save()
             elif start:
                 self.appointment_changes.append((None, start))
-                pariticipationrequest.appointment_set.create(
+                pariticipation.appointment_set.create(
                     session=session,
                     start=start,
                 )
 
-        return pariticipationrequest
+        return pariticipation
 
     @property
     def appointments(self):
