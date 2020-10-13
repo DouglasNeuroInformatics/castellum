@@ -32,6 +32,7 @@ from .views import ContactUpdateView
 from .views import ContactView
 from .views import DataProtectionUpdateView
 from .views import MailRecruitmentView
+from .views import PollPingView
 from .views import RecruitmentViewInvited
 from .views import RecruitmentViewOpen
 from .views import RecruitmentViewUnsuitable
@@ -42,6 +43,7 @@ urlpatterns = [
     path('followups/<int:user_id>/', FollowUpFeedForUser(), name='all-studies-followups'),
     path('resources/', ResourceListView.as_view(), name='resources'),
     path('resources/<int:pk>/', ResourceFeed(), name='resource-feed'),
+    path('poll-ping/<int:poll_id>/', PollPingView.as_view(), name='poll-ping'),
     path('<int:study_pk>/', RecruitmentViewOpen.as_view(), name='recruitment-open'),
     path('<int:study_pk>/invited/', RecruitmentViewInvited.as_view(), name='recruitment-invited'),
     path(

@@ -27,20 +27,29 @@ from collections import defaultdict
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils import timezone
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
 from django.views.generic import UpdateView
+from django.views.generic import View
 
+import requests
 from icalendar import Calendar
 from simplecharts import StackedColumnRenderer
+from stronghold.decorators import public
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
+from castellum.studies.models import StudySession
 from castellum.studies.models import StudyTypeEventFeed
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
@@ -55,6 +64,7 @@ from .mixins import BaseMailRecruitmentView
 from .mixins import ParticipationMixin
 from .mixins import get_recruitable
 from .mixins import send_appointment_notifications
+from .models import Appointment
 from .models import AttributeDescription
 from .models import AttributeSet
 from .models import Participation
@@ -400,3 +410,56 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
 class ResourceListView(LoginRequiredMixin, ListView):
     model = Resource
     template_name = 'recruitment/resource_list.html'
+
+
+@method_decorator(public, 'dispatch')
+@method_decorator(csrf_exempt, 'dispatch')
+class PollPingView(View):
+    def get_appointments(self, session):
+        for participation in session.study.participation_set.all():
+            try:
+                appointment = participation.appointment_set.get(session=session)
+            except Appointment.DoesNotExist:
+                appointment = None
+            yield participation, appointment
+
+    def parse_date(self, s):
+        dt = datetime.datetime.fromisoformat(s)
+        dt = timezone.make_aware(dt)
+        return dt
+
+    def fetch_timeslots_data(self, session):
+        url_template = 'http://localhost:8000/polls/%i.json'
+        r = requests.get(url_template % session.poll_id, {'token': settings.TIMESLOT_TOKEN})
+        r.raise_for_status()
+        data = r.json()
+        return {key: self.parse_date(value) for key, value in data.items()}
+
+    def post(self, request, *args, **kwargs):
+        session = get_object_or_404(StudySession, poll_id=self.kwargs['poll_id'])
+        appointment_changes = []
+        data = self.fetch_timeslots_data(session)
+
+        for participation, appointment in self.get_appointments(session):
+            start = data.get(participation.pseudonym)
+
+            if appointment:
+                if not start:
+                    appointment_changes.append((appointment.start, None))
+                    appointment.delete()
+                elif start != appointment.start:
+                    appointment_changes.append((appointment.start, start))
+                    appointment.start = start
+                    appointment.reminded = False
+                    appointment.show_up = Appointment.SHOWUP  # reset to default
+                    appointment.save()
+            elif start:
+                appointment_changes.append((None, start))
+                participation.appointment_set.create(
+                    session=session,
+                    start=start,
+                )
+
+        send_appointment_notifications(request, session.study, appointment_changes)
+
+        return HttpResponse(status=204)
