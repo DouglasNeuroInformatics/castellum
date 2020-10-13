@@ -24,14 +24,19 @@ from collections import OrderedDict
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
+from django.views.generic import DetailView
 from django.views.generic import UpdateView
 
 import requests
+from stronghold.decorators import public
 
 from .forms import InvitationForm
 from .forms import PollForm
@@ -92,6 +97,22 @@ class PollDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse('index')
+
+
+@method_decorator(public, 'dispatch')
+class PollJsonView(DetailView):
+    model = Poll
+
+    def get(self, request, *args, **kwargs):
+        if request.GET.get('token') != settings.TIMESLOT_TOKEN:
+            raise PermissionDenied
+
+        self.object = self.get_object()
+        return JsonResponse({
+            i.pseudonym: i.timeslot.datetime
+            for i in self.object.invitation_set.all()
+            if i.timeslot
+        })
 
 
 class InvitationUpdateView(UpdateView):

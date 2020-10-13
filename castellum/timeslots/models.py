@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django.db import models
 from django.utils import formats
 from django.utils.translation import gettext_lazy as _
@@ -37,6 +39,10 @@ class Timeslot(models.Model):
     # https://docs.djangoproject.com/en/3.0/topics/i18n/timezones/#naive-and-aware-datetime-objects
     date = models.DateField(_('Date'))
     time = models.TimeField(_('Time'))
+
+    @property
+    def datetime(self):
+        return datetime.datetime.combine(self.date, self.time)
 
     class Meta:
         unique_together = ['poll', 'date', 'time']

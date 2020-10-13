@@ -24,12 +24,14 @@ from django.urls import path
 from .views import InvitationUpdateView
 from .views import PollCreateView
 from .views import PollDeleteView
+from .views import PollJsonView
 from .views import PollUpdateView
 
 app_name = 'timeslots'
 urlpatterns = [
     path('', PollCreateView.as_view(), name='poll-create'),
     path('<int:pk>/', PollUpdateView.as_view(), name='poll-update'),
+    path('<int:pk>.json', PollJsonView.as_view(), name='poll-json'),
     path('<int:pk>/delete/', PollDeleteView.as_view(), name='poll-delete'),
     path('<int:poll_pk>/<pseudonym>/', InvitationUpdateView.as_view(), name='invitation'),
 ]
