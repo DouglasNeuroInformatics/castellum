@@ -21,6 +21,7 @@
 
 from collections import OrderedDict
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
@@ -29,6 +30,8 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import UpdateView
+
+import requests
 
 from .forms import InvitationForm
 from .forms import PollForm
@@ -109,4 +112,8 @@ class InvitationUpdateView(UpdateView):
 
     def form_valid(self, form, *args):
         messages.success(self.request, _('Your reservation has been saved.'))
-        return super().form_valid(form, *args)
+        response = super().form_valid(form, *args)
+        if settings.TIMESLOTS_PING_URL:
+            r = requests.post(settings.TIMESLOTS_PING_URL % self.object.poll.pk)
+            r.raise_for_status()
+        return response

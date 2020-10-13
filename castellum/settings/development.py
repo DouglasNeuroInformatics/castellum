@@ -51,3 +51,5 @@ CASTELLUM_DELETE_NOTIFICATION_TO = 'data-protection@example.com'
 
 # Setup geofilters
 INSTALLED_APPS.append('castellum.geofilters')
+
+TIMESLOTS_PING_URL = 'http://localhost:8000/recruitment/poll-ping/%i/'
