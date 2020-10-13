@@ -124,6 +124,7 @@ class Study(models.Model):
         ),
         blank=True,
     )
+    is_relevant_for_pr = models.BooleanField(_('Relevant for PR department'), default=False)
 
     members = models.ManyToManyField(User, through='StudyMembership')
     domain = models.CharField(max_length=64, unique=True, editable=False, default=None)

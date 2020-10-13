@@ -155,6 +155,7 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
         'email',
         'description',
         'keywords',
+        'is_relevant_for_pr',
         'data_sensitivity',
         'consent',
         'min_subject_count',
