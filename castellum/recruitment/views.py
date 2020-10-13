@@ -330,7 +330,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         if isinstance(form, ContactAndAppointmentsForm):
-            send_appointment_notifications(self.request, self.object, form.appointment_changes)
+            send_appointment_notifications(self.request, self.study, form.appointment_changes)
         return response
 
 

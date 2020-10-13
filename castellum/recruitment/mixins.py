@@ -84,7 +84,7 @@ def get_recruitable(study):
     return list(qs)
 
 
-def send_appointment_notifications(request, participation, changes):
+def send_appointment_notifications(request, study, changes):
     start = timezone.now()
     end = add_working_days(start, 2)
     relevant_changes = [
@@ -98,24 +98,19 @@ def send_appointment_notifications(request, participation, changes):
         return
 
     body = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY.format(
-        study=participation.study,
+        study=study,
         changes='\n'.join('%s -> %s' % (
             timezone.localtime(old),
             timezone.localtime(new),
         ) for (old, new) in relevant_changes),
-        participation_url=request.build_absolute_uri(reverse(
-            'execution:participation-detail',
-            args=[participation.study.pk, participation.pk]
-        )),
         calendar_url=request.build_absolute_uri(reverse(
-            'execution:calendar',
-            args=[participation.study.pk]
+            'execution:calendar', args=[study.pk]
         )),
     )
 
     msgs = []
     mail_subject = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT
-    for user in participation.study.study_conductors:
+    for user in study.study_conductors:
         if user != request.user:
             msgs.append((mail_subject, body, [user.email], {}))
     return send_mass_mail(msgs, context='internal')

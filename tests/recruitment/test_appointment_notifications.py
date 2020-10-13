@@ -16,11 +16,11 @@ def dt(s):
     '2017-01-01 12:00',
     '2017-01-02 12:00',
 ])
-def test_appointment_notifications(rf, user, member, participation, start):
+def test_appointment_notifications(rf, user, member, study, start):
     request = rf.get('/test/')
     request.user = user
     with freeze_time('2017-01-01'):
-        send_appointment_notifications(request, participation, [
+        send_appointment_notifications(request, study, [
             (dt(start), None),
         ])
     assert len(mail.outbox) == 1
@@ -32,40 +32,38 @@ def test_appointment_notifications(rf, user, member, participation, start):
     '2017-01-03 12:00',
     '2018-01-01 12:00',
 ])
-def test_appointment_notifications_no_relevant_change(
-    rf, user, member, participation, start
-):
+def test_appointment_notifications_no_relevant_change(rf, user, member, study, start):
     request = rf.get('/test/')
     request.user = user
     with freeze_time('2017-01-01'):
-        send_appointment_notifications(request, participation, [
+        send_appointment_notifications(request, study, [
             (dt(start), None),
         ])
     assert len(mail.outbox) == 0
 
 
-def test_appointment_notifications_no_change(rf, user, member, participation):
+def test_appointment_notifications_no_change(rf, user, member, study):
     request = rf.get('/test/')
     request.user = user
-    send_appointment_notifications(request, participation, [])
+    send_appointment_notifications(request, study, [])
     assert len(mail.outbox) == 0
 
 
-def test_appointment_notifications_no_members(rf, user, participation):
+def test_appointment_notifications_no_members(rf, user, study):
     request = rf.get('/test/')
     request.user = user
     with freeze_time('2017-01-01'):
-        send_appointment_notifications(request, participation, [
+        send_appointment_notifications(request, study, [
             (dt('2017-01-01 12:00'), dt('2017-01-01 13:00')),
         ])
     assert len(mail.outbox) == 0
 
 
-def test_appointment_notifications_weekend(rf, user, member, participation):
+def test_appointment_notifications_weekend(rf, user, member, study):
     request = rf.get('/test/')
     request.user = user
     with freeze_time('2017-01-06'):
-        send_appointment_notifications(request, participation, [
+        send_appointment_notifications(request, study, [
             # friday to monday
             (dt('2017-01-09 12:00'), dt('2017-01-09 13:00')),
         ])

@@ -359,11 +359,10 @@ CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY = 'The following subject should be de
 
 CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT = 'Upcoming appointment changed'
 CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY = """
-Upcoming appointments for a participant in the study "{study}" have changed:
+Upcoming appointments for participants in the study "{study}" have changed:
 
 {changes}
 
-Participant details: {participation_url}
 Study calendar: {calendar_url}
 """
 
