@@ -366,6 +366,32 @@ Participant details: {participation_url}
 Study calendar: {calendar_url}
 """
 
+CASTELLUM_PR_NOTIFICATION_SUBJECT = {
+    'start': 'Study started',
+    'stop': 'Study stopped',
+    'resume': 'Study resumed',
+    'finish': 'Study finished',
+}
+CASTELLUM_PR_NOTIFICATION_BODY = """Study details:
+
+Name: {name}
+Contact person: {contact_person}
+Email: {email}
+Phone: {phone},
+Session types: {session_types}
+Scheduled runtime: {sessions_start} - {sessions_end}
+Excluded studies: {excluded_studies}
+Filters:
+{filters}
+
+Recruitment text:
+{recruitment_text}
+
+Inclusion/Exclusion criteria:
+{exclusion_criteria}
+
+"""
+
 CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 
 # A function that generates a random pseudonym.

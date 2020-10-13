@@ -21,6 +21,7 @@
 
 import logging
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -46,6 +47,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
 from castellum.subjects.models import Subject
+from castellum.utils.mail import send_mail
 from castellum.utils.views import get_next_url
 
 from ..forms import ImportForm
@@ -57,6 +59,35 @@ from ..models import StudyMembership
 from .recruitment import get_related_studies
 
 monitoring_logger = logging.getLogger('monitoring.studies')
+
+
+def send_pr_mail(study, action):
+    if not settings.CASTELLUM_PR_NOTIFICATION_TO:
+        return 0
+
+    def get_mail_data():
+        return {
+            'name': study.name,
+            'contact_person': study.contact_person,
+            'email': study.email,
+            'phone': study.phone,
+            'session_types': ', '.join(t.label for t in study.study_type.all()),
+            'sessions_start': study.sessions_start,
+            'sessions_end': study.sessions_end,
+            'excluded_studies': ', '.join(s.name for s in study.excluded_studies.all()),
+            'filters': '\n'.join(', '.join(
+                str(f) for f in group.subjectfilter_set.all()
+            ) for group in study.subjectfiltergroup_set.all()),
+            'recruitment_text': study.recruitment_text,
+            'exclusion_criteria': study.exclusion_criteria,
+        }
+
+    return send_mail(
+        settings.CASTELLUM_PR_NOTIFICATION_SUBJECT[action],
+        (get_mail_data, settings.CASTELLUM_PR_NOTIFICATION_BODY),
+        [settings.CASTELLUM_PR_NOTIFICATION_TO],
+        context='internal',
+    )
 
 
 class StudyIndexView(LoginRequiredMixin, ListView):
@@ -288,11 +319,13 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
             monitoring_logger.info(
                 'Study {} stopped by {}'.format(self.study.name, self.request.user.pk)
             )
+            send_pr_mail(self.study, 'stop')
         else:
             self.study.set_status(self.study.EXECUTION)
             monitoring_logger.info(
                 'Study {} started by {}'.format(self.study.name, self.request.user.pk)
             )
+            send_pr_mail(self.study, 'start')
 
         return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
 
@@ -303,11 +336,13 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     def post(self, request, study_pk):
         if self.study.status == self.study.FINISHED:
             self.study.restore_previous_status()
+            send_pr_mail(self.study, 'resume')
         else:
             self.study.set_status(self.study.FINISHED)
             self.study.participation_set\
                 .exclude(status=Participation.INVITED)\
                 .delete()
+            send_pr_mail(self.study, 'finish')
         return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
 
 
