@@ -44,13 +44,13 @@
                 <thead>
                     <tr>
                         <th></th>
-                        {% for time in times %}
+                        {% for time in form.timeslots.value.times %}
                             <th data-value="{{ time|date:'H:i' }}">{{ time }}</th>
                         {% endfor %}
                     </tr>
                 </thead>
                 <tbody>
-                    {% for date, row in timeslots.items %}
+                    {% for date, row in form.timeslots.value.timeslots.items %}
                         <tr data-value="{{ date|date:'Y-m-d' }}">
                             <th>{{ date }}</th>
                             {% for time, checked in row.items %}

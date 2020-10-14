@@ -19,8 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from collections import OrderedDict
-
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -47,34 +45,6 @@ from .models import Poll
 class PollFormMixin(LoginRequiredMixin):
     model = Poll
     form_class = PollForm
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        if self.object:
-            dates = (
-                self.object.timeslot_set
-                .values_list('date', flat=True)
-                .order_by('date')
-                .distinct()
-            )
-            times = list(
-                self.object.timeslot_set
-                .values_list('time', flat=True)
-                .order_by('time')
-                .distinct()
-            )
-            table = OrderedDict()
-            for date in dates:
-                table[date] = OrderedDict()
-                for time in times:
-                    table[date][time] = False
-            for t in self.object.timeslot_set.all():
-                table[t.date][t.time] = True
-            context['times'] = times
-            context['timeslots'] = table
-
-        return context
 
     def get_success_url(self):
         return reverse('timeslots:poll-update', args=[self.object.pk])

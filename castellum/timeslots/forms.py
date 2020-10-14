@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+from collections import OrderedDict
 
 from django import forms
 from django.core.exceptions import ValidationError
@@ -33,20 +34,47 @@ from .models import Poll
 class MultiDatetimeField(forms.Field):
     widget = forms.MultipleHiddenInput
 
+    def _clean_item(self, item):
+        if isinstance(item, tuple):
+            return item
+
+        try:
+            dt = datetime.datetime.strptime(item, '%Y-%m-%d %H:%M')
+        except (ValueError, TypeError):
+            raise ValidationError(_('Invalid datetime format'), code='invalid_datetime')
+        return dt.date(), dt.time()
+
     def clean(self, value):
         if not value:
             return []
         elif not isinstance(value, (list, tuple)):
             raise ValidationError(_('Enter a list of values'), code='invalid_list')
 
-        new_value = []
-        for val in set(value):
-            try:
-                dt = datetime.datetime.strptime(val, '%Y-%m-%d %H:%M')
-            except (ValueError, TypeError):
-                raise ValidationError(_('Invalid datetime format'), code='invalid_datetime')
-            new_value.append((dt.date(), dt.time()))
-        return new_value
+        return [self._clean_item(item) for item in set(value)]
+
+    def prepare_value(self, value):
+        data = self.clean(super().prepare_value(value))
+
+        if data:
+            dates, times = zip(*data)
+            dates = sorted(set(dates))
+            times = sorted(set(times))
+        else:
+            dates = []
+            times = []
+
+        table = OrderedDict()
+        for date in dates:
+            table[date] = OrderedDict()
+            for time in times:
+                table[date][time] = False
+        for (date, time) in data:
+            table[date][time] = True
+
+        return {
+            'timeslots': table,
+            'times': times,
+        }
 
 
 class PollForm(forms.ModelForm):
@@ -65,6 +93,9 @@ class PollForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.instance:
+            self.fields['timeslots'].initial = list(
+                self.instance.timeslot_set.values_list('date', 'time')
+            )
             self.fields['invitations'].initial = '\n'.join(
                 self.instance.invitation_set.values_list('pseudonym', flat=True)
             )
