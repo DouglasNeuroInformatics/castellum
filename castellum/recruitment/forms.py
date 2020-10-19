@@ -24,6 +24,7 @@ import json
 import os
 
 from django import forms
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -186,6 +187,7 @@ class AppointmentsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.invitation_urls = {}
         for session, appointment in self.instance.get_appointments():
             key = 'appointment-%i' % session.pk
             self.fields[key] = DateTimeField(
@@ -194,6 +196,10 @@ class AppointmentsForm(forms.ModelForm):
                 disabled=bool(session.poll_id),
                 required=False,
             )
+            if session.poll_id:
+                self.invitation_urls[key] = settings.TIMESLOT_INVITE_URL % (
+                    session.poll_id, self.instance.pseudonym
+                )
 
     def format_session_name(self, session):
         duration = _('%imin') % session.duration
@@ -265,7 +271,10 @@ class AppointmentsForm(forms.ModelForm):
     def appointments(self):
         for name in self.fields:
             if name.startswith('appointment-'):
-                yield self[name]
+                yield {
+                    'field': self[name],
+                    'invitation_url': self.invitation_urls.get(name)
+                }
 
 
 class ContactForm(forms.ModelForm):

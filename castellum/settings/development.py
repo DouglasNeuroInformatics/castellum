@@ -54,3 +54,4 @@ INSTALLED_APPS.append('castellum.geofilters')
 
 TIMESLOTS_PING_URL = 'http://localhost:8000/recruitment/poll-ping/%i/'
 TIMESLOT_TOKEN = 'CHANGEME'
+TIMESLOT_INVITE_URL = 'http://localhost:8000/polls/%i/%s/'
