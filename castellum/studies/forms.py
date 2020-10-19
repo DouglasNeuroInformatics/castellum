@@ -48,7 +48,7 @@ class StudyForm(ReadonlyModelForm):
             'email',
             'description',
             'keywords',
-            'is_relevant_for_pr',
+            'announce_status_changes',
             'data_sensitivity',
             'consent',
             'min_subject_count',

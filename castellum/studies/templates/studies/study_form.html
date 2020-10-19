@@ -24,11 +24,11 @@
         {% bootstrap_field form.email %}
         {% bootstrap_field form.description %}
         {% bootstrap_field form.keywords %}
-        {% get_pr_notification_to as CASTELLUM_PR_NOTIFICATION_TO %}
-        {% if CASTELLUM_PR_NOTIFICATION_TO %}
-            {% bootstrap_field form.is_relevant_for_pr %}
+        {% get_study_status_notification_to as CASTELLUM_STUDY_STATUS_NOTIFICATION_TO %}
+        {% if CASTELLUM_STUDY_STATUS_NOTIFICATION_TO %}
+            {% bootstrap_field form.announce_status_changes %}
         {% else %}
-            {{ form.is_relevant_for_pr.as_hidden }}
+            {{ form.announce_status_changes.as_hidden }}
         {% endif %}
         {% bootstrap_field form.data_sensitivity %}
         {% bootstrap_field form.consent %}

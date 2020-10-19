@@ -62,7 +62,7 @@ monitoring_logger = logging.getLogger('monitoring.studies')
 
 
 def send_pr_mail(study, action):
-    if not settings.CASTELLUM_PR_NOTIFICATION_TO:
+    if not settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO:
         return 0
 
     def get_mail_data():
@@ -83,9 +83,9 @@ def send_pr_mail(study, action):
         }
 
     return send_mail(
-        settings.CASTELLUM_PR_NOTIFICATION_SUBJECT[action],
-        (get_mail_data, settings.CASTELLUM_PR_NOTIFICATION_BODY),
-        [settings.CASTELLUM_PR_NOTIFICATION_TO],
+        settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_SUBJECT[action],
+        (get_mail_data, settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY),
+        [settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO],
         context='internal',
     )
 
@@ -186,7 +186,7 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
         'email',
         'description',
         'keywords',
-        'is_relevant_for_pr',
+        'announce_status_changes',
         'data_sensitivity',
         'consent',
         'min_subject_count',

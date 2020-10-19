@@ -142,8 +142,8 @@ def get_enable_study_export():
 
 
 @register.simple_tag
-def get_pr_notification_to():
-    return settings.CASTELLUM_PR_NOTIFICATION_TO
+def get_study_status_notification_to():
+    return settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO
 
 
 register.simple_tag(get_parler_languages)

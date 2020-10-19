@@ -366,13 +366,15 @@ Participant details: {participation_url}
 Study calendar: {calendar_url}
 """
 
-CASTELLUM_PR_NOTIFICATION_SUBJECT = {
+# Email addresses for announcing new public studies
+CASTELLUM_STUDY_STATUS_NOTIFICATION_TO = None
+CASTELLUM_STUDY_STATUS_NOTIFICATION_SUBJECT = {
     'start': 'Study started',
     'stop': 'Study stopped',
     'resume': 'Study resumed',
     'finish': 'Study finished',
 }
-CASTELLUM_PR_NOTIFICATION_BODY = """Study details:
+CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY = """Study details:
 
 Name: {name}
 Contact person: {contact_person}
@@ -419,6 +421,3 @@ CASTELLUM_FULL_AGE = 16
 
 # Criteria that apply to all studies
 CASTELLUM_GENERAL_EXCLUSION_CRITERIA = ''
-
-# Email address of PR department (for announcing new public studies)
-CASTELLUM_PR_NOTIFICATION_TO = None

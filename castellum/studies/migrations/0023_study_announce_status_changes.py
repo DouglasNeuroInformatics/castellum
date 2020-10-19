@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='study',
-            name='is_relevant_for_pr',
-            field=models.BooleanField(default=False, verbose_name='Relevant for PR department'),
+            name='announce_status_changes',
+            field=models.BooleanField(default=False, verbose_name='Announce status changes'),
         ),
     ]
