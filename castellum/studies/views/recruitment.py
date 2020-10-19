@@ -204,7 +204,6 @@ class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):
     fields = [
         'mail_subject',
         'mail_body',
-        'mail_reply_address',
     ]
     permission_required = 'studies.change_study'
     tab = 'recruitmentsettings'

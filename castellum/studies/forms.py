@@ -44,6 +44,8 @@ class StudyForm(ReadonlyModelForm):
             'principal_investigator',
             'affiliated_scientists',
             'affiliated_research_assistants',
+            'phone',
+            'email',
             'description',
             'keywords',
             'data_sensitivity',

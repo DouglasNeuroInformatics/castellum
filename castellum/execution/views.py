@@ -220,7 +220,7 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
             subject,
             body.replace('{name}', contact.full_name),
             [contact.own_or_guardian_email],
-            reply_to=[self.study.mail_reply_address] if self.study.mail_reply_address else [],
+            reply_to=[self.study.email],
             context='recruitment',
         )
 
