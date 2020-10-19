@@ -19,13 +19,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='study',
             name='email',
-            field=models.EmailField(default='info@mpib-berlin.mpg.de', max_length=128, verbose_name='E-mail-address'),
-            preserve_default=False,
+            field=models.EmailField(max_length=128, verbose_name='E-mail-address'),
         ),
         migrations.AddField(
             model_name='study',
             name='phone',
-            field=castellum.utils.fields.PhoneNumberField(default='+49 30 82406-0', max_length=32, region=None, verbose_name='Phone number'),
-            preserve_default=False,
+            field=castellum.utils.fields.PhoneNumberField(max_length=32, region=None, verbose_name='Phone number'),
         ),
     ]
