@@ -85,7 +85,7 @@ def send_pr_mail(study, action):
     return send_mail(
         settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_SUBJECT[action],
         (get_mail_data, settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY),
-        [settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO],
+        settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO,
         context='internal',
     )
 

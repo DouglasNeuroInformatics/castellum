@@ -367,7 +367,7 @@ Study calendar: {calendar_url}
 """
 
 # Email addresses for announcing new public studies
-CASTELLUM_STUDY_STATUS_NOTIFICATION_TO = None
+CASTELLUM_STUDY_STATUS_NOTIFICATION_TO = []
 CASTELLUM_STUDY_STATUS_NOTIFICATION_SUBJECT = {
     'start': 'Study started',
     'stop': 'Study stopped',
