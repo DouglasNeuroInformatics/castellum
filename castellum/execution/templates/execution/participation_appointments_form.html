@@ -22,8 +22,11 @@
             </dd>
         </dl>
 
-        {% for field in form.appointments %}
-            {% bootstrap_field field %}
+        {% for entry in form.appointments %}
+            {% bootstrap_field entry.field %}
+            {% if entry.invitation_url %}
+                <p><a href="{{ entry.invitation_url }}">{% translate 'Go to scheduler' %}</a></p>
+            {% endif %}
         {% endfor %}
 
         <div class="d-print-none mb-3">

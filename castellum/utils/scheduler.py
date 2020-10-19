@@ -58,3 +58,8 @@ def get(id, token):
     r = request('GET', id, token)
     start = r.json().get('datetime')
     return parse_date(start) if start else None
+
+
+def create_invitation_url(id, token):
+    put(id, token)  # make sure token exists
+    return '{}/invitations/{}/{}/'.format(settings.SCHEDULER_URL, id, token)

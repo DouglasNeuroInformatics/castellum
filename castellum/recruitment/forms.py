@@ -28,8 +28,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
+from castellum.utils import scheduler
 from castellum.utils.forms import BaseImportForm
 from castellum.utils.forms import DateTimeField
 from castellum.utils.forms import DisabledChoiceField
@@ -186,6 +188,7 @@ class AppointmentsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.invitation_urls = {}
         for session, appointment in self.instance.get_appointments():
             key = 'appointment-%i' % session.pk
             self.fields[key] = DateTimeField(
@@ -194,6 +197,10 @@ class AppointmentsForm(forms.ModelForm):
                 disabled=bool(session.schedule_id),
                 required=False,
             )
+            if session.schedule_id and self.instance.status == Participation.INVITED:
+                pseudonym = get_pseudonym(self.instance.subject, session.domain)
+                url = scheduler.create_invitation_url(session.schedule_id, pseudonym)
+                self.invitation_urls[key] = url
 
     def format_session_name(self, session):
         duration = _('%imin') % session.duration
@@ -265,7 +272,10 @@ class AppointmentsForm(forms.ModelForm):
     def appointments(self):
         for name in self.fields:
             if name.startswith('appointment-'):
-                yield self[name]
+                yield {
+                    'field': self[name],
+                    'invitation_url': self.invitation_urls.get(name)
+                }
 
 
 class ContactForm(forms.ModelForm):
