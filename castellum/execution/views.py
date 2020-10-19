@@ -53,6 +53,7 @@ from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.subjects.models import Subject
 from castellum.utils.mail import send_mail
+from castellum.utils.mail import send_mass_mail
 
 from .forms import NewsMailForm
 
@@ -213,16 +214,15 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
 
     def send_mail(self, participation, subject=None, body=None):
         contact = participation.subject.contact
-        if not contact.own_or_guardian_email:
-            return False
-
-        return send_mail(
-            subject,
-            body.replace('{name}', contact.full_name),
-            [contact.own_or_guardian_email],
-            reply_to=[self.study.email],
-            context='recruitment',
-        )
+        msgs = []
+        for email in contact.own_or_guardian_emails:
+            msgs.append((
+                subject,
+                body.replace('{name}', contact.full_name),
+                [email],
+                {'reply_to': self.study.email},
+            ))
+        return send_mass_mail(msgs, context='recruitment')
 
     def render_urls(self, participations):
         return '\n'.join(
