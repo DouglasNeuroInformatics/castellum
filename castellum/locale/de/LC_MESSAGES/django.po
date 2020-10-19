@@ -105,10 +105,8 @@ msgid "Groups"
 msgstr "Gruppen"
 
 #: castellum/castellum_auth/templates/admin/castellum_auth/user_permissions.html:49
-#, fuzzy
-#| msgid "Study consent"
 msgid "Study groups"
-msgstr "Studieneinwilligung"
+msgstr "Studiengruppen"
 
 #: castellum/contacts/forms.py:60
 msgid "Full of age"
@@ -319,10 +317,8 @@ msgstr ""
 "(nicht bis %(next_available)s)"
 
 #: castellum/contacts/templates/contacts/__contact_detail.html:39
-#, fuzzy
-#| msgid "General recruiting notes"
 msgid "General contact notes"
-msgstr "Allgemeine Rekrutierungs-Notizen"
+msgstr "Allgemeine Kontakt-Notizen"
 
 #: castellum/contacts/templates/contacts/__guardian_item.html:5
 msgid "Guardian"
@@ -1378,16 +1374,12 @@ msgid "Mail"
 msgstr "E-Mail"
 
 #: castellum/recruitment/templates/recruitment/resource_list.html:4
-#, fuzzy
-#| msgid "Resource"
 msgid "Resources"
-msgstr "Ressource"
+msgstr "Ressourcen"
 
 #: castellum/recruitment/templates/recruitment/resource_list.html:7
-#, fuzzy
-#| msgid "The following names exist more than once:"
 msgid "The following resources are available:"
-msgstr "Die folgenden Namen gibt es mehr als einmal:"
+msgstr "Die folgenden Ressourcen sind verfügbar:"
 
 #: castellum/recruitment/templatetags/appointments.py:53
 msgid "no appointments so far"
@@ -1692,10 +1684,8 @@ msgid "Consent"
 msgstr "Einwilligung"
 
 #: castellum/studies/models.py:202
-#, fuzzy
-#| msgid "Reply e-mail-address"
 msgid "E-mail-address"
-msgstr "Antwortadresse"
+msgstr "E-Mail-Adresse"
 
 #: castellum/studies/models.py:208
 msgid "Can access studies"
@@ -1723,10 +1713,8 @@ msgstr ""
 "Funktion nutzen wollen."
 
 #: castellum/studies/models.py:313
-#, fuzzy
-#| msgid "Last name"
 msgid "name"
-msgstr "Nachname"
+msgstr "Name"
 
 #: castellum/studies/models.py:342
 msgid "Duration of a session in minutes"
@@ -2015,10 +2003,8 @@ msgid "Recruitment settings"
 msgstr "Rekrutierungseinstellungen"
 
 #: castellum/studies/templates/studies/study_detail.html:46
-#, fuzzy
-#| msgid "Edit subject"
 msgid "Invited subjects"
-msgstr "Proband*in bearbeiten"
+msgstr "Eingeladene Proband*innen"
 
 #: castellum/studies/templates/studies/study_detail.html:49
 msgid "Potential subjects"
@@ -2788,10 +2774,8 @@ msgid "Took part in a study"
 msgstr "Haben an einer Studie teilgenommen"
 
 #: castellum/subjects/templates/subjects/subject_search.html:165
-#, fuzzy
-#| msgid "Currently available"
 msgid "Currently recruitable"
-msgstr "Aktuell erreichbar"
+msgstr "Aktuell rekrutierbar"
 
 #: castellum/subjects/views.py:170
 msgid "Both first and last name must be provided in order to create a subject!"
