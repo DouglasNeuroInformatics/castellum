@@ -85,6 +85,7 @@ class PollJsonView(DetailView):
         })
 
 
+@method_decorator(public, 'dispatch')
 class InvitationUpdateView(UpdateView):
     model = Invitation
     slug_field = 'pseudonym'
