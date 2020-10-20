@@ -46,6 +46,7 @@ from stronghold.decorators import public
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
+from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
@@ -441,7 +442,7 @@ class PollPingView(View):
         data = self.fetch_timeslots_data(session)
 
         for participation, appointment in self.get_appointments(session):
-            start = data.get(participation.pseudonym)
+            start = data.get(get_pseudonym(participation.subject, session.domain))
 
             if appointment:
                 if not start:

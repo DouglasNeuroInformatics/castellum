@@ -29,6 +29,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.studies.models import Study
 from castellum.utils.forms import BaseImportForm
 from castellum.utils.forms import DateTimeField
@@ -198,7 +199,7 @@ class AppointmentsForm(forms.ModelForm):
             )
             if session.poll_id:
                 self.invitation_urls[key] = settings.TIMESLOT_INVITE_URL % (
-                    session.poll_id, self.instance.pseudonym
+                    session.poll_id, get_pseudonym(self.instance.subject, session.domain)
                 )
 
     def format_session_name(self, session):
