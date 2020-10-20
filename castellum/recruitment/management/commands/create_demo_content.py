@@ -207,7 +207,8 @@ def generate_studies(count):
     studies = [fake_study() for i in range(count)]
     for study in studies:
         study.save()
-    StudySession.objects.bulk_create(fake_studysession(study) for study in studies)
+        session = fake_studysession(study)
+        session.save()
 
 
 def generate_subjects(count):
