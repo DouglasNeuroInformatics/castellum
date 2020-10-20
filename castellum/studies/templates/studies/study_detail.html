@@ -11,6 +11,12 @@
         <dt class="col-sm-6">{{ object|verbose_name:'affiliated_scientists' }}</dt>
         <dd class="col-sm-6">{{ object|display:'affiliated_scientists' }}</dd>
 
+        <dt class="col-sm-6">{{ object|verbose_name:'email' }}</dt>
+        <dd class="col-sm-6"><a href="mailto:{{ object.email }}">{{ object.email }}</a></dd>
+
+        <dt class="col-sm-6">{{ object|verbose_name:'phone' }}</dt>
+        <dd class="col-sm-6">{{ object|display:'phone' }}</dd>
+
         <dt class="col-sm-6">{% translate 'Type of study' %}</dt>
         <dd class="col-sm-6">{{ object|display:'study_type' }}</dd>
 
