@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% load i18n static bootstrap4 utils %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_parler_languages as LANGUAGES %}
+{% get_production as PRODUCTION %}
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'" />
+
+    <title>{% block title %}Castellum{% endblock %}</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static '@fortawesome/fontawesome-free/css/all.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+    {% block extra_styles %}{% endblock %}
+</head>
+<body {% if user.is_authenticated %}data-logout-timeout="{{ user.logout_timeout.total_seconds }}"{% endif %}>
+    <main class="pt-3">
+        {% block header %}{% endblock %}
+
+        <div class="{% block container_class %}container{% endblock %}">
+            {% block content_with_messages %}
+                {% if subject.deceased %}
+                    <div class="alert alert-warning" role="alert">
+                        {% translate 'This subject is deceased' %}
+                    </div>
+                {% endif %}
+                {% if subject.to_be_deleted %}
+                    <div class="alert alert-warning" role="alert">
+                        {% translate 'This subject is marked for deletion' %}
+                    </div>
+                {% endif %}
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="{{ message|bootstrap_message_classes }}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% block content %}{% endblock %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <div id="unsaved-changes-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="unsaved-changes-modal-title" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title h4" id="unsaved-changes-modal-title">{% translate 'Unsaved Changes' %}</h1>
+                </div>
+                <div class="modal-body">
+                    <p>{% translate "Your changes will be lost if you leave before saving." %}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">{% translate "Stay on Page" %}</button>
+                    <a class="btn btn-outline-primary" data-js="cancel">{% translate "Discard Changes" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+    {% if user.is_authenticated %}
+        <script src="{% static 'js/autologout.js' %}"></script>
+    {% endif %}
+
+    <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'jdenticon/dist/jdenticon.min.js' %}"></script>
+    <script src="{% static 'popper.js/dist/umd/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'bootstrap-datepicker/dist/locales/bootstrap-datepicker.de.min.js' %}"></script>
+    <script src="{% static 'js/utils.js' %}"></script>
+    <script src="{% static 'js/unsaved-changes.js' %}"></script>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
