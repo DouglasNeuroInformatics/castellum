@@ -22,6 +22,7 @@
 import itertools
 import json
 import os
+from typing import List
 
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
@@ -181,7 +182,7 @@ class AttributeSetForm(forms.ModelForm):
 class AppointmentsForm(forms.ModelForm):
     class Meta:
         model = Participation
-        fields = []
+        fields: List[str] = []
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

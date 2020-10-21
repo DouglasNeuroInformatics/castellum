@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from typing import List
+
 from django.conf import settings
 from django.contrib import messages
 from django.forms import modelformset_factory
@@ -130,7 +132,7 @@ class FilterGroupCreateView(FilterMixin, View):
 
 class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
     model = SubjectFilterGroup
-    fields = []
+    fields: List[str] = []
     template_name = "studies/filtergroup.html"
     permission_required = 'studies.change_study'
 

@@ -268,7 +268,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
 
 
 class AttributeChoice(ImportMixin, TranslatableModel):
-    import_fields = []
+    import_fields: List[str] = []
     import_translated_fields = ['label']
 
     description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)

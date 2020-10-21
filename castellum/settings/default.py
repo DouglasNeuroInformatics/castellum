@@ -1,5 +1,6 @@
 import datetime
 import os
+from typing import List
 
 from django.utils.translation import gettext_lazy as _
 
@@ -8,7 +9,7 @@ from dateutil.relativedelta import relativedelta
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS: List[str] = []
 
 # Set this to True to prevent creating insecure demo content in production
 PRODUCTION = False

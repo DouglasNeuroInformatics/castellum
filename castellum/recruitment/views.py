@@ -23,6 +23,7 @@ import datetime
 import logging
 import random
 from collections import defaultdict
+from typing import List
 
 from django.conf import settings
 from django.contrib import messages
@@ -68,7 +69,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     template_name = 'recruitment/recruitment.html'
     permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
-    shown_status = []
+    shown_status: List[int] = []
     tab = 'recruitment'
 
     def dispatch(self, request, *args, **kwargs):
