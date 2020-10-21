@@ -69,10 +69,7 @@ def display(instance, field_name):
 
 @register.filter
 def field_names(instance):
-    if hasattr(instance, 'get_field_names'):
-        return instance.get_field_names()
-    else:
-        return [field.name for field in instance._meta.get_fields()]
+    return [field.name for field in instance._meta.get_fields()]
 
 
 @register.filter(name='list')
