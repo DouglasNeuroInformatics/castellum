@@ -14,11 +14,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='attributeset',
             name='data',
-            field=models.JSONField(encoder=django.core.serializers.json.DjangoJSONEncoder),
+            field=models.JSONField(encoder=django.core.serializers.json.DjangoJSONEncoder),  # type: ignore
         ),
         migrations.AlterField(
             model_name='subjectfilter',
             name='value',
-            field=models.JSONField(),
+            field=models.JSONField(),  # type: ignore
         ),
     ]

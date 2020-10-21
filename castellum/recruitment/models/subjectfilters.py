@@ -62,7 +62,7 @@ class SubjectFilter(models.Model):
     group = models.ForeignKey(SubjectFilterGroup, on_delete=models.CASCADE)
     description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
     operator = models.CharField(max_length=64)
-    value = models.JSONField(editable=True)
+    value = models.JSONField(editable=True)  # type: ignore
 
     def __str__(self):
         return self.description.field.get_filter_display(self.operator, self.value)
