@@ -69,7 +69,7 @@ def display(instance, field_name):
 
 @register.filter
 def field_names(instance):
-    return [field.name for field in instance._meta.get_fields()]
+    return [field.name for field in instance._meta.get_fields() if hasattr(field, 'verbose_name')]
 
 
 @register.filter(name='list')
