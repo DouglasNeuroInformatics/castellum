@@ -28,11 +28,11 @@ from django.utils import timezone
 import requests
 
 
-def uuid_str():
+def uuid_str() -> str:
     return str(uuid.uuid4())
 
 
-def cached_request(url, timeout=300):
+def cached_request(url: str, timeout=300):
     key = 'cached_request:' + url
 
     value = cache.get(key)
@@ -46,7 +46,7 @@ def cached_request(url, timeout=300):
     return value
 
 
-def contrast_color(color):
+def contrast_color(color: str) -> str:
     # https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio
     r = (int(color[1:3], 16) / 255) ** 2.4
     g = (int(color[3:5], 16) / 255) ** 2.4
@@ -55,7 +55,7 @@ def contrast_color(color):
     return '#ffffff' if lightness < 0.18 else '#000000'
 
 
-def add_working_days(dt, days):
+def add_working_days(dt, days: int):
     for i in range(days):
         if dt.isoweekday() == 5:  # friday
             dt += timezone.timedelta(days=3)

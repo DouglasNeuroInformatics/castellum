@@ -266,7 +266,7 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
             'Study {} deleted by {}'.format(self.study.name, self.request.user.pk)
         )
         messages.success(self.request, _('Study has been deleted.'))
-        return super().delete(self, request, *args, **kwargs)
+        return super().delete(request, *args, **kwargs)
 
 
 class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):

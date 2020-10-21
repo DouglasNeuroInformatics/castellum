@@ -20,6 +20,11 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+from typing import Any
+from typing import List
+from typing import Optional
+from typing import Tuple
+from typing import Type
 
 from django import forms
 from django.db import models
@@ -37,10 +42,10 @@ ANSWER_DECLINED = "ANSWER_DECLINED"
 
 
 class BaseAttributeField:
-    available_operators = NotImplemented
-    form_class = NotImplemented
-    filter_form_class = None
-    statistics_buckets = []
+    available_operators: List[Tuple[str, str]]
+    form_class: Type[forms.Field]
+    filter_form_class: Optional[Type[forms.Field]] = None
+    statistics_buckets: List[Tuple[Any, str]] = []
 
     def __init__(self, description):
         self.description = description
