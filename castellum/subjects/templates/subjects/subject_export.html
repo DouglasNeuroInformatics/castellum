@@ -28,15 +28,27 @@
         {% endif %}
     </form>
 
-    {% for dataset in dataset_list %}
-        <h1>{{ dataset|model_verbose_name }}</h1>
-        <dl class="row">
-            {% for field_name in dataset|field_names %}
-                {% if field_name != 'id' and field_name != 'slug' and field_name != 'subject' and field_name != 'subject_id' and field_name != 'participation' and dataset|display:field_name %}
-                    <dt class="col-sm-6">{{ dataset|verbose_name:field_name }}</dt>
-                    <dd class="col-sm-6">{{ dataset|display:field_name }}</dd>
-                {% endif %}
-            {% endfor %}
-        </dl>
-    {% endfor %}
+    {% if subject.export_requested %}
+        {% for dataset in dataset_list %}
+            <h1>{{ dataset|model_verbose_name }}</h1>
+            <dl class="row">
+                {% for field_name in dataset|field_names %}
+                    {% if field_name != 'id' and field_name != 'slug' and field_name != 'subject' and field_name != 'subject_id' and field_name != 'participation' and dataset|display:field_name %}
+                        <dt class="col-sm-6">{{ dataset|verbose_name:field_name }}</dt>
+                        <dd class="col-sm-6">{{ dataset|display:field_name }}</dd>
+                    {% endif %}
+                {% endfor %}
+            </dl>
+        {% endfor %}
+
+        {% if subject.attributeset %}
+            <h1>{{ subject.attributeset|model_verbose_name }}</h1>
+            <dl class="row">
+                {% for label, value in attributes %}
+                    <dt class="col-sm-6">{{ label }}</dt>
+                    <dd class="col-sm-6">{{ value }}</dd>
+                {% endfor %}
+            </dl>
+        {% endif %}
+    {% endif %}
 {% endblock %}
