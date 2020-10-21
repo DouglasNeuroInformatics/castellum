@@ -166,7 +166,7 @@ class TextAttributeField(BaseAttributeField):
 
 
 class ChoiceAttributeField(BaseAttributeField):
-    form_class = IntegerChoiceField
+    form_class: Type[forms.Field] = IntegerChoiceField
     available_operators = [
         ("exact", _("is")),
         ("!exact", _("is not")),

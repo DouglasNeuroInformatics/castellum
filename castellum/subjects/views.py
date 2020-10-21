@@ -22,6 +22,7 @@
 import datetime
 import logging
 import zipfile
+from typing import Type
 
 from django.conf import settings
 from django.contrib import messages
@@ -507,7 +508,7 @@ class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
 
 
 class BaseMaintenanceView(PermissionRequiredMixin, ListView):
-    model = Subject
+    model: Type[models.Model] = Subject
     paginate_by = 20
     permission_required = 'subjects.change_subject'
 

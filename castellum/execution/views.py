@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+from typing import Type
 
 from django import forms
 from django.conf import settings
@@ -84,7 +85,7 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
 
 
 class ParticipationDetailMixin(ParticipationMixin, PermissionRequiredMixin):
-    model = Participation
+    model: Type[models.Model] = Participation
     permission_required = ['recruitment.conduct_study']
     study_status = [Study.EXECUTION]
     participation_status = [Participation.INVITED]

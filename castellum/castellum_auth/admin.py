@@ -48,8 +48,8 @@ def expiration_date_repr(obj):
     return '%s (%s)' % (formatted_date, expire)
 
 
-expiration_date_repr.admin_order_field = 'expiration_date'
-expiration_date_repr.short_description = _('expiration date')
+expiration_date_repr.admin_order_field = 'expiration_date'  # type: ignore
+expiration_date_repr.short_description = _('expiration date')  # type: ignore
 
 
 @admin.register(User)
@@ -80,4 +80,4 @@ class UserAdmin(BaseUserAdmin):
             'groups': Group.objects.all(),
             'studygroups': StudyGroup.objects.all(),
         })
-    list_permissions.short_description = _('List all permissions')
+    list_permissions.short_description = _('List all permissions')  # type: ignore

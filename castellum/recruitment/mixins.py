@@ -22,6 +22,8 @@
 import datetime
 import logging
 import random
+from typing import Any
+from typing import Dict
 from typing import List
 from typing import Optional
 
@@ -131,11 +133,12 @@ class ParticipationMixin(StudyMixin, SubjectMixin):
 
     Requires PermissionRequiredMixin.
     """
+    kwargs: Dict[str, Any]
 
     participation_status: List[int] = []
 
     @cached_property
-    def participation(self):
+    def participation(self) -> Participation:
         qs = Participation.objects.all()
         if self.participation_status:
             qs = qs.filter(status__in=self.participation_status)

@@ -88,7 +88,7 @@ class AttributeDescriptionAdmin(TranslatableAdmin):
         })
         response['Content-Disposition'] = 'attachment; filename="castellum_attributes.json"'
         return response
-    export_json.short_description = _('Export as JSON')
+    export_json.short_description = _('Export as JSON')  # type: ignore
 
     def get_urls(self):
         return [
