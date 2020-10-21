@@ -47,6 +47,7 @@ reset_databases: remove_databases migrate populate
 lint:
 	$(VIRTUAL_ENV)/bin/isort castellum tests
 	$(VIRTUAL_ENV)/bin/flake8
+	$(VIRTUAL_ENV)/bin/mypy
 	npx eslint castellum
 
 .PHONY: test
