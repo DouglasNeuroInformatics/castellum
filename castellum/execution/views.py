@@ -85,11 +85,11 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
 
 class ParticipationDetailMixin(ParticipationMixin, PermissionRequiredMixin):
     model = Participation
-    permission_required = 'recruitment.conduct_study'
+    permission_required = ['recruitment.conduct_study']
     study_status = [Study.EXECUTION]
     participation_status = [Participation.INVITED]
 
-    def get_object(self):
+    def get_object(self, queryset=None):
         return self.participation
 
 

@@ -19,6 +19,9 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from typing import List
+from typing import Optional
+
 from django.shortcuts import get_object_or_404
 
 from .models import Study
@@ -37,8 +40,8 @@ class StudyMixin:
     Requires PermissionRequiredMixin.
     """
 
-    study_status = []
-    is_onetime_invitation = None
+    study_status: List[int] = []
+    is_onetime_invitation: Optional[bool] = None
 
     def get_study(self):
         qs = Study.objects.all()

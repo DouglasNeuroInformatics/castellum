@@ -21,6 +21,7 @@
 
 import functools
 from collections import OrderedDict
+from typing import List
 
 from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
@@ -52,6 +53,9 @@ def get_description_by_statistics_rank(rank):
 
 
 class ImportMixin:
+    import_fields: List[str]
+    import_translated_fields: List[str]
+
     def export(self):
         data = {}
         for field in self.import_fields:
@@ -216,8 +220,9 @@ class AttributeDescription(ImportMixin, TranslatableModel):
                 _('Privacy level for reading may not be higher than for writing.'), code='invalid')
 
         if self.statistics_rank and self.field_type not in self.STATISTICS_TYPES:
-            msg = _('Statistics rank can only be set for the following field types: %s')
-            raise ValidationError(msg, code='invalid', params=', '.join(self.STATISTICS_TYPES))
+            raise ValidationError(_(
+                'Statistics rank can only be set for the following field types: %(field_types)s',
+            ), code='invalid', params={'field_types': ', '.join(self.STATISTICS_TYPES)})
 
     @property
     def json_key(self):

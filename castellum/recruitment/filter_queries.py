@@ -152,7 +152,7 @@ def study_filters(study, include_unknown=None):
 def pk_filter(qs, key='subject_id'):
     # This is a mirco-optimization to avoid large IN queries in postgres
     # See https://dba.stackexchange.com/questions/91247
-    pks = list(qs.values_list(key, flat=True).order_by())
+    pks = set(qs.values_list(key, flat=True).order_by())
     total = Subject.objects.count()
     if len(pks) > total / 2:
         all_pks = Subject.objects.values_list('pk', flat=True)

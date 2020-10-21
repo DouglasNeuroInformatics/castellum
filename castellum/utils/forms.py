@@ -21,6 +21,8 @@
 
 import codecs
 import json
+from typing import Any
+from typing import Mapping
 
 from django import forms
 from django.forms import ValidationError
@@ -229,7 +231,7 @@ class JsonFileValidator:
         return '%s %s' % (path, error.message)
 
     def __eq__(self, other):
-        return self.schema == other.schema and self.schema_ref == other.schema_ref
+        return self.schema == other.schema
 
     def __call__(self, fh):
         try:
@@ -251,6 +253,9 @@ class JsonFileValidator:
 
 
 class BaseImportForm(forms.Form):
+    schema: Mapping[str, Any]
+    schema_ref: str
+
     # magic seems to detect 'text/plain' for json files
     file = RestrictedFileField(
         label=_('File'), content_types=['application/json', 'text/plain'], required=True

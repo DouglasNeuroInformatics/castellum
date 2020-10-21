@@ -350,7 +350,7 @@ CASTELLUM_EXPECTED_SUBJECT_FACTOR = 10
 # attempt and another one from a different study recruitment
 CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS = relativedelta(weeks=2)
 
-CASTELLUM_DELETE_NOTIFICATION_TO = None
+CASTELLUM_DELETE_NOTIFICATION_TO = ''
 CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_SUBJECT = 'Subject export'
 CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY = 'The following subject should be exported: {url}'
 CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT = 'Subject deletion'
@@ -387,7 +387,7 @@ CASTELLUM_STUDY_DOMAIN_BITS = 20
 # Path to a cover letter template
 # Must be in .docx format
 # The placeholders "{name}", "{address1}", and "{address2}" will be replaced.
-CASTELLUM_COVERLETTER_TEMPLATE = None
+CASTELLUM_COVERLETTER_TEMPLATE = ''
 
 CASTELLUM_FULL_AGE = 16
 

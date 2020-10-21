@@ -22,6 +22,8 @@
 import datetime
 import logging
 import random
+from typing import List
+from typing import Optional
 
 from django.conf import settings
 from django.contrib import messages
@@ -130,7 +132,7 @@ class ParticipationMixin(StudyMixin, SubjectMixin):
     Requires PermissionRequiredMixin.
     """
 
-    participation_status = []
+    participation_status: List[int] = []
 
     @cached_property
     def participation(self):
@@ -243,7 +245,7 @@ class BaseAppointmentFeed(BaseICalFeed):
 class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     template_name = 'recruitment/mail.html'
     form_class = SendMailForm
-    participation_status = None
+    participation_status: Optional[int] = None
 
     def personalize_mail_body(self, mail_body, contact):
         return mail_body.replace('{name}', contact.full_name)
