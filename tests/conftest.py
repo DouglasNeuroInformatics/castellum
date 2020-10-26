@@ -123,10 +123,7 @@ def study_approver(db):
 
 @pytest.fixture
 def study_conductor(study, study_in_execution_status, study_in_edit_status):
-    return create_member(
-        'Study conductor',
-        [study, study_in_execution_status, study_in_edit_status],
-    )
+    return create_member('Conductor', [study, study_in_execution_status, study_in_edit_status])
 
 
 @pytest.fixture
@@ -136,7 +133,7 @@ def study_coordinator(db):
 
 @pytest.fixture
 def subject_manager(db):
-    return create_user('Subject manager')
+    return create_user('Principal subject manager')
 
 
 @pytest.fixture

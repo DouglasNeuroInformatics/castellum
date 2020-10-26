@@ -41,7 +41,7 @@
     "model": "studies.studygroup",
     "pk": 3,
     "fields": {
-        "name": "Study conductor",
+        "name": "Conductor",
         "permissions": [
             [
                 "conduct_study",
