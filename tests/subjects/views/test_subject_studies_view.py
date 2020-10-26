@@ -1,13 +1,6 @@
 import pytest
 
 
-def test_200_without_attributeset(client, user, contact):
-    client.force_login(user)
-    response = client.get('/subjects/{}/participations/add/'.format(contact.subject.slug))
-    assert response.status_code == 200
-    assert b'No attributes provided' in response.content
-
-
 def test_200_with_attributeset(client, user, contact, attributeset):
     client.force_login(user)
     response = client.get('/subjects/{}/participations/add/'.format(contact.subject.slug))
