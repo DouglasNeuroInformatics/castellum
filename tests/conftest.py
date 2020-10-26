@@ -122,7 +122,7 @@ def study_approver(db):
 
 
 @pytest.fixture
-def study_conductor(study, study_in_execution_status, study_in_edit_status):
+def conductor(study, study_in_execution_status, study_in_edit_status):
     return create_member('Conductor', [study, study_in_execution_status, study_in_edit_status])
 
 
