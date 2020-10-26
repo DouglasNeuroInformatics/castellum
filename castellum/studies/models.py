@@ -213,14 +213,13 @@ class Study(models.Model):
     def __str__(self):
         return self.name
 
-    def restore_previous_status(self):
-        self.status = self.previous_status
-        self.save()
-
     def set_status(self, status):
         self.previous_status = self.status
         self.status = status
         self.save()
+
+    def restore_previous_status(self):
+        self.set_status(self.previous_status)
 
     def clean(self):
         if self.subjectfiltergroup_set.count() > 1 and not self.advanced_filtering:
