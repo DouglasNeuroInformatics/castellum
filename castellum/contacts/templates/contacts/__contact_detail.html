@@ -2,7 +2,9 @@
 
 <dl class="row">
     <dt class="col-sm-6">{{ contact|verbose_name:'email' }}</dt>
-    <dd class="col-sm-6">{{ contact|display:'email' }}</dd>
+    <dd class="col-sm-6">
+        <a href="mailto:{{ contact.email }}">{{ contact|display:'email' }}</a>
+    </dd>
 
     <dt class="col-sm-6">{{ contact|verbose_name:'phone_number' }}</dt>
     <dd class="col-sm-6"><a {% if contact.phone_number %}href="tel:{{ contact.phone_number }}"{% endif %}>{{ contact|display:'phone_number' }}</a></dd>
