@@ -78,7 +78,7 @@ def send_mail_to_study_conductors(study, not_reachable, base_url):
     send_mail(
         settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_SUBJECT.format(study=study),
         settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY.format(urls=urls),
-        [user.email for user in study.study_conductors],
+        [user.email for user in study.conductors],
         context='internal',
     )
 

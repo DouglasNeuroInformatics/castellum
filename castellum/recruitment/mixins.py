@@ -115,7 +115,7 @@ def send_appointment_notifications(request, participation, changes):
 
     msgs = []
     mail_subject = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT
-    for user in participation.study.study_conductors:
+    for user in participation.study.conductors:
         if user != request.user:
             msgs.append((mail_subject, body, [user.email], {}))
     return send_mass_mail(msgs, context='internal')
