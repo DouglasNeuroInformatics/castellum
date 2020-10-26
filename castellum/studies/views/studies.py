@@ -167,6 +167,10 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
 
         StudyMembership.objects.get_or_create(user=self.request.user, study=self.object)
 
+        if self.object.is_onetime_invitation:
+            self.object.complete_matches_only = True
+            self.object.save()
+
         if self.duplicate:
             self.object.exclusion_criteria = self.duplicate.exclusion_criteria
             self.object.recruitment_text = self.duplicate.recruitment_text
