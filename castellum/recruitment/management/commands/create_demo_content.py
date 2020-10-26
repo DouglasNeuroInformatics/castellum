@@ -126,6 +126,8 @@ def fake_study():
     study = Study(
         name=fake.word().upper(),
         contact_person=fake.name(),
+        email=fake.email(),
+        phone=fake_phone_number(),
         principal_investigator=fake.name(),
         min_subject_count=fake.random.randint(0, 50),
         description=description,
