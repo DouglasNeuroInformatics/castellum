@@ -21,14 +21,6 @@ def test_detail_200(request, client, user_fixture, contact):
 
 
 @pytest.mark.smoketest
-def test_detail_with_attributeset_200(client, user, contact, attributeset):
-    client.force_login(user)
-    url = '/subjects/{}/'.format(contact.subject.slug)
-    response = client.get(url)
-    assert response.status_code == 200
-
-
-@pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
