@@ -79,12 +79,6 @@ class MultiDatetimeField(forms.Field):
 
 class PollForm(forms.ModelForm):
     timeslots = MultiDatetimeField()
-    invitations = forms.CharField(
-        label=_('Invitations'),
-        help_text=_('Please enter one pseudonym per line'),
-        required=False,
-        widget=forms.Textarea,
-    )
 
     class Meta:
         model = Poll
@@ -95,9 +89,6 @@ class PollForm(forms.ModelForm):
         if self.instance:
             self.fields['timeslots'].initial = list(
                 self.instance.timeslot_set.values_list('date', 'time')
-            )
-            self.fields['invitations'].initial = '\n'.join(
-                self.instance.invitation_set.values_list('pseudonym', flat=True)
             )
 
     def save_timeslots(self, poll):
@@ -113,27 +104,9 @@ class PollForm(forms.ModelForm):
             if (date, time) not in old_tuples:
                 poll.timeslot_set.create(date=date, time=time)
 
-    def save_invitations(self, poll):
-        pseudonyms = self.cleaned_data['invitations'].splitlines()
-        pseudonyms = [line.strip() for line in pseudonyms]
-        pseudonyms = [line for line in pseudonyms if line]
-        pseudonyms = set(pseudonyms)
-
-        old = list(poll.invitation_set.all())
-        old_pseudonyms = [i.pseudonym for i in old]
-
-        for invitation in old:
-            if invitation.pseudonym not in pseudonyms:
-                invitation.delete()
-
-        for pseudonym in pseudonyms:
-            if pseudonym not in old_pseudonyms:
-                poll.invitation_set.create(pseudonym=pseudonym)
-
     def save(self):
         poll = super().save()
         self.save_timeslots(poll)
-        self.save_invitations(poll)
         return poll
 
 
