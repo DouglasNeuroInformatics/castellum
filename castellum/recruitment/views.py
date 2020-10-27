@@ -431,7 +431,9 @@ class PollPingView(View):
 
     def fetch_timeslots_data(self, session):
         url_template = 'http://localhost:8000/polls/%i.json'
-        r = requests.get(url_template % session.poll_id, {'token': settings.TIMESLOT_TOKEN})
+        r = requests.get(url_template % session.poll_id, headers={
+            'Authorization': 'token ' + settings.TIMESLOT_TOKEN,
+        })
         r.raise_for_status()
         data = r.json()
         return {key: self.parse_date(value) for key, value in data.items()}
