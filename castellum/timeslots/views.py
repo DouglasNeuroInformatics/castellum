@@ -103,9 +103,15 @@ class InvitationUpdateView(UpdateView):
         return reverse('timeslots:invitation', args=[self.object.poll.pk, self.object.pseudonym])
 
     def form_valid(self, form, *args):
-        messages.success(self.request, _('Your reservation has been saved.'))
+        ok = True
         response = super().form_valid(form, *args)
         if settings.TIMESLOTS_PING_URL:
             r = requests.post(settings.TIMESLOTS_PING_URL % self.object.poll.pk)
-            r.raise_for_status()
+            ok = r.ok
+        if ok:
+            messages.success(self.request, _('Your reservation has been saved.'))
+        else:
+            self.object.timeslot = None
+            self.object.save()
+            messages.error(self.request, _('An error occured.'))
         return response
