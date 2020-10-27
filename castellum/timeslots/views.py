@@ -73,6 +73,18 @@ class PollDeleteView(LoginRequiredMixin, DeleteView):
 class PollJsonView(DetailView):
     model = Poll
 
+    def save_invitations(self, poll, pseudonyms):
+        old = list(poll.invitation_set.all())
+        old_pseudonyms = [i.pseudonym for i in old]
+
+        for invitation in old:
+            if invitation.pseudonym not in pseudonyms:
+                invitation.delete()
+
+        for pseudonym in pseudonyms:
+            if pseudonym not in old_pseudonyms:
+                poll.invitation_set.create(pseudonym=pseudonym)
+
     def get(self, request, *args, **kwargs):
         if request.headers.get('Authorization') != 'token ' + settings.TIMESLOT_TOKEN:
             raise PermissionDenied
@@ -83,6 +95,13 @@ class PollJsonView(DetailView):
             for i in self.object.invitation_set.all()
             if i.timeslot
         })
+
+    def post(self, request, *args, **kwargs):
+        if request.headers.get('Authorization') != 'token ' + settings.TIMESLOT_TOKEN:
+            raise PermissionDenied
+
+        self.save_invitations(self.get_object(), json.load(request.body))
+        return HttpResponse(status=204)
 
 
 @method_decorator(public, 'dispatch')
