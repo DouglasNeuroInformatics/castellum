@@ -74,7 +74,7 @@ class PollJsonView(DetailView):
     model = Poll
 
     def get(self, request, *args, **kwargs):
-        if request.GET.get('token') != settings.TIMESLOT_TOKEN:
+        if request.headers.get('Authorization') != 'token ' + settings.TIMESLOT_TOKEN:
             raise PermissionDenied
 
         self.object = self.get_object()
