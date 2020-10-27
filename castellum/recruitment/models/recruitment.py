@@ -85,8 +85,8 @@ class Participation(models.Model):
         (VIA_EMAIL, _('via email')),
     ]
 
-    created_at = DateTimeField(_('created at'), auto_now_add=True)
-    updated_at = DateTimeField(_('updated at'), auto_now=True)
+    created_at = DateTimeField(_('Created at'), auto_now_add=True)
+    updated_at = DateTimeField(_('Updated at'), auto_now=True)
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, editable=False)
     study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
