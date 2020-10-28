@@ -967,14 +967,12 @@ msgstr ""
 "Die Vertraulichkeitsstufe zum Lesen darf nicht höher sein als zum Schreiben."
 
 #: castellum/recruitment/models/attributesets.py:224
-#, fuzzy, python-format
-#| msgid "Statistics rank can only be set for the following field types: %s"
 msgid ""
 "Statistics rank can only be set for the following field types: "
 "%(field_types)s"
 msgstr ""
 "Der Statistik-Rang kann nur für die folgenden Feldtypen eingestellt werden: "
-"%s"
+"%(field_types)s"
 
 #: castellum/recruitment/models/recruitment.py:71
 msgid "not contacted"
@@ -1443,7 +1441,7 @@ msgstr ""
 
 #: castellum/studies/forms.py:59
 msgid "Mails will be sent to: "
-msgstr ""
+msgstr "Mails werden versandt an:"
 
 #: castellum/studies/forms.py:66
 #: castellum/subjects/templates/subjects/maintenance_duplicates.html:18
@@ -1604,7 +1602,7 @@ msgstr ""
 
 #: castellum/studies/models.py:127
 msgid "Announce status changes"
-msgstr ""
+msgstr "Bei Statusänderungen Benachrichtigungen versenden"
 
 #: castellum/studies/models.py:132
 msgid "Advanced filtering"
@@ -2412,15 +2410,11 @@ msgid "Attributes"
 msgstr "Merkmale"
 
 #: castellum/subjects/templates/subjects/maintenance_attributes.html:7
-#, fuzzy
-#| msgid "The following subjects have incomplete attributesets:"
 msgid "The following subjects have incomplete attributes:"
 msgstr "Die folgenden Proband*innen haben unvollständige Merkmale:"
 
 #: castellum/subjects/templates/subjects/maintenance_attributes.html:16
 #: castellum/subjects/templates/subjects/subject_detail.html:48
-#, fuzzy
-#| msgid "Attributeset completeness"
 msgid "Attribute completeness"
 msgstr "Vollständigkeit der Merkmale"
 
