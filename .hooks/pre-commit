@@ -12,7 +12,7 @@ nonempty() {
 }
 
 # collecting files that should have license header
-git ls-files castellum | grep py$ | grep -v migrations | grep -v settings | grep -v wsgi.py | nonempty | sort > "${tmp}/expected"
+git ls-files castellum | grep py$ | grep -v migrations | grep -v settings | grep -v '[aw]sgi.py' | nonempty | sort > "${tmp}/expected"
 
 # collecting files with license header
 git grep -l 'you can redistribute' castellum | grep py$ | sort > "${tmp}/actual"
