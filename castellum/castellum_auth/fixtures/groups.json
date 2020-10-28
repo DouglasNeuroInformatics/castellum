@@ -27,7 +27,7 @@
     "model": "auth.group",
     "pk": 2,
     "fields": {
-        "name": "Subject manager",
+        "name": "Principal subject manager",
         "permissions": [
             [
                 "view_subject",

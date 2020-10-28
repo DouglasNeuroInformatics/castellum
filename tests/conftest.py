@@ -122,26 +122,13 @@ def study_approver(db):
 
 
 @pytest.fixture
-def study_conductor(study, study_in_execution_status, study_in_edit_status):
-    return create_member(
-        'Study conductor',
-        [study, study_in_execution_status, study_in_edit_status],
-    )
-
-
-@pytest.fixture
 def study_coordinator(db):
     return create_user('Study coordinator')
 
 
 @pytest.fixture
 def subject_manager(db):
-    return create_user('Subject manager')
-
-
-@pytest.fixture
-def recruiter(study, study_in_execution_status, study_in_edit_status):
-    return create_member('Recruiter', [study, study_in_execution_status, study_in_edit_status])
+    return create_user('Principal subject manager')
 
 
 @pytest.fixture
@@ -152,6 +139,21 @@ def data_protection_coordinator(db):
 @pytest.fixture
 def receptionist(db):
     return create_user('Receptionist')
+
+
+@pytest.fixture
+def member(study, study_in_execution_status, study_in_edit_status):
+    return create_member("all", [study, study_in_execution_status, study_in_edit_status])
+
+
+@pytest.fixture
+def recruiter(study, study_in_execution_status, study_in_edit_status):
+    return create_member('Recruiter', [study, study_in_execution_status, study_in_edit_status])
+
+
+@pytest.fixture
+def conductor(study, study_in_execution_status, study_in_edit_status):
+    return create_member('Conductor', [study, study_in_execution_status, study_in_edit_status])
 
 
 @pytest.fixture
@@ -176,11 +178,6 @@ def study_in_execution_status(db):
 @pytest.fixture
 def study_in_edit_status(db):
     return baker.make(Study, status=Study.EDIT)
-
-
-@pytest.fixture
-def member(study, study_in_execution_status, study_in_edit_status):
-    return create_member("all", [study, study_in_execution_status, study_in_edit_status])
 
 
 @pytest.fixture

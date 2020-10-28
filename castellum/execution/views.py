@@ -265,7 +265,7 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
         return send_mail(
             '[%s] news email send' % self.study.name,
             body,
-            [user.email for user in self.study.study_conductors],
+            [user.email for user in self.study.conductors],
             context='internal',
         )
 

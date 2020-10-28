@@ -31,7 +31,7 @@ def test_with_parameters_200(client, user):
     'subject_manager',
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('receptionist', marks=pytest.mark.xfail(strict=True)),
-    pytest.param('study_conductor', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('conductor', marks=pytest.mark.xfail(strict=True)),
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_match(request, client, user_fixture):

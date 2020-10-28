@@ -7,7 +7,7 @@ from castellum.recruitment.models import Participation
 
 @pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
-    'study_conductor',
+    'conductor',
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
@@ -24,7 +24,7 @@ def test_study_detail_view(request, client, user_fixture, study_in_execution_sta
 
 @pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
-    'study_conductor',
+    'conductor',
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
@@ -49,9 +49,9 @@ def test_participation_detail_view_invited(
 
 
 def test_participation_detail_view_unsuitable(
-    request, client, contact, study_conductor, study_in_execution_status
+    request, client, contact, conductor, study_in_execution_status
 ):
-    client.force_login(study_conductor)
+    client.force_login(conductor)
 
     participation = baker.make(
         Participation,
@@ -142,7 +142,7 @@ def test_calendar_view_events(client, member, study_in_execution_status, contact
 @pytest.mark.smoketest
 @pytest.mark.parametrize('user_fixture', [
     'receptionist',
-    pytest.param('study_conductor', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('conductor', marks=pytest.mark.xfail(strict=True)),
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
