@@ -23,6 +23,7 @@ import json
 import os
 
 from django import forms
+from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
 from castellum.castellum_auth.models import User
@@ -48,10 +49,17 @@ class StudyForm(ReadonlyModelForm):
             'email',
             'description',
             'keywords',
+            'announce_status_changes',
             'data_sensitivity',
             'consent',
             'min_subject_count',
         ]
+        help_texts = {
+            'announce_status_changes': (
+                _('Mails will be sent to: ') +
+                ', '.join(settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO)
+            ),
+        }
 
 
 class StudyFilterForm(forms.Form):

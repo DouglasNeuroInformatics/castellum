@@ -366,6 +366,31 @@ Participant details: {participation_url}
 Study calendar: {calendar_url}
 """
 
+# Email addresses for announcing new public studies
+CASTELLUM_STUDY_STATUS_NOTIFICATION_TO = []
+CASTELLUM_STUDY_STATUS_NOTIFICATION_SUBJECT = '[{study}] Study status changed'
+CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY = """Study details of {name}:
+
+Status: {status}
+Previous status: {previous_status}
+
+Contact person: {contact_person}
+Email: {email}
+Phone: {phone},
+Session types: {session_types}
+Scheduled runtime: {sessions_start} - {sessions_end}
+Excluded studies: {excluded_studies}
+Filters:
+{filters}
+
+Recruitment text:
+{recruitment_text}
+
+Inclusion/Exclusion criteria:
+{exclusion_criteria}
+
+"""
+
 CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 
 # A function that generates a random pseudonym.
