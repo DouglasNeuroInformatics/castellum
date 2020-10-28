@@ -369,12 +369,11 @@ Study calendar: {calendar_url}
 # Email addresses for announcing new public studies
 CASTELLUM_STUDY_STATUS_NOTIFICATION_TO = []
 CASTELLUM_STUDY_STATUS_NOTIFICATION_SUBJECT = '[{study}] Study status changed'
-CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY = """Study details:
+CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY = """Study details of {name}:
 
 Status: {status}
 Previous status: {previous_status}
 
-Name: {name}
 Contact person: {contact_person}
 Email: {email}
 Phone: {phone},
