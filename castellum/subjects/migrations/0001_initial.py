@@ -29,8 +29,8 @@ class Migration(migrations.Migration):
             name='Subject',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateField(auto_now_add=True, verbose_name='created at')),
-                ('updated_at', models.DateField(auto_now=True, verbose_name='updated at')),
+                ('created_at', models.DateField(auto_now_add=True, verbose_name='Created at')),
+                ('updated_at', models.DateField(auto_now=True, verbose_name='Updated at')),
                 ('privacy_level', models.PositiveIntegerField(choices=[(0, '0 (regular)'), (1, '1 (increased)'), (2, '2 (high)')], default=0, verbose_name='Privacy level')),
                 ('no_recruitment', models.BooleanField(default=False, verbose_name='Do not contact for recruitment')),
                 ('to_be_deleted', models.DateTimeField(blank=True, null=True, verbose_name='To be deleted')),

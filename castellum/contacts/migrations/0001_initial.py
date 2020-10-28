@@ -34,8 +34,8 @@ class Migration(migrations.Migration):
             name='Contact',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateField(auto_now_add=True, verbose_name='created at')),
-                ('updated_at', models.DateField(auto_now=True, verbose_name='updated at')),
+                ('created_at', models.DateField(auto_now_add=True, verbose_name='Created at')),
+                ('updated_at', models.DateField(auto_now=True, verbose_name='Updated at')),
                 ('pseudonym', models.CharField(default=None, editable=False, max_length=64, unique=True)),
                 ('first_name', models.CharField(max_length=64, verbose_name='First name')),
                 ('first_name_phonetic', models.CharField(default=None, editable=False, max_length=128)),

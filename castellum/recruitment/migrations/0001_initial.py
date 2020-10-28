@@ -110,8 +110,8 @@ class Migration(migrations.Migration):
             name='AttributeSet',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateField(auto_now_add=True, verbose_name='created at')),
-                ('updated_at', models.DateField(auto_now=True, verbose_name='updated at')),
+                ('created_at', models.DateField(auto_now_add=True, verbose_name='Created at')),
+                ('updated_at', models.DateField(auto_now=True, verbose_name='Updated at')),
                 ('data', django.contrib.postgres.fields.jsonb.JSONField(encoder=django.core.serializers.json.DjangoJSONEncoder)),
             ],
             options={

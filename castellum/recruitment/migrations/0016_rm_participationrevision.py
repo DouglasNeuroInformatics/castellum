@@ -47,13 +47,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='participation',
             name='created_at',
-            field=castellum.utils.fields.DateTimeField(auto_now_add=True, default=django.utils.timezone.now, verbose_name='created at'),
+            field=castellum.utils.fields.DateTimeField(auto_now_add=True, default=django.utils.timezone.now, verbose_name='Created at'),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='participation',
             name='updated_at',
-            field=castellum.utils.fields.DateTimeField(auto_now=True, verbose_name='updated at'),
+            field=castellum.utils.fields.DateTimeField(auto_now=True, verbose_name='Updated at'),
         ),
         migrations.AddField(
             model_name='participation',
