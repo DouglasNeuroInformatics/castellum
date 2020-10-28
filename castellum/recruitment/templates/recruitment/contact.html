@@ -89,10 +89,11 @@
             </div>
 
             <div class="tab-pane" id="study" role="tabpanel" aria-labelledby="study-tab">
-                <dl class="row">
-                    <dt class="col-sm-6">{{ study|verbose_name:'recruitment_text' }}</dt>
-                    <dd class="col-sm-6">{{ study|display:'recruitment_text' }}</dd>
+                {% if study.recruitment_text %}
+                    {{ study.recruitment_text|linebreaks }}</dd>
+                {% endif %}
 
+                <dl class="row">
                     <dt class="col-sm-6">{% translate 'Type of study' %}</dt>
                     <dd class="col-sm-6">{{ study|display:'study_type' }}</dd>
 
