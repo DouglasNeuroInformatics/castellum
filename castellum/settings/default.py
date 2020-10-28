@@ -1,12 +1,11 @@
 import datetime
 import os
-
-from django.utils.translation import gettext_lazy as _
+from pathlib import Path
 
 import castellum_pseudonyms
 from dateutil.relativedelta import relativedelta
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 ALLOWED_HOSTS = []
 
@@ -65,7 +64,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),
+            BASE_DIR / 'templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -146,13 +145,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
+LOCALE_PATHS = [BASE_DIR / 'locale']
 
 
 # Static files (CSS, JavaScript, Images)
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    BASE_DIR / 'static',
 ]
 
 
@@ -164,13 +163,13 @@ STATICFILES_FINDERS = [
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
+STATIC_ROOT = BASE_DIR / 'collected_static'
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
-NPM_ROOT_PATH = os.path.dirname(BASE_DIR)
+NPM_ROOT_PATH = BASE_DIR.parent
 
 NPM_FILE_PATTERNS = {
     'bootstrap': [
@@ -214,7 +213,7 @@ AXES_LOCKOUT_TEMPLATE = 'axes-lockout.html'
 
 
 if os.access('/log', os.W_OK):
-    LOG_DIR = '/log'
+    LOG_DIR = Path('/log')
 else:
     LOG_DIR = BASE_DIR
 
@@ -238,7 +237,7 @@ LOGGING = {
         },
         'monitoring-file': {
             'class': 'logging.FileHandler',
-            'filename': os.path.join(LOG_DIR, 'monitoring.log'),
+            'filename': LOG_DIR / 'monitoring.log',
             'formatter': 'verbose',
         },
         'django.server': {
