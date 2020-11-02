@@ -44,8 +44,7 @@ from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
 from castellum.utils import add_working_days
 from castellum.utils.feeds import BaseICalFeed
-from castellum.utils.mail import send_mail
-from castellum.utils.mail import send_mass_mail
+from castellum.utils.mail import MailContext
 
 from . import filter_queries
 from .forms import AttributeSetForm
@@ -113,12 +112,12 @@ def send_appointment_notifications(request, participation, changes):
         )),
     )
 
-    msgs = []
-    mail_subject = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT
-    for user in participation.study.conductors:
-        if user != request.user:
-            msgs.append((mail_subject, body, [user.email], {}))
-    return send_mass_mail(msgs, context='internal')
+    with MailContext('internal') as ctx:
+        return ctx.send_mail(
+            settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT,
+            body,
+            [user.email for user in participation.study.conductors if user != request.user],
+        )
 
 
 class ParticipationMixin(StudyMixin, SubjectMixin):
@@ -254,38 +253,34 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         subjects = get_recruitable(self.study)
 
         counter = 0
-        while counter < batch_size and subjects:
-            pick = subjects.pop(random.randrange(0, len(subjects)))
-            msgs = []
-            for email in pick.contact.own_or_guardian_emails:
-                msgs.append((
-                    self.study.mail_subject,
-                    self.personalize_mail_body(self.study.mail_body, pick.contact),
-                    [email],
-                    {'reply_to': [self.study.email]}
-                ))
-            try:
-                success = send_mass_mail(msgs, context='recruitment')
-            except ValueError:
-                logger.debug('Failed to send email to subject %i', pick.pk)
-                success = False
-            if success:
-                Participation.objects.create(
-                    study=self.study,
-                    subject=pick,
-                    status=self.participation_status,
-                )
-                counter += 1
+        with MailContext('recruitment') as ctx:
+            while counter < batch_size and subjects:
+                pick = subjects.pop(random.randrange(0, len(subjects)))
+                success = 0
+                for email in pick.contact.own_or_guardian_emails:
+                    success += ctx.send_mail(
+                        self.study.mail_subject,
+                        self.personalize_mail_body(self.study.mail_body, pick.contact),
+                        [email],
+                        reply_to=[self.study.email],
+                    )
+                if success:
+                    Participation.objects.create(
+                        study=self.study,
+                        subject=pick,
+                        status=self.participation_status,
+                    )
+                    counter += 1
 
         return counter
 
     def send_confirmation_mail(self, counter):
-        send_mail(
-            self.study.mail_subject,
-            '%i emails have been sent.\n\n---\n\n%s' % (counter, self.study.mail_body),
-            [self.study.email],
-            context='internal',
-        )
+        with MailContext('internal') as ctx:
+            ctx.send_mail(
+                self.study.mail_subject,
+                '%i emails have been sent.\n\n---\n\n%s' % (counter, self.study.mail_body),
+                [self.study.email],
+            )
 
     def _form_valid(self, form):
         batch_size = form.cleaned_data['batch_size']

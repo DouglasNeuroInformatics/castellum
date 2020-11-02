@@ -47,7 +47,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
 from castellum.subjects.models import Subject
-from castellum.utils.mail import send_mail
+from castellum.utils.mail import MailContext
 from castellum.utils.views import get_next_url
 
 from ..forms import ImportForm
@@ -84,12 +84,12 @@ def send_pr_mail(study):
             'exclusion_criteria': study.exclusion_criteria,
         }
 
-    return send_mail(
-        settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_SUBJECT.format(study=study.name),
-        (get_mail_data, settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY),
-        settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO,
-        context='internal',
-    )
+    with MailContext('internal') as ctx:
+        return ctx.send_mail(
+            settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_SUBJECT.format(study=study.name),
+            (get_mail_data, settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY),
+            settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO,
+        )
 
 
 class StudyIndexView(LoginRequiredMixin, ListView):
