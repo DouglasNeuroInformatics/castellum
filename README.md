@@ -18,7 +18,7 @@ The following commands will install everything and start a local testserver (on 
     make install_githooks
     make  # start castellum
 
-You can login with user "admin" and password "123".
+You can login with user "admin" and password "password".
 
 ## Testing
 
