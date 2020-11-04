@@ -32,7 +32,7 @@
         <h1>{{ dataset|model_verbose_name }}</h1>
         <dl class="row">
             {% for field_name in dataset|field_names %}
-                {% if field_name != 'id' and field_name != 'pseudonym' and field_name != 'subject' and field_name != 'participation' and dataset|display:field_name %}
+                {% if field_name != 'id' and field_name != 'slug' and field_name != 'subject' and field_name != 'subject_id' and field_name != 'participation' and dataset|display:field_name %}
                     <dt class="col-sm-6">{{ dataset|verbose_name:field_name }}</dt>
                     <dd class="col-sm-6">{{ dataset|display:field_name }}</dd>
                 {% endif %}
