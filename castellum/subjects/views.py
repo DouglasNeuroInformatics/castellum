@@ -54,6 +54,7 @@ from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributeSetUpdateView
+from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
@@ -247,7 +248,13 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
             context['dataset_list'] = [self.object, self.object.contact]
 
             try:
-                context['dataset_list'].append(self.object.attributeset)
+                attributeset = self.object.attributeset
+                context['attributes'] = []
+                for description in AttributeDescription.objects.all():
+                    value = attributeset.data.get(description.json_key)
+                    context['attributes'].append((
+                        description.label, description.field.get_display(value)
+                    ))
             except ObjectDoesNotExist:
                 pass
 

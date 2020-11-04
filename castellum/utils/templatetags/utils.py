@@ -38,15 +38,12 @@ register = template.Library()
 
 @register.filter
 def verbose_name(instance, field_name):
-    if hasattr(instance, 'get_verbose_name'):
-        return instance.get_verbose_name(field_name)
+    field = instance._meta.get_field(field_name)
+    if isinstance(field, models.Field):
+        return field.verbose_name
     else:
-        field = instance._meta.get_field(field_name)
-        if isinstance(field, models.Field):
-            return field.verbose_name
-        else:
-            # FIXME: backrefs do not have a verbose_name
-            return field.name
+        # FIXME: backrefs do not have a verbose_name
+        return field.name
 
 
 @register.filter
@@ -56,21 +53,18 @@ def model_verbose_name(instance, plural=False):
 
 @register.filter
 def display(instance, field_name):
-    if hasattr(instance, 'get_display'):
-        return instance.get_display(field_name)
+    getter = getattr(instance, 'get_{}_display'.format(field_name), None)
+    value = getter() if getter else getattr(instance, field_name)
+    if value is True:
+        return _('Yes')
+    elif value is False:
+        return _('No')
+    elif value is None or value == '':
+        return '—'
+    elif hasattr(value, 'all'):
+        return ', '.join(str(x) for x in value.all()) or '—'
     else:
-        getter = getattr(instance, 'get_{}_display'.format(field_name), None)
-        value = getter() if getter else getattr(instance, field_name)
-        if value is True:
-            return _('Yes')
-        elif value is False:
-            return _('No')
-        elif value is None or value == '':
-            return '—'
-        elif hasattr(value, 'all'):
-            return ', '.join(str(x) for x in value.all()) or '—'
-        else:
-            return value
+        return value
 
 
 @register.filter

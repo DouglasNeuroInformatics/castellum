@@ -100,18 +100,6 @@ class AttributeSet(TimeStampedModel):
         qs = AttributeDescription.objects.all()
         return {desc.json_key: self.data.get(desc.json_key) for desc in qs}
 
-    def get_verbose_name(self, pk):
-        description = AttributeDescription.objects.get(pk=pk)
-        return description.label
-
-    def get_display(self, pk):
-        description = AttributeDescription.objects.get(pk=pk)
-        value = self.data.get(description.json_key)
-        return description.field.get_display(value)
-
-    def get_field_names(self):
-        return AttributeDescription.objects.values_list('pk', flat=True)
-
     def get_statistics_bucket(self, rank):
         description = get_description_by_statistics_rank(rank)
         if not description:
