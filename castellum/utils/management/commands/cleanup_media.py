@@ -26,8 +26,8 @@ corresponding model.
 https://docs.djangoproject.com/en/stable/releases/1.3/#deleting-a-model-doesn-t-delete-associated-files
 """
 
-
 import os
+from pathlib import Path
 
 from django.apps import apps
 from django.conf import settings
@@ -50,7 +50,7 @@ def iter_file_fields(model):
 def iter_media_files():
     for root, dirs, files in os.walk(settings.MEDIA_ROOT):
         for filename in files:
-            yield os.path.join(root, filename)
+            yield Path(root) / filename
 
 
 def get_used_files():
@@ -58,7 +58,7 @@ def get_used_files():
     for model in iter_models():
         for field in iter_file_fields(model):
             files += model.objects.values_list(field.name, flat=True)
-    return [os.path.join(settings.MEDIA_ROOT, f) for f in files if f]
+    return [settings.MEDIA_ROOT / f for f in files if f]
 
 
 class Command(BaseCommand):

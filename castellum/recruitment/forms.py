@@ -21,7 +21,7 @@
 
 import itertools
 import json
-import os
+from pathlib import Path
 
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
@@ -43,8 +43,8 @@ from .models.appointments import MINUTE
 from .models.attributesets import ANSWER_DECLINED
 from .models.attributesets import UNCATEGORIZED
 
-APP_DIR = os.path.dirname(__file__)
-IMPORT_SCHEMA = json.load(open(os.path.join(APP_DIR, 'schemas', 'attributes.json')))
+APP_DIR = Path(__file__).resolve().parent
+IMPORT_SCHEMA = json.load(open(APP_DIR / 'schemas' / 'attributes.json'))
 
 
 def get_description_choices(user):
