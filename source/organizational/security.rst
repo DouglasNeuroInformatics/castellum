@@ -13,6 +13,12 @@ users can only ever access the parts of the data they really need.
 The security measures outlined in this section are meant to only allow access
 where allowed and required.
 
+Account restrictions
+--------------------
+
+-  Users are automatically logged out on inactivity
+-  User accounts expire on a set date
+
 Permissions
 -----------
 
