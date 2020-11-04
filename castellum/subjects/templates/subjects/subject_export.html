@@ -29,54 +29,6 @@
     </form>
 
     {% if subject.export_requested %}
-        <h1>{{ subject|model_verbose_name }}</h1>
-        <dl class="row">
-            <dt class="col-sm-6">{{ subject|verbose_name:'privacy_level' }}</dt>
-            <dd class="col-sm-6">{{ subject|display:'privacy_level' }}</dd>
-
-            <dt class="col-sm-6">{{ subject|verbose_name:'availability_monday' }}</dt>
-            <dd class="col-sm-6">{{ subject|display:'availability_monday' }}</dd>
-
-            <dt class="col-sm-6">{{ subject|verbose_name:'availability_tuesday' }}</dt>
-            <dd class="col-sm-6">{{ subject|display:'availability_tuesday' }}</dd>
-
-            <dt class="col-sm-6">{{ subject|verbose_name:'availability_wednesday' }}</dt>
-            <dd class="col-sm-6">{{ subject|display:'availability_wednesday' }}</dd>
-
-            <dt class="col-sm-6">{{ subject|verbose_name:'availability_thursday' }}</dt>
-            <dd class="col-sm-6">{{ subject|display:'availability_thursday' }}</dd>
-
-            <dt class="col-sm-6">{{ subject|verbose_name:'availability_friday' }}</dt>
-            <dd class="col-sm-6">{{ subject|display:'availability_friday' }}</dd>
-
-            <dt class="col-sm-6">{{ subject|verbose_name:'not_available_until' }}</dt>
-            <dd class="col-sm-6">{{ subject|display:'not_available_until' }}</dd>
-
-            <dt class="col-sm-6">{{ subject|verbose_name:'note_hard_of_hearing' }}</dt>
-            <dd class="col-sm-6">{{ subject|display:'note_hard_of_hearing' }}</dd>
-
-            <dt class="col-sm-6">{{ subject|verbose_name:'note_difficult_to_understand' }}</dt>
-            <dd class="col-sm-6">{{ subject|display:'note_difficult_to_understand' }}</dd>
-
-            <dt class="col-sm-6">{{ subject|verbose_name:'note_abusive_language' }}</dt>
-            <dd class="col-sm-6">{{ subject|display:'note_abusive_language' }}</dd>
-
-            <dt class="col-sm-6">{{ subject|verbose_name:'source' }}</dt>
-            <dd class="col-sm-6">{{ subject|display:'source' }}</dd>
-
-            <dt class="col-sm-6">{{ subject|verbose_name:'to_be_deleted' }}</dt>
-            <dd class="col-sm-6">{{ subject|display:'to_be_deleted' }}</dd>
-
-            <dt class="col-sm-6">{{ subject|verbose_name:'export_requested' }}</dt>
-            <dd class="col-sm-6">{{ subject|display:'export_requested' }}</dd>
-
-            <dt class="col-sm-6">{{ subject|verbose_name:'deceased' }}</dt>
-            <dd class="col-sm-6">{{ subject|display:'deceased' }}</dd>
-
-            <dt class="col-sm-6">{{ subject|verbose_name:'additional_suitability_document' }}</dt>
-            <dd class="col-sm-6">{{ subject|display:'additional_suitability_document' }}</dd>
-        </dl>
-
         {% for dataset in dataset_list %}
             <h1>{{ dataset|model_verbose_name }}</h1>
             <dl class="row">

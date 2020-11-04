@@ -148,6 +148,25 @@ class Subject(TimeStampedModel):
         self.contact.delete()
         return super().delete()
 
+    def get_field_names(self):
+        return [
+            'privacy_level',
+            'availability_monday',
+            'availability_tuesday',
+            'availability_wednesday',
+            'availability_thursday',
+            'availability_friday',
+            'not_available_until',
+            'note_hard_of_hearing',
+            'note_difficult_to_understand',
+            'note_abusive_language',
+            'source',
+            'to_be_deleted',
+            'export_requested',
+            'deceased',
+            'additional_suitability_document',
+        ]
+
     @cached_property
     def contact(self):
         from castellum.contacts.models import Contact

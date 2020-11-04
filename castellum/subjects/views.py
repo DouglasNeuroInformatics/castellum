@@ -245,7 +245,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
                 self.object.pk, self.request.user.pk
             ))
 
-            context['dataset_list'] = [self.object.contact]
+            context['dataset_list'] = [self.object, self.object.contact]
 
             try:
                 attributeset = self.object.attributeset
