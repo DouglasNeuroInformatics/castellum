@@ -119,8 +119,7 @@
             <div class="d-print-none mb-3">
                 {% has_perm 'studies.change_study' user as can_add_study %}
                 {% if can_add_study %}
-                    {% get_enable_study_export as enable_export %}
-                    {% if enable_export %}
+                    {% if CASTELLUM_ENABLE_STUDY_EXPORT %}
                         <a href="{% url 'studies:import' %}" class="btn btn-primary">{% translate "Import study" %}</a>
                     {% endif %}
                     <a href="{% url 'studies:create' %}" class="btn btn-primary">{% translate "Create new study" %}</a>
