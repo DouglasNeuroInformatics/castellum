@@ -32,3 +32,6 @@ class StudiesConfig(AppConfig):
     def ready(self):
         pre_save.connect(signals.create_study_domain)
         pre_delete.connect(signals.delete_study_domain)
+
+        pre_save.connect(signals.create_session_domain)
+        pre_delete.connect(signals.delete_session_domain)

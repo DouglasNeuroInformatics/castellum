@@ -344,6 +344,7 @@ class StudySession(models.Model):
     resource = models.ForeignKey(
         Resource, on_delete=models.SET_NULL, verbose_name=_('Resource'), blank=True, null=True
     )
+    domain = models.CharField(max_length=64, unique=True, editable=False, default=None)
 
     def __str__(self):
         return '{} - {}'.format(self.study, self.name)

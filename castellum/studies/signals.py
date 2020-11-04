@@ -36,3 +36,19 @@ def delete_study_domain(sender, instance, using, **kwargs):
 
     if sender is Study and instance.domain:
         delete_domain(instance.domain)
+
+
+def create_session_domain(sender, instance, using, **kwargs):
+    from castellum.pseudonyms.helpers import create_domain
+    from castellum.studies.models import StudySession
+
+    if sender is StudySession and not instance.domain:
+        instance.domain = create_domain(settings.CASTELLUM_SESSION_DOMAIN_BITS)
+
+
+def delete_session_domain(sender, instance, using, **kwargs):
+    from castellum.pseudonyms.helpers import delete_domain
+    from castellum.studies.models import StudySession
+
+    if sender is StudySession and instance.domain:
+        delete_domain(instance.domain)
