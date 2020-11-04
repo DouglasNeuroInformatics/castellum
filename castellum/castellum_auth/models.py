@@ -35,7 +35,7 @@ def generate_token():
 
 
 class User(AbstractUser):
-    DEMO_PASSWORD = '123'
+    DEMO_PASSWORD = 'password'
 
     language = models.CharField(
         _('Language'), max_length=5, choices=get_parler_languages(), blank=True
