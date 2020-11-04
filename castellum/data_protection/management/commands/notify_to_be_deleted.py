@@ -26,24 +26,24 @@ from django.urls import reverse
 
 from castellum.data_protection import helpers
 from castellum.subjects.models import Subject
-from castellum.utils.mail import send_mail
+from castellum.utils.mail import MailContext
 
 
 def subjects_notify(subjects, base_url):
     count = 0
-    for subject in subjects:
-        if not subject.to_be_deleted_notified:
-            subject.to_be_deleted_notified = True
-            subject.save()
-            count += 1
+    with MailContext('internal') as ctx:
+        for subject in subjects:
+            if not subject.to_be_deleted_notified:
+                subject.to_be_deleted_notified = True
+                subject.save()
+                count += 1
 
-            url = base_url + reverse('subjects:detail', args=[subject.slug])
-            send_mail(
-                settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
-                settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY.format(url=url),
-                [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
-                context='internal',
-            )
+                url = base_url + reverse('subjects:detail', args=[subject.slug])
+                ctx.send_mail(
+                    settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
+                    settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY.format(url=url),
+                    [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
+                )
     return count
 
 

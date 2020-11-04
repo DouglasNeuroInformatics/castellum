@@ -27,7 +27,7 @@ from django.utils.functional import cached_property
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.utils.mail import send_mail
+from castellum.utils.mail import MailContext
 
 from .forms import AdditionalInfoForm
 from .forms import DataProtectionForm
@@ -76,27 +76,27 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
     def form_valid(self, form):
         if settings.CASTELLUM_DELETE_NOTIFICATION_TO:
             old = Subject.objects.get(pk=self.object.pk)
-            if self.object.export_requested and not old.export_requested:
-                rel = reverse('subjects:detail', args=[self.object.slug])
-                url = self.request.build_absolute_uri(rel)
 
-                self.object.to_be_deleted_notified = send_mail(
-                    settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_SUBJECT,
-                    settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY.format(url=url),
-                    [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
-                    context='internal',
-                )
+            with MailContext('internal') as ctx:
+                if self.object.export_requested and not old.export_requested:
+                    rel = reverse('subjects:detail', args=[self.object.slug])
+                    url = self.request.build_absolute_uri(rel)
 
-            if self.object.to_be_deleted and not self.object.to_be_deleted_notified:
-                rel = reverse('subjects:detail', args=[self.object.slug])
-                url = self.request.build_absolute_uri(rel)
+                    self.object.to_be_deleted_notified = ctx.send_mail(
+                        settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_SUBJECT,
+                        settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY.format(url=url),
+                        [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
+                    )
 
-                self.object.to_be_deleted_notified = send_mail(
-                    settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
-                    settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY.format(url=url),
-                    [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
-                    context='internal',
-                )
+                if self.object.to_be_deleted and not self.object.to_be_deleted_notified:
+                    rel = reverse('subjects:detail', args=[self.object.slug])
+                    url = self.request.build_absolute_uri(rel)
+
+                    self.object.to_be_deleted_notified = ctx.send_mail(
+                        settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
+                        settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY.format(url=url),
+                        [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
+                    )
 
             # If a user explicitly removes the ``to_be_deleted`` they
             # expect that this task is done. If there are still reasons

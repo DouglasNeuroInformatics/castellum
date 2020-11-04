@@ -52,8 +52,7 @@ from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.subjects.models import Subject
-from castellum.utils.mail import send_mail
-from castellum.utils.mail import send_mass_mail
+from castellum.utils.mail import MailContext
 
 from .forms import NewsMailForm
 
@@ -212,17 +211,17 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
     study_status = [Study.EXECUTION]
     form_class = NewsMailForm
 
-    def send_mail(self, participation, subject=None, body=None):
+    def send_mail(self, ctx, participation, subject=None, body=None):
         contact = participation.subject.contact
-        msgs = []
+        count = 0
         for email in contact.own_or_guardian_emails:
-            msgs.append((
+            count += ctx.send_mail(
                 subject,
                 body.replace('{name}', contact.full_name),
                 [email],
-                {'reply_to': self.study.email},
-            ))
-        return send_mass_mail(msgs, context='recruitment')
+                reply_to=self.study.email,
+            )
+        return count
 
     def render_urls(self, participations):
         return '\n'.join(
@@ -262,25 +261,26 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
             mail_body=form.cleaned_data['body'],
         )
 
-        return send_mail(
-            '[%s] news email send' % self.study.name,
-            body,
-            [user.email for user in self.study.conductors],
-            context='internal',
-        )
+        with MailContext('internal') as ctx:
+            return ctx.send_mail(
+                '[%s] news email send' % self.study.name,
+                body,
+                [user.email for user in self.study.conductors],
+            )
 
     def form_valid(self, form):
         succeeded = []
         failed = []
 
-        for participation in self.study.participation_set.filter(
-            news_interest=Participation.VIA_EMAIL
-        ):
-            success = self.send_mail(participation, **form.cleaned_data)
-            if success:
-                succeeded.append(participation)
-            else:
-                failed.append(participation)
+        with MailContext('recruitment') as ctx:
+            for participation in self.study.participation_set.filter(
+                news_interest=Participation.VIA_EMAIL
+            ):
+                success = self.send_mail(ctx, participation, **form.cleaned_data)
+                if success:
+                    succeeded.append(participation)
+                else:
+                    failed.append(participation)
 
         self.send_summary(succeeded, failed, form)
         messages.success(self.request, _(

@@ -25,19 +25,6 @@ from django.core.mail import get_connection
 from django.utils import translation
 
 
-def get_context(name=None):
-    context = {
-        'from_email': settings.DEFAULT_FROM_EMAIL,
-        'language': settings.LANGUAGE_CODE,
-        'subject_prefix': '',
-        'signature': '',
-        'connection': {}
-    }
-    if name:
-        context.update(settings.CASTELLUM_MAIL[name])
-    return context
-
-
 def render_body_with_fallback(get_mail_data, text, fallback=None, lang=None):
     """Render text and english fallback text in the correct locale context."""
 
@@ -53,29 +40,48 @@ def render_body_with_fallback(get_mail_data, text, fallback=None, lang=None):
     return s
 
 
-def prepare_body(body, context):
-    if not isinstance(body, str):
-        body = render_body_with_fallback(*body, lang=context['language'])
-    body += context['signature']
-    return body
+class MailContext:
+    def __init__(self, name=None):
+        self.connection = None
+        self.data = {
+            'from_email': settings.DEFAULT_FROM_EMAIL,
+            'language': settings.LANGUAGE_CODE,
+            'subject_prefix': '',
+            'signature': '',
+            'connection': {}
+        }
+        if name:
+            self.data.update(settings.CASTELLUM_MAIL[name])
 
+    def __enter__(self):
+        if not self.connection:
+            self.connection = get_connection(**self.data['connection'])
+            try:
+                self.connection.open()
+            except Exception:
+                self.connection.close()
+                self.connection = None
+                raise
+        return self
 
-def send_mass_mail(datatuples, context=None):
-    context = get_context(context)
-    connection = get_connection(**context['connection'])
-    messages = [
-        EmailMessage(
-            subject=context['subject_prefix'] + subject,
-            body=prepare_body(body, context),
-            from_email=context['from_email'],
+    def __exit__(self, type, value, traceback):
+        self.connection.close()
+        self.connection = None
+
+    def prepare_body(self, body):
+        if not isinstance(body, str):
+            body = render_body_with_fallback(*body, lang=self.data['language'])
+        body += self.data['signature']
+        return body
+
+    def send_mail(self, subject, body, recipients, **kwargs):
+        assert self.connection
+        msg = EmailMessage(
+            subject=self.data['subject_prefix'] + subject,
+            body=self.prepare_body(body),
+            from_email=self.data['from_email'],
             to=recipients,
-            connection=connection,
+            connection=self.connection,
             **kwargs,
         )
-        for subject, body, recipients, kwargs in datatuples
-    ]
-    return connection.send_messages(messages)
-
-
-def send_mail(subject, body, recipients, context=None, **kwargs):
-    return send_mass_mail([(subject, body, recipients, kwargs)], context)
+        return msg.send()

@@ -30,15 +30,13 @@ from django.utils import timezone
 from castellum.recruitment.models import Appointment
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
-from castellum.utils.mail import send_mail
-from castellum.utils.mail import send_mass_mail
+from castellum.utils.mail import MailContext
 
 logger = logging.getLogger(__name__)
 
 
-def send_mail_to_subject(study, appointment):
+def send_mail_to_subject(ctx, study, appointment):
     contact = appointment.participation.subject.contact
-    msgs = []
 
     def get_mail_data():
         return {
@@ -48,8 +46,9 @@ def send_mail_to_subject(study, appointment):
             'reply_to': study.email,
         }
 
+    count = 0
     for email in contact.own_or_guardian_emails:
-        msgs.append((
+        count += ctx.send_mail(
             settings.CASTELLUM_APPOINTMENT_MAIL_SUBJECT,
             (
                 get_mail_data,
@@ -57,14 +56,9 @@ def send_mail_to_subject(study, appointment):
                 settings.CASTELLUM_APPOINTMENT_MAIL_BODY_EN,
             ),
             [email],
-            {'reply_to': [study.email]},
-        ))
-
-    try:
-        return send_mass_mail(msgs, context='recruitment')
-    except ValueError:
-        logger.debug('Failed to send email to subject %i', contact.subject.pk)
-        return False
+            reply_to=[study.email],
+        )
+    return count
 
 
 def send_mail_to_study_conductors(study, not_reachable, base_url):
@@ -75,12 +69,12 @@ def send_mail_to_study_conductors(study, not_reachable, base_url):
         )
         for appointment in not_reachable
     )
-    send_mail(
-        settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_SUBJECT.format(study=study),
-        settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY.format(urls=urls),
-        [user.email for user in study.conductors],
-        context='internal',
-    )
+    with MailContext('internal') as ctx:
+        return ctx.send_mail(
+            settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_SUBJECT.format(study=study),
+            settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY.format(urls=urls),
+            [user.email for user in study.conductors],
+        )
 
 
 def send_appointment_reminders(base_url):
@@ -98,13 +92,14 @@ def send_appointment_reminders(base_url):
         ).select_related('participation__subject')
         not_reachable = []
 
-        for appointment in due_appointments:
-            success = send_mail_to_subject(study, appointment)
-            if success:
-                reached_count += 1
-            else:
-                not_reached_count += 1
-                not_reachable.append(appointment)
+        with MailContext('recruitment') as ctx:
+            for appointment in due_appointments:
+                success = send_mail_to_subject(ctx, study, appointment)
+                if success:
+                    reached_count += 1
+                else:
+                    not_reached_count += 1
+                    not_reachable.append(appointment)
 
         if not_reachable:
             send_mail_to_study_conductors(study, not_reachable, base_url)
