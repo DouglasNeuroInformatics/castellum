@@ -27,25 +27,36 @@ from collections import defaultdict
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
 from django.views.generic import UpdateView
+from django.views.generic import View
 
 from icalendar import Calendar
 from simplecharts import StackedColumnRenderer
+from stronghold.decorators import public
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
+from castellum.pseudonyms.helpers import get_subject
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
+from castellum.studies.models import StudySession
 from castellum.studies.models import StudyTypeEventFeed
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.utils import cached_request
 from castellum.utils import contrast_color
+from castellum.utils import scheduler
 
 from .forms import ContactAndAppointmentsForm
 from .forms import ContactForm
@@ -55,6 +66,7 @@ from .mixins import BaseMailRecruitmentView
 from .mixins import ParticipationMixin
 from .mixins import get_recruitable
 from .mixins import send_appointment_notifications
+from .models import Appointment
 from .models import AttributeDescription
 from .models import Participation
 from .models.attributes import get_description_by_statistics_rank
@@ -393,3 +405,45 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
 class ResourceListView(LoginRequiredMixin, ListView):
     model = Resource
     template_name = 'recruitment/resource_list.html'
+
+
+@method_decorator(public, 'dispatch')
+@method_decorator(csrf_exempt, 'dispatch')
+class SchedulerPingView(View):
+    def post(self, request, *args, **kwargs):
+        session = get_object_or_404(StudySession, schedule_id=self.kwargs['schedule_id'])
+        try:
+            subject = get_subject(session.domain, self.kwargs['pseudonym'])
+        except ObjectDoesNotExist:
+            raise Http404
+        participation = get_object_or_404(Participation, subject=subject, study=session.study)
+        appointment = (
+            Appointment.objects
+            .filter(participation=participation, session=session)
+            .first()
+        )
+
+        start = scheduler.get(self.kwargs['schedule_id'], self.kwargs['pseudonym'])
+
+        appointment_changes = []
+
+        if appointment:
+            if not start:
+                appointment_changes.append((appointment.start, None))
+                appointment.delete()
+            elif start != appointment.start:
+                appointment_changes.append((appointment.start, start))
+                appointment.start = start
+                appointment.reminded = False
+                appointment.show_up = Appointment.SHOWUP  # reset to default
+                appointment.save()
+        elif start:
+            appointment_changes.append((None, start))
+            participation.appointment_set.create(
+                session=session,
+                start=start,
+            )
+
+        send_appointment_notifications(request, participation, appointment_changes)
+
+        return HttpResponse(status=204)
