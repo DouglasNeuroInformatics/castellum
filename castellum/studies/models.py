@@ -345,6 +345,9 @@ class StudySession(models.Model):
         Resource, on_delete=models.SET_NULL, verbose_name=_('Resource'), blank=True, null=True
     )
     domain = models.CharField(max_length=64, unique=True, editable=False, default=None)
+    schedule_id = models.PositiveIntegerField(
+        _('External schedule ID'), blank=True, null=True, unique=True
+    )
 
     def __str__(self):
         return '{} - {}'.format(self.study, self.name)
