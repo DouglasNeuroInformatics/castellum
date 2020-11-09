@@ -34,16 +34,16 @@ def subjects_notify(subjects, base_url):
     with MailContext('internal') as ctx:
         for subject in subjects:
             if not subject.to_be_deleted_notified:
-                subject.to_be_deleted_notified = True
-                subject.save()
-                count += 1
-
                 url = base_url + reverse('subjects:detail', args=[subject.slug])
-                ctx.send_mail(
+                sent = ctx.send_mail(
                     settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
                     settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY.format(url=url),
                     [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
                 )
+                if sent:
+                    count += 1
+                    subject.to_be_deleted_notified = True
+                    subject.save()
     return count
 
 
