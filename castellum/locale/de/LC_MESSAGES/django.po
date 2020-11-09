@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-09 16:18+0100\n"
+"POT-Creation-Date: 2020-11-09 16:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1643,14 +1643,6 @@ msgid "Complete filter matches only"
 msgstr "Nur vollständige Treffer"
 
 #: castellum/studies/models.py:165
-#, fuzzy
-#| msgid ""
-#| "By default, filters may include subjects with incomplete attribute sets. "
-#| "This feature is supposed to improve the quality of the database by asking "
-#| "recruiters to fill missing values on the go. Only allowing complete "
-#| "filter matches can speed up individual recruitments but may deteriorate "
-#| "the quality of the database as a whole. Furthermore, this reduces the "
-#| "number of potential subjects."
 msgid ""
 "By default, filters may include subjects with incomplete attributes. This "
 "feature is supposed to improve the quality of the database by asking "
@@ -1735,7 +1727,7 @@ msgstr "Ressource"
 
 #: castellum/studies/models.py:349
 msgid "External schedule ID"
-msgstr ""
+msgstr "ID für externe Terminplanung"
 
 #: castellum/studies/templates/studies/__filtergroup_common.html:5
 msgid ""
@@ -2238,16 +2230,12 @@ msgid "Slug"
 msgstr "Slug"
 
 #: castellum/subjects/models.py:83
-#, fuzzy
-#| msgid "Does not want to participate in the following study types:"
 msgid "Does not want to participate in one time invitations"
-msgstr "Möchte nicht an Studien der folgenden Typen teilnehmen:"
+msgstr "Möchte nicht an einmaligen Einladungen teilnehmen"
 
 #: castellum/subjects/models.py:88
-#, fuzzy
-#| msgid "Does not want to participate in the following study types:"
 msgid "Does not want to participate in the following study types"
-msgstr "Möchte nicht an Studien der folgenden Typen teilnehmen:"
+msgstr "Möchte nicht an Studien der folgenden Typen teilnehmen"
 
 #: castellum/subjects/models.py:94
 msgid "Privacy level"
@@ -2769,8 +2757,6 @@ msgid "subjects"
 msgstr "Proband*innen"
 
 #: castellum/subjects/templates/subjects/subject_search.html:153
-#, fuzzy
-#| msgid "Complete attribute set"
 msgid "Complete attributes"
 msgstr "Merkmale vollständig"
 
