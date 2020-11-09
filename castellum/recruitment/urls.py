@@ -26,7 +26,7 @@ from .feeds import FollowUpFeedForStudy
 from .feeds import FollowUpFeedForUser
 from .feeds import ResourceFeed
 from .views import AdditionalInfoUpdateView
-from .views import AttributeSetUpdateView
+from .views import AttributesUpdateView
 from .views import CalendarView
 from .views import ContactUpdateView
 from .views import ContactView
@@ -60,9 +60,9 @@ urlpatterns = [
         name='contact-update',
     ),
     path(
-        '<int:study_pk>/<int:pk>/update-attributeset/',
-        AttributeSetUpdateView.as_view(),
-        name='attributeset-update',
+        '<int:study_pk>/<int:pk>/update-attributes/',
+        AttributesUpdateView.as_view(),
+        name='attributes-update',
     ),
     path(
         '<int:study_pk>/<int:pk>/update-data-protection/',

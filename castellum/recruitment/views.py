@@ -49,7 +49,7 @@ from castellum.utils import contrast_color
 
 from .forms import ContactAndAppointmentsForm
 from .forms import ContactForm
-from .mixins import BaseAttributeSetUpdateView
+from .mixins import BaseAttributesUpdateView
 from .mixins import BaseCalendarView
 from .mixins import BaseMailRecruitmentView
 from .mixins import ParticipationMixin
@@ -57,7 +57,7 @@ from .mixins import get_recruitable
 from .mixins import send_appointment_notifications
 from .models import AttributeDescription
 from .models import Participation
-from .models.attributesets import get_description_by_statistics_rank
+from .models.attributes import get_description_by_statistics_rank
 
 logger = logging.getLogger(__name__)
 
@@ -344,7 +344,7 @@ class ContactUpdateView(RecruitmentUpdateMixin, BaseContactUpdateView):
         return self.participation.subject.contact
 
 
-class AttributeSetUpdateView(RecruitmentUpdateMixin, BaseAttributeSetUpdateView):
+class AttributesUpdateView(RecruitmentUpdateMixin, BaseAttributesUpdateView):
     def get_object(self):
         return self.participation.subject
 

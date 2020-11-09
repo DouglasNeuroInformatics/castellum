@@ -25,7 +25,7 @@ import json
 from django.core.management.base import BaseCommand
 
 from castellum.recruitment.models import AttributeDescription
-from castellum.recruitment.models.attributesets import ANSWER_DECLINED
+from castellum.recruitment.models.attributes import ANSWER_DECLINED
 from castellum.subjects.models import Subject
 
 TYPES = {

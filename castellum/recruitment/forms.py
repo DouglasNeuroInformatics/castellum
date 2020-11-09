@@ -40,8 +40,8 @@ from .models import AttributeDescription
 from .models import Participation
 from .models import SubjectFilter
 from .models.appointments import MINUTE
-from .models.attributesets import ANSWER_DECLINED
-from .models.attributesets import UNCATEGORIZED
+from .models.attributes import ANSWER_DECLINED
+from .models.attributes import UNCATEGORIZED
 
 APP_DIR = os.path.dirname(__file__)
 IMPORT_SCHEMA = json.load(open(os.path.join(APP_DIR, 'schemas', 'attributes.json')))
@@ -138,7 +138,7 @@ class SubjectFilterFormSet(forms.BaseModelFormSet):
             ), code='invalid')
 
 
-class AttributeSetForm(forms.ModelForm):
+class AttributesForm(forms.ModelForm):
 
     class Meta:
         model = Subject
@@ -175,7 +175,7 @@ class AttributeSetForm(forms.ModelForm):
     def factory(cls, user, obj=None):
         allowed_descriptions = AttributeDescription.objects.allowed_write(user, obj=obj)
         form_fields = {desc.json_key: desc.field.formfield() for desc in allowed_descriptions}
-        return type('AttributeSetForm', (cls,), form_fields)
+        return type('AttributesForm', (cls,), form_fields)
 
 
 class AppointmentsForm(forms.ModelForm):

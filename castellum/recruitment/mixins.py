@@ -47,14 +47,14 @@ from castellum.utils.feeds import BaseICalFeed
 from castellum.utils.mail import MailContext
 
 from . import filter_queries
-from .forms import AttributeSetForm
+from .forms import AttributesForm
 from .forms import SendMailForm
 from .models import Appointment
 from .models import AttributeDescription
 from .models import MailBatch
 from .models import Participation
-from .models.attributesets import ANSWER_DECLINED
-from .models.attributesets import UNCATEGORIZED
+from .models.attributes import ANSWER_DECLINED
+from .models.attributes import UNCATEGORIZED
 
 logger = logging.getLogger(__name__)
 monitoring_logger = logging.getLogger('monitoring.recruitment')
@@ -149,17 +149,17 @@ class ParticipationMixin(StudyMixin, SubjectMixin):
         return context
 
 
-class BaseAttributeSetUpdateView(PermissionRequiredMixin, UpdateView):
+class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
     model = Subject
     permission_required = 'subjects.change_subject'
-    template_name = 'recruitment/attributeset_form.html'
+    template_name = 'recruitment/attributes_form.html'
 
     def get_form_class(self):
-        return AttributeSetForm.factory(self.request.user)
+        return AttributesForm.factory(self.request.user)
 
     def form_valid(self, form):
         result = super().form_valid(form)
-        monitoring_logger.info('AttributeSet update: {} by {}'.format(
+        monitoring_logger.info('Attributes update: {} by {}'.format(
             self.object.pk,
             self.request.user.pk,
         ))

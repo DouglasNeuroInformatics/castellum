@@ -162,7 +162,7 @@ class Study(models.Model):
     complete_matches_only = models.BooleanField(
         _('Complete filter matches only'),
         help_text=_(
-            'By default, filters may include subjects with incomplete attribute sets. This feature '
+            'By default, filters may include subjects with incomplete attributes. This feature '
             'is supposed to improve the quality of the database by asking recruiters to fill '
             'missing values on the go. Only allowing complete filter matches can speed up '
             'individual recruitments but may deteriorate the quality of the database as a whole. '

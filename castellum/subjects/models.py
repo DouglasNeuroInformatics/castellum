@@ -291,7 +291,7 @@ class Subject(TimeStampedModel):
         return {desc.json_key: self.attributes.get(desc.json_key) for desc in qs}
 
     def get_statistics_bucket(self, rank):
-        from castellum.recruitment.models.attributesets import get_description_by_statistics_rank
+        from castellum.recruitment.models.attributes import get_description_by_statistics_rank
 
         description = get_description_by_statistics_rank(rank)
         if not description:

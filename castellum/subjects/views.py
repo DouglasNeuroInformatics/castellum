@@ -53,7 +53,7 @@ from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
-from castellum.recruitment.mixins import BaseAttributeSetUpdateView
+from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
@@ -310,11 +310,11 @@ class ContactUpdateView(SubjectUpdateMixin, BaseContactUpdateView):
         return reverse('subjects:contact', args=[self.object.subject.slug])
 
 
-class AttributeSetUpdateView(SubjectUpdateMixin, BaseAttributeSetUpdateView):
-    tab = 'attributeset'
+class AttributesUpdateView(SubjectUpdateMixin, BaseAttributesUpdateView):
+    tab = 'attributes'
 
     def get_success_url(self):
-        return reverse('subjects:attributeset', args=[self.object.slug])
+        return reverse('subjects:attributes', args=[self.object.slug])
 
 
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):

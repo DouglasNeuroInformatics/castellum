@@ -84,7 +84,7 @@ def test_not_contacted_count_is_gte_to_soft_limit(
     assert response.status_code == 200
 
 
-def test_no_matching_attribute_sets(
+def test_no_matching_subjects(
     client, member, study_in_execution_status, attribute_description
 ):
     study_in_execution_status.min_subject_count = 5

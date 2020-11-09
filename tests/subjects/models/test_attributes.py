@@ -7,14 +7,14 @@ from parler.utils.context import switch_language
 from castellum.recruitment.models import AttributeCategory
 from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import AttributeDescription
-from castellum.recruitment.models import attributesets
-from castellum.recruitment.models.attributesets import UNCATEGORIZED
+from castellum.recruitment.models import attributes
+from castellum.recruitment.models.attributes import UNCATEGORIZED
 from castellum.subjects.models import Subject
 
 
 @pytest.mark.django_db
 @pytest.mark.freeze_time('2018-01-10')
-@patch.object(attributesets, 'get_description_by_statistics_rank')
+@patch.object(attributes, 'get_description_by_statistics_rank')
 @pytest.mark.parametrize('date,bucket', (
     ('1985-01-01', '31-35'),
     ('1982-01-11', '31-35'),
