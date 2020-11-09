@@ -46,6 +46,7 @@ from stronghold.decorators import public
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
+from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.helpers import get_subject
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Resource
@@ -333,6 +334,17 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
             return reverse('recruitment:recruitment-open', args=[self.object.study.pk])
 
     def form_valid(self, form):
+        if settings.SCHEDULER_URL and self.object.status != Participation.INVITED:
+            for session in self.study.session_set.exclude(schedule_id=None):
+                pseudonym = get_pseudonym(self.subject, session.domain)
+                scheduler.delete(session.schedule_id, pseudonym)
+            qs = (
+                Appointment.objects
+                .filter(participation=self.object)
+                .exclude(session__schedule_id=None)
+            )
+            qs.delete()
+
         response = super().form_valid(form)
         if isinstance(form, ContactAndAppointmentsForm):
             send_appointment_notifications(self.request, self.object, form.appointment_changes)
