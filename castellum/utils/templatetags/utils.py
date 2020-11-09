@@ -26,7 +26,6 @@ from urllib.parse import urlparse
 from urllib.parse import urlunparse
 
 from django import template
-from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -123,21 +122,6 @@ def url_replace_param(context, url=None, **kwargs):
         urlencode(params, doseq=True),
         p.fragment,
     ])
-
-
-@register.simple_tag
-def get_production():
-    return settings.PRODUCTION
-
-
-@register.simple_tag
-def get_enable_study_export():
-    return settings.CASTELLUM_ENABLE_STUDY_EXPORT
-
-
-@register.simple_tag
-def get_study_status_notification_to():
-    return settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO
 
 
 register.simple_tag(get_parler_languages)

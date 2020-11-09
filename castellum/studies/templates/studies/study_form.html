@@ -24,7 +24,6 @@
         {% bootstrap_field form.email %}
         {% bootstrap_field form.description %}
         {% bootstrap_field form.keywords %}
-        {% get_study_status_notification_to as CASTELLUM_STUDY_STATUS_NOTIFICATION_TO %}
         {% if CASTELLUM_STUDY_STATUS_NOTIFICATION_TO %}
             {% bootstrap_field form.announce_status_changes %}
         {% else %}
