@@ -1,0 +1,60 @@
+# (c) 2018-2020
+#     MPIB <https://www.mpib-berlin.mpg.de/>,
+#     MPI-CBS <https://www.cbs.mpg.de/>,
+#     MPIP <http://www.psych.mpg.de/>
+#
+# This file is part of Castellum.
+#
+# Castellum is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Affero General Public License as published
+# by the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# Castellum is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License along with Castellum. If not, see
+# <http://www.gnu.org/licenses/>.
+
+
+import datetime
+
+from django.conf import settings
+from django.utils import timezone
+
+import requests
+
+
+def parse_date(s):
+    dt = datetime.datetime.fromisoformat(s)
+    dt = timezone.make_aware(dt)
+    return dt
+
+
+def request(method, id, token, allowed_status=[]):
+    assert settings.SCHEDULER_URL
+
+    url = '{}/api/{}/{}/'.format(settings.SCHEDULER_URL, id, token)
+    r = requests.request(method, url, headers={
+        'Authorization': 'token ' + settings.SCHEDULER_TOKEN,
+    })
+    if r.status_code not in allowed_status:
+        r.raise_for_status()
+    return r
+
+
+def put(id, token):
+    return request('PUT', id, token)
+
+
+def delete(id, token):
+    return request('DELETE', id, token, [404])
+
+
+def get(id, token):
+    r = request('GET', id, token)
+    start = r.json().get('datetime')
+    return parse_date(start) if start else None
