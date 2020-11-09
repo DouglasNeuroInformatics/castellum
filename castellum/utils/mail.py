@@ -84,4 +84,4 @@ class MailContext:
             connection=self.connection,
             **kwargs,
         )
-        return msg.send()
+        return msg.send(fail_silently=True)
