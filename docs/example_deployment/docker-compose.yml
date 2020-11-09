@@ -21,6 +21,11 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: "CHANGEME"
+  db_scheduler:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "CHANGEME"
   ldap:
     image: osixia/openldap
     restart: always
@@ -36,6 +41,18 @@ services:
       - ./nominatim/postgresdata:/var/lib/postgresql/11/main
       - ./nominatim/local.php:/app/src/build/settings/local.php
     command: ["bash", "/app/start.sh"]
+  scheduler:
+    image: registry.git.mpib-berlin.mpg.de/castellum/castellum_scheduler:latest
+    restart: always
+    environment:
+      DJANGO_SETTINGS_MODULE: scheduler.settings.deployment
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./scheduler_settings.py:/code/scheduler/settings/deployment.py:ro
+    depends_on:
+      - db_scheduler
+      - ldap
   web:
     ## use the latest pre-built image
     image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest

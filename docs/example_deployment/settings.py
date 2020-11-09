@@ -58,3 +58,6 @@ NOMINATIM = {
     'domain': 'nominatim:8080',
     'scheme': 'http',
 }
+
+SCHEDULER_URL = 'http://scheduler:8000'
+SCHEDULER_TOKEN = 'CHANGEME'
