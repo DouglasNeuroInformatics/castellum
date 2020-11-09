@@ -191,6 +191,7 @@ class AppointmentsForm(forms.ModelForm):
             self.fields[key] = DateTimeField(
                 label=self.format_session_name(session),
                 initial=appointment.start if appointment else None,
+                disabled=bool(session.schedule_id),
                 required=False,
             )
 

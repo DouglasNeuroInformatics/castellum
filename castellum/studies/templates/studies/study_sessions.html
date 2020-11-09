@@ -17,6 +17,11 @@
                 <input name="resource" type="hidden">
             {% endif %}
             {% bootstrap_field template_form.type %}
+            {% if SCHEDULER_URL %}
+                {% bootstrap_field template_form.schedule_id %}
+            {% else %}
+                {{ template_form.schedule_id.as_hidden }}
+            {% endif %}
         </fieldset>
     </template>
 
@@ -52,6 +57,11 @@
                         <input name="resource" type="hidden">
                     {% endif %}
                     {% bootstrap_field subform.type %}
+                    {% if SCHEDULER_URL %}
+                        {% bootstrap_field subform.schedule_id %}
+                    {% else %}
+                        {{ subform.schedule_id.as_hidden }}
+                    {% endif %}
                 </fieldset>
             {% endfor %}
         </div>
