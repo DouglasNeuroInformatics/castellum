@@ -47,15 +47,14 @@ from castellum.utils.feeds import BaseICalFeed
 from castellum.utils.mail import MailContext
 
 from . import filter_queries
-from .forms import AttributeSetForm
+from .forms import AttributesForm
 from .forms import SendMailForm
 from .models import Appointment
 from .models import AttributeDescription
-from .models import AttributeSet
 from .models import MailBatch
 from .models import Participation
-from .models.attributesets import ANSWER_DECLINED
-from .models.attributesets import UNCATEGORIZED
+from .models.attributes import ANSWER_DECLINED
+from .models.attributes import UNCATEGORIZED
 
 logger = logging.getLogger(__name__)
 monitoring_logger = logging.getLogger('monitoring.recruitment')
@@ -150,17 +149,18 @@ class ParticipationMixin(StudyMixin, SubjectMixin):
         return context
 
 
-class BaseAttributeSetUpdateView(PermissionRequiredMixin, UpdateView):
-    model = AttributeSet
+class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
+    model = Subject
     permission_required = 'subjects.change_subject'
+    template_name = 'recruitment/attributes_form.html'
 
     def get_form_class(self):
-        return AttributeSetForm.factory(self.request.user)
+        return AttributesForm.factory(self.request.user)
 
     def form_valid(self, form):
         result = super().form_valid(form)
-        monitoring_logger.info('AttributeSet update: {} by {}'.format(
-            self.object.subject.pk,
+        monitoring_logger.info('Attributes update: {} by {}'.format(
+            self.object.pk,
             self.request.user.pk,
         ))
         return result
@@ -171,9 +171,9 @@ class BaseAttributeSetUpdateView(PermissionRequiredMixin, UpdateView):
 
         def get_bound_fields(descriptions):
             for description in descriptions:
-                answer_declined = self.object.data.get(description.json_key) == ANSWER_DECLINED
+                value = self.object.attributes.get(description.json_key)
                 try:
-                    yield form['d%i' % description.pk], answer_declined
+                    yield form['d%i' % description.pk], value == ANSWER_DECLINED
                 except KeyError:
                     pass
 

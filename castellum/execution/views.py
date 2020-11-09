@@ -40,7 +40,7 @@ from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_subject
 from castellum.recruitment.forms import AppointmentsForm
-from castellum.recruitment.mixins import BaseAttributeSetUpdateView
+from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.mixins import BaseCalendarView
 from castellum.recruitment.mixins import ParticipationMixin
 from castellum.recruitment.mixins import send_appointment_notifications
@@ -319,9 +319,9 @@ class ContactUpdateView(ExecutionUpdateMixin, BaseContactUpdateView):
         return self.participation.subject.contact
 
 
-class AttributeSetUpdateView(ExecutionUpdateMixin, BaseAttributeSetUpdateView):
+class AttributesUpdateView(ExecutionUpdateMixin, BaseAttributesUpdateView):
     def get_object(self):
-        return self.participation.subject.attributeset
+        return self.participation.subject
 
 
 class DataProtectionUpdateView(ExecutionUpdateMixin, BaseDataProtectionUpdateView):

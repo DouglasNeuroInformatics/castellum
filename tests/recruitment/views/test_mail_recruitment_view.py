@@ -3,7 +3,6 @@ from django.core import mail
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
-from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.views import MailRecruitmentView
 from castellum.studies.models import Study
 from castellum.subjects.models import Consent
@@ -19,8 +18,6 @@ def test_mail_add_to_study(client, user):
     )
     contact1 = baker.make(Contact, email="example1@example.com")
     contact2 = baker.make(Contact, email="example2@example.com")
-    baker.make(AttributeSet, subject=contact1.subject)
-    baker.make(AttributeSet, subject=contact2.subject)
     baker.make(Consent, subject=contact1.subject, status=Consent.CONFIRMED)
     baker.make(Consent, subject=contact2.subject, status=Consent.CONFIRMED)
 
@@ -44,7 +41,6 @@ def test_guardian_mail_add_to_study(client, user):
     )
     contact1 = baker.make(Contact, email="example1@example.com")
     contact2 = baker.make(Contact, guardians=[contact1])
-    baker.make(AttributeSet, subject=contact2.subject)
     baker.make(Consent, subject=contact2.subject, status=Consent.CONFIRMED)
 
     study.members.add(user)

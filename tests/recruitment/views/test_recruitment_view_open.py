@@ -5,7 +5,6 @@ import pytest
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
-from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
@@ -69,7 +68,7 @@ def test_not_contacted_count_is_gte_to_soft_limit(
     for i in range(subject_count):
         create_participation(study_in_execution_status)
     for i in range(settings.CASTELLUM_RECRUITMENT_BATCH_SIZE):
-        create_attributeset()
+        create_subject()
 
     client.force_login(member)
     url = "/recruitment/{}/".format(study_in_execution_status.pk)
@@ -85,14 +84,14 @@ def test_not_contacted_count_is_gte_to_soft_limit(
     assert response.status_code == 200
 
 
-def test_no_matching_attribute_sets(
+def test_no_matching_subjects(
     client, member, study_in_execution_status, attribute_description
 ):
     study_in_execution_status.min_subject_count = 5
     study_in_execution_status.save()
 
     for i in range(5):
-        create_attributeset()
+        create_subject()
 
     subject_filter_group = baker.make(SubjectFilterGroup, study=study_in_execution_status)
     baker.make(
@@ -113,12 +112,15 @@ def test_no_matching_attribute_sets(
     assert response.status_code == 200
 
 
-def create_attributeset():
+def create_subject():
     contact = baker.make(Contact)
-    baker.make(Consent, subject=contact.subject, status=Consent.CONFIRMED)
-    return baker.make(AttributeSet, data={'d1': 1}, subject=contact.subject)
+    subject = contact.subject
+    subject.attributes = {'d1': 1}
+    subject.save()
+    baker.make(Consent, subject=subject, status=Consent.CONFIRMED)
+    return subject
 
 
 def create_participation(study, status=Participation.NOT_CONTACTED):
-    attributeset = create_attributeset()
-    baker.make(Participation, subject=attributeset.subject, study=study, status=status)
+    subject = create_subject()
+    baker.make(Participation, subject=subject, study=study, status=status)

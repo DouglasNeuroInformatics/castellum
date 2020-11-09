@@ -24,7 +24,7 @@ from django.urls import path
 from .views import AdditionalInfoUpdateView
 from .views import AddToFinishedStudyView
 from .views import AddToStudyView
-from .views import AttributeSetUpdateView
+from .views import AttributesUpdateView
 from .views import ContactUpdateView
 from .views import CoverletterView
 from .views import DataProtectionUpdateView
@@ -64,7 +64,7 @@ urlpatterns = [
     path('<slug>/delete/', SubjectDeleteView.as_view(), name='delete'),
     path('<slug>/export/', SubjectExportView.as_view(), name='export'),
     path('<slug>/contact/', ContactUpdateView.as_view(), name='contact'),
-    path('<slug>/attributes/', AttributeSetUpdateView.as_view(), name='attributeset'),
+    path('<slug>/attributes/', AttributesUpdateView.as_view(), name='attributes'),
     path('<slug>/data-protection/', DataProtectionUpdateView.as_view(), name='data-protection'),
     path('<slug>/additional-info/', AdditionalInfoUpdateView.as_view(), name='additional-info'),
     path('<slug>/coverletter.docx', CoverletterView.as_view(), name='coverletter'),

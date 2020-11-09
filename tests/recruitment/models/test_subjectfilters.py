@@ -2,7 +2,6 @@ import pytest
 from model_bakery import baker
 
 from castellum.recruitment import filter_queries
-from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
@@ -26,77 +25,77 @@ def has_match(is_exclusive=False, excluded_studies=[]):
     return Subject.objects.filter(filter_queries.study(study)).exists()
 
 
-def test_to_q(attributeset):
+def test_to_q(contact):
     assert has_match()
 
 
-def test_to_q_excluded_study(attributeset):
-    participation = create_participation(attributeset.subject)
+def test_to_q_excluded_study(contact):
+    participation = create_participation(contact.subject)
     assert not has_match(excluded_studies=[participation.study])
 
 
-def test_to_q_excluded_study_and_unsuitable(attributeset):
-    participation = create_participation(attributeset.subject, status=Participation.UNSUITABLE)
+def test_to_q_excluded_study_and_unsuitable(contact):
+    participation = create_participation(contact.subject, status=Participation.UNSUITABLE)
     assert has_match(excluded_studies=[participation.study])
 
 
-def test_to_q_excluded_study_and_unsuitable_for_other_study(attributeset):
-    participation = create_participation(attributeset.subject)
-    create_participation(attributeset.subject, status=Participation.UNSUITABLE)
+def test_to_q_excluded_study_and_unsuitable_for_other_study(contact):
+    participation = create_participation(contact.subject)
+    create_participation(contact.subject, status=Participation.UNSUITABLE)
     assert not has_match(excluded_studies=[participation.study])
 
 
-def test_to_q_reverse_excluded_study(attributeset):
-    participation = create_participation(attributeset.subject)
+def test_to_q_reverse_excluded_study(contact):
+    participation = create_participation(contact.subject)
     study = baker.make(Study)
     participation.study.excluded_studies.add(study)
     assert not Subject.objects.filter(filter_queries.study(study)).exists()
 
 
-def test_to_q_exclusive_study(attributeset):
+def test_to_q_exclusive_study(contact):
     assert has_match(is_exclusive=True)
 
 
-def test_to_q_exclusive_study_and_finished(attributeset):
-    create_participation(attributeset.subject, is_finished=True)
+def test_to_q_exclusive_study_and_finished(contact):
+    create_participation(contact.subject, is_finished=True)
     assert has_match(is_exclusive=True)
 
 
-def test_to_q_exclusive_study_in_same_study(attributeset):
+def test_to_q_exclusive_study_in_same_study(contact):
     study = baker.make(Study, is_exclusive=True)
     baker.make(
         Participation,
         status=Participation.INVITED,
-        subject=attributeset.subject,
+        subject=contact.subject,
         study=study,
     )
     q = filter_queries.study_exclusion(study)
     assert Subject.objects.filter(q).exists()
 
 
-def test_to_q_exclusive_study_and_unfinished(attributeset):
-    create_participation(attributeset.subject)
+def test_to_q_exclusive_study_and_unfinished(contact):
+    create_participation(contact.subject)
     assert not has_match(is_exclusive=True)
 
 
-def test_to_q_exclusive_study_and_unsuitable(attributeset):
-    create_participation(attributeset.subject, status=Participation.UNSUITABLE)
+def test_to_q_exclusive_study_and_unsuitable(contact):
+    create_participation(contact.subject, status=Participation.UNSUITABLE)
     assert has_match(is_exclusive=True)
 
 
-def test_to_q_other_study_exclusive_and_finished(attributeset):
-    create_participation(attributeset.subject, is_finished=True, is_exclusive=True)
+def test_to_q_other_study_exclusive_and_finished(contact):
+    create_participation(contact.subject, is_finished=True, is_exclusive=True)
     assert has_match()
 
 
-def test_to_q_other_study_is_exclusive_and_unfinished(attributeset):
-    create_participation(attributeset.subject, is_exclusive=True)
+def test_to_q_other_study_is_exclusive_and_unfinished(contact):
+    create_participation(contact.subject, is_exclusive=True)
     assert not has_match()
 
 
-def test_to_q_first_study_exclusive_second_study_unfinished(attributeset):
-    create_participation(attributeset.subject, is_finished=True, is_exclusive=True)
-    create_participation(attributeset.subject)
+def test_to_q_first_study_exclusive_second_study_unfinished(contact):
+    create_participation(contact.subject, is_finished=True, is_exclusive=True)
+    create_participation(contact.subject)
     assert has_match()
 
 
@@ -105,7 +104,7 @@ def test_disinterest_in_study_type(db):
     study = baker.make(Study)
     session = baker.make(StudySession, study=study)
     session.type.add(study_type)
-    baker.make(AttributeSet, study_type_disinterest=[study_type])
+    baker.make(Subject, study_type_disinterest=[study_type])
     assert not Subject.objects.filter(filter_queries.study(study)).exists()
 
 

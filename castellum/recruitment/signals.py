@@ -32,11 +32,12 @@ def delete_participation_pseudonym(sender, instance, using, **kwargs):
 
 
 def delete_attribute_data(sender, instance, using, **kwargs):
+    from castellum.subjects.models import Subject
+
     from .models import AttributeDescription
-    from .models import AttributeSet
 
     if sender is AttributeDescription:
-        objs = list(AttributeSet.objects.filter(data__has_key=instance.json_key))
-        for attributeset in objs:
-            del attributeset.data[instance.json_key]
-        AttributeSet.objects.bulk_update(objs, ['data'])
+        objs = list(Subject.objects.filter(attributes__has_key=instance.json_key))
+        for subject in objs:
+            del subject.attributes[instance.json_key]
+        Subject.objects.bulk_update(objs, ['attributes'])

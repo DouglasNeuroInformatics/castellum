@@ -7,52 +7,52 @@ from parler.utils.context import switch_language
 from castellum.recruitment.models import AttributeCategory
 from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import AttributeDescription
-from castellum.recruitment.models import AttributeSet
-from castellum.recruitment.models import attributesets
-from castellum.recruitment.models.attributesets import UNCATEGORIZED
+from castellum.recruitment.models import attributes
+from castellum.recruitment.models.attributes import UNCATEGORIZED
+from castellum.subjects.models import Subject
 
 
 @pytest.mark.django_db
 @pytest.mark.freeze_time('2018-01-10')
-@patch.object(attributesets, 'get_description_by_statistics_rank')
+@patch.object(attributes, 'get_description_by_statistics_rank')
 @pytest.mark.parametrize('date,bucket', (
     ('1985-01-01', '31-35'),
     ('1982-01-11', '31-35'),
     ('1982-01-10', '36-40'),
     ('1900-01-01', '>70'),
 ))
-def test_attribute_set_get_statistics_bucket_age(get_description_by_statistics_rank, date, bucket):
-    attributeset = baker.prepare(AttributeSet)
-    attributeset.data['d1'] = date
+def test_attributes_get_statistics_bucket_age(get_description_by_statistics_rank, date, bucket):
+    subject = baker.prepare(Subject)
+    subject.attributes['d1'] = date
 
     description = baker.prepare(AttributeDescription, field_type='AgeField', pk=1)
     get_description_by_statistics_rank.return_value = description
 
-    assert attributeset.get_statistics_bucket('__mock__') == bucket
+    assert subject.get_statistics_bucket('__mock__') == bucket
 
 
 @pytest.mark.django_db
-def test_attribute_set_get_completeness_empty():
-    attributeset = AttributeSet(data={})
-    completed, total = attributeset.get_completeness()
+def test_attributes_get_completeness_empty():
+    subject = Subject(attributes={})
+    completed, total = subject.get_completeness()
     assert completed == 0
 
 
-def test_attribute_set_get_completeness_empty_value(attribute_description):
-    attributeset = AttributeSet()
-    attributeset.data = {
+def test_attributes_get_completeness_empty_value(attribute_description):
+    subject = Subject()
+    subject.attributes = {
         attribute_description.json_key: None,
     }
-    completed, total = attributeset.get_completeness()
+    completed, total = subject.get_completeness()
     assert completed == 0
 
 
-def test_attribute_set_get_completeness_non_empty(attribute_description):
-    attributeset = AttributeSet()
-    attributeset.data = {
+def test_attributes_get_completeness_non_empty(attribute_description):
+    subject = Subject()
+    subject.attributes = {
         attribute_description.json_key: 1,
     }
-    completed, total = attributeset.get_completeness()
+    completed, total = subject.get_completeness()
     assert completed == 1
 
 

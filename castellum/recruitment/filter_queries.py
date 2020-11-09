@@ -91,9 +91,9 @@ def study_exclusion(study):
 def study_disinterest(study):
     """Exclude subjects who are disinterested in this study's study type."""
     if study.is_onetime_invitation:
-        return models.Q(attributeset__onetime_invitation_disinterest=False)
+        return models.Q(onetime_invitation_disinterest=False)
     else:
-        return ~models.Q(attributeset__study_type_disinterest__in=study.study_type.all())
+        return ~models.Q(study_type_disinterest__in=study.study_type.all())
 
 
 def subjectfilters(subjectfiltergroup, include_unknown=None):
@@ -184,12 +184,12 @@ def geofilter(study):
 
 def completeness_expr():
     """Expression that can be used to annotate a queryset."""
-    # Needs to match ``AttributeSet.get_completeness()``.
+    # Needs to match ``Subject.get_completeness()``.
     total = 0
     completeness = models.Value(0, output_field=models.IntegerField())
     for description in AttributeDescription.objects.all():
         total += 1
-        field_name = 'attributeset__data__' + description.json_key
+        field_name = 'attributes__' + description.json_key
         completeness += models.Case(
             models.When((
                 models.Q(**{field_name: ''}) |

@@ -29,6 +29,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from castellum.studies.models import Study
+from castellum.subjects.models import Subject
 from castellum.utils.forms import BaseImportForm
 from castellum.utils.forms import DateTimeField
 from castellum.utils.forms import DisabledChoiceField
@@ -36,12 +37,11 @@ from castellum.utils.forms import DisabledModelChoiceField
 
 from .models import Appointment
 from .models import AttributeDescription
-from .models import AttributeSet
 from .models import Participation
 from .models import SubjectFilter
 from .models.appointments import MINUTE
-from .models.attributesets import ANSWER_DECLINED
-from .models.attributesets import UNCATEGORIZED
+from .models.attributes import ANSWER_DECLINED
+from .models.attributes import UNCATEGORIZED
 
 APP_DIR = os.path.dirname(__file__)
 IMPORT_SCHEMA = json.load(open(os.path.join(APP_DIR, 'schemas', 'attributes.json')))
@@ -138,11 +138,11 @@ class SubjectFilterFormSet(forms.BaseModelFormSet):
             ), code='invalid')
 
 
-class AttributeSetForm(forms.ModelForm):
+class AttributesForm(forms.ModelForm):
 
     class Meta:
-        model = AttributeSet
-        exclude = ['data']
+        model = Subject
+        fields = ['study_type_disinterest', 'onetime_invitation_disinterest']
         widgets = {
             'study_type_disinterest': forms.CheckboxSelectMultiple(),
         }
@@ -164,18 +164,18 @@ class AttributeSetForm(forms.ModelForm):
         return {
             'study_type_disinterest': study_type_disinterest,
             'onetime_invitation_disinterest': onetime_invitation_disinterest,
-            'data': cleaned_data,
+            'attributes': cleaned_data,
         }
 
     def save(self):
-        self.instance.data.update(self.cleaned_data['data'])
+        self.instance.attributes.update(self.cleaned_data['attributes'])
         return super().save()
 
     @classmethod
     def factory(cls, user, obj=None):
         allowed_descriptions = AttributeDescription.objects.allowed_write(user, obj=obj)
         form_fields = {desc.json_key: desc.field.formfield() for desc in allowed_descriptions}
-        return type('AttributeSetForm', (cls,), form_fields)
+        return type('AttributesForm', (cls,), form_fields)
 
 
 class AppointmentsForm(forms.ModelForm):

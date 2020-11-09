@@ -22,6 +22,7 @@
 import datetime
 
 from django.conf import settings
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -76,6 +77,18 @@ class SubjectQuerySet(models.QuerySet):
 
 class Subject(TimeStampedModel):
     slug = models.CharField(_('Slug'), max_length=64, default=uuid_str, unique=True)
+
+    attributes = models.JSONField(encoder=DjangoJSONEncoder)
+    onetime_invitation_disinterest = models.BooleanField(
+        _('Does not want to participate in one time invitations'),
+        default=False,
+    )
+    study_type_disinterest = models.ManyToManyField(
+        'studies.StudyType',
+        verbose_name=_('Does not want to participate in the following study types'),
+        blank=True,
+        related_name='+',
+    )
 
     privacy_level = models.PositiveIntegerField(
         _('Privacy level'),
@@ -165,6 +178,8 @@ class Subject(TimeStampedModel):
             'export_requested',
             'deceased',
             'additional_suitability_document',
+            'study_type_disinterest',
+            'onetime_invitation_disinterest',
         ]
 
     @cached_property
@@ -268,6 +283,30 @@ class Subject(TimeStampedModel):
         for status, label in Appointment.SHOWUP_CHOICES:
             key = 'showup_%i' % status
             setattr(self, key, getattr(annotated, key))
+
+    def get_data(self):
+        from castellum.recruitment.models import AttributeDescription
+
+        qs = AttributeDescription.objects.all()
+        return {desc.json_key: self.attributes.get(desc.json_key) for desc in qs}
+
+    def get_statistics_bucket(self, rank):
+        from castellum.recruitment.models.attributes import get_description_by_statistics_rank
+
+        description = get_description_by_statistics_rank(rank)
+        if not description:
+            return None
+        value = self.attributes.get(description.json_key)
+
+        return description.field.get_statistics_bucket(value)
+
+    def get_completeness(self):
+        from castellum.recruitment.models import AttributeDescription
+
+        # Needs to match ``filter_queries.completeness_expr()``
+        completed = len([k for k, v in self.attributes.items() if v not in [None, '']])
+        total = AttributeDescription.objects.count()
+        return completed, total
 
 
 class SubjectNote(models.Model):

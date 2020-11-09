@@ -41,14 +41,12 @@
             </dl>
         {% endfor %}
 
-        {% if subject.attributeset %}
-            <h1>{{ subject.attributeset|model_verbose_name }}</h1>
-            <dl class="row">
-                {% for label, value in attributes %}
-                    <dt class="col-sm-6">{{ label }}</dt>
-                    <dd class="col-sm-6">{{ value }}</dd>
-                {% endfor %}
-            </dl>
-        {% endif %}
+        <h1>{% translate 'Attributes' %}</h1>
+        <dl class="row">
+            {% for label, value in attributes %}
+                <dt class="col-sm-6">{{ label }}</dt>
+                <dd class="col-sm-6">{{ value }}</dd>
+            {% endfor %}
+        </dl>
     {% endif %}
 {% endblock %}

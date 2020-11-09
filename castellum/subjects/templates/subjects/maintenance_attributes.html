@@ -12,12 +12,12 @@
             <li class="table-list-item">
                 <div>
                     <div>
-                        {% with completeness=subject.attributeset.get_completeness %}
+                        {% with completeness=subject.get_completeness %}
                             {% translate 'Attribute completeness' %}: {{ completeness.0 }}/{{ completeness.1 }}
                         {% endwith %}
                     </div>
                     <div>
-                        {% translate 'Last updated on' %}: {{ subject.attributeset.updated_at|date }}
+                        {% translate 'Last updated on' %}: {{ subject.updated_at|date }}
                     </div>
                 </div>
                 <div class="table-list-item-actions">

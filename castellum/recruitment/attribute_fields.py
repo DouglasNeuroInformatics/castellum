@@ -64,12 +64,12 @@ class BaseAttributeField:
         return self.formfield(self.filter_form_class, **kwargs)
 
     def _filter_to_q(self, operator, value):
-        field_name = 'attributeset__data__' + self.description.json_key
+        field_name = 'attributes__' + self.description.json_key
         key = '{}__{}'.format(field_name, operator)
         return models.Q(**{key: value})
 
     def filter_to_q(self, operator, value, include_unknown=True):
-        field_name = 'attributeset__data__' + self.description.json_key
+        field_name = 'attributes__' + self.description.json_key
         inverse = operator.startswith('!')
         if inverse:
             operator = operator[1:]
@@ -229,7 +229,7 @@ class OrderedChoiceAttributeField(ChoiceAttributeField):
             # JSONField cannot use `in` lookups
             q = models.Q()
             for choice in allowed_choices:
-                q |= models.Q(**{'attributeset__data__' + self.description.json_key: choice.pk})
+                q |= models.Q(**{'attributes__' + self.description.json_key: choice.pk})
             return q
         return super()._filter_to_q(operator, value)
 

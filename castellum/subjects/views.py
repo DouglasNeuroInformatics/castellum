@@ -53,9 +53,8 @@ from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
-from castellum.recruitment.mixins import BaseAttributeSetUpdateView
+from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.models import AttributeDescription
-from castellum.recruitment.models import AttributeSet
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
 
@@ -187,13 +186,8 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         context['updated_at'] = max(self.object.updated_at, self.object.contact.updated_at)
 
-        try:
-            context['updated_at'] = max(context['updated_at'], self.object.attributeset.updated_at)
-
-            completed, total = self.object.attributeset.get_completeness()
-            context['attributeset_completeness'] = '%i%%' % (100 * completed / (total or 1))
-        except AttributeSet.DoesNotExist:
-            pass
+        completed, total = self.object.get_completeness()
+        context['attribute_completeness'] = '%i%%' % (100 * completed / (total or 1))
 
         context['coverletter_exists'] = bool(settings.CASTELLUM_COVERLETTER_TEMPLATE)
 
@@ -247,16 +241,12 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
             context['dataset_list'] = [self.object, self.object.contact]
 
-            try:
-                attributeset = self.object.attributeset
-                context['attributes'] = []
-                for description in AttributeDescription.objects.all():
-                    value = attributeset.data.get(description.json_key)
-                    context['attributes'].append((
-                        description.label, description.field.get_display(value)
-                    ))
-            except ObjectDoesNotExist:
-                pass
+            context['attributes'] = []
+            for description in AttributeDescription.objects.all():
+                value = self.object.attributes.get(description.json_key)
+                context['attributes'].append((
+                    description.label, description.field.get_display(value)
+                ))
 
             for participation in self.object.participation_set.all():
                 context['dataset_list'].append(participation)
@@ -320,18 +310,11 @@ class ContactUpdateView(SubjectUpdateMixin, BaseContactUpdateView):
         return reverse('subjects:contact', args=[self.object.subject.slug])
 
 
-class AttributeSetUpdateView(SubjectUpdateMixin, BaseAttributeSetUpdateView):
-    tab = 'attributeset'
-
-    def get_object(self):
-        subject = get_object_or_404(Subject, slug=self.kwargs['slug'])
-        attributeset, __ = AttributeSet.objects.get_or_create(
-            subject=subject, defaults={'data': {}}
-        )
-        return attributeset
+class AttributesUpdateView(SubjectUpdateMixin, BaseAttributesUpdateView):
+    tab = 'attributes'
 
     def get_success_url(self):
-        return reverse('subjects:attributeset', args=[self.object.subject.slug])
+        return reverse('subjects:attributes', args=[self.object.slug])
 
 
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
@@ -410,13 +393,7 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        try:
-            context['attributeset'] = self.object.attributeset
-            context['studies'] = list(self.get_studies(self.object))
-        except AttributeSet.DoesNotExist:
-            pass
-
+        context['studies'] = list(self.get_studies(self.object))
         return context
 
     def post(self, request, *args, **kwargs):
@@ -450,7 +427,6 @@ class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['attributeset'] = True
         context['studies'] = list(self.get_studies(self.object))
         return context
 
@@ -529,7 +505,6 @@ class MaintenanceAttributesView(BaseMaintenanceView):
     def get_queryset(self):
         completeness, total = filter_queries.completeness_expr()
         return super().get_queryset()\
-            .exclude(attributeset=None)\
             .annotate(completeness=completeness)\
             .filter(filter_queries.has_consent(), deceased=False, completeness__lt=total)\
             .order_by('completeness')

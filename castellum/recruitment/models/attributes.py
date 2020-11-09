@@ -24,7 +24,6 @@ from collections import OrderedDict
 from typing import List
 
 from django.core.exceptions import ValidationError
-from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -33,10 +32,6 @@ from parler.managers import TranslatableQuerySet
 from parler.models import TranslatableModel
 from parler.models import TranslatedFields
 from parler.utils.context import switch_language
-
-from castellum.studies.models import StudyType
-from castellum.subjects.models import Subject
-from castellum.utils.models import TimeStampedModel
 
 from .. import attribute_fields
 from ..attribute_fields import ANSWER_DECLINED  # noqa
@@ -79,40 +74,6 @@ class ImportMixin:
                 setattr(obj, key, data[key])
         obj.save()
         return obj
-
-
-class AttributeSet(TimeStampedModel):
-    subject = models.OneToOneField(Subject, on_delete=models.CASCADE, editable=False)
-    data = models.JSONField(encoder=DjangoJSONEncoder)
-    onetime_invitation_disinterest = models.BooleanField(_('One time invitation'), default=False)
-    study_type_disinterest = models.ManyToManyField(
-        StudyType,
-        verbose_name=_('Does not want to participate in the following study types:'),
-        blank=True,
-        related_name='+',
-    )
-
-    class Meta:
-        verbose_name = _('Attribute set')
-        verbose_name_plural = _('Attribute sets')
-
-    def get_data(self):
-        qs = AttributeDescription.objects.all()
-        return {desc.json_key: self.data.get(desc.json_key) for desc in qs}
-
-    def get_statistics_bucket(self, rank):
-        description = get_description_by_statistics_rank(rank)
-        if not description:
-            return None
-        value = self.data.get(description.json_key)
-
-        return description.field.get_statistics_bucket(value)
-
-    def get_completeness(self):
-        # Needs to match ``filter_queries.completeness_expr()``
-        completed = len([k for k, v in self.data.items() if v not in [None, '']])
-        total = AttributeDescription.objects.count()
-        return completed, total
 
 
 class AttributeCategory(TranslatableModel):
