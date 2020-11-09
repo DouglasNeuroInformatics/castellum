@@ -20,7 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import json
-import os
+from pathlib import Path
 
 from django import forms
 from django.conf import settings
@@ -32,8 +32,8 @@ from castellum.utils.forms import ReadonlyModelForm
 
 from . import models
 
-APP_DIR = os.path.dirname(__file__)
-IMPORT_SCHEMA = json.load(open(os.path.join(APP_DIR, 'schemas', 'study.json')))
+APP_DIR = Path(__file__).resolve().parent
+IMPORT_SCHEMA = json.load(open(APP_DIR / 'schemas' / 'study.json'))
 
 
 class StudyForm(ReadonlyModelForm):

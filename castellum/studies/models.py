@@ -21,7 +21,7 @@
 
 import datetime
 import json
-import os
+from pathlib import Path
 
 from django.conf import settings
 from django.contrib.auth.models import Permission
@@ -40,8 +40,8 @@ from castellum.utils.fields import PhoneNumberField
 from castellum.utils.fields import RestrictedFileField
 from castellum.utils.forms import JsonFileValidator
 
-APP_DIR = os.path.dirname(__file__)
-GEOJSON_SCHEMA = json.load(open(os.path.join(APP_DIR, 'schemas', 'geojson.json')))
+APP_DIR = Path(__file__).resolve().parent
+GEOJSON_SCHEMA = json.load(open(APP_DIR / 'schemas' / 'geojson.json'))
 
 
 class StudyType(TranslatableModel):

@@ -1,5 +1,5 @@
 import datetime
-import os
+from pathlib import Path
 
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
@@ -47,7 +47,7 @@ TestCase.databases = ['default', 'contacts']
 
 
 def load_django_fixture(app_label, name):
-    path = os.path.join('castellum', app_label, 'fixtures', name + '.json')
+    path = Path('castellum') / app_label / 'fixtures' / (name + '.json')
     with open(path) as fh:
         for obj in serializers.deserialize('json', fh):
             obj.save()
