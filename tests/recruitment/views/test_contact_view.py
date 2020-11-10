@@ -47,12 +47,25 @@ def test_404_if_study_in_edit_status(client, member, participation):
     assert response.status_code == 404
 
 
-def test_post_redirect(client, member, participation):
+def test_back_to_list(client, member, participation):
     client.force_login(member)
     url = '/recruitment/{}/{}/'.format(participation.study.pk, participation.pk)
-    response = client.post(url, {'status': Participation.UNSUITABLE})
-    assert response.status_code == 302
-    assert response.url == '/recruitment/{}/'.format(participation.study.pk)
+    response = client.get(url)
+    assert response.status_code == 200
+    assert b'Back to list' in response.content
+
+
+def test_back_to_subject(client, member, participation):
+    participation.status = 1
+    participation.save()
+
+    client.force_login(member)
+    url = '/recruitment/{}/{}/?context=subjects:participation-list'.format(
+        participation.study.pk, participation.pk
+    )
+    response = client.get(url)
+    assert response.status_code == 200
+    assert b'Back to subject' in response.content
 
 
 @pytest.mark.freeze_time('2018-01-01')
@@ -62,19 +75,6 @@ def test_post_updated_at(client, member, participation):
     client.post(url, {'status': Participation.UNSUITABLE})
     participation = Participation.objects.get()
     assert participation.updated_at.strftime('%Y-%m-%d') == '2018-01-01'
-
-
-def test_post_redirect_from_contacts(client, member, participation):
-    participation.status = 1
-    participation.save()
-
-    client.force_login(member)
-    url = '/recruitment/{}/{}/?context=subjects:participation-list'.format(
-        participation.study.pk, participation.pk
-    )
-    response = client.post(url, {'status': 2})
-    assert response.status_code == 302
-    assert response.url.startswith('/subjects/')
 
 
 def test_appointment(client, member, participation):
