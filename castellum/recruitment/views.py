@@ -28,6 +28,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import models
 from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -107,6 +108,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ]
 
         return Participation.objects\
+            .annotate(appointment_count=models.Count('appointment'))\
             .prefetch_related('subject')\
             .filter(status__in=self.shown_status, study=self.study)\
             .order_by(*order_by)
@@ -191,6 +193,8 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         context['last_agreeable_contact_time'] = (
             datetime.date.today() - settings.CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS
         )
+
+        context['session_count'] = self.study.studysession_set.count()
 
         return context
 
