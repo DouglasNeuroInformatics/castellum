@@ -25,7 +25,7 @@
         {% for entry in form.appointments %}
             {% bootstrap_field entry.field %}
             {% if entry.invitation_url %}
-                <p><a href="{{ entry.invitation_url }}">{% translate 'Go to scheduler' %}</a></p>
+                <p class="mt-n3"><a href="{{ entry.invitation_url }}">{% translate 'Go to scheduler' %}</a></p>
             {% endif %}
         {% endfor %}
 
