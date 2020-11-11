@@ -71,6 +71,7 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
 
         context['list'] = []
         participations = self.study.participation_set\
+            .annotate(appointment_count=models.Count('appointment'))\
             .filter(status=Participation.INVITED)\
             .prefetch_related(
                 models.Prefetch('subject', queryset=Subject.objects.annotate_showup())
@@ -78,6 +79,8 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
         for participation in participations:
             has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
             context['list'].append((participation, has_access))
+
+        context['session_count'] = self.study.studysession_set.count()
 
         return context
 
