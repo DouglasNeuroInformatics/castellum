@@ -158,7 +158,7 @@
                         {% bootstrap_field entry.field %}
                         {% if entry.invitation_url %}
                             <p class="mt-n3">
-                                <a id="invitation_url_{{ entry.field.id_for_label }}" href="{{ entry.invitation_url }}" target="_blank">{% translate 'Go to scheduler' %}</a>
+                                <a id="invitation_url_{{ entry.field.id_for_label }}" href="{{ entry.invitation_url }}" target="_blank">{% translate 'Select timeslot for this subject' %}</a>
                                 <button type="button" class="btn btn-sm btn-light" tabindex="-1" data-clipboard="#invitation_url_{{ entry.field.id_for_label }}" title="{% translate "Copy" %}">
                                     <i class="fa fa-copy" aria-label="{% translate "Copy" %}"></i>
                                 </button>
