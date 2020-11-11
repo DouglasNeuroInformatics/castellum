@@ -52,6 +52,3 @@ CASTELLUM_STUDY_STATUS_NOTIFICATION_TO = ['pr@example.com']
 
 # Setup geofilters
 INSTALLED_APPS.append('castellum.geofilters')
-
-SCHEDULER_URL = 'http://localhost:8001'
-SCHEDULER_TOKEN = 'CHANGEME'
