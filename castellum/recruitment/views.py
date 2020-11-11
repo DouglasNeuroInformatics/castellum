@@ -33,9 +33,11 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 from django.views.generic import View
@@ -58,6 +60,7 @@ from castellum.utils import cached_request
 from castellum.utils import contrast_color
 from castellum.utils import scheduler
 
+from .forms import CleanupForm
 from .forms import ContactAndAppointmentsForm
 from .forms import ContactForm
 from .mixins import BaseAttributesUpdateView
@@ -334,6 +337,24 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
             send_appointment_notifications(self.request, self.object, form.appointment_changes)
         messages.success(self.request, _('Data has been saved.'))
         return response
+
+
+class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, FormView):
+    permission_required = 'recruitment.recruit'
+    form_class = CleanupForm
+    template_name = 'recruitment/cleanup.html'
+    tab = 'recruitment'
+
+    def get_success_url(self):
+        return reverse('recruitment:recruitment-open', args=[self.study.pk])
+
+    def form_valid(self, form):
+        qs = self.study.participation_set.filter(status=form.cleaned_data['status'])
+        if form.cleaned_data.get('days'):
+            dt = timezone.now() - datetime.timedelta(days=form.cleaned_data['days'])
+            qs = qs.filter(updated_at__lt=dt)
+        qs.update(status=Participation.UNSUITABLE)
+        return super().form_valid(form)
 
 
 class RecruitmentUpdateMixin(ParticipationMixin):
