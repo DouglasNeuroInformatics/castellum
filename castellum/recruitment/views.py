@@ -331,7 +331,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         if settings.SCHEDULER_URL and self.object.status != Participation.INVITED:
-            for session in self.study.session_set.exclude(schedule_id=None):
+            for session in self.study.studysession_set.exclude(schedule_id=None):
                 pseudonym = get_pseudonym(self.subject, session.domain)
                 scheduler.delete(session.schedule_id, pseudonym)
             qs = (
