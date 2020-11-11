@@ -327,11 +327,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         return context
 
     def get_success_url(self):
-        context = self.request.GET.get('context')
-        if context == 'subjects:participation-list':
-            return reverse(context, args=[self.object.subject.slug])
-        else:
-            return reverse('recruitment:recruitment-open', args=[self.object.study.pk])
+        return reverse('recruitment:contact', args=[self.study.pk, self.object.pk])
 
     def form_valid(self, form):
         if settings.SCHEDULER_URL and self.object.status != Participation.INVITED:
@@ -348,6 +344,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         response = super().form_valid(form)
         if isinstance(form, ContactAndAppointmentsForm):
             send_appointment_notifications(self.request, self.object, form.appointment_changes)
+        messages.success(self.request, _('Data has been saved.'))
         return response
 
 
