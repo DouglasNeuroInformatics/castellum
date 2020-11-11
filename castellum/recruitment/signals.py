@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
+
 
 def delete_participation_pseudonym(sender, instance, using, **kwargs):
     from castellum.pseudonyms.models import Pseudonym
@@ -41,3 +43,29 @@ def delete_attribute_data(sender, instance, using, **kwargs):
         for subject in objs:
             del subject.attributes[instance.json_key]
         Subject.objects.bulk_update(objs, ['attributes'])
+
+
+def delete_scheduler_appointments_on_delete(sender, instance, using, **kwargs):
+    from castellum.pseudonyms.helpers import get_pseudonym
+    from castellum.utils import scheduler
+
+    from .models import Appointment
+    from .models import Participation
+
+    if sender is Participation and settings.SCHEDULER_URL:
+        for session in instance.study.studysession_set.exclude(schedule_id=None):
+            pseudonym = get_pseudonym(instance.subject, session.domain)
+            scheduler.delete(session.schedule_id, pseudonym)
+        qs = (
+            Appointment.objects
+            .filter(participation=instance)
+            .exclude(session__schedule_id=None)
+        )
+        qs.delete()
+
+
+def delete_scheduler_appointments_on_save(sender, instance, using, **kwargs):
+    from .models import Participation
+
+    if sender is Participation and instance.status != Participation.INVITED:
+        delete_scheduler_appointments_on_delete(sender, instance, using, **kwargs)
