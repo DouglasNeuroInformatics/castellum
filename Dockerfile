@@ -21,7 +21,7 @@ VOLUME /media
 RUN apk update && echo $BUILDPKGS $RUNTIMEPKGS && apk add $BUILDPKGS $RUNTIMEPKGS
 
 COPY castellum/ code/castellum/
-COPY setup.py LICENSE code/
+COPY setup.cfg setup.py LICENSE code/
 COPY --from=0 node_modules/ code/node_modules/
 WORKDIR code/
 
