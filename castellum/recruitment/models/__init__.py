@@ -21,7 +21,6 @@
 
 # flake8: noqa
 
-from .appointments import Appointment
 from .attributes import AttributeCategory
 from .attributes import AttributeChoice
 from .attributes import AttributeDescription

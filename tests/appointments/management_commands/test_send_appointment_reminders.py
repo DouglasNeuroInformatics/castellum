@@ -4,9 +4,9 @@ from django.utils import timezone
 from freezegun import freeze_time
 from model_bakery import baker
 
-from castellum.recruitment.management.commands.send_appointment_reminders import \
+from castellum.appointments.management.commands.send_appointment_reminders import \
     send_appointment_reminders
-from castellum.recruitment.models import Appointment
+from castellum.appointments.models import Appointment
 from castellum.recruitment.models import Participation
 from castellum.studies.models import StudySession
 

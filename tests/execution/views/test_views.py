@@ -1,7 +1,7 @@
 import pytest
 from model_bakery import baker
 
-from castellum.recruitment.models import Appointment
+from castellum.appointments.models import Appointment
 from castellum.recruitment.models import Participation
 
 

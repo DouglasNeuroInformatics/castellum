@@ -35,16 +35,16 @@ from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
+from castellum.appointments.forms import AppointmentsForm
+from castellum.appointments.mixins import BaseCalendarView
+from castellum.appointments.mixins import send_appointment_notifications
+from castellum.appointments.models import Appointment
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_subject
-from castellum.recruitment.forms import AppointmentsForm
 from castellum.recruitment.mixins import BaseAttributesUpdateView
-from castellum.recruitment.mixins import BaseCalendarView
 from castellum.recruitment.mixins import ParticipationMixin
-from castellum.recruitment.mixins import send_appointment_notifications
-from castellum.recruitment.models import Appointment
 from castellum.recruitment.models import NewsMailBatch
 from castellum.recruitment.models import Participation
 from castellum.studies.mixins import StudyMixin
@@ -145,7 +145,7 @@ class ParticipationAppointmentsView(ParticipationDetailMixin, DetailView):
 
 class ParticipationAppointmentsUpdateView(ParticipationDetailMixin, UpdateView):
     template_name = 'execution/participation_appointments_form.html'
-    permission_required = ['recruitment.conduct_study', 'recruitment.change_appointment']
+    permission_required = ['recruitment.conduct_study', 'appointments.change_appointment']
     form_class = AppointmentsForm
     tab = 'appointments'
 
@@ -365,7 +365,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
 class ReceptionView(PermissionRequiredMixin, ListView):
     model = Appointment
     template_name = 'execution/reception.html'
-    permission_required = 'recruitment.view_current_appointments'
+    permission_required = 'appointments.view_current_appointments'
 
     def get_queryset(self):
         return super().get_queryset().filter(

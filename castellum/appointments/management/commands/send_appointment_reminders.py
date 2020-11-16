@@ -27,7 +27,7 @@ from django.urls import reverse
 from django.utils import formats
 from django.utils import timezone
 
-from castellum.recruitment.models import Appointment
+from castellum.appointments.models import Appointment
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
 from castellum.utils.mail import MailContext

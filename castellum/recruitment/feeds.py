@@ -22,10 +22,10 @@
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 
+from castellum.appointments.mixins import BaseAppointmentFeed
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
 
-from .mixins import BaseAppointmentFeed
 from .mixins import BaseFollowUpFeed
 from .models import Participation
 
@@ -63,7 +63,7 @@ class FollowUpFeedForUser(BaseFollowUpFeed):
 class AppointmentFeed(BaseAppointmentFeed):
     def get_object(self, request, *args, **kwargs):
         study = get_object_or_404(Study, pk=kwargs['pk'], status=Study.EXECUTION)
-        perms = ['recruitment.change_appointment', 'studies.access_study']
+        perms = ['appointments.change_appointment', 'studies.access_study']
         if not self.request.user.has_perms(perms, obj=study):
             raise PermissionDenied
         return study

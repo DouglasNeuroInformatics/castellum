@@ -21,7 +21,6 @@
 
 from django.apps import AppConfig
 from django.db.models.signals import pre_delete
-from django.db.models.signals import pre_save
 from django.utils.module_loading import autodiscover_modules
 
 from . import signals
@@ -34,5 +33,3 @@ class RecruitmentConfig(AppConfig):
         autodiscover_modules('custom_filters')
         pre_delete.connect(signals.delete_participation_pseudonym)
         pre_delete.connect(signals.delete_attribute_data)
-        pre_delete.connect(signals.delete_scheduler_appointments_on_delete)
-        pre_save.connect(signals.delete_scheduler_appointments_on_save)
