@@ -9,6 +9,7 @@ docker-compose up -d
 docker-compose run --rm db_wait
 
 docker-compose run --rm web django-admin migrateall
+docker-compose run --rm scheduler django-admin migrate
 
 # Load recommended data
 docker-compose run --rm web django-admin loaddata groups timeslots study_types study_groups
