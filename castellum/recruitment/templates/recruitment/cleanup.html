@@ -1,0 +1,21 @@
+{% extends "recruitment/recruitment_base.html" %}
+{% load i18n bootstrap4 %}
+
+{% block title %}{% translate "Recruitment" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h2>{% translate 'Cleanup' %}</h1>
+    <p>{% translate 'Automatically mark subjects with the following properties as unsuitable. Their participation status can still be changed afterwards.' %}</p>
+    <form method="post">
+        {% include 'utils/form_errors.html' with form=form %}
+        {% csrf_token %}
+
+        {% bootstrap_field form.status %}
+        {% bootstrap_field form.days %}
+
+        <div class="d-print-none mb-3">
+            <a class="btn btn-outline-primary" href="{% url 'recruitment:recruitment-open' study.pk %}">{% translate 'Back' %}</a>
+            <button class="btn btn-primary" >{% translate 'Submit' %}</button>
+        </div>
+    </form>
+{% endblock %}

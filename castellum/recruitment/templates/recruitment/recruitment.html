@@ -64,6 +64,7 @@
                 {% csrf_token %}
                 <button class="btn btn-primary">{% translate 'Add' %}</button>
             </form>
+            <a class="btn btn-secondary" href="{% url 'recruitment:cleanup' study.pk %}">{% translate 'Cleanup' %}</a>
         </div>
     {% endif %}
 {% endblock %}
