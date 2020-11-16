@@ -47,6 +47,20 @@ def test_phonetic_matching(right, wrong, expected):
 
 
 @pytest.mark.django_db
+def test_only_phone():
+    search = '030123456789'
+    baker.make(Contact, first_name='Eve', last_name='Meier', phone_number='030123456789')
+    assert Contact.objects.fuzzy_filter(search).exists()
+
+
+@pytest.mark.django_db
+def test_only_phone_different_formatting():
+    search = '+4930-123456789'
+    baker.make(Contact, first_name='Eve', last_name='Meier', phone_number='030123456789')
+    assert Contact.objects.fuzzy_filter(search).exists()
+
+
+@pytest.mark.django_db
 def test_only_mail():
     search = 'test@example.com'
     baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
@@ -55,9 +69,28 @@ def test_only_mail():
 
 @pytest.mark.django_db
 def test_one_component_wrong():
-    search = 'test@example.com Shenavar Meier'
-    baker.make(Contact, first_name='Eve', last_name='Meier', email='test@example.com')
-    baker.make(Contact, first_name='Shenavar', last_name='Meier', email='wrong@example.com')
+    search = 'test@example.com Shenavar Meier 030123456789'
+    baker.make(
+        Contact,
+        first_name='Eve',
+        last_name='Meier',
+        email='test@example.com',
+        phone_number='030123456789'
+    )
+    baker.make(
+        Contact,
+        first_name='Shenavar',
+        last_name='Meier',
+        email='wrong@example.com',
+        phone_number='030123456789'
+    )
+    baker.make(
+        Contact,
+        first_name='Shenavar',
+        last_name='Meier',
+        email='test@example.com',
+        phone_number='030777777777'
+    )
     assert not Contact.objects.fuzzy_filter(search).exists()
 
 
@@ -93,5 +126,13 @@ def test_every_input_must_match():
 def test_guardian_email():
     search = 'test@example.com'
     guardian = baker.make(Contact, email='test@example.com')
+    baker.make(Contact, guardians=[guardian])
+    assert Contact.objects.fuzzy_filter(search).count() == 2
+
+
+@pytest.mark.django_db
+def test_guardian_phone():
+    search = '030123456789'
+    guardian = baker.make(Contact, phone_number='030123456789')
     baker.make(Contact, guardians=[guardian])
     assert Contact.objects.fuzzy_filter(search).count() == 2
