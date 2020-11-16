@@ -10,7 +10,17 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.DeleteModel(
-            name='Appointment',
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.DeleteModel(
+                    name='Appointment',
+                ),
+            ],
+            database_operations=[
+                migrations.AlterModelTable(
+                    name='Appointment',
+                    table='appointments_appointment',
+                ),
+            ],
         ),
     ]

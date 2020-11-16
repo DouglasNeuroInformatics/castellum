@@ -15,21 +15,27 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Appointment',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('start', castellum.utils.fields.DateTimeField(verbose_name='Start')),
-                ('reminded', models.BooleanField(default=False, verbose_name='Reminded')),
-                ('show_up', models.SmallIntegerField(choices=[(1, 'show up'), (2, 'late'), (3, 'excused'), (4, 'no show')], default=1, verbose_name='Show up')),
-                ('participation', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='recruitment.participation', verbose_name='Participation')),
-                ('session', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='studies.studysession', verbose_name='Session')),
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.CreateModel(
+                    name='Appointment',
+                    fields=[
+                        ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                        ('start', castellum.utils.fields.DateTimeField(verbose_name='Start')),
+                        ('reminded', models.BooleanField(default=False, verbose_name='Reminded')),
+                        ('show_up', models.SmallIntegerField(choices=[(1, 'show up'), (2, 'late'), (3, 'excused'), (4, 'no show')], default=1, verbose_name='Show up')),
+                        ('participation', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='recruitment.participation', verbose_name='Participation')),
+                        ('session', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='studies.studysession', verbose_name='Session')),
+                    ],
+                    options={
+                        'verbose_name': 'Appointment',
+                        'ordering': ['start'],
+                        'permissions': [('view_current_appointments', 'Can view current appointments')],
+                        'unique_together': {('session', 'participation')},
+                    },
+                ),
             ],
-            options={
-                'verbose_name': 'Appointment',
-                'ordering': ['start'],
-                'permissions': [('view_current_appointments', 'Can view current appointments')],
-                'unique_together': {('session', 'participation')},
-            },
+            # Table already exists. See recruitment/migrations/0023_delete_appointment.py
+            database_operations=[],
         ),
     ]
