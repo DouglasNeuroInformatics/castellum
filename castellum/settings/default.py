@@ -280,7 +280,7 @@ CASTELLUM_ENABLE_STUDY_EXPORT = True
 # consent given
 CASTELLUM_CONSENT_REVIEW_PERIOD = relativedelta(weeks=2)
 
-# maximum timespan a subject should be allowed to remain in the database
+# timespan a subject should be allowed to remain in the database
 # after requesting to be deleted
 CASTELLUM_SUBJECT_DELETION_PERIOD = datetime.timedelta(days=30)
 
@@ -308,7 +308,7 @@ CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY = (
 # the number of subjects that is added to the recruitment list every time
 CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 
-# settings for sending recruitment mails (defaults to general settings)
+# settings for sending mails (defaults to general settings)
 # Complete example:
 # {
 #     'from_email': 'Castellum <castellum@example.com>',
@@ -331,23 +331,19 @@ CASTELLUM_MAIL = {
     },
 }
 
-# used to show the warning message when
-# number of users exceeds the number of subjects
-# in the contact list of recruitment app
-CASTELLUM_RECRUITMENT_SOFT_LIMIT = 40
-
-# variable used to define max number of subjects
-# in the contact list of the recruitment app
+# Recruiters are not supposed to add excessive numbers of subjects to
+# the recruitment list. After reaching the soft limit, a warning is
+# shown. After reaching the hard limit, no more subjects can be added.
 # max_number_of_subjects = study.min_subject_count * CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
+CASTELLUM_RECRUITMENT_SOFT_LIMIT = 40
 CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR = 2
 
-# variable is used to define the minimal number of subjects
-# required for a normal recruitment process. The variable
-# is used to show messages when user creates filters for studies.
+# Used to determine whether there are enough potential subjects to
+# complete the study. If not, a warning is shown during filter creation.
 CASTELLUM_EXPECTED_SUBJECT_FACTOR = 10
 
-# this constant defines the recommended timespan between one contact
-# attempt and another one from a different study recruitment
+# recommended timespan between one contact attempt and another one from
+# a different study recruitment
 CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS = relativedelta(weeks=2)
 
 CASTELLUM_DELETE_NOTIFICATION_TO = ''
