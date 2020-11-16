@@ -74,6 +74,12 @@
                         <div>
                             <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
                             <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
+                            {% if participation.status == participation.INVITED and session_count > 0 %}
+                                <div class="d-inline-block my-1 mr-2 badge badge-secondary">
+                                    <i class="fa fa-calendar" aria-label="{% translate 'Appointments' %}" title="{% translate 'Appointments' %}"></i>
+                                    {{ participation.appointment_count }}/{{ session_count }}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 {% endif %}
