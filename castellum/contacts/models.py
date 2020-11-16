@@ -32,6 +32,7 @@ from castellum.utils.fields import DateField
 from castellum.utils.fields import PhoneNumberField
 from castellum.utils.models import TimeStampedModel
 
+from .utils import is_phone_number
 from .utils import phonetic
 
 
@@ -40,8 +41,10 @@ class ContactQuerySet(models.QuerySet):
         parts = search.split()
         q = self.all_parts_match(parts) & (
             self.full_name_is_matched(parts) |
+            self.phone_number_is_matched(parts) |
             self.email_is_matched(parts) |
             self.guardian_full_name_is_matched(parts) |
+            self.guardian_phone_number_is_matched(parts) |
             self.guardian_email_is_matched(parts)
         )
         return self.filter(q).distinct()
@@ -63,6 +66,14 @@ class ContactQuerySet(models.QuerySet):
     def full_name_is_matched(self, parts):
         return self.name_is_matched(parts, 'first') & self.name_is_matched(parts, 'last')
 
+    def phone_number_is_matched(self, parts):
+        q = models.Q()
+        for part in parts:
+            if '@' not in part and is_phone_number(part):
+                q |= models.Q(phone_number=part)
+                q |= models.Q(phone_number_alternative=part)
+        return q
+
     def email_is_matched(self, parts):
         q = models.Q()
         for part in parts:
@@ -75,6 +86,14 @@ class ContactQuerySet(models.QuerySet):
             self.name_is_matched(parts, 'guardians__first') &
             self.name_is_matched(parts, 'guardians__last')
         )
+
+    def guardian_phone_number_is_matched(self, parts):
+        q = models.Q()
+        for part in parts:
+            if '@' not in part and is_phone_number(part):
+                q |= models.Q(guardians__phone_number=part)
+                q |= models.Q(guardians__phone_number_alternative=part)
+        return q
 
     def guardian_email_is_matched(self, parts):
         q = models.Q()
@@ -90,6 +109,13 @@ class ContactQuerySet(models.QuerySet):
                 q &= (
                     models.Q(email__iexact=part) |
                     models.Q(guardians__email__iexact=part)
+                )
+            elif is_phone_number(part):
+                q &= (
+                    models.Q(phone_number=part) |
+                    models.Q(phone_number_alternative=part) |
+                    models.Q(guardians__phone_number=part) |
+                    models.Q(guardians__phone_number_alternative=part)
                 )
             else:
                 q &= (

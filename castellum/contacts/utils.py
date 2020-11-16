@@ -20,6 +20,8 @@
 # <http://www.gnu.org/licenses/>.
 
 import cologne_phonetics
+from phonenumber_field.phonenumber import PhoneNumber
+from phonenumbers.phonenumberutil import NumberParseException
 
 
 def phonetic(s, encode=True):
@@ -28,3 +30,11 @@ def phonetic(s, encode=True):
         return ':' + ':'.join(codes) + ':'
     else:
         return codes
+
+
+def is_phone_number(part):
+    try:
+        PhoneNumber.from_string(part)
+        return True
+    except NumberParseException:
+        return False
