@@ -242,6 +242,8 @@ class AppointmentsForm(forms.ModelForm):
             ).exists():
                 self.add_error(key, _('The required resource is not available at this time'))
 
+        return cleaned_data
+
     def save(self):
         pariticipation = super().save()
         self.appointment_changes = []
@@ -302,7 +304,13 @@ class ContactForm(forms.ModelForm):
 
 
 class ContactAndAppointmentsForm(ContactForm, AppointmentsForm):
-    pass
+    def clean(self):
+        cleaned_data = super().clean()
+        if cleaned_data['status'] != Participation.INVITED:
+            for session in self.instance.study.studysession_set.exclude(schedule_id=None):
+                key = 'appointment-%i' % session.pk
+                del cleaned_data[key]
+        return cleaned_data
 
 
 class SendMailForm(forms.Form):
