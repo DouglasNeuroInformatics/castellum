@@ -5,7 +5,7 @@
 
 {% block content %}
     <h2>{% translate 'Cleanup' %}</h1>
-    <p>{% translate 'Automatically mark subjects with the following properties as unsuitable.' %}</p>
+    <p>{% translate 'Automatically mark subjects with the following properties as unsuitable. Their participation status can still be changed afterwards.' %}</p>
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
