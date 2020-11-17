@@ -30,7 +30,10 @@ from .views.recruitment import StudyExcludedStudiesView
 from .views.recruitment import StudyExclusionCriteriaView
 from .views.recruitment import StudyMailSettingsView
 from .views.recruitment import StudyRecruitmentSettingsUpdateView
+from .views.recruitment import StudySessionCreateView
+from .views.recruitment import StudySessionDeleteView
 from .views.recruitment import StudySessionsView
+from .views.recruitment import StudySessionUpdateView
 from .views.studies import StudyCreateView
 from .views.studies import StudyDeleteView
 from .views.studies import StudyDetailView
@@ -87,6 +90,21 @@ urlpatterns = [
         name='excluded-studies',
     ),
     path('<int:pk>/recruitmentsettings/sessions/', StudySessionsView.as_view(), name='sessions'),
+    path(
+        '<int:study_pk>/recruitmentsettings/sessions/new/',
+        StudySessionCreateView.as_view(),
+        name='session-create',
+    ),
+    path(
+        '<int:study_pk>/recruitmentsettings/sessions/<int:pk>/',
+        StudySessionUpdateView.as_view(),
+        name='session-update',
+    ),
+    path(
+        '<int:study_pk>/recruitmentsettings/sessions/<int:pk>/delete/',
+        StudySessionDeleteView.as_view(),
+        name='session-delete',
+    ),
     path(
         '<int:study_pk>/recruitmentsettings/filters/',
         FilterGroupListView.as_view(),

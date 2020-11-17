@@ -19,6 +19,27 @@
             </div>
         </div>
 
+        <ul class="table-list mb-2">
+            {% for session in study.studysession_set.all %}
+                <li class="table-list-item">
+                    <div class="h4 d-inline-block my-1 mr-2">{{ session.name }}</div>
+                    <div class="table-list-item-actions">
+                        <a href="{% url 'studies:session-update' study.pk session.pk %}" class="btn btn-outline-primary btn-sm-inline my-1">{% translate 'Update' %}</a>
+                    </div>
+                </li>
+            {% empty %}
+                <li class="alert alert-info m-0">
+                    {% translate 'No Sessions' %}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="mb-3">
+            <a href="{% url 'studies:session-create' study.pk %}" class="btn btn-primary">
+                {% translate "Add session" %}
+            </a>
+        </div>
+
         <div class="d-print-none mb-3">
             <button class="btn btn-primary" >{% translate 'Save' %}</button>
         </div>
