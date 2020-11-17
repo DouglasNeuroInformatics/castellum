@@ -37,24 +37,4 @@
             {% endblocktranslate %}
         {% endif %}
     </dd>
-
-    <dt class="col-sm-6">{% translate "General contact notes" %}</dt>
-    <dd class="col-sm-6">
-        {% if contact.subject.note_hard_of_hearing or contact.subject.note_difficult_to_understand or contact.subject.note_abusive_language or contact.subject.subjectnote_set.exists %}
-            {% if contact.subject.note_hard_of_hearing %}
-                <span class="badge badge-secondary">{{ contact.subject|verbose_name:'note_hard_of_hearing' }}</span>
-            {% endif %}
-            {% if contact.subject.note_difficult_to_understand %}
-                <span class="badge badge-secondary">{{ contact.subject|verbose_name:'note_difficult_to_understand' }}</span>
-            {% endif %}
-            {% if contact.subject.note_abusive_language %}
-                <span class="badge badge-secondary">{{ contact.subject|verbose_name:'note_abusive_language' }}</span>
-            {% endif %}
-            {% for note in contact.subject.subjectnote_set.all %}
-                <span class="badge badge-secondary">{{ note.content }}</span>
-            {% endfor %}
-        {% else %}
-            &mdash;
-        {% endif %}
-    </dd>
 </dl>

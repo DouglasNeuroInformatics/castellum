@@ -12,18 +12,6 @@
         </p>
     {% endif %}
 
-    <template id="note-data-template">
-        <div class="form-group">
-            <div class="form-check">
-                <input type="hidden" name="{{ template_form.prefix }}-DELETE" id="id_{{ template_form.prefix }}-DELETE">
-                <input type="checkbox" id="id_{{ template_form.prefix }}-DELETE-check" data-js="note-delete" class="form-check-input" checked>
-                <label for="id_{{ template_form.prefix }}-DELETE-check" class="form-check-label">
-                    <input type="text" name="{{ template_form.content.html_name }}" class="form-control">
-                </label>
-            </div>
-        </div>
-    </template>
-
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
@@ -51,36 +39,6 @@
         </fieldset>
 
         {% bootstrap_field form.not_available_until %}
-
-        <fieldset>
-            <legend class="h5">{% translate "Notes" %}</legend>
-
-            {% bootstrap_field form.note_hard_of_hearing %}
-            {% bootstrap_field form.note_difficult_to_understand %}
-            {% bootstrap_field form.note_abusive_language %}
-
-            {{ notes_formset.management_form }}
-            <div id="notes-container">
-                {% for subform in notes_formset %}
-                    <div class="form-group">
-                        <div class="form-check" {% if subform.DELETE.value %}hidden{% endif %}>
-                            {{ subform.id.as_hidden }}
-                            {{ subform.DELETE.as_hidden }}
-                            <input type="checkbox" id="{{ subform.DELETE.id_for_label }}-check" data-js="note-delete" class="form-check-input" {% if not subform.DELETE.value %}checked{% endif %}>
-                            <label for="{{ subform.DELETE.id_for_label }}-check" class="form-check-label">
-                                <input type="text" name="{{ subform.content.html_name }}" value="{{ subform.content.value }}" class="form-control" readonly>
-                            </label>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-
-            <div class="mb-3">
-                <button type="button" class="btn btn-primary" data-js="note-add">
-                    {% translate "Add note" %}
-                </button>
-            </div>
-        </fieldset>
 
         {% bootstrap_field form.source %}
         {% bootstrap_field form.additional_suitability_document %}
