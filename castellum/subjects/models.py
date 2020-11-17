@@ -117,10 +117,6 @@ class Subject(TimeStampedModel):
 
     source = models.CharField(_('Data source'), max_length=128, blank=True)
 
-    note_hard_of_hearing = models.BooleanField(_('Hard of hearing'), default=False)
-    note_difficult_to_understand = models.BooleanField(_('Difficult to understand'), default=False)
-    note_abusive_language = models.BooleanField(_('Abusive language'), default=False)
-
     additional_suitability_document = models.ManyToManyField(
         StudyType,
         verbose_name=_('Additional suitability document for study type'),
@@ -170,9 +166,6 @@ class Subject(TimeStampedModel):
             'availability_thursday',
             'availability_friday',
             'not_available_until',
-            'note_hard_of_hearing',
-            'note_difficult_to_understand',
-            'note_abusive_language',
             'source',
             'to_be_deleted',
             'export_requested',
@@ -307,11 +300,6 @@ class Subject(TimeStampedModel):
         completed = len([k for k, v in self.attributes.items() if v not in [None, '']])
         total = AttributeDescription.objects.count()
         return completed, total
-
-
-class SubjectNote(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    content = models.CharField(_('Content'), max_length=128, blank=True)
 
 
 class ConsentDocument(models.Model):
