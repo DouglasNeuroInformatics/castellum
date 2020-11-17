@@ -35,6 +35,10 @@ from castellum.utils.mail import MailContext
 logger = logging.getLogger(__name__)
 
 
+def date_format(date):
+    return formats.date_format(date, 'l, ') + formats.date_format(date, 'DATETIME_FORMAT')
+
+
 def send_mail_to_subject(ctx, study, appointment):
     contact = appointment.participation.subject.contact
 
@@ -42,7 +46,7 @@ def send_mail_to_subject(ctx, study, appointment):
         return {
             'name': contact.full_name,
             'study': study.name,
-            'date': formats.date_format(appointment.start, 'DATETIME_FORMAT'),
+            'date': date_format(appointment.start),
             'reply_to': study.email,
         }
 
