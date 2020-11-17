@@ -19,7 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.db import models
@@ -153,46 +152,9 @@ class StudySessionsView(StudyMixin, PermissionRequiredMixin, UpdateView):
     tab = 'recruitmentsettings'
     subtab = 'sessions'
 
-    def get_session_form(self):
-        return SessionForm(prefix='{prefix}')
-
-    def get_session_formset(self):
-        formset_class = forms.modelformset_factory(
-            StudySession, form=SessionForm, extra=0, can_delete=True
-        )
-        kwargs = self.get_form_kwargs()
-        study = kwargs.pop('instance', None)
-        return formset_class(queryset=StudySession.objects.filter(study=study), **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if 'session_formset' not in context:
-            context['session_formset'] = self.get_session_formset()
-        context["template_form"] = self.get_session_form()
-        context['has_resources'] = Resource.objects.exists()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-        session_formset = self.get_session_formset()
-        if form.is_valid() and session_formset.is_valid():
-            return self.form_valid(form, session_formset)
-        else:
-            return self.form_invalid(form, session_formset)
-
-    def form_invalid(self, form, session_formset):
-        return self.render_to_response(
-            self.get_context_data(form=form, session_formset=session_formset)
-        )
-
     def form_valid(self, form, session_formset):
         messages.success(self.request, _('Data has been saved.'))
-        response = super().form_valid(form)
-        for subform in session_formset:
-            subform.instance.study = form.instance
-        session_formset.save()
-        return response
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('studies:sessions', args=[self.object.pk])
