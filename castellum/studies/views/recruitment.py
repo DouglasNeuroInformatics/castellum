@@ -68,6 +68,7 @@ def get_related_studies(study):
 
 class StudyRecruitmentSettingsUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView):
     model = Study
+    pk_url_kwarg = 'study_pk'
     fields = [
         'advanced_filtering',
         'recruitment_text',
@@ -94,6 +95,7 @@ class StudyRecruitmentSettingsUpdateView(StudyMixin, PermissionRequiredMixin, Up
 
 class StudyExcludedStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
     model = Study
+    pk_url_kwarg = 'study_pk'
     template_name = 'studies/study_excluded_studies.html'
     form_class = ExcludedStudiesForm
     permission_required = 'studies.change_study'
@@ -122,6 +124,7 @@ class StudyExcludedStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
 
 class StudyExclusionCriteriaView(StudyMixin, PermissionRequiredMixin, UpdateView):
     model = Study
+    pk_url_kwarg = 'study_pk'
     template_name = 'studies/study_exclusioncriteria.html'
     fields = ['exclusion_criteria']
     permission_required = 'studies.change_study'
@@ -144,6 +147,7 @@ class StudyExclusionCriteriaView(StudyMixin, PermissionRequiredMixin, UpdateView
 
 class StudySessionsView(StudyMixin, PermissionRequiredMixin, UpdateView):
     model = Study
+    pk_url_kwarg = 'study_pk'
     template_name = 'studies/study_sessions.html'
     fields = [
         'session_instructions',
@@ -211,6 +215,7 @@ class StudySessionDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
 
 class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):
     model = Study
+    pk_url_kwarg = 'study_pk'
     template_name = 'studies/study_mailsettings.html'
     fields = [
         'mail_subject',
