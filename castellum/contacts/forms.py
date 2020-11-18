@@ -32,6 +32,7 @@ from castellum.utils.forms import DatalistWidget
 
 from .models import Address
 from .models import Contact
+from .utils import is_phone_number
 
 
 class SubjectMultipleChoiceField(forms.ModelMultipleChoiceField):
@@ -185,18 +186,30 @@ class ContactForm(forms.ModelForm):
 
 
 class SearchForm(forms.Form):
-    search = forms.CharField(label=_('Search for name or email address'), required=True)
+    search = forms.CharField(
+        label=_('Search for name, phone number or email address'),
+        required=True,
+    )
 
     def clean(self):
         cleaned_data = super().clean()
 
         search = cleaned_data.get('search', '')
 
-        names = [part for part in search.split() if '@' not in part]
-        emails = [part for part in search.split() if '@' in part]
+        names = []
+        phone_numbers = []
+        emails = []
+        for part in search.split():
+            if '@' in part:
+                emails.append(part)
+            elif is_phone_number(part):
+                phone_numbers.append(is_phone_number(part))
+            else:
+                names.append(part)
 
         cleaned_data['first_name'] = names[0] if names else ''
         cleaned_data['last_name'] = ' '.join(names[1:])
+        cleaned_data['phone_number'] = phone_numbers[0] if phone_numbers else ''
         cleaned_data['email'] = emails[0] if emails else ''
 
         return cleaned_data

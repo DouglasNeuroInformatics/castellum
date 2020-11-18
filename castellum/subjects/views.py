@@ -156,6 +156,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 contact = Contact.objects.create(
                     first_name=form.cleaned_data['first_name'],
                     last_name=form.cleaned_data['last_name'],
+                    phone_number=form.cleaned_data['phone_number'],
                     email=form.cleaned_data.get('email'),
                 )
                 contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
