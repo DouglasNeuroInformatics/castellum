@@ -4,6 +4,7 @@
 {% block title %}{% translate "Sessions" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    <h2>{% translate 'Session details' %}</h2>
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
@@ -25,9 +26,6 @@
         <div class="d-print-none mb-3">
             <a href="{% url 'studies:sessions' study.pk %}" class="btn btn-outline-primary" data-js="cancel">{% translate 'Cancel' %}</a>
             <button class="btn btn-primary" >{% translate 'Save' %}</button>
-            {% if object %}
-                <a class="btn btn-danger" href="{% url 'studies:session-delete' study.pk object.pk %}">{% translate 'Delete' %}</a>
-            {% endif %}
         </div>
     </form>
 {% endblock %}
