@@ -1,0 +1,9 @@
+[
+{
+    "model": "studies.resource",
+    "pk": 1,
+    "fields": {
+        "name": "MRT"
+    }
+}
+]

@@ -61,3 +61,5 @@ NOMINATIM = {
 
 SCHEDULER_URL = 'http://scheduler:8000'
 SCHEDULER_TOKEN = 'CHANGEME'
+
+CASTELLUM_COVERLETTER_TEMPLATE = BASE_DIR / 'subjects' / 'fixtures' / 'demo_coverletter.docx'
