@@ -54,14 +54,19 @@ research archive
 How do we decide what to integrate?
 -----------------------------------
 
-Some workflows need to be deeply integrated with contact management. A good
-example for this is the recruitment, which is centered around communication
-with the subject. These workflows are integrated in Castellum.
+An underlying question when implementing a new feature for Castellum is about 
+the intended level of software integration. Some workflows need to be deeply 
+integrated with contact management. Other workflows should be kept completely 
+separated. 
 
-Any other workflows should be kept completely separated. For example, research
-data should not be stored inside Castellum. Note that there is no need for a
-streamlined, integrated UI because research data is (or at least could be)
-handled by completely different staff than contact data and recruitment.
+A good example for a deep integration is the recruitment, which is centered 
+around communication with the subject. These workflows are integrated in 
+Castellum.
+
+An example to show the opposite is research data. It should not be stored 
+inside Castellum. Note that there is no need for a streamlined, integrated UI 
+because research data is (or at least could be) handled by completely different 
+staff than contact data and recruitment.
 
 .. note::
    There are only two notable exceptions to this rule: Study participations and
