@@ -19,7 +19,9 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import csv
 import json
+from io import StringIO
 
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
@@ -97,3 +99,54 @@ class JSONExporter:
 
     def get_data_filename(self):
         return 'attributes.json'
+
+
+class BIDSExporter:
+    # https://bids-specification.readthedocs.io/
+
+    def _json_dumps(self, data):
+        return json.dumps(data, sort_keys=True, indent=4, cls=DjangoJSONEncoder)
+
+    def get_schema(self, descriptions):
+        schema = {}
+
+        for description in descriptions:
+            key = description.label.lower().replace(' ', '_')
+            choices = list(description.attributechoice_set.all())
+
+            schema[key] = {k: v for k, v in [
+                ('Levels', {c.id: c.label for c in choices}),
+                ('Description', description.help_text),
+                ('TermURL', description.url),
+            ] if v}
+
+        return self._json_dumps(schema)
+
+    def get_schema_filename(self):
+        return 'participants.json'
+
+    def get_data(self, descriptions, subjects):
+        fieldnames = ['participant_id']
+        for desc in descriptions:
+            key = desc.label.lower().replace(' ', '_')
+            fieldnames.append(key)
+
+        fh = StringIO()
+        writer = csv.DictWriter(fh, fieldnames=fieldnames, dialect=csv.excel_tab)
+        writer.writeheader()
+
+        for _id, subject in subjects:
+            row = {'participant_id': 'sub-%s' % _id}
+            for desc in descriptions:
+                key = desc.label.lower().replace(' ', '_')
+                value = subject.attributes.get(desc.json_key)
+                if value in [None, ANSWER_DECLINED]:
+                    row[key] = 'n/a'
+                else:
+                    row[key] = value
+            writer.writerow(row)
+
+        return fh.getvalue()
+
+    def get_data_filename(self):
+        return 'participants.tsv'
