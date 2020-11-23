@@ -416,5 +416,9 @@ CASTELLUM_FULL_AGE = 16
 # Criteria that apply to all studies
 CASTELLUM_GENERAL_EXCLUSION_CRITERIA = ''
 
+# Default exporter used for attributes.
+# See castellum/recruitment/attribute_exporters.py
+CASTELLUM_ATTRIBUTE_EXPORTER = 'json'
+
 SCHEDULER_URL = ''
 SCHEDULER_TOKEN = ''
