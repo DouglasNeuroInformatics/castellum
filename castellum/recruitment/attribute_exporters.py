@@ -56,6 +56,9 @@ class JSONExporter:
         'AgeField': 'date',
     }
 
+    schema_content_type = 'application/json'
+    data_content_type = 'application/json'
+
     def _json_dumps(self, data):
         return json.dumps(data, sort_keys=True, indent=4, cls=DjangoJSONEncoder)
 
@@ -115,6 +118,9 @@ class JSONExporter:
 @register('bids')
 class BIDSExporter:
     # https://bids-specification.readthedocs.io/
+
+    schema_content_type = 'application/json'
+    data_content_type = 'text/tab-separated-values'
 
     def _json_dumps(self, data):
         return json.dumps(data, sort_keys=True, indent=4, cls=DjangoJSONEncoder)
