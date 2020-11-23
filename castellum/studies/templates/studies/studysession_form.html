@@ -1,0 +1,31 @@
+{% extends "studies/study_recruitmentsettings_base.html" %}
+{% load static i18n bootstrap4 %}
+
+{% block title %}{% translate "Sessions" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h2>{% translate 'Session details' %}</h2>
+    <form method="post">
+        {% include 'utils/form_errors.html' with form=form %}
+        {% csrf_token %}
+
+        {% bootstrap_field form.name %}
+        {% bootstrap_field form.duration %}
+        {% if has_resources %}
+            {% bootstrap_field form.resource %}
+        {% else %}
+            {{ form.resource.as_hidden }}
+        {% endif %}
+        {% bootstrap_field form.type %}
+        {% if SCHEDULER_URL %}
+            {% bootstrap_field form.schedule_id %}
+        {% else %}
+            {{ form.schedule_id.as_hidden }}
+        {% endif %}
+
+        <div class="d-print-none mb-3">
+            <a href="{% url 'studies:sessions' study.pk %}" class="btn btn-outline-primary" data-js="cancel">{% translate 'Cancel' %}</a>
+            <button class="btn btn-primary" >{% translate 'Save' %}</button>
+        </div>
+    </form>
+{% endblock %}

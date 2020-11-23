@@ -19,14 +19,16 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.db import models
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import CreateView
+from django.views.generic import DeleteView
 from django.views.generic import UpdateView
 
 from dateutil.relativedelta import relativedelta
@@ -153,49 +155,58 @@ class StudySessionsView(StudyMixin, PermissionRequiredMixin, UpdateView):
     tab = 'recruitmentsettings'
     subtab = 'sessions'
 
-    def get_session_form(self):
-        return SessionForm(prefix='{prefix}')
-
-    def get_session_formset(self):
-        formset_class = forms.modelformset_factory(
-            StudySession, form=SessionForm, extra=0, can_delete=True
-        )
-        kwargs = self.get_form_kwargs()
-        study = kwargs.pop('instance', None)
-        return formset_class(queryset=StudySession.objects.filter(study=study), **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if 'session_formset' not in context:
-            context['session_formset'] = self.get_session_formset()
-        context["template_form"] = self.get_session_form()
-        context['has_resources'] = Resource.objects.exists()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-        session_formset = self.get_session_formset()
-        if form.is_valid() and session_formset.is_valid():
-            return self.form_valid(form, session_formset)
-        else:
-            return self.form_invalid(form, session_formset)
-
-    def form_invalid(self, form, session_formset):
-        return self.render_to_response(
-            self.get_context_data(form=form, session_formset=session_formset)
-        )
-
     def form_valid(self, form, session_formset):
         messages.success(self.request, _('Data has been saved.'))
-        response = super().form_valid(form)
-        for subform in session_formset:
-            subform.instance.study = form.instance
-        session_formset.save()
-        return response
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('studies:sessions', args=[self.object.pk])
+
+
+class StudySessionFormMixin(StudyMixin, PermissionRequiredMixin):
+    model = StudySession
+    form_class = SessionForm
+    permission_required = 'studies.change_study'
+    is_onetime_invitation = False
+    tab = 'recruitmentsettings'
+    subtab = 'sessions'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['has_resources'] = Resource.objects.exists()
+        return context
+
+    def get_success_url(self):
+        return reverse('studies:sessions', args=[self.study.pk])
+
+
+class StudySessionCreateView(StudySessionFormMixin, CreateView):
+    def form_valid(self, form):
+        form.instance.study = self.study
+        return super().form_valid(form)
+
+
+class StudySessionUpdateView(StudySessionFormMixin, UpdateView):
+    def get_object(self):
+        return get_object_or_404(
+            StudySession, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk']
+        )
+
+
+class StudySessionDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
+    model = StudySession
+    permission_required = 'studies.change_study'
+    is_onetime_invitation = False
+    tab = 'recruitmentsettings'
+    subtab = 'sessions'
+
+    def get_success_url(self):
+        return reverse('studies:sessions', args=[self.study.pk])
+
+    def get_object(self):
+        return get_object_or_404(
+            StudySession, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk']
+        )
 
 
 class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):

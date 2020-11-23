@@ -4,32 +4,40 @@
 {% block title %}{% translate "Sessions" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <template id="session-data-template">
-        <fieldset class="rounded-lg border bg-light p-3 mb-2">
-            <button type="button" class="btn btn-sm btn-danger float-right mb-2" data-js="session-delete">
-                {% translate 'Delete' %}
-            </button>
-            {% bootstrap_field template_form.name %}
-            {% bootstrap_field template_form.duration %}
-            {% if has_resources %}
-                {% bootstrap_field template_form.resource %}
-            {% else %}
-                <input name="resource" type="hidden">
-            {% endif %}
-            {% bootstrap_field template_form.type %}
-            {% if SCHEDULER_URL %}
-                {% bootstrap_field template_form.schedule_id %}
-            {% else %}
-                {{ template_form.schedule_id.as_hidden }}
-            {% endif %}
-        </fieldset>
-    </template>
+    <ul class="table-list mb-3">
+        {% for session in study.studysession_set.all %}
+            <li class="table-list-item">
+                <div class="h4 d-inline-block my-1 mr-2">
+                    {{ session.name }}
+                </div>
+                <span class="my-1 mr-2">{{ session.duration }}{% translate 'min' %}</span>
+                {% for type in session.type.all %}
+                    <span class="badge badge-secondary my-1 mr-1">{{ type }}</span>
+                {% endfor %}
+                {% if session.resource %}
+                    <span class="badge badge-primary my-1 mr-1">{{ session.resource }}</span>
+                {% endif %}
+                <div class="table-list-item-actions">
+                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:session-update' study.pk session.pk %}">{% translate 'Update' %}</a>
+                    <a class="btn btn-outline-danger btn-sm-inline my-1" href="{% url 'studies:session-delete' study.pk session.pk %}">{% translate 'Delete' %}</a>
+                </div>
+            </li>
+        {% empty %}
+            <li class="alert alert-info m-0">
+                {% translate 'No Sessions' %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="mb-5">
+        <a href="{% url 'studies:session-create' study.pk %}" class="btn btn-primary">
+            {% translate "Add session" %}
+        </a>
+    </div>
 
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
-
-        {% bootstrap_field form.session_instructions %}
 
         <div class="form-row">
             <div class="col-md-6">
@@ -40,44 +48,10 @@
             </div>
         </div>
 
-        {{ session_formset.management_form }}
-        <div id="sessions-container">
-            {% for subform in session_formset %}
-                <fieldset class="rounded-lg border bg-light p-3 mb-2" {% if subform.DELETE.value %}hidden{% endif %}>
-                    {{ subform.id.as_hidden }}
-                    {{ subform.DELETE.as_hidden }}
-                    <button type="button" class="btn btn-sm btn-danger float-right mb-2" data-js="session-delete">
-                        {% translate 'Delete' %}
-                    </button>
-                    {% bootstrap_field subform.name %}
-                    {% bootstrap_field subform.duration %}
-                    {% if has_resources %}
-                        {% bootstrap_field subform.resource %}
-                    {% else %}
-                        <input name="resource" type="hidden">
-                    {% endif %}
-                    {% bootstrap_field subform.type %}
-                    {% if SCHEDULER_URL %}
-                        {% bootstrap_field subform.schedule_id %}
-                    {% else %}
-                        {{ subform.schedule_id.as_hidden }}
-                    {% endif %}
-                </fieldset>
-            {% endfor %}
-        </div>
-
-        <div class="mb-3">
-            <button type="button" class="btn btn-primary" data-js="session-add">
-                {% translate "Add session" %}
-            </button>
-        </div>
+        {% bootstrap_field form.session_instructions %}
 
         <div class="d-print-none mb-3">
             <button class="btn btn-primary" >{% translate 'Save' %}</button>
         </div>
     </form>
-{% endblock %}
-
-{% block extra_scripts %}
-    <script src="{% static 'js/study_sessions.js' %}"></script>
 {% endblock %}
