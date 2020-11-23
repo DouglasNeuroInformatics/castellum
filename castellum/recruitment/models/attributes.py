@@ -149,9 +149,11 @@ class AttributeDescription(ImportMixin, TranslatableModel):
     )
     order = models.IntegerField(default=0)
     category = models.ForeignKey(
-        AttributeCategory, on_delete=models.SET_NULL, null=True, blank=True)
+        AttributeCategory, on_delete=models.SET_NULL, null=True, blank=True
+    )
     statistics_rank = models.CharField(
-        max_length=16, choices=STATISTICS_RANK_CHOICES, null=True, blank=True, unique=True)
+        max_length=16, choices=STATISTICS_RANK_CHOICES, null=True, blank=True, unique=True
+    )
 
     objects = AttributeDescriptionQuerySet.as_manager()
 
