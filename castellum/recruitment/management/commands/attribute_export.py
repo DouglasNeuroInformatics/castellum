@@ -42,5 +42,5 @@ class Command(BaseCommand):
             s = exporter.get_schema(descriptions)
         else:
             subject = Subject.objects.get(pk=options['subject_id'])
-            s = exporter.get_data(descriptions, [subject])
+            s = exporter.get_data(descriptions, [(subject.pk, subject)])
         print(s)

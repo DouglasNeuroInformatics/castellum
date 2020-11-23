@@ -45,7 +45,11 @@ class JSONExporter:
     def get_schema(self, descriptions):
         schema = {
             'type': 'object',
-            'properties': {},
+            'properties': {
+                'id': {
+                    'type': 'string',
+                },
+            },
         }
 
         for description in descriptions:
@@ -64,8 +68,10 @@ class JSONExporter:
     def get_data(self, descriptions, subjects):
         data = []
 
-        for subject in subjects:
-            data.append({})
+        for _id, subject in subjects:
+            data.append({
+                'id': str(_id),
+            })
 
             for description in descriptions:
                 key = description.label
