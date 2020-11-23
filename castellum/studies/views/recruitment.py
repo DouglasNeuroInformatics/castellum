@@ -155,7 +155,7 @@ class StudySessionsView(StudyMixin, PermissionRequiredMixin, UpdateView):
     tab = 'recruitmentsettings'
     subtab = 'sessions'
 
-    def form_valid(self, form, session_formset):
+    def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
 
