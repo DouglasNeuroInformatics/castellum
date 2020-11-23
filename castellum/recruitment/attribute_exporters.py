@@ -22,6 +22,7 @@
 import json
 
 from django.conf import settings
+from django.core.serializers.json import DjangoJSONEncoder
 
 from .attribute_fields import ANSWER_DECLINED
 
@@ -53,6 +54,9 @@ class JSONExporter:
         'AgeField': 'date',
     }
 
+    def _json_dumps(self, data):
+        return json.dumps(data, sort_keys=True, indent=4, cls=DjangoJSONEncoder)
+
     def get_schema(self, descriptions):
         schema = {
             'type': 'object',
@@ -74,7 +78,7 @@ class JSONExporter:
                 ('description', description.help_text),
             ] if v}
 
-        return json.dumps(schema, sort_keys=True, indent=4)
+        return self._json_dumps(schema)
 
     def get_data(self, descriptions, subjects):
         data = []
@@ -97,4 +101,4 @@ class JSONExporter:
                 else:
                     data[-1][key] = value
 
-        return json.dumps(data, sort_keys=True, indent=4)
+        return self._json_dumps(data)
