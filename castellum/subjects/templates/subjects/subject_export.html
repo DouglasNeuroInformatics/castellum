@@ -29,24 +29,184 @@
     </form>
 
     {% if subject.export_requested %}
-        {% for dataset in dataset_list %}
-            <h1>{{ dataset|model_verbose_name }}</h1>
-            <dl class="row">
-                {% for field_name in dataset|field_names %}
-                    {% if field_name != 'id' and field_name != 'slug' and field_name != 'subject' and field_name != 'subject_id' and field_name != 'participation' and dataset|display:field_name %}
-                        <dt class="col-sm-6">{{ dataset|verbose_name:field_name }}</dt>
-                        <dd class="col-sm-6">{{ dataset|display:field_name }}</dd>
-                    {% endif %}
-                {% endfor %}
-            </dl>
-        {% endfor %}
+        <h1>{% translate 'Contact data' %}</h1>
+        <dl class="row">
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.title">{{ subject.contact|verbose_name:'title' }}</dt>
+            <dd class="col-sm-6">{{ subject.contact|display:'title' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.first_name">{{ subject.contact|verbose_name:'first_name' }}</dt>
+            <dd class="col-sm-6">{{ subject.contact|display:'first_name' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.last_name">{{ subject.contact|verbose_name:'last_name' }}</dt>
+            <dd class="col-sm-6">{{ subject.contact|display:'last_name' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.date_of_birth">{{ subject.contact|verbose_name:'date_of_birth' }}</dt>
+            <dd class="col-sm-6">{{ subject.contact|display:'date_of_birth' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.gender">{{ subject.contact|verbose_name:'gender' }}</dt>
+            <dd class="col-sm-6">{{ subject.contact|display:'gender' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.address">{% translate 'Address' %}</dt>
+            <dd class="col-sm-6">{% if subject.contact.address %}{{ subject.contact|display:'address' }}{% endif %}</dd>
+
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.email">{{ subject.contact|verbose_name:'email' }}</dt>
+            <dd class="col-sm-6">{{ subject.contact|display:'email' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.phone_number">{{ subject.contact|verbose_name:'phone_number' }}</dt>
+            <dd class="col-sm-6">{{ subject.contact|display:'phone_number' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.phone_number_alternative">{{ subject.contact|verbose_name:'phone_number_alternative' }}</dt>
+            <dd class="col-sm-6">{{ subject.contact|display:'phone_number_alternative' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.preferred_contact_method">{{ subject.contact|verbose_name:'preferred_contact_method' }}</dt>
+            <dd class="col-sm-6">{{ subject.contact|display:'preferred_contact_method' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.created_at">{% translate 'Contact data created at' %}</dt>
+            <dd class="col-sm-6">{{ subject.contact|display:'created_at' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.updated_at">{% translate 'Contact data last updated at' %}</dt>
+            <dd class="col-sm-6">{{ subject.contact|display:'updated_at' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.guardians">{{ subject.contact|verbose_name:'guardians' }}</dt>
+            <dd class="col-sm-6">{% for c in subject.contact.guardians.all %}{{ c }}{% endfor %}</dd>
+
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.guardian_of">{{ subject.contact|verbose_name:'guardian_of' }}</dt>
+            <dd class="col-sm-6">{% for c in subject.contact.guardian_of.all %}{{ c }}{% endfor %}</dd>
+        </dl>
+
+        <h1>{% translate 'Procedural data' %}</h1>
+        <dl class="row">
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.privacy_level">{{ subject|verbose_name:'privacy_level' }}</dt>
+            <dd class="col-sm-6">{{ subject|display:'privacy_level' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.source">{{ subject|verbose_name:'source' }}</dt>
+                <dd class="col-sm-6">{{ subject|display:'source' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.deceased">{{ subject|verbose_name:'deceased' }}</dt>
+            <dd class="col-sm-6">{{ subject|display:'deceased' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.to_be_deleted">{% translate 'Deletion requested on' %}</dt>
+            <dd class="col-sm-6">{{ subject|display:'to_be_deleted' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.export_requested">{% translate 'Data export requested on' %}</dt>
+            <dd class="col-sm-6">{{ subject|display:'export_requested' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.exportanswer">{% translate 'Export answers' %}</dt>
+            <dd class="col-sm-6">{{ subject.exportanswer_set.all.created_at|join:', ' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.created_at">{% translate 'Procedural data created at' %}</dt>
+            <dd class="col-sm-6">{{ subject|display:'updated_at' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.updated_at">{% translate 'Procedural data updated at' %}</dt>
+            <dd class="col-sm-6">{{ subject|display:'updated_at' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.subjectnote">{% translate 'Additional notes' %}</dt>
+            <dd class="col-sm-6">{{ notes|join:', '|default:'—' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.additional_suitability_document">{{ subject|verbose_name:'additional_suitability_document' }}</dt>
+            <dd class="col-sm-6">{{ subject|display:'additional_suitability_document' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.study_type_disinterest">{{ subject|verbose_name:'study_type_disinterest' }}</dt>
+            <dd class="col-sm-6">{{ subject|display:'study_type_disinterest' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.onetime_invitation_disinterest">{{ subject|verbose_name:'onetime_invitation_disinterest' }}</dt>
+            <dd class="col-sm-6">{{ subject|display:'onetime_invitation_disinterest' }}</dd>
+        </dl>
+
+        <h1>{% translate 'Availability' %}</h1>
+        <dl class="row">
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.availability_monday">{{ subject|verbose_name:'availability_monday' }}</dt>
+            <dd class="col-sm-6">{{ subject|display:'availability_monday' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.availability_tuesday">{{ subject|verbose_name:'availability_tuesday' }}</dt>
+            <dd class="col-sm-6">{{ subject|display:'availability_tuesday' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.availability_wednesday">{{ subject|verbose_name:'availability_wednesday' }}</dt>
+            <dd class="col-sm-6">{{ subject|display:'availability_wednesday' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.availability_thursday">{{ subject|verbose_name:'availability_thursday' }}</dt>
+            <dd class="col-sm-6">{{ subject|display:'availability_thursday' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.availability_friday">{{ subject|verbose_name:'availability_friday' }}</dt>
+            <dd class="col-sm-6">{{ subject|display:'availability_friday' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.not_available_until">{{ subject|verbose_name:'not_available_until' }}</dt>
+            <dd class="col-sm-6">{{ subject|display:'not_available_until' }}</dd>
+        </dl>
 
         <h1>{% translate 'Attributes' %}</h1>
-        <dl class="row">
+        <dl class="row" data-fieldname="subjects.Subject.attributes">
             {% for label, value in attributes %}
                 <dt class="col-sm-6">{{ label }}</dt>
                 <dd class="col-sm-6">{{ value }}</dd>
             {% endfor %}
         </dl>
+
+        {% if subject.participation_set %}
+            <h1>{% translate 'Study participations' %}</h1>
+            {% for participation in subject.participation_set.all %}
+                <dl class="row">
+                    <dt class="col-sm-6" data-fieldname="recruitment.Participation.study">{% translate 'Study' %}</dt>
+                    <dd class="col-sm-6">{{ participation|display:'study' }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="recruitment.Participation.status">{{ participation|verbose_name:'status' }}</dt>
+                    <dd class="col-sm-6">{{ participation|display:'status' }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="recruitment.Participation.created_at">{% translate 'Participation created at' %}</dt>
+                    <dd class="col-sm-6">{{ participation|display:'created_at' }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="recruitment.Participation.updated_at">{% translate 'Participation last updated at' %}</dt>
+                    <dd class="col-sm-6">{{ participation|display:'updated_at' }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="recruitment.Participation.exclusion_criteria_checked">{% translate 'Exclusion criteria checked' %}</dt>
+                    <dd class="col-sm-6">{{ participation|display:'exclusion_criteria_checked' }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="recruitment.Participation.attempts">{% translate 'Contact attempts' %}</dt>
+                    <dd class="col-sm-6">{{ participation|display:'attempts' }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="recruitment.Participation.followup_date">{{ participation|verbose_name:'followup_date' }}</dt>
+                    <dd class="col-sm-6">{{ participation|display:'followup_date' }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="recruitment.Participation.followup_time">{{ participation|verbose_name:'followup_time' }}</dt>
+                    <dd class="col-sm-6">{{ participation|display:'followup_time' }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="recruitment.Participation.news_interest">{{ participation|verbose_name:'news_interest' }}</dt>
+                    <dd class="col-sm-6">{{ participation|display:'news_interest' }}</dd>
+                </dl>
+            {% endfor %}
+        {% endif %}
+
+        {% if appointments %}
+            <h1>{% translate 'Appointments' %}</h1>
+            {% for appointment in appointments %}
+                <dl class="row">
+                    <dt class="col-sm-6" data-fieldname="appointments.Appointment.session">{% translate 'Study Session' %}</dt>
+                    <dd class="col-sm-6">{{ appointment.session }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="appointments.Appointment.start">{{ appointment|verbose_name:'start' }}</dt>
+                    <dd class="col-sm-6">{{ appointment|display:'start' }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="appointments.Appointment.reminded">{{ appointment|verbose_name:'reminded' }}</dt>
+                    <dd class="col-sm-6">{{ appointment|display:'reminded' }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="appointments.Appointment.show_up">{{ appointment|verbose_name:'show_up' }}</dt>
+                    <dd class="col-sm-6">{{ appointment|display:'show_up' }}</dd>
+                </dl>
+            {% endfor %}
+        {% endif %}
+
+        {% if subject.consent %}
+            <h1>{% translate 'Consent' %}</h1>
+            <dl class="row">
+                <dt class="col-sm-6" data-fieldname="subjects.Consent.document">{% translate 'Document' %}</dt>
+                <dd class="col-sm-6">{{ subject.consent|display:'document' }}</dd>
+
+                <dt class="col-sm-6" data-fieldname="subjects.Consent.updated_at">{{ subject.consent|verbose_name:'updated_at' }}</dt>
+                <dd class="col-sm-6">{{ subject.consent|display:'updated_at' }}</dd>
+
+                <dt class="col-sm-6" data-fieldname="subjects.Consent.status">{{ subject.consent|verbose_name:'status' }}</dt>
+                <dd class="col-sm-6">{{ subject.consent|display:'status' }}</dd>
+            </dl>
+        {% endif %}
     {% endif %}
 {% endblock %}

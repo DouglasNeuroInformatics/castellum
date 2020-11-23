@@ -46,6 +46,7 @@ from django.views.generic.detail import SingleObjectMixin
 
 from dateutil.relativedelta import relativedelta
 
+from castellum.appointments.models import Appointment
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.forms import ContactForm
 from castellum.contacts.forms import SearchForm
@@ -232,6 +233,18 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     permission_required = 'subjects.export_subject'
     tab = 'export'
 
+    def get_notes(self):
+        notes = []
+        if self.object.note_hard_of_hearing:
+            notes.append(Subject._meta.get_field('note_hard_of_hearing').verbose_name)
+        if self.object.note_difficult_to_understand:
+            notes.append(Subject._meta.get_field('note_difficult_to_understand').verbose_name)
+        if self.object.note_abusive_language:
+            notes.append(Subject._meta.get_field('note_abusive_language').verbose_name)
+        for note in self.object.subjectnote_set.all():
+            notes.append(note.content)
+        return notes
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -239,6 +252,12 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
             monitoring_logger.info('GDPR-Request export: {} by {}'.format(
                 self.object.pk, self.request.user.pk
             ))
+
+            context['appointments'] = Appointment.objects.filter(
+                participation__subject=self.object
+            )
+
+            context['notes'] = self.get_notes()
 
             context['dataset_list'] = [self.object, self.object.contact]
 
