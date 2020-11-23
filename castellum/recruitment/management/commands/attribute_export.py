@@ -20,59 +20,26 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import json
 
 from django.core.management.base import BaseCommand
 
+from castellum.recruitment.attribute_exporters import JSONExporter
 from castellum.recruitment.models import AttributeDescription
-from castellum.recruitment.models.attributes import ANSWER_DECLINED
 from castellum.subjects.models import Subject
-
-TYPES = {
-    'IntegerField': 'integer',
-    'BooleanField': 'boolean',
-}
-FORMATS = {
-    'DateField': 'date',
-    'AgeField': 'date',
-}
 
 
 class Command(BaseCommand):
-    help = 'Export attributes for a single subject (along with the schema).'
+    help = 'Export attributes for a single subject or the attribute schema.'
 
     def add_arguments(self, parser):
-        parser.add_argument('subject_id', type=int)
+        parser.add_argument('subject_id', type=int, nargs='?')
 
     def handle(self, **options):
-        subject = Subject.objects.get(pk=options['subject_id'])
-
-        output = {
-            'data': {},
-            'schema': {
-                'type': 'object',
-                'properties': {},
-            },
-        }
-
-        for description in AttributeDescription.objects.all():
-            key = description.label
-            choices = list(description.attributechoice_set.all())
-
-            value = subject.attributes.get(description.json_key)
-            if value in [None, ANSWER_DECLINED]:
-                pass
-            elif choices:
-                choice = description.attributechoice_set.get(pk=value)
-                output['data'][key] = choice.label
-            else:
-                output['data'][key] = value
-
-            output['schema']['properties'][key] = {k: v for k, v in [
-                ('type', TYPES.get(description.field_type, 'string')),
-                ('format', FORMATS.get(description.field_type)),
-                ('enum', [c.label for c in choices]),
-                ('description', description.help_text),
-            ] if v}
-
-        print(json.dumps(output, sort_keys=True, indent=4))
+        exporter = JSONExporter()
+        descriptions = AttributeDescription.objects.all()
+        if options['subject_id'] is None:
+            s = exporter.get_schema(descriptions)
+        else:
+            subject = Subject.objects.get(pk=options['subject_id'])
+            s = exporter.get_data(descriptions, [subject])
+        print(s)
