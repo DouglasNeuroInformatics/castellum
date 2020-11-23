@@ -73,9 +73,9 @@ staff than contact data and recruitment.
    search attributes both contain traces of research data, but are required for
    the recruitment process.
 
-We found it often to be pretty difficult to decide on levels of integration. 
-Therefore, we want to provide some guidelines that could be considered for new 
-feature sets within the Castellum scope:
+We often found it difficult to decide on levels of integration. Therefore, we 
+want to provide some guidelines that should be considered for new feature sets 
+within the Castellum scope:
 
 Reasons for an integration
     Is a feature set mainly based on subject communication?
