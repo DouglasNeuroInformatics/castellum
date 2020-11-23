@@ -19,7 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import csv
 import datetime
 
 from django import forms
@@ -41,6 +40,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_subject
+from castellum.recruitment.attribute_exporters import get_exporter
 from castellum.recruitment.forms import AppointmentsForm
 from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.mixins import BaseCalendarView
@@ -86,30 +86,22 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
 
         return context
 
-    def export_csv(self):
-        fieldnames = ['pseudonym']
-        attr_descs = list(self.study.exportable_attributes.all())
-        for desc in attr_descs:
-            fieldnames.append(desc.label)
+    def export(self):
+        exporter = get_exporter()
+        descriptions = self.study.exportable_attributes.all()
 
-        response = HttpResponse(content_type='text/csv')
-        writer = csv.DictWriter(response, fieldnames=fieldnames)
-        writer.writeheader()
-
+        subjects = []
         for participation in self.study.participation_set.filter(status=Participation.INVITED):
             has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
             if has_access:
-                row = {'pseudonym': participation.pseudonym}
-                for desc in attr_descs:
-                    value = participation.subject.attributes.get(desc.json_key)
-                    row[desc.label] = desc.field.get_display(value)
-                writer.writerow(row)
+                subjects.append((participation.pseudonym, participation.subject))
 
-        return response
+        data = exporter.get_data(descriptions, subjects)
+        return HttpResponse(data, content_type=exporter.data_content_type)
 
     def get(self, request, *args, **kwargs):
-        if 'csv' in request.GET:
-            return self.export_csv()
+        if 'export' in request.GET:
+            return self.export()
         else:
             return super().get(request, *args, **kwargs)
 
