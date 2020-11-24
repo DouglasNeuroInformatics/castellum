@@ -40,6 +40,11 @@ ATTRIBUTE_DESCRIPTIONS = [{
             'de': 'Links',
             'en': 'Left',
         }
+    }, {
+        'label': {
+            'de': 'Beidhändig',
+            'en': 'Ambidextrous',
+        }
     }],
     'statistics_rank': 'secondary',
 }, {
