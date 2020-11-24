@@ -47,6 +47,7 @@ ATTRIBUTE_DESCRIPTIONS = [{
         }
     }],
     'statistics_rank': 'secondary',
+    'url': 'http://purl.bioontology.org/ontology/SNOMEDCT/57427004',
 }, {
     'field_type': 'CharField',
     'order': 1,
@@ -66,6 +67,7 @@ ATTRIBUTE_DESCRIPTIONS = [{
         'en': 'Age',
     },
     'statistics_rank': 'primary',
+    'url': 'http://purl.bioontology.org/ontology/SNOMEDCT/397669002',
 }, {
     'field_type': 'OrderedChoiceField',
     'order': 3,
