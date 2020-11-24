@@ -190,9 +190,14 @@ def contact(db):
 
 
 @pytest.fixture
-def participation(contact, study_in_execution_status):
+def subject(contact):
+    return contact.subject
+
+
+@pytest.fixture
+def participation(subject, study_in_execution_status):
     return baker.make(
-        Participation, study=study_in_execution_status, subject=contact.subject
+        Participation, study=study_in_execution_status, subject=subject
     )
 
 

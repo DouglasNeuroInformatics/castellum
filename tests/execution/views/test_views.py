@@ -31,7 +31,7 @@ def test_study_detail_view(request, client, user_fixture, study_in_execution_sta
     pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
 ])
 def test_participation_detail_view_invited(
-    request, client, user_fixture, contact, study_in_execution_status
+    request, client, user_fixture, subject, study_in_execution_status
 ):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
@@ -40,7 +40,7 @@ def test_participation_detail_view_invited(
         Participation,
         study=study_in_execution_status,
         status=Participation.INVITED,
-        subject=contact.subject,
+        subject=subject,
     )
 
     url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
@@ -49,7 +49,7 @@ def test_participation_detail_view_invited(
 
 
 def test_participation_detail_view_unsuitable(
-    request, client, contact, conductor, study_in_execution_status
+    request, client, subject, conductor, study_in_execution_status
 ):
     client.force_login(conductor)
 
@@ -57,7 +57,7 @@ def test_participation_detail_view_unsuitable(
         Participation,
         study=study_in_execution_status,
         status=Participation.UNSUITABLE,
-        subject=contact.subject,
+        subject=subject,
     )
 
     url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
@@ -66,14 +66,14 @@ def test_participation_detail_view_unsuitable(
 
 
 @pytest.mark.smoketest
-def test_resolve_view(client, member, study_in_execution_status, contact):
+def test_resolve_view(client, member, study_in_execution_status, subject):
     client.force_login(member)
 
     participation = baker.make(
         Participation,
         study=study_in_execution_status,
         status=Participation.INVITED,
-        subject=contact.subject,
+        subject=subject,
     )
 
     url = '/execution/%i/resolve/' % study_in_execution_status.pk
@@ -88,14 +88,14 @@ def test_resolve_view(client, member, study_in_execution_status, contact):
 
 
 @pytest.mark.smoketest
-def test_update_contact_view(client, member, study_in_execution_status, contact):
+def test_update_contact_view(client, member, study_in_execution_status, subject):
     client.force_login(member)
 
     participation = baker.make(
         Participation,
         study=study_in_execution_status,
         status=Participation.INVITED,
-        subject=contact.subject,
+        subject=subject,
     )
 
     response = client.get('/execution/%i/%i/update-contact/' % (
@@ -112,14 +112,14 @@ def test_calendar_view(client, member, study_in_execution_status):
     assert response.status_code == 200
 
 
-def test_calendar_view_events(client, member, study_in_execution_status, contact):
+def test_calendar_view_events(client, member, study_in_execution_status, subject):
     client.force_login(member)
 
     participation = baker.make(
         Participation,
         study=study_in_execution_status,
         status=Participation.INVITED,
-        subject=contact.subject,
+        subject=subject,
     )
     baker.make(
         Appointment,
