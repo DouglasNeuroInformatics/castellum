@@ -141,6 +141,9 @@ class AttributeDescription(ImportMixin, TranslatableModel):
     )
 
     field_type = models.CharField(max_length=64, choices=FIELD_TYPE_CHOICES)
+    url = models.URLField(
+        verbose_name=_('URL'), help_text=_('URL to a formal definition in an ontology'), blank=True
+    )
     privacy_level_read = models.PositiveSmallIntegerField(
         default=0, validators=[MaxValueValidator(2)]
     )
