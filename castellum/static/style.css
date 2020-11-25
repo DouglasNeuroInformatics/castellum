@@ -110,6 +110,34 @@
     hyphens: auto;
 }
 
+[data-animation="success"] {
+    position: relative;
+}
+
+[data-animation="success"]::after {
+    content: "\2713";  /* check mark */
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 1em;
+    line-height: 1em;
+    box-sizing: content-box;
+    margin-right: -0.5em;
+    margin-top: -0.5em;
+    border: 1px solid;
+    border-radius: 50%;
+    text-align: center;
+    color: var(--dark);
+    background-color: var(--white);
+    opacity: 0;
+    transition: opacity 300ms ease;
+}
+
+[data-animation="success"].animation-active::after {
+    opacity: 1;
+}
+
 @media print {
     .alert {
         display: none !important;
