@@ -23,7 +23,7 @@
 
 from django.core.management.base import BaseCommand
 
-from castellum.recruitment.attribute_exporters import JSONExporter
+from castellum.recruitment.attribute_exporters import get_exporter
 from castellum.recruitment.models import AttributeDescription
 from castellum.subjects.models import Subject
 
@@ -33,9 +33,10 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('subject_id', type=int, nargs='?')
+        parser.add_argument('--exporter')
 
     def handle(self, **options):
-        exporter = JSONExporter()
+        exporter = get_exporter(options.get('exporter'))
         descriptions = AttributeDescription.objects.all()
         if options['subject_id'] is None:
             s = exporter.get_schema(descriptions)

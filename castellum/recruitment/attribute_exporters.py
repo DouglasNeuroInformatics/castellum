@@ -21,7 +21,15 @@
 
 import json
 
+from django.conf import settings
+from django.utils.module_loading import import_string
+
 from .attribute_fields import ANSWER_DECLINED
+
+
+def get_exporter(path=None):
+    cls = import_string(path or settings.CASTELLUM_ATTRIBUTE_EXPORTER)
+    return cls()
 
 
 class JSONExporter:
