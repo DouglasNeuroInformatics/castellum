@@ -68,7 +68,7 @@
         var targetSelector = this.dataset.clipboard;
         var target = document.querySelector(targetSelector);
         if (navigator.clipboard) {
-            navigator.clipboard.writeText(target.value);
+            navigator.clipboard.writeText(target.value || target.href);
         } else {
             target.focus();
             target.setSelectionRange(0, 1000);
