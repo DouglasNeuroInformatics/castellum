@@ -25,77 +25,77 @@ def has_match(is_exclusive=False, excluded_studies=[]):
     return Subject.objects.filter(filter_queries.study(study)).exists()
 
 
-def test_to_q(contact):
+def test_to_q(subject):
     assert has_match()
 
 
-def test_to_q_excluded_study(contact):
-    participation = create_participation(contact.subject)
+def test_to_q_excluded_study(subject):
+    participation = create_participation(subject)
     assert not has_match(excluded_studies=[participation.study])
 
 
-def test_to_q_excluded_study_and_unsuitable(contact):
-    participation = create_participation(contact.subject, status=Participation.UNSUITABLE)
+def test_to_q_excluded_study_and_unsuitable(subject):
+    participation = create_participation(subject, status=Participation.UNSUITABLE)
     assert has_match(excluded_studies=[participation.study])
 
 
-def test_to_q_excluded_study_and_unsuitable_for_other_study(contact):
-    participation = create_participation(contact.subject)
-    create_participation(contact.subject, status=Participation.UNSUITABLE)
+def test_to_q_excluded_study_and_unsuitable_for_other_study(subject):
+    participation = create_participation(subject)
+    create_participation(subject, status=Participation.UNSUITABLE)
     assert not has_match(excluded_studies=[participation.study])
 
 
-def test_to_q_reverse_excluded_study(contact):
-    participation = create_participation(contact.subject)
+def test_to_q_reverse_excluded_study(subject):
+    participation = create_participation(subject)
     study = baker.make(Study)
     participation.study.excluded_studies.add(study)
     assert not Subject.objects.filter(filter_queries.study(study)).exists()
 
 
-def test_to_q_exclusive_study(contact):
+def test_to_q_exclusive_study(subject):
     assert has_match(is_exclusive=True)
 
 
-def test_to_q_exclusive_study_and_finished(contact):
-    create_participation(contact.subject, is_finished=True)
+def test_to_q_exclusive_study_and_finished(subject):
+    create_participation(subject, is_finished=True)
     assert has_match(is_exclusive=True)
 
 
-def test_to_q_exclusive_study_in_same_study(contact):
+def test_to_q_exclusive_study_in_same_study(subject):
     study = baker.make(Study, is_exclusive=True)
     baker.make(
         Participation,
         status=Participation.INVITED,
-        subject=contact.subject,
+        subject=subject,
         study=study,
     )
     q = filter_queries.study_exclusion(study)
     assert Subject.objects.filter(q).exists()
 
 
-def test_to_q_exclusive_study_and_unfinished(contact):
-    create_participation(contact.subject)
+def test_to_q_exclusive_study_and_unfinished(subject):
+    create_participation(subject)
     assert not has_match(is_exclusive=True)
 
 
-def test_to_q_exclusive_study_and_unsuitable(contact):
-    create_participation(contact.subject, status=Participation.UNSUITABLE)
+def test_to_q_exclusive_study_and_unsuitable(subject):
+    create_participation(subject, status=Participation.UNSUITABLE)
     assert has_match(is_exclusive=True)
 
 
-def test_to_q_other_study_exclusive_and_finished(contact):
-    create_participation(contact.subject, is_finished=True, is_exclusive=True)
+def test_to_q_other_study_exclusive_and_finished(subject):
+    create_participation(subject, is_finished=True, is_exclusive=True)
     assert has_match()
 
 
-def test_to_q_other_study_is_exclusive_and_unfinished(contact):
-    create_participation(contact.subject, is_exclusive=True)
+def test_to_q_other_study_is_exclusive_and_unfinished(subject):
+    create_participation(subject, is_exclusive=True)
     assert not has_match()
 
 
-def test_to_q_first_study_exclusive_second_study_unfinished(contact):
-    create_participation(contact.subject, is_finished=True, is_exclusive=True)
-    create_participation(contact.subject)
+def test_to_q_first_study_exclusive_second_study_unfinished(subject):
+    create_participation(subject, is_finished=True, is_exclusive=True)
+    create_participation(subject)
     assert has_match()
 
 
