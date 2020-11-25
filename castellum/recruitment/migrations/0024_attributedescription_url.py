@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('recruitment', '0022_delete_attributeset'),
+        ('recruitment', '0023_delete_appointment'),
     ]
 
     operations = [
