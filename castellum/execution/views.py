@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+import zipfile
 
 from django import forms
 from django.conf import settings
@@ -89,6 +90,8 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
     def export(self):
         exporter = get_exporter()
         descriptions = self.study.exportable_attributes.all()
+        response = HttpResponse(content_type='application/zip')
+        zresponse = zipfile.ZipFile(response, 'w')
 
         subjects = []
         for participation in self.study.participation_set.filter(status=Participation.INVITED):
@@ -96,8 +99,17 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
             if has_access:
                 subjects.append((participation.pseudonym, participation.subject))
 
-        data = exporter.get_data(descriptions, subjects)
-        return HttpResponse(data)
+        filename = exporter.get_schema_filename()
+        content = exporter.get_schema(descriptions)
+        with zresponse.open(filename, 'w') as fh:
+            fh.write(content.encode('UTF-8'))
+
+        filename = exporter.get_data_filename()
+        content = exporter.get_data(descriptions, subjects)
+        with zresponse.open(filename, 'w') as fh:
+            fh.write(content.encode('UTF-8'))
+
+        return response
 
     def get(self, request, *args, **kwargs):
         if 'export' in request.GET:
