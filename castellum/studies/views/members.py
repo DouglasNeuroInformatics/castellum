@@ -40,6 +40,7 @@ from ..models import StudyMembership
 
 class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, FormView):
     model = Study
+    pk_url_kwarg = 'study_pk'
     template_name = 'studies/study_members.html'
     permission_required = 'studies.change_study'
     is_onetime_invitation = False
