@@ -5,8 +5,8 @@ from django.utils import timezone
 import pytest
 from model_bakery import baker
 
+from castellum.appointments.models import Appointment
 from castellum.contacts.models import Contact
-from castellum.recruitment.models import Appointment
 
 
 @pytest.mark.smoketest

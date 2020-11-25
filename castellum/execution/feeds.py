@@ -23,7 +23,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 
-from castellum.recruitment.mixins import BaseAppointmentFeed
+from castellum.appointments.mixins import BaseAppointmentFeed
 from castellum.studies.models import Study
 
 

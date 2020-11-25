@@ -27,10 +27,9 @@ from django.utils.formats import date_format
 from django.utils.formats import time_format
 from django.utils.translation import gettext_lazy as _
 
+from castellum.recruitment.models import Participation
 from castellum.studies.models import StudySession
 from castellum.utils.fields import DateTimeField
-
-from .recruitment import Participation
 
 MINUTE = datetime.timedelta(seconds=60)
 

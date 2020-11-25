@@ -47,6 +47,9 @@ from icalendar import Calendar
 from simplecharts import StackedColumnRenderer
 from stronghold.decorators import public
 
+from castellum.appointments.mixins import BaseCalendarView
+from castellum.appointments.mixins import send_appointment_notifications
+from castellum.appointments.models import Appointment
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.pseudonyms.helpers import get_subject
@@ -65,12 +68,9 @@ from .forms import CleanupForm
 from .forms import ContactAndAppointmentsForm
 from .forms import ContactForm
 from .mixins import BaseAttributesUpdateView
-from .mixins import BaseCalendarView
 from .mixins import BaseMailRecruitmentView
 from .mixins import ParticipationMixin
 from .mixins import get_recruitable
-from .mixins import send_appointment_notifications
-from .models import Appointment
 from .models import AttributeDescription
 from .models import Participation
 from .models.attributes import get_description_by_statistics_rank
@@ -304,7 +304,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     study_status = [Study.EXECUTION]
 
     def get_form_class(self):
-        if self.request.user.has_perm('recruitment.change_appointment', self.study):
+        if self.request.user.has_perm('appointments.change_appointment', self.study):
             return ContactAndAppointmentsForm
         else:
             return ContactForm
@@ -399,7 +399,7 @@ class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateV
 
 class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     model = Study
-    permission_required = 'recruitment.change_appointment'
+    permission_required = 'appointments.change_appointment'
     study_status = [Study.EXECUTION]
     nochrome = True
     feed = 'recruitment:calendar-feed'

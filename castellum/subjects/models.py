@@ -49,7 +49,7 @@ class TimeSlot(models.Model):
 
 class SubjectQuerySet(models.QuerySet):
     def annotate_showup(self):
-        from castellum.recruitment.models import Appointment
+        from castellum.appointments.models import Appointment
 
         now = timezone.now()
         weights = {
@@ -273,7 +273,7 @@ class Subject(TimeStampedModel):
             return self.get_next_available_datetime(now)
 
     def annotate_showup_stats(self):
-        from castellum.recruitment.models import Appointment
+        from castellum.appointments.models import Appointment
 
         if hasattr(self, 'showup_score'):
             return

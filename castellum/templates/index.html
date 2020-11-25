@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        {% has_perm 'recruitment.view_current_appointments' user as can_view_current_appointments %}
+        {% has_perm 'appointments.view_current_appointments' user as can_view_current_appointments %}
         {% if can_view_current_appointments %}
             <div class="col-sm-6 col-md-4 mb-4">
                 <div class="card">

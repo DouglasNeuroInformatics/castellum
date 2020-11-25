@@ -22,7 +22,7 @@
 from django import template
 from django.utils.translation import gettext_lazy as _
 
-from castellum.recruitment.models import Appointment
+from castellum.appointments.models import Appointment
 
 register = template.Library()
 

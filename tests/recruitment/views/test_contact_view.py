@@ -6,8 +6,8 @@ from django.utils import timezone
 import pytest
 from model_bakery import baker
 
+from castellum.appointments.models import Appointment
 from castellum.castellum_auth.models import User
-from castellum.recruitment.models import Appointment
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Resource
 from castellum.studies.models import Study

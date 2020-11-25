@@ -28,13 +28,11 @@ from typing import Optional
 from django.conf import settings
 from django.contrib import messages
 from django.db import models
-from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import DetailView
 from django.views.generic import FormView
 from django.views.generic import UpdateView
 
@@ -42,14 +40,12 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.studies.mixins import StudyMixin
 from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
-from castellum.utils import add_working_days
 from castellum.utils.feeds import BaseICalFeed
 from castellum.utils.mail import MailContext
 
 from . import filter_queries
 from .forms import AttributesForm
 from .forms import SendMailForm
-from .models import Appointment
 from .models import AttributeDescription
 from .models import MailBatch
 from .models import Participation
@@ -80,43 +76,6 @@ def get_recruitable(study):
     )
 
     return list(qs)
-
-
-def send_appointment_notifications(request, participation, changes):
-    start = timezone.now()
-    end = add_working_days(start, 2)
-    relevant_changes = [
-        (old, new) for (old, new) in changes if (
-            (old and old >= start and old <= end) or
-            (new and new >= start and new <= end)
-        )
-    ]
-
-    if not relevant_changes:
-        return
-
-    body = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY.format(
-        study=participation.study,
-        changes='\n'.join('%s -> %s' % (
-            timezone.localtime(old),
-            timezone.localtime(new),
-        ) for (old, new) in relevant_changes),
-        participation_url=request.build_absolute_uri(reverse(
-            'execution:participation-detail',
-            args=[participation.study.pk, participation.pk]
-        )),
-        calendar_url=request.build_absolute_uri(reverse(
-            'execution:calendar',
-            args=[participation.study.pk]
-        )),
-    )
-
-    with MailContext('internal') as ctx:
-        return ctx.send_mail(
-            settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT,
-            body,
-            [user.email for user in participation.study.conductors if user != request.user],
-        )
 
 
 class ParticipationMixin(StudyMixin, SubjectMixin):
@@ -187,29 +146,6 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
         return context
 
 
-class BaseCalendarView(DetailView):
-    template_name = 'recruitment/calendar.html'
-
-    def get_appointments(self):
-        return Appointment.objects.filter(participation__status=Participation.INVITED)
-
-    def render_appointment(self, appointment):
-        return {
-            'start': appointment.start,
-            'end': appointment.end,
-        }
-
-    def get_events(self):
-        self.object = self.get_object()
-        return [self.render_appointment(a) for a in self.get_appointments()]
-
-    def get(self, request, *args, **kwargs):
-        if 'events' in request.GET:
-            return JsonResponse({'events': self.get_events()})
-        else:
-            return super().get(request, *args, **kwargs)
-
-
 class BaseFollowUpFeed(BaseICalFeed):
     def item_title(self, item):
         return '{} - Follow-Up'.format(item.study.name)
@@ -228,17 +164,6 @@ class BaseFollowUpFeed(BaseICalFeed):
 
     def item_description(self, item):
         return self.request.build_absolute_uri(self.item_link(item))
-
-
-class BaseAppointmentFeed(BaseICalFeed):
-    def items(self, obj):
-        return Appointment.objects.filter(participation__status=Participation.INVITED)
-
-    def item_start_datetime(self, item):
-        return item.start
-
-    def item_end_datetime(self, item):
-        return item.end
 
 
 class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):

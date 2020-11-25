@@ -5,7 +5,7 @@ from django.utils.dateparse import parse_datetime
 import pytest
 from freezegun import freeze_time
 
-from castellum.recruitment.mixins import send_appointment_notifications
+from castellum.appointments.mixins import send_appointment_notifications
 
 
 def dt(s):

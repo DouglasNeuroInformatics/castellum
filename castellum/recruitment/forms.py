@@ -19,29 +19,23 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import itertools
 import json
 from pathlib import Path
 
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
-from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from castellum.pseudonyms.helpers import get_pseudonym
+from castellum.appointments.forms import AppointmentsForm
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
-from castellum.utils import scheduler
 from castellum.utils.forms import BaseImportForm
-from castellum.utils.forms import DateTimeField
 from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
 
-from .models import Appointment
 from .models import AttributeDescription
 from .models import Participation
 from .models import SubjectFilter
-from .models.appointments import MINUTE
 from .models.attributes import ANSWER_DECLINED
 from .models.attributes import UNCATEGORIZED
 
@@ -178,106 +172,6 @@ class AttributesForm(forms.ModelForm):
         allowed_descriptions = AttributeDescription.objects.allowed_write(user, obj=obj)
         form_fields = {desc.json_key: desc.field.formfield() for desc in allowed_descriptions}
         return type('AttributesForm', (cls,), form_fields)
-
-
-class AppointmentsForm(forms.ModelForm):
-    class Meta:
-        model = Participation
-        fields = []
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.invitation_urls = {}
-        for session, appointment in self.instance.get_appointments():
-            key = 'appointment-%i' % session.pk
-            self.fields[key] = DateTimeField(
-                label=self.format_session_name(session),
-                initial=appointment.start if appointment else None,
-                disabled=bool(session.schedule_id),
-                required=False,
-            )
-            if session.schedule_id and self.instance.status == Participation.INVITED:
-                pseudonym = get_pseudonym(self.instance.subject, session.domain)
-                url = scheduler.create_invitation_url(session.schedule_id, pseudonym)
-                self.invitation_urls[key] = url
-
-    def format_session_name(self, session):
-        duration = _('%imin') % session.duration
-        types = ', '.join(str(t) for t in session.type.order_by('pk'))
-        if types:
-            return '%s (%s) - %s' % (session.name, types, duration)
-        else:
-            return '%s - %s' % (session.name, duration)
-
-    def clean(self):
-        cleaned_data = super().clean()
-
-        appointments = []
-        for session in self.instance.study.studysession_set.all():
-            key = 'appointment-%i' % session.pk
-            start = cleaned_data.get(key)
-            if start:
-                appointments.append((session, key, start, start + session.duration * MINUTE))
-
-        for a, b in itertools.combinations(appointments, 2):
-            __, key1, start1, end1 = a
-            __, key2, start2, end2 = b
-            if start1 < end2 and start2 < end1:
-                self.add_error(key1, _('Appointments must not overlap.'))
-                self.add_error(key2, _('Appointments must not overlap.'))
-                break
-
-        qs = Appointment.objects\
-            .exclude(participation=self.instance)\
-            .filter(participation__status=Participation.INVITED)\
-            .annotate(end=models.ExpressionWrapper(
-                models.F('start') + models.F('session__duration') * MINUTE,
-                output_field=models.DateTimeField(),
-            ))
-
-        for session, key, start, end in appointments:
-            if session.resource and qs.filter(
-                session__resource=session.resource, end__gt=start, start__lt=end,
-            ).exists():
-                self.add_error(key, _('The required resource is not available at this time'))
-
-        return cleaned_data
-
-    def save(self):
-        pariticipation = super().save()
-        self.appointment_changes = []
-
-        for session, appointment in pariticipation.get_appointments():
-            start = self.cleaned_data.get('appointment-%i' % session.pk)
-
-            if appointment:
-                if not start:
-                    self.appointment_changes.append((appointment.start, None))
-                    appointment.delete()
-                elif start != appointment.start:
-                    self.appointment_changes.append((appointment.start, start))
-                    appointment.start = start
-                    appointment.reminded = False
-                    appointment.show_up = Appointment.SHOWUP  # reset to default
-                    appointment.save()
-            elif start:
-                self.appointment_changes.append((None, start))
-                pariticipation.appointment_set.create(
-                    session=session,
-                    start=start,
-                )
-
-        return pariticipation
-
-    @property
-    def appointments(self):
-        for name in self.fields:
-            if name.startswith('appointment-'):
-                yield {
-                    'field': self[name],
-                    'invitation_url': self.invitation_urls.get(name)
-                }
 
 
 class ContactForm(forms.ModelForm):

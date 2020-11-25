@@ -33,7 +33,6 @@ from parler.admin import TranslatableTabularInline
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 
 from .forms import DescriptionImportForm
-from .models import Appointment
 from .models import AttributeCategory
 from .models import AttributeChoice
 from .models import AttributeDescription
@@ -99,7 +98,6 @@ class AttributeDescriptionAdmin(TranslatableAdmin):
         ] + super().get_urls()
 
 
-admin.site.register(Appointment)
 admin.site.register(AttributeCategory, TranslatableAdmin)
 admin.site.register(AttributeDescription, AttributeDescriptionAdmin)
 admin.site.register(MailBatch)
