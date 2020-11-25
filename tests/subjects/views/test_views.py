@@ -142,7 +142,7 @@ def test_export_requested(client, user, subject):
     response = client.get(url)
 
     assert response.status_code == 200
-    assert b'<h1>Subject</h1>' in response.content
+    assert b'<h1>Procedural data</h1>' in response.content
 
 
 def test_export_post(client, user, subject):
