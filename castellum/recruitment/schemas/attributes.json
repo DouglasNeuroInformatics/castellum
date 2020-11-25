@@ -57,6 +57,10 @@
                 },
                 "help_text": {
                     "$ref": "#/$defs/TranslatedText"
+                },
+                "url": {
+                    "type": "string",
+                    "format": "uri"
                 }
             },
             "required": [
