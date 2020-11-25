@@ -333,7 +333,11 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         return context
 
     def get_success_url(self):
-        return reverse('recruitment:contact', args=[self.study.pk, self.object.pk])
+        url = reverse('recruitment:contact', args=[self.study.pk, self.object.pk])
+        context = self.request.GET.get('context')
+        if context == 'subjects:participation-list':
+            url += '?context=' + context
+        return url
 
     def form_valid(self, form):
         response = super().form_valid(form)
