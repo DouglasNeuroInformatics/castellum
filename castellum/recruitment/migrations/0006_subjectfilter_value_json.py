@@ -26,6 +26,7 @@ class Migration(migrations.Migration):
             field=JSONField(default={}),
             preserve_default=False,
         ),
+        migrations.RunPython(copy_value),
         migrations.RemoveField(
             model_name='subjectfilter',
             name='value_old',

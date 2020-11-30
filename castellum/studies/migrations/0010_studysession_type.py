@@ -26,6 +26,7 @@ class Migration(migrations.Migration):
             name='type',
             field=models.ManyToManyField(blank=True, to='studies.StudyType', verbose_name='Type'),
         ),
+        migrations.RunPython(migrate_data),
         migrations.RemoveField(
             model_name='study',
             name='study_type',

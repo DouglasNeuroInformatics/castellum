@@ -15,6 +15,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
                 migrations.CreateModel(
                     name='Appointment',
                     fields=[
@@ -32,4 +34,8 @@ class Migration(migrations.Migration):
                         'unique_together': {('session', 'participation')},
                     },
                 ),
+            ],
+            # Table already exists. See recruitment/migrations/0023_delete_appointment.py
+            database_operations=[],
+        ),
     ]

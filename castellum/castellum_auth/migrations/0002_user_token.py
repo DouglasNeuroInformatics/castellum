@@ -23,6 +23,7 @@ class Migration(migrations.Migration):
             name='token',
             field=models.CharField(max_length=64, default='empty'),
         ),
+        migrations.RunPython(set_tokens),
         migrations.AlterField(
             model_name='user',
             name='token',

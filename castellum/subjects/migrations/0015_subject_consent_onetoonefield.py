@@ -23,6 +23,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RunPython(delete_surplus_consents),
         migrations.AlterField(
             model_name='consent',
             name='subject',

@@ -23,6 +23,7 @@ class Migration(migrations.Migration):
             name='slug',
             field=models.CharField(default='empty', max_length=64, verbose_name='Slug'),
         ),
+        migrations.RunPython(set_slug),
         migrations.AlterField(
             model_name='subject',
             name='slug',

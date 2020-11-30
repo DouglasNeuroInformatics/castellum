@@ -39,4 +39,5 @@ class Migration(migrations.Migration):
             name='study_type_disinterest',
             field=models.ManyToManyField(blank=True, related_name='_subject_study_type_disinterest_+', to='studies.StudyType', verbose_name='Does not want to participate in the following study types'),
         ),
+        migrations.RunPython(migrate_data),
     ]
