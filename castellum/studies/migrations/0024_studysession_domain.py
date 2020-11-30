@@ -27,7 +27,6 @@ class Migration(migrations.Migration):
             name='domain',
             field=models.CharField(editable=False, max_length=64, unique=True, null=True),
         ),
-        migrations.RunPython(create_domains),
         migrations.AlterField(
             model_name='studysession',
             name='domain',

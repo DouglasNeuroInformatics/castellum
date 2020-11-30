@@ -25,7 +25,6 @@ class Migration(migrations.Migration):
             name='subject_id',
             field=models.IntegerField(default=None, editable=False, unique=True, null=True),
         ),
-        migrations.RunPython(migrate_value),
         migrations.AlterField(
             model_name='contact',
             name='subject_id',

@@ -41,7 +41,6 @@ class Migration(migrations.Migration):
             name='followup_time',
             field=models.TimeField(blank=True, null=True),
         ),
-        migrations.RunPython(migrate_values),
         migrations.RemoveField(
             model_name='participationrequest',
             name='followup',

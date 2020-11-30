@@ -22,7 +22,6 @@ class Migration(migrations.Migration):
             field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='contacts.Contact', blank=True, null=True, related_name='+'),
             preserve_default=False,
         ),
-        migrations.RunPython(migrate_data),
         migrations.AlterField(
             model_name='address',
             name='contact',

@@ -60,7 +60,6 @@ class Migration(migrations.Migration):
             name='tries',
             field=models.IntegerField(default=0, verbose_name='Tries'),
         ),
-        migrations.RunPython(migrate_data),
         migrations.DeleteModel(
             name='ParticipationRevision',
         ),
