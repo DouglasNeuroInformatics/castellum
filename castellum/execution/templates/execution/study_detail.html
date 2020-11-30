@@ -47,5 +47,8 @@
         <a href="{% url 'execution:calendar' study.pk %}" class="btn btn-secondary">{% translate 'Calendar' %}</a>
         <a href="{% url 'execution:news-mail' study.pk %}" class="btn btn-secondary">{% translate 'News mail' %}</a>
         <a href="?export" class="btn btn-secondary">{% trans 'Export attributes' %}</a>
+        {% if study.consent %}
+            <a href="{{ study.consent.url }}" class="btn btn-secondary">{% translate 'Consent document' %}</a>
+        {% endif %}
     </div>
 {% endblock %}
