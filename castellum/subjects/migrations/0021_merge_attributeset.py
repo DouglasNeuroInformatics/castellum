@@ -17,9 +17,9 @@ def migrate_data(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('studies', '0022_add_phone_email'),
+        ('studies', '0001_squashed_0025_studysession_schedule_id'),
         ('subjects', '0020_subject_deceased'),
-        ('recruitment', '0021_rename_outcome_to_news'),
+        ('recruitment', '0001_squashed_0021_rename_outcome_to_news'),
     ]
 
     operations = [

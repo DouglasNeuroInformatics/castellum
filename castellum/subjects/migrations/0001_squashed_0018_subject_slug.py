@@ -8,8 +8,6 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    replaces = [('subjects', '0001_initial'), ('subjects', '0002_subject_to_be_deleted_notified'), ('subjects', '0003_subject_to_be_deleted_help_texts'), ('subjects', '0004_subject_to_be_deleted_date'), ('subjects', '0005_subject_export_requested'), ('subjects', '0006_exportanswer'), ('subjects', '0007_consent_is_current'), ('subjects', '0008_rename_consent'), ('subjects', '0009_subject_source'), ('subjects', '0010_remove_consent_type'), ('subjects', '0011_remove_consentdocument_info'), ('subjects', '0012_consentdocument_file_optional'), ('subjects', '0013_rename_consentdocument_is_valid'), ('subjects', '0014_remove_subject_no_recruitment'), ('subjects', '0015_subject_consent_onetoonefield'), ('subjects', '0016_consentdocument_is_deprecated'), ('subjects', '0017_refactor_permissions'), ('subjects', '0018_subject_slug')]
-
     initial = True
 
     dependencies = [
