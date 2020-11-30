@@ -192,6 +192,7 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
         'data_sensitivity',
         'consent',
         'min_subject_count',
+        'exportable_attributes',
         'is_onetime_invitation',
     ]
     permission_required = 'studies.change_study'

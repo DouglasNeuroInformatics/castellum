@@ -20,12 +20,14 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+import zipfile
 
 from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -43,6 +45,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_subject
+from castellum.recruitment.attribute_exporters import get_exporter
 from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.mixins import ParticipationMixin
 from castellum.recruitment.models import NewsMailBatch
@@ -83,6 +86,36 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
         context['session_count'] = self.study.studysession_set.count()
 
         return context
+
+    def export(self):
+        exporter = get_exporter()
+        descriptions = self.study.exportable_attributes.all()
+        response = HttpResponse(content_type='application/zip')
+        zresponse = zipfile.ZipFile(response, 'w')
+
+        subjects = []
+        for participation in self.study.participation_set.filter(status=Participation.INVITED):
+            has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
+            if has_access:
+                subjects.append((participation.pseudonym, participation.subject))
+
+        filename = exporter.get_schema_filename()
+        content = exporter.get_schema(descriptions)
+        with zresponse.open(filename, 'w') as fh:
+            fh.write(content.encode('UTF-8'))
+
+        filename = exporter.get_data_filename()
+        content = exporter.get_data(descriptions, subjects)
+        with zresponse.open(filename, 'w') as fh:
+            fh.write(content.encode('UTF-8'))
+
+        return response
+
+    def get(self, request, *args, **kwargs):
+        if 'export' in request.GET:
+            return self.export()
+        else:
+            return super().get(request, *args, **kwargs)
 
 
 class ParticipationDetailMixin(ParticipationMixin, PermissionRequiredMixin):
