@@ -22,6 +22,7 @@
 import itertools
 
 from django import forms
+from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -51,7 +52,11 @@ class AppointmentsForm(forms.ModelForm):
                 disabled=bool(session.schedule_id),
                 required=False,
             )
-            if session.schedule_id and self.instance.status == Participation.INVITED:
+            if (
+                settings.SCHEDULER_URL and
+                session.schedule_id and
+                self.instance.status == Participation.INVITED
+            ):
                 pseudonym = get_pseudonym(self.instance.subject, session.domain)
                 url = scheduler.create_invitation_url(session.schedule_id, pseudonym)
                 self.invitation_urls[key] = url
