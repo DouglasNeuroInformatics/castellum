@@ -34,5 +34,5 @@ AUTH_LDAP_USER_ATTR_MAP = {
     'last_name': 'sn',
 }
 
-PING_URL = 'http://web:8000/recruitment/ping/{schedule_id}/{token}/'
+PING_URL = 'http://web:8000/recruitment/scheduler-ping/{schedule_id}/{token}/'
 API_TOKEN = 'CHANGEME'
