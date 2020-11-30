@@ -131,7 +131,7 @@ class AttributeDescription(ImportMixin, TranslatableModel):
     ]
     STATISTICS_TYPES = ['ChoiceField', 'OrderedChoiceField', 'BooleanField', 'AgeField']
 
-    import_fields = ['field_type', 'privacy_level_read', 'privacy_level_write', 'order']
+    import_fields = ['field_type', 'privacy_level_read', 'privacy_level_write', 'order', 'url']
     import_translated_fields = ['label', '_filter_label', 'help_text']
 
     translations = TranslatedFields(

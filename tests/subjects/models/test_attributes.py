@@ -143,4 +143,5 @@ def test_attribute_description_export():
                 'en': 'en-label1',
             }
         }],
+        'url': '',
     }
