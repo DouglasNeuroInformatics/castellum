@@ -161,7 +161,7 @@ class Migration(migrations.Migration):
                 ('subject', models.ForeignKey(editable=False, on_delete=django.db.models.deletion.CASCADE, to='subjects.subject')),
                 ('followup_date', castellum.utils.fields.DateField(blank=True, null=True, verbose_name='Follow-up date')),
                 ('followup_time', models.TimeField(blank=True, null=True, verbose_name='Follow-up time')),
-                ('created_at', castellum.utils.fields.DateTimeField(auto_now_add=True, default=django.utils.timezone.now, verbose_name='Created at')),
+                ('created_at', castellum.utils.fields.DateTimeField(auto_now_add=True, verbose_name='Created at')),
                 ('updated_at', castellum.utils.fields.DateTimeField(auto_now=True, verbose_name='Updated at')),
                 ('attempts', models.IntegerField(default=0, verbose_name='Attempts')),
                 ('news_interest', models.IntegerField(choices=[(1, 'not interested'), (2, 'via postal mail'), (3, 'via email')], default=1, verbose_name='Interest in study news')),

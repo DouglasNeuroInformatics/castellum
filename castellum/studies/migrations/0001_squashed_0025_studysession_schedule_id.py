@@ -73,10 +73,18 @@ class Migration(migrations.Migration):
             bases=(parler.models.TranslatableModelMixin, models.Model),
         ),
         migrations.CreateModel(
+            name='StudyGroup',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=150, unique=True, verbose_name='name')),
+                ('permissions', models.ManyToManyField(blank=True, to='auth.Permission', verbose_name='permissions')),
+            ],
+        ),
+        migrations.CreateModel(
             name='StudyMembership',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('groups', models.ManyToManyField(blank=True, related_name='_studymembership_groups_+', to='auth.Group')),
+                ('groups', models.ManyToManyField(blank=True, related_name='_studymembership_groups_+', to='studies.StudyGroup')),
                 ('study', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='studies.study')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
@@ -164,7 +172,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('url', models.URLField(verbose_name='URL')),
                 ('study_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='studies.studytype')),
-                ('color', castellum.utils.fields.ColorField(default='#000000', max_length=7, verbose_name='Color')),
+                ('color', castellum.utils.fields.ColorField(max_length=7, verbose_name='Color')),
             ],
         ),
         migrations.AlterField(
@@ -179,19 +187,6 @@ class Migration(migrations.Migration):
         migrations.RemoveField(
             model_name='study',
             name='to_be_deleted_notified',
-        ),
-        migrations.CreateModel(
-            name='StudyGroup',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=150, unique=True, verbose_name='name')),
-                ('permissions', models.ManyToManyField(blank=True, to='auth.Permission', verbose_name='permissions')),
-            ],
-        ),
-        migrations.AlterField(
-            model_name='studymembership',
-            name='groups',
-            field=models.ManyToManyField(blank=True, related_name='_studymembership_groups_+', to='studies.StudyGroup'),
         ),
         migrations.RenameField(
             model_name='study',
@@ -219,7 +214,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('duration', models.PositiveIntegerField(verbose_name='Duration of a session in minutes')),
                 ('study', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='studies.study')),
-                ('name', models.CharField(default='session', max_length=128, verbose_name='Name')),
+                ('name', models.CharField(max_length=128, verbose_name='Name')),
                 ('resource', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='studies.resource', verbose_name='Resource')),
                 ('type', models.ManyToManyField(blank=True, to='studies.StudyType', verbose_name='Type')),
                 ('domain', models.CharField(default=None, editable=False, max_length=64, unique=True)),

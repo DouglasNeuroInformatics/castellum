@@ -119,20 +119,6 @@ class Migration(migrations.Migration):
             field=models.CharField(blank=True, max_length=128, verbose_name='Data source'),
         ),
         migrations.CreateModel(
-            name='Consent',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Updated at')),
-                ('status', models.CharField(choices=[('waiting', 'Waiting for confirmation'), ('confirmed', 'Confirmed')], max_length=64, verbose_name='Status')),
-                ('document', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='subjects.consent')),
-                ('subject', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='subjects.subject')),
-            ],
-            options={
-                'verbose_name': 'Consent',
-                'get_latest_by': 'document__created_at',
-            },
-        ),
-        migrations.CreateModel(
             name='ConsentDocument',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -143,6 +129,20 @@ class Migration(migrations.Migration):
             ],
             options={
                 'get_latest_by': 'created_at',
+            },
+        ),
+        migrations.CreateModel(
+            name='Consent',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Updated at')),
+                ('status', models.CharField(choices=[('waiting', 'Waiting for confirmation'), ('confirmed', 'Confirmed')], max_length=64, verbose_name='Status')),
+                ('document', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='subjects.consentdocument')),
+                ('subject', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='subjects.subject')),
+            ],
+            options={
+                'verbose_name': 'Consent',
+                'get_latest_by': 'document__created_at',
             },
         ),
         migrations.AlterModelOptions(
