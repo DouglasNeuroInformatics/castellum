@@ -219,10 +219,8 @@ msgid "Please provide an email."
 msgstr "Bitte geben Sie eine E-Mail Adresse an."
 
 #: castellum/contacts/forms.py:190
-#, fuzzy
-#| msgid "Search for name or email address"
 msgid "Search for name, phone number or email address"
-msgstr "Suche nach Name oder E-Mail Adresse"
+msgstr "Suche nach Name, Telefonnummer oder E-Mail Adresse"
 
 #: castellum/contacts/models.py:132
 msgid "female"
@@ -575,7 +573,7 @@ msgstr "Aktualisieren"
 #: castellum/execution/templates/execution/participation_appointments_form.html:29
 #: castellum/recruitment/templates/recruitment/contact.html:161
 msgid "Select timeslot for this subject"
-msgstr ""
+msgstr "Einen Termin für diese Proband*in auswählen"
 
 #: castellum/execution/templates/execution/participation_appointments_form.html:30
 #: castellum/execution/templates/execution/participation_appointments_form.html:31
@@ -910,7 +908,7 @@ msgstr "Status"
 
 #: castellum/recruitment/forms.py:222
 msgid "Days since last update"
-msgstr ""
+msgstr "Tage seit der letzten Änderung"
 
 #: castellum/recruitment/mixins.py:217 castellum/recruitment/views.py:262
 msgid "The custom filter that is set for this study does not exist."
@@ -992,7 +990,7 @@ msgstr "URL"
 
 #: castellum/recruitment/models/attributes.py:145
 msgid "URL to a formal definition in an ontology"
-msgstr ""
+msgstr "URL zu einer formalen Definition in einer Ontologie"
 
 #: castellum/recruitment/models/attributes.py:174
 msgid "Privacy level for reading may not be higher than for writing."
@@ -1235,17 +1233,19 @@ msgstr "Rekrutierung"
 #: castellum/recruitment/templates/recruitment/cleanup.html:7
 #: castellum/recruitment/templates/recruitment/recruitment.html:67
 msgid "Cleanup"
-msgstr ""
+msgstr "Aufräumen"
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:8
 msgid ""
 "Automatically mark subjects with the following properties as unsuitable. "
 "Their participation status can still be changed afterwards."
 msgstr ""
+"Markieren Sie Proband*innen mit den folgenden Eigenschaften automatisch als "
+"nicht geeignet. Ihr Teilnahmestatus kann danach weiterhin verändert werden."
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:17
 msgid "Back"
-msgstr ""
+msgstr "Zurück"
 
 #: castellum/recruitment/templates/recruitment/contact.html:19
 msgid "Subject is unsuitable or blocked in another study."
@@ -1310,14 +1310,12 @@ msgid "Execution URL"
 msgstr "Durchführungs-URL"
 
 #: castellum/recruitment/templates/recruitment/contact.html:201
-#, fuzzy
-#| msgid "Edit subject"
 msgid "Back to subject"
-msgstr "Proband*in bearbeiten"
+msgstr "Zurück zur Proband*in"
 
 #: castellum/recruitment/templates/recruitment/contact.html:203
 msgid "Back to list"
-msgstr ""
+msgstr "Zurück zur Liste"
 
 #: castellum/recruitment/templates/recruitment/mail.html:4
 msgid "Mail recruitment"
@@ -2193,10 +2191,8 @@ msgid "General recruitment settings"
 msgstr "Allgemeine Rekrutierungseinstellungen"
 
 #: castellum/studies/templates/studies/study_sessions.html:13
-#, fuzzy
-#| msgid "%imin"
 msgid "min"
-msgstr "%imin"
+msgstr "min"
 
 #: castellum/studies/templates/studies/study_sessions.html:34
 msgid "Add session"
@@ -2240,28 +2236,21 @@ msgstr ""
 "Die Nutzer*in gehört nur im Kontext dieser Studie zu den folgenden Gruppen"
 
 #: castellum/studies/templates/studies/studysession_confirm_delete.html:4
-#, fuzzy
-#| msgid "Delete subject"
 msgid "Delete session"
-msgstr "Proband*in löschen"
+msgstr "Sitzung löschen"
 
 #: castellum/studies/templates/studies/studysession_confirm_delete.html:9
-#, fuzzy, python-format
-#| msgid ""
-#| "Are you sure you want to <strong>permanently delete</strong> this subject "
-#| "and all related data?"
+#, python-format
 msgid ""
 "Are you sure you want to <strong>permanently delete</strong> the session "
 "\"%(name)s\" and all related appointments?"
 msgstr ""
-"Sind Sie sicher, dass Sie diese Proband*in und alle zugehörigen Daten "
-"<strong>unwiederbringlich</strong> löschen möchten?"
+"Sind Sie sicher, dass Sie die Sitzung \"%(name)s\" und alle zugehörigen "
+"Daten <strong>unwiederbringlich</strong> löschen möchten?"
 
 #: castellum/studies/templates/studies/studysession_form.html:7
-#, fuzzy
-#| msgid "Sessions"
 msgid "Session details"
-msgstr "Sitzungen"
+msgstr "Sitzungsdetails"
 
 #: castellum/studies/views/studies.py:306
 msgid "Study has been deleted."
@@ -3006,37 +2995,3 @@ msgstr "Die Datei muss mit UTF-8 kodiert sein."
 #: castellum/utils/templates/utils/form_errors.html:7
 msgid "Please correct the errors listed on the fields."
 msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
-
-#~ msgid "Attribute set"
-#~ msgstr "Merkmale"
-
-#~ msgid "Attribute sets"
-#~ msgstr "Merkmale"
-
-#~ msgid "No attributes provided"
-#~ msgstr "Keine Merkmale angegeben"
-
-#~ msgid ""
-#~ "Please first provide attributes so we can check whether this person meets "
-#~ "the study filters."
-#~ msgstr ""
-#~ "Bitte geben Sie zuerst Merkmale an, sodass überprüft werden kann, ob "
-#~ "diese Person die Filterbedingungen der Studie erfüllt."
-
-#~ msgid "created at"
-#~ msgstr "erstellt am"
-
-#~ msgid "updated at"
-#~ msgstr "aktualisiert am"
-
-#~ msgid "Attribute set completeness"
-#~ msgstr "Vollständigkeit der Merkmale"
-
-#~ msgid "Pseudonym contains invalid characters"
-#~ msgstr "Pseudonym enthält ungültige Zeichen"
-
-#~ msgid "Invalid pseudonym"
-#~ msgstr "Ungültiges Pseudonym"
-
-#~ msgid "Consent confirmed"
-#~ msgstr "Einwilligung bestätigt"
