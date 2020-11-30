@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('subjects', '0001_squashed_0018_subject_slug'),
+        ('subjects', '0001_initial'),
     ]
 
     operations = [

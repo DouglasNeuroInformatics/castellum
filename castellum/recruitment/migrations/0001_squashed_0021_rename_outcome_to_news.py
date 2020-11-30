@@ -13,11 +13,18 @@ import parler.models
 
 class Migration(migrations.Migration):
 
+    replaces = [('recruitment', '0001_initial'), ('recruitment', '0002_auto_20191116_1743'), ('recruitment', '0003_fullowup'), ('recruitment', '0004_attributeset_study_type_disinterest'), ('recruitment', '0005_split_followup'), ('recruitment', '0006_subjectfilter_value_json'), ('recruitment', '0007_perm_search_execution'), ('recruitment', '0008_appointment'), ('recruitment', '0009_rename_participation_request'), ('recruitment', '0010_rename_participant'), ('recruitment', '0011_appointment_show_up'), ('recruitment', '0012_attributeset_onetime_invitation_disinterest'), ('recruitment', '0013_refactor_permissions'), ('recruitment', '0014_appointment_reminded'), ('recruitment', '0015_appointment_verbose_name'), ('recruitment', '0016_rm_participationrevision'), ('recruitment', '0017_participation_rename_tries_attempts'), ('recruitment', '0018_participation_outcome_interest'), ('recruitment', '0019_jsonfield'), ('recruitment', '0020_outcomemailbatch'), ('recruitment', '0021_rename_outcome_to_news')]
+
     initial = True
 
     dependencies = [
-        ('subjects', '0001_squashed_0018_subject_slug'),
-        ('studies', '0001_squashed_0025_studysession_schedule_id'),
+        ('subjects', '0001_initial'),
+        ('studies', '0001_initial'),
+        ('studies', '0017_mail_body_placeholders'),
+        ('studies', '0016_studytypeeventfeed_color'),
+        ('subjects', '0016_consentdocument_is_deprecated'),
+        ('studies', '0007_studysession_name_resource'),
+        ('studies', '0013_geojson_validator'),
     ]
 
     operations = [

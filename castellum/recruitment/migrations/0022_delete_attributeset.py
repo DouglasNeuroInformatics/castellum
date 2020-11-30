@@ -6,8 +6,8 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('recruitment', '0001_squashed_0021_rename_outcome_to_news'),
-        ('subjects', '0001_squashed_0018_subject_slug'),
+        ('recruitment', '0021_rename_outcome_to_news'),
+        ('subjects', '0021_merge_attributeset'),
     ]
 
     operations = [

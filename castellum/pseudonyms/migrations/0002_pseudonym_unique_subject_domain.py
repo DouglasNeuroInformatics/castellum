@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('subjects', '0001_squashed_0018_subject_slug'),
+        ('subjects', '0008_rename_consent'),
         ('pseudonyms', '0001_initial'),
     ]
 

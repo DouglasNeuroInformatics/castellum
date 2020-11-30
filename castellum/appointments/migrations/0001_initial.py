@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('recruitment', '0023_delete_appointment'),
-        ('studies', '0001_squashed_0025_studysession_schedule_id'),
+        ('studies', '0025_studysession_schedule_id'),
     ]
 
     operations = [
