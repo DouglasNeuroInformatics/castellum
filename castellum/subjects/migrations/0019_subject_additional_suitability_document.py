@@ -6,8 +6,8 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('studies', '0016_studytypeeventfeed_color'),
-        ('subjects', '0018_subject_slug'),
+        ('studies', '0001_squashed_0025_studysession_schedule_id'),
+        ('subjects', '0001_squashed_0018_subject_slug'),
     ]
 
     operations = [

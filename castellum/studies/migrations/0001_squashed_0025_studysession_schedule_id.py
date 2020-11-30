@@ -11,8 +11,6 @@ import parler.models
 
 class Migration(migrations.Migration):
 
-    replaces = [('studies', '0001_initial'), ('studies', '0002_studytype_export_key'), ('studies', '0003_auto_20200106_1502'), ('studies', '0004_study_exclusion_critera_verbose_name'), ('studies', '0005_study_to_be_deleted_notified'), ('studies', '0006_study_min_subject_count_default'), ('studies', '0007_studysession_name_resource'), ('studies', '0008_study_type_rm_3rd_party'), ('studies', '0009_study_session_instructions'), ('studies', '0010_studysession_type'), ('studies', '0011_rm_study_expense_allowance'), ('studies', '0012_study_geo_filter'), ('studies', '0013_geojson_validator'), ('studies', '0014_studytypeeventfeed'), ('studies', '0015_study_is_onetime_invitation'), ('studies', '0016_studytypeeventfeed_color'), ('studies', '0017_mail_body_placeholders'), ('studies', '0018_approve_study_permission'), ('studies', '0019_remove_study_to_be_deleted_notified'), ('studies', '0020_studygroup'), ('studies', '0021_studymembership_groups'), ('studies', '0022_add_phone_email'), ('studies', '0023_study_announce_status_changes'), ('studies', '0024_studysession_domain'), ('studies', '0025_studysession_schedule_id')]
-
     initial = True
 
     dependencies = [
