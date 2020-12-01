@@ -311,7 +311,29 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
                 [user.email for user in self.study.conductors],
             )
 
+    def send_test_mail(self, form):
+        user = self.request.user
+        name = user.get_full_name() or user.username
+
+        with MailContext('recruitment') as ctx:
+            success = ctx.send_mail(
+                form.cleaned_data['subject'],
+                form.cleaned_data['body'].replace('{name}', name),
+                [user.email],
+                reply_to=[self.study.email],
+            )
+
+        if success:
+            messages.success(self.request, _('Test mail has been sent.'))
+        else:
+            messages.error(self.request, _('Could not send test mail.'))
+
+        return self.form_invalid(form)
+
     def form_valid(self, form):
+        if 'testmail' in form.data:
+            return self.send_test_mail(form)
+
         interested = self.study.participation_set.filter(
             news_interest=Participation.VIA_EMAIL
         )
