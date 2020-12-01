@@ -262,7 +262,7 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
                 subject,
                 body.replace('{name}', contact.full_name),
                 [email],
-                reply_to=self.study.email,
+                reply_to=[self.study.email],
             )
         return count
 
