@@ -30,6 +30,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import UpdateView
+from django.views.generic import View
 
 from dateutil.relativedelta import relativedelta
 
@@ -39,6 +40,7 @@ from castellum.recruitment.mixins import BaseMailRecruitmentView
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.subjects.models import Subject
+from castellum.utils.mail import MailContext
 
 from ..forms import ExcludedStudiesForm
 from ..forms import SessionForm
@@ -211,6 +213,29 @@ class StudySessionDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
         return get_object_or_404(
             StudySession, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk']
         )
+
+
+class StudyRecruitmentTestMailView(StudyMixin, PermissionRequiredMixin, View):
+    model = Study
+    pk_url_kwarg = 'study_pk'
+    permission_required = 'studies.change_study'
+
+    def post(self, request, **kwargs):
+        with MailContext('recruitment') as ctx:
+            name = request.user.get_full_name() or request.user.username
+            success = ctx.send_mail(
+                self.study.mail_subject,
+                self.study.mail_body.replace('{name}', name),
+                [request.user.email],
+                reply_to=[self.study.email],
+            )
+
+        if success:
+            messages.success(self.request, _('Test mail has been sent.'))
+        else:
+            messages.error(self.request, _('Could not send test mail.'))
+
+        return redirect('studies:mailsettings', self.study.pk)
 
 
 class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):
