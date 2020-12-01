@@ -702,6 +702,10 @@ msgstr "Pseudonym auflösen"
 msgid "News mail"
 msgstr "Neuigkeiten E-Mail"
 
+#: castellum/execution/templates/execution/study_detail.html:49
+msgid "Export attributes"
+msgstr "Merkmale exportieren"
+
 #: castellum/execution/templates/execution/study_news_mail.html:9
 msgid ""
 "This form allows you to send a message to all subjects who indicated "
@@ -1736,6 +1740,10 @@ msgstr ""
 #: castellum/subjects/templates/subjects/maintenance_consent.html:4
 msgid "Consent"
 msgstr "Einwilligung"
+
+#: castellum/studies/models.py:196
+msgid "Exportable attributes"
+msgstr "Exportierbare Merkmale"
 
 #: castellum/studies/models.py:203
 msgid "E-mail-address"
