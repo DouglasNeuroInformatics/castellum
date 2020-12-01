@@ -90,7 +90,7 @@
 
             <div class="tab-pane" id="study" role="tabpanel" aria-labelledby="study-tab">
                 {% if study.recruitment_text %}
-                    {{ study.recruitment_text|linebreaks }}</dd>
+                    {{ study.recruitment_text|urlize|linebreaks }}</dd>
                 {% endif %}
 
                 <dl class="row">
@@ -119,17 +119,17 @@
             {% if study.has_exclusion_criteria %}
                 <div class="tab-pane" id="criteria" role="tabpanel" aria-labelledby="criteria-tab">
                     {% if study.exclusion_criteria %}
-                        {{ study.exclusion_criteria|linebreaks }}
+                        {{ study.exclusion_criteria|urlize|linebreaks }}
                     {% endif %}
                     {% for study_type in study.study_type.all %}
                         {% if study_type.exclusion_criteria %}
                             <h2>{{ study_type.label }}</h2>
-                            {{ study_type.exclusion_criteria|linebreaks }}
+                            {{ study_type.exclusion_criteria|urlize|linebreaks }}
                         {% endif %}
                     {% endfor %}
                     {% if general_criteria %}
                         <h2>{% translate 'General criteria' %}</h2>
-                        {{ general_criteria|linebreaks }}
+                        {{ general_criteria|urlize|linebreaks }}
                     {% endif %}
 
                     {% bootstrap_field form.exclusion_criteria_checked %}
@@ -139,7 +139,7 @@
             {% if can_change_appointment %}
                 <div class="tab-pane" id="appointments" role="tabpanel" aria-labelledby="appointments-tab">
                     {% if study.session_instructions %}
-                        {{ study.session_instructions|linebreaks }}
+                        {{ study.session_instructions|urlize|linebreaks }}
                     {% endif %}
 
                     <dl class="row">

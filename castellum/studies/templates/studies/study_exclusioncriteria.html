@@ -14,7 +14,7 @@
             <details class="mb-3">
                 <summary class="mb-2">{% translate 'General criteria' %}</summary>
                 <blockquote class="blockquote">
-                    {{ general_criteria|linebreaks }}
+                    {{ general_criteria|urlize|linebreaks }}
                 </blockquote>
             </details>
         {% endif %}
@@ -24,7 +24,7 @@
                 <details class="mb-3">
                     <summary class="mb-2">{% translate 'Criteria for:' %} {{ study_type.label }}</summary>
                     <blockquote class="blockquote">
-                        {{ study_type.exclusion_criteria|linebreaks }}
+                        {{ study_type.exclusion_criteria|urlize|linebreaks }}
                     </blockquote>
                 </details>
             {% endif %}

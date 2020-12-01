@@ -3,7 +3,7 @@
 
 {% block content %}
     {% if study.session_instructions %}
-        {{ study.session_instructions|linebreaks }}
+        {{ study.session_instructions|urlize|linebreaks }}
     {% endif %}
 
     <form method="post">
