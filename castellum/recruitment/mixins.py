@@ -208,7 +208,26 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
             )
 
     def _form_valid(self, form):
-        batch_size = form.cleaned_data['batch_size']
+        awaiting_response_count = (
+            self.study.participation_set.filter(status=Participation.AWAITING_RESPONSE).count()
+        )
+        hard_limit = (
+            self.study.min_subject_count * settings.CASTELLUM_RECRUITMENT_MAIL_HARD_LIMIT_FACTOR
+        )
+
+        if awaiting_response_count >= hard_limit:
+            messages.error(self.request, _(
+                'Application privacy does not allow you to add more subjects. '
+                'Please contact provided subjects before adding new ones.'
+            ))
+            return self.get(self.request, **self.kwargs)
+
+        # Silently trim down to respect hard limit.
+        batch_size = min(
+            form.cleaned_data['batch_size'],
+            hard_limit - awaiting_response_count,
+        )
+
         try:
             added = self.create_participations(batch_size)
         except KeyError:
