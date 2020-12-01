@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+import logging
 import zipfile
 
 from django import forms
@@ -59,6 +60,8 @@ from castellum.utils.mail import MailContext
 
 from .forms import NewsMailForm
 
+monitoring_logger = logging.getLogger('monitoring.execution')
+
 
 class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
     template_name = 'execution/study_detail.html'
@@ -88,6 +91,10 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
         return context
 
     def export(self):
+        monitoring_logger.info('Attribute export: study {} by {}'.format(
+            self.study.pk, self.request.user.pk
+        ))
+
         exporter = get_exporter()
         descriptions = self.study.exportable_attributes.all()
         response = HttpResponse(content_type='application/zip')
