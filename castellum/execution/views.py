@@ -312,13 +312,21 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
             )
 
     def form_valid(self, form):
+        interested = self.study.participation_set.filter(
+            news_interest=Participation.VIA_EMAIL
+        )
+
+        if interested.count() == 0:
+            messages.warning(self.request, _(
+                'None of the subjects is interested in news via email.'
+            ))
+            return self.form_invalid(form)
+
         succeeded = []
         failed = []
 
         with MailContext('recruitment') as ctx:
-            for participation in self.study.participation_set.filter(
-                news_interest=Participation.VIA_EMAIL
-            ):
+            for participation in interested:
                 success = self.send_mail(ctx, participation, **form.cleaned_data)
                 if success:
                     succeeded.append(participation)
