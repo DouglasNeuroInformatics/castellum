@@ -34,6 +34,7 @@ from django.views.generic import View
 
 from dateutil.relativedelta import relativedelta
 
+from castellum.appointments.helpers import get_reminder_body
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseMailRecruitmentView
@@ -236,6 +237,35 @@ class StudyRecruitmentTestMailView(StudyMixin, PermissionRequiredMixin, View):
             messages.error(self.request, _('Could not send test mail.'))
 
         return redirect('studies:mailsettings', self.study.pk)
+
+
+class StudyReminderTestMailView(StudyMixin, PermissionRequiredMixin, View):
+    model = StudySession
+    permission_required = 'studies.change_study'
+
+    def get_object(self):
+        return get_object_or_404(
+            StudySession, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk']
+        )
+
+    def post(self, request, **kwargs):
+        self.object = self.get_object()
+
+        with MailContext('recruitment') as ctx:
+            name = request.user.get_full_name() or request.user.username
+            success = ctx.send_mail(
+                settings.CASTELLUM_APPOINTMENT_MAIL_SUBJECT,
+                get_reminder_body(name, self.study, timezone.now()),
+                [request.user.email],
+                reply_to=[self.study.email],
+            )
+
+        if success:
+            messages.success(self.request, _('Test mail has been sent.'))
+        else:
+            messages.error(self.request, _('Could not send test mail.'))
+
+        return redirect('studies:session-update', self.study.pk, self.object.pk)
 
 
 class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):

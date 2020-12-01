@@ -27,6 +27,7 @@ from ..views.recruitment import StudyExclusionCriteriaView
 from ..views.recruitment import StudyMailSettingsView
 from ..views.recruitment import StudyRecruitmentSettingsUpdateView
 from ..views.recruitment import StudyRecruitmentTestMailView
+from ..views.recruitment import StudyReminderTestMailView
 from ..views.recruitment import StudySessionCreateView
 from ..views.recruitment import StudySessionDeleteView
 from ..views.recruitment import StudySessionsView
@@ -43,5 +44,10 @@ urlpatterns = [
     path('sessions/new/', StudySessionCreateView.as_view(), name='session-create'),
     path('sessions/<int:pk>/', StudySessionUpdateView.as_view(), name='session-update'),
     path('sessions/<int:pk>/delete/', StudySessionDeleteView.as_view(), name='session-delete'),
+    path(
+        'sessions/<int:pk>/testmail/',
+        StudyReminderTestMailView.as_view(),
+        name='testmail-reminder',
+    ),
     path('filters/', include(subjectfilters_urls)),
 ]
