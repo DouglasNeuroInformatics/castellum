@@ -318,7 +318,7 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
 
         if interested.count() == 0:
             messages.warning(self.request, _(
-                'None of the subjects is interested in news via email.'
+                'None of the subjects signed up for news emails.'
             ))
             return self.form_invalid(form)
 
