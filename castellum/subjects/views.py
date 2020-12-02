@@ -26,7 +26,6 @@ import zipfile
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.http import Http404
@@ -259,27 +258,12 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
             context['notes'] = self.get_notes()
 
-            context['dataset_list'] = [self.object, self.object.contact]
-
             context['attributes'] = []
             for description in AttributeDescription.objects.all():
                 value = self.object.attributes.get(description.json_key)
                 context['attributes'].append((
                     description.label, description.field.get_display(value)
                 ))
-
-            for participation in self.object.participation_set.all():
-                context['dataset_list'].append(participation)
-                for appointment in participation.appointment_set.all():
-                    context['dataset_list'].append(appointment)
-
-            try:
-                context['dataset_list'].append(self.object.consent)
-            except ObjectDoesNotExist:
-                pass
-
-            for answer in self.object.exportanswer_set.all():
-                context['dataset_list'].append(answer)
 
         return context
 
