@@ -115,21 +115,21 @@
 }
 
 [data-animation="success"]::after {
-    content: "\2713";  /* check mark */
+    content: "\f00c";  /* fa-check */
+    font-family: FontAwesome;
     display: block;
     position: absolute;
     right: 0;
     top: 0;
-    width: 1em;
-    line-height: 1em;
+    width: 1.2em;
+    line-height: 1.2em;
     box-sizing: content-box;
-    margin-right: -0.5em;
-    margin-top: -0.5em;
-    border: 1px solid;
+    margin-right: -0.6em;
+    margin-top: -0.6em;
     border-radius: 50%;
     text-align: center;
-    color: var(--dark);
-    background-color: var(--white);
+    color: var(--white);
+    background-color: var(--success);
     opacity: 0;
     transition: opacity 300ms ease;
 }
