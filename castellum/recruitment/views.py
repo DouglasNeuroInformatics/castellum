@@ -57,6 +57,7 @@ from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
 from castellum.studies.models import StudySession
+from castellum.studies.models import StudyType
 from castellum.studies.models import StudyTypeEventFeed
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
@@ -329,6 +330,16 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
 
         context['context'] = self.request.GET.get('context')
         context['general_criteria'] = settings.CASTELLUM_GENERAL_EXCLUSION_CRITERIA
+
+        now = timezone.now()
+        context['accumulated_times'] = StudyType.objects.annotate(duration=models.Sum(
+            'studysession__duration',
+            filter=models.Q(
+                studysession__appointment__participation__subject=self.subject,
+                studysession__appointment__start__lt=now,
+                studysession__appointment__start__gt=now - datetime.timedelta(days=365),
+            )
+        ))
 
         return context
 
