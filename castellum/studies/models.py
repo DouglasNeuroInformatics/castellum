@@ -59,6 +59,9 @@ class StudyType(TranslatableModel):
     export_key = models.CharField(
         _('Export key'), max_length=32, choices=[(k, k) for k in EXPORT_KEYS], blank=True
     )
+    max_minutes_per_year = models.PositiveIntegerField(
+        _('Max minutes per year'), null=True, blank=True
+    )
 
     def __str__(self):
         return self.label
