@@ -639,6 +639,14 @@ class MaintenanceShowupView(BaseMaintenanceView):
         )
 
 
+class MaintenanceNotesView(BaseMaintenanceView):
+    template_name = 'subjects/maintenance_notes.html'
+    tab = 'notes'
+
+    def get_queryset(self):
+        return super().get_queryset().exclude(subjectnote=None)
+
+
 class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):
     model = Subject
     permission_required = 'subjects.view_subject'
