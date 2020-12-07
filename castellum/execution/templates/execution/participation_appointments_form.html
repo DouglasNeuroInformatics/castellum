@@ -31,7 +31,7 @@
             {% elif entry.invitation_url %}
                 <p class="mt-n3">
                     <a id="invitation_url_{{ entry.field.id_for_label }}" href="{{ entry.invitation_url }}" target="_blank">{% translate 'Select timeslot for this subject' %}</a>
-                    <button type="button" class="btn btn-sm btn-light" tabindex="-1" data-clipboard="#invitation_url_{{ entry.field.id_for_label }}" title="{% translate "Copy link" %}">
+                    <button type="button" class="btn btn-sm btn-light" tabindex="-1" data-clipboard="#invitation_url_{{ entry.field.id_for_label }}" data-animation="success" title="{% translate "Copy link" %}">
                         <i class="fa fa-copy" aria-label="{% translate "Copy link" %}"></i>
                     </button>
                 </p>
