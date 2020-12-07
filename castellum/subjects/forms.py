@@ -176,9 +176,6 @@ class AdditionalInfoForm(forms.ModelForm):
         model = Subject
         fields = [
             'deceased',
-            'note_hard_of_hearing',
-            'note_difficult_to_understand',
-            'note_abusive_language',
             'availability_monday',
             'availability_tuesday',
             'availability_wednesday',
