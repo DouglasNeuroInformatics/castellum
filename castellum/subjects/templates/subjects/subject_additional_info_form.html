@@ -40,6 +40,26 @@
 
         {% bootstrap_field form.not_available_until %}
 
+        {% if subject.note_hard_of_hearing or subject.note_difficult_to_understand or subject.note_abusive_language or subject.subjectnote_set.exists %}
+            <fieldset>
+                <legend class="h5">{% translate "Notes" %}</legend>
+                <p>
+                    {% if subject.note_hard_of_hearing %}
+                        <span class="badge badge-secondary">{{ subject|verbose_name:'note_hard_of_hearing' }}</span>
+                    {% endif %}
+                    {% if subject.note_difficult_to_understand %}
+                        <span class="badge badge-secondary">{{ subject|verbose_name:'note_difficult_to_understand' }}</span>
+                    {% endif %}
+                    {% if subject.note_abusive_language %}
+                        <span class="badge badge-secondary">{{ subject|verbose_name:'note_abusive_language' }}</span>
+                    {% endif %}
+                    {% for note in subject.subjectnote_set.all %}
+                        <span class="badge badge-secondary">{{ note.content }}</span>
+                    {% endfor %}
+                </p>
+            </fieldset>
+        {% endif %}
+
         {% bootstrap_field form.source %}
         {% bootstrap_field form.additional_suitability_document %}
         {% bootstrap_field form.deceased %}
