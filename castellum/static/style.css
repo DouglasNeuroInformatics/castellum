@@ -110,6 +110,34 @@
     hyphens: auto;
 }
 
+[data-animation="success"] {
+    position: relative;
+}
+
+[data-animation="success"]::after {
+    content: "\f00c";  /* fa-check */
+    font-family: FontAwesome;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 1.2em;
+    line-height: 1.2em;
+    box-sizing: content-box;
+    margin-right: -0.6em;
+    margin-top: -0.6em;
+    border-radius: 50%;
+    text-align: center;
+    color: var(--white);
+    background-color: var(--success);
+    opacity: 0;
+    transition: opacity 300ms ease;
+}
+
+[data-animation="success"].animation-active::after {
+    opacity: 1;
+}
+
 @media print {
     .alert {
         display: none !important;

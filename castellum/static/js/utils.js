@@ -83,4 +83,11 @@
         var win = window.open(this.href, null, config);
         win.focus();
     });
+
+    $$.on(document, 'click', '[data-animation="success"]', function() {
+        this.classList.add('animation-active');
+        setTimeout(() => {
+            this.classList.remove('animation-active');
+        }, 800);
+    });
 })();
