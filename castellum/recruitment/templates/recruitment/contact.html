@@ -113,6 +113,15 @@
 
                     <dt class="col-sm-6">{{ study|verbose_name:'sessions_end' }}</dt>
                     <dd class="col-sm-6">{{ study|display:'sessions_end' }}</dd>
+
+                    <dt class="col-sm-6">{{ study|verbose_name:'consent' }}</dt>
+                    <dd class="col-sm-6">
+                        {% if study.consent %}
+                            <a href="{{ study.consent.url }}">{{ study.consent.name|basename }}</a>
+                        {% else %}
+                            &mdash;
+                        {% endif %}
+                    </dd>
                 </dl>
             </div>
 
