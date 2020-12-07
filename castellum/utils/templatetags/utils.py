@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+import os
 from urllib.parse import parse_qs
 from urllib.parse import urlencode
 from urllib.parse import urlparse
@@ -92,6 +93,11 @@ def is_today(date):
     if isinstance(date, datetime.datetime):
         date = date.date()
     return date == datetime.date.today()
+
+
+@register.filter
+def basename(path):
+    return os.path.basename(path)
 
 
 @register.simple_tag(takes_context=True)
