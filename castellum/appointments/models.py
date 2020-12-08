@@ -77,3 +77,14 @@ class Appointment(models.Model):
     @property
     def end(self):
         return self.start + MINUTE * self.session.duration
+
+    def get_exceeded_type_limits(self):
+        return self.session.type.filter(max_minutes_per_year__lt=models.Sum(
+            'duration',
+            filter=models.Q(
+                studysession__appointment__participation__subject=self.participation.subject,
+                studysession__appointment__start__lt=self.start,
+                studysession__appointment__start__gt=self.start - datetime.timedelta(days=365),
+                studysession__appointment__showup__in=[Appointment.SHOWUP, Appointment.LATE],
+            ),
+        ))

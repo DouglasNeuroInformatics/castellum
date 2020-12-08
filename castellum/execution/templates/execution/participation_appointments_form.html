@@ -24,6 +24,9 @@
 
         {% for entry in form.appointments %}
             {% bootstrap_field entry.field %}
+            {% for study_type in  entry.field.value.get_exceeded_type_limits %}
+                <span class="text-warn">Exceeded limit for {{ study_type }}</span>
+            {% endfor %}
             {% if entry.invitation_url == 'not-invited' %}
                 <p class="mt-n3 text-muted">
                     {% translate 'Scheduler only available for invited subjects.' %}
