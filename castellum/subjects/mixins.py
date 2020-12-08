@@ -19,7 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django import forms
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse
@@ -32,7 +31,6 @@ from castellum.utils.mail import MailContext
 from .forms import AdditionalInfoForm
 from .forms import DataProtectionForm
 from .models import Subject
-from .models import SubjectNote
 
 
 class SubjectMixin:
@@ -114,47 +112,3 @@ class BaseAdditionalInfoUpdateView(PermissionRequiredMixin, UpdateView):
     form_class = AdditionalInfoForm
     permission_required = 'subjects.change_subject'
     template_name = 'subjects/subject_additional_info_form.html'
-
-    def get_notes_form(self):
-        form_class = forms.modelform_factory(SubjectNote, fields=['content'])
-        return form_class(prefix='{prefix}')
-
-    def get_notes_formset(self):
-        formset_class = forms.modelformset_factory(
-            SubjectNote, fields=['content'], extra=0, can_delete=True
-        )
-        kwargs = self.get_form_kwargs()
-        kwargs.pop('instance')
-        kwargs.pop('initial')
-        return formset_class(queryset=SubjectNote.objects.filter(subject=self.object), **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if 'notes_formset' not in context:
-            context['notes_formset'] = self.get_notes_formset()
-        context['template_form'] = self.get_notes_form()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-        notes_formset = self.get_notes_formset()
-
-        if form.is_valid() and notes_formset.is_valid():
-            return self.form_valid(form, notes_formset)
-        else:
-            return self.form_invalid(form, notes_formset)
-
-    def form_invalid(self, form, notes_formset):
-        return self.render_to_response(
-            self.get_context_data(form=form, notes_formset=notes_formset)
-        )
-
-    def form_valid(self, form, notes_formset):
-        response = super().form_valid(form)
-
-        for subform in notes_formset:
-            subform.instance.subject = self.object
-        notes_formset.save()
-
-        return response
