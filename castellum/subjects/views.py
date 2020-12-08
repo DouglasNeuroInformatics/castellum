@@ -554,11 +554,15 @@ class MaintenanceDuplicatesView(BaseMaintenanceView):
 
         return (
             Contact.objects
-            .values('first_name', 'last_name')
+            .values('first_name_phonetic', 'last_name_phonetic')
             .exclude(subject_id__in=to_be_deleted)
             .annotate(
                 count=models.Count('id'),
                 date_of_birth_count=models.Count('date_of_birth', distinct=True),
+
+                # get some name to represent this group
+                first_name=models.Min('first_name'),
+                last_name=models.Min('last_name'),
             )
             .filter(
                 count__gt=1,

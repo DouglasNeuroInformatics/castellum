@@ -73,6 +73,16 @@ def test_maintenance_duplicates_not_empty(client, user):
     assert response.content.count(b'<li class="table-list-item">') == 1
 
 
+def test_maintenance_duplicates_phonetic(client, user):
+    baker.make(Contact, first_name='Foo', last_name='Bar', date_of_birth=date(2000, 1, 1))
+    baker.make(Contact, first_name='Foo', last_name='Bahr', date_of_birth=date(2000, 1, 1))
+    client.force_login(user)
+    url = '/subjects/maintenance/duplicates/'
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.content.count(b'<li class="table-list-item">') == 1
+
+
 def test_maintenance_duplicates_different_date_of_birth(client, user):
     baker.make(Contact, first_name='Foo', last_name='Bar', date_of_birth=date(2000, 1, 1))
     baker.make(Contact, first_name='Foo', last_name='Bar', date_of_birth=date(2001, 1, 1))
