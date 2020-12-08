@@ -42,23 +42,32 @@ class AppointmentsForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.appointments = []
 
-        self.invitation_urls = {}
         for session, appointment in self.instance.get_appointments():
             key = 'appointment-%i' % session.pk
+
             self.fields[key] = DateTimeField(
                 label=self.format_session_name(session),
                 initial=appointment.start if appointment else None,
                 disabled=bool(session.schedule_id),
                 required=False,
             )
+
+            invitation_url = None
             if settings.SCHEDULER_URL and session.schedule_id:
                 if self.instance.status == Participation.INVITED:
                     pseudonym = get_pseudonym(self.instance.subject, session.domain)
                     url = scheduler.create_invitation_url(session.schedule_id, pseudonym)
-                    self.invitation_urls[key] = url
+                    invitation_url = url
                 else:
-                    self.invitation_urls[key] = 'not-invited'
+                    invitation_url = 'not-invited'
+
+            self.appointments.append({
+                'field': self[key],
+                'invitation_url': invitation_url,
+                'appointment': appointment,
+            })
 
     def format_session_name(self, session):
         duration = _('%imin') % session.duration
@@ -127,12 +136,3 @@ class AppointmentsForm(forms.ModelForm):
                 )
 
         return pariticipation
-
-    @property
-    def appointments(self):
-        for name in self.fields:
-            if name.startswith('appointment-'):
-                yield {
-                    'field': self[name],
-                    'invitation_url': self.invitation_urls.get(name)
-                }

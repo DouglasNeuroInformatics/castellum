@@ -143,3 +143,9 @@
         display: none !important;
     }
 }
+
+.form-group + .form-group-fake,
+.form-group-fake + .form-group-fake {
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+}
