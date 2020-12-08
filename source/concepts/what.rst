@@ -77,7 +77,9 @@ We often found it difficult to decide on levels of integration. Therefore, we
 want to provide some guidelines that should be considered before adding a new 
 feature to Castellum:
 
-* Can the feature be decoupled from communication with subjects?
+* Can the feature be decoupled from communication with subjects? We found this 
+  to be a good starting point to remind us on the main focus of a tool for 
+  recruitment.
     
 * Would the new feature introduce different staff members (user groups) 
   who would use Castellum only for this reason? For example, we decided against 
