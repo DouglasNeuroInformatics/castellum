@@ -1,3 +1,5 @@
+import os
+
 import ldap
 from django_auth_ldap.config import LDAPSearch
 
@@ -59,7 +61,7 @@ NOMINATIM = {
     'scheme': 'http',
 }
 
-SCHEDULER_URL = 'http://scheduler:8000'
+SCHEDULER_URL = os.getenv('CASTELLUM_SCHEDULER_URL', 'http://scheduler:8000')
 SCHEDULER_TOKEN = 'CHANGEME'
 
 CASTELLUM_COVERLETTER_TEMPLATE = BASE_DIR / 'subjects' / 'fixtures' / 'demo_coverletter.docx'

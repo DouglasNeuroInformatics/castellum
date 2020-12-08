@@ -61,6 +61,7 @@ services:
     # build: ../../
     environment:
       DJANGO_SETTINGS_MODULE: castellum.settings.deployment
+      CASTELLUM_SCHEDULER_URL:
     command: "uwsgi uwsgi.ini --die-on-term"
     ports:
       - "8000:8000"
