@@ -414,8 +414,9 @@ CASTELLUM_COVERLETTER_TEMPLATE = ''
 
 CASTELLUM_FULL_AGE = 16
 
-# Criteria that apply to all studies
+# Texts that apply to all studies
 CASTELLUM_GENERAL_EXCLUSION_CRITERIA = ''
+CASTELLUM_GENERAL_RECRUITMENT_TEXT = ''
 
 # Default exporter used for attributes.
 # Currently available options are

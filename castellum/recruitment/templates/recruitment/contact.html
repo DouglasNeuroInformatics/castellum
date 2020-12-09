@@ -89,6 +89,9 @@
             </div>
 
             <div class="tab-pane" id="study" role="tabpanel" aria-labelledby="study-tab">
+                {% if CASTELLUM_GENERAL_RECRUITMENT_TEXT %}
+                    {{ CASTELLUM_GENERAL_RECRUITMENT_TEXT|urlize|linebreaks }}
+                {% endif %}
                 {% if study.recruitment_text %}
                     {{ study.recruitment_text|urlize|linebreaks }}
                 {% endif %}
