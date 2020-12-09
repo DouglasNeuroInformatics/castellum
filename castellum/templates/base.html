@@ -18,7 +18,7 @@
     {% block extra_styles %}{% endblock %}
 </head>
 <body {% if user.is_authenticated %}data-logout-timeout="{{ user.logout_timeout.total_seconds }}"{% endif %}>
-    {% if not PRODUCTION %}
+    {% if DEMO %}
         <div class="bg-warning p-2 text-center" title="{% translate 'Set settings.PRODUCTION to remove this message.' %}">
             {% translate 'Running in Demo mode.' %}
         </div>
