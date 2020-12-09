@@ -136,9 +136,9 @@
                             {{ study_type.exclusion_criteria|urlize|linebreaks }}
                         {% endif %}
                     {% endfor %}
-                    {% if general_criteria %}
+                    {% if CASTELLUM_GENERAL_EXCLUSION_CRITERIA %}
                         <h2>{% translate 'General criteria' %}</h2>
-                        {{ general_criteria|urlize|linebreaks }}
+                        {{ CASTELLUM_GENERAL_EXCLUSION_CRITERIA|urlize|linebreaks }}
                     {% endif %}
 
                     {% bootstrap_field form.exclusion_criteria_checked %}
