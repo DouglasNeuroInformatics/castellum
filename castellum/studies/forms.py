@@ -85,7 +85,7 @@ class StudyFilterForm(forms.Form):
 class SessionForm(ReadonlyModelForm):
     class Meta:
         model = models.StudySession
-        fields = ['name', 'duration', 'resource', 'type', 'schedule_id']
+        fields = ['name', 'duration', 'resource', 'type', 'reminder_text', 'schedule_id']
         widgets = {
             'type': forms.CheckboxSelectMultiple(),
         }
