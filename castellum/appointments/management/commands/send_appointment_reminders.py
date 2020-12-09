@@ -42,7 +42,7 @@ def send_mail_to_subject(ctx, study, appointment):
     for email in contact.own_or_guardian_emails:
         count += ctx.send_mail(
             settings.CASTELLUM_APPOINTMENT_MAIL_SUBJECT,
-            get_reminder_body(contact.full_name, study, appointment.start),
+            get_reminder_body(contact.full_name, appointment.session, appointment.start),
             [email],
             reply_to=[study.email],
         )

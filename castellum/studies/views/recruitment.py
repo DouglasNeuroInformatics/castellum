@@ -250,7 +250,7 @@ class StudyReminderTestMailView(StudyMixin, PermissionRequiredMixin, View):
             name = request.user.get_full_name() or request.user.username
             success = ctx.send_mail(
                 settings.CASTELLUM_APPOINTMENT_MAIL_SUBJECT,
-                get_reminder_body(name, self.study, timezone.now()),
+                get_reminder_body(name, self.object, timezone.now()),
                 [request.user.email],
                 reply_to=[self.study.email],
             )

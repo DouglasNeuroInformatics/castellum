@@ -27,13 +27,14 @@ def date_format(date):
     return formats.date_format(date, 'l, ') + formats.date_format(date, 'DATETIME_FORMAT')
 
 
-def get_reminder_body(name, study, date):
+def get_reminder_body(name, session, date):
     def get_mail_data():
         return {
             'name': name,
-            'study': study.name,
+            'study': session.study.name,
             'date': date_format(date),
-            'reply_to': study.email,
+            'reply_to': session.study.email,
+            'session_reminder_text': session.reminder_text.strip() or '—',
         }
 
     return (
