@@ -3,13 +3,13 @@ import re
 
 from django.apps import apps
 
+import pytest
 from model_bakery import baker
 
 from castellum.appointments.models import Appointment
 from castellum.contacts.models import Address
 from castellum.studies.models import StudySession
 from castellum.subjects.models import Consent
-from castellum.subjects.models import ConsentDocument
 
 EXCLUDED = [
     'admin.',
@@ -91,3 +91,43 @@ def test_gdpr_export_complete(client, user, participation):
     actual = {s.decode('utf-8') for s in re.findall(b'data-fieldname="([^"]*)"', response.content)}
 
     assert actual == expected
+
+
+@pytest.mark.smoketest
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
+    'data_protection_coordinator',
+])
+def test_export_200(request, client, user_fixture, subject):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    url = '/subjects/{}/export/'.format(subject.slug)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+def test_export_requested(client, user, subject):
+    subject.export_requested = datetime.date.today()
+    subject.save()
+
+    client.force_login(user)
+    url = '/subjects/{}/export/'.format(subject.slug)
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert b'<h1>Procedural data</h1>' in response.content
+
+
+def test_export_post(client, user, subject):
+    client.force_login(user)
+    url = '/subjects/{}/export/'.format(subject.slug)
+
+    client.post(url)
+    subject.refresh_from_db()
+    assert subject.export_requested
+
+    client.post(url)
+    subject.refresh_from_db()
+    assert not subject.export_requested
