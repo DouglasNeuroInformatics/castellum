@@ -89,6 +89,9 @@
             </div>
 
             <div class="tab-pane" id="study" role="tabpanel" aria-labelledby="study-tab">
+                {% if CASTELLUM_GENERAL_RECRUITMENT_TEXT %}
+                    {{ CASTELLUM_GENERAL_RECRUITMENT_TEXT|urlize|linebreaks }}
+                {% endif %}
                 {% if study.recruitment_text %}
                     {{ study.recruitment_text|urlize|linebreaks }}
                 {% endif %}
@@ -130,16 +133,16 @@
                     {% if study.exclusion_criteria %}
                         {{ study.exclusion_criteria|urlize|linebreaks }}
                     {% endif %}
+                    {% if CASTELLUM_GENERAL_EXCLUSION_CRITERIA %}
+                        <h2>{% translate 'General criteria' %}</h2>
+                        {{ CASTELLUM_GENERAL_EXCLUSION_CRITERIA|urlize|linebreaks }}
+                    {% endif %}
                     {% for study_type in study.study_type.all %}
                         {% if study_type.exclusion_criteria %}
                             <h2>{{ study_type.label }}</h2>
                             {{ study_type.exclusion_criteria|urlize|linebreaks }}
                         {% endif %}
                     {% endfor %}
-                    {% if general_criteria %}
-                        <h2>{% translate 'General criteria' %}</h2>
-                        {{ general_criteria|urlize|linebreaks }}
-                    {% endif %}
 
                     {% bootstrap_field form.exclusion_criteria_checked %}
                 </div>

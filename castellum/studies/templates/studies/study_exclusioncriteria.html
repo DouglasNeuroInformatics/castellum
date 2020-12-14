@@ -10,11 +10,11 @@
 
         {% bootstrap_field form.exclusion_criteria %}
 
-        {% if general_criteria %}
+        {% if CASTELLUM_GENERAL_EXCLUSION_CRITERIA %}
             <details class="mb-3">
                 <summary class="mb-2">{% translate 'General criteria' %}</summary>
                 <blockquote class="blockquote">
-                    {{ general_criteria|urlize|linebreaks }}
+                    {{ CASTELLUM_GENERAL_EXCLUSION_CRITERIA|urlize|linebreaks }}
                 </blockquote>
             </details>
         {% endif %}
