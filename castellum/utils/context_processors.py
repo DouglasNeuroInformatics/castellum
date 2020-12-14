@@ -24,10 +24,13 @@ from django.conf import settings
 
 def get_settings(request):
     return {
-        'PRODUCTION': settings.PRODUCTION,
         'CASTELLUM_ENABLE_STUDY_EXPORT': settings.CASTELLUM_ENABLE_STUDY_EXPORT,
         'CASTELLUM_STUDY_STATUS_NOTIFICATION_TO': settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO,
         'CASTELLUM_GENERAL_EXCLUSION_CRITERIA': settings.CASTELLUM_GENERAL_EXCLUSION_CRITERIA,
         'CASTELLUM_GENERAL_RECRUITMENT_TEXT': settings.CASTELLUM_GENERAL_RECRUITMENT_TEXT,
         'SCHEDULER_URL': settings.SCHEDULER_URL,
+
+        # Error templates do not get a context. Invert this value to
+        # avoid demo warnings in that case.
+        'DEMO': not settings.PRODUCTION,
     }
