@@ -12,7 +12,8 @@
         {% bootstrap_field form.mail_body %}
 
         <div class="d-print-none mb-3">
-            <button class="btn btn-primary" >{% translate 'Save' %}</button>
+            <button class="btn btn-primary my-1">{% translate 'Save' %}</button>
+            <button class="btn btn-secondary my-1" formaction="{% url 'studies:testmail-recruitment' study.pk %}">{% translate 'Send test mail to myself' %}</button>
         </div>
     </form>
 {% endblock %}

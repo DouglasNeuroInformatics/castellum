@@ -24,9 +24,9 @@ import logging
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.urls import reverse
-from django.utils import formats
 from django.utils import timezone
 
+from castellum.appointments.helpers import get_reminder_body
 from castellum.appointments.models import Appointment
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
@@ -35,30 +35,14 @@ from castellum.utils.mail import MailContext
 logger = logging.getLogger(__name__)
 
 
-def date_format(date):
-    return formats.date_format(date, 'l, ') + formats.date_format(date, 'DATETIME_FORMAT')
-
-
 def send_mail_to_subject(ctx, study, appointment):
     contact = appointment.participation.subject.contact
-
-    def get_mail_data():
-        return {
-            'name': contact.full_name,
-            'study': study.name,
-            'date': date_format(appointment.start),
-            'reply_to': study.email,
-        }
 
     count = 0
     for email in contact.own_or_guardian_emails:
         count += ctx.send_mail(
             settings.CASTELLUM_APPOINTMENT_MAIL_SUBJECT,
-            (
-                get_mail_data,
-                settings.CASTELLUM_APPOINTMENT_MAIL_BODY,
-                settings.CASTELLUM_APPOINTMENT_MAIL_BODY_EN,
-            ),
+            get_reminder_body(contact.full_name, study, appointment.start),
             [email],
             reply_to=[study.email],
         )

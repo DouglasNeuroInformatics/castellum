@@ -30,15 +30,18 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import UpdateView
+from django.views.generic import View
 
 from dateutil.relativedelta import relativedelta
 
+from castellum.appointments.helpers import get_reminder_body
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseMailRecruitmentView
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.subjects.models import Subject
+from castellum.utils.mail import MailContext
 
 from ..forms import ExcludedStudiesForm
 from ..forms import SessionForm
@@ -206,6 +209,58 @@ class StudySessionDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
         return get_object_or_404(
             StudySession, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk']
         )
+
+
+class StudyRecruitmentTestMailView(StudyMixin, PermissionRequiredMixin, View):
+    model = Study
+    pk_url_kwarg = 'study_pk'
+    permission_required = 'studies.change_study'
+
+    def post(self, request, **kwargs):
+        with MailContext('recruitment') as ctx:
+            name = request.user.get_full_name() or request.user.username
+            success = ctx.send_mail(
+                self.study.mail_subject,
+                self.study.mail_body.replace('{name}', name),
+                [request.user.email],
+                reply_to=[self.study.email],
+            )
+
+        if success:
+            messages.success(self.request, _('Test mail has been sent.'))
+        else:
+            messages.error(self.request, _('Could not send test mail.'))
+
+        return redirect('studies:mailsettings', self.study.pk)
+
+
+class StudyReminderTestMailView(StudyMixin, PermissionRequiredMixin, View):
+    model = StudySession
+    permission_required = 'studies.change_study'
+
+    def get_object(self):
+        return get_object_or_404(
+            StudySession, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk']
+        )
+
+    def post(self, request, **kwargs):
+        self.object = self.get_object()
+
+        with MailContext('recruitment') as ctx:
+            name = request.user.get_full_name() or request.user.username
+            success = ctx.send_mail(
+                settings.CASTELLUM_APPOINTMENT_MAIL_SUBJECT,
+                get_reminder_body(name, self.study, timezone.now()),
+                [request.user.email],
+                reply_to=[self.study.email],
+            )
+
+        if success:
+            messages.success(self.request, _('Test mail has been sent.'))
+        else:
+            messages.error(self.request, _('Could not send test mail.'))
+
+        return redirect('studies:session-update', self.study.pk, self.object.pk)
 
 
 class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):
