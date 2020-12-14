@@ -31,7 +31,7 @@
                 </span>
             </p>
         </div>
-        <div>
+        <div class="d-print-none">
             {% has_perm 'studies.change_study' user as can_add_study %}
             {% has_perm 'studies.access_study' user study as can_access_study %}
             {% has_perm 'studies.change_study' user study as can_change_study %}
