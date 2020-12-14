@@ -231,10 +231,10 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         try:
             added = self.create_participations(batch_size)
         except KeyError:
-            added = 0
             messages.error(self.request, _(
                 'The custom filter that is set for this study does not exist.'
             ))
+            return
 
         if added == 0:
             messages.error(
