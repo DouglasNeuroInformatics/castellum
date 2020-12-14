@@ -357,3 +357,6 @@ class ExportAnswer(models.Model):
 
     class Meta:
         verbose_name = _('Export answer')
+
+    def __str__(self):
+        return str(self.created_at)
