@@ -21,13 +21,17 @@
 
 from django import forms
 from django.conf import settings
+from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 
 class PseudonymField(forms.CharField):
     def clean(self, value):
         cleaned = super().clean(value)
-        return settings.CASTELLUM_PSEUDONYM_CLEAN(cleaned)
+        try:
+            return settings.CASTELLUM_PSEUDONYM_CLEAN(cleaned)
+        except ValueError:
+            raise ValidationError(_('Invalid pseudonym'), code='invalid')
 
 
 class PseudonymForm(forms.Form):
