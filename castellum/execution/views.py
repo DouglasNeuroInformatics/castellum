@@ -67,6 +67,7 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
     model = Study
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
+    tab = 'list'
 
     def get_object(self):
         return self.study
@@ -227,6 +228,7 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     form_class = PseudonymForm
+    tab = 'pseudonym'
 
     def form_valid(self, form):
         try:
@@ -383,12 +385,8 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     model = Study
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
-    feed = 'execution:calendar-feed'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = "execution/base.html"
-        return context
+    template_name = 'execution/calendar.html'
+    tab = 'calendar'
 
     def render_appointment(self, appointment):
         return {

@@ -1,0 +1,24 @@
+{% extends "execution/base.html" %}
+{% load i18n appointments %}
+
+{% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
+
+{% block header %}
+    <div class="container text-center my-4">
+        <h1 class="text-center">{{ study }}</h1>
+    </div>
+
+    <nav class="d-print-none" aria-label="{% translate 'Tabs' %}">
+        <ul class="nav nav-tabs justify-content-center mb-3">
+            <li class="nav-item">
+                <a class="nav-link {% if view.tab == 'list' %}active{% endif %}" href="{% url 'execution:study-detail' study.pk %}">{% translate 'List' %}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if view.tab == 'calendar' %}active{% endif %}" href="{% url 'execution:calendar' study.pk %}">{% translate 'Calendar' %}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if view.tab == 'pseudonym' %}active{% endif %}" href="{% url 'execution:resolve' study.pk %}">{% translate 'By pseudonym' %}</a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}

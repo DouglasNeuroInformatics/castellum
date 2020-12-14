@@ -1,11 +1,7 @@
-{% extends "execution/base.html" %}
+{% extends "execution/study_base.html" %}
 {% load i18n bootstrap4 %}
 
-{% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
-
 {% block content %}
-    <h1 class="text-center">{{ study }}</h1>
-
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
