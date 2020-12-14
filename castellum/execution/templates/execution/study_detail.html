@@ -37,12 +37,4 @@
             <li class="alert alert-warning" role="alert">{% translate 'No participations found' %}</li>
         {% endfor %}
     </ul>
-
-    <div class="d-print-none mb-3">
-        <a href="{% url 'execution:news-mail' study.pk %}" class="btn btn-secondary">{% translate 'News mail' %}</a>
-        <a href="?export" class="btn btn-secondary">{% trans 'Export attributes' %}</a>
-        {% if study.consent %}
-            <a href="{{ study.consent.url }}" class="btn btn-secondary">{% translate 'Consent document' %}</a>
-        {% endif %}
-    </div>
 {% endblock %}

@@ -6,6 +6,14 @@
 {% block header %}
     <div class="container text-center my-4">
         <h1 class="text-center">{{ study }}</h1>
+
+        <div class="d-print-none">
+            <a href="{% url 'execution:news-mail' study.pk %}" class="btn btn-outline-primary mb-1">{% translate 'News mail' %}</a>
+            <a href="{% url 'execution:study-detail' study.pk %}?export" class="btn btn-outline-primary mb-1">{% trans 'Export attributes' %}</a>
+            {% if study.consent %}
+                <a href="{{ study.consent.url }}" class="btn btn-outline-primary mb-1">{% translate 'Consent document' %}</a>
+            {% endif %}
+        </div>
     </div>
 
     <nav class="d-print-none" aria-label="{% translate 'Tabs' %}">
