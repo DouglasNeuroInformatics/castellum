@@ -216,20 +216,20 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         return result['contacted_size__sum'] or 0
 
     def _form_valid(self, form):
-        # Silently trim down to respect weekly limit.
-        batch_size = min(
-            form.cleaned_data['batch_size'],
+        batch_size = form.cleaned_data['batch_size']
+        allowed_size = min(
+            batch_size,
             settings.CASTELLUM_RECRUITMENT_MAIL_WEEKLY_LIMIT - self.get_weekly_mails(),
         )
 
-        if batch_size <= 0:
+        if allowed_size <= 0:
             messages.error(self.request, _(
                 'You have reached the weekly limit for mail recruitment.'
             ))
             return
 
         try:
-            added = self.create_participations(batch_size)
+            added = self.create_participations(allowed_size)
         except KeyError:
             messages.error(self.request, _(
                 'The custom filter that is set for this study does not exist.'
