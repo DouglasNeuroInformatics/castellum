@@ -81,7 +81,7 @@ class StudyRecruitmentSettingsUpdateView(StudyMixin, PermissionRequiredMixin, Up
     subtab = 'update'
 
     def get_success_url(self):
-        return reverse('studies:recruitmentsettings', kwargs={'pk': self.object.pk})
+        return reverse('studies:recruitmentsettings', args=[self.object.pk])
 
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
