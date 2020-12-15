@@ -1314,8 +1314,8 @@ msgid ""
 "when approached by the subject is permitted, but initiating contact is not."
 msgstr ""
 "Die Proband*in möchte nicht für Rekrutierungen kontaktiert werden. Auf "
-"Anfragen der Proband*in zu antworten ist erlaubt, selbst auf sie zugehen "
-"aber nicht."
+"Anfragen der Proband*in zu antworten ist erlaubt. Selbst auf die Proband*in "
+"zuzugehen ist nicht erlaubt."
 
 #: castellum/recruitment/templates/recruitment/contact.html:43
 msgid "Contacting details"
