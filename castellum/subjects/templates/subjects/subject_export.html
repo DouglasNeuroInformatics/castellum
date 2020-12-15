@@ -70,7 +70,7 @@
             <dt class="col-sm-6" data-fieldname="contacts.Contact.guardians">{{ subject.contact|verbose_name:'guardians' }}</dt>
             <dd class="col-sm-6">{{ subject.contact|display:'guardians' }}</dd>
 
-            <dt class="col-sm-6" data-fieldname="contacts.Contact.guardian_of">{{ subject.contact|verbose_name:'guardian_of' }}</dt>
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.guardian_of">{% translate 'Guardian of' %}</dt>
             <dd class="col-sm-6">{{ subject.contact|display:'guardian_of' }}</dd>
         </dl>
 
