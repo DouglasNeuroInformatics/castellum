@@ -208,9 +208,10 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
             )
 
     def get_weekly_mails(self):
+        # 6 instead of 7 days so that people can send mails e.g. every monday
         result = (
             self.study.mailbatch_set
-            .filter(datetime__gt=timezone.now() - datetime.timedelta(days=7))
+            .filter(datetime__gt=timezone.now() - datetime.timedelta(days=6))
             .aggregate(models.Sum('contacted_size'))
         )
         return result['contacted_size__sum'] or 0
