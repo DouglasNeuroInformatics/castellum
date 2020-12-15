@@ -949,7 +949,7 @@ msgstr "Tage seit der letzten Änderung"
 
 #: castellum/recruitment/mixins.py:228
 msgid "You have reached the weekly limit for mail recruitment."
-msgstr "Sie haben die wöchentliche Grenze für Mailrekrutierung erreicht."
+msgstr "Sie haben das wöchentliche Limit für Mailrekrutierung erreicht."
 
 #: castellum/recruitment/mixins.py:236 castellum/recruitment/views.py:262
 msgid "The custom filter that is set for this study does not exist."
@@ -2858,7 +2858,7 @@ msgstr "Kontaktdaten zuletzt aktualisiert am"
 
 #: castellum/subjects/templates/subjects/subject_export.html:77
 msgid "Procedural data"
-msgstr "Prozessdaten"
+msgstr "Vorgangsbezogene Daten"
 
 #: castellum/subjects/templates/subjects/subject_export.html:88
 msgid "Deletion requested on"
