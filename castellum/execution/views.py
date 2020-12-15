@@ -249,6 +249,7 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     form_class = NewsMailForm
+    tab = 'news'
 
     def send_mail(self, ctx, participation, subject=None, body=None):
         contact = participation.subject.contact
