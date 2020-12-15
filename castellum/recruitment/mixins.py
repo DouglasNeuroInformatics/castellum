@@ -207,15 +207,34 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                 [self.study.email],
             )
 
+    def get_weekly_mails(self):
+        result = (
+            self.study.mailbatch_set
+            .filter(datetime__gt=timezone.now() - datetime.timedelta(days=7))
+            .aggregate(models.Sum('contacted_size'))
+        )
+        return result['contacted_size__sum'] or 0
+
     def _form_valid(self, form):
         batch_size = form.cleaned_data['batch_size']
+        allowed_size = min(
+            batch_size,
+            settings.CASTELLUM_RECRUITMENT_MAIL_WEEKLY_LIMIT - self.get_weekly_mails(),
+        )
+
+        if allowed_size <= 0:
+            messages.error(self.request, _(
+                'You have reached the weekly limit for mail recruitment.'
+            ))
+            return
+
         try:
-            added = self.create_participations(batch_size)
+            added = self.create_participations(allowed_size)
         except KeyError:
-            added = 0
             messages.error(self.request, _(
                 'The custom filter that is set for this study does not exist.'
             ))
+            return
 
         if added == 0:
             messages.error(

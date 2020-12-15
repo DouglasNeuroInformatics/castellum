@@ -338,6 +338,7 @@ CASTELLUM_MAIL = {
 # max_number_of_subjects = study.min_subject_count * CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 CASTELLUM_RECRUITMENT_SOFT_LIMIT = 40
 CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR = 2
+CASTELLUM_RECRUITMENT_MAIL_WEEKLY_LIMIT = 100
 
 # Used to determine whether there are enough potential subjects to
 # complete the study. If not, a warning is shown during filter creation.
