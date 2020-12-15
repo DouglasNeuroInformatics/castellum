@@ -570,7 +570,7 @@ msgstr "Aktualisieren"
 #: castellum/execution/templates/execution/participation_appointments_form.html:29
 #: castellum/recruitment/templates/recruitment/contact.html:173
 msgid "Scheduler only available for invited subjects."
-msgstr ""
+msgstr "Terminplaner nur für eingeladene Proband*innen verfügbar"
 
 #: castellum/execution/templates/execution/participation_appointments_form.html:33
 #: castellum/recruitment/templates/recruitment/contact.html:177
@@ -581,10 +581,8 @@ msgstr "Einen Termin für diese Proband*in auswählen"
 #: castellum/execution/templates/execution/participation_appointments_form.html:35
 #: castellum/recruitment/templates/recruitment/contact.html:178
 #: castellum/recruitment/templates/recruitment/contact.html:179
-#, fuzzy
-#| msgid "Copy"
 msgid "Copy link"
-msgstr "Kopieren"
+msgstr "Link Kopieren"
 
 #: castellum/execution/templates/execution/participation_appointments_form.html:42
 #: castellum/execution/templates/execution/study_base.html:24
@@ -687,10 +685,8 @@ msgid "Export attributes"
 msgstr "Merkmale exportieren"
 
 #: castellum/execution/templates/execution/study_base.html:13
-#, fuzzy
-#| msgid "Consent document uploaded"
 msgid "Consent document"
-msgstr "Einwilligungserklärung hochgeladen"
+msgstr "Einwilligungserklärung"
 
 #: castellum/execution/templates/execution/study_base.html:21
 #: castellum/studies/forms.py:69
@@ -698,10 +694,8 @@ msgid "List"
 msgstr "Liste"
 
 #: castellum/execution/templates/execution/study_base.html:27
-#, fuzzy
-#| msgid "Pseudonym"
 msgid "By pseudonym"
-msgstr "Pseudonym"
+msgstr "Nach Pseudonym"
 
 #: castellum/execution/templates/execution/study_detail.html:18
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:22
@@ -740,7 +734,7 @@ msgstr "Senden"
 #: castellum/studies/templates/studies/study_mailsettings.html:16
 #: castellum/studies/templates/studies/studysession_form.html:30
 msgid "Send test mail to myself"
-msgstr ""
+msgstr "Testmail an mich selbst schicken"
 
 #: castellum/execution/templates/execution/study_news_mail.html:21
 #: castellum/recruitment/templates/recruitment/mail.html:34
@@ -793,19 +787,17 @@ msgstr "Kein Treffer"
 
 #: castellum/execution/views.py:324 castellum/studies/views/recruitment.py:230
 #: castellum/studies/views/recruitment.py:259
-#, fuzzy
-#| msgid "Data has been saved."
 msgid "Test mail has been sent."
-msgstr "Eingabe wurde gespeichert"
+msgstr "Testmail wurde gesendet"
 
 #: castellum/execution/views.py:326 castellum/studies/views/recruitment.py:232
 #: castellum/studies/views/recruitment.py:261
 msgid "Could not send test mail."
-msgstr ""
+msgstr "Testmail konnte nicht gesendet werden."
 
 #: castellum/execution/views.py:340
 msgid "None of the subjects signed up for news emails."
-msgstr ""
+msgstr "Keine der Proband*innen hat sich für Neuigkeiten angemeldet."
 
 #: castellum/execution/views.py:357
 #, python-format
@@ -818,10 +810,8 @@ msgstr ""
 "enthält auch mögliche weitere Schritte."
 
 #: castellum/pseudonyms/forms.py:34
-#, fuzzy
-#| msgid "Resolve pseudonym"
 msgid "Invalid pseudonym"
-msgstr "Pseudonym auflösen"
+msgstr "Ungültiges Pseudonym"
 
 #: castellum/recruitment/admin.py:59
 #: castellum/recruitment/templates/admin/recruitment/attributedescription_import.html:9
@@ -959,7 +949,7 @@ msgstr "Tage seit der letzten Änderung"
 
 #: castellum/recruitment/mixins.py:228
 msgid "You have reached the weekly limit for mail recruitment."
-msgstr ""
+msgstr "Sie haben die wöchentliche Grenze für Mailrekrutierung erreicht."
 
 #: castellum/recruitment/mixins.py:236 castellum/recruitment/views.py:262
 msgid "The custom filter that is set for this study does not exist."
@@ -1358,10 +1348,8 @@ msgstr ""
 "Sie die Reiter mit dem folgenden Symbol:"
 
 #: castellum/recruitment/templates/recruitment/contact.html:206
-#, fuzzy
-#| msgid "Execution"
 msgid "Execution link"
-msgstr "Durchführung"
+msgstr "Durchführungslink"
 
 #: castellum/recruitment/templates/recruitment/contact.html:210
 msgid "Copy"
@@ -2250,10 +2238,8 @@ msgid "General recruitment settings"
 msgstr "Allgemeine Rekrutierungseinstellungen"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings_form.html:19
-#, fuzzy
-#| msgid "General recruitment settings"
 msgid "General recruitment text"
-msgstr "Allgemeine Rekrutierungseinstellungen"
+msgstr "Allgemeiner Rekrutierungstext"
 
 #: castellum/studies/templates/studies/study_sessions.html:13
 msgid "min"
@@ -2859,88 +2845,64 @@ msgid "Request export"
 msgstr "Auskunft beantragen"
 
 #: castellum/subjects/templates/subjects/subject_export.html:32
-#, fuzzy
-#| msgid "Edit contact data"
 msgid "Contact data"
-msgstr "Kontaktdaten bearbeiten"
+msgstr "Kontaktdaten"
 
 #: castellum/subjects/templates/subjects/subject_export.html:64
-#, fuzzy
-#| msgid "Contact data updated in last 6 months"
 msgid "Contact data created at"
-msgstr "Kontaktdaten in den letzten 6 Monaten aktualisiert"
+msgstr "Kontaktdaten erstellt am"
 
 #: castellum/subjects/templates/subjects/subject_export.html:67
-#, fuzzy
-#| msgid "Contact data updated in last 6 months"
 msgid "Contact data last updated at"
-msgstr "Kontaktdaten in den letzten 6 Monaten aktualisiert"
+msgstr "Kontaktdaten zuletzt aktualisiert am"
 
 #: castellum/subjects/templates/subjects/subject_export.html:77
 msgid "Procedural data"
-msgstr ""
+msgstr "Prozessdaten"
 
 #: castellum/subjects/templates/subjects/subject_export.html:88
-#, fuzzy
-#| msgid "No export requested"
 msgid "Deletion requested on"
-msgstr "Keine Auskunft beantragt"
+msgstr "Löschung beantragt am"
 
 #: castellum/subjects/templates/subjects/subject_export.html:91
-#, fuzzy
-#| msgid "No export requested"
 msgid "Data export requested on"
-msgstr "Keine Auskunft beantragt"
+msgstr "Auskunft beantragt am"
 
 #: castellum/subjects/templates/subjects/subject_export.html:94
-#, fuzzy
-#| msgid "Export answer"
 msgid "Export answers"
-msgstr "Antwort auf das Auskunftsgesuch"
+msgstr "Antworten auf Auskunftsgesuche"
 
 #: castellum/subjects/templates/subjects/subject_export.html:97
 msgid "Procedural data created at"
-msgstr ""
+msgstr "Prozessdaten erstellt am"
 
 #: castellum/subjects/templates/subjects/subject_export.html:100
 msgid "Procedural data last updated at"
-msgstr ""
+msgstr "Prozessdaten zuletzt aktualisiert am"
 
 #: castellum/subjects/templates/subjects/subject_export.html:103
-#, fuzzy
-#| msgid "Additional Info"
 msgid "Additional notes"
-msgstr "Zusätzliche Informationen"
+msgstr "Zusätzliche Notizen"
 
 #: castellum/subjects/templates/subjects/subject_export.html:155
-#, fuzzy
-#| msgid "Participation"
 msgid "Participation created at"
-msgstr "Teilnahme"
+msgstr "Teilnahme erstellt am"
 
 #: castellum/subjects/templates/subjects/subject_export.html:158
-#, fuzzy
-#| msgid "Participations"
 msgid "Participation last updated at"
-msgstr "Teilnahmen"
+msgstr "Teilnahmen zuletzt aktualisiert am"
 
 #: castellum/subjects/templates/subjects/subject_export.html:161
-#, fuzzy
-#| msgid "Exclusion criteria provided"
 msgid "Exclusion criteria checked"
-msgstr "Ein-/Ausschlusskriterien vorhanden"
+msgstr "Ein-/Ausschlusskriterien überprüft"
 
 #: castellum/subjects/templates/subjects/subject_export.html:164
-#, fuzzy
-#| msgid "Last contact attempt"
 msgid "Contact attempts"
-msgstr "Letzter Kontaktversuch"
+msgstr "Kontaktversuche"
 
 #: castellum/subjects/templates/subjects/subject_export.html:201
-#, fuzzy
-#| msgid "Recruitment"
 msgid "Document"
-msgstr "Rekrutierung"
+msgstr "Dokument"
 
 #: castellum/subjects/templates/subjects/subject_participationlist.html:4
 msgid "Subject Study Participation"
@@ -3143,15 +3105,3 @@ msgstr "Die Datei muss mit UTF-8 kodiert sein."
 #: castellum/utils/templates/utils/form_errors.html:7
 msgid "Please correct the errors listed on the fields."
 msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
-
-#~ msgid "General contact notes"
-#~ msgstr "Allgemeine Kontakt-Notizen"
-
-#~ msgid "News mail"
-#~ msgstr "Neuigkeiten E-Mail"
-
-#~ msgid "Execution URL"
-#~ msgstr "Durchführungs-URL"
-
-#~ msgid "Add note"
-#~ msgstr "Notiz hinzufügen"
