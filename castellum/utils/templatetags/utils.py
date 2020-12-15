@@ -47,11 +47,6 @@ def verbose_name(instance, field_name):
 
 
 @register.filter
-def model_verbose_name(instance, plural=False):
-    return instance._meta.verbose_name_plural if plural else instance._meta.verbose_name
-
-
-@register.filter
 def display(instance, field_name):
     getter = getattr(instance, 'get_{}_display'.format(field_name), None)
     value = getter() if getter else getattr(instance, field_name)
