@@ -142,7 +142,7 @@
             {% endfor %}
         </dl>
 
-        {% if subject.participation_set %}
+        {% if subject.participation_set.exists %}
             <h1>{% translate 'Study participations' %}</h1>
             {% for participation in subject.participation_set.all %}
                 <dl class="row">
