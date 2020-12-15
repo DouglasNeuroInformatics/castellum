@@ -22,7 +22,7 @@
                                         {% translate 'today' %}
                                     {% endif %}
                                 {% else %}
-                                    {% blocktranslate with date=participation.followup_date|date %}
+                                    {% blocktranslate with date=participation.followup_date|longdate %}
                                         on {{ date }}
                                     {% endblocktranslate %}
                                     {% if participation.followup_time %}
@@ -66,7 +66,7 @@
                                     {{ attempts }} attempts
                                 {% endblocktranslate %}
                             </div>,
-                            <div class="d-inline-block my-1">{% translate 'last' %}: <time>{{ participation.updated_at|date }}</time></div>
+                            <div class="d-inline-block my-1">{% translate 'last' %}: <time>{{ participation.updated_at|longdate }}</time></div>
                         </div>
                     </div>
                 {% else %}

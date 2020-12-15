@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n utils %}
 
 <ul class="table-list">
     {% for subject in subjects %}
@@ -10,7 +10,7 @@
                 {% if subject.due %}
                     <div>
                         {% translate 'Due in' %}:
-                        <time title="{{ subject.due|date }}">{{ subject.due|timeuntil }}</time>
+                        <time title="{{ subject.due|longdate }}">{{ subject.due|timeuntil }}</time>
                     </div>
                 {% endif %}
             </div>

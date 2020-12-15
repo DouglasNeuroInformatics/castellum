@@ -8,7 +8,7 @@
             <dd>
                 {% if appointment %}
                     <div class="d-flex justify-content-between">
-                        <time>{{ appointment.start|date }} {{ appointment.start|time }}</time>
+                        <time>{{ appointment.start|longdate }} {{ appointment.start|time }}</time>
                         <form method="POST" class="form-inline" action="{% url 'execution:show-up' study.pk object.pk appointment.pk %}">
                             {% csrf_token %}
                             {% bootstrap_field form.show_up show_label=False %}
