@@ -1,11 +1,7 @@
-{% extends "execution/base.html" %}
+{% extends "execution/study_base.html" %}
 {% load i18n appointments %}
 
-{% block title %}{{ object }} &middot; {{ block.super }}{% endblock %}
-
 {% block content %}
-    <h1 class="text-center">{{ object }}</h1>
-
     <ul class="table-list mt-3">
         {% for participation, can_access in list %}
             <li class="table-list-item">
@@ -41,14 +37,4 @@
             <li class="alert alert-warning" role="alert">{% translate 'No participations found' %}</li>
         {% endfor %}
     </ul>
-
-    <div class="d-print-none mb-3">
-        <a href="{% url 'execution:resolve' study.pk %}" class="btn btn-secondary">{% translate 'Resolve pseudonym' %}</a>
-        <a href="{% url 'execution:calendar' study.pk %}" class="btn btn-secondary">{% translate 'Calendar' %}</a>
-        <a href="{% url 'execution:news-mail' study.pk %}" class="btn btn-secondary">{% translate 'News mail' %}</a>
-        <a href="?export" class="btn btn-secondary">{% trans 'Export attributes' %}</a>
-        {% if study.consent %}
-            <a href="{{ study.consent.url }}" class="btn btn-secondary">{% translate 'Consent document' %}</a>
-        {% endif %}
-    </div>
 {% endblock %}

@@ -1,0 +1,18 @@
+{% extends "execution/study_base.html" %}
+{% load static %}
+
+{% block container_class %}container-lg{% endblock%}
+
+{% block content %}
+    <div class="my-5" data-js="calendar"></div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'fullcalendar-scheduler/main.js' %}"></script>
+    <script src="{% static 'fullcalendar-scheduler/locales/de.js' %}"></script>
+    <script src="{% static 'js/calendar.js' %}"></script>
+{% endblock %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'fullcalendar-scheduler/main.css' %}">
+{% endblock %}
