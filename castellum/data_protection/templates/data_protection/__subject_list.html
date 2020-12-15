@@ -10,7 +10,7 @@
                 {% if subject.due %}
                     <div>
                         {% translate 'Due in' %}:
-                        <time datetime="{{ subject.due|date:'Y-m-d' }}" title="{{ subject.due|date }}">{{ subject.due|timeuntil }}</time>
+                        <time title="{{ subject.due|date }}">{{ subject.due|timeuntil }}</time>
                     </div>
                 {% endif %}
             </div>
