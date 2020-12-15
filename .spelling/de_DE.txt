@@ -2,8 +2,6 @@ Merkmalsbeschreibungen
 Merkmalskategorie
 Merkmalskategorien
 Teilnahmestatus
-Teilnahmeanfrage
-Teilnahmeanfragen
 Vertraulichkeitsstufe
 Castellum
 Castellum-Einverständnis
@@ -22,3 +20,4 @@ Checkbox
 Rekrutierer
 Geofilter
 Up
+Vorgangsbezogene

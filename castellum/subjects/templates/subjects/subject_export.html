@@ -97,7 +97,7 @@
             <dt class="col-sm-6" data-fieldname="subjects.Subject.created_at">{% translate 'Procedural data created at' %}</dt>
             <dd class="col-sm-6">{{ subject|display:'updated_at' }}</dd>
 
-            <dt class="col-sm-6" data-fieldname="subjects.Subject.updated_at">{% translate 'Procedural data updated at' %}</dt>
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.updated_at">{% translate 'Procedural data last updated at' %}</dt>
             <dd class="col-sm-6">{{ subject|display:'updated_at' }}</dd>
 
             <dt class="col-sm-6" data-fieldname="subjects.Subject.subjectnote">{% translate 'Additional notes' %}</dt>
@@ -143,7 +143,7 @@
         </dl>
 
         {% if subject.participation_set.exists %}
-            <h1>{% translate 'Study participations' %}</h1>
+            <h1>{% translate 'Study Participations' %}</h1>
             {% for participation in subject.participation_set.all %}
                 <dl class="row">
                     <dt class="col-sm-6" data-fieldname="recruitment.Participation.study">{% translate 'Study' %}</dt>
@@ -180,7 +180,7 @@
             <h1>{% translate 'Appointments' %}</h1>
             {% for appointment in appointments %}
                 <dl class="row">
-                    <dt class="col-sm-6" data-fieldname="appointments.Appointment.session">{% translate 'Study Session' %}</dt>
+                    <dt class="col-sm-6" data-fieldname="appointments.Appointment.session">{{ appointment|verbose_name:'session' }}</dt>
                     <dd class="col-sm-6">{{ appointment.session }}</dd>
 
                     <dt class="col-sm-6" data-fieldname="appointments.Appointment.start">{{ appointment|verbose_name:'start' }}</dt>
