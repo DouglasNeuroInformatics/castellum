@@ -27,7 +27,6 @@ from urllib.parse import urlparse
 from urllib.parse import urlunparse
 
 from django import template
-from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
@@ -39,11 +38,7 @@ register = template.Library()
 @register.filter
 def verbose_name(instance, field_name):
     field = instance._meta.get_field(field_name)
-    if isinstance(field, models.Field):
-        return field.verbose_name
-    else:
-        # FIXME: backrefs do not have a verbose_name
-        return field.name
+    return field.verbose_name
 
 
 @register.filter
