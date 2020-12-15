@@ -68,10 +68,10 @@
             <dd class="col-sm-6">{{ subject.contact|display:'updated_at' }}</dd>
 
             <dt class="col-sm-6" data-fieldname="contacts.Contact.guardians">{{ subject.contact|verbose_name:'guardians' }}</dt>
-            <dd class="col-sm-6">{% for c in subject.contact.guardians.all %}{{ c }}{% endfor %}</dd>
+            <dd class="col-sm-6">{{ subject.contact|display:'guardians' }}</dd>
 
-            <dt class="col-sm-6" data-fieldname="contacts.Contact.guardian_of">{{ subject.contact|verbose_name:'guardian_of' }}</dt>
-            <dd class="col-sm-6">{% for c in subject.contact.guardian_of.all %}{{ c }}{% endfor %}</dd>
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.guardian_of">{% translate 'Guardian of' %}</dt>
+            <dd class="col-sm-6">{{ subject.contact|display:'guardian_of' }}</dd>
         </dl>
 
         <h1>{% translate 'Procedural data' %}</h1>
@@ -80,7 +80,7 @@
             <dd class="col-sm-6">{{ subject|display:'privacy_level' }}</dd>
 
             <dt class="col-sm-6" data-fieldname="subjects.Subject.source">{{ subject|verbose_name:'source' }}</dt>
-                <dd class="col-sm-6">{{ subject|display:'source' }}</dd>
+            <dd class="col-sm-6">{{ subject|display:'source' }}</dd>
 
             <dt class="col-sm-6" data-fieldname="subjects.Subject.deceased">{{ subject|verbose_name:'deceased' }}</dt>
             <dd class="col-sm-6">{{ subject|display:'deceased' }}</dd>
@@ -92,7 +92,7 @@
             <dd class="col-sm-6">{{ subject|display:'export_requested' }}</dd>
 
             <dt class="col-sm-6" data-fieldname="subjects.Subject.exportanswer">{% translate 'Export answers' %}</dt>
-            <dd class="col-sm-6">{{ subject.exportanswer_set.all.created_at|join:', ' }}</dd>
+            <dd class="col-sm-6">{{ subject|display:'exportanswer_set' }}</dd>
 
             <dt class="col-sm-6" data-fieldname="subjects.Subject.created_at">{% translate 'Procedural data created at' %}</dt>
             <dd class="col-sm-6">{{ subject|display:'updated_at' }}</dd>
@@ -142,7 +142,7 @@
             {% endfor %}
         </dl>
 
-        {% if subject.participation_set %}
+        {% if subject.participation_set.exists %}
             <h1>{% translate 'Study participations' %}</h1>
             {% for participation in subject.participation_set.all %}
                 <dl class="row">
