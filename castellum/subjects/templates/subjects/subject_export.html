@@ -134,6 +134,20 @@
             <dd class="col-sm-6">{{ subject|display:'not_available_until' }}</dd>
         </dl>
 
+        {% if subject.consent %}
+            <h1>{% translate 'Consent' %}</h1>
+            <dl class="row">
+                <dt class="col-sm-6" data-fieldname="subjects.Consent.document">{% translate 'Document' %}</dt>
+                <dd class="col-sm-6">{{ subject.consent|display:'document' }}</dd>
+
+                <dt class="col-sm-6" data-fieldname="subjects.Consent.updated_at">{{ subject.consent|verbose_name:'updated_at' }}</dt>
+                <dd class="col-sm-6">{{ subject.consent|display:'updated_at' }}</dd>
+
+                <dt class="col-sm-6" data-fieldname="subjects.Consent.status">{{ subject.consent|verbose_name:'status' }}</dt>
+                <dd class="col-sm-6">{{ subject.consent|display:'status' }}</dd>
+            </dl>
+        {% endif %}
+
         <h1>{% translate 'Attributes' %}</h1>
         <dl class="row" data-fieldname="subjects.Subject.attributes">
             {% for label, value in attributes %}
@@ -195,18 +209,5 @@
             {% endfor %}
         {% endif %}
 
-        {% if subject.consent %}
-            <h1>{% translate 'Consent' %}</h1>
-            <dl class="row">
-                <dt class="col-sm-6" data-fieldname="subjects.Consent.document">{% translate 'Document' %}</dt>
-                <dd class="col-sm-6">{{ subject.consent|display:'document' }}</dd>
-
-                <dt class="col-sm-6" data-fieldname="subjects.Consent.updated_at">{{ subject.consent|verbose_name:'updated_at' }}</dt>
-                <dd class="col-sm-6">{{ subject.consent|display:'updated_at' }}</dd>
-
-                <dt class="col-sm-6" data-fieldname="subjects.Consent.status">{{ subject.consent|verbose_name:'status' }}</dt>
-                <dd class="col-sm-6">{{ subject.consent|display:'status' }}</dd>
-            </dl>
-        {% endif %}
     {% endif %}
 {% endblock %}
