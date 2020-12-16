@@ -149,15 +149,19 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        desc1 = get_description_by_statistics_rank('primary')
+        desc2 = get_description_by_statistics_rank('secondary')
         buckets1 = dict(AttributeDescription.get_statistics_buckets('primary'))
         buckets2 = dict(AttributeDescription.get_statistics_buckets('secondary'))
 
         participations = []
         for participation in self.get_queryset():
             subject = participation.subject
-            bucket1 = buckets1[subject.get_statistics_bucket('primary')]
-            bucket2 = buckets2[subject.get_statistics_bucket('secondary')]
-            buckets = ', '.join(str(bucket) for bucket in [bucket1, bucket2] if bucket)
+            buckets = []
+            if desc1:
+                buckets.append((desc1, buckets1[subject.get_statistics_bucket('primary')]))
+            if desc2:
+                buckets.append((desc2, buckets2[subject.get_statistics_bucket('secondary')]))
 
             can_access = self.request.user.has_privacy_level(
                 participation.subject.privacy_level

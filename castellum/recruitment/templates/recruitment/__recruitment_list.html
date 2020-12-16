@@ -8,7 +8,9 @@
                     <div>
                         <div>
                             <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
-                            <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
+                            {% for desc, bucket in buckets %}
+                                <div class="d-inline-block my-1 mr-2" title="{{ desc.label }}">{{ bucket }}</div>
+                            {% endfor %}
                             <div class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</div>
                         </div>
                         <div class="mr-2">
@@ -41,7 +43,9 @@
                     <div class="text-muted">
                         <div>
                             <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
-                            <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
+                            {% for desc, bucket in buckets %}
+                                <div class="d-inline-block my-1 mr-2" title="{{ desc.label }}">{{ bucket }}</div>
+                            {% endfor %}
                             {% if participation.status != participation.NOT_CONTACTED %}
                                 <div class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</div>
                             {% endif %}
@@ -55,7 +59,9 @@
                     <div>
                         <div>
                             <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
-                            <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
+                            {% for desc, bucket in buckets %}
+                                <div class="d-inline-block my-1 mr-2" title="{{ desc.label }}">{{ bucket }}</div>
+                            {% endfor %}
                             <div class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</div>
                         </div>
                         <div class="mr-2">
@@ -73,7 +79,9 @@
                     <div>
                         <div>
                             <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
-                            <div class="d-inline-block my-1 mr-2">{{ buckets }}</div>
+                            {% for desc, bucket in buckets %}
+                                <div class="d-inline-block my-1 mr-2" title="{{ desc.label }}">{{ bucket }}</div>
+                            {% endfor %}
                             {% if participation.status == participation.INVITED and session_count > 0 %}
                                 <div class="d-inline-block my-1 mr-2 badge badge-secondary">
                                     <i class="fa fa-calendar" aria-label="{% translate 'Appointments' %}" title="{% translate 'Appointments' %}"></i>
