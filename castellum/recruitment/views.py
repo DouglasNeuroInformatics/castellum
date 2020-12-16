@@ -403,7 +403,6 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     permission_required = 'appointments.change_appointment'
     study_status = [Study.EXECUTION]
     nochrome = True
-    feed = 'recruitment:calendar-feed'
 
     def get_appointments(self):
         return super().get_appointments().filter(session__study=self.object)

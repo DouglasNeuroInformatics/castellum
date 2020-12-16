@@ -6,14 +6,7 @@
 {% block container_class %}container-lg{% endblock%}
 
 {% block content %}
-    <div class="h1 text-center">
-        <h1 class="d-inline">{{ object }}</h1>
-        {% if view.feed %}
-            <a href="{% url view.feed object.pk %}?token={{ user.token }}" class="btn btn-sm btn-primary" title="{% translate 'Feed' %}">
-                <i class="far fa-calendar-plus" role="img" aria-label="{% translate 'Feed' %}"></i>
-            </a>
-        {% endif %}
-    </div>
+    <h1 class="text-center">{{ object }}</h1>
     <div class="my-5" data-js="calendar"></div>
 {% endblock %}
 
