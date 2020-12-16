@@ -6,12 +6,7 @@
 {% block header %}
 
     <div class="container text-center my-4">
-        <div class="h1">
-            <h1 class="d-inline">{{ study.name }}</h1>
-            <a href="{% url 'recruitment:followups' study.pk %}?token={{ user.token }}" class="btn btn-sm btn-primary" title="{% translate 'Follow-ups' %}">
-                <i class="far fa-calendar-plus" role="img" aria-label="{% translate 'Follow-ups' %}"></i>
-            </a>
-        </div>
+        <h1>{{ study.name }}</h1>
     </div>
 
     <nav class="d-print-none" aria-label="{% translate 'Tabs' %}">
