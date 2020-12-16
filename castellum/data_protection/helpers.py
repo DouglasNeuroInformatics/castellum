@@ -34,7 +34,7 @@ def get_export_requested(limit_by):
             models.F('export_requested') + settings.CASTELLUM_SUBJECT_DELETION_PERIOD,
             output_field=models.DateField(),
         )
-    )
+    ).order_by('export_requested')
 
     return subjects[:limit_by], max(subjects.count() - limit_by, 0)
 
@@ -45,7 +45,7 @@ def get_to_be_deleted(limit_by):
             models.F('to_be_deleted') + settings.CASTELLUM_SUBJECT_DELETION_PERIOD,
             output_field=models.DateField(),
         )
-    )
+    ).order_by('to_be_deleted')
 
     return subjects[:limit_by], max(subjects.count() - limit_by, 0)
 
