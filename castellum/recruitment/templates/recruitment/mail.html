@@ -1,5 +1,5 @@
 {% extends base_template|default:"recruitment/recruitment_base.html" %}
-{% load i18n auth bootstrap4 humanize %}
+{% load i18n auth bootstrap4 humanize utils %}
 
 {% block title %}{% translate "Mail recruitment" %} &middot; {{ block.super }}{% endblock %}
 
@@ -37,7 +37,7 @@
             <li class="table-list-item">
                 <div>
                     <small class="text-muted">
-                        {% blocktranslate with datetime=batch.datetime|date counter=forloop.counter|ordinal %}
+                        {% blocktranslate with datetime=batch.datetime|longdate counter=forloop.counter|ordinal %}
                             {{ counter }} mail sent on {{ datetime }}:
                         {% endblocktranslate %}
                     </small>

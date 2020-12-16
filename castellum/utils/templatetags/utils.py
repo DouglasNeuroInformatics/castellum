@@ -28,6 +28,7 @@ from urllib.parse import urlunparse
 
 from django import template
 from django.urls import reverse
+from django.utils import formats
 from django.utils.translation import gettext_lazy as _
 
 from castellum.utils import get_parler_languages
@@ -75,6 +76,11 @@ def is_today(date):
     if isinstance(date, datetime.datetime):
         date = date.date()
     return date == datetime.date.today()
+
+
+@register.filter
+def longdate(date):
+    return formats.date_format(date, 'l, ') + formats.date_format(date, 'DATE_FORMAT')
 
 
 @register.filter

@@ -1,5 +1,5 @@
 {% extends "execution/study_base.html" %}
-{% load i18n bootstrap4 humanize %}
+{% load i18n bootstrap4 humanize utils %}
 
 {% block content %}
     <p>{% translate 'This form allows you to send a message to all subjects who indicated interest in study news. You cannot attach a document to the email, but you can include a link.' %}</p>
@@ -24,7 +24,7 @@
             <li class="table-list-item">
                 <div>
                     <small class="text-muted">
-                        {% blocktranslate with datetime=batch.datetime|date counter=forloop.counter|ordinal %}
+                        {% blocktranslate with datetime=batch.datetime|longdate counter=forloop.counter|ordinal %}
                             {{ counter }} mail sent on {{ datetime }}:
                         {% endblocktranslate %}
                     </small>
