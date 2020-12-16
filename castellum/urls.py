@@ -36,6 +36,8 @@ from stronghold.decorators import public
 
 from castellum.castellum_auth.forms import AuthenticationForm
 from castellum.castellum_auth.views import set_language
+from castellum.studies.models import Resource
+from castellum.studies.models import Study
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
@@ -44,6 +46,12 @@ class IndexView(LoginRequiredMixin, TemplateView):
 
 class FeedsView(LoginRequiredMixin, TemplateView):
     template_name = 'feeds.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['resources'] = Resource.objects.all()
+        context['studies'] = self.request.user.study_set.filter(status=Study.EXECUTION)
+        return context
 
 
 def dummy(request):
