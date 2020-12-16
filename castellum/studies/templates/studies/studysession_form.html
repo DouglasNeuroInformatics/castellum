@@ -17,6 +17,7 @@
             {{ form.resource.as_hidden }}
         {% endif %}
         {% bootstrap_field form.type %}
+        {% bootstrap_field form.reminder_text %}
         {% if SCHEDULER_URL %}
             {% bootstrap_field form.schedule_id %}
         {% else %}

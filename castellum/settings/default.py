@@ -272,8 +272,8 @@ LOGGING = {
 # primary language
 CASTELLUM_FALLBACK_LANGUAGE = 'en'
 CASTELLUM_FALLBACK_LANGUAGE_MARKERS = (
-    '++++ FOR ENGLISH VERSION SEE BELOW ++++',
-    '++++ ENGLISH VERSION ++++',
+    '++++ FOR INFORMATION IN ENGLISH SEE BELOW ++++',
+    '++++ INFORMATION IN ENGLISH ++++',
 )
 
 CASTELLUM_ENABLE_STUDY_EXPORT = True
@@ -293,6 +293,8 @@ CASTELLUM_APPOINTMENT_MAIL_BODY = (
     "wir möchten Sie an ihren Termin in der Studie {study} am {date} erinnern.\n"
     "Falls Sie absagen oder den Termin verschieben möchten, so melden Sie sich "
     "bitte bei {reply_to}.\n\n"
+    "Zusätzliche Informationen:\n"
+    "{session_reminder_text}\n\n"
     "Mit freundlichen Grüßen\ndas Rekrutierungsteam"
 )
 CASTELLUM_APPOINTMENT_MAIL_BODY_EN = (
