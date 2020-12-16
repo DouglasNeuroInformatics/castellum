@@ -42,6 +42,10 @@ class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'index.html'
 
 
+class FeedsView(LoginRequiredMixin, TemplateView):
+    template_name = 'feeds.html'
+
+
 def dummy(request):
     return HttpResponse('', status=204)
 
@@ -55,6 +59,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('favicon.ico', public(RedirectView.as_view(url='/static/images/favicon.ico'))),
     path('ping/', dummy, name='ping'),
+    path('feeds/', FeedsView.as_view(), name='feeds'),
 
     path('i18n/', set_language, name='set_language'),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
