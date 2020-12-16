@@ -41,7 +41,7 @@ from .views import SchedulerPingView
 
 app_name = 'recruitment'
 urlpatterns = [
-    path('followups/', FollowUpFeedForUser(), name='all-studies-followups'),
+    path('followups/', FollowUpFeedForUser(), name='followups-user-feed'),
     path('resources/', ResourceListView.as_view(), name='resources'),
     path('resources/<int:pk>/', ResourceFeed(), name='resource-feed'),
     path('scheduler-ping/<int:schedule_id>/<pseudonym>/', SchedulerPingView.as_view()),
@@ -56,7 +56,7 @@ urlpatterns = [
     path('<int:study_pk>/cleanup/', RecruitmentCleanupView.as_view(), name='cleanup'),
     path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),
     path('<int:pk>/calendar/feed/', AppointmentFeed(), name='calendar-feed'),
-    path('<int:study_pk>/followups/', FollowUpFeedForStudy(), name='followups'),
+    path('<int:study_pk>/followups/', FollowUpFeedForStudy(), name='followups-feed'),
     path('<int:study_pk>/<int:pk>/', ContactView.as_view(), name='contact'),
     path(
         '<int:study_pk>/<int:pk>/update-contact/',
