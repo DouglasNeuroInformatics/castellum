@@ -113,7 +113,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             .filter(status__in=self.shown_status, study=self.study)\
             .order_by(*order_by)
 
-    def get_statistics(self):
+    def _get_statistics(self):
         participations = Participation.objects.filter(
             study=self.study, status=Participation.INVITED
         ).prefetch_related('subject')
@@ -141,6 +141,12 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         if len(buckets2) > 1:
             data['legend'] = [str(label2) for key2, label2 in buckets2]
 
+        return data
+
+    def get_statistics(self):
+        data = self._get_statistics()
+        if not data:
+            return None
         renderer = StackedColumnRenderer(width=760, height=320)
         return renderer.render(data)
 
