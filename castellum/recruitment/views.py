@@ -119,26 +119,26 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         desc1 = get_description_by_statistics_rank('primary')
         if desc1:
-            buckets1 = desc1.field.get_statistics_buckets()
+            buckets1, get_bucket1 = desc1.field.get_statistics_grouping()
         else:
             return None
 
         desc2 = get_description_by_statistics_rank('secondary')
         if desc2:
-            buckets2 = desc2.field.get_statistics_buckets()
+            buckets2, get_bucket2 = desc2.field.get_statistics_grouping()
         else:
-            buckets2 = [(None, None)]
+            buckets2, get_bucket2 = [(None, None)], lambda x: None
 
         statistics = defaultdict(lambda: defaultdict(lambda: 0))
         for participation in participations:
             subject = participation.subject
 
             value1 = subject.attributes.get(desc1.json_key)
-            key1 = desc1.field.get_statistics_bucket(value1)
+            key1 = get_bucket1(value1)
 
             if desc2:
                 value2 = subject.attributes.get(desc2.json_key)
-                key2 = desc2.field.get_statistics_bucket(value2)
+                key2 = get_bucket2(value2)
             else:
                 key2 = None
 
@@ -169,10 +169,10 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         desc1 = get_description_by_statistics_rank('primary')
         desc2 = get_description_by_statistics_rank('secondary')
         if desc1:
-            buckets1 = desc1.field.get_statistics_buckets()
+            buckets1, get_bucket1 = desc1.field.get_statistics_grouping()
             buckets1 = dict(buckets1)
         if desc2:
-            buckets2 = desc2.field.get_statistics_buckets()
+            buckets2, get_bucket2 = desc2.field.get_statistics_grouping()
             buckets2 = dict(buckets2)
 
         participations = []
@@ -181,12 +181,10 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             buckets = []
             if desc1:
                 value1 = subject.attributes.get(desc1.json_key)
-                key1 = desc1.field.get_statistics_bucket(value1)
-                buckets.append((desc1, buckets1[key1]))
+                buckets.append((desc1, buckets1[get_bucket1(value1)]))
             if desc2:
                 value2 = subject.attributes.get(desc2.json_key)
-                key2 = desc2.field.get_statistics_bucket(value2)
-                buckets.append((desc2, buckets2[key2]))
+                buckets.append((desc2, buckets2[get_bucket2(value2)]))
 
             can_access = self.request.user.has_privacy_level(
                 participation.subject.privacy_level

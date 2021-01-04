@@ -81,8 +81,9 @@ def test_age_filter_display(attribute_description):
 def test_age_statistics_bucket(attribute_description):
     field = attribute_fields.AgeAttributeField(attribute_description)
     with freeze_time('1970-01-01'):
-        assert field.get_statistics_bucket('1971-01-01') == '<18'
-        assert field.get_statistics_bucket('1970-01-01') == '<18'
-        assert field.get_statistics_bucket('1969-01-01') == '<18'
-        assert field.get_statistics_bucket('1951-01-01') == '18-25'
-        assert field.get_statistics_bucket('1899-01-01') == '>70'
+        buckets, get_bucket = field.get_statistics_grouping()
+        assert get_bucket('1971-01-01') == '<18'
+        assert get_bucket('1970-01-01') == '<18'
+        assert get_bucket('1969-01-01') == '<18'
+        assert get_bucket('1951-01-01') == '18-25'
+        assert get_bucket('1899-01-01') == '>70'

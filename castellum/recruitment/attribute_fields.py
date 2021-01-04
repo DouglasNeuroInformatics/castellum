@@ -20,7 +20,6 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
-from typing import Any
 from typing import List
 from typing import Optional
 from typing import Tuple
@@ -45,7 +44,6 @@ class BaseAttributeField:
     available_operators: List[Tuple[str, str]]
     form_class: Type[forms.Field]
     filter_form_class: Optional[Type[forms.Field]] = None
-    statistics_buckets: List[Tuple[Any, str]] = []
 
     def __init__(self, description):
         self.description = description
@@ -103,15 +101,8 @@ class BaseAttributeField:
         operator = dict(self.available_operators)[operator]
         return '{} {} {}'.format(self.description.filter_label, operator, value)
 
-    def get_statistics_buckets(self):
-        return self.statistics_buckets + [
-            (None, _('Other')),
-        ]
-
-    def get_statistics_bucket(self, value):
-        if value in [ANSWER_DECLINED, '']:
-            return None
-        return value
+    def get_statistics_grouping(self):
+        raise NotImplementedError
 
 
 class DateAttributeField(BaseAttributeField):
@@ -150,10 +141,20 @@ class BooleanAttributeField(BaseAttributeField):
     available_operators = [
         ("exact", _("is")),
     ]
-    statistics_buckets = [
-        (True, _('Yes')),
-        (False, _('No')),
-    ]
+
+    def get_statistics_grouping(self):
+        buckets = [
+            (True, _('Yes')),
+            (False, _('No')),
+            (None, _('Other')),
+        ]
+
+        def get_bucket(value):
+            if value in [ANSWER_DECLINED, '']:
+                return None
+            return value
+
+        return buckets, get_bucket
 
 
 class TextAttributeField(BaseAttributeField):
@@ -187,12 +188,19 @@ class ChoiceAttributeField(BaseAttributeField):
         value = self.get_display(value)
         return super().get_filter_display(operator, value)
 
-    def get_statistics_buckets(self):
-        return [
+    def get_statistics_grouping(self):
+        buckets = [
             (choice.pk, choice.label) for choice in self.description.attributechoice_set.all()
         ] + [
             (None, _('Other')),
         ]
+
+        def get_bucket(value):
+            if value in [ANSWER_DECLINED, '']:
+                return None
+            return value
+
+        return buckets, get_bucket
 
 
 class MultipleChoiceAttributeField(ChoiceAttributeField):
@@ -246,20 +254,6 @@ class AgeAttributeField(DateAttributeField):
         ("lt", _("older than")),
         ("gt", _("younger than")),
     ]
-    statistics_buckets = [
-        ('<18', '<18'),
-        ('18-25', '18-25'),
-        ('26-30', '26-30'),
-        ('31-35', '31-35'),
-        ('36-40', '36-40'),
-        ('41-45', '41-45'),
-        ('46-50', '46-50'),
-        ('51-55', '51-55'),
-        ('56-60', '56-60'),
-        ('61-65', '61-65'),
-        ('66-70', '66-70'),
-        ('>70', '>70'),
-    ]
 
     def _filter_to_q(self, operator, value):
         period, scale = value
@@ -274,16 +268,35 @@ class AgeAttributeField(DateAttributeField):
         value = '{} {}'.format(period, self.SCALES[scale])
         return super().get_filter_display(operator, value)
 
-    def get_statistics_bucket(self, value):
-        if not value or value == ANSWER_DECLINED:
-            return None
-        value = self.parse_date(value)
-        today = datetime.date.today()
-        if today < value + relativedelta(years=18):
-            return '<18'
-        if today < value + relativedelta(years=25):
-            return '18-25'
-        for y in range(26, 70, 5):
-            if today < value + relativedelta(years=y + 5):
-                return '{}-{}'.format(y, y + 4)
-        return '>70'
+    def get_statistics_grouping(self):
+        buckets = [
+            ('<18', '<18'),
+            ('18-25', '18-25'),
+            ('26-30', '26-30'),
+            ('31-35', '31-35'),
+            ('36-40', '36-40'),
+            ('41-45', '41-45'),
+            ('46-50', '46-50'),
+            ('51-55', '51-55'),
+            ('56-60', '56-60'),
+            ('61-65', '61-65'),
+            ('66-70', '66-70'),
+            ('>70', '>70'),
+            (None, _('Other'))
+        ]
+
+        def get_bucket(value):
+            if not value or value == ANSWER_DECLINED:
+                return None
+            value = self.parse_date(value)
+            today = datetime.date.today()
+            if today < value + relativedelta(years=18):
+                return '<18'
+            if today < value + relativedelta(years=25):
+                return '18-25'
+            for y in range(26, 70, 5):
+                if today < value + relativedelta(years=y + 5):
+                    return '{}-{}'.format(y, y + 4)
+            return '>70'
+
+        return buckets, get_bucket
