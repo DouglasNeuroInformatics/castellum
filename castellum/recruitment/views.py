@@ -69,7 +69,6 @@ from .mixins import BaseAttributesUpdateView
 from .mixins import BaseMailRecruitmentView
 from .mixins import ParticipationMixin
 from .mixins import get_recruitable
-from .models import AttributeDescription
 from .models import Participation
 from .models.attributes import get_description_by_statistics_rank
 
@@ -118,17 +117,31 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             study=self.study, status=Participation.INVITED
         ).prefetch_related('subject')
 
-        buckets1 = AttributeDescription.get_statistics_buckets('primary')
-        buckets2 = AttributeDescription.get_statistics_buckets('secondary')
-
-        if len(buckets1) == 1:
+        desc1 = get_description_by_statistics_rank('primary')
+        if desc1:
+            buckets1 = desc1.field.get_statistics_buckets()
+        else:
             return None
+
+        desc2 = get_description_by_statistics_rank('secondary')
+        if desc2:
+            buckets2 = desc2.field.get_statistics_buckets()
+        else:
+            buckets2 = [(None, None)]
 
         statistics = defaultdict(lambda: defaultdict(lambda: 0))
         for participation in participations:
             subject = participation.subject
-            key1 = subject.get_statistics_bucket('primary')
-            key2 = subject.get_statistics_bucket('secondary')
+
+            value1 = subject.attributes.get(desc1.json_key)
+            key1 = desc1.field.get_statistics_bucket(value1)
+
+            if desc2:
+                value2 = subject.attributes.get(desc2.json_key)
+                key2 = desc2.field.get_statistics_bucket(value2)
+            else:
+                key2 = None
+
             statistics[key1][key2] += 1
 
         data = {
@@ -155,17 +168,25 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         desc1 = get_description_by_statistics_rank('primary')
         desc2 = get_description_by_statistics_rank('secondary')
-        buckets1 = dict(AttributeDescription.get_statistics_buckets('primary'))
-        buckets2 = dict(AttributeDescription.get_statistics_buckets('secondary'))
+        if desc1:
+            buckets1 = desc1.field.get_statistics_buckets()
+            buckets1 = dict(buckets1)
+        if desc2:
+            buckets2 = desc2.field.get_statistics_buckets()
+            buckets2 = dict(buckets2)
 
         participations = []
         for participation in self.get_queryset():
             subject = participation.subject
             buckets = []
             if desc1:
-                buckets.append((desc1, buckets1[subject.get_statistics_bucket('primary')]))
+                value1 = subject.attributes.get(desc1.json_key)
+                key1 = desc1.field.get_statistics_bucket(value1)
+                buckets.append((desc1, buckets1[key1]))
             if desc2:
-                buckets.append((desc2, buckets2[subject.get_statistics_bucket('secondary')]))
+                value2 = subject.attributes.get(desc2.json_key)
+                key2 = desc2.field.get_statistics_bucket(value2)
+                buckets.append((desc2, buckets2[key2]))
 
             can_access = self.request.user.has_privacy_level(
                 participation.subject.privacy_level

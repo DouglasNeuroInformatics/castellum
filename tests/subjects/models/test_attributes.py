@@ -1,5 +1,3 @@
-from unittest.mock import patch
-
 import pytest
 from model_bakery import baker
 from parler.utils.context import switch_language
@@ -7,28 +5,8 @@ from parler.utils.context import switch_language
 from castellum.recruitment.models import AttributeCategory
 from castellum.recruitment.models import AttributeChoice
 from castellum.recruitment.models import AttributeDescription
-from castellum.recruitment.models import attributes
 from castellum.recruitment.models.attributes import UNCATEGORIZED
 from castellum.subjects.models import Subject
-
-
-@pytest.mark.django_db
-@pytest.mark.freeze_time('2018-01-10')
-@patch.object(attributes, 'get_description_by_statistics_rank')
-@pytest.mark.parametrize('date,bucket', (
-    ('1985-01-01', '31-35'),
-    ('1982-01-11', '31-35'),
-    ('1982-01-10', '36-40'),
-    ('1900-01-01', '>70'),
-))
-def test_attributes_get_statistics_bucket_age(get_description_by_statistics_rank, date, bucket):
-    subject = baker.prepare(Subject)
-    subject.attributes['d1'] = date
-
-    description = baker.prepare(AttributeDescription, field_type='AgeField', pk=1)
-    get_description_by_statistics_rank.return_value = description
-
-    assert subject.get_statistics_bucket('__mock__') == bucket
 
 
 @pytest.mark.django_db

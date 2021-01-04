@@ -269,16 +269,6 @@ class Subject(TimeStampedModel):
         qs = AttributeDescription.objects.all()
         return {desc.json_key: self.attributes.get(desc.json_key) for desc in qs}
 
-    def get_statistics_bucket(self, rank):
-        from castellum.recruitment.models.attributes import get_description_by_statistics_rank
-
-        description = get_description_by_statistics_rank(rank)
-        if not description:
-            return None
-        value = self.attributes.get(description.json_key)
-
-        return description.field.get_statistics_bucket(value)
-
     def get_completeness(self):
         from castellum.recruitment.models import AttributeDescription
 
