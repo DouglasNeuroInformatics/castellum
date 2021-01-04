@@ -64,7 +64,7 @@ class StudyForm(ReadonlyModelForm):
 
 
 class StudyFilterForm(forms.Form):
-    q = forms.CharField(label=_('Search'), help_text=_('Search for title or contact person'))
+    q = forms.CharField(label=_('Search'))
     display = forms.ChoiceField(choices=[
         ('list', _('List')),
         ('calendar', _('Calendar')),
