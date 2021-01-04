@@ -123,6 +123,9 @@ LOGIN_URL = '/login/'
 
 LOGOUT_TIMEOUT_DEFAULT = datetime.timedelta(seconds=15 * 60)
 
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'Strict'
+SESSION_COOKIE_HTTPONLY = True
 
 # Internationalization
 
