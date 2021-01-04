@@ -36,10 +36,22 @@ from stronghold.decorators import public
 
 from castellum.castellum_auth.forms import AuthenticationForm
 from castellum.castellum_auth.views import set_language
+from castellum.studies.models import Resource
+from castellum.studies.models import Study
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'index.html'
+
+
+class FeedsView(LoginRequiredMixin, TemplateView):
+    template_name = 'feeds.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['resources'] = Resource.objects.all()
+        context['studies'] = self.request.user.study_set.filter(status=Study.EXECUTION)
+        return context
 
 
 def dummy(request):
@@ -55,6 +67,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('favicon.ico', public(RedirectView.as_view(url='/static/images/favicon.ico'))),
     path('ping/', dummy, name='ping'),
+    path('feeds/', FeedsView.as_view(), name='feeds'),
 
     path('i18n/', set_language, name='set_language'),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),

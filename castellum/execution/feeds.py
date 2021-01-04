@@ -27,7 +27,20 @@ from castellum.appointments.mixins import BaseAppointmentFeed
 from castellum.studies.models import Study
 
 
-class AppointmentFeed(BaseAppointmentFeed):
+class BaseExecutionAppointmentFeed(BaseAppointmentFeed):
+    def item_title(self, item):
+        return '{} - {}'.format(item.participation.subject.contact.full_name, item.session.name)
+
+    def item_link(self, item):
+        return reverse('execution:participation-detail', args=[
+            item.session.study.pk, item.participation.pk
+        ])
+
+    def item_description(self, item):
+        return self.request.build_absolute_uri(self.item_link(item))
+
+
+class AppointmentFeedForStudy(BaseExecutionAppointmentFeed):
     def get_object(self, request, *args, **kwargs):
         study = get_object_or_404(Study, pk=kwargs['pk'], status=Study.EXECUTION)
         perms = ['recruitment.conduct_study', 'studies.access_study']
@@ -40,13 +53,17 @@ class AppointmentFeed(BaseAppointmentFeed):
             .filter(session__study=study)\
             .select_related('participation__subject', 'session__study')
 
-    def item_title(self, item):
-        return '{} - {}'.format(item.participation.subject.contact.full_name, item.session.name)
 
-    def item_link(self, item):
-        return reverse('execution:participation-detail', args=[
-            item.session.study.pk, item.participation.pk
-        ])
+class AppointmentFeedForUser(BaseExecutionAppointmentFeed):
+    def get_object(self, request, *args, **kwargs):
+        return self.request.user
 
-    def item_description(self, item):
-        return self.request.build_absolute_uri(self.item_link(item))
+    def items(self, user):
+        items = super().items(user)\
+            .filter(session__study__status=Study.EXECUTION)\
+            .select_related('participation__subject', 'session__study')
+
+        perms = ['recruitment.conduct_study', 'studies.access_study']
+        for item in items:
+            if user.has_perms(perms, obj=item.session.study):
+                yield item

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n auth %}
+
+{% block title %}{% translate 'Feeds' %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h1>{% translate 'Feeds' %}</h1>
+    <p>{% translate 'This page lists all available calendar feeds. You can subscribe to these feeds with the calendar program of your choice.' %}</p>
+    <p>{% translate 'Note that these feeds contain sensitive information. Each link includes a special token that is used for checking permissions. Therefore you must not share these links with anyone.' %}</p>
+
+    <h2>{% translate 'Per User' %}</h2>
+    <ul>
+        <li><a href="{% url 'recruitment:followups-user-feed' %}?token={{ user.token }}">{% translate 'all follow-ups' %}</a></li>
+        <li><a href="{% url 'execution:calendar-user-feed' %}?token={{ user.token }}">{% translate 'all appointments' %}</a></li>
+    </ul>
+
+    <h2>{% translate 'Per Study' %}</h2>
+    <ul>
+        {% for study in studies %}
+            {% has_perm 'recruitment.recruit' user study as can_recruit %}
+            {% has_perm 'recruitment.conduct_study' user study as can_conduct %}
+            {% has_perm 'appointments.change_appointment' user study as can_change_appointment %}
+            <li>
+                {{ study }}
+                <ul>
+                    {% if can_recruit %}
+                        <li><a href="{% url 'recruitment:followups-feed' study.pk %}?token={{ user.token }}">{% translate 'follow-ups' %}</a></li>
+                    {% endif %}
+                    {% if can_conduct %}
+                        <li><a href="{% url 'execution:calendar-feed' study.pk %}?token={{ user.token }}">{% translate 'appointments' %}</a></li>
+                    {% endif %}
+                    {% if can_change_appointment %}
+                        <li><a href="{% url 'recruitment:calendar-feed' study.pk %}?token={{ user.token }}">{% translate 'appointments' %} {% translate '(occupied slots only)' %}</a></li>
+                    {% endif %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>{% translate 'Per Resource' %}</h2>
+    <ul>
+        {% for resource in resources %}
+            <li><a href="{% url 'recruitment:resource-feed' resource.pk %}?token={{ user.token }}">{{ resource }} {% translate '(occupied slots only)' %}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

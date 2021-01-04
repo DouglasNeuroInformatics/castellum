@@ -26,7 +26,6 @@ from collections import defaultdict
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.http import Http404
@@ -54,7 +53,6 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.pseudonyms.helpers import get_subject
 from castellum.studies.mixins import StudyMixin
-from castellum.studies.models import Resource
 from castellum.studies.models import Study
 from castellum.studies.models import StudySession
 from castellum.studies.models import StudyTypeEventFeed
@@ -405,7 +403,6 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     permission_required = 'appointments.change_appointment'
     study_status = [Study.EXECUTION]
     nochrome = True
-    feed = 'recruitment:calendar-feed'
 
     def get_appointments(self):
         return super().get_appointments().filter(session__study=self.object)
@@ -429,11 +426,6 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
 
     def get_events(self):
         return super().get_events() + list(self.get_external_events())
-
-
-class ResourceListView(LoginRequiredMixin, ListView):
-    model = Resource
-    template_name = 'recruitment/resource_list.html'
 
 
 @method_decorator(public, 'dispatch')

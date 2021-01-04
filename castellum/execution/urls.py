@@ -21,7 +21,8 @@
 
 from django.urls import path
 
-from .feeds import AppointmentFeed
+from .feeds import AppointmentFeedForStudy
+from .feeds import AppointmentFeedForUser
 from .views import AdditionalInfoUpdateView
 from .views import AttributesUpdateView
 from .views import CalendarView
@@ -41,11 +42,12 @@ from .views import StudyDetailView
 app_name = 'execution'
 urlpatterns = [
     path('reception/', ReceptionView.as_view(), name='reception'),
+    path('calendar/feed/', AppointmentFeedForUser(), name='calendar-user-feed'),
     path('<int:study_pk>/', StudyDetailView.as_view(), name='study-detail'),
     path('<int:study_pk>/resolve/', ResolveView.as_view(), name='resolve'),
     path('<int:study_pk>/news/', NewsMailView.as_view(), name='news-mail'),
     path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),
-    path('<int:pk>/calendar/feed/', AppointmentFeed(), name='calendar-feed'),
+    path('<int:pk>/calendar/feed/', AppointmentFeedForStudy(), name='calendar-feed'),
     path(
         '<int:study_pk>/<int:pk>/',
         ParticipationDetailView.as_view(),
