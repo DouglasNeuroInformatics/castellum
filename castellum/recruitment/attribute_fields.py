@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+import math
 from typing import List
 from typing import Optional
 from typing import Tuple
@@ -269,19 +270,20 @@ class AgeAttributeField(DateAttributeField):
         return super().get_filter_display(operator, value)
 
     def get_statistics_grouping(self):
+        scale = 'years'
         buckets = [
-            ('<18', '<18'),
-            ('18-25', '18-25'),
-            ('26-30', '26-30'),
-            ('31-35', '31-35'),
-            ('36-40', '36-40'),
-            ('41-45', '41-45'),
-            ('46-50', '46-50'),
-            ('51-55', '51-55'),
-            ('56-60', '56-60'),
-            ('61-65', '61-65'),
-            ('66-70', '66-70'),
-            ('>70', '>70'),
+            (18, '<18'),
+            (25, '18-25'),
+            (30, '26-30'),
+            (35, '31-35'),
+            (40, '36-40'),
+            (45, '41-45'),
+            (50, '46-50'),
+            (55, '51-55'),
+            (60, '56-60'),
+            (65, '61-65'),
+            (70, '66-70'),
+            (math.inf, '>70'),
             (None, _('Other'))
         ]
 
@@ -290,13 +292,8 @@ class AgeAttributeField(DateAttributeField):
                 return None
             value = self.parse_date(value)
             today = datetime.date.today()
-            if today < value + relativedelta(years=18):
-                return '<18'
-            if today < value + relativedelta(years=25):
-                return '18-25'
-            for y in range(26, 70, 5):
-                if today < value + relativedelta(years=y + 5):
-                    return '{}-{}'.format(y, y + 4)
-            return '>70'
+            for period, label in buckets:
+                if period is math.inf or today - relativedelta(**{scale: period}) <= value:
+                    return period
 
         return buckets, get_bucket
