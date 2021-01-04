@@ -30,7 +30,7 @@
                         <li><a href="{% url 'execution:calendar-feed' study.pk %}?token={{ user.token }}">{% translate 'appointments' %}</a></li>
                     {% endif %}
                     {% if can_change_appointment %}
-                        <li><a href="{% url 'recruitment:calendar-feed' study.pk %}?token={{ user.token }}">{% translate 'appointments (occupied slots only)' %}</a></li>
+                        <li><a href="{% url 'recruitment:calendar-feed' study.pk %}?token={{ user.token }}">{% translate 'appointments' %} {% translate '(occupied slots only)' %}</a></li>
                     {% endif %}
                 </ul>
             </li>
@@ -40,7 +40,7 @@
     <h2>{% translate 'Per Resource' %}</h2>
     <ul>
         {% for resource in resources %}
-            <li><a href="{% url 'recruitment:resource-feed' resource.pk %}?token={{ user.token }}">{{ resource }}</a></li>
+            <li><a href="{% url 'recruitment:resource-feed' resource.pk %}?token={{ user.token }}">{{ resource }} {% translate '(occupied slots only)' %}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}
