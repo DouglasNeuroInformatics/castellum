@@ -28,10 +28,10 @@ from .views import AttributesUpdateView
 from .views import CalendarView
 from .views import ContactUpdateView
 from .views import DataProtectionUpdateView
+from .views import ExclusionCriteriaView
 from .views import NewsMailView
 from .views import ParticipationAppointmentsUpdateView
 from .views import ParticipationAppointmentsView
-from .views import ParticipationCriteriaView
 from .views import ParticipationDetailView
 from .views import ParticipationNewsView
 from .views import ReceptionView
@@ -48,6 +48,7 @@ urlpatterns = [
     path('<int:study_pk>/news/', NewsMailView.as_view(), name='news-mail'),
     path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),
     path('<int:pk>/calendar/feed/', AppointmentFeedForStudy(), name='calendar-feed'),
+    path('<int:pk>/criteria/', ExclusionCriteriaView.as_view(), name='criteria'),
     path(
         '<int:study_pk>/<int:pk>/',
         ParticipationDetailView.as_view(),
@@ -57,11 +58,6 @@ urlpatterns = [
         '<int:study_pk>/<int:pk>/news/',
         ParticipationNewsView.as_view(),
         name='participation-news',
-    ),
-    path(
-        '<int:study_pk>/<int:pk>/criteria/',
-        ParticipationCriteriaView.as_view(),
-        name='participation-criteria',
     ),
     path(
         '<int:study_pk>/<int:pk>/appointments/',

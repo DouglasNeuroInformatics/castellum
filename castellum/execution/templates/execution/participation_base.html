@@ -16,11 +16,6 @@
             <li class="nav-item">
                 <a href="{% url 'execution:participation-news' study.pk participation.pk %}" class="nav-link {% if view.tab == 'news' %}active{% endif %}">{% translate 'News' %}</a>
             </li>
-            {% if study.has_exclusion_criteria %}
-                <li class="nav-item">
-                    <a href="{% url 'execution:participation-criteria' study.pk participation.pk %}" class="nav-link {% if view.tab == 'criteria' %}active{% endif %}">{% translate 'Criteria' %}</a>
-                </li>
-            {% endif %}
             {% if study.studysession_set.exists %}
                 <li class="nav-item">
                     <a href="{% url 'execution:participation-appointments' study.pk participation.pk %}" class="nav-link {% if view.tab == 'appointments' %}active{% endif %}">{% translate 'Appointments' %}</a>

@@ -156,11 +156,6 @@ class ParticipationNewsView(ParticipationDetailMixin, UpdateView):
         return super().form_valid(form)
 
 
-class ParticipationCriteriaView(ParticipationDetailMixin, DetailView):
-    template_name = 'execution/participation_criteria.html'
-    tab = 'criteria'
-
-
 class ParticipationAppointmentsView(ParticipationDetailMixin, DetailView):
     template_name = 'execution/participation_appointments.html'
     tab = 'appointments'
@@ -360,6 +355,14 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
         ) % len(succeeded))
 
         return redirect('execution:news-mail', self.study.pk)
+
+
+class ExclusionCriteriaView(StudyMixin, PermissionRequiredMixin, DetailView):
+    model = Study
+    template_name = 'execution/participation_criteria.html'
+    permission_required = 'recruitment.conduct_study'
+    study_status = [Study.EXECUTION]
+    tab = 'criteria'
 
 
 class ExecutionUpdateMixin(ParticipationMixin):
