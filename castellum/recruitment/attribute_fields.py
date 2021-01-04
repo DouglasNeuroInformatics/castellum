@@ -102,7 +102,7 @@ class BaseAttributeField:
         operator = dict(self.available_operators)[operator]
         return '{} {} {}'.format(self.description.filter_label, operator, value)
 
-    def get_statistics_grouping(self):
+    def get_statistics_grouping(self, study):
         raise NotImplementedError
 
 
@@ -143,7 +143,7 @@ class BooleanAttributeField(BaseAttributeField):
         ("exact", _("is")),
     ]
 
-    def get_statistics_grouping(self):
+    def get_statistics_grouping(self, study):
         buckets = [
             (True, _('Yes')),
             (False, _('No')),
@@ -189,7 +189,7 @@ class ChoiceAttributeField(BaseAttributeField):
         value = self.get_display(value)
         return super().get_filter_display(operator, value)
 
-    def get_statistics_grouping(self):
+    def get_statistics_grouping(self, study):
         buckets = [
             (choice.pk, choice.label) for choice in self.description.attributechoice_set.all()
         ] + [
@@ -269,23 +269,51 @@ class AgeAttributeField(DateAttributeField):
         value = '{} {}'.format(period, self.SCALES[scale])
         return super().get_filter_display(operator, value)
 
-    def get_statistics_grouping(self):
-        scale = 'years'
-        buckets = [
-            (18, '<18'),
-            (25, '18-25'),
-            (30, '26-30'),
-            (35, '31-35'),
-            (40, '36-40'),
-            (45, '41-45'),
-            (50, '46-50'),
-            (55, '51-55'),
-            (60, '56-60'),
-            (65, '61-65'),
-            (70, '66-70'),
-            (math.inf, '>70'),
-            (None, _('Other'))
-        ]
+    def _get_min_date(self, study):
+        today = datetime.date.today()
+
+        total = []
+        for group in study.subjectfiltergroup_set.all():
+            filters = list(group.subjectfilter_set.filter(
+                operator='gt', description=self.description
+            ))
+            if filters:
+                dates = [today - relativedelta(**{f.value[1]: f.value[0]}) for f in filters]
+                total.append(max(dates))
+            else:
+                return None
+
+        if total:
+            return min(total)
+        else:
+            return None
+
+    def get_statistics_grouping(self, study):
+        today = datetime.date.today()
+        min_date = self._get_min_date(study)
+
+        if min_date and min_date >= today - relativedelta(years=2):
+            scale = 'months'
+            buckets = [(i, str(i)) for i in range(1, 25)]
+        elif min_date and min_date >= today - relativedelta(years=18):
+            scale = 'years'
+            buckets = [(i, str(i)) for i in range(1, 19)]
+        else:
+            scale = 'years'
+            buckets = [
+                (18, '<18'),
+                (25, '18-25'),
+                (30, '26-30'),
+                (35, '31-35'),
+                (40, '36-40'),
+                (45, '41-45'),
+                (50, '46-50'),
+                (55, '51-55'),
+                (60, '56-60'),
+                (65, '61-65'),
+                (70, '66-70'),
+                (math.inf, '>70'),
+            ]
 
         def get_bucket(value):
             if not value or value == ANSWER_DECLINED:
@@ -296,4 +324,4 @@ class AgeAttributeField(DateAttributeField):
                 if period is math.inf or today - relativedelta(**{scale: period}) <= value:
                     return period
 
-        return buckets, get_bucket
+        return buckets + [(None, _('Other'))], get_bucket

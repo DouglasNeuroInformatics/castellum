@@ -119,13 +119,13 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         desc1 = get_description_by_statistics_rank('primary')
         if desc1:
-            buckets1, get_bucket1 = desc1.field.get_statistics_grouping()
+            buckets1, get_bucket1 = desc1.field.get_statistics_grouping(self.study)
         else:
             return None
 
         desc2 = get_description_by_statistics_rank('secondary')
         if desc2:
-            buckets2, get_bucket2 = desc2.field.get_statistics_grouping()
+            buckets2, get_bucket2 = desc2.field.get_statistics_grouping(self.study)
         else:
             buckets2, get_bucket2 = [(None, None)], lambda x: None
 
@@ -169,10 +169,10 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         desc1 = get_description_by_statistics_rank('primary')
         desc2 = get_description_by_statistics_rank('secondary')
         if desc1:
-            buckets1, get_bucket1 = desc1.field.get_statistics_grouping()
+            buckets1, get_bucket1 = desc1.field.get_statistics_grouping(self.study)
             buckets1 = dict(buckets1)
         if desc2:
-            buckets2, get_bucket2 = desc2.field.get_statistics_grouping()
+            buckets2, get_bucket2 = desc2.field.get_statistics_grouping(self.study)
             buckets2 = dict(buckets2)
 
         participations = []
