@@ -3,6 +3,11 @@
 from django.db import migrations
 
 
+def delete_content_type(apps, schema_editor):
+    ContentType = apps.get_model('contenttypes', 'ContentType')
+    ContentType.objects.filter(app_label='recruitment', model='appointment').delete()
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -23,4 +28,5 @@ class Migration(migrations.Migration):
                 ),
             ],
         ),
+        migrations.RunPython(delete_content_type),
     ]
