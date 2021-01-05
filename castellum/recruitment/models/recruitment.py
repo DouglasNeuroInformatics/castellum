@@ -168,13 +168,6 @@ class Participation(models.Model):
             raise ValidationError(_('No follow-up set'), code='invalid')
         if self.status != self.FOLLOWUP_APPOINTED and (self.followup_date or self.followup_time):
             raise ValidationError(_('Follow-up cannot be set with this status'), code='invalid')
-        if (
-            self.status == self.INVITED
-            and self.study.has_exclusion_criteria
-            and not self.exclusion_criteria_checked
-        ):
-            msg = _('Inclusion/exclusion criteria have not been checked')
-            raise ValidationError(msg, code='invalid')
 
     def save(self, *args, **kwargs):
         if self.status in [self.NOT_REACHED, self.AWAITING_RESPONSE]:
