@@ -543,7 +543,7 @@ class MaintenanceContactView(BaseMaintenanceView):
 
 
 class MaintenanceDuplicatesView(BaseMaintenanceView):
-    model = Contact
+    model = Subject
     template_name = 'subjects/maintenance_duplicates.html'
     tab = 'duplicates'
 
@@ -555,7 +555,7 @@ class MaintenanceDuplicatesView(BaseMaintenanceView):
             .order_by()
         )
 
-        return (
+        names = (
             Contact.objects
             .values('first_name', 'last_name')
             .exclude(subject_id__in=to_be_deleted)
@@ -567,7 +567,16 @@ class MaintenanceDuplicatesView(BaseMaintenanceView):
                 count__gt=1,
                 date_of_birth_count__lt=models.F('count'),
             )
-            .order_by('last_name', 'first_name')
+            .order_by()
+        )
+
+        q = models.Q()
+        for name in names:
+            q |= models.Q(first_name=name['first_name'], last_name=name['last_name'])
+
+        return Subject.objects.filter(
+            filter_queries.pk_filter(Contact.objects.filter(q)),
+            to_be_deleted__isnull=True,
         )
 
 

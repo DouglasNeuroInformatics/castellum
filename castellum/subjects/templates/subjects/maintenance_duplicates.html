@@ -7,16 +7,25 @@
     <p>{% translate 'The following names exist more than once:' %}</p>
 
     <ul class="table-list">
-        {% for contact in object_list %}
+        {% for subject in object_list %}
+            {% has_privacy_level subject.privacy_level user as can_access %}
             <li class="table-list-item">
                 <div>
-                    {{ contact.first_name }} {{ contact.last_name }}
+                    <div>
+                        {% if can_access %}
+                            {{ subject.contact.full_name }}
+                        {% else %}
+                            {% translate 'access denied' %}
+                        {% endif %}
+                    </div>
                 </div>
-                <form class="table-list-item-actions" method="post" action="{% url 'subjects:index' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="search" value="{{ contact.first_name }} {{ contact.last_name }}">
-                    <button class="btn btn-outline-primary btn-sm-inline my-1">{% translate 'Search' %}</button>
-                </form>
+                <div class="table-list-item-actions">
+                    {% if can_access %}
+                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:detail' subject.slug %}" target="_blank">{% translate 'Details' %}</a>
+                    {% else %}
+                        <button class="btn btn-outline-primary btn-sm-inline my-1" disabled>{% translate 'Details' %}</button>
+                    {% endif %}
+                </div>
             </li>
         {% empty %}
             <li class="alert alert-success" role="alert">{% translate 'Nothing to do' %}</li>
