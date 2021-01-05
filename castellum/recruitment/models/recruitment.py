@@ -94,7 +94,6 @@ class Participation(models.Model):
     status = models.IntegerField(
         _('Status of participation'), choices=STATUS_OPTIONS, default=NOT_CONTACTED
     )
-    exclusion_criteria_checked = models.BooleanField(_('Subject may be suitable'), default=False)
 
     attempts = models.IntegerField(_('Attempts'), default=0)
 

@@ -175,9 +175,13 @@ class AttributesForm(forms.ModelForm):
 
 
 class ContactForm(forms.ModelForm):
+    exclusion_criteria_checked = forms.BooleanField(
+        label=_('Subject may be suitable'), required=False
+    )
+
     class Meta:
         model = Participation
-        fields = ['status', 'followup_date', 'followup_time', 'exclusion_criteria_checked']
+        fields = ['status', 'followup_date', 'followup_time']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -195,6 +199,10 @@ class ContactForm(forms.ModelForm):
             ]
         elif self.instance.match == 'incomplete':
             self.fields['status'].widget.disabled_choices = [Participation.INVITED]
+
+        self.fields['exclusion_criteria_checked'].initial = (
+            self.instance.status == Participation.INVITED
+        )
 
 
 class ContactAndAppointmentsForm(ContactForm, AppointmentsForm):
