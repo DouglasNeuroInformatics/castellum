@@ -557,22 +557,19 @@ class MaintenanceDuplicatesView(BaseMaintenanceView):
 
         names = (
             Contact.objects
-            .values('first_name', 'last_name')
+            .values('first_name_phonetic', 'last_name_phonetic')
             .exclude(subject_id__in=to_be_deleted)
-            .annotate(
-                count=models.Count('id'),
-                date_of_birth_count=models.Count('date_of_birth', distinct=True),
-            )
-            .filter(
-                count__gt=1,
-                date_of_birth_count__lt=models.F('count'),
-            )
+            .annotate(count=models.Count('id'))
+            .filter(count__gt=1)
             .order_by()
         )
 
         q = models.Q()
         for name in names:
-            q |= models.Q(first_name=name['first_name'], last_name=name['last_name'])
+            q |= models.Q(
+                first_name_phonetic=name['first_name_phonetic'],
+                last_name_phonetic=name['last_name_phonetic'],
+            )
 
         return Subject.objects.filter(
             filter_queries.pk_filter(Contact.objects.filter(q)),
