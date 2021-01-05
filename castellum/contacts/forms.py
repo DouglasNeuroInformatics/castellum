@@ -27,6 +27,8 @@ from django.forms import ValidationError
 from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy as _
 
+from phonenumber_field.phonenumber import PhoneNumber
+
 from castellum.subjects.models import Subject
 from castellum.utils.forms import DatalistWidget
 
@@ -203,7 +205,7 @@ class SearchForm(forms.Form):
             if '@' in part:
                 emails.append(part)
             elif is_phone_number(part):
-                phone_numbers.append(is_phone_number(part))
+                phone_numbers.append(PhoneNumber.from_string(part))
             else:
                 names.append(part)
 
