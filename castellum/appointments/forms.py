@@ -48,6 +48,7 @@ class AppointmentsForm(forms.ModelForm):
             key = 'appointment-%i' % session.pk
             self.fields[key] = DateTimeField(
                 label=self.format_session_name(session),
+                help_text=session.reminder_text,
                 initial=appointment.start if appointment else None,
                 disabled=bool(session.schedule_id),
                 required=False,
