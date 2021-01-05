@@ -68,6 +68,18 @@
                                                             {{ contact.email }}
                                                         {% endif %}
                                                     </div>
+                                                {% elif contact.phone_number %}
+                                                    <div class="d-inline-block my-1 mr-2">
+                                                        {% if contact.phone_number == form.cleaned_data.phone_number %}
+                                                            <mark>{{ contact.phone_number }}</mark>
+                                                        {% else %}
+                                                            {{ contact.phone_number }}
+                                                        {% endif %}
+                                                    </div>
+                                                {% elif contact.address %}
+                                                    <div class="d-inline-block my-1 mr-2">
+                                                        {{ contact.address.short }}
+                                                    </div>
                                                 {% endif %}
                                             </div>
                                         {% endif %}

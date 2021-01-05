@@ -252,6 +252,9 @@ class Address(models.Model):
         line2 = '{} {}'.format(self.zip_code, self.city)
         return line1, line2
 
+    def short(self):
+        return '{} {}, {}'.format(self.street, self.house_number, self.city)
+
     def __str__(self):
         return '{}, {}'.format(*self.lines())
 
