@@ -115,6 +115,8 @@ class Subject(TimeStampedModel):
 
     deceased = models.BooleanField(_('Subject is deceased'), default=False)
 
+    checked_for_duplicates = models.BooleanField(_('Checked for duplicates'), default=False)
+
     source = models.CharField(_('Data source'), max_length=128, blank=True)
 
     note_hard_of_hearing = models.BooleanField(_('Hard of hearing'), default=False)

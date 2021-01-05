@@ -48,6 +48,7 @@ EXCLUDED = [
     'subjects.Subject.id',
     'subjects.SubjectNote.id',
     'subjects.Subject.to_be_deleted_notified',
+    'subjects.Subject.checked_for_duplicates',
     'subjects.Subject.note_difficult_to_understand',
     'subjects.Subject.note_hard_of_hearing',
     'subjects.Subject.note_abusive_language',

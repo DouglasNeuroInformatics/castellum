@@ -184,6 +184,7 @@ class AdditionalInfoForm(forms.ModelForm):
             'not_available_until',
             'source',
             'additional_suitability_document',
+            'checked_for_duplicates',
         ]
         widgets = {
             'additional_suitability_document': forms.CheckboxSelectMultiple(),
