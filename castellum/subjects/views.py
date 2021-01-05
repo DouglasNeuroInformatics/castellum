@@ -573,6 +573,7 @@ class MaintenanceDuplicatesView(BaseMaintenanceView):
 
         return Subject.objects.filter(
             filter_queries.pk_filter(Contact.objects.filter(q)),
+            checked_for_duplicates=False,
             to_be_deleted__isnull=True,
         )
 
