@@ -23,6 +23,7 @@ from django.conf import settings
 from django.core.mail import EmailMessage
 from django.core.mail import get_connection
 from django.utils import translation
+from django.utils.translation import gettext_lazy as _
 
 
 def render_body_with_fallback(get_mail_data, text, fallback=None, lang=None):
@@ -68,17 +69,22 @@ class MailContext:
         self.connection.close()
         self.connection = None
 
-    def prepare_body(self, body):
+    def prepare_body(self, body, recipients_string=''):
         if not isinstance(body, str):
             body = render_body_with_fallback(*body, lang=self.data['language'])
+
+        if recipients_string:
+            with translation.override(self.data['language']):
+                body = '%s: %s\n\n\n%s' % (_('Recipients'), recipients_string, body)
+
         body += self.data['signature']
         return body
 
-    def send_mail(self, subject, body, recipients, **kwargs):
+    def send_mail(self, subject, body, recipients, recipients_string='', **kwargs):
         assert self.connection
         msg = EmailMessage(
             subject=self.data['subject_prefix'] + subject,
-            body=self.prepare_body(body),
+            body=self.prepare_body(body, recipients_string),
             from_email=self.data['from_email'],
             to=recipients,
             connection=self.connection,

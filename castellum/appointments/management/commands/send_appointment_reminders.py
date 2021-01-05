@@ -45,6 +45,7 @@ def send_mail_to_subject(ctx, study, appointment):
             get_reminder_body(contact.full_name, appointment.session, appointment.start),
             [email],
             reply_to=[study.email],
+            recipients_string=contact.email_recipients_string,
         )
     return count
 
