@@ -225,6 +225,11 @@ class Contact(TimeStampedModel):
         else:
             return self.guardians.exclude(email='').values_list('email', flat=True)
 
+    @cached_property
+    def email_recipients_string(self):
+        if len(self.own_or_guardian_emails) > 1:
+            return ', '.join(g.full_name for g in self.guardians.exclude(email=''))
+
     def save(self, *args, **kwargs):
         if not self.subject_id:
             subject = Subject.objects.create(attributes={})

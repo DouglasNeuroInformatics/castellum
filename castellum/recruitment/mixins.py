@@ -188,6 +188,7 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                         self.personalize_mail_body(self.study.mail_body, pick.contact),
                         [email],
                         reply_to=[self.study.email],
+                        recipients_string=pick.contact.email_recipients_string,
                     )
                 if success:
                     Participation.objects.create(

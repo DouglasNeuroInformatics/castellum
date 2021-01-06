@@ -321,6 +321,7 @@ CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 #     'from_email': 'Castellum <castellum@example.com>',
 #     'language': 'en',
 #     'subject_prefix': '[Castellum] ',
+#     'recipients_text': '\n\nThis email was sent to: {}',
 #     'signature': '\n\n-- \nAutomatically sent by castellum',
 #     'connection': {
 #         # The full list of options is available at
@@ -332,6 +333,7 @@ CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 CASTELLUM_MAIL = {
     'recruitment': {
         'language': 'de',
+        'recipients_text': '\n\nDiese E-Mail wurde gesendet an: {}',
     },
     'internal': {
         'subject_prefix': '[Castellum] ',

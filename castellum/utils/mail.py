@@ -47,6 +47,7 @@ class MailContext:
             'from_email': settings.DEFAULT_FROM_EMAIL,
             'language': settings.LANGUAGE_CODE,
             'subject_prefix': '',
+            'recipients_text': '',
             'signature': '',
             'connection': {}
         }
@@ -68,17 +69,21 @@ class MailContext:
         self.connection.close()
         self.connection = None
 
-    def prepare_body(self, body):
+    def prepare_body(self, body, recipients_string=''):
         if not isinstance(body, str):
             body = render_body_with_fallback(*body, lang=self.data['language'])
+
+        if recipients_string:
+            body += self.data['recipients_text'].format(recipients_string)
+
         body += self.data['signature']
         return body
 
-    def send_mail(self, subject, body, recipients, **kwargs):
+    def send_mail(self, subject, body, recipients, recipients_string='', **kwargs):
         assert self.connection
         msg = EmailMessage(
             subject=self.data['subject_prefix'] + subject,
-            body=self.prepare_body(body),
+            body=self.prepare_body(body, recipients_string),
             from_email=self.data['from_email'],
             to=recipients,
             connection=self.connection,
