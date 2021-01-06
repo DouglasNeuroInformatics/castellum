@@ -169,8 +169,8 @@ class Contact(TimeStampedModel):
 
     class Meta:
         ordering = ['last_name', 'first_name']
-        verbose_name = _('Contact')
-        verbose_name_plural = _('Contacts')
+        verbose_name = _('Contact data')
+        verbose_name_plural = _('Contact data')
 
     def __str__(self):
         return self.full_name

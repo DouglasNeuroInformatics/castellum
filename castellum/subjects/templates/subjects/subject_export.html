@@ -46,7 +46,7 @@
             <dt class="col-sm-6" data-fieldname="contacts.Contact.gender">{{ subject.contact|verbose_name:'gender' }}</dt>
             <dd class="col-sm-6">{{ subject.contact|display:'gender' }}</dd>
 
-            <dt class="col-sm-6" data-fieldname="contacts.Contact.address">{% translate 'Address' %}</dt>
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.address">{{ subject.contact|verbose_name:'address' }}</dt>
             <dd class="col-sm-6">{% if subject.contact.address %}{{ subject.contact|display:'address' }}{% endif %}</dd>
 
             <dt class="col-sm-6" data-fieldname="contacts.Contact.email">{{ subject.contact|verbose_name:'email' }}</dt>
@@ -91,7 +91,7 @@
             <dt class="col-sm-6" data-fieldname="subjects.Subject.export_requested">{% translate 'Data export requested on' %}</dt>
             <dd class="col-sm-6">{{ subject|display:'export_requested' }}</dd>
 
-            <dt class="col-sm-6" data-fieldname="subjects.Subject.exportanswer">{% translate 'Export answers' %}</dt>
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.exportanswer">{{ subject|verbose_name:'exportanswer' }}</dt>
             <dd class="col-sm-6">{{ subject|display:'exportanswer_set' }}</dd>
 
             <dt class="col-sm-6" data-fieldname="subjects.Subject.created_at">{% translate 'Procedural data created at' %}</dt>
@@ -135,9 +135,9 @@
         </dl>
 
         {% if subject.consent %}
-            <h1>{% translate 'Consent' %}</h1>
+            <h1>{{ subject|verbose_name:'consent' }}</h1>
             <dl class="row">
-                <dt class="col-sm-6" data-fieldname="subjects.Consent.document">{% translate 'Document' %}</dt>
+                <dt class="col-sm-6" data-fieldname="subjects.Consent.document">{{ subject.consent|verbose_name:'document' }}</dt>
                 <dd class="col-sm-6">{{ subject.consent|display:'document' }}</dd>
 
                 <dt class="col-sm-6" data-fieldname="subjects.Consent.updated_at">{{ subject.consent|verbose_name:'updated_at' }}</dt>
@@ -148,7 +148,7 @@
             </dl>
         {% endif %}
 
-        <h1>{% translate 'Attributes' %}</h1>
+        <h1>{{ subject|verbose_name:'attributes' }}</h1>
         <dl class="row" data-fieldname="subjects.Subject.attributes">
             {% for label, value in attributes %}
                 <dt class="col-sm-6">{{ label }}</dt>
@@ -157,10 +157,10 @@
         </dl>
 
         {% if subject.participation_set.exists %}
-            <h1>{% translate 'Study Participations' %}</h1>
+            <h1>{{ subject|verbose_name:'participation' }}</h1>
             {% for participation in subject.participation_set.all %}
                 <dl class="row">
-                    <dt class="col-sm-6" data-fieldname="recruitment.Participation.study">{% translate 'Study' %}</dt>
+                    <dt class="col-sm-6" data-fieldname="recruitment.Participation.study">{{ participation|verbose_name:'study' }}</dt>
                     <dd class="col-sm-6">{{ participation|display:'study' }}</dd>
 
                     <dt class="col-sm-6" data-fieldname="recruitment.Participation.status">{{ participation|verbose_name:'status' }}</dt>
