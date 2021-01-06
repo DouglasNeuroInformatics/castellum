@@ -78,7 +78,7 @@ class SubjectQuerySet(models.QuerySet):
 class Subject(TimeStampedModel):
     slug = models.CharField(_('Slug'), max_length=64, default=uuid_str, unique=True)
 
-    attributes = models.JSONField(encoder=DjangoJSONEncoder)
+    attributes = models.JSONField(_('Attributes'), encoder=DjangoJSONEncoder)
     onetime_invitation_disinterest = models.BooleanField(
         _('Does not want to participate in one time invitations'),
         default=False,
@@ -308,7 +308,9 @@ class Consent(models.Model):
 
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
-    document = models.ForeignKey(ConsentDocument, on_delete=models.CASCADE)
+    document = models.ForeignKey(
+        ConsentDocument, verbose_name=_('Document'), on_delete=models.CASCADE
+    )
     status = models.CharField(_('Status'), max_length=64, choices=[
         (WAITING, _('Waiting for confirmation')),
         (CONFIRMED, _('Confirmed')),
@@ -326,6 +328,7 @@ class ExportAnswer(models.Model):
 
     class Meta:
         verbose_name = _('Export answer')
+        verbose_name_plural = _('Export answers')
 
     def __str__(self):
         return str(self.created_at)
