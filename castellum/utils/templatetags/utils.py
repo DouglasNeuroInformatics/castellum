@@ -39,7 +39,13 @@ register = template.Library()
 @register.filter
 def verbose_name(instance, field_name):
     field = instance._meta.get_field(field_name)
-    return field.verbose_name
+    try:
+        return field.verbose_name
+    except AttributeError:
+        if field.one_to_many or field.many_to_many:
+            return field.related_model._meta.verbose_name_plural
+        else:
+            return field.related_model._meta.verbose_name
 
 
 @register.filter
