@@ -74,7 +74,7 @@ def iter_fields():
                     yield s
 
 
-def test_gdpr_export_complete(client, user, participation):
+def test_subject_export_complete(client, user, participation):
     client.force_login(user)
     subject = participation.subject
     subject.export_requested = datetime.date.today()
