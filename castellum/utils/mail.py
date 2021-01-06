@@ -23,7 +23,6 @@ from django.conf import settings
 from django.core.mail import EmailMessage
 from django.core.mail import get_connection
 from django.utils import translation
-from django.utils.translation import gettext_lazy as _
 
 
 def render_body_with_fallback(get_mail_data, text, fallback=None, lang=None):
@@ -48,6 +47,7 @@ class MailContext:
             'from_email': settings.DEFAULT_FROM_EMAIL,
             'language': settings.LANGUAGE_CODE,
             'subject_prefix': '',
+            'recipients_text': '',
             'signature': '',
             'connection': {}
         }
@@ -74,8 +74,7 @@ class MailContext:
             body = render_body_with_fallback(*body, lang=self.data['language'])
 
         if recipients_string:
-            with translation.override(self.data['language']):
-                body = '%s: %s\n\n\n%s' % (_('Recipients'), recipients_string, body)
+            body += self.data['recipients_text'].format(recipients_string)
 
         body += self.data['signature']
         return body
