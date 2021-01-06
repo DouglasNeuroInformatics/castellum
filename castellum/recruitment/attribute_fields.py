@@ -270,6 +270,8 @@ class AgeAttributeField(DateAttributeField):
         return super().get_filter_display(operator, value)
 
     def _get_min_date(self, study):
+        """Get minimum date of birth allowed by study filters."""
+
         today = datetime.date.today()
 
         total = []
@@ -279,13 +281,17 @@ class AgeAttributeField(DateAttributeField):
             ))
             if filters:
                 dates = [today - relativedelta(**{f.value[1]: f.value[0]}) for f in filters]
+                # Filters within a group are combined with AND.
                 total.append(max(dates))
             else:
+                # If any group is not restricted at all, ignore the other groups.
                 return None
 
         if total:
+            # Filter groups are combined with OR.
             return min(total)
         else:
+            # If there are no filters, there is no restriction.
             return None
 
     def get_statistics_grouping(self, study):
