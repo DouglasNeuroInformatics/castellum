@@ -108,8 +108,8 @@ class Participation(models.Model):
     objects = ParticipationManager()
 
     class Meta:
-        verbose_name = _('Participation')
-        verbose_name_plural = _('Participations')
+        verbose_name = _('Study participation')
+        verbose_name_plural = _('Study participations')
         unique_together = ['study', 'subject']
         permissions = [
             ('conduct_study', _('Can conduct studies')),
