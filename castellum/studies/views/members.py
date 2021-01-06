@@ -84,7 +84,6 @@ class StudyMembershipUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView)
     model = StudyMembership
     form_class = MemberForm
     permission_required = 'studies.change_study'
-    study_status = [Study.EDIT, Study.EXECUTION]
     is_onetime_invitation = False
     tab = 'members'
 
@@ -98,7 +97,6 @@ class StudyMembershipUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView)
 class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView):
     model = StudyMembership
     permission_required = 'studies.change_study'
-    study_status = [Study.EDIT, Study.EXECUTION]
     is_onetime_invitation = False
     tab = 'members'
 
