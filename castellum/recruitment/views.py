@@ -69,7 +69,6 @@ from .mixins import BaseAttributesUpdateView
 from .mixins import BaseMailRecruitmentView
 from .mixins import ParticipationMixin
 from .mixins import get_recruitable
-from .models import AttributeDescription
 from .models import Participation
 from .models.attributes import get_description_by_statistics_rank
 
@@ -113,22 +112,36 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             .filter(status__in=self.shown_status, study=self.study)\
             .order_by(*order_by)
 
-    def get_statistics(self):
+    def _get_statistics(self):
         participations = Participation.objects.filter(
             study=self.study, status=Participation.INVITED
         ).prefetch_related('subject')
 
-        buckets1 = AttributeDescription.get_statistics_buckets('primary')
-        buckets2 = AttributeDescription.get_statistics_buckets('secondary')
-
-        if len(buckets1) == 1:
+        desc1 = get_description_by_statistics_rank('primary')
+        if desc1:
+            buckets1, get_bucket1 = desc1.field.get_statistics_grouping(self.study)
+        else:
             return None
+
+        desc2 = get_description_by_statistics_rank('secondary')
+        if desc2:
+            buckets2, get_bucket2 = desc2.field.get_statistics_grouping(self.study)
+        else:
+            buckets2, get_bucket2 = [(None, None)], lambda x: None
 
         statistics = defaultdict(lambda: defaultdict(lambda: 0))
         for participation in participations:
             subject = participation.subject
-            key1 = subject.get_statistics_bucket('primary')
-            key2 = subject.get_statistics_bucket('secondary')
+
+            value1 = subject.attributes.get(desc1.json_key)
+            key1 = get_bucket1(value1)
+
+            if desc2:
+                value2 = subject.attributes.get(desc2.json_key)
+                key2 = get_bucket2(value2)
+            else:
+                key2 = None
+
             statistics[key1][key2] += 1
 
         data = {
@@ -141,6 +154,12 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         if len(buckets2) > 1:
             data['legend'] = [str(label2) for key2, label2 in buckets2]
 
+        return data
+
+    def get_statistics(self):
+        data = self._get_statistics()
+        if not data:
+            return None
         renderer = StackedColumnRenderer(width=760, height=320)
         return renderer.render(data)
 
@@ -149,17 +168,23 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         desc1 = get_description_by_statistics_rank('primary')
         desc2 = get_description_by_statistics_rank('secondary')
-        buckets1 = dict(AttributeDescription.get_statistics_buckets('primary'))
-        buckets2 = dict(AttributeDescription.get_statistics_buckets('secondary'))
+        if desc1:
+            buckets1, get_bucket1 = desc1.field.get_statistics_grouping(self.study)
+            buckets1 = dict(buckets1)
+        if desc2:
+            buckets2, get_bucket2 = desc2.field.get_statistics_grouping(self.study)
+            buckets2 = dict(buckets2)
 
         participations = []
         for participation in self.get_queryset():
             subject = participation.subject
             buckets = []
             if desc1:
-                buckets.append((desc1, buckets1[subject.get_statistics_bucket('primary')]))
+                value1 = subject.attributes.get(desc1.json_key)
+                buckets.append((desc1, buckets1[get_bucket1(value1)]))
             if desc2:
-                buckets.append((desc2, buckets2[subject.get_statistics_bucket('secondary')]))
+                value2 = subject.attributes.get(desc2.json_key)
+                buckets.append((desc2, buckets2[get_bucket2(value2)]))
 
             can_access = self.request.user.has_privacy_level(
                 participation.subject.privacy_level

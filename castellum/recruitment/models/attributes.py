@@ -201,13 +201,6 @@ class AttributeDescription(ImportMixin, TranslatableModel):
         }
         return MAPPING[self.field_type](self)
 
-    @classmethod
-    def get_statistics_buckets(cls, rank):
-        description = get_description_by_statistics_rank(rank)
-        if not description:
-            return [(None, None)]
-        return description.field.get_statistics_buckets()
-
     def export(self):
         data = super().export()
         data['choices'] = [choice.export() for choice in self.attributechoice_set.all()]
