@@ -366,10 +366,21 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         return url
 
     def form_valid(self, form):
+        scheduler_appointments_exist = Appointment.objects.filter(
+            participation=self.object,
+            session__schedule_id__isnull=False,
+        ).exists()
+
         response = super().form_valid(form)
         if isinstance(form, ContactAndAppointmentsForm):
             send_appointment_notifications(self.request, self.object, form.appointment_changes)
         messages.success(self.request, _('Data has been saved.'))
+
+        if self.object.status != Participation.INVITED and scheduler_appointments_exist:
+            messages.warning(self.request, _(
+                'Scheduler appointments for this participation have been deleted.'
+            ))
+
         return response
 
 
