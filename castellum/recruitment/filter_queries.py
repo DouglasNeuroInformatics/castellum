@@ -109,6 +109,14 @@ def subjectfilters(subjectfiltergroup, include_unknown=None):
     return q
 
 
+def date_of_birth(op, value):
+    if not settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE:
+        return models.Q()
+    # TODO: unknown/denied
+    key = 'attributes__d%i__%s' % (settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID, op)
+    return models.Q(**{key: value})
+
+
 def has_consent(include_waiting=False, exclude_deprecated=False):
     """Exclude subjects who do not want to be contacted for recruitment."""
 

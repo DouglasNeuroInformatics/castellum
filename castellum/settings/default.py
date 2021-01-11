@@ -421,6 +421,13 @@ CASTELLUM_SESSION_DOMAIN_BITS = 20
 # The placeholders "{name}", "{address1}", and "{address2}" will be replaced.
 CASTELLUM_COVERLETTER_TEMPLATE = ''
 
+# ID of the AttributeDescription instance that represents date of birth.
+# If this is not set, age related features are not available. This includes:
+# - Display date of birth in subject search results as distinguishing feature
+# - Warn on missing guardians if not full of age
+# - Invalidate consent when turning full of age
+CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID = None
+
 CASTELLUM_FULL_AGE = 16
 
 # Texts that apply to all studies

@@ -169,6 +169,17 @@ class Subject(TimeStampedModel):
         return contact
 
     @cached_property
+    def date_of_birth(self):
+        from castellum.recruitment.attribute_fields import ANSWER_DECLINED
+        if not settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID:
+            return None
+        value = self.attributes.get('d%i' % settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID)
+        if not value or value == ANSWER_DECLINED:
+            return None
+        dt = datetime.datetime.strptime(value, '%Y-%m-%d')
+        return dt.date()
+
+    @cached_property
     def has_consent(self):
         return Consent.objects.filter(
             subject=self,
