@@ -196,12 +196,20 @@ class Subject(TimeStampedModel):
         ).exists()
 
     @property
-    def has_consent_from_before_full_age(self):
-        if not self.has_consent or not self.date_of_birth:
-            return False
-        today = datetime.date.today()
+    def is_full_of_age(self):
+        if not self.date_of_birth:
+            raise TypeError
         full_age = self.date_of_birth + relativedelta(years=settings.CASTELLUM_FULL_AGE)
-        return full_age < today and full_age > self.consent.updated_at.date()
+        return full_age < datetime.date.today()
+
+    @property
+    def has_consent_from_before_full_age(self):
+        if not self.date_of_birth:
+            raise TypeError
+        if not self.has_consent or not self.is_full_of_age:
+            return False
+        full_age = self.date_of_birth + relativedelta(years=settings.CASTELLUM_FULL_AGE)
+        return full_age > self.consent.updated_at.date()
 
     @cached_property
     def has_study_consent(self):
