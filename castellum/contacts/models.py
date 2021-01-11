@@ -19,13 +19,9 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from datetime import date
-
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-
-from dateutil.relativedelta import relativedelta
 
 from castellum.subjects.models import Subject
 from castellum.utils.fields import DateField
@@ -205,10 +201,6 @@ class Contact(TimeStampedModel):
     def short_name(self):
         # a bit simplistic, but should be sufficient
         return '%s. %s' % (self.first_name[0], self.last_name)
-
-    @property
-    def age(self):
-        return relativedelta(date.today(), self.date_of_birth).years
 
     @cached_property
     def is_guardian(self):
