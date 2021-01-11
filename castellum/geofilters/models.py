@@ -32,7 +32,7 @@ class Geolocation(models.Model):
 
 
 @checks.register()
-def example_check(app_configs, **kwargs):
+def nominatim_check(app_configs, **kwargs):
     errors = []
     if not hasattr(settings, 'NOMINATIM'):
         errors.append(
