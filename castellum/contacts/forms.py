@@ -19,10 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import datetime
-
 from django import forms
-from django.conf import settings
 from django.forms import ValidationError
 from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy as _
@@ -105,7 +102,6 @@ class ContactForm(forms.ModelForm):
         cleaned_data = super().clean()
 
         is_guardians_pane = cleaned_data.get('guardians_pane') == 'guardians'
-        date_of_birth = cleaned_data.get('date_of_birth')
         phone_number = cleaned_data.get('phone_number', '')
         email = cleaned_data.get('email', '')
         preferred_contact_method = cleaned_data.get('preferred_contact_method', '')
@@ -118,15 +114,6 @@ class ContactForm(forms.ModelForm):
             cleaned_data['preferred_contact_method'] = ''
 
         has_address = any(self.data.get(name) for name in self.address.fields)
-
-        # validate guardian required for underage subjects
-        if date_of_birth:
-            age = datetime.date.today() - date_of_birth
-            if not is_guardians_pane and age.days // 365 < settings.CASTELLUM_FULL_AGE:
-                msg = _(
-                    'Subjects under the age of %i need a legal guardian.'
-                ) % settings.CASTELLUM_FULL_AGE
-                raise ValidationError(msg, code='invalid')
 
         # validate address
         if has_address:
