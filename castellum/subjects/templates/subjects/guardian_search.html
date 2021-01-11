@@ -55,8 +55,8 @@
                                             {% endif %}
                                         </div>
                                         <div class="d-inline-block">
-                                            {% if contact.date_of_birth %}
-                                                <div class="d-inline-block my-1 mr-2">{{ contact.date_of_birth }}</div>
+                                            {% if subject.date_of_birth %}
+                                                <div class="d-inline-block my-1 mr-2">{{ subject.date_of_birth }}</div>
                                             {% endif %}
                                             <div class="d-inline-block my-1 mr-2">
                                                 {% if contact.email|lower == form.cleaned_data.email|lower %}

@@ -197,10 +197,10 @@ class Subject(TimeStampedModel):
 
     @property
     def has_consent_from_before_full_age(self):
-        if not self.has_consent or not self.contact.date_of_birth:
+        if not self.has_consent or not self.date_of_birth:
             return False
         today = datetime.date.today()
-        full_age = self.contact.date_of_birth + relativedelta(years=settings.CASTELLUM_FULL_AGE)
+        full_age = self.date_of_birth + relativedelta(years=settings.CASTELLUM_FULL_AGE)
         return full_age < today and full_age > self.consent.updated_at.date()
 
     @cached_property

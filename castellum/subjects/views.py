@@ -581,12 +581,12 @@ class MaintenanceConsentView(BaseMaintenanceView):
         # date_of_birth is stored in Contact, so we cannot query it
         # directly. As an optimization, we only look at subjects that
         # came of age in the past year.
-        contacts = Contact.objects.filter(
-            date_of_birth__lt=today - relativedelta(years=settings.CASTELLUM_FULL_AGE),
-            date_of_birth__gt=today - relativedelta(years=settings.CASTELLUM_FULL_AGE + 1),
+        subjects = Subject.objects.filter(
+            filter_queries.date_of_birth('lt', today - relativedelta(years=settings.CASTELLUM_FULL_AGE)),
+            filter_queries.date_of_birth('gt', today - relativedelta(years=settings.CASTELLUM_FULL_AGE + 1)),
         )
 
-        pks = [c.subject.pk for c in contacts if c.subject.has_consent_from_before_full_age]
+        pks = [s.pk for s in subjects if s.has_consent_from_before_full_age]
         return super().get_queryset().filter(pk__in=pks, deceased=False)
 
     def get_by_outdated_document(self):
