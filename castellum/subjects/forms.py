@@ -176,6 +176,7 @@ class AdditionalInfoForm(forms.ModelForm):
         model = Subject
         fields = [
             'deceased',
+            'blocked',
             'availability_monday',
             'availability_tuesday',
             'availability_wednesday',
