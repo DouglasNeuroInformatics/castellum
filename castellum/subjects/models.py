@@ -206,7 +206,12 @@ class Subject(TimeStampedModel):
 
     @property
     def has_legal_basis(self):
-        return self.has_consent_or_waiting or self.has_study_consent or self.contact.is_guardian
+        return (
+            self.has_consent_or_waiting
+            or self.has_study_consent
+            or self.contact.is_guardian
+            or self.blocked
+        )
 
     @property
     def is_available(self):
