@@ -22,6 +22,7 @@
 import datetime
 
 from django.conf import settings
+from django.core import checks
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.utils import timezone
@@ -343,3 +344,17 @@ class ExportAnswer(models.Model):
 
     def __str__(self):
         return str(self.created_at)
+
+
+@checks.register()
+def date_of_birth_check(app_configs, **kwargs):
+    errors = []
+    if not getattr(settings, 'CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID'):
+        errors.append(
+            checks.Info(
+                'CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID not configured; '
+                'age-related features are disabled',
+                id='subjects.W001',
+            )
+        )
+    return errors
