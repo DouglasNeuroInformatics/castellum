@@ -185,10 +185,6 @@ class Contact(TimeStampedModel):
 
     @property
     def is_complete(self):
-        return (self.is_guardian or self.date_of_birth) and self.is_reachable
-
-    @property
-    def is_reachable(self):
         return any([
             self.get_address(), self.phone_number, self.email, self.has_guardian
         ])
