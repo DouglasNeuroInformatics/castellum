@@ -24,7 +24,6 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 from castellum.subjects.models import Subject
-from castellum.utils.fields import DateField
 from castellum.utils.fields import PhoneNumberField
 from castellum.utils.models import TimeStampedModel
 
@@ -144,8 +143,6 @@ class Contact(TimeStampedModel):
     title = models.CharField(_('Title'), max_length=64, blank=True)
 
     gender = models.CharField(_('Gender'), max_length=1, choices=GENDER, default="f")
-
-    date_of_birth = DateField(_('Date of birth'), blank=True, null=True)
 
     email = models.EmailField(_('Email'), max_length=128, blank=True)
     phone_number = PhoneNumberField(_('Phone number'), max_length=32, blank=True)

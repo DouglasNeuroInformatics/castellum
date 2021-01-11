@@ -164,7 +164,6 @@ def fake_contact(subject):
         first_name_phonetic=phonetic(first_name),
         last_name=last_name,
         last_name_phonetic=phonetic(last_name),
-        date_of_birth=fake_date_of_birth(),
         subject_id=subject.pk,
     )
 
@@ -227,7 +226,6 @@ def generate_subjects(count):
         first_name_phonetic=phonetic('Muhammad'),
         last_name='Nguyen',
         last_name_phonetic=phonetic('Nguyen'),
-        date_of_birth='2000-12-13',
         email='muhammad@example.com',
         subject_id=subjects[count - 1].pk,
     )

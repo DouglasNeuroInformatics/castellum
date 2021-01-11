@@ -42,7 +42,6 @@ class ContactAdmin(admin.ModelAdmin):
             "fields": (
                 ("first_name", "last_name", "title"),
                 "gender",
-                "date_of_birth",
             ),
         }),
         ("Contact Data", {
