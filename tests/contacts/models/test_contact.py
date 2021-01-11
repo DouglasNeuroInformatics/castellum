@@ -1,21 +1,7 @@
-from datetime import date
-
 import pytest
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
-
-
-@pytest.mark.unittest
-@pytest.mark.freeze_time("2020, 10, 31")
-@pytest.mark.parametrize("date_of_birth,age", [
-    ((2000, 10, 30), 20),
-    ((2000, 10, 31), 20),
-    ((2000, 11, 1), 19),
-])
-def test_age_property(date_of_birth, age):
-    contact = baker.prepare(Contact, date_of_birth=date(*date_of_birth))
-    assert contact.age == age
 
 
 @pytest.mark.unittest
