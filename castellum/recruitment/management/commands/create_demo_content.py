@@ -183,8 +183,6 @@ def fake_attributes():
     if fake.random.random() < 0.9:
         data['d2'] = fake_language()
     if fake.random.random() < 0.9:
-        data['d3'] = fake_date_of_birth()
-    if fake.random.random() < 0.9:
         data['d4'] = fake.random.choice(get_highest_degree_choices())
     return data
 

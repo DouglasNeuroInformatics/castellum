@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.apps import AppConfig
+from django.db.models.signals import post_save
 from django.db.models.signals import pre_delete
 from django.utils.module_loading import autodiscover_modules
 
@@ -33,3 +34,4 @@ class RecruitmentConfig(AppConfig):
         autodiscover_modules('custom_filters')
         pre_delete.connect(signals.delete_participation_pseudonym)
         pre_delete.connect(signals.delete_attribute_data)
+        post_save.connect(signals.sync_date_of_birth)
