@@ -1,42 +1,41 @@
 Study Coordination: Creating a new study
 ========================================
 
-1. Log in to Castellum by using your username and password
-   
-   Make sure you are connected to the internet and use your right username and
-   password
+1.  Log in to Castellum by using your username and password
 
-2. Click on **Studies** on the front page
+    Make sure you are connected to the internet and use your right username and
+    password
 
-   - By selecting **Mine** in **Membership**, you will see studies you created.
-     Under the field **All** you can see all studies that have been created.
-   - In the field **Search** you can look for a certain study
-   - By choosing a **Status** and / or a Study **Type**, you may also filter studies
+2.  Click on **Studies** on the front page
 
-3. Click on **Create new study**
+    -   By selecting **Mine** in **Membership**, you will see studies you created.
+        Under the field **All** you can see all studies that have been created.
+    -   In the field **Search** you can look for a certain study
+    -   By choosing a **Status** and / or a Study **Type**, you may also filter studies
 
-4. Fill in all empty fields on the page:
+3.  Click on **Create new study**
 
-   - **Name** describes the name or title of the study you want to create
-   - **Responsible contact person** is the person who can be contacted if any
-     questions regarding the study occur
-   - Define the person who is the lead researcher as **Principal Investigator**
-   - Determine all scientists that take part in the study as **Affiliated Scientists**
-   - Determine all research assistants that take part in the study as **Affiliated
-     Research Assistants**
-   - Please enter all methods you would like to use in your research in the field
-     **Description**
-   - **Keywords** may include main issues of the desired scientific findings
-   - Decide whether the study **Contains sensitive data** or not
+4.  Fill in all empty fields on the page:
 
-5. Upload templates of **Consent** form(-s) of your study
+    -   **Name** describes the name or title of the study you want to create
+    -   **Responsible contact person** is the person who can be contacted if any
+        questions regarding the study occur
+    -   Define the person who is the lead researcher as **Principal Investigator**
+    -   Determine all scientists that take part in the study as **Affiliated Scientists**
+    -   Determine all research assistants that take part in the study as **Affiliated
+        Research Assistants**
+    -   Please enter all methods you would like to use in your research in the field
+        **Description**
+    -   **Keywords** may include main issues of the desired scientific findings
+    -   Decide whether the study **Contains sensitive data** or not
 
-6. Assign the **Required number of subjects** to your study
+5.  Upload templates of **Consent** form(-s) of your study
 
-7. Decide whether it **Is a one time invitation** or not
+6.  Assign the **Required number of subjects** to your study
 
-8. Click on **Save** to record your progress
+7.  Decide whether it **Is a one time invitation** or not
 
+8.  Click on **Save** to record your progress
 
 Now you can find your study in the list
 
@@ -44,12 +43,11 @@ Now you can find your study in the list
 Setting up the recruitment process
 ----------------------------------
 
-
 In order to limit the search for subjects in Castellum,
 
-- filters,
-- excluded studies as well as
-- inclusion and exclusion criteria should be defined.
+-   filters,
+-   excluded studies as well as
+-   inclusion and exclusion criteria should be defined.
 
 1.  Go to **Studies** on the front page, click **Details** next to the study
     you wish to set up filters and criteria for
@@ -62,40 +60,40 @@ In order to limit the search for subjects in Castellum,
 3.  By clicking on **General** the **Recruitment text** will be shown to you.
     You can:
 
-    - edit the **Recruitment text** (this text will be shown to recruiters and
-      will be used by them to recruit subjects for your study),
-    - decide whether you wish to set up the **Advanced filtering** (this allows
-      you to create multiple filtergroups that are not linked to each other),
-    - set the function **Exclusive subjects** (If you select this feature, potential
-      subjects for your study cannot be recruited for other studies. Please note
-      that this may prevent other researchers from finding enough participants.)
-      and
-    - decide whether **Complete filter matches only** will be shown to the
-      recruiters of your study or if there will be some subjects displayed, in
-      which certain characteristics still have to be queried
+    -   edit the **Recruitment text** (this text will be shown to recruiters and
+        will be used by them to recruit subjects for your study),
+    -   decide whether you wish to set up the **Advanced filtering** (this allows
+        you to create multiple filtergroups that are not linked to each other),
+    -   set the function **Exclusive subjects** (If you select this feature, potential
+        subjects for your study cannot be recruited for other studies. Please note
+        that this may prevent other researchers from finding enough participants.)
+        and
+    -   decide whether **Complete filter matches only** will be shown to the
+        recruiters of your study or if there will be some subjects displayed, in
+        which certain characteristics still have to be queried
 
 4.  By clicking on **Filter** you are able to set filter criteria
 
-    - select whether you want to create a filter regarding the **First language**,
-      **Highest educational degree**, **Handedness**, **Has hearing aid?**, **Age**
-      or **Sex**
-    - click **Add**,
-    - define the filter and
-    - click **Apply**
+    -   select whether you want to create a filter regarding the **First language**,
+        **Highest educational degree**, **Handedness**, **Has hearing aid?**, **Age**
+        or **Sex**
+    -   click **Add**,
+    -   define the filter and
+    -   click **Apply**
 
     You may set as many filters as you like.
     If you wish to create more than one filter group, proceed as follows:
 
-    - click on **General**,
-    - select **Advanced filtering** and
-    - click on **Save**
+    -   click on **General**,
+    -   select **Advanced filtering** and
+    -   click on **Save**
 
     When you click on **Add new** in **Filters**, you are able to set another
     filter group with specific filters
-    
+
     .. note::
-    This is necessary, for example, if you need subjects both at the age between
-    20-30 and 50-60.
+        This is necessary, for example, if you need subjects both at the age between
+        20-30 and 50-60.
 
 5.  In **Excluded studies** you can select certain studies in which your
     subjects must not have participated
@@ -104,33 +102,33 @@ In order to limit the search for subjects in Castellum,
     subject characteristics that should be verified during the recruitment**
 
     .. note::
-       If it is a MRI-study, the criteria are pre-set for checking during recruitment
+        If it is a MRI-study, the criteria are pre-set for checking during recruitment
 
 7. In **Sessions**, you can enter as many test sessions as you like
 
-   - Define **Session instructions**,
-   - **Start of test sessions**,
-   - **End of test sessions** and
-   - click on **Add session**
+   -   Define **Session instructions**,
+   -   **Start of test sessions**,
+   -   **End of test sessions** and
+   -   click on **Add session**
 
-   - When adding a test session, always give the session a **Name** and specify
-     the **Duration of a session in minutes**
-   - Select the **Type** of the session and press **Add session**
-   - By clicking on the red button **Delete**, you can erase any test session you
-     created
+   -   When adding a test session, always give the session a **Name** and specify
+       the **Duration of a session in minutes**
+   -   Select the **Type** of the session and press **Add session**
+   -   By clicking on the red button **Delete**, you can erase any test session you
+       created
 
 
 8.  If recruitment is to take place by e-mail or if information is to be sent by
     e-mail in addition to telephone contact, proceed as follows:
 
-    - click on **Mail Settings**,
-    - define an **E-mail subject**,
-    - add an **E-mail body** and
-    - indicate a **Reply e-mail-address**
-   
+    -   click on **Mail Settings**,
+    -   define an **E-mail subject**,
+    -   add an **E-mail body** and
+    -   indicate a **Reply e-mail-address**
+
     .. note::
-    It is not intended to send attachments in the first e-mail via Castellum.
-    Instead, links can be inserted.
+        It is not intended to send attachments in the first e-mail via Castellum.
+        Instead, links can be inserted.
 
 
 Start and finish your study
@@ -144,11 +142,11 @@ not been initiated yet either.
 2.  You can find the button **Start** in the left upper corner under the study
     name
 
-    - By clicking on **Start** you initiate the recruiting process
-    - In this mode, you will not able to change any characteristics or talking
-      points that are needed for recruitment
-    - When you click on **Stop**, you can edit information needed for the
-      recruiting process
+    -   By clicking on **Start** you initiate the recruiting process
+    -   In this mode, you will not able to change any characteristics or talking
+        points that are needed for recruitment
+    -   When you click on **Stop**, you can edit information needed for the
+        recruiting process
 
 In order to approve the persons who are supposed to carry out the recruitment
 process, follow the steps in the explanation **Share studies with your recruiters**
@@ -193,8 +191,8 @@ for your study, please follow the steps below.
     access to the study, unless you click on **Start** on the upper left side
 
     .. note::
-       The study is now in progress and the recruiter has now access to the study
-       and can begin to recruit. Of course, you may select several persons as recruiters.
+        The study is now in progress and the recruiter has now access to the study
+        and can begin to recruit. Of course, you may select several persons as recruiters.
 
 
 Assign access rights and allocate roles
@@ -205,14 +203,14 @@ To delegate roles amongst different people, proceed as follows:
 1.  Follow steps 1-5 of the section **Share studies with your recruiters** above
 
 2.  Select the user for whom you want to change access rights and/or roles and
-click **Add**
+    click **Add**
 
     .. note::
-       Some users are already assigned to certain global roles in advance.
-       This can be recognized by the fact that the role description is highlighted
-       in grey.
-       Roles with blue background can be flexibly defined and changed by the **Study
-       coordinator**.
+        Some users are already assigned to certain global roles in advance.
+        This can be recognized by the fact that the role description is highlighted
+        in grey.
+        Roles with blue background can be flexibly defined and changed by the **Study
+        coordinator**.
 
 3.  After clicking **Manage groups** next to the selected person, you can assign
     up to six different roles for the specific study: **Study coordinator**,
