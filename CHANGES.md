@@ -1,3 +1,27 @@
+# 0.54.0 (unreleased)
+
+## security
+
+-   Default security settings have been enhanced to prevent some kinds
+    of unnecessary access to cookies.
+
+## new features
+
+-   Sessions can now provide a text that is included in appointment
+    reminder mails. You may need to adapt
+    `CASTELLUM_APPOINTMENT_MAIL_BODY` to include the new field.
+-   All links to calendar feeds have been extracted from the UI and
+    collected in a single view at `/feeds/`.
+-   Age statistics in recruitment now use special groupings if study
+    filters only allow subjects under the age of 2/18 years.
+-   Mails that are sent to more than one recipient (i.e. guardians) do
+    not contain the other recipients in the `To` or `Cc` header for
+    privacy reasons. However, starting from this release, the names of
+    all recipients are included in the mail body. The text that is used
+    can be customized using the `recipients_text` field within the
+    `CASTELLUM_MAIL` setting.
+
+
 # 0.53.0 (release skipped)
 
 ## deprecations
