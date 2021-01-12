@@ -22,7 +22,7 @@ copyright = '2018-2021, Goettel et al.'
 author = 'Goettel et al.'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.1'
+release = '0.52.0'
 
 
 # -- General configuration ---------------------------------------------------
