@@ -421,6 +421,9 @@ CASTELLUM_SESSION_DOMAIN_BITS = 20
 # The placeholders "{name}", "{address1}", and "{address2}" will be replaced.
 CASTELLUM_COVERLETTER_TEMPLATE = ''
 
+# If this is set, this attribute will automatically be filled from Contact.date_of_birth
+CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID = None
+
 CASTELLUM_FULL_AGE = 16
 
 # Texts that apply to all studies
