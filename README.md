@@ -9,6 +9,14 @@ This project is still in development. There may be severe vulnerabilities
 in the code. It is strongly recommended not to use this in production
 yet.
 
+## Releases
+
+We typically release at the end of every 3 week sprint. See `CHANGES.md`
+for recent changes. Tagged snapshots of the code are available from
+<https://git.mpib-berlin.mpg.de/castellum/castellum/-/tags>. Tagged
+docker images that already contain most dependencies are available from
+`registry.git.mpib-berlin.mpg.de/castellum/castellum`.
+
 ## Development
 
 The following commands will install everything and start a local testserver (on ubuntu):
