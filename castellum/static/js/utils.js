@@ -39,7 +39,7 @@
         }
     });
 
-    $$.on(document, 'change', '[data-js="confirm-delete"]', function() {
+    $$.on(document, 'change', '[data-js="confirm-submit"]', function() {
         this.form.querySelector('[type="submit"],button:not([type])').disabled = !this.checked;
     });
 
