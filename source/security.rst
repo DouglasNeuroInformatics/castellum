@@ -1,5 +1,5 @@
-Security model
-==============
+Security
+========
 
 The main purpose of castellum is to handle data of test subjects. It is
 important to be able to read and write this data in various ways. We are
@@ -30,7 +30,6 @@ needs.
 
 Note that the django framework automatically generates a lot of
 permissions. Only a few of them are actually used. The full list is:
-
 
 -  ``studies.approve_study``
 -  ``studies.view_study``
@@ -99,5 +98,5 @@ point of entry.
 Monitoring
 ----------
 
-In order to allow detecting suspicious behavior, critical actions such as
+In order to allow analysing suspicious behavior, critical actions such as
 search, deletion, or login attempts are logged to a separate log file.
