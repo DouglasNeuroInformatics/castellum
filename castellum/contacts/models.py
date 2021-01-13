@@ -190,7 +190,10 @@ class Contact(TimeStampedModel):
     @property
     def is_reachable(self):
         return any([
-            self.get_address(), self.phone_number, self.email, self.has_guardian
+            self.get_address(),
+            self.phone_number,
+            self.email,
+            self.guardians.filter(blocked=False).exists(),
         ])
 
     @property
