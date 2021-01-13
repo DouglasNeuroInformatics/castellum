@@ -103,7 +103,7 @@ class ContactForm(forms.ModelForm):
         if self.instance.id:
             for contact in self.instance.guardians.all():
                 if user.has_privacy_level(contact.subject.privacy_level):
-                    yield (contact.subject.pk, contact.full_name)
+                    yield (contact.subject.pk, contact)
                 else:
                     self.guardians_blocked += 1
 

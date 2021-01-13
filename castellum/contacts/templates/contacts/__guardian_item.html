@@ -10,6 +10,9 @@
             <input id="id_{{ name }}_{{ pk }}" type="hidden" name="{{ name }}" value="{{ pk }}" {% if removed %}disabled{% endif %}>
         {% endif %}
     </div>
+    {% if slug %}
+        <a href="{% url 'subjects:detail' slug %}" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
+    {% endif %}
     <button type="button" class="btn btn-sm btn-danger" {% if removed %}hidden{% endif %} data-js="guardian-remove">{% translate 'Remove' %}</button>
     <button type="button" class="btn btn-sm btn-outline-danger" {% if not removed %}hidden{% endif %} data-js="guardian-restore">{% translate 'Restore' %}</button>
 </div>
