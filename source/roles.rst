@@ -35,7 +35,7 @@ four categories:
 -   Subjects that requested information regarding their personal data,
 -   Subjects that have been marked as **To be deleted** by a **Subject Manager**,
     -   This applies when a subject demanded a deletion of all scientific data
-        related to him/her.
+        related to them.
     -   The **Data Protection Coordinator** can see all studies the subject
         participated in. He will contact all **Principal Investigators** and demand
         the deletion of collected study data (provided that these are still
@@ -66,7 +66,7 @@ continuous overview of the ongoing study programme and the respective deadlines
 in their daily business. In order to achieve this, these persons can search
 specifically for names of subjects to be registered in Castellum. In this way it
 is easy to find out for which study a particular subject is registered and when
-he/she has to be sent to which room.
+they have to be sent to which room.
 
 Recruiter
 ~~~~~~~~~

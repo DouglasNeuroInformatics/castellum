@@ -76,7 +76,7 @@ or more of the following reasons:
 
 -   the subjects either requested it,
 -   it no longer makes sense to keep them in the database,
--   he or she cannot be reached due to incorrect or missing contact data or
+-   they cannot be reached due to incorrect or missing contact data or
 -   there is no consent.
     The consent may be based on **Recruitment consent**, **Study consent** and/
     or **Guardianship**.
