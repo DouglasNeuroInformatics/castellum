@@ -1,5 +1,5 @@
 {% extends "execution/study_base.html" %}
-{% load i18n appointments %}
+{% load i18n appointments utils %}
 
 {% block content %}
     <ul class="table-list mt-3">
@@ -16,6 +16,9 @@
                         {% endif %}
                         {% if participation.appointment_today %}
                             <span class="badge badge-primary">{% translate 'today' %}</span>
+                        {% endif %}
+                        {% if participation.subject.blocked %}
+                            <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation.subject|verbose_name:'blocked' }}</span>
                         {% endif %}
                         {% with summary=participation.subject|showup_summary %}
                             <span class="text-{{ participation.subject|showup_level }}" aria-label="{{ summary }}" title="{{ summary }}">&#9679;</span>
