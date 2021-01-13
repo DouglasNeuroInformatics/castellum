@@ -143,9 +143,9 @@ not been initiated yet either.
     -   When you click on **Stop**, you can edit information needed for the
         recruiting process
 
-In order to approve the persons who are supposed to carry out the recruitment
-process, follow the steps in the explanation **Share studies with your recruiters**
-(see next instruction)
+    In order to approve the persons who are supposed to carry out the recruitment
+    process, follow the steps in the explanation **Share studies with your recruiters**
+    (see next instruction)
 
 3.  When you click on **Finish study**, Castellum will register your study as
     completed and the recruitment process is stopped
