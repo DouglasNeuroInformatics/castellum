@@ -15,13 +15,13 @@ Welcome to castellum-docs's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Workflows
+   :caption: Step-by-step guides
 
-   workflows/study-creation
-   workflows/study-recruitment
-   workflows/deleting
-   workflows/subject-management
-   workflows/consent-management
+   guides/study-creation
+   guides/study-recruitment
+   guides/deleting
+   guides/subject-management
+   guides/consent-management
 
 Indices and tables
 ==================
