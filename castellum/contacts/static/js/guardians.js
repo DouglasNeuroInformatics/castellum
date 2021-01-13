@@ -88,5 +88,5 @@
     };
 
     $$.on(document, 'click', '[data-js="guardian-use"]', use);
-    document.querySelectorAll('[data-js="guardian-use-auto"]').forEach(use);
+    document.querySelectorAll('[data-js="guardian-use-auto"]').forEach(el => use.call(el));
 })();
