@@ -151,3 +151,77 @@ In order to create a potential subject in Castellum, please proceed as follows:
     -   Hold the **CTRL** key on your keyboard while pressing **F** to open the
         search function of the browser
     -   When you found the study the subject participated in, click on **Add to study**
+
+
+Approve subjects for deletion
+------------------------------
+
+You may want personal data and subjects to be completely deleted because of one
+or more of the following reasons:
+
+-   the subjects either requested it,
+-   it no longer makes sense to keep them in the database,
+-   they cannot be reached due to incorrect or missing contact data or
+-   there is no consent.
+    The consent may be based on **Recruitment consent**, **Study consent** and/
+    or **Guardianship**.
+
+To delete the data and the subject, please proceed as follows:
+
+1.  Click on **Subjects** on the front page
+
+2.  Write in the empty fields first name and surname of the subject to be
+    deleted and click on **Submit**
+
+3.  Click on **Details** and then **Data protection** on the horizontal line
+
+4.  Select the checkbox **To be deleted**
+
+    .. note::
+        The subject is now cleared for deletion from the database and deletion of
+        their associated data. The data protection officer will take care of final
+        deletion
+        Please note that there may still be data stored in the backup even though
+        the person was deleted from Castellum
+
+
+.. _subject-delete:
+
+Data Protection: Deleting a subject from Castellum
+==================================================
+
+Prerequisite
+------------
+
+The subject data of a subject should be completely deleted because of three
+different reasons:
+
+-   the subject either requested it,
+-   they cannot be reached due to incorrect or missing contact data or
+-   there is no legal basis for consent.
+
+Deletion of externally and internally stored data
+-------------------------------------------------
+
+In order to delete the externally and internally stored data of a subject,
+please proceed as follows:
+
+1.  Click on **Data protection** on the front page
+
+    If the data of a subject should be deleted, you will find the subject assigned
+    to one or more deletion options
+
+2.  Click on **Details** next to the subject to be deleted
+
+3.  Click on **Delete** on the upper right
+
+    1.  When you see a message saying **Are you sure you want to permanently delete this subject and all related data?**, click on **Confirm** and the subject will be deleted
+
+    2.  If you see a message saying **This subject cannot be deleted because there still is data about them in studies.**, proceed as follows:
+
+        -   Go to the responsible person of the study
+        -   Ask the responsible person to delete all collected data of the subject concerned
+        -   You can find the responsible person by clicking on **Study details** next to
+            the study name the subject participated in
+        -   Delete all of these study participations by clicking on **Delete** next to
+            **Study details**

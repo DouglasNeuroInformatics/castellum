@@ -18,11 +18,11 @@ Welcome to castellum-docs's documentation!
    :maxdepth: 2
    :caption: Step-by-step guides
 
-   guides/study-creation
-   guides/study-recruitment
-   guides/deleting
    guides/subject-management
+   guides/study-management
+
    guides/consent-management
+   guides/recruitment
 
 Indices and tables
 ==================
