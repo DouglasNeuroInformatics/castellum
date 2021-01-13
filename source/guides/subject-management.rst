@@ -1,3 +1,5 @@
+.. _subject-create:
+
 Subject Management: Creating a subject in Castellum
 ===================================================
 

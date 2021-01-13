@@ -11,6 +11,7 @@ Welcome to castellum-docs's documentation!
 
    overview
    security
+   features
    roles
 
 .. toctree::

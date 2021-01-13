@@ -1,3 +1,5 @@
+.. _consent:
+
 Consent Management
 ==================
 

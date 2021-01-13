@@ -1,3 +1,5 @@
+.. _recruitment:
+
 Recruitment of participants for a study
 =======================================
 

@@ -1,3 +1,5 @@
+.. _study-create:
+
 Study Coordination: Creating a new study
 ========================================
 

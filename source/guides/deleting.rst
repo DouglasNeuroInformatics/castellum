@@ -1,3 +1,5 @@
+.. _subject-delete:
+
 Data Protection: Deleting a subject from Castellum
 ==================================================
 
@@ -36,6 +38,8 @@ please proceed as follows:
             the study name the subject participated in
         -   Delete all of these study participations by clicking on **Delete** next to
             **Study details**
+
+.. _study-delete:
 
 Data Maintenance: Deleting a study from Castellum
 =================================================
