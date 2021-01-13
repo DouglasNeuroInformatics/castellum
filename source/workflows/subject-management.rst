@@ -29,21 +29,16 @@ it from another source.
 In order to create a potential subject in Castellum, please proceed as follows:
 -------------------------------------------------------------------------------
 
-1.  Log in to Castellum by using your username and password
+1.  Click on **Subjects** on the front page
 
-    Please make sure you are connected to the internet and use your right username
-    and password
-
-2.  Click on **Subjects** on the front page
-
-3.  Enter the first name and surname of the person
+2.  Enter the first name and surname of the person
 
     -   The second first name can be specified, but does not have to be
     -   Keep the order as indicated
     -   First letters capitalized
     -   No comma needed
 
-4.  Click on **Submit**
+3.  Click on **Submit**
 
     1.  If there is a **Match** found, the subject is already created in the database.
         You may edit or add information by clicking on **Details** next to the subject
@@ -52,23 +47,23 @@ In order to create a potential subject in Castellum, please proceed as follows:
         made a spelling mistake with the names, please do not go back and create the
         person again, but change the name in the following process
 
-5.  Define the **Privacy level**
+4.  Define the **Privacy level**
 
     -   0 (regular) describes an adult person without extraordinary features
     -   1 (increased) indicates children or adults with a legal guardian
     -   2 (high) presents a famous personality and/or their children
 
-6.  Click on **Create new subject**
+5.  Click on **Create new subject**
 
     In this tab, different legal basis for consent can be found
 
-7.  Add the consent that applies:
+6.  Add the consent that applies:
 
     -   **Recruitment consent**,
     -   **Study consent** and/or
     -   **Guardianship**
 
-8.  Click on **Contact**
+7.  Click on **Contact**
 
     -   Optionally you can enter the **Title** here
     -   You can edit the **First name** and **Last name**
@@ -97,7 +92,7 @@ In order to create a potential subject in Castellum, please proceed as follows:
             By clicking on **Remove** next to the guardian's name, you can delete
             them as the guardian of the subject
 
-9.  Click on **Save** and then on **Attributes**
+8.  Click on **Save** and then on **Attributes**
 
     -   Fill in the **First Language**, **Highest educational degree**, **Handedness**,
         if the subject **Has hearing aid?**, **Date of birth** and **Sex**
@@ -110,14 +105,14 @@ In order to create a potential subject in Castellum, please proceed as follows:
         select one or more
     -   Click on **Save**
 
-10. In **Data protection** you can:
+9.  In **Data protection** you can:
 
     -   redefine the **Privacy level**,
     -   indicate whether the subject has consented to the recruitment,
     -   initiate an **Export request** and
     -   specify whether the subject is **To be deleted**
 
-11. By clicking on **Additional Info**, you can define the **Availability** of
+10. By clicking on **Additional Info**, you can define the **Availability** of
     the subject
 
     .. note::
@@ -128,7 +123,7 @@ In order to create a potential subject in Castellum, please proceed as follows:
         - Hold the Shift-button and
         - Click on **11** under **Tuesday**
 
-12. Below you can enter a point in time when a person is available again
+11. Below you can enter a point in time when a person is available again
 
     .. note::
 
@@ -136,16 +131,16 @@ In order to create a potential subject in Castellum, please proceed as follows:
 
         - Select **Not available until** today in 6 months
 
-13. You may also want to select whether the subject is **Hard of hearing**,
+12. You may also want to select whether the subject is **Hard of hearing**,
     **Difficult to understand** or uses **Abusive language**
 
     It is also possible to **Add a note** on your own. Important contact tracking
     information that is visible to other recruiters can be noted here.
     Please be aware that the use of note fields should be very sparing
 
-14. Define from which **Data source** the data comes from and click on **Save**
+13. Define from which **Data source** the data comes from and click on **Save**
 
-15. In **Study Participations** you can add any studies in which the subject has
+14. In **Study Participations** you can add any studies in which the subject has
     participated
 
     -   By clicking on **Add to study**, a list of current studies is displayed.

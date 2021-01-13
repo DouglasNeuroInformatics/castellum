@@ -1,21 +1,16 @@
 Recruitment of participants for a study
 =======================================
 
-1.  Log in to Castellum by using your username and password
-
-    Make sure you are connected to the internet and use your right username and
-    password
-
-2.  Click on **Studies** on the front page
+1.  Click on **Studies** on the front page
 
     -   When you click on **All** in **Membership** and **Execution** in the field
         **Status**, you will be shown a list with studies for which you should recruit
 
-3.  Click on **Recruitment** next to the study you want to recruit subjects for
+2.  Click on **Recruitment** next to the study you want to recruit subjects for
 
-4.  By clicking on **Add**, relevant probands will be shown to you
+3.  By clicking on **Add**, relevant probands will be shown to you
 
-5.  Press the **Contact** button to contact the person you want to reach
+4.  Press the **Contact** button to contact the person you want to reach
 
     -   **Email**, **Phone number**, a potential **Phone number alternative**
         and / or the **Address** will be shown to you in the tab **Contacting details**.
@@ -29,9 +24,9 @@ Recruitment of participants for a study
     -   Please have a look at the **Talking points** that the study coordinator has
         defined
 
-6.  Contact the potential subject using the specified method
+5.  Contact the potential subject using the specified method
 
-7.  When you received a response from the potential subject, select a **Status
+6.  When you received a response from the potential subject, select a **Status
     of participation**
 
     -   Choose between:
@@ -88,19 +83,14 @@ or more of the following reasons:
 
 To delete the data and the subject, please proceed as follows:
 
-1.  Log in to Castellum by using your username and password
+1.  Click on **Subjects** on the front page
 
-    Make sure you are connected to the internet and use your right username and
-    password
-
-2.  Click on **Subjects** on the front page
-
-3.  Write in the empty fields first name and surname of the subject to be
+2.  Write in the empty fields first name and surname of the subject to be
     deleted and click on **Submit**
 
-4.  Click on **Details** and then **Data protection** on the horizontal line
+3.  Click on **Details** and then **Data protection** on the horizontal line
 
-5.  Select the checkbox **To be deleted**
+4.  Select the checkbox **To be deleted**
 
     .. note::
         The subject is now cleared for deletion from the database and deletion of
