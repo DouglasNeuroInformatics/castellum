@@ -36,7 +36,7 @@ What Castellum is not
 ---------------------
 
 Castellum itself is not meant to store any scientific data. It only stores
-information about which studes a subject has participated in as well as the
+information about which studies a subject has participated in as well as the
 corresponding pseudonyms.
 
 .. note::
