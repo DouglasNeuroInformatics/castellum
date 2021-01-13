@@ -27,7 +27,8 @@ contact database
     pseudonyms instead
 
 recruting database
-    allows you to find potential subjects from an existing pool
+    allows you to find potential subjects from an existing pool using study
+    specific filters
 
 appointment management
     make appointments for test sessions
