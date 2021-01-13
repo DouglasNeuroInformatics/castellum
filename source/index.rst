@@ -11,6 +11,7 @@ Welcome to castellum-docs's documentation!
 
    overview
    security
+   roles
 
 .. toctree::
    :maxdepth: 2
@@ -20,6 +21,7 @@ Welcome to castellum-docs's documentation!
    workflows/study-recruitment
    workflows/deleting
    workflows/subject-management
+   workflows/consent-management
 
 Indices and tables
 ==================
