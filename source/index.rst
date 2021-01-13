@@ -8,9 +8,9 @@ Welcome to castellum-docs's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Concepts
 
-   concepts/what.rst
+   overview
+   security
 
 .. toctree::
    :maxdepth: 2
@@ -20,12 +20,6 @@ Welcome to castellum-docs's documentation!
    workflows/study-recruitment
    workflows/deleting
    workflows/subject-management
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Organizational
-
-   organizational/security
 
 Indices and tables
 ==================
