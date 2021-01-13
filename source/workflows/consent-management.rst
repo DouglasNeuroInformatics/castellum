@@ -1,27 +1,29 @@
 Consent Management
 ===================
+
 Checking the Consent Documents
 -------------------------------
 
 There are three options that justify a **Legal basis for data processing**:
-- **Recruitment consent** (Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR)
-- **Study consent** (Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG)
-- **Guardianship** (Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 1626, 1902
-  BGB)
+
+-   **Recruitment consent** (Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR)
+-   **Study consent** (Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG)
+-   **Guardianship** (Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 1626, 1902
+    BGB)
 
 Castellum is mainly intended for the management of recruitment consents. Study
 consents must be obtained separately from the respective study conducters
 
-1. Log in to Castellum by using your username and password
-     
-2. Click on **Admin** on the front page
+1.  Log in to Castellum by using your username and password
 
-3. Scroll all the way down and click on **Consent documents**
-   
-   - You will see a list of all consent documents that have been created
-   - Additional information displayed is the date of creation and whether the
-     consent document is valid or not
-     
+2.  Click on **Admin** on the front page
+
+3.  Scroll all the way down and click on **Consent documents**
+
+    -   You will see a list of all consent documents that have been created
+    -   Additional information displayed is the date of creation and whether the
+        consent document is valid or not
+
 Updating the Consent Documents
 -------------------------------
 
@@ -29,88 +31,91 @@ Consent documents are marked as invalid if a change in legislation occurs, subst
 changes have been made to the old document or other reasons require the signing
 of a new document.
 
-1. There are two options you may implement when a consent document becomes invalid
-   For both options first go to **Admin** on the front page > **Consent documents**
-   in the last section > click on the date the consent document you want to change
-   the status for has been created
-   
-1.1. The consent form can be marked as **Is deprecated** AND **Is valid**
-     - **Is deprecated** can be considered as an intermediate step between the
-       validity and invalidity of a consent document
-     - with this option, the subjects may remain in the database and may be recruited
-       but a new consent document should be obtained soon
-     
-1.2. If you uncheck the box saying **Is valid** but leave the check in the box stating
-     **Is deprecated**, the consent document is generally marked as no longer valid
-     - If the invalidity of the consent is saved, there is no longer consent for
-       the recruitment of a subject in the database
-This does not apply when the **Legal basis for data processing** is a **Study
-consent** or **Guardianship**.
-You can see the legal basis for data processing for each subject individually by
-following the instructions below:
+1.  There are two options you may implement when a consent document becomes invalid
+    For both options first go to **Admin** on the front page > **Consent documents**
+    in the last section > click on the date the consent document you want to change
+    the status for has been created
 
-   - Click on **Subjects** on the front page
-   - Type in the first and last name of the subject and click on **Submit**
-   - Click on **details** next to the subject
-   - In the tab **Overview** you can see the three possibilities for consent and
-     which of them apply to the respective subject
+    1.  The consent form can be marked as **Is deprecated** AND **Is valid**
+
+        -   **Is deprecated** can be considered as an intermediate step between the
+            validity and invalidity of a consent document
+        -   with this option, the subjects may remain in the database and may be recruited
+            but a new consent document should be obtained soon
+
+    2.  If you uncheck the box saying **Is valid** but leave the check in the box stating
+        **Is deprecated**, the consent document is generally marked as no longer valid
+
+        -   If the invalidity of the consent is saved, there is no longer consent for
+            the recruitment of a subject in the database
+
+    This does not apply when the **Legal basis for data processing** is a **Study
+    consent** or **Guardianship**.
+    You can see the legal basis for data processing for each subject individually by
+    following the instructions below:
+
+    -   Click on **Subjects** on the front page
+    -   Type in the first and last name of the subject and click on **Submit**
+    -   Click on **details** next to the subject
+    -   In the tab **Overview** you can see the three possibilities for consent and
+        which of them apply to the respective subject
 
 
-2. If you wish to upload a consent document that is currently valid, proceed as
-   follows:
-   
-   - Click on **Admin** on the front page
-   - Scroll down and click on **Consent documents**
-   - Click **ADD CONSENT DOCUMENT** (grey oval on the upper right)
-   - Select a file
-   - Choose one of the three saving options
-  
-   
+2.  If you wish to upload a consent document that is currently valid, proceed as
+    follows:
+
+    -   Click on **Admin** on the front page
+    -   Scroll down and click on **Consent documents**
+    -   Click **ADD CONSENT DOCUMENT** (grey oval on the upper right)
+    -   Select a file
+    -   Choose one of the three saving options
+
+
 Deletion of a Consent Document
 ------------------------------
-1. Click on **Admin** on the front page
-2. Scroll down and click on **Consent documents**
-3. Click on the consent document to be deleted
-4. Click on **Delete**
-5. Confirm the question regarding the deletion of the consent document by clicking
-   **Yes, I'm sure**
+
+1.   Click on **Admin** on the front page
+2.   Scroll down and click on **Consent documents**
+3.   Click on the consent document to be deleted
+4.   Click on **Delete**
+5.   Confirm the question regarding the deletion of the consent document by clicking
+     **Yes, I'm sure**
 
 
 Maintenance of Recruitment Consents
 ------------------------------------
+
 In order to get an overview of all subjects for whom a new recruiting consent is
 required, proceed as follows:
 
-1. Click on **Subjects** on the front page
+1.  Click on **Subjects** on the front page
 
-2. Go to **Maintenance**
+2.  Go to **Maintenance**
 
-3. Click on the fourth tab **Consent**
+3.  Click on the fourth tab **Consent**
 
-   - You can see which **subjects have an outdated consent** in a list
+    -   You can see which **subjects have an outdated consent** in a list
 
-4. Click on **Details** next to **Last updated on: XY**
+4.  Click on **Details** next to **Last updated on: XY**
 
-   - A new tab will open for each subject for whom consent is deprecated or invalid
+    -   A new tab will open for each subject for whom consent is deprecated or invalid
 
-5. Go to **Data protection** (fourth tab)
+5.  Go to **Data protection** (fourth tab)
 
-   - If you see an orange description field that says **The current consent refers
-     to an outdated document and will soon expire, thus rendering the recruitment
-     consent invalid. Please contact this subject and ask them to consent to the
-     latest document or withdraw their consent. This message will disappear once
-     you change the value of the checkbox.**, proceed with steps 6-7
+    -   If you see an orange description field that says **The current consent refers
+        to an outdated document and will soon expire, thus rendering the recruitment
+        consent invalid. Please contact this subject and ask them to consent to the
+        latest document or withdraw their consent. This message will disappear once
+        you change the value of the checkbox.**, proceed with steps 6-7
 
-6. Obtain valid consent for recruitment either online, by telephone or postal
-   
-   - As an intermediate step, check the box **Recruitment consent** once
-  
-7. If the subject consents to the latest document or withdraws its consent, that
-   has to be marked
+6.  Obtain valid consent for recruitment either online, by telephone or postal
 
-   - If the subject consents to the latest document: Press **Confirm** in the box
-     **Recruitment consent** and press **Save**
-   - If the subject requests GDPR deletion, check the box **To be deleted** and 
-     press **Save**
+    -   As an intermediate step, check the box **Recruitment consent** once
 
+7.  If the subject consents to the latest document or withdraws its consent, that
+    has to be marked
 
+    -   If the subject consents to the latest document: Press **Confirm** in the box
+        **Recruitment consent** and press **Save**
+    -   If the subject requests GDPR deletion, check the box **To be deleted** and
+        press **Save**

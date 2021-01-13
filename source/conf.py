@@ -17,8 +17,8 @@ import sphinx_rtd_theme
 
 # -- Project information -----------------------------------------------------
 
-project = 'castellum-docs'
-copyright = '2019, Goettel et al.'
+project = 'Castellum'
+copyright = '2018-2021, Goettel et al.'
 author = 'Goettel et al.'
 
 # The full version, including alpha/beta/rc tags
