@@ -153,6 +153,8 @@ In order to create a potential subject in Castellum, please proceed as follows:
     -   When you found the study the subject participated in, click on **Add to study**
 
 
+.. _subject-to-be-deleted:
+
 Approve subjects for deletion
 ------------------------------
 

@@ -37,6 +37,8 @@ Study Coordination: Creating a new study
 Now you can find your study in the list
 
 
+.. _study-recruitment-settings:
+
 Setting up the recruitment process
 ----------------------------------
 
@@ -163,6 +165,8 @@ for your study, please follow the steps below.
         and can begin to recruit. Of course, you may select several persons as recruiters.
 
 
+.. _study-members:
+
 Assign access rights and allocate roles
 ---------------------------------------
 
@@ -187,6 +191,9 @@ To delegate roles amongst different people, proceed as follows:
 
 4.  Select the role you want to assign to the selected person and click on **Save**
 
+
+.. _study-start:
+.. _study-finish:
 
 Start and finish your study
 ---------------------------

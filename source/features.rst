@@ -11,6 +11,7 @@ e.g. to export or delete all of it on request.
 Relevant guides:
 
 -   :ref:`subject-create`
+-   :ref:`subject-to-be-deleted`
 -   :ref:`subject-delete`
 -   :ref:`study-create`
 -   :ref:`study-delete`
@@ -34,6 +35,7 @@ Relevant guides:
 
 -   :ref:`consent`
 -   :ref:`recruitment`
+-   :ref:`study-recruitment-settings`
 
 .. TODO::
 

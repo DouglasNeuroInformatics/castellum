@@ -22,6 +22,7 @@ changes to existing ones.
 Relevant guides:
 
 -   :ref:`subject-create`
+-   :ref:`subject-to-be-deleted`
 -   :ref:`consent`
 
 .. TODO::
@@ -38,16 +39,10 @@ inserts studies into the database and defines the settings for them.
 Relevant guides:
 
 -   :ref:`study-create`
+-   :ref:`study-members`
+-   :ref:`study-recruitment-settings`
+-   :ref:`study-finish`
 -   :ref:`study-delete`
-
-.. TODO::
-
-    -   Generate, start, break and stop studies
-    -   See and edit filters for study recruitment
-    -   Allocate a role within the study to certain persons via **Member management**
-        (e.g. define recruiters for the study)
-    -   Define **Recruitment texts**
-    -   Upload templates of study consent documents for studies
 
 Study Approver
 ~~~~~~~~~~~~~~
@@ -60,9 +55,7 @@ Coordinator role or make all Study Coordinators also Study Approvers.
 
 Relevant guides:
 
-.. TODO::
-
-    -   Approve studies
+-   :ref:`study-start`
 
 Data Protection Coordinator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -122,7 +115,7 @@ Relevant guides:
     -   manage users
     -   manage roles
     -   manage resources
-    -   manage attributes
+    -   manage attribute descriptions
 
 
 Study specific roles
