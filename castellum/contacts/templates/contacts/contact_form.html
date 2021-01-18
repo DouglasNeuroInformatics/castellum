@@ -38,7 +38,7 @@
             {% endif %}
 
             {% for widget in form.guardians_remove %}
-                {% include 'contacts/__guardian_item.html' with name=form.guardians_remove.name pk=widget.data.value label=widget.choice_label removed=widget.data.selected %}
+                {% include 'contacts/__guardian_item.html' with name=form.guardians_remove.name pk=widget.data.value label=widget.choice_label slug=widget.choice_label.subject.slug removed=widget.data.selected %}
             {% endfor %}
 
             {% for widget in form.guardians_add %}
