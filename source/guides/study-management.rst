@@ -205,40 +205,23 @@ Finish a study
 
 .. _study-delete:
 
-Data Maintenance: Deleting a study from Castellum
-=================================================
+Delete a study
+==============
 
-Prerequisite
-------------
+When a study should be deleted depends on the rules of your specific
+organization. We assume that makes sense to delete all study data after few
+years, effecitvely anonymizing the research data.
 
-A study should be completely deleted because of one or more of the following
-reasons:
-
--   The study is no longer current because it was completed five years or
-    more ago.
--   The study must be discontinued permanently.
--   ...
-
-Before you delete the study, make sure all external data from Castellum is deleted
-
-Deleting the study
-------------------
+Once you delete a study from Castellum it is no longer possible to answer to
+export or delete requests from subjects. Make sure that all relevant external
+has been deleted before you delete a study from Castellum. The proceed as
+follows:
 
 1.  Go to **Studies** on the front page
 
-2.  Click on **All studies** to see all proposed studies
+2.  Choose the study you want to delete by clicking on **Details** next to it
 
-3.  Choose the study you want to delete by clicking on **Details** next to it
-
-4.  Before clicking on **Delete**, proceed as follows:
-
-    -   Go to the responsible person of the study and ask them to delete all
-        collected subject data of the study you want to delete
-    -   You can detect the name of the responsible person in the upper corner under
-        the study name
-
-5.  If all data has been deleted by the responsible person of the study, click on
-    **Delete** under the study name
+3.  Click on **Delete** under the study name
 
     -   Confirm the notice **I have made sure that all external data related to
         this study has been destroyed**
