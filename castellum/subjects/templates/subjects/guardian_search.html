@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n static bootstrap4 auth %}
+{% load i18n static bootstrap4 auth utils %}
 
 {% block title %}{% translate "Guardians" %} &middot; {{ block.super }}{% endblock %}
 
@@ -69,6 +69,9 @@
                                     {% else %}
                                         <h3 class="h4 d-inline-block text-muted my-1 mr-2">{{ contact.full_name }}</h3>
                                         <div class="d-inline-block text-muted my-1 mr-2">{% translate 'access denied' %}</div>
+                                    {% endif %}
+                                    {% if subject.blocked %}
+                                        <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ subject|verbose_name:'blocked' }}</span>
                                     {% endif %}
                                 </div>
                                 <div class="table-list-item-actions">
