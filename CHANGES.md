@@ -20,6 +20,18 @@
     all recipients are included in the mail body. The text that is used
     can be customized using the `recipients_text` field within the
     `CASTELLUM_MAIL` setting.
+-   `CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID` (default: empty) allows to
+    specify an attribute that will automatically be filled from
+    `Contact.date_of_birth`. Before it was quite common that users had
+    to enter the date of birth twice.
+-   It is now possible to block a subject due to inappropriate behavior.
+    Blocking is considered a sufficient legal basis of its own,
+    according to Art. 6 (1) lit. f GDPR.
+
+## bug fixes
+
+-   When adding guardians to a subject, newly created guardians were not
+    added properly.
 
 
 # 0.53.0 (release skipped)
