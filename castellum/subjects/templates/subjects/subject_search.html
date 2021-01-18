@@ -93,9 +93,11 @@
                                 <ul class="table-list">
                                     {% for participation, can_recruit, can_conduct in participations %}
                                         <li class="table-list-item">
-                                            <span class="h5 d-inline-block my-1 mr-2">{{ participation.study }}</span>
-                                            <span class="d-inline-block my-1 mr-2">{{ participation.study.contact_person }}</span>
-                                            <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</span>
+                                            <div>
+                                                <span class="h5 d-inline-block my-1 mr-2">{{ participation.study }}</span>
+                                                <span class="d-inline-block my-1 mr-2">{{ participation.study.contact_person }}</span>
+                                                <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</span>
+                                            </div>
                                             <div class="table-list-item-actions">
                                                 {% if can_recruit %}
                                                     <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participation.study.pk participation.pk %}">{% translate 'Recruitment' %}</a>
