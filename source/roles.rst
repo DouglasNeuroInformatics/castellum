@@ -15,11 +15,11 @@ context of a study. They can be assigned in **Member Management** by the
 Global roles
 ------------
 
-Subject Manager
-~~~~~~~~~~~~~~~
+Principal Subject Manager
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The **Subject Manager** enters data records of subjects in Castellum and makes
-changes to existing ones.
+The **Principal Subject Manager** enters data records of subjects in Castellum
+and makes changes to existing ones.
 
 Relevant guides:
 
@@ -69,7 +69,7 @@ dashboard, the **Data Protection Coordinator** can see subjects divided into
 four categories:
 
 -   Subjects that requested information regarding their personal data,
--   Subjects that have been marked as **To be deleted** by a **Subject Manager**,
+-   Subjects that have been marked as **To be deleted**
 
     -   This applies when a subject demanded a deletion of all scientific data
         related to them.
@@ -165,3 +165,16 @@ Relevant guides:
     -   get a subject's pseudonym
     -   attribute download
     -   make appointments
+
+Subject Manager
+~~~~~~~~~~~~~~~
+
+**Recruiters** or **Study Conductors** may be given this role so they can
+update subject data as part of their usual worflows.
+
+This role is different from **Principal Subject Manager** in that it is limited
+to subjects that participate in the respective study.
+
+Relevant guides:
+
+-   :ref:`subject-to-be-deleted`
