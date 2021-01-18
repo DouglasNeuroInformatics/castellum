@@ -1,9 +1,9 @@
-.. castellum-docs documentation master file, created by
+.. castellum documentation master file, created by
    sphinx-quickstart on Wed Aug 21 12:35:44 2019.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to castellum-docs's documentation!
+Welcome to Castellum's documentation!
 ==========================================
 
 .. toctree::
@@ -11,17 +11,18 @@ Welcome to castellum-docs's documentation!
 
    overview
    security
+   features
    roles
 
 .. toctree::
    :maxdepth: 2
-   :caption: Workflows
+   :caption: Step-by-step guides
 
-   workflows/study-creation
-   workflows/study-recruitment
-   workflows/deleting
-   workflows/subject-management
-   workflows/consent-management
+   guides/subject-management
+   guides/study-management
+
+   guides/consent-management
+   guides/recruitment
 
 Indices and tables
 ==================

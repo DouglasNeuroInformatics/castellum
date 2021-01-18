@@ -24,9 +24,8 @@ Permissions
 
 Most actions in castellum are protected by one or more permission. For
 easier handling, permissions are usually not assigned directly. Instead,
-they are collected into meaningful groups (aka roles). Castellum comes
-with some pre-defined sample groups, but you can adapt them to your
-needs.
+they are collected into meaningful groups (aka :ref:`roles`). Castellum comes
+with some pre-defined sample groups, but you can adapt them to your needs.
 
 Note that the django framework automatically generates a lot of
 permissions. Only a few of them are actually used. The full list is:

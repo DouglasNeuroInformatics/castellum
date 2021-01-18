@@ -1,3 +1,5 @@
+.. _consent:
+
 Consent Management
 ==================
 
@@ -113,7 +115,7 @@ required, proceed as follows:
         consent**. This is how you note that you are waiting for confirmation from
         the subject
 
-7.  If the subject agrees or withdraws his/her consent in the current consent
+7.  If the subject agrees or withdraws their consent in the current consent
     document, this must be indicated
 
     -   If the subject agrees, click on **Confirm** below **Recruitment consent**

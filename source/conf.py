@@ -22,7 +22,7 @@ copyright = '2018-2021, Goettel et al.'
 author = 'Goettel et al.'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.1'
+release = '0.52.0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -32,7 +32,10 @@ release = '0.0.1'
 # ones.
 extensions = [
     'sphinx_rtd_theme',
+    'sphinx.ext.todo',
 ]
+
+todo_include_todos = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

@@ -15,7 +15,7 @@ What Castellum is
 
 subject history
     a central place to collect references to all data related to a subject,
-    e.g. so it can be deleted on demand
+    e.g. so it can be deleted on request
 
 contact database
     a central place to collect contact information
@@ -59,7 +59,7 @@ before adding a new feature to Castellum:
 * Would the new feature introduce different staff members (user groups)
   who would use Castellum only for this reason? For example, we decided against
   integrating a *public relations view* on current studies as it would have
-  introduced staff members who actually are not allowed to access subject data.
+  introduced staff members who otherwise have nothing to do with subject data.
 
 * Are there well established processes or tools that do not need to be
   replaced? Examples might include calendars or room management.
