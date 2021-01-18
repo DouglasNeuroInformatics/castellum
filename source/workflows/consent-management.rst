@@ -15,13 +15,9 @@ Castellum is mainly used for the management of **Recruitment consent**. **Study
 consents** must be obtained separately from the database by the respective
 **Study conductor** at the execution level
 
-1.  Log in to Castellum by entering your username and password
-    Please make sure you have a stable internet connection and use your right
-    username and password
+1.  Click on **Admin** on the front page
 
-2.  Click on **Admin** on the front page
-
-3.  Go to **Consent documents** in the **Subjects**-field
+2.  Go to **Consent documents** in the **Subjects**-field
 
     -   There you will see a list of all consent documents that have already been
         created

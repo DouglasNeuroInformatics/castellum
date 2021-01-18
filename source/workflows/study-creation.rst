@@ -1,21 +1,16 @@
 Study Coordination: Creating a new study
 ========================================
 
-1.  Log in to Castellum by using your username and password
-
-    Make sure you are connected to the internet and use your right username and
-    password
-
-2.  Click on **Studies** on the front page
+1.  Click on **Studies** on the front page
 
     -   By selecting **Mine** in **Membership**, you will see studies you created.
         Under the field **All** you can see all studies that have been created.
     -   In the field **Search** you can look for a certain study
     -   By choosing a **Status** and / or a Study **Type**, you may also filter studies
 
-3.  Click on **Create new study**
+2.  Click on **Create new study**
 
-4.  Fill in all empty fields on the page:
+3.  Fill in all empty fields on the page:
 
     -   **Name** describes the name or title of the study you want to create
     -   **Responsible contact person** is the person who can be contacted if any
@@ -29,13 +24,13 @@ Study Coordination: Creating a new study
     -   **Keywords** may include main issues of the desired scientific findings
     -   Decide whether the study **Contains sensitive data** or not
 
-5.  Upload templates of **Consent** form(-s) of your study
+4.  Upload templates of **Consent** form(-s) of your study
 
-6.  Assign the **Required number of subjects** to your study
+5.  Assign the **Required number of subjects** to your study
 
-7.  Decide whether it **Is a one time invitation** or not
+6.  Decide whether it **Is a one time invitation** or not
 
-8.  Click on **Save** to record your progress
+7.  Click on **Save** to record your progress
 
 Now you can find your study in the list
 
@@ -161,31 +156,26 @@ Share studies with your recruiters
 If you want to give access to a person who is supposed to recruit participants
 for your study, please follow the steps below.
 
-1.  Log in to Castellum by using your username and password
-
-    Make sure you are connected to the internet and use your right username and
-    password
-
-2.  Click on **Studies** on the front page
+1.  Click on **Studies** on the front page
 
     You will see a list of the studies you have created by clicking on **Mine**
     in **Membership**
 
-3.  Click on **Details** of the study for which you want to change access rights
+2.  Click on **Details** of the study for which you want to change access rights
     or role redistribution
 
-4.  Go to **Member management**
+3.  Go to **Member management**
 
-5.  If you click on the field under **User**, you will be shown all possible
+4.  If you click on the field under **User**, you will be shown all possible
     users to whom you can assign roles
 
-6.  Select the user, who is supposed to take over the recruitment
+5.  Select the user, who is supposed to take over the recruitment
 
-7.  Click on **Add**
+6.  Click on **Add**
 
-8.  Click **Manage groups** next to the person you have chosen
+7.  Click **Manage groups** next to the person you have chosen
 
-9.  Select **Recruiter** and click on **Save**
+8.  Select **Recruiter** and click on **Save**
 
     If you did not start the study yet, the selected person has still no
     access to the study, unless you click on **Start** on the upper left side

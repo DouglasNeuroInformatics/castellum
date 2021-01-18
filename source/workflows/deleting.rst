@@ -17,19 +17,14 @@ Deletion of externally and internally stored data
 In order to delete the externally and internally stored data of a subject,
 please proceed as follows:
 
-1.  Log in to Castellum by using your username and password
-
-    Please make sure you are connected to the internet and use your right username
-    and password
-
-2.  Click on **Data protection** on the front page
+1.  Click on **Data protection** on the front page
 
     If the data of a subject should be deleted, you will find the subject assigned
     to one or more deletion options
 
-3.  Click on **Details** next to the subject to be deleted
+2.  Click on **Details** next to the subject to be deleted
 
-4.  Click on **Delete** on the upper right
+3.  Click on **Delete** on the upper right
 
     1.  When you see a message saying **Are you sure you want to permanently delete this subject and all related data?**, click on **Confirm** and the subject will be deleted
 
