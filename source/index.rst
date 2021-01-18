@@ -1,9 +1,9 @@
-.. castellum-docs documentation master file, created by
+.. castellum documentation master file, created by
    sphinx-quickstart on Wed Aug 21 12:35:44 2019.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to castellum-docs's documentation!
+Welcome to Castellum's documentation!
 ==========================================
 
 .. toctree::
