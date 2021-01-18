@@ -70,6 +70,9 @@
                                                     </div>
                                                 {% endif %}
                                             </div>
+                                            {% if subject.blocked %}
+                                                <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ subject|verbose_name:'blocked' }}</span>
+                                            {% endif %}
                                         {% endif %}
                                     {% else %}
                                         <h3 class="h4 d-inline-block text-muted my-1 mr-2">{{ contact.full_name }}</h3>

@@ -82,6 +82,11 @@
                         {% translate 'This subject is marked for deletion' %}
                     </div>
                 {% endif %}
+                {% if subject.blocked %}
+                    <div class="alert alert-danger" role="alert">
+                        {% translate 'This subject has been blocked due to inappropriate behaviour' %}
+                    </div>
+                {% endif %}
 
                 {% if messages %}
                     {% for message in messages %}

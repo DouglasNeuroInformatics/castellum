@@ -87,6 +87,9 @@
                                     <i class="fa fa-calendar" aria-label="{% translate 'Appointments' %}" title="{% translate 'Appointments' %}"></i>
                                     {{ participation.appointment_count }}/{{ session_count }}
                                 </div>
+                                {% if participation.subject.blocked %}
+                                    <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation.subject|verbose_name:'blocked' }}</span>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </div>
