@@ -3,8 +3,10 @@
 Roles
 =====
 
-This section lists the roles that castellum ships by default. Administrators
-can customize these roles for their organization.
+.. NOTE::
+
+    This section lists the roles that castellum ships by default. Administrators
+    can customize these roles for their organization.
 
 Study specific roles, in contrast to global ones, only take effect in the
 context of a study. They can be assigned in **Member Management** by the
