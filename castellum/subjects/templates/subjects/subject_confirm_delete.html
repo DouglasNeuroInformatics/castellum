@@ -31,9 +31,9 @@
                         </div>
                         <div class="table-list-item-actions">
                             {% if can_view_study %}
-                                <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'studies:detail' participation.study.pk %}">{% translate 'Study details' %}</a>
+                                <a class="btn btn-outline-primary my-1" href="{% url 'studies:detail' participation.study.pk %}">{% translate 'Study details' %}</a>
                             {% endif %}
-                            <a class="btn btn-danger btn-sm-inline my-1" href="{% url 'subjects:participation-delete' subject.slug participation.pk %}">
+                            <a class="btn btn-danger my-1" href="{% url 'subjects:participation-delete' subject.slug participation.pk %}">
                                 {% translate 'Delete' %}
                             </a>
                         </div>

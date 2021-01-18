@@ -25,7 +25,7 @@
                         {% endwith %}
                     </div>
                     <div class="table-list-item-actions">
-                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participation-detail' study.pk participation.pk %}">{% translate 'Details' %}</a>
+                        <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-detail' study.pk participation.pk %}">{% translate 'Details' %}</a>
                     </div>
                 {% else %}
                     <div class="text-muted">

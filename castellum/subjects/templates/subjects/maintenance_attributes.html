@@ -22,9 +22,9 @@
                 </div>
                 <div class="table-list-item-actions">
                     {% if can_access %}
-                        <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:detail' subject.slug %}" target="_blank">{% translate 'Details' %}</a>
+                        <a class="btn btn-outline-primary my-1" href="{% url 'subjects:detail' subject.slug %}" target="_blank">{% translate 'Details' %}</a>
                     {% else %}
-                        <button class="btn btn-outline-primary btn-sm-inline my-1" disabled>{% translate 'Details' %}</button>
+                        <button class="btn btn-outline-primary my-1" disabled>{% translate 'Details' %}</button>
                     {% endif %}
                 </div>
             </li>
