@@ -130,11 +130,13 @@ In order to limit the search for subjects in Castellum,
         Instead, links can be inserted.
 
 
-Share studies with your recruiters
-----------------------------------
+.. _study-members:
 
-If you want to give access to a person who is supposed to recruit participants
-for your study, please follow the steps below.
+Manage study members
+--------------------
+
+If you want to give access to a person (e.g. a recruiter) for your study,
+please follow the steps below.
 
 1.  Click on **Studies** on the front page
 
@@ -155,41 +157,11 @@ for your study, please follow the steps below.
 
 7.  Click **Manage groups** next to the person you have chosen
 
-8.  Select **Recruiter** and click on **Save**
-
-    If you did not start the study yet, the selected person has still no
-    access to the study, unless you click on **Start** on the upper left side
+8.  Select the appropriate roles and click **Save**
 
     .. note::
-        The study is now in progress and the recruiter has now access to the study
-        and can begin to recruit. Of course, you may select several persons as recruiters.
 
-
-.. _study-members:
-
-Assign access rights and allocate roles
----------------------------------------
-
-To delegate roles amongst different people, proceed as follows:
-
-1.  Follow steps 1-5 of the section **Share studies with your recruiters** above
-
-2.  Select the user for whom you want to change access rights and/or roles and
-    click **Add**
-
-    .. note::
-        Some users are already assigned to certain global roles in advance.
-        This can be recognized by the fact that the role description is highlighted
-        in grey.
-        Roles with blue background can be flexibly defined and changed by the **Study
-        coordinator**.
-
-3.  After clicking **Manage groups** next to the selected person, you can assign
-    up to six different roles for the specific study: **Study coordinator**,
-    **Subject manager**, **Recruiter**, **Study conductor**, **Data protection
-    coordinator** and **Receptionist**
-
-4.  Select the role you want to assign to the selected person and click on **Save**
+        Some features (e.g. recruitment) only become available once the study is started.
 
 
 .. _study-start:
