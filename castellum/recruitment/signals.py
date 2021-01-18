@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
+
 
 def delete_participation_pseudonym(sender, instance, using, **kwargs):
     from castellum.pseudonyms.models import Pseudonym
@@ -41,3 +43,12 @@ def delete_attribute_data(sender, instance, using, **kwargs):
         for subject in objs:
             del subject.attributes[instance.json_key]
         Subject.objects.bulk_update(objs, ['attributes'])
+
+
+def sync_date_of_birth(sender, instance, using, **kwargs):
+    from castellum.contacts.models import Contact
+
+    if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID and sender is Contact and instance.subject_id:
+        key = 'd%i' % settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
+        instance.subject.attributes[key] = instance.date_of_birth
+        instance.subject.save()

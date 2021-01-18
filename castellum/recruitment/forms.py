@@ -23,6 +23,7 @@ import json
 from pathlib import Path
 
 from django import forms
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import gettext_lazy as _
 
@@ -169,7 +170,11 @@ class AttributesForm(forms.ModelForm):
 
     @classmethod
     def factory(cls, user, obj=None):
-        allowed_descriptions = AttributeDescription.objects.allowed_write(user, obj=obj)
+        allowed_descriptions = (
+            AttributeDescription.objects
+            .allowed_write(user, obj=obj)
+            .exclude(id=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID)
+        )
         form_fields = {desc.json_key: desc.field.formfield() for desc in allowed_descriptions}
         return type('AttributesForm', (cls,), form_fields)
 

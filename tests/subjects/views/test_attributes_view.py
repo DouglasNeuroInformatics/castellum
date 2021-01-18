@@ -22,14 +22,12 @@ def test_update_post(client, user, subject, attribute_description):
     response = client.post(url, {
         'd1': 1,
         'd2': 'de',
-        'd3': '2018-01-01',
     })
     assert response.status_code == 302
 
     subject.refresh_from_db()
     assert subject.attributes['d1'] == 1
     assert subject.attributes['d2'] == 'de'
-    assert subject.attributes['d3'] == '2018-01-01'
 
 
 def test_update_blocked(client, user, subject, attribute_description):
