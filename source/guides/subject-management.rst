@@ -155,36 +155,23 @@ In order to create a potential subject in Castellum, please proceed as follows:
 
 .. _subject-to-be-deleted:
 
-Approve subjects for deletion
-------------------------------
+Mark a subject for deletion
+===========================
 
-You may want personal data and subjects to be completely deleted because of one
-or more of the following reasons:
-
--   the subjects either requested it,
--   it no longer makes sense to keep them in the database,
--   they cannot be reached due to incorrect or missing contact data or
--   there is no consent.
-    The consent may be based on **Recruitment consent**, **Study consent** and/
-    or **Guardianship**.
-
-To delete the data and the subject, please proceed as follows:
+To delete all data related to the subject, please proceed as follows:
 
 1.  Click on **Subjects** on the front page
 
-2.  Write in the empty fields first name and surname of the subject to be
-    deleted and click on **Submit**
+2.  Enter the first name and surname of the subject to be deleted into the
+    search field and click on **Submit**
 
 3.  Click on **Details** and then **Data protection** on the horizontal line
 
 4.  Select the checkbox **To be deleted**
 
-    .. note::
-        The subject is now cleared for deletion from the database and deletion of
-        their associated data. The data protection officer will take care of final
-        deletion
-        Please note that there may still be data stored in the backup even though
-        the person was deleted from Castellum
+The subject is now cleared for deletion from the database and deletion of
+their associated data. The data protection officer will take care of final
+deletion
 
 
 .. _subject-delete:
