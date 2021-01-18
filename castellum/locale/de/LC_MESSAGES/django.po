@@ -1111,14 +1111,10 @@ msgid "Interest in study news"
 msgstr "Interesse an Neuigkeiten zur Studie"
 
 #: castellum/recruitment/models/recruitment.py:111
-#, fuzzy
-#| msgid "Study Participations"
 msgid "Study participation"
-msgstr "Studienteilnahmen"
+msgstr "Studienteilnahme"
 
 #: castellum/recruitment/models/recruitment.py:112
-#, fuzzy
-#| msgid "Study Participations"
 msgid "Study participations"
 msgstr "Studienteilnahmen"
 
@@ -1509,7 +1505,7 @@ msgstr ""
 
 #: castellum/recruitment/views.py:381
 msgid "Scheduler appointments for this participation have been deleted."
-msgstr ""
+msgstr "Scheduler-Termine für diese Teilnahme wurden gelöscht."
 
 #: castellum/studies/forms.py:60
 msgid "Mails will be sent to: "
@@ -1802,7 +1798,7 @@ msgstr "Ressource"
 
 #: castellum/studies/models.py:356
 msgid "Additional text for reminder emails"
-msgstr ""
+msgstr "Zusätzlicher Text für Erinnerungs-E-Mails"
 
 #: castellum/studies/models.py:358
 msgid "External schedule ID"
@@ -2398,10 +2394,8 @@ msgid "Subject is deceased"
 msgstr "Proband*in ist verstorben"
 
 #: castellum/subjects/models.py:118
-#, fuzzy
-#| msgid "Subject is deceased"
 msgid "Subject is blocked"
-msgstr "Proband*in ist verstorben"
+msgstr "Proband*in ist gesperrt"
 
 #: castellum/subjects/models.py:119
 msgid ""
@@ -2410,7 +2404,12 @@ msgid ""
 "guardians. Blocking this subject does not automatically block their ward nor "
 "their co-guardians. They may thus still receive information about the "
 "recruitment process of their wards."
-msgstr ""
+msgstr "Die Proband*in ist aufgrund unangemessenen Verhaltens für die Rekrutierung "
+"gesperrt. Sie wird weder für die Rekrutierung in Betracht gezogen, noch als "
+"Vormund kontaktiert. Das Sperren dieser Proband*in wird automatisch weder die "
+"Proband*innen unter ihrer Vormundschaft, noch ihre Mit-Vormünder sperren. Sie kann "
+"also nach wie vor Informationen über den Rekrutierungsprozess dieser Proband*innen "
+"erhalten."
 
 #: castellum/subjects/models.py:126
 msgid "Data source"
@@ -2787,16 +2786,12 @@ msgstr ""
 "anwendbar"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:81
-#, fuzzy
-#| msgid "Mail recruitment"
 msgid "Blocked from recruitment"
-msgstr "E-Mail Rekrutierung"
+msgstr "Für die Rekrutierung gesperrt"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:82
-#, fuzzy
-#| msgid "Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR"
 msgid "Art. 6 (1) lit. f GDPR"
-msgstr "Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a DSGVO"
+msgstr "Art. 6 Abs. 1 lit. f DSGVO"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:91
 msgid "Study consent"
@@ -3054,7 +3049,7 @@ msgstr "Diese Proband*in ist zur Löschung vorgemerkt."
 
 #: castellum/templates/base.html:87
 msgid "This subject has been blocked due to inappropriate behaviour"
-msgstr ""
+msgstr "Die Proband*in wurde aufgrund unangemessenen Verhaltens gesperrt."
 
 #: castellum/templates/base.html:108
 msgid "Unsaved Changes"
@@ -3079,69 +3074,56 @@ msgid "Breadcrumbs"
 msgstr "Breadcrumbs"
 
 #: castellum/templates/feeds.html:4 castellum/templates/feeds.html:7
-#, fuzzy
-#| msgid "Feed"
 msgid "Feeds"
-msgstr "Feed"
+msgstr "Feeds"
 
 #: castellum/templates/feeds.html:8
 msgid ""
 "This page lists all available calendar feeds. You can subscribe to these "
 "feeds with the calendar program of your choice."
-msgstr ""
+msgstr "Auf dieser Seite sind alle verfügbaren Kalender-Feeds aufgelistet. "
+"Sie können diese Feeds mit einer Kalender-Anwendung Ihrer Wahl abonnieren. "
 
 #: castellum/templates/feeds.html:9
 msgid ""
 "Note that these feeds contain sensitive information. Each link includes a "
 "special token that is used for checking permissions. Therefore you must not "
 "share these links with anyone."
-msgstr ""
+msgstr "Bitte beachten Sie, dass diese Feeds vertrauliche Informationen beinhalten. "
+"Jeder Link enthält einen speziellen Token, welcher benutzt wird, um Berechtigungen "
+"zu überprüfen. Diese Links dürfen dementsprechend nicht geteilt werden."
 
 #: castellum/templates/feeds.html:11
-#, fuzzy
-#| msgid "User"
 msgid "Per User"
-msgstr "Nutzer*in"
+msgstr "Je Nutzer*in"
 
 #: castellum/templates/feeds.html:13
-#, fuzzy
-#| msgid "Follow-ups"
 msgid "all follow-ups"
-msgstr "Wiedervorlagen"
+msgstr "alle Wiedervorlagen"
 
 #: castellum/templates/feeds.html:14
-#, fuzzy
-#| msgid "Appointments"
 msgid "all appointments"
-msgstr "Termine"
+msgstr "alle Termine"
 
 #: castellum/templates/feeds.html:17
-#, fuzzy
-#| msgid "Study"
 msgid "Per Study"
-msgstr "Studie"
+msgstr "Je Studie"
 
 #: castellum/templates/feeds.html:27
-#, fuzzy
-#| msgid "Follow-ups"
 msgid "follow-ups"
 msgstr "Wiedervorlagen"
 
 #: castellum/templates/feeds.html:30 castellum/templates/feeds.html:33
-#, fuzzy
-#| msgid "Appointments"
 msgid "appointments"
 msgstr "Termine"
 
 #: castellum/templates/feeds.html:33 castellum/templates/feeds.html:43
 msgid "(occupied slots only)"
-msgstr ""
+msgstr "(nur belegte Zeitfenster)"
 
 #: castellum/templates/feeds.html:40
-#, fuzzy
-#| msgid "Resource"
 msgid "Per Resource"
-msgstr "Ressource"
+msgstr "Je Ressource"
 
 #: castellum/templates/index.html:66
 msgid "Admin"
