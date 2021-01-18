@@ -190,7 +190,10 @@ class Contact(TimeStampedModel):
     @property
     def is_reachable(self):
         return any([
-            self.get_address(), self.phone_number, self.email, self.has_guardian
+            self.get_address(),
+            self.phone_number,
+            self.email,
+            self.guardians.filter(blocked=False).exists(),
         ])
 
     @property
@@ -215,12 +218,14 @@ class Contact(TimeStampedModel):
         if self.email:
             return [self.email]
         else:
-            return self.guardians.exclude(email='').values_list('email', flat=True)
+            return [c.email for c in self.guardians.exclude(email='') if not c.subject.blocked]
 
     @cached_property
     def email_recipients_string(self):
         if len(self.own_or_guardian_emails) > 1:
-            return ', '.join(g.full_name for g in self.guardians.exclude(email=''))
+            return ', '.join(
+                g.full_name for g in self.guardians.exclude(email='') if not g.subject.blocked
+            )
 
     def save(self, *args, **kwargs):
         if not self.subject_id:
