@@ -1,7 +1,7 @@
 .. _study-create:
 
-Study Coordination: Creating a new study
-========================================
+Create a study
+==============
 
 1.  Click on **Studies** on the front page
 
@@ -39,8 +39,8 @@ Now you can find your study in the list
 
 .. _study-recruitment-settings:
 
-Setting up the recruitment process
-----------------------------------
+Set up the recruitment process
+------------------------------
 
 In order to limit the search for subjects in Castellum,
 

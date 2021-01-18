@@ -1,10 +1,7 @@
 .. _subject-create:
 
-Subject Management: Creating a subject in Castellum
-===================================================
-
-Prerequisite
-------------
+Create a subject
+================
 
 You have a person on the phone or their contact information and other important
 attributes are available. This person is interested in participating in
@@ -29,7 +26,6 @@ You can either ask for this information during a telephone call or you can trans
 it from another source.
 
 In order to create a potential subject in Castellum, please proceed as follows:
--------------------------------------------------------------------------------
 
 1.  Click on **Subjects** on the front page
 
