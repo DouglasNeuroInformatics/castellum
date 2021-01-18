@@ -100,3 +100,9 @@ before you can start using it:
 
         python manage.py createsuperuser --username admin
         python manage.py activate_user admin
+
+## Updates
+
+After updating to a new version of castellum it is usually sufficient to
+run `python manage.py migrateall`. Any additional steps that are
+required will be mentioned in the release notes.
