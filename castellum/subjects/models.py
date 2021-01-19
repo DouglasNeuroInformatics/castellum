@@ -133,7 +133,7 @@ class Subject(TimeStampedModel):
         StudyType,
         verbose_name=_('Additional suitability document for study type'),
         related_name='+',
-        help_text=(
+        help_text=_(
             'Additional suitability documents are records that certify that a subject may safely '
             'undergo all types of exams or tests conducted in the respective type of study.'
         ),
