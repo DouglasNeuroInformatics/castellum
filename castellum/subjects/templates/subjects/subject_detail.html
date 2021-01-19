@@ -78,16 +78,6 @@
         </dd>
 
         <dt class="col-sm-6">
-            {% translate 'Blocked from recruitment' %}
-            <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. f GDPR' %}</small>
-        </dt>
-        <dd class="col-sm-6">
-            {% if subject.has_legal_basis %}
-                {{ subject|display:'blocked' }}
-            {% endif %}
-        </dd>
-
-        <dt class="col-sm-6">
             {% translate 'Study consent' %}
             <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 27 BDSG' %}</small>
         </dt>
@@ -110,6 +100,16 @@
             {% else %}
                 {% url 'subjects:index' as url %}
                 {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">find or create a subject</a> and set this one as their guardian.{% endblocktranslate %}
+            {% endif %}
+        </dd>
+
+        <dt class="col-sm-6">
+            {{ subject|verbose_name:'blocked' }}
+            <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. f GDPR' %}</small>
+        </dt>
+        <dd class="col-sm-6">
+            {% if subject.has_legal_basis %}
+                {{ subject|display:'blocked' }}
             {% endif %}
         </dd>
     </dl>
