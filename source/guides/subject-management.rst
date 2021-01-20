@@ -187,11 +187,11 @@ please proceed as follows:
 2.  If you see a message saying **This subject cannot be deleted because there
     still is data about them in studies.**, proceed as follows:
 
-    -   Contact the responsible person for each study -   Ask them to delete
+    -   Contact the responsible person for each study and ask them to delete
         all collected data of the subject concerned. Identify the subject using
         the study pseudonym that is displayed.
-    -   Once the responsible contact person has deleted all data, delete the
-        participation record using the **Delete** button.
+    -   Once the responsible contact person has conformed the deletion of all
+        data, delete the participation record using the **Delete** button.
 
 3.  Once all participation have been deleted you will see a message saying
     **Are you sure you want to permanently delete this subject and all related
