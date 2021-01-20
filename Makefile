@@ -56,8 +56,7 @@ test: databases
 .PHONY: install
 install: venv
 	$(VIRTUAL_ENV)/bin/pip install -U pip
-	$(VIRTUAL_ENV)/bin/pip install -r requirements-dev.txt
-	$(VIRTUAL_ENV)/bin/pip install -e .
+	$(VIRTUAL_ENV)/bin/pip install -e .[dev]
 	npm install
 
 .PHONY: venv

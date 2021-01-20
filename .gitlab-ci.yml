@@ -25,8 +25,7 @@ test-branch:
   image: $PYTHON_IMAGE
   script:
     - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
-    - pip3 install -e .
-    - pip3 install -r requirements-dev.txt
+    - pip3 install -e .[dev]
     - npm install
     - isort -c castellum tests
     - flake8
