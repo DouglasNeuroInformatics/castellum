@@ -40,6 +40,7 @@ Relevant guides:
 .. TODO::
 
     -   manage attribute descriptions
+    -   mail recruitment
     -   attribute download
 
 Appointments

@@ -145,6 +145,7 @@ Relevant guides:
 
 .. TODO::
 
+    -   mail recruitment
     -   make appointments
 
 Study Conductor
