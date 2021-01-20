@@ -1,7 +1,7 @@
 .. _study-create:
 
-Study Coordination: Creating a new study
-========================================
+Create a study
+==============
 
 1.  Click on **Studies** on the front page
 
@@ -39,8 +39,8 @@ Now you can find your study in the list
 
 .. _study-recruitment-settings:
 
-Setting up the recruitment process
-----------------------------------
+Set up the recruitment process
+------------------------------
 
 In order to limit the search for subjects in Castellum,
 
@@ -130,11 +130,13 @@ In order to limit the search for subjects in Castellum,
         Instead, links can be inserted.
 
 
-Share studies with your recruiters
-----------------------------------
+.. _study-members:
 
-If you want to give access to a person who is supposed to recruit participants
-for your study, please follow the steps below.
+Manage study members
+--------------------
+
+If you want to give access to a person (e.g. a recruiter) for your study,
+please follow the steps below.
 
 1.  Click on **Studies** on the front page
 
@@ -155,107 +157,71 @@ for your study, please follow the steps below.
 
 7.  Click **Manage groups** next to the person you have chosen
 
-8.  Select **Recruiter** and click on **Save**
-
-    If you did not start the study yet, the selected person has still no
-    access to the study, unless you click on **Start** on the upper left side
+8.  Select the appropriate roles and click **Save**
 
     .. note::
-        The study is now in progress and the recruiter has now access to the study
-        and can begin to recruit. Of course, you may select several persons as recruiters.
 
-
-.. _study-members:
-
-Assign access rights and allocate roles
----------------------------------------
-
-To delegate roles amongst different people, proceed as follows:
-
-1.  Follow steps 1-5 of the section **Share studies with your recruiters** above
-
-2.  Select the user for whom you want to change access rights and/or roles and
-    click **Add**
-
-    .. note::
-        Some users are already assigned to certain global roles in advance.
-        This can be recognized by the fact that the role description is highlighted
-        in grey.
-        Roles with blue background can be flexibly defined and changed by the **Study
-        coordinator**.
-
-3.  After clicking **Manage groups** next to the selected person, you can assign
-    up to six different roles for the specific study: **Study coordinator**,
-    **Subject manager**, **Recruiter**, **Study conductor**, **Data protection
-    coordinator** and **Receptionist**
-
-4.  Select the role you want to assign to the selected person and click on **Save**
+        Some features (e.g. recruitment) only become available once the study is started.
 
 
 .. _study-start:
-.. _study-finish:
 
-Start and finish your study
----------------------------
+Start and stop a study
+======================
 
-When you created a study, it has not yet started and the recruiting process has
-not been initiated yet either.
+After a study has been created it is still in a draft state. Only Study
+Approvers have the permission to start recruitment. Depending on your
+organization, there may be different organziational steps such as a review
+associated with that.
 
-1.  Go to **Details** next to the study you want to start or finish
+In order to start or stop a study, a Study Approver needs to follow these
+steps:
+
+1.  Go to **Studies** on the front page, click **Details** next to the study
+    you wish to start/stop.
 
 2.  You can find the button **Start** in the left upper corner under the study
-    name
+    name. By clicking on **Start** you initiate the recruiting process
 
-    -   By clicking on **Start** you initiate the recruiting process
-    -   In this mode, you will not able to change any characteristics or talking
-        points that are needed for recruitment
-    -   When you click on **Stop**, you can edit information needed for the
-        recruiting process
 
-    In order to approve the persons who are supposed to carry out the recruitment
-    process, follow the steps in the explanation **Share studies with your recruiters**
-    (see next instruction)
+.. _study-finish:
 
-3.  When you click on **Finish study**, Castellum will register your study as
-    completed and the recruitment process is stopped
+Finish a study
+==============
+
+1.  Go to **Studies** on the front page, click **Details** next to the study
+    you wish to start/stop.
+
+2.  You can find the button **Finish study** in the left upper corner under the study
+    name.
+
+.. note::
+
+    All information related to potential subjects that were not invited to the
+    study will be deleted when the study is finished. If you finish and then
+    resume a study, it is possible that subjects that were already found to be
+    unsuitable are proposed again.
 
 
 .. _study-delete:
 
-Data Maintenance: Deleting a study from Castellum
-=================================================
+Delete a study
+==============
 
-Prerequisite
-------------
+When a study should be deleted depends on the rules of your specific
+organization. We assume that makes sense to delete all study data after few
+years, effecitvely anonymizing the research data.
 
-A study should be completely deleted because of one or more of the following
-reasons:
-
--   The study is no longer current because it was completed five years or
-    more ago.
--   The study must be discontinued permanently.
--   ...
-
-Before you delete the study, make sure all external data from Castellum is deleted
-
-Deleting the study
-------------------
+Once you delete a study from Castellum it is no longer possible to answer to
+export or delete requests from subjects. Make sure that all relevant external
+has been deleted before you delete a study from Castellum. The proceed as
+follows:
 
 1.  Go to **Studies** on the front page
 
-2.  Click on **All studies** to see all proposed studies
+2.  Choose the study you want to delete by clicking on **Details** next to it
 
-3.  Choose the study you want to delete by clicking on **Details** next to it
-
-4.  Before clicking on **Delete**, proceed as follows:
-
-    -   Go to the responsible person of the study and ask them to delete all
-        collected subject data of the study you want to delete
-    -   You can detect the name of the responsible person in the upper corner under
-        the study name
-
-5.  If all data has been deleted by the responsible person of the study, click on
-    **Delete** under the study name
+3.  Click on **Delete** under the study name
 
     -   Confirm the notice **I have made sure that all external data related to
         this study has been destroyed**
