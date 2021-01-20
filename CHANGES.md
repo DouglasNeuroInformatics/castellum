@@ -1,3 +1,10 @@
+# 0.54.1 (2021-01-20)
+
+## bug fixes
+
+-   Off-by-one error in age statistics
+
+
 # 0.54.0 (2021-01-19)
 
 ## security
