@@ -3,8 +3,8 @@
 Upload a consent document
 =========================
 
-Uploade the new document
-------------------------
+Upload the new document
+-----------------------
 
 1.  Click on **Admin** on the front page
 2.  Go to **Consent documents**
@@ -20,7 +20,7 @@ Deal with the old document
 
 If there have been significant changes to the document, the old version may no
 longer be a sufficient legal basis to keep subjects in the database. In that
-case there is a tow step process:
+case there is a two step process:
 
 1.  Mark the old consent document as **deprecated**. The document is still
     considered valid but subjects who have agreed to this document will show up
