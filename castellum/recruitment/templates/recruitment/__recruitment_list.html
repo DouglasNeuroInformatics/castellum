@@ -95,7 +95,7 @@
                     </div>
                 {% endif %}
                 <div class="table-list-item-actions">
-                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' study.pk participation.pk %}">
+                    <a class="btn btn-outline-primary my-1" href="{% url 'recruitment:contact' study.pk participation.pk %}">
                         {% if participation.status_open %}
                             {% translate 'Contact' context 'verb' %}
                         {% else %}
@@ -112,7 +112,7 @@
                     </div>
                 </div>
                 <div class="table-list-item-actions">
-                    <a href="#" class="btn btn-outline-primary btn-sm-inline my-1 disabled" tabindex="-1" aria-disabled="true">{% translate 'Contact' context 'verb' %}</a>
+                    <a href="#" class="btn btn-outline-primary my-1 disabled" tabindex="-1" aria-disabled="true">{% translate 'Contact' context 'verb' %}</a>
                 </div>
             {% endif %}
         </li>

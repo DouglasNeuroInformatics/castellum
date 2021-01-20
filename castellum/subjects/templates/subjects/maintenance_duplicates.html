@@ -15,7 +15,7 @@
                 <form class="table-list-item-actions" method="post" action="{% url 'subjects:index' %}">
                     {% csrf_token %}
                     <input type="hidden" name="search" value="{{ contact.first_name }} {{ contact.last_name }}">
-                    <button class="btn btn-outline-primary btn-sm-inline my-1">{% translate 'Search' %}</button>
+                    <button class="btn btn-outline-primary my-1">{% translate 'Search' %}</button>
                 </form>
             </li>
         {% empty %}

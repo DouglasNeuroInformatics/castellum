@@ -32,11 +32,11 @@
 
         <div class="tab-content mb-3 border border-top-0 p-3">
             <div class="tab-pane active" id="matches" role="tabpanel" aria-labelledby="matches-tab">
-                <ul class="table-list">
-                    {% if not can_view_subject %}
-                        <p class="alert alert-warning">{% translate 'This list may be restricted based on your permissions.' %}</p>
-                    {% endif %}
+                {% if not can_view_subject %}
+                    <p class="alert alert-warning">{% translate 'This list may be restricted based on your permissions.' %}</p>
+                {% endif %}
 
+                <ul class="table-list">
                     {% for subject, contact, participations, can_access in matches %}
                         <li>
                             <div class="table-list-item">
@@ -82,9 +82,9 @@
                                 <div class="table-list-item-actions">
                                     {% if can_view_subject %}
                                         {% if can_access %}
-                                            <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'subjects:detail' subject.slug %}">{% translate 'Details' %}</a>
+                                            <a class="btn btn-outline-primary my-1" href="{% url 'subjects:detail' subject.slug %}">{% translate 'Details' %}</a>
                                         {% else %}
-                                            <button class="btn btn-outline-primary btn-sm-inline my-1" disabled>{% translate 'Details' %}</button>
+                                            <button class="btn btn-outline-primary my-1" disabled>{% translate 'Details' %}</button>
                                         {% endif %}
                                     {% endif %}
                                 </div>
@@ -93,15 +93,17 @@
                                 <ul class="table-list">
                                     {% for participation, can_recruit, can_conduct in participations %}
                                         <li class="table-list-item">
-                                            <span class="h5 d-inline-block my-1 mr-2">{{ participation.study }}</span>
-                                            <span class="d-inline-block my-1 mr-2">{{ participation.study.contact_person }}</span>
-                                            <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</span>
+                                            <div>
+                                                <span class="h5 d-inline-block my-1 mr-2">{{ participation.study }}</span>
+                                                <span class="d-inline-block my-1 mr-2">{{ participation.study.contact_person }}</span>
+                                                <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</span>
+                                            </div>
                                             <div class="table-list-item-actions">
                                                 {% if can_recruit %}
-                                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'recruitment:contact' participation.study.pk participation.pk %}">{% translate 'Recruitment' %}</a>
+                                                    <a class="btn btn-outline-primary my-1" href="{% url 'recruitment:contact' participation.study.pk participation.pk %}">{% translate 'Recruitment' %}</a>
                                                 {% endif %}
                                                 {% if can_conduct %}
-                                                    <a class="btn btn-outline-primary btn-sm-inline my-1" href="{% url 'execution:participation-detail' participation.study.pk participation.pk %}">{% translate 'Execution' %}</a>
+                                                    <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-detail' participation.study.pk participation.pk %}">{% translate 'Execution' %}</a>
                                                 {% endif %}
                                             </div>
                                         </li>
