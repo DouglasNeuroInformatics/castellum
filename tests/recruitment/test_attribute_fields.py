@@ -85,9 +85,9 @@ def test_age_statistics_bucket(attribute_description, study):
     field = attribute_fields.AgeAttributeField(attribute_description)
     with freeze_time('1970-01-01'):
         buckets, get_bucket = field.get_statistics_grouping(study)
-        assert get_bucket('1971-01-01') == 18
-        assert get_bucket('1970-01-01') == 18
-        assert get_bucket('1969-01-01') == 18
+        assert get_bucket('1971-01-01') == 17
+        assert get_bucket('1970-01-01') == 17
+        assert get_bucket('1969-01-01') == 17
         assert get_bucket('1951-01-01') == 25
         assert get_bucket('1899-01-01') == math.inf
 
@@ -97,7 +97,7 @@ def test_age_statistics_bucket_children(attribute_description, study):
         SubjectFilter,
         group__study=study,
         description=attribute_description,
-        value=(15, 'months'),
+        value=(24, 'months'),
         operator='gt',
     )
 
@@ -105,6 +105,7 @@ def test_age_statistics_bucket_children(attribute_description, study):
     with freeze_time('1970-01-01'):
         buckets, get_bucket = field.get_statistics_grouping(study)
         assert get_bucket('1969-01-01') == 12
-        assert get_bucket('1970-01-01') == 1
+        assert get_bucket('1969-01-02') == 11
+        assert get_bucket('1970-01-01') == 0
         assert get_bucket('1969-10-01') == 3
         assert get_bucket('1900-01-01') is None

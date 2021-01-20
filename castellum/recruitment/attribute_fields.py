@@ -300,14 +300,14 @@ class AgeAttributeField(DateAttributeField):
 
         if min_date and min_date >= today - relativedelta(years=2):
             scale = 'months'
-            buckets = [(i, str(i)) for i in range(1, 25)]
+            buckets = [(i, str(i)) for i in range(0, 24)]
         elif min_date and min_date >= today - relativedelta(years=18):
             scale = 'years'
-            buckets = [(i, str(i)) for i in range(1, 19)]
+            buckets = [(i, str(i)) for i in range(0, 18)]
         else:
             scale = 'years'
             buckets = [
-                (18, '<18'),
+                (17, '<18'),
                 (25, '18-25'),
                 (30, '26-30'),
                 (35, '31-35'),
@@ -327,7 +327,7 @@ class AgeAttributeField(DateAttributeField):
             value = self.parse_date(value)
             today = datetime.date.today()
             for period, label in buckets:
-                if period is math.inf or today - relativedelta(**{scale: period}) <= value:
+                if period is math.inf or today - relativedelta(**{scale: period + 1}) < value:
                     return period
 
         return buckets + [(None, _('Other'))], get_bucket
