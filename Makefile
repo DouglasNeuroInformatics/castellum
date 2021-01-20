@@ -56,7 +56,7 @@ test: databases
 .PHONY: install
 install: venv
 	$(VIRTUAL_ENV)/bin/pip install -U pip
-	$(VIRTUAL_ENV)/bin/pip install -e .[dev]
+	$(VIRTUAL_ENV)/bin/pip install -e .[test,dev]
 	npm install
 
 .PHONY: venv
