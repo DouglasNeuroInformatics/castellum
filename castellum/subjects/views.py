@@ -114,7 +114,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
 
         completeness, total = filter_queries.completeness_expr()
         context['count_complete'] = Subject.objects\
-            .annotate(completeness=completeness)\
+            .alias(completeness=completeness)\
             .filter(completeness=total, deceased=False)\
             .count()
 
@@ -520,7 +520,7 @@ class MaintenanceContactView(BaseMaintenanceView):
 
     def get_queryset(self):
         contacts = Contact.objects\
-            .annotate(
+            .alias(
                 guardian_count=models.Count('guardians'),
                 guardian_of_count=models.Count('guardian_of'),
             )\
@@ -559,7 +559,7 @@ class MaintenanceDuplicatesView(BaseMaintenanceView):
             Contact.objects
             .values('first_name', 'last_name')
             .exclude(subject_id__in=to_be_deleted)
-            .annotate(
+            .alias(
                 count=models.Count('id'),
                 date_of_birth_count=models.Count('date_of_birth', distinct=True),
             )

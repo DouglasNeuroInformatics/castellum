@@ -54,7 +54,7 @@ def get_no_legal_basis(limit_by):
     # this query has the biggest potential to shrink down
     # the number of matches, so it is done first
     subjects = Subject.objects\
-        .annotate(pr_count=models.Count('participation', filter=~models.Q(
+        .alias(pr_count=models.Count('participation', filter=~models.Q(
             participation__status=Participation.UNSUITABLE
         )))\
         .exclude(filter_queries.has_consent(include_waiting=True), deceased=False)\
@@ -62,7 +62,7 @@ def get_no_legal_basis(limit_by):
     subject_pks = subjects.values_list('pk', flat=True)
 
     contacts = Contact.objects\
-        .annotate(guardian_of_count=models.Count('guardian_of'))\
+        .alias(guardian_of_count=models.Count('guardian_of'))\
         .filter(guardian_of_count=0, subject_id__in=list(subject_pks))
 
     subjects = Subject.objects.filter(filter_queries.pk_filter(contacts))
@@ -72,7 +72,7 @@ def get_no_legal_basis(limit_by):
 
 def get_unreachable(limit_by):
     contacts = Contact.objects\
-        .annotate(guardian_count=models.Count('guardians'))\
+        .alias(guardian_count=models.Count('guardians'))\
         .filter(
             guardian_count=0,
             address=None,

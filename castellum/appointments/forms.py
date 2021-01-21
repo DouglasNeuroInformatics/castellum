@@ -90,7 +90,7 @@ class AppointmentsForm(forms.ModelForm):
         qs = Appointment.objects\
             .exclude(participation=self.instance)\
             .filter(participation__status=Participation.INVITED)\
-            .annotate(end=models.ExpressionWrapper(
+            .alias(end=models.ExpressionWrapper(
                 models.F('start') + models.F('session__duration') * MINUTE,
                 output_field=models.DateTimeField(),
             ))
