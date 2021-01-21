@@ -93,6 +93,8 @@ APP_DB_ROUTER = {
     'geofilters': 'contacts',
 }
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 # Password validation
 
 AUTH_PASSWORD_VALIDATORS = [
