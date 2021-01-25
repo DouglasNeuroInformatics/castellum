@@ -23,19 +23,19 @@
         </dl>
 
         {% for entry in form.appointments %}
-            {% bootstrap_field entry.field %}
-            {% if entry.invitation_url == 'not-invited' %}
-                <p class="mt-n3 text-muted">
-                    {% translate 'Scheduler only available for invited subjects.' %}
-                </p>
-            {% elif entry.invitation_url %}
-                <p class="mt-n3">
+            <div class="form-group">
+                {% bootstrap_field entry.field form_group_class="" %}
+                {% if entry.invitation_url == 'not-invited' %}
+                    <p class="text-muted">
+                        {% translate 'Scheduler only available for invited subjects.' %}
+                    </p>
+                {% elif entry.invitation_url %}
                     <a id="invitation_url_{{ entry.field.id_for_label }}" href="{{ entry.invitation_url }}" target="_blank">{% translate 'Select timeslot for this subject' %}</a>
                     <button type="button" class="btn btn-sm btn-light" tabindex="-1" data-clipboard="#invitation_url_{{ entry.field.id_for_label }}" data-animation="success" title="{% translate 'Copy link' %}">
                         <i class="fa fa-copy" aria-label="{% translate 'Copy link' %}"></i>
                     </button>
-                </p>
-            {% endif %}
+                {% endif %}
+            </div>
         {% endfor %}
 
         <div class="d-print-none mb-3">
