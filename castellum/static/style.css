@@ -185,3 +185,10 @@
 input:checked + .checkbox-opacity {
     opacity: 0.5;
 }
+
+.breadcrumb-item a {
+    text-decoration: none;
+}
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
