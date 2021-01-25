@@ -77,7 +77,7 @@
     });
 
     $$.on(document, 'click', '[data-js="clear-datetime"]', function() {
-        this.closest('.form-row').querySelectorAll('input').forEach(el => {
+        this.closest('.row').querySelectorAll('input').forEach(el => {
             el.value = '';
             $$.trigger(el, 'change');
         });

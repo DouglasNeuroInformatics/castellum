@@ -7,7 +7,7 @@
         var template = document.getElementById('template-' + pk);
         if (template) {
             var formrow = document.createElement('div');
-            formrow.className = 'form-row mb-3';
+            formrow.className = 'row gx-2 mb-3';
             formrow.innerHTML = template.innerHTML.replace(/{prefix}/g, 'form-' + totalForms.value);
             container.append(formrow);
             totalForms.value = parseInt(totalForms.value, 10) + 1;
@@ -16,7 +16,7 @@
     });
 
     $$.on(document, 'click', '[data-js="filter-delete"]', function() {
-        var formrow = this.closest('.form-row');
+        var formrow = this.closest('.row');
         var index = Array.prototype.indexOf.call(formrow.parentElement.children, formrow);
 
         formrow.querySelector('[name^="form-' + index + '-value"]').remove();
