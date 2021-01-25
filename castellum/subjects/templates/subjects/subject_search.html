@@ -21,11 +21,11 @@
 
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="matches-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="matches" aria-selected="true">{% translate "Matches" %}</a>
+                <a class="nav-link active" id="matches-tab" data-bs-toggle="tab" href="#matches" role="tab" aria-controls="matches" aria-selected="true">{% translate "Matches" %}</a>
             </li>
             {% if can_change_subject and form.cleaned_data.last_name %}
                 <li class="nav-item">
-                    <a class="nav-link" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create">{% translate "Create" %}</a>
+                    <a class="nav-link" id="create-tab" data-bs-toggle="tab" href="#create" role="tab" aria-controls="create">{% translate "Create" %}</a>
                 </li>
             {% endif %}
         </ul>
