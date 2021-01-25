@@ -3,7 +3,7 @@
 <dl class="row">
     <dt class="col-sm-6">{{ contact|verbose_name:'email' }}</dt>
     <dd class="col-sm-6">
-        <a href="mailto:{{ contact.email }}">{{ contact|display:'email' }}</a>
+        <a {% if contact.email %}href="mailto:{{ contact.email }}"{% endif %}>{{ contact|display:'email' }}</a>
     </dd>
 
     <dt class="col-sm-6">{{ contact|verbose_name:'phone_number' }}</dt>
