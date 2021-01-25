@@ -6,7 +6,7 @@
         {% for participation, can_access in list %}
             <li class="table-list-item">
                 {% if can_access %}
-                    <div class="d-inline-block my-1 mr-2">
+                    <div class="d-inline-block my-1 me-2">
                         {{ participation.subject.contact.full_name }}
                         {% with summary=participation.subject|showup_summary %}
                             <span class="d-inline-block my-1 text-{{ participation.subject|showup_level }}" aria-label="{{ summary }}" title="{{ summary }}">&#9679;</span>
@@ -32,7 +32,7 @@
                     </div>
                 {% else %}
                     <div class="text-muted">
-                        <div class="d-inline-block my-1 mr-2">
+                        <div class="d-inline-block my-1 me-2">
                             {% translate 'access denied' %}
                             <span class="list-icon bg-danger text-light">{% icon 'ban' %}</span>
                         </div>

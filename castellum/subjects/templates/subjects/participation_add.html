@@ -17,8 +17,8 @@
         <ul class="table-list mb-3">
             {% for study in object_list %}
                 <li class="table-list-item">
-                    <div class ="h4 d-inline-block my-1 mr-2">{{ study }}</div>
-                    <span class="d-inline-block my-1 mr-2">{{ study.contact_person }}</span>
+                    <div class ="h4 d-inline-block my-1 me-2">{{ study }}</div>
+                    <span class="d-inline-block my-1 me-2">{{ study.contact_person }}</span>
                     {% if study.p %}
                         <span class="badge badge-secondary">{{ study.p.0|display:'status' }}</span>
                         {% if study.p.0.status != study.p.0.INVITED %}

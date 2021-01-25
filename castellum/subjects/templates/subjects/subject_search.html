@@ -42,7 +42,7 @@
                             <div class="table-list-item">
                                 <div>
                                     {% if can_access %}
-                                        <div class="h4 d-inline-block my-1 mr-2">
+                                        <div class="h4 d-inline-block my-1 me-2">
                                             {% if contact.title %}{{ contact.title }}{% endif %}
                                             {% if contact.first_name|lower == form.cleaned_data.first_name|lower %}
                                                 <mark>{{ contact.first_name }}</mark>
@@ -58,10 +58,10 @@
                                         {% if can_view_subject %}
                                             <div class="d-inline-block">
                                                 {% if contact.date_of_birth %}
-                                                    <div class="d-inline-block my-1 mr-2">{{ contact.date_of_birth }}</div>
+                                                    <div class="d-inline-block my-1 me-2">{{ contact.date_of_birth }}</div>
                                                 {% endif %}
                                                 {% if contact.email %}
-                                                    <div class="d-inline-block my-1 mr-2">
+                                                    <div class="d-inline-block my-1 me-2">
                                                         {% if contact.email|lower == form.cleaned_data.email|lower %}
                                                             <mark>{{ contact.email }}</mark>
                                                         {% else %}
@@ -71,12 +71,12 @@
                                                 {% endif %}
                                             </div>
                                             {% if subject.blocked %}
-                                                <span class="badge badge-dark my-1 mr-2">{{ subject|verbose_name:'blocked' }}</span>
+                                                <span class="badge badge-dark my-1 me-2">{{ subject|verbose_name:'blocked' }}</span>
                                             {% endif %}
                                         {% endif %}
                                     {% else %}
-                                        <h3 class="h4 d-inline-block text-muted my-1 mr-2">{{ contact.full_name }}</h3>
-                                        <div class="d-inline-block text-muted my-1 mr-2">{% translate 'access denied' %}</div>
+                                        <h3 class="h4 d-inline-block text-muted my-1 me-2">{{ contact.full_name }}</h3>
+                                        <div class="d-inline-block text-muted my-1 me-2">{% translate 'access denied' %}</div>
                                     {% endif %}
                                 </div>
                                 <div class="table-list-item-actions">
@@ -94,9 +94,9 @@
                                     {% for participation, can_recruit, can_conduct in participations %}
                                         <li class="table-list-item">
                                             <div>
-                                                <span class="h5 d-inline-block my-1 mr-2">{{ participation.study }}</span>
-                                                <span class="d-inline-block my-1 mr-2">{{ participation.study.contact_person }}</span>
-                                                <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</span>
+                                                <span class="h5 d-inline-block my-1 me-2">{{ participation.study }}</span>
+                                                <span class="d-inline-block my-1 me-2">{{ participation.study.contact_person }}</span>
+                                                <span class="d-inline-block my-1 me-2 badge badge-secondary">{{ participation|display:'status' }}</span>
                                             </div>
                                             <div class="table-list-item-actions">
                                                 {% if can_recruit %}
@@ -143,7 +143,7 @@
     <aside class="border bg-light p-3 mb-3 mt-5" aria-labelledby="stats">
         {% has_perm 'subjects.change_subject' user as can_change_subject %}
         {% if can_change_subject %}
-            <a href="{% url 'subjects:maintenance-attributes' %}" class="btn btn-primary float-right">{% translate 'Maintenance' %}</a>
+            <a href="{% url 'subjects:maintenance-attributes' %}" class="btn btn-primary float-end">{% translate 'Maintenance' %}</a>
         {% endif %}
 
         <h2 id="stats" class="h4">{% translate 'Current data situation' %}</h2>
