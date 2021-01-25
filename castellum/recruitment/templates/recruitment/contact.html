@@ -40,14 +40,14 @@
 
     <ul class="nav nav-tabs justify-content-center" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="true">{% translate "Contacting details" %}</a>
+            <a class="nav-link active" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="true">{% translate "Contacting details" %}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="study-tab" data-toggle="tab" href="#study" role="tab" aria-controls="study" aria-selected="false">{% translate "Talking points" %}</a>
+            <a class="nav-link" id="study-tab" data-bs-toggle="tab" href="#study" role="tab" aria-controls="study" aria-selected="false">{% translate "Talking points" %}</a>
         </li>
         {% if study.has_exclusion_criteria %}
             <li class="nav-item">
-                <a class="nav-link" id="criteria-tab" data-toggle="tab" href="#criteria" role="tab" aria-controls="criteria" aria-selected="false">
+                <a class="nav-link" id="criteria-tab" data-bs-toggle="tab" href="#criteria" role="tab" aria-controls="criteria" aria-selected="false">
                     <i class="fa fa-exclamation-triangle" role="img" title="{% translate 'blocking invitation' %}" aria-label="{% translate 'blocking invitation' %}" {% if object.exclusion_criteria_checked %}hidden{% endif %}></i>
                     {% translate 'Criteria' %}
                 </a>
@@ -55,7 +55,7 @@
         {% endif %}
         {% if can_change_appointment and study.studysession_set.exists %}
             <li class="nav-item">
-                <a class="nav-link" id="appointments-tab" data-toggle="tab" href="#appointments" role="tab" aria-controls="appointments" aria-selected="false">
+                <a class="nav-link" id="appointments-tab" data-bs-toggle="tab" href="#appointments" role="tab" aria-controls="appointments" aria-selected="false">
                     {% translate 'Appointments' %}
                 </a>
             </li>
