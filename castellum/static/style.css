@@ -171,3 +171,10 @@
 .dl-inline dd {
     margin: 0 1em 0 0;
 }
+
+.breadcrumb-item a {
+    text-decoration: none;
+}
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
