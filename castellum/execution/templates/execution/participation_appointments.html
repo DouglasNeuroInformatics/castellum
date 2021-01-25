@@ -9,9 +9,9 @@
                 {% if appointment %}
                     <div class="d-flex justify-content-between">
                         <time>{{ appointment.start|longdate }} {{ appointment.start|time }}</time>
-                        <form method="POST" class="form-inline" action="{% url 'execution:show-up' study.pk object.pk appointment.pk %}">
+                        <form method="POST" class="d-flex" action="{% url 'execution:show-up' study.pk object.pk appointment.pk %}">
                             {% csrf_token %}
-                            {% bootstrap_field form.show_up show_label=False %}
+                            {% bootstrap_field form.show_up show_label=False form_group_class='me-2' %}
                             <button class="btn btn-primary ms-2">{% translate 'Save' %}</button>
                         </form>
                     </div>
