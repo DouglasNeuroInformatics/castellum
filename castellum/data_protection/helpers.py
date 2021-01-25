@@ -58,6 +58,7 @@ def get_no_legal_basis(limit_by):
             participation__status=Participation.UNSUITABLE
         )))\
         .exclude(filter_queries.has_consent(include_waiting=True), deceased=False)\
+        .exclude(blocked=True, deceased=False)\
         .filter(pr_count=0)
     subject_pks = subjects.values_list('pk', flat=True)
 
