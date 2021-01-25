@@ -2,7 +2,7 @@
     var setVisibility = function() {
         var status = document.querySelector('[name="status"]');
         var followupInput = document.querySelector('[name="followup_date"]');
-        var followup = followupInput.closest('.form-row');
+        var followup = followupInput.closest('.row.g-3');
 
         if (status.value === '4') {
             followup.hidden = false;

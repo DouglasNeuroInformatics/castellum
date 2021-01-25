@@ -1,7 +1,7 @@
 {% load bootstrap5 %}
 
 {% bootstrap_field form.email %}
-<div class="form-row">
+<div class="row g-3">
     <div class="col-md-6">
         {% bootstrap_field form.phone_number %}
     </div>
@@ -9,7 +9,7 @@
         {% bootstrap_field form.phone_number_alternative %}
     </div>
 </div>
-<div class="form-row">
+<div class="row g-3">
     <div class="col-md-8">
         {% bootstrap_field form.address.street %}
     </div>
@@ -17,7 +17,7 @@
         {% bootstrap_field form.address.house_number %}
     </div>
 </div>
-<div class="form-row">
+<div class="row g-3">
     <div class="col-md-3">
         {% bootstrap_field form.address.zip_code %}
     </div>

@@ -64,7 +64,7 @@
 
                 <div id="filter-forms">
                     {% for form in formset %}
-                        <div class="form-row mb-3" {% if form.DELETE.value %}hidden{% endif %}>
+                        <div class="row g-3 mb-3" {% if form.DELETE.value %}hidden{% endif %}>
                             {{ form.id.as_hidden }}
                             {{ form.DELETE.as_hidden }}
                             <input type="hidden" name="{{ form.prefix }}-group" value="{{ object.id }}" />
@@ -99,7 +99,7 @@
                 </div>
 
                 {% if study.status == study.EDIT %}
-                    <div class="form-row">
+                    <div class="row g-3">
                         <div class="col-sm-4">
                             {% bootstrap_field add_form.description show_label=False %}
                         </div>
