@@ -203,7 +203,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="id_execution_url">{% translate 'Execution link' %}</label>
+            <label class="form-label" for="id_execution_url">{% translate 'Execution link' %}</label>
             <div class="input-group">
                 <input id="id_execution_url" class="form-control" value="{% absolute_url 'execution:participation-detail' study.pk object.pk %}" readonly>
                 <div class="input-group-append">
