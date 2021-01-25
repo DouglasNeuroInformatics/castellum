@@ -27,7 +27,7 @@
                             {% if participation.status == participation.INVITED %}
                                 <span>{{ participation.pseudonym }}</span>
                             {% endif %}
-                            <span class="badge badge-secondary">{{ participation|display:'status' }}</span>
+                            <span class="badge bg-secondary">{{ participation|display:'status' }}</span>
                         </div>
                         <div class="table-list-item-actions">
                             {% if can_view_study %}

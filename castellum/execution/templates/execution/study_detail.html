@@ -9,16 +9,16 @@
                     <div class="d-inline-block my-1 mr-2">
                         {{ participation.subject.contact.full_name }}
                         {% if session_count > 0 %}
-                            <span class="badge badge-secondary">
+                            <span class="badge bg-secondary">
                                 <i class="fa fa-calendar" aria-label="{% translate 'Appointments' %}" title="{% translate 'Appointments' %}"></i>
                                 {{ participation.appointment_count }}/{{ session_count }}
                             </span>
                         {% endif %}
                         {% if participation.appointment_today %}
-                            <span class="badge badge-primary">{% translate 'today' %}</span>
+                            <span class="badge bg-primary">{% translate 'today' %}</span>
                         {% endif %}
                         {% if participation.subject.blocked %}
-                            <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation.subject|verbose_name:'blocked' }}</span>
+                            <span class="d-inline-block my-1 mr-2 badge bg-secondary">{{ participation.subject|verbose_name:'blocked' }}</span>
                         {% endif %}
                         {% with summary=participation.subject|showup_summary %}
                             <span class="text-{{ participation.subject|showup_level }}" aria-label="{{ summary }}" title="{{ summary }}">&#9679;</span>

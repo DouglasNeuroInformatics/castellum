@@ -9,7 +9,7 @@
             <li class="table-list-item">
                 <div class ="h4 d-inline-block my-1 mr-2">{{ study }}</div>
                 {% if study.status == study.FINISHED %}
-                    <span class="badge badge-secondary">{% translate 'Finished' %}</span>
+                    <span class="badge bg-secondary">{% translate 'Finished' %}</span>
                 {% endif %}
                 <form class ="table-list-item-actions" method="POST">
                     {% csrf_token %}

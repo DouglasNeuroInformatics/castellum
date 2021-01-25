@@ -11,7 +11,7 @@
                             {% for desc, bucket in buckets %}
                                 <div class="d-inline-block my-1 mr-2" title="{{ desc.label }}">{{ bucket }}</div>
                             {% endfor %}
-                            <div class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</div>
+                            <div class="d-inline-block my-1 mr-2 badge bg-secondary">{{ participation|display:'status' }}</div>
                         </div>
                         <div class="mr-2">
                             <div class="d-inline-block my-1">
@@ -47,7 +47,7 @@
                                 <div class="d-inline-block my-1 mr-2" title="{{ desc.label }}">{{ bucket }}</div>
                             {% endfor %}
                             {% if participation.status != participation.NOT_CONTACTED %}
-                                <div class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</div>
+                                <div class="d-inline-block my-1 mr-2 badge bg-secondary">{{ participation|display:'status' }}</div>
                             {% endif %}
                         </div>
                         <div class="mr-2">
@@ -62,7 +62,7 @@
                             {% for desc, bucket in buckets %}
                                 <div class="d-inline-block my-1 mr-2" title="{{ desc.label }}">{{ bucket }}</div>
                             {% endfor %}
-                            <div class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</div>
+                            <div class="d-inline-block my-1 mr-2 badge bg-secondary">{{ participation|display:'status' }}</div>
                         </div>
                         <div class="mr-2">
                             <div class="d-inline-block my-1">
@@ -83,12 +83,12 @@
                                 <div class="d-inline-block my-1 mr-2" title="{{ desc.label }}">{{ bucket }}</div>
                             {% endfor %}
                             {% if participation.status == participation.INVITED and session_count > 0 %}
-                                <div class="d-inline-block my-1 mr-2 badge badge-secondary">
+                                <div class="d-inline-block my-1 mr-2 badge bg-secondary">
                                     <i class="fa fa-calendar" aria-label="{% translate 'Appointments' %}" title="{% translate 'Appointments' %}"></i>
                                     {{ participation.appointment_count }}/{{ session_count }}
                                 </div>
                                 {% if participation.subject.blocked %}
-                                    <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation.subject|verbose_name:'blocked' }}</span>
+                                    <span class="d-inline-block my-1 mr-2 badge bg-secondary">{{ participation.subject|verbose_name:'blocked' }}</span>
                                 {% endif %}
                             {% endif %}
                         </div>

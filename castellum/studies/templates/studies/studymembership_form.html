@@ -10,7 +10,7 @@
     <p>{% translate 'The User belongs to the following groups in all studies' %}</p>
     <ul class="p-0">
         {% for group in object.user.groups.all %}
-            <li class="badge badge-secondary my-1 mr-2">{{ group }}</li>
+            <li class="badge bg-secondary my-1 mr-2">{{ group }}</li>
         {% empty %}
             <li class="text-secondary d-block">{% translate 'no global groups' %}</li>
         {% endfor %}
