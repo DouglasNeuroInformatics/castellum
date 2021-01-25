@@ -30,7 +30,7 @@
         availability.querySelectorAll('select').forEach(function(select) {
             var label = document.createElement('label');
             label.className = 'd-block mb-0';
-            label.innerHTML = '<input type="checkbox" data-js="toggle-day">' +
+            label.innerHTML = '<input type="checkbox" class="form-check-input" data-js="toggle-day">' +
                 '<span class="sr-only"></span>';
             label.querySelector('span').textContent = django.gettext('All day');
             select.before(label);
