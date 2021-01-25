@@ -9,7 +9,7 @@
         {% csrf_token %}
 
         {% for field, answer_declined in uncategorized %}
-            <div class="form-group">
+            <div class="mb-3">
                 {% bootstrap_field field form_group_class="" %}
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" name="{{ field.name }}_answer_declined" id="{{ field.id_for_label }}_answer_declined" data-js="answer-declined" data-target="{{ field.id_for_label }}" {% if answer_declined %}checked{% endif %}>
@@ -22,7 +22,7 @@
             <fieldset>
                 <legend>{{ category }}</legend>
                 {% for field, answer_declined in fields %}
-                    <div class="form-group">
+                    <div class="mb-3">
                         {% bootstrap_field field form_group_class="" %}
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" name="{{ field.name }}_answer_declined" id="{{ field.id_for_label }}_answer_declined" data-js="answer-declined" data-target="{{ field.id_for_label }}" {% if answer_declined %}checked{% endif %}>

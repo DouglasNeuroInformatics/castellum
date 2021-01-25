@@ -13,7 +13,7 @@
         {% bootstrap_field form.privacy_level %}
 
         <fieldset>
-            <div class="form-group">
+            <div class="mb-3">
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="{{ form.consent_status.id_for_label }}" {% if form.consent_status.value == 'confirmed' %}checked{% endif %} {% if form.to_be_deleted.value %}disabled{% endif %}>
                     <label class="form-check-label" for="{{ form.consent_status.id_for_label }}">{{ form.consent_status.label }}</label>
