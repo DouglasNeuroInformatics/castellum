@@ -15,25 +15,23 @@
             </div>
 
             <div class="card-body">
-                <div class="form-group mt-3">
-                    <div class="form-row">
-                        <div class="col-sm">
-                            {{ form.excluded_studies }}
-                        </div>
-                        <div class="col-sm flex-grow-0">
-                            <button type="button" class="btn btn-danger" data-multi-reset="#{{ form.excluded_studies.id_for_label }}">{% translate 'Reset' %}</button>
-                        </div>
+                <div class="form-row">
+                    <div class="col-sm">
+                        {{ form.excluded_studies }}
                     </div>
-                    <small class="form-text text-muted">{% translate 'Participants from excluded studies will be excluded from recruitment for this study.' %}</small>
-                    {% if related_studies %}
-                        <small class="form-text text-muted">
-                            {% translate 'Studies in which potential subjects have pariticipated' %}:
-                            {% for study in related_studies %}
-                                {{ study }} ({{ study.count }}){% if not forloop.last %},{% endif %}
-                            {% endfor %}
-                        </small>
-                    {% endif %}
+                    <div class="col-sm flex-grow-0">
+                        <button type="button" class="btn btn-danger" data-multi-reset="#{{ form.excluded_studies.id_for_label }}">{% translate 'Reset' %}</button>
+                    </div>
                 </div>
+                <small class="form-text text-muted">{% translate 'Participants from excluded studies will be excluded from recruitment for this study.' %}</small>
+                {% if related_studies %}
+                    <small class="form-text text-muted">
+                        {% translate 'Studies in which potential subjects have pariticipated' %}:
+                        {% for study in related_studies %}
+                            {{ study }} ({{ study.count }}){% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    </small>
+                {% endif %}
             </div>
         </div>
 
