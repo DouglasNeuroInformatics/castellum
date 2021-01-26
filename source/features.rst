@@ -10,6 +10,7 @@ e.g. to export or delete all of it on request.
 
 Relevant guides:
 
+-   :ref:`subject-search`
 -   :ref:`subject-create`
 -   :ref:`subject-to-be-deleted`
 -   :ref:`subject-delete`
