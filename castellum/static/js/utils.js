@@ -45,12 +45,12 @@
 
     document.querySelectorAll('[type="date"]').forEach(function(e) {
         if (e.type !== 'date') {
-            $(e).datepicker({
+            new Datepicker(e, {
                 format: 'yyyy-mm-dd',
                 language: document.documentElement.lang,
                 autoclose: true,
                 calendarWeeks: true,
-                daysOfWeekHighlighted: '0,6',
+                daysOfWeekHighlighted: [0, 6],
                 todayHighlight: true,
             });
         }

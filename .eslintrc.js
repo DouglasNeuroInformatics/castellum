@@ -10,6 +10,7 @@ module.exports = {
         "$": "readonly",
         "$$": "readonly",
         "django": "readonly",
-        "FullCalendar": "readonly"
+        "FullCalendar": "readonly",
+        "Datepicker": "readonly"
     }
 };
