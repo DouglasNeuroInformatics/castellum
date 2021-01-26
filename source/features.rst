@@ -34,7 +34,8 @@ have been defined in the study.
 
 Relevant guides:
 
--   :ref:`consent`
+-   :ref:`consent-document`
+-   :ref:`subject-consent`
 -   :ref:`recruitment`
 -   :ref:`study-recruitment-settings`
 

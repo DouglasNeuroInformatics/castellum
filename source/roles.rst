@@ -26,7 +26,7 @@ Relevant guides:
 -   :ref:`subject-search`
 -   :ref:`subject-create`
 -   :ref:`subject-to-be-deleted`
--   :ref:`consent`
+-   :ref:`subject-consent`
 
 .. TODO::
 
@@ -112,7 +112,7 @@ Relevant guides:
 
 -   :ref:`admin-users`
 -   :ref:`admin-roles`
--   :ref:`consent`
+-   :ref:`consent-document`
 
 .. TODO::
 
