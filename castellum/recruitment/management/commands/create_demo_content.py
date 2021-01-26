@@ -226,18 +226,12 @@ def generate_subjects(count):
     subjects = Subject.objects.all()[:count]
 
     print('Generating contacts')
-    contacts = [fake_contact(subjects[i]) for i in range(count-1)]
-    testcontact = Contact(
-        gender='*',
-        first_name='Muhammad',
-        first_name_phonetic=phonetic('Muhammad'),
-        last_name='Nguyen',
-        last_name_phonetic=phonetic('Nguyen'),
-        date_of_birth='2000-12-13',
-        email='muhammad@example.com',
-        subject_id=subjects[count - 1].pk,
-    )
-    contacts.append(testcontact)
+    contacts = [fake_contact(subjects[i]) for i in range(count)]
+    contacts[-1].first_name = 'Muhammad'
+    contacts[-1].first_name_phonetic = phonetic('Muhammad')
+    contacts[-1].last_name = 'Nguyen'
+    contacts[-1].last_name_phonetic = phonetic('Nguyen')
+    contacts[-1].email = 'muhammad@example.com'
 
     Contact.objects.bulk_create(contacts)
     contacts = Contact.objects.all()[:count]
