@@ -135,16 +135,9 @@ In order to create a potential subject in Castellum, please proceed as follows:
 
         - Select **Not available until** today in 6 months
 
-10. You may also want to select whether the subject is **Hard of hearing**,
-    **Difficult to understand** or uses **Abusive language**
+10. Define from which **Data source** the data comes from and click on **Save**
 
-    It is also possible to **Add a note** on your own. Important contact tracking
-    information that is visible to other recruiters can be noted here.
-    Please be aware that the use of note fields should be very sparing
-
-11. Define from which **Data source** the data comes from and click on **Save**
-
-12. In **Study Participations** you can add any studies in which the subject has
+11. In **Study Participations** you can add any studies in which the subject has
     participated
 
     -   By clicking on **Add to study**, a list of current studies is displayed.
