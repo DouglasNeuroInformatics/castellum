@@ -105,11 +105,6 @@ In order to create a potential subject in Castellum, please proceed as follows:
 
     -   Fill in the **First Language**, **Highest educational degree**, **Handedness**,
         if the subject **Has hearing aid?**, **Date of birth** and **Sex**
-
-        .. note::
-            Although you already entered the **Date of birth** before, it must be
-            redefined again due to data protection reasons
-
     -   If the person **Does not want to participate in the following study types**,
         select one or more
     -   Click on **Save**
