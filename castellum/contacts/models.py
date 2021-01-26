@@ -193,7 +193,7 @@ class Contact(TimeStampedModel):
             self.get_address(),
             self.phone_number,
             self.email,
-            self.guardians.filter(blocked=False).exists(),
+            [c for c in self.guardians.all() if not c.subject.blocked],
         ])
 
     @property
