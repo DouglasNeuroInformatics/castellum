@@ -10,6 +10,7 @@ e.g. to export or delete all of it on request.
 
 Relevant guides:
 
+-   :ref:`subject-search`
 -   :ref:`subject-create`
 -   :ref:`subject-to-be-deleted`
 -   :ref:`subject-delete`
@@ -33,7 +34,8 @@ have been defined in the study.
 
 Relevant guides:
 
--   :ref:`consent`
+-   :ref:`consent-document`
+-   :ref:`subject-consent`
 -   :ref:`recruitment`
 -   :ref:`study-recruitment-settings`
 

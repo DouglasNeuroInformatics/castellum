@@ -23,13 +23,13 @@ and makes changes to existing ones.
 
 Relevant guides:
 
+-   :ref:`subject-search`
 -   :ref:`subject-create`
 -   :ref:`subject-to-be-deleted`
--   :ref:`consent`
+-   :ref:`subject-consent`
 
 .. TODO::
 
-    -   Search for individual subjects in the database
     -   See, add and edit contact data and attributes ob individual subjects
 
 Study Coordinator
@@ -112,7 +112,7 @@ Relevant guides:
 
 -   :ref:`admin-users`
 -   :ref:`admin-roles`
--   :ref:`consent`
+-   :ref:`consent-document`
 
 .. TODO::
 
@@ -141,6 +141,7 @@ details of subjects are continuously updated and supplemented.
 
 Relevant guides:
 
+-   :ref:`subject-search`
 -   :ref:`recruitment`
 
 .. TODO::
@@ -161,6 +162,8 @@ Conductor** can obtain both the study consent and the recruitment consent on sit
 
 Relevant guides:
 
+-   :ref:`subject-search`
+
 .. TODO::
 
     -   get a subject's pseudonym
@@ -178,4 +181,5 @@ to subjects that participate in the respective study.
 
 Relevant guides:
 
+-   :ref:`subject-search`
 -   :ref:`subject-to-be-deleted`

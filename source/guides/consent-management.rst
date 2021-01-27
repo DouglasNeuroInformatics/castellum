@@ -1,4 +1,4 @@
-.. _consent:
+.. _consent-document:
 
 Upload a consent document
 =========================
@@ -32,6 +32,8 @@ case there is a two step process:
 
 The legal basis for each subject can be found in the subject detail view.
 
+
+.. _subject-consent:
 
 Set subject consent
 ===================
