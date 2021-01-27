@@ -8,7 +8,7 @@
             <dd class="col-sm-6">
                 {{ guardian.full_name }}
                 {% if guardian.guardian_of.count > 1 %}
-                    <i class="fas fa-users" role="img" title="{% translate 'This person may have more than one ward. Therefore, It may be a good idea to ask guardian if other potential subjects are available for study' %}" aria-label="{% translate 'This person may have more than one ward. Therefore, It may be a good idea to ask guardian if other potential subjects are available for study' %}"></i>
+                    <i class="fas fa-users" role="img" title="{% translate 'This guardian has other wards who may also be suitable for this study.' %}" aria-label="{% translate 'This guardian has other wards who may also be suitable for this study.' %}"></i>
                 {% endif %}
             </dd>
         </dl>
