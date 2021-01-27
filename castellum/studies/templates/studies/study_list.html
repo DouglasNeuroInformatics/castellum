@@ -7,11 +7,13 @@
 
 {% block content %}
     <div class="d-flex flex-column flex-md-row justify-content-between">
-        <div class="my-1">
+        <ul class="nav nav-pills my-1">
             {% for value, label in form.display.field.choices %}
-                <a href="{% url_replace_param display=value %}" class="btn {% if form.cleaned_data.display == value %}btn-primary{% else %}btn-link{% endif %}">{{ label }}</a>
+                <li class="nav-item">
+                    <a href="{% url_replace_param display=value %}" class="nav-link {% if form.cleaned_data.display == value %}active{% endif %}">{{ label }}</a>
+                </li>
             {% endfor %}
-        </div>
+        </ul>
         <form class="my-1" method="get" aria-label="{{ form.q.label }}">
             <div class="input-group">
                 <input type="search" class="form-control" name="{{ form.q.name }}" value="{{ form.cleaned_data.q }}" placeholder="{{ form.q.label }}">
