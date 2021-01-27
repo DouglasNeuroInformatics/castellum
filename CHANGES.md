@@ -59,6 +59,7 @@
     text that will be used for all studies (default: empty).
 -   `CASTELLUM_RECRUITMENT_MAIL_WEEKLY_LIMIT` allows to set a weekly per
     study limit on mail recruitment (default: infinity).
+-   Allow to send test mails to own email address for preview.
 
 ## bug fixes
 
