@@ -14,6 +14,10 @@
     };
 
     var generateCheckboxes = function() {
+        availability.querySelectorAll('label').forEach(function(label) {
+            label.classList.add('mb-0');
+        });
+
         // whole week
         var label = document.createElement('label');
         label.className = 'form-check mb-0';
@@ -25,7 +29,7 @@
         // whole days
         availability.querySelectorAll('select').forEach(function(select) {
             var label = document.createElement('label');
-            label.className = 'd-block mb-0 mt-n1';
+            label.className = 'd-block mb-0';
             label.innerHTML = '<input type="checkbox" data-js="toggle-day">' +
                 '<span class="sr-only"></span>';
             label.querySelector('span').textContent = django.gettext('All day');
