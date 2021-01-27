@@ -18,14 +18,14 @@
                 <div data-js="d-select2-clear">
                     {{ form.excluded_studies }}
                 </div>
-                <small class="form-text text-muted">{% translate 'Participants from excluded studies will be excluded from recruitment for this study.' %}</small>
+                <div class="form-text">{% translate 'Participants from excluded studies will be excluded from recruitment for this study.' %}</div>
                 {% if related_studies %}
-                    <small class="form-text text-muted">
+                    <div class="form-text">
                         {% translate 'Studies in which potential subjects have pariticipated' %}:
                         {% for study in related_studies %}
                             {{ study }} ({{ study.count }}){% if not forloop.last %},{% endif %}
                         {% endfor %}
-                    </small>
+                    </div>
                 {% endif %}
             </div>
         </div>
