@@ -19,6 +19,8 @@ Account restrictions
 -  Users are automatically logged out on inactivity
 -  User accounts expire on a set date
 
+.. _permissions:
+
 Permissions
 -----------
 
@@ -54,6 +56,8 @@ If a user is a member of a study, they automatically gain the special
 ``access_study`` permission in the context of that study. You can also
 assign additional groups to study members that only apply in the context
 of the study.
+
+.. _privacy-level:
 
 Privacy levels
 ~~~~~~~~~~~~~~

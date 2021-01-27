@@ -110,12 +110,12 @@ Administrator
 
 Relevant guides:
 
+-   :ref:`admin-users`
+-   :ref:`admin-roles`
 -   :ref:`consent`
 
 .. TODO::
 
-    -   manage users
-    -   manage roles
     -   manage resources
     -   manage attribute descriptions
 

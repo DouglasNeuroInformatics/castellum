@@ -20,6 +20,7 @@ Welcome to Castellum's documentation!
 
    guides/subject-management
    guides/study-management
+   guides/admin
 
    guides/consent-management
    guides/recruitment
