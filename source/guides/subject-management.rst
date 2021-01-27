@@ -9,7 +9,6 @@ Search for a subject
 
     -   The second first name can be specified, but does not have to be
     -   Keep the order as indicated
-    -   First letters capitalized
     -   No comma needed
 
 3.  Click on **Submit**
