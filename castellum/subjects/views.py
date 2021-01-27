@@ -507,10 +507,20 @@ class MaintenanceAttributesView(BaseMaintenanceView):
     tab = 'attributes'
 
     def get_queryset(self):
+        today = datetime.date.today()
+
         completeness, total = filter_queries.completeness_expr()
+        full_age = Contact.objects.exclude(
+            date_of_birth__gt=today - relativedelta(years=settings.CASTELLUM_FULL_AGE),
+        )
         return super().get_queryset()\
             .annotate(completeness=completeness)\
-            .filter(filter_queries.has_consent(), deceased=False, completeness__lt=total)\
+            .filter(
+                filter_queries.has_consent(),
+                filter_queries.pk_filter(full_age),
+                deceased=False,
+                completeness__lt=total,
+            )\
             .order_by('completeness')
 
 
