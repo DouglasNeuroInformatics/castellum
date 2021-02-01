@@ -38,6 +38,8 @@
     });
 
     if (document.querySelector('#appointments .is-invalid')) {
-        $('#appointments-tab').tab('show');
+        var el = document.querySelector('#appointments-tab');
+        var tab = new bootstrap.Tab(el);
+        tab.show();
     }
 })();
