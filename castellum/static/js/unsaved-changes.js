@@ -15,9 +15,10 @@
     $$.on(document, 'click', 'a:not([data-js="cancel"]):not([href^="#"])', function(event){
         if (unsavedForms.length) {
             event.preventDefault();
-            var modal = document.querySelector('#unsaved-changes-modal');
-            modal.querySelector('[data-js="cancel"]').href = this.href;
-            $(modal).modal('show');
+            var el = document.querySelector('#unsaved-changes-modal');
+            var modal = new bootstrap.Modal(el);
+            el.querySelector('[data-js="cancel"]').href = this.href;
+            modal.show();
         }
     });
 
