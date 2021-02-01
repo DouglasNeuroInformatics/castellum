@@ -180,7 +180,7 @@ NPM_ROOT_PATH = BASE_DIR.parent
 NPM_FILE_PATTERNS = {
     'bootstrap': [
         'dist/css/bootstrap.min.css',
-        'dist/js/bootstrap.min.js'
+        'dist/js/bootstrap.min.js',
     ],
     'vanillajs-datepicker': [
         'dist/css/datepicker.min.css',
