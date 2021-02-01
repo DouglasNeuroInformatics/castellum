@@ -125,7 +125,9 @@ LOGOUT_TIMEOUT_DEFAULT = datetime.timedelta(seconds=15 * 60)
 
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = 'Strict'
+CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = True
 
 # Internationalization
 
