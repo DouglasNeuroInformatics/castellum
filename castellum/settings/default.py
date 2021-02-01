@@ -182,10 +182,10 @@ NPM_FILE_PATTERNS = {
         'dist/css/bootstrap.min.css',
         'dist/js/bootstrap.min.js'
     ],
-    'bootstrap-datepicker': [
-        'dist/css/bootstrap-datepicker3.min.css',
-        'dist/js/bootstrap-datepicker.min.js',
-        'dist/locales/bootstrap-datepicker.de.min.js',
+    'vanillajs-datepicker': [
+        'dist/css/datepicker.min.css',
+        'dist/js/datepicker.min.js',
+        'dist/js/locales/de.js',
     ],
     'jdenticon': ['dist/jdenticon.min.js'],
     'jquery': ['dist/jquery.min.js'],
