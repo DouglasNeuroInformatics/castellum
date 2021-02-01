@@ -192,7 +192,6 @@ NPM_FILE_PATTERNS = {
         'dist/js/locales/de.js',
     ],
     'jdenticon': ['dist/jdenticon.min.js'],
-    'jquery': ['dist/jquery.min.js'],
     '@popperjs': ['core/dist/umd/popper-lite.min.js'],
     '@fortawesome/fontawesome-free': [
         'css/all.min.css',
