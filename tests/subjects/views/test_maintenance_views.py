@@ -3,10 +3,12 @@ from datetime import date
 from django.utils import timezone
 
 import pytest
+from freezegun import freeze_time
 from model_bakery import baker
 
 from castellum.appointments.models import Appointment
 from castellum.contacts.models import Contact
+from castellum.subjects.models import Consent
 
 
 @pytest.mark.smoketest
@@ -22,6 +24,31 @@ def test_maintenance_attributes_200(request, client, user_fixture):
     url = '/subjects/maintenance/attributes/'
     response = client.get(url)
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_maintenance_attributes_list(request, client, user, subject):
+    baker.make(Consent, subject=subject, status=Consent.CONFIRMED)
+    client.force_login(user)
+    url = '/subjects/maintenance/attributes/'
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.content.count(b'<li class="table-list-item">') == 1
+
+
+@pytest.mark.django_db
+def test_maintenance_attributes_no_underage_subjects(request, client, user):
+    contact = baker.make(Contact, date_of_birth=date(2020, 1, 1))
+    baker.make(Consent, subject=contact.subject, status=Consent.CONFIRMED)
+    contact.subject.attributes = {}
+    contact.subject.save()
+    client.force_login(user)
+
+    with freeze_time("2020-02-02 12:00"):
+        url = '/subjects/maintenance/attributes/'
+        response = client.get(url)
+        assert response.status_code == 200
+        assert response.content.count(b'<li class="table-list-item">') == 0
 
 
 @pytest.mark.parametrize('user_fixture', [
