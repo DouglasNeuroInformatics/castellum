@@ -53,3 +53,6 @@ CASTELLUM_STUDY_STATUS_NOTIFICATION_TO = ['pr@example.com']
 
 # Setup geofilters
 INSTALLED_APPS.append('castellum.geofilters')
+
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
