@@ -21,7 +21,7 @@ docker images that already contain most dependencies are available from
 
 The following commands will install everything and start a local testserver (on ubuntu):
 
-    sudo apt install python3-venv npm make docker-compose gettext gdal-bin python3-psycopg2
+    sudo apt install python3-pip python3-venv npm make docker-compose gettext gdal-bin python3-psycopg2
     cd castellum
     make install_githooks
     make  # start castellum
