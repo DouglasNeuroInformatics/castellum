@@ -26,6 +26,11 @@ recommend that you read `castellum/settings/default.py` and
 `docs/example_deployment/settings.py` to see what is possible. Of
 course you can still change the settings later.
 
+Another important aspect you should think about are the database
+backends. Castellum splits information into two databases for enhanced
+security. This mechanism is most effective if those two databases are
+physically separated. See also the section on backups in this document.
+
 ## Example
 
 An example deployment configuration using docker, uWSGI, PostgreSQL, and
