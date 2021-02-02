@@ -46,7 +46,7 @@ existing backup solution.
 
 However, you should coordinate with the data protection officer to
 discuss the implications for data protection, e.g. [deletion of subject
-data](https://castellum.mpib.berlin/documentation/en/workflows/deleting.html).
+data](https://castellum.mpib.berlin/documentation/en/guides/subject-management.html#delete-a-subject).
 We recommend to keep backups only for a short amount of time and inform
 subjects about that.
 
