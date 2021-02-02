@@ -4,6 +4,28 @@ Castellum is a django project. You should refer to the [django
 documentation](https://docs.djangoproject.com/en/stable/howto/deployment/)
 for most questions concerning deployment.
 
+## Before you start
+
+As a first step you should decide whether you want to install castellum
+manually or use a Docker image. Using the docker image saves you some
+steps in the installation process, but brings its own complexity. We
+recommend to use Docker if you already have experience with it.
+
+You also need to take care of the following steps before you can start
+with the installation itself:
+
+-   Linux server with root access
+-   Domain name and TLS certificate
+-   SMTP details
+-   LDAP details (optional)
+
+It also makes sense to think about how you want to use castellum and
+which optional features are relevant for you. This will allow you to
+make the necessary adjustments during the installation process. We
+recommend that you read `castellum/settings/default.py` and
+`docs/example_deployment/settings.py` to see what is possible. Of
+course you can still change the settings later.
+
 ## Example
 
 An example deployment configuration using docker, uWSGI, PostgreSQL, and
