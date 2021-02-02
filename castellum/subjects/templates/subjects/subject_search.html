@@ -152,25 +152,25 @@
             <dt class="col-sm-5">{% translate 'Contact data updated in last 6 months' %}</dt>
             <dd class="col-sm-3">{{ count_updated }} {% translate 'subjects' %}</dd>
             <dd class="col-sm-4">
-                <meter class="w-100" max="{{ count_total }}" value="{{ count_updated }}"></meter>
+                <meter class="progress" max="{{ count_total }}" value="{{ count_updated }}"></meter>
             </dd>
 
             <dt class="col-sm-5">{% translate 'Complete attributes' %}</dt>
             <dd class="col-sm-3">{{ count_complete }} {% translate 'subjects' %}</dd>
             <dd class="col-sm-4">
-                <meter class="w-100" max="{{ count_total }}" value="{{ count_complete }}"></meter>
+                <meter class="progress" max="{{ count_total }}" low="{{ count_half }}" value="{{ count_complete }}"></meter>
             </dd>
 
             <dt class="col-sm-5">{% translate 'Took part in a study' %}</dt>
             <dd class="col-sm-3">{{ count_participated }} {% translate 'subjects' %}</dd>
             <dd class="col-sm-4">
-                <meter class="w-100" max="{{ count_total }}" value="{{ count_participated }}"></meter>
+                <meter class="progress" max="{{ count_total }}" low="{{ count_half }}" value="{{ count_participated }}"></meter>
             </dd>
 
             <dt class="col-sm-5">{% translate 'Currently recruitable' %}</dt>
             <dd class="col-sm-3">{{ count_recruitable }} {% translate 'subjects' %}</dd>
             <dd class="col-sm-4">
-                <meter class="w-100" max="{{ count_total }}" value="{{ count_recruitable }}"></meter>
+                <meter class="progress" max="{{ count_total }}" value="{{ count_recruitable }}"></meter>
             </dd>
         </dl>
     </aside>

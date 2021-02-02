@@ -110,6 +110,31 @@
     hyphens: auto;
 }
 
+meter.progress {
+    -webkit-appearance: none;
+    background-image: none;
+    width: 100%;
+}
+meter.progress::-webkit-meter-inner-element {
+    display: block;
+}
+meter.progress::-webkit-meter-bar {
+    border: 0;
+    border-radius: 0;
+}
+meter.progress::-moz-meter-bar,
+meter.progress::-webkit-meter-optimum-value {
+  background: var(--success);
+}
+meter.progress:-moz-meter-sub-optimum::-moz-meter-bar,
+meter.progress::-webkit-meter-suboptimum-value {
+  background: var(--warning);
+}
+meter.progress:-moz-meter-sub-sub-optimum::-moz-meter-bar,
+meter.progress::-webkit-meter-even-less-good-value {
+  background: var(--danger);
+}
+
 [data-animation="success"] {
     position: relative;
 }
