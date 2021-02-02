@@ -107,7 +107,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ]
 
         return Participation.objects\
-            .annotate(appointment_count=models.Count('appointment'))\
+            .annotate(appointment_count=models.Count('appointment', distinct=True))\
             .prefetch_related('subject')\
             .filter(status__in=self.shown_status, study=self.study)\
             .order_by(*order_by)
