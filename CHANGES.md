@@ -1,3 +1,22 @@
+# 0.54.2 (2021-02-01)
+
+## security
+
+-   Update to Django 3.1.6
+-   Restrict cookies to secure connections by default
+-   The number of booked appointments was multiplied by the total
+    number of participations for a subject. This allowed unauthorized
+    users to infer that number.
+
+## bug fixes
+
+-   Fix some cases where blocked subjects were not handled correctly.
+    Notably blocking is now considered a legal basis in the data
+    protection dashboard.
+-   Fix the number of booked appointments in the recruitment and
+    execution lists.
+
+
 # 0.54.1 (2021-01-20)
 
 ## bug fixes
