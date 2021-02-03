@@ -3,12 +3,6 @@
 Castellum is a privacy-compliant subject database for scientific
 research.
 
-## Status
-
-This project is still in development. There may be severe vulnerabilities
-in the code. It is strongly recommended not to use this in production
-yet.
-
 ## Releases
 
 We typically release at the end of every 3 week sprint. See `CHANGES.md`
