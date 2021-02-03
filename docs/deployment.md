@@ -18,6 +18,7 @@ for most questions concerning deployment.
     in separte documents.
     -   geo filters
     -   street autocompletion
+-   Come up with a migration strategy for legacy systems.
 -   You will also need
     -   Linux server with root access
     -   Domain name and TLS certificate
