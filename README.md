@@ -11,21 +11,6 @@ for recent changes. Tagged snapshots of the code are available from
 docker images that already contain most dependencies are available from
 `registry.git.mpib-berlin.mpg.de/castellum/castellum`.
 
-## Development
-
-The following commands will install everything and start a local testserver (on ubuntu):
-
-    sudo apt install python3-pip python3-venv npm make docker-compose gettext gdal-bin python3-psycopg2
-    cd castellum
-    make install_githooks
-    make  # start castellum
-
-You can login with user "admin" and password "password".
-
-## Testing
-
-The command `pytest` will execute all tests. (postgres needs to be running)
-
 ## Links
 
 -   Project home page: https://www.mpib-berlin.mpg.de/research-data/castellum
