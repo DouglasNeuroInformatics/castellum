@@ -20,7 +20,7 @@
             <input type="hidden" name="{{ form.prefix }}-group" value="{{ object.id }}" />
 
             <div class="col-sm-12">
-                {{ form.description|selected_label }}
+                {{ form.desc.filter_label }}
                 {{ form.description.as_hidden }}
             </div>
 
@@ -70,7 +70,7 @@
                             <input type="hidden" name="{{ form.prefix }}-group" value="{{ object.id }}" />
 
                             <div class="col-sm-12">
-                                {{ form.description|selected_label }}
+                                {{ form.desc.filter_label }}
                                 {{ form.description.as_hidden }}
                             </div>
 
