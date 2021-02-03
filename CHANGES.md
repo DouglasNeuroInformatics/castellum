@@ -1,3 +1,13 @@
+# 0.55.0 (2021-02-09)
+
+## new features
+
+- Recruitment/Execution contacting details provide hint that the
+  current guardian may have more wards who could be invited.
+- Exclude underage subjects with incomplete attributes from maintenance
+  dashboard as attribute completion may not be possible for these subjects
+
+
 # 0.54.2 (2021-02-01)
 
 ## security
