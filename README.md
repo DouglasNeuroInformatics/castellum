@@ -1,7 +1,21 @@
 # Castellum
 
-Castellum is a privacy-compliant subject database for scientific
-research.
+Castellum is a subject database system developed at the Max Planck
+Society. Its main goals are:
+
+-   GDPR compliant data protection and security
+-   Flexibility so it can be used in different organisations
+
+## Features
+
+-   **Subject management**: Castellum is a central place to collect
+    references to all data related to a subject, e.g. so it can be
+    deleted on request
+-   **Pseudonym service**: Contact details are stored in Castellum so
+    all other databases can work with pseudonyms instead.
+-   **Recruitment**: Castellum allows you to find potential subjects
+    from an existing pool using study specific filters
+-   **Appointments**: You can manage appointments for test sessions.
 
 ## Links
 
