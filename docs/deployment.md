@@ -76,7 +76,8 @@ documents:
 After installing castellum on your server there are some more steps
 before you can start using it:
 
-1.  Adapt the settings.
+1.  Adapt the settings. See `castellum/settings/default.py` for the full
+    list of available settings.
 
 2.  Check for some common issues:
 
@@ -100,6 +101,9 @@ before you can start using it:
 
         python manage.py createsuperuser --username admin
         python manage.py activate_user admin
+
+    See the [end-user documentation](https://castellum.mpib.berlin/documentation/en/roles.html#administrator)
+    for further information.
 
 ## Updates
 
