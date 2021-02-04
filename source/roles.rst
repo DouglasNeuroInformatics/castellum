@@ -163,10 +163,10 @@ Conductor** can obtain both the study consent and the recruitment consent on sit
 Relevant guides:
 
 -   :ref:`subject-search`
+-   :ref:`subject-get-pseudonym`
 
 .. TODO::
 
-    -   get a subject's pseudonym
     -   attribute download
     -   make appointments
 
