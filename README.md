@@ -1,40 +1,28 @@
 # Castellum
 
-Castellum is a privacy-compliant subject database for scientific
-research.
+Castellum is a subject database system developed at the Max Planck
+Society. Its main goals are:
 
-## Status
+-   GDPR compliant data protection and security
+-   Flexibility so it can be used in different organisations
 
-This project is still in development. There may be severe vulnerabilities
-in the code. It is strongly recommended not to use this in production
-yet.
+## Features
 
-## Releases
-
-We typically release at the end of every 3 week sprint. See `CHANGES.md`
-for recent changes. Tagged snapshots of the code are available from
-<https://git.mpib-berlin.mpg.de/castellum/castellum/-/tags>. Tagged
-docker images that already contain most dependencies are available from
-`registry.git.mpib-berlin.mpg.de/castellum/castellum`.
-
-## Development
-
-The following commands will install everything and start a local testserver (on ubuntu):
-
-    sudo apt install python3-pip python3-venv npm make docker-compose gettext gdal-bin python3-psycopg2
-    cd castellum
-    make install_githooks
-    make  # start castellum
-
-You can login with user "admin" and password "password".
-
-## Testing
-
-The command `pytest` will execute all tests. (postgres needs to be running)
+-   **Subject management**: Castellum is a central place to collect
+    references to all data related to a subject, e.g. so it can be
+    deleted on request
+-   **Pseudonym service**: Contact details are stored in Castellum so
+    all other databases can work with pseudonyms instead.
+-   **Recruitment**: Castellum allows you to find potential subjects
+    from an existing pool using study specific filters
+-   **Appointments**: You can manage appointments for test sessions.
 
 ## Links
 
 -   Project home page: https://www.mpib-berlin.mpg.de/research-data/castellum
 -   Source code: https://git.mpib-berlin.mpg.de/castellum/castellum/
--   Documentation: https://castellum.mpib.berlin/documentation/en/
+-   Releases: https://git.mpib-berlin.mpg.de/castellum/castellum/-/releases
+-   Docker: `registry.git.mpib-berlin.mpg.de/castellum/castellum`
+-   End-user documentation: https://castellum.mpib.berlin/documentation/en/
+-   Developer documentation: https://git.mpib-berlin.mpg.de/castellum/castellum/-/tree/main/docs
 -   Code of conduct: https://www.mpg.de/11961177/code-of-conduct-en.pdf
