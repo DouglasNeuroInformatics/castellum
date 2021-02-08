@@ -252,7 +252,7 @@ class AgeAttributeField(DateAttributeField):
 
     filter_form_class = AgeField
     available_operators = [
-        ("lt", _("at least")),
+        ("lt", _("is at least")),
         ("gt", _("younger than")),
     ]
 
