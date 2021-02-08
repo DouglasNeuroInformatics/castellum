@@ -4,6 +4,27 @@ Castellum is a django project. You should refer to the [django
 documentation](https://docs.djangoproject.com/en/stable/howto/deployment/)
 for most questions concerning deployment.
 
+## Before you start
+
+-   Decide whether you want to install castellum manually or use a
+    docker image. Using the docker image saves you some steps in the
+    installation process, but brings its own complexity. We recommend to
+    use docker if you already have experience with it.
+-   Decide on a database setup. Castellum splits information into two
+    databases for enhanced security. This mechanism is most effective if
+    those two databases are physically separated. See also the section
+    on backups in this document.
+-   Decide which optional features you want to use. They are described
+    in separte documents.
+    -   geo filters
+    -   street autocompletion
+-   Come up with a migration strategy for legacy systems.
+-   You will also need
+    -   Linux server with root access
+    -   Domain name and TLS certificate
+    -   SMTP details
+    -   LDAP details (optional)
+
 ## Example
 
 An example deployment configuration using docker, uWSGI, PostgreSQL, and
@@ -63,14 +84,6 @@ user requests. We provide the following management commands for that:
 -   `send_appointment_reminders`: Send email reminders to subjects with
     upcoming appointments. If the subjects have no email address, a note
     is sent to the respective study coordinators instead.
-
-## Optional features
-
-There are some optional features that are described in separate
-documents:
-
--   geo filters
--   street autocompletion
 
 ## Initial setup
 
