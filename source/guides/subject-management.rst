@@ -169,7 +169,7 @@ To delete all data related to the subject, please proceed as follows:
 2.  Enter the first name and surname of the subject to be deleted into the
     search field and click on **Submit**
 
-3.  Click on **Details** and then **Data protection** on the horizontal line
+3.  Click on **Details** and then go to the **Data protection** tab
 
 4.  Select the checkbox **To be deleted**
 
