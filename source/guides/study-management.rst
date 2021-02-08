@@ -108,13 +108,16 @@ In order to limit the search for subjects in Castellum,
    -   Define **Session instructions**,
    -   **Start of test sessions**,
    -   **End of test sessions** and
-   -   click on **Add session**
+   -   Click on **Add session**
 
    -   When adding a test session, always give the session a **Name** and specify
        the **Duration of a session in minutes**
    -   Select the **Type** of the session and press **Add session**
    -   By clicking on the red button **Delete**, you can erase any test session you
        created
+   -   Click on **Update** to go to Session details. If your institute uses the
+       external scheduler to schedule appointments, you can enable it here
+       (see this guide: :ref:`set-up-external-scheduler`)
 
 
 8.  If recruitment is to take place by e-mail or if information is to be sent by
