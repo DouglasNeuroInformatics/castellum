@@ -331,7 +331,7 @@ msgstr "Vormund"
 
 #: castellum/contacts/templates/contacts/__contact.html:11
 msgid "This guardian has other wards who may also be suitable for this study."
-msgstr ""
+msgstr "Diese Person ist Vormund von weiteren Proband*innen, die ebenfalls für diese Studien passen könnten."
 
 #: castellum/contacts/templates/contacts/__contact.html:19
 #: castellum/studies/templates/studies/study_recruitmentsettings_base.html:18
