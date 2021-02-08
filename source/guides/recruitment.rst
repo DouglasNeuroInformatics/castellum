@@ -5,8 +5,8 @@ Recruit subjects via phone
 
 1.  Click on **Studies** on the front page
 
-    -   When you click on **All** in **Membership** and **Execution** in the field
-        **Status**, you will be shown a list with studies for which you should recruit
+    -   When you click on **Execution** in the field **Status**, you will be
+        shown a list with studies for which you should recruit
 
 2.  Click on **Recruitment** next to the study you want to recruit subjects for
 

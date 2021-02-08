@@ -140,9 +140,6 @@ please follow the steps below.
 
 1.  Click on **Studies** on the front page
 
-    You will see a list of the studies you have created by clicking on **Mine**
-    in **Membership**
-
 2.  Click on **Details** of the study for which you want to change access rights
     or role redistribution
 
