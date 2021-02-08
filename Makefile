@@ -64,7 +64,5 @@ venv:
 	if [ ! -d "$(VIRTUAL_ENV)" ]; then python3 -m venv "$(VIRTUAL_ENV)"; fi
 
 .PHONY: install_githooks
-install_githooks: .git/hooks/pre-commit
-
-.git/hooks/%: .hooks/%
-	cp $< $@
+install_githooks:
+	cp .misc/pre-commit-hook .git/hooks/pre-commit
