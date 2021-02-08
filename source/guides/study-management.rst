@@ -151,7 +151,7 @@ please follow the steps below.
 4.  If you click on the field under **User**, you will be shown all possible
     users to whom you can assign roles
 
-5.  Select the user, who is supposed to take over the recruitment
+5.  Select the user who is supposed to take over the recruitment
 
 6.  Click on **Add**
 
