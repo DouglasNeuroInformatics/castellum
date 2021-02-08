@@ -37,12 +37,12 @@ Relevant guides:
 -   :ref:`consent-document`
 -   :ref:`subject-consent`
 -   :ref:`recruitment`
+-   :ref:`recruitment-mail`
 -   :ref:`study-recruitment-settings`
 
 .. TODO::
 
     -   manage attribute descriptions
-    -   mail recruitment
     -   attribute download
 
 Appointments
