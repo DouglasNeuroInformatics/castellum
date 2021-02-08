@@ -220,59 +220,6 @@ BOOTSTRAP4 = {
 AXES_LOCKOUT_TEMPLATE = 'axes-lockout.html'
 
 
-if os.access('/log', os.W_OK):
-    LOG_DIR = Path('/log')
-else:
-    LOG_DIR = BASE_DIR
-
-# See https://docs.djangoproject.com/en/stable/topics/logging/
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '[%(asctime)s] %(levelname)s %(name)s %(message)s'
-        },
-        'django.server': {
-            '()': 'django.utils.log.ServerFormatter',
-            'format': '[%(server_time)s] %(message)s',
-        },
-    },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
-        },
-        'monitoring-file': {
-            'class': 'logging.FileHandler',
-            'filename': LOG_DIR / 'monitoring.log',
-            'formatter': 'verbose',
-        },
-        'django.server': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'django.server',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-        },
-        # 'monitoring' is our custom logger namespace to monitor user behavior.
-        # It contains potentially sensitive information (e.g. subject search terms).
-        'monitoring': {
-            'handlers': ['monitoring-file'],
-            'level': 'INFO',
-        },
-        # 'django.server' is the development server. It is not used in production.
-        'django.server': {
-            'handlers': ['django.server'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-    },
-}
-
 # Secondary language in emails for readers who do not understand the
 # primary language
 CASTELLUM_FALLBACK_LANGUAGE = 'en'

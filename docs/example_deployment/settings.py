@@ -33,6 +33,36 @@ MEDIA_ROOT = '/media'
 # The example deployment does not contain a mail server, so use dummy instead
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# See https://docs.djangoproject.com/en/stable/topics/logging/
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[%(asctime)s] %(levelname)s %(name)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'monitoring-file': {
+            'class': 'logging.FileHandler',
+            'filename': '/log/monitoring.log',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        # 'monitoring' is our custom logger namespace to monitor user behavior.
+        # It contains potentially sensitive information (e.g. subject search terms).
+        'monitoring': {
+            'handlers': ['monitoring-file'],
+            'level': 'INFO',
+        }
+    },
+}
+
 # LDAP
 # See https://django-auth-ldap.readthedocs.io/
 AUTHENTICATION_BACKENDS.append("django_auth_ldap.backend.LDAPBackend")
