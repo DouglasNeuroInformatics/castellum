@@ -26,6 +26,13 @@ Search for a subject
        execution) lead to recruitment and execution for this study. Note that whether you
        can see study participations is dependent on your permissions
 
+5.  If there is a **Match** found, confirm that this is the correct person by
+    asking for a second feature (e.g. date of birth).
+
+    .. WARNING::
+        Only ask for a second feature, do not disclose any information
+        yourself. This is to avoid leaking personal information to imposters.
+
 
 .. _subject-create:
 
