@@ -180,6 +180,8 @@ To delete all data related to the subject, please proceed as follows:
 
 4.  Select the checkbox **To be deleted**
 
+5.  Click on **Save**
+
 The subject is now cleared for deletion from the database and deletion of
 their associated data. The data protection coordinator will take care of final
 deletion
