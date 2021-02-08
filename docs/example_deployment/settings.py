@@ -54,8 +54,10 @@ LOGGING = {
         },
     },
     'loggers': {
-        # 'monitoring' is our custom logger namespace to monitor user behavior.
-        # It contains potentially sensitive information (e.g. subject search terms).
+        # 'monitoring' is our custom logger namespace to identify and
+        # retrace suspicious user behavior. It contains potentially
+        # sensitive information (e.g. subject search terms). Monitoring
+        # logs will not be created unless configured.
         'monitoring': {
             'handlers': ['monitoring-file'],
             'level': 'INFO',
