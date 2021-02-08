@@ -56,6 +56,6 @@ to long email threads. Be prepared to have a video/audio chat with us if
 the need arises.
 
 For durther information on the castellum code and its structure see
-`docs/hacking.md`.
+`docs/development.md`.
 
 TODO: Do we need a CLA?
