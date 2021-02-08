@@ -13,13 +13,14 @@ Search for a subject
 
 3.  Confirm by clicking **Submit**
 
-4. Under the **Matches** tab all matching subjects or their guardians are listed
-    *  Next to their name the date of birth is listed and, if provided, also their
+4.  Under the **Matches** tab all matching subjects or their guardians are listed
+
+    -  Next to their name the date of birth is listed and, if provided, also their
        email address
-    *  If either parts of their name or their email address are matched exactly by your
+    -  If either parts of their name or their email address are matched exactly by your
        search terms, this part is highlighted in yellow
-    *  **Details** will take you to the subject overview page
-    *  If a subject has any study participations, they are listed below in this order:
+    -  **Details** will take you to the subject overview page
+    -  If a subject has any study participations, they are listed below in this order:
        name of the study, the name of the responsible contact person and the participation
        status. The buttons **Recruitment** and **Execution** (if the study is still in
        execution) lead to recruitment and execution for this study. Note that whether you
