@@ -40,8 +40,8 @@
                         {% endblocktranslate %}
                     </small>
                     <div>
-                        {% blocktranslate with contacted_size=batch.contacted_size %}
-                            {{ contacted_size }} potential subjects contacted
+                        {% blocktranslate with contacted_size=batch.contacted_size no_response_size=batch.participation_set.count %}
+                            still awaiting response for {{ no_response_size }}/{{ contacted_size }} potential subjects
                         {% endblocktranslate %}
                     </div>
                 </div>
