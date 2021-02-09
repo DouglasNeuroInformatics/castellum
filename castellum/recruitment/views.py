@@ -321,6 +321,17 @@ class MailRecruitmentView(BaseMailRecruitmentView):
     participation_status = Participation.AWAITING_RESPONSE
     tab = 'mail'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['batches'] = list(
+            self.study.mailbatch_set
+            .order_by('datetime')
+            .annotate(
+                no_response_size=models.Count('participation', distinct=True),
+            )
+        )
+        return context
+
     def form_valid(self, form):
         self._form_valid(form)
         return redirect('recruitment:mail', self.study.pk)
