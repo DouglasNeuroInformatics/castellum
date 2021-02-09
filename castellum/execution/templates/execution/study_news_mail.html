@@ -20,11 +20,11 @@
     {% if study.newsmailbatch_set.all %}
         <h3 class="mt-5">{% translate "Previous mails" %}</h3>
         <ul class="table-list mb-3">
-        {% for batch in study.newsmailbatch_set.all %}
+        {% for batch in study.newsmailbatch_set.all reversed %}
             <li class="table-list-item">
                 <div>
                     <small class="text-muted">
-                        {% blocktranslate with datetime=batch.datetime|longdate counter=forloop.counter|ordinal %}
+                        {% blocktranslate with datetime=batch.datetime|longdate counter=forloop.revcounter|ordinal %}
                             {{ counter }} mail sent on {{ datetime }}:
                         {% endblocktranslate %}
                     </small>
