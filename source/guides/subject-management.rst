@@ -26,6 +26,13 @@ Search for a subject
        execution) lead to recruitment and execution for this study. Note that whether you
        can see study participations is dependent on your permissions
 
+5.  If there is a **Match** found, confirm that this is the correct person by
+    asking for a second feature (e.g. date of birth).
+
+    .. WARNING::
+        Only ask for a second feature, do not disclose any information
+        yourself. This is to avoid leaking personal information to imposters.
+
 
 .. _subject-create:
 
@@ -73,15 +80,19 @@ In order to create a potential subject in Castellum, please proceed as follows:
 
 3.  Click on **Create new subject**
 
-    In this tab, different legal basis for consent can be found
+The subject has now been created, but there is much more information you can
+enter in the different tabs:
 
-4.  Add the consent that applies:
+-   Overview
 
-    -   **Recruitment consent**,
-    -   **Study consent** and/or
+    In this tab, different legal basis for consent can be found.
+    You can add the consent that applies:
+
+    -   **Recruitment consent**
+    -   **Study consent**
     -   **Guardianship**
 
-5.  Click on **Contact**
+-   Contact
 
     -   Optionally you can enter the **Title** here
     -   You can edit the **First name** and **Last name**
@@ -110,7 +121,9 @@ In order to create a potential subject in Castellum, please proceed as follows:
             By clicking on **Remove** next to the guardian's name, you can delete
             them as the guardian of the subject
 
-6.  Click on **Save** and then on **Attributes**
+    3.  Click on **Save**
+
+-   Attributes
 
     -   Fill in the **First Language**, **Highest educational degree**, **Handedness**,
         if the subject **Has hearing aid?**, **Date of birth** and **Sex**
@@ -118,43 +131,45 @@ In order to create a potential subject in Castellum, please proceed as follows:
         select one or more
     -   Click on **Save**
 
-7.  In **Data protection** you can:
+-   Data protection
 
     -   redefine the **Privacy level**,
     -   indicate whether the subject has consented to the recruitment,
     -   initiate an **Export request** and
     -   specify whether the subject is **To be deleted**
 
-8.  By clicking on **Additional Info**, you can define the **Availability** of
-    the subject
+-   Additional Info
 
-    .. note::
+    -   define the **Availability** of the subject
 
-        Example: The person can be reached by phone between 9 and 11 a.m. on tuesdays.
+        .. note::
 
-        - Click on **9** under **Tuesday**,
-        - Hold the Shift-button and
-        - Click on **11** under **Tuesday**
+            Example: The person can be reached by phone between 9 and 11 a.m. on tuesdays.
 
-9.  Below you can enter a point in time when a person is available again
+            - Click on **9** under **Tuesday**,
+            - Hold the Shift-button and
+            - Click on **11** under **Tuesday**
 
-    .. note::
+        .. note::
 
-        Example: The person is abroad for 6 months.
+            Example: The person is abroad for 6 months.
 
-        - Select **Not available until** today in 6 months
+            - Select **Not available until** today in 6 months
 
-10. Define from which **Data source** the data comes from and click on **Save**
+    -   define which **Data source** the data comes from
 
-11. In **Study Participations** you can add any studies in which the subject has
-    participated
+-   Study Participations
 
+    -   Lists the study participations of this subject
     -   By clicking on **Add to study**, a list of current studies is displayed.
         You can add the subject to one or more of these studies
-    -   Click on **Add to finished study**
-    -   Hold the **CTRL** key on your keyboard while pressing **F** to open the
-        search function of the browser
-    -   When you found the study the subject participated in, click on **Add to study**
+    -   **Add to finished study** can be useful when you are manually migrating
+        subjects from an old system.
+
+        .. note::
+            The list of finished studies can be quite long. Hold the **CTRL**
+            key on your keyboard while pressing **F** to open the search
+            function of the browser.
 
 
 .. _subject-to-be-deleted:
@@ -172,6 +187,8 @@ To delete all data related to the subject, please proceed as follows:
 3.  Click on **Details** and then go to the **Data protection** tab
 
 4.  Select the checkbox **To be deleted**
+
+5.  Click on **Save**
 
 The subject is now cleared for deletion from the database and deletion of
 their associated data. The data protection coordinator will take care of final
