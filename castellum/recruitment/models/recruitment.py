@@ -24,6 +24,7 @@ import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.forms import ValidationError
+from django.utils import formats
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
@@ -41,6 +42,9 @@ class BaseMailBatch(models.Model):
 
     class Meta:
         abstract = True
+
+    def __str__(self):
+        return formats.date_format(self.datetime, 'DATETIME_FORMAT')
 
 
 class MailBatch(BaseMailBatch):
