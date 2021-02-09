@@ -3,10 +3,8 @@
 Recruit subjects via phone
 ==========================
 
-1.  Click on **Studies** on the front page
-
-    -   When you click on **All** in **Membership** and **Execution** in the field
-        **Status**, you will be shown a list with studies for which you should recruit
+1.  Click on **Studies** on the front page. Then click on **Execution** in the
+    field **Status** to only show studies that are currently recruiting.
 
 2.  Click on **Recruitment** next to the study you want to recruit subjects for
 
@@ -40,3 +38,26 @@ Recruit subjects via phone
             sent an e-mail.)
 
     -   Click on **Save**
+
+
+.. _recruitment-mail:
+
+Recruit subjects via mail
+=========================
+
+.. NOTE::
+
+    Recruitment via mail is only possible if it has been :ref:`configured
+    <study-recruitment-settings>` by the study coordinator.
+
+
+1.  Click on **Studies** on the front page. Then click on **Execution** in the
+    field **Status** to only show studies that are currently recruiting.
+
+2.  Click on **Recruitment** next to the study you want to recruit subjects for
+
+3.  Go to the **Mail** tab
+
+4.  Enter the number of subjects that you want to contact
+
+5.  Click **Send**

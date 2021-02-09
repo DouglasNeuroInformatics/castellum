@@ -143,10 +143,10 @@ Relevant guides:
 
 -   :ref:`subject-search`
 -   :ref:`recruitment`
+-   :ref:`recruitment-mail`
 
 .. TODO::
 
-    -   mail recruitment
     -   make appointments
 
 Study Conductor
