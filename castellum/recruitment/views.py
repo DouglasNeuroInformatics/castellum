@@ -69,6 +69,7 @@ from .mixins import BaseAttributesUpdateView
 from .mixins import BaseMailRecruitmentView
 from .mixins import ParticipationMixin
 from .mixins import get_recruitable
+from .models import MailBatch
 from .models import Participation
 from .models.attributes import get_description_by_statistics_rank
 
@@ -322,6 +323,17 @@ class MailRecruitmentView(BaseMailRecruitmentView):
 
     def form_valid(self, form):
         self._form_valid(form)
+        return redirect('recruitment:mail', self.study.pk)
+
+
+class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, View):
+    permission_required = 'recruitment.recruit'
+    study_status = [Study.EXECUTION]
+    tab = 'mail'
+
+    def post(self, request, *args, **kwargs):
+        batch = get_object_or_404(MailBatch, pk=self.kwargs['pk'], study=self.study)
+        batch.participation_set.update(status=Participation.UNSUITABLE, batch=None)
         return redirect('recruitment:mail', self.study.pk)
 
 

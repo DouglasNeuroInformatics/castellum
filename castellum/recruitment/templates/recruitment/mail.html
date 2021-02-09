@@ -45,6 +45,12 @@
                         {% endblocktranslate %}
                     </div>
                 </div>
+                <div class="table-list-item-actions">
+                    <form class="d-inline" method="post" action="{% url 'recruitment:mail-cleanup' study.pk batch.pk %}">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-danger">{% translate 'Cleanup' %}</button>
+                    </form>
+                </div>
             </li>
         {% endfor %}
         </ul>
