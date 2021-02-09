@@ -257,9 +257,11 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
             messages.success(self.request, _('Emails sent successfully!'))
 
         if participations:
-            Participation.objects.bulk_create(participations)
-            MailBatch.objects.create(
+            batch = MailBatch.objects.create(
                 study=self.study,
                 contacted_size=len(participations),
             )
+            for p in participations:
+                p.batch = batch
+            Participation.objects.bulk_create(participations)
             self.send_confirmation_mail(len(participations))
