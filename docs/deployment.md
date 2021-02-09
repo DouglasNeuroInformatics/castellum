@@ -53,7 +53,7 @@ These are some additional security measures we strongly recommend:
 -   [Restrict access by IP address](https://nginx.org/en/docs/http/ngx_http_access_module.html)
 -   Authentication (e.g. LDAP) is typically only checked on login. To
     force regular re-authentication we recommend to logout all users
-    regulary, e.g. every night. We provide the command `manage.py
+    regulary, e.g. every night. We provide the command `django-admin
     clear_sessions` for that.
 
 Also see the [django documentation on
@@ -95,17 +95,17 @@ before you can start using it:
 
 2.  Check for some common issues:
 
-        python manage.py check --deploy
+        django-admin check --deploy
 
 3.  Run migrations on all databases:
 
-        python manage.py migrateall
+        django-admin migrateall
 
 4.  Load recommended data. This is not strictly necessary, but it
     usually makes sense to start from these defaults:
 
-        python manage.py loaddata groups timeslots study_types study_groups resources
-        python manage.py create_attribute_descriptions
+        django-admin loaddata groups timeslots study_types study_groups resources
+        django-admin create_attribute_descriptions
 
     **Warning**: If you run this command a second time, the database
     will be reset and all edits will be lost.
@@ -113,8 +113,8 @@ before you can start using it:
 5.  Create and activate an initial user. This user can then be used to
     activate (i.e. set expiration dates for) all further users:
 
-        python manage.py createsuperuser --username admin
-        python manage.py activate_user admin
+        django-admin createsuperuser --username admin
+        django-admin activate_user admin
 
     See the [end-user documentation](https://castellum.mpib.berlin/documentation/en/roles.html#administrator)
     for further information.
@@ -122,5 +122,5 @@ before you can start using it:
 ## Updates
 
 After updating to a new version of castellum it is usually sufficient to
-run `python manage.py migrateall`. Any additional steps that are
+run `django-admin migrateall`. Any additional steps that are
 required will be mentioned in the release notes.
