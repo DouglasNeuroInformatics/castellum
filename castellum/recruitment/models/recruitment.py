@@ -34,6 +34,25 @@ from castellum.utils.fields import DateField
 from castellum.utils.fields import DateTimeField
 
 
+class BaseMailBatch(models.Model):
+    study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
+    datetime = models.DateTimeField(_('Sent date'), auto_now_add=True)
+    contacted_size = models.PositiveIntegerField()
+
+    class Meta:
+        abstract = True
+
+
+class MailBatch(BaseMailBatch):
+    pass
+
+
+class NewsMailBatch(BaseMailBatch):
+    other_size = models.PositiveIntegerField()
+    mail_subject = models.CharField(_('E-mail subject'), max_length=128)
+    mail_body = models.TextField(_('E-mail body'))
+
+
 class ParticipationManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().annotate(
@@ -178,22 +197,3 @@ class Participation(models.Model):
         else:
             self.attempts = 0
         super().save(*args, **kwargs)
-
-
-class BaseMailBatch(models.Model):
-    study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
-    datetime = models.DateTimeField(_('Sent date'), auto_now_add=True)
-    contacted_size = models.PositiveIntegerField()
-
-    class Meta:
-        abstract = True
-
-
-class MailBatch(BaseMailBatch):
-    pass
-
-
-class NewsMailBatch(BaseMailBatch):
-    other_size = models.PositiveIntegerField()
-    mail_subject = models.CharField(_('E-mail subject'), max_length=128)
-    mail_body = models.TextField(_('E-mail body'))
