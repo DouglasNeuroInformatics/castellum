@@ -1,3 +1,21 @@
+# 0.55.0 (2021-02-09)
+
+## breaking changes
+
+-   The default logging configuration has been removed, so now the
+    [defaults set by django](https://docs.djangoproject.com/en/3.1/topics/logging/#django-s-default-logging-configuration)
+    are used. See `docs/example_deployment/settings.py` for an example
+    that replicates the old behavior.
+
+## new features
+
+-   Recruitment/Execution contacting details provide hint that the
+    current guardian may have more wards who could be invited.
+-   Exclude underage subjects with incomplete attributes from
+    maintenance dashboard as attribute completion may not be possible
+    for these subjects
+
+
 # 0.54.2 (2021-02-01)
 
 ## security
