@@ -109,6 +109,9 @@ class Participation(models.Model):
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, editable=False)
     study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
+    batch = models.ForeignKey(
+        MailBatch, verbose_name=_('Mail batch'), blank=True, null=True, on_delete=models.SET_NULL
+    )
 
     status = models.IntegerField(
         _('Status of participation'), choices=STATUS_OPTIONS, default=NOT_CONTACTED
