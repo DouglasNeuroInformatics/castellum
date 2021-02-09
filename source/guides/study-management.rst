@@ -54,7 +54,7 @@ In order to limit the search for subjects in Castellum,
     If you have already started the study, click on **Stop** on the upper left.
     If you did not start it yet, you will be able to edit filters and criteria right away.
 
-2.  Click on **Recruitment Settings** on the upper right
+2.  Go to the **Recruitment Settings** tab
 
 3.  By clicking on **General** the **Recruitment text** will be shown to you.
     You can:
@@ -146,7 +146,7 @@ please follow the steps below.
 2.  Click on **Details** of the study for which you want to change access rights
     or role redistribution
 
-3.  Go to **Member management**
+3.  Go to the **Member management** tab
 
 4.  If you click on the field under **User**, you will be shown all possible
     users to whom you can assign roles
