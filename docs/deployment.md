@@ -93,6 +93,11 @@ before you can start using it:
 1.  Adapt the settings. See `castellum/settings/default.py` for the full
     list of available settings.
 
+    The most important ones are listed in the [django deployment
+    checklist](https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/).
+    You should also set `PRODUCTION = True` to disable castellum's demo
+    features.
+
 2.  Check for some common issues:
 
         django-admin check --deploy
