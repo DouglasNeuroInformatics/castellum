@@ -31,7 +31,7 @@ test-branch:
     - flake8
     - npx eslint castellum
     - pospell -l de_DE -p .misc/spelling/de_DE.txt castellum/locale/de/LC_MESSAGES/django.po
-    - python3 manage.py makemigrations --dry-run --check --noinput
+    - django-admin makemigrations --dry-run --check --noinput
     - pytest --ds=$DJANGO_SETTINGS_MODULE
   coverage: '/TOTAL.*\s+(\d+\%)/'
 
