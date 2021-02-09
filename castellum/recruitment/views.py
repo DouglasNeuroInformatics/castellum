@@ -251,10 +251,11 @@ class RecruitmentViewOpen(RecruitmentView):
         subjects = get_recruitable(self.study)
 
         added = min(batch_size, len(subjects))
+        participations = []
         for subject in random.sample(subjects, k=added):
-            Participation.objects.create(study=self.study, subject=subject)
+            participations.append(Participation(study=self.study, subject=subject))
 
-        return added
+        return participations
 
     def post(self, request, *args, **kwargs):
         if self.study.min_subject_count == 0:
@@ -282,32 +283,32 @@ class RecruitmentViewOpen(RecruitmentView):
             hard_limit - not_contacted_count,
         )
         try:
-            added = self.create_participations(batch_size)
+            participations = self.create_participations(batch_size)
+            Participation.objects.bulk_create(participations)
         except KeyError:
-            added = 0
+            participations = []
             messages.error(request, _(
                 'The custom filter that is set for this study does not exist.'
             ))
 
-        if not_contacted_count + added > settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT:
+        if not_contacted_count + len(participations) > settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT:
             messages.error(request, _(
                 'Such workflow is not intended due to privacy reasons. '
                 'Please contact provided subjects before adding new ones.'
             ))
 
-        if added == 0:
+        if not participations:
             messages.error(
                 self.request,
                 _('No potential participants could be found for this study.'),
             )
-
-        elif added < batch_size:
+        elif len(participations) < batch_size:
             messages.warning(
                 self.request,
                 _(
                     'Only {added} out of {batchsize} potential participants '
                     'could be found for this study. These have been added.'
-                ).format(added=added, batchsize=batch_size),
+                ).format(added=len(participations), batchsize=batch_size),
             )
 
         return self.get(request, *args, **kwargs)
