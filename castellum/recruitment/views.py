@@ -372,6 +372,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
             session__schedule_id__isnull=False,
         ).exists()
 
+        form.instance.batch = None
         response = super().form_valid(form)
         if isinstance(form, ContactAndAppointmentsForm):
             send_appointment_notifications(self.request, self.object, form.appointment_changes)
@@ -399,7 +400,7 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, FormView):
         if form.cleaned_data.get('days'):
             dt = timezone.now() - datetime.timedelta(days=form.cleaned_data['days'])
             qs = qs.filter(updated_at__lt=dt)
-        qs.update(status=Participation.UNSUITABLE)
+        qs.update(status=Participation.UNSUITABLE, batch=None)
         return super().form_valid(form)
 
 
