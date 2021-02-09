@@ -42,7 +42,7 @@ documentation for details on the configuration.
 
 ## Security
 
-Since Castellum processes special categories of data accrding to GDRP,
+Since Castellum processes special categories of data according to GDRP,
 additional security measures are required. While we try to do as much as
 possible, not all of these measures can be implemented in the
 application itself.
