@@ -48,8 +48,6 @@ from castellum.pseudonyms.helpers import get_subject
 from castellum.recruitment.attribute_exporters import get_exporter
 from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.mixins import ParticipationMixin
-from castellum.recruitment.models import NewsMailBatch
-from castellum.recruitment.models import Participation
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
@@ -58,6 +56,8 @@ from castellum.subjects.models import Subject
 from castellum.utils.mail import MailContext
 
 from .forms import NewsMailForm
+from .models import NewsMailBatch
+from .models import Participation
 
 monitoring_logger = logging.getLogger('monitoring.participations')
 

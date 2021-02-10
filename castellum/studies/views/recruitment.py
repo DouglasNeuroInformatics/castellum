@@ -32,9 +32,9 @@ from django.views.generic import View
 from dateutil.relativedelta import relativedelta
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.participations.models import Participation
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseMailRecruitmentView
-from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.subjects.models import Subject
 from castellum.utils.mail import MailContext

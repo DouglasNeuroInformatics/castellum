@@ -1,8 +1,8 @@
 import pytest
 from model_bakery import baker
 
+from castellum.participations.models import Participation
 from castellum.recruitment import filter_queries
-from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.studies.models import Study

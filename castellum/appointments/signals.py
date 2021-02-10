@@ -23,8 +23,8 @@ from django.conf import settings
 
 
 def delete_scheduler_appointments_on_delete(sender, instance, using, **kwargs):
+    from castellum.participations.models import Participation
     from castellum.pseudonyms.helpers import get_pseudonym
-    from castellum.recruitment.models import Participation
     from castellum.utils import scheduler
 
     from .models import Appointment
@@ -42,7 +42,7 @@ def delete_scheduler_appointments_on_delete(sender, instance, using, **kwargs):
 
 
 def delete_scheduler_appointments_on_save(sender, instance, using, **kwargs):
-    from castellum.recruitment.models import Participation
+    from castellum.participations.models import Participation
 
     if sender is Participation and instance.status != Participation.INVITED:
         # PERF: ignore if instance has not been saved to the database yet

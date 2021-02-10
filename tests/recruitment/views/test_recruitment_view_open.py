@@ -5,7 +5,7 @@ import pytest
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
-from castellum.recruitment.models import Participation
+from castellum.participations.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.subjects.models import Consent

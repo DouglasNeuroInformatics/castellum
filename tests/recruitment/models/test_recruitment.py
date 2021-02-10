@@ -2,8 +2,8 @@ import pytest
 from freezegun import freeze_time
 from model_bakery import baker
 
+from castellum.participations.models import Participation
 from castellum.pseudonyms.models import Pseudonym
-from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 

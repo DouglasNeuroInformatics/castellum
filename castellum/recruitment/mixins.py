@@ -37,6 +37,8 @@ from django.views.generic import FormView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.participations.models import MailBatch
+from castellum.participations.models import Participation
 from castellum.studies.mixins import StudyMixin
 from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
@@ -47,8 +49,6 @@ from . import filter_queries
 from .forms import AttributesForm
 from .forms import SendMailForm
 from .models import AttributeDescription
-from .models import MailBatch
-from .models import Participation
 from .models.attributes import ANSWER_DECLINED
 from .models.attributes import UNCATEGORIZED
 

@@ -37,13 +37,13 @@ from django.db import models
 from django.utils import timezone
 
 from castellum.contacts.models import Contact
+from castellum.participations.models import Participation
 from castellum.studies.models import Study
 from castellum.subjects.models import Consent
 from castellum.subjects.models import Subject
 
 from .filter_registry import custom_filters
 from .models import AttributeDescription
-from .models import Participation
 
 
 def _reverse_exclusive_studies():

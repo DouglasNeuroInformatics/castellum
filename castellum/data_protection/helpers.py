@@ -23,8 +23,8 @@ from django.conf import settings
 from django.db import models
 
 from castellum.contacts.models import Contact
+from castellum.participations.models import Participation
 from castellum.recruitment import filter_queries
-from castellum.recruitment.models import Participation
 from castellum.subjects.models import Subject
 
 

@@ -25,7 +25,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import DetailView
 
-from castellum.recruitment.models import Participation
+from castellum.participations.models import Participation
 from castellum.utils import add_working_days
 from castellum.utils.feeds import BaseICalFeed
 from castellum.utils.mail import MailContext

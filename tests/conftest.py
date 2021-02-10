@@ -15,10 +15,10 @@ from model_bakery import baker
 from castellum.castellum_auth.models import User
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
+from castellum.participations.models import Participation
 from castellum.recruitment.management.commands import create_attribute_descriptions
 from castellum.recruitment.management.commands import create_demo_content
 from castellum.recruitment.models import AttributeDescription
-from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.studies.models import Study

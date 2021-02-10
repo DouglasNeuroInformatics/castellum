@@ -1,6 +1,6 @@
 import pytest
 
-from castellum.recruitment.models import Participation
+from castellum.participations.models import Participation
 
 
 @pytest.mark.smoketest

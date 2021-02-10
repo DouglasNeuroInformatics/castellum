@@ -3,7 +3,7 @@ import datetime
 import pytest
 from model_bakery import baker
 
-from castellum.recruitment.models import Participation
+from castellum.participations.models import Participation
 
 
 def test_feed_for_study_in_execution_status(client, member, study_in_execution_status):

@@ -28,6 +28,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import gettext_lazy as _
 
 from castellum.appointments.forms import AppointmentsForm
+from castellum.participations.models import Participation
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 from castellum.utils.forms import BaseImportForm
@@ -35,7 +36,6 @@ from castellum.utils.forms import DisabledChoiceField
 from castellum.utils.forms import DisabledModelChoiceField
 
 from .models import AttributeDescription
-from .models import Participation
 from .models import SubjectFilter
 from .models.attributes import ANSWER_DECLINED
 from .models.attributes import UNCATEGORIZED

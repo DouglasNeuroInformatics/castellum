@@ -52,10 +52,10 @@ from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
+from castellum.participations.models import Participation
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.models import AttributeDescription
-from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
 
 from .forms import SubjectPrivacyLevelForm

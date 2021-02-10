@@ -5,8 +5,8 @@ from freezegun import freeze_time
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
-from castellum.recruitment.models import MailBatch
-from castellum.recruitment.models import Participation
+from castellum.participations.models import MailBatch
+from castellum.participations.models import Participation
 from castellum.recruitment.views import MailRecruitmentRemindView
 from castellum.recruitment.views import MailRecruitmentView
 from castellum.studies.models import Study

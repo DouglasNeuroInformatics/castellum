@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 from model_bakery import baker
 
-from castellum.recruitment.models import Participation
+from castellum.participations.models import Participation
 from castellum.studies.models import StudySession
 from castellum.utils import scheduler
 

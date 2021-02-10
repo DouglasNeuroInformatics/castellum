@@ -2,7 +2,7 @@ import pytest
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
-from castellum.recruitment.models import Participation
+from castellum.participations.models import Participation
 
 
 @pytest.mark.smoketest

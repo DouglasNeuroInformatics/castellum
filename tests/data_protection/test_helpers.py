@@ -2,7 +2,7 @@ from model_bakery import baker
 
 from castellum.contacts.models import Contact
 from castellum.data_protection import helpers
-from castellum.recruitment.models import Participation
+from castellum.participations.models import Participation
 from castellum.subjects.models import Consent
 
 

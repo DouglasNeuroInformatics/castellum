@@ -4,7 +4,7 @@ import pytest
 from freezegun import freeze_time
 from model_bakery import baker
 
-from castellum.recruitment.models import Participation
+from castellum.participations.models import Participation
 from castellum.recruitment.views import RecruitmentView
 
 

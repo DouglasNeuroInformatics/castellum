@@ -1,7 +1,7 @@
 from freezegun import freeze_time
 from model_bakery import baker
 
-from castellum.recruitment.models import Participation
+from castellum.participations.models import Participation
 
 
 def test_cleanup_view(client, recruiter, study_in_execution_status):

@@ -7,7 +7,7 @@ from model_bakery import baker
 from castellum.appointments.management.commands.send_appointment_reminders import \
     send_appointment_reminders
 from castellum.appointments.models import Appointment
-from castellum.recruitment.models import Participation
+from castellum.participations.models import Participation
 from castellum.studies.models import StudySession
 
 

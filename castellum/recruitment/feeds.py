@@ -23,11 +23,11 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 
 from castellum.appointments.mixins import BaseAppointmentFeed
+from castellum.participations.models import Participation
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
 
 from .mixins import BaseFollowUpFeed
-from .models import Participation
 
 
 class FollowUpFeedForStudy(BaseFollowUpFeed):

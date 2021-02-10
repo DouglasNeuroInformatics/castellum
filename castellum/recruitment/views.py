@@ -51,6 +51,8 @@ from castellum.appointments.mixins import send_appointment_notifications
 from castellum.appointments.models import Appointment
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
+from castellum.participations.models import MailBatch
+from castellum.participations.models import Participation
 from castellum.pseudonyms.helpers import get_subject
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
@@ -70,8 +72,6 @@ from .mixins import BaseAttributesUpdateView
 from .mixins import BaseMailRecruitmentView
 from .mixins import ParticipationMixin
 from .mixins import get_recruitable
-from .models import MailBatch
-from .models import Participation
 from .models.attributes import get_description_by_statistics_rank
 
 logger = logging.getLogger(__name__)
