@@ -84,7 +84,7 @@
 
                                     {% has_perm 'recruitment.conduct_study' user study as can_conduct %}
                                     {% if can_conduct %}
-                                        <a class="btn btn-outline-primary my-1" href="{% url 'participations:study-detail' study.pk %}">{% translate 'Execution' %}</a>
+                                        <a class="btn btn-outline-primary my-1" href="{% url 'participations:study-detail' study.pk %}">{% translate 'Participations' %}</a>
                                     {% endif %}
                                 {% endif %}
 

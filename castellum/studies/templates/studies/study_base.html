@@ -46,11 +46,11 @@
 
                             {% if not study.is_onetime_invitation %}
                                 {% if study.status == study.EXECUTION %}
-                                    <button class="btn btn-outline-primary active mb-1" title="{% translate 'Stop recruitment and execution for this study' %}">
+                                    <button class="btn btn-outline-primary active mb-1" title="{% translate 'Stop recruitment and participations for this study' %}">
                                         {% translate 'Stop' %}
                                     </button>
                                 {% else %}
-                                    <button class="btn btn-outline-primary mb-1" title="{% translate 'Start recruitment and execution for this study' %}">
+                                    <button class="btn btn-outline-primary mb-1" title="{% translate 'Start recruitment and participations for this study' %}">
                                         {% translate 'Start' %}
                                     </button>
                                 {% endif %}
@@ -60,11 +60,11 @@
                         {% if not study.is_onetime_invitation %}
                             <form class="d-inline">
                                 {% if study.previous_status == study.EXECUTION %}
-                                    <button class="btn btn-outline-primary active mb-1" title="{% translate 'Stop recruitment and execution for this study' %}" disabled>
+                                    <button class="btn btn-outline-primary active mb-1" title="{% translate 'Stop recruitment and participations for this study' %}" disabled>
                                         {% translate 'Stop' %}
                                     </button>
                                 {% else %}
-                                    <button class="btn btn-outline-primary mb-1" title="{% translate 'Start recruitment and execution for this study' %}" disabled>
+                                    <button class="btn btn-outline-primary mb-1" title="{% translate 'Start recruitment and participations for this study' %}" disabled>
                                         {% translate 'Start' %}
                                     </button>
                                 {% endif %}
@@ -78,11 +78,11 @@
                             <input type="hidden" name="next" value="{{ request.path }}">
 
                         {% if study.status == study.FINISHED %}
-                            <button class="btn btn-outline-primary active mb-1" title="{% translate 'Resume recruitment and execution for this study' %}">
+                            <button class="btn btn-outline-primary active mb-1" title="{% translate 'Resume recruitment and participations for this study' %}">
                                 {% translate 'Resume study' %}
                             </button>
                         {% else %}
-                            <button class="btn btn-outline-primary mb-1" title="{% translate 'Conclude recruitment and execution for this study' %}">
+                            <button class="btn btn-outline-primary mb-1" title="{% translate 'Conclude recruitment and participations for this study' %}">
                                 {% translate 'Finish study' %}
                             </button>
                         {% endif %}

@@ -107,7 +107,7 @@ def test_matches(client, member, study_in_execution_status, study_in_edit_status
     assert response.content.count(b'<div class="table-list-item">') == 3
     assert response.content.count(b'<li class="table-list-item">') == 2
     assert response.content.count(b'>Recruitment</a>') == 2
-    assert response.content.count(b'>Execution</a>') == 1
+    assert response.content.count(b'>Participations</a>') == 1
 
 
 def test_no_create_tab_on_incomplete_name(client, user):

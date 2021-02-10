@@ -11,7 +11,7 @@
                 <div class="table-list-item-actions">
                     {% has_perm 'recruitment.conduct_study' user participation.study as can_conduct_study %}
                     {% if can_conduct_study and participation.status == participation.INVITED %}
-                        <a class="btn btn-outline-primary my-1" href="{% url 'participations:participation-detail' participation.study.pk participation.pk %}">{% translate 'Go to execution' %}</a>
+                        <a class="btn btn-outline-primary my-1" href="{% url 'participations:participation-detail' participation.study.pk participation.pk %}">{% translate 'Go to participations' %}</a>
                     {% endif %}
                     {% has_perm 'recruitment.recruit' user participation.study as can_recruit %}
                     {% if can_recruit %}
