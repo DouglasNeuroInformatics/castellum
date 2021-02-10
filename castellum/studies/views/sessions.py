@@ -53,8 +53,7 @@ class StudySessionsView(StudyMixin, PermissionRequiredMixin, UpdateView):
     ]
     permission_required = 'studies.change_study'
     is_onetime_invitation = False
-    tab = 'recruitmentsettings'
-    subtab = 'sessions'
+    tab = 'sessions'
 
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
@@ -69,8 +68,7 @@ class StudySessionFormMixin(StudyMixin, PermissionRequiredMixin):
     form_class = SessionForm
     permission_required = 'studies.change_study'
     is_onetime_invitation = False
-    tab = 'recruitmentsettings'
-    subtab = 'sessions'
+    tab = 'sessions'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -98,8 +96,7 @@ class StudySessionDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
     model = StudySession
     permission_required = 'studies.change_study'
     is_onetime_invitation = False
-    tab = 'recruitmentsettings'
-    subtab = 'sessions'
+    tab = 'sessions'
 
     def get_success_url(self):
         return reverse('studies:sessions', args=[self.study.pk])
