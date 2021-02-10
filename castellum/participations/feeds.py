@@ -27,12 +27,12 @@ from castellum.appointments.mixins import BaseAppointmentFeed
 from castellum.studies.models import Study
 
 
-class BaseExecutionAppointmentFeed(BaseAppointmentFeed):
+class BaseParticipationsAppointmentFeed(BaseAppointmentFeed):
     def item_title(self, item):
         return '{} - {}'.format(item.participation.subject.contact.full_name, item.session.name)
 
     def item_link(self, item):
-        return reverse('execution:participation-detail', args=[
+        return reverse('participations:participation-detail', args=[
             item.session.study.pk, item.participation.pk
         ])
 
@@ -40,7 +40,7 @@ class BaseExecutionAppointmentFeed(BaseAppointmentFeed):
         return self.request.build_absolute_uri(self.item_link(item))
 
 
-class AppointmentFeedForStudy(BaseExecutionAppointmentFeed):
+class AppointmentFeedForStudy(BaseParticipationsAppointmentFeed):
     def get_object(self, request, *args, **kwargs):
         study = get_object_or_404(Study, pk=kwargs['pk'], status=Study.EXECUTION)
         perms = ['recruitment.conduct_study', 'studies.access_study']
@@ -54,7 +54,7 @@ class AppointmentFeedForStudy(BaseExecutionAppointmentFeed):
             .select_related('participation__subject', 'session__study')
 
 
-class AppointmentFeedForUser(BaseExecutionAppointmentFeed):
+class AppointmentFeedForUser(BaseParticipationsAppointmentFeed):
     def get_object(self, request, *args, **kwargs):
         return self.request.user
 

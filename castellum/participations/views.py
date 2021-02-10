@@ -59,11 +59,11 @@ from castellum.utils.mail import MailContext
 
 from .forms import NewsMailForm
 
-monitoring_logger = logging.getLogger('monitoring.execution')
+monitoring_logger = logging.getLogger('monitoring.participations')
 
 
 class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
-    template_name = 'execution/study_detail.html'
+    template_name = 'participations/study_detail.html'
     model = Study
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
@@ -136,18 +136,18 @@ class ParticipationDetailMixin(ParticipationMixin, PermissionRequiredMixin):
 
 
 class ParticipationDetailView(ParticipationDetailMixin, DetailView):
-    template_name = 'execution/participation_detail.html'
+    template_name = 'participations/participation_detail.html'
     tab = 'overview'
 
 
 class ParticipationNewsView(ParticipationDetailMixin, UpdateView):
-    template_name = 'execution/participation_news.html'
+    template_name = 'participations/participation_news.html'
     fields = ['news_interest']
     tab = 'news'
 
     def get_success_url(self):
         return reverse(
-            'execution:participation-news',
+            'participations:participation-news',
             args=[self.object.study.pk, self.object.pk],
         )
 
@@ -157,7 +157,7 @@ class ParticipationNewsView(ParticipationDetailMixin, UpdateView):
 
 
 class ParticipationAppointmentsView(ParticipationDetailMixin, DetailView):
-    template_name = 'execution/participation_appointments.html'
+    template_name = 'participations/participation_appointments.html'
     tab = 'appointments'
 
     def get_context_data(self, **kwargs):
@@ -174,13 +174,13 @@ class ParticipationAppointmentsView(ParticipationDetailMixin, DetailView):
 
 
 class ParticipationAppointmentsUpdateView(ParticipationDetailMixin, UpdateView):
-    template_name = 'execution/participation_appointments_form.html'
+    template_name = 'participations/participation_appointments_form.html'
     permission_required = ['recruitment.conduct_study', 'appointments.change_appointment']
     form_class = AppointmentsForm
     tab = 'appointments'
 
     def get_success_url(self):
-        return reverse('execution:participation-appointments', args=[
+        return reverse('participations:participation-appointments', args=[
             self.object.study.pk, self.object.pk
         ])
 
@@ -209,7 +209,7 @@ class ShowUpUpdateView(ParticipationMixin, UpdateView):
 
     def get_success_url(self):
         return reverse(
-            'execution:participation-appointments',
+            'participations:participation-appointments',
             args=[self.kwargs['study_pk'], self.kwargs['pk']],
         )
 
@@ -219,7 +219,7 @@ class ShowUpUpdateView(ParticipationMixin, UpdateView):
 
 
 class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
-    template_name = 'execution/study_resolve.html'
+    template_name = 'participations/study_resolve.html'
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     form_class = PseudonymForm
@@ -233,14 +233,14 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
                 subject=subject,
                 status=Participation.INVITED,
             ).get()
-            return redirect('execution:participation-detail', self.study.pk, participation.pk)
+            return redirect('participations:participation-detail', self.study.pk, participation.pk)
         except ObjectDoesNotExist:
             messages.warning(self.request, _('No match found'))
             return self.render_to_response(self.get_context_data(form=form))
 
 
 class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
-    template_name = 'execution/study_news_mail.html'
+    template_name = 'participations/study_news_mail.html'
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     form_class = NewsMailForm
@@ -262,7 +262,7 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
     def render_urls(self, participations):
         return '\n'.join(
             self.request.build_absolute_uri(reverse(
-                'execution:participation-detail',
+                'participations:participation-detail',
                 args=[self.study.pk, participation.pk],
             ))
             for participation in participations
@@ -355,31 +355,31 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
             'That email also lists potential next steps.'
         ).format(len(succeeded)))
 
-        return redirect('execution:news-mail', self.study.pk)
+        return redirect('participations:news-mail', self.study.pk)
 
 
 class ExclusionCriteriaView(StudyMixin, PermissionRequiredMixin, DetailView):
     model = Study
-    template_name = 'execution/participation_criteria.html'
+    template_name = 'participations/participation_criteria.html'
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     tab = 'criteria'
 
 
-class ExecutionUpdateMixin(ParticipationMixin):
+class ParticipationsUpdateMixin(ParticipationMixin):
     study_status = [Study.EXECUTION]
     participation_status = [Participation.INVITED]
     tab = 'overview'
 
     def get_success_url(self):
         return reverse(
-            'execution:participation-detail',
+            'participations:participation-detail',
             args=[self.kwargs['study_pk'], self.kwargs['pk']],
         )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['base_template'] = "execution/participation_base.html"
+        context['base_template'] = "participations/participation_base.html"
         return context
 
     def get_permission_required(self):
@@ -388,22 +388,22 @@ class ExecutionUpdateMixin(ParticipationMixin):
         return permission_required
 
 
-class ContactUpdateView(ExecutionUpdateMixin, BaseContactUpdateView):
+class ContactUpdateView(ParticipationsUpdateMixin, BaseContactUpdateView):
     def get_object(self):
         return self.participation.subject.contact
 
 
-class AttributesUpdateView(ExecutionUpdateMixin, BaseAttributesUpdateView):
+class AttributesUpdateView(ParticipationsUpdateMixin, BaseAttributesUpdateView):
     def get_object(self):
         return self.participation.subject
 
 
-class DataProtectionUpdateView(ExecutionUpdateMixin, BaseDataProtectionUpdateView):
+class DataProtectionUpdateView(ParticipationsUpdateMixin, BaseDataProtectionUpdateView):
     def get_object(self):
         return self.participation.subject
 
 
-class AdditionalInfoUpdateView(ExecutionUpdateMixin, BaseAdditionalInfoUpdateView):
+class AdditionalInfoUpdateView(ParticipationsUpdateMixin, BaseAdditionalInfoUpdateView):
     def get_object(self):
         return self.participation.subject
 
@@ -412,7 +412,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     model = Study
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
-    template_name = 'execution/calendar.html'
+    template_name = 'participations/calendar.html'
     tab = 'calendar'
 
     def render_appointment(self, appointment):
@@ -420,7 +420,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
             'title': appointment.session.name,
             'start': appointment.start,
             'end': appointment.end,
-            'url': reverse('execution:participation-detail', args=[
+            'url': reverse('participations:participation-detail', args=[
                 self.object.pk, appointment.participation.pk
             ]),
         }
@@ -431,7 +431,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
 
 class ReceptionView(PermissionRequiredMixin, ListView):
     model = Appointment
-    template_name = 'execution/reception.html'
+    template_name = 'participations/reception.html'
     permission_required = 'appointments.view_current_appointments'
 
     def get_queryset(self):

@@ -53,11 +53,11 @@ def send_appointment_notifications(request, participation, changes):
             timezone.localtime(new),
         ) for (old, new) in relevant_changes),
         participation_url=request.build_absolute_uri(reverse(
-            'execution:participation-detail',
+            'participations:participation-detail',
             args=[participation.study.pk, participation.pk]
         )),
         calendar_url=request.build_absolute_uri(reverse(
-            'execution:calendar',
+            'participations:calendar',
             args=[participation.study.pk]
         )),
     )

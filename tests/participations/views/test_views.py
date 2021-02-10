@@ -17,7 +17,7 @@ def test_study_detail_view(request, client, user_fixture, study_in_execution_sta
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
 
-    url = '/execution/{}/'.format(study_in_execution_status.pk)
+    url = '/participations/{}/'.format(study_in_execution_status.pk)
     response = client.get(url)
     assert response.status_code == 200
 
@@ -43,7 +43,7 @@ def test_participation_detail_view_invited(
         subject=subject,
     )
 
-    url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
+    url = '/participations/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
     response = client.get(url)
     assert response.status_code == 200
 
@@ -60,7 +60,7 @@ def test_participation_detail_view_unsuitable(
         subject=subject,
     )
 
-    url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
+    url = '/participations/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
     response = client.get(url)
     assert response.status_code == 404
 
@@ -76,13 +76,13 @@ def test_resolve_view(client, member, study_in_execution_status, subject):
         subject=subject,
     )
 
-    url = '/execution/{}/resolve/'.format(study_in_execution_status.pk)
+    url = '/participations/{}/resolve/'.format(study_in_execution_status.pk)
     response = client.post(url, {
         'pseudonym': participation.pseudonym,
     })
 
     assert response.status_code == 302
-    assert response.url == '/execution/{}/{}/'.format(
+    assert response.url == '/participations/{}/{}/'.format(
         study_in_execution_status.pk, participation.pk
     )
 
@@ -98,7 +98,7 @@ def test_update_contact_view(client, member, study_in_execution_status, subject)
         subject=subject,
     )
 
-    response = client.get('/execution/{}/{}/update-contact/'.format(
+    response = client.get('/participations/{}/{}/update-contact/'.format(
         study_in_execution_status.pk, participation.pk
     ))
 
@@ -108,7 +108,7 @@ def test_update_contact_view(client, member, study_in_execution_status, subject)
 @pytest.mark.smoketest
 def test_calendar_view(client, member, study_in_execution_status):
     client.force_login(member)
-    response = client.get('/execution/{}/calendar/'.format(study_in_execution_status.pk))
+    response = client.get('/participations/{}/calendar/'.format(study_in_execution_status.pk))
     assert response.status_code == 200
 
 
@@ -127,14 +127,16 @@ def test_calendar_view_events(client, member, study_in_execution_status, subject
         session__study=study_in_execution_status,
     )
 
-    response = client.get('/execution/{}/calendar/?events'.format(study_in_execution_status.pk))
+    response = client.get(
+        '/participations/{}/calendar/?events'.format(study_in_execution_status.pk)
+    )
 
     assert response.status_code == 200
 
     data = response.json()
     assert 'events' in data
     assert len(data['events']) == 1
-    assert data['events'][0]['url'] == '/execution/{}/{}/'.format(
+    assert data['events'][0]['url'] == '/participations/{}/{}/'.format(
         study_in_execution_status.pk, participation.pk
     )
 
@@ -151,5 +153,5 @@ def test_calendar_view_events(client, member, study_in_execution_status, subject
 def test_reception_view(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    response = client.get('/execution/reception/')
+    response = client.get('/participations/reception/')
     assert response.status_code == 200

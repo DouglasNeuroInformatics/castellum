@@ -1,0 +1,14 @@
+{% extends "base_with_breadcrumbs.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'studies:index' %}">{% translate "Studies" %}</a></li>
+    {% if study %}
+        <li class="breadcrumb-item"><a href="{% url 'participations:study-detail' study.pk %}">{% translate 'Participations for' %} {{ study.name }}</a></li>
+    {% endif %}
+    {% if participation %}
+        <li class="breadcrumb-item"><a href="{% url 'participations:participation-detail' study.pk participation.pk %}">{{ participation.subject.contact.short_name }}</a></li>
+    {% endif %}
+{% endblock %}
+

@@ -1,4 +1,4 @@
-{% extends "execution/study_base.html" %}
+{% extends "participations/study_base.html" %}
 {% load i18n appointments utils %}
 
 {% block content %}
@@ -28,7 +28,7 @@
                         {% endif %}
                     </div>
                     <div class="table-list-item-actions">
-                        <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-detail' study.pk participation.pk %}">{% translate 'Details' %}</a>
+                        <a class="btn btn-outline-primary my-1" href="{% url 'participations:participation-detail' study.pk participation.pk %}">{% translate 'Details' %}</a>
                     </div>
                 {% else %}
                     <div class="text-muted">

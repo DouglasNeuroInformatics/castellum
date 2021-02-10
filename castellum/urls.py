@@ -77,7 +77,7 @@ urlpatterns = [
     path('subjects/', include('castellum.subjects.urls', namespace='subjects')),
     path('contacts/', include('castellum.contacts.urls', namespace='contacts')),
     path('recruitment/', include('castellum.recruitment.urls', namespace='recruitment')),
-    path('execution/', include('castellum.execution.urls', namespace='execution')),
+    path('participations/', include('castellum.participations.urls', namespace='participations')),
     path(
         'data-protection/', include('castellum.data_protection.urls', namespace='data_protection')
     ),

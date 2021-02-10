@@ -203,11 +203,11 @@
         </div>
 
         <div class="form-group">
-            <label for="id_execution_url">{% translate 'Execution link' %}</label>
+            <label for="id_participations_url">{% translate 'Execution link' %}</label>
             <div class="input-group">
-                <input id="id_execution_url" class="form-control" value="{% absolute_url 'execution:participation-detail' study.pk object.pk %}" readonly>
+                <input id="id_participations_url" class="form-control" value="{% absolute_url 'participations:participation-detail' study.pk object.pk %}" readonly>
                 <div class="input-group-append">
-                    <button type="button" class="btn btn-outline-secondary" tabindex="-1" data-clipboard="#id_execution_url" data-animation="success">{% translate 'Copy' %}</button>
+                    <button type="button" class="btn btn-outline-secondary" tabindex="-1" data-clipboard="#id_participations_url" data-animation="success">{% translate 'Copy' %}</button>
                 </div>
             </div>
         </div>

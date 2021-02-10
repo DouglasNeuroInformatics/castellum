@@ -53,7 +53,7 @@ def send_mail_to_subject(ctx, study, appointment):
 def send_mail_to_study_conductors(study, not_reachable, base_url):
     urls = '\n'.join(
         base_url + reverse(
-            'execution:participation-detail',
+            'participations:participation-detail',
             args=[study.pk, appointment.participation.pk],
         )
         for appointment in not_reachable

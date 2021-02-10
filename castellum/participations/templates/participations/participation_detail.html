@@ -1,4 +1,4 @@
-{% extends "execution/participation_base.html" %}
+{% extends "participations/participation_base.html" %}
 {% load i18n utils auth appointments %}
 
 {% block content %}
@@ -11,20 +11,20 @@
 
     {% has_perm 'subjects.change_subject' user study as can_change_subject %}
     {% if can_change_subject %}
-        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:contact-update' study.pk object.pk %}">
+        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'participations:contact-update' study.pk object.pk %}">
             {% if not subject.contact.is_complete %}
                 <i class="fa fa-exclamation-triangle" role="img" title="{% translate 'Missing values' %}" aria-label="{% translate 'Missing values' %}"></i>
             {% endif %}
             {% translate 'Edit contact data' %}
         </a>
-        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:attributes-update' study.pk object.pk %}">{% translate 'Edit attributes' %}</a>
-        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:data-protection-update' study.pk object.pk %}">
+        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'participations:attributes-update' study.pk object.pk %}">{% translate 'Edit attributes' %}</a>
+        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'participations:data-protection-update' study.pk object.pk %}">
             {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age %}
                 <i class="fa fa-exclamation-triangle" role="img" title="{% translate 'Missing values' %}" aria-label="{% translate 'Missing values' %}"></i>
             {% endif %}
             {% translate 'Edit data protection' %}
         </a>
-        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:additional-info-update' study.pk object.pk %}">
+        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'participations:additional-info-update' study.pk object.pk %}">
             {% translate 'Edit additional info' %}
         </a>
     {% endif %}

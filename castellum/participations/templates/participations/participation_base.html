@@ -1,0 +1,26 @@
+{% extends "participations/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
+
+{% block header %}
+    <div class="container text-center my-4">
+        <h1>{{ subject.contact.full_name }}</h1>
+    </div>
+
+    <nav class="d-print-none" aria-label="{% translate 'Tabs' %}">
+        <ul class="nav nav-tabs justify-content-center mb-3">
+            <li class="nav-item">
+                <a href="{% url 'participations:participation-detail' study.pk participation.pk %}" class="nav-link {% if view.tab == 'overview' %}active{% endif %}">{% translate 'Overview' %}</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'participations:participation-news' study.pk participation.pk %}" class="nav-link {% if view.tab == 'news' %}active{% endif %}">{% translate 'News' %}</a>
+            </li>
+            {% if study.studysession_set.exists %}
+                <li class="nav-item">
+                    <a href="{% url 'participations:participation-appointments' study.pk participation.pk %}" class="nav-link {% if view.tab == 'appointments' %}active{% endif %}">{% translate 'Appointments' %}</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}

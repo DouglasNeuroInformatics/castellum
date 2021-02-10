@@ -103,7 +103,7 @@
                                                     <a class="btn btn-outline-primary my-1" href="{% url 'recruitment:contact' participation.study.pk participation.pk %}">{% translate 'Recruitment' %}</a>
                                                 {% endif %}
                                                 {% if can_conduct %}
-                                                    <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-detail' participation.study.pk participation.pk %}">{% translate 'Execution' %}</a>
+                                                    <a class="btn btn-outline-primary my-1" href="{% url 'participations:participation-detail' participation.study.pk participation.pk %}">{% translate 'Execution' %}</a>
                                                 {% endif %}
                                             </div>
                                         </li>
