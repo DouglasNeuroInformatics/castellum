@@ -302,7 +302,7 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
 
     def delete(self, request, *args, **kwargs):
         monitoring_logger.info(
-            'Study {} deleted by {}'.format(self.study.name, self.request.user.pk)
+            f'Study {self.study.name} deleted by {self.request.user.pk}'
         )
         messages.success(self.request, _('Study has been deleted.'))
         return super().delete(request, *args, **kwargs)
@@ -324,12 +324,12 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
         if self.study.status == self.study.EXECUTION:
             self.study.set_status(self.study.EDIT)
             monitoring_logger.info(
-                'Study {} stopped by {}'.format(self.study.name, self.request.user.pk)
+                f'Study {self.study.name} stopped by {self.request.user.pk}'
             )
         else:
             self.study.set_status(self.study.EXECUTION)
             monitoring_logger.info(
-                'Study {} started by {}'.format(self.study.name, self.request.user.pk)
+                f'Study {self.study.name} started by {self.request.user.pk}'
             )
 
         send_pr_mail(self.study)
@@ -413,6 +413,6 @@ class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
         }
 
         response = JsonResponse({k: v for k, v in data.items() if v})
-        filename = 'castellum_%s.json' % slugify(self.study.name)
-        response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+        filename = f'castellum_{slugify(self.study.name)}.json'
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
         return response

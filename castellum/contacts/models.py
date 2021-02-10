@@ -49,7 +49,7 @@ class ContactQuerySet(models.QuerySet):
         lookup = prefix + '_name_phonetic__contains'
         q = models.Q()
         for code in phonetic(part, encode=False):
-            q &= models.Q(**{lookup: ':{}:'.format(code)})
+            q &= models.Q(**{lookup: f':{code}:'})
         return q
 
     def name_is_matched(self, parts, prefix):
@@ -203,7 +203,7 @@ class Contact(TimeStampedModel):
     @property
     def short_name(self):
         # a bit simplistic, but should be sufficient
-        return '%s. %s' % (self.first_name[0], self.last_name)
+        return f'{self.first_name[0]}. {self.last_name}'
 
     @cached_property
     def is_guardian(self):
@@ -251,7 +251,7 @@ class Address(models.Model):
 
     def lines(self):
         line1 = ' '.join([self.street, self.house_number, self.additional_information]).strip()
-        line2 = '{} {}'.format(self.zip_code, self.city)
+        line2 = f'{self.zip_code} {self.city}'
         return line1, line2
 
     def __str__(self):

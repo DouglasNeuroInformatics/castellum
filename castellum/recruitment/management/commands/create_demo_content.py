@@ -67,12 +67,12 @@ def fake_date_of_birth():
         percentage += age_groups[i][1]
 
         if r < percentage:
-            start_date = '-{}y'.format(age_groups[i + 1][0])
-            end_date = '-{}y'.format(age_groups[i][0])
+            start_date = f'-{age_groups[i + 1][0]}y'
+            end_date = f'-{age_groups[i][0]}y'
             return fake.date_between(start_date=start_date, end_date=end_date)
 
-    start_date = '-{}y'.format(100)
-    end_date = '-{}y'.format(age_groups[-1][0])
+    start_date = f'-{100}y'
+    end_date = f'-{age_groups[-1][0]}y'
     return fake.date_between(start_date=start_date, end_date=end_date)
 
 

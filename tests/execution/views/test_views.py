@@ -17,7 +17,7 @@ def test_study_detail_view(request, client, user_fixture, study_in_execution_sta
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
 
-    url = '/execution/{}/'.format(study_in_execution_status.pk)
+    url = f'/execution/{study_in_execution_status.pk}/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -43,7 +43,7 @@ def test_participation_detail_view_invited(
         subject=subject,
     )
 
-    url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
+    url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -60,7 +60,7 @@ def test_participation_detail_view_unsuitable(
         subject=subject,
     )
 
-    url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
+    url = f'/execution/{study_in_execution_status.pk}/{participation.pk}/'
     response = client.get(url)
     assert response.status_code == 404
 

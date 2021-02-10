@@ -28,4 +28,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         count, __ = Session.objects.all().delete()
-        self.stdout.write('Deleted {} sessions'.format(count))
+        self.stdout.write(f'Deleted {count} sessions')

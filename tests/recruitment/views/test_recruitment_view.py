@@ -11,7 +11,7 @@ from castellum.recruitment.views import RecruitmentView
 @pytest.mark.smoketest
 def test_200(client, member, study_in_execution_status):
     client.force_login(member)
-    url = '/recruitment/{}/'.format(study_in_execution_status.pk)
+    url = f'/recruitment/{study_in_execution_status.pk}/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -24,7 +24,7 @@ def test_404_if_study_is_not_provided(client, member):
 
 def test_404_if_study_in_edit_status(client, member, study_in_edit_status):
     client.force_login(member)
-    url = '/recruitment/{}/'.format(study_in_edit_status.pk)
+    url = f'/recruitment/{study_in_edit_status.pk}/'
     response = client.get(url)
     assert response.status_code == 404
 
@@ -34,7 +34,7 @@ def test_post_when_study_has_zero_subject_count_set(client, member, study_in_exe
     study_in_execution_status.min_subject_count = 0
     study_in_execution_status.save()
     client.force_login(member)
-    url = '/recruitment/{}/'.format(study_in_execution_status.pk)
+    url = f'/recruitment/{study_in_execution_status.pk}/'
     response = client.post(url)
     assert response.status_code == 200
     messages = list(get_messages(response.wsgi_request))
@@ -55,7 +55,7 @@ def test_post_when_more_then_double_minimal_subject_count(
     baker.make(Participation, study=study_in_execution_status, _quantity=4)
 
     client.force_login(member)
-    url = '/recruitment/{}/'.format(study_in_execution_status.pk)
+    url = f'/recruitment/{study_in_execution_status.pk}/'
 
     response = client.post(url)
     assert response.status_code == 200

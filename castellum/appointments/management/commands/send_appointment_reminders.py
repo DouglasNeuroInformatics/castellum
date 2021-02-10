@@ -107,5 +107,5 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         reached_count, not_reached_count = send_appointment_reminders(options['base_url'])
         if options['verbosity'] > 0:
-            self.stdout.write('Direct: {}'.format(reached_count))
-            self.stdout.write('Indirect: {}'.format(not_reached_count))
+            self.stdout.write(f'Direct: {reached_count}')
+            self.stdout.write(f'Indirect: {not_reached_count}')

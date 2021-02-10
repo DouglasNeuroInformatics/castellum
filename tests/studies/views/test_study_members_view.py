@@ -12,5 +12,5 @@ import pytest
 def test_studymembers_200(request, client, user_fixture, study):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    response = client.get('/studies/{}/members/'.format(study.pk))
+    response = client.get(f'/studies/{study.pk}/members/')
     assert response.status_code == 200

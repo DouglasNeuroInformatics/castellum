@@ -12,7 +12,7 @@ from castellum.studies.models import StudyMembership
 def test_update_200(client, member, subject_filter_group):
     client.force_login(member)
     study = subject_filter_group.study
-    url = '/studies/{}/recruitmentsettings/filters/{}/'.format(study.pk, subject_filter_group.pk)
+    url = f'/studies/{study.pk}/recruitmentsettings/filters/{subject_filter_group.pk}/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -20,7 +20,7 @@ def test_update_200(client, member, subject_filter_group):
 def test_update_with_filter_200(client, member, subject_filter):
     client.force_login(member)
     group = subject_filter.group
-    url = '/studies/{}/recruitmentsettings/filters/{}/'.format(group.study.pk, group.pk)
+    url = f'/studies/{group.study.pk}/recruitmentsettings/filters/{group.pk}/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -43,7 +43,7 @@ def test_update_403_privacy_level(client, member, subject_filter):
 
     client.force_login(member)
     group = subject_filter.group
-    url = '/studies/{}/recruitmentsettings/filters/{}/'.format(group.study.pk, group.pk)
+    url = f'/studies/{group.study.pk}/recruitmentsettings/filters/{group.pk}/'
     response = client.get(url)
     assert response.status_code == 403
 
@@ -74,14 +74,14 @@ def test_advanced_filtering_200(client, member, subject_filter_group, study_in_e
     study_in_edit_status.save()
 
     client.force_login(member)
-    url = '/studies/{}/recruitmentsettings/filters/'.format(study_in_edit_status.pk)
+    url = f'/studies/{study_in_edit_status.pk}/recruitmentsettings/filters/'
     response = client.get(url)
     assert response.status_code == 200
 
 
 def test_basic_filtering_302(client, member, study_in_edit_status):
     client.force_login(member)
-    url = '/studies/{}/recruitmentsettings/filters/'.format(study_in_edit_status.pk)
+    url = f'/studies/{study_in_edit_status.pk}/recruitmentsettings/filters/'
     response = client.get(url)
     assert response.status_code == 302
 
@@ -93,7 +93,7 @@ def test_get_when_study_has_minimal_subject_count_set_to_zero(
     study_in_edit_status.save()
 
     client.force_login(member)
-    url = '/studies/{}/recruitmentsettings/filters/'.format(study_in_edit_status.pk)
+    url = f'/studies/{study_in_edit_status.pk}/recruitmentsettings/filters/'
     response = client.get(url)
     assert response.status_code == 200
 
@@ -113,7 +113,7 @@ def test_get_when_study_has_not_enough_subjects_in_filter_group(
 
     baker.make(SubjectFilterGroup, study=study_in_edit_status)
 
-    url = '/studies/{}/recruitmentsettings/filters/'.format(study_in_edit_status.pk)
+    url = f'/studies/{study_in_edit_status.pk}/recruitmentsettings/filters/'
     response = client.get(url)
     assert response.status_code == 200
 

@@ -43,5 +43,5 @@ def geocode_address(address):
         geolocator = Nominatim(**settings.NOMINATIM)
         return geolocator.geocode(query)
     except GeopyError:
-        logger.info('Geocoding failed for subject with pk "%s"' % address.contact.subject_id)
+        logger.info(f'Geocoding failed for subject with pk "{address.contact.subject_id}"')
         return None

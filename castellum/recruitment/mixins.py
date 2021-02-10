@@ -148,7 +148,7 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
 
 class BaseFollowUpFeed(BaseICalFeed):
     def item_title(self, item):
-        return '{} - Follow-Up'.format(item.study.name)
+        return f'{item.study.name} - Follow-Up'
 
     def item_start_datetime(self, item):
         if item.followup_time:

@@ -136,7 +136,7 @@ class BIDSExporter:
         writer.writeheader()
 
         for _id, subject in subjects:
-            row = {'participant_id': 'sub-%s' % _id}
+            row = {'participant_id': f'sub-{_id}'}
             for desc in descriptions:
                 key = desc.label.lower().replace(' ', '_')
                 value = subject.attributes.get(desc.json_key)

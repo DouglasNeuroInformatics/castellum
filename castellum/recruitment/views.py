@@ -450,7 +450,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
                 calendar = Calendar.from_ical(text)
                 for event in calendar.walk('VEVENT'):
                     yield {
-                        'title': '[%s] %s' % (feed.study_type, event.get('SUMMARY', '')),
+                        'title': f"[{feed.study_type}] {event.get('SUMMARY', '')}",
                         'start': event.get('DTSTART').dt,
                         'end': event.get('DTEND').dt,
                         'backgroundColor': feed.color,

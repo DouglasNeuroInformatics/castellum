@@ -11,11 +11,11 @@ def instantiate_formset(formset_class, data, instance=None, initial=None):
         for name, value in form_data.items():
             if isinstance(value, list):
                 for j, inner in enumerate(value):
-                    formset_data['{}-{}-{}_{}'.format(prefix, i, name, j)] = inner
+                    formset_data[f'{prefix}-{i}-{name}_{j}'] = inner
             else:
-                formset_data['{}-{}-{}'.format(prefix, i, name)] = value
-    formset_data['{}-TOTAL_FORMS'.format(prefix)] = len(data)
-    formset_data['{}-INITIAL_FORMS'.format(prefix)] = 0
+                formset_data[f'{prefix}-{i}-{name}'] = value
+    formset_data[f'{prefix}-TOTAL_FORMS'] = len(data)
+    formset_data[f'{prefix}-INITIAL_FORMS'] = 0
 
     if instance:
         return formset_class(formset_data, instance=instance, initial=initial)

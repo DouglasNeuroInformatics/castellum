@@ -65,9 +65,9 @@ class AppointmentsForm(forms.ModelForm):
         duration = _('%imin') % session.duration
         types = ', '.join(str(t) for t in session.type.order_by('pk'))
         if types:
-            return '%s (%s) - %s' % (session.name, types, duration)
+            return f'{session.name} ({types}) - {duration}'
         else:
-            return '%s - %s' % (session.name, duration)
+            return f'{session.name} - {duration}'
 
     def clean(self):
         cleaned_data = super().clean()

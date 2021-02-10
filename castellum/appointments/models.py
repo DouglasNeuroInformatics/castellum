@@ -66,7 +66,7 @@ class Appointment(models.Model):
         ]
 
     def __str__(self):
-        return '%s %s' % (date_format(self.start), time_format(self.start))
+        return f'{date_format(self.start)} {time_format(self.start)}'
 
     def clean(self):
         if self.session.study != self.participation.study:

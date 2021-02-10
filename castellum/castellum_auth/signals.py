@@ -31,13 +31,13 @@ def set_last_active_on_login(sender, user, request, **kwargs):
 
 
 def log_login(sender, user, request, **kwargs):
-    monitoring_logger.info('Login by {}'.format(user.pk))
+    monitoring_logger.info(f'Login by {user.pk}')
 
 
 def log_failed_login(sender, credentials, request, **kwargs):
-    monitoring_logger.info('Failed login with username "{}"'.format(credentials['username']))
+    monitoring_logger.info(f"Failed login with username \"{credentials['username']}\"")
 
 
 def log_logout(sender, user, request, **kwargs):
     if user:
-        monitoring_logger.info('Logout by {}'.format(user.pk))
+        monitoring_logger.info(f'Logout by {user.pk}')

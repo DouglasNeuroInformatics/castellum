@@ -15,7 +15,7 @@ def test_custom_filter_is_used(client, admin, study_in_execution_status):
     study_in_execution_status.custom_filter = 'testfilter'
     study_in_execution_status.save()
 
-    client.post('/recruitment/{}/'.format(study_in_execution_status.pk))
+    client.post(f'/recruitment/{study_in_execution_status.pk}/')
 
     assert custom_filter.called
 
@@ -30,7 +30,7 @@ def test_error_if_not_registered(client, admin, study_in_execution_status):
     study_in_execution_status.custom_filter = 'testfilter'
     study_in_execution_status.save()
 
-    response = client.post('/recruitment/{}/'.format(study_in_execution_status.pk))
+    response = client.post(f'/recruitment/{study_in_execution_status.pk}/')
 
     messages = list(get_messages(response.wsgi_request))
     assert str(messages[0]) == (

@@ -37,7 +37,7 @@ def parse_date(s):
 def request(method, id, token, allowed_status=[]):
     assert settings.SCHEDULER_URL
 
-    url = '{}/api/{}/{}/'.format(settings.SCHEDULER_URL, id, token)
+    url = f'{settings.SCHEDULER_URL}/api/{id}/{token}/'
     r = requests.request(method, url, headers={
         'Authorization': 'token ' + settings.SCHEDULER_TOKEN,
     })
@@ -62,4 +62,4 @@ def get(id, token):
 
 def create_invitation_url(id, token):
     put(id, token)  # make sure token exists
-    return '{}/invitations/{}/{}/'.format(settings.SCHEDULER_URL, id, token)
+    return f'{settings.SCHEDULER_URL}/invitations/{id}/{token}/'

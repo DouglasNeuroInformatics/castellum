@@ -9,7 +9,7 @@ def test_cleanup_view(client, recruiter, study_in_execution_status):
     participation = baker.make(
         Participation, study=study_in_execution_status, status=Participation.NOT_CONTACTED
     )
-    url = '/recruitment/{}/cleanup/'.format(study_in_execution_status.pk)
+    url = f'/recruitment/{study_in_execution_status.pk}/cleanup/'
     client.post(url, {'status': Participation.NOT_CONTACTED})
     participation.refresh_from_db()
     assert participation.status == Participation.UNSUITABLE
@@ -26,7 +26,7 @@ def test_cleanup_view_days(client, recruiter, study_in_execution_status):
             Participation, study=study_in_execution_status, status=Participation.NOT_CONTACTED
         )
     with freeze_time('1970-01-15'):
-        url = '/recruitment/{}/cleanup/'.format(study_in_execution_status.pk)
+        url = f'/recruitment/{study_in_execution_status.pk}/cleanup/'
         client.post(url, {
             'status': Participation.NOT_CONTACTED,
             'days': 5,

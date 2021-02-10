@@ -70,7 +70,7 @@ class StudyTypeEventFeed(models.Model):
     color = ColorField(_('Color'))
 
     def __str__(self):
-        return '%s %s' % (self.study_type, self.url)
+        return f'{self.study_type} {self.url}'
 
 
 class Study(models.Model):
@@ -334,7 +334,7 @@ class StudyMembership(models.Model):
         unique_together = ['study', 'user']
 
     def __str__(self):
-        return '{}:{}'.format(self.study, self.user)
+        return f'{self.study}:{self.user}'
 
 
 class Resource(models.Model):
@@ -359,4 +359,4 @@ class StudySession(models.Model):
     )
 
     def __str__(self):
-        return '{} - {}'.format(self.study, self.name)
+        return f'{self.study} - {self.name}'

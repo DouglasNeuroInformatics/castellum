@@ -19,7 +19,7 @@ def test_finish(request, client, user_fixture, study):
     study.status = Study.EDIT
     study.save()
 
-    response = client.post('/studies/{}/finish-recruitment/'.format(study.pk))
+    response = client.post(f'/studies/{study.pk}/finish-recruitment/')
     assert response.status_code == 302
 
     study.refresh_from_db()
@@ -36,12 +36,12 @@ def test_resume(client, member, study, initial_status):
     study.status = initial_status
     study.save()
 
-    client.post('/studies/{}/finish-recruitment/'.format(study.pk))
+    client.post(f'/studies/{study.pk}/finish-recruitment/')
 
     study.refresh_from_db()
     assert study.status is Study.FINISHED
 
-    client.post('/studies/{}/finish-recruitment/'.format(study.pk))
+    client.post(f'/studies/{study.pk}/finish-recruitment/')
 
     study.refresh_from_db()
     assert study.status is initial_status

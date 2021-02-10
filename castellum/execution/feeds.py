@@ -29,7 +29,7 @@ from castellum.studies.models import Study
 
 class BaseExecutionAppointmentFeed(BaseAppointmentFeed):
     def item_title(self, item):
-        return '{} - {}'.format(item.participation.subject.contact.full_name, item.session.name)
+        return f'{item.participation.subject.contact.full_name} - {item.session.name}'
 
     def item_link(self, item):
         return reverse('execution:participation-detail', args=[
