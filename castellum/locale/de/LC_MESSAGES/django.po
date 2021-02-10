@@ -1509,8 +1509,8 @@ msgid "Scheduler appointments for this participation have been deleted."
 msgstr "Scheduler-Termine für diese Teilnahme wurden gelöscht."
 
 #: castellum/studies/forms.py:60
-msgid "Mails will be sent to: "
-msgstr "Mails werden versandt an:"
+msgid "Mails will be sent to: {}"
+msgstr "Mails werden versandt an: {}"
 
 #: castellum/studies/forms.py:67
 #: castellum/subjects/templates/subjects/maintenance_duplicates.html:18
