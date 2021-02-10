@@ -35,7 +35,7 @@ def log_login(sender, user, request, **kwargs):
 
 
 def log_failed_login(sender, credentials, request, **kwargs):
-    monitoring_logger.info(f"Failed login with username \"{credentials['username']}\"")
+    monitoring_logger.info(f'Failed login with username "{credentials["username"]}"')
 
 
 def log_logout(sender, user, request, **kwargs):
