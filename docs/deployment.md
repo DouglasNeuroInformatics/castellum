@@ -40,6 +40,10 @@ authentication system. For example, you could use
 integrate with an existing LDAP setup. Please refer to the linked
 documentation for details on the configuration.
 
+In addition to that, you must set expiration dates for accounts. That is
+possible from the admin UI or with the `django-admin activate_user`
+command.
+
 ## Security
 
 Since Castellum processes special categories of data according to GDRP,
