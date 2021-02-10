@@ -12,3 +12,9 @@ Files: castellum/static/images/circle-icons/*
 Copyright: 2016 Nick Roach
 Source: http://www.elegantthemes.com/blog/freebie-of-the-week/beautiful-flat-icons-for-free
 License: GPL
+
+Files: castellum/static/images/bootstrap/*
+Copyright: 2011-2021 Twitter, Inc.
+    2011-2021 The Bootstrap Authors
+Source: https://github.com/twbs/bootstrap
+License: MIT
