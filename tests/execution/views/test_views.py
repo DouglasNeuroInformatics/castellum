@@ -76,7 +76,7 @@ def test_resolve_view(client, member, study_in_execution_status, subject):
         subject=subject,
     )
 
-    url = '/execution/%i/resolve/' % study_in_execution_status.pk
+    url = f'/execution/{study_in_execution_status.pk}/resolve/'
     response = client.post(url, {
         'pseudonym': participation.pseudonym,
     })
@@ -108,7 +108,7 @@ def test_update_contact_view(client, member, study_in_execution_status, subject)
 @pytest.mark.smoketest
 def test_calendar_view(client, member, study_in_execution_status):
     client.force_login(member)
-    response = client.get('/execution/%i/calendar/' % study_in_execution_status.pk)
+    response = client.get(f'/execution/{study_in_execution_status.pk}/calendar/')
     assert response.status_code == 200
 
 
@@ -127,7 +127,7 @@ def test_calendar_view_events(client, member, study_in_execution_status, subject
         session__study=study_in_execution_status,
     )
 
-    response = client.get('/execution/%i/calendar/?events' % study_in_execution_status.pk)
+    response = client.get(f'/execution/{study_in_execution_status.pk}/calendar/?events')
 
     assert response.status_code == 200
 

@@ -270,7 +270,7 @@ def test_contact_form_with_guardians_remove(user, full_data, contact):
 def test_contact_form_underage_without_guardian(user, full_data):
     msg = 'Subjects under the age of 16 need a legal guardian.'
     full_data.update({
-        'date_of_birth': '%i-01-01' % datetime.date.today().year,
+        'date_of_birth': f'{datetime.date.today().year}-01-01',
     })
 
     form = ContactForm(user=user, data=full_data)

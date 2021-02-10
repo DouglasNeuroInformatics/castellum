@@ -91,9 +91,7 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
         return context
 
     def export(self):
-        monitoring_logger.info('Attribute export: study {} by {}'.format(
-            self.study.pk, self.request.user.pk
-        ))
+        monitoring_logger.info(f'Attribute export: study {self.study.pk} by {self.request.user.pk}')
 
         exporter = get_exporter()
         descriptions = self.study.exportable_attributes.all()
@@ -273,7 +271,7 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
             news_interest=Participation.VIA_POSTAL
         ))
 
-        body = 'You sent news emails to %i subjects.' % len(succeeded)
+        body = f'You sent news emails to {len(succeeded)} subjects.'
 
         if failed:
             body += (

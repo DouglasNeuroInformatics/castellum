@@ -33,7 +33,7 @@ def uuid_str() -> str:
 
 
 def cached_request(url: str, timeout=300):
-    key = 'cached_request:' + url
+    key = f'cached_request:{url}'
 
     value = cache.get(key)
     if value:

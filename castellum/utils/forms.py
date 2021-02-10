@@ -186,7 +186,7 @@ class DatalistWidget(TextInput):
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
-        context['widget']['attrs']['list'] = context['widget']['attrs']['id'] + '_list'
+        context['widget']['attrs']['list'] = f"{context['widget']['attrs']['id']}_list"
         context['datalist'] = self.datalist
         return context
 

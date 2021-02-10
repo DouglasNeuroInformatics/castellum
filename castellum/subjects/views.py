@@ -162,9 +162,9 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
                 contact.subject.save()
 
-                monitoring_logger.info('SubjectData update: {} by {}'.format(
-                    contact.subject_id, self.request.user.pk
-                ))
+                monitoring_logger.info(
+                    f'SubjectData update: {contact.subject_id} by {self.request.user.pk}'
+                )
                 return redirect('subjects:detail', slug=contact.subject.slug)
             else:
                 messages.error(request, _(
@@ -188,7 +188,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         context['updated_at'] = max(self.object.updated_at, self.object.contact.updated_at)
 
         completed, total = self.object.get_completeness()
-        context['attribute_completeness'] = '%i%%' % (100 * completed / (total or 1))
+        context['attribute_completeness'] = f'{100 * completed // (total or 1)}%'
 
         context['coverletter_exists'] = bool(settings.CASTELLUM_COVERLETTER_TEMPLATE)
 
@@ -248,9 +248,9 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
 
         if self.object.export_requested:
-            monitoring_logger.info('GDPR-Request export: {} by {}'.format(
-                self.object.pk, self.request.user.pk
-            ))
+            monitoring_logger.info(
+                f'GDPR-Request export: {self.object.pk} by {self.request.user.pk}'
+            )
 
             context['appointments'] = Appointment.objects.filter(
                 participation__subject=self.object
@@ -369,9 +369,9 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        monitoring_logger.info('Participation in Study {} deleted by {}'.format(
-            self.object.study.name, self.request.user.pk
-        ))
+        monitoring_logger.info(
+            f'Participation in Study {self.object.study.name} deleted by {self.request.user.pk}'
+        )
         return super().delete(self, request, *args, **kwargs)
 
 
@@ -413,7 +413,7 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
         )
 
         url = reverse('recruitment:contact', args=[study.pk, participation.pk])
-        return redirect(url + '?context=subjects:participation-list')
+        return redirect(f'{url}?context=subjects:participation-list')
 
 
 class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
@@ -479,9 +479,9 @@ class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
             contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
             contact.subject.save()
 
-            monitoring_logger.info('SubjectData update: {} by {}'.format(
-                contact.subject_id, self.request.user.pk
-            ))
+            monitoring_logger.info(
+                f'SubjectData update: {contact.subject_id} by {self.request.user.pk}'
+            )
             return TemplateResponse(self.request, 'subjects/guardian_success.html', {
                 'name': contact.full_name,
                 'pk': contact.subject.pk,

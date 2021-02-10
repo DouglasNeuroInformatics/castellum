@@ -97,8 +97,8 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             desc1 = get_description_by_statistics_rank('primary')
             desc2 = get_description_by_statistics_rank('secondary')
             order_by = [
-                '-subject__attributes__' + desc1.json_key,
-                '-subject__attributes__' + desc2.json_key,
+                f'-subject__attributes__{desc1.json_key}',
+                f'-subject__attributes__{desc2.json_key}',
                 '-updated_at',
             ]
         else:
@@ -362,7 +362,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         url = reverse('recruitment:contact', args=[self.study.pk, self.object.pk])
         context = self.request.GET.get('context')
         if context == 'subjects:participation-list':
-            url += '?context=' + context
+            url += f'?context={context}'
         return url
 
     def form_valid(self, form):
@@ -458,7 +458,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
                         'textColor': contrast_color(feed.color),
                     }
             except Exception as e:
-                logger.error('Fetching StudyTypeEventFeed %i failed: %s' % (feed.pk, e))
+                logger.error(f'Fetching StudyTypeEventFeed {feed.pk} failed: {e}')
 
     def get_events(self):
         return super().get_events() + list(self.get_external_events())

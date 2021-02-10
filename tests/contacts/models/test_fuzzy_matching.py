@@ -42,7 +42,7 @@ from castellum.contacts.models import Contact
 ))
 def test_phonetic_matching(right, wrong, expected):
     baker.make(Contact, first_name='Eve', last_name=right)
-    matches = Contact.objects.fuzzy_filter('Eve ' + wrong).exists()
+    matches = Contact.objects.fuzzy_filter(f'Eve {wrong}').exists()
     assert matches == expected
 
 

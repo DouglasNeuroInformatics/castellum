@@ -42,7 +42,7 @@ TestCase.databases = ['default', 'contacts']
 
 
 def load_django_fixture(app_label, name):
-    path = Path('castellum') / app_label / 'fixtures' / (name + '.json')
+    path = Path('castellum') / app_label / 'fixtures' / (f'{name}.json')
     with open(path) as fh:
         for obj in serializers.deserialize('json', fh):
             obj.save()

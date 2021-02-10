@@ -46,7 +46,7 @@ class ContactQuerySet(models.QuerySet):
         return self.filter(q).distinct()
 
     def match_name(self, part, prefix):
-        lookup = prefix + '_name_phonetic__contains'
+        lookup = f'{prefix}_name_phonetic__contains'
         q = models.Q()
         for code in phonetic(part, encode=False):
             q &= models.Q(**{lookup: f':{code}:'})

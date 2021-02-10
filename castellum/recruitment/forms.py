@@ -103,7 +103,7 @@ class SubjectFilterForm(forms.ModelForm):
         if instance:
             return instance.description
 
-        key = prefix + '-description' if prefix else 'description'
+        key = f'{prefix}-description' if prefix else 'description'
         if data and data[key]:
             try:
                 return AttributeDescription.objects.get(pk=data[key])
@@ -154,7 +154,7 @@ class AttributesForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         for key in cleaned_data:
-            if key + '_answer_declined' in self.data:
+            if f'{key}_answer_declined' in self.data:
                 cleaned_data[key] = ANSWER_DECLINED
         study_type_disinterest = cleaned_data.pop('study_type_disinterest')
         onetime_invitation_disinterest = cleaned_data.pop('onetime_invitation_disinterest')
@@ -207,7 +207,7 @@ class ContactAndAppointmentsForm(ContactForm, AppointmentsForm):
         cleaned_data = super().clean()
         if cleaned_data['status'] != Participation.INVITED:
             for session in self.instance.study.studysession_set.exclude(schedule_id=None):
-                key = 'appointment-%i' % session.pk
+                key = f'appointment-{session.pk}'
                 del cleaned_data[key]
         return cleaned_data
 

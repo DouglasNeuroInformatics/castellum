@@ -4,16 +4,16 @@ import pytest
 
 
 def test_feed_for_study_in_execution_status(client, member, study_in_execution_status):
-    response = client.get('/recruitment/{}/followups/?token={}'.format(
-        study_in_execution_status.pk, member.token
-    ))
+    response = client.get(
+        f'/recruitment/{study_in_execution_status.pk}/followups/?token={member.token}'
+    )
     assert response.status_code == 200
 
 
 def test_feed_for_study_in_edit_status(client, member, study_in_edit_status):
-    response = client.get('/recruitment/{}/followups/?token={}'.format(
-        study_in_edit_status.pk, member.token
-    ))
+    response = client.get(
+        f'/recruitment/{study_in_edit_status.pk}/followups/?token={member.token}'
+    )
     assert response.status_code == 404
 
 

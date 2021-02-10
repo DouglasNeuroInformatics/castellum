@@ -252,7 +252,7 @@ class Study(models.Model):
     def get_filter_max_privacy_level(self):
         key = 'subjectfilter__description__privacy_level_read'
         result = self.subjectfiltergroup_set.aggregate(models.Max(key))
-        return result[key + '__max'] or 0
+        return result[f'{key}__max'] or 0
 
     @property
     def study_type(self):

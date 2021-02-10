@@ -56,4 +56,4 @@ class Command(BaseCommand):
             Street.objects.all().delete()
         Street.objects.bulk_create(Street(name=name) for name in streets)
         if options['verbosity'] > 0:
-            self.stdout.write('Created %i streets' % len(streets))
+            self.stdout.write(f'Created {len(streets)} streets')

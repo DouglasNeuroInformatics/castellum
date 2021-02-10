@@ -62,7 +62,7 @@ class SubjectQuerySet(models.QuerySet):
         counts = {}
         score = []
         for status, label in Appointment.SHOWUP_CHOICES:
-            key = 'showup_%i' % status
+            key = f'showup_{status}'
             counts[key] = models.Count(
                 'participation__appointment',
                 filter=models.Q(
@@ -273,7 +273,7 @@ class Subject(TimeStampedModel):
         annotated = Subject.objects.annotate_showup().get(pk=self.pk)
         self.showup_score = annotated.showup_score
         for status, label in Appointment.SHOWUP_CHOICES:
-            key = 'showup_%i' % status
+            key = f'showup_{status}'
             setattr(self, key, getattr(annotated, key))
 
     def get_data(self):

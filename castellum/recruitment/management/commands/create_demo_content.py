@@ -159,7 +159,7 @@ def fake_contact(subject):
         last_name = fake.last_name_male()
 
     if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID:
-        key = 'd%i' % settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
+        key = f'd{settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID}'
         date_of_birth = subject.attributes.get(key)
     else:
         date_of_birth = fake_date_of_birth()

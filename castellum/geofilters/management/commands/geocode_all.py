@@ -47,4 +47,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         count = fetch_missing_geolocations()
         if options['verbosity'] > 0:
-            self.stdout.write('Created %i geolocations' % count)
+            self.stdout.write(f'Created {count} geolocations')

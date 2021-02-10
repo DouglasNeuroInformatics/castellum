@@ -45,7 +45,7 @@ class AppointmentsForm(forms.ModelForm):
 
         self.invitation_urls = {}
         for session, appointment in self.instance.get_appointments():
-            key = 'appointment-%i' % session.pk
+            key = f'appointment-{session.pk}'
             self.fields[key] = DateTimeField(
                 label=self.format_session_name(session),
                 help_text=session.reminder_text,
@@ -74,7 +74,7 @@ class AppointmentsForm(forms.ModelForm):
 
         appointments = []
         for session in self.instance.study.studysession_set.all():
-            key = 'appointment-%i' % session.pk
+            key = f'appointment-{session.pk}'
             start = cleaned_data.get(key)
             if start:
                 appointments.append((session, key, start, start + session.duration * MINUTE))
@@ -108,7 +108,7 @@ class AppointmentsForm(forms.ModelForm):
         self.appointment_changes = []
 
         for session, appointment in pariticipation.get_appointments():
-            start = self.cleaned_data.get('appointment-%i' % session.pk)
+            start = self.cleaned_data.get(f'appointment-{session.pk}')
 
             if appointment:
                 if not start:

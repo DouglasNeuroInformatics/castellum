@@ -118,10 +118,7 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         result = super().form_valid(form)
-        monitoring_logger.info('Attributes update: {} by {}'.format(
-            self.object.pk,
-            self.request.user.pk,
-        ))
+        monitoring_logger.info(f'Attributes update: {self.object.pk} by {self.request.user.pk}')
         return result
 
     def get_context_data(self, **kwargs):
@@ -132,7 +129,7 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
             for description in descriptions:
                 value = self.object.attributes.get(description.json_key)
                 try:
-                    yield form['d%i' % description.pk], value == ANSWER_DECLINED
+                    yield form[f'd{description.pk}'], value == ANSWER_DECLINED
                 except KeyError:
                     pass
 
@@ -204,7 +201,7 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         with MailContext('internal') as ctx:
             ctx.send_mail(
                 self.study.mail_subject,
-                '%i emails have been sent.\n\n---\n\n%s' % (counter, self.study.mail_body),
+                f'{counter} emails have been sent.\n\n---\n\n{self.study.mail_body}',
                 [self.study.email],
             )
 

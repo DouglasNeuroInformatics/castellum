@@ -45,7 +45,7 @@ def showup_summary(subject):
 
     labelled = []
     for status, label in Appointment.SHOWUP_CHOICES:
-        count = getattr(subject, 'showup_%i' % status)
+        count = getattr(subject, f'showup_{status}')
         if count:
             labelled.append((label, count))
 
