@@ -74,7 +74,8 @@ class StudySessionFormMixin(StudyMixin, PermissionRequiredMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['has_resources'] = Resource.objects.exists()
-        context['schedule_url'] = scheduler.get_schedule_url(self.object.schedule_id)
+        if settings.SCHEDULER_URL and self.object:
+            context['schedule_url'] = scheduler.get_schedule_url(self.object.schedule_id)
         return context
 
     def get_success_url(self):
