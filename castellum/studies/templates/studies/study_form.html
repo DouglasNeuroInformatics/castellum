@@ -32,7 +32,9 @@
         {% bootstrap_field form.data_sensitivity %}
         {% bootstrap_field form.consent %}
         {% bootstrap_field form.min_subject_count %}
-        {% bootstrap_field form.exportable_attributes %}
+        {% if CASTELLUM_ATTRIBUTES_EXIST %}
+            {% bootstrap_field form.exportable_attributes %}
+        {% endif %}
         {% if form.is_onetime_invitation %}
             {% bootstrap_field form.is_onetime_invitation %}
         {% endif %}

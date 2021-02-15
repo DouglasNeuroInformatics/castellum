@@ -32,9 +32,11 @@
                         {% translate 'Contact' %}
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{% url 'subjects:attributes' subject.slug %}" class="nav-link {% if view.tab == 'attributes' %}active{% endif %}">{% translate "Attributes" %}</a>
-                </li>
+                {% if CASTELLUM_ATTRIBUTES_EXIST %}
+                    <li class="nav-item">
+                        <a href="{% url 'subjects:attributes' subject.slug %}" class="nav-link {% if view.tab == 'attributes' %}active{% endif %}">{% translate "Attributes" %}</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
                     <a href="{% url 'subjects:data-protection' subject.slug %}" class="nav-link {% if view.tab == 'data-protection' %}active{% endif %}">
                         {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age %}
