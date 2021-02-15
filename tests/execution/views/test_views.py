@@ -76,13 +76,13 @@ def test_resolve_view(client, member, study_in_execution_status, subject):
         subject=subject,
     )
 
-    url = '/execution/%i/resolve/' % study_in_execution_status.pk
+    url = '/execution/{}/resolve/'.format(study_in_execution_status.pk)
     response = client.post(url, {
         'pseudonym': participation.pseudonym,
     })
 
     assert response.status_code == 302
-    assert response.url == '/execution/%i/%i/' % (
+    assert response.url == '/execution/{}/{}/'.format(
         study_in_execution_status.pk, participation.pk
     )
 
@@ -98,7 +98,7 @@ def test_update_contact_view(client, member, study_in_execution_status, subject)
         subject=subject,
     )
 
-    response = client.get('/execution/%i/%i/update-contact/' % (
+    response = client.get('/execution/{}/{}/update-contact/'.format(
         study_in_execution_status.pk, participation.pk
     ))
 
@@ -108,7 +108,7 @@ def test_update_contact_view(client, member, study_in_execution_status, subject)
 @pytest.mark.smoketest
 def test_calendar_view(client, member, study_in_execution_status):
     client.force_login(member)
-    response = client.get('/execution/%i/calendar/' % study_in_execution_status.pk)
+    response = client.get('/execution/{}/calendar/'.format(study_in_execution_status.pk))
     assert response.status_code == 200
 
 
@@ -127,14 +127,14 @@ def test_calendar_view_events(client, member, study_in_execution_status, subject
         session__study=study_in_execution_status,
     )
 
-    response = client.get('/execution/%i/calendar/?events' % study_in_execution_status.pk)
+    response = client.get('/execution/{}/calendar/?events'.format(study_in_execution_status.pk))
 
     assert response.status_code == 200
 
     data = response.json()
     assert 'events' in data
     assert len(data['events']) == 1
-    assert data['events'][0]['url'] == '/execution/%i/%i/' % (
+    assert data['events'][0]['url'] == '/execution/{}/{}/'.format(
         study_in_execution_status.pk, participation.pk
     )
 

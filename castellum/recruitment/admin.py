@@ -65,7 +65,7 @@ class DescriptionImportView(PermissionRequiredMixin, FormView):
             AttributeDescription._import(data)
         messages.success(
             self.request,
-            _('Successfully imported %i attribute descriptions.' % len(json['descriptions']))
+            _('Successfully imported {} attribute descriptions.'.format(len(json['descriptions'])))
         )
         return self.form_invalid(form)
 

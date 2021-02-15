@@ -16,7 +16,7 @@ from castellum.subjects.models import Subject
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
 
-SOURCE = 'import %s' % datetime.date.today()
+SOURCE = 'import {}'.format(datetime.date.today())
 ADDRESS_MAP = {}
 CONTACT_MAP = {
     'first_name': 0,

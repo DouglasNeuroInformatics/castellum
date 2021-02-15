@@ -43,9 +43,9 @@ def expiration_date_repr(obj):
         expire = _('expired')
     else:
         expires_in = obj.expiration_date - timezone.now()
-        expire = _('%i days left') % expires_in.days
+        expire = _('{} days left').format(expires_in.days)
 
-    return '%s (%s)' % (formatted_date, expire)
+    return '{} ({})'.format(formatted_date, expire)
 
 
 expiration_date_repr.admin_order_field = 'expiration_date'

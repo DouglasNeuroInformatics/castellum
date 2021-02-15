@@ -71,13 +71,15 @@ class Command(BaseCommand):
         subjects, missing = helpers.get_all_subjects(options['limit_by'])
         count = subjects_notify(subjects, options['base_url'])
         if options['verbosity'] > 0:
-            self.stdout.write('notified about %i subjects' % count)
+            self.stdout.write('notified about {} subjects'.format(count))
         if missing:
             if options['verbosity'] > 0:
-                self.stdout.write('skipped resetting because %i subjects were missing' % missing)
+                self.stdout.write(
+                    'skipped resetting because {} subjects were missing'.format(missing)
+                )
         else:
             count = subjects_reset(subjects)
             if options['verbosity'] > 0:
                 self.stdout.write(
-                    'reset %i subjects that previously were marked as notified' % count
+                    'reset {} subjects that previously were marked as notified'.format(count)
                 )

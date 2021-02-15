@@ -203,7 +203,7 @@ class Contact(TimeStampedModel):
     @property
     def short_name(self):
         # a bit simplistic, but should be sufficient
-        return '%s. %s' % (self.first_name[0], self.last_name)
+        return '{}. {}'.format(self.first_name[0], self.last_name)
 
     @cached_property
     def is_guardian(self):

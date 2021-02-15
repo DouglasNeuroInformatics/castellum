@@ -450,7 +450,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
                 calendar = Calendar.from_ical(text)
                 for event in calendar.walk('VEVENT'):
                     yield {
-                        'title': '[%s] %s' % (feed.study_type, event.get('SUMMARY', '')),
+                        'title': '[{}] {}'.format(feed.study_type, event.get('SUMMARY', '')),
                         'start': event.get('DTSTART').dt,
                         'end': event.get('DTEND').dt,
                         'backgroundColor': feed.color,
@@ -458,7 +458,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
                         'textColor': contrast_color(feed.color),
                     }
             except Exception as e:
-                logger.error('Fetching StudyTypeEventFeed %i failed: %s' % (feed.pk, e))
+                logger.error('Fetching StudyTypeEventFeed {} failed: {}'.format(feed.pk, e))
 
     def get_events(self):
         return super().get_events() + list(self.get_external_events())

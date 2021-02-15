@@ -207,7 +207,7 @@ class ContactAndAppointmentsForm(ContactForm, AppointmentsForm):
         cleaned_data = super().clean()
         if cleaned_data['status'] != Participation.INVITED:
             for session in self.instance.study.studysession_set.exclude(schedule_id=None):
-                key = 'appointment-%i' % session.pk
+                key = 'appointment-{}'.format(session.pk)
                 del cleaned_data[key]
         return cleaned_data
 

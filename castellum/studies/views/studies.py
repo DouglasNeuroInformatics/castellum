@@ -413,6 +413,6 @@ class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
         }
 
         response = JsonResponse({k: v for k, v in data.items() if v})
-        filename = 'castellum_%s.json' % slugify(self.study.name)
-        response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+        filename = 'castellum_{}.json'.format(slugify(self.study.name))
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
         return response

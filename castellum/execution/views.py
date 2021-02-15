@@ -273,7 +273,7 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
             news_interest=Participation.VIA_POSTAL
         ))
 
-        body = 'You sent news emails to %i subjects.' % len(succeeded)
+        body = 'You sent news emails to {} subjects.'.format(len(succeeded))
 
         if failed:
             body += (
@@ -299,7 +299,7 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
 
         with MailContext('internal') as ctx:
             return ctx.send_mail(
-                '[%s] news email send' % self.study.name,
+                '[{}] news email send'.format(self.study.name),
                 body,
                 [user.email for user in self.study.conductors],
             )
@@ -350,10 +350,10 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
 
         self.send_summary(succeeded, failed, form)
         messages.success(self.request, _(
-            'Mail was sent to %i subjects. '
+            'Mail was sent to {} subjects. '
             'An email was sent to all study conductors with further information. '
             'That email also lists potential next steps.'
-        ) % len(succeeded))
+        ).format(len(succeeded)))
 
         return redirect('execution:news-mail', self.study.pk)
 

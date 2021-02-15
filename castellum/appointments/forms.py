@@ -45,7 +45,7 @@ class AppointmentsForm(forms.ModelForm):
 
         self.invitation_urls = {}
         for session, appointment in self.instance.get_appointments():
-            key = 'appointment-%i' % session.pk
+            key = 'appointment-{}'.format(session.pk)
             self.fields[key] = DateTimeField(
                 label=self.format_session_name(session),
                 help_text=session.reminder_text,
@@ -62,19 +62,19 @@ class AppointmentsForm(forms.ModelForm):
                     self.invitation_urls[key] = 'not-invited'
 
     def format_session_name(self, session):
-        duration = _('%imin') % session.duration
+        duration = _('{}min').format(session.duration)
         types = ', '.join(str(t) for t in session.type.order_by('pk'))
         if types:
-            return '%s (%s) - %s' % (session.name, types, duration)
+            return '{} ({}) - {}'.format(session.name, types, duration)
         else:
-            return '%s - %s' % (session.name, duration)
+            return '{} - {}'.format(session.name, duration)
 
     def clean(self):
         cleaned_data = super().clean()
 
         appointments = []
         for session in self.instance.study.studysession_set.all():
-            key = 'appointment-%i' % session.pk
+            key = 'appointment-{}'.format(session.pk)
             start = cleaned_data.get(key)
             if start:
                 appointments.append((session, key, start, start + session.duration * MINUTE))
@@ -108,7 +108,7 @@ class AppointmentsForm(forms.ModelForm):
         self.appointment_changes = []
 
         for session, appointment in pariticipation.get_appointments():
-            start = self.cleaned_data.get('appointment-%i' % session.pk)
+            start = self.cleaned_data.get('appointment-{}'.format(session.pk))
 
             if appointment:
                 if not start:

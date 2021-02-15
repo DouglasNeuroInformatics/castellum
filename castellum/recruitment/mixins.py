@@ -132,7 +132,7 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
             for description in descriptions:
                 value = self.object.attributes.get(description.json_key)
                 try:
-                    yield form['d%i' % description.pk], value == ANSWER_DECLINED
+                    yield form['d{}'.format(description.pk)], value == ANSWER_DECLINED
                 except KeyError:
                     pass
 
@@ -204,7 +204,7 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         with MailContext('internal') as ctx:
             ctx.send_mail(
                 self.study.mail_subject,
-                '%i emails have been sent.\n\n---\n\n%s' % (counter, self.study.mail_body),
+                '{} emails have been sent.\n\n---\n\n{}'.format(counter, self.study.mail_body),
                 [self.study.email],
             )
 

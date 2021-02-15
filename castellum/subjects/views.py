@@ -188,7 +188,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         context['updated_at'] = max(self.object.updated_at, self.object.contact.updated_at)
 
         completed, total = self.object.get_completeness()
-        context['attribute_completeness'] = '%i%%' % (100 * completed / (total or 1))
+        context['attribute_completeness'] = '{}%'.format(100 * completed / (total or 1))
 
         context['coverletter_exists'] = bool(settings.CASTELLUM_COVERLETTER_TEMPLATE)
 

@@ -69,7 +69,7 @@ def iter_fields():
     for app in apps.get_app_configs():
         for model in app.get_models():
             for field in model._meta.get_fields():
-                s = '%s.%s.%s' % (app.label, model._meta.object_name, field.name)
+                s = '{}.{}.{}'.format(app.label, model._meta.object_name, field.name)
                 if all(not s.startswith(pattern) for pattern in EXCLUDED):
                     yield s
 
@@ -85,7 +85,7 @@ def test_subject_export_complete(client, user, participation):
     baker.make(Appointment, participation=participation, session=session)
     subject.save()
 
-    response = client.get('/subjects/%s/export/' % subject.slug)
+    response = client.get('/subjects/{}/export/'.format(subject.slug))
 
     expected = set(iter_fields())
     actual = {s.decode('utf-8') for s in re.findall(b'data-fieldname="([^"]*)"', response.content)}
