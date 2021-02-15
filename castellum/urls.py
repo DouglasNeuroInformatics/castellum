@@ -76,12 +76,16 @@ urlpatterns = [
     path('studies/', include('castellum.studies.urls', namespace='studies')),
     path('subjects/', include('castellum.subjects.urls', namespace='subjects')),
     path('contacts/', include('castellum.contacts.urls', namespace='contacts')),
-    path('recruitment/', include('castellum.recruitment.urls', namespace='recruitment')),
     path('execution/', include('castellum.execution.urls', namespace='execution')),
     path(
         'data-protection/', include('castellum.data_protection.urls', namespace='data_protection')
     ),
 ]
+
+if settings.CASTELLUM_ENABLE_RECRUITMENT:
+    urlpatterns += [
+        path('recruitment/', include('castellum.recruitment.urls', namespace='recruitment')),
+    ]
 
 if settings.DEBUG:
     urlpatterns += [

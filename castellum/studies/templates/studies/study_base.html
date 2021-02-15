@@ -122,13 +122,15 @@
                         <a class="nav-link {% if view.tab == 'sessions' %}active{% endif %}" href="{% url 'studies:sessions' study.pk %}">{% translate 'Sessions' %}</a>
                     </li>
                 {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link {% if view.tab == 'recruitmentsettings' %}active{% endif %}" href="{% url 'studies:recruitmentsettings' study.pk %}">{% translate 'Recruitment Settings' %}</a>
-                </li>
-                {% if study.is_onetime_invitation %}
+                {% if CASTELLUM_ENABLE_RECRUITMENT %}
                     <li class="nav-item">
-                        <a class="nav-link {% if view.tab == 'mail' %}active{% endif %}" href="{% url 'studies:mail' study.pk %}">{% translate 'Mail' %}</a>
+                        <a class="nav-link {% if view.tab == 'recruitmentsettings' %}active{% endif %}" href="{% url 'studies:recruitmentsettings' study.pk %}">{% translate 'Recruitment Settings' %}</a>
                     </li>
+                    {% if study.is_onetime_invitation %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if view.tab == 'mail' %}active{% endif %}" href="{% url 'studies:mail' study.pk %}">{% translate 'Mail' %}</a>
+                        </li>
+                    {% endif %}
                 {% endif %}
             {% endif %}
         </ul>

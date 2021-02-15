@@ -78,7 +78,7 @@
                                 {% has_perm 'studies.access_study' user study as can_access %}
                                 {% if can_access and study.status == study.EXECUTION %}
                                     {% has_perm 'recruitment.recruit' user study as can_recruit %}
-                                    {% if can_recruit %}
+                                    {% if CASTELLUM_ENABLE_RECRUITMENT and can_recruit %}
                                         <a class="btn btn-outline-primary my-1" href="{% url 'recruitment:recruitment-open' study.pk %}">{% translate 'Recruitment' %}</a>
                                     {% endif %}
 

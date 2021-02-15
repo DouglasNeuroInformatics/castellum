@@ -19,10 +19,15 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
+
 from .models import AttributeDescription
 
 
 def attributes(request):
     return {
-        'CASTELLUM_ATTRIBUTES_EXIST': AttributeDescription.objects.exists(),
+        'CASTELLUM_ATTRIBUTES_EXIST': (
+            settings.CASTELLUM_ENABLE_RECRUITMENT
+            and AttributeDescription.objects.exists()
+        ),
     }

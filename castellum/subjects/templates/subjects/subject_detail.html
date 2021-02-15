@@ -66,18 +66,20 @@
     {% endif %}
 
     <dl class="row">
-        <dt class="col-sm-6">
-            {% translate 'Recruitment consent' %}
-            <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR' %}</small>
-        </dt>
-        <dd class="col-sm-6">
-            {% if subject.has_legal_basis %}
-                {{ subject|display:'has_consent_or_waiting' }}
-            {% else %}
-                {% url 'subjects:data-protection' subject.slug as url %}
-                {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">set consent status</a>.{% endblocktranslate %}
-            {% endif %}
-        </dd>
+        {% if CASTELLUM_ENABLE_RECRUITMENT %}
+            <dt class="col-sm-6">
+                {% translate 'Recruitment consent' %}
+                <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR' %}</small>
+            </dt>
+            <dd class="col-sm-6">
+                {% if subject.has_legal_basis %}
+                    {{ subject|display:'has_consent_or_waiting' }}
+                {% else %}
+                    {% url 'subjects:data-protection' subject.slug as url %}
+                    {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">set consent status</a>.{% endblocktranslate %}
+                {% endif %}
+            </dd>
+        {% endif %}
 
         <dt class="col-sm-6">
             {% translate 'Study consent' %}
