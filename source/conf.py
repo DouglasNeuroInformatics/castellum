@@ -22,7 +22,7 @@ copyright = '2018-2021, Max Planck Institute for Human Development'
 author = 'Max Planck Institute for Human Development'
 
 # The full version, including alpha/beta/rc tags
-release = '0.52.0'
+version = '0.55'
 
 
 # -- General configuration ---------------------------------------------------
