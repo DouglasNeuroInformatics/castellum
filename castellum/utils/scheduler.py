@@ -66,5 +66,5 @@ def create_invitation_url(id, token):
 
 
 def get_schedule_url(id):
-    if settings.SCHEDULER_URL:
-        return '{scheduler}/{id}/'.format(scheduler=settings.SCHEDULER_URL, id=id)
+    assert settings.SCHEDULER_URL
+    return '{scheduler}/{id}/'.format(scheduler=settings.SCHEDULER_URL, id=id)
