@@ -4,18 +4,43 @@
     {% for participation, buckets, can_access in participations %}
         <li class="table-list-item">
             {% if can_access %}
-                {% if participation.status == participation.FOLLOWUP_APPOINTED %}
+                <div {% if participation.status_open and participation.last_contacted_elsewhere.date > last_agreeable_contact_time %}class="text-muted"{% endif %}>
                     <div>
-                        <div>
-                            <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
-                            {% for desc, bucket in buckets %}
-                                <div class="d-inline-block my-1 mr-2" title="{{ desc.label }}">{{ bucket }}</div>
-                            {% endfor %}
+                        <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
+                        {% for desc, bucket in buckets %}
+                            <div class="d-inline-block my-1 mr-2" title="{{ desc.label }}">{{ bucket }}</div>
+                        {% endfor %}
+                        {% if participation.status_open and participation.status != participation.NOT_CONTACTED %}
                             <div class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</div>
-                            {% if participation.subject.blocked %}
-                                <span class="d-inline-block my-1 mr-2 badge badge-dark">{{ participation.subject|verbose_name:'blocked' }}</span>
-                            {% endif %}
+                        {% endif %}
+                        {% if participation.status == participation.INVITED and session_count > 0 %}
+                            <div class="d-inline-block my-1 mr-2 badge badge-secondary">
+                                <i class="fa fa-calendar" aria-label="{% translate 'Appointments' %}" title="{% translate 'Appointments' %}"></i>
+                                {{ participation.appointment_count }}/{{ session_count }}
+                            </div>
+                        {% endif %}
+                        {% if participation.subject.blocked %}
+                            <span class="d-inline-block my-1 mr-2 badge badge-dark">{{ participation.subject|verbose_name:'blocked' }}</span>
+                        {% endif %}
+                    </div>
+
+                    {% if participation.status_open and participation.last_contacted_elsewhere.date > last_agreeable_contact_time %}
+                        <div class="mr-2">
+                            {% translate 'recently contacted in another recruitment' %}
+                            <i class="fas fa-phone-slash list-icon bg-warning text-dark" role="img" aria-hidden="true"></i>
                         </div>
+                    {% elif participation.status == participation.NOT_REACHED or participation.status == participation.AWAITING_RESPONSE %}
+                        <div class="mr-2">
+                            <div class="d-inline-block my-1">
+                                {% blocktranslate count attempts=participation.attempts %}
+                                    {{ attempts }} attempt
+                                {% plural %}
+                                    {{ attempts }} attempts
+                                {% endblocktranslate %}
+                            </div>,
+                            <div class="d-inline-block my-1">{% translate 'last' %}: <time>{{ participation.updated_at|longdate }}</time></div>
+                        </div>
+                    {% elif participation.status == participation.FOLLOWUP_APPOINTED %}
                         <div class="mr-2">
                             <div class="d-inline-block my-1">
                                 {% if participation.followup_date|is_today %}
@@ -41,68 +66,8 @@
                                 {% endif %}
                             </div>
                         </div>
-                    </div>
-                {% elif participation.status_open and participation.last_contacted_elsewhere.date > last_agreeable_contact_time %}
-                    <div class="text-muted">
-                        <div>
-                            <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
-                            {% for desc, bucket in buckets %}
-                                <div class="d-inline-block my-1 mr-2" title="{{ desc.label }}">{{ bucket }}</div>
-                            {% endfor %}
-                            {% if participation.status != participation.NOT_CONTACTED %}
-                                <div class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</div>
-                            {% endif %}
-                            {% if participation.subject.blocked %}
-                                <span class="d-inline-block my-1 mr-2 badge badge-dark">{{ participation.subject|verbose_name:'blocked' }}</span>
-                            {% endif %}
-                        </div>
-                        <div class="mr-2">
-                            {% translate 'recently contacted in another recruitment' %}
-                            <i class="fas fa-phone-slash list-icon bg-warning text-dark" role="img" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                {% elif participation.status == participation.NOT_REACHED or participation.status == participation.AWAITING_RESPONSE %}
-                    <div>
-                        <div>
-                            <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
-                            {% for desc, bucket in buckets %}
-                                <div class="d-inline-block my-1 mr-2" title="{{ desc.label }}">{{ bucket }}</div>
-                            {% endfor %}
-                            <div class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</div>
-                            {% if participation.subject.blocked %}
-                                <span class="d-inline-block my-1 mr-2 badge badge-dark">{{ participation.subject|verbose_name:'blocked' }}</span>
-                            {% endif %}
-                        </div>
-                        <div class="mr-2">
-                            <div class="d-inline-block my-1">
-                                {% blocktranslate count attempts=participation.attempts %}
-                                    {{ attempts }} attempt
-                                {% plural %}
-                                    {{ attempts }} attempts
-                                {% endblocktranslate %}
-                            </div>,
-                            <div class="d-inline-block my-1">{% translate 'last' %}: <time>{{ participation.updated_at|longdate }}</time></div>
-                        </div>
-                    </div>
-                {% else %}
-                    <div>
-                        <div>
-                            <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
-                            {% for desc, bucket in buckets %}
-                                <div class="d-inline-block my-1 mr-2" title="{{ desc.label }}">{{ bucket }}</div>
-                            {% endfor %}
-                            {% if participation.status == participation.INVITED and session_count > 0 %}
-                                <div class="d-inline-block my-1 mr-2 badge badge-secondary">
-                                    <i class="fa fa-calendar" aria-label="{% translate 'Appointments' %}" title="{% translate 'Appointments' %}"></i>
-                                    {{ participation.appointment_count }}/{{ session_count }}
-                                </div>
-                            {% endif %}
-                            {% if participation.subject.blocked %}
-                                <span class="d-inline-block my-1 mr-2 badge badge-dark">{{ participation.subject|verbose_name:'blocked' }}</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endif %}
+                    {% endif %}
+                </div>
                 <div class="table-list-item-actions">
                     <a class="btn btn-outline-primary my-1" href="{% url 'recruitment:contact' study.pk participation.pk %}">
                         {% if participation.status_open %}
