@@ -25,10 +25,3 @@ Welcome to Castellum's documentation!
 
    guides/consent-management
    guides/recruitment
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
