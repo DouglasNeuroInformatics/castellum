@@ -32,12 +32,12 @@ INSTALLED_APPS = [
 
     'castellum.utils',
     'castellum.castellum_auth',
+    'castellum.studies',
     'castellum.subjects',
     'castellum.pseudonyms',
+    'castellum.contacts',
     'castellum.recruitment',
     'castellum.execution',
-    'castellum.studies',
-    'castellum.contacts',
     'castellum.data_protection',
     'castellum.appointments',
 ]
