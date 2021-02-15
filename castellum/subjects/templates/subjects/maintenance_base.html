@@ -29,9 +29,11 @@
                     </li>
                 {% endif %}
             {% endif %}
-            <li class="nav-item">
-                <a href="{% url 'subjects:maintenance-showup' %}" class="nav-link {% if view.tab == 'showup' %}active{% endif %}">{% translate 'Show up rate' %}</a>
-            </li>
+            {% if CASTELLUM_ENABLE_APPOINTMENTS %}
+                <li class="nav-item">
+                    <a href="{% url 'subjects:maintenance-showup' %}" class="nav-link {% if view.tab == 'showup' %}active{% endif %}">{% translate 'Show up rate' %}</a>
+                </li>
+            {% endif %}
             <li class="nav-item">
                 <a href="{% url 'subjects:maintenance-notes' %}" class="nav-link {% if view.tab == 'notes' %}active{% endif %}">{% translate 'Notes' %}</a>
             </li>

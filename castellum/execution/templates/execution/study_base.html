@@ -20,9 +20,11 @@
             <li class="nav-item">
                 <a class="nav-link {% if view.tab == 'list' %}active{% endif %}" href="{% url 'execution:study-detail' study.pk %}">{% translate 'List' %}</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link {% if view.tab == 'calendar' %}active{% endif %}" href="{% url 'execution:calendar' study.pk %}">{% translate 'Calendar' %}</a>
-            </li>
+            {% if CASTELLUM_ENABLE_APPOINTMENTS %}
+                <li class="nav-item">
+                    <a class="nav-link {% if view.tab == 'calendar' %}active{% endif %}" href="{% url 'execution:calendar' study.pk %}">{% translate 'Calendar' %}</a>
+                </li>
+            {% endif %}
             <li class="nav-item">
                 <a class="nav-link {% if view.tab == 'pseudonym' %}active{% endif %}" href="{% url 'execution:resolve' study.pk %}">{% translate 'By pseudonym' %}</a>
             </li>

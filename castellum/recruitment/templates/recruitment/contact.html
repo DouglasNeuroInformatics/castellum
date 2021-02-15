@@ -53,7 +53,7 @@
                 </a>
             </li>
         {% endif %}
-        {% if can_change_appointment and study.studysession_set.exists %}
+        {% if CASTELLUM_ENABLE_APPOINTMENTS and can_change_appointment and study.studysession_set.exists %}
             <li class="nav-item">
                 <a class="nav-link" id="appointments-tab" data-toggle="tab" href="#appointments" role="tab" aria-controls="appointments" aria-selected="false">
                     {% translate 'Appointments' %}
@@ -150,7 +150,7 @@
                 </div>
             {% endif %}
 
-            {% if can_change_appointment %}
+            {% if CASTELLUM_ENABLE_APPOINTMENTS and can_change_appointment %}
                 <div class="tab-pane" id="appointments" role="tabpanel" aria-labelledby="appointments-tab">
                     {% if study.session_instructions %}
                         {{ study.session_instructions|urlize|linebreaks }}

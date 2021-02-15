@@ -16,7 +16,7 @@
             <li class="nav-item">
                 <a href="{% url 'execution:participation-news' study.pk participation.pk %}" class="nav-link {% if view.tab == 'news' %}active{% endif %}">{% translate 'News' %}</a>
             </li>
-            {% if study.studysession_set.exists %}
+            {% if CASTELLUM_ENABLE_APPOINTMENTS and study.studysession_set.exists %}
                 <li class="nav-item">
                     <a href="{% url 'execution:participation-appointments' study.pk participation.pk %}" class="nav-link {% if view.tab == 'appointments' %}active{% endif %}">{% translate 'Appointments' %}</a>
                 </li>

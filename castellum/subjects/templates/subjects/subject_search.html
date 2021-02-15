@@ -99,7 +99,7 @@
                                                 <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</span>
                                             </div>
                                             <div class="table-list-item-actions">
-                                                {% if can_recruit %}
+                                                {% if CASTELLUM_ENABLE_RECRUITMENT and can_recruit %}
                                                     <a class="btn btn-outline-primary my-1" href="{% url 'recruitment:contact' participation.study.pk participation.pk %}">{% translate 'Recruitment' %}</a>
                                                 {% endif %}
                                                 {% if can_conduct %}

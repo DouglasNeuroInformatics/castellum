@@ -118,9 +118,11 @@
                     <li class="nav-item">
                         <a class="nav-link {% if view.tab == 'members' %}active{% endif %}" href="{% url 'studies:members' study.pk %}">{% translate 'Member management' %}</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if view.tab == 'sessions' %}active{% endif %}" href="{% url 'studies:sessions' study.pk %}">{% translate 'Sessions' %}</a>
-                    </li>
+                    {% if CASTELLUM_ENABLE_APPOINTMENTS %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if view.tab == 'sessions' %}active{% endif %}" href="{% url 'studies:sessions' study.pk %}">{% translate 'Sessions' %}</a>
+                        </li>
+                    {% endif %}
                 {% endif %}
                 {% if CASTELLUM_ENABLE_RECRUITMENT %}
                     <li class="nav-item">

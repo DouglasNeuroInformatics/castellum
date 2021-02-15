@@ -27,18 +27,20 @@
             </div>
         </div>
 
-        {% has_perm 'appointments.view_current_appointments' user as can_view_current_appointments %}
-        {% if can_view_current_appointments %}
-            <div class="col-sm-6 col-md-4 mb-4">
-                <div class="card">
-                    <a href="{% url 'execution:reception' %}" class="card-header" tabindex="-1">
-                        <img class="w-100 h-auto" src="{% static 'images/circle-icons/booklet.png' %}" alt="" width="184" height="184">
-                    </a>
-                    <div class="card-body">
-                        <a href="{% url 'execution:reception' %}" class="btn btn-primary btn-block">{% translate "Reception" %}</a>
+        {% if CASTELLUM_ENABLE_APPOINTMENTS %}
+            {% has_perm 'appointments.view_current_appointments' user as can_view_current_appointments %}
+            {% if can_view_current_appointments %}
+                <div class="col-sm-6 col-md-4 mb-4">
+                    <div class="card">
+                        <a href="{% url 'execution:reception' %}" class="card-header" tabindex="-1">
+                            <img class="w-100 h-auto" src="{% static 'images/circle-icons/booklet.png' %}" alt="" width="184" height="184">
+                        </a>
+                        <div class="card-body">
+                            <a href="{% url 'execution:reception' %}" class="btn btn-primary btn-block">{% translate "Reception" %}</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
         {% endif %}
 
         {% has_perm 'subjects.export_subject' user as can_export_subject %}
