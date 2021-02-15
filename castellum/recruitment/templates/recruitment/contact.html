@@ -75,7 +75,9 @@
                         {% endif %}
                         {% translate 'Edit contact data' %}
                     </a>
-                    <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:attributes-update' study.pk object.pk %}">{% translate 'Edit attributes' %}</a>
+                    {% if CASTELLUM_ATTRIBUTES_EXIST %}
+                        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:attributes-update' study.pk object.pk %}">{% translate 'Edit attributes' %}</a>
+                    {% endif %}
                     <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:data-protection-update' study.pk object.pk %}">
                         {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age %}
                             <i class="fa fa-exclamation-triangle" role="img" title="{% translate 'Missing values' %}" aria-label="{% translate 'Missing values' %}"></i>
