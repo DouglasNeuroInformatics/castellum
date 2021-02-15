@@ -68,7 +68,7 @@ class SubjectQuerySet(models.QuerySet):
                 filter=models.Q(
                     participation__appointment__show_up=status,
                     participation__appointment__start__lt=now,
-                )
+                ),
             )
             score.append(models.F(key) * weights[status])
 

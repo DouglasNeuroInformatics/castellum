@@ -49,7 +49,7 @@ class MailContext:
             'subject_prefix': '',
             'recipients_text': '',
             'signature': '',
-            'connection': {}
+            'connection': {},
         }
         if name:
             self.data.update(settings.CASTELLUM_MAIL[name])

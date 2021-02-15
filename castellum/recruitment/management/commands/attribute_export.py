@@ -1,4 +1,3 @@
-
 # (c) 2018-2021
 #     MPIB <https://www.mpib-berlin.mpg.de/>,
 #     MPI-CBS <https://www.cbs.mpg.de/>,
