@@ -1,3 +1,12 @@
+# 0.55.1 (2021-02-15)
+
+## security
+
+-   Fix leak of subject slug in recruitment. This is not an issue on its
+    own, but could lead to more serious leaks if combined with other
+    vulnerabilities.
+
+
 # 0.55.0 (2021-02-09)
 
 ## breaking changes
