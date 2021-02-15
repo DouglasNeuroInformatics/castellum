@@ -22,19 +22,15 @@
 from django.conf import settings
 from django.contrib import messages
 from django.db import models
-from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import CreateView
-from django.views.generic import DeleteView
 from django.views.generic import UpdateView
 from django.views.generic import View
 
 from dateutil.relativedelta import relativedelta
 
-from castellum.appointments.helpers import get_reminder_body
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseMailRecruitmentView
@@ -44,11 +40,8 @@ from castellum.subjects.models import Subject
 from castellum.utils.mail import MailContext
 
 from ..forms import ExcludedStudiesForm
-from ..forms import SessionForm
 from ..mixins import StudyMixin
-from ..models import Resource
 from ..models import Study
-from ..models import StudySession
 
 
 def get_related_studies(study):
@@ -143,74 +136,6 @@ class StudyExclusionCriteriaView(StudyMixin, PermissionRequiredMixin, UpdateView
         return super().form_valid(form)
 
 
-class StudySessionsView(StudyMixin, PermissionRequiredMixin, UpdateView):
-    model = Study
-    pk_url_kwarg = 'study_pk'
-    template_name = 'studies/study_sessions.html'
-    fields = [
-        'session_instructions',
-        'sessions_start',
-        'sessions_end',
-    ]
-    permission_required = 'studies.change_study'
-    is_onetime_invitation = False
-    tab = 'recruitmentsettings'
-    subtab = 'sessions'
-
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse('studies:sessions', args=[self.object.pk])
-
-
-class StudySessionFormMixin(StudyMixin, PermissionRequiredMixin):
-    model = StudySession
-    form_class = SessionForm
-    permission_required = 'studies.change_study'
-    is_onetime_invitation = False
-    tab = 'recruitmentsettings'
-    subtab = 'sessions'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['has_resources'] = Resource.objects.exists()
-        return context
-
-    def get_success_url(self):
-        return reverse('studies:sessions', args=[self.study.pk])
-
-
-class StudySessionCreateView(StudySessionFormMixin, CreateView):
-    def form_valid(self, form):
-        form.instance.study = self.study
-        return super().form_valid(form)
-
-
-class StudySessionUpdateView(StudySessionFormMixin, UpdateView):
-    def get_object(self):
-        return get_object_or_404(
-            StudySession, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk']
-        )
-
-
-class StudySessionDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
-    model = StudySession
-    permission_required = 'studies.change_study'
-    is_onetime_invitation = False
-    tab = 'recruitmentsettings'
-    subtab = 'sessions'
-
-    def get_success_url(self):
-        return reverse('studies:sessions', args=[self.study.pk])
-
-    def get_object(self):
-        return get_object_or_404(
-            StudySession, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk']
-        )
-
-
 class StudyRecruitmentTestMailView(StudyMixin, PermissionRequiredMixin, View):
     model = Study
     pk_url_kwarg = 'study_pk'
@@ -232,35 +157,6 @@ class StudyRecruitmentTestMailView(StudyMixin, PermissionRequiredMixin, View):
             messages.error(self.request, _('Could not send test mail.'))
 
         return redirect('studies:mailsettings', self.study.pk)
-
-
-class StudyReminderTestMailView(StudyMixin, PermissionRequiredMixin, View):
-    model = StudySession
-    permission_required = 'studies.change_study'
-
-    def get_object(self):
-        return get_object_or_404(
-            StudySession, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk']
-        )
-
-    def post(self, request, **kwargs):
-        self.object = self.get_object()
-
-        with MailContext('recruitment') as ctx:
-            name = request.user.get_full_name() or request.user.username
-            success = ctx.send_mail(
-                settings.CASTELLUM_APPOINTMENT_MAIL_SUBJECT,
-                get_reminder_body(name, self.object, timezone.now()),
-                [request.user.email],
-                reply_to=[self.study.email],
-            )
-
-        if success:
-            messages.success(self.request, _('Test mail has been sent.'))
-        else:
-            messages.error(self.request, _('Could not send test mail.'))
-
-        return redirect('studies:session-update', self.study.pk, self.object.pk)
 
 
 class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):

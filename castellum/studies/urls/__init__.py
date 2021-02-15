@@ -35,6 +35,7 @@ from ..views.studies import StudyStartRecruitmentView
 from ..views.studies import StudyUpdateView
 from . import members as members_urls
 from . import recruitment as recruitment_urls
+from . import sessions as sessions_urls
 
 app_name = 'studies'
 urlpatterns = [
@@ -52,6 +53,7 @@ urlpatterns = [
     path('<int:pk>/mail/', OneTimeInvitationMailRecruitmentView.as_view(), name='mail'),
     path('<int:study_pk>/members/', include(members_urls)),
     path('<int:study_pk>/recruitmentsettings/', include(recruitment_urls)),
+    path('<int:study_pk>/sessions/', include(sessions_urls)),
 ]
 
 if settings.CASTELLUM_ENABLE_STUDY_EXPORT:
