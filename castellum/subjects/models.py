@@ -116,7 +116,7 @@ class Subject(TimeStampedModel):
     deceased = models.BooleanField(_('Subject is deceased'), default=False)
 
     blocked = models.BooleanField(_('Subject is blocked'), default=False, help_text=_(
-        'The subject has been blocked from recruitment due to inappropriate behaviour. '
+        'The subject has been blocked due to inappropriate behaviour. '
         'They will neither be considered for recruitment, nor contacted as guardians. '
         'Blocking this subject does not automatically block their ward nor their '
         'co-guardians. They may thus still receive information about the recruitment '
