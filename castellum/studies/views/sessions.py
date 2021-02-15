@@ -33,6 +33,7 @@ from django.views.generic import View
 
 from castellum.appointments.helpers import get_reminder_body
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.utils import scheduler
 from castellum.utils.mail import MailContext
 
 from ..forms import SessionForm
@@ -73,6 +74,7 @@ class StudySessionFormMixin(StudyMixin, PermissionRequiredMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['has_resources'] = Resource.objects.exists()
+        context['schedule_url'] = scheduler.get_schedule_url(self.object.schedule_id)
         return context
 
     def get_success_url(self):
