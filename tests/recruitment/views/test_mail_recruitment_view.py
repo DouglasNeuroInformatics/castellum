@@ -3,6 +3,7 @@ from django.core import mail
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
+from castellum.recruitment.models import Participation
 from castellum.recruitment.views import MailRecruitmentView
 from castellum.studies.models import Study
 from castellum.subjects.models import Consent
@@ -24,11 +25,13 @@ def test_mail_add_to_study(client, user):
     study.members.add(user)
     view = MailRecruitmentView()
     view.study = study
-    counter = view.create_participations(3)
+    participations = view.create_participations(3)
 
-    assert counter == 2
-    assert study.participation_set.count() == 2
+    assert len(participations) == 2
     assert len(mail.outbox) == 2
+
+    Participation.objects.bulk_create(participations)
+    assert study.participation_set.count() == 2
 
 
 def test_guardian_mail_add_to_study(client, user):
@@ -46,11 +49,13 @@ def test_guardian_mail_add_to_study(client, user):
     study.members.add(user)
     view = MailRecruitmentView()
     view.study = study
-    counter = view.create_participations(3)
+    participations = view.create_participations(3)
 
-    assert counter == 1
-    assert study.participation_set.count() == 1
+    assert len(participations) == 1
     assert len(mail.outbox) == 1
+
+    Participation.objects.bulk_create(participations)
+    assert study.participation_set.count() == 1
 
 
 def test_404_if_study_is_not_provided(client, member):

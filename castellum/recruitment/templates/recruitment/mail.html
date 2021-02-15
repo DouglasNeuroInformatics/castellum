@@ -31,7 +31,7 @@
     {% if study.mailbatch_set.all %}
         <h3 class="mt-5">{% translate "Previous mails" %}</h3>
         <ul class="table-list mb-3">
-        {% for batch in study.mailbatch_set.all reversed %}
+        {% for batch in batches reversed %}
             <li class="table-list-item">
                 <div>
                     <small class="text-muted">
@@ -40,10 +40,18 @@
                         {% endblocktranslate %}
                     </small>
                     <div>
-                        {% blocktranslate with contacted_size=batch.contacted_size %}
-                            {{ contacted_size }} potential subjects contacted
+                        {% blocktranslate with contacted_size=batch.contacted_size no_response_size=batch.no_response_size %}
+                            still awaiting response for {{ no_response_size }}/{{ contacted_size }} potential subjects
                         {% endblocktranslate %}
                     </div>
+                </div>
+                <div class="table-list-item-actions">
+                    {% if batch.no_response_size %}
+                        <form class="d-inline" method="post" action="{% url 'recruitment:mail-cleanup' study.pk batch.pk %}">
+                            {% csrf_token %}
+                            <button class="btn btn-outline-danger">{% translate 'Cleanup' %}</button>
+                        </form>
+                    {% endif %}
                 </div>
             </li>
         {% endfor %}

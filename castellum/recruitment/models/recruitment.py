@@ -24,6 +24,7 @@ import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.forms import ValidationError
+from django.utils import formats
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
@@ -32,6 +33,28 @@ from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 from castellum.utils.fields import DateField
 from castellum.utils.fields import DateTimeField
+
+
+class BaseMailBatch(models.Model):
+    study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
+    datetime = models.DateTimeField(_('Sent date'), auto_now_add=True)
+    contacted_size = models.PositiveIntegerField()
+
+    class Meta:
+        abstract = True
+
+    def __str__(self):
+        return formats.date_format(self.datetime, 'DATETIME_FORMAT')
+
+
+class MailBatch(BaseMailBatch):
+    pass
+
+
+class NewsMailBatch(BaseMailBatch):
+    other_size = models.PositiveIntegerField()
+    mail_subject = models.CharField(_('E-mail subject'), max_length=128)
+    mail_body = models.TextField(_('E-mail body'))
 
 
 class ParticipationManager(models.Manager):
@@ -90,6 +113,9 @@ class Participation(models.Model):
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, editable=False)
     study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
+    batch = models.ForeignKey(
+        MailBatch, verbose_name=_('Mail batch'), blank=True, null=True, on_delete=models.SET_NULL
+    )
 
     status = models.IntegerField(
         _('Status of participation'), choices=STATUS_OPTIONS, default=NOT_CONTACTED
@@ -178,22 +204,3 @@ class Participation(models.Model):
         else:
             self.attempts = 0
         super().save(*args, **kwargs)
-
-
-class BaseMailBatch(models.Model):
-    study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
-    datetime = models.DateTimeField(_('Sent date'), auto_now_add=True)
-    contacted_size = models.PositiveIntegerField()
-
-    class Meta:
-        abstract = True
-
-
-class MailBatch(BaseMailBatch):
-    pass
-
-
-class NewsMailBatch(BaseMailBatch):
-    other_size = models.PositiveIntegerField()
-    mail_subject = models.CharField(_('E-mail subject'), max_length=128)
-    mail_body = models.TextField(_('E-mail body'))

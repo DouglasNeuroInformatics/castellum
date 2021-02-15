@@ -31,6 +31,7 @@ from .views import CalendarView
 from .views import ContactUpdateView
 from .views import ContactView
 from .views import DataProtectionUpdateView
+from .views import MailRecruitmentCleanupView
 from .views import MailRecruitmentView
 from .views import RecruitmentCleanupView
 from .views import RecruitmentViewInvited
@@ -51,6 +52,11 @@ urlpatterns = [
         name='recruitment-unsuitable',
     ),
     path('<int:study_pk>/mail/', MailRecruitmentView.as_view(), name='mail'),
+    path(
+        '<int:study_pk>/mail/<int:pk>cleanup/',
+        MailRecruitmentCleanupView.as_view(),
+        name='mail-cleanup',
+    ),
     path('<int:study_pk>/cleanup/', RecruitmentCleanupView.as_view(), name='cleanup'),
     path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),
     path('<int:pk>/calendar/feed/', AppointmentFeed(), name='calendar-feed'),

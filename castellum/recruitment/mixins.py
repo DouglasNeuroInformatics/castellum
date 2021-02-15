@@ -177,9 +177,9 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     def create_participations(self, batch_size):
         subjects = get_recruitable(self.study)
 
-        counter = 0
+        participations = []
         with MailContext('recruitment') as ctx:
-            while counter < batch_size and subjects:
+            while len(participations) < batch_size and subjects:
                 pick = subjects.pop(random.randrange(0, len(subjects)))
                 success = 0
                 for email in pick.contact.own_or_guardian_emails:
@@ -191,14 +191,13 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                         recipients_string=pick.contact.email_recipients_string,
                     )
                 if success:
-                    Participation.objects.create(
+                    participations.append(Participation(
                         study=self.study,
                         subject=pick,
                         status=self.participation_status,
-                    )
-                    counter += 1
+                    ))
 
-        return counter
+        return participations
 
     def send_confirmation_mail(self, counter):
         with MailContext('internal') as ctx:
@@ -231,14 +230,14 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
             return
 
         try:
-            added = self.create_participations(allowed_size)
+            participations = self.create_participations(allowed_size)
         except KeyError:
             messages.error(self.request, _(
                 'The custom filter that is set for this study does not exist.'
             ))
             return
 
-        if added == 0:
+        if not participations:
             messages.error(
                 self.request,
                 _(
@@ -246,20 +245,23 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                     'this study.'
                 ),
             )
-        elif added < batch_size:
+        elif len(participations) < batch_size:
             messages.warning(
                 self.request,
                 _(
                     'Only {added} out of {batchsize} potential participants with email '
                     'addresses could be found for this study. These have been contacted.'
-                ).format(added=added, batchsize=batch_size),
+                ).format(added=len(participations), batchsize=batch_size),
             )
         else:
             messages.success(self.request, _('Emails sent successfully!'))
 
-        if added > 0:
-            MailBatch.objects.create(
+        if participations:
+            batch = MailBatch.objects.create(
                 study=self.study,
-                contacted_size=added,
+                contacted_size=len(participations),
             )
-            self.send_confirmation_mail(added)
+            for p in participations:
+                p.batch = batch
+            Participation.objects.bulk_create(participations)
+            self.send_confirmation_mail(len(participations))

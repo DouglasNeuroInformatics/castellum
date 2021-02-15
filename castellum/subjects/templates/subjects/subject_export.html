@@ -181,6 +181,9 @@
                     <dt class="col-sm-6" data-fieldname="recruitment.Participation.attempts">{% translate 'Contact attempts' %}</dt>
                     <dd class="col-sm-6">{{ participation|display:'attempts' }}</dd>
 
+                    <dt class="col-sm-6" data-fieldname="recruitment.Participation.batch">{{ participation|verbose_name:'batch' }}</dt>
+                    <dd class="col-sm-6">{{ participation|display:'batch' }}</dd>
+
                     <dt class="col-sm-6" data-fieldname="recruitment.Participation.followup_date">{{ participation|verbose_name:'followup_date' }}</dt>
                     <dd class="col-sm-6">{{ participation|display:'followup_date' }}</dd>
 

@@ -69,6 +69,7 @@ from .mixins import BaseAttributesUpdateView
 from .mixins import BaseMailRecruitmentView
 from .mixins import ParticipationMixin
 from .mixins import get_recruitable
+from .models import MailBatch
 from .models import Participation
 from .models.attributes import get_description_by_statistics_rank
 
@@ -251,10 +252,11 @@ class RecruitmentViewOpen(RecruitmentView):
         subjects = get_recruitable(self.study)
 
         added = min(batch_size, len(subjects))
+        participations = []
         for subject in random.sample(subjects, k=added):
-            Participation.objects.create(study=self.study, subject=subject)
+            participations.append(Participation(study=self.study, subject=subject))
 
-        return added
+        return participations
 
     def post(self, request, *args, **kwargs):
         if self.study.min_subject_count == 0:
@@ -282,32 +284,32 @@ class RecruitmentViewOpen(RecruitmentView):
             hard_limit - not_contacted_count,
         )
         try:
-            added = self.create_participations(batch_size)
+            participations = self.create_participations(batch_size)
+            Participation.objects.bulk_create(participations)
         except KeyError:
-            added = 0
+            participations = []
             messages.error(request, _(
                 'The custom filter that is set for this study does not exist.'
             ))
 
-        if not_contacted_count + added > settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT:
+        if not_contacted_count + len(participations) > settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT:
             messages.error(request, _(
                 'Such workflow is not intended due to privacy reasons. '
                 'Please contact provided subjects before adding new ones.'
             ))
 
-        if added == 0:
+        if not participations:
             messages.error(
                 self.request,
                 _('No potential participants could be found for this study.'),
             )
-
-        elif added < batch_size:
+        elif len(participations) < batch_size:
             messages.warning(
                 self.request,
                 _(
                     'Only {added} out of {batchsize} potential participants '
                     'could be found for this study. These have been added.'
-                ).format(added=added, batchsize=batch_size),
+                ).format(added=len(participations), batchsize=batch_size),
             )
 
         return self.get(request, *args, **kwargs)
@@ -319,8 +321,30 @@ class MailRecruitmentView(BaseMailRecruitmentView):
     participation_status = Participation.AWAITING_RESPONSE
     tab = 'mail'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['batches'] = list(
+            self.study.mailbatch_set
+            .order_by('datetime')
+            .annotate(
+                no_response_size=models.Count('participation', distinct=True),
+            )
+        )
+        return context
+
     def form_valid(self, form):
         self._form_valid(form)
+        return redirect('recruitment:mail', self.study.pk)
+
+
+class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, View):
+    permission_required = 'recruitment.recruit'
+    study_status = [Study.EXECUTION]
+    tab = 'mail'
+
+    def post(self, request, *args, **kwargs):
+        batch = get_object_or_404(MailBatch, pk=self.kwargs['pk'], study=self.study)
+        batch.participation_set.update(status=Participation.UNSUITABLE, batch=None)
         return redirect('recruitment:mail', self.study.pk)
 
 
@@ -371,6 +395,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
             session__schedule_id__isnull=False,
         ).exists()
 
+        form.instance.batch = None
         response = super().form_valid(form)
         if isinstance(form, ContactAndAppointmentsForm):
             send_appointment_notifications(self.request, self.object, form.appointment_changes)
@@ -398,7 +423,7 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, FormView):
         if form.cleaned_data.get('days'):
             dt = timezone.now() - datetime.timedelta(days=form.cleaned_data['days'])
             qs = qs.filter(updated_at__lt=dt)
-        qs.update(status=Participation.UNSUITABLE)
+        qs.update(status=Participation.UNSUITABLE, batch=None)
         return super().form_valid(form)
 
 
