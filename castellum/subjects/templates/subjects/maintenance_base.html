@@ -11,9 +11,6 @@
     <nav class="d-print-none" aria-label="{% translate 'Tabs' %}">
         <ul class="nav nav-tabs justify-content-center mb-3">
             <li class="nav-item">
-                <a href="{% url 'subjects:maintenance-attributes' %}" class="nav-link {% if view.tab == 'attributes' %}active{% endif %}">{% translate 'Attributes' %}</a>
-            </li>
-            <li class="nav-item">
                 <a href="{% url 'subjects:maintenance-contact' %}" class="nav-link {% if view.tab == 'contact' %}active{% endif %}">{% translate 'Contact' %}</a>
             </li>
             <li class="nav-item">
@@ -24,6 +21,9 @@
             </li>
             <li class="nav-item">
                 <a href="{% url 'subjects:maintenance-waiting' %}" class="nav-link {% if view.tab == 'waiting' %}active{% endif %}">{% translate 'Waiting for consent' %}</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'subjects:maintenance-attributes' %}" class="nav-link {% if view.tab == 'attributes' %}active{% endif %}">{% translate 'Attributes' %}</a>
             </li>
             <li class="nav-item">
                 <a href="{% url 'subjects:maintenance-showup' %}" class="nav-link {% if view.tab == 'showup' %}active{% endif %}">{% translate 'Show up rate' %}</a>
