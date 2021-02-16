@@ -1,5 +1,5 @@
 {% extends "subjects/subject_participations_base.html" %}
-{% load i18n %}
+{% load i18n bootstrap4 %}
 
 {% block title %}{% translate "Add study participation" %} &middot; {{ block.super }}{% endblock %}
 
@@ -46,4 +46,10 @@
             </li>
         {% endfor %}
     </ul>
+
+    {% if is_paginated %}
+        <nav aria-label="{% translate 'Page navigation' %}">
+            {% bootstrap_pagination page_obj url=request.get_full_path %}
+        </nav>
+    {% endif %}
 {% endblock %}

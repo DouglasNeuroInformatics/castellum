@@ -409,6 +409,7 @@ class ParticipationRecruitView(StudyFilterMixin, SubjectMixin, PermissionRequire
     permission_required = 'subjects.view_subject'
     tab = 'participations'
     subtab = 'recruit'
+    paginate_by = 15
 
     @cached_property
     def subject(self):
@@ -417,12 +418,14 @@ class ParticipationRecruitView(StudyFilterMixin, SubjectMixin, PermissionRequire
     def get_queryset(self):
         perms = ['recruitment.recruit', 'studies.access_study']
         studies = super().get_queryset().filter(status=Study.EXECUTION)
+        pks = []
         for study in studies:
             if (
                 self.request.user.has_perms(perms, obj=study) and
                 Subject.objects.filter(filter_queries.study(study), pk=self.subject.pk).exists()
             ):
-                yield study
+                pks.append(study.pk)
+        return studies.filter(pk__in=pks)
 
     def post(self, request, *args, **kwargs):
         study = get_object_or_404(Study, pk=request.POST['study'], status=Study.EXECUTION)
@@ -445,6 +448,7 @@ class ParticipationAddView(SubjectMixin, StudyFilterMixin, PermissionRequiredMix
     permission_required = 'subjects.change_subject'
     tab = 'participations'
     subtab = 'add'
+    paginate_by = 15
 
     @cached_property
     def subject(self):
