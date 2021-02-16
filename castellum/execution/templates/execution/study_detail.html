@@ -12,10 +12,10 @@
                             <span class="badge badge-secondary">
                                 <i class="fa fa-calendar" aria-label="{% translate 'Appointments' %}" title="{% translate 'Appointments' %}"></i>
                                 {{ participation.appointment_count }}/{{ session_count }}
+                                {% if participation.appointment_today %}
+                                    {% translate 'today' %}
+                                {% endif %}
                             </span>
-                        {% endif %}
-                        {% if participation.appointment_today %}
-                            <span class="badge badge-primary">{% translate 'today' %}</span>
                         {% endif %}
                         {% if participation.subject.blocked %}
                             <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation.subject|verbose_name:'blocked' }}</span>
