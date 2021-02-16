@@ -21,7 +21,10 @@
                             </span>
                         {% endif %}
                         {% if participation.subject.blocked %}
-                            <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation.subject|verbose_name:'blocked' }}</span>
+                            <span class="d-inline-block my-1 mr-2 badge badge-dark">{{ participation.subject|verbose_name:'blocked' }}</span>
+                        {% endif %}
+                        {% if participation.subject.deceased %}
+                            <span class="d-inline-block my-1 mr-2 badge badge-dark">{{ participation.subject|verbose_name:'deceased' }}</span>
                         {% endif %}
                     </div>
                     <div class="table-list-item-actions">
