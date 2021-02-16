@@ -74,6 +74,15 @@ class StudyFilterForm(forms.Form):
         ('my', _('Mine')),
         ('all', _('All')),
     ])
+    is_match = forms.ChoiceField(label=_('Conditions'), choices=[
+        ('match', _('Is match')),
+        ('all', _('All')),
+    ])
+    participation_status = forms.ChoiceField(label=_('Participation status'), choices=[
+        ('all', _('All')),
+        ('no-participation', _('No participation')),
+        ('invited', _('Invited')),
+    ])
     status = forms.ChoiceField(label=_('Status'), choices=models.Study.STATUS)
     type = forms.ModelChoiceField(
         label=_('Type'), queryset=models.StudyType.objects, empty_label=None

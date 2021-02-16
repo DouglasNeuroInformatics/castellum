@@ -1,53 +1,130 @@
 {% extends "subjects/subject_base.html" %}
-{% load i18n auth %}
+{% load i18n bootstrap4 utils auth %}
 
-{% block title %}{% translate "Subject Study Participation" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Add study participation" %} &middot; {{ block.super }}{% endblock %}
+
+{% block container_class %}container-lg{% endblock %}
 
 {% block content %}
-    <ul class="table-list mb-3">
-        {% for participation in object_list %}
-            <li class="table-list-item">
-                <div class="h4 d-inline-block my-1 mr-2">{{ participation.study }}</div>
-                <div class="table-list-item-actions">
-                    {% has_perm 'recruitment.conduct_study' user participation.study as can_conduct_study %}
-                    {% if can_conduct_study and participation.status == participation.INVITED %}
-                        <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-detail' participation.study.pk participation.pk %}">{% translate 'Go to execution' %}</a>
+    <div class="d-flex flex-column flex-md-row justify-content-end mb-2">
+        <form method="get" aria-label="{{ form.q.label }}">
+            <div class="input-group">
+                <input type="search" class="form-control" name="{{ form.q.name }}" value="{{ form.cleaned_data.q }}" placeholder="{{ form.q.label }}">
+                {% for field in form %}
+                    {% if field.name != 'q' and field.value %}
+                        {{ field.as_hidden }}
                     {% endif %}
-                    {% has_perm 'recruitment.recruit' user participation.study as can_recruit %}
-                    {% if can_recruit %}
-                        <a class="btn btn-outline-primary my-1" href="{% url 'recruitment:contact' participation.study.pk participation.pk %}?context=subjects:participation-list">
-                            {% if participation.status_open %}
-                                {% translate 'Contact' context 'verb' %}
-                            {% else %}
-                                {% translate 'Review' %}
-                            {% endif %}
-                        </a>
-                    {% endif %}
+                {% endfor %}
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" >{% translate 'Go' %}</button>
                 </div>
-            </li>
-        {% empty %}
-            <li class="alert alert-warning" role="alert">{% translate 'No participations found' %}</li>
-        {% endfor %}
-    </ul>
+            </div>
+        </form>
+    </div>
 
-    <details class="mb-3">
-        <summary>{% translate 'Finished studies' %}</summary>
-        <ul class="table-list mb-3">
-            {% for participation in finished_list %}
-                <li class="table-list-item">
-                    <div class="h4 d-inline-block my-1 mr-2">{{ participation.study }}</div>
-                </li>
-            {% empty %}
-                <li class="alert alert-warning" role="alert">{% translate 'No participations found' %}</li>
-            {% endfor %}
-        </ul>
-    </details>
+    <div class="row">
+        <div class="col-md-3 order-1" role="region" aria-label="{% translate 'Filter' %}">
+            <div class="card mb-3">
+                <div class="card-header">{% translate 'Membership' %}</div>
+                <div class="list-group list-group-flush">
+                    {% for value, label in form.member.field.choices %}
+                        <a class="list-group-item list-group-item-custom list-group-item-action {% if form.cleaned_data.member == value|lower %}active{% endif %}" href="{% url_replace_param member=value %}">{{ label }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header">{{ form.status.label }}</div>
+                <div class="list-group list-group-flush">
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if not form.status.value %}active{% endif %}" href="{% url_replace_param status=None %}">{% translate 'All' %}</a>
+                    {% for value, label in form.status.field.choices %}
+                        <a class="list-group-item list-group-item-custom list-group-item-action {% if form.status.value == value|lower %}active{% endif %}" href="{% url_replace_param status=value %}">{{ label }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header">{{ form.is_match.label }}</div>
+                <div class="list-group list-group-flush">
+                    {% for value, label in form.is_match.field.choices %}
+                        <a class="list-group-item list-group-item-custom list-group-item-action {% if form.cleaned_data.is_match == value|lower %}active{% endif %}" href="{% url_replace_param is_match=value %}">{{ label }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header">{{ form.participation_status.label }}</div>
+                <div class="list-group list-group-flush">
+                    {% for value, label in form.participation_status.field.choices %}
+                        <a class="list-group-item list-group-item-custom list-group-item-action {% if form.cleaned_data.participation_status == value|lower %}active{% endif %}" href="{% url_replace_param participation_status=value %}">{{ label }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 
-    <div class="d-print-none mb-3">
-        <a href="{% url 'subjects:add-to-study' subject.slug %}" class="btn btn-primary">{% translate 'Add to study' %}</a>
-        {% has_perm 'subjects.change_subject' user as can_change_subject %}
-        {% if can_change_subject %}
-            <a href="{% url 'subjects:add-to-finished-study' subject.slug %}" class="btn btn-secondary">{% translate 'Add to finished study' %}</a>
-        {% endif %}
+        <div class="col-md-9">
+            <ul class="table-list mb-3">
+                {% for study in object_list %}
+                    <li class="table-list-item">
+                        <div class ="h4 d-inline-block my-1 mr-2">{{ study }}</div>
+                        {% if study.contact_person %}
+                            <div class="d-inline-block my-1 mr-2">{{ study.contact_person }}</div>
+                        {% endif %}
+                        {% if study.status == study.FINISHED %}
+                            <span class="badge badge-secondary">{% translate 'Finished' %}</span>
+                        {% endif %}
+                        <div class="table-list-item-actions">
+                            {% has_perm 'recruitment.conduct_study' user study as can_conduct_study %}
+                            {% has_perm 'recruitment.recruit' user study as can_recruit %}
+                            {% has_perm 'subjects.change_subject' user study as can_change_subject %}
+                            {% if study.participation_id %}
+                                {% if can_conduct_study and study.is_invited and study.status == study.EXECUTION %}
+                                    <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-detail' study.pk study.participation_id %}">{% translate 'Go to execution' %}</a>
+                                {% endif %}
+                                {% if can_recruit and study.status == study.EXECUTION %}
+                                    <a class="btn btn-outline-primary my-1" href="{% url 'recruitment:contact' study.pk study.participation_id %}?context=subjects:participation-list">
+                                        {% if study.is_invited %}
+                                            {% translate 'Review' %}
+                                        {% else %}
+                                            {% translate 'Contact' context 'verb' %}
+                                        {% endif %}
+                                    </a>
+                                {% endif %}
+                            {% else %}
+                                {% if can_recruit and study.status == study.EXECUTION %}
+                                    <form class="d-inline-block" method="POST" action="{% url 'subjects:participation-recruit' subject.slug %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="study" value="{{ study.pk }}">
+                                        <button class="btn btn-outline-primary my-1">{% translate 'Add to recruitment' %}</button>
+                                    </form>
+                                {% endif %}
+                                {% if can_change_subject %}
+                                    <form class="d-inline-block" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="study" value="{{ study.pk }}">
+                                        <button class="btn btn-outline-primary my-1">{% translate 'Add directly' %}</button>
+                                    </form>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </li>
+                {% empty %}
+                    <li class="alert alert-warning" role="alert">
+                        {% if q %}
+                            {% translate 'No results found.' %}
+                        {% else %}
+                            {% if request.GET.member == 'all' %}
+                                {% translate 'No studies' %}
+                            {% else %}
+                                {% translate 'No personal studies' %}
+                            {% endif %}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+
+            {% if is_paginated %}
+                <nav aria-label="{% translate 'Page navigation' %}">
+                    {% bootstrap_pagination page_obj url=request.get_full_path %}
+                </nav>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

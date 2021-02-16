@@ -22,8 +22,6 @@
 from django.urls import path
 
 from .views import AdditionalInfoUpdateView
-from .views import AddToFinishedStudyView
-from .views import AddToStudyView
 from .views import AttributesUpdateView
 from .views import ContactUpdateView
 from .views import CoverletterView
@@ -38,6 +36,7 @@ from .views import MaintenanceShowupView
 from .views import MaintenanceWaitingView
 from .views import ParticipationDeleteView
 from .views import ParticipationListView
+from .views import RecruitToStudy
 from .views import SubjectDeleteView
 from .views import SubjectDetailView
 from .views import SubjectExportView
@@ -75,12 +74,7 @@ urlpatterns = [
         ParticipationListView.as_view(),
         name='participation-list',
     ),
-    path('<slug>/participations/add/', AddToStudyView.as_view(), name='add-to-study'),
-    path(
-        '<slug>/participations/add-finished/',
-        AddToFinishedStudyView.as_view(),
-        name='add-to-finished-study',
-    ),
+    path('<slug>/participations/recruit/', RecruitToStudy.as_view(), name='participation-recruit'),
     path(
         '<subject_slug>/participations/<int:pk>/delete/',
         ParticipationDeleteView.as_view(),
