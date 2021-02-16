@@ -7,14 +7,14 @@
 
 {% block content %}
     <div class="d-flex flex-column flex-md-row justify-content-between">
-        <ul class="nav nav-pills my-1">
+        <ul class="nav nav-pills mb-2">
             {% for value, label in form.display.field.choices %}
                 <li class="nav-item">
                     <a href="{% url_replace_param display=value %}" class="nav-link {% if form.cleaned_data.display == value %}active{% endif %}">{{ label }}</a>
                 </li>
             {% endfor %}
         </ul>
-        <form class="my-1" method="get" aria-label="{{ form.q.label }}">
+        <form class="mb-2" method="get" aria-label="{{ form.q.label }}">
             <div class="input-group">
                 <input type="search" class="form-control" name="{{ form.q.name }}" value="{{ form.cleaned_data.q }}" placeholder="{{ form.q.label }}">
                 {% for field in form %}
@@ -30,7 +30,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-3 order-1 my-2" role="region" aria-label="{% translate 'Filter' %}">
+        <div class="col-md-3 order-1" role="region" aria-label="{% translate 'Filter' %}">
             <div class="card mb-3">
                 <div class="card-header">{% translate 'Membership' %}</div>
                 <div class="list-group list-group-flush">
