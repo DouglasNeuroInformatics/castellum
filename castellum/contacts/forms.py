@@ -130,8 +130,8 @@ class ContactForm(forms.ModelForm):
             age = datetime.date.today() - date_of_birth
             if not is_guardians_pane and age.days // 365 < settings.CASTELLUM_FULL_AGE:
                 msg = _(
-                    'Subjects under the age of %i need a legal guardian.'
-                ) % settings.CASTELLUM_FULL_AGE
+                    'Subjects under the age of {} need a legal guardian.'
+                ).format(settings.CASTELLUM_FULL_AGE)
                 raise ValidationError(msg, code='invalid')
 
         # validate address

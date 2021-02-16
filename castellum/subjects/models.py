@@ -62,7 +62,7 @@ class SubjectQuerySet(models.QuerySet):
         counts = {}
         score = []
         for status, label in Appointment.SHOWUP_CHOICES:
-            key = 'showup_%i' % status
+            key = 'showup_{}'.format(status)
             counts[key] = models.Count(
                 'participation__appointment',
                 filter=models.Q(
@@ -273,7 +273,7 @@ class Subject(TimeStampedModel):
         annotated = Subject.objects.annotate_showup().get(pk=self.pk)
         self.showup_score = annotated.showup_score
         for status, label in Appointment.SHOWUP_CHOICES:
-            key = 'showup_%i' % status
+            key = 'showup_{}'.format(status)
             setattr(self, key, getattr(annotated, key))
 
     def get_data(self):
@@ -312,7 +312,7 @@ class ConsentDocument(models.Model):
         get_latest_by = 'created_at'
 
     def __str__(self):
-        return _('Version %i') % self.pk
+        return _('Version {}').format(self.pk)
 
 
 class Consent(models.Model):

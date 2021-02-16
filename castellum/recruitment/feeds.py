@@ -73,7 +73,7 @@ class AppointmentFeed(BaseAppointmentFeed):
 
     def item_link(self, item):
         # This is not really a usable link, but it is unique
-        return '/appointments/%i/' % item.pk
+        return '/appointments/{}/'.format(item.pk)
 
 
 class ResourceFeed(BaseAppointmentFeed):
@@ -92,4 +92,4 @@ class ResourceFeed(BaseAppointmentFeed):
 
     def item_link(self, item):
         # This is not really a usable link, but it is unique
-        return '/appointments/%i/' % item.pk
+        return '/appointments/{}/'.format(item.pk)

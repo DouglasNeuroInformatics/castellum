@@ -70,7 +70,7 @@ class StudyTypeEventFeed(models.Model):
     color = ColorField(_('Color'))
 
     def __str__(self):
-        return '%s %s' % (self.study_type, self.url)
+        return '{} {}'.format(self.study_type, self.url)
 
 
 class Study(models.Model):

@@ -48,7 +48,7 @@ def send_appointment_notifications(request, participation, changes):
 
     body = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY.format(
         study=participation.study,
-        changes='\n'.join('%s -> %s' % (
+        changes='\n'.join('{} -> {}'.format(
             timezone.localtime(old),
             timezone.localtime(new),
         ) for (old, new) in relevant_changes),
