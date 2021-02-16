@@ -1,4 +1,4 @@
-{% extends "subjects/subject_base.html" %}
+{% extends "subjects/subject_participations_base.html" %}
 {% load i18n auth %}
 
 {% block title %}{% translate "Subject Study Participation" %} &middot; {{ block.super }}{% endblock %}
@@ -42,12 +42,4 @@
             {% endfor %}
         </ul>
     </details>
-
-    <div class="d-print-none mb-3">
-        <a href="{% url 'subjects:add-to-study' subject.slug %}" class="btn btn-primary">{% translate 'Add to study' %}</a>
-        {% has_perm 'subjects.change_subject' user as can_change_subject %}
-        {% if can_change_subject %}
-            <a href="{% url 'subjects:add-to-finished-study' subject.slug %}" class="btn btn-secondary">{% translate 'Add to finished study' %}</a>
-        {% endif %}
-    </div>
 {% endblock %}

@@ -323,6 +323,7 @@ class AttributesUpdateView(SubjectUpdateMixin, BaseAttributesUpdateView):
 
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     tab = 'participations'
+    subtab = 'list'
     model = Participation
     template_name = 'subjects/subject_participationlist.html'
     permission_required = 'subjects.view_subject'
@@ -382,6 +383,7 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     template_name = 'subjects/subject_add_to_study.html'
     permission_required = 'subjects.view_subject'
     tab = 'participations'
+    subtab = 'add'
 
     def get_studies(self, subject):
         perms = ['recruitment.recruit', 'studies.access_study']
@@ -423,6 +425,7 @@ class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     template_name = 'subjects/subject_add_to_study.html'
     permission_required = 'subjects.change_subject'
     tab = 'participations'
+    subtab = 'add-finished'
 
     def get_studies(self, subject):
         return (
