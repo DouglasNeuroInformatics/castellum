@@ -379,7 +379,16 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
         return super().delete(self, request, *args, **kwargs)
 
 
-class StudyFilterMixin:
+class BaseParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
+    model = Study
+    template_name = 'subjects/subject_add_to_study.html'
+    tab = 'participations'
+    paginate_by = 15
+
+    @cached_property
+    def subject(self):
+        return get_object_or_404(Subject, slug=self.kwargs['slug'])
+
     def get(self, request, *args, **kwargs):
         self.form = StudyFilterForm(self.request.GET)
         self.form.full_clean()
@@ -403,17 +412,9 @@ class StudyFilterMixin:
         return context
 
 
-class ParticipationRecruitView(StudyFilterMixin, SubjectMixin, PermissionRequiredMixin, ListView):
-    model = Study
-    template_name = 'subjects/subject_add_to_study.html'
+class ParticipationRecruitView(BaseParticipationAddView):
     permission_required = 'subjects.view_subject'
-    tab = 'participations'
     subtab = 'recruit'
-    paginate_by = 15
-
-    @cached_property
-    def subject(self):
-        return get_object_or_404(Subject, slug=self.kwargs['slug'])
 
     def get_queryset(self):
         perms = ['recruitment.recruit', 'studies.access_study']
@@ -442,17 +443,9 @@ class ParticipationRecruitView(StudyFilterMixin, SubjectMixin, PermissionRequire
         return redirect(url + '?context=subjects:participation-list')
 
 
-class ParticipationAddView(SubjectMixin, StudyFilterMixin, PermissionRequiredMixin, ListView):
-    model = Study
-    template_name = 'subjects/subject_add_to_study.html'
+class ParticipationAddView(BaseParticipationAddView):
     permission_required = 'subjects.change_subject'
-    tab = 'participations'
     subtab = 'add'
-    paginate_by = 15
-
-    @cached_property
-    def subject(self):
-        return get_object_or_404(Subject, slug=self.kwargs['slug'])
 
     def post(self, request, *args, **kwargs):
         study = get_object_or_404(Study, pk=request.POST['study'])
