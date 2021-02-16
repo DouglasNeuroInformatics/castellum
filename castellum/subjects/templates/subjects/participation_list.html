@@ -1,4 +1,4 @@
-{% extends "subjects/subject_base.html" %}
+{% extends "subjects/participation_base.html" %}
 {% load i18n auth %}
 
 {% block title %}{% translate "Subject Study Participation" %} &middot; {{ block.super }}{% endblock %}
@@ -13,12 +13,4 @@
             <li class="alert alert-warning" role="alert">{% translate 'No participations found' %}</li>
         {% endfor %}
     </ul>
-
-    <div class="d-print-none mb-3">
-        <a href="{% url 'subjects:participation-recruit' subject.slug %}" class="btn btn-primary">{% translate 'Find matching studies' %}</a>
-        {% has_perm 'subjects.change_subject' user as can_change_subject %}
-        {% if can_change_subject %}
-            <a href="{% url 'subjects:participation-add' subject.slug %}" class="btn btn-secondary">{% translate 'Add to study' %}</a>
-        {% endif %}
-    </div>
 {% endblock %}

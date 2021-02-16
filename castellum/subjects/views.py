@@ -327,6 +327,7 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     template_name = 'subjects/participation_list.html'
     permission_required = 'subjects.view_subject'
     tab = 'participations'
+    subtab = 'list'
 
     @cached_property
     def subject(self):
@@ -345,6 +346,7 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
     template_name = 'subjects/participation_recruit.html'
     permission_required = 'subjects.view_subject'
     tab = 'participations'
+    subtab = 'recruit'
 
     @cached_property
     def subject(self):
@@ -386,6 +388,7 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
     template_name = 'subjects/participation_add.html'
     permission_required = 'subjects.change_subject'
     tab = 'participations'
+    subtab = 'add'
 
     @cached_property
     def subject(self):
