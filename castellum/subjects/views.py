@@ -56,6 +56,7 @@ from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import Participation
+from castellum.studies.forms import StudyFilterForm
 from castellum.studies.models import Study
 
 from .forms import SubjectPrivacyLevelForm
@@ -378,7 +379,32 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
         return super().delete(self, request, *args, **kwargs)
 
 
-class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, DetailView):
+class StudyFilterMixin:
+    def get(self, request, *args, **kwargs):
+        self.form = StudyFilterForm(self.request.GET)
+        self.form.full_clean()
+        return super().get(request, *args, **kwargs)
+
+    def get_studies(self, subject):
+        qs = Study.objects.exclude(participation__subject=subject)
+        q = self.form.cleaned_data.get('q')
+        if q:
+            for part in q.split():
+                qs = qs.filter(
+                    models.Q(name__icontains=part) |
+                    models.Q(contact_person__icontains=part) |
+                    models.Q(principal_investigator__icontains=part)
+                )
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['studies'] = list(self.get_studies(self.object))
+        context['form'] = self.form
+        return context
+
+
+class ParticipationRecruitView(StudyFilterMixin, SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_add_to_study.html'
     permission_required = 'subjects.view_subject'
@@ -387,22 +413,13 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, DetailView
 
     def get_studies(self, subject):
         perms = ['recruitment.recruit', 'studies.access_study']
-        studies = (
-            Study.objects
-            .filter(status=Study.EXECUTION)
-            .exclude(participation__subject=subject)
-        )
+        studies = super().get_studies(subject).filter(status=Study.EXECUTION)
         for study in studies:
             if (
                 self.request.user.has_perms(perms, obj=study) and
                 Subject.objects.filter(filter_queries.study(study), pk=subject.pk).exists()
             ):
                 yield study
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['studies'] = list(self.get_studies(self.object))
-        return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -420,20 +437,12 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, DetailView
         return redirect(url + '?context=subjects:participation-list')
 
 
-class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, DetailView):
+class ParticipationAddView(SubjectMixin, StudyFilterMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_add_to_study.html'
     permission_required = 'subjects.change_subject'
     tab = 'participations'
     subtab = 'add'
-
-    def get_studies(self, subject):
-        return Study.objects.exclude(participation__subject=subject)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['studies'] = list(self.get_studies(self.object))
-        return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()

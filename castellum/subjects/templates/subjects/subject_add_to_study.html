@@ -4,6 +4,22 @@
 {% block title %}{% translate "Add study participation" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    <div class="d-flex flex-column flex-md-row justify-content-end mb-2">
+        <form method="get" aria-label="{{ form.q.label }}">
+            <div class="input-group">
+                <input type="search" class="form-control" name="{{ form.q.name }}" value="{{ form.cleaned_data.q }}" placeholder="{{ form.q.label }}">
+                {% for field in form %}
+                    {% if field.name != 'q' and field.value %}
+                        {{ field.as_hidden }}
+                    {% endif %}
+                {% endfor %}
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" >{% translate 'Go' %}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <ul class="table-list mb-3">
         {% for study in studies %}
             <li class="table-list-item">
