@@ -385,8 +385,8 @@ class StudyFilterMixin:
         self.form.full_clean()
         return super().get(request, *args, **kwargs)
 
-    def get_studies(self, subject):
-        qs = Study.objects.exclude(participation__subject=subject)
+    def get_queryset(self):
+        qs = Study.objects.exclude(participation__subject=self.subject)
         q = self.form.cleaned_data.get('q')
         if q:
             for part in q.split():
@@ -399,30 +399,32 @@ class StudyFilterMixin:
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['studies'] = list(self.get_studies(self.object))
         context['form'] = self.form
         return context
 
 
-class ParticipationRecruitView(StudyFilterMixin, SubjectMixin, PermissionRequiredMixin, DetailView):
-    model = Subject
+class ParticipationRecruitView(StudyFilterMixin, SubjectMixin, PermissionRequiredMixin, ListView):
+    model = Study
     template_name = 'subjects/subject_add_to_study.html'
     permission_required = 'subjects.view_subject'
     tab = 'participations'
     subtab = 'recruit'
 
-    def get_studies(self, subject):
+    @cached_property
+    def subject(self):
+        return get_object_or_404(Subject, slug=self.kwargs['slug'])
+
+    def get_queryset(self):
         perms = ['recruitment.recruit', 'studies.access_study']
-        studies = super().get_studies(subject).filter(status=Study.EXECUTION)
+        studies = super().get_queryset().filter(status=Study.EXECUTION)
         for study in studies:
             if (
                 self.request.user.has_perms(perms, obj=study) and
-                Subject.objects.filter(filter_queries.study(study), pk=subject.pk).exists()
+                Subject.objects.filter(filter_queries.study(study), pk=self.subject.pk).exists()
             ):
                 yield study
 
     def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
         study = get_object_or_404(Study, pk=request.POST['study'], status=Study.EXECUTION)
 
         perms = ['recruitment.recruit', 'studies.access_study']
@@ -430,29 +432,32 @@ class ParticipationRecruitView(StudyFilterMixin, SubjectMixin, PermissionRequire
             raise PermissionDenied
 
         participation = Participation.objects.create(
-            subject=self.object, study=study
+            subject=self.subject, study=study
         )
 
         url = reverse('recruitment:contact', args=[study.pk, participation.pk])
         return redirect(url + '?context=subjects:participation-list')
 
 
-class ParticipationAddView(SubjectMixin, StudyFilterMixin, PermissionRequiredMixin, DetailView):
-    model = Subject
+class ParticipationAddView(SubjectMixin, StudyFilterMixin, PermissionRequiredMixin, ListView):
+    model = Study
     template_name = 'subjects/subject_add_to_study.html'
     permission_required = 'subjects.change_subject'
     tab = 'participations'
     subtab = 'add'
 
+    @cached_property
+    def subject(self):
+        return get_object_or_404(Subject, slug=self.kwargs['slug'])
+
     def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
         study = get_object_or_404(Study, pk=request.POST['study'])
 
         Participation.objects.create(
-            subject=self.object, study=study, status=Participation.INVITED
+            subject=self.subject, study=study, status=Participation.INVITED
         )
 
-        return redirect('subjects:participation-list', self.object.slug)
+        return redirect('subjects:participation-list', self.subject.slug)
 
 
 class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
