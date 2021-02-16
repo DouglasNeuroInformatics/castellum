@@ -332,9 +332,11 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
         return get_object_or_404(Subject, slug=self.kwargs['slug'])
 
     def is_permitted(self, study):
-        return self.request.user.has_perm('studies.access_study', obj=study) and (
-            self.request.user.has_perm('recruitment.conduct_study', obj=study) or
-            self.request.user.has_perm('recruitment.recruit', obj=study)
+        return self.request.user.has_perm('subjects.change_subject', obj=study) or (
+            self.request.user.has_perm('studies.access_study', obj=study) and (
+                self.request.user.has_perm('recruitment.conduct_study', obj=study) or
+                self.request.user.has_perm('recruitment.recruit', obj=study)
+            )
         )
 
     def get_queryset(self):
