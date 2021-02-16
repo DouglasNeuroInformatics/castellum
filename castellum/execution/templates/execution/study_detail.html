@@ -8,6 +8,9 @@
                 {% if can_access %}
                     <div class="d-inline-block my-1 mr-2">
                         {{ participation.subject.contact.full_name }}
+                        {% with summary=participation.subject|showup_summary %}
+                            <span class="text-{{ participation.subject|showup_level }}" aria-label="{{ summary }}" title="{{ summary }}">&#9679;</span>
+                        {% endwith %}
                         {% if session_count > 0 %}
                             <span class="badge badge-secondary">
                                 <i class="fa fa-calendar" aria-label="{% translate 'Appointments' %}" title="{% translate 'Appointments' %}"></i>
@@ -20,9 +23,6 @@
                         {% if participation.subject.blocked %}
                             <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation.subject|verbose_name:'blocked' }}</span>
                         {% endif %}
-                        {% with summary=participation.subject|showup_summary %}
-                            <span class="text-{{ participation.subject|showup_level }}" aria-label="{{ summary }}" title="{{ summary }}">&#9679;</span>
-                        {% endwith %}
                     </div>
                     <div class="table-list-item-actions">
                         <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-detail' study.pk participation.pk %}">{% translate 'Details' %}</a>
