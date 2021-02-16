@@ -378,12 +378,12 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
         return super().delete(self, request, *args, **kwargs)
 
 
-class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
+class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_add_to_study.html'
     permission_required = 'subjects.view_subject'
     tab = 'participations'
-    subtab = 'add'
+    subtab = 'recruit'
 
     def get_studies(self, subject):
         perms = ['recruitment.recruit', 'studies.access_study']
@@ -420,12 +420,12 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return redirect(url + '?context=subjects:participation-list')
 
 
-class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
+class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_add_to_study.html'
     permission_required = 'subjects.change_subject'
     tab = 'participations'
-    subtab = 'add-finished'
+    subtab = 'add'
 
     def get_studies(self, subject):
         return Study.objects.exclude(participation__subject=subject)

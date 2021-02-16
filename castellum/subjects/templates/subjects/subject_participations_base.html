@@ -8,10 +8,10 @@
         <div class="col-md-3">
             <nav class="list-group mb-3" aria-label="{% translate 'Subtabs' %}">
                 <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'list' %}active{% endif %}" href="{% url 'subjects:participation-list' subject.slug %}">{% translate 'List' %}</a>
-                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'add' %}active{% endif %}" href="{% url 'subjects:add-to-study' subject.slug %}">{% translate 'Add to study' %}</a>
+                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'recruit' %}active{% endif %}" href="{% url 'subjects:participation-recruit' subject.slug %}">{% translate 'Recruit' %}</a>
                 {% has_perm 'subjects.change_subject' user as can_change_subject %}
                 {% if can_change_subject %}
-                    <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'add-finished' %}active{% endif %}" href="{% url 'subjects:add-to-finished-study' subject.slug %}">{% translate 'Add to finished study' %}</a>
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'add' %}active{% endif %}" href="{% url 'subjects:participation-add' subject.slug %}">{% translate 'Add to study' %}</a>
                 {% endif %}
             </nav>
         </div>
