@@ -428,11 +428,7 @@ class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     subtab = 'add-finished'
 
     def get_studies(self, subject):
-        return (
-            Study.objects
-            .filter(status=Study.FINISHED)
-            .exclude(participation__subject=subject)
-        )
+        return Study.objects.exclude(participation__subject=subject)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -441,7 +437,7 @@ class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        study = get_object_or_404(Study, pk=request.POST['study'], status=Study.FINISHED)
+        study = get_object_or_404(Study, pk=request.POST['study'])
 
         Participation.objects.create(
             subject=self.object, study=study, status=Participation.INVITED
