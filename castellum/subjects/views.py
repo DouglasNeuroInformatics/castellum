@@ -56,6 +56,7 @@ from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import Participation
+from castellum.studies.forms import StudyFilterForm
 from castellum.studies.models import Study
 
 from .forms import SubjectPrivacyLevelForm
@@ -382,7 +383,7 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
 
 class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
     model = Study
-    template_name = 'subjects/participation_recruit.html'
+    template_name = 'subjects/participation_add.html'
     permission_required = 'subjects.change_subject'
     tab = 'participations'
 
@@ -390,8 +391,28 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
     def subject(self):
         return get_object_or_404(Subject, slug=self.kwargs['slug'])
 
+    def get(self, request, *args, **kwargs):
+        self.form = StudyFilterForm(self.request.GET)
+        self.form.full_clean()
+        return super().get(request, *args, **kwargs)
+
     def get_queryset(self):
-        return Study.objects.all()
+        q = self.form.cleaned_data.get('q', '')
+        if q:
+            qs = Study.objects.all()
+            for part in q.split():
+                qs = qs.filter(
+                    models.Q(name__icontains=part) |
+                    models.Q(contact_person__icontains=part)
+                )
+            return qs
+        else:
+            return Study.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form
+        return context
 
     def post(self, request, *args, **kwargs):
         study = get_object_or_404(Study, pk=request.POST['study'])
