@@ -399,7 +399,13 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
     def get_queryset(self):
         q = self.form.cleaned_data.get('q', '')
         if q:
-            qs = Study.objects.all()
+            # study.p is the list that contains the particiaption (if it exists) or nothing.
+            # I did not find a better way to do this.
+            qs = Study.objects.prefetch_related(models.Prefetch(
+                'participation_set',
+                queryset=self.subject.participation_set.all(),
+                to_attr='p',
+            ))
             for part in q.split():
                 qs = qs.filter(
                     models.Q(name__icontains=part) |
