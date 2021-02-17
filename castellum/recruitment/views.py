@@ -61,6 +61,7 @@ from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.utils import cached_request
 from castellum.utils import contrast_color
 from castellum.utils import scheduler
+from castellum.utils.mail import MailContext
 
 from .forms import CleanupForm
 from .forms import ContactAndAppointmentsForm
@@ -345,6 +346,46 @@ class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         batch = get_object_or_404(MailBatch, pk=self.kwargs['pk'], study=self.study)
         batch.participation_set.update(status=Participation.UNSUITABLE, batch=None)
+        return redirect('recruitment:mail', self.study.pk)
+
+
+class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, View):
+    permission_required = 'recruitment.recruit'
+    study_status = [Study.EXECUTION]
+
+    def personalize_mail_body(self, mail_body, contact):
+        return mail_body.replace('{name}', contact.full_name)
+
+    def send_reminder_mail(self, batch):
+        with MailContext('recruitment') as ctx:
+            participations = Participation.objects.filter(batch=batch)
+            reminded_participations = []
+            for participation in participations:
+                success = 0
+                for mail in participation.subject.contact.own_or_guardian_emails:
+                    success += ctx.send_mail(
+                        settings.CASTELLUM_REMINDER_MAIL_SUBJECT_TEMPLATE.format(
+                            mail_subject=self.study.mail_subject
+                        ),
+                        self.personalize_mail_body(
+                            self.study.mail_body,
+                            participation.subject.contact
+                        ),
+                        mail,
+                        reply_to=[self.study.email],
+                        recipients_string=participation.subject.contact.email_recipients_string,
+                    )
+                if success:
+                    reminded_participations.append(participation.pk)
+            Participation.objects.filter(
+                pk__in=reminded_participations
+            ).bulk_update(updated_at=timezone.now())
+
+    def post(self, request, *args, **kwargs):
+        batch = get_object_or_404(MailBatch, pk=self.kwargs['pk'], study=self.study, reminded=False)
+        self.send_reminder_mail(batch)
+        batch.reminded = True
+        batch.save()
         return redirect('recruitment:mail', self.study.pk)
 
 

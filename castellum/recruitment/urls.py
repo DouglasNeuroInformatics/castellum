@@ -32,6 +32,7 @@ from .views import ContactUpdateView
 from .views import ContactView
 from .views import DataProtectionUpdateView
 from .views import MailRecruitmentCleanupView
+from .views import MailRecruitmentRemindView
 from .views import MailRecruitmentView
 from .views import RecruitmentCleanupView
 from .views import RecruitmentViewInvited
@@ -56,6 +57,11 @@ urlpatterns = [
         '<int:study_pk>/mail/<int:pk>/cleanup/',
         MailRecruitmentCleanupView.as_view(),
         name='mail-cleanup',
+    ),
+    path(
+        '<int:study_pk>/mail/<int:pk>/remind/',
+        MailRecruitmentRemindView.as_view(),
+        name='mail-remind',
     ),
     path('<int:study_pk>/cleanup/', RecruitmentCleanupView.as_view(), name='cleanup'),
     path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),

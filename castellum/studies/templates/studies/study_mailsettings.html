@@ -8,6 +8,8 @@
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 
+        <p>{% translate 'These settings are used for recruitment emails (both the initial message as well as reminders).' %}</p>
+
         {% bootstrap_field form.mail_subject %}
         {% bootstrap_field form.mail_body %}
 
