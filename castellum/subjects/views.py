@@ -339,27 +339,6 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
         )
 
 
-class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
-    tab = 'delete'
-    model = Participation
-    permission_required = ['studies.access_study', 'subjects.delete_subject']
-
-    def get_object(self):
-        return get_object_or_404(
-            Participation, pk=self.kwargs['pk'], subject__slug=self.kwargs['subject_slug']
-        )
-
-    def get_success_url(self):
-        return reverse('subjects:delete', args=[self.subject.slug])
-
-    def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        monitoring_logger.info('Participation in Study {} deleted by {}'.format(
-            self.object.study.name, self.request.user.pk
-        ))
-        return super().delete(self, request, *args, **kwargs)
-
-
 class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_add_to_study.html'
@@ -428,6 +407,27 @@ class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
         )
 
         return redirect('subjects:participation-list', self.object.slug)
+
+
+class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
+    tab = 'delete'
+    model = Participation
+    permission_required = ['studies.access_study', 'subjects.delete_subject']
+
+    def get_object(self):
+        return get_object_or_404(
+            Participation, pk=self.kwargs['pk'], subject__slug=self.kwargs['subject_slug']
+        )
+
+    def get_success_url(self):
+        return reverse('subjects:delete', args=[self.subject.slug])
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        monitoring_logger.info('Participation in Study {} deleted by {}'.format(
+            self.object.study.name, self.request.user.pk
+        ))
+        return super().delete(self, request, *args, **kwargs)
 
 
 class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
