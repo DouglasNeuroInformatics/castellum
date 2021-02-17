@@ -31,10 +31,10 @@
     </ul>
 
     <div class="d-print-none mb-3">
-        <a href="{% url 'subjects:add-to-study' subject.slug %}" class="btn btn-primary">{% translate 'Add to study' %}</a>
+        <a href="{% url 'subjects:participation-recruit' subject.slug %}" class="btn btn-primary">{% translate 'Find matching studies' %}</a>
         {% has_perm 'subjects.change_subject' user as can_change_subject %}
         {% if can_change_subject %}
-            <a href="{% url 'subjects:add-to-finished-study' subject.slug %}" class="btn btn-secondary">{% translate 'Add to finished study' %}</a>
+            <a href="{% url 'subjects:participation-add' subject.slug %}" class="btn btn-secondary">{% translate 'Add to study' %}</a>
         {% endif %}
     </div>
 {% endblock %}

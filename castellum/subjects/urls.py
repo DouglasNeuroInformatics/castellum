@@ -22,8 +22,6 @@
 from django.urls import path
 
 from .views import AdditionalInfoUpdateView
-from .views import AddToFinishedStudyView
-from .views import AddToStudyView
 from .views import AttributesUpdateView
 from .views import ContactUpdateView
 from .views import CoverletterView
@@ -36,8 +34,10 @@ from .views import MaintenanceDuplicatesView
 from .views import MaintenanceNotesView
 from .views import MaintenanceShowupView
 from .views import MaintenanceWaitingView
+from .views import ParticipationAddView
 from .views import ParticipationDeleteView
 from .views import ParticipationListView
+from .views import ParticipationRecruitView
 from .views import SubjectDeleteView
 from .views import SubjectDetailView
 from .views import SubjectExportView
@@ -70,17 +70,13 @@ urlpatterns = [
     path('<slug>/data-protection/', DataProtectionUpdateView.as_view(), name='data-protection'),
     path('<slug>/additional-info/', AdditionalInfoUpdateView.as_view(), name='additional-info'),
     path('<slug>/coverletter.docx', CoverletterView.as_view(), name='coverletter'),
+    path('<slug>/participations/', ParticipationListView.as_view(), name='participation-list'),
     path(
-        '<slug>/participations/',
-        ParticipationListView.as_view(),
-        name='participation-list',
+        '<slug>/participations/recruit/',
+        ParticipationRecruitView.as_view(),
+        name='participation-recruit',
     ),
-    path('<slug>/participations/add/', AddToStudyView.as_view(), name='add-to-study'),
-    path(
-        '<slug>/participations/add-finished/',
-        AddToFinishedStudyView.as_view(),
-        name='add-to-finished-study',
-    ),
+    path('<slug>/participations/add/', ParticipationAddView.as_view(), name='participation-add'),
     path(
         '<subject_slug>/participations/<int:pk>/delete/',
         ParticipationDeleteView.as_view(),

@@ -323,7 +323,7 @@ class AttributesUpdateView(SubjectUpdateMixin, BaseAttributesUpdateView):
 
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     model = Participation
-    template_name = 'subjects/subject_participationlist.html'
+    template_name = 'subjects/participation_list.html'
     permission_required = 'subjects.view_subject'
     tab = 'participations'
 
@@ -339,9 +339,9 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
         )
 
 
-class AddToStudyView(SubjectMixin, PermissionRequiredMixin, ListView):
+class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
     model = Study
-    template_name = 'subjects/subject_add_to_study.html'
+    template_name = 'subjects/participation_recruit.html'
     permission_required = 'subjects.view_subject'
     tab = 'participations'
 
@@ -380,9 +380,9 @@ class AddToStudyView(SubjectMixin, PermissionRequiredMixin, ListView):
         return redirect(url + '?context=subjects:participation-list')
 
 
-class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, ListView):
+class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
     model = Study
-    template_name = 'subjects/subject_add_to_study.html'
+    template_name = 'subjects/participation_recruit.html'
     permission_required = 'subjects.change_subject'
     tab = 'participations'
 
