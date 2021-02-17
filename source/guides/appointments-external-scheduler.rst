@@ -17,7 +17,7 @@ the dates for appointments for study sessions themselves.
     -   in the subject details (step for of this guide: :ref:`recruitment`),
         in recruitment, click **Appointments**.
     -   Click **Select timeslot for this subject** to go to the scheduler.
-        Clicking the "Copy" symbol will copy the scheduler linkto your clipboard
+        Clicking the "Copy" symbol will copy the scheduler link to your clipboard
         so you can send it to the subject via email.
 
 2.  In the scheduler, select an appointment and click **Save**. This step can
