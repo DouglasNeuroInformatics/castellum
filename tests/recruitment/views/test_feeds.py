@@ -1,9 +1,18 @@
 import datetime
 
 import pytest
+from model_bakery import baker
+
+from castellum.recruitment.models import Participation
 
 
 def test_feed_for_study_in_execution_status(client, member, study_in_execution_status):
+    baker.make(
+        Participation,
+        study=study_in_execution_status,
+        status=Participation.FOLLOWUP_APPOINTED,
+        _fill_optional=['followup_time', 'followup_date'],
+    )
     response = client.get('/recruitment/{}/followups/?token={}'.format(
         study_in_execution_status.pk, member.token
     ))
