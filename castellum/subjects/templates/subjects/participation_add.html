@@ -29,10 +29,7 @@
                     {% endif %}
                 </li>
             {% empty %}
-                <li class="alert alert-warning" role="alert">
-                    <h2 class="alert-heading">{% translate 'No matching studies found' %}</h2>
-                    <p>{% translate 'This person does not meet the filters of the currently active studies.' %}</p>
-                </li>
+                <li class="alert alert-warning" role="alert">{% translate 'No matching studies found' %}</li>
             {% endfor %}
         </ul>
     {% endif %}
