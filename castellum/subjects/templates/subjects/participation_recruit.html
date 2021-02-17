@@ -8,6 +8,7 @@
         {% for study in object_list %}
             <li class="table-list-item">
                 <div class ="h4 d-inline-block my-1 mr-2">{{ study }}</div>
+                <span class="d-inline-block my-1 mr-2">{{ study.contact_person }}</span>
                 <form class ="table-list-item-actions" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="study" value="{{ study.pk }}">
