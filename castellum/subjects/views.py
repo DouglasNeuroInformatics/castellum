@@ -427,7 +427,7 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
             subject=self.subject, study=study, status=Participation.INVITED
         )
 
-        return redirect('subjects:participation-list', self.subject.slug)
+        return self.get(request, *args, **kwargs)
 
 
 class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
