@@ -45,6 +45,7 @@ Relevant guides:
 -   :ref:`study-recruitment-settings`
 -   :ref:`study-finish`
 -   :ref:`study-delete`
+-   :ref:`set-up-external-scheduler`
 
 Study Approver
 ~~~~~~~~~~~~~~
@@ -144,6 +145,8 @@ Relevant guides:
 -   :ref:`subject-search`
 -   :ref:`recruitment`
 -   :ref:`recruitment-mail`
+-   :ref:`make-appointments-with-external-scheduler`
+
 
 .. TODO::
 
@@ -164,6 +167,8 @@ Relevant guides:
 
 -   :ref:`subject-search`
 -   :ref:`subject-get-pseudonym`
+-   :ref:`make-appointments-with-external-scheduler`
+
 
 .. TODO::
 

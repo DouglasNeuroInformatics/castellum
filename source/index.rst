@@ -25,3 +25,5 @@ Welcome to Castellum's documentation!
 
    guides/consent-management
    guides/recruitment
+   guides/set-up-external-scheduler
+   guides/appointments-external-scheduler
