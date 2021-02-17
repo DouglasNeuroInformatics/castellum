@@ -331,27 +331,12 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     def subject(self):
         return get_object_or_404(Subject, slug=self.kwargs['slug'])
 
-    def is_permitted(self, study):
-        return self.request.user.has_perm('studies.access_study', obj=study) and (
-            self.request.user.has_perm('recruitment.conduct_study', obj=study) or
-            self.request.user.has_perm('recruitment.recruit', obj=study)
-        )
-
     def get_queryset(self):
-        queryset = Participation.objects\
-            .filter(subject=self.subject, study__status=Study.EXECUTION)\
+        return (
+            self.subject.participation_set
+            .filter(status=Participation.INVITED)
             .order_by('-updated_at')
-        return [
-            participation for participation in queryset
-            if self.is_permitted(participation.study)
-        ]
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['finished_list'] = Participation.objects\
-            .filter(subject=self.subject, study__status=Study.FINISHED)\
-            .order_by('-updated_at')
-        return context
+        )
 
 
 class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):

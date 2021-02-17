@@ -30,19 +30,6 @@
         {% endfor %}
     </ul>
 
-    <details class="mb-3">
-        <summary>{% translate 'Finished studies' %}</summary>
-        <ul class="table-list mb-3">
-            {% for participation in finished_list %}
-                <li class="table-list-item">
-                    <div class="h4 d-inline-block my-1 mr-2">{{ participation.study }}</div>
-                </li>
-            {% empty %}
-                <li class="alert alert-warning" role="alert">{% translate 'No participations found' %}</li>
-            {% endfor %}
-        </ul>
-    </details>
-
     <div class="d-print-none mb-3">
         <a href="{% url 'subjects:add-to-study' subject.slug %}" class="btn btn-primary">{% translate 'Add to study' %}</a>
         {% has_perm 'subjects.change_subject' user as can_change_subject %}
