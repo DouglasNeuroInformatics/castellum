@@ -391,14 +391,10 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
         return get_object_or_404(Subject, slug=self.kwargs['slug'])
 
     def get_queryset(self):
-        return (
-            Study.objects
-            .filter(status=Study.FINISHED)
-            .exclude(participation__subject=self.subject)
-        )
+        return Study.objects.all()
 
     def post(self, request, *args, **kwargs):
-        study = get_object_or_404(Study, pk=request.POST['study'], status=Study.FINISHED)
+        study = get_object_or_404(Study, pk=request.POST['study'])
 
         Participation.objects.create(
             subject=self.subject, study=study, status=Participation.INVITED
