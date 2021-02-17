@@ -13,7 +13,7 @@
                             {% endfor %}
                             <div class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</div>
                             {% if participation.subject.blocked %}
-                                <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation.subject|verbose_name:'blocked' }}</span>
+                                <span class="d-inline-block my-1 mr-2 badge badge-dark">{{ participation.subject|verbose_name:'blocked' }}</span>
                             {% endif %}
                         </div>
                         <div class="mr-2">
@@ -53,7 +53,7 @@
                                 <div class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</div>
                             {% endif %}
                             {% if participation.subject.blocked %}
-                                <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation.subject|verbose_name:'blocked' }}</span>
+                                <span class="d-inline-block my-1 mr-2 badge badge-dark">{{ participation.subject|verbose_name:'blocked' }}</span>
                             {% endif %}
                         </div>
                         <div class="mr-2">
@@ -70,7 +70,7 @@
                             {% endfor %}
                             <div class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</div>
                             {% if participation.subject.blocked %}
-                                <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation.subject|verbose_name:'blocked' }}</span>
+                                <span class="d-inline-block my-1 mr-2 badge badge-dark">{{ participation.subject|verbose_name:'blocked' }}</span>
                             {% endif %}
                         </div>
                         <div class="mr-2">
@@ -98,7 +98,7 @@
                                 </div>
                             {% endif %}
                             {% if participation.subject.blocked %}
-                                <span class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation.subject|verbose_name:'blocked' }}</span>
+                                <span class="d-inline-block my-1 mr-2 badge badge-dark">{{ participation.subject|verbose_name:'blocked' }}</span>
                             {% endif %}
                         </div>
                     </div>
