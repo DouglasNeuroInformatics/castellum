@@ -12,9 +12,9 @@ from django import forms
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from castellum.subjects.models import Subject
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
+from castellum.subjects.models import Subject
 
 SOURCE = 'import {}'.format(datetime.date.today())
 ADDRESS_MAP = {}
