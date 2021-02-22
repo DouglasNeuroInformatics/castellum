@@ -377,7 +377,6 @@ class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, View):
 class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
-    tab = 'mail'
 
     def post(self, request, *args, **kwargs):
         batch = get_object_or_404(MailBatch, pk=self.kwargs['pk'], study=self.study)
