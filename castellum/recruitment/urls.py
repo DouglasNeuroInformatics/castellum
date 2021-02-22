@@ -53,7 +53,7 @@ urlpatterns = [
     ),
     path('<int:study_pk>/mail/', MailRecruitmentView.as_view(), name='mail'),
     path(
-        '<int:study_pk>/mail/<int:pk>cleanup/',
+        '<int:study_pk>/mail/<int:pk>/cleanup/',
         MailRecruitmentCleanupView.as_view(),
         name='mail-cleanup',
     ),
