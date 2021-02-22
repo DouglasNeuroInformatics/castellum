@@ -152,7 +152,7 @@ class BaseFollowUpFeed(BaseICalFeed):
 
     def item_start_datetime(self, item):
         if item.followup_time:
-            return datetime.combine(item.followup_date, item.followup_time)
+            return datetime.datetime.combine(item.followup_date, item.followup_time)
         else:
             return item.followup_date
 
