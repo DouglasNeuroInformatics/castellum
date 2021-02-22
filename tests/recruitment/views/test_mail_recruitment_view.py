@@ -1,9 +1,13 @@
 from django.core import mail
+from django.utils import timezone
 
+from freezegun import freeze_time
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
+from castellum.recruitment.models import MailBatch
 from castellum.recruitment.models import Participation
+from castellum.recruitment.views import MailRecruitmentRemindView
 from castellum.recruitment.views import MailRecruitmentView
 from castellum.studies.models import Study
 from castellum.subjects.models import Consent
@@ -103,3 +107,24 @@ def test_404_if_study_in_edit_status(client, user):
     url = '/recruitment/{}/mail/'.format(study.pk)
     response = client.get(url)
     assert response.status_code == 404
+
+
+def test_remind_updates_participations(subject, study_in_execution_status, client, user):
+    now = timezone.now()
+    client.force_login(user)
+
+    subject.contact.email = 'foo@example.com'
+    subject.contact.save()
+
+    batch = baker.make(MailBatch, study=study_in_execution_status)
+    participation = baker.make(
+        Participation, subject=subject, study=study_in_execution_status, batch=batch
+    )
+
+    with freeze_time(now):
+        remind_view = MailRecruitmentRemindView()
+        remind_view.study = study_in_execution_status
+        remind_view.send_reminder_mails(batch)
+
+    participation.refresh_from_db()
+    assert participation.updated_at == now

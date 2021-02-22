@@ -54,14 +54,14 @@ urlpatterns = [
     ),
     path('<int:study_pk>/mail/', MailRecruitmentView.as_view(), name='mail'),
     path(
-        '<int:study_pk>/mail/<int:pk>/cleanup/',
-        MailRecruitmentCleanupView.as_view(),
-        name='mail-cleanup',
-    ),
-    path(
         '<int:study_pk>/mail/<int:pk>/remind/',
         MailRecruitmentRemindView.as_view(),
         name='mail-remind',
+    ),
+    path(
+        '<int:study_pk>/mail/<int:pk>/cleanup/',
+        MailRecruitmentCleanupView.as_view(),
+        name='mail-cleanup',
     ),
     path('<int:study_pk>/cleanup/', RecruitmentCleanupView.as_view(), name='cleanup'),
     path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),
