@@ -34,6 +34,8 @@ from django.db import transaction
 
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
+from castellum.recruitment.models import Participation
+from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 
 SOURCE = 'BASE II'
@@ -68,6 +70,8 @@ def filter_dict(d):
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        study = Study.objects.create(name=SOURCE)
+
         rows = csv.reader(sys.stdin, csv.excel_tab)
         out = csv.writer(self.stdout)
 
@@ -97,6 +101,9 @@ class Command(BaseCommand):
                 with transaction.atomic():
                     with transaction.atomic(using='contacts'):
                         subject = Subject.objects.create(source=SOURCE, attributes={})
+                        Participation.objects.create(
+                            subject=subject, study=study, status=Participation.INVITED
+                        )
 
                         contact = create(Contact, contact_data, subject_id=subject.id)
 
