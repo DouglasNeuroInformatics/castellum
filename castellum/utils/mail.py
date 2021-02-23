@@ -90,3 +90,9 @@ class MailContext:
             **kwargs,
         )
         return msg.send(fail_silently=True)
+
+    def send_separate_mails(self, subject, body, recipients, **kwargs):
+        count = 0
+        for recipient in recipients:
+            count += self.send_mail(subject, body, [recipient], **kwargs)
+        return count

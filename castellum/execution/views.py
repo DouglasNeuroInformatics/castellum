@@ -248,16 +248,13 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
 
     def send_mail(self, ctx, participation, subject=None, body=None):
         contact = participation.subject.contact
-        count = 0
-        for email in contact.own_or_guardian_emails:
-            count += ctx.send_mail(
-                subject,
-                body.replace('{name}', contact.full_name),
-                [email],
-                reply_to=[self.study.email],
-                recipients_string=contact.email_recipients_string,
-            )
-        return count
+        return ctx.send_separate_mails(
+            subject,
+            body.replace('{name}', contact.full_name),
+            contact.own_or_guardian_emails,
+            reply_to=[self.study.email],
+            recipients_string=contact.email_recipients_string,
+        )
 
     def render_urls(self, participations):
         return '\n'.join(

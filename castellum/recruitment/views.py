@@ -343,18 +343,15 @@ class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, View):
     study_status = [Study.EXECUTION]
 
     def send_reminder_mail(self, contact, ctx):
-        count = 0
-        for email in contact.own_or_guardian_emails:
-            count += ctx.send_mail(
-                settings.CASTELLUM_REMINDER_MAIL_SUBJECT_TEMPLATE.format(
-                    mail_subject=self.study.mail_subject
-                ),
-                self.study.mail_body.replace('{name}', contact.full_name),
-                [email],
-                reply_to=[self.study.email],
-                recipients_string=contact.email_recipients_string,
-            )
-        return count
+        return ctx.send_separate_mails(
+            settings.CASTELLUM_REMINDER_MAIL_SUBJECT_TEMPLATE.format(
+                mail_subject=self.study.mail_subject
+            ),
+            self.study.mail_body.replace('{name}', contact.full_name),
+            contact.own_or_guardian_emails,
+            reply_to=[self.study.email],
+            recipients_string=contact.email_recipients_string,
+        )
 
     def send_reminder_mails(self, batch):
         with MailContext('recruitment') as ctx:

@@ -37,17 +37,13 @@ logger = logging.getLogger(__name__)
 
 def send_mail_to_subject(ctx, study, appointment):
     contact = appointment.participation.subject.contact
-
-    count = 0
-    for email in contact.own_or_guardian_emails:
-        count += ctx.send_mail(
-            settings.CASTELLUM_APPOINTMENT_MAIL_SUBJECT,
-            get_reminder_body(contact.full_name, appointment.session, appointment.start),
-            [email],
-            reply_to=[study.email],
-            recipients_string=contact.email_recipients_string,
-        )
-    return count
+    return ctx.send_separate_mails(
+        settings.CASTELLUM_APPOINTMENT_MAIL_SUBJECT,
+        get_reminder_body(contact.full_name, appointment.session, appointment.start),
+        contact.own_or_guardian_emails,
+        reply_to=[study.email],
+        recipients_string=contact.email_recipients_string,
+    )
 
 
 def send_mail_to_study_conductors(study, not_reachable, base_url):
