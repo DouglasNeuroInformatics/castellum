@@ -28,6 +28,28 @@ Create a study
 Now you can find your study in the list
 
 
+.. _study-sessions:
+
+Set up sessions
+---------------
+
+In the **Sessions** tab, you can enter as many test sessions as you like.
+
+-   Define **Session instructions**,
+-   **Start of test sessions**,
+-   **End of test sessions** and
+-   Click on **Add session**
+
+-   When adding a test session, always give the session a **Name** and specify
+    the **Duration of a session in minutes**
+-   Select the **Type** of the session and press **Add session**
+-   By clicking on the red button **Delete**, you can erase any test session
+    you created
+-   Click on **Update** to go to Session details. If your institute uses the
+    external scheduler to schedule appointments, you can enable it here
+    (see this guide: :ref:`set-up-external-scheduler`)
+
+
 .. _study-recruitment-settings:
 
 Set up the recruitment process
@@ -94,24 +116,7 @@ In order to limit the search for subjects in Castellum,
     .. note::
         If it is a MRI-study, the criteria are pre-set for checking during recruitment
 
-7. In **Sessions**, you can enter as many test sessions as you like
-
-   -   Define **Session instructions**,
-   -   **Start of test sessions**,
-   -   **End of test sessions** and
-   -   Click on **Add session**
-
-   -   When adding a test session, always give the session a **Name** and specify
-       the **Duration of a session in minutes**
-   -   Select the **Type** of the session and press **Add session**
-   -   By clicking on the red button **Delete**, you can erase any test session you
-       created
-   -   Click on **Update** to go to Session details. If your institute uses the
-       external scheduler to schedule appointments, you can enable it here
-       (see this guide: :ref:`set-up-external-scheduler`)
-
-
-8.  If recruitment is to take place by e-mail, proceed as follows:
+7.  If recruitment is to take place by e-mail, proceed as follows:
 
     -   click on **Mail Settings**
     -   define an **E-mail subject**

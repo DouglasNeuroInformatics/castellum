@@ -54,6 +54,7 @@ rooms or machines that can not be used in more than one appointment at a time.
 
 Relevant guides:
 
+-   :ref:`study-sessions`
 -   :ref:`set-up-external-scheduler`
 -   :ref:`make-appointments-with-external-scheduler`
 

@@ -42,6 +42,7 @@ Relevant guides:
 
 -   :ref:`study-create`
 -   :ref:`study-members`
+-   :ref:`study-sessions`
 -   :ref:`study-recruitment-settings`
 -   :ref:`study-finish`
 -   :ref:`study-delete`
