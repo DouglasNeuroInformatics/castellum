@@ -292,7 +292,7 @@ class Study(models.Model):
     def recruiters(self):
         recruiters = []
         for user in self.members.all():
-            if user.has_perm('recruitment.recruit', obj=self):
+            if user.has_perm('participations.recruit', obj=self):
                 recruiters.append(user)
         return recruiters
 
@@ -300,7 +300,7 @@ class Study(models.Model):
     def conductors(self):
         conductors = []
         for user in self.members.all():
-            if user.has_perm('recruitment.conduct_study', obj=self):
+            if user.has_perm('participations.conduct_study', obj=self):
                 conductors.append(user)
         return conductors
 

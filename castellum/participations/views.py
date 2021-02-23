@@ -65,7 +65,7 @@ monitoring_logger = logging.getLogger('monitoring.participations')
 class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
     template_name = 'participations/study_detail.html'
     model = Study
-    permission_required = 'recruitment.conduct_study'
+    permission_required = 'participations.conduct_study'
     study_status = [Study.EXECUTION]
     tab = 'list'
 
@@ -127,7 +127,7 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
 
 class ParticipationDetailMixin(ParticipationMixin, PermissionRequiredMixin):
     model = Participation
-    permission_required = ['recruitment.conduct_study']
+    permission_required = ['participations.conduct_study']
     study_status = [Study.EXECUTION]
     participation_status = [Participation.INVITED]
 
@@ -175,7 +175,7 @@ class ParticipationAppointmentsView(ParticipationDetailMixin, DetailView):
 
 class ParticipationAppointmentsUpdateView(ParticipationDetailMixin, UpdateView):
     template_name = 'participations/participation_appointments_form.html'
-    permission_required = ['recruitment.conduct_study', 'appointments.change_appointment']
+    permission_required = ['participations.conduct_study', 'appointments.change_appointment']
     form_class = AppointmentsForm
     tab = 'appointments'
 
@@ -196,7 +196,7 @@ class ShowUpUpdateView(ParticipationMixin, UpdateView):
     model = Appointment
     fields = ['show_up']
     http_method_names = ['post']
-    permission_required = 'recruitment.conduct_study'
+    permission_required = 'participations.conduct_study'
     study_status = [Study.EXECUTION]
     participation_status = [Participation.INVITED]
 
@@ -220,7 +220,7 @@ class ShowUpUpdateView(ParticipationMixin, UpdateView):
 
 class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
     template_name = 'participations/study_resolve.html'
-    permission_required = 'recruitment.conduct_study'
+    permission_required = 'participations.conduct_study'
     study_status = [Study.EXECUTION]
     form_class = PseudonymForm
     tab = 'pseudonym'
@@ -241,7 +241,7 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
 
 class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
     template_name = 'participations/study_news_mail.html'
-    permission_required = 'recruitment.conduct_study'
+    permission_required = 'participations.conduct_study'
     study_status = [Study.EXECUTION]
     form_class = NewsMailForm
     tab = 'news'
@@ -361,7 +361,7 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
 class ExclusionCriteriaView(StudyMixin, PermissionRequiredMixin, DetailView):
     model = Study
     template_name = 'participations/participation_criteria.html'
-    permission_required = 'recruitment.conduct_study'
+    permission_required = 'participations.conduct_study'
     study_status = [Study.EXECUTION]
     tab = 'criteria'
 
@@ -383,7 +383,7 @@ class ParticipationsUpdateMixin(ParticipationMixin):
         return context
 
     def get_permission_required(self):
-        permission_required = {'recruitment.conduct_study'}
+        permission_required = {'participations.conduct_study'}
         permission_required.update(super().get_permission_required())
         return permission_required
 
@@ -410,7 +410,7 @@ class AdditionalInfoUpdateView(ParticipationsUpdateMixin, BaseAdditionalInfoUpda
 
 class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     model = Study
-    permission_required = 'recruitment.conduct_study'
+    permission_required = 'participations.conduct_study'
     study_status = [Study.EXECUTION]
     template_name = 'participations/calendar.html'
     tab = 'calendar'

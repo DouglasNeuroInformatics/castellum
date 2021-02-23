@@ -77,12 +77,12 @@
                             <div class="table-list-item-actions">
                                 {% has_perm 'studies.access_study' user study as can_access %}
                                 {% if can_access and study.status == study.EXECUTION %}
-                                    {% has_perm 'recruitment.recruit' user study as can_recruit %}
+                                    {% has_perm 'participations.recruit' user study as can_recruit %}
                                     {% if can_recruit %}
-                                        <a class="btn btn-outline-primary my-1" href="{% url 'recruitment:recruitment-open' study.pk %}">{% translate 'Recruitment' %}</a>
+                                        <a class="btn btn-outline-primary my-1" href="{% url 'participations.recruitment-open' study.pk %}">{% translate 'Recruitment' %}</a>
                                     {% endif %}
 
-                                    {% has_perm 'recruitment.conduct_study' user study as can_conduct %}
+                                    {% has_perm 'participations.conduct_study' user study as can_conduct %}
                                     {% if can_conduct %}
                                         <a class="btn btn-outline-primary my-1" href="{% url 'participations:study-detail' study.pk %}">{% translate 'Participations' %}</a>
                                     {% endif %}

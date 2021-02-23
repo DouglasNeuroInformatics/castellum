@@ -99,7 +99,7 @@
         "permissions": [
             [
                 "search_participations",
-                "recruitment",
+                "participations",
                 "participation"
             ],
             [

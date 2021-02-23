@@ -26,7 +26,7 @@
         "permissions": [
             [
                 "recruit",
-                "recruitment",
+                "participations",
                 "participation"
             ],
             [
@@ -45,7 +45,7 @@
         "permissions": [
             [
                 "conduct_study",
-                "recruitment",
+                "participations",
                 "participation"
             ],
             [

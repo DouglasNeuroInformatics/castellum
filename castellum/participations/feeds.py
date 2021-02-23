@@ -43,7 +43,7 @@ class BaseParticipationsAppointmentFeed(BaseAppointmentFeed):
 class AppointmentFeedForStudy(BaseParticipationsAppointmentFeed):
     def get_object(self, request, *args, **kwargs):
         study = get_object_or_404(Study, pk=kwargs['pk'], status=Study.EXECUTION)
-        perms = ['recruitment.conduct_study', 'studies.access_study']
+        perms = ['participations.conduct_study', 'studies.access_study']
         if not self.request.user.has_perms(perms, obj=study):
             raise PermissionDenied
         return study
@@ -63,7 +63,7 @@ class AppointmentFeedForUser(BaseParticipationsAppointmentFeed):
             .filter(session__study__status=Study.EXECUTION)\
             .select_related('participation__subject', 'session__study')
 
-        perms = ['recruitment.conduct_study', 'studies.access_study']
+        perms = ['participations.conduct_study', 'studies.access_study']
         for item in items:
             if user.has_perms(perms, obj=item.session.study):
                 yield item
