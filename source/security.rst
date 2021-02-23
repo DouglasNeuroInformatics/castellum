@@ -69,6 +69,31 @@ user's privacy level is controlled via the special permissions
 ``privacy_level_1`` and ``privacy_level_2``. The three levels (0-2) accord to
 the data security levels of the Max Planck Society.
 
+Pseudonyms
+----------
+
+There are generally two approaches to generate pseudonyms:
+
+-   Calculate an encrypted hash over immutable, subject-related information
+    (e.g. name, date of birth)
+-   Generate a random pseudonym and store it in a mapping table
+
+The former approach has the benefit of not relying on a central infrastructure.
+However, in cases where such a central infrastructure with strict access
+control is feasible, the latter approach is much simpler.
+
+Castellum implements the latter approach.
+
+For more information on these two approaches, see `Anforderungen an den
+datenschutzkonformen Einsatz von Pseudonymisierungslösungen (german)
+<https://www.de.digital/DIGITAL/Redaktion/DE/Digital-Gipfel/Download/2018/p9-datenschutzkonformer-einsatz-von-pseudonymisierungsloesungen.pdf>`_.
+
+The algorithm that is used to generate pseudonyms can be configured. The
+algorithm that is used by default produces alphanumeric strings with 20 bits of
+entropy and two checkdigits that are guaranteed to detect single errors. It is
+also available as a `standalone package
+<https://pypi.org/project/castellum-pseudonyms/>`_.
+
 Data separation
 ---------------
 
