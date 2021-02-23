@@ -5,6 +5,25 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
+def copy_data(apps, schema_editor):
+    OldParticipation = apps.get_model('recruitment', 'Participation')
+    OldMailBatch = apps.get_model('recruitment', 'MailBatch')
+    OldNewsMailBatch = apps.get_model('recruitment', 'NewsMailBatch')
+
+    NewParticipation = apps.get_model('participations', 'Participation')
+    NewMailBatch = apps.get_model('participations', 'MailBatch')
+    NewNewsMailBatch = apps.get_model('participations', 'NewsMailBatch')
+
+    participations = []
+    for participation in OldParticipation.objects.all():
+        args = {}
+        for field in OldParticipation._meta.get_fields():
+            args[field.name] = getattr(participation, field.name)
+        participations.append(NewParticipation(**args))
+    NewParticipation.objects.bulk_create(participations)
+
+
+
 class Migration(migrations.Migration):
 
     initial = True
