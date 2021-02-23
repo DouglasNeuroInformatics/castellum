@@ -36,9 +36,7 @@ from castellum.utils.fields import DateTimeField
 
 
 class BaseMailBatch(models.Model):
-    study = models.ForeignKey(
-        Study, verbose_name=_('Study'), on_delete=models.CASCADE, related_name='+'
-    )
+    study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
     datetime = models.DateTimeField(_('Sent date'), auto_now_add=True)
     contacted_size = models.PositiveIntegerField()
 
@@ -113,10 +111,8 @@ class Participation(models.Model):
     created_at = DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = DateTimeField(_('Updated at'), auto_now=True)
 
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, editable=False, related_name='+')
-    study = models.ForeignKey(
-        Study, verbose_name=_('Study'), on_delete=models.CASCADE, related_name='+'
-    )
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, editable=False)
+    study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
     batch = models.ForeignKey(
         MailBatch, verbose_name=_('Mail batch'), blank=True, null=True, on_delete=models.SET_NULL
     )
