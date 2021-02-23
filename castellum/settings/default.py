@@ -261,6 +261,8 @@ CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY = (
     "Please contact them by other means to remind them of their appointment:\n\n{urls}"
 )
 
+CASTELLUM_REMINDER_MAIL_SUBJECT_TEMPLATE = "Reminder/Erinnerung: {mail_subject}"
+
 # the number of subjects that is added to the recruitment list every time
 CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
 

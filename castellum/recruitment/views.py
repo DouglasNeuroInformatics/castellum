@@ -61,6 +61,7 @@ from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.utils import cached_request
 from castellum.utils import contrast_color
 from castellum.utils import scheduler
+from castellum.utils.mail import MailContext
 
 from .forms import CleanupForm
 from .forms import ContactAndAppointmentsForm
@@ -337,10 +338,45 @@ class MailRecruitmentView(BaseMailRecruitmentView):
         return redirect('recruitment:mail', self.study.pk)
 
 
+class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, View):
+    permission_required = 'recruitment.recruit'
+    study_status = [Study.EXECUTION]
+
+    def send_reminder_mail(self, contact, ctx):
+        count = 0
+        for email in contact.own_or_guardian_emails:
+            count += ctx.send_mail(
+                settings.CASTELLUM_REMINDER_MAIL_SUBJECT_TEMPLATE.format(
+                    mail_subject=self.study.mail_subject
+                ),
+                self.study.mail_body.replace('{name}', contact.full_name),
+                [email],
+                reply_to=[self.study.email],
+                recipients_string=contact.email_recipients_string,
+            )
+        return count
+
+    def send_reminder_mails(self, batch):
+        with MailContext('recruitment') as ctx:
+            pks = []
+            for participation in batch.participation_set.select_related('subject'):
+                contact = participation.subject.contact
+                success = self.send_reminder_mail(contact, ctx)
+                if success:
+                    pks.append(participation.pk)
+            Participation.objects.filter(pk__in=pks).update(updated_at=timezone.now())
+
+    def post(self, request, *args, **kwargs):
+        batch = get_object_or_404(MailBatch, pk=self.kwargs['pk'], study=self.study, reminded=False)
+        self.send_reminder_mails(batch)
+        batch.reminded = True
+        batch.save()
+        return redirect('recruitment:mail', self.study.pk)
+
+
 class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
-    tab = 'mail'
 
     def post(self, request, *args, **kwargs):
         batch = get_object_or_404(MailBatch, pk=self.kwargs['pk'], study=self.study)
