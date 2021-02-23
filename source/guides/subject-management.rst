@@ -226,3 +226,10 @@ please proceed as follows:
 
     There may still be data stored in a backup. Please check with your local IT
     department to verify proper deletion.
+
+.. note::
+
+    Deleting a subject who has guardians will **not** automatically delete the
+    corresponding guardians. If there is no other reason to keep the
+    guardians in castellum, they will appear in the data protection dashboard.
+    It then is the data protection coordinator's job to delete their data.
