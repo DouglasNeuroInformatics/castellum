@@ -21,6 +21,8 @@ Create a study
     -   Determine all scientists that take part in the study as **Affiliated Scientists**
     -   Determine all research assistants that take part in the study as **Affiliated
         Research Assistants**
+    -   **Phone number** and **E-mail-address** are the contact information at
+        which the contact person can be reached
     -   Please enter all methods you would like to use in your research in the field
         **Description**
     -   **Keywords** may include main issues of the desired scientific findings
@@ -120,13 +122,11 @@ In order to limit the search for subjects in Castellum,
        (see this guide: :ref:`set-up-external-scheduler`)
 
 
-8.  If recruitment is to take place by e-mail or if information is to be sent by
-    e-mail in addition to telephone contact, proceed as follows:
+8.  If recruitment is to take place by e-mail, proceed as follows:
 
-    -   click on **Mail Settings**,
-    -   define an **E-mail subject**,
-    -   add an **E-mail body** and
-    -   indicate a **Reply e-mail-address**
+    -   click on **Mail Settings**
+    -   define an **E-mail subject**
+    -   add an **E-mail body**
 
     .. note::
         It is not intended to send attachments in the first e-mail via Castellum.
