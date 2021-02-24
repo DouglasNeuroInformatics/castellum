@@ -19,7 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import datetime
 import logging
 import zipfile
 
@@ -34,7 +33,6 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import FormView
-from django.views.generic import ListView
 from django.views.generic import UpdateView
 
 from castellum.appointments.forms import AppointmentsForm
@@ -424,15 +422,3 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
 
     def get_appointments(self):
         return super().get_appointments().filter(session__study=self.object)
-
-
-class ReceptionView(PermissionRequiredMixin, ListView):
-    model = Appointment
-    template_name = 'execution/reception.html'
-    permission_required = 'appointments.view_current_appointments'
-
-    def get_queryset(self):
-        return super().get_queryset().filter(
-            participation__status=Participation.INVITED,
-            start__date=datetime.date.today(),
-        ).order_by('start')
