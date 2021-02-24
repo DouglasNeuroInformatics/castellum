@@ -32,7 +32,7 @@
                         {% translate 'Contact' %}
                     </a>
                 </li>
-                {% if CASTELLUM_ATTRIBUTES_EXIST %}
+                {% if CASTELLUM_ENABLE_RECRUITMENT %}
                     <li class="nav-item">
                         <a href="{% url 'subjects:attributes' subject.slug %}" class="nav-link {% if view.tab == 'attributes' %}active{% endif %}">{% translate "Attributes" %}</a>
                     </li>

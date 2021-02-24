@@ -45,7 +45,7 @@
         <dt class="col-sm-6">{% translate 'Last edited' %}</dt>
         <dd class="col-sm-6">{{ updated_at }}</dd>
 
-        {% if CASTELLUM_ATTRIBUTES_EXIST %}
+        {% if CASTELLUM_ENABLE_RECRUITMENT %}
             <dt class="col-sm-6">{% translate 'Attribute completeness' %}</dt>
             <dd class="col-sm-6">{{ attribute_completeness|default:'—' }}</dd>
         {% endif %}

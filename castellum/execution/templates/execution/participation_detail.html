@@ -17,7 +17,7 @@
             {% endif %}
             {% translate 'Edit contact data' %}
         </a>
-        {% if CASTELLUM_ATTRIBUTES_EXIST %}
+        {% if CASTELLUM_ENABLE_RECRUITMENT %}
             <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:attributes-update' study.pk object.pk %}">{% translate 'Edit attributes' %}</a>
         {% endif %}
         <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'execution:data-protection-update' study.pk object.pk %}">

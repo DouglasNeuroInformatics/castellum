@@ -23,11 +23,9 @@
                 <li class="nav-item">
                     <a href="{% url 'subjects:maintenance-waiting' %}" class="nav-link {% if view.tab == 'waiting' %}active{% endif %}">{% translate 'Waiting for consent' %}</a>
                 </li>
-                {% if CASTELLUM_ATTRIBUTES_EXIST %}
-                    <li class="nav-item">
-                        <a href="{% url 'subjects:maintenance-attributes' %}" class="nav-link {% if view.tab == 'attributes' %}active{% endif %}">{% translate 'Attributes' %}</a>
-                    </li>
-                {% endif %}
+                <li class="nav-item">
+                    <a href="{% url 'subjects:maintenance-attributes' %}" class="nav-link {% if view.tab == 'attributes' %}active{% endif %}">{% translate 'Attributes' %}</a>
+                </li>
             {% endif %}
             {% if CASTELLUM_ENABLE_APPOINTMENTS %}
                 <li class="nav-item">
