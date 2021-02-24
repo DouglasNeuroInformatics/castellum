@@ -56,6 +56,7 @@ from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import Participation
+from castellum.studies.forms import StudyFilterForm
 from castellum.studies.models import Study
 
 from .forms import SubjectPrivacyLevelForm
@@ -322,42 +323,132 @@ class AttributesUpdateView(SubjectUpdateMixin, BaseAttributesUpdateView):
 
 
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
-    tab = 'participations'
     model = Participation
-    template_name = 'subjects/subject_participationlist.html'
+    template_name = 'subjects/participation_list.html'
     permission_required = 'subjects.view_subject'
+    tab = 'participations'
+    subtab = 'list'
 
     @cached_property
     def subject(self):
         return get_object_or_404(Subject, slug=self.kwargs['slug'])
 
-    def is_permitted(self, study):
-        return self.request.user.has_perm('studies.access_study', obj=study) and (
-            self.request.user.has_perm('recruitment.conduct_study', obj=study) or
-            self.request.user.has_perm('recruitment.recruit', obj=study)
+    def get_queryset(self):
+        return (
+            self.subject.participation_set
+            .filter(status=Participation.INVITED)
+            .order_by('-updated_at')
         )
 
+
+class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
+    model = Study
+    template_name = 'subjects/participation_recruit.html'
+    permission_required = 'subjects.view_subject'
+    tab = 'participations'
+    subtab = 'recruit'
+
+    @cached_property
+    def subject(self):
+        return get_object_or_404(Subject, slug=self.kwargs['slug'])
+
     def get_queryset(self):
-        queryset = Participation.objects\
-            .filter(subject=self.subject, study__status=Study.EXECUTION)\
-            .order_by('-updated_at')
-        return [
-            participation for participation in queryset
-            if self.is_permitted(participation.study)
-        ]
+        perms = ['recruitment.recruit', 'studies.access_study']
+        studies = (
+            Study.objects
+            .filter(status=Study.EXECUTION)
+            .exclude(
+                participation__subject=self.subject,
+                participation__status=Participation.INVITED,
+            )
+        )
+
+        # study.p is the list that contains the particiaption (if it exists) or nothing.
+        # I did not find a better way to do this.
+        studies = Study.objects.prefetch_related(models.Prefetch(
+            'participation_set',
+            queryset=self.subject.participation_set.all(),
+            to_attr='p',
+        ))
+
+        pks = []
+        for study in studies:
+            if (
+                self.request.user.has_perms(perms, obj=study) and
+                Subject.objects.filter(filter_queries.study(study), pk=self.subject.pk).exists()
+            ):
+                pks.append(study.pk)
+        return studies.filter(pk__in=pks)
+
+    def post(self, request, *args, **kwargs):
+        study = get_object_or_404(Study, pk=request.POST['study'], status=Study.EXECUTION)
+
+        perms = ['recruitment.recruit', 'studies.access_study']
+        if not request.user.has_perms(perms, obj=study):
+            raise PermissionDenied
+
+        participation, __ = Participation.objects.get_or_create(
+            subject=self.subject, study=study
+        )
+
+        url = reverse('recruitment:contact', args=[study.pk, participation.pk])
+        return redirect(url + '?context=subjects:participation-list')
+
+
+class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
+    model = Study
+    template_name = 'subjects/participation_add.html'
+    permission_required = 'subjects.change_subject'
+    tab = 'participations'
+    subtab = 'add'
+
+    @cached_property
+    def subject(self):
+        return get_object_or_404(Subject, slug=self.kwargs['slug'])
+
+    def get(self, request, *args, **kwargs):
+        self.form = StudyFilterForm(self.request.GET)
+        self.form.full_clean()
+        return super().get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        q = self.form.cleaned_data.get('q', '')
+        if q:
+            # study.p is the list that contains the particiaption (if it exists) or nothing.
+            # I did not find a better way to do this.
+            qs = Study.objects.prefetch_related(models.Prefetch(
+                'participation_set',
+                queryset=self.subject.participation_set.all(),
+                to_attr='p',
+            ))
+            for part in q.split():
+                qs = qs.filter(
+                    models.Q(name__icontains=part) |
+                    models.Q(contact_person__icontains=part)
+                )
+            return qs
+        else:
+            return Study.objects.none()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['finished_list'] = Participation.objects\
-            .filter(subject=self.subject, study__status=Study.FINISHED)\
-            .order_by('-updated_at')
+        context['form'] = self.form
         return context
+
+    def post(self, request, *args, **kwargs):
+        study = get_object_or_404(Study, pk=request.POST['study'])
+
+        Participation._base_manager.update_or_create(
+            subject=self.subject, study=study, defaults={'status': Participation.INVITED}
+        )
+
+        return self.get(request, *args, **kwargs)
 
 
 class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
-    tab = 'delete'
     model = Participation
     permission_required = ['studies.access_study', 'subjects.delete_subject']
+    tab = 'delete'
 
     def get_object(self):
         return get_object_or_404(
@@ -373,76 +464,6 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
             self.object.study.name, self.request.user.pk
         ))
         return super().delete(self, request, *args, **kwargs)
-
-
-class AddToStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
-    model = Subject
-    template_name = 'subjects/subject_add_to_study.html'
-    permission_required = 'subjects.view_subject'
-    tab = 'participations'
-
-    def get_studies(self, subject):
-        perms = ['recruitment.recruit', 'studies.access_study']
-        studies = (
-            Study.objects
-            .filter(status=Study.EXECUTION)
-            .exclude(participation__subject=subject)
-        )
-        for study in studies:
-            if (
-                self.request.user.has_perms(perms, obj=study) and
-                Subject.objects.filter(filter_queries.study(study), pk=subject.pk).exists()
-            ):
-                yield study
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['studies'] = list(self.get_studies(self.object))
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        study = get_object_or_404(Study, pk=request.POST['study'], status=Study.EXECUTION)
-
-        perms = ['recruitment.recruit', 'studies.access_study']
-        if not request.user.has_perms(perms, obj=study):
-            raise PermissionDenied
-
-        participation = Participation.objects.create(
-            subject=self.object, study=study
-        )
-
-        url = reverse('recruitment:contact', args=[study.pk, participation.pk])
-        return redirect(url + '?context=subjects:participation-list')
-
-
-class AddToFinishedStudyView(SubjectMixin, PermissionRequiredMixin, DetailView):
-    model = Subject
-    template_name = 'subjects/subject_add_to_study.html'
-    permission_required = 'subjects.change_subject'
-    tab = 'participations'
-
-    def get_studies(self, subject):
-        return (
-            Study.objects
-            .filter(status=Study.FINISHED)
-            .exclude(participation__subject=subject)
-        )
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['studies'] = list(self.get_studies(self.object))
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        study = get_object_or_404(Study, pk=request.POST['study'], status=Study.FINISHED)
-
-        Participation.objects.create(
-            subject=self.object, study=study, status=Participation.INVITED
-        )
-
-        return redirect('subjects:participation-list', self.object.slug)
 
 
 class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):

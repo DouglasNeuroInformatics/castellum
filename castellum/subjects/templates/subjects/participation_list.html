@@ -1,0 +1,17 @@
+{% extends "subjects/participation_base.html" %}
+{% load i18n auth %}
+
+{% block title %}{% translate "Subject Study Participation" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <ul class="table-list mb-3">
+        {% for participation in object_list %}
+            <li class="table-list-item">
+                <div class="h4 d-inline-block my-1 mr-2">{{ participation.study }}</div>
+                <span class="d-inline-block my-1 mr-2">{{ participation.study.contact_person }}</span>
+            </li>
+        {% empty %}
+            <li class="alert alert-warning" role="alert">{% translate 'No participations found' %}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

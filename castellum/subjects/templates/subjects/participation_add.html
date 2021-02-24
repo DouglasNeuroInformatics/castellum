@@ -1,0 +1,44 @@
+{% extends "subjects/participation_base.html" %}
+{% load i18n utils %}
+
+{% block title %}{% translate "Add study participation" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <form class="mb-3" method="get" aria-label="{{ form.q.label }}">
+        <div class="input-group">
+            <input type="search" class="form-control" name="{{ form.q.name }}" value="{{ form.cleaned_data.q }}" placeholder="{{ form.q.label }}" autofocus>
+            <div class="input-group-append">
+                <button class="btn btn-outline-primary" >{% translate 'Go' %}</button>
+            </div>
+        </div>
+    </form>
+
+    {% if form.cleaned_data.q %}
+        <ul class="table-list mb-3">
+            {% for study in object_list %}
+                <li class="table-list-item">
+                    <div class ="h4 d-inline-block my-1 mr-2">{{ study }}</div>
+                    <span class="d-inline-block my-1 mr-2">{{ study.contact_person }}</span>
+                    {% if study.p %}
+                        <span class="badge badge-secondary">{{ study.p.0|display:'status' }}</span>
+                        {% if study.p.0.status != study.p.0.INVITED %}
+                            <form class ="table-list-item-actions" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="study" value="{{ study.pk }}">
+                                <button class="btn btn-outline-primary my-1 ">{% translate 'Set to invited' %}</button>
+                            </form>
+                        {% endif %}
+                    {% else %}
+                        <form class ="table-list-item-actions" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="study" value="{{ study.pk }}">
+                            <button class="btn btn-outline-primary my-1 ">{% translate 'Add to study' %}</button>
+                        </form>
+                    {% endif %}
+                </li>
+            {% empty %}
+                <li class="alert alert-warning" role="alert">{% translate 'No matching studies found' %}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
