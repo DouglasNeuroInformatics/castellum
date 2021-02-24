@@ -52,10 +52,12 @@
                 </div>
                 <div class="table-list-item-actions">
                     {% if batch.no_response_size %}
-                        <form class="d-inline" method="post" action="{% url 'recruitment:mail-remind' study.pk batch.pk %}">
-                            {% csrf_token %}
-                            <button class="btn btn-outline-primary" {% if batch.reminded %}disabled{% endif %}>{% translate 'Remind' %}</button>
-                        </form>
+                        {% if not batch.reminded %}
+                            <form class="d-inline" method="post" action="{% url 'recruitment:mail-remind' study.pk batch.pk %}">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-primary">{% translate 'Remind' %}</button>
+                            </form>
+                        {% endif %}
                         <form class="d-inline" method="post" action="{% url 'recruitment:mail-cleanup' study.pk batch.pk %}">
                             {% csrf_token %}
                             <button class="btn btn-outline-danger">{% translate 'Cleanup' %}</button>
