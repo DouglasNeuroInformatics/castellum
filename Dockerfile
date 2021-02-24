@@ -1,8 +1,8 @@
-FROM node:14.15.4
+FROM node:14.16.0
 COPY package.json .
 RUN npm install --production
 
-FROM alpine:3.13.1
+FROM alpine:3.13.2
 
 ENV PYTHONUNBUFFERED 1
 ENV BUILDPKGS gettext py3-pip py3-wheel
