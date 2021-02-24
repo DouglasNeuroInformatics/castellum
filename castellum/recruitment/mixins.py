@@ -181,15 +181,13 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         with MailContext('recruitment') as ctx:
             while len(participations) < batch_size and subjects:
                 pick = subjects.pop(random.randrange(0, len(subjects)))
-                success = 0
-                for email in pick.contact.own_or_guardian_emails:
-                    success += ctx.send_mail(
-                        self.study.mail_subject,
-                        self.personalize_mail_body(self.study.mail_body, pick.contact),
-                        [email],
-                        reply_to=[self.study.email],
-                        recipients_string=pick.contact.email_recipients_string,
-                    )
+                success = ctx.send_separate_mails(
+                    self.study.mail_subject,
+                    self.personalize_mail_body(self.study.mail_body, pick.contact),
+                    pick.contact.own_or_guardian_emails,
+                    reply_to=[self.study.email],
+                    recipients_string=pick.contact.email_recipients_string,
+                )
                 if success:
                     participations.append(Participation(
                         study=self.study,
