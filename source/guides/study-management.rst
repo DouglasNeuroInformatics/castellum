@@ -221,7 +221,9 @@ follows:
 
 2.  Choose the study you want to delete by clicking on **Details** next to it
 
-3.  Click on **Delete** under the study name
+3.  Make sure the study is finished (see :ref:`study-finish`)
+
+4.  Click on **Delete** under the study name
 
     -   Confirm the notice **I have made sure that all external data related to
         this study has been destroyed**
