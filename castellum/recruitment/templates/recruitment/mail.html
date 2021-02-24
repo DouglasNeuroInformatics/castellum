@@ -36,7 +36,7 @@
                 <div>
                     <small class="text-muted">
                         {% blocktranslate with datetime=batch.datetime|longdate counter=forloop.revcounter|ordinal %}
-                            {{ counter }} mail sent on {{ datetime }}
+                            {{ counter }} group contacted on {{ datetime }}
                         {% endblocktranslate %}
                         {% if batch.reminded %}
                             {% blocktranslate with datetime=batch.reminded|longdate %}
