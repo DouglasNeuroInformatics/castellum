@@ -1,5 +1,5 @@
 {% extends "subjects/participation_base.html" %}
-{% load i18n %}
+{% load i18n utils %}
 
 {% block title %}{% translate "Add study participation" %} &middot; {{ block.super }}{% endblock %}
 
@@ -9,6 +9,9 @@
             <li class="table-list-item">
                 <div class ="h4 d-inline-block my-1 mr-2">{{ study }}</div>
                 <span class="d-inline-block my-1 mr-2">{{ study.contact_person }}</span>
+                {% if study.p %}
+                    <span class="badge badge-secondary">{{ study.p.0|display:'status' }}</span>
+                {% endif %}
                 <form class ="table-list-item-actions" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="study" value="{{ study.pk }}">

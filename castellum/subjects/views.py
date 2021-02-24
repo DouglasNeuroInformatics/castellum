@@ -357,8 +357,20 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
         studies = (
             Study.objects
             .filter(status=Study.EXECUTION)
-            .exclude(participation__subject=self.subject)
+            .exclude(
+                participation__subject=self.subject,
+                participation__status=Participation.INVITED,
+            )
         )
+
+        # study.p is the list that contains the particiaption (if it exists) or nothing.
+        # I did not find a better way to do this.
+        studies = Study.objects.prefetch_related(models.Prefetch(
+            'participation_set',
+            queryset=self.subject.participation_set.all(),
+            to_attr='p',
+        ))
+
         pks = []
         for study in studies:
             if (
@@ -375,7 +387,7 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
         if not request.user.has_perms(perms, obj=study):
             raise PermissionDenied
 
-        participation = Participation.objects.create(
+        participation, __ = Participation.objects.get_or_create(
             subject=self.subject, study=study
         )
 
