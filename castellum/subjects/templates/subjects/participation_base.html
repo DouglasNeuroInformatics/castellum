@@ -1,25 +1,36 @@
 {% extends "subjects/subject_base.html" %}
 {% load i18n auth %}
 
-{% block container_class %}container-lg{% endblock %}
-
-{% block content_with_messages %}
-    <div class="row">
-        <div class="col-md-3">
-            <nav class="list-group mb-3" aria-label="{% translate 'Subtabs' %}">
-                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'list' %}active{% endif %}" href="{% url 'subjects:participation-list' subject.slug %}">{% translate 'Invited' %}</a>
-                {% if CASTELLUM_ENABLE_RECRUITMENT %}
-                    <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'recruit' %}active{% endif %}" href="{% url 'subjects:participation-recruit' subject.slug %}">{% translate 'Matching studies' %}</a>
-                {% endif %}
-                {% if can_change_subject %}
-                    <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'add' %}active{% endif %}" href="{% url 'subjects:participation-add' subject.slug %}">{% translate 'Add to study' %}</a>
-                {% endif %}
-            </nav>
-        </div>
-
-        <div class="col-md-9">
-            {{ block.super }}
-        </div>
-    </div>
+{% block container_class %}
+    {% has_perm 'subjects.change_subject' user as can_change_subject %}
+    {% if CASTELLUM_ENABLE_RECRUITMENT or can_change_subject %}
+        container-lg
+    {% else %}
+        {{ block.super }}
+    {% endif %}
 {% endblock %}
 
+{% block content_with_messages %}
+    {% has_perm 'subjects.change_subject' user as can_change_subject %}
+    {% if CASTELLUM_ENABLE_RECRUITMENT or can_change_subject %}
+        <div class="row">
+            <div class="col-md-3">
+                <nav class="list-group mb-3" aria-label="{% translate 'Subtabs' %}">
+                    <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'list' %}active{% endif %}" href="{% url 'subjects:participation-list' subject.slug %}">{% translate 'Invited' %}</a>
+                    {% if CASTELLUM_ENABLE_RECRUITMENT %}
+                        <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'recruit' %}active{% endif %}" href="{% url 'subjects:participation-recruit' subject.slug %}">{% translate 'Matching studies' %}</a>
+                    {% endif %}
+                    {% if can_change_subject %}
+                        <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'add' %}active{% endif %}" href="{% url 'subjects:participation-add' subject.slug %}">{% translate 'Add to study' %}</a>
+                    {% endif %}
+                </nav>
+            </div>
+
+            <div class="col-md-9">
+                {{ block.super }}
+            </div>
+        </div>
+    {% else %}
+        {{ block.super }}
+    {% endif %}
+{% endblock %}
