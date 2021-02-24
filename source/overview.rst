@@ -7,6 +7,8 @@ Its main goals are:
 -   GDPR compliant data protection and security
 -   Flexibility so it can be used in different organisations
 
+.. figure:: /_images/home.png
+
 Features
 --------
 
