@@ -21,6 +21,13 @@
                     <span class="d-inline-block my-1 mr-2">{{ study.contact_person }}</span>
                     {% if study.p %}
                         <span class="badge badge-secondary">{{ study.p.0|display:'status' }}</span>
+                        {% if study.p.0.status != study.p.0.INVITED %}
+                            <form class ="table-list-item-actions" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="study" value="{{ study.pk }}">
+                                <button class="btn btn-outline-primary my-1 ">{% translate 'Set to invited' %}</button>
+                            </form>
+                        {% endif %}
                     {% else %}
                         <form class ="table-list-item-actions" method="POST">
                             {% csrf_token %}
