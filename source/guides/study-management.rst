@@ -12,27 +12,18 @@ Create a study
 
 2.  Click on **Create new study**
 
-3.  Fill in all empty fields on the page:
+3.  Fill in all required fields on the page:
 
-    -   **Name** describes the name or title of the study you want to create
-    -   **Responsible contact person** is the person who can be contacted if any
-        questions regarding the study occur
-    -   Define the person who is the lead researcher as **Principal Investigator**
-    -   Determine all scientists that take part in the study as **Affiliated Scientists**
-    -   Determine all research assistants that take part in the study as **Affiliated
-        Research Assistants**
-    -   Please enter all methods you would like to use in your research in the field
-        **Description**
-    -   **Keywords** may include main issues of the desired scientific findings
-    -   Decide whether the study **Contains sensitive data** or not
+    -   **Name** describes the title of the study you want to create
+    -   **Responsible contact person** is the person who can be contacted if
+        any questions regarding the study occur
+    -   **Principal Investigator** is the lead researcher
+    -   **Phone number** and **E-mail-address** are the contact information at
+        which the contact person can be reached
 
-4.  Upload templates of **Consent** form(-s) of your study
+4.  Fill in any additional information (you can still do that later)
 
-5.  Assign the **Required number of subjects** to your study
-
-6.  Decide whether it **Is a one time invitation** or not
-
-7.  Click on **Save** to record your progress
+5.  Click on **Save** to record your progress
 
 Now you can find your study in the list
 
@@ -120,13 +111,11 @@ In order to limit the search for subjects in Castellum,
        (see this guide: :ref:`set-up-external-scheduler`)
 
 
-8.  If recruitment is to take place by e-mail or if information is to be sent by
-    e-mail in addition to telephone contact, proceed as follows:
+8.  If recruitment is to take place by e-mail, proceed as follows:
 
-    -   click on **Mail Settings**,
-    -   define an **E-mail subject**,
-    -   add an **E-mail body** and
-    -   indicate a **Reply e-mail-address**
+    -   click on **Mail Settings**
+    -   define an **E-mail subject**
+    -   add an **E-mail body**
 
     .. note::
         It is not intended to send attachments in the first e-mail via Castellum.
