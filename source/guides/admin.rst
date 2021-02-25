@@ -17,6 +17,17 @@ Manage Users
 8.  Click on one of the saving options
 
 
+.. _admin-unlock:
+
+Unlock locked Users
+===================
+
+There can be different reasons why a user has been locked:
+
+1.  **Account has expired**: Update the expiration date (see :ref:`admin-users`)
+2.  **Too many login attempts**: See `djang-axes <https://django-axes.readthedocs.io/en/latest/3_usage.html#resetting-attempts-and-lockouts>`_
+
+
 .. _admin-roles:
 
 Customize Roles
