@@ -63,3 +63,7 @@ html_static_path = ['_static']
 html_js_files = [
     'js/switchLanguage.js'
 ]
+
+html_css_files = [
+    'custom.css',
+]
