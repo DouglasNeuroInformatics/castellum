@@ -43,7 +43,7 @@ In the **Sessions** tab, you can enter as many test sessions as you like.
 -   When adding a test session, always give the session a **Name** and specify
     the **Duration of a session in minutes**
 -   Select the **Type** of the session and press **Add session**
--   By clicking on the red button **Delete**, you can erase any test session
+-   By clicking on the **Delete** button, you can delete any test session
     you created
 -   Click on **Update** to go to Session details. If your institute uses the
     external scheduler to schedule appointments, you can enable it here
