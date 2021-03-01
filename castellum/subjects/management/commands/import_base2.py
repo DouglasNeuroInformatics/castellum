@@ -78,6 +78,10 @@ class Command(BaseCommand):
         next(rows)  # skip header
         for row in rows:
             try:
+                if row[19] == '99':
+                    raise Exception('pstatus 99')
+                deceased = row[19] == '2000'
+
                 contact_data = filter_dict({
                     'first_name': row[1],
                     'last_name': row[0],
@@ -100,7 +104,9 @@ class Command(BaseCommand):
 
                 with transaction.atomic():
                     with transaction.atomic(using='contacts'):
-                        subject = Subject.objects.create(source=SOURCE, attributes={})
+                        subject = Subject.objects.create(
+                            source=SOURCE, attributes={}, deceased=deceased,
+                        )
                         Participation.objects.create(
                             subject=subject, study=study, status=Participation.INVITED
                         )
