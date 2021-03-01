@@ -99,7 +99,8 @@ class Command(BaseCommand):
                     'city': row[6],
                 })
 
-                if Contact.objects.filter(**contact_data).exists():
+                full_name = '{first_name} {last_name}'.format(**contact_data)
+                if Contact.objects.fuzzy_filter(full_name).exists():
                     raise ValueError('potential duplicate')
 
                 with transaction.atomic():
