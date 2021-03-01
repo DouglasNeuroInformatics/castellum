@@ -48,7 +48,7 @@ class BaseMailBatch(models.Model):
 
 
 class MailBatch(BaseMailBatch):
-    reminded = models.BooleanField(_('Reminder already sent'), default=False)
+    reminded = models.DateTimeField(_('Reminder date'), blank=True, null=True)
 
 
 class NewsMailBatch(BaseMailBatch):

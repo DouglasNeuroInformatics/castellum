@@ -739,7 +739,7 @@ msgid ""
 "                        "
 msgstr ""
 "\n"
-"%(counter)s E-Mails versendet am %(datetime)s: "
+"%(counter)s E-Mail versendet am %(datetime)s: "
 
 #: castellum/execution/templates/execution/study_news_mail.html:32
 #, python-format
