@@ -354,8 +354,8 @@ class StudySession(models.Model):
     )
     domain = models.CharField(max_length=64, unique=True, editable=False, default=None)
     reminder_text = models.TextField(_('Additional text for reminder emails'), blank=True)
-    schedule_id = models.PositiveIntegerField(
-        _('External schedule ID'), blank=True, null=True, unique=True
+    schedule_id = models.CharField(
+        _('External schedule ID'), max_length=64, blank=True, null=True, unique=True
     )
 
     def __str__(self):
