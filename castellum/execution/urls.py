@@ -34,14 +34,12 @@ from .views import ParticipationAppointmentsUpdateView
 from .views import ParticipationAppointmentsView
 from .views import ParticipationDetailView
 from .views import ParticipationNewsView
-from .views import ReceptionView
 from .views import ResolveView
 from .views import ShowUpUpdateView
 from .views import StudyDetailView
 
 app_name = 'execution'
 urlpatterns = [
-    path('reception/', ReceptionView.as_view(), name='reception'),
     path('calendar/feed/', AppointmentFeedForUser(), name='calendar-user-feed'),
     path('<int:study_pk>/', StudyDetailView.as_view(), name='study-detail'),
     path('<int:study_pk>/resolve/', ResolveView.as_view(), name='resolve'),
