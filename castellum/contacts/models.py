@@ -244,7 +244,7 @@ class Address(models.Model):
     city = models.CharField(_('City'), max_length=128)
     zip_code = models.CharField(_('Zip code'), max_length=5)
     street = models.CharField(_('Street'), max_length=128)
-    house_number = models.CharField(_('House number'), max_length=5)
+    house_number = models.CharField(_('House number'), max_length=16)
     additional_information = models.CharField(
         _('Additional information'), max_length=32, blank=True
     )
