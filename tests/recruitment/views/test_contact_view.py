@@ -119,7 +119,7 @@ def test_warning_on_appointment_deletion(client, member, participation):
     participation.status = Participation.INVITED
     participation.save()
 
-    session = baker.make(StudySession, study=participation.study, schedule_id=123)
+    session = baker.make(StudySession, study=participation.study, schedule_id='1s2a3')
     baker.make(
         Appointment,
         session=session,
