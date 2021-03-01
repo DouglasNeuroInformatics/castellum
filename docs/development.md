@@ -25,6 +25,16 @@ You can login with user "admin" and password "password".
     also allowed as long as there are no circular dependencies. For
     example, the recruitment models depend on subject and study models.
 
+-   There are some optional features that can be enabled/disabled in the
+    settings (e.g. ``CASTELLUM_ENABLE_RECRUITMENT``). It is hard to
+    properly test all combinations of options. We therefore use the
+    following guidelines to balance complexity and usability:
+
+    -   All features are enabled by default.
+    -   Wording should work for all possible combinations if easily
+        possible
+    -   If a complete app is disabled, its URLs do not get registered
+
 -   All models from the contacts app are stored to a separate database.
     This means that there can be no `ForeignKeys` between those models
     and anything else. The `Subject.contact` and `Contact.subject`
