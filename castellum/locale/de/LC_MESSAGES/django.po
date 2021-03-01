@@ -1042,10 +1042,8 @@ msgid "Sent date"
 msgstr "Sendedatum"
 
 #: castellum/recruitment/models/participations.py:51
-#, fuzzy
-#| msgid "Reminded"
 msgid "Reminder date"
-msgstr "Erinnert"
+msgstr "Datum der Erinnerung"
 
 #: castellum/recruitment/models/participations.py:94
 msgid "not contacted"
@@ -1096,7 +1094,7 @@ msgstr "Aktualisiert am"
 
 #: castellum/recruitment/models/participations.py:117
 msgid "Mail batch"
-msgstr ""
+msgstr "E-Mail Serie"
 
 #: castellum/recruitment/models/participations.py:121
 msgid "Status of participation"
@@ -1369,40 +1367,27 @@ msgid "E-mail text"
 msgstr "E-Mail Text"
 
 #: castellum/recruitment/templates/recruitment/mail.html:38
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                            %(counter)s mail sent on %(datetime)s:\n"
-#| "                        "
+#, python-format
 msgid ""
 "\n"
 "                            %(counter)s group contacted on %(datetime)s\n"
 "                        "
 msgstr ""
 "\n"
-"%(counter)s E-Mail versendet am %(datetime)s: "
+"%(counter)s Gruppe kontaktiert am %(datetime)s: "
 
 #: castellum/recruitment/templates/recruitment/mail.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                        on %(date)s\n"
-#| "                                    "
+#, python-format
 msgid ""
 "\n"
 "                                and reminded on %(datetime)s\n"
 "                            "
 msgstr ""
 "\n"
-"am %(date)s"
+"und erinnert am %(datetime)s"
 
 #: castellum/recruitment/templates/recruitment/mail.html:48
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                            %(contacted_size)s potential subjects "
-#| "contacted\n"
-#| "                        "
+#, python-format
 msgid ""
 "\n"
 "                            still awaiting response for %(no_response_size)s/"
@@ -1410,11 +1395,12 @@ msgid ""
 "                        "
 msgstr ""
 "\n"
-"%(contacted_size)s potentielle Proband*innen kontaktiert"
+"Noch keine Antwort von %(no_response_size)s/%(contacted_size)s potenziellen "
+"Proband*innen"
 
 #: castellum/recruitment/templates/recruitment/mail.html:58
 msgid "Send reminder"
-msgstr ""
+msgstr "Erinnerung schicken"
 
 #: castellum/recruitment/templates/recruitment/participation_confirm_delete.html:4
 msgid "Delete study participation"
@@ -2243,6 +2229,8 @@ msgid ""
 "These settings are used for recruitment emails (both the initial message as "
 "well as reminders)."
 msgstr ""
+"Diese Einstellungen werden für Rekrutierungsmails verwendet (sowohl für die "
+"initiale Nachricht als auch Erinnerungen)."
 
 #: castellum/studies/templates/studies/study_members.html:9
 msgid ""
@@ -2272,7 +2260,7 @@ msgstr "Keine Mitglieder"
 #: castellum/studies/templates/studies/study_recruitmentsettings_base.html:9
 #: castellum/subjects/templates/subjects/participation_base.html:9
 msgid "Subtabs"
-msgstr ""
+msgstr "Subtabs"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings_form.html:5
 msgid "General recruitment settings"
@@ -2345,16 +2333,12 @@ msgid "Session details"
 msgstr "Sitzungsdetails"
 
 #: castellum/studies/templates/studies/studysession_form.html:25
-#, fuzzy
-#| msgid "follow-up scheduled"
 msgid "Go to schedule"
-msgstr "Wiedervorlage angesetzt"
+msgstr "Zum Terminplan"
 
 #: castellum/studies/templates/studies/studysession_form.html:27
-#, fuzzy
-#| msgid "follow-up scheduled"
 msgid "New schedule"
-msgstr "Wiedervorlage angesetzt"
+msgstr "Neuer Terminplan"
 
 #: castellum/studies/views/studies.py:308
 msgid "Study has been deleted."
@@ -2680,6 +2664,8 @@ msgid ""
 "The following subjects have notes. Notes will be removed soon. The "
 "information should be moved to other appropriate fields:"
 msgstr ""
+"Die folgenden Proband*innen haben Notizen. Notizen werden bald entfernt. Die "
+"Informationen sollten in die entsprechenden Feldern übertragen werden."
 
 #: castellum/subjects/templates/subjects/maintenance_showup.html:7
 msgid "The following subjects have a record of coming late or not at all:"
@@ -2697,10 +2683,8 @@ msgid "Add study participation"
 msgstr "Studienteilnahme hinzufügen"
 
 #: castellum/subjects/templates/subjects/participation_add.html:28
-#, fuzzy
-#| msgid "invited"
 msgid "Set to invited"
-msgstr "eingeladen"
+msgstr "Auf eingeladen setzen"
 
 #: castellum/subjects/templates/subjects/participation_add.html:35
 #: castellum/subjects/templates/subjects/participation_base.html:14
@@ -2714,10 +2698,8 @@ msgid "No matching studies found"
 msgstr "Keine passenden Studien gefunden"
 
 #: castellum/subjects/templates/subjects/participation_base.html:11
-#, fuzzy
-#| msgid "No matching studies found"
 msgid "Matching studies"
-msgstr "Keine passenden Studien gefunden"
+msgstr "Passende Studien"
 
 #: castellum/subjects/templates/subjects/participation_list.html:4
 msgid "Subject Study Participation"
@@ -2802,17 +2784,6 @@ msgid "Waiting for confirmation by the subject."
 msgstr "Warten auf Bestätigung durch die Proband*in."
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:27
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                                The current consent refers to an outdated "
-#| "document and will soon expire, thus rendering the recruitment consent "
-#| "invalid.\n"
-#| "                                Please contact this subject and ask them "
-#| "to consent to the latest document or withdraw their consent.\n"
-#| "                                This message will disappear once you "
-#| "change the value of the checkbox.\n"
-#| "                            "
 msgid ""
 "\n"
 "                            The current consent refers to an outdated "
@@ -2835,14 +2806,6 @@ msgstr ""
 "Wert der Checkbox ändern."
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:36
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                                The subject has recently come of age. "
-#| "Please ask them to renew or withdraw their consent.\n"
-#| "                                This message will disappear once you "
-#| "change the value of the checkbox.\n"
-#| "                            "
 msgid ""
 "\n"
 "                            The subject has recently come of age. Please ask "
