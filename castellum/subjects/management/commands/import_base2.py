@@ -65,7 +65,7 @@ def create(model, data, **extra):
 
 
 def filter_dict(d):
-    return {k: v for (k, v) in d.items() if v}
+    return {k: v for (k, v) in d.items() if v and v != 'nein'}
 
 
 class Command(BaseCommand):
