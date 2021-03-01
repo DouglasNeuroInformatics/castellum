@@ -24,8 +24,8 @@ populate: databases
 
 .PHONY: makemessages
 makemessages:
-	$(MANAGEPY) makemessages -l de -d django
-	$(MANAGEPY) makemessages -l de -d djangojs
+	$(MANAGEPY) makemessages --ignore node_modules -l de -d django
+	$(MANAGEPY) makemessages --ignore node_modules -l de -d djangojs
 
 %.mo: %.po
 	$(MANAGEPY) compilemessages -l de
