@@ -18,7 +18,7 @@ msgstr ""
 
 #: castellum/appointments/forms.py:65
 msgid "{}min"
-msgstr ""
+msgstr "{}min"
 
 #: castellum/appointments/forms.py:86 castellum/appointments/forms.py:87
 msgid "Appointments must not overlap."
@@ -102,10 +102,8 @@ msgid "expired"
 msgstr "abgelaufen"
 
 #: castellum/castellum_auth/admin.py:46
-#, fuzzy
-#| msgid "%i days left"
 msgid "{} days left"
-msgstr "%i Tage verbleibend"
+msgstr "{} Tage verbleibend"
 
 #: castellum/castellum_auth/admin.py:52
 msgid "expiration date"
@@ -199,10 +197,8 @@ msgid "Has legal guardian"
 msgstr "Hat Vormund"
 
 #: castellum/contacts/forms.py:133
-#, fuzzy
-#| msgid "Subjects under the age of %i need a legal guardian."
 msgid "Subjects under the age of {} need a legal guardian."
-msgstr "Proband*innen unter %i Jahren müssen einen Vormund haben."
+msgstr "Proband*innen unter {} Jahren müssen einen Vormund haben."
 
 #: castellum/contacts/forms.py:149
 msgid "Provide more details for the address."
@@ -793,15 +789,11 @@ msgid "None of the subjects signed up for news emails."
 msgstr "Keine der Proband*innen hat sich für Neuigkeiten angemeldet."
 
 #: castellum/execution/views.py:348
-#, fuzzy
-#| msgid ""
-#| "Mail was sent to %i subjects. An email was sent to all study conductors "
-#| "with further information. That email also lists potential next steps."
 msgid ""
 "Mail was sent to {} subjects. An email was sent to all study conductors with "
 "further information. That email also lists potential next steps."
 msgstr ""
-"E-Mail wurde an %i Proband*innen versendet. Eine E-Mail mit weiteren "
+"E-Mail wurde an {} Proband*innen versendet. Eine E-Mail mit weiteren "
 "Informationen wurde an die durchführenden Personen verschickt. Diese E-Mail "
 "enthält auch mögliche weitere Schritte."
 
@@ -819,10 +811,8 @@ msgid "Import"
 msgstr "Importieren"
 
 #: castellum/recruitment/admin.py:68
-#, fuzzy
-#| msgid "Successfully imported %i attribute descriptions."
 msgid "Successfully imported {} attribute descriptions."
-msgstr "%i Merkmalsbeschreibungen erfolgreich importiert."
+msgstr "{} Merkmalsbeschreibungen erfolgreich importiert."
 
 #: castellum/recruitment/admin.py:89
 msgid "Export as JSON"
@@ -2570,10 +2560,8 @@ msgid "File"
 msgstr "Datei"
 
 #: castellum/subjects/models.py:315
-#, fuzzy
-#| msgid "Version %i"
 msgid "Version {}"
-msgstr "Version %i"
+msgstr "Version {}"
 
 #: castellum/subjects/models.py:325
 msgid "Document"
