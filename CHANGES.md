@@ -1,3 +1,34 @@
+# 0.56.0 (unreleased)
+
+## breaking changes
+
+-   The migrations that have been squashed in 0.53.0 have been removed.
+    If you are using a version before 0.53.0 you must update to 0.53.0
+    before you can update to this version.
+
+## bug fixes
+
+-   The session reminder text introduced in 0.54.0 is now copied
+    when duplicating a study.
+-   Fixed a crash in followup ICS feeds that use a followup time.
+
+## new features
+
+-   The "add to study" tab in subject management has been completely
+    overhauled. Principal subject managers can now bypass recruitment
+    completely. This is especially helpful for organisations that do
+    not intend to use castellum for recruitment.
+-   It is now possible to send a single reminder for each recruitment
+    mail batch.
+-   Session management has been moved to its own tab because it is
+    not necessarily related to recruitment.
+-   Session management now includes a link to the scheduler (if that
+    feature is enabled)
+-   The maintenance dashboard now includes a tab for migrating away from
+    subject notes which have been deprecated in 0.53.0.
+-   House numbers can now have up to 16 characters.
+
+
 # 0.55.1 (2021-02-15)
 
 ## security
