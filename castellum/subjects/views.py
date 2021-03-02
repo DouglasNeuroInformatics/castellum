@@ -361,15 +361,14 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
                 participation__subject=self.subject,
                 participation__status=Participation.INVITED,
             )
+            # study.p is the list that contains the particiaption (if it exists) or nothing.
+            # I did not find a better way to do this.
+            .prefetch_related(models.Prefetch(
+                'participation_set',
+                queryset=self.subject.participation_set.all(),
+                to_attr='p',
+            ))
         )
-
-        # study.p is the list that contains the particiaption (if it exists) or nothing.
-        # I did not find a better way to do this.
-        studies = Study.objects.prefetch_related(models.Prefetch(
-            'participation_set',
-            queryset=self.subject.participation_set.all(),
-            to_attr='p',
-        ))
 
         pks = []
         for study in studies:
