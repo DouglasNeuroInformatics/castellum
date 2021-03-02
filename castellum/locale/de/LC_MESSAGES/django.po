@@ -1465,7 +1465,7 @@ msgstr "Offen"
 #: castellum/recruitment/templates/recruitment/recruitment.html:25
 #: castellum/subjects/templates/subjects/participation_base.html:10
 msgid "Invited"
-msgstr "eingeladen"
+msgstr "Eingeladen"
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:31
 msgid "Unsuitable"
