@@ -15,7 +15,7 @@
                 <form class ="table-list-item-actions" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="study" value="{{ study.pk }}">
-                    <button class="btn btn-outline-primary my-1 ">{% translate 'Add to study' %}</button>
+                    <button class="btn btn-outline-primary my-1 ">{% translate 'Contact' context 'verb' %}</button>
                 </form>
             </li>
         {% empty %}
