@@ -364,9 +364,9 @@ class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, View):
             Participation.objects.filter(pk__in=pks).update(updated_at=timezone.now())
 
     def post(self, request, *args, **kwargs):
-        batch = get_object_or_404(MailBatch, pk=self.kwargs['pk'], study=self.study, reminded=False)
+        batch = get_object_or_404(MailBatch, pk=self.kwargs['pk'], study=self.study, reminded=None)
         self.send_reminder_mails(batch)
-        batch.reminded = True
+        batch.reminded = timezone.now()
         batch.save()
         return redirect('recruitment:mail', self.study.pk)
 
