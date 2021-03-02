@@ -19,9 +19,14 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from datetime import date
+
+from django.db import models
 from django.views.generic import TemplateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.subjects.models import ExportAnswer
+from castellum.subjects.models import Subject
 
 from . import helpers
 
@@ -36,8 +41,24 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         context['export_requested'], context['export_requested_missing'] = helpers.get_export_requested(self.limit_by)  # noqa
         context['to_be_deleted'], context['to_be_deleted_missing'] = helpers.get_to_be_deleted(self.limit_by)  # noqa
         context['no_legal_basis'], context['no_legal_basis_missing'] = helpers.get_no_legal_basis(self.limit_by)  # noqa
         context['unreachable'], context['unreachable_missing'] = helpers.get_unreachable(self.limit_by)  # noqa
+
+        context['export_requested_stats'] = (
+            Subject.objects
+            .exclude(export_requested=None)
+            .annotate(days=date.today() - models.F('export_requested'))
+            .aggregate(models.Max('days'), models.Avg('days'), models.Count('days'))
+        )
+        context['to_be_deleted_stats'] = (
+            Subject.objects
+            .exclude(to_be_deleted=None)
+            .annotate(days=date.today() - models.F('to_be_deleted'))
+            .aggregate(models.Max('days'), models.Avg('days'), models.Count('days'))
+        )
+        context['export_answer_count'] = ExportAnswer.objects.count()
+
         return context

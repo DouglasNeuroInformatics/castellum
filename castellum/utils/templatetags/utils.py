@@ -69,6 +69,12 @@ def _list(qs):
     return list(qs)
 
 
+@register.filter(name='round')
+def _round(x):
+    if x is not None:
+        return round(x)
+
+
 @register.filter
 def is_today(date):
     if isinstance(date, datetime.datetime):

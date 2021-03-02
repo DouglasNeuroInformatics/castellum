@@ -1,5 +1,5 @@
 {% extends "base_with_breadcrumbs.html" %}
-{% load i18n auth %}
+{% load i18n auth utils %}
 
 {% block title %}{% translate 'Data protection dashboard' %} &middot; {{ block.super }}{% endblock %}
 
@@ -9,11 +9,25 @@
 
 {% block content %}
     <h2>{% translate 'Export requested' %}</h2>
+    {% if export_requested_stats.days__avg %}
+        <small class="text-muted">
+            {% blocktrans with avg=export_requested_stats.days__avg|round max=export_requested_stats.days__max %}
+                Ø {{ avg }} days (max. {{ max }} days)
+            {% endblocktrans %}
+        </small>
+    {% endif %}
     {% include 'data_protection/__subject_list.html' with subjects=export_requested missing=export_requested_missing %}
 
     {% has_perm 'subjects.delete_subject' user as can_delete_subject %}
     {% if can_delete_subject %}
         <h2>{% translate 'To be deleted' %}</h2>
+        {% if to_be_deleted_stats.days__avg %}
+            <small class="text-muted">
+                {% blocktrans with avg=to_be_deleted_stats.days__avg|round max=to_be_deleted_stats.days__max %}
+                    Ø {{ avg }} days (max. {{ max }} days)
+                {% endblocktrans %}
+            </small>
+        {% endif %}
         {% include 'data_protection/__subject_list.html' with subjects=to_be_deleted missing=to_be_deleted_missing %}
 
         <h2>{% translate 'No legal basis' %}</h2>
