@@ -27,6 +27,7 @@
 -   The maintenance dashboard now includes a tab for migrating away from
     subject notes which have been deprecated in 0.53.0.
 -   House numbers can now have up to 16 characters.
+-   Schedule IDs can now be strings and have up to 64 characters.
 
 
 # 0.55.1 (2021-02-15)
