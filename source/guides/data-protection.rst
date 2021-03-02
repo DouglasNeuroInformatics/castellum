@@ -18,8 +18,13 @@ taking any action. For example, subjects often want only a part of their data
 deleted.
 
 Most of the categories have legal time limits, so you should check the
-dashboard regularly. Unfortunately, it is currently not possible to notify you
-of new tasks. The only exception is **To be deleted**.
+dashboard regularly.
+
+.. note::
+
+    It is possible to configure an email address that should receive email
+    notifications about new data protection tasks as
+    ``CASTELLUM_DELETE_NOTIFICATION_TO`` in the settings.
 
 
 .. _subject-export:
