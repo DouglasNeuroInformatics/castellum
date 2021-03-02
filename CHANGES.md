@@ -1,4 +1,4 @@
-# 0.56.0 (unreleased)
+# 0.56.0 (2021-03-02)
 
 ## breaking changes
 
