@@ -57,13 +57,13 @@ Relevant guides:
 -   :ref:`study-sessions`
 -   :ref:`set-up-external-scheduler`
 -   :ref:`make-appointments-with-external-scheduler`
+-   :ref:`access-calendar-feeds`
 
 .. TODO::
 
     -   manage study sessions
     -   make appointments
     -   manage resources
-    -   access calendar feeds
 
 Misc
 ----
