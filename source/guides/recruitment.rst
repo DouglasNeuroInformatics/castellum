@@ -3,6 +3,8 @@
 Recruit subjects via phone
 ==========================
 
+.. figure:: /_images/recruitment-contact.png
+
 1.  Click on **Studies** on the front page. Then click on **Execution** in the
     field **Status** to only show studies that are currently recruiting.
 

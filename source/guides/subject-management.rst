@@ -3,6 +3,8 @@
 Search for a subject
 ====================
 
+.. figure:: /_images/subject-search.png
+
 1.  Click on **Subjects** on the front page
 
 2.  Enter the first name and surname, the email address, or the phone number
