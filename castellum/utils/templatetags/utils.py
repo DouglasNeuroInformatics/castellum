@@ -116,4 +116,9 @@ def url_replace_param(context, url=None, **kwargs):
     ])
 
 
+@register.inclusion_tag('utils/icon.html')
+def icon(name, style='solid', **kwargs):
+    return {'name': name, 'section': 'fa' + style[0], **kwargs}
+
+
 register.simple_tag(get_parler_languages)
