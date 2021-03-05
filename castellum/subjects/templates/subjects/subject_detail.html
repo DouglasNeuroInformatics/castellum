@@ -6,7 +6,7 @@
 {% block content %}
     {% if not subject.contact.is_complete or not subject.has_legal_basis %}
         <p class="alert alert-danger" role="alert">
-            <strong>{% translate 'Incomplete data' %}.</strong> {% translate 'Please edit data sets marked with' %} <i class="fa fa-exclamation-triangle" role="img" aria-label="{% translate 'Missing values' %}"></i>
+            <strong>{% translate 'Incomplete data' %}.</strong> {% translate 'Please edit data sets marked with' %} <i class="fas fa-exclamation-triangle" role="img" aria-label="{% translate 'Missing values' %}"></i>
         </p>
     {% endif %}
 

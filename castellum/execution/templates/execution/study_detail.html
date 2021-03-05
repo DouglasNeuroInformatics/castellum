@@ -13,7 +13,7 @@
                         {% endwith %}
                         {% if session_count > 0 %}
                             <span class="badge badge-secondary">
-                                <i class="fa fa-calendar" aria-label="{% translate 'Appointments' %}" title="{% translate 'Appointments' %}"></i>
+                                <i class="fas fa-calendar" aria-label="{% translate 'Appointments' %}" title="{% translate 'Appointments' %}"></i>
                                 {{ participation.appointment_count }}/{{ session_count }}
                                 {% if participation.appointment_today %}
                                     {% translate 'today' %}
