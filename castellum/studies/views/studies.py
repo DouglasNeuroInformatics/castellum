@@ -364,13 +364,11 @@ class StudyImportView(PermissionRequiredMixin, FormView):
         return ', '.join([s for s in [self.render_person(p) for p in persons] if s])
 
     def form_valid(self, form):
-        """
-        Not every JSON input that is valid according to the schema is
-        also valid according to the model. So we send the input to
-        ``StudyCreateView`` to also check the model restrictions. If
-        there are any issues, that view will provide helpful error
-        messages to users.
-        """
+        # Not every JSON input that is valid according to the schema is
+        # also valid according to the model. So we send the input to
+        # ``StudyCreateView`` to also check the model restrictions. If
+        # there are any issues, that view will provide helpful error
+        # messages to users.
 
         json = form.cleaned_data['json']
 
