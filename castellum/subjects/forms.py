@@ -107,25 +107,14 @@ class DataProtectionForm(forms.ModelForm):
 
         return cleaned_data
 
-    def save(self, commit=True):
-        if not self.cleaned_data.get('to_be_deleted'):
-            self.instance.to_be_deleted = None
-        elif not self.instance.to_be_deleted:
-            self.instance.to_be_deleted = datetime.date.today()
-
-        if not self.cleaned_data.get('export_requested'):
-            self.instance.export_requested = None
-        elif not self.instance.export_requested:
-            self.instance.export_requested = datetime.date.today()
-
-        subject = super().save(commit)
-
+    def save_consent(self, subject):
         new_status = self.cleaned_data.get('consent_status')
         if new_status:
             try:
                 document = ConsentDocument.objects.filter(is_valid=True).latest()
             except ConsentDocument.DoesNotExist:
                 document = ConsentDocument.objects.create()
+
             try:
                 initial_status = get_initial_consent_status(subject)
                 if initial_status != new_status:
@@ -141,6 +130,20 @@ class DataProtectionForm(forms.ModelForm):
                 )
         else:
             Consent.objects.filter(subject=subject).delete()
+
+    def save(self, commit=True):
+        if not self.cleaned_data.get('to_be_deleted'):
+            self.instance.to_be_deleted = None
+        elif not self.instance.to_be_deleted:
+            self.instance.to_be_deleted = datetime.date.today()
+
+        if not self.cleaned_data.get('export_requested'):
+            self.instance.export_requested = None
+        elif not self.instance.export_requested:
+            self.instance.export_requested = datetime.date.today()
+
+        subject = super().save(commit)
+        self.save_consent(subject)
 
         return subject
 

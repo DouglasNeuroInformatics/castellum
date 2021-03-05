@@ -109,7 +109,7 @@ class StudyIndexView(LoginRequiredMixin, ListView):
         else:
             return super().get(request, *args, **kwargs)
 
-    def get_queryset(self):
+    def get_queryset(self):  # noqa: C901
         qs = super().get_queryset()
         q = self.form.cleaned_data.get('q')
         if q:
