@@ -48,7 +48,7 @@
         {% if study.has_exclusion_criteria %}
             <li class="nav-item">
                 <a class="nav-link" id="criteria-tab" data-toggle="tab" href="#criteria" role="tab" aria-controls="criteria" aria-selected="false">
-                    <i class="fa fa-exclamation-triangle" role="img" title="{% translate 'blocking invitation' %}" aria-label="{% translate 'blocking invitation' %}" {% if object.exclusion_criteria_checked %}hidden{% endif %}></i>
+                    <i class="fas fa-exclamation-triangle" role="img" title="{% translate 'blocking invitation' %}" aria-label="{% translate 'blocking invitation' %}" {% if object.exclusion_criteria_checked %}hidden{% endif %}></i>
                     {% translate 'Criteria' %}
                 </a>
             </li>
@@ -71,14 +71,14 @@
                 {% if can_change_subject %}
                     <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:contact-update' study.pk object.pk %}">
                         {% if not subject.contact.is_complete %}
-                            <i class="fa fa-exclamation-triangle" role="img" title="{% translate 'Missing values' %}" aria-label="{% translate 'Missing values' %}"></i>
+                            <i class="fas fa-exclamation-triangle" role="img" title="{% translate 'Missing values' %}" aria-label="{% translate 'Missing values' %}"></i>
                         {% endif %}
                         {% translate 'Edit contact data' %}
                     </a>
                     <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:attributes-update' study.pk object.pk %}">{% translate 'Edit attributes' %}</a>
                     <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:data-protection-update' study.pk object.pk %}">
                         {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age %}
-                            <i class="fa fa-exclamation-triangle" role="img" title="{% translate 'Missing values' %}" aria-label="{% translate 'Missing values' %}"></i>
+                            <i class="fas fa-exclamation-triangle" role="img" title="{% translate 'Missing values' %}" aria-label="{% translate 'Missing values' %}"></i>
                         {% endif %}
                         {% translate 'Edit data protection' %}
                     </a>
@@ -176,7 +176,7 @@
                             {% elif entry.invitation_url %}
                                 <a id="invitation_url_{{ entry.field.id_for_label }}" href="{{ entry.invitation_url }}" target="_blank">{% translate 'Select timeslot for this subject' %}</a>
                                 <button type="button" class="btn btn-sm btn-light" tabindex="-1" data-clipboard="#invitation_url_{{ entry.field.id_for_label }}" data-animation="success" title="{% translate 'Copy link' %}">
-                                    <i class="fa fa-copy" aria-label="{% translate 'Copy link' %}"></i>
+                                    <i class="fas fa-copy" aria-label="{% translate 'Copy link' %}"></i>
                                 </button>
                             {% endif %}
                         </div>
@@ -190,7 +190,7 @@
         {% if study.has_exclusion_criteria %}
             <div class="alert alert-warning" role="alert" data-js="blocking_invitation_alert" {% if object.exclusion_criteria_checked %}hidden{% endif %}>
                 {% translate 'Participation cannot be set to "invited" yet. Please check the tabs marked with' %}
-                <i class="fa fa-exclamation-triangle" role="img" aria-label="{% translate 'blocking invitation' %}"></i>
+                <i class="fas fa-exclamation-triangle" role="img" aria-label="{% translate 'blocking invitation' %}"></i>
             </div>
         {% endif %}
 
