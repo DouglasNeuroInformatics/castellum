@@ -307,6 +307,8 @@ CASTELLUM_EXPECTED_SUBJECT_FACTOR = 10
 # a different study recruitment
 CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS = relativedelta(weeks=2)
 
+# settings related to data protection notifications
+# make sure to setup a cron-job for ``notify_to_be_deleted``
 CASTELLUM_DELETE_NOTIFICATION_TO = ''
 CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_SUBJECT = 'Subject export'
 CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY = 'The following subject should be exported: {url}'
