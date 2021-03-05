@@ -22,9 +22,9 @@ dashboard regularly.
 
 .. note::
 
-    It is possible to configure an email address that should receive email
-    notifications about new data protection tasks as
-    ``CASTELLUM_DELETE_NOTIFICATION_TO`` in the settings.
+    It is recommended to configure an email address that should receive email
+    notifications about new data protection tasks. Please ask your system
+    administrator to setup ``CASTELLUM_DELETE_NOTIFICATION_TO``.
 
 
 .. _subject-export:

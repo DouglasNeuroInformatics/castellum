@@ -64,10 +64,10 @@ Relevant guides:
 Data Protection Coordinator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The group of people who deal with data protection issues in the workplace
-should take on the role of **Data Protection Coordinator**. Castellum supports
-these users by providing a **data protection dashboard** that collects all
-relevant information in a single place.
+The group of people responsible for data protection should take on the role of
+**Data Protection Coordinator**. Castellum supports these users by providing a
+**data protection dashboard** that collects all relevant information in a
+single place.
 
 Relevant guides:
 
