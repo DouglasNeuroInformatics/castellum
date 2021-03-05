@@ -1,1 +1,5 @@
-<i class="{{ section }} fa-{{ name }} {{ class }}" role="img" {% if label %}aria-label="{{ label }}" title="{{ label }}"{% else %}aria-hidden="true"{% endif %} {% if hidden %}hidden{% endif %}></i>
+{% load static %}
+<svg class="svg-inline--fa {{ class }}" width="32" height="32" fill="currentColor" role="img" {% if hidden %}hidden{% endif %}>
+    {% if label %}<title>{{ label }}</title>{% endif %}
+    <use xlink:href="{% static '@fortawesome/fontawesome-free/sprites/' %}{{ style }}.svg#{{ name }}"></use>
+</svg>
