@@ -16,7 +16,7 @@
             <li class="nav-item">
                 <a href="{% url 'subjects:detail' subject.slug %}" class="nav-link {% if view.tab == 'detail' %}active{% endif %}">
                     {% if not subject.has_legal_basis %}
-                        <i class="fas fa-exclamation-triangle" role="img" title="{% translate 'No legal basis' %}" aria-label="{% translate 'No legal basis' %}"></i>
+                        {% icon 'exclamation-triangle' label=_('No legal basis') %}
                     {% endif %}
                     {% translate 'Overview' %}
                 </a>
@@ -27,7 +27,7 @@
                 <li class="nav-item">
                     <a href="{% url 'subjects:contact' subject.slug %}" class="nav-link {% if view.tab == 'contact' %}active{% endif %}">
                         {% if not subject.contact.is_complete %}
-                            <i class="fas fa-exclamation-triangle" role="img" title="{% translate 'Missing values' %}" aria-label="{% translate 'Missing values' %}"></i>
+                            {% icon 'exclamation-triangle' label=_('Missing values') %}
                         {% endif %}
                         {% translate 'Contact' %}
                     </a>
@@ -38,7 +38,7 @@
                 <li class="nav-item">
                     <a href="{% url 'subjects:data-protection' subject.slug %}" class="nav-link {% if view.tab == 'data-protection' %}active{% endif %}">
                         {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age %}
-                            <i class="fas fa-exclamation-triangle" role="img" title="{% translate 'Missing values' %}" aria-label="{% translate 'Missing values' %}"></i>
+                            {% icon 'exclamation-triangle' label=_('Missing values') %}
                         {% endif %}
                         {% translate 'Data protection' %}
                     </a>
@@ -59,7 +59,7 @@
                 <li class="nav-item">
                     <a href="{% url 'subjects:export' subject.slug %}" class="nav-link {% if view.tab == 'export' %}active{% endif %}">
                         {% if subject.export_requested %}
-                            <i class="fas fa-exclamation-triangle" role="img" title="{% translate 'Export requested' %}" aria-label="{% translate 'Export requested' %}"></i>
+                            {% icon 'exclamation-triangle' label=_('Export requested') %}
                         {% endif %}
                         {% translate 'Export' %}
                     </a>
@@ -71,7 +71,7 @@
                 <li class="nav-item">
                     <a href="{% url 'subjects:delete' subject.slug %}" class="nav-link {% if view.tab == 'delete' %}active{% endif %}">
                         {% if subject.to_be_deleted %}
-                            <i class="fas fa-exclamation-triangle" role="img" title="{% translate 'To be deleted' %}" aria-label="{% translate 'To be deleted' %}"></i>
+                            {% icon 'exclamation-triangle' label=_('To be deleted') %}
                         {% endif %}
                         {% translate 'Delete' %}
                     </a>
