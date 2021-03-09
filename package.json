@@ -8,6 +8,7 @@
         "jdenticon": "^3.1.0",
         "jquery": "^3.5.1",
         "popper.js": "^1.16.0",
+        "select2": "^4.1.0-rc.0",
         "vanillajs-datepicker": "^1.1.2"
     },
     "devDependencies": {

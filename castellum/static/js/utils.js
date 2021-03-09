@@ -90,4 +90,6 @@
             this.classList.remove('animation-active');
         }, 800);
     });
+
+    $('[data-js="select2"]').select2();
 })();

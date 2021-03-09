@@ -197,6 +197,11 @@ NPM_FILE_PATTERNS = {
         'sprites/regular.svg',
         'sprites/solid.svg',
     ],
+    'select2': [
+        'dist/css/select2.min.css',
+        'dist/js/select2.min.js',
+        'dist/js/i18n/de.js',
+    ],
     'fullcalendar-scheduler': [
         'main.js',
         'main.css',
