@@ -45,7 +45,9 @@
             {% endfor %}
         </ul>
 
-        {% bootstrap_field form.user %}
+        <div data-js="d-select2">
+            {% bootstrap_field form.user %}
+        </div>
 
         <div class="d-print-none mb-3">
             <button class="btn btn-primary" >{% translate 'Add' %}</button>

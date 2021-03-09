@@ -92,4 +92,5 @@
     });
 
     $('[data-js="select2"]').select2();
+    $('[data-js="d-select2"] select').select2();
 })();
