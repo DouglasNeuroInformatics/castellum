@@ -91,6 +91,7 @@
         }, 800);
     });
 
+    $.fn.select2.defaults.set('theme', 'bootstrap4');
     $('[data-js="select2"]').select2();
     $('[data-js="d-select2"] select').select2();
 })();
