@@ -43,4 +43,9 @@
             consentCheckbox.disabled = false;
         }
     });
+
+    // only enable dummy checkbox when everything is set up
+    if (!document.getElementById('id_to_be_deleted').checked) {
+        consentCheckbox.disabled = false;
+    }
 })();
