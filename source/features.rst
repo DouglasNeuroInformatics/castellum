@@ -17,6 +17,8 @@ Relevant guides:
 -   :ref:`subject-delete`
 -   :ref:`study-create`
 -   :ref:`study-delete`
+-   :ref:`data-protection-dashboard`
+-   :ref:`subject-export`
 
 .. TODO::
 

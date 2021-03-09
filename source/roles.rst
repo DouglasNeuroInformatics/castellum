@@ -64,36 +64,15 @@ Relevant guides:
 Data Protection Coordinator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The group of people who deal with data protection issues in the workplace should
-take on the role of **Data Protection Coordinator** in Castellum. Technically,
-Castellum provides a Data Protection Dashboard for this purpose. In this
-dashboard, the **Data Protection Coordinator** can see subjects divided into
-four categories:
-
--   Subjects that requested information regarding their personal data,
--   Subjects that have been marked as **To be deleted**
-
-    -   This applies when a subject demanded a deletion of all scientific data
-        related to them.
-    -   The **Data Protection Coordinator** can see all studies the subject
-        participated in. He will contact all **Principal Investigators** and demand
-        the deletion of collected study data (provided that these are still
-        attributable to the respective subject).
-    -   Once all links to studies have been removed, the subject can be deleted
-        from the database.
-
--   Subjects for whom there is no (or no longer any) legal basis for keeping
-    them in the database and
--   Subjects who cannot be contacted due to missing or wrong information regarding
-    their contact details.
-
-The **Data Protection Coordinator** has the task of cleaning up the dashboard by
-initiating follow-up steps for each category.
-To initiate such follow-up actions, the **Data Protection Coordinator** is enabled
-to perform the following functions in the database:
+The group of people responsible for data protection should take on the role of
+**Data Protection Coordinator**. Castellum supports these users by providing a
+**data protection dashboard** that collects all relevant information in a
+single place.
 
 Relevant guides:
 
+-   :ref:`data-protection-dashboard`
+-   :ref:`subject-export`
 -   :ref:`subject-delete`
 -   :ref:`study-delete`
 

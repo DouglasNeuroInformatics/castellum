@@ -21,6 +21,7 @@ Welcome to Castellum's documentation!
    guides/subject-management
    guides/study-management
    guides/subject-get-pseudonym
+   guides/data-protection
    guides/admin
 
    guides/consent-management
