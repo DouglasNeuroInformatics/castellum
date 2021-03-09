@@ -40,31 +40,35 @@ def create(model, data, **extra):
 
 
 class Command(BaseCommand):
+    def add_arguments(self, parser):
+        parser.add_argument('path')
+
     def handle(self, *args, **options):
-        rows = csv.reader(sys.stdin)
-        out = csv.writer(self.stdout)
+        with open(options['path']) as fh:
+            rows = csv.reader(fh)
+            out = csv.writer(self.stdout)
 
-        for row in rows:
-            try:
-                attributes = {key: row[i] for key, i in ATTRIBUTES_MAP.items() if row[i]}
-                subject_data = {key: row[i] for key, i in SUBJECT_MAP.items() if row[i]}
-                contact_data = {key: row[i] for key, i in CONTACT_MAP.items() if row[i]}
-                address_data = {key: row[i] for key, i in ADDRESS_MAP.items() if row[i]}
+            for row in rows:
+                try:
+                    attributes = {key: row[i] for key, i in ATTRIBUTES_MAP.items() if row[i]}
+                    subject_data = {key: row[i] for key, i in SUBJECT_MAP.items() if row[i]}
+                    contact_data = {key: row[i] for key, i in CONTACT_MAP.items() if row[i]}
+                    address_data = {key: row[i] for key, i in ADDRESS_MAP.items() if row[i]}
 
-                if Contact.objects.filter(**contact_data).exists():
-                    raise ValueError('potential duplicate')
+                    if Contact.objects.filter(**contact_data).exists():
+                        raise ValueError('potential duplicate')
 
-                with transaction.atomic():
-                    with transaction.atomic(using='contacts'):
-                        subject_data['attributes'] = attributes
-                        subject_data['source'] = SOURCE
-                        subject = create(Subject, subject_data)
+                    with transaction.atomic():
+                        with transaction.atomic(using='contacts'):
+                            subject_data['attributes'] = attributes
+                            subject_data['source'] = SOURCE
+                            subject = create(Subject, subject_data)
 
-                        contact = create(Contact, contact_data, subject_id=subject.id)
+                            contact = create(Contact, contact_data, subject_id=subject.id)
 
-                        if address_data:
-                            create(Address, address_data, contact_id=contact.id)
-            except Exception as e:
-                if options['verbosity'] > 0:
-                    self.stderr.write(str(e))
-                out.writerow(row)
+                            if address_data:
+                                create(Address, address_data, contact_id=contact.id)
+                except Exception as e:
+                    if options['verbosity'] > 0:
+                        self.stderr.write(str(e))
+                    out.writerow(row)
