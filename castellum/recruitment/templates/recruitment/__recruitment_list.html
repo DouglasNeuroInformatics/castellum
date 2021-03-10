@@ -27,7 +27,7 @@
                     {% if participation.status_open and participation.last_contacted_elsewhere.date > last_agreeable_contact_time %}
                         <div class="mr-2">
                             {% translate 'recently contacted in another recruitment' %}
-                            {% icon 'phone-slash' class='list-icon bg-warning text-dark' %}
+                            <span class="list-icon bg-warning text-dark">{% icon 'phone-slash' %}</span>
                         </div>
                     {% elif participation.status == participation.NOT_REACHED or participation.status == participation.AWAITING_RESPONSE %}
                         <div class="mr-2">
@@ -62,7 +62,9 @@
                                     {% endif %}
                                 {% endif %}
                                 {% if participation.followup_urgent %}
-                                    {% icon 'bell' style='regular' class='list-icon bg-success text-light' label=_('follow-up urgent') %}
+                                    <span class="list-icon bg-success text-light">
+                                        {% icon 'bell' style='regular' label=_('follow-up urgent') %}
+                                    </span>
                                 {% endif %}
                             </div>
                         </div>

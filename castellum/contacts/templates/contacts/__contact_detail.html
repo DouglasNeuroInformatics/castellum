@@ -26,12 +26,12 @@
     <dd class="col-sm-6">
         {% if contact.subject.is_available %}
             {% translate "Yes" %}
-            {% icon 'phone' class='list-icon bg-success text-light' %}
+            <span class="list-icon bg-success text-light">{% icon 'phone' %}</span>
         {% elif not contact.subject.next_available %}
             &mdash;
         {% else %}
             {% translate "No" %}
-            {% icon 'phone-slash' class='list-icon bg-warning text-dark' %}
+            <span class="list-icon bg-success text-light">{% icon 'phone' %}</span>
             {% blocktranslate with next_available=contact.subject.next_available %}
                 (not until {{ next_available }})
             {% endblocktranslate %}
