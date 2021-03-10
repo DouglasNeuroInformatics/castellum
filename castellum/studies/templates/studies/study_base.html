@@ -22,11 +22,11 @@
             <p class="text-muted mt-2">
                 <span class="d-block">{% translate 'Contact' %}: {{ study.contact_person }}</span>
                 <span class="d-inline-block mx-2">
-                    <i class="fas fa-envelope" role="img" aria-label="{{ study|verbose_name:'email' }}"></i>
+                    {% icon 'envelope' label=study|verbose_name:'email' %}
                     <a href="mailto:{{ study.email }}" class="text-reset">{{ study.email }}</a>
                 </span>
                 <span class="d-inline-block mx-2">
-                    <i class="fas fa-phone" role="img" aria-label="{{ study|verbose_name:'phone' }}"></i>
+                    {% icon 'phone' label=study|verbose_name:'phone' %}
                     <a href="tel:{{ study.phone }}" class="text-reset">{{ study|display:'phone' }}</a>
                 </span>
             </p>

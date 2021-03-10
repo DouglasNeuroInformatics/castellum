@@ -1,0 +1,5 @@
+{% load static %}
+<svg class="svg-inline--fa" width="32" height="32" fill="currentColor" role="img" {% if hidden %}hidden{% endif %}>
+    {% if label %}<title>{{ label }}</title>{% endif %}
+    <use xlink:href="{% static '@fortawesome/fontawesome-free/sprites/' %}{{ style }}.svg#{{ name }}"></use>
+</svg>

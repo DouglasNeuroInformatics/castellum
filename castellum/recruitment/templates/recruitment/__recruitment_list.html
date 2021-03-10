@@ -15,7 +15,7 @@
                         {% endif %}
                         {% if participation.status == participation.INVITED and session_count > 0 %}
                             <div class="d-inline-block my-1 mr-2 badge badge-secondary">
-                                <i class="fa fa-calendar" aria-label="{% translate 'Appointments' %}" title="{% translate 'Appointments' %}"></i>
+                                {% icon 'calendar' label=_('Appointments') %}
                                 {{ participation.appointment_count }}/{{ session_count }}
                             </div>
                         {% endif %}
@@ -27,7 +27,7 @@
                     {% if participation.status_open and participation.last_contacted_elsewhere.date > last_agreeable_contact_time %}
                         <div class="mr-2">
                             {% translate 'recently contacted in another recruitment' %}
-                            <i class="fas fa-phone-slash list-icon bg-warning text-dark" role="img" aria-hidden="true"></i>
+                            <span class="list-icon bg-warning text-dark">{% icon 'phone-slash' %}</span>
                         </div>
                     {% elif participation.status == participation.NOT_REACHED or participation.status == participation.AWAITING_RESPONSE %}
                         <div class="mr-2">
@@ -62,7 +62,9 @@
                                     {% endif %}
                                 {% endif %}
                                 {% if participation.followup_urgent %}
-                                    <i class="far fa-bell list-icon bg-success text-light" role="img" title="{% translate 'follow-up urgent' %}"></i>
+                                    <span class="list-icon bg-success text-light">
+                                        {% icon 'bell' style='regular' label=_('follow-up urgent') %}
+                                    </span>
                                 {% endif %}
                             </div>
                         </div>
