@@ -115,14 +115,13 @@
 }
 
 [data-animation="success"]::after {
-    content: "\f00c";  /* fa-check */
-    font-family: FontAwesome;
+    content: "";
     display: block;
     position: absolute;
     right: 0;
     top: 0;
     width: 1.2em;
-    line-height: 1.2em;
+    height: 1.2em;
     box-sizing: content-box;
     margin-right: -0.6em;
     margin-top: -0.6em;
@@ -130,6 +129,7 @@
     text-align: center;
     color: var(--white);
     background-color: var(--success);
+    background-image: url("images/bootstrap/check.svg");
     opacity: 0;
     transition: opacity 300ms ease;
 }
