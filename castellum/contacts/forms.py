@@ -107,6 +107,19 @@ class ContactForm(forms.ModelForm):
                 else:
                     self.guardians_blocked += 1
 
+    def validate_address(self):
+        # populate self.address.cleaned_data
+        self.address.is_valid()
+
+        # do strict validation (with required)
+        address_form = AddressForm(data=self.data)
+        if not address_form.is_valid():
+            if address_form.errors:
+                for field, errors in address_form.errors.items():
+                    self.address.add_error(field, errors)
+
+            raise ValidationError(_("Provide more details for the address."), code='invalid')
+
     def clean(self):
         cleaned_data = super().clean()
 
@@ -134,19 +147,8 @@ class ContactForm(forms.ModelForm):
                 ).format(settings.CASTELLUM_FULL_AGE)
                 raise ValidationError(msg, code='invalid')
 
-        # validate address
         if has_address:
-            # populate self.address.cleaned_data
-            self.address.is_valid()
-
-            # do strict validation (with required)
-            address_form = AddressForm(data=self.data)
-            if not address_form.is_valid():
-                if address_form.errors:
-                    for field, errors in address_form.errors.items():
-                        self.address.add_error(field, errors)
-
-                raise ValidationError(_("Provide more details for the address."), code='invalid')
+            self.validate_address()
 
         # validate preferred_contact_method is set
         if not has_address and preferred_contact_method == 'postal':
