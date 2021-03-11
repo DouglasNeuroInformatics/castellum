@@ -3,8 +3,8 @@
 Upload a consent document
 =========================
 
-Upload the new document
------------------------
+Upload a new document
+---------------------
 
 1.  Click on **Admin** on the front page
 2.  Go to **Consent documents**
@@ -35,24 +35,10 @@ The legal basis for each subject can be found in the subject detail view.
 
 .. _subject-consent:
 
-Set subject consent
-===================
+Set Recruitment Consent for a Subject
+=====================================
 
-To get an overview of all subjects for whom a new **Recruitment consent** is
-required, proceed as follows:
-
-1.  Click on **Subjects** on the front page
-
-2.  Go to **Maintenance** (blue button)
-
-3.  Choose the **Consent** tab. You will see a list of all subjects with
-    outdated recruitment consents.
-
-4.  Click on **Details** (opens in new tab).
-
-Once you have found a subject for which you want to set consent:
-
-1.  In subject management, go to the **Data protection** tab.
+1.  In subject management > subject details, go to the **Data protection** tab.
 
 2.  Click on the checkbox **Recruitment consent**. It will not be checked
     immediately. Instead it indicates that you are waiting for confirmation
@@ -61,3 +47,24 @@ Once you have found a subject for which you want to set consent:
 3.  If the subject agrees, click on **Confirm**.
 
 4.  If the subject rejects the request, clear the checkbox.
+
+
+.. _subject-consent-maintenance:
+
+Maintain Recruitment Consents
+=============================
+
+To get an overview of all subjects for whom a new **Recruitment consent** is
+required, proceed as follows:
+
+1.  Click on **Subjects** on the front page
+
+2.  Go to **Maintenance**
+
+3.  Choose the **Consent** tab. You will see a list of all subjects with
+    outdated recruitment consents.
+
+4.  Click on **Details** of a listed subject (opens in new browser tab)
+
+Refer to :ref:`subject-consent` once you have found a subject for which you
+want to set consent.
