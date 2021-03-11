@@ -41,145 +41,184 @@ Search for a subject
 Create a subject
 ================
 
-You have a person on the phone or their contact information and other important
-attributes are available. This person is interested in participating in
-studies at the MPIB.
+Subject data is split up into subsets that include at least the following information:
 
-The information you need to create the subject in the database should include at
-least the following:
-
--   **First name** and **Last name**,
--   **Gender**,
+-   **First name** and **Last name**
+-   **Gender**
 -   **Date of birth**
--   Information on whether the person is **Full of age** or **has legal guardian**,
+-   Information on whether the person is **Full of age** or **has legal guardian**.
     If the subject has a legal guardian, you will need to **Add guardian** (see
-    instruction 8.b.)
+    instructions in :ref:`contact-tab`)
 -   **E-mail** address and/or **Phone number** and/or full postal address and/or
-    contacting details of the legal guardian,
--   **Handedness**,
--   **Language** (Mother tongue) and
--   **Highest degree** (in educational manner)
-
-You can either ask for this information during a telephone call or you can transfer
-it from another source.
+    contacting details of the legal guardian
+-   **Attributes**
+-   **Interest in study types**
+-   **Privacy level**
+-   **Recruitment Consent** given
+-   **GDPR requests**
+-   **Study Participations**
 
 In order to create a potential subject in Castellum, please proceed as follows:
 
 1.  :ref:`subject-search`
 
     1.  If there is a **Match** found, the subject is already created in the database.
-        You may edit or add information by clicking on **Details** next to the subject
+        You may edit or add information to this subject by clicking on **Details** next to the subject.
+        If it turns out that a **Match** is a different person with the same name you are free to create a new subject.
 
     2.  If **No matches can be found**, click on **Create**. If you notice that you
         made a spelling mistake with the names, please do not go back and create the
-        person again, but change the name in the following process
+        person again, but change the name in the following process.
 
 2.  Define the **Privacy level**
 
-    -   0 (regular) describes an adult person without extraordinary features
+    -   0 (regular) describes adults without extraordinary features
     -   1 (increased) indicates children or adults with a legal guardian
-    -   2 (high) presents a famous personality and/or their children
+    -   2 (high) represents adults (and their children/wards) who for example are public figures
 
 3.  Click on **Create new subject**
 
-The subject has now been created, but there is much more information you can
-enter in the different tabs:
+.. Warning:: 
 
--   Overview
+    Recruiters often find themselves in fast paced situations when talking to new potential subjects. Hence, we 
+    decided to support a quick creation of subjects. Therefore, a subject is initially created with **very basic** 
+    information on name and privacy level. To assure a *viable* data set there is much more information you should enter
+    (see :ref:`edit-subject-data`).
 
-    In this tab, different legal basis for consent can be found.
-    You can add the consent that applies:
+.. _edit-subject-data:
 
-    -   **Recruitment consent**
-    -   **Study consent**
-    -   **Guardianship**
+Edit Subject Data
+=================
 
--   Contact
+Subject data consists of several subsets represented as tabs. Tabs that lack some important information are highlighted
+by an icon with an exclamation mark. Below, you'll find a short description for each tab. Please note that tabs need to 
+be saved upon changes individually.
 
-    -   Optionally you can enter the **Title** here
-    -   You can edit the **First name** and **Last name**
-    -   Define the **Gender** of the person
-    -   Fill in the **Date of birth**
+.. figure:: /_images/subject-tabs.png
 
-    1.  If the person is of an adult age, select **Full of age** and continue with
-        the following steps:
+.. _overview-tab:
 
-        -   Define at least one of the following contact details: **Email**, **Phone
-            number** and/or **Postal address**
-        -   You may want to add **Additional information**, such as c/o details
-        -   Specify the **Preferred contact method**
+Overview Tab
+------------
 
-    2.  If the person is not of an adult age or has a guardian for example due to a
-        disability or illness, select **Has legal guardian** > **Add guardian**
+This tab gives you a quick overview of the subject data. Importantly, it offers different legal basis for storing the 
+subject data in Castellum. You can check, add or rather edit the consent that applies:
 
-        -   A new window will open
-        -   Fill in the first and last name of the subject's legal guardian > **Submit**
-        -   If a **Match** is found, select it
-        -   If **No matches found** applies, click **Create** > Enter necessary information
-            in the fields provided > **Create new subject**
+-   **Recruitment consent**
+-   **Study consent**
+-   **Guardianship**
+-   **Subject blocked**
 
-        .. note::
-            The legal guardian is now added. You can also create several guardians.
-            By clicking on **Remove** next to the guardian's name, you can delete
-            them as the guardian of the subject
+.. _contact-tab:
 
-    3.  Click on **Save**
+Contact Tab
+-----------
 
--   Attributes
+This tab allows you to set up common information needed to get into contact with a subject.
 
-    -   Fill in the **First Language**, **Highest educational degree**, **Handedness**,
-        if the subject **Has hearing aid?**, **Date of birth** and **Sex**
-    -   If the person **Does not want to participate in the following study types**,
-        select one or more
-    -   Click on **Save**
+-   Optionally you can enter the **Title** here
+-   You can edit the **First name** and **Last name**
+-   Define the **Gender** of the person
+-   Fill in the **Date of birth**
 
--   Data protection
+1.  If the person is an adult, select **Full of age** and continue with
+    the following steps:
 
-    -   redefine the **Privacy level**,
-    -   indicate whether the subject has consented to the recruitment,
-    -   initiate an **Export request** and
-    -   specify whether the subject is **To be deleted**
+    -   Define at least one of the following contact details: **Email**, **Phone
+        number** and/or **Postal address**
+    -   You may want to add **Additional information** for postal address, such as c/o details
+    -   Specify the **Preferred contact method**
 
--   Additional Info
+2.  If the person is not of an adult age or has a guardian for example due to a
+    disability or illness, select **Has legal guardian** > **Add guardian**
 
-    -   define the **Availability** of the subject
+    -   A new window will open
+    -   Fill in the first and last name of the subject's legal guardian > **Submit**
+    -   If a **Match** is found, select it
+    -   If **No matches found** applies, click **Create** > Enter necessary information
+        in the fields provided > **Create new subject**
 
-        .. note::
+    .. note::
+        The legal guardian is now added. You can also create several guardians.
+        By clicking on **Remove** next to the guardian's name, you can delete
+        them as the guardian of the subject.
 
-            Example: The person can be reached by phone between 9 and 11 a.m. on tuesdays.
+.. _attributes-tab:
 
-            - Click on **9** under **Tuesday**,
-            - Hold the Shift-button and
-            - Click on **11** under **Tuesday**
+Attributes Tab
+--------------
 
-        .. note::
+The attributes tab lists all attributes and interests in study types. As rule of thumb you could think of attributes 
+as features that are used to decide on suitability for a study.
 
-            Example: The person is abroad for 6 months.
+-   Fill in the attribute fields used at your institute
+-   If the person **Does not want to participate in the following study types**,
+    select one or more
 
-            - Select **Not available until** today in 6 months
+.. admonition:: Example
 
-    -   define which **Data source** the data comes from
+    Attributes may be **Mother Tongue**, **Highest Educational Degree**, **Age**, **Handedness** and so on.
 
--   Study Participations
+.. _data-protection-tab:
 
-    -   Lists the study participations of this subject
-    -   By clicking on **Add to study**, a list of current studies is displayed.
-        You can add the subject to one or more of these studies
-    -   **Add to finished study** can be useful when you are manually migrating
-        subjects from an old system.
+Data Protection Tab
+-------------------
 
-        .. note::
-            The list of finished studies can be quite long. Hold the **CTRL**
-            key on your keyboard while pressing **F** to open the search
-            function of the browser.
+At the data protection tab should be used for to document recruitment consent and GDPR requests.
 
+-   redefine the **Privacy level**
+-   indicate whether the subject has consented to the recruitment (for details see :ref:`subject-consent`)
+-   initiate an **Export request**
+-   specify whether the subject is **To be deleted**
+
+.. _info-tab:
+
+Additional Info Tab
+-------------------
+
+This tab mainly focusses on when to best reach out to subjects.
+
+-   define the **Availability** of the subject
+
+    .. admonition:: Example
+
+        The person can be reached by phone between 9 and 11 a.m. on tuesdays.
+
+        - Click on **9** under **Tuesday**,
+        - Hold the Shift-button and
+        - Click on **11** under **Tuesday**
+
+    .. admonition:: Example
+
+        The person is abroad for 6 months.
+
+        - Select **Not available until** today in 6 months
+
+-   define which **Data source** the data comes from
+
+.. _participations-tab:
+
+Study Participations Tab
+------------------------
+
+The participations tab is offering to check existing participation or add the current subject to a study
+
+-   **Invited**: Lists the study participations of this subject
+-   **Matching Studies**: A list of currently active studies with matching filters is displayed.
+    You can add the subject to one or more study recruitments.
+-   **Add to study**: Search allows to look up a study and add the subject directly as *invited* to it.
+
+    .. hint::
+        Lists of matching studies can be quite long. Hold the **CTRL**
+        key on your keyboard while pressing **F** to open the search
+        function of the browser.
 
 .. _subject-to-be-deleted:
 
 Mark a subject for deletion
 ===========================
 
-To delete all data related to the subject, please proceed as follows:
+To satisfy GDPR requests for deletion of all data related to a subject, please proceed as follows:
 
 1.  Click on **Subjects** on the front page
 
@@ -194,7 +233,7 @@ To delete all data related to the subject, please proceed as follows:
 
 The subject is now cleared for deletion from the database and deletion of
 their associated data. The data protection coordinator will take care of final
-deletion
+deletion.
 
 
 .. _subject-delete:
@@ -205,6 +244,11 @@ Delete a subject
 You may want personal data and subjects to be completely deleted because of an
 explicit request from the subject or simply because there no longer is a
 sufficient legal basis to keep the data.
+
+.. note::
+
+    This is only available for users with permissions that are granted to staff members who are data protection 
+    coordinators or the like.
 
 In order to delete the externally and internally stored data of a subject,
 please proceed as follows:
@@ -224,14 +268,13 @@ please proceed as follows:
     **Are you sure you want to permanently delete this subject and all related
     data?** You can now click **Confirm** and the subject will be deleted.
 
-.. note::
+.. WARNING::
 
     There may still be data stored in a backup. Please check with your local IT
     department to verify proper deletion.
 
-.. note::
+.. hint::
 
     Deleting a subject who has guardians will **not** automatically delete the
-    corresponding guardians. If there is no other reason to keep the
-    guardians in castellum, they will appear in the data protection dashboard.
-    It then is the data protection coordinator's job to delete their data.
+    corresponding guardians. However, if there is no other reason to keep the
+    guardians in Castellum, they will appear in the data protection dashboard.
