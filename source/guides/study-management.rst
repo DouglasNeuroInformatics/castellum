@@ -74,9 +74,7 @@ In order to limit the search for subjects in Castellum,
 
 3.  By clicking on **Filter** you are able to set filter criteria
 
-    -   select whether you want to create a filter regarding the **First language**,
-        **Highest educational degree**, **Handedness**, **Has hearing aid?**, **Age**
-        or **Sex**
+    -   select the attribute that should be used for filtering
     -   click **Add**,
     -   define the filter and
     -   click **Apply**
