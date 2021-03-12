@@ -49,7 +49,9 @@ When adding a test session:
 -   Additionally, select the **Type** of the session and (if applicable at your
     institute) select a **Ressource**
 -   **Additional text for reminder emails** allows you to provide information
-    to subjects prior to the actual appointment
+    to subjects prior to the actual appointment. You can send yourself a test
+    mail to check the appearance of session reminders by using the
+    corresponding button
 -   If your institute uses the external scheduler to schedule appointments, you
     can enable it here  (see :ref:`set-up-external-scheduler`)
 
