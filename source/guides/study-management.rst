@@ -224,10 +224,10 @@ Finish a study
 
 .. note::
 
-    All information related to potential subjects that were not invited to the
-    study will be deleted when the study is finished. If you finish and then
-    resume a study, it is possible that subjects that were already found to be
-    unsuitable are proposed again.
+    All information related to potential subjects who were **not invited** to
+    the study will be deleted when the study is finished. Hence, if you finish
+    and then resume a study, it is possible that subjects that were already
+    found to be unsuitable are suggested again as potential subjects.
 
 
 .. _study-delete:
