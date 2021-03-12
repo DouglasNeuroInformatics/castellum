@@ -167,8 +167,8 @@ your study:
 Manage study members
 --------------------
 
-If you want to give access to a person (e.g. a recruiter) for your study,
-please follow the steps below.
+If you want to give access to other staff members (e.g. recruiters) for your
+study, please follow the steps below.
 
 1.  Go to the **Member management** tab
 
@@ -185,7 +185,9 @@ please follow the steps below.
 
     .. note::
 
-        Some features (e.g. recruitment) only become available once the study is started.
+        Some features (e.g. recruitment) only become available once the study
+        is started. So, some added users may not instantly notice those role
+        changes.
 
 
 .. _study-start:
