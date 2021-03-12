@@ -32,14 +32,29 @@ In the **Sessions** tab, you can enter as many test sessions as you like.
 -   Set up **Start of test sessions** and **End of test sessions**
 -   Define general **Session instructions**
 
--   When adding a test session, always give the session a **Name** and specify
-    the **Duration of a session in minutes**
--   Select the **Type** of the session and press **Add session**
--   By clicking on the **Delete** button, you can delete any test session
-    you created
--   Click on **Update** to go to Session details. If your institute uses the
-    external scheduler to schedule appointments, you can enable it here
-    (see this guide: :ref:`set-up-external-scheduler`)
+.. hint::
+    In **Session Instructions** you can inform recruiters on
+    conditions/requirements that may be important for or in between sessions.
+    For example, recruiters are often asked to ensure a certain time interval
+    between session appointments. This would be explained here.
+
+    **Start** and **End of test sessions** allows Castellum to offer an
+    approximate overview schedule of all studies in Calendar view at Study
+    management.
+
+When adding a test session:
+
+-   Always give the session a **Name** and specify the **Duration of a session
+    in minutes** (duration will be used for appointment booking)
+-   Additionally, select the **Type** of the session and (if applicable at your
+    institute) select a **Ressource**
+-   **Additional text for reminder emails** allows you to provide information
+    to subjects prior to the actual appointment
+-   If your institute uses the external scheduler to schedule appointments, you
+    can enable it here  (see :ref:`set-up-external-scheduler`)
+
+For existing sessions a **Delete** button allows you to delete any test session
+you created. Click on **Update** to review or edit session details.
 
 
 .. _study-recruitment-settings:
