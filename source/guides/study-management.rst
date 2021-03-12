@@ -71,6 +71,18 @@ your study:
 -   Excluded studies
 -   Text based inclusion and exclusion criteria
 
+.. hint::
+
+    At first it may be unclear how to distinguish **attribute filters** and
+    **inclusion/exclusion criteria**:
+
+    -   Attribute filters are applied to subject attributes stored in
+        Castellum. In other words, this will only suggest matching potential
+        subjects in recruitment.
+    -   Inclusion and exclusion criteria need to be used when there is no data
+        available about it in Castellum. Therefore, they must be checked by a
+        staff member explicitly during recruitment.
+
 1.  Go to the **Recruitment Settings** tab
 
 2.  By clicking on **General** the **Recruitment text** will be shown to you.
@@ -97,37 +109,57 @@ your study:
     -   click **Apply**
 
     You may set as many filters as you like.
-    If you wish to create more than one filter group, proceed as follows:
 
-    -   click on **General**,
-    -   select **Advanced filtering** and
-    -   click on **Save**
+    .. hint::
+        Please note that **all filter criteria** set up within this filter
+        group have to be **fulfilled**. This also means that opposing filters
+        would result in an empty set.
 
-    When you click on **Add new** in **Filters**, you are able to set another
-    filter group with specific filters
+    Sometimes you need to define more than one mutually exclusive group of
+    suitable subjects. For this, you have to set up **advanced filtering** in
+    general recruitment settings to create various filter groups.
 
-    .. note::
-        This is necessary, for example, if you need subjects both at the age between
-        20-30 and 50-60.
+    Subsequently, when you click on **Add new** in **Filters**, you are able to
+    set another filter group with specific filters. Alternatively, you could
+    duplicate an existing filter group and edit it afterwards.
+
+    .. admonition:: Example
+
+        This is necessary if you need subjects both at the age between 20-30
+        and 50-60. Again, note the distinction between **Any of these** and
+        **All of these**.
 
 4.  In **Excluded studies** you can select certain studies in which your
     subjects must not have participated
 
-5.  When you click on **Inclusion/exclusion criteria**, you can add **Additional
-    subject characteristics that should be verified during the recruitment**
+5.  When you click on **Inclusion/exclusion criteria**, you can add
+    **additional subject characteristics that should be verified during the
+    recruitment**
 
-    .. note::
-        If it is a MRI-study, the criteria are pre-set for checking during recruitment
+    .. hint::
 
-6.  If recruitment is to take place by e-mail, proceed as follows:
+        Session types may come with specific criteria that have to be checked
+        every time before appointing subjects to a session. In this case,
+        you'll see a caret with a label **Criteria for: <type>** next to the
+        text field. Clicking on it will show you the text that is always
+        appended. In other words: You don't have to write this type specific
+        text by yourself.
+
+6.  To allow recruiters to send batch invitations via e-mail, proceed as
+    follows:
 
     -   click on **Mail Settings**
     -   define an **E-mail subject**
     -   add an **E-mail body**
 
-    .. note::
-        It is not intended to send attachments in the first e-mail via Castellum.
-        Instead, links can be inserted.
+    This e-mail will be sent by recruiters at study recruitment by specifying
+    the amount of recipients. Yet, you can check the appearance of the set up
+    mail by sending a test mail to yourself with corresponding button.
+
+    .. hint::
+
+        It is not intended to send e-mail attachments via Castellum. Instead,
+        links can be inserted as standard text.
 
 
 .. _study-members:
