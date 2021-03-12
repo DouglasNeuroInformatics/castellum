@@ -251,8 +251,7 @@ follows:
 
 3.  Click on **Delete** under the study name
     -   Confirm the notice **I have made sure that all external data related to
-        this study has been destroyed**
-    -   Click on **Confirm**
+        this study has been destroyed** by clicking on **Confirm**
 
 
 .. _study-search:
