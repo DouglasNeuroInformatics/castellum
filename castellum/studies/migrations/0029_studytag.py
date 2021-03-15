@@ -4,6 +4,19 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
+def migrate_data(apps, schema_editor):
+    Study = apps.get_model('studies', 'Study')
+
+    for study in Study.objects.exclude(keywords=''):
+        if ';' in study.keywords:
+            names = study.keywords.split(';')
+        else:
+            names = study.keywords.split(',')
+
+        for name in names:
+            study.studytag_set.create(name=name.strip())
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -19,6 +32,7 @@ class Migration(migrations.Migration):
                 ('study', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='studies.study')),
             ],
         ),
+        migrations.RunPython(migrate_data),
         migrations.RemoveField(
             model_name='study',
             name='keywords',
