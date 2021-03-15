@@ -295,7 +295,7 @@ please proceed as follows:
     There may still be data stored in a backup. Please check with your local IT
     department to verify proper deletion.
 
-.. hint::
+.. note::
 
     Deleting a subject who has guardians will **not** automatically delete the
     corresponding guardians. However, if there is no other reason to keep the

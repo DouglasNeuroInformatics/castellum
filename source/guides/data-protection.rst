@@ -20,7 +20,7 @@ deleted.
 Most of the categories have legal time limits, so you should check the
 dashboard regularly.
 
-.. note::
+.. hint::
 
     It is recommended to configure an email address that should receive email
     notifications about new data protection tasks. Please ask your system
