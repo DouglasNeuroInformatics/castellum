@@ -4,7 +4,7 @@ Upload a consent document
 =========================
 
 Upload a new document
----------------------
+-----------------------
 
 1.  Click on **Admin** on the front page
 2.  Go to **Consent documents**
@@ -24,30 +24,28 @@ case there is a two step process:
 
 1.  Mark the old consent document as **deprecated**. The document is still
     considered valid but subjects who have agreed to this document will show up
-    in the consent maintenance view (see below).
+    in the consent maintenance view (see below)
 2.  Mark the old consent document as **invalid**. Now all consents related to
     this document are void. Subjects who have not been updated to the new
     document are no longer available for recruitment and will potentially show
-    up in the data protection dashboard.
+    up in the data protection dashboard
 
 The legal basis for each subject can be found in the subject detail view.
-
 
 .. _subject-consent:
 
 Set Recruitment Consent for a Subject
 =====================================
 
-1.  In subject management > subject details, go to the **Data protection** tab.
+1.  In subject management > subject details, go to the **Data protection** tab
 
 2.  Click on the checkbox **Recruitment consent**. It will not be checked
     immediately. Instead it indicates that you are waiting for confirmation
-    from the subject.
+    from the subject
 
-3.  If the subject agrees, click on **Confirm**.
+3.  If the subject agrees, click on **Confirm**
 
-4.  If the subject rejects the request, clear the checkbox.
-
+4.  If the subject rejects the request, clear the checkbox
 
 .. _subject-consent-maintenance:
 
@@ -62,7 +60,7 @@ required, proceed as follows:
 2.  Go to **Maintenance**
 
 3.  Choose the **Consent** tab. You will see a list of all subjects with
-    outdated recruitment consents.
+    outdated recruitment consents
 
 4.  Click on **Details** of a listed subject (opens in new browser tab)
 
