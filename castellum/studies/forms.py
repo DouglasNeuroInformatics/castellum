@@ -29,10 +29,12 @@ from django.utils.translation import gettext_lazy as _
 
 from castellum.castellum_auth.models import User
 from castellum.utils.forms import BaseImportForm
+from castellum.utils.forms import TagField
 
 from .models import Study
 from .models import StudyMembership
 from .models import StudySession
+from .models import StudyTag
 from .models import StudyType
 
 APP_DIR = Path(__file__).resolve().parent
@@ -40,6 +42,8 @@ IMPORT_SCHEMA = json.load(open(APP_DIR / 'schemas' / 'study.json'))
 
 
 class StudyForm(forms.ModelForm):
+    tags = TagField(label=_('Tags'), required=False)
+
     class Meta:
         model = Study
         fields = [
@@ -71,6 +75,27 @@ class StudyForm(forms.ModelForm):
 
         if self.instance:
             del self.fields['is_onetime_invitation']
+
+        if self.instance:
+            self.fields['tags'].initial = list(self.instance.tags)
+
+        self.fields['tags'].choices = self.get_tag_choices()
+
+    def get_tag_choices(self):
+        tags = set(StudyTag.objects.values_list('name', flat=True).distinct())
+        if self.data:
+            widget = self.fields['tags'].widget
+            tags.update(widget.value_from_datadict(self.data, {}, 'tags'))
+        return [(name, name) for name in sorted(tags)]
+
+    def save(self, commit=True):
+        obj = super().save(commit=commit)
+
+        obj.studytag_set.all().delete()
+        for name in self.cleaned_data['tags']:
+            obj.studytag_set.create(name=name)
+
+        return obj
 
 
 class StudyFilterForm(forms.Form):
