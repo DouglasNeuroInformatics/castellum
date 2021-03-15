@@ -35,7 +35,7 @@
                 {% bootstrap_field form.value show_label=False %}
             </div>
 
-            {% if study.status == study.EDIT %}
+            {% if not readonly %}
                 <div class="col-sm flex-grow-0">
                     <button type="button" class="btn btn-danger" data-js="filter-delete">{% translate 'Delete' %}</button>
                 </div>
@@ -85,7 +85,7 @@
                                 {% bootstrap_field form.value show_label=False %}
                             </div>
 
-                            {% if study.status == study.EDIT %}
+                            {% if not readonly %}
                                 <div class="col-sm flex-grow-0">
                                     <button type="button" class="btn btn-danger" data-js="filter-delete">{% translate 'Delete' %}</button>
                                 </div>
@@ -98,7 +98,7 @@
                     {% endfor %}
                 </div>
 
-                {% if study.status == study.EDIT %}
+                {% if not readonly %}
                     <div class="form-row">
                         <div class="col-sm-4">
                             {% bootstrap_field add_form.description show_label=False %}
@@ -112,7 +112,7 @@
         </div>
 
         <div class="d-print-none mb-3">
-            {% if study.status == study.EDIT %}
+            {% if not readonly %}
                 <button class="btn btn-primary" >{% translate 'Apply' %}</button>
             {% endif %}
         </div>
