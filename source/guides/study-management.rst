@@ -28,10 +28,9 @@ Set up sessions
 
 In the **Sessions** tab, you can enter as many test sessions as you like.
 
--   Define **Session instructions**,
--   **Start of test sessions**,
--   **End of test sessions** and
--   Click on **Add session**
+-   **Add session**
+-   Set up **Start of test sessions** and **End of test sessions**
+-   Define general **Session instructions**
 
 -   When adding a test session, always give the session a **Name** and specify
     the **Duration of a session in minutes**
@@ -48,11 +47,12 @@ In the **Sessions** tab, you can enter as many test sessions as you like.
 Set up the recruitment process
 ------------------------------
 
-In order to limit the search for subjects in Castellum,
+Castellum offers three features to restrict which subjects are considered for
+your study:
 
--   filters,
--   excluded studies as well as
--   inclusion and exclusion criteria should be defined.
+-   Attribute filters
+-   Excluded studies
+-   Text based inclusion and exclusion criteria
 
 1.  Go to the **Recruitment Settings** tab
 
@@ -75,8 +75,8 @@ In order to limit the search for subjects in Castellum,
 3.  By clicking on **Filter** you are able to set filter criteria
 
     -   select the attribute that should be used for filtering
-    -   click **Add**,
-    -   define the filter and
+    -   click **Add**
+    -   define the filter
     -   click **Apply**
 
     You may set as many filters as you like.
