@@ -165,7 +165,7 @@ Start and stop a study
 
 After a study has been created it is still in a draft state. Only Study
 Approvers have the permission to start recruitment. Depending on your
-organization, there may be different organziational steps such as a review
+organization, there may be different organizational steps such as a review
 associated with that.
 
 In order to start or stop a study, a Study Approver needs to follow these
@@ -204,7 +204,7 @@ Delete a study
 
 When a study should be deleted depends on the rules of your specific
 organization. We assume that it makes sense to delete all study data after few
-years, effecitvely anonymizing the research data.
+years, effectively anonymizing the research data.
 
 Once you delete a study from Castellum it is no longer possible to answer to
 export or delete requests from subjects. Make sure that all relevant external
