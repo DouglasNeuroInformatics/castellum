@@ -19,4 +19,8 @@ class Migration(migrations.Migration):
                 ('study', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='studies.study')),
             ],
         ),
+        migrations.RemoveField(
+            model_name='study',
+            name='keywords',
+        ),
     ]

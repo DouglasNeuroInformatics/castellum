@@ -55,7 +55,6 @@ class StudyForm(forms.ModelForm):
             'phone',
             'email',
             'description',
-            'keywords',
             'announce_status_changes',
             'data_sensitivity',
             'consent',
