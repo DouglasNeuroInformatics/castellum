@@ -3,14 +3,7 @@
 Create a study
 ==============
 
-1.  Click on **Studies** on the front page
-
-    -   By selecting **Mine** in **Membership**, you will see studies you created.
-        Under the field **All** you can see all studies that have been created.
-    -   In the field **Search** you can look for a certain study
-    -   By choosing a **Status** and / or a Study **Type**, you may also filter studies
-
-2.  Click on **Create new study**
+1.  Click on **Create new study**
 
 3.  Fill in all required fields on the page:
 
@@ -25,7 +18,7 @@ Create a study
 
 5.  Click on **Save** to record your progress
 
-Now you can find your study in the list
+Now you can :ref:`find your study <study-search>` in the studies list.
 
 
 .. _study-sessions:
@@ -60,12 +53,6 @@ In order to limit the search for subjects in Castellum,
 -   filters,
 -   excluded studies as well as
 -   inclusion and exclusion criteria should be defined.
-
-1.  Go to **Studies** on the front page, click **Details** next to the study
-    you wish to set up filters and criteria for
-
-    If you have already started the study, click on **Stop** on the upper left.
-    If you did not start it yet, you will be able to edit filters and criteria right away.
 
 2.  Go to the **Recruitment Settings** tab
 
@@ -136,12 +123,7 @@ Manage study members
 If you want to give access to a person (e.g. a recruiter) for your study,
 please follow the steps below.
 
-1.  Click on **Studies** on the front page
-
-2.  Click on **Details** of the study for which you want to change access rights
-    or role redistribution
-
-3.  Go to the **Member management** tab
+1.  Go to the **Member management** tab
 
 4.  If you click on the field under **User**, you will be shown all possible
     users to whom you can assign roles
@@ -172,8 +154,8 @@ associated with that.
 In order to start or stop a study, a Study Approver needs to follow these
 steps:
 
-1.  Go to **Studies** on the front page, click **Details** next to the study
-    you wish to start/stop.
+1.  :ref:`Find the study <study-search>` at the **Studies** page, click
+    **Details** next to the study you wish to start/stop
 
 2.  You can find the button **Start** in the left upper corner under the study
     name. By clicking on **Start** you initiate the recruiting process
@@ -184,8 +166,8 @@ steps:
 Finish a study
 ==============
 
-1.  Go to **Studies** on the front page, click **Details** next to the study
-    you wish to start/stop.
+1.  :ref:`Find the study <study-search>` at the **Studies** page, click
+    **Details** next to the study you wish to start/stop.
 
 2.  You can find the button **Finish study** in the left upper corner under the study
     name.
@@ -212,9 +194,8 @@ export or delete requests from subjects. Make sure that all relevant external
 has been deleted before you delete a study from Castellum. Then proceed as
 follows:
 
-1.  Go to **Studies** on the front page
-
-2.  Choose the study you want to delete by clicking on **Details** next to it
+1.  :ref:`Find the study <study-search>` at the **Studies** page, click
+    **Details**
 
 3.  Make sure the study is finished (see :ref:`study-finish`)
 
@@ -223,3 +204,18 @@ follows:
     -   Confirm the notice **I have made sure that all external data related to
         this study has been destroyed**
     -   Click on **Confirm**
+
+
+.. _study-search:
+
+Find your study
+===============
+
+Click on **Studies** on the front page
+
+-   By selecting **Mine** in **Membership**, you will see studies you created
+    or are a member of. Under the field **All** you can see all studies that
+    have been created.
+-   In the field **Search** you can look for a certain study
+-   By choosing a **Status** and / or a Study **Type**, you may also filter
+    studies
