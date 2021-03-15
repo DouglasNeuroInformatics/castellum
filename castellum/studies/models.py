@@ -263,6 +263,10 @@ class Study(models.Model):
         today = datetime.date.today()
         return self.participation_set.filter(followup_date__lte=today).exists()
 
+    @property
+    def tags(self):
+        return self.studytag_set.values_list('name', flat=True)
+
     @cached_property
     def has_filters(self):
         from castellum.recruitment.models import SubjectFilter
