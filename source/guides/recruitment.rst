@@ -47,7 +47,7 @@ Recruit subjects via phone
 Recruit subjects via mail
 =========================
 
-.. NOTE::
+.. note::
 
     Recruitment via mail is only possible if it has been :ref:`configured
     <study-recruitment-settings>` by the study coordinator.

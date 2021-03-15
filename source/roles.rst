@@ -3,7 +3,7 @@
 Roles
 =====
 
-.. NOTE::
+.. note::
 
     This section lists the roles that castellum ships by default. Administrators
     can customize these roles for their organization.

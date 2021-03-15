@@ -33,7 +33,7 @@ Search for a subject
 5.  If there is a **Match** found, confirm that this is the correct person by
     asking for a second feature (e.g. date of birth).
 
-    .. WARNING::
+    .. warning::
         Only ask for a second feature, do not disclose any information
         yourself. This is to avoid leaking personal information to imposters.
 
@@ -84,7 +84,7 @@ In order to create a potential subject in Castellum, please proceed as follows:
 
 3.  Click on **Create new subject**
 
-.. Warning:: 
+.. warning::
 
     Recruiters often find themselves in fast paced situations when talking to
     new potential subjects. Hence, we decided to support a quick creation of
@@ -290,7 +290,7 @@ please proceed as follows:
     **Are you sure you want to permanently delete this subject and all related
     data?** You can now click **Confirm** and the subject will be deleted.
 
-.. WARNING::
+.. warning::
 
     There may still be data stored in a backup. Please check with your local IT
     department to verify proper deletion.
