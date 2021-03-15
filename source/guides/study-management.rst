@@ -32,7 +32,7 @@ In the **Sessions** tab, you can enter as many test sessions as you like.
 -   Set up **Start of test sessions** and **End of test sessions**
 -   Define general **Session instructions**
 
-.. hint::
+.. note::
     In **Session Instructions** you can inform recruiters on
     conditions/requirements that may be important for or in between sessions.
     For example, recruiters are often asked to ensure a certain time interval
@@ -71,7 +71,7 @@ your study:
 -   Excluded studies
 -   Text based inclusion and exclusion criteria
 
-.. hint::
+.. note::
 
     At first it may be unclear how to distinguish **attribute filters** and
     **inclusion/exclusion criteria**:
@@ -110,7 +110,7 @@ your study:
 
     You may set as many filters as you like.
 
-    .. hint::
+    .. note::
         Please note that **all filter criteria** set up within this filter
         group have to be **fulfilled**. This also means that opposing filters
         would result in an empty set.
@@ -136,7 +136,7 @@ your study:
     **additional subject characteristics that should be verified during the
     recruitment**
 
-    .. hint::
+    .. note::
 
         Session types may come with specific criteria that have to be checked
         every time before appointing subjects to a session. In this case,
@@ -156,7 +156,7 @@ your study:
     the amount of recipients. Yet, you can check the appearance of the set up
     mail by sending a test mail to yourself with corresponding button.
 
-    .. hint::
+    .. note::
 
         It is not intended to send e-mail attachments via Castellum. Instead,
         links can be inserted as standard text.
@@ -249,9 +249,9 @@ follows:
 
 2.  Make sure the study is finished (see :ref:`study-finish`)
 
-3.  Click on **Delete** under the study name
-    -   Confirm the notice **I have made sure that all external data related to
-        this study has been destroyed** by clicking on **Confirm**
+3.  Click on **Delete** under the study name. Confirm the notice **I have made
+    sure that all external data related to this study has been destroyed** by
+    clicking on **Confirm**
 
 
 .. _study-search:
