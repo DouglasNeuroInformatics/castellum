@@ -36,28 +36,6 @@ from phonenumber_field.formfields import PhoneNumberField as _PhoneNumberFormFie
 from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
 
 
-class ReadonlyFormMixin:
-    def __init__(self, *args, **kwargs):
-        self.readonly = kwargs.pop('readonly', False)
-        super().__init__(*args, **kwargs)
-
-        if callable(self.readonly):
-            self.readonly = self.readonly(self)
-
-        if self.readonly:
-            for field in self.fields.values():
-                if hasattr(field, 'choices'):
-                    field.widget.attrs['disabled'] = True
-                elif getattr(field.widget, 'input_type', 'text') in ['checkbox', 'radio', 'file']:
-                    field.widget.attrs['disabled'] = True
-                else:
-                    field.widget.attrs['readonly'] = True
-
-
-class ReadonlyModelForm(ReadonlyFormMixin, forms.ModelForm):
-    pass
-
-
 class ColorInput(forms.TextInput):
     input_type = 'color'
 
