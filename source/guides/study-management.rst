@@ -155,8 +155,9 @@ steps:
 1.  :ref:`Find the study <study-search>` at the **Studies** page, click
     **Details** next to the study you wish to start/stop
 
-2.  You can find the button **Start** in the left upper corner under the study
-    name. By clicking on **Start** you initiate the recruiting process
+2.  You can find the button **Start** near to the study name. By clicking on
+    **Start** you initiate the recruiting process. Started studies will offer a
+    stop button instead to stop (or pause) recruitment.
 
 
 .. _study-finish:
@@ -167,8 +168,8 @@ Finish a study
 1.  :ref:`Find the study <study-search>` at the **Studies** page, click
     **Details** next to the study you wish to start/stop.
 
-2.  You can find the button **Finish study** in the left upper corner under the study
-    name.
+2.  You can find the button **Finish study** next to the study name near to
+    other buttons.
 
 .. note::
 
