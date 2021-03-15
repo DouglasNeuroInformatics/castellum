@@ -90,9 +90,9 @@ In order to create a potential subject in Castellum, please proceed as follows:
     new potential subjects. Hence, we decided to support a quick creation of
     subjects. Therefore, a subject is initially created with **very basic**
     information on name and privacy level. To assure a *viable* data set there
-    is much more information you should enter (see :ref:`edit-subject-data`).
+    is much more information you should enter (see :ref:`subject-edit`).
 
-.. _edit-subject-data:
+.. _subject-edit:
 
 Edit Subject Data
 =================

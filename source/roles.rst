@@ -25,12 +25,9 @@ Relevant guides:
 
 -   :ref:`subject-search`
 -   :ref:`subject-create`
+-   :ref:`subject-edit`
 -   :ref:`subject-to-be-deleted`
 -   :ref:`subject-consent`
-
-.. TODO::
-
-    -   See, add and edit contact data and attributes ob individual subjects
 
 Study Coordinator
 ~~~~~~~~~~~~~~~~~
@@ -168,4 +165,5 @@ to subjects that participate in the respective study.
 Relevant guides:
 
 -   :ref:`subject-search`
+-   :ref:`subject-edit`
 -   :ref:`subject-to-be-deleted`
