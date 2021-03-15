@@ -30,7 +30,10 @@ from django.utils.translation import gettext_lazy as _
 from castellum.castellum_auth.models import User
 from castellum.utils.forms import BaseImportForm
 
-from . import models
+from .models import Study
+from .models import StudyMembership
+from .models import StudySession
+from .models import StudyType
 
 APP_DIR = Path(__file__).resolve().parent
 IMPORT_SCHEMA = json.load(open(APP_DIR / 'schemas' / 'study.json'))
@@ -38,7 +41,7 @@ IMPORT_SCHEMA = json.load(open(APP_DIR / 'schemas' / 'study.json'))
 
 class StudyForm(forms.ModelForm):
     class Meta:
-        model = models.Study
+        model = Study
         fields = [
             'name',
             'contact_person',
@@ -73,9 +76,9 @@ class StudyFilterForm(forms.Form):
         ('my', _('Mine')),
         ('all', _('All')),
     ])
-    status = forms.ChoiceField(label=_('Status'), choices=models.Study.STATUS)
+    status = forms.ChoiceField(label=_('Status'), choices=Study.STATUS)
     type = forms.ModelChoiceField(
-        label=_('Type'), queryset=models.StudyType.objects, empty_label=None
+        label=_('Type'), queryset=StudyType.objects, empty_label=None
     )
     is_onetime_invitation = forms.BooleanField(label=_('One time invitation'))
     start = forms.DateTimeField()
@@ -84,7 +87,7 @@ class StudyFilterForm(forms.Form):
 
 class SessionForm(forms.ModelForm):
     class Meta:
-        model = models.StudySession
+        model = StudySession
         fields = ['name', 'duration', 'resource', 'type', 'reminder_text', 'schedule_id']
         widgets = {
             'type': forms.CheckboxSelectMultiple(),
@@ -93,12 +96,12 @@ class SessionForm(forms.ModelForm):
 
 class ExcludedStudiesForm(forms.ModelForm):
     class Meta:
-        model = models.Study
+        model = Study
         fields = ['excluded_studies']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['excluded_studies'].queryset = models.Study.objects.exclude(pk=self.instance.pk)
+        self.fields['excluded_studies'].queryset = Study.objects.exclude(pk=self.instance.pk)
         self.fields["excluded_studies"].widget.attrs['class'] = 'form-control'
 
 
@@ -108,7 +111,7 @@ class AddMemberForm(forms.Form):
 
 class MemberForm(forms.ModelForm):
     class Meta:
-        model = models.StudyMembership
+        model = StudyMembership
         fields = ['groups']
         widgets = {
             'groups': forms.CheckboxSelectMultiple(),
