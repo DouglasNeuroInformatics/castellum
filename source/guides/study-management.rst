@@ -72,17 +72,18 @@ In order to limit the search for subjects in Castellum,
 3.  By clicking on **General** the **Recruitment text** will be shown to you.
     You can:
 
-    -   edit the **Recruitment text** (this text will be shown to recruiters and
-        will be used by them to recruit subjects for your study),
-    -   decide whether you wish to set up the **Advanced filtering** (this allows
-        you to create multiple filtergroups that are not linked to each other),
-    -   set the function **Exclusive subjects** (If you select this feature, potential
-        subjects for your study cannot be recruited for other studies. Please note
-        that this may prevent other researchers from finding enough participants.)
-        and
+    -   edit the **Recruitment text** (this text will be shown to recruiters
+        and will be used by them to recruit subjects for your study),
+    -   decide whether you wish to set up the **Advanced filtering** (this
+        allows you to create multiple filtergroups that are not linked to each
+        other),
+    -   set the function **Exclusive subjects** (If you select this feature,
+        potential subjects for your study cannot be recruited for other
+        studies. Please note that this may prevent other researchers from
+        finding enough participants.) and
     -   decide whether **Complete filter matches only** will be shown to the
-        recruiters of your study or if there will be some subjects displayed, in
-        which certain characteristics still have to be queried
+        recruiters of your study or if there will be some subjects displayed,
+        in which certain characteristics still have to be queried
 
 4.  By clicking on **Filter** you are able to set filter criteria
 
