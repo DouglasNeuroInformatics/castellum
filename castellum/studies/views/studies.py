@@ -178,23 +178,7 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
 
 class StudyCreateView(PermissionRequiredMixin, CreateView):
     model = Study
-    fields = [
-        'name',
-        'contact_person',
-        'principal_investigator',
-        'affiliated_scientists',
-        'affiliated_research_assistants',
-        'phone',
-        'email',
-        'description',
-        'keywords',
-        'announce_status_changes',
-        'data_sensitivity',
-        'consent',
-        'min_subject_count',
-        'exportable_attributes',
-        'is_onetime_invitation',
-    ]
+    form_class = StudyForm
     permission_required = 'studies.change_study'
 
     def form_valid(self, form):

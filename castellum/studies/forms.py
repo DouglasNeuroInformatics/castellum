@@ -57,6 +57,7 @@ class StudyForm(forms.ModelForm):
             'consent',
             'min_subject_count',
             'exportable_attributes',
+            'is_onetime_invitation',
         ]
         help_texts = {
             'announce_status_changes': format_lazy(
@@ -64,6 +65,12 @@ class StudyForm(forms.ModelForm):
                 ', '.join(settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO)
             ),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if self.instance:
+            del self.fields['is_onetime_invitation']
 
 
 class StudyFilterForm(forms.Form):
