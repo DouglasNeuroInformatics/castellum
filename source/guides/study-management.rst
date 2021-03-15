@@ -5,7 +5,7 @@ Create a study
 
 1.  Click on **Create new study**
 
-3.  Fill in all required fields on the page:
+2.  Fill in all required fields on the page:
 
     -   **Name** describes the title of the study you want to create
     -   **Responsible contact person** is the person who can be contacted if
@@ -14,9 +14,9 @@ Create a study
     -   **Phone number** and **E-mail-address** are the contact information at
         which the contact person can be reached
 
-4.  Fill in any additional information (you can still do that later)
+3.  Fill in any additional information (you can still do that later)
 
-5.  Click on **Save** to record your progress
+4.  Click on **Save** to record your progress
 
 Now you can :ref:`find your study <study-search>` in the studies list.
 
@@ -54,9 +54,9 @@ In order to limit the search for subjects in Castellum,
 -   excluded studies as well as
 -   inclusion and exclusion criteria should be defined.
 
-2.  Go to the **Recruitment Settings** tab
+1.  Go to the **Recruitment Settings** tab
 
-3.  By clicking on **General** the **Recruitment text** will be shown to you.
+2.  By clicking on **General** the **Recruitment text** will be shown to you.
     You can:
 
     -   edit the **Recruitment text** (this text will be shown to recruiters
@@ -72,7 +72,7 @@ In order to limit the search for subjects in Castellum,
         recruiters of your study or if there will be some subjects displayed,
         in which certain characteristics still have to be queried
 
-4.  By clicking on **Filter** you are able to set filter criteria
+3.  By clicking on **Filter** you are able to set filter criteria
 
     -   select whether you want to create a filter regarding the **First language**,
         **Highest educational degree**, **Handedness**, **Has hearing aid?**, **Age**
@@ -95,16 +95,16 @@ In order to limit the search for subjects in Castellum,
         This is necessary, for example, if you need subjects both at the age between
         20-30 and 50-60.
 
-5.  In **Excluded studies** you can select certain studies in which your
+4.  In **Excluded studies** you can select certain studies in which your
     subjects must not have participated
 
-6.  When you click on **Inclusion/exclusion criteria**, you can add **Additional
+5.  When you click on **Inclusion/exclusion criteria**, you can add **Additional
     subject characteristics that should be verified during the recruitment**
 
     .. note::
         If it is a MRI-study, the criteria are pre-set for checking during recruitment
 
-7.  If recruitment is to take place by e-mail, proceed as follows:
+6.  If recruitment is to take place by e-mail, proceed as follows:
 
     -   click on **Mail Settings**
     -   define an **E-mail subject**
@@ -125,16 +125,16 @@ please follow the steps below.
 
 1.  Go to the **Member management** tab
 
-4.  If you click on the field under **User**, you will be shown all possible
+2.  If you click on the field under **User**, you will be shown all possible
     users to whom you can assign roles
 
-5.  Select the user who is supposed to take over the recruitment
+3.  Select the user who is supposed to take over the recruitment
 
-6.  Click on **Add**
+4.  Click on **Add**
 
-7.  Click **Manage groups** next to the person you have chosen
+5.  Click **Manage groups** next to the person you have chosen
 
-8.  Select the appropriate roles and click **Save**
+6.  Select the appropriate roles and click **Save**
 
     .. note::
 
@@ -197,10 +197,9 @@ follows:
 1.  :ref:`Find the study <study-search>` at the **Studies** page, click
     **Details**
 
-3.  Make sure the study is finished (see :ref:`study-finish`)
+2.  Make sure the study is finished (see :ref:`study-finish`)
 
-4.  Click on **Delete** under the study name
-
+3.  Click on **Delete** under the study name
     -   Confirm the notice **I have made sure that all external data related to
         this study has been destroyed**
     -   Click on **Confirm**
