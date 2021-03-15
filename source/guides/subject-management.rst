@@ -48,7 +48,7 @@ Subject data is split up into subsets that include at least the following inform
 -   **Date of birth**
 -   Information on whether the person is **Full of age** or **has legal guardian**.
     If the subject has a legal guardian, you will need to **Add guardian** (see
-    instructions in :ref:`contact-tab`)
+    instructions in :ref:`subject-contact-tab`)
 -   **E-mail** address and/or **Phone number** and/or full postal address and/or
     contacting details of the legal guardian
 -   **Attributes**
@@ -96,12 +96,12 @@ be saved upon changes individually.
 
 .. figure:: /_images/subject-tabs.png
 
-.. _overview-tab:
+.. _subject-overview-tab:
 
 Overview Tab
 ------------
 
-This tab gives you a quick overview of the subject data. Importantly, it offers different legal basis for storing the 
+This tab gives you a quick overview of the subject data. Importantly, it offers different legal bases for storing the 
 subject data in Castellum. You can check, add or rather edit the consent that applies:
 
 -   **Recruitment consent**
@@ -109,7 +109,7 @@ subject data in Castellum. You can check, add or rather edit the consent that ap
 -   **Guardianship**
 -   **Subject blocked**
 
-.. _contact-tab:
+.. _subject-contact-tab:
 
 Contact Tab
 -----------
@@ -143,13 +143,14 @@ This tab allows you to set up common information needed to get into contact with
         By clicking on **Remove** next to the guardian's name, you can delete
         them as the guardian of the subject.
 
-.. _attributes-tab:
+.. _subject-attributes-tab:
 
 Attributes Tab
 --------------
 
 The attributes tab lists all attributes and interests in study types. As rule of thumb you could think of attributes 
-as features that are used to decide on suitability for a study.
+as features that are used to decide on suitability for a study. It is expected that they only provide *indications* on 
+suitability as there are usually additional criteria that need to be checked for a study match. 
 
 -   Fill in the attribute fields used at your institute
 -   If the person **Does not want to participate in the following study types**,
@@ -159,7 +160,7 @@ as features that are used to decide on suitability for a study.
 
     Attributes may be **Mother Tongue**, **Highest Educational Degree**, **Age**, **Handedness** and so on.
 
-.. _data-protection-tab:
+.. _subject-data-protection-tab:
 
 Data Protection Tab
 -------------------
@@ -171,7 +172,7 @@ At the data protection tab should be used for to document recruitment consent an
 -   initiate an **Export request**
 -   specify whether the subject is **To be deleted**
 
-.. _info-tab:
+.. _subject-info-tab:
 
 Additional Info Tab
 -------------------
@@ -196,7 +197,7 @@ This tab mainly focusses on when to best reach out to subjects.
 
 -   define which **Data source** the data comes from
 
-.. _participations-tab:
+.. _subject-participations-tab:
 
 Study Participations Tab
 ------------------------
