@@ -3,16 +3,9 @@
 Create a study
 ==============
 
-1.  Click on **Studies** on the front page
+1.  Click on **Create new study**
 
-    -   By selecting **Mine** in **Membership**, you will see studies you created.
-        Under the field **All** you can see all studies that have been created.
-    -   In the field **Search** you can look for a certain study
-    -   By choosing a **Status** and / or a Study **Type**, you may also filter studies
-
-2.  Click on **Create new study**
-
-3.  Fill in all required fields on the page:
+2.  Fill in all required fields on the page:
 
     -   **Name** describes the title of the study you want to create
     -   **Responsible contact person** is the person who can be contacted if
@@ -21,11 +14,11 @@ Create a study
     -   **Phone number** and **E-mail-address** are the contact information at
         which the contact person can be reached
 
-4.  Fill in any additional information (you can still do that later)
+3.  Fill in any additional information (you can still do that later)
 
-5.  Click on **Save** to record your progress
+4.  Click on **Save** to record your progress
 
-Now you can find your study in the list
+Now you can :ref:`find your study <study-search>` in the studies list.
 
 
 .. _study-sessions:
@@ -35,19 +28,35 @@ Set up sessions
 
 In the **Sessions** tab, you can enter as many test sessions as you like.
 
--   Define **Session instructions**,
--   **Start of test sessions**,
--   **End of test sessions** and
--   Click on **Add session**
+-   **Add session**
+-   Set up **Start of test sessions** and **End of test sessions**
+-   Define general **Session instructions**
 
--   When adding a test session, always give the session a **Name** and specify
-    the **Duration of a session in minutes**
--   Select the **Type** of the session and press **Add session**
--   By clicking on the **Delete** button, you can delete any test session
-    you created
--   Click on **Update** to go to Session details. If your institute uses the
-    external scheduler to schedule appointments, you can enable it here
-    (see this guide: :ref:`set-up-external-scheduler`)
+.. note::
+    In **Session Instructions** you can inform recruiters on
+    conditions/requirements that may be important for or in between sessions.
+    For example, recruiters are often asked to ensure a certain time interval
+    between session appointments. This would be explained here.
+
+    **Start** and **End of test sessions** allows Castellum to offer an
+    approximate overview schedule of all studies in Calendar view at Study
+    management.
+
+When adding a test session:
+
+-   Always give the session a **Name** and specify the **Duration of a session
+    in minutes** (duration will be used for appointment booking)
+-   Additionally, select the **Type** of the session and (if applicable at your
+    institute) select a **Ressource**
+-   **Additional text for reminder emails** allows you to provide information
+    to subjects prior to the actual appointment. You can send yourself a test
+    mail to check the appearance of session reminders by using the
+    corresponding button
+-   If your institute uses the external scheduler to schedule appointments, you
+    can enable it here  (see :ref:`set-up-external-scheduler`)
+
+For existing sessions a **Delete** button allows you to delete any test session
+you created. Click on **Update** to review or edit session details.
 
 
 .. _study-recruitment-settings:
@@ -55,21 +64,28 @@ In the **Sessions** tab, you can enter as many test sessions as you like.
 Set up the recruitment process
 ------------------------------
 
-In order to limit the search for subjects in Castellum,
+Castellum offers three features to restrict which subjects are considered for
+your study:
 
--   filters,
--   excluded studies as well as
--   inclusion and exclusion criteria should be defined.
+-   Attribute filters
+-   Excluded studies
+-   Text based inclusion and exclusion criteria
 
-1.  Go to **Studies** on the front page, click **Details** next to the study
-    you wish to set up filters and criteria for
+.. note::
 
-    If you have already started the study, click on **Stop** on the upper left.
-    If you did not start it yet, you will be able to edit filters and criteria right away.
+    At first it may be unclear how to distinguish **attribute filters** and
+    **inclusion/exclusion criteria**:
 
-2.  Go to the **Recruitment Settings** tab
+    -   Attribute filters are applied to subject attributes stored in
+        Castellum. In other words, this will only suggest matching potential
+        subjects in recruitment.
+    -   Inclusion and exclusion criteria need to be used when there is no data
+        available about it in Castellum. Therefore, they must be checked by a
+        staff member explicitly during recruitment.
 
-3.  By clicking on **General** the **Recruitment text** will be shown to you.
+1.  Go to the **Recruitment Settings** tab
+
+2.  By clicking on **General** the **Recruitment text** will be shown to you.
     You can:
 
     -   edit the **Recruitment text** (this text will be shown to recruiters
@@ -85,47 +101,65 @@ In order to limit the search for subjects in Castellum,
         recruiters of your study or if there will be some subjects displayed,
         in which certain characteristics still have to be queried
 
-4.  By clicking on **Filter** you are able to set filter criteria
+3.  By clicking on **Filter** you are able to set filter criteria
 
-    -   select whether you want to create a filter regarding the **First language**,
-        **Highest educational degree**, **Handedness**, **Has hearing aid?**, **Age**
-        or **Sex**
-    -   click **Add**,
-    -   define the filter and
+    -   select the attribute that should be used for filtering
+    -   click **Add**
+    -   define the filter
     -   click **Apply**
 
     You may set as many filters as you like.
-    If you wish to create more than one filter group, proceed as follows:
-
-    -   click on **General**,
-    -   select **Advanced filtering** and
-    -   click on **Save**
-
-    When you click on **Add new** in **Filters**, you are able to set another
-    filter group with specific filters
 
     .. note::
-        This is necessary, for example, if you need subjects both at the age between
-        20-30 and 50-60.
+        Please note that **all filter criteria** set up within this filter
+        group have to be **fulfilled**. This also means that opposing filters
+        would result in an empty set.
 
-5.  In **Excluded studies** you can select certain studies in which your
+    Sometimes you need to define more than one mutually exclusive group of
+    suitable subjects. For this, you have to set up **advanced filtering** in
+    general recruitment settings to create various filter groups.
+
+    Subsequently, when you click on **Add new** in **Filters**, you are able to
+    set another filter group with specific filters. Alternatively, you could
+    duplicate an existing filter group and edit it afterwards.
+
+    .. admonition:: Example
+
+        This is necessary if you need subjects both at the age between 20-30
+        and 50-60. Again, note the distinction between **Any of these** and
+        **All of these**.
+
+4.  In **Excluded studies** you can select certain studies in which your
     subjects must not have participated
 
-6.  When you click on **Inclusion/exclusion criteria**, you can add **Additional
-    subject characteristics that should be verified during the recruitment**
+5.  When you click on **Inclusion/exclusion criteria**, you can add
+    **additional subject characteristics that should be verified during the
+    recruitment**
 
     .. note::
-        If it is a MRI-study, the criteria are pre-set for checking during recruitment
 
-7.  If recruitment is to take place by e-mail, proceed as follows:
+        Session types may come with specific criteria that have to be checked
+        every time before appointing subjects to a session. In this case,
+        you'll see a caret with a label **Criteria for: <type>** next to the
+        text field. Clicking on it will show you the text that is always
+        appended. In other words: You don't have to write this type specific
+        text by yourself.
+
+6.  To allow recruiters to send batch invitations via e-mail, proceed as
+    follows:
 
     -   click on **Mail Settings**
     -   define an **E-mail subject**
     -   add an **E-mail body**
 
+    This e-mail will be sent by recruiters at study recruitment by specifying
+    the amount of recipients. Yet, you can check the appearance of the set up
+    mail by sending a test mail to yourself with corresponding button.
+
     .. note::
-        It is not intended to send attachments in the first e-mail via Castellum.
-        Instead, links can be inserted.
+
+        It is not intended to send e-mail attachments via Castellum. Instead,
+        links can be inserted as standard text.
 
 
 .. _study-members:
@@ -133,30 +167,27 @@ In order to limit the search for subjects in Castellum,
 Manage study members
 --------------------
 
-If you want to give access to a person (e.g. a recruiter) for your study,
-please follow the steps below.
+If you want to give access to other staff members (e.g. recruiters) for your
+study, please follow the steps below.
 
-1.  Click on **Studies** on the front page
+1.  Go to the **Member management** tab
 
-2.  Click on **Details** of the study for which you want to change access rights
-    or role redistribution
-
-3.  Go to the **Member management** tab
-
-4.  If you click on the field under **User**, you will be shown all possible
+2.  If you click on the field under **User**, you will be shown all possible
     users to whom you can assign roles
 
-5.  Select the user who is supposed to take over the recruitment
+3.  Select the user who is supposed to take over the recruitment
 
-6.  Click on **Add**
+4.  Click on **Add**
 
-7.  Click **Manage groups** next to the person you have chosen
+5.  Click **Manage groups** next to the person you have chosen
 
-8.  Select the appropriate roles and click **Save**
+6.  Select the appropriate roles and click **Save**
 
     .. note::
 
-        Some features (e.g. recruitment) only become available once the study is started.
+        Some features (e.g. recruitment) only become available once the study
+        is started. So, some added users may not instantly notice those role
+        changes.
 
 
 .. _study-start:
@@ -172,11 +203,12 @@ associated with that.
 In order to start or stop a study, a Study Approver needs to follow these
 steps:
 
-1.  Go to **Studies** on the front page, click **Details** next to the study
-    you wish to start/stop.
+1.  :ref:`Find the study <study-search>` at the **Studies** page, click
+    **Details** next to the study you wish to start/stop
 
-2.  You can find the button **Start** in the left upper corner under the study
-    name. By clicking on **Start** you initiate the recruiting process
+2.  You can find the button **Start** near to the study name. By clicking on
+    **Start** you initiate the recruiting process. Started studies will offer a
+    stop button instead to stop (or pause) recruitment.
 
 
 .. _study-finish:
@@ -184,18 +216,18 @@ steps:
 Finish a study
 ==============
 
-1.  Go to **Studies** on the front page, click **Details** next to the study
-    you wish to start/stop.
+1.  :ref:`Find the study <study-search>` at the **Studies** page, click
+    **Details** next to the study you wish to start/stop.
 
-2.  You can find the button **Finish study** in the left upper corner under the study
-    name.
+2.  You can find the button **Finish study** next to the study name near to
+    other buttons.
 
 .. note::
 
-    All information related to potential subjects that were not invited to the
-    study will be deleted when the study is finished. If you finish and then
-    resume a study, it is possible that subjects that were already found to be
-    unsuitable are proposed again.
+    All information related to potential subjects who were **not invited** to
+    the study will be deleted when the study is finished. Hence, if you finish
+    and then resume a study, it is possible that subjects that were already
+    found to be unsuitable are suggested again as potential subjects.
 
 
 .. _study-delete:
@@ -212,14 +244,26 @@ export or delete requests from subjects. Make sure that all relevant external
 has been deleted before you delete a study from Castellum. Then proceed as
 follows:
 
-1.  Go to **Studies** on the front page
+1.  :ref:`Find the study <study-search>` at the **Studies** page, click
+    **Details**
 
-2.  Choose the study you want to delete by clicking on **Details** next to it
+2.  Make sure the study is finished (see :ref:`study-finish`)
 
-3.  Make sure the study is finished (see :ref:`study-finish`)
+3.  Click on **Delete** under the study name. Confirm the notice **I have made
+    sure that all external data related to this study has been destroyed** by
+    clicking on **Confirm**
 
-4.  Click on **Delete** under the study name
 
-    -   Confirm the notice **I have made sure that all external data related to
-        this study has been destroyed**
-    -   Click on **Confirm**
+.. _study-search:
+
+Find your study
+===============
+
+Click on **Studies** on the front page
+
+-   By selecting **Mine** in **Membership**, you will see studies you created
+    or are a member of. Under the field **All** you can see all studies that
+    have been created.
+-   In the field **Search** you can look for a certain study
+-   By choosing a **Status** and / or a Study **Type**, you may also filter
+    studies
