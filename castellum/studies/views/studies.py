@@ -41,6 +41,7 @@ from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import FormView
 from django.views.generic import ListView
+from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -337,6 +338,16 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
                 .delete()
         send_pr_mail(self.study)
         return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
+
+
+class StudyPseudonymDomainsView(StudyMixin, PermissionRequiredMixin, TemplateView):
+    permission_required = 'studies.change_study'
+    template_name = 'studies/study_pseudonym_domains.html'
+    tab = 'domains'
+
+    def post(self, request, *args, **kwargs):
+        self.study.domains.create(bits=settings.CASTELLUM_STUDY_DOMAIN_BITS)
+        return redirect('studies:domains', self.study.pk)
 
 
 class StudyImportView(PermissionRequiredMixin, FormView):

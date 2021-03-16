@@ -1,0 +1,18 @@
+{% extends "studies/study_base.html" %}
+{% load i18n auth %}
+
+{% block title %}{% translate "Pseudonym domains" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <p>{% translate 'Pseudonyms allow you to store data about subjects without their names and other identifying data. Often it is sufficient to have one pseudonym per subject and study. However, if you need more than that you can create additional pseudonym domains. Note that a pseudonym is only meaningful in combination with its domain.' %}</p>
+    <ul>
+        {% for domain in study.domains.all %}
+            <li>{{ domain.key }}</li>
+        {% endfor %}
+    </ul>
+
+    <form method="post">
+        {% csrf_token %}
+        <button class="btn btn-primary">{% translate 'Add domain' %}</button>
+    </form>
+{% endblock %}
