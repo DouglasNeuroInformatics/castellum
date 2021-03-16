@@ -36,16 +36,6 @@ def attempt(fn, attempts=10):
         return attempt(fn, attempts=attempts - 1)
 
 
-def create_domain(bits=40):
-    domain = attempt(lambda: Domain.objects.create(bits=bits))
-    return domain.key
-
-
-def delete_domain(domain_key):
-    domain = Domain.objects.get(key=domain_key)
-    domain.delete()
-
-
 def get_subject(domain_key, pseudonym):
     return Subject.objects.get(pseudonym__domain__key=domain_key, pseudonym__pseudonym=pseudonym)
 
