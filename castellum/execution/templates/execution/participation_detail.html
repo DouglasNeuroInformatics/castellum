@@ -2,10 +2,22 @@
 {% load i18n utils auth appointments %}
 
 {% block content %}
-    <dl class="row">
-        <dt class="col-sm-6">{% translate 'Pseudonym' %}</dt>
-        <dd class="col-sm-6">{{ object.pseudonym }}</dd>
-    </dl>
+    {% if pseudonyms|length > 1 %}
+        <h3 class="h5">{% translate 'Pseudonyms' %}</h3>
+        <dl class="row">
+            {% for domain, pseudonym in pseudonyms %}
+                <dt class="col-sm-6">{{ domain }}</dt>
+                <dd class="col-sm-6">{{ pseudonym }}</dd>
+            {% endfor %}
+        </dl>
+    {% else %}
+        <dl class="row">
+            <dt class="col-sm-6">{% translate 'Pseudonym' %}</dt>
+            {% for domain, pseudonym in pseudonyms %}
+                <dd class="col-sm-6">{{ pseudonym }}</dd>
+            {% endfor %}
+        </dl>
+    {% endif %}
 
     {% include 'contacts/__contact.html' with subject=subject %}
 
