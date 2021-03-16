@@ -453,7 +453,12 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, FormView):
         return reverse('recruitment:recruitment-open', args=[self.study.pk])
 
     def form_valid(self, form):
-        qs = self.study.participation_set.filter(status=form.cleaned_data['status'])
+        qs = self.study.participation_set.all()
+        status = form.cleaned_data.get('status')
+        if status or status == Participation.NOT_CONTACTED:
+            qs = qs.filter(status=status)
+        else:
+            qs = qs.exclude(status__in=[Participation.INVITED, Participation.UNSUITABLE])
         if form.cleaned_data.get('days'):
             dt = timezone.now() - datetime.timedelta(days=form.cleaned_data['days'])
             qs = qs.filter(updated_at__lt=dt)

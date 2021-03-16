@@ -35,3 +35,16 @@ def test_cleanup_view_days(client, recruiter, study_in_execution_status):
     assert participation1.status == Participation.UNSUITABLE
     participation2.refresh_from_db()
     assert participation2.status == Participation.NOT_CONTACTED
+
+
+def test_cleanup_ignore_invited(client, recruiter, study_in_execution_status):
+    client.force_login(recruiter)
+    with freeze_time('1970-01-01'):
+        participation = baker.make(
+            Participation, study=study_in_execution_status, status=Participation.INVITED
+        )
+    with freeze_time('1970-01-15'):
+        url = '/recruitment/{}/cleanup/'.format(study_in_execution_status.pk)
+        client.post(url, {'days': 5})
+    participation.refresh_from_db()
+    assert participation.status == Participation.INVITED
