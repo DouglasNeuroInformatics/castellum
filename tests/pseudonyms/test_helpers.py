@@ -2,6 +2,7 @@ import pytest
 from model_bakery import baker
 
 from castellum.pseudonyms import helpers
+from castellum.pseudonyms.models import Domain
 from castellum.pseudonyms.models import Pseudonym
 from castellum.subjects.models import Subject
 
@@ -23,7 +24,7 @@ def test_get_pseudonym(pseudonym):
 
 @pytest.mark.django_db
 def test_get_pseudonym_that_does_not_exist(pseudonym):
-    another_domain = helpers.create_domain()
+    another_domain = baker.make(Domain)
     result = helpers.get_pseudonym(pseudonym.subject, another_domain)
 
     new_pseudonym = Pseudonym.objects.get(domain__key=another_domain)
