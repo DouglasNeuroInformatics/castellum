@@ -4,11 +4,34 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
+def migrate_data(apps, schema_editor):
+    Domain = apps.get_model('pseudonyms', 'Domain')
+    Study = apps.get_model('studies', 'Study')
+    StudySession = apps.get_model('studies', 'StudySession')
+    ContentType = apps.get_model('contenttypes', 'ContentType')
+
+    study_ct = ContentType.objects.get_for_model(Study)
+    session_ct = ContentType.objects.get_for_model(StudySession)
+
+    for study in Study.objects.all():
+        domain = Domain.objects.get(key=study.domain)
+        domain.content_type = study_ct
+        domain.object_id = study.id
+        domain.save()
+
+    for session in StudySession.objects.all():
+        domain = Domain.objects.get(key=session.domain)
+        domain.content_type = session_ct
+        domain.object_id = session.id
+        domain.save()
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
         ('contenttypes', '0002_remove_content_type_name'),
         ('pseudonyms', '0002_pseudonym_unique_subject_domain'),
+        ('studies', '0028_studysession_schedule_id_charfield'),
     ]
 
     operations = [
@@ -22,4 +45,5 @@ class Migration(migrations.Migration):
             name='object_id',
             field=models.PositiveIntegerField(blank=True, null=True),
         ),
+        migrations.RunPython(migrate_data),
     ]
