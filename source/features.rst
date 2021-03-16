@@ -12,6 +12,7 @@ Relevant guides:
 
 -   :ref:`subject-search`
 -   :ref:`subject-create`
+-   :ref:`subject-edit`
 -   :ref:`subject-get-pseudonym`
 -   :ref:`subject-to-be-deleted`
 -   :ref:`subject-delete`
