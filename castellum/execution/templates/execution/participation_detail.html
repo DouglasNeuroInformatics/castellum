@@ -2,9 +2,12 @@
 {% load i18n utils auth appointments %}
 
 {% block content %}
+    <h3 class="h5">{% translate 'Pseudonyms' %}</h3>
     <dl class="row">
-        <dt class="col-sm-6">{% translate 'Pseudonym' %}</dt>
-        <dd class="col-sm-6">{{ object.pseudonym }}</dd>
+        {% for domain, pseudonym in pseudonyms %}
+            <dt class="col-sm-6">{{ domain }}</dt>
+            <dd class="col-sm-6">{{ pseudonym }}</dd>
+        {% endfor %}
     </dl>
 
     {% include 'contacts/__contact.html' with subject=subject %}
