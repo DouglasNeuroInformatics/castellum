@@ -219,12 +219,24 @@ class SendMailForm(forms.Form):
 
 
 class CleanupForm(forms.Form):
-    status = forms.TypedChoiceField(label=_('Status'), coerce=int, choices=[
+    status = forms.TypedChoiceField(label=_('Status'), required=False, coerce=int, choices=[
+        (None, '---'),
+    ] + [
         (value, label)
         for value, label in Participation.STATUS_OPTIONS
         if value not in (Participation.INVITED, Participation.UNSUITABLE)
     ])
     days = forms.IntegerField(label=_('Days since last update'), required=False)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        status = cleaned_data.get('status')
+        if not (
+            (status or status == Participation.NOT_CONTACTED)
+            or cleaned_data.get('days')
+        ):
+            raise forms.ValidationError(_('At least one filter must be provided.'), code='invalid')
+        return cleaned_data
 
 
 class DescriptionImportForm(BaseImportForm):
