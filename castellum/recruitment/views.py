@@ -446,6 +446,7 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, FormView):
     permission_required = 'recruitment.recruit'
     form_class = CleanupForm
     template_name = 'recruitment/cleanup.html'
+    study_status = [Study.EXECUTION]
     tab = 'recruitment'
 
     def get_success_url(self):
