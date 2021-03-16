@@ -35,11 +35,9 @@
                 {% bootstrap_field form.value show_label=False %}
             </div>
 
-            {% if not readonly %}
-                <div class="col-sm flex-grow-0">
-                    <button type="button" class="btn btn-danger" data-js="filter-delete">{% translate 'Delete' %}</button>
-                </div>
-            {% endif %}
+            <div class="col-sm flex-grow-0">
+                <button type="button" class="btn btn-danger" data-js="filter-delete">{% translate 'Delete' %}</button>
+            </div>
         </template>
     {% endfor %}
 
@@ -85,36 +83,26 @@
                                 {% bootstrap_field form.value show_label=False %}
                             </div>
 
-                            {% if not readonly %}
-                                <div class="col-sm flex-grow-0">
-                                    <button type="button" class="btn btn-danger" data-js="filter-delete">{% translate 'Delete' %}</button>
-                                </div>
-                            {% endif %}
+                            <div class="col-sm flex-grow-0">
+                                <button type="button" class="btn btn-danger" data-js="filter-delete">{% translate 'Delete' %}</button>
+                            </div>
                         </div>
-                    {% empty %}
-                        {% if readonly %}
-                            <p>{% translate 'No filters' %}</p>
-                        {% endif %}
                     {% endfor %}
                 </div>
 
-                {% if not readonly %}
-                    <div class="form-row">
-                        <div class="col-sm-4">
-                            {% bootstrap_field add_form.description show_label=False %}
-                        </div>
-                        <div class="col-sm">
-                            <button type="button" class="btn btn-primary" data-js="filter-add">{% translate "Add" %}</button>
-                        </div>
+                <div class="form-row">
+                    <div class="col-sm-4">
+                        {% bootstrap_field add_form.description show_label=False %}
                     </div>
-                {% endif %}
+                    <div class="col-sm">
+                        <button type="button" class="btn btn-primary" data-js="filter-add">{% translate "Add" %}</button>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="d-print-none mb-3">
-            {% if not readonly %}
-                <button class="btn btn-primary" >{% translate 'Apply' %}</button>
-            {% endif %}
+            <button class="btn btn-primary" >{% translate 'Apply' %}</button>
         </div>
     </form>
 {% endblock %}

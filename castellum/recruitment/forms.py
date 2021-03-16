@@ -24,11 +24,9 @@ from pathlib import Path
 
 from django import forms
 from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import gettext_lazy as _
 
 from castellum.appointments.forms import AppointmentsForm
-from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 from castellum.utils.forms import BaseImportForm
 from castellum.utils.forms import DisabledChoiceField
@@ -91,13 +89,6 @@ class SubjectFilterForm(forms.ModelForm):
         self.fields["operator"] = forms.ChoiceField(
             choices=self.desc.field.available_operators
         )
-
-        try:
-            if self.instance.group.study.status != Study.EDIT:
-                self.fields["value"].widget.attrs["disabled"] = True
-                self.fields["operator"].widget.attrs["disabled"] = True
-        except ObjectDoesNotExist:
-            pass
 
     def _get_selected_description(self, instance=None, data=None, prefix=None, **kwargs):
         if instance:
