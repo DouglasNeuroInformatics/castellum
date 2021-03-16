@@ -86,4 +86,8 @@
     $.fn.select2.defaults.set('theme', 'bootstrap4');
     $('[data-js="select2"]').select2();
     $('[data-js="d-select2"] select').select2();
+    $('[data-js="d-select2-clear"] select').select2({
+        allowClear: true,
+        placeholder: '---',
+    });
 })();
