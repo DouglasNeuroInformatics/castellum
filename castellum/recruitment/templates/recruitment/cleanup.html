@@ -5,18 +5,40 @@
 
 {% block content %}
     <h2>{% translate 'Cleanup' %}</h2>
-    <p>{% translate 'Automatically mark subjects with the following properties as unsuitable. Their participation status can still be changed afterwards.' %}</p>
+    <p>{% translate 'Please select one of the following options:' %}</p>
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 
-        {% bootstrap_field form.status %}
-        {% bootstrap_field form.match %}
-        {% bootstrap_field form.days %}
+        <div class="card-group mb-3">
+            <div class="card">
+                <div class="card-body">
+                    {% translate 'Mark all open participations as unsuitable.' %}
+                </div>
+                <div class="card-footer">
+                    <button name="action" value="all" class="btn btn-primary btn-block">{% translate 'All' %}</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    {% translate 'Mark all subjects as unsuitable who have not answered for 10 days or more.' %}
+                </div>
+                <div class="card-footer">
+                    <button name="action" value="awaiting_response" class="btn btn-primary btn-block">{% translate 'Awaiting response' %}</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    {% translate 'Mark all subject who do not match the current filter criteria as unsuitable.' %}
+                </div>
+                <div class="card-footer">
+                    <button name="action" value="mismatch" class="btn btn-primary btn-block">{% translate 'Mismatch' %}</button>
+                </div>
+            </div>
+        </div>
 
         <div class="d-print-none mb-3">
             <a class="btn btn-outline-primary" href="{% url 'recruitment:recruitment-open' study.pk %}">{% translate 'Back' %}</a>
-            <button class="btn btn-primary" >{% translate 'Submit' %}</button>
         </div>
     </form>
 {% endblock %}
