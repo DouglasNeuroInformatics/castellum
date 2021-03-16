@@ -29,6 +29,11 @@
         </div>
 
         <div class="col-md-9">
+            {% if study.status != study.EDIT %}
+                <p class="alert alert-warning">
+                    {% translate 'Please note that study recruitment has already been started. Therefore, editing recruitment settings may end up in inconsistent suggestions for potential subjects.' %}
+                </p>
+            {% endif %}
             {{ block.super }}
         </div>
     </div>
