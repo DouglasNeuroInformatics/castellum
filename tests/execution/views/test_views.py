@@ -2,6 +2,8 @@ import pytest
 from model_bakery import baker
 
 from castellum.appointments.models import Appointment
+from castellum.pseudonyms.helpers import get_pseudonym
+from castellum.pseudonyms.models import Domain
 from castellum.recruitment.models import Participation
 
 
@@ -77,7 +79,12 @@ def test_resolve_view(client, member, study_in_execution_status, subject):
     )
 
     url = '/execution/{}/resolve/'.format(study_in_execution_status.pk)
+
+    response = client.get(url)
+    assert b'<input type="hidden" name="domain"' in response.content
+
     response = client.post(url, {
+        'domain': study_in_execution_status.domain,
         'pseudonym': participation.pseudonym,
     })
 
@@ -85,6 +92,32 @@ def test_resolve_view(client, member, study_in_execution_status, subject):
     assert response.url == '/execution/{}/{}/'.format(
         study_in_execution_status.pk, participation.pk
     )
+
+
+def test_resolve_view_wrong_domain(client, member, study_in_execution_status, subject):
+    client.force_login(member)
+
+    domain1 = baker.make(Domain, context=study_in_execution_status)
+    domain2 = baker.make(Domain, context=study_in_execution_status)
+
+    baker.make(
+        Participation,
+        study=study_in_execution_status,
+        status=Participation.INVITED,
+        subject=subject,
+    )
+
+    url = '/execution/{}/resolve/'.format(study_in_execution_status.pk)
+
+    response = client.get(url)
+    assert b'<select name="domain"' in response.content
+
+    response = client.post(url, {
+        'domain': domain1.key,
+        'pseudonym': get_pseudonym(subject, domain2.key),
+    })
+
+    assert response.status_code == 200
 
 
 @pytest.mark.smoketest

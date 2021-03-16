@@ -231,9 +231,14 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
     form_class = PseudonymForm
     tab = 'pseudonym'
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['context'] = self.study
+        return kwargs
+
     def form_valid(self, form):
         try:
-            subject = get_subject(self.study.domain, form.cleaned_data['pseudonym'])
+            subject = get_subject(form.cleaned_data['domain'], form.cleaned_data['pseudonym'])
             participation = Participation.objects.filter(
                 study=self.study,
                 subject=subject,

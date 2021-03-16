@@ -35,4 +35,13 @@ class PseudonymField(forms.CharField):
 
 
 class PseudonymForm(forms.Form):
+    domain = forms.ChoiceField(label=_('Domain'))
     pseudonym = PseudonymField(label=_('Pseudonym'))
+
+    def __init__(self, *args, context, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['domain'].choices = [
+            (d.key, str(d)) for d in context.domains.all()
+        ]
+        self.fields['domain'].initial = self.fields['domain'].choices[0][0]
