@@ -58,11 +58,13 @@ from castellum.studies.models import StudySession
 from castellum.studies.models import StudyTypeEventFeed
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
+from castellum.subjects.models import Subject
 from castellum.utils import cached_request
 from castellum.utils import contrast_color
 from castellum.utils import scheduler
 from castellum.utils.mail import MailContext
 
+from . import filter_queries
 from .forms import CleanupForm
 from .forms import ContactAndAppointmentsForm
 from .forms import ContactForm
@@ -459,6 +461,11 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, FormView):
             qs = qs.filter(status=status)
         else:
             qs = qs.exclude(status__in=[Participation.INVITED, Participation.UNSUITABLE])
+        if form.cleaned_data.get('match'):
+            include_unknown = form.cleaned_data['match'] == 'nomatch'
+            qs = qs.exclude(subject__in=Subject.objects.filter(
+                filter_queries.study(self.study, include_unknown=include_unknown),
+            ))
         if form.cleaned_data.get('days'):
             dt = timezone.now() - datetime.timedelta(days=form.cleaned_data['days'])
             qs = qs.filter(updated_at__lt=dt)

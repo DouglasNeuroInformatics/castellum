@@ -217,6 +217,11 @@ class CleanupForm(forms.Form):
         for value, label in Participation.STATUS_OPTIONS
         if value not in (Participation.INVITED, Participation.UNSUITABLE)
     ])
+    match = forms.ChoiceField(label=_('Match'), required=False, choices=[
+        (None, '---'),
+        ('nomatch', _('Not a match')),
+        ('incomplete', _('Maybe not a match (missing attributes)')),
+    ])
     days = forms.IntegerField(label=_('Days since last update'), required=False)
 
     def clean(self):
@@ -224,6 +229,7 @@ class CleanupForm(forms.Form):
         status = cleaned_data.get('status')
         if not (
             (status or status == Participation.NOT_CONTACTED)
+            or cleaned_data.get('match')
             or cleaned_data.get('days')
         ):
             raise forms.ValidationError(_('At least one filter must be provided.'), code='invalid')
