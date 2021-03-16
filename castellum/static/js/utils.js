@@ -56,14 +56,6 @@
         }
     });
 
-    $$.on(document, 'click', '[data-multi-reset]', function() {
-        var targetSelector = this.dataset.multiReset;
-        var target = document.querySelector(targetSelector);
-        target.querySelectorAll('option').forEach(function(element) {
-            element.selected = false;
-        });
-    });
-
     $$.on(document, 'click', '[data-clipboard]', function() {
         var targetSelector = this.dataset.clipboard;
         var target = document.querySelector(targetSelector);
