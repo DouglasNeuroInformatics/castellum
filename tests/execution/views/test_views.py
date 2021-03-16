@@ -78,6 +78,7 @@ def test_resolve_view(client, member, study_in_execution_status, subject):
 
     url = '/execution/{}/resolve/'.format(study_in_execution_status.pk)
     response = client.post(url, {
+        'domain': study_in_execution_status.domain,
         'pseudonym': participation.pseudonym,
     })
 

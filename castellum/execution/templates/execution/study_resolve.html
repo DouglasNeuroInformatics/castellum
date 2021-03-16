@@ -6,6 +6,7 @@
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 
+        {% bootstrap_field form.domain %}
         {% bootstrap_field form.pseudonym %}
 
         <div class="d-print-none mb-3">
