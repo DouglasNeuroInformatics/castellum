@@ -20,8 +20,8 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.apps import AppConfig
+from django.db.models.signals import post_save
 from django.db.models.signals import pre_delete
-from django.db.models.signals import pre_save
 
 from . import signals
 
@@ -30,8 +30,8 @@ class StudiesConfig(AppConfig):
     name = 'castellum.studies'
 
     def ready(self):
-        pre_save.connect(signals.create_study_domain)
+        post_save.connect(signals.create_study_domain)
         pre_delete.connect(signals.delete_study_domain)
 
-        pre_save.connect(signals.create_session_domain)
+        post_save.connect(signals.create_session_domain)
         pre_delete.connect(signals.delete_session_domain)
