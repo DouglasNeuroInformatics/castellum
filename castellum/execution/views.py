@@ -107,7 +107,11 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
         zresponse = zipfile.ZipFile(response, 'w')
 
         subjects = []
-        for participation in self.study.participation_set.filter(status=Participation.INVITED):
+        for participation in (
+            self.study.participation_set
+            .filter(status=Participation.INVITED)
+            .select_related('subject')
+        ):
             has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
             if has_access:
                 subjects.append((participation.pseudonym, participation.subject))
