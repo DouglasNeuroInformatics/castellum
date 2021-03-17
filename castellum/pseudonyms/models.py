@@ -30,6 +30,7 @@ from castellum.utils import uuid_str
 
 class Domain(models.Model):
     key = models.CharField(max_length=64, default=uuid_str, unique=True, editable=False)
+    name = models.CharField(max_length=64, blank=True)
     bits = models.PositiveIntegerField(default=40)
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
@@ -37,7 +38,7 @@ class Domain(models.Model):
     context = GenericForeignKey()
 
     def __str__(self):
-        return self.key
+        return self.name or self.key
 
 
 class Pseudonym(models.Model):
