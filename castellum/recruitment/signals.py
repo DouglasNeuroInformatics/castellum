@@ -22,14 +22,14 @@
 from django.conf import settings
 
 
-def delete_participation_pseudonym(sender, instance, using, **kwargs):
+def delete_participation_pseudonyms(sender, instance, using, **kwargs):
     from castellum.pseudonyms.models import Pseudonym
 
     from .models import Participation
 
     if sender is Participation:
         Pseudonym.objects\
-            .filter(domain__key=instance.study.domain, subject=instance.subject)\
+            .filter(domain__in=instance.study.domains.all(), subject=instance.subject)\
             .update(subject=None)
 
 
