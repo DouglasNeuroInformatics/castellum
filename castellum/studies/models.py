@@ -256,12 +256,6 @@ class Study(models.Model):
         return result[key + '__max'] or 0
 
     @property
-    def domain(self):
-        domain = self.domains.first()
-        if domain:
-            return domain.key
-
-    @property
     def study_type(self):
         return StudyType.objects.filter(studysession__study=self).distinct()
 

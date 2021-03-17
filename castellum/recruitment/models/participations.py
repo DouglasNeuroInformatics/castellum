@@ -28,7 +28,6 @@ from django.utils import formats
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
-from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 from castellum.utils.fields import DateField
@@ -155,11 +154,6 @@ class Participation(models.Model):
             Participation.FOLLOWUP_APPOINTED,
             Participation.AWAITING_RESPONSE,
         ]
-
-    @cached_property
-    def pseudonym(self):
-        """Note that the pseudonym is generated on demand."""
-        return get_pseudonym(self.subject, self.study.domain)
 
     @cached_property
     def appointment_today(self):

@@ -26,7 +26,7 @@ def create_study_domain(sender, instance, using, **kwargs):
     from castellum.pseudonyms.models import Domain
     from castellum.studies.models import Study
 
-    if sender is Study and not instance.domain:
+    if sender is Study and not instance.domains.exists():
         Domain.objects.create(
             bits=settings.CASTELLUM_STUDY_DOMAIN_BITS,
             context=instance,
@@ -44,7 +44,7 @@ def create_session_domain(sender, instance, using, **kwargs):
     from castellum.pseudonyms.models import Domain
     from castellum.studies.models import StudySession
 
-    if sender is StudySession and not instance.domain:
+    if sender is StudySession and not instance.domains.exists():
         Domain.objects.create(
             bits=settings.CASTELLUM_SESSION_DOMAIN_BITS,
             context=instance,
