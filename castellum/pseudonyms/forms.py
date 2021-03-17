@@ -34,9 +34,8 @@ class PseudonymField(forms.CharField):
             raise ValidationError(_('Invalid pseudonym'), code='invalid')
 
 
-class PseudonymForm(forms.Form):
+class DomainForm(forms.Form):
     domain = forms.ChoiceField(label=_('Domain'))
-    pseudonym = PseudonymField(label=_('Pseudonym'))
 
     def __init__(self, *args, context, **kwargs):
         super().__init__(*args, **kwargs)
@@ -45,3 +44,7 @@ class PseudonymForm(forms.Form):
             (d.key, str(d)) for d in context.domains.all()
         ]
         self.fields['domain'].initial = self.fields['domain'].choices[0][0]
+
+
+class PseudonymForm(DomainForm):
+    pseudonym = PseudonymField(label=_('Pseudonym'))

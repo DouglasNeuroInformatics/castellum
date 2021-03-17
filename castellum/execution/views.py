@@ -41,6 +41,7 @@ from castellum.appointments.mixins import send_appointment_notifications
 from castellum.appointments.models import Appointment
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
+from castellum.pseudonyms.forms import DomainForm
 from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.helpers import get_subject
@@ -91,12 +92,18 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
 
 
 class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
+    template_name = 'execution/study_export.html'
     model = Study
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     tab = 'list'
 
-    def get(self, request, **kwargs):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = DomainForm(context=self.study)
+        return context
+
+    def export(self, domain):
         monitoring_logger.info('Attribute export: study {} by {}'.format(
             self.study.pk, self.request.user.pk
         ))
@@ -114,7 +121,8 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
         ):
             has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
             if has_access:
-                subjects.append((participation.pseudonym, participation.subject))
+                pseudonym = get_pseudonym(participation.subject, domain.key)
+                subjects.append((pseudonym, participation.subject))
 
         filename = exporter.get_schema_filename()
         content = exporter.get_schema(descriptions)
@@ -127,6 +135,16 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
             fh.write(content.encode('UTF-8'))
 
         return response
+
+    def get(self, request, **kwargs):
+        if 'domain' in self.request.GET:
+            domain = get_object_or_404(self.study.domains.all(), key=self.request.GET['domain'])
+            return self.export(domain)
+        elif self.study.domains.count() == 1:
+            domain = self.study.domains.get()
+            return self.export(domain)
+        else:
+            return super().get(request, **kwargs)
 
 
 class ParticipationDetailMixin(ParticipationMixin, PermissionRequiredMixin):
