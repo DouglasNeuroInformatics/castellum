@@ -29,6 +29,7 @@ from .views import CalendarView
 from .views import ContactUpdateView
 from .views import DataProtectionUpdateView
 from .views import ExclusionCriteriaView
+from .views import ExportView
 from .views import NewsMailView
 from .views import ParticipationAppointmentsUpdateView
 from .views import ParticipationAppointmentsView
@@ -47,6 +48,7 @@ urlpatterns = [
     path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),
     path('<int:pk>/calendar/feed/', AppointmentFeedForStudy(), name='calendar-feed'),
     path('<int:pk>/criteria/', ExclusionCriteriaView.as_view(), name='criteria'),
+    path('<int:pk>/export/', ExportView.as_view(), name='export'),
     path(
         '<int:study_pk>/<int:pk>/',
         ParticipationDetailView.as_view(),

@@ -89,7 +89,14 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
 
         return context
 
-    def export(self):
+
+class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
+    model = Study
+    permission_required = 'recruitment.conduct_study'
+    study_status = [Study.EXECUTION]
+    tab = 'list'
+
+    def get(self, request, **kwargs):
         monitoring_logger.info('Attribute export: study {} by {}'.format(
             self.study.pk, self.request.user.pk
         ))
@@ -116,12 +123,6 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
             fh.write(content.encode('UTF-8'))
 
         return response
-
-    def get(self, request, *args, **kwargs):
-        if 'export' in request.GET:
-            return self.export()
-        else:
-            return super().get(request, *args, **kwargs)
 
 
 class ParticipationDetailMixin(ParticipationMixin, PermissionRequiredMixin):
