@@ -148,6 +148,7 @@ class ParticipationDetailView(ParticipationDetailMixin, DetailView):
 
 class ParticipationPseudonymsView(ParticipationDetailMixin, DetailView):
     participation_status = [Participation.INVITED]
+    study_status = []
     template_name = 'execution/participation_pseudonyms.html'
     tab = 'overview'
 
