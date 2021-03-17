@@ -15,4 +15,8 @@ class Migration(migrations.Migration):
             name='name',
             field=models.CharField(blank=True, max_length=64),
         ),
+        migrations.AlterModelOptions(
+            name='domain',
+            options={'ordering': ['id']},
+        ),
     ]

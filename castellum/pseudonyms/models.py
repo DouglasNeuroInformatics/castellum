@@ -37,6 +37,9 @@ class Domain(models.Model):
     object_id = models.PositiveIntegerField(null=True, blank=True)
     context = GenericForeignKey()
 
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return self.name or self.key
 
