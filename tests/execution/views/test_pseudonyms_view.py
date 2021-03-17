@@ -10,7 +10,7 @@ from castellum.recruitment.models import Participation
     pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
     pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
     pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+    'data_protection_coordinator',
 ])
 def test_200(request, client, study, user_fixture):
     participation = baker.make(Participation, study=study, status=Participation.INVITED)

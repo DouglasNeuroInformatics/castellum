@@ -152,6 +152,9 @@ class ParticipationPseudonymsView(ParticipationDetailMixin, DetailView):
     template_name = 'execution/participation_pseudonyms.html'
     tab = 'overview'
 
+    def has_permission(self):
+        return super().has_permission() or self.request.user.has_perm('subjects.delete_subject')
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['pseudonyms'] = [
