@@ -26,6 +26,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import models
+from django.forms import modelform_factory
 from django.http import HttpResponseBadRequest
 from django.http import JsonResponse
 from django.http import QueryDict
@@ -45,6 +46,7 @@ from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.pseudonyms.models import Domain
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
 from castellum.subjects.models import Subject
@@ -346,7 +348,15 @@ class StudyPseudonymDomainsView(StudyMixin, PermissionRequiredMixin, TemplateVie
     tab = 'domains'
 
     def post(self, request, *args, **kwargs):
-        self.study.domains.create(bits=settings.CASTELLUM_STUDY_DOMAIN_BITS)
+        if self.request.POST.get('action') == 'add':
+            self.study.domains.create(bits=settings.CASTELLUM_STUDY_DOMAIN_BITS)
+        elif self.request.POST.get('action') == 'name':
+            domain = get_object_or_404(self.study.domains.all(), key=self.request.POST['domain'])
+            form_cls = modelform_factory(Domain, fields=['name'])
+            form = form_cls(data=self.request.POST, instance=domain)
+            if form.is_valid():
+                form.save()
+
         return redirect('studies:domains', self.study.pk)
 
 

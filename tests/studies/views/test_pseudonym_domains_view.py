@@ -10,6 +10,21 @@ def test_200(client, study, member):
 
 def test_add(client, study, member):
     client.force_login(member)
-    response = client.post('/studies/{}/domains/'.format(study.pk))
+    response = client.post('/studies/{}/domains/'.format(study.pk), {
+        'action': 'add',
+    })
     assert response.status_code == 302
     assert study.domains.count() == 2
+
+
+def test_name(client, study, member):
+    client.force_login(member)
+    domain = study.domains.first()
+    response = client.post('/studies/{}/domains/'.format(study.pk), {
+        'action': 'name',
+        'domain': domain.key,
+        'name': 'foo',
+    })
+    assert response.status_code == 302
+    domain.refresh_from_db()
+    assert domain.name == 'foo'
