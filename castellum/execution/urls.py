@@ -34,6 +34,7 @@ from .views import ParticipationAppointmentsUpdateView
 from .views import ParticipationAppointmentsView
 from .views import ParticipationDetailView
 from .views import ParticipationNewsView
+from .views import ParticipationPseudonymsView
 from .views import ResolveView
 from .views import ShowUpUpdateView
 from .views import StudyDetailView
@@ -51,6 +52,11 @@ urlpatterns = [
         '<int:study_pk>/<int:pk>/',
         ParticipationDetailView.as_view(),
         name='participation-detail',
+    ),
+    path(
+        '<int:study_pk>/<int:pk>/pseudonyms/',
+        ParticipationPseudonymsView.as_view(),
+        name='participation-pseudonyms',
     ),
     path(
         '<int:study_pk>/<int:pk>/news/',
