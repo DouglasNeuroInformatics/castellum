@@ -69,31 +69,31 @@ def test_delete_other_study(client, member, subject_filter_group):
     assert response.status_code == 404
 
 
-def test_advanced_filtering_200(client, member, subject_filter_group, study_in_edit_status):
-    study_in_edit_status.advanced_filtering = True
-    study_in_edit_status.save()
+def test_advanced_filtering_200(client, member, subject_filter_group, study):
+    study.advanced_filtering = True
+    study.save()
 
     client.force_login(member)
-    url = '/studies/{}/recruitmentsettings/filters/'.format(study_in_edit_status.pk)
+    url = '/studies/{}/recruitmentsettings/filters/'.format(study.pk)
     response = client.get(url)
     assert response.status_code == 200
 
 
-def test_basic_filtering_302(client, member, study_in_edit_status):
+def test_basic_filtering_302(client, member, study):
     client.force_login(member)
-    url = '/studies/{}/recruitmentsettings/filters/'.format(study_in_edit_status.pk)
+    url = '/studies/{}/recruitmentsettings/filters/'.format(study.pk)
     response = client.get(url)
     assert response.status_code == 302
 
 
 def test_get_when_study_has_minimal_subject_count_set_to_zero(
-    client, member, subject_filter_group, study_in_edit_status
+    client, member, subject_filter_group, study
 ):
-    study_in_edit_status.advanced_filtering = True
-    study_in_edit_status.save()
+    study.advanced_filtering = True
+    study.save()
 
     client.force_login(member)
-    url = '/studies/{}/recruitmentsettings/filters/'.format(study_in_edit_status.pk)
+    url = '/studies/{}/recruitmentsettings/filters/'.format(study.pk)
     response = client.get(url)
     assert response.status_code == 200
 
@@ -103,17 +103,17 @@ def test_get_when_study_has_minimal_subject_count_set_to_zero(
 
 @pytest.mark.django_db
 def test_get_when_study_has_not_enough_subjects_in_filter_group(
-    client, member, study_in_edit_status
+    client, member, study
 ):
     client.force_login(member)
 
-    study_in_edit_status.min_subject_count = 100
-    study_in_edit_status.advanced_filtering = True
-    study_in_edit_status.save()
+    study.min_subject_count = 100
+    study.advanced_filtering = True
+    study.save()
 
-    baker.make(SubjectFilterGroup, study=study_in_edit_status)
+    baker.make(SubjectFilterGroup, study=study)
 
-    url = '/studies/{}/recruitmentsettings/filters/'.format(study_in_edit_status.pk)
+    url = '/studies/{}/recruitmentsettings/filters/'.format(study.pk)
     response = client.get(url)
     assert response.status_code == 200
 
