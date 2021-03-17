@@ -73,7 +73,7 @@
                     {% endif %}
                 {% endif %}
                 {% if can_change_study %}
-                    <form class="d-inline" method="post" action="{% url 'studies:finish-recruitment' study.pk %}">
+                    <form class="d-inline" method="post" action="{% url 'studies:finish' study.pk %}">
                         {% csrf_token %}
                             <input type="hidden" name="next" value="{{ request.path }}">
 

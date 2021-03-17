@@ -45,11 +45,7 @@ urlpatterns = [
     path('<int:pk>/update/', StudyUpdateView.as_view(), name='update'),
     path('<int:pk>/delete/', StudyDeleteView.as_view(), name='delete'),
     path('<int:study_pk>/start/', StudyStartRecruitmentView.as_view(), name='start'),
-    path(
-        '<int:study_pk>/finish-recruitment/',
-        StudyFinishRecruitmentView.as_view(),
-        name='finish-recruitment',
-    ),
+    path('<int:study_pk>/finish/', StudyFinishRecruitmentView.as_view(), name='finish'),
     path('<int:pk>/mail/', OneTimeInvitationMailRecruitmentView.as_view(), name='mail'),
     path('<int:study_pk>/members/', include(members_urls)),
     path('<int:study_pk>/recruitmentsettings/', include(recruitment_urls)),
