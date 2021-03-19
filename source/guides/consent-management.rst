@@ -1,38 +1,3 @@
-.. _consent-document:
-
-Upload a consent document
-=========================
-
-Upload a new document
----------------------
-
-1.  Click on **Admin** on the front page
-2.  Go to **Consent documents**
-3.  Click on **Add Consent Document** (oval with grey background)
-4.  Choose the file you want to upload
-5.  Click on one of the saving options
-
-Now whenever consent is added to a subject, it implicitly refers to this new
-version.
-
-Deal with the old document
---------------------------
-
-If there have been significant changes to the document, the old version may no
-longer be a sufficient legal basis to keep subjects in the database. In that
-case there is a two step process:
-
-1.  Mark the old consent document as **deprecated**. The document is still
-    considered valid but subjects who have agreed to this document will show up
-    in the consent maintenance view (see below).
-2.  Mark the old consent document as **invalid**. Now all consents related to
-    this document are void. Subjects who have not been updated to the new
-    document are no longer available for recruitment and will potentially show
-    up in the data protection dashboard.
-
-The legal basis for each subject can be found in the subject detail view.
-
-
 .. _subject-consent:
 
 Set Recruitment Consent for a Subject
