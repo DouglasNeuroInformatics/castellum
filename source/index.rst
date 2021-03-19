@@ -19,12 +19,17 @@ Welcome to Castellum's documentation!
    :caption: Step-by-step guides
 
    guides/subject-management
+   guides/consent-management
    guides/study-management
    guides/subject-get-pseudonym
    guides/data-protection
-   guides/admin
 
-   guides/consent-management
    guides/recruitment
    guides/appointments-external-scheduler
    guides/access-calendar-feeds
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Admin guides
+
+   guides/admin
