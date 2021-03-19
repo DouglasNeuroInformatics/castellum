@@ -42,10 +42,10 @@ Relevant guides:
 -   :ref:`recruitment`
 -   :ref:`recruitment-mail`
 -   :ref:`study-recruitment-settings`
+-   :ref:`admin-attributes`
 
 .. TODO::
 
-    -   manage attribute descriptions
     -   attribute download
 
 Appointments
