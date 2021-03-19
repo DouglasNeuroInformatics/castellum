@@ -41,6 +41,16 @@ Customize Roles
 6.  Click on one of the saving options
 
 
+.. _admin-attributes:
+
+Add Attribute Descriptions
+==========================
+
+Castellum allows to dynamically add attribute descriptions that can be used to
+store filterable information on subjects. This takes into account that there are
+only very few attributes that can be seen as commonly used at every institute.
+
+
 .. _admin-consent-document:
 
 Upload a consent document
@@ -74,5 +84,3 @@ case there is a two step process:
     up in the data protection dashboard.
 
 The legal basis for each subject can be found in the subject detail view.
-
-
