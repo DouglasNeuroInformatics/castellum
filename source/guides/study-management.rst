@@ -18,6 +18,14 @@ Create a study
 
 4.  Click on **Save** to record your progress
 
+.. warning::
+    Please be aware that you need to be sure how to set up your study initially: 
+    The option **Is a one time invitation** should only be used when you are 
+    sure that it is sufficient to invite potential subjects **anonymously**. 
+    When this option is turned on Castellum will **not** track actual 
+    participations or appointments and it will **not** provide pseudonyms within
+    the study.  
+
 Now you can :ref:`find your study <study-search>` in the studies list.
 
 
