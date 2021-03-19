@@ -37,7 +37,6 @@ have been defined in the study.
 
 Relevant guides:
 
--   :ref:`consent-document`
 -   :ref:`subject-consent`
 -   :ref:`recruitment`
 -   :ref:`recruitment-mail`
