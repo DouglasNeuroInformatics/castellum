@@ -48,3 +48,8 @@ a single subject.
 
 4.  Once the subject has received the export, click **Mark as answered** to
     record how long it took to process this request.
+
+.. warning::
+
+    These steps only outline the data export from a software view. Your institute should provide organizational steps 
+    to ensure actual identity of the requester. Furthermore, secure transfer of exported data needs to be set up.  
