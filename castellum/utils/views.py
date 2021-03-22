@@ -19,42 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django import forms
-from django.core.exceptions import ImproperlyConfigured
-from django.http import HttpResponseBadRequest
 from django.utils.http import url_has_allowed_host_and_scheme
-
-from .forms import ReadonlyFormMixin
-from .forms import ReadonlyModelForm
-
-
-class ReadonlyMixin:
-    def get_readonly(self):
-        raise NotImplementedError
-
-    def get_form_class(self):
-        if self.form_class:
-            if issubclass(self.form_class, ReadonlyFormMixin):
-                return self.form_class
-            else:
-                raise ImproperlyConfigured('form_class is not a subclass of ReadonlyFormMixin')
-        return forms.modelform_factory(self.model, fields=self.fields, form=ReadonlyModelForm)
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['readonly'] = self.get_readonly()
-        return kwargs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['readonly'] = self.get_readonly()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if self.get_readonly():
-            return HttpResponseBadRequest()
-        return super().post(request, *args, **kwargs)
 
 
 def get_next_url(request, default='/'):

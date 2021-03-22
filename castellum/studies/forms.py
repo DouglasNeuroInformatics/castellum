@@ -29,7 +29,6 @@ from django.utils.translation import gettext_lazy as _
 
 from castellum.castellum_auth.models import User
 from castellum.utils.forms import BaseImportForm
-from castellum.utils.forms import ReadonlyModelForm
 
 from . import models
 
@@ -37,7 +36,7 @@ APP_DIR = Path(__file__).resolve().parent
 IMPORT_SCHEMA = json.load(open(APP_DIR / 'schemas' / 'study.json'))
 
 
-class StudyForm(ReadonlyModelForm):
+class StudyForm(forms.ModelForm):
     class Meta:
         model = models.Study
         fields = [
@@ -83,7 +82,7 @@ class StudyFilterForm(forms.Form):
     end = forms.DateTimeField()
 
 
-class SessionForm(ReadonlyModelForm):
+class SessionForm(forms.ModelForm):
     class Meta:
         model = models.StudySession
         fields = ['name', 'duration', 'resource', 'type', 'reminder_text', 'schedule_id']
@@ -92,7 +91,7 @@ class SessionForm(ReadonlyModelForm):
         }
 
 
-class ExcludedStudiesForm(ReadonlyModelForm):
+class ExcludedStudiesForm(forms.ModelForm):
     class Meta:
         model = models.Study
         fields = ['excluded_studies']

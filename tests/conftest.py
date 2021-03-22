@@ -202,8 +202,8 @@ def attribute_description(db, attribute_descriptions):
 
 
 @pytest.fixture
-def subject_filter_group(db, study_in_edit_status):
-    return baker.make(SubjectFilterGroup, study=study_in_edit_status)
+def subject_filter_group(db, study):
+    return baker.make(SubjectFilterGroup, study=study)
 
 
 @pytest.fixture

@@ -44,30 +44,20 @@
                             {% endwith %}
                         </div>
                         <div>
-                            {% if study.status != study.EDIT %}
-                                <span class="btn btn-outline-primary disabled mb-1">{% translate "Duplicate" %}</span>
-                                <a href="{% url 'studies:filtergroup-update' study.pk group.pk %}" class="btn btn-outline-primary mb-1">{% translate "View" %}</a>
-                                <span class="btn btn-danger disabled">{% translate "Delete" %}</span>
-                            {% else %}
-                                <form class="d-inline" method="post" action="{% url 'studies:filtergroup-duplicate' study.pk group.pk %}">
-                                    {% csrf_token %}
-                                    <button class="btn btn-outline-primary mb-1" >{% translate "Duplicate" %}</button>
-                                </form>
-                                <a href="{% url 'studies:filtergroup-update' study.pk group.pk %}" class="btn btn-outline-primary mb-1">{% translate "Edit" %}</a>
-                                <a href="{% url 'studies:filtergroup-delete' study.pk group.pk %}" class="btn btn-danger mb-1">{% translate "Delete" %}</a>
-                            {% endif %}
+                            <form class="d-inline" method="post" action="{% url 'studies:filtergroup-duplicate' study.pk group.pk %}">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-primary mb-1" >{% translate "Duplicate" %}</button>
+                            </form>
+                            <a href="{% url 'studies:filtergroup-update' study.pk group.pk %}" class="btn btn-outline-primary mb-1">{% translate "Edit" %}</a>
+                            <a href="{% url 'studies:filtergroup-delete' study.pk group.pk %}" class="btn btn-danger mb-1">{% translate "Delete" %}</a>
                         </div>
                     </div>
                 </div>
             {% endfor %}
 
             <form action="{% url 'studies:filtergroup-create' study.pk %}" method="post">
-                {% if study.status != study.EDIT %}
-                    <button class="btn btn-primary" disabled>{% translate 'Add new' %}</button>
-                {% else %}
-                    {% csrf_token %}
-                    <button class="btn btn-primary">{% translate 'Add new' %}</button>
-                {% endif %}
+                {% csrf_token %}
+                <button class="btn btn-primary">{% translate 'Add new' %}</button>
             </form>
         </div>
     </div>

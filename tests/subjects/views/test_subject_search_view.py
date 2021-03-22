@@ -67,7 +67,7 @@ def test_only_members(request, client, user_fixture, study_in_execution_status):
     assert response.content.count(b'<li class="table-list-item">') == 1
 
 
-def test_matches(client, member, study_in_execution_status, study_in_edit_status):
+def test_matches(client, member, study_in_execution_status, study):
     contact1 = baker.make(Contact, first_name='asd', last_name='asd')
     contact2 = baker.make(Contact, first_name='foo', last_name='bar')
     contact3 = baker.make(Contact, first_name='foo', last_name='bar')
@@ -83,7 +83,7 @@ def test_matches(client, member, study_in_execution_status, study_in_edit_status
     # no subitem because of study status
     baker.make(
         Participation,
-        study=study_in_edit_status,
+        study=study,
         subject=contact2.subject,
         status=Participation.INVITED,
     )

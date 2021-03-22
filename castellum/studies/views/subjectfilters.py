@@ -22,7 +22,6 @@
 from django.conf import settings
 from django.contrib import messages
 from django.forms import modelformset_factory
-from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
@@ -42,10 +41,8 @@ from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.subjects.models import Subject
-from castellum.utils.views import ReadonlyMixin
 
 from ..mixins import StudyMixin
-from ..models import Study
 
 
 class CustomFilterMixin:
@@ -121,14 +118,13 @@ class FilterGroupListView(FilterMixin, ListView):
 
 class FilterGroupCreateView(FilterMixin, View):
     permission_required = 'studies.change_study'
-    study_status = [Study.EDIT]
 
     def post(self, *args, **kwargs):
         group = SubjectFilterGroup.objects.create(study=self.study)
         return redirect(group.get_absolute_url())
 
 
-class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
+class FilterGroupUpdateView(FilterMixin, UpdateView):
     model = SubjectFilterGroup
     fields = []
     template_name = "studies/filtergroup.html"
@@ -139,8 +135,6 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if self.get_readonly():
-            return HttpResponseBadRequest()
         form = self.get_form()
         formset = self.get_formset()
         if form.is_valid() and formset.is_valid():
@@ -168,9 +162,6 @@ class FilterGroupUpdateView(FilterMixin, ReadonlyMixin, UpdateView):
             queryset=self.object.subjectfilter_set.all(),
             data=self.get_form_kwargs().get('data'),
         )
-
-    def get_readonly(self):
-        return self.study.status != Study.EDIT
 
     def get_inaccessible_attributedescriptions(self):
         min_privacy_level = 2
@@ -215,7 +206,6 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
     model = SubjectFilterGroup
     template_name = 'studies/filtergroup_confirm_delete.html'
     permission_required = 'studies.change_study'
-    study_status = [Study.EDIT]
 
     def get_object(self):
         return get_object_or_404(SubjectFilterGroup, study=self.study, pk=self.kwargs['pk'])
@@ -226,7 +216,6 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
 
 class FilterGroupDuplicateView(FilterMixin, View):
     permission_required = 'studies.change_study'
-    study_status = [Study.EDIT]
 
     def post(self, request, study_pk, pk):
         original = get_object_or_404(SubjectFilterGroup, study=self.study, pk=pk)
