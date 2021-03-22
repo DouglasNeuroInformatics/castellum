@@ -56,14 +56,6 @@
         }
     });
 
-    $$.on(document, 'click', '[data-multi-reset]', function() {
-        var targetSelector = this.dataset.multiReset;
-        var target = document.querySelector(targetSelector);
-        target.querySelectorAll('option').forEach(function(element) {
-            element.selected = false;
-        });
-    });
-
     $$.on(document, 'click', '[data-clipboard]', function() {
         var targetSelector = this.dataset.clipboard;
         var target = document.querySelector(targetSelector);
@@ -94,4 +86,8 @@
     $.fn.select2.defaults.set('theme', 'bootstrap4');
     $('[data-js="select2"]').select2();
     $('[data-js="d-select2"] select').select2();
+    $('[data-js="d-select2-clear"] select').select2({
+        allowClear: true,
+        placeholder: '---',
+    });
 })();

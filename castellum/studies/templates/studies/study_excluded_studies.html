@@ -15,13 +15,8 @@
             </div>
 
             <div class="card-body">
-                <div class="form-row">
-                    <div class="col-sm" data-js="d-select2">
-                        {{ form.excluded_studies }}
-                    </div>
-                    <div class="col-sm flex-grow-0">
-                        <button type="button" class="btn btn-danger" data-multi-reset="#{{ form.excluded_studies.id_for_label }}">{% translate 'Reset' %}</button>
-                    </div>
+                <div data-js="d-select2-clear">
+                    {{ form.excluded_studies }}
                 </div>
                 <small class="form-text text-muted">{% translate 'Participants from excluded studies will be excluded from recruitment for this study.' %}</small>
                 {% if related_studies %}
