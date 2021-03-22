@@ -1,3 +1,34 @@
+# 0.57.0 (unreleased)
+
+## breaking changes
+
+-   It is now possible to edit study filters after the study has already
+    been started. The previous restriction proved to be ineffective
+    while adding annoyances for users.
+
+## bug fixes
+
+-   Fixed formatting of attribute completeness (rounded percentage).
+    This was a regression that was introduced in 0.56.0.
+-   The recruitment consent checkbox is now disabled (instead of simply
+    doing nothing) if javascript fails to run.
+
+## new features
+
+-   The recruitment cleanup introduced in 0.52.0 has been overhauled. It
+    was simplified considerably by taking away some rarely used options.
+    It also gained a new option to cleanup subjects that do not match
+    the study filters which should be especially useful if filters
+    change during recruitment.
+-   The select2 library is now used to render some select boxes,
+    most notably excluded studies and study tags. This has an overall
+    better usability, especially if there are many options. Notable
+    features include search and autocompletion.
+-   Because we still receive many bug reports related to Internet
+    Explorer there is now a warning message explaining the lack of
+    support for that browser specifically.
+
+
 # 0.56.0 (2021-03-02)
 
 ## breaking changes
