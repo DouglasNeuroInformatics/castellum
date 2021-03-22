@@ -245,3 +245,13 @@ class BaseImportForm(forms.Form):
             validator = JsonFileValidator(self.schema, self.schema_ref)
             cleaned_data['json'] = validator(cleaned_data['file'])
         return cleaned_data
+
+
+class TagField(forms.MultipleChoiceField):
+    def valid_value(self, value):
+        return True
+
+    def widget_attrs(self, widget):
+        attrs = super().widget_attrs(widget)
+        attrs['data-js'] = 'select2-tags'
+        return attrs

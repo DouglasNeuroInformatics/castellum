@@ -92,7 +92,6 @@ class Study(models.Model):
         _('Affiliated Research Assistants'), max_length=254, blank=True
     )
     description = models.TextField(_('Description'), blank=True)
-    keywords = models.CharField(_('Keywords'), max_length=254, blank=True)
     previous_status = models.SmallIntegerField(
         _('Previous status'), choices=STATUS, default=EDIT
     )
@@ -263,6 +262,10 @@ class Study(models.Model):
         today = datetime.date.today()
         return self.participation_set.filter(followup_date__lte=today).exists()
 
+    @property
+    def tags(self):
+        return self.studytag_set.values_list('name', flat=True)
+
     @cached_property
     def has_filters(self):
         from castellum.recruitment.models import SubjectFilter
@@ -357,6 +360,14 @@ class StudySession(models.Model):
     schedule_id = models.CharField(
         _('External schedule ID'), max_length=64, blank=True, null=True, unique=True
     )
+
+    def __str__(self):
+        return '{} - {}'.format(self.study, self.name)
+
+
+class StudyTag(models.Model):
+    study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    name = models.CharField(_('Name'), max_length=128)
 
     def __str__(self):
         return '{} - {}'.format(self.study, self.name)

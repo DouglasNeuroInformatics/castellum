@@ -119,7 +119,7 @@ class StudyIndexView(LoginRequiredMixin, ListView):
                     models.Q(contact_person__icontains=part) |
                     models.Q(principal_investigator__icontains=part) |
                     models.Q(description__icontains=part) |
-                    models.Q(keywords__icontains=part)
+                    models.Q(studytag__name__icontains=part)
                 )
         if self.form.cleaned_data['member'] == 'my':
             qs = qs.filter(studymembership__user=self.request.user)
@@ -178,23 +178,7 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
 
 class StudyCreateView(PermissionRequiredMixin, CreateView):
     model = Study
-    fields = [
-        'name',
-        'contact_person',
-        'principal_investigator',
-        'affiliated_scientists',
-        'affiliated_research_assistants',
-        'phone',
-        'email',
-        'description',
-        'keywords',
-        'announce_status_changes',
-        'data_sensitivity',
-        'consent',
-        'min_subject_count',
-        'exportable_attributes',
-        'is_onetime_invitation',
-    ]
+    form_class = StudyForm
     permission_required = 'studies.change_study'
 
     def form_valid(self, form):
@@ -229,6 +213,9 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
                     reminder_text=session.reminder_text,
                 )
                 s.type.set(session.type.all())
+
+            for name in self.duplicate.tags:
+                self.object.studytag_set.create(name=name)
 
         return response
 
@@ -382,9 +369,9 @@ class StudyImportView(PermissionRequiredMixin, FormView):
                 json.get('affiliated_research_assistants', [])
             ),
             'description': json.get('description'),
-            'keywords': ', '.join(json.get('keywords', [])),
             'min_subject_count': json.get('number_participants_expected'),
         })
+        self.request.POST.setlist('tags', json.get('keywords', []))
 
         create_view = StudyCreateView.as_view()
         return create_view(self.request)
@@ -408,6 +395,7 @@ class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
             'sessions_start': self.study.sessions_start,
             'sessions_end': self.study.sessions_end,
             'number_participants_expected': self.study.min_subject_count,
+            'keywords': list(self.study.tags),
             'type': [t for t in self.study.study_type.values_list('export_key', flat=True) if t],
         }
 
