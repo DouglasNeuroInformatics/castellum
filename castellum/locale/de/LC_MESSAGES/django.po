@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-22 14:59+0100\n"
+"POT-Creation-Date: 2021-03-22 15:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1261,14 +1261,12 @@ msgid "Cleanup"
 msgstr "Aufräumen"
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:8
-#, fuzzy
-#| msgid "Please delete all of these study participations:"
 msgid "Please select one of the following options:"
-msgstr "Bitte löschen Sie die folgenden Studienteilnahmen:"
+msgstr "Bitte wählen Sie eine der folgenden Optionen:"
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:16
 msgid "Mark all open participations as unsuitable."
-msgstr ""
+msgstr "Markiere alle offenen Teilnahmen als nicht geeignet."
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:19
 #: castellum/studies/forms.py:108
@@ -1281,23 +1279,23 @@ msgstr "Alle"
 msgid ""
 "Mark all subjects as unsuitable who have not answered for 10 days or more."
 msgstr ""
+"Markiere alle Proband*innen als nicht geeignet, die nicht innerhalb von 10 "
+"Tagen geantwortet haben."
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:27
-#, fuzzy
-#| msgid "awaiting response"
 msgid "Awaiting response"
-msgstr "auf Antwort wartend"
+msgstr "Auf Antwort wartend"
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:32
 msgid ""
 "Mark all subject who do not match the current filter criteria as unsuitable."
 msgstr ""
+"Markiere alle Proband*innen als nicht geeignet, die nicht auf die aktuellen "
+"Filterkriterien passen."
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:35
-#, fuzzy
-#| msgid "matches"
 msgid "Mismatch"
-msgstr "Treffer"
+msgstr "Kein Treffer"
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:41
 msgid "Back"
@@ -1565,7 +1563,7 @@ msgstr "Scheduler-Termine für diese Teilnahme wurden gelöscht."
 
 #: castellum/studies/forms.py:45
 msgid "Tags"
-msgstr ""
+msgstr "Tags"
 
 #: castellum/studies/forms.py:67
 msgid "Mails will be sent to: {}"
@@ -2275,6 +2273,9 @@ msgid ""
 "editing recruitment settings may end up in inconsistent suggestions for "
 "potential subjects."
 msgstr ""
+"Die Rekrutierung hat bereits begonnen. Veränderungen in den "
+"Rekrutierungseinstellungen können zu inkonsistenten Vorschlägen von "
+"potentiellen Proband*innen führen."
 
 #: castellum/studies/templates/studies/study_recruitmentsettings_form.html:5
 msgid "General recruitment settings"
@@ -3249,62 +3250,3 @@ msgstr "Die Datei muss mit UTF-8 kodiert sein."
 #: castellum/utils/templates/utils/form_errors.html:7
 msgid "Please correct the errors listed on the fields."
 msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
-
-#~ msgid "Days since last update"
-#~ msgstr "Tage seit der letzten Änderung"
-
-#~ msgid ""
-#~ "Automatically mark subjects with the following properties as unsuitable. "
-#~ "Their participation status can still be changed afterwards."
-#~ msgstr ""
-#~ "Markieren Sie Proband*innen mit den folgenden Eigenschaften automatisch "
-#~ "als nicht geeignet. Ihr Teilnahmestatus kann danach weiterhin verändert "
-#~ "werden."
-
-#~ msgid "Keywords"
-#~ msgstr "Schlagworte"
-
-#~ msgid "No filters"
-#~ msgstr "Keine Filter"
-
-#~ msgid "View"
-#~ msgstr "Ansehen"
-
-#~ msgid "Reset"
-#~ msgstr "Zurücksetzen"
-
-#~ msgid "%imin"
-#~ msgstr "%imin"
-
-#~ msgid "Go to execution"
-#~ msgstr "Zur Durchführung"
-
-#~ msgid "Finished studies"
-#~ msgstr "Beendete Studien"
-
-#~ msgid "Add to finished study"
-#~ msgstr "Zu einer beendeten Studie hinzufügen"
-
-#~ msgid "older than"
-#~ msgstr "älter als"
-
-#~ msgid "Blocked from recruitment"
-#~ msgstr "Für die Rekrutierung gesperrt"
-
-#~ msgid "Contacts"
-#~ msgstr "Kontakte"
-
-#~ msgid "Participations"
-#~ msgstr "Teilnahmen"
-
-#~ msgid "Inclusion/exclusion criteria have not been checked"
-#~ msgstr "Ein-/Ausschlusskriterien wurden nicht überprüft"
-
-#~ msgid "Resources"
-#~ msgstr "Ressourcen"
-
-#~ msgid "The following resources are available:"
-#~ msgstr "Die folgenden Ressourcen sind verfügbar:"
-
-#~ msgid "Search for title or contact person"
-#~ msgstr "Suche nach Titel oder verantwortlicher Kontaktperson"
