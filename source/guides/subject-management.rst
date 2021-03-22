@@ -272,6 +272,9 @@ sufficient legal basis to keep the data.
     This is only available for users with permissions that are granted to staff
     members who are data protection coordinators or the like.
 
+    If deletion was requested by a subject you should follow your institutes 
+    rules on verifying identity of requester.
+
 In order to delete the externally and internally stored data of a subject,
 please proceed as follows:
 
