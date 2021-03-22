@@ -209,15 +209,6 @@ class SendMailForm(forms.Form):
     )
 
 
-class CleanupForm(forms.Form):
-    status = forms.TypedChoiceField(label=_('Status'), coerce=int, choices=[
-        (value, label)
-        for value, label in Participation.STATUS_OPTIONS
-        if value not in (Participation.INVITED, Participation.UNSUITABLE)
-    ])
-    days = forms.IntegerField(label=_('Days since last update'), required=False)
-
-
 class DescriptionImportForm(BaseImportForm):
     schema = IMPORT_SCHEMA
     schema_ref = '#/$defs/AttributeDescriptionExport'
