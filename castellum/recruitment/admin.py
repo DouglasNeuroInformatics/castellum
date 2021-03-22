@@ -21,7 +21,6 @@
 
 from django.contrib import admin
 from django.contrib import messages
-from django.contrib.admin.views.decorators import staff_member_required
 from django.http import JsonResponse
 from django.urls import path
 from django.utils.translation import gettext_lazy as _
@@ -92,7 +91,7 @@ class AttributeDescriptionAdmin(TranslatableAdmin):
         return [
             path(
                 'import/',
-                staff_member_required(DescriptionImportView.as_view()),
+                admin.site.admin_view(DescriptionImportView.as_view()),
                 name='recruitment_attributedescription_import',
             ),
         ] + super().get_urls()
