@@ -1,28 +1,22 @@
-image: docker
-services:
-  - docker:dind
-  - name: postgres:latest
-    alias: db_default
-  - name: postgis/postgis:latest
-    alias: db_contacts
-
 stages:
   - test
   - build
-  - release
 
 variables:
   DEBIAN_FRONTEND: noninteractive
-  PYTHON_IMAGE: buildpack-deps
   PYTHON_IMAGE_DEPENDENCIES: "python3-pip npm hunspell hunspell-de-de gdal-bin python3-psycopg2"
-  CONTAINER_TEST_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:$CI_COMMIT_REF_NAME
-  CONTAINER_RELEASE_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
+  CONTAINER_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum
   DJANGO_SETTINGS_MODULE: "castellum.settings.gitlab"
   POSTGRES_PASSWORD: "CHANGEME"
 
-test-branch:
+test:
   stage: test
-  image: $PYTHON_IMAGE
+  image: buildpack-deps
+  services:
+    - name: postgres:latest
+      alias: db_default
+    - name: postgis/postgis:latest
+      alias: db_contacts
   script:
     - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
     - pip3 install -e .[test]
@@ -35,20 +29,30 @@ test-branch:
     - pytest --ds=$DJANGO_SETTINGS_MODULE
   coverage: '/TOTAL.*\s+(\d+\%)/'
 
-build:
+build-release:
   stage: build
+  image: docker
+  services:
+    - docker:dind
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
-    - docker build -t $CONTAINER_TEST_IMAGE .
-    - docker push $CONTAINER_TEST_IMAGE
-    - docker image ls
+    - docker build -t ${CONTAINER_IMAGE}:$CI_COMMIT_REF_NAME
+    - docker push ${CONTAINER_IMAGE}:$CI_COMMIT_REF_NAME
+    - docker tag ${CONTAINER_IMAGE}:$CI_COMMIT_REF_NAME ${CONTAINER_IMAGE}:stable
+    - docker push ${CONTAINER_IMAGE}:stable
+  rules:
+    - if: '$CI_COMMIT_TAG && $CI_COMMIT_REF_NAME =~ /^\d+.\d+.\d+$/'
+      when: always
 
-release-image:
-  stage: release
+build-latest:
+  stage: build
+  image: docker
+  services:
+    - docker:dind
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
-    - docker pull $CONTAINER_TEST_IMAGE
-    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
-    - docker push $CONTAINER_RELEASE_IMAGE
-  only:
-    - main
+    - docker build -t $CONTAINER_IMAGE:latest
+    - docker push $CONTAINER_IMAGE:latest
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main"'
+      when: always
