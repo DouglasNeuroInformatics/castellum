@@ -22,12 +22,13 @@ RUN apk update && echo $BUILDPKGS $RUNTIMEPKGS && apk add $BUILDPKGS $RUNTIMEPKG
 
 WORKDIR code/
 
-COPY castellum/ castellum
 COPY setup.cfg setup.py LICENSE ./
 COPY --from=0 node_modules/ node_modules
 
 RUN pip3 install -e . && \
     pip3 install django-auth-ldap django-axes
+
+COPY castellum/ castellum
 
 RUN django-admin collectstatic --no-input --settings=castellum.settings.bare && \
     django-admin compilemessages -l de
