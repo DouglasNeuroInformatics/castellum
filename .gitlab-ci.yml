@@ -29,6 +29,16 @@ test:
     - pytest --ds=$DJANGO_SETTINGS_MODULE
   coverage: '/TOTAL.*\s+(\d+\%)/'
 
+# catch docker breaking changes early
+test-docker:
+  stage: test
+  image: docker
+  services:
+    - docker:dind
+  script:
+    - docker build -t ${CONTAINER_IMAGE}:$CI_COMMIT_REF_NAME
+    - docker image rm ${CONTAINER_IMAGE}:$CI_COMMIT_REF_NAME
+
 build-release:
   stage: build
   image: docker
