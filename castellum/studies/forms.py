@@ -72,10 +72,10 @@ class StudyForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        if self.instance:
+        if self.instance.pk:
             del self.fields['is_onetime_invitation']
 
-        if self.instance:
+        if self.instance.pk:
             self.fields['tags'].initial = list(self.instance.tags)
 
         self.fields['tags'].choices = self.get_tag_choices()
