@@ -6,8 +6,7 @@ stages:
 variables:
   DEBIAN_FRONTEND: noninteractive
   PYTHON_IMAGE_DEPENDENCIES: "python3-pip npm hunspell hunspell-de-de gdal-bin python3-psycopg2"
-  CONTAINER_TEST_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:$CI_COMMIT_REF_NAME
-  CONTAINER_RELEASE_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
+  CONTAINER_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum
   DJANGO_SETTINGS_MODULE: "castellum.settings.gitlab"
   POSTGRES_PASSWORD: "CHANGEME"
 
@@ -41,10 +40,10 @@ build:
       - image.tar.gz
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
-    - docker build -t $CONTAINER_TEST_IMAGE .
+    - docker build -t $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME .
     - docker image ls
   after_script:
-    - docker save $CONTAINER_TEST_IMAGE | gzip > image.tar.gz
+    - docker save $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME | gzip > image.tar.gz
 
 release-image:
   stage: release
@@ -55,7 +54,7 @@ release-image:
     - docker load --input image.tar.gz
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
-    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
-    - docker push $CONTAINER_RELEASE_IMAGE
+    - docker tag $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME $CONTAINER_IMAGE:latest
+    - docker push $CONTAINER_IMAGE:latest
   only:
     - main
