@@ -1,7 +1,6 @@
 stages:
   - test
   - build
-  - release
 
 variables:
   DEBIAN_FRONTEND: noninteractive
@@ -35,26 +34,11 @@ build:
   image: docker
   services:
     - docker:dind
-  artifacts:
-    paths:
-      - image.tar.gz
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
     - docker build -t $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME .
-    - docker image ls
-  after_script:
-    - docker save $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME | gzip > image.tar.gz
-
-release-image:
-  stage: release
-  image: docker
-  services:
-    - docker:dind
-  before_script:
-    - docker load --input image.tar.gz
-  script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
-    - docker tag $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME $CONTAINER_IMAGE:latest
-    - docker push $CONTAINER_IMAGE:latest
-  only:
-    - main
+    - >
+      if [ "$CI_COMMIT_REF_NAME" == "main" ]; then
+        docker tag $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME $CONTAINER_IMAGE:latest
+        docker push $CONTAINER_IMAGE:latest
+      fi
