@@ -10,7 +10,7 @@ variables:
   DJANGO_SETTINGS_MODULE: "castellum.settings.gitlab"
   POSTGRES_PASSWORD: "CHANGEME"
 
-test-branch:
+test:
   stage: test
   image: buildpack-deps
   services:
