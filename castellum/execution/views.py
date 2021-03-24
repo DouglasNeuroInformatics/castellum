@@ -42,6 +42,7 @@ from castellum.appointments.models import Appointment
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.pseudonyms.forms import PseudonymForm
+from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.helpers import get_subject
 from castellum.recruitment.attribute_exporters import get_exporter
 from castellum.recruitment.mixins import BaseAttributesUpdateView
@@ -137,6 +138,13 @@ class ParticipationDetailView(ParticipationDetailMixin, DetailView):
     template_name = 'execution/participation_detail.html'
     tab = 'overview'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pseudonyms'] = [
+            (d, get_pseudonym(self.subject, d.key)) for d in self.study.domains.all()
+        ]
+        return context
+
 
 class ParticipationNewsView(ParticipationDetailMixin, UpdateView):
     template_name = 'execution/participation_news.html'
@@ -223,9 +231,14 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
     form_class = PseudonymForm
     tab = 'pseudonym'
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['context'] = self.study
+        return kwargs
+
     def form_valid(self, form):
         try:
-            subject = get_subject(self.study.domain, form.cleaned_data['pseudonym'])
+            subject = get_subject(form.cleaned_data['domain'], form.cleaned_data['pseudonym'])
             participation = Participation.objects.filter(
                 study=self.study,
                 subject=subject,

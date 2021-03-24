@@ -20,6 +20,8 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 from castellum.subjects.models import Subject
@@ -28,10 +30,18 @@ from castellum.utils import uuid_str
 
 class Domain(models.Model):
     key = models.CharField(max_length=64, default=uuid_str, unique=True, editable=False)
+    name = models.CharField(max_length=64, blank=True)
     bits = models.PositiveIntegerField(default=40)
 
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
+    object_id = models.PositiveIntegerField(null=True, blank=True)
+    context = GenericForeignKey()
+
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
-        return self.key
+        return self.name or self.key
 
 
 class Pseudonym(models.Model):

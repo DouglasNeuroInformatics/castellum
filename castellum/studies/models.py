@@ -25,6 +25,7 @@ from pathlib import Path
 
 from django.conf import settings
 from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.forms import ValidationError
 from django.utils.functional import cached_property
@@ -34,6 +35,7 @@ from parler.models import TranslatableModel
 from parler.models import TranslatedFields
 
 from castellum.castellum_auth.models import User
+from castellum.pseudonyms.models import Domain
 from castellum.utils.fields import ColorField
 from castellum.utils.fields import DateField
 from castellum.utils.fields import PhoneNumberField
@@ -126,7 +128,7 @@ class Study(models.Model):
     announce_status_changes = models.BooleanField(_('Announce status changes'), default=False)
 
     members = models.ManyToManyField(User, through='StudyMembership')
-    domain = models.CharField(max_length=64, unique=True, editable=False, default=None)
+    domains = GenericRelation(Domain)
     advanced_filtering = models.BooleanField(
         _('Advanced filtering'),
         help_text=_(
@@ -254,6 +256,12 @@ class Study(models.Model):
         return result[key + '__max'] or 0
 
     @property
+    def domain(self):
+        domain = self.domains.first()
+        if domain:
+            return domain.key
+
+    @property
     def study_type(self):
         return StudyType.objects.filter(studysession__study=self).distinct()
 
@@ -355,7 +363,7 @@ class StudySession(models.Model):
     resource = models.ForeignKey(
         Resource, on_delete=models.SET_NULL, verbose_name=_('Resource'), blank=True, null=True
     )
-    domain = models.CharField(max_length=64, unique=True, editable=False, default=None)
+    domains = GenericRelation(Domain)
     reminder_text = models.TextField(_('Additional text for reminder emails'), blank=True)
     schedule_id = models.CharField(
         _('External schedule ID'), max_length=64, blank=True, null=True, unique=True
@@ -363,6 +371,12 @@ class StudySession(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.study, self.name)
+
+    @property
+    def domain(self):
+        domain = self.domains.first()
+        if domain:
+            return domain.key
 
 
 class StudyTag(models.Model):

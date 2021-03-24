@@ -26,6 +26,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import models
+from django.forms import modelform_factory
 from django.http import HttpResponseBadRequest
 from django.http import JsonResponse
 from django.http import QueryDict
@@ -41,9 +42,11 @@ from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import FormView
 from django.views.generic import ListView
+from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.pseudonyms.models import Domain
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
 from castellum.subjects.models import Subject
@@ -337,6 +340,24 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
                 .delete()
         send_pr_mail(self.study)
         return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
+
+
+class StudyPseudonymDomainsView(StudyMixin, PermissionRequiredMixin, TemplateView):
+    permission_required = 'studies.change_study'
+    template_name = 'studies/study_pseudonym_domains.html'
+    tab = 'domains'
+
+    def post(self, request, *args, **kwargs):
+        if self.request.POST.get('action') == 'add':
+            self.study.domains.create(bits=settings.CASTELLUM_STUDY_DOMAIN_BITS)
+        elif self.request.POST.get('action') == 'name':
+            domain = get_object_or_404(self.study.domains.all(), key=self.request.POST['domain'])
+            form_cls = modelform_factory(Domain, fields=['name'])
+            form = form_cls(data=self.request.POST, instance=domain)
+            if form.is_valid():
+                form.save()
+
+        return redirect('studies:domains', self.study.pk)
 
 
 class StudyImportView(PermissionRequiredMixin, FormView):

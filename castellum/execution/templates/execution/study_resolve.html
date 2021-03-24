@@ -6,6 +6,11 @@
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 
+        {% if form.domain.field.choices|length > 1 %}
+            {% bootstrap_field form.domain %}
+        {% else %}
+            {{ form.domain.as_hidden }}
+        {% endif %}
         {% bootstrap_field form.pseudonym %}
 
         <div class="d-print-none mb-3">

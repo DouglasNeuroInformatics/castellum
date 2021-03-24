@@ -23,32 +23,36 @@ from django.conf import settings
 
 
 def create_study_domain(sender, instance, using, **kwargs):
-    from castellum.pseudonyms.helpers import create_domain
+    from castellum.pseudonyms.models import Domain
     from castellum.studies.models import Study
 
     if sender is Study and not instance.domain:
-        instance.domain = create_domain(settings.CASTELLUM_STUDY_DOMAIN_BITS)
+        Domain.objects.create(
+            bits=settings.CASTELLUM_STUDY_DOMAIN_BITS,
+            context=instance,
+        )
 
 
 def delete_study_domain(sender, instance, using, **kwargs):
-    from castellum.pseudonyms.helpers import delete_domain
     from castellum.studies.models import Study
 
-    if sender is Study and instance.domain:
-        delete_domain(instance.domain)
+    if sender is Study:
+        instance.domains.all().delete()
 
 
 def create_session_domain(sender, instance, using, **kwargs):
-    from castellum.pseudonyms.helpers import create_domain
+    from castellum.pseudonyms.models import Domain
     from castellum.studies.models import StudySession
 
     if sender is StudySession and not instance.domain:
-        instance.domain = create_domain(settings.CASTELLUM_SESSION_DOMAIN_BITS)
+        Domain.objects.create(
+            bits=settings.CASTELLUM_SESSION_DOMAIN_BITS,
+            context=instance,
+        )
 
 
 def delete_session_domain(sender, instance, using, **kwargs):
-    from castellum.pseudonyms.helpers import delete_domain
     from castellum.studies.models import StudySession
 
-    if sender is StudySession and instance.domain:
-        delete_domain(instance.domain)
+    if sender is StudySession:
+        instance.domains.all().delete()
