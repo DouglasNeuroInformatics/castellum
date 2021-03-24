@@ -3,24 +3,21 @@ stages:
   - build
 
 variables:
-  DEBIAN_FRONTEND: noninteractive
-  PYTHON_IMAGE_DEPENDENCIES: "python3-pip npm hunspell hunspell-de-de gdal-bin python3-psycopg2"
   CONTAINER_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum
   DJANGO_SETTINGS_MODULE: "castellum.settings.gitlab"
   POSTGRES_PASSWORD: "CHANGEME"
 
 test:
   stage: test
-  image: buildpack-deps
+  image: $CONTAINER_IMAGE:latest
   services:
     - name: postgres:latest
       alias: db_default
     - name: postgis/postgis:latest
       alias: db_contacts
   script:
-    - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
+    - apk add py3-lxml py3-regex npm hunspell hunspell-de-de
     - pip3 install -e .[test]
-    - npm install
     - isort -c castellum tests
     - flake8
     - npx eslint castellum
