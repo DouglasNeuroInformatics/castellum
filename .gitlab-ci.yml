@@ -36,20 +36,25 @@ build:
   image: docker
   services:
     - docker:dind
+  artifacts:
+    paths:
+      - image.tar.gz
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
     - docker build -t $CONTAINER_TEST_IMAGE .
-    - docker push $CONTAINER_TEST_IMAGE
     - docker image ls
+  after_script:
+    - docker save $CONTAINER_TEST_IMAGE | gzip > image.tar.gz
 
 release-image:
   stage: release
   image: docker
   services:
     - docker:dind
+  before_script:
+    - docker load --input image.tar.gz
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
-    - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
     - docker push $CONTAINER_RELEASE_IMAGE
   only:
