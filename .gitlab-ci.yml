@@ -1,11 +1,3 @@
-image: docker
-services:
-  - docker:dind
-  - name: postgres:latest
-    alias: db_default
-  - name: postgis/postgis:latest
-    alias: db_contacts
-
 stages:
   - test
   - build
@@ -13,7 +5,6 @@ stages:
 
 variables:
   DEBIAN_FRONTEND: noninteractive
-  PYTHON_IMAGE: buildpack-deps
   PYTHON_IMAGE_DEPENDENCIES: "python3-pip npm hunspell hunspell-de-de gdal-bin python3-psycopg2"
   CONTAINER_TEST_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:$CI_COMMIT_REF_NAME
   CONTAINER_RELEASE_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
@@ -22,7 +13,12 @@ variables:
 
 test-branch:
   stage: test
-  image: $PYTHON_IMAGE
+  image: buildpack-deps
+  services:
+    - name: postgres:latest
+      alias: db_default
+    - name: postgis/postgis:latest
+      alias: db_contacts
   script:
     - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
     - pip3 install -e .[test]
@@ -37,6 +33,9 @@ test-branch:
 
 build:
   stage: build
+  image: docker
+  services:
+    - docker:dind
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
     - docker build -t $CONTAINER_TEST_IMAGE .
@@ -45,6 +44,9 @@ build:
 
 release-image:
   stage: release
+  image: docker
+  services:
+    - docker:dind
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
     - docker pull $CONTAINER_TEST_IMAGE
