@@ -19,11 +19,11 @@ Welcome to Castellum's documentation!
    :caption: Step-by-step guides
 
    guides/subject-management
-   guides/consent-management
    guides/study-management
    guides/subject-get-pseudonym
    guides/data-protection
 
+   guides/consent-management
    guides/recruitment
    guides/appointments-external-scheduler
    guides/access-calendar-feeds
