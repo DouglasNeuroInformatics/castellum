@@ -50,6 +50,20 @@ Castellum allows to dynamically add attribute descriptions that can be used to
 store filterable information on subjects. This takes into account that there are
 only very few attributes that can be seen as commonly used at every institute.
 
+1.  Click on **Admin** on the front page
+2.  Go to **Attribute description**
+3.  Click on **Add attribute description** (oval with grey background)
+4.  Select an appropriate **Field type** that should be used for the attribute
+5.  **URL** allows you to link to a formal definition that may clarify baseline
+    or rather scientific grounding of the attribute
+6.  Set **privacy levels** of the attribute for **read** and **write**
+7.  **Order** and **Category** can be used to position the attribute in UI
+8.  **Statistics rank** can be used to set this attribute as primary or
+    secondary feature that should be presented in statistics of recruitment
+9.  **Label** should be the actual name of the attribute
+10. Fill in all **Attribute choices** that represent the possible values of that
+    attribute and will be used for filtering
+
 
 .. _admin-consent-document:
 
