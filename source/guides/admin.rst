@@ -56,13 +56,34 @@ only very few attributes that can be seen as commonly used at every institute.
 4.  Select an appropriate **Field type** that should be used for the attribute
 5.  **URL** allows you to link to a formal definition that may clarify baseline
     or rather scientific grounding of the attribute
+
+    .. note::
+        This is only shown in admin interface. So, this is only supporting the
+        actual maintenance of the attributes. For example, a Handedness
+        attribute could link to a definition at `bioontology.org <http://purl.bioontology.org/ontology/SNOMEDCT/57427004>`_
+        helping other admin members to understand the chosen
+        **attribute choices**.
+
 6.  Set **privacy levels** of the attribute for **read** and **write**
 7.  **Order** and **Category** can be used to position the attribute in UI
 8.  **Statistics rank** can be used to set this attribute as primary or
     secondary feature that should be presented in statistics of recruitment
+
+    .. note::
+        Castellum offers to set up two attributes to be used in statistics of
+        recruitment. If there is already a primary or secondary attribute it
+        will be removed when selecting a different attribute to be primary or
+        secondary.
+
 9.  **Label** should be the actual name of the attribute
-10. Fill in all **Attribute choices** that represent the possible values of that
+10. Fill in all **Attribute choices** that represent the possible values of the
     attribute and will be used for filtering
+
+    .. note::
+        Attributes will always allow to select **Declined to answer**. So, there
+        is no need to specify this as an attribute choice. Furthermore, all
+        three ChoiceField types will automatically provide an **Unknown**
+        option.
 
 
 .. _admin-consent-document:
