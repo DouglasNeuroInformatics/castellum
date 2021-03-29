@@ -91,7 +91,7 @@ Relevant guides:
 -   :ref:`admin-users`
 -   :ref:`admin-unlock`
 -   :ref:`admin-roles`
--   :ref:`consent-document`
+-   :ref:`admin-consent-document`
 
 .. TODO::
 
