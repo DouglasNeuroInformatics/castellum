@@ -27,6 +27,7 @@
                         <div class="table-list-item-actions">
                             {% if participation.status == participation.INVITED %}
                                 <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-pseudonyms' participation.study.pk participation.pk%}">{% translate 'Pseudonyms' %}</a>
+                                <a class="btn btn-outline-primary my-1" href="mailto:{{ participation.study.email }}">{% translate 'Send mail' %}</a>
                             {% endif %}
                             {% if can_view_study %}
                                 <a class="btn btn-outline-primary my-1" href="{% url 'studies:detail' participation.study.pk %}">{% translate 'Study details' %}</a>
