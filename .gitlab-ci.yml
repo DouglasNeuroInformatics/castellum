@@ -20,7 +20,6 @@ test:
   script:
     - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
     - pip3 install -e .[test]
-    - npm install
     - isort -c castellum tests
     - flake8
     - npx eslint castellum
