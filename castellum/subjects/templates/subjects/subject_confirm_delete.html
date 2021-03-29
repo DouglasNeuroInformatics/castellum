@@ -1,5 +1,5 @@
 {% extends "subjects/subject_base.html" %}
-{% load i18n auth utils %}
+{% load i18n auth subjects utils %}
 
 {% block title %}{% translate "Delete subject" %} &middot; {{ block.super }}{% endblock %}
 
@@ -27,7 +27,7 @@
                         <div class="table-list-item-actions">
                             {% if participation.status == participation.INVITED %}
                                 <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-pseudonyms' participation.study.pk participation.pk%}">{% translate 'Pseudonyms' %}</a>
-                                <a class="btn btn-outline-primary my-1" href="mailto:{{ participation.study.email }}">{% translate 'Send mail' %}</a>
+                                <a class="btn btn-outline-primary my-1" href="{% delete_mail_uri participation %}">{% translate 'Send mail' %}</a>
                             {% endif %}
                             {% if can_view_study %}
                                 <a class="btn btn-outline-primary my-1" href="{% url 'studies:detail' participation.study.pk %}">{% translate 'Study details' %}</a>
