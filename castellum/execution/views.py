@@ -307,7 +307,7 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
 
         with MailContext('internal') as ctx:
             return ctx.send_mail(
-                '[{}] news email send'.format(self.study.name),
+                '[{}] news email sent'.format(self.study.name),
                 body,
                 [user.email for user in self.study.conductors],
             )

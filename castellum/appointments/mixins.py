@@ -62,12 +62,15 @@ def send_appointment_notifications(request, participation, changes):
         )),
     )
 
-    with MailContext('internal') as ctx:
-        return ctx.send_mail(
-            settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT,
-            body,
-            [user.email for user in participation.study.conductors if user != request.user],
-        )
+    recipients = [user.email for user in participation.study.conductors if user != request.user]
+    if recipients:
+        with MailContext('internal') as ctx:
+            return ctx.send_mail(
+                settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT,
+                body,
+                recipients,
+                cc=[request.user.email],
+            )
 
 
 class BaseCalendarView(DetailView):

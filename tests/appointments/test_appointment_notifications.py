@@ -70,3 +70,32 @@ def test_appointment_notifications_weekend(rf, user, member, participation):
             (dt('2017-01-09 12:00'), dt('2017-01-09 13:00')),
         ])
     assert len(mail.outbox) == 1
+
+
+@pytest.mark.parametrize('start', [
+    '2017-01-01 12:00',
+    '2017-01-02 12:00',
+])
+def test_appointment_notifications_cc(rf, user, conductor, participation, start):
+    request = rf.get('/test/')
+    request.user = user
+    with freeze_time('2017-01-01'):
+        send_appointment_notifications(request, participation, [
+            (dt(start), None),
+        ])
+    assert len(mail.outbox) == 1
+    assert mail.outbox[0].cc == [user.email]
+
+
+@pytest.mark.parametrize('start', [
+    '2017-01-01 12:00',
+    '2017-01-02 12:00',
+])
+def test_no_appointment_notifications_if_only_conductor(rf, conductor, participation, start):
+    request = rf.get('/test/')
+    request.user = conductor
+    with freeze_time('2017-01-01'):
+        send_appointment_notifications(request, participation, [
+            (dt(start), None),
+        ])
+    assert len(mail.outbox) == 0

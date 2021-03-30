@@ -64,7 +64,7 @@ from .recruitment import get_related_studies
 monitoring_logger = logging.getLogger('monitoring.studies')
 
 
-def send_pr_mail(study):
+def send_pr_mail(study, user_email):
     if not settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO:
         return 0
 
@@ -92,6 +92,7 @@ def send_pr_mail(study):
             settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_SUBJECT.format(study=study.name),
             (get_mail_data, settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY),
             settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO,
+            cc=[user_email],
         )
 
 
@@ -323,7 +324,7 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
                 'Study {} started by {}'.format(self.study.name, self.request.user.pk)
             )
 
-        send_pr_mail(self.study)
+        send_pr_mail(self.study, request.user.email)
         return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
 
 
@@ -338,7 +339,7 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
             self.study.participation_set\
                 .exclude(status=Participation.INVITED)\
                 .delete()
-        send_pr_mail(self.study)
+        send_pr_mail(self.study, request.user.email)
         return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
 
 
