@@ -19,11 +19,16 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
+from django.utils import timezone
 from django.utils.translation import check_for_language
 from django.views.generic import TemplateView
 
+from castellum.appointments.models import Appointment
+from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
 from castellum.utils.views import get_next_url
 
@@ -47,9 +52,59 @@ def set_language(request):
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'castellum_auth/dashboard.html'
 
+    def get_followups(self, start, end):
+        results = []
+        for participation in Participation.objects.filter(
+            study__members=self.request.user,
+            study__status=Study.EXECUTION,
+            followup_date__gte=start,
+            followup_date__lt=end,
+        ).select_related('study'):
+            study = participation.study
+            if self.request.user.has_perm('recruitment.recruit', obj=study):
+                results.append({
+                    'type': 'followup',
+                    'datetime': timezone.make_aware(datetime.datetime.combine(
+                        participation.followup_date,
+                        participation.followup_time or datetime.time(0, 0, 0),
+                    )),
+                    'obj': participation,
+                })
+        return results
+
+    def get_appointments(self, start, end):
+        results = []
+        for appointment in Appointment.objects.filter(
+            participation__study__members=self.request.user,
+            participation__study__status=Study.EXECUTION,
+            participation__status=Participation.INVITED,
+            start__gte=start,
+            start__lt=end,
+        ).select_related('participation__study'):
+            study = appointment.participation.study
+            if self.request.user.has_perm('recruitment.conduct_study', obj=study):
+                results.append({
+                    'type': 'appointment',
+                    'datetime': appointment.start,
+                    'obj': appointment,
+                })
+        return results
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        today = datetime.date.today()
+
         context['studies'] = self.request.user.study_set.exclude(status=Study.FINISHED)
+
+        upcoming = []
+        upcoming += self.get_followups(today, today + datetime.timedelta(days=7))
+        upcoming += self.get_appointments(today, today + datetime.timedelta(days=7))
+        context['upcoming'] = sorted(upcoming, key=lambda ev: ev['datetime'])[:10]
+
+        recent = []
+        recent += self.get_followups(today - datetime.timedelta(days=7), today)
+        recent += self.get_appointments(today - datetime.timedelta(days=7), today)
+        context['recent'] = sorted(recent, key=lambda ev: ev['datetime'], reverse=True)[:10]
 
         return context

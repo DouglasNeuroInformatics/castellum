@@ -41,4 +41,10 @@
             </li>
         {% endfor %}
     </ul>
+
+    <h2>{% translate 'Upcoming events' %}</h2>
+    {% include 'castellum_auth/__event_list.html' with events=upcoming %}
+
+    <h2>{% translate 'Recent events' %}</h2>
+    {% include 'castellum_auth/__event_list.html' with events=recent %}
 {% endblock %}

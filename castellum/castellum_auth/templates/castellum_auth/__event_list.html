@@ -1,0 +1,13 @@
+{% load i18n %}
+
+<ul class="table-list mb-3">
+    {% for event in events %}
+        <li class="table-list-item">
+            {{ event.obj }}
+        </li>
+    {% empty %}
+        <li class="alert alert-warning">
+            {% translate 'No events' %}
+        </li>
+    {% endfor %}
+</ul>
