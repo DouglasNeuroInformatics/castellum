@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n auth %}
+{% load i18n auth utils %}
 
 {% block title %}{% translate 'Dashboard' %} &middot; {{ block.super }}{% endblock %}
 
@@ -42,7 +42,12 @@
         {% endfor %}
     </ul>
 
-    <h2>{% translate 'Upcoming events' %}</h2>
+    <div class="h2">
+        <h2 class="d-inline">{% translate 'Upcoming events' %}</h2>
+        <a href="{% url 'feeds' %}" class="btn btn-sm btn-primary">
+            {% icon 'calendar-plus' style='regular' label=_('Feeds') %}
+        </a>
+    </div>
     {% include 'castellum_auth/__event_list.html' with events=upcoming %}
 
     <h2>{% translate 'Recent events' %}</h2>
