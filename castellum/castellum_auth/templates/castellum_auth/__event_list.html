@@ -1,9 +1,19 @@
-{% load i18n %}
+{% load i18n utils %}
 
 <ul class="table-list mb-3">
     {% for event in events %}
         <li class="table-list-item">
-            {{ event.obj }}
+            <div>
+                <small class="d-block text-muted">
+                    <time>{{ event.datetime|longdate }} {% if event.datetime.hour %}{{ event.datetime|time }}{% endif %}</time>
+                    {% translate 'in' context 'in {study}' %}
+                    <a href="{{ event.study_url }}">{{ event.study }}</a>
+                </small>
+                {{ event.text }}
+            </div>
+            <div class="table-list-item-actions">
+                <a class="btn btn-outline-primary my-1" href="{{ event.url }}">{% translate 'Details' %}</a>
+            </div>
         </li>
     {% empty %}
         <li class="alert alert-warning">

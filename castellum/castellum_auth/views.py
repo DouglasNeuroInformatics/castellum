@@ -23,8 +23,10 @@ import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import check_for_language
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
 
 from castellum.appointments.models import Appointment
@@ -63,12 +65,14 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             study = participation.study
             if self.request.user.has_perm('recruitment.recruit', obj=study):
                 results.append({
-                    'type': 'followup',
                     'datetime': timezone.make_aware(datetime.datetime.combine(
                         participation.followup_date,
                         participation.followup_time or datetime.time(0, 0, 0),
                     )),
-                    'obj': participation,
+                    'text': _('Recruitment followup'),
+                    'url': reverse('recruitment:contact', args=[study.pk, participation.pk]),
+                    'study': study,
+                    'study_url': reverse('recruitment:recruitment-open', args=[study.pk]),
                 })
         return results
 
@@ -84,9 +88,14 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             study = appointment.participation.study
             if self.request.user.has_perm('recruitment.conduct_study', obj=study):
                 results.append({
-                    'type': 'appointment',
                     'datetime': appointment.start,
-                    'obj': appointment,
+                    'text': _('Appointment for {}').format(appointment.session.name),
+                    'url': reverse(
+                        'execution:participation-detail',
+                        args=[study.pk, appointment.participation.pk],
+                    ),
+                    'study': study,
+                    'study_url': reverse('execution:study-detail', args=[study.pk]),
                 })
         return results
 
