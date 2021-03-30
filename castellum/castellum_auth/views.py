@@ -24,6 +24,7 @@ from django.shortcuts import redirect
 from django.utils.translation import check_for_language
 from django.views.generic import TemplateView
 
+from castellum.studies.models import Study
 from castellum.utils.views import get_next_url
 
 LANGUAGE_QUERY_PARAMETER = 'language'
@@ -48,4 +49,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        context['studies'] = self.request.user.study_set.exclude(status=Study.FINISHED)
+
         return context

@@ -1,7 +1,44 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n auth %}
 
 {% block title %}{% translate 'Dashboard' %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    <h2>{% translate 'Studies' %}</h2>
+    <ul class="table-list mb-3">
+        {% for study in studies %}
+            <li class="table-list-item">
+                <div>
+                    <div class="h4 d-inline-block my-1 mr-2">{{ study.name }}</div>
+                    <div class="d-inline-block my-1 mr-2">{{ study.contact_person }}</div>
+                    {% if study.status == study.FINISHED %}
+                        <span class="badge badge-secondary">{% translate 'Finished' %}</span>
+                    {% endif %}
+                </div>
+                <div class="table-list-item-actions">
+                    {% has_perm 'studies.access_study' user study as can_access %}
+                    {% if can_access and study.status == study.EXECUTION %}
+                        {% has_perm 'recruitment.recruit' user study as can_recruit %}
+                        {% if can_recruit %}
+                            <a class="btn btn-outline-primary my-1" href="{% url 'recruitment:recruitment-open' study.pk %}">{% translate 'Recruitment' %}</a>
+                        {% endif %}
+
+                        {% has_perm 'recruitment.conduct_study' user study as can_conduct %}
+                        {% if can_conduct %}
+                            <a class="btn btn-outline-primary my-1" href="{% url 'execution:study-detail' study.pk %}">{% translate 'Execution' %}</a>
+                        {% endif %}
+                    {% endif %}
+
+                    {% has_perm 'studies.view_study' user study as can_view_study %}
+                    {% if can_view_study %}
+                        <a class="btn btn-outline-primary my-1" href="{% url 'studies:detail' study.pk %}">{% translate 'Details' %}</a>
+                    {% endif %}
+                </div>
+            </li>
+        {% empty %}
+            <li class="alert alert-warning">
+                {% translate 'No studies' %}
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
