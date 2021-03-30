@@ -54,9 +54,9 @@
                             </div>
                         {% endif %}
 
-                        {% if request.user.is_authenticated %}
+                        {% if user.is_authenticated %}
                             <div>
-                                <span class="navbar-text">{{ request.user }}</span>
+                                <span class="navbar-text">{{ user }}</span>
                                 <a href="{% url 'logout' %}?next={{ request.get_full_path|iriencode }}" class="btn btn-secondary">{% translate 'Logout' %}</a>
                             </div>
                         {% else %}
