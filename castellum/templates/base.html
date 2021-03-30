@@ -44,7 +44,7 @@
                                             <button title="{{ label }}" class="btn btn-secondary mb-2 mb-sm-0">{{ lang }}</button>
                                         {% endif %}
                                         {% csrf_token %}
-                                        <input name="next" type="hidden" value="{{ request.get_full_path }}" />
+                                        <input name="next" type="hidden" value="{{ get_full_path }}" />
                                         <input name="language" type="hidden" value="{{ lang }}" />
                                         {% if not forloop.first %}
                                             <button title="{{ label }}" class="btn btn-secondary mb-2 mb-sm-0">{{ lang }}</button>
@@ -56,7 +56,7 @@
 
                         {% if user.is_authenticated %}
                             <div>
-                                <span class="navbar-text">{{ user }}</span>
+                                <a href="{% url 'dashboard' %}" class="navbar-text">{{ user }}</a>
                                 <a href="{% url 'logout' %}?next={{ request.get_full_path|iriencode }}" class="btn btn-secondary">{% translate 'Logout' %}</a>
                             </div>
                         {% else %}

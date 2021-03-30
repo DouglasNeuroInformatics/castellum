@@ -19,8 +19,10 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.utils.translation import check_for_language
+from django.views.generic import TemplateView
 
 from castellum.utils.views import get_next_url
 
@@ -39,3 +41,11 @@ def set_language(request):
             request.user.save()
 
     return redirect(get_next_url(request))
+
+
+class DashboardView(LoginRequiredMixin, TemplateView):
+    template_name = 'castellum_auth/dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

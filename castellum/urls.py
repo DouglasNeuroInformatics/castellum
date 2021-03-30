@@ -35,6 +35,7 @@ from django.views.static import serve
 from stronghold.decorators import public
 
 from castellum.castellum_auth.forms import AuthenticationForm
+from castellum.castellum_auth.views import DashboardView
 from castellum.castellum_auth.views import set_language
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
@@ -68,6 +69,7 @@ urlpatterns = [
     path('favicon.ico', public(RedirectView.as_view(url='/static/images/favicon.ico'))),
     path('ping/', dummy, name='ping'),
     path('feeds/', FeedsView.as_view(), name='feeds'),
+    path('dashboard/', DashboardView.as_view(), name='dashboard'),
 
     path('i18n/', set_language, name='set_language'),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
