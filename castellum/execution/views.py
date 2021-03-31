@@ -77,7 +77,7 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
 
         context['list'] = []
         participations = self.study.participation_set\
-            .annotate(appointment_count=models.Count('appointment', distinct=True))\
+            .with_appointment_count()\
             .filter(status=Participation.INVITED)\
             .prefetch_related(
                 models.Prefetch('subject', queryset=Subject.objects.annotate_showup())

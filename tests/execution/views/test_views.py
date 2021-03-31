@@ -5,6 +5,7 @@ from castellum.appointments.models import Appointment
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.models import Domain
 from castellum.recruitment.models import Participation
+from castellum.studies.models import StudySession
 
 
 @pytest.mark.smoketest
@@ -22,6 +23,27 @@ def test_study_detail_view(request, client, user_fixture, study_in_execution_sta
     url = '/execution/{}/'.format(study_in_execution_status.pk)
     response = client.get(url)
     assert response.status_code == 200
+
+
+def test_study_detail_view_appointment_count(client, member, study_in_execution_status):
+    session1 = baker.make(StudySession, study=study_in_execution_status)
+    session2 = baker.make(StudySession, study=study_in_execution_status)
+    baker.make(StudySession, study=study_in_execution_status)
+    participation = baker.make(
+        Participation, status=Participation.INVITED, study=study_in_execution_status
+    )
+    baker.make(
+        Appointment, participation=participation, session=session1, show_up=Appointment.SHOWUP
+    )
+    baker.make(
+        Appointment, participation=participation, session=session2, show_up=Appointment.NOSHOW
+    )
+
+    client.force_login(member)
+    url = '/execution/{}/'.format(study_in_execution_status.pk)
+    response = client.get(url)
+    print(response.content)
+    assert b'1/3' in response.content
 
 
 @pytest.mark.smoketest
