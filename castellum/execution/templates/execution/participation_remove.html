@@ -1,0 +1,16 @@
+{% extends "execution/participation_base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Remove from study" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <p>{% translate "Please confirm that this subject will no longer participate in the study. Note that reinviting them is only possible from recruitment or subject management." %}</p>
+
+        <div class="d-print-none mb-3">
+            <a href="{% url 'execution:participation-detail' study.pk object.pk %}" class="btn btn-outline-primary">{% translate 'Cancel' %}</a>
+            <button class="btn btn-danger" >{% translate 'Confirm' %}</button>
+        </div>
+    </form>
+{% endblock %}

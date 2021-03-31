@@ -186,6 +186,17 @@ class ParticipationPseudonymsView(ParticipationDetailMixin, DetailView):
         return context
 
 
+class ParticipationRemoveView(ParticipationDetailMixin, DetailView):
+    template_name = 'execution/participation_remove.html'
+    tab = 'overview'
+
+    def post(self, request, *args, **kwargs):
+        participation = self.get_object()
+        participation.status = Participation.UNSUITABLE
+        participation.save()
+        return redirect('execution:study-detail', participation.study.pk)
+
+
 class ParticipationNewsView(ParticipationDetailMixin, UpdateView):
     template_name = 'execution/participation_news.html'
     fields = ['news_interest']
