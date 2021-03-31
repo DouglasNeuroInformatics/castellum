@@ -83,8 +83,14 @@ class ParticipationManager(models.Manager):
         )
 
     def with_appointment_count(self):
+        from castellum.appointments.models import Appointment
+
         return self.get_queryset().annotate(
-            appointment_count=models.Count('appointment', distinct=True)
+            appointment_count=models.Count(
+                'appointment',
+                filter=models.Q(appointment__show_up__in=[Appointment.SHOWUP, Appointment.LATE]),
+                distinct=True,
+            )
         )
 
 
