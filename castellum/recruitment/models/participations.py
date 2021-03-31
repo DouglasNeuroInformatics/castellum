@@ -82,6 +82,11 @@ class ParticipationManager(models.Manager):
             ),
         )
 
+    def with_appointment_count(self):
+        return self.get_queryset().annotate(
+            appointment_count=models.Count('appointment', distinct=True)
+        )
+
 
 class Participation(models.Model):
     NOT_CONTACTED = 0
