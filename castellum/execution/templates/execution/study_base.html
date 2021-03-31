@@ -8,7 +8,7 @@
         <h1 class="text-center">{{ study }}</h1>
 
         <div class="d-print-none">
-            <a href="{% url 'execution:study-detail' study.pk %}?export" class="btn btn-outline-primary mb-1">{% trans 'Export attributes' %}</a>
+            <a href="{% url 'execution:export' study.pk %}" class="btn btn-outline-primary mb-1">{% trans 'Export attributes' %}</a>
             {% if study.consent %}
                 <a href="{{ study.consent.url }}" class="btn btn-outline-primary mb-1">{% translate 'Consent document' %}</a>
             {% endif %}

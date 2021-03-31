@@ -41,6 +41,7 @@ from castellum.appointments.mixins import send_appointment_notifications
 from castellum.appointments.models import Appointment
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
+from castellum.pseudonyms.forms import DomainForm
 from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.helpers import get_subject
@@ -89,7 +90,20 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
 
         return context
 
-    def export(self):
+
+class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
+    template_name = 'execution/study_export.html'
+    model = Study
+    permission_required = 'recruitment.conduct_study'
+    study_status = [Study.EXECUTION]
+    tab = 'list'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = DomainForm(context=self.study)
+        return context
+
+    def export(self, domain):
         monitoring_logger.info('Attribute export: study {} by {}'.format(
             self.study.pk, self.request.user.pk
         ))
@@ -100,10 +114,15 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
         zresponse = zipfile.ZipFile(response, 'w')
 
         subjects = []
-        for participation in self.study.participation_set.filter(status=Participation.INVITED):
+        for participation in (
+            self.study.participation_set
+            .filter(status=Participation.INVITED)
+            .select_related('subject')
+        ):
             has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
             if has_access:
-                subjects.append((participation.pseudonym, participation.subject))
+                pseudonym = get_pseudonym(participation.subject, domain.key)
+                subjects.append((pseudonym, participation.subject))
 
         filename = exporter.get_schema_filename()
         content = exporter.get_schema(descriptions)
@@ -117,11 +136,15 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
 
         return response
 
-    def get(self, request, *args, **kwargs):
-        if 'export' in request.GET:
-            return self.export()
+    def get(self, request, **kwargs):
+        if 'domain' in self.request.GET:
+            domain = get_object_or_404(self.study.domains.all(), key=self.request.GET['domain'])
+            return self.export(domain)
+        elif self.study.domains.count() == 1:
+            domain = self.study.domains.get()
+            return self.export(domain)
         else:
-            return super().get(request, *args, **kwargs)
+            return super().get(request, **kwargs)
 
 
 class ParticipationDetailMixin(ParticipationMixin, PermissionRequiredMixin):
