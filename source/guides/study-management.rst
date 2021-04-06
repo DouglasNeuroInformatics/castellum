@@ -14,9 +14,9 @@ Create a study
     -   **Phone number** and **E-mail-address** are the contact information at
         which the contact person can be reached
 
-3.  Decide on setting it up as a regular study that includes study recruitment 
-    and execution or as a **one time invitation**. The option **Is a one time 
-    invitation** should only be used when you are sure that it is sufficient to 
+3.  Decide on setting it up as a regular study that includes study recruitment
+    and execution or as a **one time invitation**. The option **Is a one time
+    invitation** should only be used when you are sure that it is sufficient to
     invite potential subjects **anonymously** via mail.
 
 4.  Fill in any additional information (you can still do that later)
@@ -24,9 +24,9 @@ Create a study
 5.  Click on **Save** to record your progress
 
 .. warning::
-    When choosing option **Is a one time invitation**: Please be aware that 
-    Castellum will **not** track actual participations or appointments and it 
-    will **not** provide pseudonyms within the study.  
+    When choosing option **Is a one time invitation**: Please be aware that
+    Castellum will **not** track actual participations or appointments and it
+    will **not** provide pseudonyms within the study.
 
 Now you can :ref:`find your study <study-search>` in the studies list.
 
