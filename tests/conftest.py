@@ -1,9 +1,8 @@
 import datetime
-from pathlib import Path
 
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
-from django.core import serializers
+from django.core.management import call_command
 from django.db.models import DateField
 from django.db.models import DateTimeField
 from django.test import TestCase
@@ -39,13 +38,6 @@ baker.generators.add(
 # monkey patch to make test isolation work on both databases
 # See https://github.com/pytest-dev/pytest-django/pull/431
 TestCase.databases = ['default', 'contacts']
-
-
-def load_django_fixture(app_label, name):
-    path = Path('castellum') / app_label / 'fixtures' / (name + '.json')
-    with open(path) as fh:
-        for obj in serializers.deserialize('json', fh):
-            obj.save()
 
 
 def create_user(group_name):
@@ -90,19 +82,19 @@ def attribute_descriptions(django_db_setup, django_db_blocker):
 @pytest.fixture(scope='session', autouse=True)
 def groups(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
-        load_django_fixture('castellum_auth', 'groups')
+        call_command('loaddata', 'groups')
 
 
 @pytest.fixture(scope='session', autouse=True)
 def study_types(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
-        load_django_fixture('studies', 'study_types')
+        call_command('loaddata', 'study_types')
 
 
 @pytest.fixture(scope='session', autouse=True)
 def study_groups(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
-        load_django_fixture('studies', 'study_groups')
+        call_command('loaddata', 'study_groups')
 
 
 @pytest.fixture
