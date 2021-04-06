@@ -18,7 +18,10 @@
     <nav class="d-print-none" aria-label="{% translate 'Tabs' %}">
         <ul class="nav nav-tabs justify-content-center mb-3">
             <li class="nav-item">
-                <a class="nav-link {% if view.tab == 'list' %}active{% endif %}" href="{% url 'execution:study-detail' study.pk %}">{% translate 'List' %}</a>
+                <a class="nav-link {% if view.tab == 'list' %}active{% endif %}" href="{% url 'execution:study-detail' study.pk %}">
+                    {% translate 'List' %}
+                    <span class="badge badge-light">{{ study.invited_count }}/{{ study.min_subject_count }}</span>
+                </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if view.tab == 'calendar' %}active{% endif %}" href="{% url 'execution:calendar' study.pk %}">{% translate 'Calendar' %}</a>
