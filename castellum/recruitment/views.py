@@ -112,14 +112,14 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         return Participation.objects\
             .with_appointment_count()\
-            .prefetch_related('subject')\
+            .select_related('subject')\
             .filter(status__in=self.shown_status, study=self.study)\
             .order_by(*order_by)
 
     def _get_statistics(self):
         participations = Participation.objects.filter(
             study=self.study, status=Participation.INVITED
-        ).prefetch_related('subject')
+        ).select_related('subject')
 
         desc1 = get_description_by_statistics_rank('primary')
         if desc1:

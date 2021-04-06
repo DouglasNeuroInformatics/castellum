@@ -81,7 +81,11 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         for subject in Subject.objects.filter(filter_queries.pk_filter(contacts)):
             has_privacy_level = user.has_privacy_level(subject.privacy_level)
             participations = []
-            for participation in subject.participation_set.filter(study__status=Study.EXECUTION):
+            for participation in (
+                subject.participation_set
+                .filter(study__status=Study.EXECUTION)
+                .select_related('study')
+            ):
                 can_access_study = user.has_perm('studies.access_study', obj=participation.study)
                 invited = participation.status == Participation.INVITED
                 can_recruit = (
@@ -255,7 +259,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
             context['appointments'] = Appointment.objects.filter(
                 participation__subject=self.object
-            )
+            ).select_related('session')
 
             context['notes'] = self.get_notes()
 
