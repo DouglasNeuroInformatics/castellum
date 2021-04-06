@@ -5,6 +5,7 @@ from freezegun import freeze_time
 from model_bakery import baker
 
 from castellum.recruitment import attribute_fields
+from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 
 
@@ -90,6 +91,18 @@ def test_age_statistics_bucket(attribute_description, study):
         assert get_bucket('1969-01-01') == 17
         assert get_bucket('1951-01-01') == 25
         assert get_bucket('1899-01-01') == math.inf
+
+
+def test_age_statistics_bucket_ctx(attribute_description, study):
+    field = attribute_fields.AgeAttributeField(attribute_description)
+    with freeze_time('1970-01-01'):
+        participation = baker.make(Participation, study=study)
+    buckets, get_bucket = field.get_statistics_grouping(study)
+    assert get_bucket('1971-01-01', participation) == 17
+    assert get_bucket('1970-01-01', participation) == 17
+    assert get_bucket('1969-01-01', participation) == 17
+    assert get_bucket('1951-01-01', participation) == 25
+    assert get_bucket('1899-01-01', participation) == math.inf
 
 
 def test_age_statistics_bucket_children(attribute_description, study):

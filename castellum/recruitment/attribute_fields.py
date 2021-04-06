@@ -150,7 +150,7 @@ class BooleanAttributeField(BaseAttributeField):
             (None, _('Other')),
         ]
 
-        def get_bucket(value):
+        def get_bucket(value, ctx=None):
             if value in [ANSWER_DECLINED, '']:
                 return None
             return value
@@ -196,7 +196,7 @@ class ChoiceAttributeField(BaseAttributeField):
             (None, _('Other')),
         ]
 
-        def get_bucket(value):
+        def get_bucket(value, ctx=None):
             if value in [ANSWER_DECLINED, '']:
                 return None
             return value
@@ -321,11 +321,14 @@ class AgeAttributeField(DateAttributeField):
                 (math.inf, '>70'),
             ]
 
-        def get_bucket(value):
+        def get_bucket(value, ctx=None):
             if not value or value == ANSWER_DECLINED:
                 return None
             value = self.parse_date(value)
-            today = datetime.date.today()
+            if hasattr(ctx, 'updated_at'):
+                today = ctx.updated_at.date()
+            else:
+                today = datetime.date.today()
             for period, label in buckets:
                 if period is math.inf or today - relativedelta(**{scale: period + 1}) < value:
                     return period

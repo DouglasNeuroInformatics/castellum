@@ -71,18 +71,18 @@ def test_statistics(attribute_descriptions, study, participation):
     view = RecruitmentView()
     view.study = study
 
-    baker.make(
-        Participation,
-        study=study,
-        status=Participation.INVITED,
-        subject__attributes={
-            'd1': 1,
-            'd3': '1930-01-01',
-        },
-    )
-
     with freeze_time('1970-01-01'):
-        data = view._get_statistics()
+        baker.make(
+            Participation,
+            study=study,
+            status=Participation.INVITED,
+            subject__attributes={
+                'd1': 1,
+                'd3': '1930-01-01',
+            },
+        )
+
+    data = view._get_statistics()
 
     assert data == {
         'legend': ['Right', 'Left', 'Ambidextrous', 'Other'],

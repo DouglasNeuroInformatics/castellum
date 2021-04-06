@@ -138,11 +138,11 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             subject = participation.subject
 
             value1 = subject.attributes.get(desc1.json_key)
-            key1 = get_bucket1(value1)
+            key1 = get_bucket1(value1, participation)
 
             if desc2:
                 value2 = subject.attributes.get(desc2.json_key)
-                key2 = get_bucket2(value2)
+                key2 = get_bucket2(value2, participation)
             else:
                 key2 = None
 
@@ -185,10 +185,10 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             buckets = []
             if desc1:
                 value1 = subject.attributes.get(desc1.json_key)
-                buckets.append((desc1, buckets1[get_bucket1(value1)]))
+                buckets.append((desc1, buckets1[get_bucket1(value1, participation)]))
             if desc2:
                 value2 = subject.attributes.get(desc2.json_key)
-                buckets.append((desc2, buckets2[get_bucket2(value2)]))
+                buckets.append((desc2, buckets2[get_bucket2(value2, participation)]))
 
             can_access = self.request.user.has_privacy_level(
                 participation.subject.privacy_level
