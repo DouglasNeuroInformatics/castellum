@@ -13,7 +13,7 @@
         <div class="card-group mb-3">
             <div class="card">
                 <div class="card-body">
-                    {% translate 'Mark all open participations as unsuitable.' %}
+                    {% translate 'Mark all open participations as excluded.' %}
                 </div>
                 <div class="card-footer">
                     <button name="action" value="all" class="btn btn-primary btn-block">{% translate 'All' %}</button>
@@ -21,7 +21,7 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    {% translate 'Mark all subjects as unsuitable who have not answered for 10 days or more.' %}
+                    {% translate 'Mark all subjects as excluded who have not answered for 10 days or more.' %}
                 </div>
                 <div class="card-footer">
                     <button name="action" value="awaiting_response" class="btn btn-primary btn-block">{% translate 'Awaiting response' %}</button>
@@ -29,7 +29,7 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    {% translate 'Mark all subject who do not match the current filter criteria as unsuitable.' %}
+                    {% translate 'Mark all subject who do not match the current filter criteria as excluded.' %}
                 </div>
                 <div class="card-footer">
                     <button name="action" value="mismatch" class="btn btn-primary btn-block">{% translate 'Mismatch' %}</button>
