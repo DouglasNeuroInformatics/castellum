@@ -35,9 +35,9 @@ from .views import MailRecruitmentCleanupView
 from .views import MailRecruitmentRemindView
 from .views import MailRecruitmentView
 from .views import RecruitmentCleanupView
-from .views import RecruitmentViewInvited
+from .views import RecruitmentViewExcluded
 from .views import RecruitmentViewOpen
-from .views import RecruitmentViewUnsuitable
+from .views import RecruitmentViewParticipating
 from .views import SchedulerPingView
 
 app_name = 'recruitment'
@@ -46,11 +46,15 @@ urlpatterns = [
     path('resources/<int:pk>/', ResourceFeed(), name='resource-feed'),
     path('scheduler-ping/<int:schedule_id>/<pseudonym>/', SchedulerPingView.as_view()),
     path('<int:study_pk>/', RecruitmentViewOpen.as_view(), name='recruitment-open'),
-    path('<int:study_pk>/invited/', RecruitmentViewInvited.as_view(), name='recruitment-invited'),
     path(
-        '<int:study_pk>/unsuitable/',
-        RecruitmentViewUnsuitable.as_view(),
-        name='recruitment-unsuitable',
+        '<int:study_pk>/participating/',
+        RecruitmentViewParticipating.as_view(),
+        name='recruitment-participating',
+    ),
+    path(
+        '<int:study_pk>/excluded/',
+        RecruitmentViewExcluded.as_view(),
+        name='recruitment-excluded',
     ),
     path('<int:study_pk>/mail/', MailRecruitmentView.as_view(), name='mail'),
     path(

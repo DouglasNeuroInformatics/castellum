@@ -52,7 +52,7 @@ def get_related_studies(study):
     dt = timezone.now() - relativedelta(years=2)
     related_prs = Participation.objects.filter(
         updated_at__gte=dt,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
         subject__in=Subject.objects.filter(filter_queries.study(study))
     )
     return Study.objects\
@@ -182,7 +182,7 @@ class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):
 class OneTimeInvitationMailRecruitmentView(BaseMailRecruitmentView):
     permission_required = 'studies.change_study'
     is_onetime_invitation = True
-    participation_status = Participation.INVITED
+    participation_status = Participation.PARTICIPATING
     tab = 'mail'
 
     def form_valid(self, form):

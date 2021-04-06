@@ -54,12 +54,12 @@ class AppointmentsForm(forms.ModelForm):
                 required=False,
             )
             if settings.SCHEDULER_URL and session.schedule_id:
-                if self.instance.status == Participation.INVITED:
+                if self.instance.status == Participation.PARTICIPATING:
                     pseudonym = get_pseudonym(self.instance.subject, session.domain)
                     url = scheduler.create_invitation_url(session.schedule_id, pseudonym)
                     self.invitation_urls[key] = url
                 else:
-                    self.invitation_urls[key] = 'not-invited'
+                    self.invitation_urls[key] = 'not-participating'
 
     def format_session_name(self, session):
         duration = _('{}min').format(session.duration)
@@ -89,7 +89,7 @@ class AppointmentsForm(forms.ModelForm):
 
         qs = Appointment.objects\
             .exclude(participation=self.instance)\
-            .filter(participation__status=Participation.INVITED)\
+            .filter(participation__status=Participation.PARTICIPATING)\
             .alias(end=models.ExpressionWrapper(
                 # corresponds to the Appointment.end property
                 models.F('start') + models.F('session__duration') * MINUTE,

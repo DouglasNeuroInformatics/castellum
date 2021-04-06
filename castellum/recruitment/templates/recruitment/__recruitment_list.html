@@ -13,7 +13,7 @@
                         {% if participation.status_open and participation.status != participation.NOT_CONTACTED %}
                             <div class="d-inline-block my-1 mr-2 badge badge-secondary">{{ participation|display:'status' }}</div>
                         {% endif %}
-                        {% if participation.status == participation.INVITED and session_count > 0 %}
+                        {% if participation.status == participation.PARTICIPATING and session_count > 0 %}
                             <div class="d-inline-block my-1 mr-2 badge badge-secondary">
                                 {% icon 'calendar' label=_('Appointments') %}
                                 {{ participation.appointment_count }}/{{ session_count }}
@@ -101,7 +101,7 @@
                 {% if can_recruit %}
                     {% translate 'Please add a set of potential subjects using the Add button.' %}
                 {% endif %}
-            {% elif view.subtab == 'invited' %}
+            {% elif view.subtab == 'participating' %}
                 {% blocktranslate with subjectcount=study.min_subject_count %}
                     You are still in search for {{ subjectcount }} participants.
                 {% endblocktranslate %}

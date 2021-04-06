@@ -187,16 +187,16 @@ class ContactForm(forms.ModelForm):
         if not self.instance.match:
             self.fields['status'].widget.disabled_choices = [
                 choice for choice, label in Participation.STATUS_OPTIONS
-                if choice != Participation.UNSUITABLE
+                if choice != Participation.EXCLUDED
             ]
         elif self.instance.match == 'incomplete':
-            self.fields['status'].widget.disabled_choices = [Participation.INVITED]
+            self.fields['status'].widget.disabled_choices = [Participation.PARTICIPATING]
 
 
 class ContactAndAppointmentsForm(ContactForm, AppointmentsForm):
     def clean(self):
         cleaned_data = super().clean()
-        if cleaned_data['status'] != Participation.INVITED:
+        if cleaned_data['status'] != Participation.PARTICIPATING:
             for session in self.instance.study.studysession_set.exclude(schedule_id=None):
                 key = 'appointment-{}'.format(session.pk)
                 del cleaned_data[key]

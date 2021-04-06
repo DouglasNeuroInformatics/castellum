@@ -96,15 +96,15 @@ class ParticipationManager(models.Manager):
 class Participation(models.Model):
     NOT_CONTACTED = 0
     NOT_REACHED = 1
-    UNSUITABLE = 2
-    INVITED = 3
+    EXCLUDED = 2
+    PARTICIPATING = 3
     FOLLOWUP_APPOINTED = 4
     AWAITING_RESPONSE = 5
     STATUS_OPTIONS = [
         (NOT_CONTACTED, _('not contacted')),
         (NOT_REACHED, _('not reached')),
-        (UNSUITABLE, _('excluded')),
-        (INVITED, _('participating')),
+        (EXCLUDED, _('excluded')),
+        (PARTICIPATING, _('participating')),
         (FOLLOWUP_APPOINTED, _('follow-up scheduled')),
         (AWAITING_RESPONSE, _('awaiting response')),
     ]

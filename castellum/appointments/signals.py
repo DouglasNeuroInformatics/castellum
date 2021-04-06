@@ -44,7 +44,7 @@ def delete_scheduler_appointments_on_delete(sender, instance, using, **kwargs):
 def delete_scheduler_appointments_on_save(sender, instance, using, **kwargs):
     from castellum.recruitment.models import Participation
 
-    if sender is Participation and instance.status != Participation.INVITED:
+    if sender is Participation and instance.status != Participation.PARTICIPATING:
         # PERF: ignore if instance has not been saved to the database yet
         if not instance.pk:
             return

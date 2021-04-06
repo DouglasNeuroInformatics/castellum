@@ -72,7 +72,7 @@ def test_back_to_subject(client, member, participation):
 def test_post_updated_at(client, member, participation):
     client.force_login(member)
     url = '/recruitment/{}/{}/'.format(participation.study.pk, participation.pk)
-    client.post(url, {'status': Participation.UNSUITABLE})
+    client.post(url, {'status': Participation.EXCLUDED})
     participation = Participation.objects.get()
     assert participation.updated_at.strftime('%Y-%m-%d') == '2018-01-01'
 
@@ -116,7 +116,7 @@ def test_appointment_delete(client, member, participation):
 
 
 def test_warning_on_appointment_deletion(client, member, participation):
-    participation.status = Participation.INVITED
+    participation.status = Participation.PARTICIPATING
     participation.save()
 
     session = baker.make(StudySession, study=participation.study, schedule_id='1s2a3')
@@ -132,12 +132,12 @@ def test_warning_on_appointment_deletion(client, member, participation):
     warning = b'Scheduler appointments for this participation have been deleted.'
 
     response = client.post(url, {
-        'status': Participation.INVITED,
+        'status': Participation.PARTICIPATING,
     }, follow=True)
     assert warning not in response.content
 
     response = client.post(url, {
-        'status': Participation.UNSUITABLE,
+        'status': Participation.EXCLUDED,
     }, follow=True)
     assert warning in response.content
 
@@ -188,7 +188,7 @@ def test_appointment_resource_overlap(client, member, participation, time):
         session=session,
         start=timezone.make_aware(timezone.datetime(2020, 1, 1, 12)),
         participation__study=participation.study,
-        participation__status=Participation.INVITED,
+        participation__status=Participation.PARTICIPATING,
     )
 
     client.force_login(member)
@@ -203,7 +203,7 @@ def test_appointment_resource_overlap(client, member, participation, time):
     assert response.status_code == 302
 
 
-def test_appointment_resource_overlap_ignore_not_invited(client, member, participation):
+def test_appointment_resource_overlap_ignore_not_participating(client, member, participation):
     resource = baker.make(Resource)
     session = baker.make(
         StudySession, study=participation.study, duration=60, resource=resource
@@ -213,7 +213,7 @@ def test_appointment_resource_overlap_ignore_not_invited(client, member, partici
         session=session,
         start=timezone.make_aware(timezone.datetime(2020, 1, 1, 12)),
         participation__study=participation.study,
-        participation__status=Participation.UNSUITABLE,
+        participation__status=Participation.EXCLUDED,
     )
 
     client.force_login(member)

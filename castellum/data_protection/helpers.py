@@ -55,7 +55,7 @@ def get_no_legal_basis(limit_by):
     # the number of matches, so it is done first
     subjects = Subject.objects\
         .alias(pr_count=models.Count('participation', filter=~models.Q(
-            participation__status=Participation.UNSUITABLE
+            participation__status=Participation.EXCLUDED
         )))\
         .exclude(filter_queries.has_consent(include_waiting=True), deceased=False)\
         .exclude(blocked=True, deceased=False)\

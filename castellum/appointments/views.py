@@ -35,6 +35,6 @@ class ReceptionView(PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(
-            participation__status=Participation.INVITED,
+            participation__status=Participation.PARTICIPATING,
             start__date=datetime.date.today(),
         ).order_by('start')

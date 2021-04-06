@@ -83,7 +83,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
             participations = []
             for participation in subject.participation_set.filter(study__status=Study.EXECUTION):
                 can_access_study = user.has_perm('studies.access_study', obj=participation.study)
-                invited = participation.status == Participation.INVITED
+                participating = participation.status == Participation.PARTICIPATING
                 can_recruit = (
                     has_privacy_level and
                     can_access_study and
@@ -92,10 +92,10 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 can_conduct = (
                     has_privacy_level and
                     can_access_study and
-                    invited and
+                    participating and
                     user.has_perm('recruitment.conduct_study', obj=participation.study)
                 )
-                can_search = invited and user.has_perm('recruitment.search_participations')
+                can_search = participating and user.has_perm('recruitment.search_participations')
                 if can_recruit or can_conduct or can_search:
                     participations.append((participation, can_recruit, can_conduct))
             if participations or can_view_subject:
@@ -110,7 +110,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         context['count_updated'] = Contact.objects.filter(updated_at__gte=start).count()
 
         context['count_participated'] = Subject.objects.filter(
-            participation__status=Participation.INVITED
+            participation__status=Participation.PARTICIPATING
         ).distinct().count()
 
         completeness, total = filter_queries.completeness_expr()
@@ -336,7 +336,7 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     def get_queryset(self):
         return (
             self.subject.participation_set
-            .filter(status=Participation.INVITED)
+            .filter(status=Participation.PARTICIPATING)
             .order_by('-updated_at')
         )
 
@@ -359,7 +359,7 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
             .filter(status=Study.EXECUTION)
             .exclude(
                 participation__subject=self.subject,
-                participation__status=Participation.INVITED,
+                participation__status=Participation.PARTICIPATING,
             )
             # study.p is the list that contains the particiaption (if it exists) or nothing.
             # I did not find a better way to do this.
@@ -438,7 +438,7 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
         study = get_object_or_404(Study, pk=request.POST['study'])
 
         Participation._base_manager.update_or_create(
-            subject=self.subject, study=study, defaults={'status': Participation.INVITED}
+            subject=self.subject, study=study, defaults={'status': Participation.PARTICIPATING}
         )
 
         return self.get(request, *args, **kwargs)

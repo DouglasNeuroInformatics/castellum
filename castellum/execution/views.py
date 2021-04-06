@@ -78,7 +78,7 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
         context['list'] = []
         participations = self.study.participation_set\
             .with_appointment_count()\
-            .filter(status=Participation.INVITED)\
+            .filter(status=Participation.PARTICIPATING)\
             .prefetch_related(
                 models.Prefetch('subject', queryset=Subject.objects.annotate_showup())
             )
@@ -116,7 +116,7 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
         subjects = []
         for participation in (
             self.study.participation_set
-            .filter(status=Participation.INVITED)
+            .filter(status=Participation.PARTICIPATING)
             .select_related('subject')
         ):
             has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
@@ -151,7 +151,7 @@ class ParticipationDetailMixin(ParticipationMixin, PermissionRequiredMixin):
     model = Participation
     permission_required = ['recruitment.conduct_study']
     study_status = [Study.EXECUTION]
-    participation_status = [Participation.INVITED]
+    participation_status = [Participation.PARTICIPATING]
 
     def get_object(self, queryset=None):
         return self.participation
@@ -170,7 +170,7 @@ class ParticipationDetailView(ParticipationDetailMixin, DetailView):
 
 
 class ParticipationPseudonymsView(ParticipationDetailMixin, DetailView):
-    participation_status = [Participation.INVITED]
+    participation_status = [Participation.PARTICIPATING]
     study_status = []
     template_name = 'execution/participation_pseudonyms.html'
     tab = 'overview'
@@ -249,7 +249,7 @@ class ShowUpUpdateView(ParticipationMixin, UpdateView):
     http_method_names = ['post']
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
-    participation_status = [Participation.INVITED]
+    participation_status = [Participation.PARTICIPATING]
 
     def get_object(self):
         return get_object_or_404(
@@ -287,7 +287,7 @@ class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
             participation = Participation.objects.filter(
                 study=self.study,
                 subject=subject,
-                status=Participation.INVITED,
+                status=Participation.PARTICIPATING,
             ).get()
             return redirect('execution:participation-detail', self.study.pk, participation.pk)
         except ObjectDoesNotExist:
@@ -421,7 +421,7 @@ class ExclusionCriteriaView(StudyMixin, PermissionRequiredMixin, DetailView):
 
 class ExecutionUpdateMixin(ParticipationMixin):
     study_status = [Study.EXECUTION]
-    participation_status = [Participation.INVITED]
+    participation_status = [Participation.PARTICIPATING]
     tab = 'overview'
 
     def get_success_url(self):

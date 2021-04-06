@@ -21,15 +21,15 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if view.subtab == 'invited' %}active{% endif %}" href="{% url 'recruitment:recruitment-invited' study.pk %}">
+                <a class="nav-link {% if view.subtab == 'participating' %}active{% endif %}" href="{% url 'recruitment:recruitment-participating' study.pk %}">
                     {% translate 'Participating' %}
-                    <span class="badge badge-light">{{ invited_count }}/{{ study.min_subject_count }}</span>
+                    <span class="badge badge-light">{{ participating_count }}/{{ study.min_subject_count }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if view.subtab == 'unsuitable' %}active{% endif %}" href="{% url 'recruitment:recruitment-unsuitable' study.pk %}">
+                <a class="nav-link {% if view.subtab == 'excluded' %}active{% endif %}" href="{% url 'recruitment:recruitment-excluded' study.pk %}">
                     {% translate 'Excluded' %}
-                    <span class="badge badge-light">{{ unsuitable_count }}</span>
+                    <span class="badge badge-light">{{ excluded_count }}</span>
                 </a>
             </li>
             <li class="nav-item">

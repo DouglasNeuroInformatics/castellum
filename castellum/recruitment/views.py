@@ -118,7 +118,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
     def _get_statistics(self):
         participations = Participation.objects.filter(
-            study=self.study, status=Participation.INVITED
+            study=self.study, status=Participation.PARTICIPATING
         ).prefetch_related('subject')
 
         desc1 = get_description_by_statistics_rank('primary')
@@ -210,11 +210,11 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         queryset = Participation.objects.filter(study=self.study)
         context['all_count'] = queryset.count()
-        context['invited_count'] = queryset.filter(
-            status=Participation.INVITED
+        context['participating_count'] = queryset.filter(
+            status=Participation.PARTICIPATING
         ).count()
-        context['unsuitable_count'] = queryset.filter(
-            status=Participation.UNSUITABLE
+        context['excluded_count'] = queryset.filter(
+            status=Participation.EXCLUDED
         ).count()
         context['open_count'] = queryset.filter(status__in=[
             Participation.NOT_CONTACTED,
@@ -232,14 +232,14 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
         return context
 
 
-class RecruitmentViewInvited(RecruitmentView):
-    shown_status = [Participation.INVITED]
-    subtab = 'invited'
+class RecruitmentViewParticipating(RecruitmentView):
+    shown_status = [Participation.PARTICIPATING]
+    subtab = 'participating'
 
 
-class RecruitmentViewUnsuitable(RecruitmentView):
-    shown_status = [Participation.UNSUITABLE]
-    subtab = 'unsuitable'
+class RecruitmentViewExcluded(RecruitmentView):
+    shown_status = [Participation.EXCLUDED]
+    subtab = 'excluded'
 
 
 class RecruitmentViewOpen(RecruitmentView):
@@ -379,7 +379,7 @@ class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         batch = get_object_or_404(MailBatch, pk=self.kwargs['pk'], study=self.study)
-        batch.participation_set.update(status=Participation.UNSUITABLE, batch=None)
+        batch.participation_set.update(status=Participation.EXCLUDED, batch=None)
         return redirect('recruitment:mail', self.study.pk)
 
 
@@ -398,7 +398,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     def get_initial(self):
         initial = super().get_initial()
         if not self.object.match:
-            initial['status'] = Participation.UNSUITABLE
+            initial['status'] = Participation.EXCLUDED
             initial['followup_date'] = None
             initial['followup_time'] = None
         return initial
@@ -436,7 +436,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
             send_appointment_notifications(self.request, self.object, form.appointment_changes)
         messages.success(self.request, _('Data has been saved.'))
 
-        if self.object.status != Participation.INVITED and scheduler_appointments_exist:
+        if self.object.status != Participation.PARTICIPATING and scheduler_appointments_exist:
             messages.warning(self.request, _(
                 'Scheduler appointments for this participation have been deleted.'
             ))
@@ -453,8 +453,8 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         action = request.POST.get('action')
         qs = self.study.participation_set.exclude(status__in=[
-            Participation.INVITED,
-            Participation.UNSUITABLE,
+            Participation.PARTICIPATING,
+            Participation.EXCLUDED,
         ])
 
         if action == 'all':
@@ -471,7 +471,7 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
         else:
             return HttpResponseBadRequest()
 
-        qs.update(status=Participation.UNSUITABLE, batch=None)
+        qs.update(status=Participation.EXCLUDED, batch=None)
 
         return redirect('recruitment:recruitment-open', self.study.pk)
 

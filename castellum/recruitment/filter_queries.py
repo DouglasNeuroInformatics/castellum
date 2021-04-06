@@ -49,7 +49,7 @@ from .models import Participation
 def _reverse_exclusive_studies():
     return models.Q(
         ~models.Q(study__status=Study.FINISHED),
-        ~models.Q(status=Participation.UNSUITABLE),
+        ~models.Q(status=Participation.EXCLUDED),
         study__is_exclusive=True,
     )
 
@@ -60,14 +60,14 @@ def study_exclusion(study):
     # Excluded studies
     pr_q = models.Q(
         study__in=study.excluded_studies.all(),
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
     )
 
     # Reverse excluded studies:
     # Exclude studies which exclude this study.
     pr_q |= models.Q(
         study__excluded_studies=study,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
     )
 
     if study.is_exclusive:
@@ -75,7 +75,7 @@ def study_exclusion(study):
         # Exclude all other studies (including exclusive studies).
         pr_q |= models.Q(
             ~models.Q(study__status=Study.FINISHED),
-            ~models.Q(status=Participation.UNSUITABLE),
+            ~models.Q(status=Participation.EXCLUDED),
             ~models.Q(study__pk=study.pk),
         )
     else:

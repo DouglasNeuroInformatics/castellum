@@ -20,16 +20,16 @@ def test_cleanup_view_all(client, recruiter, study_in_execution_status):
         Participation, study=study_in_execution_status, status=Participation.NOT_CONTACTED
     )
     participation2 = baker.make(
-        Participation, study=study_in_execution_status, status=Participation.INVITED
+        Participation, study=study_in_execution_status, status=Participation.PARTICIPATING
     )
 
     url = '/recruitment/{}/cleanup/'.format(study_in_execution_status.pk)
     client.post(url, {'action': 'all'})
 
     participation1.refresh_from_db()
-    assert participation1.status == Participation.UNSUITABLE
+    assert participation1.status == Participation.EXCLUDED
     participation2.refresh_from_db()
-    assert participation2.status == Participation.INVITED
+    assert participation2.status == Participation.PARTICIPATING
 
 
 def test_cleanup_view_awaiting_response(client, recruiter, study_in_execution_status):
@@ -52,7 +52,7 @@ def test_cleanup_view_awaiting_response(client, recruiter, study_in_execution_st
         client.post(url, {'action': 'awaiting_response'})
 
     participation1.refresh_from_db()
-    assert participation1.status == Participation.UNSUITABLE
+    assert participation1.status == Participation.EXCLUDED
     participation2.refresh_from_db()
     assert participation2.status == Participation.NOT_CONTACTED
     participation3.refresh_from_db()
@@ -89,7 +89,7 @@ def test_cleanup_view_mismatch(
     participation4 = baker.make(
         Participation,
         study=study_in_execution_status,
-        status=Participation.INVITED,
+        status=Participation.PARTICIPATING,
         subject__attributes={
             attribute_description.json_key: 2,
         },
@@ -109,8 +109,8 @@ def test_cleanup_view_mismatch(
     participation1.refresh_from_db()
     assert participation1.status == Participation.NOT_CONTACTED
     participation2.refresh_from_db()
-    assert participation2.status == Participation.UNSUITABLE
+    assert participation2.status == Participation.EXCLUDED
     participation3.refresh_from_db()
-    assert participation3.status == Participation.UNSUITABLE
+    assert participation3.status == Participation.EXCLUDED
     participation4.refresh_from_db()
-    assert participation4.status == Participation.INVITED
+    assert participation4.status == Participation.PARTICIPATING

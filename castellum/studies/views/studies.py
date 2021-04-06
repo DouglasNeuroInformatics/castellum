@@ -167,7 +167,7 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['count'] = (
             self.object.participation_set
-            .filter(status=Participation.INVITED)
+            .filter(status=Participation.PARTICIPATING)
             .count()
         )
         context['potential_count'] = (
@@ -337,7 +337,7 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
         else:
             self.study.set_status(self.study.FINISHED)
             self.study.participation_set\
-                .exclude(status=Participation.INVITED)\
+                .exclude(status=Participation.PARTICIPATING)\
                 .delete()
         send_pr_mail(self.study, request.user.email)
         return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))

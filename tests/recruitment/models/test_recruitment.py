@@ -120,7 +120,7 @@ def test_attempts():
         )
 
     with freeze_time("1970-01-02 12:00"):
-        participation.status = Participation.INVITED
+        participation.status = Participation.PARTICIPATING
         participation.save()
 
     with freeze_time("1970-01-03 12:00"):

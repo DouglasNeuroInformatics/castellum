@@ -169,7 +169,7 @@
                     {% for entry in form.appointments %}
                         <div class="form-group">
                             {% bootstrap_field entry.field form_group_class="" %}
-                            {% if entry.invitation_url == 'not-invited' %}
+                            {% if entry.invitation_url == 'not-participating' %}
                                 <p class="text-muted">
                                     {% translate 'Scheduler only available for participating subjects.' %}
                                 </p>
