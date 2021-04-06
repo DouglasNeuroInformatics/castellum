@@ -25,6 +25,20 @@ try:
 except ImportError:
     pass
 
+try:
+    import nplusone
+
+    INSTALLED_APPS += [
+        'nplusone.ext.django',
+    ]
+
+    MIDDLEWARE = [
+        'nplusone.ext.django.NPlusOneMiddleware',
+    ] + MIDDLEWARE
+
+    NPLUSONE_RAISE = True
+except ImportError:
+    pass
 
 # Database
 
