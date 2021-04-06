@@ -227,7 +227,7 @@ Finish a study
 ==============
 
 1.  :ref:`Find the study <study-search>` at the **Studies** page, click
-    **Details** next to the study you wish to start/stop.
+    **Details** next to the study you wish to finish/resume.
 
 2.  You can find the button **Finish study** next to the study name near to
     other buttons.
