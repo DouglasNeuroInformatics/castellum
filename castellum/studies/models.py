@@ -287,6 +287,11 @@ class Study(models.Model):
             self.study_type.exclude(exclusion_criteria='').exists()
         )
 
+    @cached_property
+    def invited_count(self):
+        from castellum.recruitment.models import Participation
+        return self.participation_set.filter(status=Participation.INVITED).count()
+
     @property
     def is_started(self):
         if self.status == Study.FINISHED:
