@@ -41,7 +41,7 @@ class Appointment(models.Model):
     NOSHOW = 4
 
     SHOWUP_CHOICES = [
-        (SHOWUP, _('show up')),
+        (SHOWUP, _('no issues')),
         (LATE, _('late')),
         (EXCUSED, _('excused')),
         (NOSHOW, _('no show')),
