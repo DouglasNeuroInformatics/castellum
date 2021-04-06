@@ -103,10 +103,10 @@ class Participation(models.Model):
     STATUS_OPTIONS = [
         (NOT_CONTACTED, _('not contacted')),
         (NOT_REACHED, _('not reached')),
-        (EXCLUDED, _('excluded')),
-        (PARTICIPATING, _('participating')),
         (FOLLOWUP_APPOINTED, _('follow-up scheduled')),
         (AWAITING_RESPONSE, _('awaiting response')),
+        (PARTICIPATING, _('participating')),
+        (EXCLUDED, _('excluded')),
     ]
 
     NOT_INTERESTED = 1
