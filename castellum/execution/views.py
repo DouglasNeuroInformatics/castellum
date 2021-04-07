@@ -180,6 +180,11 @@ class ParticipationPseudonymsView(ParticipationDetailMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # make sure name is not used in template
+        context['subject'] = None
+        context['participation'] = None
+
         context['pseudonyms'] = [
             (d, get_pseudonym(self.subject, d.key)) for d in self.study.domains.all()
         ]
