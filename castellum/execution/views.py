@@ -169,6 +169,23 @@ class ParticipationDetailView(ParticipationDetailMixin, DetailView):
         return context
 
 
+class ParticipationPseudonymsView(ParticipationDetailMixin, DetailView):
+    participation_status = [Participation.INVITED]
+    study_status = []
+    template_name = 'execution/participation_pseudonyms.html'
+    tab = 'overview'
+
+    def has_permission(self):
+        return super().has_permission() or self.request.user.has_perm('subjects.delete_subject')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pseudonyms'] = [
+            (d, get_pseudonym(self.subject, d.key)) for d in self.study.domains.all()
+        ]
+        return context
+
+
 class ParticipationNewsView(ParticipationDetailMixin, UpdateView):
     template_name = 'execution/participation_news.html'
     fields = ['news_interest']
