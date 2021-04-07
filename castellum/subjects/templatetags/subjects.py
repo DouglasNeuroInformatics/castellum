@@ -29,14 +29,16 @@ from castellum.utils.mail import MailContext
 register = template.Library()
 
 
-@register.simple_tag
-def delete_mail_uri(participation):
+@register.simple_tag(takes_context=True)
+def delete_mail_uri(context, participation):
     ctx = MailContext('internal')
 
     def get_mail_data():
         return {
             'study': participation.study,
             'pseudonym': participation.pseudonym,
+            'name': participation.study.contact_person,
+            'sender_name': context['user'].get_full_name() or context['user'].username,
         }
 
     subject = settings.CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_SUBJECT.format(**get_mail_data())
