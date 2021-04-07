@@ -4,8 +4,9 @@ from urllib.parse import urlparse
 from castellum.subjects.templatetags import subjects as tags
 
 
-def test_delete_mail_uri(user, participation):
+def test_delete_mail_uri(rf, user, participation):
     context = {
+        'request': rf.get('/foo/'),
         'user': user,
     }
     url = tags.delete_mail_uri(context, participation)

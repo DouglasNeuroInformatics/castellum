@@ -23,6 +23,7 @@ from urllib.parse import quote
 
 from django import template
 from django.conf import settings
+from django.urls import reverse
 
 from castellum.utils.mail import MailContext
 
@@ -34,9 +35,12 @@ def delete_mail_uri(context, participation):
     ctx = MailContext('internal')
 
     def get_mail_data():
+        url = reverse('execution:participation-pseudonyms', args=[
+            participation.study.pk, participation.pk
+        ])
         return {
             'study': participation.study,
-            'pseudonym': participation.pseudonym,
+            'url': context['request'].build_absolute_uri(url),
             'name': participation.study.contact_person,
             'sender_name': context['user'].get_full_name() or context['user'].username,
         }
