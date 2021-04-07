@@ -30,20 +30,12 @@ except ImportError:
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'CHANGEME',
-        'HOST': os.environ.get('DB_DEFAULT_HOST', 'localhost'),
-        'PORT': '6670',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR.parent / 'db.sqlite3',
     },
     'contacts': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'CHANGEME',
-        'HOST': os.environ.get('DB_CONTACTS_HOST', 'localhost'),
-        'PORT': '6671',
+        'ENGINE': 'django.contrib.gis.db.backends.spatialite',
+        'NAME': BASE_DIR.parent / 'contacts.sqlite3',
     },
 }
 
