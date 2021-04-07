@@ -360,6 +360,15 @@ Inclusion/Exclusion criteria:
 
 """
 
+CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_SUBJECT = '[{study}] Deletion requested'
+CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY = (
+    'Dear {name},\n\n'
+    'we received a deletion request from a subject who participated in {study}. Please delete all '
+    'information related to the following subject: {url}\n\n'
+    'If you have any questions, feel free to get back to me.\n\n'
+    '{sender_name}\n'
+)
+
 CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 
 # A function that generates a random pseudonym.
