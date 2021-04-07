@@ -91,6 +91,7 @@ class AppointmentsForm(forms.ModelForm):
             .exclude(participation=self.instance)\
             .filter(participation__status=Participation.INVITED)\
             .alias(end=models.ExpressionWrapper(
+                # corresponds to the Appointment.end property
                 models.F('start') + models.F('session__duration') * MINUTE,
                 output_field=models.DateTimeField(),
             ))
