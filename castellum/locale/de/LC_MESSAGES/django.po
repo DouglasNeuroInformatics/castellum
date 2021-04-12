@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-12 18:12+0200\n"
+"POT-Creation-Date: 2021-04-12 16:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgstr "Die benötigte Ressource ist zu diesem Zeitpunkt nicht verfügbar"
 
 #: castellum/appointments/models.py:44
 msgid "no issues"
-msgstr ""
+msgstr "alles in Ordnung"
 
 #: castellum/appointments/models.py:45
 msgid "late"
@@ -577,10 +577,8 @@ msgstr "Aktualisieren"
 
 #: castellum/execution/templates/execution/participation_appointments_form.html:30
 #: castellum/recruitment/templates/recruitment/contact.html:174
-#, fuzzy
-#| msgid "Scheduler only available for invited subjects."
 msgid "Scheduler only available for participating subjects."
-msgstr "Terminplaner nur für eingeladene Proband*innen verfügbar"
+msgstr "Terminplaner nur für teilnehmende Proband*innen verfügbar"
 
 #: castellum/execution/templates/execution/participation_appointments_form.html:33
 #: castellum/recruitment/templates/recruitment/contact.html:177
@@ -638,10 +636,8 @@ msgstr "Allgemeine Kriterien"
 #: castellum/execution/templates/execution/participation_detail.html:6
 #: castellum/execution/templates/execution/participation_pseudonyms.html:4
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:29
-#, fuzzy
-#| msgid "Pseudonym"
 msgid "Pseudonyms"
-msgstr "Pseudonym"
+msgstr "Pseudonyme"
 
 #: castellum/execution/templates/execution/participation_detail.html:15
 #: castellum/execution/templates/execution/participation_pseudonyms.html:14
@@ -683,17 +679,15 @@ msgstr "Zusätzliche Informationen bearbeiten"
 #: castellum/execution/templates/execution/participation_detail.html:48
 #: castellum/execution/templates/execution/participation_remove.html:4
 msgid "Dropped out"
-msgstr ""
+msgstr "Teilnahme abgebrochen"
 
 #: castellum/execution/templates/execution/participation_pseudonyms.html:12
 msgid "Domain key"
-msgstr ""
+msgstr "Domain key"
 
 #: castellum/execution/templates/execution/participation_pseudonyms.html:13
-#, fuzzy
-#| msgid "Last name"
 msgid "Domain name"
-msgstr "Nachname"
+msgstr "Domain-Name"
 
 #: castellum/execution/templates/execution/participation_remove.html:9
 msgid ""
@@ -701,6 +695,9 @@ msgid ""
 "Note that reinviting them is only possible from recruitment or subject "
 "management."
 msgstr ""
+"Bitte bestätigen Sie, dass diese Proband*in nicht länger an der Studie "
+"teilnehmen soll. Beachten Sie dabei bitte, dass die erneute Einladung nur in "
+"der Rekrutierung oder Proband*innenverwaltung möglich ist."
 
 #: castellum/execution/templates/execution/participation_remove.html:12
 #: castellum/recruitment/templates/recruitment/participation_confirm_delete.html:18
@@ -726,10 +723,8 @@ msgstr "Bestätigen"
 
 #: castellum/execution/templates/execution/study_base.html:10
 #: castellum/studies/templates/studies/study_detail.html:46
-#, fuzzy
-#| msgid "Participation"
 msgid "Participating subjects"
-msgstr "Teilnahme"
+msgstr "Teilnehmende Proband*innen"
 
 #: castellum/execution/templates/execution/study_base.html:13
 msgid "Export attributes"
@@ -874,7 +869,7 @@ msgstr "Ungültiges Pseudonym"
 
 #: castellum/pseudonyms/forms.py:38
 msgid "Domain"
-msgstr ""
+msgstr "Domain"
 
 #: castellum/recruitment/admin.py:58
 #: castellum/recruitment/templates/admin/recruitment/attributedescription_import.html:9
@@ -1128,14 +1123,12 @@ msgid "awaiting response"
 msgstr "auf Antwort wartend"
 
 #: castellum/recruitment/models/participations.py:108
-#, fuzzy
-#| msgid "Participation"
 msgid "participating"
-msgstr "Teilnahme"
+msgstr "nimmt teil"
 
 #: castellum/recruitment/models/participations.py:109
 msgid "excluded"
-msgstr ""
+msgstr "ausgeschlossen"
 
 #: castellum/recruitment/models/participations.py:116
 msgid "not interested"
@@ -1342,10 +1335,8 @@ msgid "Please select one of the following options:"
 msgstr "Bitte wählen Sie eine der folgenden Optionen:"
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:16
-#, fuzzy
-#| msgid "Mark all open participations as unsuitable."
 msgid "Mark all open participations as excluded."
-msgstr "Markiere alle offenen Teilnahmen als nicht geeignet."
+msgstr "Markiere alle offenen Teilnahmen als ausgeschlossen."
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:19
 #: castellum/studies/forms.py:108
@@ -1355,13 +1346,10 @@ msgid "All"
 msgstr "Alle"
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:24
-#, fuzzy
-#| msgid ""
-#| "Mark all subjects as unsuitable who have not answered for 10 days or more."
 msgid ""
 "Mark all subjects as excluded who have not answered for 10 days or more."
 msgstr ""
-"Markiere alle Proband*innen als nicht geeignet, die nicht innerhalb von 10 "
+"Markiere alle Proband*innen als ausgeschlossen, die nicht innerhalb von 10 "
 "Tagen geantwortet haben."
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:27
@@ -1369,14 +1357,10 @@ msgid "Awaiting response"
 msgstr "Auf Antwort wartend"
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:32
-#, fuzzy
-#| msgid ""
-#| "Mark all subject who do not match the current filter criteria as "
-#| "unsuitable."
 msgid ""
 "Mark all subject who do not match the current filter criteria as excluded."
 msgstr ""
-"Markiere alle Proband*innen als nicht geeignet, die nicht auf die aktuellen "
+"Markiere alle Proband*innen als ausgeschlossen, die nicht auf die aktuellen "
 "Filterkriterien passen."
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:35
@@ -1438,15 +1422,11 @@ msgid "Duration of sessions in minutes"
 msgstr "Sitzungsdauer in Minuten"
 
 #: castellum/recruitment/templates/recruitment/contact.html:192
-#, fuzzy
-#| msgid ""
-#| "Participation cannot be set to \"invited\" yet. Please check the tabs "
-#| "marked with"
 msgid ""
 "Participation cannot be set to \"participating\" yet. Please check the tabs "
 "marked with"
 msgstr ""
-"Die Teilnahme kann nicht auf \"eingeladen\" gesetzt werden. Bitte überprüfen "
+"Die Teilnahme kann nicht auf \"nimmt teil\" gesetzt werden. Bitte überprüfen "
 "Sie die Reiter mit dem folgenden Symbol:"
 
 #: castellum/recruitment/templates/recruitment/contact.html:206
@@ -1555,16 +1535,12 @@ msgstr "Offen"
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:25
 #: castellum/subjects/templates/subjects/participation_base.html:10
-#, fuzzy
-#| msgid "Participation"
 msgid "Participating"
-msgstr "Teilnahme"
+msgstr "Nimmt teil"
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:31
-#, fuzzy
-#| msgid "Excluded studies"
 msgid "Excluded"
-msgstr "Ausgeschlossene Studien"
+msgstr "Ausgeschlossen"
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:36
 msgctxt "total"
@@ -2142,10 +2118,8 @@ msgstr "Mitgliederverwaltung"
 
 #: castellum/studies/templates/studies/study_base.html:122
 #: castellum/studies/templates/studies/study_pseudonym_domains.html:4
-#, fuzzy
-#| msgid "Pseudonym"
 msgid "Pseudonym domains"
-msgstr "Pseudonym"
+msgstr "Pseudonym-Domains"
 
 #: castellum/studies/templates/studies/study_base.html:125
 #: castellum/studies/templates/studies/study_sessions.html:4
@@ -2342,12 +2316,16 @@ msgid ""
 "additional pseudonym domains. Note that a pseudonym is only meaningful in "
 "combination with its domain."
 msgstr ""
+"Pseudonyme erlauben es, Daten über Proband*innen zu speichern, ohne diese "
+"mit Namen oder anderen Daten, welche sie identifizierbar machen würden, zu "
+"verknüpfen. Oft genügt ein Pseudonym pro Proband*in und Studie, sollte "
+"allerdings mehr erforderlich sein, können Sie zusätzliche Pseudonym-Domains "
+"erzeugen. Bitte beachten Sie, dass ein Pseudonym nur in Kombination mit "
+"seiner Domain verständlich ist."
 
 #: castellum/studies/templates/studies/study_pseudonym_domains.html:32
-#, fuzzy
-#| msgid "Add guardian"
 msgid "Add domain"
-msgstr "Vormund hinzufügen"
+msgstr "Domain hinzufügen"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings_base.html:9
 #: castellum/subjects/templates/subjects/participation_base.html:9
@@ -2784,10 +2762,8 @@ msgid "Add study participation"
 msgstr "Studienteilnahme hinzufügen"
 
 #: castellum/subjects/templates/subjects/participation_add.html:28
-#, fuzzy
-#| msgid "Status of participation"
 msgid "Set to participating"
-msgstr "Teilnahmestatus"
+msgstr "Auf 'nimmt teil' setzen"
 
 #: castellum/subjects/templates/subjects/participation_add.html:35
 #: castellum/subjects/templates/subjects/participation_base.html:14
@@ -2864,10 +2840,8 @@ msgid "Please delete all of these study participations:"
 msgstr "Bitte löschen Sie die folgenden Studienteilnahmen:"
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:30
-#, fuzzy
-#| msgid "Add to study"
 msgid "Mail to study"
-msgstr "Zu Studie hinzufügen"
+msgstr "E-Mail an Studie"
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:33
 msgid "Study details"
