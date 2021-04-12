@@ -229,11 +229,6 @@ current subject to a study
 -   **Add to study**: Search allows to look up a study and add the subject
     directly as *invited* to it.
 
-    .. hint::
-        Lists of matching studies can be quite long. Hold the **CTRL** key on
-        your keyboard while pressing **F** to open the search function of the
-        browser.
-
 .. _subject-to-be-deleted:
 
 Mark a subject for deletion
