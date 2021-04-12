@@ -139,6 +139,10 @@
     opacity: 1;
 }
 
+.fullcalendar-muted {
+    opacity: 60%;
+}
+
 @media print {
     .alert {
         display: none !important;
