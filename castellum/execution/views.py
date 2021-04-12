@@ -473,6 +473,10 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
         if appointment.show_up != Appointment.SHOWUP:
             title = '{} ({})'.format(title, appointment.get_show_up_display())
 
+        class_names = []
+        if appointment.show_up not in [Appointment.SHOWUP, Appointment.LATE]:
+            class_names.append('fullcalendar-muted')
+
         return {
             'title': title,
             'start': appointment.start,
@@ -480,6 +484,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
             'url': reverse('execution:participation-detail', args=[
                 self.object.pk, appointment.participation.pk
             ]),
+            'classNames': class_names,
         }
 
     def get_appointments(self):
