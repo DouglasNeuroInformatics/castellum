@@ -195,3 +195,34 @@ def test_calendar_view_events(client, member, study_in_execution_status, subject
     assert data['events'][0]['url'] == '/execution/{}/{}/'.format(
         study_in_execution_status.pk, participation.pk
     )
+
+
+def test_participation_remove_view_post(client, member, study_in_execution_status, subject):
+    client.force_login(member)
+
+    participation = baker.make(
+        Participation,
+        study=study_in_execution_status,
+        status=Participation.INVITED,
+        subject=subject,
+    )
+    url = '/execution/{}/{}/remove/'.format(study_in_execution_status.pk, participation.pk)
+    response = client.post(url)
+    participation.refresh_from_db()
+    assert response.status_code == 302
+    assert participation.status == Participation.UNSUITABLE
+
+
+@pytest.mark.smoketest
+def test_participation_remove_view(client, member, study_in_execution_status, subject):
+    client.force_login(member)
+
+    participation = baker.make(
+        Participation,
+        study=study_in_execution_status,
+        status=Participation.INVITED,
+        subject=subject,
+    )
+    url = '/execution/{}/{}/remove/'.format(study_in_execution_status.pk, participation.pk)
+    response = client.get(url)
+    assert response.status_code == 200
