@@ -27,7 +27,7 @@
                 {% bootstrap_field entry.field form_group_class="" %}
                 {% if entry.invitation_url == 'not-invited' %}
                     <p class="text-muted">
-                        {% translate 'Scheduler only available for invited subjects.' %}
+                        {% translate 'Scheduler only available for participating subjects.' %}
                     </p>
                 {% elif entry.invitation_url %}
                     <a id="invitation_url_{{ entry.field.id_for_label }}" href="{{ entry.invitation_url }}" target="_blank">{% translate 'Select timeslot for this subject' %}</a>
