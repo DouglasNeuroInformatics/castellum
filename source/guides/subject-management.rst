@@ -222,12 +222,12 @@ Study Participations Tab
 The participations tab is offering to check existing participation or add the
 current subject to a study
 
--   **Invited**: Lists the study participations of this subject
+-   **Participating**: Lists the study participations of this subject
 -   **Matching Studies**: A list of currently active studies with matching
     filters is displayed. You can add the subject to one or more study
     recruitments.
 -   **Add to study**: Search for a study and add the subject
-    directly as *invited* to it.
+    directly as *participating* to it.
 
 .. _subject-to-be-deleted:
 

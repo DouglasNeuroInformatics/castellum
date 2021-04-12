@@ -234,7 +234,7 @@ Finish a study
 
 .. note::
 
-    All information related to potential subjects who were **not invited** to
+    All information related to potential subjects who were **not participating** in
     the study will be deleted when the study is finished. Hence, if you finish
     and then resume a study, it is possible that subjects that were already
     found to be unsuitable are suggested again as potential subjects.

@@ -28,16 +28,16 @@ Recruit subjects via phone
     -   Choose between:
 
         -   **not reached**
-        -   **unsuitable**
-            (This may apply if attributes of the person do not comply with the
-            requirements of the study)
-        -   **invited**
             (Please note the appointment in the calendar)
         -   **follow-up scheduled**
             (Determine the date and time of the recall appointment below)
         -   **awaiting response**
             (This may apply if you left a message on the answering machine or if you
             sent an e-mail.)
+        -   **participating**
+        -   **excluded**
+            (This may apply if attributes of the person do not comply with the
+            requirements of the study)
 
     -   Click on **Save**
 
