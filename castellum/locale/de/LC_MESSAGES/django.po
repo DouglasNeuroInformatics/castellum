@@ -30,7 +30,7 @@ msgstr "Die benötigte Ressource ist zu diesem Zeitpunkt nicht verfügbar"
 
 #: castellum/appointments/models.py:44
 msgid "no issues"
-msgstr "alles in Ordnung"
+msgstr "keine Probleme"
 
 #: castellum/appointments/models.py:45
 msgid "late"
@@ -696,7 +696,7 @@ msgid ""
 "management."
 msgstr ""
 "Bitte bestätigen Sie, dass diese Proband*in nicht länger an der Studie "
-"teilnehmen soll. Beachten Sie dabei bitte, dass die erneute Einladung nur in "
+"teilnehmen wird. Beachten Sie dabei bitte, dass die erneute Einladung nur in "
 "der Rekrutierung oder Proband*innenverwaltung möglich ist."
 
 #: castellum/execution/templates/execution/participation_remove.html:12
@@ -2317,11 +2317,11 @@ msgid ""
 "combination with its domain."
 msgstr ""
 "Pseudonyme erlauben es, Daten über Proband*innen zu speichern, ohne diese "
-"mit Namen oder anderen Daten, welche sie identifizierbar machen würden, zu "
-"verknüpfen. Oft genügt ein Pseudonym pro Proband*in und Studie, sollte "
-"allerdings mehr erforderlich sein, können Sie zusätzliche Pseudonym-Domänen "
-"erzeugen. Bitte beachten Sie, dass ein Pseudonym nur in Kombination mit "
-"seiner Domäne verständlich ist."
+"mit Namen oder anderen personenbezogenen Daten zu verknüpfen. Oft genügt ein "
+"einzelnes Pseudonym pro Proband*in und Studie. Sollten allerdings mehr "
+"erforderlich sein, können Sie zusätzliche Pseudonym-Domänen erzeugen. Bitte "
+"beachten Sie, dass ein Pseudonym nur in Kombination mit seiner Domäne "
+"bedeutsam ist."
 
 #: castellum/studies/templates/studies/study_pseudonym_domains.html:32
 msgid "Add domain"
@@ -2763,7 +2763,7 @@ msgstr "Studienteilnahme hinzufügen"
 
 #: castellum/subjects/templates/subjects/participation_add.html:28
 msgid "Set to participating"
-msgstr "Auf 'nimmt teil' setzen"
+msgstr "Auf \"nimmt teil\" setzen"
 
 #: castellum/subjects/templates/subjects/participation_add.html:35
 #: castellum/subjects/templates/subjects/participation_base.html:14
