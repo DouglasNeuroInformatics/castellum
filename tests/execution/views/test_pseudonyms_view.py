@@ -29,3 +29,15 @@ def test_lists_all_pseudonyms(client, conductor, study):
     ))
     assert response.status_code == 200
     assert response.content.count(b'<tr') == 3
+
+
+def test_no_name(client, conductor, study, subject):
+    participation = baker.make(
+        Participation, subject=subject, study=study, status=Participation.INVITED
+    )
+    study.domains.create()
+    client.force_login(conductor)
+    response = client.get('/execution/{}/{}/pseudonyms/'.format(
+        study.pk, participation.pk
+    ))
+    assert subject.contact.last_name not in response.content.decode('utf-8')
