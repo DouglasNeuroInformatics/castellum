@@ -105,9 +105,12 @@ def test_resolve_view(client, member, study_in_execution_status, subject):
     response = client.get(url)
     assert b'<input type="hidden" name="domain"' in response.content
 
+    domain = study_in_execution_status.domains.first()
+    pseudonym = get_pseudonym(subject, domain.key)
+
     response = client.post(url, {
-        'domain': study_in_execution_status.domain,
-        'pseudonym': participation.pseudonym,
+        'domain': domain.key,
+        'pseudonym': pseudonym,
     })
 
     assert response.status_code == 302

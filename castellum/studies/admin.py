@@ -49,7 +49,6 @@ class StudyAdmin(admin.ModelAdmin):
     form = StudyForm
     inlines = [StudySessionInline]
     search_fields = ['name']
-    readonly_fields = ['domain']
 
 
 admin.site.register(models.Resource)
