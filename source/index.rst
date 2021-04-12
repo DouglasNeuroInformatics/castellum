@@ -13,6 +13,7 @@ Welcome to Castellum's documentation!
    security
    features
    roles
+   faqs
 
 .. toctree::
    :maxdepth: 2
