@@ -683,11 +683,11 @@ msgstr "Teilnahme abgebrochen"
 
 #: castellum/execution/templates/execution/participation_pseudonyms.html:12
 msgid "Domain key"
-msgstr "Domain key"
+msgstr "Domänen-Schlüssel"
 
 #: castellum/execution/templates/execution/participation_pseudonyms.html:13
 msgid "Domain name"
-msgstr "Domain-Name"
+msgstr "Domänen-Name"
 
 #: castellum/execution/templates/execution/participation_remove.html:9
 msgid ""
@@ -869,7 +869,7 @@ msgstr "Ungültiges Pseudonym"
 
 #: castellum/pseudonyms/forms.py:38
 msgid "Domain"
-msgstr "Domain"
+msgstr "Domäne"
 
 #: castellum/recruitment/admin.py:58
 #: castellum/recruitment/templates/admin/recruitment/attributedescription_import.html:9
@@ -2119,7 +2119,7 @@ msgstr "Mitgliederverwaltung"
 #: castellum/studies/templates/studies/study_base.html:122
 #: castellum/studies/templates/studies/study_pseudonym_domains.html:4
 msgid "Pseudonym domains"
-msgstr "Pseudonym-Domains"
+msgstr "Pseudonym-Domänen"
 
 #: castellum/studies/templates/studies/study_base.html:125
 #: castellum/studies/templates/studies/study_sessions.html:4
@@ -2319,13 +2319,13 @@ msgstr ""
 "Pseudonyme erlauben es, Daten über Proband*innen zu speichern, ohne diese "
 "mit Namen oder anderen Daten, welche sie identifizierbar machen würden, zu "
 "verknüpfen. Oft genügt ein Pseudonym pro Proband*in und Studie, sollte "
-"allerdings mehr erforderlich sein, können Sie zusätzliche Pseudonym-Domains "
+"allerdings mehr erforderlich sein, können Sie zusätzliche Pseudonym-Domänen "
 "erzeugen. Bitte beachten Sie, dass ein Pseudonym nur in Kombination mit "
-"seiner Domain verständlich ist."
+"seiner Domäne verständlich ist."
 
 #: castellum/studies/templates/studies/study_pseudonym_domains.html:32
 msgid "Add domain"
-msgstr "Domain hinzufügen"
+msgstr "Domäne hinzufügen"
 
 #: castellum/studies/templates/studies/study_recruitmentsettings_base.html:9
 #: castellum/subjects/templates/subjects/participation_base.html:9
