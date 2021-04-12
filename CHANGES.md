@@ -1,3 +1,44 @@
+# 0.58.0 (unreleased)
+
+## security
+
+-   Update to Django 3.2. This is a long-term support release. It will
+    receive security updates for at least three years.
+
+## bug fixes
+
+-   Icons in calendars were missing. This was a regression that was
+    introduced in 0.57.0.
+
+## new features
+
+-   Participation status wording was refined:
+    -   "invited" -> "participating"
+    -   "unsuitable" -> "excluded"
+-   The default value for appointment showup has been renamed from
+    "showup" to "no issues".
+-   So far each study had one pseudonym domain, i.e. one pseudonym per
+    subject. Study coordinators can now create additional domains so
+    subjects can have more than one pseudonym. (A pseudonym is only
+    meaningful in combination with its domain, so if you use this
+    feature make sure to document which domain is used where.)
+-   Study conductors can now mark subjects as "excluded" (previously
+    "unsuitable") when they drop out of a study. Before this was only
+    possible for recruiters.
+-   The number of invited and required subjects is now also displayed in
+    execution.
+-   If a subject has not shown up to an appointment, the appointment is
+    no longer counted. This way it is easier to see that you need to
+    reschedule. Such appointments are also highlighted in the execution
+    calendar.
+-   If any of your actions in castellum triggers an email to other
+    users, you will now receive a copy of that email.
+-   When a subject should be deleted from castellum, the data protection
+    coordinator first needs to contact all studies in which the subject
+    has participated. There is now a button to automatically generate
+    emails with all required information to simplify that task.
+
+
 # 0.57.0 (2021-03-23)
 
 ## breaking changes
