@@ -90,7 +90,10 @@ def send_pr_mail(study, user_email):
     with MailContext('internal') as ctx:
         return ctx.send_mail(
             settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_SUBJECT.format(study=study.name),
-            (get_mail_data, settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY),
+            (
+                get_mail_data,
+                settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY,
+            ),
             settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO,
             cc=[user_email],
         )

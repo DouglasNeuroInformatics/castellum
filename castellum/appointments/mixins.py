@@ -46,28 +46,32 @@ def send_appointment_notifications(request, participation, changes):
     if not relevant_changes:
         return
 
-    body = settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY.format(
-        study=participation.study,
-        changes='\n'.join('{} -> {}'.format(
-            timezone.localtime(old),
-            timezone.localtime(new),
-        ) for (old, new) in relevant_changes),
-        participation_url=request.build_absolute_uri(reverse(
-            'execution:participation-detail',
-            args=[participation.study.pk, participation.pk]
-        )),
-        calendar_url=request.build_absolute_uri(reverse(
-            'execution:calendar',
-            args=[participation.study.pk]
-        )),
-    )
+    def get_mail_data():
+        return {
+            'study': participation.study,
+            'changes': '\n'.join('{} -> {}'.format(
+                timezone.localtime(old),
+                timezone.localtime(new),
+            ) for (old, new) in relevant_changes),
+            'participation_url': request.build_absolute_uri(reverse(
+                'execution:participation-detail',
+                args=[participation.study.pk, participation.pk]
+            )),
+            'calendar_url': request.build_absolute_uri(reverse(
+                'execution:calendar',
+                args=[participation.study.pk]
+            )),
+        }
 
     recipients = [user.email for user in participation.study.conductors if user != request.user]
     if recipients:
         with MailContext('internal') as ctx:
             return ctx.send_mail(
                 settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT,
-                body,
+                (
+                    get_mail_data,
+                    settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY,
+                ),
                 recipients,
                 cc=[request.user.email],
             )
