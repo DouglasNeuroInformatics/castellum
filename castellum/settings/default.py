@@ -260,7 +260,8 @@ CASTELLUM_APPOINTMENT_MAIL_BODY = (
     "Mit freundlichen Grüßen\ndas Rekrutierungsteam"
 )
 CASTELLUM_APPOINTMENT_MAIL_BODY_EN = (
-    "Dear {name},\n\nwe would like to kindly remind you of your appointment in "
+    "Dear {name},\n\n"
+    "we would like to kindly remind you of your appointment in "
     "study {study} on {date}.\n"
     "If you wish to cancel or postpone, please get in touch with {reply_to}.\n\n"
     "Sincerely yours\nthe recruitment team"
