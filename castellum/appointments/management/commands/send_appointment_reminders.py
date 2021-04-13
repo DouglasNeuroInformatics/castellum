@@ -60,6 +60,7 @@ def send_mail_to_study_conductors(study, not_reachable, base_url):
             (
                 lambda: {'urls': urls},
                 settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY,
+                settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY_EN,
             ),
             [user.email for user in study.conductors],
         )

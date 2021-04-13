@@ -49,6 +49,7 @@ def delete_mail_uri(context, participation):
     body = ctx.prepare_body((
         get_mail_data,
         settings.CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY,
+        settings.CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY_EN,
     ))
 
     return 'mailto:{}?subject={}&body={}'.format(

@@ -93,6 +93,7 @@ def send_pr_mail(study, user_email):
             (
                 get_mail_data,
                 settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY,
+                settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY_EN,
             ),
             settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO,
             cc=[user_email],

@@ -71,6 +71,7 @@ def send_appointment_notifications(request, participation, changes):
                 (
                     get_mail_data,
                     settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY,
+                    settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY_EN,
                 ),
                 recipients,
                 cc=[request.user.email],
