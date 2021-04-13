@@ -82,7 +82,9 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
 
                     self.object.to_be_deleted_notified = ctx.send_mail(
                         settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_SUBJECT,
-                        settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY.format(url=url),
+                        (
+                            lambda: {'url': url},
+                            settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY,
                         [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
                     )
 
@@ -92,7 +94,10 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
 
                     self.object.to_be_deleted_notified = ctx.send_mail(
                         settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
-                        settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY.format(url=url),
+                        (
+                            lambda: {'url': url},
+                            settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY,
+                        ),
                         [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
                     )
 
