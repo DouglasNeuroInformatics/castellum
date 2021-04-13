@@ -2832,7 +2832,7 @@ msgid ""
 "This subject cannot be deleted because there still is data about them in "
 "studies."
 msgstr ""
-"Diese Proband*in kann nicht gelöscht werden, da noch zu ihr gehörige Daten "
+"Diese Proband*in kann nicht gelöscht werden, da zu ihr noch Daten "
 "in Studien vorhanden sind."
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:17
