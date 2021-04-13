@@ -75,8 +75,8 @@ only very few attributes that can be seen as commonly used at every institute.
         or secondary attribute first to select a new one.
 
 9.  **Label** should be the actual name of the attribute
-10. Fill in all **Attribute choices** that represent the possible values of the
-    attribute and will be used for filtering
+10. If appropriate, fill in all **Attribute choices** that represent the
+    possible values of the attribute and will be used for filtering
 
     .. note::
         Attributes will always allow to select **Declined to answer**. So, there
