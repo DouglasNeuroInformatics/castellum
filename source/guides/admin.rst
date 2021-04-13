@@ -71,8 +71,8 @@ only very few attributes that can be seen as commonly used at every institute.
     .. note::
         Castellum offers to set up two attributes to be used in statistics of
         recruitment. If there is already a primary or secondary attribute it
-        will be removed when selecting a different attribute to be primary or
-        secondary.
+        will show an error warning. Accordingly, you have to deselect a primary
+        or secondary attribute first to select a new one.
 
 9.  **Label** should be the actual name of the attribute
 10. Fill in all **Attribute choices** that represent the possible values of the
