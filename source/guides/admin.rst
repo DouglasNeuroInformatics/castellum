@@ -58,11 +58,10 @@ only very few attributes that can be seen as commonly used at every institute.
     or rather scientific grounding of the attribute
 
     .. note::
-        This is only shown in admin interface. So, this is only supporting the
-        actual maintenance of the attributes. For example, a Handedness
-        attribute could link to a definition at `bioontology.org <http://purl.bioontology.org/ontology/SNOMEDCT/57427004>`_
-        helping other admin members to understand the chosen
-        **attribute choices**.
+        This is used to support Attribute Export in BIDS format. Hence, it is
+        only shown in admin interface. For example, a Handedness attribute could
+        link to a definition at
+        `bioontology.org <http://purl.bioontology.org/ontology/SNOMEDCT/57427004>`_.
 
 6.  Set **privacy levels** of the attribute for **read** and **write**
 7.  **Order** and **Category** can be used to position the attribute in UI
