@@ -177,6 +177,12 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     def create_participations(self, batch_size):
         subjects = get_recruitable(self.study)
 
+        attempts = 0
+        if self.participation_status in [
+            Participation.NOT_REACHED, Participation.AWAITING_RESPONSE
+        ]:
+            attempts = 1
+
         participations = []
         with MailContext('recruitment') as ctx:
             while len(participations) < batch_size and subjects:
@@ -193,6 +199,7 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
                         study=self.study,
                         subject=pick,
                         status=self.participation_status,
+                        attempts=attempts,
                     ))
 
         return participations
