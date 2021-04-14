@@ -22,6 +22,7 @@
 from django.conf import settings
 from django.http import JsonResponse
 from django.urls import reverse
+from django.utils import formats
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
@@ -50,7 +51,8 @@ def send_appointment_notifications(request, participation, changes):
     def format_datetime(dt):
         if not dt:
             return _('not scheduled')
-        return timezone.localtime(dt)
+        ldt = timezone.localtime(dt)
+        return formats.date_format(ldt, 'DATETIME_FORMAT')
 
     def get_mail_data():
         return {
