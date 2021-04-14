@@ -57,7 +57,11 @@ def send_mail_to_study_conductors(study, not_reachable, base_url):
     with MailContext('internal') as ctx:
         return ctx.send_mail(
             settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_SUBJECT.format(study=study),
-            settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY.format(urls=urls),
+            (
+                lambda: {'urls': urls},
+                settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY,
+                settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY_EN,
+            ),
             [user.email for user in study.conductors],
         )
 

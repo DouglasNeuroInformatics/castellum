@@ -260,7 +260,8 @@ CASTELLUM_APPOINTMENT_MAIL_BODY = (
     "Mit freundlichen Grüßen\ndas Rekrutierungsteam"
 )
 CASTELLUM_APPOINTMENT_MAIL_BODY_EN = (
-    "Dear {name},\n\nwe would like to kindly remind you of your appointment in "
+    "Dear {name},\n\n"
+    "we would like to kindly remind you of your appointment in "
     "study {study} on {date}.\n"
     "If you wish to cancel or postpone, please get in touch with {reply_to}.\n\n"
     "Sincerely yours\nthe recruitment team"
@@ -270,6 +271,7 @@ CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY = (
     "The following subjects have upcoming appointments, but could not be reached by email. "
     "Please contact them by other means to remind them of their appointment:\n\n{urls}"
 )
+CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY_EN = None
 
 CASTELLUM_REMINDER_MAIL_SUBJECT_TEMPLATE = "Reminder/Erinnerung: {mail_subject}"
 
@@ -322,8 +324,10 @@ CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS = relativedelta(weeks=2)
 CASTELLUM_DELETE_NOTIFICATION_TO = ''
 CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_SUBJECT = 'Subject export'
 CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY = 'The following subject should be exported: {url}'
+CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY_EN = None
 CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT = 'Subject deletion'
 CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY = 'The following subject should be deleted: {url}'
+CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY_EN = None
 
 CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT = 'Upcoming appointment changed'
 CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY = """
@@ -334,6 +338,7 @@ Upcoming appointments for a participant in the study "{study}" have changed:
 Participant details: {participation_url}
 Study calendar: {calendar_url}
 """
+CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY_EN = None
 
 # Email addresses for announcing new public studies
 CASTELLUM_STUDY_STATUS_NOTIFICATION_TO = []
@@ -359,6 +364,7 @@ Inclusion/Exclusion criteria:
 {exclusion_criteria}
 
 """
+CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY_EN = None
 
 CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_SUBJECT = '[{study}] Deletion requested'
 CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY = (
@@ -368,6 +374,7 @@ CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY = (
     'If you have any questions, feel free to get back to me.\n\n'
     '{sender_name}\n'
 )
+CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY_EN = None
 
 CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 

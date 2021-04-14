@@ -37,7 +37,11 @@ def subjects_notify(subjects, base_url):
                 url = base_url + reverse('subjects:detail', args=[subject.slug])
                 sent = ctx.send_mail(
                     settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
-                    settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY.format(url=url),
+                    (
+                        lambda: {'url': url},
+                        settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY,
+                        settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY_EN,
+                    ),
                     [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
                 )
                 if sent:
