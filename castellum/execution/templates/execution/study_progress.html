@@ -1,0 +1,19 @@
+{% extends "execution/study_base.html" %}
+{% load i18n auth %}
+
+{% block title %}{% translate "Study Sessions" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <ul class="table-list mb-3">
+        {% for session in object_list %}
+            <li class="table-list-item">
+                <div class="h4 d-inline-block my-1 mr-2">{{ session.name }}</div>
+                {% if session.resource %}
+                    <span class="d-inline-block my-1 mr-2">{{ session.resource }}</span>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li class="alert alert-warning" role="alert">{% translate 'No sessions found' %}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

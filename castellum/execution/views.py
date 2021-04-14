@@ -33,6 +33,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import FormView
+from django.views.generic import ListView
 from django.views.generic import UpdateView
 
 from castellum.appointments.forms import AppointmentsForm
@@ -52,6 +53,7 @@ from castellum.recruitment.models import NewsMailBatch
 from castellum.recruitment.models import Participation
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
+from castellum.studies.models import StudySession
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.subjects.models import Subject
@@ -500,3 +502,17 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
 
     def get_appointments(self):
         return super().get_appointments().filter(session__study=self.object)
+
+
+class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
+    model = StudySession
+    template_name = 'execution/study_progress.html'
+    permission_required = 'recruitment.conduct_study'
+    study_status = [Study.EXECUTION]
+    tab = 'progress'
+
+    def get_queryset(self):
+        return (
+            self.study.studysession_set
+            .order_by('name')
+        )
