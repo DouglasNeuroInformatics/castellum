@@ -65,7 +65,7 @@ monitoring_logger = logging.getLogger('monitoring.studies')
 
 
 def send_pr_mail(study, user_email):
-    if not settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO:
+    if not settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO or not study.announce_status_changes:
         return 0
 
     def get_mail_data():
