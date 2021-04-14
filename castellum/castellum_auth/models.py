@@ -62,3 +62,6 @@ class User(AbstractUser):
 
     def has_privacy_level(self, level, obj=None):
         return self.get_privacy_level(obj) >= level
+
+    def get_full_name(self):
+        return super().get_full_name() or self.get_username()

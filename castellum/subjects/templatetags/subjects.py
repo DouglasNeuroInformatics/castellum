@@ -42,7 +42,7 @@ def delete_mail_uri(context, participation):
             'study': participation.study,
             'url': context['request'].build_absolute_uri(url),
             'name': participation.study.contact_person,
-            'sender_name': context['user'].get_full_name() or context['user'].username,
+            'sender_name': context['user'].get_full_name(),
         }
 
     subject = settings.CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_SUBJECT.format(**get_mail_data())
