@@ -1,3 +1,15 @@
+# 0.58.1 (2021-04-14)
+
+## bug fixes
+
+-   Study conductors are informed via mail when an upcoming appointment
+    is changed on short notice. In some cases the current date was
+    included in place of a missing date.
+-   "Announce status changes" for studies was not actually used.
+-   Initial contact attempts after mail recruitment should be 1, not 0
+    (regression from 0.56.0)
+
+
 # 0.58.0 (2021-04-13)
 
 ## security

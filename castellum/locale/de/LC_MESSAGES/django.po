@@ -28,6 +28,10 @@ msgstr "Termine dürfen sich nicht überschneiden."
 msgid "The required resource is not available at this time"
 msgstr "Die benötigte Ressource ist zu diesem Zeitpunkt nicht verfügbar"
 
+#: castellum/appointments/mixins.py:53
+msgid "not scheduled"
+msgstr "nicht geplant"
+
 #: castellum/appointments/models.py:44
 msgid "no issues"
 msgstr "keine Probleme"
