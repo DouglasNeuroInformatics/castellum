@@ -6,12 +6,18 @@
 {% block content %}
     <ul class="table-list mb-3">
         {% for session in object_list %}
-            <li class="table-list-item">
+            <dl class="table-list-item">
                 <div class="h4 d-inline-block my-1 mr-2">{{ session.name }}</div>
                 {% if session.resource %}
                     <span class="d-inline-block my-1 mr-2">{{ session.resource }}</span>
                 {% endif %}
-            </li>
+                <dd class="col-sm-4">
+                    <small class="d-inline-block my-1 mr-2">{% translate 'Realized appointments: ' %}{{ session.realized }}/{{ required_count }}</small>
+                    <meter class="w-100" max="{{ required_count }}" value="{{ session.realized }}" label="{% translate 'realized appointments' %}"></meter>
+                    <small class="d-inline-block my-1 mr-2">{% translate 'All appointments: ' %}{{ session.all_appointments }}/{{ required_count }}</small>
+                    <meter class="w-100" max="{{ required_count }}" value="{{ session.all_appointments }}" label="{% translate 'all appointments' %}"></meter>
+                </dd>
+            </dl>
         {% empty %}
             <li class="alert alert-warning" role="alert">{% translate 'No sessions found' %}</li>
         {% endfor %}
