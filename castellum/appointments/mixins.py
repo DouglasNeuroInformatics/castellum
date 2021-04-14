@@ -23,6 +23,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 
 from castellum.recruitment.models import Participation
@@ -46,12 +47,17 @@ def send_appointment_notifications(request, participation, changes):
     if not relevant_changes:
         return
 
+    def format_datetime(dt):
+        if not dt:
+            return _('not scheduled')
+        return timezone.localtime(dt)
+
     def get_mail_data():
         return {
             'study': participation.study,
             'changes': '\n'.join('{} -> {}'.format(
-                timezone.localtime(old),
-                timezone.localtime(new),
+                format_datetime(old),
+                format_datetime(new),
             ) for (old, new) in relevant_changes),
             'participation_url': request.build_absolute_uri(reverse(
                 'execution:participation-detail',
