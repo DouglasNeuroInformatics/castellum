@@ -74,9 +74,11 @@ only very few attributes that can be seen as commonly used at every institute.
         will show an error warning. Accordingly, you have to deselect a primary
         or secondary attribute first to select a new one.
 
-9.  **Label** should be the actual name of the attribute
-10. If appropriate, fill in all **Attribute choices** that represent the
-    possible values of the attribute and will be used for filtering
+9.  **Label** should be the actual name of the attribute. Be sure to provide
+    translations if Castellum is set to support more than one language
+10. If appropriate, fill in all **Attribute choices** (if needed also add
+    translations) that represent the possible values of the attribute and will
+    be used for filtering
 
     .. note::
         Attributes will always allow to select **Declined to answer**. So, there
