@@ -126,6 +126,7 @@ class Study(models.Model):
         blank=True,
     )
     announce_status_changes = models.BooleanField(_('Announce status changes'), default=False)
+    snapshot = models.TextField(_('Snapshot'), blank=True, editable=False)
 
     members = models.ManyToManyField(User, through='StudyMembership')
     domains = GenericRelation(Domain)
