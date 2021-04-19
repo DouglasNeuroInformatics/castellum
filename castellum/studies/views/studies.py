@@ -439,3 +439,10 @@ class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
         filename = 'castellum_{}.json'.format(slugify(self.study.name))
         response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
         return response
+
+
+class StudyDiffView(StudyMixin, PermissionRequiredMixin, DetailView):
+    model = Study
+    permission_required = 'studies.approve_study'
+    template_name = 'studies/study_diff.html'
+    tab = 'diff'
