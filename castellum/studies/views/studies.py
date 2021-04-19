@@ -24,6 +24,7 @@ import logging
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core import serializers
 from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.forms import modelform_factory
@@ -49,6 +50,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.models import Domain
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
+from castellum.recruitment.models import SubjectFilter
 from castellum.subjects.models import Subject
 from castellum.utils.mail import MailContext
 from castellum.utils.views import get_next_url
@@ -319,6 +321,18 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
             )
         else:
             self.study.set_status(self.study.EXECUTION)
+
+            self.study.snapshot = serializers.serialize('json', [
+                self.study,
+                *self.study.studymembership_set.all(),
+                *self.study.domains.all(),
+                *self.study.studytag_set.all(),
+                *self.study.studysession_set.all(),
+                *self.study.subjectfiltergroup_set.all(),
+                *SubjectFilter.objects.filter(group__study=self.study),
+            ])
+            self.study.save()
+
             monitoring_logger.info(
                 'Study {} started by {}'.format(self.study.name, self.request.user.pk)
             )
