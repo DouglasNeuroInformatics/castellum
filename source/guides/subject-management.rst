@@ -226,13 +226,8 @@ current subject to a study
 -   **Matching Studies**: A list of currently active studies with matching
     filters is displayed. You can add the subject to one or more study
     recruitments.
--   **Add to study**: Search allows to look up a study and add the subject
+-   **Add to study**: Search for a study and add the subject
     directly as *invited* to it.
-
-    .. hint::
-        Lists of matching studies can be quite long. Hold the **CTRL** key on
-        your keyboard while pressing **F** to open the search function of the
-        browser.
 
 .. _subject-to-be-deleted:
 
