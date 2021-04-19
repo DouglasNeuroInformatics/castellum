@@ -18,7 +18,7 @@
                     <span class="badge badge-primary my-1 mr-1">{{ session.resource }}</span>
                 {% endif %}
                 <div class="table-list-item-actions">
-                    <a class="btn btn-outline-primary my-1" href="{% url 'studies:session-update' study.pk session.pk %}">{% translate 'Update' %}</a>
+                    <a class="btn btn-outline-primary my-1" href="{% url 'studies:session-update' study.pk session.pk %}">{% translate 'Edit' %}</a>
                     <a class="btn btn-outline-danger my-1" href="{% url 'studies:session-delete' study.pk session.pk %}">{% translate 'Delete' %}</a>
                 </div>
             </li>
