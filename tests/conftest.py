@@ -204,6 +204,6 @@ def subject_filter(subject_filter_group, attribute_description):
     return SubjectFilter.objects.create(
         description=attribute_description,
         operator='exact',
-        value='left',
+        value=1,
         group=subject_filter_group,
     )
