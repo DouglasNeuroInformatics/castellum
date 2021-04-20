@@ -90,9 +90,11 @@ class StudyForm(forms.ModelForm):
     def save(self, commit=True):
         obj = super().save(commit=commit)
 
-        obj.studytag_set.all().delete()
+        for tag in obj.studytag_set.all():
+            if tag.name not in self.cleaned_data['tags']:
+                tag.delete()
         for name in self.cleaned_data['tags']:
-            obj.studytag_set.create(name=name)
+            obj.studytag_set.get_or_create(name=name)
 
         return obj
 
