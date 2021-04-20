@@ -5,101 +5,101 @@
 
 {% block content %}
     <dl class="row">
-        <dt class="col-sm-6">{{ study|verbose_name:'name' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.name">{{ study|verbose_name:'name' }}</dt>
         <dd class="col-sm-6">{{ study|display:'name' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'contact_person' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.contact_person">{{ study|verbose_name:'contact_person' }}</dt>
         <dd class="col-sm-6">{{ study|display:'contact_person' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'email' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.email">{{ study|verbose_name:'email' }}</dt>
         <dd class="col-sm-6">{{ study|display:'email' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'phone' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.phone">{{ study|verbose_name:'phone' }}</dt>
         <dd class="col-sm-6">{{ study|display:'phone' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'principal_investigator' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.principal_investigator">{{ study|verbose_name:'principal_investigator' }}</dt>
         <dd class="col-sm-6">{{ study|display:'principal_investigator' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'affiliated_scientists' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.affiliated_scientists">{{ study|verbose_name:'affiliated_scientists' }}</dt>
         <dd class="col-sm-6">{{ study|display:'affiliated_scientists' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'affiliated_research_assistants' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.affiliated_research_assistants">{{ study|verbose_name:'affiliated_research_assistants' }}</dt>
         <dd class="col-sm-6">{{ study|display:'affiliated_research_assistants' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'description' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.description">{{ study|verbose_name:'description' }}</dt>
         <dd class="col-sm-6">{{ study|display:'description' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'data_sensitivity' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.data_sensitivity">{{ study|verbose_name:'data_sensitivity' }}</dt>
         <dd class="col-sm-6">{{ study|display:'data_sensitivity' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'min_subject_count' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.min_subject_count">{{ study|verbose_name:'min_subject_count' }}</dt>
         <dd class="col-sm-6">{{ study|display:'min_subject_count' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'session_instructions' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.session_instructions">{{ study|verbose_name:'session_instructions' }}</dt>
         <dd class="col-sm-6">{{ study|display:'session_instructions' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.sessions_start">{{ study|verbose_name:'sessions_start' }}</dt>
         <dd class="col-sm-6">{{ study|display:'sessions_start' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'sessions_end' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.sessions_end">{{ study|verbose_name:'sessions_end' }}</dt>
         <dd class="col-sm-6">{{ study|display:'sessions_end' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'excluded_studies' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.excluded_studies">{{ study|verbose_name:'excluded_studies' }}</dt>
         <dd class="col-sm-6">{{ study|display:'excluded_studies' }}</dd>
 
-        <dt class="col-sm-6">{% translate 'Tags' %}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.studytag">{% translate 'Tags' %}</dt>
         <dd class="col-sm-6">{{ study|display:'studytag_set' }}</dd>
 
-        <dt class="col-sm-6">{% translate 'Domains' %}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.domains">{% translate 'Domains' %}</dt>
         <dd class="col-sm-6">{{ study|display:'domains' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'exportable_attributes' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.exportable_attributes">{{ study|verbose_name:'exportable_attributes' }}</dt>
         <dd class="col-sm-6">{{ study|display:'exportable_attributes' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'exclusion_criteria' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.exclusion_criteria">{{ study|verbose_name:'exclusion_criteria' }}</dt>
         <dd class="col-sm-6">{{ study|display:'exclusion_criteria' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'recruitment_text' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.recruitment_text">{{ study|verbose_name:'recruitment_text' }}</dt>
         <dd class="col-sm-6">{{ study|display:'recruitment_text' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'announce_status_changes' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.announce_status_changes">{{ study|verbose_name:'announce_status_changes' }}</dt>
         <dd class="col-sm-6">{{ study|display:'announce_status_changes' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'advanced_filtering' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.advanced_filtering">{{ study|verbose_name:'advanced_filtering' }}</dt>
         <dd class="col-sm-6">{{ study|display:'advanced_filtering' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'custom_filter' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.custom_filter">{{ study|verbose_name:'custom_filter' }}</dt>
         <dd class="col-sm-6">{{ study|display:'custom_filter' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'geo_filter' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.geo_filter">{{ study|verbose_name:'geo_filter' }}</dt>
         <dd class="col-sm-6">{{ study|display:'geo_filter' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'is_exclusive' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.is_exclusive">{{ study|verbose_name:'is_exclusive' }}</dt>
         <dd class="col-sm-6">{{ study|display:'is_exclusive' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'complete_matches_only' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.complete_matches_only">{{ study|verbose_name:'complete_matches_only' }}</dt>
         <dd class="col-sm-6">{{ study|display:'complete_matches_only' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'is_onetime_invitation' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.is_onetime_invitation">{{ study|verbose_name:'is_onetime_invitation' }}</dt>
         <dd class="col-sm-6">{{ study|display:'is_onetime_invitation' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'consent' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.consent">{{ study|verbose_name:'consent' }}</dt>
         <dd class="col-sm-6">{{ study|display:'consent' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'mail_subject' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.mail_subject">{{ study|verbose_name:'mail_subject' }}</dt>
         <dd class="col-sm-6">{{ study|display:'mail_subject' }}</dd>
 
-        <dt class="col-sm-6">{{ study|verbose_name:'mail_body' }}</dt>
+        <dt class="col-sm-6" data-fieldname="studies.Study.mail_body">{{ study|verbose_name:'mail_body' }}</dt>
         <dd class="col-sm-6">{{ study|display:'mail_body' }}</dd>
     </dl>
 
     {% with study.studymembership_set.all|list as memberships %}
         {% if memberships %}
-            <h2>{% translate 'Memberships' %}</h2>
+            <h2 data-fieldname="studies.Study.studymembership">{% translate 'Memberships' %}</h2>
             <dl class="row">
                 {% for membership in memberships %}
-                    <dt class="col-sm-6">{{ membership|display:'user' }}</dt>
-                    <dd class="col-sm-6">{{ membership|display:'groups' }}</dd>
+                    <dt class="col-sm-6" data-fieldname="studies.StudyMembership.user">{{ membership|display:'user' }}</dt>
+                    <dd class="col-sm-6" data-fieldname="studies.StudyMembership.groups">{{ membership|display:'groups' }}</dd>
                 {% endfor %}
             </dl>
         {% endif %}
@@ -107,25 +107,25 @@
 
     {% with study.studysession_set.all|list as sessions %}
         {% if sessions %}
-            <h2>{% translate 'Sessions' %}</h2>
+            <h2 data-fieldname="studies.Study.studysession">{% translate 'Sessions' %}</h2>
             {% for session in sessions %}
                 <dl class="row">
-                    <dt class="col-sm-6">{{ session|verbose_name:'name' }}</dt>
+                    <dt class="col-sm-6" data-fieldname="studies.StudySession.name">{{ session|verbose_name:'name' }}</dt>
                     <dd class="col-sm-6">{{ session|display:'name' }}</dd>
 
-                    <dt class="col-sm-6">{{ session|verbose_name:'duration' }}</dt>
+                    <dt class="col-sm-6" data-fieldname="studies.StudySession.duration">{{ session|verbose_name:'duration' }}</dt>
                     <dd class="col-sm-6">{{ session|display:'duration' }}</dd>
 
-                    <dt class="col-sm-6">{{ session|verbose_name:'type' }}</dt>
+                    <dt class="col-sm-6" data-fieldname="studies.StudySession.type">{{ session|verbose_name:'type' }}</dt>
                     <dd class="col-sm-6">{{ session|display:'type' }}</dd>
 
-                    <dt class="col-sm-6">{{ session|verbose_name:'resource' }}</dt>
+                    <dt class="col-sm-6" data-fieldname="studies.StudySession.resource">{{ session|verbose_name:'resource' }}</dt>
                     <dd class="col-sm-6">{{ session|display:'resource' }}</dd>
 
-                    <dt class="col-sm-6">{{ session|verbose_name:'reminder_text' }}</dt>
+                    <dt class="col-sm-6" data-fieldname="studies.StudySession.reminder_text">{{ session|verbose_name:'reminder_text' }}</dt>
                     <dd class="col-sm-6">{{ session|display:'reminder_text' }}</dd>
 
-                    <dt class="col-sm-6">{{ session|verbose_name:'schedule_id' }}</dt>
+                    <dt class="col-sm-6" data-fieldname="studies.StudySession.schedule_id">{{ session|verbose_name:'schedule_id' }}</dt>
                     <dd class="col-sm-6">{{ session|display:'schedule_id' }}</dd>
                 </dl>
             {% endfor %}
@@ -134,11 +134,11 @@
 
     {% with study.subjectfiltergroup_set.all|list as filtergroups %}
         {% if filtergroups %}
-            <h2>{% translate 'Filters' %}</h2>
+            <h2 data-fieldname="studies.Study.subjectfiltergroup">{% translate 'Filters' %}</h2>
             {% for filtergroup in filtergroups %}
                 <ul>
                     {% for f in filtergroup.subjectfilter_set.all %}
-                        <li>{{ f }}</li>
+                        <li data-fieldname="recruitment.SubjectFilterGroup.subjectfilter">{{ f }}</li>
                     {% endfor %}
                 </ul>
             {% endfor %}
