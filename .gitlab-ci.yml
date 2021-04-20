@@ -9,14 +9,14 @@ variables:
 
 test:
   stage: test
-  image: $CONTAINER_IMAGE:latest
+  image: alpine
   services:
     - name: postgres:latest
       alias: db_default
     - name: postgis/postgis:latest
       alias: db_contacts
   script:
-    - apk add py3-lxml py3-regex npm hunspell hunspell-de-de
+    - apk add py3-lxml gettext py3-pip py3-wheel py3-regex npm hunspell hunspell-de-de python3 py3-psycopg2 py3-pyldap libmagic proj gdal
     - pip3 install -e .[test]
     - isort -c castellum tests
     - flake8
