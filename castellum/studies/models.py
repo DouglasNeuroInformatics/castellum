@@ -383,4 +383,4 @@ class StudyTag(models.Model):
     name = models.CharField(_('Name'), max_length=128)
 
     def __str__(self):
-        return '{} - {}'.format(self.study, self.name)
+        return self.name
