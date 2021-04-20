@@ -52,6 +52,7 @@ from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.subjects.models import Subject
+from castellum.utils import Exclusion
 from castellum.utils.mail import MailContext
 from castellum.utils.views import get_next_url
 
@@ -330,7 +331,7 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
                 *self.study.studysession_set.all(),
                 *self.study.subjectfiltergroup_set.all(),
                 *SubjectFilter.objects.filter(group__study=self.study),
-            ])
+            ], fields=Exclusion(['snapshot']))
             self.study.save()
 
             monitoring_logger.info(
