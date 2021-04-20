@@ -49,9 +49,11 @@ def verbose_name(instance, field_name):
 
 
 @register.filter
-def display(instance, field_name):
-    getter = getattr(instance, 'get_{}_display'.format(field_name), None)
-    value = getter() if getter else getattr(instance, field_name)
+def display(value, field_name=None):
+    if field_name:
+        getter = getattr(value, 'get_{}_display'.format(field_name), None)
+        value = getter() if getter else getattr(value, field_name)
+
     if value is True:
         return _('Yes')
     elif value is False:
