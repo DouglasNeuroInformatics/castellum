@@ -446,3 +446,13 @@ class StudyDiffView(StudyMixin, PermissionRequiredMixin, DetailView):
     permission_required = 'studies.approve_study'
     template_name = 'studies/study_diff.html'
     tab = 'diff'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            context['snapshot'] = list(serializers.deserialize(
+                'json', self.study.snapshot, ignorenonexistent=True
+            ))
+        except serializers.base.DeserializationError:
+            context['snapshot'] = []
+        return context

@@ -159,3 +159,13 @@
 .dl-inline dd {
     margin: 0 1em 0 0;
 }
+
+.diff-changed {
+    color: var(--orange);
+}
+.diff-added {
+    color: var(--green);
+}
+.diff-removed {
+    color: var(--red);
+}

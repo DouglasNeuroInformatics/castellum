@@ -1,147 +1,149 @@
 {% extends "studies/study_base.html" %}
-{% load static i18n utils %}
+{% load static i18n utils diff %}
 
 {% block title %}{% translate "Changes" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     <dl class="row">
         <dt class="col-sm-6" data-fieldname="studies.Study.name">{{ study|verbose_name:'name' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'name' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'name' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.contact_person">{{ study|verbose_name:'contact_person' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'contact_person' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'contact_person' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.email">{{ study|verbose_name:'email' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'email' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'email' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.phone">{{ study|verbose_name:'phone' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'phone' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'phone' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.principal_investigator">{{ study|verbose_name:'principal_investigator' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'principal_investigator' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'principal_investigator' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.affiliated_scientists">{{ study|verbose_name:'affiliated_scientists' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'affiliated_scientists' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'affiliated_scientists' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.affiliated_research_assistants">{{ study|verbose_name:'affiliated_research_assistants' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'affiliated_research_assistants' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'affiliated_research_assistants' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.description">{{ study|verbose_name:'description' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'description' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'description' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.data_sensitivity">{{ study|verbose_name:'data_sensitivity' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'data_sensitivity' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'data_sensitivity' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.min_subject_count">{{ study|verbose_name:'min_subject_count' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'min_subject_count' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'min_subject_count' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.session_instructions">{{ study|verbose_name:'session_instructions' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'session_instructions' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'session_instructions' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.sessions_start">{{ study|verbose_name:'sessions_start' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'sessions_start' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'sessions_start' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.sessions_end">{{ study|verbose_name:'sessions_end' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'sessions_end' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'sessions_end' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.excluded_studies">{{ study|verbose_name:'excluded_studies' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'excluded_studies' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'excluded_studies' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.studytag">{% translate 'Tags' %}</dt>
-        <dd class="col-sm-6">{{ study|display:'studytag_set' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'studytag_set' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.domains">{% translate 'Domains' %}</dt>
-        <dd class="col-sm-6">{{ study|display:'domains' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'domains' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.exportable_attributes">{{ study|verbose_name:'exportable_attributes' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'exportable_attributes' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'exportable_attributes' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.exclusion_criteria">{{ study|verbose_name:'exclusion_criteria' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'exclusion_criteria' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'exclusion_criteria' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.recruitment_text">{{ study|verbose_name:'recruitment_text' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'recruitment_text' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'recruitment_text' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.announce_status_changes">{{ study|verbose_name:'announce_status_changes' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'announce_status_changes' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'announce_status_changes' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.advanced_filtering">{{ study|verbose_name:'advanced_filtering' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'advanced_filtering' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'advanced_filtering' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.custom_filter">{{ study|verbose_name:'custom_filter' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'custom_filter' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'custom_filter' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.geo_filter">{{ study|verbose_name:'geo_filter' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'geo_filter' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'geo_filter' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.is_exclusive">{{ study|verbose_name:'is_exclusive' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'is_exclusive' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'is_exclusive' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.complete_matches_only">{{ study|verbose_name:'complete_matches_only' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'complete_matches_only' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'complete_matches_only' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.is_onetime_invitation">{{ study|verbose_name:'is_onetime_invitation' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'is_onetime_invitation' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'is_onetime_invitation' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.consent">{{ study|verbose_name:'consent' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'consent' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'consent' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.mail_subject">{{ study|verbose_name:'mail_subject' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'mail_subject' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'mail_subject' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
         <dt class="col-sm-6" data-fieldname="studies.Study.mail_body">{{ study|verbose_name:'mail_body' }}</dt>
-        <dd class="col-sm-6">{{ study|display:'mail_body' }}</dd>
+        <dd class="col-sm-6">{% diff_get study 'mail_body' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
     </dl>
 
-    {% with study.studymembership_set.all|list as memberships %}
-        {% if memberships %}
-            <h2 data-fieldname="studies.Study.studymembership">{% translate 'Memberships' %}</h2>
-            <dl class="row">
-                {% for membership in memberships %}
-                    <dt class="col-sm-6" data-fieldname="studies.StudyMembership.user">{{ membership|display:'user' }}</dt>
-                    <dd class="col-sm-6" data-fieldname="studies.StudyMembership.groups">{{ membership|display:'groups' }}</dd>
-                {% endfor %}
-            </dl>
-        {% endif %}
-    {% endwith %}
+    {% diff_get study 'studymembership_set' as memberships %}
+    {% if memberships %}
+        <h2 data-fieldname="studies.Study.studymembership">{% translate 'Memberships' %}</h2>
+        <dl class="row">
+            {% for membership, class in memberships %}
+                <dt class="col-sm-6" data-fieldname="studies.StudyMembership.user">{% diff_wrap class %}{{ membership|display:'user' }}{% end_diff_wrap %}</dt>
+                <dd class="col-sm-6" data-fieldname="studies.StudyMembership.groups">{% diff_get membership 'groups' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
+            {% endfor %}
+        </dl>
+    {% endif %}
 
-    {% with study.studysession_set.all|list as sessions %}
-        {% if sessions %}
-            <h2 data-fieldname="studies.Study.studysession">{% translate 'Sessions' %}</h2>
-            {% for session in sessions %}
+    {% diff_get study 'studysession_set' as sessions %}
+    {% if sessions %}
+        <h2 data-fieldname="studies.Study.studysession">{% translate 'Sessions' %}</h2>
+        {% for session, class in sessions %}
+            {% diff_wrap class %}
                 <dl class="row">
                     <dt class="col-sm-6" data-fieldname="studies.StudySession.name">{{ session|verbose_name:'name' }}</dt>
-                    <dd class="col-sm-6">{{ session|display:'name' }}</dd>
+                    <dd class="col-sm-6">{% diff_get session 'name' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
                     <dt class="col-sm-6" data-fieldname="studies.StudySession.duration">{{ session|verbose_name:'duration' }}</dt>
-                    <dd class="col-sm-6">{{ session|display:'duration' }}</dd>
+                    <dd class="col-sm-6">{% diff_get session 'duration' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
                     <dt class="col-sm-6" data-fieldname="studies.StudySession.type">{{ session|verbose_name:'type' }}</dt>
-                    <dd class="col-sm-6">{{ session|display:'type' }}</dd>
+                    <dd class="col-sm-6">{% diff_get session 'type' as type %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
                     <dt class="col-sm-6" data-fieldname="studies.StudySession.resource">{{ session|verbose_name:'resource' }}</dt>
-                    <dd class="col-sm-6">{{ session|display:'resource' }}</dd>
+                    <dd class="col-sm-6">{% diff_get session 'resource' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
                     <dt class="col-sm-6" data-fieldname="studies.StudySession.reminder_text">{{ session|verbose_name:'reminder_text' }}</dt>
-                    <dd class="col-sm-6">{{ session|display:'reminder_text' }}</dd>
+                    <dd class="col-sm-6">{% diff_get session 'reminder_text' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
 
                     <dt class="col-sm-6" data-fieldname="studies.StudySession.schedule_id">{{ session|verbose_name:'schedule_id' }}</dt>
-                    <dd class="col-sm-6">{{ session|display:'schedule_id' }}</dd>
+                    <dd class="col-sm-6">{% diff_get session 'schedule_id' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
                 </dl>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+            {% end_diff_wrap %}
+        {% endfor %}
+    {% endif %}
 
-    {% with study.subjectfiltergroup_set.all|list as filtergroups %}
-        {% if filtergroups %}
-            <h2 data-fieldname="studies.Study.subjectfiltergroup">{% translate 'Filters' %}</h2>
-            {% for filtergroup in filtergroups %}
+    {% diff_get study 'subjectfiltergroup_set' as filtergroups %}
+    {% if filtergroups %}
+        <h2 data-fieldname="studies.Study.subjectfiltergroup">{% translate 'Filters' %}</h2>
+        {% for filtergroup, class in filtergroups %}
+            {% diff_wrap class %}
                 <ul>
-                    {% for f in filtergroup.subjectfilter_set.all %}
-                        <li data-fieldname="recruitment.SubjectFilterGroup.subjectfilter">{{ f }}</li>
+                    {% diff_get filtergroup 'subjectfilter_set' as filters %}
+                    {% for f, class in filters %}
+                        <li data-fieldname="recruitment.SubjectFilterGroup.subjectfilter">{% diff_wrap class %}{{ f }}{% end_diff_wrap %}</li>
                     {% endfor %}
                 </ul>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+            {% end_diff_wrap %}
+        {% endfor %}
+    {% endif %}
 {% endblock %}
