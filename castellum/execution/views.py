@@ -486,7 +486,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
             title = '{} ({})'.format(title, appointment.get_show_up_display())
 
         class_names = []
-        if appointment.show_up not in [Appointment.SHOWUP, Appointment.LATE]:
+        if appointment.show_up not in Appointment.SHOWUP_OK:
             class_names.append('fullcalendar-muted')
 
         return {
