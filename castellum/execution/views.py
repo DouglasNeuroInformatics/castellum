@@ -30,6 +30,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import FormView
@@ -519,5 +520,20 @@ class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
             .count()
         )
         context['total'] = max(self.study.min_subject_count, context['invited'])
+        context['sessions'] = self.study.studysession_set.annotate(
+            scheduled=models.Count(
+                'appointment',
+                filter=models.Q(appointment__show_up__in=Appointment.SHOWUP_OK),
+                distinct=True,
+            ),
+            took_place=models.Count(
+                'appointment',
+                filter=models.Q(
+                    appointment__show_up__in=Appointment.SHOWUP_OK,
+                    appointment__start__lte=timezone.now(),
+                ),
+                distinct=True,
+            ),
+        )
 
         return context

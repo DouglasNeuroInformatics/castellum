@@ -9,4 +9,17 @@
         {{ invited }}/{{ total }}
         <meter class="w-100" value="{{ invited }}" max="{{ total }}"></meter>
     </p>
+
+    {% for session in sessions %}
+        <h2>{{ session.name }}</h2>
+        <dl>
+            <dt>{% translate 'took place' %}</dt>
+            <dd>{{ session.took_place }}/{{ total }}</dd>
+            <dd><meter class="w-100" value="{{ session.took_place }}" max="{{ total }}"></meter></dd>
+
+            <dt>{% translate 'scheduled' %}</dt>
+            <dd>{{ session.scheduled }}/{{ total }}</dd>
+            <dd><meter class="w-100" value="{{ session.scheduled }}" max="{{ total }}"></meter></dd>
+        </dl>
+    {% endfor %}
 {% endblock %}
