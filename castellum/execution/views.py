@@ -509,3 +509,15 @@ class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     tab = 'progress'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['invited'] = (
+            self.study.participation_set
+            .filter(status=Participation.INVITED)
+            .count()
+        )
+        context['total'] = max(self.study.min_subject_count, context['invited'])
+
+        return context

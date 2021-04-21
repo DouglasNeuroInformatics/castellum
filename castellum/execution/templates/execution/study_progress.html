@@ -4,4 +4,9 @@
 {% block title %}{% translate "Progress" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    <h2>{% translate 'Participating' %}</h2>
+    <p>
+        {{ invited }}/{{ total }}
+        <meter class="w-100" value="{{ invited }}" max="{{ total }}"></meter>
+    </p>
 {% endblock %}
