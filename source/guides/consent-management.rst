@@ -5,9 +5,9 @@ Set Recruitment Consent for a Subject
 
 1.  In subject management > subject details, go to the **Data protection** tab.
 
-2.  Click on the checkbox **Recruitment consent**. It will not be checked
-    immediately. Instead it indicates that you are waiting for confirmation
-    from the subject.
+2.  Click on the checkbox **Recruitment consent**. It will change the status to 
+    **waiting for confirmation** indicating that there is still an outstanding 
+    final approval (signed consent) by the person.
 
 3.  If the subject agrees, click on **Confirm**.
 
