@@ -22,6 +22,12 @@ Set Recruitment Consent for a Subject
 
 4.  If the subject rejects the request, clear the checkbox.
 
+.. note::
+
+    Please be aware that subject maintenance lists persons with the status 
+    **waiting for confirmation**. Hence, they may be deleted after some time 
+    waiting (if no other legal basis is given).
+
 
 .. _subject-consent-maintenance:
 
