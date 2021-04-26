@@ -29,9 +29,9 @@ services:
   ldap:
     image: osixia/openldap
     restart: always
-    ports:
-      - "389:389"
     command: [--copy-service]
+    environment:
+      LDAP_PORT: 3389
     volumes:
       - ./dummy_data.ldif:/container/service/slapd/assets/config/bootstrap/ldif/data.ldif:ro
   nominatim:
