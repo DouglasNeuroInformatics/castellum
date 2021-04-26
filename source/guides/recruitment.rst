@@ -37,7 +37,9 @@ Recruit subjects via phone
         -   **participating**
         -   **excluded**
             (This may apply if attributes of the person do not comply with the
-            requirements of the study)
+            requirements of the study, if a person is not interested in the
+            particular study or if a person is not available during the data 
+            collection of the study)
 
     -   Click on **Save**
 
