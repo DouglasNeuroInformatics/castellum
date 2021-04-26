@@ -9,14 +9,14 @@ Set Recruitment Consent for a Subject
     **waiting for confirmation** indicating that there is still an outstanding 
     final approval (signed consent) by the person.
 
-.. note::
+    .. note::
 
-    This allows for an asynchronous workflow: On first contact recruiters can 
-    explain the recruitment consent and ask for a *preliminary* approval by the 
-    informed person (in other words: **waiting for confirmation**). Subsequently, 
-    the actual document is given to this person asking them to read it carefully 
-    and sign it. When getting back the signed document recruiters can click 
-    **confirm**.
+        This allows for an asynchronous workflow: On first contact recruiters 
+        can explain the recruitment consent and ask for a *preliminary* approval 
+        by the informed person (in other words: **waiting for confirmation**). 
+        Subsequently, the actual document is given to this person asking them to 
+        read it carefully and sign it. When getting back the signed document 
+        recruiters can click **confirm**.
 
 3.  If the subject agrees, click on **Confirm**.
 
