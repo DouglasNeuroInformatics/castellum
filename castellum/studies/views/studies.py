@@ -103,6 +103,19 @@ def send_pr_mail(study, user_email):
         )
 
 
+def take_snapshot(study):
+    study.snapshot = serializers.serialize('json', [
+        study,
+        *study.studymembership_set.all(),
+        *study.domains.all(),
+        *study.studytag_set.all(),
+        *study.studysession_set.all(),
+        *study.subjectfiltergroup_set.all(),
+        *SubjectFilter.objects.filter(group__study=study),
+    ], fields=Exclusion(['snapshot']))
+    study.save()
+
+
 class StudyIndexView(LoginRequiredMixin, ListView):
     model = Study
     ordering = 'name'
@@ -322,17 +335,7 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
             )
         else:
             self.study.set_status(self.study.EXECUTION)
-
-            self.study.snapshot = serializers.serialize('json', [
-                self.study,
-                *self.study.studymembership_set.all(),
-                *self.study.domains.all(),
-                *self.study.studytag_set.all(),
-                *self.study.studysession_set.all(),
-                *self.study.subjectfiltergroup_set.all(),
-                *SubjectFilter.objects.filter(group__study=self.study),
-            ], fields=Exclusion(['snapshot']))
-            self.study.save()
+            take_snapshot(self.study)
 
             monitoring_logger.info(
                 'Study {} started by {}'.format(self.study.name, self.request.user.pk)
