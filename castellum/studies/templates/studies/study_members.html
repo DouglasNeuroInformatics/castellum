@@ -19,7 +19,7 @@
             {% for membership in object.studymembership_set.all %}
                 <li class="table-list-item">
                     <div>
-                        <div class="h4 d-inline-block my-1 mr-2">{{ membership.user }}</div>
+                        <div class="h4 d-inline-block my-1 mr-2">{{ membership.user.get_full_name }}</div>
                         <ul class="d-inline-block p-0">
                             {% for group in membership.user.groups.all %}
                                 <li class="badge badge-secondary my-1 mr-2" title="{% translate 'global group' %}" aria-label="{{ group }}">{{ group }}</li>

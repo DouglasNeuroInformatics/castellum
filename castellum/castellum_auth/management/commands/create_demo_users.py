@@ -67,8 +67,15 @@ class Command(BaseCommand):
                 'admin', 'admin@example.com', User.DEMO_PASSWORD, expiration_date=expiration_date
             )
 
-        for name, groups in USERS.items():
-            defaults = {'email': name + '@example.com', 'expiration_date': expiration_date}
+        last_name = 'Test'
+        for first_name, groups in USERS.items():
+            name = first_name.lower()
+            defaults = {
+                'first_name': first_name,
+                'last_name': last_name,
+                'email': name + '@example.com',
+                'expiration_date': expiration_date,
+            }
             user, created = User.objects.get_or_create(username=name, defaults=defaults)
             if created:
                 user.set_password(User.DEMO_PASSWORD)

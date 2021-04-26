@@ -370,12 +370,11 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
 
     def send_test_mail(self, form):
         user = self.request.user
-        name = user.get_full_name() or user.username
 
         with MailContext('recruitment') as ctx:
             success = ctx.send_mail(
                 form.cleaned_data['subject'],
-                form.cleaned_data['body'].replace('{name}', name),
+                form.cleaned_data['body'].replace('{name}', user.get_full_name()),
                 [user.email],
                 reply_to=[self.study.email],
             )

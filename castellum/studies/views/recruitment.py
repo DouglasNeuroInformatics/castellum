@@ -143,7 +143,7 @@ class StudyRecruitmentTestMailView(StudyMixin, PermissionRequiredMixin, View):
 
     def post(self, request, **kwargs):
         with MailContext('recruitment') as ctx:
-            name = request.user.get_full_name() or request.user.username
+            name = request.user.get_full_name()
             success = ctx.send_mail(
                 self.study.mail_subject,
                 self.study.mail_body.replace('{name}', name),
