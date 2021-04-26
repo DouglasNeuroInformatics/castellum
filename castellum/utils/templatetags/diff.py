@@ -20,7 +20,6 @@
 # <http://www.gnu.org/licenses/>.
 
 from django import template
-from django.utils import html
 
 register = template.Library()
 
@@ -28,29 +27,6 @@ TAGS = {
     'diff-added': 'ins',
     'diff-removed': 'del',
 }
-
-
-def register_container_tag(name=None, nargs=0):
-    def wrapped(node_class):
-        def do(parser, token):
-            bits = token.split_contents()
-            args = [parser.compile_filter(x) for x in bits[1:]]
-            if len(args) != nargs:
-                raise template.TemplateSyntaxError(
-                    '{tag} tag requires exactly {nargs} arguments'.format(
-                        tag=bits[0], nargs=nargs
-                    )
-                )
-
-            nodelist = parser.parse(['end_' + name])
-            parser.delete_first_token()
-
-            return node_class(nodelist, *args)
-
-        register.tag(name=name)(do)
-        return node_class
-
-    return wrapped
 
 
 def get_old(snapshot, new_obj):
@@ -148,33 +124,11 @@ def diff_get(context, new_obj, fieldname):
         return [(value, cls)]
 
 
-def _diff_wrap(content, cls):
-    tag = TAGS.get(cls, 'span')
-    if cls == 'diff-unchanged':
-        return content
-    return html.format_html('<{0} class="{1}">{2}</{0}>', tag, cls, content)
-
-
 @register.filter
 def diff_tag(cls):
     return TAGS.get(cls, 'span')
 
 
-@register_container_tag(name='diff_list', nargs=1)
-class DiffListNode(template.Node):
-    def __init__(self, nodelist, items):
-        self.nodelist = nodelist
-        self.items = items
-
-    def render(self, context):
-        items = self.items.resolve(context)
-
-        def render_item(value, cls):
-            with context.push():
-                context['value'] = value
-                context['class'] = cls
-                return self.nodelist.render(context)
-
-        return html.mark_safe(', '.join(
-            _diff_wrap(render_item(value, cls), cls) for value, cls in items
-        ) or '&mdash;')
+@register.inclusion_tag('utils/__diff_list.html')
+def diff_list(items):
+    return {'items': items}
