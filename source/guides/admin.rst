@@ -41,6 +41,52 @@ Customize Roles
 6.  Click on one of the saving options
 
 
+.. _admin-attributes:
+
+Add Attribute Descriptions
+==========================
+
+Castellum allows to dynamically add attribute descriptions that can be used to
+store filterable information on subjects. This takes into account that there are
+only very few attributes that can be seen as commonly used at every institute.
+
+1.  Click on **Admin** on the front page
+2.  Go to **Attribute description**
+3.  Click on **Add attribute description** (oval with grey background)
+4.  Select an appropriate **Field type** that should be used for the attribute
+5.  **URL** allows you to link to a formal definition that may clarify baseline
+    or rather scientific grounding of the attribute
+
+    .. note::
+        This is used to support Attribute Export in BIDS format. Hence, it is
+        only shown in admin interface. For example, a Handedness attribute could
+        link to a definition at
+        `bioontology.org <http://purl.bioontology.org/ontology/SNOMEDCT/57427004>`_.
+
+6.  Set **privacy levels** of the attribute for **read** and **write**
+7.  **Order** and **Category** can be used to position the attribute in UI
+8.  **Statistics rank** can be used to set this attribute as primary or
+    secondary feature that should be presented in statistics of recruitment
+
+    .. note::
+        Castellum offers to set up two attributes to be used in statistics of
+        recruitment. If there is already a primary or secondary attribute it
+        will show an error warning. Accordingly, you have to deselect a primary
+        or secondary attribute first to select a new one.
+
+9.  **Label** should be the actual name of the attribute. Be sure to provide
+    translations if Castellum is set to support more than one language
+10. If appropriate, fill in all **Attribute choices** (if needed also add
+    translations) that represent the possible values of the attribute and will
+    be used for filtering
+
+    .. note::
+        Attributes will always allow to select **Declined to answer**. So, there
+        is no need to specify this as an attribute choice. Furthermore, all
+        three ChoiceField types will automatically provide an **Unknown**
+        option.
+
+
 .. _admin-consent-document:
 
 Upload a consent document
@@ -74,5 +120,3 @@ case there is a two step process:
     up in the data protection dashboard.
 
 The legal basis for each subject can be found in the subject detail view.
-
-
