@@ -24,6 +24,11 @@ from django.utils import html
 
 register = template.Library()
 
+TAGS = {
+    'diff-added': 'ins',
+    'diff-removed': 'del',
+}
+
 
 def register_container_tag(name=None, nargs=0):
     def wrapped(node_class):
@@ -143,27 +148,32 @@ def diff_get(context, new_obj, fieldname):
         return [(value, cls)]
 
 
-def diff_wrap(content, cls):
-    TAGS = {
-        'diff-added': 'ins',
-        'diff-removed': 'del',
-    }
+def _diff_wrap(content, cls):
     tag = TAGS.get(cls, 'span')
     if cls == 'diff-unchanged':
         return content
     return html.format_html('<{0} class="{1}">{2}</{0}>', tag, cls, content)
 
 
-@register_container_tag(name='diff_wrap', nargs=1)
-class DiffWrapNode(template.Node):
-    def __init__(self, nodelist, cls):
-        self.nodelist = nodelist
-        self.cls = cls
+@register.simple_tag(takes_context=True)
+def diff_wrap(context, cls):
+    context.setdefault('_diff_wrap_stack', [])
+    context['_diff_wrap_stack'].append(cls)
 
-    def render(self, context):
-        cls = self.cls.resolve(context)
-        content = self.nodelist.render(context)
-        return diff_wrap(content, cls)
+    if cls == 'diff-unchanged':
+        return ''
+    tag = TAGS.get(cls, 'span')
+    return html.format_html('<{0} class="{1}">', tag, cls)
+
+
+@register.simple_tag(takes_context=True)
+def end_diff_wrap(context):
+    cls = context['_diff_wrap_stack'].pop()
+
+    if cls == 'diff-unchanged':
+        return ''
+    tag = TAGS.get(cls, 'span')
+    return html.format_html('</{0}>', tag)
 
 
 @register_container_tag(name='diff_list', nargs=1)
@@ -182,5 +192,5 @@ class DiffListNode(template.Node):
                 return self.nodelist.render(context)
 
         return html.mark_safe(', '.join(
-            diff_wrap(render_item(value, cls), cls) for value, cls in items
+            _diff_wrap(render_item(value, cls), cls) for value, cls in items
         ) or '&mdash;')
