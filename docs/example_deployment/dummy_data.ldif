@@ -1,4 +1,4 @@
-dn: cn=alice,dc=example,dc=org
+dn: cn=vera,dc=example,dc=org
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
@@ -12,7 +12,7 @@ givenName: Vera
 sn: Adams
 homeDirectory: /home/vera
 
-dn: cn=bob,dc=example,dc=org
+dn: cn=anna,dc=example,dc=org
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
