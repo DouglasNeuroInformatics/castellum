@@ -55,10 +55,6 @@ These are some additional security measures we strongly recommend:
 
 -   Use HTTPS only
 -   [Restrict access by IP address](https://nginx.org/en/docs/http/ngx_http_access_module.html)
--   Authentication (e.g. LDAP) is typically only checked on login. To
-    force regular re-authentication we recommend to logout all users
-    regulary, e.g. every night. We provide the command `django-admin
-    clear_sessions` for that.
 
 Also see the [django documentation on
 security](https://docs.djangoproject.com/en/2.2/topics/security/).
@@ -81,7 +77,7 @@ backups, will be deleted.
 There are some regular tasks that should be executed independently from
 user requests. We provide the following management commands for that:
 
--   `clear_sessions`: Delete all sessions to force-logout expired users.
+-   `clearsessions`: Delete expired sessions.
 -   `cleanup_media`: Delete unused uploaded files.
 -   `notify_to_be_deleted`: Automatically notify about content that
     should be deleted.
