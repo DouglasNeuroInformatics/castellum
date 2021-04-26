@@ -64,7 +64,6 @@ Relevant guides:
 
 .. TODO::
 
-    -   manage study sessions
     -   make appointments
     -   manage resources
 
