@@ -37,9 +37,7 @@ def get_old(snapshot, new_obj):
     raise KeyError
 
 
-@register.simple_tag(takes_context=True)
-def diff_class(context, new_obj, fieldname):
-    snapshot = context['snapshot']
+def diff_class(snapshot, new_obj, fieldname):
     new_value = getattr(new_obj, fieldname)
 
     try:
@@ -119,7 +117,7 @@ def diff_get(context, new_obj, fieldname):
         else:
             return list(diff_get_o2m(snapshot, new_obj, fieldname))
     except AttributeError:
-        cls = diff_class(context, new_obj, fieldname)
+        cls = diff_class(snapshot, new_obj, fieldname)
         value = getattr(new_obj, fieldname)
         return [(value, cls)]
 
