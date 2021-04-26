@@ -65,8 +65,11 @@ class AutoLogoutMiddleware:
 
     def __call__(self, request):
         if request.user.is_authenticated:
-            idle_time = timezone.now() - get_last_active(request)
-            if idle_time > request.user.logout_timeout:
+            now = timezone.now()
+            login_time = request.user.last_login or now
+            idle_time = now - get_last_active(request)
+
+            if login_time.date() != now.date() or idle_time > request.user.logout_timeout:
                 logout(request)
                 messages.add_message(request, messages.ERROR, _('Your session has expired'))
             elif idle_time > request.user.logout_timeout / 10:
