@@ -10,9 +10,9 @@ Welcome to Castellum's documentation!
    :maxdepth: 2
 
    overview
-   security
    features
    roles
+   security
    faqs
 
 .. toctree::
