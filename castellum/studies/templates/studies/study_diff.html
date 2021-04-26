@@ -98,7 +98,9 @@
         <h2 data-fieldname="studies.Study.studymembership">{% translate 'Memberships' %}</h2>
         <dl class="row">
             {% for membership, class in memberships %}
-                <dt class="col-sm-6" data-fieldname="studies.StudyMembership.user">{% diff_wrap class %}{{ membership|display:'user' }}{% end_diff_wrap %}</dt>
+                <dt class="col-sm-6" data-fieldname="studies.StudyMembership.user">
+                    <{{ class|diff_tag }} class="{{ class }}">{{ membership|display:'user' }}</{{ class|diff_tag }}>
+                </dt>
                 <dd class="col-sm-6" data-fieldname="studies.StudyMembership.groups">{% diff_get membership 'groups' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
             {% endfor %}
         </dl>
@@ -108,7 +110,7 @@
     {% if sessions %}
         <h2 data-fieldname="studies.Study.studysession">{% translate 'Sessions' %}</h2>
         {% for session, class in sessions %}
-            {% diff_wrap class %}
+            <{{ class|diff_tag }} class="{{ class }}">
                 <dl class="row">
                     <dt class="col-sm-6" data-fieldname="studies.StudySession.name">{{ session|verbose_name:'name' }}</dt>
                     <dd class="col-sm-6">{% diff_get session 'name' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
@@ -128,7 +130,7 @@
                     <dt class="col-sm-6" data-fieldname="studies.StudySession.schedule_id">{{ session|verbose_name:'schedule_id' }}</dt>
                     <dd class="col-sm-6">{% diff_get session 'schedule_id' as items %}{% diff_list items %}{{ value|display }}{% end_diff_list %}</dd>
                 </dl>
-            {% end_diff_wrap %}
+            </{{ class|diff_tag }}>
         {% endfor %}
     {% endif %}
 
@@ -136,14 +138,16 @@
     {% if filtergroups %}
         <h2 data-fieldname="studies.Study.subjectfiltergroup">{% translate 'Filters' %}</h2>
         {% for filtergroup, class in filtergroups %}
-            {% diff_wrap class %}
+            <{{ class|diff_tag }} class="{{ class }}">
                 <ul>
                     {% diff_get filtergroup 'subjectfilter_set' as filters %}
                     {% for f, class in filters %}
-                        <li data-fieldname="recruitment.SubjectFilterGroup.subjectfilter">{% diff_wrap class %}{{ f }}{% end_diff_wrap %}</li>
+                        <li data-fieldname="recruitment.SubjectFilterGroup.subjectfilter">
+                            <{{ class|diff_tag }} class="{{ class }}">{{ f }}</{{ class|diff_tag }}>
+                        </li>
                     {% endfor %}
                 </ul>
-            {% end_diff_wrap %}
+            </{{ class|diff_tag }}>
         {% endfor %}
     {% endif %}
 {% endblock %}

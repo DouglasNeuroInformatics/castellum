@@ -155,25 +155,9 @@ def _diff_wrap(content, cls):
     return html.format_html('<{0} class="{1}">{2}</{0}>', tag, cls, content)
 
 
-@register.simple_tag(takes_context=True)
-def diff_wrap(context, cls):
-    context.setdefault('_diff_wrap_stack', [])
-    context['_diff_wrap_stack'].append(cls)
-
-    if cls == 'diff-unchanged':
-        return ''
-    tag = TAGS.get(cls, 'span')
-    return html.format_html('<{0} class="{1}">', tag, cls)
-
-
-@register.simple_tag(takes_context=True)
-def end_diff_wrap(context):
-    cls = context['_diff_wrap_stack'].pop()
-
-    if cls == 'diff-unchanged':
-        return ''
-    tag = TAGS.get(cls, 'span')
-    return html.format_html('</{0}>', tag)
+@register.filter
+def diff_tag(cls):
+    return TAGS.get(cls, 'span')
 
 
 @register_container_tag(name='diff_list', nargs=1)
