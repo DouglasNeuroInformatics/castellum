@@ -534,6 +534,15 @@ class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
                 ),
                 distinct=True,
             ),
+            data_collected=models.Count(
+                'appointment',
+                filter=models.Q(
+                    appointment__show_up__in=Appointment.SHOWUP_OK,
+                    appointment__start__lte=timezone.now(),
+                    appointment__data_collected__isnull=False,
+                ),
+                distinct=True,
+            ),
         )
 
         return context

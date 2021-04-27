@@ -17,8 +17,12 @@
         <svg class="progress w-100" viewbox="0 0 {{ total }} 10" preserveAspectRatio="none">
             <rect class="text-warning" fill="currentColor" width="{{ session.scheduled }}" height="10" />
             <rect class="text-success" fill="currentColor" width="{{ session.took_place }}" height="10" />
+            <rect class="text-black" fill="currentColor" width="{{ session.data_collected }}" height="10" />
         </svg>
         <dl class="dl-inline">
+            <dt><span class="text-black" aria-hidden="true">&#9679;</span> {% translate 'data collected' %}</dt>
+            <dd>{{ session.data_collected }}/{{ total }}</dd>
+
             <dt><span class="text-success" aria-hidden="true">&#9679;</span> {% translate 'took place' %}</dt>
             <dd>{{ session.took_place }}/{{ total }}</dd>
 
