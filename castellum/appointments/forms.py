@@ -118,8 +118,10 @@ class AppointmentsForm(forms.ModelForm):
                 elif start != appointment.start:
                     self.appointment_changes.append((appointment.start, start))
                     appointment.start = start
+                    # reset to default
                     appointment.reminded = False
-                    appointment.show_up = Appointment.SHOWUP  # reset to default
+                    appointment.show_up = Appointment.SHOWUP
+                    appointment.data_collected = None
                     appointment.save()
             elif start:
                 self.appointment_changes.append((None, start))
