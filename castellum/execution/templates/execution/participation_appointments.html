@@ -11,7 +11,8 @@
                         <time>{{ appointment.start|longdate }} {{ appointment.start|time }}</time>
                         <form method="POST" class="form-inline" action="{% url 'execution:show-up' study.pk object.pk appointment.pk %}">
                             {% csrf_token %}
-                            {% bootstrap_field form.show_up show_label=False %}
+                            {% bootstrap_field form.show_up show_label=False field_class='ml-2' %}
+                            {% bootstrap_field form.data_collected show_label=False field_class='ml-2' %}
                             <button class="btn btn-primary ml-2">{% translate 'Save' %}</button>
                         </form>
                     </div>

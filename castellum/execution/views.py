@@ -229,7 +229,7 @@ class ParticipationAppointmentsView(ParticipationDetailMixin, DetailView):
 
         # The forms post to ShowUpUpdateView
         context['appointments'] = []
-        form_cls = forms.modelform_factory(Appointment, fields=['show_up'])
+        form_cls = forms.modelform_factory(Appointment, fields=['show_up', 'data_collected'])
         for session, appointment in self.object.get_appointments():
             form = form_cls(instance=appointment)
             context['appointments'].append((session, appointment, form))
@@ -258,7 +258,7 @@ class ShowUpUpdateView(ParticipationMixin, UpdateView):
     # Used by ParticipationAppointmentsView
 
     model = Appointment
-    fields = ['show_up']
+    fields = ['show_up', 'data_collected']
     http_method_names = ['post']
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
