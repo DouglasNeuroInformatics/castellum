@@ -376,6 +376,18 @@ CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY = (
 )
 CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY_EN = None
 
+CASTELLUM_SESSIONS_END_MAIL_SUBJECT = '[{study}] Sessions ended'
+CASTELLUM_SESSIONS_END_MAIL_BODY = (
+    'Please note that the data collection of study {study} ends today (according to the study '
+    'settings in Castellum). Therefore, now is a good time to verify again that all appointments '
+    'or rather participations are correctly maintained in Castellum. Of course, if needed you '
+    'also could extend the period of data collection in Castellum study settings.\n\n'
+    'Be aware that complete and correct tracking of participations in Castellum is essential '
+    'as Castellum is the central starting point to carry out requests in respect to GDPR data '
+    'subjects rights.'
+)
+CASTELLUM_SESSIONS_END_MAIL_BODY_EN = None
+
 CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 
 # A function that generates a random pseudonym.
