@@ -13,22 +13,22 @@ services:
       PGPASSWORD: "CHANGEME"
   db_default:
     image: postgres
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: "CHANGEME"
   db_contacts:
     image: postgis/postgis
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: "CHANGEME"
   db_scheduler:
     image: postgres
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: "CHANGEME"
   ldap:
     image: osixia/openldap
-    restart: always
+    restart: unless-stopped
     command: [--copy-service]
     environment:
       LDAP_PORT: 3389
@@ -43,7 +43,7 @@ services:
     command: ["bash", "/app/start.sh"]
   scheduler:
     image: registry.git.mpib-berlin.mpg.de/castellum/castellum_scheduler:latest
-    restart: always
+    restart: unless-stopped
     environment:
       DJANGO_SETTINGS_MODULE: scheduler.settings.deployment
     ports:
@@ -56,7 +56,7 @@ services:
   web:
     ## use the latest pre-built image
     image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
-    restart: always
+    restart: unless-stopped
     ## use the local copy
     # build: ../../
     environment:
@@ -75,7 +75,7 @@ services:
       - nominatim
   cron:
     image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
-    restart: always
+    restart: unless-stopped
     environment:
       DJANGO_SETTINGS_MODULE: castellum.settings.deployment
     command: crond -f -L /log/cron.log
