@@ -19,8 +19,11 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import mimetypes
+
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import LogoutView
@@ -54,6 +57,24 @@ class FeedsView(LoginRequiredMixin, TemplateView):
         return context
 
 
+@login_required
+def protected_media(request, path):
+    if settings.PROTECTED_MEDIA_SERVER == 'django':
+        return serve(request, path, document_root=settings.MEDIA_ROOT)
+    elif settings.PROTECTED_MEDIA_SERVER == 'nginx':
+        response = HttpResponse()
+        response['X-Accel-Redirect'] = settings.PROTECTED_MEDIA_URL + path
+        return response
+    else:
+        mimetype, encoding = mimetypes.guess_type(settings.MEDIA_ROOT / path)
+        response = HttpResponse()
+        response['Content-Type'] = mimetype
+        if encoding:
+            response['Content-Encoding'] = encoding
+        response['X-Sendfile'] = settings.MEDIA_ROOT / path
+        return response
+
+
 def dummy(request):
     return HttpResponse('', status=204)
 
@@ -84,9 +105,9 @@ urlpatterns = [
     ),
 ]
 
-if settings.DEBUG:
+if settings.PROTECTED_MEDIA_SERVER:
     urlpatterns += [
-        path('media/<path:path>', serve, {'document_root': settings.MEDIA_ROOT}),
+        path('media/<path:path>', protected_media),
     ]
 
 try:
