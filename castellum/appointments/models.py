@@ -46,8 +46,15 @@ class Appointment(models.Model):
         (EXCUSED, _('excused')),
         (NOSHOW, _('no show')),
     ]
-
     SHOWUP_OK = [SHOWUP, LATE]
+
+    PARTIAL_DATA = 1
+    FULL_DATA = 2
+
+    DATA_COLLECTED_CHOICES = [
+        (PARTIAL_DATA, _('partial')),
+        (FULL_DATA, _('full')),
+    ]
 
     session = models.ForeignKey(StudySession, verbose_name=_('Session'), on_delete=models.CASCADE)
     start = DateTimeField(_('Start'))
@@ -58,6 +65,9 @@ class Appointment(models.Model):
         verbose_name=_('Participation'),
     )
     show_up = models.SmallIntegerField(_('Show up'), default=SHOWUP, choices=SHOWUP_CHOICES)
+    data_collected = models.SmallIntegerField(
+        _('Data collected'), null=True, blank=True, choices=DATA_COLLECTED_CHOICES
+    )
 
     class Meta:
         verbose_name = _('Appointment')
