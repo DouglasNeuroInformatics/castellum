@@ -211,6 +211,9 @@
 
                     <dt class="col-sm-6" data-fieldname="appointments.Appointment.show_up">{{ appointment|verbose_name:'show_up' }}</dt>
                     <dd class="col-sm-6">{{ appointment|display:'show_up' }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="appointments.Appointment.data_collected">{{ appointment|verbose_name:'data_collected' }}</dt>
+                    <dd class="col-sm-6">{{ appointment|display:'data_collected' }}</dd>
                 </dl>
             {% endfor %}
         {% endif %}
