@@ -56,9 +56,9 @@ services:
   web:
     ## use the latest pre-built image
     image: registry.git.mpib-berlin.mpg.de/castellum/castellum:latest
-    restart: unless-stopped
     ## use the local copy
     # build: ../../
+    restart: unless-stopped
     environment:
       DJANGO_SETTINGS_MODULE: castellum.settings.deployment
       CASTELLUM_SCHEDULER_URL:
