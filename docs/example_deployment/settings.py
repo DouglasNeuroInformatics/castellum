@@ -28,7 +28,8 @@ DATABASES = {
 
 ALLOWED_HOSTS = ['*']
 
-MEDIA_ROOT = '/media'
+MEDIA_ROOT = Path('/media')
+PROTECTED_MEDIA_SERVER = 'uwsgi'
 
 # The example deployment does not contain a mail server, so use dummy instead
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
