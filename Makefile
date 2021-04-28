@@ -5,18 +5,18 @@ MANAGEPY = $(VIRTUAL_ENV)/bin/python manage.py
 all: bootstrap run
 
 .PHONY: run
-run: databases
+run:
 	$(MANAGEPY) runserver
 
 .PHONY: bootstrap
 bootstrap: install migrate populate castellum/locale/de/LC_MESSAGES/django.mo
 
 .PHONY: migrate
-migrate: databases
+migrate:
 	$(MANAGEPY) migrateall
 
 .PHONY: populate
-populate: databases
+populate:
 	$(MANAGEPY) loaddata groups timeslots study_types study_groups resources
 	$(MANAGEPY) create_attribute_descriptions
 	$(MANAGEPY) create_demo_users
@@ -32,13 +32,7 @@ makemessages:
 
 .PHONY: remove_databases
 remove_databases:
-	docker-compose stop
-	docker-compose rm -f
-
-.PHONY: databases
-databases:
-	docker-compose up -d
-	docker-compose up db_wait
+	rm -f db.sqlite3 contacts.sqlite3
 
 .PHONY: reset_databases
 reset_databases: remove_databases migrate populate
@@ -50,7 +44,7 @@ lint:
 	npx eslint castellum
 
 .PHONY: test
-test: databases
+test:
 	$(VIRTUAL_ENV)/bin/pytest --reuse-db --show-capture=no
 
 .PHONY: install

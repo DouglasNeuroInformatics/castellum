@@ -29,6 +29,7 @@ from django.utils.translation import gettext_lazy as _
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.recruitment.models import Participation
 from castellum.utils import scheduler
+from castellum.utils.expressions import MultiDurationExpr
 from castellum.utils.forms import DateTimeField
 
 from .models import MINUTE
@@ -90,11 +91,10 @@ class AppointmentsForm(forms.ModelForm):
         qs = Appointment.objects\
             .exclude(participation=self.instance)\
             .filter(participation__status=Participation.INVITED)\
-            .alias(end=models.ExpressionWrapper(
+            .alias(
                 # corresponds to the Appointment.end property
-                models.F('start') + models.F('session__duration') * MINUTE,
-                output_field=models.DateTimeField(),
-            ))
+                end=MultiDurationExpr(models.F('start'), MINUTE, models.F('session__duration')),
+            )
 
         for session, key, start, end in appointments:
             if session.resource and qs.filter(
