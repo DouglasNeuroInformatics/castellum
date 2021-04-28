@@ -1,3 +1,35 @@
+# 0.59.0 (unreleased)
+
+## breaking changes
+
+-   The `clearsessions` command should be used in place of
+    `clear_session` (see security section for details)
+-   The usernames of demo users (used for login) have been changed to
+    lowercase, e.g. "vera" instead of "Vera".
+-   The new command `notify_sessions_end` should be run in a daily cron
+    job (see new features section for details)
+
+## security
+
+-   It is now possible to require authentication for uploaded files. We
+    strongly recommend to use this option if possible. This usually
+    requires some configuration on the proxy server. See the new setting
+    `PROTECTED_MEDIA_SERVER` for details.
+-   Users are now automatically logged out every night at midnight.
+    Previously this was handled via the `clear_sessions` command (which
+    was consequently removed). However, the `clearsessions` command
+    should be used in its place to remove stale sessions from the
+    database.
+
+## new features
+
+-   The execution area gained a new "progress" tab that shows pretty
+    progress bars for participations and appointments.
+-   It is now possible to provide translations for most internal mails.
+-   The new command `notify_sessions_end` can be used to send useful
+    information to coordinators and conductors at the end of studies.
+
+
 # 0.58.1 (2021-04-14)
 
 ## bug fixes
