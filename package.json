@@ -13,7 +13,7 @@
         "vanillajs-datepicker": "^1.1.4"
     },
     "devDependencies": {
-        "eslint": "^7.23.0"
+        "eslint": "^7.25.0"
     },
     "eslintConfig": {
         "parserOptions": {
