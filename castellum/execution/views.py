@@ -30,9 +30,11 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import FormView
+from django.views.generic import ListView
 from django.views.generic import UpdateView
 
 from castellum.appointments.forms import AppointmentsForm
@@ -484,7 +486,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
             title = '{} ({})'.format(title, appointment.get_show_up_display())
 
         class_names = []
-        if appointment.show_up not in [Appointment.SHOWUP, Appointment.LATE]:
+        if appointment.show_up not in Appointment.SHOWUP_OK:
             class_names.append('fullcalendar-muted')
 
         return {
@@ -499,3 +501,38 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
 
     def get_appointments(self):
         return super().get_appointments().filter(session__study=self.object)
+
+
+class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
+    model = Study
+    template_name = 'execution/study_progress.html'
+    permission_required = 'recruitment.conduct_study'
+    study_status = [Study.EXECUTION]
+    tab = 'progress'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['invited'] = (
+            self.study.participation_set
+            .filter(status=Participation.INVITED)
+            .count()
+        )
+        context['total'] = max(self.study.min_subject_count, context['invited'])
+        context['sessions'] = self.study.studysession_set.annotate(
+            scheduled=models.Count(
+                'appointment',
+                filter=models.Q(appointment__show_up__in=Appointment.SHOWUP_OK),
+                distinct=True,
+            ),
+            took_place=models.Count(
+                'appointment',
+                filter=models.Q(
+                    appointment__show_up__in=Appointment.SHOWUP_OK,
+                    appointment__start__lte=timezone.now(),
+                ),
+                distinct=True,
+            ),
+        )
+
+        return context

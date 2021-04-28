@@ -37,6 +37,7 @@ from .views import ParticipationDetailView
 from .views import ParticipationNewsView
 from .views import ParticipationPseudonymsView
 from .views import ParticipationRemoveView
+from .views import ProgressView
 from .views import ResolveView
 from .views import ShowUpUpdateView
 from .views import StudyDetailView
@@ -51,6 +52,7 @@ urlpatterns = [
     path('<int:pk>/calendar/feed/', AppointmentFeedForStudy(), name='calendar-feed'),
     path('<int:pk>/criteria/', ExclusionCriteriaView.as_view(), name='criteria'),
     path('<int:pk>/export/', ExportView.as_view(), name='export'),
+    path('<int:pk>/progress/', ProgressView.as_view(), name='progress'),
     path(
         '<int:study_pk>/<int:pk>/',
         ParticipationDetailView.as_view(),

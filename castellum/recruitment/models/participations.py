@@ -87,7 +87,7 @@ class ParticipationManager(models.Manager):
         return self.get_queryset().annotate(
             appointment_count=models.Count(
                 'appointment',
-                filter=models.Q(appointment__show_up__in=[Appointment.SHOWUP, Appointment.LATE]),
+                filter=models.Q(appointment__show_up__in=Appointment.SHOWUP_OK),
                 distinct=True,
             )
         )
