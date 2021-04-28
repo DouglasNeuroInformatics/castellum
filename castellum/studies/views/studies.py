@@ -112,7 +112,7 @@ def take_snapshot(study):
         *study.studysession_set.all(),
         *study.subjectfiltergroup_set.all(),
         *SubjectFilter.objects.filter(group__study=study),
-    ], fields=Exclusion(['snapshot']))
+    ], fields=Exclusion(['snapshot', 'status', 'previous_status']))
     study.save()
 
 
