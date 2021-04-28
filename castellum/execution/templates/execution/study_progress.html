@@ -4,22 +4,26 @@
 {% block title %}{% translate "Progress" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h2>{% translate 'Participating' %}</h2>
-    <p>
-        {{ invited }}/{{ total }}
-        <meter class="w-100" value="{{ invited }}" max="{{ total }}"></meter>
-    </p>
+    <svg class="progress w-100" viewbox="0 0 {{ total }} 10" preserveAspectRatio="none">
+        <rect class="text-success" fill="currentColor" width="{{ invited }}" height="10" />
+    </svg>
+    <dl class="dl-inline">
+        <dt><span class="text-success" aria-hidden="true">&#9679;</span> {% translate 'participating' %}</dt>
+        <dd>{{ invited }}/{{ total }}</dd>
+    </dl>
 
     {% for session in sessions %}
         <h2>{{ session.name }}</h2>
-        <dl>
-            <dt>{% translate 'took place' %}</dt>
+        <svg class="progress w-100" viewbox="0 0 {{ total }} 10" preserveAspectRatio="none">
+            <rect class="text-warning" fill="currentColor" width="{{ session.scheduled }}" height="10" />
+            <rect class="text-success" fill="currentColor" width="{{ session.took_place }}" height="10" />
+        </svg>
+        <dl class="dl-inline">
+            <dt><span class="text-success" aria-hidden="true">&#9679;</span> {% translate 'took place' %}</dt>
             <dd>{{ session.took_place }}/{{ total }}</dd>
-            <dd><meter class="w-100" value="{{ session.took_place }}" max="{{ total }}"></meter></dd>
 
-            <dt>{% translate 'scheduled' %}</dt>
+            <dt><span class="text-warning" aria-hidden="true">&#9679;</span> {% translate 'scheduled' %}</dt>
             <dd>{{ session.scheduled }}/{{ total }}</dd>
-            <dd><meter class="w-100" value="{{ session.scheduled }}" max="{{ total }}"></meter></dd>
         </dl>
     {% endfor %}
 {% endblock %}
