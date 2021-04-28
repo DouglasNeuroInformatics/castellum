@@ -42,9 +42,9 @@ def test_maintenance_attributes_no_underage_subjects(request, client, user):
     baker.make(Consent, subject=contact.subject, status=Consent.CONFIRMED)
     contact.subject.attributes = {}
     contact.subject.save()
-    client.force_login(user)
 
     with freeze_time("2020-02-02 12:00"):
+        client.force_login(user)
         url = '/subjects/maintenance/attributes/'
         response = client.get(url)
         assert response.status_code == 200

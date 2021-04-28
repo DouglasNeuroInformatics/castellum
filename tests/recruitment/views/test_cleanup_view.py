@@ -33,8 +33,6 @@ def test_cleanup_view_all(client, recruiter, study_in_execution_status):
 
 
 def test_cleanup_view_awaiting_response(client, recruiter, study_in_execution_status):
-    client.force_login(recruiter)
-
     with freeze_time('1970-01-01'):
         participation1 = baker.make(
             Participation, study=study_in_execution_status, status=Participation.AWAITING_RESPONSE
@@ -48,6 +46,7 @@ def test_cleanup_view_awaiting_response(client, recruiter, study_in_execution_st
         )
 
     with freeze_time('1970-01-15'):
+        client.force_login(recruiter)
         url = '/recruitment/{}/cleanup/'.format(study_in_execution_status.pk)
         client.post(url, {'action': 'awaiting_response'})
 
