@@ -7,6 +7,7 @@ SESSION_COOKIE_SECURE = False
 
 DEBUG = True
 
+PROTECTED_MEDIA_SERVER = 'django'
 
 # setup debug toolbar
 
