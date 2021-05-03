@@ -76,6 +76,13 @@
         win.focus();
     });
 
+    $$.on(document, 'click', '[data-js="clear-datetime"]', function() {
+        this.closest('.form-row').querySelectorAll('input').forEach(el => {
+            el.value = '';
+            $$.trigger(el, 'change');
+        });
+    });
+
     $$.on(document, 'click', '[data-animation="success"]', function() {
         this.classList.add('animation-active');
         setTimeout(() => {
