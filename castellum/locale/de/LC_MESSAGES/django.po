@@ -575,10 +575,8 @@ msgid "No sessions"
 msgstr "Keine Sitzungen"
 
 #: castellum/execution/templates/execution/participation_appointments.html:31
-#, fuzzy
-#| msgid "appointments"
 msgid "Edit appointments"
-msgstr "Termine"
+msgstr "Termine bearbeiten"
 
 #: castellum/execution/templates/execution/participation_appointments_form.html:30
 #: castellum/recruitment/templates/recruitment/contact.html:174
@@ -756,7 +754,7 @@ msgstr "Kriterien"
 #: castellum/execution/templates/execution/study_base.html:42
 #: castellum/execution/templates/execution/study_progress.html:4
 msgid "Progress"
-msgstr ""
+msgstr "Fortschritt"
 
 #: castellum/execution/templates/execution/study_detail.html:19
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:52
@@ -843,13 +841,11 @@ msgstr "nimmt teil"
 
 #: castellum/execution/templates/execution/study_progress.html:22
 msgid "took place"
-msgstr ""
+msgstr "hat stattgefunden"
 
 #: castellum/execution/templates/execution/study_progress.html:25
-#, fuzzy
-#| msgid "not scheduled"
 msgid "scheduled"
-msgstr "nicht geplant"
+msgstr "geplant"
 
 #: castellum/execution/views.py:219 castellum/execution/views.py:281
 #: castellum/recruitment/views.py:437 castellum/studies/views/recruitment.py:83
@@ -3340,6 +3336,3 @@ msgstr "Die Datei muss mit UTF-8 kodiert sein."
 #: castellum/utils/templates/utils/form_errors.html:7
 msgid "Please correct the errors listed on the fields."
 msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
-
-#~ msgid "Update"
-#~ msgstr "Aktualisieren"
