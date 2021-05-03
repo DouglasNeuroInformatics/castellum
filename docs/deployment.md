@@ -84,6 +84,8 @@ user requests. We provide the following management commands for that:
 -   `send_appointment_reminders`: Send email reminders to subjects with
     upcoming appointments. If the subjects have no email address, a note
     is sent to the respective study coordinators instead.
+-   `notify_sessions_end`: Remind study members to finish a study when
+    sessions end.
 
 ## Initial setup
 
