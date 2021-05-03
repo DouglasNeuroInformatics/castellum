@@ -6,9 +6,7 @@
 {% block header %}
     <div class="container text-center my-4">
         <h1 class="text-center">{{ study }}</h1>
-        <p class="text-muted mt-2">
-            {% translate 'Participating subjects' %}: {{ study.invited_count }}/{{ study.min_subject_count }}
-        </p>
+
         <div class="d-print-none">
             <a href="{% url 'execution:export' study.pk %}" class="btn btn-outline-primary mb-1">{% trans 'Export attributes' %}</a>
             {% if study.consent %}
