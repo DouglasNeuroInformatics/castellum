@@ -522,12 +522,16 @@ class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
         context['sessions'] = self.study.studysession_set.annotate(
             scheduled=models.Count(
                 'appointment',
-                filter=models.Q(appointment__show_up__in=Appointment.SHOWUP_OK),
+                filter=models.Q(
+                    appointment__participation__status=Participation.INVITED,
+                    appointment__show_up__in=Appointment.SHOWUP_OK,
+                ),
                 distinct=True,
             ),
             took_place=models.Count(
                 'appointment',
                 filter=models.Q(
+                    appointment__participation__status=Participation.INVITED,
                     appointment__show_up__in=Appointment.SHOWUP_OK,
                     appointment__start__lte=timezone.now(),
                 ),
