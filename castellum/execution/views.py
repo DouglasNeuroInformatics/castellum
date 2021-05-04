@@ -215,11 +215,6 @@ class ParticipationNewsView(ParticipationDetailMixin, UpdateView):
         return super().form_valid(form)
 
 
-class ParticipationAppointmentsView(ParticipationDetailMixin, DetailView):
-    template_name = 'execution/participation_appointments.html'
-    tab = 'appointments'
-
-
 class ParticipationAppointmentsUpdateView(ParticipationDetailMixin, UpdateView):
     template_name = 'execution/participation_appointments_form.html'
     permission_required = ['recruitment.conduct_study', 'appointments.change_appointment']
