@@ -224,18 +224,6 @@ class ParticipationAppointmentsView(ParticipationDetailMixin, DetailView):
     template_name = 'execution/participation_appointments.html'
     tab = 'appointments'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # The forms post to ShowUpUpdateView
-        context['appointments'] = []
-        form_cls = forms.modelform_factory(Appointment, fields=['show_up'])
-        for session, appointment in self.object.get_appointments():
-            form = form_cls(instance=appointment)
-            context['appointments'].append((session, appointment, form))
-
-        return context
-
 
 class ParticipationAppointmentsUpdateView(ParticipationDetailMixin, UpdateView):
     template_name = 'execution/participation_appointments_form.html'
@@ -252,34 +240,6 @@ class ParticipationAppointmentsUpdateView(ParticipationDetailMixin, UpdateView):
         response = super().form_valid(form)
         send_appointment_notifications(self.request, self.object, form.appointment_changes)
         return response
-
-
-class ShowUpUpdateView(ParticipationMixin, UpdateView):
-    # Used by ParticipationAppointmentsView
-
-    model = Appointment
-    fields = ['show_up']
-    http_method_names = ['post']
-    permission_required = 'recruitment.conduct_study'
-    study_status = [Study.EXECUTION]
-    participation_status = [Participation.INVITED]
-
-    def get_object(self):
-        return get_object_or_404(
-            Appointment,
-            pk=self.kwargs['appointment_pk'],
-            participation=self.participation,
-        )
-
-    def get_success_url(self):
-        return reverse(
-            'execution:participation-appointments',
-            args=[self.kwargs['study_pk'], self.kwargs['pk']],
-        )
-
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
 
 
 class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):

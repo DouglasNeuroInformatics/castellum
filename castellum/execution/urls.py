@@ -39,7 +39,6 @@ from .views import ParticipationPseudonymsView
 from .views import ParticipationRemoveView
 from .views import ProgressView
 from .views import ResolveView
-from .views import ShowUpUpdateView
 from .views import StudyDetailView
 
 app_name = 'execution'
@@ -102,10 +101,5 @@ urlpatterns = [
         '<int:study_pk>/<int:pk>/update-additional-info/',
         AdditionalInfoUpdateView.as_view(),
         name='additional-info-update',
-    ),
-    path(
-        '<int:study_pk>/<int:pk>/update-show-up/<int:appointment_pk>',
-        ShowUpUpdateView.as_view(),
-        name='show-up',
     ),
 ]
