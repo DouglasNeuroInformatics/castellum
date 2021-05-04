@@ -643,22 +643,6 @@ class MaintenanceWaitingView(BaseMaintenanceView):
         )
 
 
-class MaintenanceShowupView(BaseMaintenanceView):
-    template_name = 'subjects/maintenance_showup.html'
-    tab = 'showup'
-
-    def get_queryset(self):
-        return (
-            Subject.objects
-            .annotate_showup()
-            .filter(
-                to_be_deleted__isnull=True,
-                showup_score__gte=6,
-            )
-            .order_by('-showup_score')
-        )
-
-
 class MaintenanceNotesView(BaseMaintenanceView):
     template_name = 'subjects/maintenance_notes.html'
     tab = 'notes'

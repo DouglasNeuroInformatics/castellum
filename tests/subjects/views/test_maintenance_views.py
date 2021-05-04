@@ -6,7 +6,6 @@ import pytest
 from freezegun import freeze_time
 from model_bakery import baker
 
-from castellum.appointments.models import Appointment
 from castellum.contacts.models import Contact
 from castellum.subjects.models import Consent
 
@@ -151,31 +150,3 @@ def test_maintenance_waiting_200(request, client, user_fixture):
     url = '/subjects/maintenance/waiting/'
     response = client.get(url)
     assert response.status_code == 200
-
-
-@pytest.mark.smoketest
-@pytest.mark.parametrize('user_fixture', [
-    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
-    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
-    'subject_manager',
-    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
-])
-def test_maintenance_showup_200(request, client, user_fixture):
-    user = request.getfixturevalue(user_fixture)
-    client.force_login(user)
-    url = '/subjects/maintenance/showup/'
-    response = client.get(url)
-    assert response.status_code == 200
-
-
-def test_maintenance_showup(client, user, participation):
-    past = timezone.now()
-    baker.make(Appointment, show_up=Appointment.NOSHOW, participation=participation, start=past)
-    baker.make(Appointment, show_up=Appointment.NOSHOW, participation=participation, start=past)
-    baker.make(Appointment, show_up=Appointment.NOSHOW, participation=participation, start=past)
-
-    client.force_login(user)
-    url = '/subjects/maintenance/showup/'
-    response = client.get(url)
-    assert response.status_code == 200
-    assert response.content.count(b'"table-list-item"') == 1
