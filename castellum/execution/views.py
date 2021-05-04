@@ -22,7 +22,6 @@
 import logging
 import zipfile
 
-from django import forms
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
@@ -40,7 +39,6 @@ from django.views.generic import UpdateView
 from castellum.appointments.forms import AppointmentsForm
 from castellum.appointments.mixins import BaseCalendarView
 from castellum.appointments.mixins import send_appointment_notifications
-from castellum.appointments.models import Appointment
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.pseudonyms.forms import DomainForm
@@ -56,7 +54,6 @@ from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
-from castellum.subjects.models import Subject
 from castellum.utils.mail import MailContext
 
 from .forms import NewsMailForm
@@ -81,9 +78,7 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
         participations = self.study.participation_set\
             .with_appointment_count()\
             .filter(status=Participation.INVITED)\
-            .prefetch_related(
-                models.Prefetch('subject', queryset=Subject.objects.annotate_showup())
-            )
+            .prefetch_related('subject')
         for participation in participations:
             has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
             context['list'].append((participation, has_access))
@@ -475,7 +470,6 @@ class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
                 'appointment',
                 filter=models.Q(
                     appointment__participation__status=Participation.INVITED,
-                    appointment__show_up__in=Appointment.SHOWUP_OK,
                 ),
                 distinct=True,
             ),
@@ -483,7 +477,6 @@ class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
                 'appointment',
                 filter=models.Q(
                     appointment__participation__status=Participation.INVITED,
-                    appointment__show_up__in=Appointment.SHOWUP_OK,
                     appointment__start__lte=timezone.now(),
                 ),
                 distinct=True,

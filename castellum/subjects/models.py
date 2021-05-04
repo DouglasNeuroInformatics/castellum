@@ -46,34 +46,6 @@ class TimeSlot(models.Model):
         return str(self.hour)
 
 
-class SubjectQuerySet(models.QuerySet):
-    def annotate_showup(self):
-        from castellum.appointments.models import Appointment
-
-        now = timezone.now()
-        weights = {
-            Appointment.SHOWUP: -1,
-            Appointment.LATE: 1,
-            Appointment.EXCUSED: 2,
-            Appointment.NOSHOW: 3,
-        }
-
-        counts = {}
-        score = []
-        for status, label in Appointment.SHOWUP_CHOICES:
-            key = 'showup_{}'.format(status)
-            counts[key] = models.Count(
-                'participation__appointment',
-                filter=models.Q(
-                    participation__appointment__show_up=status,
-                    participation__appointment__start__lt=now,
-                ),
-            )
-            score.append(models.F(key) * weights[status])
-
-        return self.annotate(**counts, showup_score=sum(score))
-
-
 class Subject(TimeStampedModel):
     slug = models.CharField(_('Slug'), max_length=64, default=uuid_str, unique=True)
 
@@ -155,8 +127,6 @@ class Subject(TimeStampedModel):
     )
 
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
-
-    objects = SubjectQuerySet.as_manager()
 
     class Meta:
         verbose_name = _('Subject')
@@ -262,18 +232,6 @@ class Subject(TimeStampedModel):
             return self.get_next_available_datetime(self.not_available_until)
         else:
             return self.get_next_available_datetime(now)
-
-    def annotate_showup_stats(self):
-        from castellum.appointments.models import Appointment
-
-        if hasattr(self, 'showup_score'):
-            return
-
-        annotated = Subject.objects.annotate_showup().get(pk=self.pk)
-        self.showup_score = annotated.showup_score
-        for status, label in Appointment.SHOWUP_CHOICES:
-            key = 'showup_{}'.format(status)
-            setattr(self, key, getattr(annotated, key))
 
     def get_data(self):
         from castellum.recruitment.models import AttributeDescription
