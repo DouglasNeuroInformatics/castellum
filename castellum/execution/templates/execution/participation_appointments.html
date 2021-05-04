@@ -3,18 +3,11 @@
 
 {% block content %}
     <dl>
-        {% for session, appointment, form in appointments %}
+        {% for session, appointment in object.get_appointments %}
             <dt>{{ session.name }}</dt>
             <dd>
                 {% if appointment %}
-                    <div class="d-flex justify-content-between">
-                        <time>{{ appointment.start|longdate }} {{ appointment.start|time }}</time>
-                        <form method="POST" class="form-inline" action="{% url 'execution:show-up' study.pk object.pk appointment.pk %}">
-                            {% csrf_token %}
-                            {% bootstrap_field form.show_up show_label=False %}
-                            <button class="btn btn-primary ml-2">{% translate 'Save' %}</button>
-                        </form>
-                    </div>
+                    <time>{{ appointment.start|longdate }} {{ appointment.start|time }}</time>
                 {% else %}
                     &mdash;
                 {% endif %}
