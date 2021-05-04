@@ -1,4 +1,4 @@
-{% load i18n auth utils appointments %}
+{% load i18n auth utils %}
 
 {% for guardian in subject.contact.guardians.all %}
     {% has_privacy_level guardian.subject.privacy_level user as can_access %}
@@ -23,13 +23,3 @@
 {% empty %}
     {% include 'contacts/__contact_detail.html' with contact=subject.contact %}
 {% endfor %}
-
-<dl class="row">
-    <dt class="col-sm-6">{% translate "Show up rate" %}</dt>
-    <dd class="col-sm-6">
-        <span class="text-{{ subject|showup_level }}" aria-hidden="true">&#9679;</span>
-        {% with summary=subject|showup_summary %}
-            {% if summary %}({{ summary }}){% endif %}
-        {% endwith %}
-    </dd>
-</dl>

@@ -1,5 +1,5 @@
 {% extends "subjects/subject_base.html" %}
-{% load i18n bootstrap4 utils auth appointments %}
+{% load i18n bootstrap4 utils auth %}
 
 {% block title %}{% translate "Subject details" %} &middot; {{ block.super }}{% endblock %}
 
@@ -47,14 +47,6 @@
 
         <dt class="col-sm-6">{% translate 'Attribute completeness' %}</dt>
         <dd class="col-sm-6">{{ attribute_completeness|default:'—' }}</dd>
-
-        <dt class="col-sm-6">{% translate "Show up rate" %}</dt>
-        <dd class="col-sm-6">
-            <span class="text-{{ subject|showup_level }}" aria-hidden="true">&#9679;</span>
-            {% with summary=subject|showup_summary %}
-                {% if summary %}({{ summary }}){% endif %}
-            {% endwith %}
-        </dd>
     </dl>
 
     <h2 class="h4">{% translate 'Legal basis for data processing' %}</h2>
