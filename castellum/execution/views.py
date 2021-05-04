@@ -251,6 +251,7 @@ class ParticipationAppointmentsUpdateView(ParticipationDetailMixin, UpdateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         send_appointment_notifications(self.request, self.object, form.appointment_changes)
+        messages.success(self.request, _('Data has been saved.'))
         return response
 
 
