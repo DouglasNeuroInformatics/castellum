@@ -442,22 +442,13 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     tab = 'calendar'
 
     def render_appointment(self, appointment):
-        title = appointment.session.name
-        if appointment.show_up != Appointment.SHOWUP:
-            title = '{} ({})'.format(title, appointment.get_show_up_display())
-
-        class_names = []
-        if appointment.show_up not in Appointment.SHOWUP_OK:
-            class_names.append('fullcalendar-muted')
-
         return {
-            'title': title,
+            'title': appointment.session.name,
             'start': appointment.start,
             'end': appointment.end,
             'url': reverse('execution:participation-detail', args=[
                 self.object.pk, appointment.participation.pk
             ]),
-            'classNames': class_names,
         }
 
     def get_appointments(self):
