@@ -41,7 +41,6 @@ from django.views.generic import UpdateView
 from castellum.appointments.forms import AppointmentsForm
 from castellum.appointments.mixins import BaseCalendarView
 from castellum.appointments.mixins import send_appointment_notifications
-from castellum.appointments.models import Appointment
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.pseudonyms.forms import DomainForm
@@ -490,7 +489,6 @@ class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
                 'appointment',
                 filter=models.Q(
                     appointment__participation__status=Participation.INVITED,
-                    appointment__show_up__in=Appointment.SHOWUP_OK,
                 ),
                 distinct=True,
             ),
@@ -498,7 +496,6 @@ class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
                 'appointment',
                 filter=models.Q(
                     appointment__participation__status=Participation.INVITED,
-                    appointment__show_up__in=Appointment.SHOWUP_OK,
                     appointment__start__lte=timezone.now(),
                 ),
                 distinct=True,
