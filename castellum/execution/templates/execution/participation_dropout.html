@@ -6,7 +6,9 @@
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        <p>{% translate "Please confirm that this subject will no longer participate in the study. Note that reinviting them is only possible from recruitment or subject management." %}</p>
+
+        <p>{% translate 'Do you want to mark this subject as "dropped out"? This may apply if the subject can no longer take part in the study or repeatedly did not show up for appoitments.' %}</p>
+        <p>{% translate "In addition, you must decide what should happen with the data collected this far: If you plan to use the data, the participation must not be removed as this would also delete the pseudonyms. If you do not plan to use the data, delete all of it and then remove the participation." %}</p>
 
         <label class="form-check">
             <input type="checkbox" class="form-check-input" data-js="confirm-delete">
