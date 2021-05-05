@@ -14,7 +14,7 @@
         </label>
         <div class="d-print-none mb-3">
             <a href="{% url 'execution:participation-detail' study.pk object.pk %}" class="btn btn-outline-primary" data-js="cancel">{% translate 'Cancel' %}</a>
-            <button class="btn btn-primary" name="action" value="keep">{% translate 'Keep participation' %}</button>
+            <button class="btn btn-primary" name="action" value="keep" data-js="confirm-delete-skip">{% translate 'Keep participation' %}</button>
             <button class="btn btn-danger" name="action" value="remove" disabled>{% translate 'Remove participation' %}</button>
         </div>
     </form>

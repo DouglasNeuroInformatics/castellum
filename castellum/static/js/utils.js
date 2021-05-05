@@ -40,7 +40,9 @@
     });
 
     $$.on(document, 'change', '[data-js="confirm-delete"]', function() {
-        this.form.querySelector('[type="submit"],button:not([type])').disabled = !this.checked;
+        var selector = '[type="submit"]:not([data-js="confirm-delete-skip"]),'
+            + 'button:not([type]):not([data-js="confirm-delete-skip"])';
+        this.form.querySelector(selector).disabled = !this.checked;
     });
 
     document.querySelectorAll('[type="date"]').forEach(function(e) {
