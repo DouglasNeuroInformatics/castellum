@@ -19,6 +19,9 @@
                                 {{ participation.appointment_count }}/{{ session_count }}
                             </span>
                         {% endif %}
+                        {% if participation.dropped_out %}
+                            <span class="d-inline-block my-1 badge badge-secondary">{{ participation|verbose_name:'dropped_out' }}</span>
+                        {% endif %}
                         {% if participation.subject.blocked %}
                             <span class="badge badge-dark my-1">{{ participation.subject|verbose_name:'blocked' }}</span>
                         {% endif %}

@@ -10,6 +10,9 @@
             <svg class="identicon" data-jdenticon-value="{{ object.pk }}" aria-hidden="true"></svg>
         </h1>
         <span class="badge badge-secondary">{{ object|display:'status' }}</span>
+        {% if participation.dropped_out %}
+            <span class="badge badge-secondary">{{ participation|verbose_name:'dropped_out' }}</span>
+        {% endif %}
     </div>
 {% endblock %}
 
