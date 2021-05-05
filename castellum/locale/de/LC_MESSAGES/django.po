@@ -3336,3 +3336,7 @@ msgstr "Die Datei muss mit UTF-8 kodiert sein."
 #: castellum/utils/templates/utils/form_errors.html:7
 msgid "Please correct the errors listed on the fields."
 msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
+
+#: castellum/utils/templates/utils/widgets/splitdatetime.html:8
+msgid "Clear"
+msgstr "Leeren"
