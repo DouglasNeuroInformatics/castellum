@@ -8,6 +8,18 @@
 
         {% bootstrap_field form.news_interest %}
 
+        <div class="form-group">
+            {% translate 'Reliability' %}
+            <label class="form-check mb-0">
+                <input type="radio" name="reliability_issue" class="form-check-input" value="" required {{ object.reliabilityissue|yesno:',checked' }}>
+                <span class="form-check-label">{% translate 'I would invite this subject again for further studies' %}</span>
+            </label>
+            <label class="form-check mb-0">
+                <input type="radio" name="reliability_issue" class="form-check-input" value="1" required {{ object.reliabilityissue|yesno:'checked,' }}>
+                <span class="form-check-label">{% translate 'I would not invite this subject again (e.g. because they did not show up for appointments without prior notice)' %}</span>
+            </label>
+        </div>
+
         {% if study.executiontag_set.exists %}
             <div class="form-group">
                 {{ form.execution_tags.label }}

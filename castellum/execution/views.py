@@ -54,6 +54,7 @@ from castellum.recruitment.mixins import ParticipationMixin
 from castellum.recruitment.models import ExecutionTag
 from castellum.recruitment.models import NewsMailBatch
 from castellum.recruitment.models import Participation
+from castellum.recruitment.models import ReliabilityIssue
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
@@ -235,6 +236,10 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
         )
 
     def form_valid(self, form):
+        if form.data['reliability_issue'] == '1':
+            ReliabilityIssue.objects.get_or_create(subject=self.subject, participation=self.object)
+        elif self.object.reliabilityissue:
+            self.object.reliabilityissue.delete()
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
 
