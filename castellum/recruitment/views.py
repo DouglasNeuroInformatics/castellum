@@ -431,6 +431,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         ).exists()
 
         form.instance.batch = None
+        form.instance.dropped_out = False
         response = super().form_valid(form)
         if isinstance(form, ContactAndAppointmentsForm):
             send_appointment_notifications(self.request, self.object, form.appointment_changes)
