@@ -204,14 +204,14 @@ class ParticipationRemoveView(ParticipationDetailMixin, DetailView):
         return redirect('execution:study-detail', participation.study.pk)
 
 
-class ParticipationNewsView(ParticipationDetailMixin, UpdateView):
-    template_name = 'execution/participation_news.html'
+class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
+    template_name = 'execution/participation_hints.html'
     fields = ['news_interest']
-    tab = 'news'
+    tab = 'update'
 
     def get_success_url(self):
         return reverse(
-            'execution:participation-news',
+            'execution:participation-update',
             args=[self.object.study.pk, self.object.pk],
         )
 
