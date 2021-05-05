@@ -9,10 +9,10 @@
                     <div class="d-inline-block my-1 mr-2">
                         {{ participation.subject.contact.full_name }}
                         {% with summary=participation.subject|showup_summary %}
-                            <span class="text-{{ participation.subject|showup_level }}" aria-label="{{ summary }}" title="{{ summary }}">&#9679;</span>
+                            <span class="d-inline-block my-1 text-{{ participation.subject|showup_level }}" aria-label="{{ summary }}" title="{{ summary }}">&#9679;</span>
                         {% endwith %}
                         {% if session_count > 0 %}
-                            <span class="badge badge-secondary">
+                            <span class="d-inline-block my-1 badge badge-secondary">
                                 {% icon 'calendar' label=_('Appointments') %}
                                 {{ participation.appointment_count }}/{{ session_count }}
                                 {% if participation.appointment_today %}
@@ -21,10 +21,10 @@
                             </span>
                         {% endif %}
                         {% if participation.subject.blocked %}
-                            <span class="d-inline-block my-1 mr-2 badge badge-dark">{{ participation.subject|verbose_name:'blocked' }}</span>
+                            <span class="d-inline-block my-1 badge badge-dark">{{ participation.subject|verbose_name:'blocked' }}</span>
                         {% endif %}
                         {% if participation.subject.deceased %}
-                            <span class="d-inline-block my-1 mr-2 badge badge-dark">{{ participation.subject|verbose_name:'deceased' }}</span>
+                            <span class="d-inline-block my-1 badge badge-dark">{{ participation.subject|verbose_name:'deceased' }}</span>
                         {% endif %}
                     </div>
                     <div class="table-list-item-actions">
