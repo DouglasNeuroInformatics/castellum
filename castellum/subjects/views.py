@@ -357,10 +357,10 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
         studies = (
             Study.objects
             .filter(status=Study.EXECUTION)
-            .exclude(
+            .exclude(pk__in=Study.objects.filter(
                 participation__subject=self.subject,
                 participation__status=Participation.INVITED,
-            )
+            ))
             # study.p is the list that contains the particiaption (if it exists) or nothing.
             # I did not find a better way to do this.
             .prefetch_related(models.Prefetch(
@@ -621,7 +621,9 @@ class MaintenanceConsentView(BaseMaintenanceView):
 
     def get_by_outdated_document(self):
         return super().get_queryset()\
-            .exclude(filter_queries.has_consent(exclude_deprecated=True))\
+            .exclude(pk__in=Subject.objects.filter(
+                filter_queries.has_consent(exclude_deprecated=True)
+            ))\
             .filter(consent__status=Consent.CONFIRMED, deceased=False)
 
     def get_queryset(self):
