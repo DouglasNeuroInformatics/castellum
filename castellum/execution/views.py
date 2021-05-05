@@ -193,8 +193,8 @@ class ParticipationPseudonymsView(ParticipationDetailMixin, DetailView):
         return context
 
 
-class ParticipationRemoveView(ParticipationDetailMixin, DetailView):
-    template_name = 'execution/participation_remove.html'
+class ParticipationDropoutView(ParticipationDetailMixin, DetailView):
+    template_name = 'execution/participation_dropout.html'
     tab = 'overview'
 
     def post(self, request, *args, **kwargs):
