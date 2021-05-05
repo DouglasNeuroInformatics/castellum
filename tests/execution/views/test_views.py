@@ -197,7 +197,13 @@ def test_calendar_view_events(client, member, study_in_execution_status, subject
     )
 
 
-def test_participation_dropout_view_post(client, member, study_in_execution_status, subject):
+@pytest.mark.parametrize('action,status', [
+    ('keep', Participation.INVITED),
+    ('remove', Participation.UNSUITABLE),
+])
+def test_participation_dropout_view_post(
+    client, member, study_in_execution_status, subject, action, status
+):
     client.force_login(member)
 
     participation = baker.make(
@@ -207,10 +213,11 @@ def test_participation_dropout_view_post(client, member, study_in_execution_stat
         subject=subject,
     )
     url = '/execution/{}/{}/dropout/'.format(study_in_execution_status.pk, participation.pk)
-    response = client.post(url)
+    response = client.post(url, {'action': action})
     participation.refresh_from_db()
     assert response.status_code == 302
-    assert participation.status == Participation.UNSUITABLE
+    assert participation.dropped_out
+    assert participation.status == status
 
 
 @pytest.mark.smoketest

@@ -199,8 +199,9 @@ class ParticipationDropoutView(ParticipationDetailMixin, DetailView):
 
     def post(self, request, *args, **kwargs):
         participation = self.get_object()
-        participation.status = Participation.UNSUITABLE
         participation.dropped_out = True
+        if request.POST.get('action') == 'remove':
+            participation.status = Participation.UNSUITABLE
         participation.save()
         return redirect('execution:study-detail', participation.study.pk)
 
