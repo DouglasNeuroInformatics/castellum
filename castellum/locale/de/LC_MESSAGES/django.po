@@ -680,7 +680,8 @@ msgid "Edit additional info"
 msgstr "Zusätzliche Informationen bearbeiten"
 
 #: castellum/execution/templates/execution/participation_detail.html:48
-#: castellum/execution/templates/execution/participation_remove.html:4
+#: castellum/execution/templates/execution/participation_dropout.html:4
+msgctxt "verb"
 msgid "Dropped out"
 msgstr "Teilnahme abgebrochen"
 
@@ -1182,7 +1183,11 @@ msgstr "Teilnahmestatus"
 msgid "Subject may be suitable"
 msgstr "Proband*in ist potentiell geeignet"
 
-#: castellum/recruitment/models/participations.py:135
+#: castellum/recruitment/models/participations.py:134
+msgid "Dropped out"
+msgstr "Ausgeschieden"
+
+#: castellum/recruitment/models/participations.py:136
 msgid "Attempts"
 msgstr "Versuche"
 
