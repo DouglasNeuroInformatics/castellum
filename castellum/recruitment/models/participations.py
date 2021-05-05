@@ -131,6 +131,7 @@ class Participation(models.Model):
         _('Status of participation'), choices=STATUS_OPTIONS, default=NOT_CONTACTED
     )
     exclusion_criteria_checked = models.BooleanField(_('Subject may be suitable'), default=False)
+    would_reinvite = models.BooleanField(_('Would reinvite'), default=True)
 
     attempts = models.IntegerField(_('Attempts'), default=0)
 
