@@ -143,7 +143,7 @@ class Contact(TimeStampedModel):
     last_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
     title = models.CharField(_('Title'), max_length=64, blank=True)
 
-    gender = models.CharField(_('Gender'), max_length=1, choices=GENDER, default="f")
+    gender = models.CharField(_('Gender'), max_length=1, choices=GENDER, blank=True)
 
     date_of_birth = DateField(_('Date of birth'), blank=True, null=True)
 
