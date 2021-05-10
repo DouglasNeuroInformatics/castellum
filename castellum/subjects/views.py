@@ -653,11 +653,16 @@ class MaintenanceShowupView(BaseMaintenanceView):
         return (
             Subject.objects
             .annotate_showup()
+            .annotate(
+                diff=models.F('participations_count') - models.F('would_reinvite_count'),
+                ratio=models.F('would_reinvite_count') / models.F('participations_count'),
+            )
             .filter(
                 to_be_deleted__isnull=True,
-                showup_score__gte=6,
+                diff__gt=1,
+                ratio__lte=0.5,
             )
-            .order_by('-showup_score')
+            .order_by('ratio')
         )
 
 
