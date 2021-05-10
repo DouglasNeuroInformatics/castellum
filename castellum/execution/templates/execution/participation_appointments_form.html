@@ -23,7 +23,7 @@
         </dl>
 
         {% for entry in form.appointments %}
-            <div class="form-group">
+            <div class="mb-3">
                 {% bootstrap_field entry.field form_group_class="" %}
                 {% if entry.invitation_url == 'not-invited' %}
                     <p class="text-muted">

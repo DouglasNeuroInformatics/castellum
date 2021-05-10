@@ -43,7 +43,7 @@
 
     $$.on(availability, 'change', 'select', function() {
         // hours --> day
-        var wholeDay = this.closest('.form-group').querySelector('[data-js="toggle-day"]');
+        var wholeDay = this.closest('.col-6').querySelector('[data-js="toggle-day"]');
         setCheckbox(this, wholeDay);
 
         // hours --> week
@@ -52,7 +52,7 @@
 
     $$.on(availability, 'change', '[data-js="toggle-day"]', function() {
         // day --> hours
-        var select = this.closest('.form-group').querySelector('select');
+        var select = this.closest('.col-6').querySelector('select');
         select.querySelectorAll('option').forEach(option => {
             option.selected = this.checked;
         });
@@ -76,7 +76,7 @@
 
     // set initial state of day checkboxes
     document.querySelectorAll('[data-js="toggle-day"]').forEach(function(wholeDay) {
-        var select = wholeDay.closest('.form-group').querySelector('select');
+        var select = wholeDay.closest('.col-6').querySelector('select');
         setCheckbox(select, wholeDay);
     });
 
