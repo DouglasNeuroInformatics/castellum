@@ -11,16 +11,16 @@
                             <span class="d-inline-block my-1 me-2" title="{{ desc.label }}">{{ bucket }}</span>
                         {% endfor %}
                         {% if participation.status_open and participation.status != participation.NOT_CONTACTED %}
-                            <span class="badge badge-secondary my-1">{{ participation|display:'status' }}</span>
+                            <span class="badge bg-secondary my-1">{{ participation|display:'status' }}</span>
                         {% endif %}
                         {% if participation.status == participation.INVITED and session_count > 0 %}
-                            <span class="badge badge-secondary my-1">
+                            <span class="badge bg-secondary my-1">
                                 {% icon 'calendar' label=_('Appointments') %}
                                 {{ participation.appointment_count }}/{{ session_count }}
                             </span>
                         {% endif %}
                         {% if participation.subject.blocked %}
-                            <span class="badge badge-dark my-1">{{ participation.subject|verbose_name:'blocked' }}</span>
+                            <span class="badge bg-dark my-1">{{ participation.subject|verbose_name:'blocked' }}</span>
                         {% endif %}
                     </div>
 

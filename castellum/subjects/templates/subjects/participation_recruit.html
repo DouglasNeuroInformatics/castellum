@@ -10,7 +10,7 @@
                 <div class ="h4 d-inline-block my-1 me-2">{{ study }}</div>
                 <span class="d-inline-block my-1 me-2">{{ study.contact_person }}</span>
                 {% if study.p %}
-                    <span class="badge badge-secondary">{{ study.p.0|display:'status' }}</span>
+                    <span class="badge bg-secondary">{{ study.p.0|display:'status' }}</span>
                 {% endif %}
                 <form class ="table-list-item-actions" method="POST">
                     {% csrf_token %}

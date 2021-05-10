@@ -71,7 +71,7 @@
                                                 {% endif %}
                                             </div>
                                             {% if subject.blocked %}
-                                                <span class="badge badge-dark my-1 me-2">{{ subject|verbose_name:'blocked' }}</span>
+                                                <span class="badge bg-dark my-1 me-2">{{ subject|verbose_name:'blocked' }}</span>
                                             {% endif %}
                                         {% endif %}
                                     {% else %}
@@ -96,7 +96,7 @@
                                             <div>
                                                 <span class="h5 d-inline-block my-1 me-2">{{ participation.study }}</span>
                                                 <span class="d-inline-block my-1 me-2">{{ participation.study.contact_person }}</span>
-                                                <span class="d-inline-block my-1 me-2 badge badge-secondary">{{ participation|display:'status' }}</span>
+                                                <span class="d-inline-block my-1 me-2 badge bg-secondary">{{ participation|display:'status' }}</span>
                                             </div>
                                             <div class="table-list-item-actions">
                                                 {% if can_recruit %}
