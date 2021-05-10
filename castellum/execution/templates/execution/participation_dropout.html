@@ -8,13 +8,36 @@
         {% csrf_token %}
         <p>{% translate 'Do you want to mark this subject as "dropped out"? This may apply if the subject can no longer take part in the study or repeatedly did not show up for appoitments.' %}</p>
         <p>{% translate "In addition, you must decide what should happen with the data collected this far: If you plan to use the data, the participation must not be removed as this would also delete the pseudonyms. If you do not plan to use the data, delete all of it and then remove the participation." %}</p>
-        <p>{% translate 'If the subject has alreday been "dropped out" you can undo that by selecting "participate".' %}
+
+        <div class="card-group mb-3">
+            <div class="card">
+                <div class="card-body">
+                    {% translate 'The subject will continue participating in this study.' %}
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary btn-block" name="dropped_out" value="">{% translate 'Participate' %}</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    {% translate 'The subject will no longer participate in this study, but the data collected so far will be used.' %}
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary btn-block" name="dropped_out" value="1">{% translate 'Drop out' %}</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    {% translate 'The subject will no longer participate in this study, and the data collected so far will not be used.' %}
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-danger btn-block" href="{% url 'execution:participation-dropout-confirm' study.pk object.pk %}">{% translate 'Drop out' %}</a>
+                </div>
+            </div>
+        </div>
 
         <div class="d-print-none mb-3">
             <a href="{% url 'execution:participation-detail' study.pk object.pk %}" class="btn btn-outline-primary">{% translate 'Cancel' %}</a>
-            <button class="btn btn-primary" name="dropped_out" value="">{% translate 'Participate' %}</button>
-            <button class="btn btn-primary" name="dropped_out" value="1">{% translate 'Drop out' %}</button>
-            <a class="btn btn-danger" href="{% url 'execution:participation-dropout-confirm' study.pk object.pk %}">{% translate 'Drop out and remove' %}</a>
         </div>
     </form>
 {% endblock %}
