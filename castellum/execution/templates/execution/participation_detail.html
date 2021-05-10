@@ -44,7 +44,7 @@
     {% endif %}
 
     <div class="mb-3 d-print-none">
-        <a class="btn btn-danger btn-sm-inline my-1" href="{% url 'execution:participation-remove' study.pk object.pk %}">
+        <a class="btn btn-danger btn-sm-inline my-1" href="{% url 'execution:participation-dropout' study.pk object.pk %}">
             {% translate 'Dropped out' context 'verb' %}
         </a>
     </div>
