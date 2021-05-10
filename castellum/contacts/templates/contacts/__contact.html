@@ -1,4 +1,4 @@
-{% load i18n auth utils appointments %}
+{% load i18n auth utils reliability %}
 
 {% for guardian in subject.contact.guardians.all %}
     {% has_privacy_level guardian.subject.privacy_level user as can_access %}
