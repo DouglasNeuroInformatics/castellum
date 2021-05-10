@@ -668,11 +668,13 @@ class MaintenanceShowupView(BaseMaintenanceView):
         return (
             Subject.objects
             .annotate_showup()
+            .annotate(ratio=models.F('reliability_issues') / models.F('reliability_total'))
             .filter(
                 to_be_deleted__isnull=True,
-                showup_score__gte=6,
+                reliability_issues__gt=1,
+                ratio__gte=0.5,
             )
-            .order_by('-showup_score')
+            .order_by('-ratio')
         )
 
 

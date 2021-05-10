@@ -22,8 +22,6 @@
 from django import template
 from django.utils.translation import gettext_lazy as _
 
-from castellum.appointments.models import Appointment
-
 register = template.Library()
 
 
@@ -31,9 +29,14 @@ register = template.Library()
 def showup_level(subject):
     subject.annotate_showup_stats()
 
-    if subject.showup_score > 6:
+    if subject.reliability_total == 0:
+        ratio = 0
+    else:
+        ratio = subject.reliability_issues / subject.reliability_total
+
+    if ratio >= 0.5 and subject.reliability_issues > 1:
         return 'danger'
-    elif subject.showup_score > 2:
+    elif ratio >= 0.25:
         return 'warning'
     else:
         return 'success'
@@ -43,11 +46,9 @@ def showup_level(subject):
 def showup_summary(subject):
     subject.annotate_showup_stats()
 
-    labelled = []
-    for status, label in Appointment.SHOWUP_CHOICES:
-        count = getattr(subject, 'showup_{}'.format(status))
-        if count:
-            labelled.append((label, count))
-
-    formatted = ', '.join('{}: {}'.format(label, count) for label, count in labelled)
-    return formatted or _('no appointments so far')
+    if subject.reliability_total == 0:
+        return _('no participations so far')
+    else:
+        return _('{issues} issues in {total} studies').format(
+            issues=subject.reliability_issues, total=subject.reliability_total
+        )

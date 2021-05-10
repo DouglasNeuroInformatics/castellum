@@ -48,30 +48,17 @@ class TimeSlot(models.Model):
 
 class SubjectQuerySet(models.QuerySet):
     def annotate_showup(self):
-        from castellum.appointments.models import Appointment
-
-        now = timezone.now()
-        weights = {
-            Appointment.SHOWUP: -1,
-            Appointment.LATE: 1,
-            Appointment.EXCUSED: 2,
-            Appointment.NOSHOW: 3,
-        }
-
-        counts = {}
-        score = []
-        for status, label in Appointment.SHOWUP_CHOICES:
-            key = 'showup_{}'.format(status)
-            counts[key] = models.Count(
-                'participation__appointment',
-                filter=models.Q(
-                    participation__appointment__show_up=status,
-                    participation__appointment__start__lt=now,
-                ),
-            )
-            score.append(models.F(key) * weights[status])
-
-        return self.annotate(**counts, showup_score=sum(score))
+        return self.annotate(
+            reliability_total=(
+                models.Count('participation', distinct=True)
+                + models.Count(
+                    'reliabilityissue',
+                    filter=models.Q(reliabilityissue__participation=None),
+                    distinct=True,
+                )
+            ),
+            reliability_issues=models.Count('reliabilityissue', distinct=True),
+        )
 
 
 class Subject(TimeStampedModel):
@@ -264,16 +251,12 @@ class Subject(TimeStampedModel):
             return self.get_next_available_datetime(now)
 
     def annotate_showup_stats(self):
-        from castellum.appointments.models import Appointment
-
-        if hasattr(self, 'showup_score'):
+        if hasattr(self, 'reliability_issues'):
             return
 
-        annotated = Subject.objects.annotate_showup().get(pk=self.pk)
-        self.showup_score = annotated.showup_score
-        for status, label in Appointment.SHOWUP_CHOICES:
-            key = 'showup_{}'.format(status)
-            setattr(self, key, getattr(annotated, key))
+        annotated = Subject.objects.annotate_reliability().get(pk=self.pk)
+        self.reliability_total = annotated.reliability_total
+        self.reliability_issues = annotated.reliability_issues
 
     def get_data(self):
         from castellum.recruitment.models import AttributeDescription
