@@ -6,7 +6,16 @@
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
         {% bootstrap_field form.news_interest %}
-        {% bootstrap_field form.would_reinvite %}
+        <div class="form-group">
+            <label class="form-check mb-0">
+                <input type="radio" name="{{ form.would_reinvite.name }}" class="form-check-input" value="1" required {{ form.would_reinvite.value|yesno:'checked,' }}>
+                <span class="form-check-label">{% translate 'I would invite this subject again for further studies' %}</span>
+            </label>
+            <label class="form-check mb-0">
+                <input type="radio" name="{{ form.would_reinvite.name }}" class="form-check-input" value="" required {{ form.would_reinvite.value|yesno:',checked' }}>
+                <span class="form-check-label">{% translate 'I would not invite this subject again (e.g. because they did not show up for appointments without prior notice)' %}</span>
+            </label>
+        </div>
         <button class="btn btn-primary">{% translate 'Save' %}</button>
     </form>
 {% endblock %}
