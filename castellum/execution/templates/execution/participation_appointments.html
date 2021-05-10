@@ -11,7 +11,7 @@
                         <time>{{ appointment.start|longdate }} {{ appointment.start|time }}</time>
                         <form method="POST" class="d-flex" action="{% url 'execution:show-up' study.pk object.pk appointment.pk %}">
                             {% csrf_token %}
-                            {% bootstrap_field form.show_up show_label=False form_group_class='me-2' %}
+                            {% bootstrap_field form.show_up layout='inline' inline_field_class='hack-not-col-12' %}
                             <button class="btn btn-primary ms-2">{% translate 'Save' %}</button>
                         </form>
                     </div>

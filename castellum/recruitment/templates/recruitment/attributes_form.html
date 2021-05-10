@@ -10,7 +10,7 @@
 
         {% for field, answer_declined in uncategorized %}
             <div class="mb-3">
-                {% bootstrap_field field form_group_class="" %}
+                {% bootstrap_field field layout="inline" %}
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" name="{{ field.name }}_answer_declined" id="{{ field.id_for_label }}_answer_declined" data-js="answer-declined" data-target="{{ field.id_for_label }}" {% if answer_declined %}checked{% endif %}>
                     <label class="form-check-label" for="{{ field.id_for_label }}_answer_declined">{% translate 'Declined to answer' %}</label>
@@ -23,7 +23,7 @@
                 <legend>{{ category }}</legend>
                 {% for field, answer_declined in fields %}
                     <div class="mb-3">
-                        {% bootstrap_field field form_group_class="" %}
+                        {% bootstrap_field field layout="inline" %}
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" name="{{ field.name }}_answer_declined" id="{{ field.id_for_label }}_answer_declined" data-js="answer-declined" data-target="{{ field.id_for_label }}" {% if answer_declined %}checked{% endif %}>
                             <label class="form-check-label" for="{{ field.id_for_label }}_answer_declined">{% translate 'Declined to answer' %}</label>
