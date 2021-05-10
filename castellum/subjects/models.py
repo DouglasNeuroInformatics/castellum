@@ -47,7 +47,7 @@ class TimeSlot(models.Model):
 
 
 class SubjectQuerySet(models.QuerySet):
-    def annotate_showup(self):
+    def annotate_reliability(self):
         return self.annotate(
             participations_count=models.Count('participation', distinct=True),
             would_reinvite_count=models.Count(
@@ -245,11 +245,11 @@ class Subject(TimeStampedModel):
         else:
             return self.get_next_available_datetime(now)
 
-    def annotate_showup_stats(self):
+    def annotate_reliability(self):
         if hasattr(self, 'would_reinvite_count'):
             return
 
-        annotated = Subject.objects.annotate_showup().get(pk=self.pk)
+        annotated = Subject.objects.annotate_reliability().get(pk=self.pk)
         self.participations_count = annotated.participations_count
         self.would_reinvite_count = annotated.would_reinvite_count
 

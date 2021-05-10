@@ -26,8 +26,8 @@ register = template.Library()
 
 
 @register.filter
-def showup_level(subject):
-    subject.annotate_showup_stats()
+def reliability_level(subject):
+    subject.annotate_reliability()
 
     difference = subject.participations_count - subject.would_reinvite_count
     if difference == 0:
@@ -44,8 +44,8 @@ def showup_level(subject):
 
 
 @register.filter
-def showup_summary(subject):
-    subject.annotate_showup_stats()
+def reliability_summary(subject):
+    subject.annotate_reliability()
 
     if subject.participations_count == 0:
         return _('no participations so far')

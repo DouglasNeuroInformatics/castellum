@@ -32,7 +32,7 @@ from .views import MaintenanceConsentView
 from .views import MaintenanceContactView
 from .views import MaintenanceDuplicatesView
 from .views import MaintenanceNotesView
-from .views import MaintenanceShowupView
+from .views import MaintenanceReliabilityView
 from .views import MaintenanceWaitingView
 from .views import ParticipationAddView
 from .views import ParticipationDeleteView
@@ -60,7 +60,11 @@ urlpatterns = [
         name='maintenance-duplicates',
     ),
     path('maintenance/waiting/', MaintenanceWaitingView.as_view(), name='maintenance-waiting'),
-    path('maintenance/showup/', MaintenanceShowupView.as_view(), name='maintenance-showup'),
+    path(
+        'maintenance/reliability/',
+        MaintenanceReliabilityView.as_view(),
+        name='maintenance-reliability',
+    ),
     path('maintenance/notes/', MaintenanceNotesView.as_view(), name='maintenance-notes'),
     path('<slug>/', SubjectDetailView.as_view(), name='detail'),
     path('<slug>/delete/', SubjectDeleteView.as_view(), name='delete'),

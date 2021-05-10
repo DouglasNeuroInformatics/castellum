@@ -645,14 +645,14 @@ class MaintenanceWaitingView(BaseMaintenanceView):
         )
 
 
-class MaintenanceShowupView(BaseMaintenanceView):
-    template_name = 'subjects/maintenance_showup.html'
-    tab = 'showup'
+class MaintenanceReliabilityView(BaseMaintenanceView):
+    template_name = 'subjects/maintenance_reliability.html'
+    tab = 'reliability'
 
     def get_queryset(self):
         return (
             Subject.objects
-            .annotate_showup()
+            .annotate_reliability()
             .annotate(
                 diff=models.F('participations_count') - models.F('would_reinvite_count'),
                 ratio=models.F('would_reinvite_count') / models.F('participations_count'),
