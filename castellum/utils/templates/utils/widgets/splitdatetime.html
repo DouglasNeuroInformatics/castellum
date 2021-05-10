@@ -1,10 +1,10 @@
 {% load i18n %}
 
-<div class="row gx-2">
+<div class="row g-2">
     {% for widget in widget.subwidgets %}
-        <div class="col-sm mb-2">{% include widget.template_name %}</div>
+        <div class="col-sm">{% include widget.template_name %}</div>
     {% endfor %}
-    <div class="col-sm flex-grow-0 mb-2">
+    <div class="col-sm flex-grow-0">
         <button class="btn btn-danger" type="button" data-js="clear-datetime">{% translate 'Clear' %}</button>
     </div>
 </div>
