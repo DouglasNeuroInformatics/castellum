@@ -4,8 +4,8 @@
 {% block title %}{% translate "Start" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-sm-6 col-md-4 mb-4">
+    <div class="row g-4 mb-4">
+        <div class="col-sm-6 col-md-4">
             <div class="card">
                 <a href="{% url 'studies:index' %}" class="card-header" tabindex="-1">
                     <img class="w-100 h-auto" src="{% static 'images/circle-icons/study_management.png' %}" alt="" width="184" height="184">
@@ -16,7 +16,7 @@
             </div>
         </div>
 
-        <div class="col-sm-6 col-md-4 mb-4">
+        <div class="col-sm-6 col-md-4">
             <div class="card">
                 <a href="{% url 'subjects:index' %}" class="card-header" tabindex="-1">
                     <img class="w-100 h-auto" src="{% static 'images/circle-icons/subject_management.png' %}" alt="" width="184" height="184">
@@ -29,7 +29,7 @@
 
         {% has_perm 'appointments.view_current_appointments' user as can_view_current_appointments %}
         {% if can_view_current_appointments %}
-            <div class="col-sm-6 col-md-4 mb-4">
+            <div class="col-sm-6 col-md-4">
                 <div class="card">
                     <a href="{% url 'appointments:reception' %}" class="card-header" tabindex="-1">
                         <img class="w-100 h-auto" src="{% static 'images/circle-icons/booklet.png' %}" alt="" width="184" height="184">
@@ -57,7 +57,7 @@
         {% has_perm 'subjects.export_subject' user as can_export_subject %}
         {% has_privacy_level 2 user as has_privacy_level_2 %}
         {% if can_export_subject and has_privacy_level_2 %}
-            <div class="col-sm-6 col-md-4 mb-4">
+            <div class="col-sm-6 col-md-4">
                 <div class="card">
                     <a href="{% url 'data_protection:index' %}" class="card-header" tabindex="-1">
                         <img class="w-100 h-auto" src="{% static 'images/circle-icons/data_protection.png' %}" alt="" width="184" height="184">
@@ -81,7 +81,7 @@
         </div>
 
         {% if user.is_staff or user.is_superuser %}
-            <div class="col-sm-6 col-md-4 mb-4">
+            <div class="col-sm-6 col-md-4">
                 <div class="card">
                     <a href="{% url 'admin:index' %}" class="card-header" tabindex="-1">
                         <img class="w-100 h-auto" src="{% static 'images/circle-icons/gear.png' %}" alt="" width="184" height="184">

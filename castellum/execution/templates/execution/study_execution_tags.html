@@ -3,33 +3,33 @@
 
 {% block content %}
     {% for form in forms %}
-        <form method="POST" class="row gx-2 mb-2">
-            <div class="col-sm-6 mb-2">
+        <form method="POST" class="row g-2 mb-3">
+            <div class="col-sm-6">
                 {% csrf_token %}
                 <input type="hidden" name="id" value="{{ form.instance.id }}">
                 {% bootstrap_field form.name show_label=False layout="inline" %}
             </div>
-            <div class="col-sm-2 mb-2" data-js="d-select2-color">
+            <div class="col-sm-2" data-js="d-select2-color">
                 {% bootstrap_field form.color show_label=False layout="inline" %}
             </div>
-            <div class="col-sm-2 mb-2">
+            <div class="col-sm-2">
                 <button name="action" value="save" class="btn btn-primary d-block w-100">{% translate 'Save' %}</button>
             </div>
-            <div class="col-sm-2 mb-2">
+            <div class="col-sm-2">
                 <button name="action" value="delete" class="btn btn-danger d-block w-100">{% translate 'Delete' %}</button>
             </div>
         </form>
     {% endfor %}
 
-    <form method="POST" class="row gx-2 mb-2">
-        <div class="col-sm-6 mb-2">
+    <form method="POST" class="row g-2 mb-2">
+        <div class="col-sm-6">
             {% csrf_token %}
             {% bootstrap_field create_form.name show_label=False layout="inline" %}
         </div>
-        <div class="col-sm-2 mb-2" data-js="d-select2-color">
+        <div class="col-sm-2" data-js="d-select2-color">
             {% bootstrap_field create_form.color show_label=False layout="inline" %}
         </div>
-        <div class="col-sm-4 mb-2">
+        <div class="col-sm-4">
             <button name="action" value="create" class="btn btn-primary d-block w-100">{% translate 'Create' %}</button>
         </div>
     </form>
