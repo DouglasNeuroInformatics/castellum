@@ -143,7 +143,7 @@ class Contact(TimeStampedModel):
     last_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
     title = models.CharField(_('Title'), max_length=64, blank=True)
 
-    gender = models.CharField(_('Gender'), max_length=1, choices=GENDER, default="f")
+    gender = models.CharField(_('Gender'), max_length=1, choices=GENDER, blank=True)
 
     date_of_birth = DateField(_('Date of birth'), blank=True, null=True)
 
@@ -185,7 +185,7 @@ class Contact(TimeStampedModel):
 
     @property
     def is_complete(self):
-        return (self.is_guardian or self.date_of_birth) and self.is_reachable
+        return (self.is_guardian or self.date_of_birth) and self.is_reachable and self.gender
 
     @property
     def is_reachable(self):
