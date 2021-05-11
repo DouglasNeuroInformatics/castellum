@@ -229,3 +229,14 @@ class Participation(models.Model):
         else:
             self.attempts = 0
         super().save(*args, **kwargs)
+
+
+class ReliabilityIssue(models.Model):
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    participation = models.OneToOneField(
+        Participation, null=True, blank=True, on_delete=models.SET_NULL
+    )
+
+    class Meta:
+        verbose_name = _('Reliability issue')
+        verbose_name_plural = _('Reliability issues')

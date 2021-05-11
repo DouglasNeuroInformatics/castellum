@@ -39,6 +39,7 @@ from .models import ExecutionTag
 from .models import MailBatch
 from .models import NewsMailBatch
 from .models import Participation
+from .models import ReliabilityIssue
 from .models import SubjectFilter
 from .models import SubjectFilterGroup
 
@@ -100,6 +101,7 @@ class AttributeDescriptionAdmin(TranslatableAdmin):
 
 admin.site.register(AttributeCategory, TranslatableAdmin)
 admin.site.register(AttributeDescription, AttributeDescriptionAdmin)
+admin.site.register(ReliabilityIssue)
 admin.site.register(MailBatch)
 admin.site.register(NewsMailBatch)
 admin.site.register(Participation)
