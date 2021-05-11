@@ -114,6 +114,9 @@
 
             <dt class="col-sm-6" data-fieldname="subjects.Subject.onetime_invitation_disinterest">{{ subject|verbose_name:'onetime_invitation_disinterest' }}</dt>
             <dd class="col-sm-6">{{ subject|display:'onetime_invitation_disinterest' }}</dd>
+
+            <dt class="col-sm-6" data-fieldname="subjects.Subject.reliabilityissue">{{ subject|verbose_name:'reliabilityissue' }}</dt>
+            <dd class="col-sm-6">{{ subject.reliabilityissue_set.count }}</dd>
         </dl>
 
         <h2>{% translate 'Availability' %}</h2>
@@ -171,6 +174,9 @@
 
                     <dt class="col-sm-6" data-fieldname="recruitment.Participation.dropped_out">{{ participation|verbose_name:'dropped_out' }}</dt>
                     <dd class="col-sm-6">{{ participation|display:'dropped_out' }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="recruitment.Participation.reliabilityissue">{{ participation|verbose_name:'reliabilityissue' }}</dt>
+                    <dd class="col-sm-6">{{ participation.reliabilityissue|yesno:_('Yes,No') }}</dd>
 
                     <dt class="col-sm-6" data-fieldname="recruitment.Participation.created_at">{% translate 'Participation created at' %}</dt>
                     <dd class="col-sm-6">{{ participation|display:'created_at' }}</dd>
