@@ -84,7 +84,7 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
             .with_appointment_count()\
             .filter(status=Participation.INVITED)\
             .prefetch_related(
-                models.Prefetch('subject', queryset=Subject.objects.annotate_showup())
+                models.Prefetch('subject', queryset=Subject.objects.annotate_reliability())
             )
         for participation in participations:
             has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)

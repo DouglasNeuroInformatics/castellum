@@ -660,14 +660,14 @@ class MaintenanceWaitingView(BaseMaintenanceView):
         )
 
 
-class MaintenanceShowupView(BaseMaintenanceView):
-    template_name = 'subjects/maintenance_showup.html'
-    tab = 'showup'
+class MaintenanceReliabilityView(BaseMaintenanceView):
+    template_name = 'subjects/maintenance_reliability.html'
+    tab = 'reliability'
 
     def get_queryset(self):
         return (
             Subject.objects
-            .annotate_showup()
+            .annotate_reliability()
             .annotate(ratio=models.F('reliability_issues') / models.F('reliability_total'))
             .filter(
                 to_be_deleted__isnull=True,

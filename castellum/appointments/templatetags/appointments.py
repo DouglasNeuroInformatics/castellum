@@ -26,8 +26,8 @@ register = template.Library()
 
 
 @register.filter
-def showup_level(subject):
-    subject.annotate_showup_stats()
+def reliability_level(subject):
+    subject.annotate_reliability()
 
     if subject.reliability_total == 0:
         ratio = 0
@@ -43,8 +43,8 @@ def showup_level(subject):
 
 
 @register.filter
-def showup_summary(subject):
-    subject.annotate_showup_stats()
+def reliability_summary(subject):
+    subject.annotate_reliability()
 
     if subject.reliability_total == 0:
         return _('no participations so far')

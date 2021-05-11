@@ -47,7 +47,7 @@ class TimeSlot(models.Model):
 
 
 class SubjectQuerySet(models.QuerySet):
-    def annotate_showup(self):
+    def annotate_reliability(self):
         return self.annotate(
             reliability_total=(
                 models.Count('participation', distinct=True)
@@ -250,7 +250,7 @@ class Subject(TimeStampedModel):
         else:
             return self.get_next_available_datetime(now)
 
-    def annotate_showup_stats(self):
+    def annotate_reliability(self):
         if hasattr(self, 'reliability_issues'):
             return
 

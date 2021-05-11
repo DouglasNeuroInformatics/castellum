@@ -25,10 +25,10 @@
 {% endfor %}
 
 <dl class="row">
-    <dt class="col-sm-6">{% translate "Show up rate" %}</dt>
+    <dt class="col-sm-6">{% translate "Reliability" %}</dt>
     <dd class="col-sm-6">
-        <span class="text-{{ subject|showup_level }}" aria-hidden="true">&#9679;</span>
-        {% with summary=subject|showup_summary %}
+        <span class="text-{{ subject|reliability_level }}" aria-hidden="true">&#9679;</span>
+        {% with summary=subject|reliability_summary %}
             {% if summary %}({{ summary }}){% endif %}
         {% endwith %}
     </dd>
