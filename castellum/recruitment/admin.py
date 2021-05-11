@@ -35,6 +35,7 @@ from .forms import DescriptionImportForm
 from .models import AttributeCategory
 from .models import AttributeChoice
 from .models import AttributeDescription
+from .models import ExecutionTag
 from .models import MailBatch
 from .models import NewsMailBatch
 from .models import Participation
@@ -104,3 +105,4 @@ admin.site.register(NewsMailBatch)
 admin.site.register(Participation)
 admin.site.register(SubjectFilter)
 admin.site.register(SubjectFilterGroup)
+admin.site.register(ExecutionTag)
