@@ -218,7 +218,7 @@ class ParticipationDropoutConfirmView(ParticipationDetailMixin, DetailView):
 
 class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
     template_name = 'execution/participation_hints.html'
-    fields = ['news_interest']
+    fields = ['news_interest', 'execution_tags']
     tab = 'update'
 
     def get_success_url(self):

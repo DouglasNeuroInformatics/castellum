@@ -6,6 +6,7 @@
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
         {% bootstrap_field form.news_interest %}
+        {% bootstrap_field form.execution_tags %}
         <button class="btn btn-primary">{% translate 'Save' %}</button>
     </form>
 {% endblock %}
