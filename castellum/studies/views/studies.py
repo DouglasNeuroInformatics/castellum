@@ -235,6 +235,11 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
 
             for name in self.duplicate.tags:
                 self.object.studytag_set.create(name=name)
+            for tag in self.duplicate.executiontag_set.all():
+                self.object.executiontag_set.create(name=tag.name)
+        else:
+            for name in settings.CASTELLUM_DEFAULT_EXECUTION_TAGS:
+                self.object.executiontag_set.create(name=name)
 
         return response
 
