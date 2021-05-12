@@ -4,6 +4,7 @@ from model_bakery import baker
 from castellum.appointments.models import Appointment
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.models import Domain
+from castellum.recruitment.models import ExecutionTag
 from castellum.recruitment.models import Participation
 from castellum.studies.models import StudySession
 
@@ -87,6 +88,22 @@ def test_participation_detail_view_unsuitable(
     url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
     response = client.get(url)
     assert response.status_code == 404
+
+
+def test_participation_detail_view_tags(client, subject, conductor, study_in_execution_status):
+    client.force_login(conductor)
+    participation = baker.make(
+        Participation,
+        study=study_in_execution_status,
+        status=Participation.INVITED,
+        subject=subject,
+    )
+    tag = baker.make(ExecutionTag, name="test_tag", study=study_in_execution_status)
+    participation.execution_tags.add(tag)
+    url = '/execution/{}/{}/'.format(study_in_execution_status.pk, participation.pk)
+    response = client.get(url)
+    assert response.status_code == 200
+    assert b"test_tag" in response.content
 
 
 @pytest.mark.smoketest
