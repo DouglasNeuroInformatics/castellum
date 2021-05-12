@@ -6,6 +6,9 @@
 {% block header %}
     <div class="container text-center my-4">
         <h1>{{ subject.contact.full_name }}</h1>
+        {% for tag in participation.execution_tags.all %}
+            <span class="badge badge-info">{{ tag }}</span>
+        {% endfor %}
         {% if participation.dropped_out %}
             <span class="badge badge-secondary">{{ participation|verbose_name:'dropped_out' }}</span>
         {% endif %}
