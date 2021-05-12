@@ -220,6 +220,12 @@ steps:
     **Start** you initiate the recruiting process. Started studies will offer a
     stop button instead to stop (or pause) recruitment.
 
+.. warning::
+
+    A study can still be changed after it has been approved and started. The
+    tab "Changes" provides an overview of all the settings for a study. Any
+    changes that were made since the study was started are highlighted.
+
 
 .. _study-finish:
 
