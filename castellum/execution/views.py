@@ -193,12 +193,24 @@ class ParticipationPseudonymsView(ParticipationDetailMixin, DetailView):
         return context
 
 
-class ParticipationRemoveView(ParticipationDetailMixin, DetailView):
-    template_name = 'execution/participation_remove.html'
+class ParticipationDropoutView(ParticipationDetailMixin, DetailView):
+    template_name = 'execution/participation_dropout.html'
     tab = 'overview'
 
     def post(self, request, *args, **kwargs):
         participation = self.get_object()
+        participation.dropped_out = request.POST.get('dropped_out') == '1'
+        participation.save()
+        return redirect('execution:study-detail', participation.study.pk)
+
+
+class ParticipationDropoutConfirmView(ParticipationDetailMixin, DetailView):
+    template_name = 'execution/participation_dropout_confirm.html'
+    tab = 'overview'
+
+    def post(self, request, *args, **kwargs):
+        participation = self.get_object()
+        participation.dropped_out = True
         participation.status = Participation.UNSUITABLE
         participation.save()
         return redirect('execution:study-detail', participation.study.pk)

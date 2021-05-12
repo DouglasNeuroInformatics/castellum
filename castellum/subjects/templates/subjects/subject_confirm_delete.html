@@ -23,6 +23,9 @@
                             <div class="h4 d-inline">{{ participation.study }}</div>
                             <span>{{ participation.study.contact_person }}</span>
                             <span class="badge badge-secondary">{{ participation|display:'status' }}</span>
+                            {% if participation.dropped_out %}
+                                <span class="badge badge-secondary">{{ participation|verbose_name:'dropped_out' }}</span>
+                            {% endif %}
                         </div>
                         <div class="table-list-item-actions">
                             {% if participation.status == participation.INVITED %}

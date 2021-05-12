@@ -438,7 +438,10 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
         study = get_object_or_404(Study, pk=request.POST['study'])
 
         Participation._base_manager.update_or_create(
-            subject=self.subject, study=study, defaults={'status': Participation.INVITED}
+            subject=self.subject, study=study, defaults={
+                'status': Participation.INVITED,
+                'dropped_out': False,
+            }
         )
 
         return self.get(request, *args, **kwargs)

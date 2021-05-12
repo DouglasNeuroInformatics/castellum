@@ -20,7 +20,12 @@
                     <div class ="h4 d-inline-block my-1 mr-2">{{ study }}</div>
                     <span class="d-inline-block my-1 mr-2">{{ study.contact_person }}</span>
                     {% if study.p %}
-                        <span class="badge badge-secondary">{{ study.p.0|display:'status' }}</span>
+                        <div class="d-inline-block my-1 mr-2">
+                            <span class="badge badge-secondary">{{ study.p.0|display:'status' }}</span>
+                            {% if study.p.0.dropped_out %}
+                                <span class="badge badge-secondary">{{ study.p.0|verbose_name:'dropped_out' }}</span>
+                            {% endif %}
+                        </div>
                         {% if study.p.0.status != study.p.0.INVITED %}
                             <form class ="table-list-item-actions" method="POST">
                                 {% csrf_token %}
