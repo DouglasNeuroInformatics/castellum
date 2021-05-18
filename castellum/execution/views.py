@@ -50,6 +50,7 @@ from castellum.pseudonyms.helpers import get_subject
 from castellum.recruitment.attribute_exporters import get_exporter
 from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.mixins import ParticipationMixin
+from castellum.recruitment.models import ExecutionTag
 from castellum.recruitment.models import NewsMailBatch
 from castellum.recruitment.models import Participation
 from castellum.studies.mixins import StudyMixin
@@ -220,6 +221,11 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
     template_name = 'execution/participation_hints.html'
     fields = ['news_interest', 'execution_tags']
     tab = 'update'
+
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        form.fields['execution_tags'].queryset = ExecutionTag.objects.filter(study=self.study)
+        return form
 
     def get_success_url(self):
         return reverse(
