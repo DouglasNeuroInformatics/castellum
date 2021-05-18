@@ -118,4 +118,19 @@
         templateResult: prefixColor,
         templateSelection: prefixColor,
     });
+
+    var asBadge = function(state) {
+        if (!state.element) {
+            return null;
+        }
+        var $wrapper = $('<span class="badge">');
+        $wrapper.addClass('badge-' + state.element.getAttribute('data-color'));
+        $wrapper.text(state.text);
+        return $wrapper;
+    };
+
+    $('[data-js="d-select2-badge-color"] select').select2({
+        templateResult: asBadge,
+        templateSelection: asBadge,
+    });
 })();
