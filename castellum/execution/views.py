@@ -569,7 +569,7 @@ class TagView(StudyMixin, PermissionRequiredMixin, TemplateView):
     tab = 'tags'
 
     def get_form(self, tag=None, **kwargs):
-        form_cls = forms.modelform_factory(ExecutionTag, fields=['name'])
+        form_cls = forms.modelform_factory(ExecutionTag, fields=['name', 'color'])
         if tag:
             kwargs['prefix'] = tag.pk
         return form_cls(instance=tag, **kwargs)

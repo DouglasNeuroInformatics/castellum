@@ -9,6 +9,7 @@ def test_create(client, member, study_in_execution_status):
     response = client.post(url, {
         'action': 'create',
         'name': 'test_tag',
+        'color': 'info',
     })
     assert response.status_code == 302
     assert ExecutionTag.objects.filter(name="test_tag").exists()
@@ -21,6 +22,7 @@ def test_save(client, member, study_in_execution_status):
     response = client.post(url, {
         'action': 'save',
         '{}-name'.format(tag.id): 'new',
+        '{}-color'.format(tag.id): 'info',
         'id': tag.id,
     })
     tag.refresh_from_db()
