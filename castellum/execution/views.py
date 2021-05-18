@@ -35,6 +35,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import FormView
 from django.views.generic import ListView
+from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
 from castellum.appointments.forms import AppointmentsForm
@@ -559,3 +560,51 @@ class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
         )
 
         return context
+
+
+class TagView(StudyMixin, PermissionRequiredMixin, TemplateView):
+    template_name = 'execution/study_execution_tags.html'
+    permission_required = 'recruitment.conduct_study'
+    study_status = [Study.EXECUTION]
+    tab = 'tags'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        form_cls = forms.modelform_factory(ExecutionTag, fields=['name'])
+        context['forms'] = [form_cls(instance=tag) for tag in self.study.executiontag_set.all()]
+        context['create_form'] = form_cls()
+
+        return context
+
+    def form_invalid(self):
+        messages.error(self.request, _('There have been errors.'))
+        return self.render_to_response(self.get_context_data())
+
+    def post(self, request, *args, **kwargs):
+        action = request.POST.get('action')
+
+        if action in ['save', 'delete'] and 'id' not in request.POST:
+            return self.form_invalid()
+        if action not in ['create', 'save', 'delete']:
+            return self.form_invalid()
+
+        if 'id' in request.POST:
+            tag = get_object_or_404(ExecutionTag, pk=request.POST['id'], study=self.study)
+        else:
+            tag = None
+
+        if action in ['create', 'save']:
+            form_cls = forms.modelform_factory(ExecutionTag, fields=['name'])
+            form = form_cls(instance=tag, data=request.POST)
+            if form.is_valid():
+                form.instance.study = self.study
+                form.save()
+                messages.success(request, _('Data has been saved.'))
+                return redirect('execution:execution-tags', self.study.pk)
+            else:
+                return self.form_invalid()
+        else:
+            tag.delete()
+            messages.success(request, _('Tag has been deleted.'))
+            return redirect('execution:execution-tags', self.study.pk)

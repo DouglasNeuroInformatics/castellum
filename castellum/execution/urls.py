@@ -42,6 +42,7 @@ from .views import ProgressView
 from .views import ResolveView
 from .views import ShowUpUpdateView
 from .views import StudyDetailView
+from .views import TagView
 
 app_name = 'execution'
 urlpatterns = [
@@ -54,6 +55,7 @@ urlpatterns = [
     path('<int:pk>/criteria/', ExclusionCriteriaView.as_view(), name='criteria'),
     path('<int:pk>/export/', ExportView.as_view(), name='export'),
     path('<int:pk>/progress/', ProgressView.as_view(), name='progress'),
+    path('<int:pk>/tags/', TagView.as_view(), name='execution-tags'),
     path(
         '<int:study_pk>/<int:pk>/',
         ParticipationDetailView.as_view(),

@@ -1,0 +1,51 @@
+from model_bakery import baker
+
+from castellum.recruitment.models import ExecutionTag
+
+
+def test_create(client, member, study_in_execution_status):
+    client.force_login(member)
+    url = '/execution/{}/tags/'.format(study_in_execution_status.pk)
+    response = client.post(url, {
+        'action': 'create',
+        'name': 'test_tag',
+    })
+    assert response.status_code == 302
+    assert ExecutionTag.objects.filter(name="test_tag").exists()
+
+
+def test_save(client, member, study_in_execution_status):
+    client.force_login(member)
+    url = '/execution/{}/tags/'.format(study_in_execution_status.pk)
+    tag = baker.make(ExecutionTag, study=study_in_execution_status, name="old")
+    response = client.post(url, {
+        'action': 'save',
+        'name': 'new',
+        'id': tag.id,
+    })
+    tag.refresh_from_db()
+    assert response.status_code == 302
+    assert tag.name == 'new'
+
+
+def test_delete(client, member, study_in_execution_status):
+    client.force_login(member)
+    url = '/execution/{}/tags/'.format(study_in_execution_status.pk)
+    tag = baker.make(ExecutionTag, study=study_in_execution_status)
+    response = client.post(url, {
+        'action': 'delete',
+        'id': tag.id,
+    })
+    assert response.status_code == 302
+    assert not ExecutionTag.objects.exists()
+
+
+def test_invalid(client, member, study_in_execution_status):
+    client.force_login(member)
+    url = '/execution/{}/tags/'.format(study_in_execution_status.pk)
+
+    response = client.post(url, {'action': 'save'})
+    assert response.status_code == 200
+
+    response = client.post(url, {'action': 'invalid'})
+    assert response.status_code == 200
