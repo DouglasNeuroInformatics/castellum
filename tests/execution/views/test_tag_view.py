@@ -20,7 +20,7 @@ def test_save(client, member, study_in_execution_status):
     tag = baker.make(ExecutionTag, study=study_in_execution_status, name="old")
     response = client.post(url, {
         'action': 'save',
-        'name': 'new',
+        '{}-name'.format(tag.id): 'new',
         'id': tag.id,
     })
     tag.refresh_from_db()

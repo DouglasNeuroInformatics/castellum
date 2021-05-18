@@ -568,12 +568,17 @@ class TagView(StudyMixin, PermissionRequiredMixin, TemplateView):
     study_status = [Study.EXECUTION]
     tab = 'tags'
 
+    def get_form(self, tag=None, **kwargs):
+        form_cls = forms.modelform_factory(ExecutionTag, fields=['name'])
+        if tag:
+            kwargs['prefix'] = tag.pk
+        return form_cls(instance=tag, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        form_cls = forms.modelform_factory(ExecutionTag, fields=['name'])
-        context['forms'] = [form_cls(instance=tag) for tag in self.study.executiontag_set.all()]
-        context['create_form'] = form_cls()
+        context['forms'] = [self.get_form(tag) for tag in self.study.executiontag_set.all()]
+        context['create_form'] = self.get_form()
 
         return context
 
@@ -595,8 +600,7 @@ class TagView(StudyMixin, PermissionRequiredMixin, TemplateView):
             tag = None
 
         if action in ['create', 'save']:
-            form_cls = forms.modelform_factory(ExecutionTag, fields=['name'])
-            form = form_cls(instance=tag, data=request.POST)
+            form = self.get_form(tag, data=request.POST)
             if form.is_valid():
                 form.instance.study = self.study
                 form.save()
