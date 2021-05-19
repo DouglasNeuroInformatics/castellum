@@ -20,6 +20,9 @@
                                 {% endif %}
                             </span>
                         {% endif %}
+                        {% for tag in participation.execution_tags.all %}
+                            <span class="badge badge-{{ tag.color }} my-1">{{ tag }}</span>
+                        {% endfor %}
                         {% if participation.dropped_out %}
                             <span class="badge badge-secondary my-1">{{ participation|verbose_name:'dropped_out' }}</span>
                         {% endif %}

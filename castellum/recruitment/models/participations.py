@@ -56,6 +56,22 @@ class NewsMailBatch(BaseMailBatch):
     mail_body = models.TextField(_('E-mail body'))
 
 
+class ExecutionTag(models.Model):
+    study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    name = models.CharField(_('Name'), max_length=64)
+    color = models.CharField(_('Color'), max_length=16, default='info', choices=[
+        ('info', _('Info')),
+        ('success', _('Success')),
+        ('danger', _('Danger')),
+        ('warning', _('Warning')),
+        ('primary', _('Primary')),
+        ('secondary', _('Secondary')),
+    ])
+
+    def __str__(self):
+        return self.name
+
+
 class ParticipationManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().annotate(
@@ -140,6 +156,9 @@ class Participation(models.Model):
 
     news_interest = models.IntegerField(
         _('Interest in study news'), choices=NEWS_INTEREST_OPTIONS, default=NOT_INTERESTED
+    )
+    execution_tags = models.ManyToManyField(
+        ExecutionTag, verbose_name=_('Execution tags'), blank=True
     )
 
     objects = ParticipationManager()

@@ -35,6 +35,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import FormView
 from django.views.generic import ListView
+from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
 from castellum.appointments.forms import AppointmentsForm
@@ -50,6 +51,7 @@ from castellum.pseudonyms.helpers import get_subject
 from castellum.recruitment.attribute_exporters import get_exporter
 from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.mixins import ParticipationMixin
+from castellum.recruitment.models import ExecutionTag
 from castellum.recruitment.models import NewsMailBatch
 from castellum.recruitment.models import Participation
 from castellum.studies.mixins import StudyMixin
@@ -216,14 +218,19 @@ class ParticipationDropoutConfirmView(ParticipationDetailMixin, DetailView):
         return redirect('execution:study-detail', participation.study.pk)
 
 
-class ParticipationNewsView(ParticipationDetailMixin, UpdateView):
-    template_name = 'execution/participation_news.html'
-    fields = ['news_interest']
-    tab = 'news'
+class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
+    template_name = 'execution/participation_hints.html'
+    fields = ['news_interest', 'execution_tags']
+    tab = 'update'
+
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        form.fields['execution_tags'].queryset = ExecutionTag.objects.filter(study=self.study)
+        return form
 
     def get_success_url(self):
         return reverse(
-            'execution:participation-news',
+            'execution:participation-update',
             args=[self.object.study.pk, self.object.pk],
         )
 
@@ -553,3 +560,55 @@ class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
         )
 
         return context
+
+
+class TagView(StudyMixin, PermissionRequiredMixin, TemplateView):
+    template_name = 'execution/study_execution_tags.html'
+    permission_required = 'recruitment.conduct_study'
+    study_status = [Study.EXECUTION]
+    tab = 'tags'
+
+    def get_form(self, tag=None, **kwargs):
+        form_cls = forms.modelform_factory(ExecutionTag, fields=['name', 'color'])
+        if tag:
+            kwargs['prefix'] = tag.pk
+        return form_cls(instance=tag, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['forms'] = [self.get_form(tag) for tag in self.study.executiontag_set.all()]
+        context['create_form'] = self.get_form()
+
+        return context
+
+    def form_invalid(self):
+        messages.error(self.request, _('There have been errors.'))
+        return self.render_to_response(self.get_context_data())
+
+    def post(self, request, *args, **kwargs):
+        action = request.POST.get('action')
+
+        if action in ['save', 'delete'] and 'id' not in request.POST:
+            return self.form_invalid()
+        if action not in ['create', 'save', 'delete']:
+            return self.form_invalid()
+
+        if 'id' in request.POST:
+            tag = get_object_or_404(ExecutionTag, pk=request.POST['id'], study=self.study)
+        else:
+            tag = None
+
+        if action in ['create', 'save']:
+            form = self.get_form(tag, data=request.POST)
+            if form.is_valid():
+                form.instance.study = self.study
+                form.save()
+                messages.success(request, _('Data has been saved.'))
+                return redirect('execution:execution-tags', self.study.pk)
+            else:
+                return self.form_invalid()
+        else:
+            tag.delete()
+            messages.success(request, _('Tag has been deleted.'))
+            return redirect('execution:execution-tags', self.study.pk)

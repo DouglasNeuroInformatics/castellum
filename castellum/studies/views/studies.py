@@ -111,6 +111,7 @@ def take_snapshot(study):
         *study.studytag_set.all(),
         *study.studysession_set.all(),
         *study.subjectfiltergroup_set.all(),
+        *study.executiontag_set.all(),
         *SubjectFilter.objects.filter(group__study=study),
     ], fields=Exclusion(['snapshot', 'status', 'previous_status']))
     study.save()
@@ -235,6 +236,11 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
 
             for name in self.duplicate.tags:
                 self.object.studytag_set.create(name=name)
+            for tag in self.duplicate.executiontag_set.all():
+                self.object.executiontag_set.create(name=tag.name)
+        else:
+            for name, color in settings.CASTELLUM_DEFAULT_EXECUTION_TAGS:
+                self.object.executiontag_set.create(name=name, color=color)
 
         return response
 

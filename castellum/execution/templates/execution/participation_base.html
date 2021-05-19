@@ -6,6 +6,9 @@
 {% block header %}
     <div class="container text-center my-4">
         <h1>{{ subject.contact.full_name }}</h1>
+        {% for tag in participation.execution_tags.all %}
+            <span class="badge badge-{{ tag.color }}">{{ tag }}</span>
+        {% endfor %}
         {% if participation.dropped_out %}
             <span class="badge badge-secondary">{{ participation|verbose_name:'dropped_out' }}</span>
         {% endif %}
@@ -17,7 +20,7 @@
                 <a href="{% url 'execution:participation-detail' study.pk participation.pk %}" class="nav-link {% if view.tab == 'overview' %}active{% endif %}">{% translate 'Overview' %}</a>
             </li>
             <li class="nav-item">
-                <a href="{% url 'execution:participation-news' study.pk participation.pk %}" class="nav-link {% if view.tab == 'news' %}active{% endif %}">{% translate 'News' %}</a>
+                <a href="{% url 'execution:participation-update' study.pk participation.pk %}" class="nav-link {% if view.tab == 'update' %}active{% endif %}">{% translate 'Hints' %}</a>
             </li>
             {% if study.studysession_set.exists %}
                 <li class="nav-item">

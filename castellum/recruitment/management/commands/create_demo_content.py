@@ -214,6 +214,8 @@ def generate_studies(count):
         study.save()
         session = fake_studysession(study)
         session.save()
+        for name, color in settings.CASTELLUM_DEFAULT_EXECUTION_TAGS:
+            study.executiontag_set.create(name=name, color=color)
 
 
 def generate_subjects(count):

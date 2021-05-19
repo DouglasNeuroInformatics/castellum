@@ -37,6 +37,9 @@
                 </li>
             {% endif %}
             <li class="nav-item">
+                <a class="nav-link {% if view.tab == 'tags' %}active{% endif %}" href="{% url 'execution:execution-tags' study.pk %}">{% translate 'Tags' %}</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {% if view.tab == 'progress' %}active{% endif %}" href="{% url 'execution:progress' study.pk %}">{% translate 'Progress' %}</a>
             </li>
         </ul>

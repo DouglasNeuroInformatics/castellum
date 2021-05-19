@@ -24,6 +24,7 @@
 from .attributes import AttributeCategory
 from .attributes import AttributeChoice
 from .attributes import AttributeDescription
+from .participations import ExecutionTag
 from .participations import MailBatch
 from .participations import NewsMailBatch
 from .participations import Participation

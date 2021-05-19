@@ -61,6 +61,7 @@ EXCLUDED = [
     'subjects.ExportAnswer.',
     'contacts.Address.',
     'recruitment.Participation.appointment',
+    'recruitment.ExecutionTag.',
     'subjects.Subject.participation',
 ]
 
