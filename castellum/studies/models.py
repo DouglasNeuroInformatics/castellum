@@ -126,6 +126,7 @@ class Study(models.Model):
         blank=True,
     )
     announce_status_changes = models.BooleanField(_('Announce status changes'), default=False)
+    snapshot = models.TextField(_('Snapshot'), blank=True, editable=False)
 
     members = models.ManyToManyField(User, through='StudyMembership')
     domains = GenericRelation(Domain)
@@ -383,4 +384,4 @@ class StudyTag(models.Model):
     name = models.CharField(_('Name'), max_length=128)
 
     def __str__(self):
-        return '{} - {}'.format(self.study, self.name)
+        return self.name

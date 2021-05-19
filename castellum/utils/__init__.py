@@ -70,3 +70,11 @@ def get_parler_languages(site_id=None):
     names = dict(settings.LANGUAGES)
     codes = [lang['code'] for lang in settings.PARLER_LANGUAGES.get(site_id, [])]
     return [(code, names[code]) for code in codes]
+
+
+class Exclusion:
+    def __init__(self, values):
+        self.values = values
+
+    def __contains__(self, value):
+        return not (value in self.values)
