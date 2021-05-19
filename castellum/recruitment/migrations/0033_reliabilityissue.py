@@ -8,6 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('subjects', '0023_subject_blocked'),
+        ('studies', '0031_study_snapshot'),
         ('recruitment', '0032_executiontag_color'),
     ]
 
@@ -18,6 +19,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('participation', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='recruitment.participation')),
                 ('subject', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='subjects.subject')),
+                ('study', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='studies.study')),
             ],
             options={
                 'verbose_name': 'Reliability issue',

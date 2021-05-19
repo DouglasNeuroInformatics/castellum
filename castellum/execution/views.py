@@ -236,7 +236,11 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
 
     def form_valid(self, form):
         if form.data['reliability_issue'] == '1':
-            ReliabilityIssue.objects.get_or_create(subject=self.subject, participation=self.object)
+            ReliabilityIssue.objects.get_or_create(
+                study=self.study,
+                subject=self.subject,
+                participation=self.object,
+            )
         elif self.object.reliabilityissue:
             self.object.reliabilityissue.delete()
         messages.success(self.request, _('Data has been saved.'))
