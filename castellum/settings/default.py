@@ -341,6 +341,7 @@ CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS = relativedelta(weeks=2)
 CASTELLUM_DEFAULT_EXECUTION_TAGS = [
     ('ready', 'info'),
     ('done', 'success'),
+    ('contact required', 'warning'),
 ]
 
 # settings related to data protection notifications
