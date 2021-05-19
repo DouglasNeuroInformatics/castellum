@@ -47,6 +47,7 @@ EXCLUDED = [
     # already covered by other fields (e.g. backrefs)
     'pseudonyms.Domain.',  # 'studies.Study.domains'
     'recruitment.SubjectFilter.',  # recruitment.SubjectFilterGroup.subjectfilter
+    'recruitment.ExecutionTag.',  # studies.Study.executiontag
     'studies.Study.members',  # studies.Study.studymembership_set
     'studies.StudyTag.',  # studies.Study.studytag
 
