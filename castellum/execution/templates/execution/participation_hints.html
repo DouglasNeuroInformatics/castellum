@@ -5,10 +5,29 @@
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
+
         {% bootstrap_field form.news_interest %}
+
         {% if study.executiontag_set.exists %}
-            {% bootstrap_field form.execution_tags %}
+            <details class="form-group">
+                <summary>
+                    {{ form.execution_tags.label }}
+                    {% for tag in participation.execution_tags.all %}
+                        <span class="badge badge-{{ tag.color }}">{{ tag }}</span>
+                    {% endfor %}
+                </summary>
+
+                {% for value, label in form.execution_tags.field.choices %}
+                    <label class="form-check mb-0">
+                        <input type="checkbox" class="form-check-input" name="execution_tags" value="{{ value }}" {% if value.instance.id in form.execution_tags.value %}checked{% endif %}>
+                        <span class="form-check-label">
+                            <span class="badge badge-{{ value.instance.color }}">{{ label }}</span>
+                        </span>
+                    </label>
+                {% endfor %}
+            </details>
         {% endif %}
+
         <button class="btn btn-primary">{% translate 'Save' %}</button>
     </form>
 {% endblock %}
