@@ -48,10 +48,18 @@ class TimeSlot(models.Model):
 
 class SubjectQuerySet(models.QuerySet):
     def annotate_reliability(self):
+        from castellum.recruitment.models import Participation
+
         return self.annotate(
             reliability_total=(
-                models.Count('participation', distinct=True)
-                + models.Count(
+                models.Count(
+                    'participation',
+                    filter=(
+                        models.Q(participation__status=Participation.INVITED) |
+                        models.Q(participation__dropped_out=True)
+                    ),
+                    distinct=True,
+                ) + models.Count(
                     'reliabilityissue',
                     filter=models.Q(reliabilityissue__participation=None),
                     distinct=True,
