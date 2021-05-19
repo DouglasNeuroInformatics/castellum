@@ -5,20 +5,10 @@
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
-
         {% bootstrap_field form.news_interest %}
-
         {% if study.executiontag_set.exists %}
-            <label class="d-block form-group" data-js="d-select2-badge-color">
-                <span>{{ form.execution_tags.label }}</span>
-                <select name="execution_tags" class="form-control" multiple>
-                    {% for value, label in form.execution_tags.field.choices %}
-                        <option value="{{ value }}" data-color="{{ value.instance.color }}" {% if value.instance.id in form.execution_tags.value %}selected{% endif %}>{{ label }}</option>
-                    {% endfor %}
-                </select>
-            </label>
+            {% bootstrap_field form.execution_tags %}
         {% endif %}
-
         <button class="btn btn-primary">{% translate 'Save' %}</button>
     </form>
 {% endblock %}
