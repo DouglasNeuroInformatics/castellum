@@ -559,6 +559,8 @@ class MaintenanceContactView(BaseMaintenanceView):
             )\
             .filter(
                 models.Q(
+                    gender='',
+                ) | models.Q(
                     guardian_count=0,
                     address=None,
                     email='',
