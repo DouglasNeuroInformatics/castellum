@@ -447,16 +447,12 @@ msgid "Create new subject"
 msgstr "Neue Proband*in anlegen"
 
 #: castellum/contacts/templates/contacts/contact_form.html:18
-#, fuzzy
-#| msgid ""
-#| "Date of birth as well as at least one of email, phone number, address, or "
-#| "guardian should be provided."
 msgid ""
 "Gender and date of birth as well as at least one of email, phone number, "
 "address, or guardian should be provided."
 msgstr ""
-"Das Geburtsdatum, sowie entweder E-Mail, Telefonnummer, Adresse oder Vormund "
-"sollten angegeben werden."
+"Geschlecht und Geburtsdatum sowie entweder E-Mail, Telefonnummer, Adresse "
+"oder Vormund sollten angegeben werden."
 
 #: castellum/contacts/templates/contacts/contact_form.html:37
 #, python-format
@@ -696,6 +692,9 @@ msgid ""
 "subject can no longer take part in the study or repeatedly did not show up "
 "for appoitments."
 msgstr ""
+"Soll diese Proband*in als \"ausgeschieden\" markiert werden? Dies ist "
+"beispielsweise sinnvoll wenn die Proband*in nicht mehr an der Studie "
+"teilnehmen kann oder wiederholt nicht zu Terminen erschienen ist."
 
 #: castellum/execution/templates/execution/participation_dropout.html:10
 msgid ""
@@ -704,37 +703,40 @@ msgid ""
 "this would also delete the pseudonyms. If you do not plan to use the data, "
 "delete all of it and then remove the participation."
 msgstr ""
+"Zusätzlich müssen Sie entscheiden was mit den bereits erhobenen Daten "
+"passieren soll: Wenn die Daten benutzt werden sollen darf die Teilnahme "
+"nicht entfernt werden, da dadurch auch die Pseudonyme gelöscht werden "
+"würden. Wenn die Daten nicht benutzt werden sollen müssen sie gelöscht "
+"werden. Anschließend sollte die Teilnahme entfernt werden."
 
 #: castellum/execution/templates/execution/participation_dropout.html:15
-#, fuzzy
-#| msgid "All information on who participated in this study."
 msgid "The subject will continue participating in this study."
-msgstr "Alle Informationen darüber, wer an dieser Studie teilgenommen hat."
+msgstr "Die Proband*in wird weiterhin an der Studie teilnehmen."
 
 #: castellum/execution/templates/execution/participation_dropout.html:18
-#, fuzzy
-#| msgid "Participation"
 msgid "Participate"
-msgstr "Teilnahme"
+msgstr "Teilnehmen"
 
 #: castellum/execution/templates/execution/participation_dropout.html:23
 msgid ""
 "The subject will no longer participate in this study, but the data collected "
 "so far will be used."
 msgstr ""
+"Die Proband*in wird nicht mehr an der Studie teilnehmen, aber die bereits "
+"erhobenen Daten werden benutzt."
 
 #: castellum/execution/templates/execution/participation_dropout.html:26
 #: castellum/execution/templates/execution/participation_dropout.html:34
-#, fuzzy
-#| msgid "Dropped out"
 msgid "Drop out"
-msgstr "Ausgeschieden"
+msgstr "Ausscheiden"
 
 #: castellum/execution/templates/execution/participation_dropout.html:31
 msgid ""
 "The subject will no longer participate in this study, and the data collected "
 "so far will not be used."
 msgstr ""
+"Die Proband*in wird nicht mehr an der Studie teilnehmen. Die bereits "
+"erhobenen Daten werden nicht benutzt."
 
 #: castellum/execution/templates/execution/participation_dropout.html:40
 #: castellum/execution/templates/execution/participation_dropout_confirm.html:15
@@ -749,12 +751,8 @@ msgid "Cancel"
 msgstr "Abbrechen"
 
 #: castellum/execution/templates/execution/participation_dropout_confirm.html:9
-#, fuzzy
-#| msgid "Are you sure you want to remove \"%(username)s\" from this study?"
 msgid "Are you sure you want to remove this participation?"
-msgstr ""
-"Sind Sie sicher, dass Sie \"%(username)s\" aus dieser Studie entfernen "
-"möchten?"
+msgstr "Sind Sie sicher, dass Sie diese Teilnahme entfernen möchten?"
 
 #: castellum/execution/templates/execution/participation_dropout_confirm.html:12
 #: castellum/recruitment/templates/recruitment/participation_confirm_delete.html:15
@@ -3396,12 +3394,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid ""
-#~ "Please confirm that this subject will no longer participate in the study. "
-#~ "Note that reinviting them is only possible from recruitment or subject "
-#~ "management."
-#~ msgstr ""
-#~ "Bitte bestätigen Sie, dass diese Proband*in nicht länger an der Studie "
-#~ "teilnehmen wird. Beachten Sie dabei bitte, dass die erneute Einladung nur "
-#~ "in der Rekrutierung oder Proband*innenverwaltung möglich ist."
