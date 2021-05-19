@@ -621,7 +621,7 @@ msgstr "Überblick"
 
 #: castellum/execution/templates/execution/participation_base.html:23
 msgid "Hints"
-msgstr ""
+msgstr "Hinweise"
 
 #: castellum/execution/templates/execution/participation_base.html:27
 #: castellum/execution/templates/execution/study_detail.html:16
@@ -693,8 +693,8 @@ msgid ""
 "subject can no longer take part in the study or repeatedly did not show up "
 "for appoitments."
 msgstr ""
-"Soll diese Proband*in als \"ausgeschieden\" markiert werden? Dies ist "
-"beispielsweise sinnvoll wenn die Proband*in nicht mehr an der Studie "
+"Soll die Teilnahme dieser Proband*in als \"abgebrochen\" markiert werden? "
+"Dies ist beispielsweise sinnvoll wenn die Proband*in nicht mehr an der Studie "
 "teilnehmen kann oder wiederholt nicht zu Terminen erschienen ist."
 
 #: castellum/execution/templates/execution/participation_dropout.html:10
@@ -707,8 +707,8 @@ msgstr ""
 "Zusätzlich müssen Sie entscheiden was mit den bereits erhobenen Daten "
 "passieren soll: Wenn die Daten benutzt werden sollen darf die Teilnahme "
 "nicht entfernt werden, da dadurch auch die Pseudonyme gelöscht werden "
-"würden. Wenn die Daten nicht benutzt werden sollen müssen sie gelöscht "
-"werden. Anschließend sollte die Teilnahme entfernt werden."
+"würden. Wenn die Daten nicht benutzt werden sollen müssen diese zunächst "
+"gelöscht werden, um anschließend die Teilnahme zu entfernen."
 
 #: castellum/execution/templates/execution/participation_dropout.html:15
 msgid "The subject will continue participating in this study."
@@ -729,7 +729,7 @@ msgstr ""
 #: castellum/execution/templates/execution/participation_dropout.html:26
 #: castellum/execution/templates/execution/participation_dropout.html:34
 msgid "Drop out"
-msgstr "Ausscheiden"
+msgstr "Abbrechen"
 
 #: castellum/execution/templates/execution/participation_dropout.html:31
 msgid ""
@@ -969,13 +969,11 @@ msgstr ""
 
 #: castellum/execution/views.py:586
 msgid "There have been errors."
-msgstr ""
+msgstr "Es sind Fehler aufgetreten."
 
 #: castellum/execution/views.py:613
-#, fuzzy
-#| msgid "Study has been deleted."
 msgid "Tag has been deleted."
-msgstr "Die Studie wurde gelöscht"
+msgstr "Tag wurde gelöscht"
 
 #: castellum/pseudonyms/forms.py:34
 msgid "Invalid pseudonym"
@@ -1227,31 +1225,27 @@ msgstr "Farbe"
 
 #: castellum/recruitment/models/participations.py:63
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: castellum/recruitment/models/participations.py:64
 msgid "Success"
-msgstr ""
+msgstr "Success"
 
 #: castellum/recruitment/models/participations.py:65
 msgid "Danger"
-msgstr ""
+msgstr "Danger"
 
 #: castellum/recruitment/models/participations.py:66
 msgid "Warning"
-msgstr ""
+msgstr "Warning"
 
 #: castellum/recruitment/models/participations.py:67
-#, fuzzy
-#| msgid "primary"
 msgid "Primary"
-msgstr "primär"
+msgstr "Primary"
 
 #: castellum/recruitment/models/participations.py:68
-#, fuzzy
-#| msgid "secondary"
 msgid "Secondary"
-msgstr "sekundär"
+msgstr "Secondary"
 
 #: castellum/recruitment/models/participations.py:120
 msgid "not contacted"
@@ -1310,7 +1304,7 @@ msgstr "Proband*in ist potentiell geeignet"
 
 #: castellum/recruitment/models/participations.py:150
 msgid "Dropped out"
-msgstr "Ausgeschieden"
+msgstr "Abgebrochen"
 
 #: castellum/recruitment/models/participations.py:152
 msgid "Attempts"
@@ -1331,10 +1325,8 @@ msgstr "Interesse an Neuigkeiten zur Studie"
 
 #: castellum/recruitment/models/participations.py:161
 #: castellum/studies/templates/studies/study_diff.html:97
-#, fuzzy
-#| msgid "Execution"
 msgid "Execution tags"
-msgstr "Durchführung"
+msgstr "Durchführungstags"
 
 #: castellum/recruitment/models/participations.py:167
 msgid "Study participation"
@@ -1902,7 +1894,7 @@ msgstr "Bei Statusänderungen Benachrichtigungen versenden"
 
 #: castellum/studies/models.py:129
 msgid "Snapshot"
-msgstr ""
+msgstr "Momentaufnahme"
 
 #: castellum/studies/models.py:134
 msgid "Advanced filtering"
@@ -2238,10 +2230,8 @@ msgstr "Studie beenden"
 
 #: castellum/studies/templates/studies/study_base.html:115
 #: castellum/studies/templates/studies/study_diff.html:4
-#, fuzzy
-#| msgid "Unsaved Changes"
 msgid "Changes"
-msgstr "Nicht gespeicherte Änderungen"
+msgstr "Änderungen"
 
 #: castellum/studies/templates/studies/study_base.html:121
 #: castellum/studies/templates/studies/study_detail.html:5
@@ -2361,18 +2351,17 @@ msgid ""
 "This page provides an overview of all the settings for this study. Any "
 "changes that were made since the study was started are highlighted."
 msgstr ""
+"Diese Seite bietet einen Überblick über alle Einstellungen für diese "
+"Studie. Alle Veränderungen, die geschehen sind seit die Studie gestartet "
+"wurde sind hervorgehoben."
 
 #: castellum/studies/templates/studies/study_diff.html:55
-#, fuzzy
-#| msgid "Domain"
 msgid "Domains"
-msgstr "Domäne"
+msgstr "Domänen"
 
 #: castellum/studies/templates/studies/study_diff.html:103
-#, fuzzy
-#| msgid "Membership"
 msgid "Memberships"
-msgstr "Mitgliedschaft"
+msgstr "Mitgliedschaften"
 
 #: castellum/studies/templates/studies/study_excluded_studies.html:21
 msgid ""
