@@ -338,7 +338,10 @@ CASTELLUM_EXPECTED_SUBJECT_FACTOR = 10
 CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS = relativedelta(weeks=2)
 
 # default execution tags which are automatically created for each new study
-CASTELLUM_DEFAULT_EXECUTION_TAGS = ['ready', 'done']
+CASTELLUM_DEFAULT_EXECUTION_TAGS = [
+    ('ready', 'info'),
+    ('done', 'success'),
+]
 
 # settings related to data protection notifications
 # make sure to setup a cron-job for ``notify_to_be_deleted``
