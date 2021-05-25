@@ -98,4 +98,24 @@
         allowClear: true,
         placeholder: '---',
     });
+
+    var prefixColor = function(state) {
+        if (!state.element) {
+            return null;
+        }
+        var $wrapper = $('<span>');
+        var $text = $('<span>');
+        var $color = $('<span aria-hidden="true">&#9679;</span>')
+        $color.addClass('text-' + state.element.value);
+        $text.text(' ' + state.text);
+        $wrapper.append($color);
+        $wrapper.append($text);
+        return $wrapper;
+    };
+
+    $('[data-js="d-select2-color"] select').select2({
+        minimumResultsForSearch: -1,
+        templateResult: prefixColor,
+        templateSelection: prefixColor,
+    });
 })();
