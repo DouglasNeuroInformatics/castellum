@@ -73,6 +73,15 @@ class SubjectQuerySet(models.QuerySet):
 
         return self.annotate(**counts, showup_score=sum(score))
 
+    def annotate_dropout(self):
+        from castellum.recruitment.models import Participation
+
+        participations_count = (
+            self.participation_set.filter(status=Participation.INVITED).count()
+            + self.participation_set.exclude(status=Participation.INVITED).filter(dropped_out=True).count()
+        )
+        dropout_count = self.participation_set.filter(dropped_out=True)
+        return self.annotate(dropout_score=dropout_count/participations_count)
 
 class Subject(TimeStampedModel):
     slug = models.CharField(_('Slug'), max_length=64, default=uuid_str, unique=True)
@@ -274,6 +283,15 @@ class Subject(TimeStampedModel):
         for status, label in Appointment.SHOWUP_CHOICES:
             key = 'showup_{}'.format(status)
             setattr(self, key, getattr(annotated, key))
+
+    def annotate_droput_stats(self):
+        from castellum.recruitment.models import Participation
+
+        if hasattr(self, 'dropout_score'):
+            return
+
+        annotated = Subject.objects.annotate_droput().get(pk=self.pk)
+        self.droput_score = annotated.droput_score
 
     def get_data(self):
         from castellum.recruitment.models import AttributeDescription
