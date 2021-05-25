@@ -20,6 +20,7 @@
                         </span>
                     </label>
                 {% endfor %}
+                <small><a href="{% url 'execution:execution-tags' study.pk %}">{% translate 'Manage tags' %}</a></small>
             </div>
         {% endif %}
 
