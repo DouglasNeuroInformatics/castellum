@@ -1,3 +1,26 @@
+# 0.60.0 (2021-05-25)
+
+## bug fixes
+
+-   In some cases studies were missing in the participation recruitment
+    view in subject management if the subject already had a participation
+    but was not participating.
+
+## new features
+
+-   Study approvers now have access to an overview of all the settings
+    for a study. Any changes that were made since the study was started
+    are highlighted.
+-   In Execution, tags can now be assigned to subjects.
+    The list of tags can be changed for each study individually.
+    A set of default tags is created for each new study.
+-   "Gender" is now an optional field for subjetcs. As a result, it no
+    longer defaults to "female".
+-   The dropout UI was expanded to include more information and allows
+    to choose between drop out and keeping the data collected this far
+    and drop out and deleting all data.
+
+
 # 0.59.0 (2021-05-05)
 
 ## breaking changes
