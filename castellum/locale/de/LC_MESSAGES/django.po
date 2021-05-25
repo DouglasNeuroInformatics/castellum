@@ -775,6 +775,10 @@ msgstr ""
 msgid "Confirm"
 msgstr "Bestätigen"
 
+#: castellum/execution/templates/execution/participation_hints.html:23
+msgid "Manage tags"
+msgstr "Tags verwalten"
+
 #: castellum/execution/templates/execution/participation_pseudonyms.html:12
 msgid "Domain key"
 msgstr "Domänen-Schlüssel"
@@ -3080,7 +3084,10 @@ msgstr "Proband*innen-Daten registriert"
 msgid "Last edited"
 msgstr "Zuletzt bearbeitet"
 
-#: castellum/subjects/templates/subjects/subject_detail.html:60
+#: castellum/subjects/templates/subjects/subject_detail.html:59
+msgid "Drop out rate"
+msgstr "Abbruch-Rate"
+
 msgid "Legal basis for data processing"
 msgstr "Rechtsgrundlage für die Datenverarbeitung"
 
