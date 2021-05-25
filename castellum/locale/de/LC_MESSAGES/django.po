@@ -1229,23 +1229,23 @@ msgstr "Info"
 
 #: castellum/recruitment/models/participations.py:64
 msgid "Success"
-msgstr "Success"
+msgstr "Erfolg"
 
 #: castellum/recruitment/models/participations.py:65
 msgid "Danger"
-msgstr "Danger"
+msgstr "Gefahr"
 
 #: castellum/recruitment/models/participations.py:66
 msgid "Warning"
-msgstr "Warning"
+msgstr "Warnung"
 
 #: castellum/recruitment/models/participations.py:67
 msgid "Primary"
-msgstr "Primary"
+msgstr "Primär"
 
 #: castellum/recruitment/models/participations.py:68
 msgid "Secondary"
-msgstr "Secondary"
+msgstr "Sekundär"
 
 #: castellum/recruitment/models/participations.py:120
 msgid "not contacted"
