@@ -191,6 +191,12 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         completed, total = self.object.get_completeness()
         context['attribute_completeness'] = '{:.0%}'.format(completed / (total or 1))
 
+        context['dropout_count'] = self.object.participation_set.filter(dropped_out=True).count()
+        context['dropout_total'] = self.object.participation_set.filter(
+            models.Q(status=Participation.INVITED) |
+            models.Q(dropped_out=True)
+        ).count()
+
         context['coverletter_exists'] = bool(settings.CASTELLUM_COVERLETTER_TEMPLATE)
 
         return context
