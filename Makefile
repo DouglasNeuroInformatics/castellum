@@ -45,7 +45,7 @@ lint:
 
 .PHONY: test
 test:
-	$(VIRTUAL_ENV)/bin/pytest --reuse-db --show-capture=no
+	$(VIRTUAL_ENV)/bin/pytest --no-migrations
 
 .PHONY: install
 install: venv
