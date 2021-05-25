@@ -9,13 +9,8 @@
         {% bootstrap_field form.news_interest %}
 
         {% if study.executiontag_set.exists %}
-            <details class="form-group">
-                <summary>
-                    {{ form.execution_tags.label }}
-                    {% for tag in participation.execution_tags.all %}
-                        <span class="badge badge-{{ tag.color }}">{{ tag }}</span>
-                    {% endfor %}
-                </summary>
+            <div class="form-group">
+                {{ form.execution_tags.label }}
 
                 {% for value, label in form.execution_tags.field.choices %}
                     <label class="form-check mb-0">
@@ -25,7 +20,7 @@
                         </span>
                     </label>
                 {% endfor %}
-            </details>
+            </div>
         {% endif %}
 
         <button class="btn btn-primary">{% translate 'Save' %}</button>
