@@ -77,34 +77,10 @@ def protected_media(request, path):
 
 
 def consent_view(request):
-    return render(request, 'consent.html', {
-        'study_title': 'TEST',
-        'bio_scope': 'broad',
-        'child': True,
-        'code_list': True,
-        'cross_sectional': True,
-        'incidental_finding': True,
-        'longterm': True,
-        'merge': True,
-        'method_bio_blood': True,
-        'method_bio_other': True,
-        'method_eeg': True,
-        'method_image': True,
-        'method_interview': True,
-        'method_mri': True,
-        'method_other': True,
-        'method_sound': True,
-        'method_tests': True,
-        'risk': True,
-        'sensitive': True,
-        'share_cooperation': True,
-        'share_eu': True,
-        'share_internal': True,
-        'share_international': True,
-        'share_internet': True,
-        'share_journal': True,
-        'share_repo': True,
-    })
+    if request.method == 'POST':
+        return render(request, 'consent.html', request.POST)
+    else:
+        return render(request, 'consent_form.html', {})
 
 
 def dummy(request):

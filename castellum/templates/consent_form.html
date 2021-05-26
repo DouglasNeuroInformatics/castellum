@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <label class="d-block form-group">
+            Titel der Studie
+            <input class="form-control" name="study_title">
+        </label>
+        <div class="form-group">
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="radio" name="child" value="0">
+                <span class="form-check-label">Die Person nimmt selbst teil</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="radio" name="child" value="1">
+                <span class="form-check-label">Ein Kind der Person nimmt teil</span>
+            </label>
+        </div>
+        <div class="form-group">
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="sensitive">
+                <span class="form-check-label">Es werden besonders sensiblen Daten erhoben</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="cross_sectional">
+                <span class="form-check-label">Es handelt sich um eine Querschnittstudie</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="longterm">
+                <span class="form-check-label">Es handelt sich um eine Langzeitstudie</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="incidental_finding">
+                <span class="form-check-label">Es kann zu Zufallsbefunden kommen</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="risk">
+                <span class="form-check-label">Es sind Risiken zu erwarten</span>
+            </label>
+        </div>
+        <label class="d-block form-group">
+            Verwendung von Bioproben
+            <select class="form-control" name="bio_scope">
+                <option value="narrow">Nur innerhalb der Studie</option>
+                <option value="medium">Für bestimmte Forschungsfragen</option>
+                <option value="broad">Für beliebige Forschungsfragen</option>
+            </select>
+        </label>
+        <div class="form-group">
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="radio" name="code_list" value="1">
+                <span class="form-check-label">Die Kontaktdaten werden über Castellum gepflegt</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="radio" name="code_list" value="0">
+                <span class="form-check-label">Die Studie findet anonym statt</span>
+            </label>
+        </div>
+        <div class="form-group">
+            Die folgenden Erhebungsmethoden kommen zum Einsatz
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="method_tests">
+                <span class="form-check-label">[Computergestützte [neuropsychologische]] Tests und Fragebögen</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="method_mri">
+                <span class="form-check-label">Magnetresonanztomographie (MRT)</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="method_eeg">
+                <span class="form-check-label">Elektroenzephalographie (EEG)</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="method_image">
+                <span class="form-check-label">Bildaufnahmen</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="method_sound">
+                <span class="form-check-label">Tonaufnahmen</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="method_bio_blood">
+                <span class="form-check-label">Blutentnahme</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="method_bio_other">
+                <span class="form-check-label">Weitere Probenentnahme</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="method_other">
+                <span class="form-check-label">Sonstige</span>
+            </label>
+        </div>
+        <div class="form-group">
+            Die Daten sollen mit geteilt werden
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="share_internal">
+                <span class="form-check-label">innerhalb des MPIB</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="share_cooperation">
+                <span class="form-check-label">Mit Kooperationspartnern</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="share_eu">
+                <span class="form-check-label">Innerhalb der EU</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="share_international">
+                <span class="form-check-label">Außerhalb der EU</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="share_repo">
+                <span class="form-check-label">In einem Repositorium</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="share_internet">
+                <span class="form-check-label">Auf einer Internetplattform</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="share_journal">
+                <span class="form-check-label">Mit der Publikation in einem Journal</span>
+            </label>
+            <label class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="merge">
+                <span class="form-check-label">Die Daten sollen mit anderen Daten am MPIB zusammengeführt werden</span>
+            </label>
+        </div>
+        <button class="btn btn-primary">{% translate 'Submit' %}</button>
+    </form>
+{% endblock %}
