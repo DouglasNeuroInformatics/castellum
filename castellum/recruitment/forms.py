@@ -198,6 +198,11 @@ class ContactForm(forms.ModelForm):
         elif self.instance.match == 'incomplete':
             self.fields['status'].widget.disabled_choices = [Participation.INVITED]
 
+        recruiter_pks = [recruiter.pk for recruiter in self.instance.study.recruiters]
+        self.fields['assigned_user'].queryset = self.instance.study.members.filter(
+            pk__in=recruiter_pks
+        )
+
 
 class ContactAndAppointmentsForm(ContactForm, AppointmentsForm):
     def clean(self):
