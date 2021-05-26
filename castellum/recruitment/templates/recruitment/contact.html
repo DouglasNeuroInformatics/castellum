@@ -13,6 +13,9 @@
         {% if participation.dropped_out %}
             <span class="badge badge-secondary">{{ participation|verbose_name:'dropped_out' }}</span>
         {% endif %}
+        {% if participation.assigned_user %}
+            <span class="badge badge-info my-1">{% blocktranslate %}assigned to {{ participation|display:'assigned_user' }}{% endblocktranslate %}
+        {% endif %}
     </div>
 {% endblock %}
 
