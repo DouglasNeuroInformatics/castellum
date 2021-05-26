@@ -103,6 +103,7 @@ def consent_view(request):
         'sensitive': True,
         'merge': True,
         'incidental_finding': True,
+        'child': True,
     })
 
 
