@@ -173,7 +173,13 @@ class AttributesForm(forms.ModelForm):
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Participation
-        fields = ['status', 'followup_date', 'followup_time', 'exclusion_criteria_checked']
+        fields = [
+            'status',
+            'followup_date',
+            'followup_time',
+            'exclusion_criteria_checked',
+            'assigned_user',
+        ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
