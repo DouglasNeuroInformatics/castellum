@@ -2,18 +2,19 @@
 
 {% block content %}
     <h1>Allgemeine Informationen zur Studie</h1>
-    <p>Vielen Dank für Ihr Interesse an unserer Studie [„Titel der Studie“]. Bitte lesen Sie sich den Text aufmerksam und in Ruhe durch. Wenn Sie Fragen haben, beantworten wir diese gerne. Abschließend können Sie durch Ihre Unterschrift die Kenntnisnahme der vorliegenden Information und Ihre Bereitschaft zur Teilnahme an der Studie erklären.</p>
+    <p>Vielen Dank für Ihr Interesse an unserer Studie „{{ study_title }}“. Bitte lesen Sie sich den Text aufmerksam und in Ruhe durch. Wenn Sie Fragen haben, beantworten wir diese gerne. Abschließend können Sie durch Ihre Unterschrift die Kenntnisnahme der vorliegenden Information und Ihre Bereitschaft zur Teilnahme an der Studie erklären.</p>
     <h2>Was ist das Ziel der Studie?</h2>
-    <p>Bei der Studie handelt es sich um ein Forschungsvorhaben des Max-Planck-Instituts für Bildungsforschung (MPIB) [ggf: in Kooperation mit INSTITUTION (PERSON)]. In der Studie wollen wir untersuchen, [Allgemeinverständliche kurze Beschreibung].</p>
-    <p>[optional kann von den Studienverantwortlichen der folgende Passus eingefügt werden, sofern eine weitere Datennutzung innerhalb der Institute vorgesehen ist:] Die erhobenen Daten werden ausschließlich zu Forschungszwecken wissenschaftlich ausgewertet. Innerhalb des MPIB können die Forschungsdaten auch für verwandte Fragestellungen analysiert werden.</p>
+    <p>Bei der Studie handelt es sich um ein Forschungsvorhaben des Max-Planck-Instituts für Bildungsforschung (MPIB) {% if share_cooperation %}in Kooperation mit INSTITUTION (PERSON){% endif %}. In der Studie wollen wir untersuchen, [Allgemeinverständliche kurze Beschreibung].</p>
+    {% if share_internal %}
+        <p>Die erhobenen Daten werden ausschließlich zu Forschungszwecken wissenschaftlich ausgewertet. Innerhalb des MPIB können die Forschungsdaten auch für verwandte Fragestellungen analysiert werden.</p>
+    {% endif %}
     <h2>Ein- und Ausschlusskriterien</h2>
-    <p>[Textvorschlag in Anlehnung an Text MPICBS:] An der geplanten Studie können [z.B. gesunde Personen/Männer/Kinder (…)] [ggf.] im Alter zwischen/von [XY] Jahren teilnehmen. [Ggf.:] Nicht teilnehmen können Personen, [z.B. die eine Vorgeschichte einer psychiatrischen und/oder neurologischen Vorerkrankung haben und/oder eine Vorgeschichte von Alkohol- und/oder Drogenmissbrauch und/oder (…).] [ggf. hier Ausschlusskriterien für die Teilnahme an bestimmten Untersuchungen (z.B. MRT) Aufführen, bzw. Auf Extra Aufklärungsunteralgen verweisen].</p>
+    <p>An der geplanten Studie können [z.B. gesunde Personen/Männer/Kinder (…)] [ggf.] im Alter zwischen/von [XY] Jahren teilnehmen. [Ggf.:] Nicht teilnehmen können Personen, [z.B. die eine Vorgeschichte einer psychiatrischen und/oder neurologischen Vorerkrankung haben und/oder eine Vorgeschichte von Alkohol- und/oder Drogenmissbrauch und/oder (…).] [ggf. hier Ausschlusskriterien für die Teilnahme an bestimmten Untersuchungen (z.B. MRT) Aufführen, bzw. Auf Extra Aufklärungsunteralgen verweisen].</p>
     <p>Eine Teilnahme setzt außerdem ein [schriftlich] erklärtes Einverständnis voraus.</p>
     <h2>Von wem wird die Studie finanziert?</h2>
-    <p>[Textvorschlag] Die Studie wird durch [XY] unter dem Förderkennzeichen [XY] finanziert. [Ggf.] Die zuständigen Ethikkommission erhebt keine ethischen und wissenschaftlichen Bedenken gegen diese Studie [ggf. Ethik-Nr.]. [Ggf. weitere Fördermittel erwähnen, ebenso mögliche Interessenkonflikte.]</p>
+    <p>Die Studie wird durch [XY] unter dem Förderkennzeichen [XY] finanziert. [Ggf.] Die zuständigen Ethikkommission erhebt keine ethischen und wissenschaftlichen Bedenken gegen diese Studie [ggf. Ethik-Nr.]. [Ggf. weitere Fördermittel erwähnen, ebenso mögliche Interessenkonflikte.]</p>
     <h1>Studienablauf</h1>
     <h2>Ablauf der Studienteilnahme</h2>
-    <p>[Beispiel MPIB: Der Umfang und Ablauf für den/die jeweilige/n Teilnehmer/in sollten genau beschrieben werden.</p>
     <p>Für die Durchführung der Studie werden wir Sie bitten, [kurze Beschreibung des Vorgehens. Auch Beschreibung der Messungen, z.B. Tastendruck, Video, EEG, Paper/Pencil …]</p>
     <p>[Inhalt und Besonderheiten der Sitzung(en) beschreiben]. Dabei werden die folgenden Fragebögen, Aufgaben und Tests angewandt:</p>
     <ul>
@@ -22,32 +23,46 @@
         <li>Anzahl der Termine und Gesamtdauer der Teilnahme</li>
         <li>Bei mehreren Terminen bzw. längerem Teilnahmezeitraum oder umfangreichen Testtagen ggf. Ablaufdiagramm einfügen</li>
     </ul>
-    <p>Für die Studie erheben wir die folgenden Datenkategorien: [Datenkategorien]vii, 3</p>
-    <p>[Ggf. Schaubild. Beispiel für Darstellung. Ablauf lässt sich erweitern und editierenviii]</p>
+    <p>Für die Studie erheben wir die folgenden Datenkategorien: [Datenkategorien]</p>
+    <p>[Ggf. Schaubild. Beispiel für Darstellung. Ablauf lässt sich erweitern und editieren]</p>
     <h1>Untersuchungsmethoden</h1>
-    <h2>[ggf.] [Computergestützte [neuropsychologische]] Tests und Fragebögen</h2>
-    <p>[Art und Umfang der Tests Beschreiben]</p>
-    <p>[Hier ggf. einen Standardtext des Forschungsinstituts einfügen]</p>
-    <h2>[ggf.] Magnetresonanztomographie (MRT)</h2>
-    <p>[Art und Umfang Beschreiben. Ggf. hier auf gesonderte Informations- und Einwilligungsunterlagen verweisen und hier nur sehr kurze Beschreibung]</p>
-    <p>[Text MPIB]ix Während der Untersuchung liegen Sie [und/oder liegt Ihr Kind] mit dem Oberkörper in einer speziellen Röhre. Diese Röhre ist vorn und hinten offen und hat einen Durchmesser von ca. 60 cm. Manche Menschen empﬁnden das als etwas ungewohnt, gewöhnen sich aber in der Regel nach wenigen Minuten daran. Es ist außerordentlich wichtig, dass Sie [und/oder ihr Kind] die gesamte Zeit über (30 bis 60 Minuten) sehr ruhig liegen und insbesondere den Kopf nicht bewegen, denn leider führen bereits Kopfbewegungen von weniger als einem Zentimeter zu unbrauchbaren Bildern (ähnlich dem Verwackeln beim Fotograﬁeren). Bei der Untersuchung treten laute Geräusche auf, die auf elektromagnetischen Schaltvorgängen im Magneten beruhen. Aus diesem Grund werden Sie [und/oder Ihr Kind] während der Untersuchung Ohrstöpsel und schalldämmende Kopfhörer tragen.</p>
-    <p>Das MRT-Gerät wird aus einem Nebenraum heraus bedient. Die Untersuchungsleiter können Sie [und/oder Ihr Kind] während der Untersuchung durch ein Fenster und durch ein Kamerasystem sehen. Über eine eingebaute Gegensprechanlage können wir Sie hören und mit Ihnen reden. Auf diesem Wege geben wir Ihnen [und/oder Ihrem Kind] während der Untersuchung Informationen und fragen Sie [und/oder Ihr Kind] nach dem Beﬁnden. Zusätzlich erhalten Sie [und/oder [erhält] Ihr Kind] eine Alarmklingel, um sich jederzeit bemerkbar machen zu können, z. B. wenn Sie [und/oder Ihr Kind] die Untersuchung aus irgendeinem Grund abbrechen möchten.</p>
-    <p>Wegen des starken Magnetfeldes dürfen natürlich keine magnetischen oder metallhaltigen Gegenstände in den Untersuchungsraum mitgebracht werden. Solche Gegenstände (Kugelschreiber, Münzgeld, etc.) müssen vor der Untersuchung abgelegt werden. Dafür stehen in unseren Räumen Aufbewahrungsmöglichkeiten zur Verfügung.</p>
-    <h2>[ggf.] Elektroenzephalographie (EEG)</h2>
-    <p>[Art und Umfang Beschreiben. Ggf. hier auf gesonderte Informations- und Einwilligungsunterlagen verweisen und hier nur sehr kurze Beschreibung]</p>
-    <p>[Hier ggf. einen Standardtext des Forschungsinstituts einfügen]</p>
-    <h2>[ggf.] Bild- und Tonaufnahmen</h2>
-    <p>[Art und Umfang der geplanten Aufnahmen beschreiben].</p>
-    <h2>[ggf.] Blutentnahme</h2>
-    <p>[Art und Umfang der geplanten Probenentnahme und Analysen beschreiben]</p>
-    <p>[ggf. Genetische Untersuchungen deutlich darstellen. Was wird genotypisiert und wozu, Analysen darüber hinaus]</p>
-    <p>[Hier ggf. einen Standardtext des Forschungsinstituts einfügen]</p>
-    <h2>[ggf.] Weitere Probenentnahme</h2>
-    <p>[Art und Umfang der geplanten Probenentnahme und Analysen beschreiben]</p>
-    <p>[ggf. Genetische Untersuchungen deutlich darstellen. Was wird genotypisiert und wozu, Analysen darüber hinaus;]</p>
-    <p>[Hier ggf. einen Standardtext des Forschungsinstituts einfügen]</p>
-    <h2>[ggf.] Weitere Methoden</h2>
-    <p>[Weitere Methoden benennen, ggf. auch Anwendung neuer Methoden wie […], Auswertung von Daten aus dem Internet … und genauer erläutern.]</p>
+    {% if method_tests %}
+        <h2>[Computergestützte [neuropsychologische]] Tests und Fragebögen</h2>
+        <p>[Art und Umfang der Tests Beschreiben]</p>
+        <p>[Hier ggf. einen Standardtext des Forschungsinstituts einfügen]</p>
+    {% endif %}
+    {% if method_mri %}
+        <h2>Magnetresonanztomographie (MRT)</h2>
+        <p>[Art und Umfang Beschreiben. Ggf. hier auf gesonderte Informations- und Einwilligungsunterlagen verweisen und hier nur sehr kurze Beschreibung]</p>
+        <p>Während der Untersuchung liegen Sie [und/oder liegt Ihr Kind] mit dem Oberkörper in einer speziellen Röhre. Diese Röhre ist vorn und hinten offen und hat einen Durchmesser von ca. 60 cm. Manche Menschen empﬁnden das als etwas ungewohnt, gewöhnen sich aber in der Regel nach wenigen Minuten daran. Es ist außerordentlich wichtig, dass Sie [und/oder ihr Kind] die gesamte Zeit über (30 bis 60 Minuten) sehr ruhig liegen und insbesondere den Kopf nicht bewegen, denn leider führen bereits Kopfbewegungen von weniger als einem Zentimeter zu unbrauchbaren Bildern (ähnlich dem Verwackeln beim Fotograﬁeren). Bei der Untersuchung treten laute Geräusche auf, die auf elektromagnetischen Schaltvorgängen im Magneten beruhen. Aus diesem Grund werden Sie [und/oder Ihr Kind] während der Untersuchung Ohrstöpsel und schalldämmende Kopfhörer tragen.</p>
+        <p>Das MRT-Gerät wird aus einem Nebenraum heraus bedient. Die Untersuchungsleiter können Sie [und/oder Ihr Kind] während der Untersuchung durch ein Fenster und durch ein Kamerasystem sehen. Über eine eingebaute Gegensprechanlage können wir Sie hören und mit Ihnen reden. Auf diesem Wege geben wir Ihnen [und/oder Ihrem Kind] während der Untersuchung Informationen und fragen Sie [und/oder Ihr Kind] nach dem Beﬁnden. Zusätzlich erhalten Sie [und/oder [erhält] Ihr Kind] eine Alarmklingel, um sich jederzeit bemerkbar machen zu können, z. B. wenn Sie [und/oder Ihr Kind] die Untersuchung aus irgendeinem Grund abbrechen möchten.</p>
+        <p>Wegen des starken Magnetfeldes dürfen natürlich keine magnetischen oder metallhaltigen Gegenstände in den Untersuchungsraum mitgebracht werden. Solche Gegenstände (Kugelschreiber, Münzgeld, etc.) müssen vor der Untersuchung abgelegt werden. Dafür stehen in unseren Räumen Aufbewahrungsmöglichkeiten zur Verfügung.</p>
+    {% endif %}
+    {% if method_eeg %}
+        <h2>Elektroenzephalographie (EEG)</h2>
+        <p>[Art und Umfang Beschreiben. Ggf. hier auf gesonderte Informations- und Einwilligungsunterlagen verweisen und hier nur sehr kurze Beschreibung]</p>
+        <p>[Hier ggf. einen Standardtext des Forschungsinstituts einfügen]</p>
+    {% endif %}
+    {% if method_image or method_sound %}
+        <h2>Bild- und Tonaufnahmen</h2>
+        <p>[Art und Umfang der geplanten Aufnahmen beschreiben].</p>
+    {% endif %}
+    {% if method_bio_blood %}
+        <h2>Blutentnahme</h2>
+        <p>[Art und Umfang der geplanten Probenentnahme und Analysen beschreiben]</p>
+        <p>[ggf. Genetische Untersuchungen deutlich darstellen. Was wird genotypisiert und wozu, Analysen darüber hinaus]</p>
+        <p>[Hier ggf. einen Standardtext des Forschungsinstituts einfügen]</p>
+    {% endif %}
+    {% if method_bio_other %}
+        <h2>Weitere Probenentnahme</h2>
+        <p>[Art und Umfang der geplanten Probenentnahme und Analysen beschreiben]</p>
+        <p>[ggf. Genetische Untersuchungen deutlich darstellen. Was wird genotypisiert und wozu, Analysen darüber hinaus;]</p>
+        <p>[Hier ggf. einen Standardtext des Forschungsinstituts einfügen]</p>
+    {% endif %}
+    {% if method_other %}
+        <h2>Weitere Methoden</h2>
+        <p>[Weitere Methoden benennen, ggf. auch Anwendung neuer Methoden wie […], Auswertung von Daten aus dem Internet … und genauer erläutern.]</p>
+    {% endif %}
     <h2>[ggf] Anpassung für Minderjährige:x</h2>
     <ul>
         <li>„Sie“ --&lt; ersetzen durch „Sie und/oder Ihr Kind“ überall im Dokument</li>
@@ -58,40 +73,47 @@
     <p>Die Form der Einwilligung des Kindes ist vom Alter abhängig. Bis 18 Jahren müssen die Eltern in die Studienteilnahme einwilligen. Bei Jugendlichen ab 16 Jahren oder sofern eine Einsichtsfähigkeit des Kindes anzunehmen ist, ist eine schriftliche Bestätigung zur Einwilligung zur Teilnahme in die Studie durch den/die Minderjährige/n aus Dokumentationsgründen anzuraten.Die datenschutzrechtliche Einwilligung muss entsprechend der Vorgaben der DSGVO von Jugendlichen ab 16 Jahren unterschrieben werden. Die DSGVO setzt für die Einwilligung in die Datenverarbeitung die Unterschrift der Erziehungsberechtigten nicht notwendigerweise voraus, sofern von einer Einsichtsfähigkeit der/des Minderjährigen auszugehen ist, was grundsätzlich ab 16 Jahren der Fall sein kann.</p>
     <p>Zusätzlich beachten: In den Ethikleitlinien der Psychologen im Kontext der Forschung.4</p>
     <h1>Risiken, Versicherung, Aufwandsentschädigung</h1>
-    <h2>Welche[n Nutzen und welche] Risiken gibt es?</h2>
-    <p>[Sofern Nutzen angegeben wird: Diese Studie dient [der wissenschaftlichen Grundlagenforschung/der Erforschung XY]. Die Auswertung dient Forschungszwecken und zielt auf eine Verbesserung unseres Verständnisses [der/des XY]. Persönlich haben Sie [und/oder Ihr Kind] [deshalb] keinen unmittelbaren Vorteil oder Nutzen aus der Teilnahme an der Studie [bzw. Nutzen erläutern. Beachten: Bei vorhandenem persönlichem Nutzen soll gewährleistet sein, dass die Teilnahme trotzdem freiwillig bleibt].]</p>
-    <h3>[1] Sofern keine Risiken zu erwarten sind:</h3>
-    <p>Die [Untersuchung/Erhebung/Studie] hat für Sie [und/oder Ihr Kind] keine negativen Auswirkungen. Sie ist nicht mit [bekannten] Risiken für Ihre körperliche Gesundheit oder Ihr [psychisches] Wohlbefinden verbunden.</p>
-    <p>[Möglich auch: MPIB]: Keine</p>
-    <h3>[2] Sofern MRT angewendet wird: Risiken bei MRT-Untersuchungen</h3>
-    <p>[ggf. gibt es für MRT auch gesonderte Informationen für Teilnehmer/innen an den Instituten. Dann hier ggf. Hinweis darauf, sonst hier Standard Institutstext einfügen.</p>
-    <ul>
-        <li>Benennung auch von Vertraulichkeitsrisiken</li>
-        <li>Möglichkeit der Identifikation</li>
-        <li>Nicht vollständige Ausschließbarkeit von Vertraulichkeitsrisiken</li>
-        <li>Ggf. Abhilfemaßnahmen</li>
-    </ul>
-    <h3>[3] Sofern Proben entnommen werden: Risiken durch die Entnahme von [XY]</h3>
-    <p>[z.B. Angaben über Menge der Probenentnahme, Risiken (z.B. Blutentenahme, Speichelproben, sonstiges). Beispiel aus Mustertext Arbeitskreis Medizinischer Ethik-kommissionen:] Wir möchten Ihnen [...] ml Blut abnehmen (das entspricht etwa [...] Esslöffeln). Dies ist für Sie [und/oder Ihr Kind] nur mit den geringen Risiken einer normalen Blutentnahme verbunden. An der Einstichstelle kann es zu Schmerzen kommen oder es kann ein Bluterguss (blauer Fleck) entstehen. In äußerst seltenen Fällen kann sich auch ein Blutgerinnsel (Thrombose) bilden, eine örtlich begrenzte Entzündung an der Einstichstelle auftreten oder es kann zu dauerhaften Schädigungen von Blutgefäßen oder Nerven kommen.xii</p>
-    <p>[Für die Entnahme von anderem Körpermaterial entsprechend anpassen.]</p>
-    <p>[Falls Biomaterialien, insbes. auch für genetische Analysen, erhoben werdenxiii, auch:]</p>
-    <ul>
-        <li>Benennung auch von Vertraulichkeitsrisiken</li>
-        <li>Möglichkeit der Identifikation</li>
-        <li>Nicht vollständige Ausschließbarkeit von Vertraulichkeitsrisiken</li>
-        <li>Ggf. Abhilfemaßnahmen</li>
-    </ul>
-    <p>[Textvorschlag nach Mustertext Arbeitskreis medizinischer Ethik-kommissionenxiv:] „Bei jeder Erhebung, Speicherung und Übermittlung von Daten aus Ihren Biomaterialien im Rahmen von Forschungsprojekten bestehen Vertraulichkeitsrisiken (z.B. die Möglichkeit, Sie [und/oder Ihr Kind] zu identifizieren), insbesondere im Hinblick auf die Information zu Ihrer Erbsubstanz. Diese Risiken lassen sich nicht völlig ausschließen und steigen, je mehr Daten miteinander verknüpft werden können (…).“</p>
-    <h3>[4] Sofern weitere Methoden angewendet werden:6 Risiken durch die Anwendung von [XY-Analyse]</h3>
-    <p>Bei der Untersuchung/bei der Durchführung der/von XY kann es vorkommen, dass [XY, Erläuterung des Risikos].</p>
-    <p>[Bei der Verwendung neuer Technologien sollte der Abschnitt ausgefüllt werden: Sofern Risiken für die Privatheit/Vertraulichkeit durch die Anwendung neuer (Auswertungs-)Methoden entstehen, wie z.B. bei der Verwendung neuer Technologien, diese analog zu den „Biomaterialien“ benennen:</p>
-    <ul>
-        <li>Benennung auch von Vertraulichkeitsrisiken</li>
-        <li>Möglichkeit der Identifikation</li>
-        <li>Nicht vollständige Ausschließbarkeit von Vertraulichkeitsrisiken</li>
-        <li>Ggf. Abhilfemaßnahmen.]</li>
-    </ul>
-    <p>[Angepasster Textvorschlag nach Mustertext Arbeitskreis medizinischer Ethik-kommissionen:xv] Bei der Anwendung von [Methode] im Rahmen von Forschungsprojekten bestehen Vertraulichkeitsrisiken (z.B. die Möglichkeit, Sie [und/oder Ihr Kind] zu reidentifizieren). Diese Risiken lassen sich nicht völlig ausschließen und steigen, je mehr Daten miteinander verknüpft werden können (…).</p>
+    <h2>Welchen Nutzen und welche Risiken gibt es?</h2>
+    <p>Diese Studie dient [der wissenschaftlichen Grundlagenforschung/der Erforschung XY]. Die Auswertung dient Forschungszwecken und zielt auf eine Verbesserung unseres Verständnisses [der/des XY]. Persönlich haben Sie [und/oder Ihr Kind] [deshalb] keinen unmittelbaren Vorteil oder Nutzen aus der Teilnahme an der Studie [bzw. Nutzen erläutern. Beachten: Bei vorhandenem persönlichem Nutzen soll gewährleistet sein, dass die Teilnahme trotzdem freiwillig bleibt].]</p>
+    {% if not risk and not method_mri and not method_bio_blood and not method_bio_other %}
+        <p>Die [Untersuchung/Erhebung/Studie] hat für Sie [und/oder Ihr Kind] keine negativen Auswirkungen. Sie ist nicht mit [bekannten] Risiken für Ihre körperliche Gesundheit oder Ihr [psychisches] Wohlbefinden verbunden.</p>
+        <p>[Möglich auch: MPIB]: Keine</p>
+    {% endif %}
+    {% if method_mri %}
+        <h3>Risiken bei MRT-Untersuchungen</h3>
+        <p>[ggf. gibt es für MRT auch gesonderte Informationen für Teilnehmer/innen an den Instituten. Dann hier ggf. Hinweis darauf, sonst hier Standard Institutstext einfügen.</p>
+        <ul>
+            <li>Benennung auch von Vertraulichkeitsrisiken</li>
+            <li>Möglichkeit der Identifikation</li>
+            <li>Nicht vollständige Ausschließbarkeit von Vertraulichkeitsrisiken</li>
+            <li>Ggf. Abhilfemaßnahmen</li>
+        </ul>
+    {% endif %}
+    {% if method_bio_blood or method_bio_other %}
+        <h3>Risiken durch die Entnahme von [XY]</h3>
+        <p>[z.B. Angaben über Menge der Probenentnahme, Risiken (z.B. Blutentenahme, Speichelproben, sonstiges). Beispiel aus Mustertext Arbeitskreis Medizinischer Ethik-kommissionen:] Wir möchten Ihnen [...] ml Blut abnehmen (das entspricht etwa [...] Esslöffeln). Dies ist für Sie [und/oder Ihr Kind] nur mit den geringen Risiken einer normalen Blutentnahme verbunden. An der Einstichstelle kann es zu Schmerzen kommen oder es kann ein Bluterguss (blauer Fleck) entstehen. In äußerst seltenen Fällen kann sich auch ein Blutgerinnsel (Thrombose) bilden, eine örtlich begrenzte Entzündung an der Einstichstelle auftreten oder es kann zu dauerhaften Schädigungen von Blutgefäßen oder Nerven kommen.xii</p>
+        <p>[Für die Entnahme von anderem Körpermaterial entsprechend anpassen.]</p>
+        <p>[Falls Biomaterialien, insbes. auch für genetische Analysen, erhoben werdenxiii, auch:]</p>
+        <ul>
+            <li>Benennung auch von Vertraulichkeitsrisiken</li>
+            <li>Möglichkeit der Identifikation</li>
+            <li>Nicht vollständige Ausschließbarkeit von Vertraulichkeitsrisiken</li>
+            <li>Ggf. Abhilfemaßnahmen</li>
+        </ul>
+        <p>[Textvorschlag nach Mustertext Arbeitskreis medizinischer Ethik-kommissionenxiv:] „Bei jeder Erhebung, Speicherung und Übermittlung von Daten aus Ihren Biomaterialien im Rahmen von Forschungsprojekten bestehen Vertraulichkeitsrisiken (z.B. die Möglichkeit, Sie [und/oder Ihr Kind] zu identifizieren), insbesondere im Hinblick auf die Information zu Ihrer Erbsubstanz. Diese Risiken lassen sich nicht völlig ausschließen und steigen, je mehr Daten miteinander verknüpft werden können (…).“</p>
+    {% endif %}
+    {% if method_bio_other %}
+        <h3>Risiken durch die Anwendung von [XY-Analyse]</h3>
+        <p>Bei der Untersuchung/bei der Durchführung der/von XY kann es vorkommen, dass [XY, Erläuterung des Risikos].</p>
+        <p>[Bei der Verwendung neuer Technologien sollte der Abschnitt ausgefüllt werden: Sofern Risiken für die Privatheit/Vertraulichkeit durch die Anwendung neuer (Auswertungs-)Methoden entstehen, wie z.B. bei der Verwendung neuer Technologien, diese analog zu den „Biomaterialien“ benennen:</p>
+        <ul>
+            <li>Benennung auch von Vertraulichkeitsrisiken</li>
+            <li>Möglichkeit der Identifikation</li>
+            <li>Nicht vollständige Ausschließbarkeit von Vertraulichkeitsrisiken</li>
+            <li>Ggf. Abhilfemaßnahmen.]</li>
+        </ul>
+        <p>[Angepasster Textvorschlag nach Mustertext Arbeitskreis medizinischer Ethik-kommissionen:xv] Bei der Anwendung von [Methode] im Rahmen von Forschungsprojekten bestehen Vertraulichkeitsrisiken (z.B. die Möglichkeit, Sie [und/oder Ihr Kind] zu reidentifizieren). Diese Risiken lassen sich nicht völlig ausschließen und steigen, je mehr Daten miteinander verknüpft werden können (…).</p>
+    {% endif %}
     <h2>Bin ich versichert?</h2>
     <p>[Angaben zum Versicherungsschutz machen, sofern vorhanden. Dabei konkrete Versicherungskonditionen beachten]</p>
     <p>[Hier ggf. einen Standardtext des Forschungsinstituts einfügen]</p>
@@ -100,52 +122,66 @@
     <p>[MPIB z.B.]: Für die Teilnahme zahlen wir eine Aufwandsentschädigung von [BETRAG] Euro [plus einen Bonus, der von [Entscheidungen, Abschneiden im Test etc.] abhängt.] Bei vorzeitiger Beendigung auf Ihren Wunsch erhalten Sie [und/oder Ihr Kind] in jedem Fall eine Aufwandsentschädigung von [BETRAG] Euro.</p>
     <h1>Umgang mit Daten</h1>
     <h2>Wie und wie lange werden meine Daten gespeichert?</h2>
-    <h4>Allgemein</h4>
-    <h5>[a) Mit Kodierliste]</h5>
-    <p>[Folgender TExt beschreibt die Datenhaltung der Castellum Datenbank. Dieser Absatz muss so angepasst werden, dass er den konkreten Tatsachen der Datenhaltung im jeweiligen Forschungsvorhaben entspricht]</p>
-    <p>Alle von Ihnen [und/oder Ihrem Kind] erhobenen Daten werden entsprechend der Datenschutzgesetze (EU Datenschutzgrundverordnung, Bundesdatenschutzgesetz) gespeichert und wissenschaftlich ausgewertet. Kontaktdaten (Name, Adresse, Telefonnummer, E-Mail-Adresse u.Ä.) und Forschungsgsdaten werden getrennt gespeichert. Die Forschungsdaten werden unter einer individuellen Codenummer gespeichert und miteinander verknüpft. Bei der Auswertung sehen die Wissenschaftlerinnen und Wissenschaftler nur diese Codenummer und nicht Ihren Namen [oder denen Ihres Kindes]. Sie wissen also bei der Auswertung nicht, von wem die Forschungsdaten stammen. xix  Nur über die Codenummer kann auch ein Bezug zwischen den Forschungsdaten und Ihren Kontaktdaten hergestellt werden. Diese Zuordnung darf nur von befugten Personen, die an der jeweiligen Studie beteiligt sind, hergestellt werden. Alle Daten werden nach aktuellen Standards gesichert und unterliegen einer strikten Zugangskontrolle. Alle Mitarbeiterinnen und Mitarbeiter am Max-Planck-Institut für Bildungsforschung behandeln Ihre Angaben [und/oder die Angaben Ihres Kindes] vertraulich und wurden hierauf verpflichtet. [ggf.: Die Speicherung der Daten für die Studie erfolgt außerdem am [XY-Institut Ort(e) einfügen, die Auswertungen machen.11] Nach Beendigung der Studie / nach einer Frist von [anpassen/eintragen] wird die Codenummer gelöscht, so dass Sie [und/oder Ihr Kind] ohne die Hinzuziehung weiterer Informationen nicht mehr über die Forschungsdaten identifiziert werden können [Vorgehen Dokumentieren].12] Dies gilt dann nicht, wenn Sie [und/oder Ihr Kind] Ihr Einverständnis zur längerfristigen Speicherung und Nutzung erteilt haben. [Ggf. Bitte beachten Sie, dass bei bestimmten Aufzeichnungen (Bild/Ton/MRT) eine Identifizierung im Prinzip auch nach Löschung der Codeliste möglich ist.]</p>
-    <p>Die Forschungsdaten werden aus Gründen der guten wissenschaftlichen Praxis der Deutschen Forschungsgemeinschaft und den Regeln der Max-Planck-Gesellschaft für mindestens 10 Jahre gespeichert. Dies hat den Sinn, dass andere Wissenschaftlerinnen und Wissenschaftler erzielte Ergebnisse auf ihre Richtigkeit überprüfen können. [Ggf. Anschließend werden die [Proben / Interviewmitschnitte / wissenschaftlichen Erhebungsdaten] gelöscht / vernichtet [ggf. und] Ihre Daten so verändert, dass Ihre Forschungsdaten Ihnen faktisch nicht mehr zugeordnet werden können].</p>
-    <p>[hier ggf. auf längerfristige Forschungsdatennutzung in Repositorium / dem Hochladen auf eine Internetplattform oder auch im Rahmen von wissenschaftlichen Veröffentlichungen hinweisen [Textvorschlag z.B. Darüber hinaus/im Anschluss werden die Forschungsdaten weiterhin am Max-Planck-Institut für Bildungsforschung gespeichert / werden die Forschungsdaten an ein Repositorium übergeben / auf einer Internetplattform hochgeladen / [und] für die Veröffentlichung an eine wissenschaftliche Zeitschrift übergeben, so dass eine über die 10 Jahre hinausgehende Speicherung und Nutzung der Forschungsdaten möglich ist. Bitte lesen Sie [und/oder Ihr Kind] hierzu auch die Angaben im folgenden Abschnitt.] [siehe Baustein zu Veröffentlichung und Datenweitergabe]</p>
-    <h5>[b) ohne  Kodierliste]</h5>
-    <p>ggf. [Textvorschlag bitte anpassen: Wir erheben Ihre Daten [und/oder die Daten ihres Kindes] anonym, das heißt ohne Ihre Kontaktdaten und Namen [und/oder die Ihres Kindes]. Weder wir noch andere können die Antwort Ihrer Person [und/oder Ihrem Kind] zuordnen. Die Forschungsdaten werden aus Gründen der guten wissenschaftlichen Praxis der Deutschen Forschungsgemeinschaft und den Regeln der Max-Planck-Gesellschaft für mindestens 10 Jahre gespeichert. Dies hat den Sinn, dass andere Wissenschaftlerinnen und Wissenschaftler erzielte Ergebnisse auf ihre Richtigkeit überprüfen können. [ggf. z.B. Darüber hinaus werden die Forschungsdaten an ein Repositorium übergeben / auf einer Internetplattform hochgeladen / für die Veröffentlichung an eine wissenschaftliche Zeitschrift übergeben, so dass eine über die 10 Jahre hinausgehende Speicherung und Nutzung der Daten möglich ist. Bitte lesen Sie [und/oder Ihr Kind] hierzu auch die Angaben im folgenden Abschnitt.] (siehe Baustein zu Veröffentlichung und Datenweitergabe)]</p>
-    <h3>[1] Ggf. sofern Langzeitstudie</h3>
-    <p>Das hier beschriebene Forschungsvorhaben ist als Langzeitstudie angelegt. Deswegen besteht ein Interesse daran, dass Sie [und/oder Ihr Kind] zu einem späteren Zeitpunkt weiterhin an der Studie teilnehmen. Um eine erneute Kontaktaufnahme zu ermöglichen, werden Ihre personenbezogenen Kontaktdaten für die Studie nach Beginn Ihrer Teilnahme gespeichert, bis keine weiteren Erhebungen / Untersuchungen / Nachuntersuchungen mehr durchgeführt werden sollen.</p>
-    <h3>[2] Ggf. sofern Querschnittsstudie</h3>
-    <p>Ihre Kontaktdaten [und/oder die Ihres Kindes] werden für die Dauer des Forschungsvorhabens gespeichert, sofern Sie nicht die gesonderte Erlaubnis erteilen, dass wir die Kontaktdaten auch längerfristig in der Datenbank des Instituts aufbewahren dürfen.</p>
-    <h3>[3] Ggf. sofern qualitative Interviews gemacht werden</h3>
-    <p>[Mustertext Arbeitsgruppe Datenschutz und qualitative Sozialforschung des RatSWD. entsprechend dem tatsächlichen Verfahren anpassen] Die Interviews werden mit einem Aufnahmegerät aufgezeichnet und von den Mitarbeiterinnen und Mitarbeitern des Forschungsprojekts in Schriftform gebracht. Für die weitere wissenschaftliche Auswertung der Interviewtexte werden alle Angaben, die zu einer Identifizierung der Person führen könnten, verändert oder aus dem Text entfernt. Anschließend werten wir die Texte inhaltlich [qualitativ] aus und kommen so zu allgemeinen Aussagen zum Thema XY. In wissenschaftlichen Veröffentlichungen werden Interviews nur in Ausschnitten zitiert, um gegenüber Dritten sicherzustellen, dass der entstehende Gesamtzusammenhang von Ereignissen nicht zu einer Identifizierung der Person führen kann.</p>
-    <h3>[4] Ggf. sofern Probenentnahme</h3>
-    <p>[Bitte entsprechend hinten bei den Einwilligungen entsprechend der hier gemachten Angaben anpassen]</p>
-    <p>Variante 1 (engere Einwilligung): Die von Ihnen [und/oder Ihrem Kind] zur Verfügung gestellten Biomaterialien und Daten werden ausschließlich im Rahmen dieser Studie verwendet [oder:] für folgende Forschungsgebiete/Forschungsprojekte verwendet: [XY (…) genaue Spezifikation. In diesem Fall: ] Die genauen Fragestellungen können jedoch zum derzeitigen Zeitpunkt noch nicht konkret benannt werden. [ggf., soweit zutreffend] Hierfür werden an Ihren Biomaterialien [und/oder den Biomaterialien Ihres Kindes] [möglicherweise] auch genetische Untersuchungen durchgeführt, und zwar [spezifizieren, z.B. auch eine Untersuchung Ihrer gesamten Erbsubstanz (Genom) etc.]. Die [Biomaterialien] werden [in/an Ort] gelagert [ggf. hinten in Baustein 5, Informationen zur Datenerhebung nach Artikel 13.unter Kategorien von Empfängern einen schon jetzt bekannten Auftragsverarbeiter, z.B. bestimmtes Labor für analyse nennen].</p>
-    <p>Die Biomaterialien und Daten sollen für [eine Zeit von XY /unbestimmte] Zeit aufbewahrt und für die Forschung bereitgestellt werden [Falls eine Aufbewahrung für eine begrenzte Zeit vorgesehen ist, bitte spezifizieren].</p>
-    <p>Variante 2 (breit gefasste Einwilligung): Die von Ihnen [und/oder Ihrem Kind] zur Verfügung gestellten Biomaterialien werden ausschließlich für die Forschung bereitgestellt. Sie sollen im Sinne eines [breiten Nutzens für die Allgemeinheit/eines allgemeinen wissenschaftlichen Erkenntnisgewinns] für viele verschiedene Forschungszwecke verwendet werden. Zum derzeitigen Zeitpunkt können noch nicht alle zukünftigen Forschungsziele beschrieben werden. Diese können sich sowohl auf bestimmte Forschungsfelder [Krankheitsgebiete] (z.B. Altersforschung, Erkrankungen des Gehirns [andere … entsprechend anpassen]) als auch auf heute zum Teil noch unbekannte Forschungsfragen [Krankheiten] und genetische Ausprägungen beziehen. Es kann also sein, dass Ihre Proben und Daten [und/oder die Proben und Daten Ihres Kindes] auch für Forschungsfragen verwendet werden, die wir heute noch nicht absehen können. [Soweit zutreffend] Deshalb werden an Ihren Biomaterialien [und/oder den Poben Ihres Kindes [ggf. möglicherweise] auch genetische Untersuchungen durchgeführt, [spezifizieren, z.B. auch eine Untersuchung Ihrer gesamten Erbsubstanz (Genom) etc.].</p>
-    <p>Die [Biomaterialien] werden [in/an Ort] gelagert [ggf. hinten in Baustein 5, Informationen zur Datenerhebung nach Artikel 13 unter „Kategorien von Empfängern“ einen schon jetzt bekannten Auftragsverarbeiter, z.B. bestimmtes Labor für Analyse nennen, S. 34].</p>
-    <p>Die Biomaterialien und Daten sollen für unbestimmte Zeit aufbewahrt und für die [medizinische] Forschung bereitgestellt werden [falls eine Aufbewahrung für eine begrenzte Zeit vorgesehen ist, bitte spezifizieren].</p>
+    {% if code_list %}
+        <p>[Folgender TExt beschreibt die Datenhaltung der Castellum Datenbank. Dieser Absatz muss so angepasst werden, dass er den konkreten Tatsachen der Datenhaltung im jeweiligen Forschungsvorhaben entspricht]</p>
+        <p>Alle von Ihnen [und/oder Ihrem Kind] erhobenen Daten werden entsprechend der Datenschutzgesetze (EU Datenschutzgrundverordnung, Bundesdatenschutzgesetz) gespeichert und wissenschaftlich ausgewertet. Kontaktdaten (Name, Adresse, Telefonnummer, E-Mail-Adresse u.Ä.) und Forschungsgsdaten werden getrennt gespeichert. Die Forschungsdaten werden unter einer individuellen Codenummer gespeichert und miteinander verknüpft. Bei der Auswertung sehen die Wissenschaftlerinnen und Wissenschaftler nur diese Codenummer und nicht Ihren Namen [oder denen Ihres Kindes]. Sie wissen also bei der Auswertung nicht, von wem die Forschungsdaten stammen. xix  Nur über die Codenummer kann auch ein Bezug zwischen den Forschungsdaten und Ihren Kontaktdaten hergestellt werden. Diese Zuordnung darf nur von befugten Personen, die an der jeweiligen Studie beteiligt sind, hergestellt werden. Alle Daten werden nach aktuellen Standards gesichert und unterliegen einer strikten Zugangskontrolle. Alle Mitarbeiterinnen und Mitarbeiter am Max-Planck-Institut für Bildungsforschung behandeln Ihre Angaben [und/oder die Angaben Ihres Kindes] vertraulich und wurden hierauf verpflichtet. [ggf.: Die Speicherung der Daten für die Studie erfolgt außerdem am [XY-Institut Ort(e) einfügen, die Auswertungen machen.11] Nach Beendigung der Studie / nach einer Frist von [anpassen/eintragen] wird die Codenummer gelöscht, so dass Sie [und/oder Ihr Kind] ohne die Hinzuziehung weiterer Informationen nicht mehr über die Forschungsdaten identifiziert werden können [Vorgehen Dokumentieren].12] Dies gilt dann nicht, wenn Sie [und/oder Ihr Kind] Ihr Einverständnis zur längerfristigen Speicherung und Nutzung erteilt haben. [Ggf. Bitte beachten Sie, dass bei bestimmten Aufzeichnungen (Bild/Ton/MRT) eine Identifizierung im Prinzip auch nach Löschung der Codeliste möglich ist.]</p>
+        <p>Die Forschungsdaten werden aus Gründen der guten wissenschaftlichen Praxis der Deutschen Forschungsgemeinschaft und den Regeln der Max-Planck-Gesellschaft für mindestens 10 Jahre gespeichert. Dies hat den Sinn, dass andere Wissenschaftlerinnen und Wissenschaftler erzielte Ergebnisse auf ihre Richtigkeit überprüfen können. [Ggf. Anschließend werden die [Proben / Interviewmitschnitte / wissenschaftlichen Erhebungsdaten] gelöscht / vernichtet [ggf. und] Ihre Daten so verändert, dass Ihre Forschungsdaten Ihnen faktisch nicht mehr zugeordnet werden können].</p>
+        <p>[hier ggf. auf längerfristige Forschungsdatennutzung in Repositorium / dem Hochladen auf eine Internetplattform oder auch im Rahmen von wissenschaftlichen Veröffentlichungen hinweisen [Textvorschlag z.B. Darüber hinaus/im Anschluss werden die Forschungsdaten weiterhin am Max-Planck-Institut für Bildungsforschung gespeichert / werden die Forschungsdaten an ein Repositorium übergeben / auf einer Internetplattform hochgeladen / [und] für die Veröffentlichung an eine wissenschaftliche Zeitschrift übergeben, so dass eine über die 10 Jahre hinausgehende Speicherung und Nutzung der Forschungsdaten möglich ist. Bitte lesen Sie [und/oder Ihr Kind] hierzu auch die Angaben im folgenden Abschnitt.] [siehe Baustein zu Veröffentlichung und Datenweitergabe]</p>
+    {% else %}
+        <p>ggf. [Textvorschlag bitte anpassen: Wir erheben Ihre Daten [und/oder die Daten ihres Kindes] anonym, das heißt ohne Ihre Kontaktdaten und Namen [und/oder die Ihres Kindes]. Weder wir noch andere können die Antwort Ihrer Person [und/oder Ihrem Kind] zuordnen. Die Forschungsdaten werden aus Gründen der guten wissenschaftlichen Praxis der Deutschen Forschungsgemeinschaft und den Regeln der Max-Planck-Gesellschaft für mindestens 10 Jahre gespeichert. Dies hat den Sinn, dass andere Wissenschaftlerinnen und Wissenschaftler erzielte Ergebnisse auf ihre Richtigkeit überprüfen können. [ggf. z.B. Darüber hinaus werden die Forschungsdaten an ein Repositorium übergeben / auf einer Internetplattform hochgeladen / für die Veröffentlichung an eine wissenschaftliche Zeitschrift übergeben, so dass eine über die 10 Jahre hinausgehende Speicherung und Nutzung der Daten möglich ist. Bitte lesen Sie [und/oder Ihr Kind] hierzu auch die Angaben im folgenden Abschnitt.] (siehe Baustein zu Veröffentlichung und Datenweitergabe)]</p>
+    {% endif %}
+    {% if longterm %}
+        <p>Das hier beschriebene Forschungsvorhaben ist als Langzeitstudie angelegt. Deswegen besteht ein Interesse daran, dass Sie [und/oder Ihr Kind] zu einem späteren Zeitpunkt weiterhin an der Studie teilnehmen. Um eine erneute Kontaktaufnahme zu ermöglichen, werden Ihre personenbezogenen Kontaktdaten für die Studie nach Beginn Ihrer Teilnahme gespeichert, bis keine weiteren Erhebungen / Untersuchungen / Nachuntersuchungen mehr durchgeführt werden sollen.</p>
+    {% endif %}
+    {% if cross_sectional %}
+        <p>Ihre Kontaktdaten [und/oder die Ihres Kindes] werden für die Dauer des Forschungsvorhabens gespeichert, sofern Sie nicht die gesonderte Erlaubnis erteilen, dass wir die Kontaktdaten auch längerfristig in der Datenbank des Instituts aufbewahren dürfen.</p>
+    {% endif %}
+    {% if method_interview %}
+        <p>[Mustertext Arbeitsgruppe Datenschutz und qualitative Sozialforschung des RatSWD. entsprechend dem tatsächlichen Verfahren anpassen] Die Interviews werden mit einem Aufnahmegerät aufgezeichnet und von den Mitarbeiterinnen und Mitarbeitern des Forschungsprojekts in Schriftform gebracht. Für die weitere wissenschaftliche Auswertung der Interviewtexte werden alle Angaben, die zu einer Identifizierung der Person führen könnten, verändert oder aus dem Text entfernt. Anschließend werten wir die Texte inhaltlich [qualitativ] aus und kommen so zu allgemeinen Aussagen zum Thema XY. In wissenschaftlichen Veröffentlichungen werden Interviews nur in Ausschnitten zitiert, um gegenüber Dritten sicherzustellen, dass der entstehende Gesamtzusammenhang von Ereignissen nicht zu einer Identifizierung der Person führen kann.</p>
+    {% endif %}
+    {% if method_bio_blood or method_bio_other %}
+        {% if bio_scope == 'narrow' %}
+            <p>Die von Ihnen [und/oder Ihrem Kind] zur Verfügung gestellten Biomaterialien und Daten werden ausschließlich im Rahmen dieser Studie verwendet.</p>
+        {% elif bio_scope == 'medium' %}
+            <p>Die von Ihnen [und/oder Ihrem Kind] zur Verfügung gestellten Biomaterialien und Daten werden für folgende Forschungsgebiete/Forschungsprojekte verwendet: [XY (…) genaue Spezifikation. In diesem Fall: ] Die genauen Fragestellungen können jedoch zum derzeitigen Zeitpunkt noch nicht konkret benannt werden. Hierfür werden an Ihren Biomaterialien [und/oder den Biomaterialien Ihres Kindes] [möglicherweise] auch genetische Untersuchungen durchgeführt, und zwar [spezifizieren, z.B. auch eine Untersuchung Ihrer gesamten Erbsubstanz (Genom) etc.].
+        {% else %}
+            <p>Die von Ihnen [und/oder Ihrem Kind] zur Verfügung gestellten Biomaterialien werden ausschließlich für die Forschung bereitgestellt. Sie sollen im Sinne eines [breiten Nutzens für die Allgemeinheit/eines allgemeinen wissenschaftlichen Erkenntnisgewinns] für viele verschiedene Forschungszwecke verwendet werden. Zum derzeitigen Zeitpunkt können noch nicht alle zukünftigen Forschungsziele beschrieben werden. Diese können sich sowohl auf bestimmte Forschungsfelder [Krankheitsgebiete] (z.B. Altersforschung, Erkrankungen des Gehirns [andere … entsprechend anpassen]) als auch auf heute zum Teil noch unbekannte Forschungsfragen [Krankheiten] und genetische Ausprägungen beziehen. Es kann also sein, dass Ihre Proben und Daten [und/oder die Proben und Daten Ihres Kindes] auch für Forschungsfragen verwendet werden, die wir heute noch nicht absehen können. [Soweit zutreffend] Deshalb werden an Ihren Biomaterialien [und/oder den Poben Ihres Kindes [ggf. möglicherweise] auch genetische Untersuchungen durchgeführt, [spezifizieren, z.B. auch eine Untersuchung Ihrer gesamten Erbsubstanz (Genom) etc.].</p>
+        {% endif %}
+        <p>Die [Biomaterialien] werden [in/an Ort] gelagert [ggf. hinten in Baustein 5, Informationen zur Datenerhebung nach Artikel 13 unter „Kategorien von Empfängern“ einen schon jetzt bekannten Auftragsverarbeiter, z.B. bestimmtes Labor für Analyse nennen, S. 34].</p>
+        <p>Die Biomaterialien und Daten sollen für [eine Zeit von XY /unbestimmte] Zeit aufbewahrt und für die Forschung bereitgestellt werden [Falls eine Aufbewahrung für eine begrenzte Zeit vorgesehen ist, bitte spezifizieren].</p>
+    {% endif %}
     <h2>Werden die Forschungsdaten auch an andere Wissenschaftlerinnen und Wissenschaftler weitergegeben?</h2>
-    <h3>[0] Sofern keine Datenweitergabe geplant ist</h3>
-    <p>Die Daten werden nur durch die hier genannten Wissenschaftlerinnen und Wissenschaftler/Wissenschaftsgruppen, [Und/oder] ausschließlich am Max-Planck-Institut für Bildungsforschung] im Rahmen des Forschungsprojekts analysiert [ggf., falls vorne unter „Zweck“ erwähnt“:] und weiterer Forschung [ggf. und Lehre] zugrunde gelegt.</p>
-    <h3>[1] Sofern Datenweitergabe innerhalb eines Kooperationsprojekts</h3>
-    <p>Die Studie ist ein Kooperationsprojekt mit [XY Name(n) &amp; Institution(n)] Die Daten werden [nur] durch die hier genannten Wissenschaftlerinnen und Wissenschaftler/Wissenschaftsgruppen [bzw. Institutionen] im Rahmen des Forschungsprojekts ausgetauscht und analysiert [ggf.: Innerhalb des Forschungsverbunds können die Forschungsdaten auch für verwandte Fragestellungen wissenschaftlich analysiert werden [ggf. Bereich spezifizieren, ggf. Weitere Erläuterungen]]. [Sofern Projektpartner außerhalb der EU bzw. in einem Datenschutzrechtlich nicht anerkannten Drittland die Daten analysiert: Projektpartner [XY] analysiert die Daten in [Land XY]. Dies bedeutet auch, dass die Daten den durch europäisches Datenschutzrecht gedeckten Bereich verlassen. Damit besteht auch die Möglichkeit, dass Sie [und/oder Ihr Kind] ggf. Ihre Rechte als Betroffener nicht durchsetzen können. [ggf.: Innerhalb des Forschungsverbunds können die Forschungsdaten auch für verwandte Fragestellungen wissenschaftlich analysiert werden [ggf. Bereich spezifizieren, ggf. Weitere Erläuterungen]].</p>
-    <h3>[2] Sofern Datenweitergabe innerhalb Europas geplant ist</h3>
-    <p>Neben den Projektbeteiligten können auch andere Wissenschaftlerinnen und Wissenschaftler innerhalb Deutschlands/Europas die Forschungsdaten [ggf.: auf Antrag und nach Genehmigung]17  erhalten und sie ihren Arbeiten in Forschung und Lehre [ggf. im Bereich XY/für weiterführende Fragestellungen] zugrunde legen. [Empfänger der Datenweitergabe so konkret wie möglich beschreiben, wenn möglich konkretisieren, an wen und zu welchem Zweck die Datenweitergabe erfolgt.]</p>
-    <h3>[3] Sofern Datenweitergabe auch in Länder außerhalb der EU geplant ist</h3>
-    <p>Neben den Projektbeteiligten können auch andere Wissenschaftlerinnen und Wissenschaftler im In- und Ausland – ggf. auch außerhalb Europas in Länder mit einem niedrigeren Datenschutzniveau – die Forschungsdaten [ggf. genauer erläutern, welche Länder, nach welchem Verfahren z.B. auf Antrag und nach Genehmigung] erhalten und sie ihren Arbeiten in Forschung und Lehre [ggf. im Bereich XY/für weiterführende Fragestellungen] zugrunde legen. Dies bedeutet auch, dass die Daten den durch europäisches Datenschutzrecht gedeckten Bereich verlassen. Damit besteht auch die Möglichkeit, dass Sie [und/oder Ihr Kind] ggf. Ihre Rechte als Betroffener nicht durchsetzen können. [Ggf. hier ankündigen, dass es sich um eine Möglichkeit handelt, die in der Einwilligungserklärung optional ist, sofern als Opt-In vorgesehen, siehe „Datenschutzrechtliche Einwilligungserklärung [MUSS]“, S. 21.]</p>
-    <h3>[4] Sofern Datenspeicherung in Repositorium geplant ist</h3>
-    <p>Es ist geplant, die Forschungsdaten nach Beendigung der Datenerhebung an [konkretes Datenservicezentrum bzw. Nennung des Speicherorts bzw. der Webadresse] zur Archivierung und weiteren wissenschaftlichen Nutzung zu übermitteln. Dadurch können auch andere Wissenschaftlerinnen und Wissenschaftler die Daten zu weiteren wissenschaftlichen Fragestellungen auswerten. [Ggf. Erläuterung, wie hierfür die Daten aufbereitet werden sollen, z.B. Vergröberung/Verrauschung der Daten // keine Rohdaten, nur Analysedaten, bestimmte Anonymisierungsverfahren.] [ggf. nur wenn dies zutrifft:  Dort wird überprüft, dass die Forschungsdaten keinen Personenbezug mehr haben.] Falls erforderlich, wird das [einsetzen: konkretes Datenservicezentrum] zusätzliche Maßnahmen vornehmen, damit die Forschungsdaten Ihrer Person nicht zugeordnet werden können. Das Datenservicezentrum stellt Wissenschaftlerinnen und Wissenschaftlern im In- und Ausland die [aufbereiteten/ anonymisierten/verrauschten/(…)] Daten für ausschließlich wissenschaftliche Zwecke zur Verfügung. Da kein Personenbezug mehr besteht, können Ihre Forschungsdaten nicht mehr aus den Datensätzen gelöscht werden.</p>
-    <h3>[5] Sofern Datenspeicherung auf einer Internetplattform geplant ist</h3>
-    <p>Es ist geplant, Forschungsdaten anhand derer Sie [und/oder Ihr Kind] nicht direkt indentifiziert werden können auf der Internetplattform [genaue Angabe XY: Webadresse] hochzuladen [ggf. Alternativ allgemein:. Es ist geplant, Forschungsdaten auf Datenplattformen hochzuladen [Allerdings: Siehe hierzu Anmerkung an der Überschrift]]. Dadurch können andere Wissenschaftlerinnen und Wissenschaftler auf die Forschungsdaten zugreifen und sie ergänzend analysieren, nachbearbeiten und Analysen wiederholen bzw. sie zur Beantwortung weiterer wissenschaftlicher Fragestellungen nutzen. [Sofern zutreffend, bitte anpassen:] Die Datenplattform XY befindet sich innerhalb/außerhalb der Europäischen Union / [oder allgemein: Daten-Plattformen können sich außerhalb der Europäischen Union befinden]. Einmal dort platziert, werden die Daten weltweit öffentlich verfügbar gemacht, d.h. die Daten können [ ggf. nach einer Anmeldung auf dem Portal] von Interessierten eingesehen, heruntergeladen und genutzt werden. Dies bedeutet auch, dass die Daten den durch europäisches Datenschutzrecht gedeckten Bereich verlassen. Damit besteht auch die Möglichkeit, dass Sie [und/oder Ihr Kind] ggf. Ihre Rechte als Betroffener nicht durchsetzen können. Ab dem Zeitpunkt der Veröffentlichung auf der Plattform kann die Nutzung dieser Daten nicht mehr kontrolliert, nachträglich eingeschränkt oder überall gelöscht werden.</p>
-    <h3>[x] Allgemeiner Hinweis bei Datenweitergabe</h3>
-    <p>Ihre Kontaktdaten [und/oder die Kontaktdaten Ihres Kindes] werden nur innerhalb des Forschungsprojekts [bzw. XY/innerhalb des Max-Planck Instituts für Bildungsforschung] verwendet. An externe Wissenschaftlerinnen und Wissenschaftler geben wir ohne Ihr Einverständnis ausschließlich Forschungsdaten und keine Kontaktdaten weiter. Einzelne Teilnehmerinnen und Teilnehmer sind hierbei nicht mehr erkennbar. Für die externen Wissenschaftlerinnen und Wissenschaftler sind Forschungsdaten nicht auf Ihre Person [und/oder auf Ihr Kind] zu beziehen [Ggf. hier weitere Sicherheitsmaßnahmen beschreiben wie Antragsverfahren, Vorlage von Datenschutzkonzepten, Datennutzungsverträge].</p>
+    {% if not share_internal and not share_cooperation and not share_eu and not share_international and not share_repo and not share_internet %}
+        <p>Die Daten werden nur durch die hier genannten Wissenschaftlerinnen und Wissenschaftler/Wissenschaftsgruppen, [Und/oder] ausschließlich am Max-Planck-Institut für Bildungsforschung] im Rahmen des Forschungsprojekts analysiert [ggf., falls vorne unter „Zweck“ erwähnt“:] und weiterer Forschung [ggf. und Lehre] zugrunde gelegt.</p>
+    {% endif %}
+    {% if share_cooperation %}
+        <p>Die Studie ist ein Kooperationsprojekt mit [XY Name(n) &amp; Institution(n)] Die Daten werden [nur] durch die hier genannten Wissenschaftlerinnen und Wissenschaftler/Wissenschaftsgruppen [bzw. Institutionen] im Rahmen des Forschungsprojekts ausgetauscht und analysiert [ggf.: Innerhalb des Forschungsverbunds können die Forschungsdaten auch für verwandte Fragestellungen wissenschaftlich analysiert werden [ggf. Bereich spezifizieren, ggf. Weitere Erläuterungen]]. [Sofern Projektpartner außerhalb der EU bzw. in einem Datenschutzrechtlich nicht anerkannten Drittland die Daten analysiert: Projektpartner [XY] analysiert die Daten in [Land XY]. Dies bedeutet auch, dass die Daten den durch europäisches Datenschutzrecht gedeckten Bereich verlassen. Damit besteht auch die Möglichkeit, dass Sie [und/oder Ihr Kind] ggf. Ihre Rechte als Betroffener nicht durchsetzen können. [ggf.: Innerhalb des Forschungsverbunds können die Forschungsdaten auch für verwandte Fragestellungen wissenschaftlich analysiert werden [ggf. Bereich spezifizieren, ggf. Weitere Erläuterungen]].</p>
+    {% endif %}
+    {% if share_eu %}
+        <p>Neben den Projektbeteiligten können auch andere Wissenschaftlerinnen und Wissenschaftler innerhalb Deutschlands/Europas die Forschungsdaten [ggf.: auf Antrag und nach Genehmigung]17  erhalten und sie ihren Arbeiten in Forschung und Lehre [ggf. im Bereich XY/für weiterführende Fragestellungen] zugrunde legen. [Empfänger der Datenweitergabe so konkret wie möglich beschreiben, wenn möglich konkretisieren, an wen und zu welchem Zweck die Datenweitergabe erfolgt.]</p>
+    {% endif %}
+    {% if share_international %}
+        <p>Neben den Projektbeteiligten können auch andere Wissenschaftlerinnen und Wissenschaftler im In- und Ausland – ggf. auch außerhalb Europas in Länder mit einem niedrigeren Datenschutzniveau – die Forschungsdaten [ggf. genauer erläutern, welche Länder, nach welchem Verfahren z.B. auf Antrag und nach Genehmigung] erhalten und sie ihren Arbeiten in Forschung und Lehre [ggf. im Bereich XY/für weiterführende Fragestellungen] zugrunde legen. Dies bedeutet auch, dass die Daten den durch europäisches Datenschutzrecht gedeckten Bereich verlassen. Damit besteht auch die Möglichkeit, dass Sie [und/oder Ihr Kind] ggf. Ihre Rechte als Betroffener nicht durchsetzen können. [Ggf. hier ankündigen, dass es sich um eine Möglichkeit handelt, die in der Einwilligungserklärung optional ist, sofern als Opt-In vorgesehen, siehe „Datenschutzrechtliche Einwilligungserklärung [MUSS]“, S. 21.]</p>
+    {% endif %}
+    {% if share_repo %}
+        <p>Es ist geplant, die Forschungsdaten nach Beendigung der Datenerhebung an [konkretes Datenservicezentrum bzw. Nennung des Speicherorts bzw. der Webadresse] zur Archivierung und weiteren wissenschaftlichen Nutzung zu übermitteln. Dadurch können auch andere Wissenschaftlerinnen und Wissenschaftler die Daten zu weiteren wissenschaftlichen Fragestellungen auswerten. [Ggf. Erläuterung, wie hierfür die Daten aufbereitet werden sollen, z.B. Vergröberung/Verrauschung der Daten // keine Rohdaten, nur Analysedaten, bestimmte Anonymisierungsverfahren.] [ggf. nur wenn dies zutrifft:  Dort wird überprüft, dass die Forschungsdaten keinen Personenbezug mehr haben.] Falls erforderlich, wird das [einsetzen: konkretes Datenservicezentrum] zusätzliche Maßnahmen vornehmen, damit die Forschungsdaten Ihrer Person nicht zugeordnet werden können. Das Datenservicezentrum stellt Wissenschaftlerinnen und Wissenschaftlern im In- und Ausland die [aufbereiteten/ anonymisierten/verrauschten/(…)] Daten für ausschließlich wissenschaftliche Zwecke zur Verfügung. Da kein Personenbezug mehr besteht, können Ihre Forschungsdaten nicht mehr aus den Datensätzen gelöscht werden.</p>
+    {% endif %}
+    {% if share_internet %}
+        <p>Es ist geplant, Forschungsdaten anhand derer Sie [und/oder Ihr Kind] nicht direkt indentifiziert werden können auf der Internetplattform [genaue Angabe XY: Webadresse] hochzuladen [ggf. Alternativ allgemein:. Es ist geplant, Forschungsdaten auf Datenplattformen hochzuladen [Allerdings: Siehe hierzu Anmerkung an der Überschrift]]. Dadurch können andere Wissenschaftlerinnen und Wissenschaftler auf die Forschungsdaten zugreifen und sie ergänzend analysieren, nachbearbeiten und Analysen wiederholen bzw. sie zur Beantwortung weiterer wissenschaftlicher Fragestellungen nutzen. [Sofern zutreffend, bitte anpassen:] Die Datenplattform XY befindet sich innerhalb/außerhalb der Europäischen Union / [oder allgemein: Daten-Plattformen können sich außerhalb der Europäischen Union befinden]. Einmal dort platziert, werden die Daten weltweit öffentlich verfügbar gemacht, d.h. die Daten können [ ggf. nach einer Anmeldung auf dem Portal] von Interessierten eingesehen, heruntergeladen und genutzt werden. Dies bedeutet auch, dass die Daten den durch europäisches Datenschutzrecht gedeckten Bereich verlassen. Damit besteht auch die Möglichkeit, dass Sie [und/oder Ihr Kind] ggf. Ihre Rechte als Betroffener nicht durchsetzen können. Ab dem Zeitpunkt der Veröffentlichung auf der Plattform kann die Nutzung dieser Daten nicht mehr kontrolliert, nachträglich eingeschränkt oder überall gelöscht werden.</p>
+    {% endif %}
+    {% if share_internal or share_cooperation or share_eu or share_international or share_repo or share_internet %}
+        <p>Ihre Kontaktdaten [und/oder die Kontaktdaten Ihres Kindes] werden nur innerhalb des Forschungsprojekts [bzw. XY/innerhalb des Max-Planck Instituts für Bildungsforschung] verwendet. An externe Wissenschaftlerinnen und Wissenschaftler geben wir ohne Ihr Einverständnis ausschließlich Forschungsdaten und keine Kontaktdaten weiter. Einzelne Teilnehmerinnen und Teilnehmer sind hierbei nicht mehr erkennbar. Für die externen Wissenschaftlerinnen und Wissenschaftler sind Forschungsdaten nicht auf Ihre Person [und/oder auf Ihr Kind] zu beziehen [Ggf. hier weitere Sicherheitsmaßnahmen beschreiben wie Antragsverfahren, Vorlage von Datenschutzkonzepten, Datennutzungsverträge].</p>
+    {% endif %}
     <h2>Wie werden Ergebnisse veröffentlicht?</h2>
-    <h3>[1] Allgemein</h3>
     <p>Die Ergebnisse der Studie werden ausschließlich ohne direkten Personenbezug veröffentlicht [ggf.: und können auch der Lehre zugrunde gelegt werden]. Im Falle einer Veröffentlichung von Studienergebnissen bleibt Ihre Identität [und/oder die Identität Ihres Kindes] vertraulich. Das bedeutet: Aus den Ergebnissen kann man nicht erkennen, von welcher Person die Angaben gemacht worden sind, und es ist auch nicht aus den Forschungsdaten ersichtlich, dass Sie [und/oder Ihr Kind] an einer Untersuchung teilgenommen haben, es sei denn, Sie [und/oder Ihr Kind] haben einer personenbezogenen Veröffentlichung gesondert zugestimmt.</p>
-    <h3>[2] Sofern Veröffentlichung in Journals geplant ist, die die Hinterlegung von Daten erforderlich machen</h3>
-    <p>[Sofern z.B. Rohdaten, MRT-Daten etc., die nicht vollständig anonymisiert werden können, veröffentlicht werden sollen]</p>
-    <p>Es ist geplant, die Ergebnisse in wissenschaftlichen Zeitschriften zu veröffentlichen, die fordern, dass auch die zugrundeliegenden Forschungsdaten hinterlegt werden. Dies hat den Sinn, dass die Ergebnisse von anderen Wissenschaftlerinnen und Wissenschaftlern überprüft werden können. Möglicherweise werden deshalb auch zugehörige Forschungsdaten ohne Namen und Kontaktdaten bei den Zeitschriften eingereicht und dort veröffentlicht. Bitte beachten Sie [und/oder Ihr Kind], dass diese wissenschaftlichen Daten hierdurch weltweit verfügbar sind. Dies bedeutet auch, dass die Daten den durch das europäische Datenschutzrecht gedeckten Bereich verlassen. Damit besteht auch die Möglichkeit, dass Sie [und/oder Ihr Kind] ggf. Ihre Rechte als Betroffener nicht durchsetzen können.</p>
+    {% if publish_journal %}
+        <p>[Sofern z.B. Rohdaten, MRT-Daten etc., die nicht vollständig anonymisiert werden können, veröffentlicht werden sollen]</p>
+        <p>Es ist geplant, die Ergebnisse in wissenschaftlichen Zeitschriften zu veröffentlichen, die fordern, dass auch die zugrundeliegenden Forschungsdaten hinterlegt werden. Dies hat den Sinn, dass die Ergebnisse von anderen Wissenschaftlerinnen und Wissenschaftlern überprüft werden können. Möglicherweise werden deshalb auch zugehörige Forschungsdaten ohne Namen und Kontaktdaten bei den Zeitschriften eingereicht und dort veröffentlicht. Bitte beachten Sie [und/oder Ihr Kind], dass diese wissenschaftlichen Daten hierdurch weltweit verfügbar sind. Dies bedeutet auch, dass die Daten den durch das europäische Datenschutzrecht gedeckten Bereich verlassen. Damit besteht auch die Möglichkeit, dass Sie [und/oder Ihr Kind] ggf. Ihre Rechte als Betroffener nicht durchsetzen können.</p>
+    {% endif %}
     <h2>Freiwilligkeit</h2>
     <p>Die Teilnahme an der Studie ist freiwillig und Sie [und/oder Ihr Kind] haben zu jeder Zeit die Möglichkeit, Ihre Mitarbeit ohne Angabe von Gründen zu beenden, ohne dass dies negative Konsequenzen für Sie [und/oder Ihr Kind] hätte. Sie [und/oder Ihr Kind] können die Teilnahme jederzeit beenden, auch wenn Befragungen / Untersuchungen / das Interview schon begonnen haben, ohne dass Ihnen Nachteile entstehen. [ggf. Ein möglicher entgegenstehender Wille Ihres Kindes, das [Experiment/die Untersuchung/Befragung] von vornherein nicht durchführen zu wollen bzw. ein laufendes Experiment abbrechen zu wollen, wird selbstverständlich berücksichtigt (und/oder: „Vor Beginn des Experiments erfragen wir mündlich das Einverständnis Ihres Kindes“)]</p>
     <p>[Ggf. Erläuterung absehbarer Konsequenzen der Nichtteilnahme oder der vorzeitigen Beendigung der Teilnahme.]</p>
-    <p>Haben Sie [und/oder Ihr Kind] weitere Fragen?</p>
+    <p><strong>Haben Sie [und/oder Ihr Kind] weitere Fragen?</strong></p>
     <p>Sollten Sie [und/oder Ihr Kind] noch weitere Fragen zum Ablauf der Studie, zum Datenschutz, zu Ihren Rechten etc. haben, wenden Sie [und/oder Ihr Kind] sich bitte an [den Studienleiter/die Studienleiterin bzw. an die genannten Kontaktpersonen].</p>
     <p>Wir wären Ihnen dankbar, wenn Sie [und/oder Ihr Kind] sich dazu bereit erklären würden, an dieser Studie teilzunehmen. Für weitere Fragen stehen wir Ihnen natürlich jederzeit gerne zur Verfügung.</p>
     <p>Mit herzlichem Dank und freundlichen Grüßen [Studienteam &amp; Mitarbeiter/in(nen) des Projektes (ggf. namentliche Nennung)]</p>
@@ -171,94 +207,120 @@
         <li>Die erhobenen Daten dürfen vom [Institution, z.B. Max-Planck-Institut für [XY] [ggf. und den Kooperationspartnern]] im Rahmen wissenschaftlicher Forschung zum erläuterten Zweck genutzt werden.</li>
         <li>[ggf. falls geplant] Ich [und/oder mein Kind] willige[n] ein, dass Forschungsdaten ohne die Nennung meines Namens [und/oder meines Kindes] für die Veröffentlichung von Forschungsergebnissen in wissenschaftlichen Zeitschriften für deren Überprüfung (Reanalysen) hinterlegt werden.</li>
     </ol>
-    <p>[[Ggf die folgenden Optionen als Opt-In-Möglichkeit oder – so wie in 1-5 als feste Bestandteile der Einwilligung wiederholen. In diesem Fall dann die auswahlkästchen ja/nein streichen. Wichtig: Opt-In muss auch technisch-organisatorisch realisiert werden können. Die Textbausteine, die verwendet werden, müssen mit den in der allgemeinen Information zur Studie gegebenen Informationen abgeglichen werden. Es sollten nur Optionen angeboten werden, die tatsächlich geplant werden. Die erforderlichkeit muss insbesondere gegeben sein, wenn den Teilnehmern keine Opt-In-Möglichkeiten angeboten werden, sondern Verfahrensweisen als feste Bestandteile in die Einwilligung integriert werden (wie hier in 1-5). Eine Anpassung kann auch institutsweit erfolgen.]</p>
-    <ol start="7">
-        <li>[ggf. Broad Consent MPIB-Intern] Ich willige ein, dass meine erhobenen Forschungsdaten [und/oder die Forschungsdaten meines Kindes] wie in der Studieninformation beschrieben, innerhalb des Max-Planck-Instituts für Bildungsforschung für wissenschaftliche Zwecke für verwandte Fragestellungen [ggf. präzisieren, z.B. „im Bereich der Altersforschung“, „im Bereich (…)“] analysiert werden.</li>
-        <li>[ggf. Broad Consent Kooperationspartner/Datenweitergabe] Ich willige ein, dass meine erhobenen Forschungsdaten [und/oder die Forschungsdaten meines Kindes] wie in der Studieninformation beschrieben [von den Kooperationspartnern [ggf. mit Institution] XY] für wissenschaftliche Zwecke für verwandte Fragestellungen [ggf. präzisieren, z.B. „im Bereich der Alternsforschung“, „im Bereich XY“] analysiert werden.</li>
-        <li>[ggf. Broad Consent Wissenschaftliche Nutzung Europa/Datenweitergabe] Ich willige ein, dass weitere [legitimierte] Wissenschaftlerinnen und Wissenschaftler [ggf. präzisieren] wie in der Studieninformation beschrieben meine [ggf. je nach geplanter Praxis pseudonymisierten / anonymisierten] Forschungsdaten [und/oder die Forschungsdaten meines Kindes] analysieren [Ggf. Namen nennen, sofern schon bekannt].</li>
-        <li>[ggf. Broad Consent Wissenschaftliche Auswertung in- und außerhalb Europas/Datenweitergabe] Ich willige ein, dass weitere [ggf. legitimierte] Wissenschaftlerinnen und Wissenschaftler wie in der Studieninformation beschrieben innerhalb und außerhalb der Europäischen Union [ggf. präzisieren] meine [ggf. je nach geplanter Praxis pseudonymisierten / anonymisierten] Forschungsdaten [und/oder die Forschungsdaten meines Kindes] analysieren [Ggf. Namen nennen, sofern schon bekannt].</li>
-        <li>[ggf. Broad Consent Wissenschaftliche Auswertung Repositorium Europas/Datenweitergabe] Ich willige ein, dass meine [ggf. je nach geplanter Praxis pseudonymisierten / anonymisierten] Forschungsdaten [und/oder die Forschungsdaten meines Kindes] im [Repositorien XY] wie in der Studieninformation beschrieben auch nach Beendigung der Studie für wissenschaftliche Auswertungen zur Verfügung stehen.</li>
-        <li>[ggf. Broad Consent Wissenschaftliche Auswertung Internetplattform Europas/Datenweitergabe] Ich willige ein, dass meine [ggf. je nach geplanter Praxis pseudonymisierten / anonymisierten] Forschungsdaten [und/oder die Forschungsdaten meines Kindes] auf [einer Internetplattform/der Internetplattform XY] wie in der Studieninformation beschrieben hochgeladen und weltweit genutzt werden können.</li>
-        <li>[Ggf. Datenzusammenführung] Ich willige ein, dass die Forschungsdaten aus dieser Studie mit anderen am MPI XY erhobenen Daten zusammengeführt und ausgewertet werden dürfen.</li>
-    </ol>
+    {% if share_internal or share_cooperation or share_eu or share_international or share_repo or share_internet or merge %}
+        <p>[[Ggf die folgenden Optionen als Opt-In-Möglichkeit oder – so wie in 1-5 als feste Bestandteile der Einwilligung wiederholen. In diesem Fall dann die auswahlkästchen ja/nein streichen. Wichtig: Opt-In muss auch technisch-organisatorisch realisiert werden können. Die Textbausteine, die verwendet werden, müssen mit den in der allgemeinen Information zur Studie gegebenen Informationen abgeglichen werden. Es sollten nur Optionen angeboten werden, die tatsächlich geplant werden. Die erforderlichkeit muss insbesondere gegeben sein, wenn den Teilnehmern keine Opt-In-Möglichkeiten angeboten werden, sondern Verfahrensweisen als feste Bestandteile in die Einwilligung integriert werden (wie hier in 1-5). Eine Anpassung kann auch institutsweit erfolgen.]</p>
+        <ol start="7">
+            {% if share_internal %}
+                <li>Ich willige ein, dass meine erhobenen Forschungsdaten [und/oder die Forschungsdaten meines Kindes] wie in der Studieninformation beschrieben, innerhalb des Max-Planck-Instituts für Bildungsforschung für wissenschaftliche Zwecke für verwandte Fragestellungen [ggf. präzisieren, z.B. „im Bereich der Altersforschung“, „im Bereich (…)“] analysiert werden.</li>
+            {% endif %}
+            {% if share_cooperation %}
+                <li>Ich willige ein, dass meine erhobenen Forschungsdaten [und/oder die Forschungsdaten meines Kindes] wie in der Studieninformation beschrieben [von den Kooperationspartnern [ggf. mit Institution] XY] für wissenschaftliche Zwecke für verwandte Fragestellungen [ggf. präzisieren, z.B. „im Bereich der Alternsforschung“, „im Bereich XY“] analysiert werden.</li>
+            {% endif %}
+            {% if share_eu %}
+                <li>Ich willige ein, dass weitere [legitimierte] Wissenschaftlerinnen und Wissenschaftler [ggf. präzisieren] wie in der Studieninformation beschrieben meine [ggf. je nach geplanter Praxis pseudonymisierten / anonymisierten] Forschungsdaten [und/oder die Forschungsdaten meines Kindes] analysieren [Ggf. Namen nennen, sofern schon bekannt].</li>
+            {% endif %}
+            {% if share_international %}
+                <li>Ich willige ein, dass weitere [ggf. legitimierte] Wissenschaftlerinnen und Wissenschaftler wie in der Studieninformation beschrieben innerhalb und außerhalb der Europäischen Union [ggf. präzisieren] meine [ggf. je nach geplanter Praxis pseudonymisierten / anonymisierten] Forschungsdaten [und/oder die Forschungsdaten meines Kindes] analysieren [Ggf. Namen nennen, sofern schon bekannt].</li>
+            {% endif %}
+            {% if share_repo %}
+                <li>Ich willige ein, dass meine [ggf. je nach geplanter Praxis pseudonymisierten / anonymisierten] Forschungsdaten [und/oder die Forschungsdaten meines Kindes] im [Repositorien XY] wie in der Studieninformation beschrieben auch nach Beendigung der Studie für wissenschaftliche Auswertungen zur Verfügung stehen.</li>
+            {% endif %}
+            {% if share_internet %}
+                <li>Ich willige ein, dass meine [ggf. je nach geplanter Praxis pseudonymisierten / anonymisierten] Forschungsdaten [und/oder die Forschungsdaten meines Kindes] auf [einer Internetplattform/der Internetplattform XY] wie in der Studieninformation beschrieben hochgeladen und weltweit genutzt werden können.</li>
+            {% endif %}
+            {% if merge %}
+                <li>Ich willige ein, dass die Forschungsdaten aus dieser Studie mit anderen am MPI XY erhobenen Daten zusammengeführt und ausgewertet werden dürfen.</li>
+            {% endif %}
+        </ol>
+    {% endif %}
     <input placeholder="Unterschrift">
 
-    <h2>[ggf.] Einwilligung in Bildaufnahmen (Fotos)</h2>
-    <p>Ich bin damit einverstanden, dass im Rahmen der Studie [Titel Studie] von mir Fotos/Videos [von ggf. spezifizieren z.B.:</p>
-    <p>Hände	 		 ja         nein,</p>
-    <p>Gesicht			 ja         nein,</p>
-    <p>Ganzkörper 		 ja         nein,</p>
-    <p>im Gruppenbild 	 ja         nein ]</p>
-    <p>gemacht und wissenschaftlich ausgewertet werden. [[Erläuternder Text MPIB]: Die Nutzung und mögliche Weitergabe von Daten, auf denen Personen identifizierbar sein können (z.B. Videos, auf denen das Gesicht erkennbar ist), ist in besonderem Maße eingeschränkt. Eine Weitergabe solcher Daten kann erforderlich sein, wenn die beteiligten Wissenschaftler an eine andere Forschungseinrichtung wechseln oder wenn die Daten gemeinsam mit Kooperationspartnern ausgewertet werden. Kooperationspartner bzw. kooperierende Institutionen stehen zum Zeitpunkt der Datenerhebung nicht immer fest. Identifizierbare Daten werden grundsätzlich nur auf Grundlage einer schriftlichen Datenschutzvereinbarung weitergegeben, welche die Nutzung der Daten auf wissenschaftliche Zwecke und ausgewählte Mitarbeiter/innen der kooperierenden akademischen Forschungsinstitution einschränkt. Eine solche Datenübermittlung erfolgt immer mittels verschlüsselter Medien bzw. über eine verschlüsselte Internetverbindung und in Abstimmung mit den Datenschutzbeauftragten der beteiligten Institutionen. Persönliche Kontaktdaten sind von der Weitergabe ausgeschlossen.]</p>
-    <p>Ich bin damit einverstanden, dass die Fotos/Videos [in [wissenschaftlichen] Zeitschriften/in Publikationen zur Studie/auf der Internetseite XY/und/oder im Rahmen von Forschung und Lehre [spezifizieren, z.B. ohne Nennung meines Namens/Verpixelt, sodass ich nicht mehr erkennbar bin] veröffentlicht werden. 	 ja         nein</p>
-    <p>[ggf.] Ich bin darüber hinaus mit einer namentlichen Nennung für die Publikation XY [ggf. auf der Webseite XY] in Verbindung mit meinem Bild/Video einverstanden. 	 ja         nein]</p>
-    <p>Die Einwilligung in die Erlaubnis der Verwendung der Fotos/Videos ist freiwillig. Sie [und/oder Ihr Kind] haben zu jeder Zeit die Möglichkeit, das Fotografieren abzubrechen, das Erstellen weiterer Fotos/Videos abzulehnen und Ihr Einverständnis in die Auswertung oder Veröffentlichung von Fotos zurückziehen, ohne dass Ihnen dadurch irgendwelche Nachteile entstehen.</p>
-    <input placeholder="Unterschrift">
+    {% if method_image %}
+        <h2>Einwilligung in Bildaufnahmen (Fotos)</h2>
+        <p>Ich bin damit einverstanden, dass im Rahmen der Studie [Titel Studie] von mir Fotos/Videos [von ggf. spezifizieren z.B.:</p>
+        <p>Hände	 		 ja         nein,</p>
+        <p>Gesicht			 ja         nein,</p>
+        <p>Ganzkörper 		 ja         nein,</p>
+        <p>im Gruppenbild 	 ja         nein ]</p>
+        <p>gemacht und wissenschaftlich ausgewertet werden. [[Erläuternder Text MPIB]: Die Nutzung und mögliche Weitergabe von Daten, auf denen Personen identifizierbar sein können (z.B. Videos, auf denen das Gesicht erkennbar ist), ist in besonderem Maße eingeschränkt. Eine Weitergabe solcher Daten kann erforderlich sein, wenn die beteiligten Wissenschaftler an eine andere Forschungseinrichtung wechseln oder wenn die Daten gemeinsam mit Kooperationspartnern ausgewertet werden. Kooperationspartner bzw. kooperierende Institutionen stehen zum Zeitpunkt der Datenerhebung nicht immer fest. Identifizierbare Daten werden grundsätzlich nur auf Grundlage einer schriftlichen Datenschutzvereinbarung weitergegeben, welche die Nutzung der Daten auf wissenschaftliche Zwecke und ausgewählte Mitarbeiter/innen der kooperierenden akademischen Forschungsinstitution einschränkt. Eine solche Datenübermittlung erfolgt immer mittels verschlüsselter Medien bzw. über eine verschlüsselte Internetverbindung und in Abstimmung mit den Datenschutzbeauftragten der beteiligten Institutionen. Persönliche Kontaktdaten sind von der Weitergabe ausgeschlossen.]</p>
+        <p>Ich bin damit einverstanden, dass die Fotos/Videos [in [wissenschaftlichen] Zeitschriften/in Publikationen zur Studie/auf der Internetseite XY/und/oder im Rahmen von Forschung und Lehre [spezifizieren, z.B. ohne Nennung meines Namens/Verpixelt, sodass ich nicht mehr erkennbar bin] veröffentlicht werden. 	 ja         nein</p>
+        <p>[ggf.] Ich bin darüber hinaus mit einer namentlichen Nennung für die Publikation XY [ggf. auf der Webseite XY] in Verbindung mit meinem Bild/Video einverstanden. 	 ja         nein]</p>
+        <p>Die Einwilligung in die Erlaubnis der Verwendung der Fotos/Videos ist freiwillig. Sie [und/oder Ihr Kind] haben zu jeder Zeit die Möglichkeit, das Fotografieren abzubrechen, das Erstellen weiterer Fotos/Videos abzulehnen und Ihr Einverständnis in die Auswertung oder Veröffentlichung von Fotos zurückziehen, ohne dass Ihnen dadurch irgendwelche Nachteile entstehen.</p>
+        <input placeholder="Unterschrift">
+    {% endif %}
 
-    <h2>[ggf.] Einwilligung in Bildaufnahmen (MRT)</h2>
-    <p>Ich bin damit einverstanden, dass im Rahmen der Studie [Titel Studie] MRT-Bilder von meinem [XY spezifizieren / ggf. und/oder meines Kindes] gemacht und wissenschaftlich ausgewertet werden.</p>
-    <p>[Erläuternder Text MPIB: Die Nutzung und mögliche Weitergabe von Daten, auf denen Personen identifizierbar sein können, ist in besonderem Maße eingeschränkt. Eine Weitergabe solcher Daten kann erforderlich sein, wenn die beteiligten Wissenschaftler an eine andere Forschungseinrichtung wechseln oder wenn die Daten gemeinsam mit Kooperationspartnern ausgewertet werden. Kooperationspartner bzw. kooperierende Institutionen stehen zum Zeitpunkt der Datenerhebung nicht immer fest. Identifizierbare Daten werden grundsätzlich nur auf Grundlage einer schriftlichen Datenschutzvereinbarung weitergegeben, welche die Nutzung der Daten auf wissenschaftliche Zwecke und ausgewählte Mitarbeiter/innen der kooperierenden akademischen Forschungsinstitution einschränkt. Eine solche Datenübermittlung erfolgt immer mittels verschlüsselter Medien bzw. über eine verschlüsselte Internetverbindung und in Abstimmung mit den Datenschutzbeauftragten der beteiligten Institutionen. Persönliche Kontaktdaten sind von der Weitergabe ausgeschlossen.]</p>
+    {% if method_mri %}
+        <h2>Einwilligung in Bildaufnahmen (MRT)</h2>
+        <p>Ich bin damit einverstanden, dass im Rahmen der Studie [Titel Studie] MRT-Bilder von meinem [XY spezifizieren / ggf. und/oder meines Kindes] gemacht und wissenschaftlich ausgewertet werden.</p>
+        <p>[Erläuternder Text MPIB: Die Nutzung und mögliche Weitergabe von Daten, auf denen Personen identifizierbar sein können, ist in besonderem Maße eingeschränkt. Eine Weitergabe solcher Daten kann erforderlich sein, wenn die beteiligten Wissenschaftler an eine andere Forschungseinrichtung wechseln oder wenn die Daten gemeinsam mit Kooperationspartnern ausgewertet werden. Kooperationspartner bzw. kooperierende Institutionen stehen zum Zeitpunkt der Datenerhebung nicht immer fest. Identifizierbare Daten werden grundsätzlich nur auf Grundlage einer schriftlichen Datenschutzvereinbarung weitergegeben, welche die Nutzung der Daten auf wissenschaftliche Zwecke und ausgewählte Mitarbeiter/innen der kooperierenden akademischen Forschungsinstitution einschränkt. Eine solche Datenübermittlung erfolgt immer mittels verschlüsselter Medien bzw. über eine verschlüsselte Internetverbindung und in Abstimmung mit den Datenschutzbeauftragten der beteiligten Institutionen. Persönliche Kontaktdaten sind von der Weitergabe ausgeschlossen.]</p>
 
-    <p> ja         nein</p>
-    <p>Ich bin damit einverstanden, dass die MRT-Bilder für die Veröffentlichung in [wissenschaftlichen] Zeitschriften oder im Rahmen von Vorträgen in Forschung und Lehre [spezifizieren, z.B. ohne Nennung meines Namens, sodass nicht erkennbar ist, dass das MRT-Bild von mir ist] veröffentlicht werden.</p>
-    <p> ja         nein</p>
-    <p>Die Einwilligung in die Erlaubnis der Verwendung der MRT-Bilder ist freiwillig. Sie [und/oder Ihr Kind] haben zu jeder Zeit die Möglichkeit, die Untersuchung abzubrechen, das Erstellen weiterer MRT-Bilder abzulehnen und Ihr Einverständnis in die Auswertung oder Veröffentlichung von MRT-Bildern zurückziehen, ohne dass Ihnen [und/oder Ihrem Kind] dadurch irgendwelche Nachteile entstehen.</p>
-    <input placeholder="Unterschrift">
+        <p> ja         nein</p>
+        <p>Ich bin damit einverstanden, dass die MRT-Bilder für die Veröffentlichung in [wissenschaftlichen] Zeitschriften oder im Rahmen von Vorträgen in Forschung und Lehre [spezifizieren, z.B. ohne Nennung meines Namens, sodass nicht erkennbar ist, dass das MRT-Bild von mir ist] veröffentlicht werden.</p>
+        <p> ja         nein</p>
+        <p>Die Einwilligung in die Erlaubnis der Verwendung der MRT-Bilder ist freiwillig. Sie [und/oder Ihr Kind] haben zu jeder Zeit die Möglichkeit, die Untersuchung abzubrechen, das Erstellen weiterer MRT-Bilder abzulehnen und Ihr Einverständnis in die Auswertung oder Veröffentlichung von MRT-Bildern zurückziehen, ohne dass Ihnen [und/oder Ihrem Kind] dadurch irgendwelche Nachteile entstehen.</p>
+        <input placeholder="Unterschrift">
+    {% endif %}
 
-    <h2>[ggf.] Einwilligung Interviews/Tonaufnahmen</h2>
-    <p>Ich willige ein, dass im Rahmen des Forschungsprojekts [Titel der Studie] Interviews/Gruppendiskussionen mit mir [und/oder meinem Kind] durchgeführt werden.</p>
-    <p>Die Interviews/Gruppendiskussionen werden mit einem Aufnahmegerät aufgezeichnet und anschließend von den Mitarbeiterinnen und Mitarbeitern des Forschungsprojekts in Schriftform gebracht. Für die weitere wissenschaftliche Auswertung der Interviewtexte werden alle Angaben, die zu einer Identifizierung der Person führen könnten, verändert oder aus dem Text entfernt. In wissenschaftlichen Veröffentlichungen und in der Lehre werden Textausschnitte zitiert, um gegenüber Dritten sicherzustellen, dass der entstehende Gesamtzusammenhang von Ereignissen nicht zu einer Identifizierung der Person führen kann.</p>
-    <p>[Erläuternder Text MPIB: Die Nutzung und mögliche Weitergabe von Daten wie Tonaufnahmen, auf denen Personen identifizierbar sein können, ist in besonderem Maße eingeschränkt. Eine Weitergabe solcher Daten kann erforderlich sein, wenn die beteiligten Wissenschaftler/innen an eine andere Forschungseinrichtung wechseln oder wenn die Daten gemeinsam mit Kooperationspartnern ausgewertet werden. Kooperationspartner bzw. kooperierende Institutionen stehen zum Zeitpunkt der Datenerhebung nicht immer fest. Identifizierbare Daten werden grundsätzlich nur auf Grundlage einer schriftlichen Datenschutzvereinbarung weitergegeben, welche die Nutzung der Daten auf wissenschaftliche Zwecke und ausgewählte Mitarbeiter/innen der kooperierenden akademischen Forschungsinstitution einschränkt. Eine solche Datenübermittlung erfolgt immer mittels verschlüsselter Medien bzw. über eine verschlüsselte Internetverbindung und in Abstimmung mit den Datenschutzbeauftragten der beteiligten Institutionen. Persönliche Kontaktdaten sind von der Weitergabe ausgeschlossen.].</p>
-    <p>Die Teilnahme an den Interviews ist freiwillig. Sie [und/oder Ihr Kind] haben zu jeder Zeit die Möglichkeit, ein Interview abzubrechen, weitere Interviews abzulehnen und Ihr Einverständnis in eine Aufzeichnung und Niederschrift des/der Interviews zurückziehen, ohne dass Ihnen dadurch irgendwelche Nachteile entstehen.</p>
-    <p>Ich willige ein, im Rahmen des genannten Forschungsprojekts an einem Interview/an mehreren Interviews teilzunehmen.</p>
-    <p>[ggf.: Ich willige ein, dass die Tonaufnahmen zu Demonstrationszwecken in Veranstaltungen (z.B. Lehrveranstaltungen) [ohne/oder mit] Nennung des Namens] verwendet werden [veröffentlicht/an andere Wissenschaftlerinnen und Wissenschaftler zur Auswertung weitergegeben werden dürfen] [alles so spezifisch wie möglich, Ggf. als Opt-In/Opt-Out].</p>
-    <p>☐ja 	☐nein]</p>
-    <input placeholder="Unterschrift">
+    {% if method_sound %}
+        <h2>Einwilligung Interviews/Tonaufnahmen</h2>
+        <p>Ich willige ein, dass im Rahmen des Forschungsprojekts [Titel der Studie] Interviews/Gruppendiskussionen mit mir [und/oder meinem Kind] durchgeführt werden.</p>
+        <p>Die Interviews/Gruppendiskussionen werden mit einem Aufnahmegerät aufgezeichnet und anschließend von den Mitarbeiterinnen und Mitarbeitern des Forschungsprojekts in Schriftform gebracht. Für die weitere wissenschaftliche Auswertung der Interviewtexte werden alle Angaben, die zu einer Identifizierung der Person führen könnten, verändert oder aus dem Text entfernt. In wissenschaftlichen Veröffentlichungen und in der Lehre werden Textausschnitte zitiert, um gegenüber Dritten sicherzustellen, dass der entstehende Gesamtzusammenhang von Ereignissen nicht zu einer Identifizierung der Person führen kann.</p>
+        <p>[Erläuternder Text MPIB: Die Nutzung und mögliche Weitergabe von Daten wie Tonaufnahmen, auf denen Personen identifizierbar sein können, ist in besonderem Maße eingeschränkt. Eine Weitergabe solcher Daten kann erforderlich sein, wenn die beteiligten Wissenschaftler/innen an eine andere Forschungseinrichtung wechseln oder wenn die Daten gemeinsam mit Kooperationspartnern ausgewertet werden. Kooperationspartner bzw. kooperierende Institutionen stehen zum Zeitpunkt der Datenerhebung nicht immer fest. Identifizierbare Daten werden grundsätzlich nur auf Grundlage einer schriftlichen Datenschutzvereinbarung weitergegeben, welche die Nutzung der Daten auf wissenschaftliche Zwecke und ausgewählte Mitarbeiter/innen der kooperierenden akademischen Forschungsinstitution einschränkt. Eine solche Datenübermittlung erfolgt immer mittels verschlüsselter Medien bzw. über eine verschlüsselte Internetverbindung und in Abstimmung mit den Datenschutzbeauftragten der beteiligten Institutionen. Persönliche Kontaktdaten sind von der Weitergabe ausgeschlossen.].</p>
+        <p>Die Teilnahme an den Interviews ist freiwillig. Sie [und/oder Ihr Kind] haben zu jeder Zeit die Möglichkeit, ein Interview abzubrechen, weitere Interviews abzulehnen und Ihr Einverständnis in eine Aufzeichnung und Niederschrift des/der Interviews zurückziehen, ohne dass Ihnen dadurch irgendwelche Nachteile entstehen.</p>
+        <p>Ich willige ein, im Rahmen des genannten Forschungsprojekts an einem Interview/an mehreren Interviews teilzunehmen.</p>
+        <p>[ggf.: Ich willige ein, dass die Tonaufnahmen zu Demonstrationszwecken in Veranstaltungen (z.B. Lehrveranstaltungen) [ohne/oder mit] Nennung des Namens] verwendet werden [veröffentlicht/an andere Wissenschaftlerinnen und Wissenschaftler zur Auswertung weitergegeben werden dürfen] [alles so spezifisch wie möglich, Ggf. als Opt-In/Opt-Out].</p>
+        <p>☐ja 	☐nein]</p>
+        <input placeholder="Unterschrift">
+    {% endif %}
 
-    <h2>[ggf.] Einwilligung zur Entnahme und Untersuchung von Proben</h2>
-    <p>[Textvorschlag medizinische Ethikkommissionen. Bitte mit Informationen zu Studie abgleichen:]</p>
-    <p>Ich willige ein, dass mir [und/oder meinem Kind] [XY Biomaterialien [z.B. Blut, Speichelproben, wie vorne beschrieben, z.B. Blutpoben, Speichelproben etc.] entnommen werden [Die folgenden Vorgaben entweder als feste Vorgaben oder als Opt-In / Opt-Out anbieten].</p>
-    <p>☐ja 	☐nein] [ggf. nur Ja, wenn notwendig zur Studienteilnahme]</p>
-    <p>[ggf. Variante 1 (engere Einwilligung):</p>
-    <p>Diese Biomaterialien und Analysedaten dürfen ausschließlich im Rahmen dieser Studie verwendet werden.</p>
-    <p>☐ja 	☐nein]</p>
-    <p>[oder: ]</p>
-    <p>Diese Biomaterialien und Analysedaten dürfen für folgende Forschungsgebiete/Forschungsprojekte [ggf. am Max-Planck-Institut für Bildungsforschung verwendet werden:  [XY (…) genaue Spezifikation. In diesem Fall:]. Ich bin damit einverstanden, dass an meinen Biomaterialien [und/oder den Biomaterialien meines Kindes] [möglicherweise] auch genetische Untersuchungen durchgeführt werden, und zwar [spezifizieren, z.B. auch eine Untersuchung Ihrer gesamten Erbsubstanz (Genom) etc.].</p>
-    <p>☐ja 	☐nein]</p>
-    <p>Variante 2 (breit gefasste Einwilligung):</p>
-    <p>Diese Biomaterialien und Analysedaten dürfen ausschließlich für die Forschung bereitgestellt und verwendet werden. Ich bin damit einverstanden, dass sie im Sinne eines [breiten Nutzens für die Allgemeinheit/eines allgemeinen wissenschaftlichen Erkenntnisgewinns] für viele verschiedene Forschungszwecke verwendet werden. [Soweit zutreffend] Ich bin damit einverstanden, dass an meinen Biomaterialien [und/oder den Biomaterialien meines Kindes] [möglicherweise] auch genetische Untersuchungen durchgeführt werden, und</p>
-    <p>zwar [spezifizieren, z.B. auch eine Untersuchung Ihrer gesamten Erbsubstanz (Genom) etc.].</p>
-    <p>☐ja 	☐nein]</p>
-    <p>Die Biomaterialien und Daten dürfen für eine Zeit von [XY Jahre - Abgleich mit Vorne in der Studieninformation] aufbewahrt und für die Forschung bereitgestellt werden. Danach werden meine Biomaterialien [und/oder die Biomaterialien meines Kindes] vernichtet und personenbezogenen Daten gelöscht.</p>
-    <p>☐ja 	☐nein]</p>
-    <p>oder</p>
-    <p>Meine Biomaterialien [und/oder den Biomaterialien meines Kindes] und Daten dürfen unbefristet für Forschungsvorhaben verwendet werden.</p>
-    <p>☐ja 	☐nein]</p>
+    {% if method_bio_blood or method_bio_other %}
+        <h2>Einwilligung zur Entnahme und Untersuchung von Proben</h2>
+        <p>[Textvorschlag medizinische Ethikkommissionen. Bitte mit Informationen zu Studie abgleichen:]</p>
+        <p>Ich willige ein, dass mir [und/oder meinem Kind] [XY Biomaterialien [z.B. Blut, Speichelproben, wie vorne beschrieben, z.B. Blutpoben, Speichelproben etc.] entnommen werden [Die folgenden Vorgaben entweder als feste Vorgaben oder als Opt-In / Opt-Out anbieten].</p>
+        <p>☐ja 	☐nein] [ggf. nur Ja, wenn notwendig zur Studienteilnahme]</p>
+        <p>[ggf. Variante 1 (engere Einwilligung):</p>
+        <p>Diese Biomaterialien und Analysedaten dürfen ausschließlich im Rahmen dieser Studie verwendet werden.</p>
+        <p>☐ja 	☐nein]</p>
+        <p>[oder: ]</p>
+        <p>Diese Biomaterialien und Analysedaten dürfen für folgende Forschungsgebiete/Forschungsprojekte [ggf. am Max-Planck-Institut für Bildungsforschung verwendet werden:  [XY (…) genaue Spezifikation. In diesem Fall:]. Ich bin damit einverstanden, dass an meinen Biomaterialien [und/oder den Biomaterialien meines Kindes] [möglicherweise] auch genetische Untersuchungen durchgeführt werden, und zwar [spezifizieren, z.B. auch eine Untersuchung Ihrer gesamten Erbsubstanz (Genom) etc.].</p>
+        <p>☐ja 	☐nein]</p>
+        <p>Variante 2 (breit gefasste Einwilligung):</p>
+        <p>Diese Biomaterialien und Analysedaten dürfen ausschließlich für die Forschung bereitgestellt und verwendet werden. Ich bin damit einverstanden, dass sie im Sinne eines [breiten Nutzens für die Allgemeinheit/eines allgemeinen wissenschaftlichen Erkenntnisgewinns] für viele verschiedene Forschungszwecke verwendet werden. [Soweit zutreffend] Ich bin damit einverstanden, dass an meinen Biomaterialien [und/oder den Biomaterialien meines Kindes] [möglicherweise] auch genetische Untersuchungen durchgeführt werden, und</p>
+        <p>zwar [spezifizieren, z.B. auch eine Untersuchung Ihrer gesamten Erbsubstanz (Genom) etc.].</p>
+        <p>☐ja 	☐nein]</p>
+        <p>Die Biomaterialien und Daten dürfen für eine Zeit von [XY Jahre - Abgleich mit Vorne in der Studieninformation] aufbewahrt und für die Forschung bereitgestellt werden. Danach werden meine Biomaterialien [und/oder die Biomaterialien meines Kindes] vernichtet und personenbezogenen Daten gelöscht.</p>
+        <p>☐ja 	☐nein]</p>
+        <p>oder</p>
+        <p>Meine Biomaterialien [und/oder den Biomaterialien meines Kindes] und Daten dürfen unbefristet für Forschungsvorhaben verwendet werden.</p>
+        <p>☐ja 	☐nein]</p>
 
-    <p>Falls zutreffend: Sie dürfen pseudonymisiert an Universitäten, Forschungsinstitute [und forschende Unternehmen] zu Zwecken der Forschung weitergegeben werden. Falls zutreffend: Dies schließt unter Umständen auch die Weitergabe für Forschungsprojekte im Ausland mit möglicherweise niedrigerem Datenschutzniveau ein.</p>
-    <p>☐ja 	☐nein]</p>
-    <p>Ich bin [ich und/oder mein Kind sind] darüber aufgeklärt worden, dass ich [und/oder mein Kind] die Einwilligung gegenüber dem Max-Planck-Institut für Bildungsforschung ohne Angabe von Gründen jederzeit widerrufen kann. Beim Widerruf werden auf mein Verlangen [und/oder das Verlangen meines Kindes] die verbliebenen mir [und/und meinem Kind] zuzuordnenden Biomaterialien und die erhobenen Daten vernichtet bzw. gelöscht. Daten aus bereits durchgeführten Analysen können nicht mehr entfernt werden.</p>
-    <input placeholder="Unterschrift">
+        <p>Falls zutreffend: Sie dürfen pseudonymisiert an Universitäten, Forschungsinstitute [und forschende Unternehmen] zu Zwecken der Forschung weitergegeben werden. Falls zutreffend: Dies schließt unter Umständen auch die Weitergabe für Forschungsprojekte im Ausland mit möglicherweise niedrigerem Datenschutzniveau ein.</p>
+        <p>☐ja 	☐nein]</p>
+        <p>Ich bin [ich und/oder mein Kind sind] darüber aufgeklärt worden, dass ich [und/oder mein Kind] die Einwilligung gegenüber dem Max-Planck-Institut für Bildungsforschung ohne Angabe von Gründen jederzeit widerrufen kann. Beim Widerruf werden auf mein Verlangen [und/oder das Verlangen meines Kindes] die verbliebenen mir [und/und meinem Kind] zuzuordnenden Biomaterialien und die erhobenen Daten vernichtet bzw. gelöscht. Daten aus bereits durchgeführten Analysen können nicht mehr entfernt werden.</p>
+        <input placeholder="Unterschrift">
+    {% endif %}
 
-    <h2>[ggf.] Einwilligungserklärung zu Zufallsfunden</h2>
-    <p>[Der Umgang mit Zufallsfunden/Zufallsbefunden ist ethisch und rechtlich kontrovers.</p>
-    <p>Ob Zufallsfunde/Zufallsbefunde in jedem Fall mitgeteilt werden sollen, sollte generell in den MPIs mit den Ethikkommissionen abgestimmt und der Text entsprechend angepasst werden.32</p>
-    <p>[Alternative Textvorschläge als Möglichkeiten für Institutsspezifische Anpassungen, Mustertext Medizinische Ethikkommissionen]</p>
-    <p>Alternative 1: Wahlmöglichkeit zur Mitteilung von Zufallsbefunden</p>
-    <p>Es ist im Einzelfall möglich, dass ein Forscher/eine Forscherin zu der Einschätzung gelangt, dass ein Auswertungsergebnis für Ihre Gesundheit von erheblicher Bedeutung ist. Das ist insbesondere der Fall, wenn sich daraus ein dringender Verdacht auf eine schwerwiegende, bisher möglicherweise nicht erkannte Krankheit ergibt, die behandelt oder deren Ausbruch verhindert werden könnte. In einem solchen Fall kann eine Rückmeldung an Sie [und/oder Ihr Kind] erfolgen.</p>
-    <p>Falls Sie [und/oder Ihr Kind] keine Rückmeldung erhalten möchten, streichen Sie bitte die Möglichkeit einer erneuten Kontaktaufnahme. Sie [und/oder Ihr Kind] können Ihre Entscheidung für oder gegen eine Rückmeldungsmöglichkeit jederzeit durch Mitteilung an uns ändern. Beachten Sie [und/oder Ihr Kind] dabei, dass Sie Gesundheitsinformationen, die Sie durch eine solche Rückmeldung erhalten, unter Umständen bei anderen Stellen (z.B. vor Abschluss einer Kranken- oder Lebensversicherung) offenbaren müssen und dadurch Nachteile erleiden können.</p>
-    <p>[Ggf.: Bitte beachten Sie [und/oder Ihr Kind] dabei, dass keine individuelle Diagnose stattfindet und Funde/Befunde auch übersehen werden können.]</p>
-    <p>Ich willige ein, dass Sie mich [und/oder mein Kind] kontaktieren und über Zufallsbefunde informieren.</p>
-    <p>☐ja 	☐nein</p>
-    <p>[Ggf. wenn genetische Untersuchungen vorgesehen sind, die in dieser Hinsicht ausgewertet werden: Da auch Untersuchungen Ihrer Erbsubstanz möglich/vorgesehen sind, kann sich der vorstehende Text auch auf Ihre genetische Veranlagung [und/oder die genetische Veranlagung Ihres Kindes] für bestimmte Erkrankungen beziehen, [die in Zusammenhang mit der Fragestellung der Untersuchung stehen]. Informationen zu Ihrer Erbsubstanz können auch Bedeutung für Ihre Familienangehörigen und die Familienplanung haben.</p>
-    <p>Ich willige ein, dass Sie mich kontaktieren und mich über [Zufallsfunde/Zufallsbefunde] hinsichtlich meiner Erbsubstanz informieren.</p>
-    <p>☐ja 	☐nein</p>
-    <p>Alternative 2: Dieser könnte ausschließen, dass es eine Mitteilung von [Zufallsfunden/Zufallsbefunden] gibt</p>
-    <p>[Konditionen beschreiben]</p>
+    {% if incidental_finding %}
+        <h2>Einwilligungserklärung zu Zufallsfunden</h2>
+        <p>[Der Umgang mit Zufallsfunden/Zufallsbefunden ist ethisch und rechtlich kontrovers.</p>
+        <p>Ob Zufallsfunde/Zufallsbefunde in jedem Fall mitgeteilt werden sollen, sollte generell in den MPIs mit den Ethikkommissionen abgestimmt und der Text entsprechend angepasst werden.32</p>
+        <p>[Alternative Textvorschläge als Möglichkeiten für Institutsspezifische Anpassungen, Mustertext Medizinische Ethikkommissionen]</p>
+        <p>Alternative 1: Wahlmöglichkeit zur Mitteilung von Zufallsbefunden</p>
+        <p>Es ist im Einzelfall möglich, dass ein Forscher/eine Forscherin zu der Einschätzung gelangt, dass ein Auswertungsergebnis für Ihre Gesundheit von erheblicher Bedeutung ist. Das ist insbesondere der Fall, wenn sich daraus ein dringender Verdacht auf eine schwerwiegende, bisher möglicherweise nicht erkannte Krankheit ergibt, die behandelt oder deren Ausbruch verhindert werden könnte. In einem solchen Fall kann eine Rückmeldung an Sie [und/oder Ihr Kind] erfolgen.</p>
+        <p>Falls Sie [und/oder Ihr Kind] keine Rückmeldung erhalten möchten, streichen Sie bitte die Möglichkeit einer erneuten Kontaktaufnahme. Sie [und/oder Ihr Kind] können Ihre Entscheidung für oder gegen eine Rückmeldungsmöglichkeit jederzeit durch Mitteilung an uns ändern. Beachten Sie [und/oder Ihr Kind] dabei, dass Sie Gesundheitsinformationen, die Sie durch eine solche Rückmeldung erhalten, unter Umständen bei anderen Stellen (z.B. vor Abschluss einer Kranken- oder Lebensversicherung) offenbaren müssen und dadurch Nachteile erleiden können.</p>
+        <p>[Ggf.: Bitte beachten Sie [und/oder Ihr Kind] dabei, dass keine individuelle Diagnose stattfindet und Funde/Befunde auch übersehen werden können.]</p>
+        <p>Ich willige ein, dass Sie mich [und/oder mein Kind] kontaktieren und über Zufallsbefunde informieren.</p>
+        <p>☐ja 	☐nein</p>
+        <p>[Ggf. wenn genetische Untersuchungen vorgesehen sind, die in dieser Hinsicht ausgewertet werden: Da auch Untersuchungen Ihrer Erbsubstanz möglich/vorgesehen sind, kann sich der vorstehende Text auch auf Ihre genetische Veranlagung [und/oder die genetische Veranlagung Ihres Kindes] für bestimmte Erkrankungen beziehen, [die in Zusammenhang mit der Fragestellung der Untersuchung stehen]. Informationen zu Ihrer Erbsubstanz können auch Bedeutung für Ihre Familienangehörigen und die Familienplanung haben.</p>
+        <p>Ich willige ein, dass Sie mich kontaktieren und mich über [Zufallsfunde/Zufallsbefunde] hinsichtlich meiner Erbsubstanz informieren.</p>
+        <p>☐ja 	☐nein</p>
+        <p>Alternative 2: Dieser könnte ausschließen, dass es eine Mitteilung von [Zufallsfunden/Zufallsbefunden] gibt</p>
+        <p>[Konditionen beschreiben]</p>
 
-    <p>Alternative 3: Teilnahme ohne die Mitteilung von Zufallsbefunden nicht möglich</p>
-    <p>[Konditionen beschreiben]</p>
-    <input placeholder="Unterschrift">
+        <p>Alternative 3: Teilnahme ohne die Mitteilung von Zufallsbefunden nicht möglich</p>
+        <p>[Konditionen beschreiben]</p>
+        <input placeholder="Unterschrift">
+    {% endif %}
 
     <h1>Informationen zur Datenerhebung nach Artikel 13 der Datenschutzgrundverordnung (DSGVO)</h1>
 
