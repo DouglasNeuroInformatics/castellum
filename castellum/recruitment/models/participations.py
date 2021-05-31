@@ -228,6 +228,8 @@ class Participation(models.Model):
 class ReliabilityIssue(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+
+    # This is redundant, but it makes queries much simpler
     participation = models.OneToOneField(
         Participation, null=True, blank=True, on_delete=models.SET_NULL
     )
