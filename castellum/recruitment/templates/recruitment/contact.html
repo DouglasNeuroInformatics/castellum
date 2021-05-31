@@ -208,7 +208,9 @@
             <div class="col-md-6 mb-2">{% bootstrap_field form.followup_time %}</div>
         </fieldset>
 
-        {% bootstrap_field form.assigned_user %}
+        {% if study.recruiters|length > 1 %}
+            {% bootstrap_field form.assigned_user %}
+        {% endif %}
 
         <div class="form-group">
             <label for="id_execution_url">{% translate 'Execution link' %}</label>
