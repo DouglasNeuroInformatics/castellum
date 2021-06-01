@@ -557,7 +557,7 @@ class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
                 ),
                 distinct=True,
             ),
-        )
+        ).order_by('pk')
 
         return context
 

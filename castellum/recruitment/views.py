@@ -413,6 +413,8 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         status_field = context['form'].fields['status']
         status_field.widget.choices = choices
 
+        context['sessions'] = self.study.studysession_set.order_by('pk')
+
         context['context'] = self.request.GET.get('context')
 
         return context

@@ -5,7 +5,7 @@
 
 {% block content %}
     <ul class="table-list mb-3">
-        {% for session in study.studysession_set.all %}
+        {% for session in sessions %}
             <li class="table-list-item">
                 <div class="h4 d-inline-block my-1 mr-2">
                     {{ session.name }}

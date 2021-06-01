@@ -56,6 +56,11 @@ class StudySessionsView(StudyMixin, PermissionRequiredMixin, UpdateView):
     is_onetime_invitation = False
     tab = 'sessions'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sessions'] = self.study.studysession_set.order_by('pk')
+        return context
+
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
