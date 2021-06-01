@@ -35,6 +35,7 @@ PROTECTED_MEDIA_SERVER = 'uwsgi'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # See https://docs.djangoproject.com/en/stable/topics/logging/
+ADMINS = [('admin', 'admin@example.com')]
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
