@@ -222,6 +222,10 @@ class Participation(models.Model):
                 self.attempts = 1
         else:
             self.attempts = 0
+
+        if self.status == self.INVITED:
+            ReliabilityEntry.objects.get_or_create(study=self.study, subject=self.subject)
+
         super().save(*args, **kwargs)
 
 
