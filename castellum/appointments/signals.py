@@ -27,25 +27,26 @@ def delete_scheduler_appointments_on_delete(sender, instance, using, **kwargs):
     from castellum.recruitment.models import Participation
     from castellum.utils import scheduler
 
-    from .models import Appointment
-
     if sender is Participation and settings.SCHEDULER_URL:
         for session in instance.study.studysession_set.exclude(schedule_id=None):
             pseudonym = get_pseudonym(instance.subject, session.domain)
             scheduler.delete(session.schedule_id, pseudonym)
-        qs = (
-            Appointment.objects
-            .filter(participation=instance)
-            .exclude(session__schedule_id=None)
-        )
-        qs.delete()
 
 
 def delete_scheduler_appointments_on_save(sender, instance, using, **kwargs):
     from castellum.recruitment.models import Participation
+
+    from .models import Appointment
 
     if sender is Participation and instance.status != Participation.INVITED:
         # PERF: ignore if instance has not been saved to the database yet
         if not instance.pk:
             return
         delete_scheduler_appointments_on_delete(sender, instance, using, **kwargs)
+
+        qs = (
+            Appointment.objects
+            .filter(participation=instance)
+            .exclude(session__schedule_id=None)
+        )
+        qs.delete()
