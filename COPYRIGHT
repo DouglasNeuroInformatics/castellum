@@ -18,3 +18,8 @@ Copyright: 2011-2021 Twitter, Inc.
     2011-2021 The Bootstrap Authors
 Source: https://github.com/twbs/bootstrap
 License: MIT
+
+Files: castellum/templates/consent.html
+Copyright: 2019 Schaar, K. & Schuster, H.
+Source: https://doi.org/10.17617/2.3286750
+License: CC BY-SA 4.0
