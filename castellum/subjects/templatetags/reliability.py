@@ -28,7 +28,7 @@ register = template.Library()
 
 
 @register.filter
-def showup_level(subject):
+def reliability_level(subject):
     subject.annotate_showup_stats()
 
     if subject.showup_score > 6:
@@ -40,7 +40,7 @@ def showup_level(subject):
 
 
 @register.filter
-def showup_summary(subject):
+def reliability_summary(subject):
     subject.annotate_showup_stats()
 
     labelled = []

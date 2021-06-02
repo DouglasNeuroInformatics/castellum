@@ -160,22 +160,22 @@ def test_maintenance_waiting_200(request, client, user_fixture):
     'subject_manager',
     pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
 ])
-def test_maintenance_showup_200(request, client, user_fixture):
+def test_maintenance_reliability_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/maintenance/showup/'
+    url = '/subjects/maintenance/reliability/'
     response = client.get(url)
     assert response.status_code == 200
 
 
-def test_maintenance_showup(client, user, participation):
+def test_maintenance_reliability(client, user, participation):
     past = timezone.now()
     baker.make(Appointment, show_up=Appointment.NOSHOW, participation=participation, start=past)
     baker.make(Appointment, show_up=Appointment.NOSHOW, participation=participation, start=past)
     baker.make(Appointment, show_up=Appointment.NOSHOW, participation=participation, start=past)
 
     client.force_login(user)
-    url = '/subjects/maintenance/showup/'
+    url = '/subjects/maintenance/reliability/'
     response = client.get(url)
     assert response.status_code == 200
     assert response.content.count(b'"table-list-item"') == 1
