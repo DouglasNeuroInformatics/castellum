@@ -221,5 +221,17 @@
             {% endfor %}
         {% endif %}
 
+        {% if subject.reliabilityentry_set.exists %}
+            <h2>{{ subject|verbose_name:'reliabilityentry' }}</h2>
+            {% for entry in subject.reliabilityentry_set.all %}
+                <dl class="row">
+                    <dt class="col-sm-6" data-fieldname="recruitment.ReliabilityEntry.study">{{ entry|verbose_name:'study' }}</dt>
+                    <dd class="col-sm-6">{{ entry|display:'study' }}</dd>
+
+                    <dt class="col-sm-6" data-fieldname="recruitment.ReliabilityEntry.was_reliable">{{ entry|verbose_name:'was_reliable' }}</dt>
+                    <dd class="col-sm-6">{{ entry|display:'was_reliable' }}</dd>
+                </dl>
+            {% endfor %}
+        {% endif %}
     {% endif %}
 {% endblock %}
