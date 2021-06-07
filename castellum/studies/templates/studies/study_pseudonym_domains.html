@@ -31,4 +31,13 @@
         <input type="hidden" name="action" value="add">
         <button class="btn btn-primary">{% translate 'Add domain' %}</button>
     </form>
+
+    {% if general_domains_exist %}
+        <form method="post" class="mb-3" data-js="d-select2">
+            {% include 'utils/form_errors.html' with form=form %}
+            {% csrf_token %}
+            {% bootstrap_field form.general_domains %}
+            <button class="btn btn-primary">{% translate 'Save' %}</button>
+        </form>
+    {% endif %}
 {% endblock %}

@@ -43,7 +43,6 @@ from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import FormView
 from django.views.generic import ListView
-from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -369,22 +368,34 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
         return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
 
 
-class StudyPseudonymDomainsView(StudyMixin, PermissionRequiredMixin, TemplateView):
+class StudyPseudonymDomainsView(StudyMixin, PermissionRequiredMixin, UpdateView):
+    model = Study
+    fields = ['general_domains']
     permission_required = 'studies.change_study'
     template_name = 'studies/study_pseudonym_domains.html'
     tab = 'domains'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['general_domains_exist'] = Domain.objects.filter(object_id=None).exists()
+        return context
+
+    def get_success_url(self):
+        return reverse('studies:domains', args=[self.study.pk])
+
     def post(self, request, *args, **kwargs):
-        if self.request.POST.get('action') == 'add':
+        if 'action' not in self.request.POST:
+            return super().post(request, *args, **kwargs)
+        elif self.request.POST['action'] == 'add':
             self.study.domains.create(bits=settings.CASTELLUM_STUDY_DOMAIN_BITS)
-        elif self.request.POST.get('action') == 'name':
+        elif self.request.POST['action'] == 'name':
             domain = get_object_or_404(self.study.domains.all(), key=self.request.POST['domain'])
             form_cls = modelform_factory(Domain, fields=['name'])
             form = form_cls(data=self.request.POST, instance=domain)
             if form.is_valid():
                 form.save()
 
-        return redirect('studies:domains', self.study.pk)
+        return redirect(self.get_success_url())
 
 
 class StudyImportView(PermissionRequiredMixin, FormView):
