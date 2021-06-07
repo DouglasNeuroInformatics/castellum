@@ -108,6 +108,7 @@ def take_snapshot(study):
         study,
         *study.studymembership_set.all(),
         *study.domains.all(),
+        *study.general_domains.all(),
         *study.studytag_set.all(),
         *study.studysession_set.all(),
         *study.subjectfiltergroup_set.all(),

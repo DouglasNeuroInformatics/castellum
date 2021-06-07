@@ -130,6 +130,15 @@ class Study(models.Model):
 
     members = models.ManyToManyField(User, through='StudyMembership')
     domains = GenericRelation(Domain)
+    general_domains = models.ManyToManyField(
+        Domain,
+        verbose_name=_('General pseudonym domains'),
+        help_text=_(
+            'These are domains that are shared among studies, e.g. for central data repositories.'
+        ),
+        blank=True,
+        limit_choices_to={'object_id': None},
+    )
     advanced_filtering = models.BooleanField(
         _('Advanced filtering'),
         help_text=_(
