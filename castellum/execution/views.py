@@ -48,6 +48,7 @@ from castellum.pseudonyms.forms import DomainForm
 from castellum.pseudonyms.forms import PseudonymForm
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.helpers import get_subject
+from castellum.pseudonyms.models import Domain
 from castellum.recruitment.attribute_exporters import get_exporter
 from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.mixins import ParticipationMixin
@@ -168,7 +169,10 @@ class ParticipationDetailView(ParticipationDetailMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['domains'] = self.study.domains.all()
+        context['domains'] = [
+            *self.study.domains.all(),
+            *self.study.general_domains.all(),
+        ]
         return context
 
 
@@ -206,7 +210,11 @@ class ParticipationPseudonymView(ParticipationDetailMixin, View):
         )
 
     def get(self, request, *args, **kwargs):
-        domain = get_object_or_404(self.study.domains, key=kwargs['domain'])
+        qs = Domain.objects.filter(
+            models.Q(pk__in=self.study.domains.all())
+            | models.Q(pk__in=self.study.general_domains.all())
+        )
+        domain = get_object_or_404(qs, key=kwargs['domain'])
         pseudonym = get_pseudonym(self.subject, domain.key)
 
         monitoring_logger.info('Pseudonym access: domain {} by {}'.format(
