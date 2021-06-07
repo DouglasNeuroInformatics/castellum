@@ -171,6 +171,8 @@ class ParticipationDetailView(ParticipationDetailMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['pseudonyms'] = [
             (d, get_pseudonym(self.subject, d.key)) for d in self.study.domains.all()
+        ] + [
+            (d, get_pseudonym(self.subject, d.key)) for d in self.study.general_domains.all()
         ]
         return context
 
