@@ -56,7 +56,7 @@
                 </a>
             </li>
         {% endif %}
-        {% if can_change_appointment and study.studysession_set.exists %}
+        {% if can_change_appointment and sessions %}
             <li class="nav-item">
                 <a class="nav-link" id="appointments-tab" data-toggle="tab" href="#appointments" role="tab" aria-controls="appointments" aria-selected="false">
                     {% translate 'Appointments' %}
@@ -105,8 +105,8 @@
 
                     <dt class="col-sm-6">{% translate 'Duration of sessions in minutes' %}</dt>
                     <dd class="col-sm-6">
-                        {% if study.studysession_set.all %}
-                            {% for session in study.studysession_set.all %}
+                        {% if sessions %}
+                            {% for session in sessions %}
                                 {{ session.duration }}{% if not forloop.last %}, {% endif %}
                             {% endfor %}
                         {% else %}
