@@ -570,7 +570,6 @@ class SchedulerPingView(View):
                 appointment_changes.append((appointment.start, start))
                 appointment.start = start
                 appointment.reminded = False
-                appointment.show_up = Appointment.SHOWUP  # reset to default
                 appointment.save()
         elif start:
             appointment_changes.append((None, start))

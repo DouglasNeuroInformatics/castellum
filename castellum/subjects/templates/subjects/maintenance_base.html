@@ -26,7 +26,7 @@
                 <a href="{% url 'subjects:maintenance-waiting' %}" class="nav-link {% if view.tab == 'waiting' %}active{% endif %}">{% translate 'Waiting for consent' %}</a>
             </li>
             <li class="nav-item">
-                <a href="{% url 'subjects:maintenance-showup' %}" class="nav-link {% if view.tab == 'showup' %}active{% endif %}">{% translate 'Show up rate' %}</a>
+                <a href="{% url 'subjects:maintenance-reliability' %}" class="nav-link {% if view.tab == 'reliability' %}active{% endif %}">{% translate 'Reliability' %}</a>
             </li>
             <li class="nav-item">
                 <a href="{% url 'subjects:maintenance-notes' %}" class="nav-link {% if view.tab == 'notes' %}active{% endif %}">{% translate 'Notes' %}</a>

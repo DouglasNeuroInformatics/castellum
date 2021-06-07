@@ -32,7 +32,6 @@ from .views import ExclusionCriteriaView
 from .views import ExportView
 from .views import NewsMailView
 from .views import ParticipationAppointmentsUpdateView
-from .views import ParticipationAppointmentsView
 from .views import ParticipationDetailView
 from .views import ParticipationDropoutConfirmView
 from .views import ParticipationDropoutView
@@ -40,7 +39,6 @@ from .views import ParticipationPseudonymsView
 from .views import ParticipationUpdateView
 from .views import ProgressView
 from .views import ResolveView
-from .views import ShowUpUpdateView
 from .views import StudyDetailView
 from .views import TagView
 
@@ -83,13 +81,8 @@ urlpatterns = [
     ),
     path(
         '<int:study_pk>/<int:pk>/appointments/',
-        ParticipationAppointmentsView.as_view(),
-        name='participation-appointments',
-    ),
-    path(
-        '<int:study_pk>/<int:pk>/appointments/update/',
         ParticipationAppointmentsUpdateView.as_view(),
-        name='participation-appointments-update',
+        name='participation-appointments',
     ),
     path(
         '<int:study_pk>/<int:pk>/update-contact/',
@@ -110,10 +103,5 @@ urlpatterns = [
         '<int:study_pk>/<int:pk>/update-additional-info/',
         AdditionalInfoUpdateView.as_view(),
         name='additional-info-update',
-    ),
-    path(
-        '<int:study_pk>/<int:pk>/update-show-up/<int:appointment_pk>',
-        ShowUpUpdateView.as_view(),
-        name='show-up',
     ),
 ]

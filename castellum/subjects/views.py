@@ -660,9 +660,9 @@ class MaintenanceWaitingView(BaseMaintenanceView):
         )
 
 
-class MaintenanceShowupView(BaseMaintenanceView):
-    template_name = 'subjects/maintenance_showup.html'
-    tab = 'showup'
+class MaintenanceReliabilityView(BaseMaintenanceView):
+    template_name = 'subjects/maintenance_reliability.html'
+    tab = 'reliability'
 
     def get_queryset(self):
         return (

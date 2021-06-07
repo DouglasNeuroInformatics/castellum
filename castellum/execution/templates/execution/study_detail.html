@@ -1,5 +1,5 @@
 {% extends "execution/study_base.html" %}
-{% load i18n appointments utils %}
+{% load i18n reliability utils %}
 
 {% block content %}
     <ul class="table-list mt-3">
@@ -8,8 +8,8 @@
                 {% if can_access %}
                     <div class="d-inline-block my-1 mr-2">
                         {{ participation.subject.contact.full_name }}
-                        {% with summary=participation.subject|showup_summary %}
-                            <span class="d-inline-block my-1 text-{{ participation.subject|showup_level }}" aria-label="{{ summary }}" title="{{ summary }}">&#9679;</span>
+                        {% with summary=participation.subject|reliability_summary %}
+                            <span class="d-inline-block my-1 text-{{ participation.subject|reliability_level }}" aria-label="{{ summary }}" title="{{ summary }}">&#9679;</span>
                         {% endwith %}
                         {% if session_count > 0 %}
                             <span class="badge badge-secondary my-1">

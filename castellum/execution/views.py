@@ -41,7 +41,6 @@ from django.views.generic import UpdateView
 from castellum.appointments.forms import AppointmentsForm
 from castellum.appointments.mixins import BaseCalendarView
 from castellum.appointments.mixins import send_appointment_notifications
-from castellum.appointments.models import Appointment
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.pseudonyms.forms import DomainForm
@@ -239,23 +238,6 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
         return super().form_valid(form)
 
 
-class ParticipationAppointmentsView(ParticipationDetailMixin, DetailView):
-    template_name = 'execution/participation_appointments.html'
-    tab = 'appointments'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # The forms post to ShowUpUpdateView
-        context['appointments'] = []
-        form_cls = forms.modelform_factory(Appointment, fields=['show_up'])
-        for session, appointment in self.object.get_appointments():
-            form = form_cls(instance=appointment)
-            context['appointments'].append((session, appointment, form))
-
-        return context
-
-
 class ParticipationAppointmentsUpdateView(ParticipationDetailMixin, UpdateView):
     template_name = 'execution/participation_appointments_form.html'
     permission_required = ['recruitment.conduct_study', 'appointments.change_appointment']
@@ -272,34 +254,6 @@ class ParticipationAppointmentsUpdateView(ParticipationDetailMixin, UpdateView):
         send_appointment_notifications(self.request, self.object, form.appointment_changes)
         messages.success(self.request, _('Data has been saved.'))
         return response
-
-
-class ShowUpUpdateView(ParticipationMixin, UpdateView):
-    # Used by ParticipationAppointmentsView
-
-    model = Appointment
-    fields = ['show_up']
-    http_method_names = ['post']
-    permission_required = 'recruitment.conduct_study'
-    study_status = [Study.EXECUTION]
-    participation_status = [Participation.INVITED]
-
-    def get_object(self):
-        return get_object_or_404(
-            Appointment,
-            pk=self.kwargs['appointment_pk'],
-            participation=self.participation,
-        )
-
-    def get_success_url(self):
-        return reverse(
-            'execution:participation-appointments',
-            args=[self.kwargs['study_pk'], self.kwargs['pk']],
-        )
-
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
 
 
 class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
@@ -501,22 +455,13 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     tab = 'calendar'
 
     def render_appointment(self, appointment):
-        title = appointment.session.name
-        if appointment.show_up != Appointment.SHOWUP:
-            title = '{} ({})'.format(title, appointment.get_show_up_display())
-
-        class_names = []
-        if appointment.show_up not in Appointment.SHOWUP_OK:
-            class_names.append('fullcalendar-muted')
-
         return {
-            'title': title,
+            'title': appointment.session.name,
             'start': appointment.start,
             'end': appointment.end,
             'url': reverse('execution:participation-detail', args=[
                 self.object.pk, appointment.participation.pk
             ]),
-            'classNames': class_names,
         }
 
     def get_appointments(self):
@@ -544,7 +489,6 @@ class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
                 'appointment',
                 filter=models.Q(
                     appointment__participation__status=Participation.INVITED,
-                    appointment__show_up__in=Appointment.SHOWUP_OK,
                 ),
                 distinct=True,
             ),
@@ -552,7 +496,6 @@ class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
                 'appointment',
                 filter=models.Q(
                     appointment__participation__status=Participation.INVITED,
-                    appointment__show_up__in=Appointment.SHOWUP_OK,
                     appointment__start__lte=timezone.now(),
                 ),
                 distinct=True,
