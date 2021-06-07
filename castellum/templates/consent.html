@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for block in blocks %}
+        {% include 'consent_block.html' with block=block level=1 id=forloop.counter %}
+    {% endfor %}
+{% endblock %}

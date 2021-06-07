@@ -1,0 +1,35 @@
+{% load utils %}
+
+<div class="block mb-4" {% if block.optional %}data-optional="{{ block.optional }}"{% endif %}>
+    {% if block.optional %}
+        <input hidden id="optional-{{ id }}" type="checkbox">
+    {% endif %}
+    <label for="optional-{{ id }}" class="block__header">
+        <h{{ level }}> {{ block.title }}</h{{ level }}>
+        {% if block.optional %}
+            <em>{{ block.optional }}</em>
+        {% endif %}
+    </label>
+    {% if block.textarea %}
+        <div class="form-group">
+            <textarea class="form-control" rows="5"></textarea>
+        </div>
+    {% endif %}
+    {% if block.instructions %}
+        <details>
+            <summary>Anleitung</summary>
+            <div class="instructions">{{ block.instructions|linebreaks }}</div>
+        </details>
+    {% endif %}
+    {% if block.examples %}
+        <details>
+            <summary>Beispiele</summary>
+            {% for example in block.examples %}
+                <div class="example">{{ example|linebreaks }}</div>
+            {% endfor %}
+        </details>
+    {% endif %}
+    {% for child in block.blocks %}
+        {% include 'consent_block.html' with block=child level=level|add:1 id=id|addstr:'.'|addstr:forloop.counter %}
+    {% endfor %}
+</div>

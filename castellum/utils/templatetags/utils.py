@@ -123,4 +123,9 @@ def icon(name, style='solid', **kwargs):
     return {'name': name, 'section': 'fa' + style[0], **kwargs}
 
 
+@register.filter
+def addstr(value, param):
+    return '{}{}'.format(value, param)
+
+
 register.simple_tag(get_parler_languages)

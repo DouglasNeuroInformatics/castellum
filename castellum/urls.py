@@ -34,7 +34,9 @@ from django.views.generic import RedirectView
 from django.views.generic import TemplateView
 from django.views.i18n import JavaScriptCatalog
 from django.views.static import serve
+from django.shortcuts import render
 
+import yaml
 from stronghold.decorators import public
 
 from castellum.castellum_auth.forms import AuthenticationForm
@@ -75,6 +77,13 @@ def protected_media(request, path):
         return response
 
 
+def consent_view(request):
+    with open('consent.yml') as fh:
+        data = yaml.safe_load(fh)
+
+    return render(request, 'consent.html', data)
+
+
 def dummy(request):
     return HttpResponse('', status=204)
 
@@ -89,6 +98,7 @@ urlpatterns = [
     path('favicon.ico', public(RedirectView.as_view(url='/static/images/favicon.ico'))),
     path('ping/', dummy, name='ping'),
     path('feeds/', FeedsView.as_view(), name='feeds'),
+    path('consent/', consent_view, name='consent'),
 
     path('i18n/', set_language, name='set_language'),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),

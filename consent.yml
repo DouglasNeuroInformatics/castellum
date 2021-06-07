@@ -1,0 +1,451 @@
+# based on https://doi.org/10.17617/2.3286750
+blocks:
+  - title: Allgemeine Informationen zur Studie
+    textarea: true
+    examples:
+      - |
+        Vielen Dank für Ihr Interesse an unserer Studie XY. Bitte
+        lesen Sie sich den Text aufmerksam und in Ruhe durch. Wenn Sie Fragen
+        haben, beantworten wir diese gerne. Abschließend können Sie durch Ihre
+        Unterschrift die Kenntnisnahme der vorliegenden Information und Ihre
+        Bereitschaft zur Teilnahme an der Studie erklären.
+    blocks:
+      - title: Was ist das Ziel der Studie?
+        textarea: true
+        examples:
+          - |
+            Bei der Studie handelt es sich um ein Forschungsvorhaben des
+            Max-Planck-Instituts für Bildungsforschung (MPIB) in Kooperation mit …. In
+            der Studie wollen wir untersuchen, ….
+
+            Die erhobenen Daten werden ausschließlich zu Forschungszwecken
+            wissenschaftlich ausgewertet. Innerhalb des MPIB können die Forschungsdaten
+            auch für verwandte Fragestellungen analysiert werden.
+      - title: Ein- und Ausschlusskriterien
+        textarea: true
+        examples:
+          - |
+            An der geplanten Studie können gesunde Personen im Alter
+            zwischen 30 und 40 Jahren teilnehmen. Nicht teilnehmen können
+            Personen, die eine Vorgeschichte einer psychiatrischen und/oder
+            neurologischen Vorerkrankung haben.
+
+            Eine Teilnahme setzt außerdem ein schriftlich erklärtes Einverständnis
+            voraus.
+        optional: KANN/SOLL
+      - title: Von wem wird die Studie finanziert?
+        textarea: true
+        examples:
+          - |
+            Die Studie wird durch die Deutsche Forschungsgesellschaft unter dem
+            Förderkennzeichen XY finanziert. Die zuständigen Ethikkommission erhebt
+            keine ethischen und wissenschaftlichen Bedenken gegen diese Studie. Durch
+            die Förderung ergeben sich keine Interessenkonflikte.
+        optional: KANN/SOLL
+  - title: Studienablauf
+    textarea: true
+    graphic:
+      optional: ''
+    instructions: |
+      Der Umfang und Ablauf für den/die jeweilige/n Teilnehmer/in sollten
+      genau beschrieben werden. Das umfasst:
+
+      -   Anzahl der Termine und Gesamtdauer der Teilnahme. Bei mehreren Terminen
+          bzw. längerem Teilnahmezeitraum oder umfangreichen Testtagen ggf.
+          Ablaufdiagramm einfügen.
+      -   Beschreibung der Messungen, z.B. Tastendruck, Video, EEG, Paper/Pencil …
+      -   Erhobene Datenkategorien
+    optional: 'SOLL, ggf MUSS'
+  - title: Untersuchungsmethoden
+    textarea: true
+    instructions: |
+      Art und Umfang Beschreiben. Ggf. auf gesonderte Informations-
+      und Einwilligungsunterlagen verweisen und hier nur sehr kurze
+      Beschreibung
+    examples:
+      - |
+        MRT
+
+        Während der Untersuchung liegen Sie mit dem Oberkörper in einer speziellen
+        Röhre. Diese Röhre ist vorn und hinten offen und hat einen Durchmesser von ca.
+        60 cm. Manche Menschen empﬁnden das als etwas ungewohnt, gewöhnen sich aber in
+        der Regel nach wenigen Minuten daran. Es ist außerordentlich wichtig, dass Sie
+        die gesamte Zeit über (30 bis 60 Minuten) sehr ruhig liegen und insbesondere
+        den Kopf nicht bewegen, denn leider führen bereits Kopfbewegungen von weniger
+        als einem Zentimeter zu unbrauchbaren Bildern (ähnlich dem Verwackeln beim
+        Fotograﬁeren). Bei der Untersuchung treten laute Geräusche auf, die auf
+        elektromagnetischen Schaltvorgängen im Magneten beruhen. Aus diesem Grund
+        werden Sie während der Untersuchung Ohrstöpsel und schalldämmende Kopfhörer
+        tragen.
+
+        Das MRT-Gerät wird aus einem Nebenraum heraus bedient. Die Untersuchungsleiter
+        können Sie während der Untersuchung durch ein Fenster und durch ein
+        Kamerasystem sehen. Über eine eingebaute Gegensprechanlage können wir Sie hören
+        und mit Ihnen reden. Auf diesem Wege geben wir Ihnen während der Untersuchung
+        Informationen und fragen Sie nach dem Beﬁnden. Zusätzlich erhalten Sie eine
+        Alarmklingel, um sich jederzeit bemerkbar machen zu können, z. B. wenn Sie die
+        Untersuchung aus irgendeinem Grund abbrechen möchten.
+
+        Wegen des starken Magnetfeldes dürfen natürlich keine magnetischen oder
+        metallhaltigen Gegenstände in den Untersuchungsraum mitgebracht werden. Solche
+        Gegenstände (Kugelschreiber, Münzgeld, etc.) müssen vor der Untersuchung
+        abgelegt werden. Dafür stehen in unseren Räumen Aufbewahrungsmöglichkeiten zur
+        Verfügung.
+    optional: 'SOLL, ggf MUSS'
+  - title: 'Nutzung und Risiken'
+    blocks:
+      - title: Welchen Nutzen und welche Risiken gibt es?
+        textarea: true
+        examples:
+          - |
+            Die Auswertung dient Forschungszwecken und zielt auf eine
+            Verbesserung unseres Verständnisses von XY. Persönlich haben Sie
+            keinen unmittelbaren Vorteil oder Nutzen aus der Teilnahme an der
+            Studie.
+
+            Die Studie hat für Sie keine negativen Auswirkungen. Sie ist nicht mit
+            bekannten Risiken für Ihre körperliche Gesundheit oder Ihr psychisches
+            Wohlbefinden verbunden.
+
+            Wir möchten Ihnen … ml Blut abnehmen (das entspricht etwa … Esslöffeln.
+            Dies ist für Sie nur mit den geringen Risiken einer normalen Blutentnahme
+            verbunden. An der Einstichstelle kann es zu Schmerzen kommen oder es kann
+            ein Bluterguss (blauer Fleck) entstehen. In äußerst seltenen Fällen kann
+            sich auch ein Blutgerinnsel (Thrombose) bilden, eine örtlich begrenzte
+            Entzündung an der Einstichstelle auftreten oder es kann zu dauerhaften
+            Schädigungen von Blutgefäßen oder Nerven kommen.
+
+            Bei jeder Erhebung, Speicherung und Übermittlung von Daten aus Ihren
+            Biomaterialien im Rahmen von Forschungsprojekten bestehen
+            Vertraulichkeitsrisiken (z.B. die Möglichkeit, Sie zu identifizieren),
+            insbesondere im Hinblick auf die Information zu Ihrer Erbsubstanz. Diese
+            Risiken lassen sich nicht völlig ausschließen und steigen, je mehr Daten
+            miteinander verknüpft werden können.
+      - title: Bin ich versichert?
+        textarea: true
+        optional: KANN
+      - title: Erhalte ich eine Aufwandsentschädigung?
+        textarea: true
+        examples:
+          - |
+            Für die Teilnahme zahlen wir eine Aufwandsentschädigung von
+            {base_allowance} Euro plus einen Bonus, der vom Abschneiden im Test
+            abhängt. Bei vorzeitiger Beendigung auf Ihren Wunsch erhalten Sie in jedem
+            Fall eine Aufwandsentschädigung von {min_allowance} Euro.
+        optional: SOLL
+    optional: 'SOLL, MUSS, wenn Risiken zu erwarten sind'
+  - title: Umgang mit Daten
+    blocks:
+      - title: Wie und wie lange werden meine Daten gespeichert?
+        textarea: true
+        examples:
+          - |
+            Alle von Ihnen erhobenen Daten werden entsprechend der
+            Datenschutzgesetze (EU
+            Datenschutzgrundverordnung, Bundesdatenschutzgesetz) gespeichert und
+            wissenschaftlich ausgewertet. Kontaktdaten (Name, Adresse, Telefonnummer,
+            E-Mail-Adresse u.Ä.) und Forschungsgsdaten werden getrennt gespeichert. Die
+            Forschungsdaten werden unter einer individuellen Codenummer gespeichert und
+            miteinander verknüpft. Bei der Auswertung sehen die Wissenschaftlerinnen und
+            Wissenschaftler nur diese Codenummer und nicht Ihren Namen. Sie wissen also bei
+            der Auswertung nicht, von wem die Forschungsdaten stammen. Nur über die
+            Codenummer kann auch ein Bezug zwischen den Forschungsdaten und Ihren
+            Kontaktdaten hergestellt werden. Diese Zuordnung darf nur von befugten
+            Personen, die an der jeweiligen Studie beteiligt sind, hergestellt werden. Alle
+            Daten werden nach aktuellen Standards gesichert und unterliegen einer strikten
+            Zugangskontrolle. Alle Mitarbeiterinnen und Mitarbeiter am Max-Planck-Institut
+            für Bildungsforschung behandeln Ihre Angaben vertraulich und wurden hierauf
+            verpflichtet.
+
+            Nach einer Frist von 2 jahren wird die Codenummer gelöscht, so dass Sie ohne
+            die Hinzuziehung weiterer Informationen nicht mehr über die Forschungsdaten
+            identifiziert werden können. Dies gilt dann nicht, wenn Sie Ihr Einverständnis
+            zur längerfristigen Speicherung und Nutzung erteilt haben. Bitte beachten Sie,
+            dass bei bestimmten Aufzeichnungen (Bild/Ton/MRT) eine Identifizierung im
+            Prinzip auch nach Löschung der Codeliste möglich ist.
+          - |
+            Wir erheben Ihre Daten anonym, das heißt ohne Ihre Kontaktdaten
+            und Namen. Weder wir noch andere können die Antwort Ihrer Person zuordnen.
+          - |
+            Die Forschungsdaten werden aus Gründen der guten
+            wissenschaftlichen Praxis der Deutschen Forschungsgemeinschaft und den Regeln der
+            Max-Planck-Gesellschaft für mindestens 10 Jahre gespeichert. Dies hat
+            den Sinn, dass andere Wissenschaftlerinnen und Wissenschaftler erzielte
+            Ergebnisse auf ihre Richtigkeit überprüfen können.
+          - Anschließend werden die wissenschaftlichen Daten gelöscht.
+          - |
+            Anschließend werden die wissenschaftlichen Daten so verändert,
+            dass Ihre Forschungsdaten Ihnen faktisch nicht mehr zugeordnet werden können.
+          - |
+            Die Speicherung der Daten für die Studie erfolgt außerdem am
+            Institut XY.
+
+            Darüber hinaus/im Anschluss werden die Forschungsdaten
+            weiterhin am Max-Planck-Institut für Bildungsforschung gespeichert /
+            werden die Forschungsdaten an ein Repositorium übergeben / auf einer
+            Internetplattform hochgeladen / für die Veröffentlichung an eine
+            wissenschaftliche Zeitschrift übergeben, so dass eine über die 10 Jahre
+            hinausgehende Speicherung und Nutzung der Forschungsdaten möglich ist.
+            Bitte lesen Sie hierzu auch die Angaben im folgenden Abschnitt.
+          - |
+            Das hier beschriebene Forschungsvorhaben ist als Langzeitstudie
+            angelegt.
+            Deswegen besteht ein Interesse daran, dass Sie zu einem späteren Zeitpunkt
+            weiterhin an der Studie teilnehmen. Um eine erneute Kontaktaufnahme zu
+            ermöglichen, werden Ihre personenbezogenen Kontaktdaten für die Studie nach
+            Beginn Ihrer Teilnahme gespeichert, bis keine weiteren Erhebungen /
+            Untersuchungen / Nachuntersuchungen mehr durchgeführt werden sollen.
+          - |
+            Ihre Kontaktdaten werden für die Dauer des Forschungsvorhabens
+            gespeichert,
+            sofern Sie nicht die gesonderte Erlaubnis erteilen, dass wir die Kontaktdaten
+            auch längerfristig in der Datenbank des Instituts aufbewahren dürfen.
+          - |
+            Die Interviews werden mit einem Aufnahmegerät aufgezeichnet und
+            von den
+            Mitarbeiterinnen und Mitarbeitern des Forschungsprojekts in Schriftform
+            gebracht. Für die weitere wissenschaftliche Auswertung der Interviewtexte
+            werden alle Angaben, die zu einer Identifizierung der Person führen könnten,
+            verändert oder aus dem Text entfernt. Anschließend werten wir die Texte
+            inhaltlich aus und kommen so zu allgemeinen Aussagen zum Thema XY. In
+            wissenschaftlichen Veröffentlichungen werden Interviews nur in Ausschnitten
+            zitiert, um gegenüber Dritten sicherzustellen, dass der entstehende
+            Gesamtzusammenhang von Ereignissen nicht zu einer Identifizierung der Person
+            führen kann.
+          - |
+            Die von Ihnen zur Verfügung gestellten Biomaterialien und Daten
+            werden
+            ausschließlich im Rahmen dieser Studie verwendet.
+          - |
+            Die von Ihnen zur Verfügung gestellten Biomaterialien und Daten
+            für folgende
+            Forschungsgebiete/Forschungsprojekte verwendet: …. Die genauen Fragestellungen
+            können jedoch zum derzeitigen Zeitpunkt noch nicht konkret benannt werden.
+
+            Hierfür werden an Ihren Biomaterialien auch genetische Untersuchungen
+            durchgeführt, und zwar eine Untersuchung Ihrer gesamten Erbsubstanz (Genom).
+            Die Biomaterialien werden im Labor XY gelagert.
+
+            Die Biomaterialien und Daten sollen für eine Zeit von XY
+            aufbewahrt und für die Forschung bereitgestellt
+            werden.
+          - |
+            Die von Ihnen zur Verfügung gestellten Biomaterialien werden
+            ausschließlich für
+            die Forschung bereitgestellt. Sie sollen im Sinne eines allgemeinen
+            wissenschaftlichen Erkenntnisgewinns für viele verschiedene Forschungszwecke
+            verwendet werden. Zum derzeitigen Zeitpunkt können noch nicht alle zukünftigen
+            Forschungsziele beschrieben werden. Diese können sich sowohl auf bestimmte
+            Forschungsfelder (z.B. Altersforschung, Erkrankungen des Gehirns) als auch auf
+            heute zum Teil noch unbekannte Forschungsfragen und genetische Ausprägungen
+            beziehen. Es kann also sein, dass Ihre Proben und Daten auch für
+            Forschungsfragen verwendet werden, die wir heute noch nicht absehen können.
+
+            Die Biomaterialien werden in Labor XY gelagert .
+
+            Die Biomaterialien und Daten sollen für unbestimmte Zeit aufbewahrt und
+            für die Forschung bereitgestellt werden.
+      - title: Werden die Forschungsdaten auch an andere Wissenschaftlerinnen und Wissenschaftler weitergegeben?
+        textarea: true
+        examples:
+          - |
+            Die Daten werden ausschließlich am Max-Planck-Institut für
+            Bildungsforschung im Rahmen des Forschungsprojekts analysiert.
+          - |
+            Die Studie ist ein Kooperationsprojekt mit …. Die Daten werden
+            durch
+            die hier genannten Wissenschaftlerinnen und
+            Wissenschaftler/Wissenschaftsgruppen im Rahmen des
+            Forschungsprojekts ausgetauscht und analysiert. Projektpartner XY
+            analysiert die Daten in Land XY. Dies bedeutet auch, dass die Daten
+            den durch europäisches Datenschutzrecht gedeckten Bereich verlassen.
+            Damit besteht auch die Möglichkeit, dass Sie ggf. Ihre Rechte als
+            Betroffener nicht durchsetzen können.
+          - |
+            Neben den Projektbeteiligten können auch andere
+            Wissenschaftlerinnen
+            und Wissenschaftler innerhalb Deutschlands/Europas die
+            Forschungsdaten auf Antrag und nach Genehmigung erhalten und sie
+            ihren Arbeiten in Forschung und Lehre im Bereich XY zugrunde legen.
+          - |
+            Neben den Projektbeteiligten können auch andere
+            Wissenschaftlerinnen
+            und Wissenschaftler im In- und Ausland -- ggf. auch außerhalb
+            Europas in Länder mit einem niedrigeren Datenschutzniveau -- die
+            Forschungsdaten erhalten und sie ihren Arbeiten in Forschung und
+            Lehre für weiterführende Fragestellungen zugrunde legen. Dies
+            bedeutet auch, dass die Daten den durch europäisches
+            Datenschutzrecht gedeckten Bereich verlassen. Damit besteht auch die
+            Möglichkeit, dass Sie ggf. Ihre Rechte als Betroffener nicht
+            durchsetzen können.
+          - |
+            Es ist geplant, die Forschungsdaten nach Beendigung der
+            Datenerhebung an das Datenservicezentrum XY zur Archivierung und
+            weiteren wissenschaftlichen Nutzung zu übermitteln. Dadurch können
+            auch andere Wissenschaftlerinnen und Wissenschaftler die Daten zu
+            weiteren wissenschaftlichen Fragestellungen auswerten. Dort wird
+            überprüft, dass die Forschungsdaten keinen Personenbezug mehr haben.
+            Falls erforderlich, wird das Datenservicezentrum zusätzliche
+            Maßnahmen vornehmen, damit die Forschungsdaten Ihrer Person nicht
+            zugeordnet werden können. Das Datenservicezentrum stellt
+            Wissenschaftlerinnen und Wissenschaftlern im In- und Ausland die
+            Daten für ausschließlich wissenschaftliche Zwecke zur Verfügung. Da
+            kein Personenbezug mehr besteht, können Ihre Forschungsdaten nicht
+            mehr aus den Datensätzen gelöscht werden.
+          - |
+            Es ist geplant, Forschungsdaten anhand derer Sie nicht direkt
+            indentifiziert werden können auf der Internetplattform XY
+            hochzuladen. Dadurch können andere Wissenschaftlerinnen und
+            Wissenschaftler auf die Forschungsdaten zugreifen und sie ergänzend
+            analysieren, nachbearbeiten und Analysen wiederholen bzw. sie zur
+            Beantwortung weiterer wissenschaftlicher Fragestellungen nutzen.
+            Daten-Plattformen können sich außerhalb der Europäischen Union
+            befinden. Einmal dort platziert, werden die Daten weltweit
+            öffentlich verfügbar gemacht, d.h. die Daten können von
+            Interessierten eingesehen, heruntergeladen und genutzt werden. Dies
+            bedeutet auch, dass die Daten den durch europäisches
+            Datenschutzrecht gedeckten Bereich verlassen. Damit besteht auch die
+            Möglichkeit, dass Sie ggf. Ihre Rechte als Betroffener nicht
+            durchsetzen können. Ab dem Zeitpunkt der Veröffentlichung auf der
+            Plattform kann die Nutzung dieser Daten nicht mehr kontrolliert,
+            nachträglich eingeschränkt oder überall gelöscht werden.
+          - |
+            Ihre Kontaktdaten werden nur innerhalb des Max-Planck Instituts
+            für
+            Bildungsforschung verwendet. An externe Wissenschaftlerinnen und
+            Wissenschaftler geben wir ohne Ihr Einverständnis ausschließlich
+            Forschungsdaten und keine Kontaktdaten weiter. Einzelne
+            Teilnehmerinnen und Teilnehmer sind hierbei nicht mehr erkennbar.
+            Für die externen Wissenschaftlerinnen und Wissenschaftler sind
+            Forschungsdaten nicht auf Ihre Person zu beziehen.
+        optional: ggf. MUSS
+      - title: Wie werden Ergebnisse veröffentlicht?
+        textarea: true
+        examples:
+          - |
+            Die Ergebnisse der Studie werden ausschließlich ohne direkten
+            Personenbezug veröffentlicht. Im Falle einer Veröffentlichung
+            von Studienergebnissen bleibt Ihre Identität vertraulich. Das
+            bedeutet: Aus den Ergebnissen kann man nicht erkennen, von
+            welcher Person die Angaben gemacht worden sind, und es ist auch
+            nicht aus den Forschungsdaten ersichtlich, dass Sie an einer
+            Untersuchung teilgenommen haben, es sei denn, Sie haben einer
+            personenbezogenen Veröffentlichung gesondert zugestimmt.
+          - |
+            Es ist geplant, die Ergebnisse in wissenschaftlichen
+            Zeitschriften zu veröffentlichen, die fordern, dass auch die
+            zugrundeliegenden Forschungsdaten hinterlegt werden. Dies hat
+            den Sinn, dass die Ergebnisse von anderen Wissenschaftlerinnen
+            und Wissenschaftlern überprüft werden können. Möglicherweise
+            werden deshalb auch zugehörige Forschungsdaten ohne Namen und
+            Kontaktdaten bei den Zeitschriften eingereicht und dort
+            veröffentlicht. Bitte beachten Sie, dass diese
+            wissenschaftlichen Daten hierdurch weltweit verfügbar sind. Dies
+            bedeutet auch, dass die Daten den durch das europäische
+            Datenschutzrecht gedeckten Bereich verlassen. Damit besteht auch
+            die Möglichkeit, dass Sie ggf. Ihre Rechte als Betroffener nicht
+            durchsetzen können.
+        optional: SOLL, ggf. MUSS, falls Ergebnisse personenbezogen veröffentlicht
+          werden
+      - title: Freiwilligkeit
+        textarea: true
+        examples:
+          - |
+            Die Teilnahme an der Studie ist freiwillig und Sie haben zu
+            jeder Zeit die Möglichkeit, Ihre Mitarbeit ohne Angabe von
+            Gründen zu beenden, ohne dass dies negative Konsequenzen für Sie
+            hätte. Sie können die Teilnahme jederzeit beenden, auch wenn die
+            Untersuchungen schon begonnen haben, ohne dass Ihnen Nachteile
+            entstehen.
+          - |
+            Ein möglicher entgegenstehender Wille Ihres Kindes, das die
+            Untersuchung von vornherein nicht durchführen zu wollen bzw. ein
+            laufendes Experiment abbrechen zu wollen, wird
+            selbstverständlich berücksichtigt.
+      - title: Haben Sie weitere Fragen?
+        textarea: true
+        examples:
+          - |
+            Sollten Sie noch weitere Fragen zum Ablauf der
+            Studie, zum Datenschutz, zu Ihren Rechten etc. haben, wenden Sie
+            sich bitte an ….
+
+            Wir wären Ihnen dankbar, wenn Sie sich dazu bereit
+            erklären würden, an dieser Studie teilzunehmen. Für weitere Fragen
+            stehen wir Ihnen natürlich jederzeit gerne zur Verfügung.
+
+            Mit herzlichem Dank und freundlichen Grüßen
+            …
+  - title: Einwilligungen
+    blocks:
+      - title: 'Einwilligungserklärung zur Studienteilnahme'
+        signature: true
+        examples:
+          - |
+            1. Ich wurde über die Studie {study_title}, ihren Ablauf, ihre Bedeutung, Tragweite und Risiken aufgeklärt und habe die Studieninformation gelesen und verstanden.
+            2. Ich hatte die Gelegenheit, alle offenen Fragen zu klären.
+            3. Ich habe jederzeit das Recht, weitere Informationen zur Studie zu erfragen.
+            4. Ich erkläre mich freiwillig bereit, an der in der Studieninformation beschriebenen Studie teilzunehmen. / Ich willige ein, dass mein Kind an der Studie teilnehmen darf.
+            5. Ich wurde darauf hingewiesen, dass ich jederzeit von dieser Studienteilnahme zurücktreten kann, ohne dass mir dadurch ein Nachteil entsteht.
+      - title: 'Datenschutzrechtliche Einwilligungserklärung'
+        signature: true
+        examples:
+          - |
+            1. Ich habe die Studieninformationen gelesen und verstanden.
+            2. Ich wurde darüber informiert, dass meine Einwilligung freiwillig ist und ich sie jederzeit für die Zukunft zurückziehen kann. Ich wurde auch über meine weiteren Rechte auf Auskunft, Berichtigung, Löschung, auf Datenübertragbarkeit sowie Beschwerde- und Kontaktmöglichkeiten hingewiesen.
+            3. Ich willige in die Erhebung, Verarbeitung und Auswertung meiner Daten durch das Max-Planck-Institut für Bildungsforschung in der Studie {study_title} ein.
+            4. Ich willige insbesondere auch in die Verarbeitung besonders sensibler Daten ein. Dazu gehören ….
+            5. Die erhobenen Daten dürfen vom Max-Planck-Institut für Bildungsforschung und den Kooperationspartnern im Rahmen wissenschaftlicher Forschung zum erläuterten Zweck genutzt werden.
+            6. Ich willige ein, dass Forschungsdaten ohne die Nennung meines Namens für die Veröffentlichung von Forschungsergebnissen in wissenschaftlichen Zeitschriften für deren Überprüfung (Reanalysen) hinterlegt werden.
+            7. Ich willige ein, dass meine erhobenen Forschungsdaten wie in der Studieninformation beschrieben, innerhalb des Max-Planck-Instituts für Bildungsforschung für wissenschaftliche Zwecke für verwandte Fragestellungen analysiert werden.
+            8. Ich willige ein, dass meine erhobenen Forschungsdaten wie in der Studieninformation beschrieben für wissenschaftliche Zwecke für verwandte Fragestellungen im Bereich der Alternsforschung analysiert werden.
+            9. Ich willige ein, dass weitere Wissenschaftlerinnen und Wissenschaftler wie in der Studieninformation beschrieben meine Forschungsdaten analysieren.
+            10. Ich willige ein, dass weitere Wissenschaftlerinnen und Wissenschaftler wie in der Studieninformation beschrieben innerhalb und außerhalb der Europäischen Union meine Forschungsdaten analysieren.
+            11. Ich willige ein, dass meine Forschungsdaten im Repositorium XY wie in der Studieninformation beschrieben auch nach Beendigung der Studie für wissenschaftliche Auswertungen zur Verfügung stehen.
+            12. Ich willige ein, dass meine Forschungsdaten auf der Internetplattform XY wie in der Studieninformation beschrieben hochgeladen und weltweit genutzt werden können.
+            13. Ich willige ein, dass die Forschungsdaten aus dieser Studie mit anderen am MPI XY erhobenen Daten zusammengeführt und ausgewertet werden dürfen.
+      - title: 'Einwilligung in Bildaufnahmen (Fotos)'
+        signature: true
+        optional: ggf
+        examples:
+          - |
+            Ich bin damit einverstanden, dass im Rahmen der Studie {study_title}
+            von mir Fotos/Videos gemacht und wissenschaftlich ausgewertet werden.
+      - title: 'Einwilligung in Bildaufnahmen (MRT)'
+      - title: 'Einwilligung Interviews/Tonaufnahmen'
+      - title: 'Einwilligung zur Entnahme und Untersuchung von Proben'
+      - title: 'Einwilligungserklärung zu Zufallsfunden'
+  - title: 'Informationen zur Datenerhebung nach Artikel 13 der Datenschutzgrundverordnung (DSGVO)'
+    blocks:
+      - title: Verantwortlich
+        examples:
+          - |
+            Verantwortliches Institut: Max-Planck-Institut für Bildungsforschung, Lentzeallee 94, 14195 Berlin
+            Kontakt: [Geschäftsführende/r] Direktor/in des Max-Planck-Instituts für Bildungsforschung.
+            Leiter/in der Studie, [Name und Kontaktdaten]
+            Verantwortlich im Rechtssinn ist die Max-Planck-Gesellschaft zur Förderung der Wissenschaften e.V. (MPG), Hofgartenstraße 8, D-80539 München, Telefon: +49 (89) 2108-0
+      - title: 'Kontaktdaten Datenschutzbeauftragte/r'
+        examples:
+          - |
+            Ihr Ansprechpartner am Max-Planck-Institut für Bildungsforschung, Datenschutzkoordinator/in Name, Kontaktdaten. Herr Thomas Feg Anschrift:  Max-Planck-Institut für Bildungsforschung, Lentzeallee 94, 14195 Berlin, Email: datenschutz@mpib-berlin.mpg.de
+            Datenschutzbeauftragte der MPG: Heidi Schuster, Hofgartenstraße 8, D-80539 München,
+            Telefon: +49 (89) 2108-1554, E-Mail: datenschutz@mpg.de
+      - title: 'Zwecke der Datenverarbeitung'
+        examples:
+          - |
+            Die Daten werden für die Durchführung des Forschungsprojekts [Titel der Studie] und die in der Studieninformation beschriebenen Zwecke erhoben. Die Daten werden ausschließlich für Forschungszwecke verwendet.
+      - title: 'Rechtsgrundlage der Datenverarbeitung'
+        examples:
+          - |
+            Die Rechtsgrundlage für die Verarbeitung Ihrer Daten ist Ihre Einwilligung bzw. die Einwilligung Ihres Kindes nach At. 6 Abs. 1 lit. a der DSGVO.
+            Empfänger oder Kategorien von Empfängern
+            Die Daten werden wie in der Studienbeschreibung beschrieben weitergegeben. Es ist möglich, dass externe Dienstleister mit der Durchführung von Teilaufgaben beauftragt werden. [Ggf. Geplante Dienstleister und Art der Dienstleistung benennen. Die Verarbeitung der Daten] erfolgt im Auftrag des Max-Planck-Instituts für Bildungsforschung]
+            Speicherdauer
+            Die Daten werden wie in der Studienbeschreibung beschrieben weitergegeben.
+            Ihre Rechtei
+            Sie [und/oder Ihr Kind] sind nicht zur Bereitstellung Ihrer Daten verpflichtet. Sie [und/oder Ihr Kind] können die Einwilligung zur Speicherung Ihrer Kontaktdaten jederzeit und ohne negative Konsequenzen mit Wirkung für die Zukunft widerrufen. Sie [und/oder Ihr Kind] können außerdem Ihre Einwilligung zur Verwendung Ihrer Forschungsdaten [ggf. spezifizieren z.B. Biomaterialien/MRT-Bilder]ii jederzeit ohne Angabe von Gründen und ohne nachteilige Folgen für Sie [und/oder Ihr Kind] für die Zukunft widerrufen und die Löschung von Forschungsdaten verlangen.iii Wir kommen Ihrem Löschungsverlangen im Rahmen der gesetzlichen Vorgaben nach. Im Falle des Widerrufs können Sie [und/oder Ihr Kind], sofern es die gesetzlichen Vorgaben zulassen, entscheiden, ob Ihre Daten [und Biomaterialien (z.B. Blutproben, Speichelproben, MRT-Bilder)] vernichtet werden sollen oder ohne eine Zuordnungsmöglichkeit zu Ihrem Namen oder Ihren Kontaktdaten für weitere wissenschaftliche Zwecke verwendet werden dürfen. In diesem Fall würden wir den Identifizierungscode löschen, über den ermittelt werden kann, von welcher Person die Daten [oder Proben] stammen. Bitte beachten Sie [und/oder Ihr Kind], dass nach Löschung der Codenummer aus den Kontaktdaten Ihre Forschungsdaten nicht mehr Ihrer Person zugeordnet werden können. Wenn Sie [und/oder Ihr Kind] die Speicherung Ihrer Kontaktdaten widerrufen, ist eine Zuordnung der Studiendaten nicht mehr möglich. [ggf. Die Löschung des Identifizierungscodes Ihrer Biomaterialien/MRT-Daten kann eine spätere Zuordnung des genetischen Materials/MRT-Bilder zu Ihrer Person über andere Quellen allerdings niemals völlig ausschließen, da jeder Mensch genetisch/jedes Gehirn einmalig ist.]
+            Aus bereits durchgeführten Analysen können Ihre Daten nicht mehr entfernt werden. Sie [und/oder Ihr Kind] haben weiterhin im Rahmen der gesetzlichen Möglichkeiten ein Recht auf Auskunft über die bei uns vorliegenden personenbezogenen Daten und deren Weitergabe an Dritte, ein Recht auf Berichtigung, Löschung oder die Einschränkung der Verarbeitung der Sie [und/oder Ihr Kind] betreffenden personenbezogenen Daten.
+            Auch steht Ihnen das Recht zu, sich an die Aufsichtsbehörde für Datenschutz zu wenden: Die zuständige Behörde für die Max-Planck-Gesellschaft ist das Bayerische Landesamt für Datenschutzaufsicht, Postfach 606, 91511 Ansbach.1
+            Studienkontaktnummeriv
+            Hier können Sie [und/oder Ihr Kind] Änderungen Ihrer Kontaktdaten bekanntgeben.v Sie [und/oder Ihr Kind] können hier auch Fragen zur Teilnahme klären oder Ihrer Teilnahme an [Studientitel] für die Zukunft widersprechen und Lösch-, Widerrufs- und Auskunftsrechte geltend machen.vi [Ansprechpartner, Institution, Anschrift, Mail, Telefon, ggf. hierfür auch weitere Kontaktdaten nennen [XY]].
+

@@ -169,3 +169,27 @@
 .diff-removed {
     color: var(--red);
 }
+
+.example {
+    padding: 0 0.5em;
+    border: 0.5em solid silver;
+    border-top: 0;
+    border-bottom: 0;
+    font-size: small;
+}
+
+.block [type="checkbox"]:not(:checked) ~ * {
+    display: none;
+}
+.block [type="checkbox"]:not(:checked) ~ label {
+    display: block;
+    color: silver;
+}
+
+.block__header {
+    display: block;
+    margin-bottom: 0.5em;
+}
+.block__header * {
+    margin-bottom: 0;
+}
