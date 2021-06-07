@@ -35,20 +35,6 @@ MINUTE = datetime.timedelta(seconds=60)
 
 
 class Appointment(models.Model):
-    SHOWUP = 1
-    LATE = 2
-    EXCUSED = 3
-    NOSHOW = 4
-
-    SHOWUP_CHOICES = [
-        (SHOWUP, _('no issues')),
-        (LATE, _('late')),
-        (EXCUSED, _('excused')),
-        (NOSHOW, _('no show')),
-    ]
-
-    SHOWUP_OK = [SHOWUP, LATE]
-
     session = models.ForeignKey(StudySession, verbose_name=_('Session'), on_delete=models.CASCADE)
     start = DateTimeField(_('Start'))
     reminded = models.BooleanField(_('Reminded'), default=False)
@@ -57,7 +43,6 @@ class Appointment(models.Model):
         on_delete=models.CASCADE,
         verbose_name=_('Participation'),
     )
-    show_up = models.SmallIntegerField(_('Show up'), default=SHOWUP, choices=SHOWUP_CHOICES)
 
     class Meta:
         verbose_name = _('Appointment')

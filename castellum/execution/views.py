@@ -31,6 +31,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import FormView
@@ -53,6 +54,7 @@ from castellum.recruitment.mixins import ParticipationMixin
 from castellum.recruitment.models import ExecutionTag
 from castellum.recruitment.models import NewsMailBatch
 from castellum.recruitment.models import Participation
+from castellum.recruitment.models import ReliabilityEntry
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
@@ -83,7 +85,7 @@ class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
             .with_appointment_count()\
             .filter(status=Participation.INVITED)\
             .prefetch_related(
-                models.Prefetch('subject', queryset=Subject.objects.annotate_showup())
+                models.Prefetch('subject', queryset=Subject.objects.annotate_reliability())
             )
         for participation in participations:
             has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
@@ -222,9 +224,29 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
     fields = ['news_interest', 'execution_tags']
     tab = 'update'
 
+    @cached_property
+    def reliabilityentry(self):
+        return ReliabilityEntry.objects.get(
+            study=self.object.study,
+            subject=self.object.subject,
+        )
+
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
         form.fields['execution_tags'].queryset = ExecutionTag.objects.filter(study=self.study)
+        form.fields['was_reliable'] = forms.TypedChoiceField(
+            label=_('Reliability'),
+            initial=self.reliabilityentry.was_reliable,
+            widget=forms.RadioSelect,
+            coerce=lambda v: v == 'True',
+            choices=[
+                (True, _('I would invite this subject again for further studies')),
+                (False, _(
+                    'There were issues with this subject (e.g. they did not show up for '
+                    'appointments without prior notice)'
+                )),
+            ],
+        )
         return form
 
     def get_success_url(self):
@@ -234,6 +256,9 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
         )
 
     def form_valid(self, form):
+        self.reliabilityentry.was_reliable = form.cleaned_data['was_reliable']
+        self.reliabilityentry.save()
+
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
 

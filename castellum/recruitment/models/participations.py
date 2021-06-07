@@ -222,4 +222,18 @@ class Participation(models.Model):
                 self.attempts = 1
         else:
             self.attempts = 0
+
+        if self.status == self.INVITED:
+            ReliabilityEntry.objects.get_or_create(study=self.study, subject=self.subject)
+
         super().save(*args, **kwargs)
+
+
+class ReliabilityEntry(models.Model):
+    study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, verbose_name=_('Subject'), on_delete=models.CASCADE)
+    was_reliable = models.BooleanField(_('Was reliable'), default=True)
+
+    class Meta:
+        verbose_name = _('Reliability entry')
+        verbose_name_plural = _('Reliability entry')

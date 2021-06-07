@@ -6,8 +6,8 @@ import pytest
 from freezegun import freeze_time
 from model_bakery import baker
 
-from castellum.appointments.models import Appointment
 from castellum.contacts.models import Contact
+from castellum.recruitment.models import ReliabilityEntry
 from castellum.subjects.models import Consent
 
 
@@ -168,11 +168,9 @@ def test_maintenance_reliability_200(request, client, user_fixture):
     assert response.status_code == 200
 
 
-def test_maintenance_reliability(client, user, participation):
-    past = timezone.now()
-    baker.make(Appointment, show_up=Appointment.NOSHOW, participation=participation, start=past)
-    baker.make(Appointment, show_up=Appointment.NOSHOW, participation=participation, start=past)
-    baker.make(Appointment, show_up=Appointment.NOSHOW, participation=participation, start=past)
+def test_maintenance_reliability(client, user, subject):
+    baker.make(ReliabilityEntry, subject=subject, was_reliable=False)
+    baker.make(ReliabilityEntry, subject=subject, was_reliable=False)
 
     client.force_login(user)
     url = '/subjects/maintenance/reliability/'

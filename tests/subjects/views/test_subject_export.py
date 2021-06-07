@@ -8,6 +8,7 @@ from model_bakery import baker
 
 from castellum.appointments.models import Appointment
 from castellum.contacts.models import Address
+from castellum.recruitment.models import ReliabilityEntry
 from castellum.studies.models import StudySession
 from castellum.subjects.models import Consent
 
@@ -37,6 +38,8 @@ EXCLUDED = [
     'recruitment.NewsMailBatch.',
     'recruitment.Participation.id',
     'recruitment.Participation.subject',
+    'recruitment.ReliabilityEntry.id',
+    'recruitment.ReliabilityEntry.subject',
     'recruitment.SubjectFilter.',
     'recruitment.SubjectFilterGroup.',
     'sessions.',
@@ -63,6 +66,7 @@ EXCLUDED = [
     'recruitment.Participation.appointment',
     'recruitment.ExecutionTag.',
     'subjects.Subject.participation',
+    'subjects.Subject.reliabilityentry',
 ]
 
 
@@ -84,6 +88,7 @@ def test_subject_export_complete(client, user, participation):
     session = baker.make(StudySession)
     participation.study.studysession_set.add(session)
     baker.make(Appointment, participation=participation, session=session)
+    baker.make(ReliabilityEntry, subject=subject)
     subject.save()
 
     response = client.get('/subjects/{}/export/'.format(subject.slug))
