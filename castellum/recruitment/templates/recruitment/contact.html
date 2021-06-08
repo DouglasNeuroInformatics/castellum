@@ -200,10 +200,10 @@
         {% csrf_token %}
         {% bootstrap_field form.status %}
 
-        <div class="form-row">
+        <fieldset class="form-row">
             <div class="col-md-6 mb-2">{% bootstrap_field form.followup_date %}</div>
             <div class="col-md-6 mb-2">{% bootstrap_field form.followup_time %}</div>
-        </div>
+        </fieldset>
 
         <div class="form-group">
             <label for="id_execution_url">{% translate 'Execution link' %}</label>

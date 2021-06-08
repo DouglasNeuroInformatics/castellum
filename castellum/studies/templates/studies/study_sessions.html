@@ -39,14 +39,14 @@
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 
-        <div class="form-row">
+        <fieldset class="form-row">
             <div class="col-md-6">
                 {% bootstrap_field form.sessions_start %}
             </div>
             <div class="col-md-6">
                 {% bootstrap_field form.sessions_end %}
             </div>
-        </div>
+        </fieldset>
 
         {% bootstrap_field form.session_instructions %}
 
