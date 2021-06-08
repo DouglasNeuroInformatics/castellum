@@ -1,6 +1,7 @@
 {
     "name": "castellum",
     "license": "AGPL-3.0-or-later",
+    "private": true,
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.3",
         "@ttskch/select2-bootstrap4-theme": "^1.5.2",
