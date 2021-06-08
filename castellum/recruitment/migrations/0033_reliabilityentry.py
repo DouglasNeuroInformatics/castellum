@@ -4,19 +4,6 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
-def create_entries(apps, schema_editor):
-    ReliabilityEntry = apps.get_model('recruitment', 'ReliabilityEntry')
-    Participation = apps.get_model('recruitment', 'Participation')
-    INVITED = 3
-    entries = []
-    for participation in Participation.objects.filter(status=INVITED):
-        entries.append(ReliabilityEntry(
-            study=participation.study,
-            subject=participation.subject,
-        ))
-    ReliabilityEntry.objects.bulk_create(entries)
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -39,5 +26,4 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'Reliability entry',
             },
         ),
-        migrations.RunPython(create_entries),
     ]
