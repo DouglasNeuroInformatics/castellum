@@ -6,7 +6,7 @@
         var pk = this.form.description.value;
         var template = document.getElementById('template-' + pk);
         if (template) {
-            var formrow = document.createElement('div');
+            var formrow = document.createElement('fieldset');
             formrow.className = 'form-row mb-3';
             formrow.innerHTML = template.innerHTML.replace(/{prefix}/g, 'form-' + totalForms.value);
             container.append(formrow);
@@ -16,7 +16,7 @@
     });
 
     $$.on(document, 'click', '[data-js="filter-delete"]', function() {
-        var formrow = this.closest('.form-row');
+        var formrow = this.closest('fieldset');
         var index = Array.prototype.indexOf.call(formrow.parentElement.children, formrow);
 
         formrow.querySelector('[name^="form-' + index + '-value"]').remove();
