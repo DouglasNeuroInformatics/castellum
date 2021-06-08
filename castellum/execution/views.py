@@ -226,10 +226,11 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
 
     @cached_property
     def reliabilityentry(self):
-        return ReliabilityEntry.objects.get(
+        entry, __ = ReliabilityEntry.objects.get_or_create(
             study=self.object.study,
             subject=self.object.subject,
         )
+        return entry
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
