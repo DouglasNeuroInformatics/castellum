@@ -59,7 +59,7 @@ class UserAdmin(BaseUserAdmin):
     actions = ['list_permissions']
     fieldsets = [
         (None, {
-            'fields': ['username', 'password']
+            'fields': ['username', 'token', 'password']
         }),
         (_('personal info'), {
             'fields': ['first_name', 'last_name', 'email', 'language']
