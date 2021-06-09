@@ -8,6 +8,9 @@
                 {% if can_access %}
                     <div class="d-inline-block my-1 mr-2">
                         {{ participation.subject.contact.full_name }}
+                        {% if participation.attention_required %}
+                            {% icon 'hand-paper' label=_('Attention') %}
+                        {% endif %}
                         {% with summary=participation.subject|reliability_summary %}
                             <span class="d-inline-block my-1 text-{{ participation.subject|reliability_level }}" aria-label="{{ summary }}" title="{{ summary }}">&#9679;</span>
                         {% endwith %}
@@ -23,15 +26,6 @@
                         {% for tag in participation.execution_tags.all %}
                             <span class="badge badge-{{ tag.color }} my-1">{{ tag }}</span>
                         {% endfor %}
-                        {% if participation.dropped_out %}
-                            <span class="badge badge-secondary my-1">{{ participation|verbose_name:'dropped_out' }}</span>
-                        {% endif %}
-                        {% if participation.subject.blocked %}
-                            <span class="badge badge-dark my-1">{{ participation.subject|verbose_name:'blocked' }}</span>
-                        {% endif %}
-                        {% if participation.subject.deceased %}
-                            <span class="badge badge-dark my-1">{{ participation.subject|verbose_name:'deceased' }}</span>
-                        {% endif %}
                     </div>
                     <div class="table-list-item-actions">
                         <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-detail' study.pk participation.pk %}">{% translate 'Details' %}</a>
