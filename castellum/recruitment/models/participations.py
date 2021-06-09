@@ -200,6 +200,10 @@ class Participation(models.Model):
         else:
             return False
 
+    @cached_property
+    def attention_required(self):
+        return self.subject.blocked or self.subject.deceased or self.dropped_out
+
     def get_appointments(self):
         for session in self.study.studysession_set.order_by('pk'):
             try:

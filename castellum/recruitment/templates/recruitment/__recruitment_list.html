@@ -10,6 +10,9 @@
                         {% for desc, bucket in buckets %}
                             <span class="d-inline-block my-1 mr-2" title="{{ desc.label }}">{{ bucket }}</span>
                         {% endfor %}
+                        {% if participation.attention_required %}
+                            {% icon 'hand-paper' label=_('Attention') %}
+                        {% endif %}
                         {% if participation.status_open and participation.status != participation.NOT_CONTACTED %}
                             <span class="badge badge-secondary my-1">{{ participation|display:'status' }}</span>
                         {% endif %}
@@ -18,12 +21,6 @@
                                 {% icon 'calendar' label=_('Appointments') %}
                                 {{ participation.appointment_count }}/{{ session_count }}
                             </span>
-                        {% endif %}
-                        {% if participation.dropped_out %}
-                            <span class="badge badge-secondary my-1">{{ participation|verbose_name:'dropped_out' }}</span>
-                        {% endif %}
-                        {% if participation.subject.blocked %}
-                            <span class="badge badge-dark my-1">{{ participation.subject|verbose_name:'blocked' }}</span>
                         {% endif %}
                     </div>
 
