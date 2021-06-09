@@ -59,16 +59,16 @@ class UserAdmin(BaseUserAdmin):
     actions = ['list_permissions']
     fieldsets = [
         (None, {
-            'fields': ('username', 'password')
+            'fields': ['username', 'password']
         }),
         (_('personal info'), {
-            'fields': ('first_name', 'last_name', 'email', 'language')
+            'fields': ['first_name', 'last_name', 'email', 'language']
         }),
         (_('permissions'), {
-            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')
+            'fields': ['is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions']
         }),
         (_('important dates'), {
-            'fields': ('last_login', 'date_joined', 'expiration_date', 'logout_timeout')
+            'fields': ['last_login', 'date_joined', 'expiration_date', 'logout_timeout']
         }),
     ]
 
