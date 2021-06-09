@@ -65,7 +65,6 @@ class ExecutionTag(models.Model):
         ('danger', _('Danger')),
         ('warning', _('Warning')),
         ('primary', _('Primary')),
-        ('secondary', _('Secondary')),
     ])
 
     def __str__(self):
