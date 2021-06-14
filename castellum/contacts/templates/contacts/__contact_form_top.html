@@ -1,6 +1,6 @@
 {% load bootstrap4 %}
 
-<div class="form-row">
+<fieldset class="form-row">
     <div class="col-md-2">
         {% bootstrap_field form.title %}
     </div>
@@ -10,6 +10,6 @@
     <div class="col-md-5">
         {% bootstrap_field form.last_name %}
     </div>
-</div>
+</fieldset>
 {% bootstrap_field form.gender %}
 {% bootstrap_field form.date_of_birth %}
