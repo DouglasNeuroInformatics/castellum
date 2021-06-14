@@ -1309,10 +1309,8 @@ msgid "Execution tags"
 msgstr "Durchführungstags"
 
 #: castellum/recruitment/models/participations.py:159
-#, fuzzy
-#| msgid "Recruitment consent"
 msgid "Recruitment assignment"
-msgstr "Einwilligung zur Rekrutierung"
+msgstr "Zuweisung zur Rekrutierung"
 
 #: castellum/recruitment/models/participations.py:168
 msgid "Study participation"
@@ -1361,12 +1359,10 @@ msgid "recently contacted in another recruitment"
 msgstr "wurde vor kurzem in einer anderen Rekrutierung kontaktiert"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:38
-#, fuzzy, python-format
-#| msgid "Last contact attempt"
 msgid "%(attempts)s attempt"
 msgid_plural "%(attempts)s attempts"
-msgstr[0] "Letzter Kontaktversuch"
-msgstr[1] "Letzter Kontaktversuch"
+msgstr[0] "%(attempts)s Versuch"
+msgstr[1] "%(attempts)s Versuche"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:39
 msgid "last"
@@ -1408,7 +1404,7 @@ msgstr "Wiedervorlage dringend"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:71
 msgid "assigned to"
-msgstr ""
+msgstr "zugewiesen an"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:80
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:95
@@ -3254,7 +3250,7 @@ msgstr "Aktuell rekrutierbar"
 
 #: castellum/subjects/templatetags/reliability.py:50
 msgid "no participations so far"
-msgstr "Keine bisherigen Teilnahmen gefunden"
+msgstr "Bisher keine Teilnahmen gefunden"
 
 #: castellum/subjects/templatetags/reliability.py:52
 #, python-brace-format
@@ -3477,18 +3473,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid ""
-#~ "\n"
-#~ "                                    %(attempts)s attempt\n"
-#~ "                                "
-#~ msgid_plural ""
-#~ "\n"
-#~ "                                    %(attempts)s attempts\n"
-#~ "                                "
-#~ msgstr[0] ""
-#~ "\n"
-#~ "%(attempts)s Versuch"
-#~ msgstr[1] ""
-#~ "\n"
-#~ "%(attempts)s Versuche"
