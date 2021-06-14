@@ -53,9 +53,19 @@ Study membership
 ~~~~~~~~~~~~~~~~
 
 If a user is a member of a study, they automatically gain the special
-``access_study`` permission in the context of that study. You can also
-assign additional groups to study members that only apply in the context
+``access_study`` permission in the context of that study. Study managers can
+also assign additional groups to study members that only apply in the context
 of the study.
+
+.. warning::
+    By managing study memberships, study managers can escalate their own
+    priviliges inside their studies. For example, they can allow themselves to
+    see attributes of participants.
+
+    A study can only be started by a separate user, the *study approver*. This
+    user should check for suspicious settings before approving the study.
+    However, for practical reasons all study settings (including memberships)
+    can still be changed after the approval.
 
 .. _privacy-level:
 
