@@ -25,9 +25,6 @@
                         {% if participation.subject.blocked %}
                             <span class="badge badge-dark my-1">{{ participation.subject|verbose_name:'blocked' }}</span>
                         {% endif %}
-                        {% if participation.assigned_user %}
-                            <span class="badge badge-info my-1">{% blocktranslate %}assigned to {{ participation.assigned_user.get_full_name }}{% endblocktranslate %}</span>
-                        {% endif %}
                     </div>
 
                     <div class="mr-2">
@@ -66,6 +63,13 @@
                                         {% icon 'bell' style='regular' label=_('follow-up urgent') %}
                                     </span>
                                 {% endif %}
+                            </div>
+                        {% endif %}
+
+                        {% if participation.assigned_user %}
+                            <div class="d-inline-block my-1">
+                                {% icon 'user' label=_('assigned to') %}
+                                {{ participation.assigned_user.get_full_name }}
                             </div>
                         {% endif %}
                     </div>
