@@ -1,3 +1,29 @@
+# 0.61.0 (unreleased)
+
+## breaking changes
+
+-   The system for reliability has been replaced. So far you could enter
+    whether a subject has shown up for each individual appointment. With
+    the new system, you only state whether you would invite this subject
+    again for further studies.
+-   Execution tags can no longer use the grey color. This is to avoid
+    confusion with builtin badges.
+
+## bug fixes
+
+-   Fixed some cases in which the list of sessions was not in the
+    correct order.
+
+## new features
+
+-   It is now possible to assign the responsibility for keeping contact
+    with a participant to a recruiter or conductor respectively.
+-   User tokens can now be changed in the admin UI. This is mostly
+    useful to delete compromised tokens. User tokens are currently used
+    for authentication with calendar feeds and may in the future be used
+    for additional API endpoints.
+
+
 # 0.60.0 (2021-05-25)
 
 ## bug fixes
