@@ -62,10 +62,11 @@ of the study.
     priviliges inside their studies. For example, they can allow themselves to
     see attributes of participants.
 
-    A study can only be started by a separate user, the *study approver*. This
-    user should check for suspicious settings before approving the study.
+    All studies need to be approved before they can start recruitment. The
+    approver should check for suspicious settings before approving the study.
     However, for practical reasons all study settings (including memberships)
-    can still be changed after the approval.
+    can still be changed after the approval. Some organizations will even
+    choose to allow study managers to approve their own studies.
 
 .. _privacy-level:
 
