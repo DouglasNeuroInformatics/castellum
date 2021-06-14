@@ -180,6 +180,9 @@ class ContactForm(forms.ModelForm):
             'exclusion_criteria_checked',
             'recruitment_assignment',
         ]
+        labels = {
+            'recruitment_assignment': _('Assigned user')
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
