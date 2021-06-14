@@ -67,6 +67,9 @@ EXCLUDED = [
     'recruitment.ExecutionTag.',
     'subjects.Subject.participation',
     'subjects.Subject.reliabilityentry',
+
+    # Skipped because it would impact the privacy of users
+    'recruitment.Participation.recruitment_assignment',
 ]
 
 

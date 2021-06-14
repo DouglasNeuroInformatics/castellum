@@ -27,25 +27,19 @@
                         {% endif %}
                     </div>
 
-                    {% if participation.status_open and participation.last_contacted_elsewhere.date > last_agreeable_contact_time %}
-                        <div class="mr-2">
-                            {% translate 'recently contacted in another recruitment' %}
-                            <span class="list-icon bg-warning text-dark">{% icon 'phone-slash' %}</span>
-                        </div>
-                    {% elif participation.status == participation.NOT_REACHED or participation.status == participation.AWAITING_RESPONSE %}
-                        <div class="mr-2">
-                            <div class="d-inline-block my-1">
-                                {% blocktranslate count attempts=participation.attempts %}
-                                    {{ attempts }} attempt
-                                {% plural %}
-                                    {{ attempts }} attempts
-                                {% endblocktranslate %}
-                            </div>,
-                            <div class="d-inline-block my-1">{% translate 'last' %}: <time>{{ participation.updated_at|longdate }}</time></div>
-                        </div>
-                    {% elif participation.status == participation.FOLLOWUP_APPOINTED %}
-                        <div class="mr-2">
-                            <div class="d-inline-block my-1">
+                    <div class="mr-2">
+                        {% if participation.status_open and participation.last_contacted_elsewhere.date > last_agreeable_contact_time %}
+                            <div class="d-inline-block my-1 mr-2">
+                                {% translate 'recently contacted in another recruitment' %}
+                                <span class="list-icon bg-warning text-dark">{% icon 'phone-slash' %}</span>
+                            </div>
+                        {% elif participation.status == participation.NOT_REACHED or participation.status == participation.AWAITING_RESPONSE %}
+                            <div class="d-inline-block my-1 mr-2">
+                                {% blocktranslate count attempts=participation.attempts %}{{ attempts }} attempt{% plural %}{{ attempts }} attempts{% endblocktranslate %},
+                                {% translate 'last' %}: <time>{{ participation.updated_at|longdate }}</time>
+                            </div>
+                        {% elif participation.status == participation.FOLLOWUP_APPOINTED %}
+                            <div class="d-inline-block my-1 mr-2">
                                 {% if participation.followup_date|is_today %}
                                     {% if participation.followup_time %}
                                         {% blocktranslate with time=participation.followup_time|time %}
@@ -70,8 +64,15 @@
                                     </span>
                                 {% endif %}
                             </div>
-                        </div>
-                    {% endif %}
+                        {% endif %}
+
+                        {% if participation.recruitment_assignment %}
+                            <div class="d-inline-block my-1">
+                                {% icon 'user' label=_('assigned to') %}
+                                {{ participation.recruitment_assignment.get_full_name }}
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="table-list-item-actions">
                     <a class="btn btn-outline-primary my-1" href="{% url 'recruitment:contact' study.pk participation.pk %}">

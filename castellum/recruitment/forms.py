@@ -173,7 +173,13 @@ class AttributesForm(forms.ModelForm):
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Participation
-        fields = ['status', 'followup_date', 'followup_time', 'exclusion_criteria_checked']
+        fields = [
+            'status',
+            'followup_date',
+            'followup_time',
+            'exclusion_criteria_checked',
+            'recruitment_assignment',
+        ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -191,6 +197,11 @@ class ContactForm(forms.ModelForm):
             ]
         elif self.instance.match == 'incomplete':
             self.fields['status'].widget.disabled_choices = [Participation.INVITED]
+
+        recruiter_pks = [recruiter.pk for recruiter in self.instance.study.recruiters]
+        self.fields['recruitment_assignment'].queryset = self.instance.study.members.filter(
+            pk__in=recruiter_pks
+        )
 
 
 class ContactAndAppointmentsForm(ContactForm, AppointmentsForm):

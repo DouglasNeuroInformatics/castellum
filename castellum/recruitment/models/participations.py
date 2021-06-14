@@ -28,6 +28,7 @@ from django.utils import formats
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
+from castellum.castellum_auth.models import User
 from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 from castellum.utils.fields import DateField
@@ -152,6 +153,13 @@ class Participation(models.Model):
     )
     execution_tags = models.ManyToManyField(
         ExecutionTag, verbose_name=_('Execution tags'), blank=True
+    )
+    recruitment_assignment = models.ForeignKey(
+        User,
+        verbose_name=_('Recruitment assignment'),
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
     )
 
     objects = ParticipationManager()

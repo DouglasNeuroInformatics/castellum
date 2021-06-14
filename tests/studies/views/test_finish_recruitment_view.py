@@ -1,6 +1,7 @@
 import pytest
 from model_bakery import baker
 
+from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
 from castellum.studies.models import StudyMembership
 
@@ -45,3 +46,18 @@ def test_resume(client, member, study, initial_status):
 
     study.refresh_from_db()
     assert study.status is initial_status
+
+
+def test_finish_deletes_assignments(
+    client, member, recruiter, study_in_execution_status, participation
+):
+    client.force_login(member)
+
+    participation.recruitment_assignment = recruiter
+    participation.status = Participation.INVITED
+    participation.save()
+
+    client.post('/studies/{}/finish/'.format(study_in_execution_status.pk))
+    participation.refresh_from_db()
+
+    assert participation.recruitment_assignment is None
