@@ -339,7 +339,7 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
             monitoring_logger.info(
                 'Study {} stopped by {}'.format(self.study.name, self.request.user.pk)
             )
-            self.study.participation_set.update(assigned_user=None)
+            self.study.participation_set.update(recruitment_assignment=None)
         else:
             self.study.set_status(self.study.EXECUTION)
             take_snapshot(self.study)
@@ -363,7 +363,7 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
             self.study.participation_set\
                 .exclude(status=Participation.INVITED)\
                 .delete()
-            self.study.participation_set.update(assigned_user=None)
+            self.study.participation_set.update(recruitment_assignment=None)
         send_pr_mail(self.study, request.user.email)
         return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
 

@@ -54,10 +54,10 @@ def test_stop_deletes_assignments(
 ):
     client.force_login(member)
 
-    participation.assigned_user = recruiter
+    participation.recruitment_assignment = recruiter
     participation.save()
 
     client.post('/studies/{}/start/'.format(study_in_execution_status.pk))
     participation.refresh_from_db()
 
-    assert participation.assigned_user is None
+    assert participation.recruitment_assignment is None

@@ -154,8 +154,12 @@ class Participation(models.Model):
     execution_tags = models.ManyToManyField(
         ExecutionTag, verbose_name=_('Execution tags'), blank=True
     )
-    assigned_user = models.ForeignKey(
-        User, verbose_name=_('Assigned user'), on_delete=models.SET_NULL, blank=True, null=True
+    recruitment_assignment = models.ForeignKey(
+        User,
+        verbose_name=_('Recruitment assignment'),
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
     )
 
     objects = ParticipationManager()
