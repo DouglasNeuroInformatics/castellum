@@ -338,10 +338,8 @@ msgstr "Vertraulichkeitsstufe nicht ausreichend"
 #: castellum/subjects/templates/subjects/maintenance_base.html:29
 #: castellum/subjects/templates/subjects/maintenance_reliability.html:4
 #: castellum/subjects/templates/subjects/subject_detail.html:51
-#, fuzzy
-#| msgid "Availability"
 msgid "Reliability"
-msgstr "Erreichbarkeit"
+msgstr "Zuverlässigkeit"
 
 #: castellum/contacts/templates/contacts/__contact_detail.html:19
 msgid "Operational hints"
@@ -904,13 +902,14 @@ msgstr "geplant"
 
 #: castellum/execution/views.py:244
 msgid "I would invite this subject again for further studies"
-msgstr ""
+msgstr "Ich würde diese Proband*in erneut zu weiteren Studien einladen"
 
 #: castellum/execution/views.py:246
 msgid ""
 "There were issues with this subject (e.g. they did not show up for "
 "appointments without prior notice)"
-msgstr ""
+msgstr "Mit dieser Proband*in gab es Probleme (z.B. Nichterscheinen zu "
+"Terminen ohne vorherige Ankündigung)"
 
 #: castellum/execution/views.py:263 castellum/execution/views.py:281
 #: castellum/execution/views.py:576 castellum/recruitment/views.py:441
@@ -1343,12 +1342,12 @@ msgstr "Proband*in"
 
 #: castellum/recruitment/models/participations.py:234
 msgid "Was reliable"
-msgstr ""
+msgstr "War zuverlässig"
 
 #: castellum/recruitment/models/participations.py:237
 #: castellum/recruitment/models/participations.py:238
 msgid "Reliability entry"
-msgstr ""
+msgstr "Zuverlässigkeitseintrag"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:32
 msgid "recently contacted in another recruitment"
@@ -3252,15 +3251,13 @@ msgid "Currently recruitable"
 msgstr "Aktuell rekrutierbar"
 
 #: castellum/subjects/templatetags/reliability.py:50
-#, fuzzy
-#| msgid "No participations found"
 msgid "no participations so far"
-msgstr "Keine Teilnahmen gefunden"
+msgstr "Keine bisherigen Teilnahmen gefunden"
 
 #: castellum/subjects/templatetags/reliability.py:52
 #, python-brace-format
 msgid "{issues} issues in {total} studies"
-msgstr ""
+msgstr "{issues} Probleme in {total} Studien"
 
 #: castellum/subjects/views.py:172
 msgid "Both first and last name must be provided in order to create a subject!"
@@ -3478,30 +3475,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "no issues"
-#~ msgstr "keine Probleme"
-
-#~ msgid "late"
-#~ msgstr "zu spät"
-
-#~ msgid "excused"
-#~ msgstr "entschuldigt"
-
-#~ msgid "no show"
-#~ msgstr "nicht erschienen"
-
-#~ msgid "Show up"
-#~ msgstr "Erscheinen"
-
-#~ msgid "no appointments so far"
-#~ msgstr "bisher keine Termine"
-
-#~ msgid "Show up rate"
-#~ msgstr "Show Up Rate"
-
-#~ msgid "Edit appointments"
-#~ msgstr "Termine bearbeiten"
-
-#~ msgid "Secondary"
-#~ msgstr "Sekundär"
