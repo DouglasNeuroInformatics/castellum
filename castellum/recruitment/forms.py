@@ -178,7 +178,7 @@ class ContactForm(forms.ModelForm):
             'followup_date',
             'followup_time',
             'exclusion_criteria_checked',
-            'recruitment_assignment',
+            'assigned_recruiter',
         ]
 
     def __init__(self, *args, **kwargs):
@@ -199,7 +199,7 @@ class ContactForm(forms.ModelForm):
             self.fields['status'].widget.disabled_choices = [Participation.INVITED]
 
         recruiter_pks = [recruiter.pk for recruiter in self.instance.study.recruiters]
-        self.fields['recruitment_assignment'].queryset = self.instance.study.members.filter(
+        self.fields['assigned_recruiter'].queryset = self.instance.study.members.filter(
             pk__in=recruiter_pks
         )
 
