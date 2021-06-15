@@ -221,7 +221,7 @@ class ParticipationDropoutConfirmView(ParticipationDetailMixin, DetailView):
 
 class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
     template_name = 'execution/participation_hints.html'
-    fields = ['news_interest', 'execution_tags']
+    fields = ['news_interest', 'execution_tags', 'assigned_conductor']
     tab = 'update'
 
     @cached_property
@@ -235,6 +235,9 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
         form.fields['execution_tags'].queryset = ExecutionTag.objects.filter(study=self.study)
+        form.fields['assigned_conductor'].queryset = self.study.studymembership_set.filter(
+            user_id__in=[u.pk for u in self.study.conductors]
+        )
         form.fields['was_reliable'] = forms.TypedChoiceField(
             label=_('Reliability'),
             initial=self.reliabilityentry.was_reliable,

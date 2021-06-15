@@ -7,30 +7,39 @@
             <li class="table-list-item">
                 {% if can_access %}
                     <div class="d-inline-block my-1 mr-2">
-                        {{ participation.subject.contact.full_name }}
-                        {% with summary=participation.subject|reliability_summary %}
-                            <span class="d-inline-block my-1 text-{{ participation.subject|reliability_level }}" aria-label="{{ summary }}" title="{{ summary }}">&#9679;</span>
-                        {% endwith %}
-                        {% if session_count > 0 %}
-                            <span class="badge badge-secondary my-1">
-                                {% icon 'calendar' label=_('Appointments') %}
-                                {{ participation.appointment_count }}/{{ session_count }}
-                                {% if participation.appointment_today %}
-                                    {% translate 'today' %}
-                                {% endif %}
-                            </span>
-                        {% endif %}
-                        {% for tag in participation.execution_tags.all %}
-                            <span class="badge badge-{{ tag.color }} my-1">{{ tag }}</span>
-                        {% endfor %}
-                        {% if participation.dropped_out %}
-                            <span class="badge badge-secondary my-1">{{ participation|verbose_name:'dropped_out' }}</span>
-                        {% endif %}
-                        {% if participation.subject.blocked %}
-                            <span class="badge badge-dark my-1">{{ participation.subject|verbose_name:'blocked' }}</span>
-                        {% endif %}
-                        {% if participation.subject.deceased %}
-                            <span class="badge badge-dark my-1">{{ participation.subject|verbose_name:'deceased' }}</span>
+                        <div>
+                            {{ participation.subject.contact.full_name }}
+                            {% with summary=participation.subject|reliability_summary %}
+                                <span class="d-inline-block my-1 text-{{ participation.subject|reliability_level }}" aria-label="{{ summary }}" title="{{ summary }}">&#9679;</span>
+                            {% endwith %}
+                            {% if session_count > 0 %}
+                                <span class="badge badge-secondary my-1">
+                                    {% icon 'calendar' label=_('Appointments') %}
+                                    {{ participation.appointment_count }}/{{ session_count }}
+                                    {% if participation.appointment_today %}
+                                        {% translate 'today' %}
+                                    {% endif %}
+                                </span>
+                            {% endif %}
+                            {% for tag in participation.execution_tags.all %}
+                                <span class="badge badge-{{ tag.color }} my-1">{{ tag }}</span>
+                            {% endfor %}
+                            {% if participation.dropped_out %}
+                                <span class="badge badge-secondary my-1">{{ participation|verbose_name:'dropped_out' }}</span>
+                            {% endif %}
+                            {% if participation.subject.blocked %}
+                                <span class="badge badge-dark my-1">{{ participation.subject|verbose_name:'blocked' }}</span>
+                            {% endif %}
+                            {% if participation.subject.deceased %}
+                                <span class="badge badge-dark my-1">{{ participation.subject|verbose_name:'deceased' }}</span>
+                            {% endif %}
+                        </div>
+
+                        {% if participation.assigned_conductor %}
+                            <div>
+                                {% icon 'user' label=_('assigned to') %}
+                                {{ participation.assigned_conductor.user.get_full_name }}
+                            </div>
                         {% endif %}
                     </div>
                     <div class="table-list-item-actions">
