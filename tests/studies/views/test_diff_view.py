@@ -37,6 +37,7 @@ EXCLUDED = [
     'studies.Study.participation',
     'studies.StudyMembership.id',
     'studies.StudyMembership.study',
+    'studies.StudyMembership.participation',
     'studies.Study.reliabilityentry',
     'studies.StudySession.appointment',
     'studies.StudySession.id',

@@ -69,7 +69,7 @@
                         {% if participation.assigned_recruiter %}
                             <div class="d-inline-block my-1">
                                 {% icon 'user' label=_('assigned to') %}
-                                {{ participation.assigned_recruiter.get_full_name }}
+                                {{ participation.assigned_recruiter.user.get_full_name }}
                             </div>
                         {% endif %}
                     </div>

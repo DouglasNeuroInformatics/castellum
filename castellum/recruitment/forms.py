@@ -199,8 +199,8 @@ class ContactForm(forms.ModelForm):
             self.fields['status'].widget.disabled_choices = [Participation.INVITED]
 
         recruiter_pks = [recruiter.pk for recruiter in self.instance.study.recruiters]
-        self.fields['assigned_recruiter'].queryset = self.instance.study.members.filter(
-            pk__in=recruiter_pks
+        self.fields['assigned_recruiter'].queryset = self.instance.study.studymembership_set.filter(
+            user_id__in=recruiter_pks
         )
 
 

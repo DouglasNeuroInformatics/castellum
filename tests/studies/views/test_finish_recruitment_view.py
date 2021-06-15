@@ -53,7 +53,9 @@ def test_finish_deletes_assignments(
 ):
     client.force_login(member)
 
-    participation.assigned_recruiter = recruiter
+    participation.assigned_recruiter = recruiter.studymembership_set.get(
+        study=study_in_execution_status
+    )
     participation.status = Participation.INVITED
     participation.save()
 
