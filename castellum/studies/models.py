@@ -345,7 +345,7 @@ class StudyMembership(models.Model):
         unique_together = ['study', 'user']
 
     def __str__(self):
-        return '{}:{}'.format(self.study, self.user)
+        return str(self.user)
 
 
 class Resource(models.Model):
