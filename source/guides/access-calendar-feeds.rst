@@ -3,13 +3,13 @@
 Access calendar feeds
 =====================
 
-Access the calendar feeds overview page.
-----------------------------------------
+Access the calendar feeds overview page
+---------------------------------------
+
 add "/feeds/" to the URL of the castellum start page and confirm.
 
-
-Find the different types of calendars:
---------------------------------------
+Find the different types of calendars
+-------------------------------------
 
 1.  Under "Per User" find user-specific feeds:
 
