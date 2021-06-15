@@ -1309,8 +1309,12 @@ msgid "Execution tags"
 msgstr "Durchführungstags"
 
 #: castellum/recruitment/models/participations.py:159
-msgid "Recruitment assignment"
-msgstr "Zuweisung zur Rekrutierung"
+msgid "Assigned recruiter"
+msgstr "Zugewiesene Rekrutierer*in"
+
+#: castellum/recruitment/models/participations.py:167
+msgid "Assigned conductor"
+msgstr "Zugewiesene Durchführer*in"
 
 #: castellum/recruitment/models/participations.py:168
 msgid "Study participation"
