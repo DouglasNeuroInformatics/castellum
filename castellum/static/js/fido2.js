@@ -17,10 +17,10 @@
     };
 
     var register = function() {
-        return fetch('/fido2/register/begin/', {credentials: 'same-origin'})
+        return fetch('/fido2/register/', {credentials: 'same-origin'})
             .then(fromCBOR)
             .then(options => navigator.credentials.create(options))
-            .then(attestation => fetch('/fido2/register/complete/', {
+            .then(attestation => fetch('/fido2/register/', {
                 method: 'POST',
                 credentials: 'same-origin',
                 headers: {'X-CSRFToken': csrfToken},
@@ -35,10 +35,10 @@
     };
 
     var authenticate = function() {
-        return fetch('/fido2/authenticate/begin/', {credentials: 'same-origin'})
+        return fetch('/fido2/authenticate/', {credentials: 'same-origin'})
             .then(fromCBOR)
             .then(options => navigator.credentials.get(options))
-            .then(assertion => fetch('/fido2/authenticate/complete/', {
+            .then(assertion => fetch('/fido2/authenticate/', {
                 method: 'POST',
                 credentials: 'same-origin',
                 headers: {'X-CSRFToken': csrfToken},

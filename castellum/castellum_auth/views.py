@@ -21,11 +21,13 @@
 
 from django.conf import settings
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.utils.translation import check_for_language
+from django.views.generic import View
 
 from fido2 import cbor
 from fido2.client import ClientData
@@ -36,7 +38,7 @@ from fido2.server import Fido2Server
 from fido2.utils import websafe_decode
 from fido2.utils import websafe_encode
 from fido2.webauthn import PublicKeyCredentialRpEntity
-from stronghold.decorators import public
+from stronghold.views import StrongholdPublicMixin
 
 from castellum.utils.views import get_next_url
 
@@ -81,62 +83,60 @@ def get_credentials(user):
     raw = user.fido2_credential_data
     if not raw:
         raise Http404
-    return [AttestedCredentialData(websafe_decode(raw)))]
+    return [AttestedCredentialData(websafe_decode(raw))]
 
 
-def register_begin(request):
-    registration_data, state = fido2.register_begin(
-        {
-            'id': str(request.user.id).encode('utf-8'),
-            'name': request.user.username,
-            'displayName': request.user.get_full_name(),
-        },
-        [],
-    )
-    request.session['fido2_state'] = state
-    return HttpResponse(cbor.encode(registration_data), content_type='application/cbor')
+class FIDO2RegisterView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        registration_data, state = fido2.register_begin(
+            {
+                'id': str(request.user.id).encode('utf-8'),
+                'name': request.user.username,
+                'displayName': request.user.get_full_name(),
+            },
+            [],
+        )
+        request.session['fido2_state'] = state
+        return HttpResponse(cbor.encode(registration_data), content_type='application/cbor')
+
+    def post(self, request, *args, **kwargs):
+        data = cbor.decode(request.body)
+
+        auth_data = fido2.register_complete(
+            request.session.pop('fido2_state'),
+            ClientData(data['clientData']),
+            AttestationObject(data['attestationObject']),
+        )
+
+        request.user.fido2_credential_data = websafe_encode(auth_data.credential_data)
+        request.user.save()
+
+        return HttpResponse()
 
 
-def register_complete(request):
-    data = cbor.decode(request.body)
+class FIDO2AuhenticateView(StrongholdPublicMixin, View):
+    def get(self, request, *args, **kwargs):
+        user = User.objects.get(pk=request.session['fido2_user']['pk'])
 
-    auth_data = fido2.register_complete(
-        request.session.pop('fido2_state'),
-        ClientData(data['clientData']),
-        AttestationObject(data['attestationObject']),
-    )
+        auth_data, state = fido2.authenticate_begin(get_credentials(user))
+        request.session['fido2_state'] = state
+        return HttpResponse(cbor.encode(auth_data), content_type='application/cbor')
 
-    request.user.fido2_credential_data = websafe_encode(auth_data.credential_data)
-    request.user.save()
+    def post(self, request, *args, **kwargs):
+        user_data = request.session.pop('fido2_user')
+        user = User.objects.get(pk=user_data['pk'])
+        user.backend = user_data['backend']
 
-    return HttpResponse()
+        data = cbor.decode(request.body)
 
+        fido2.authenticate_complete(
+            request.session.pop('fido2_state'),
+            get_credentials(user),
+            data['credentialId'],
+            ClientData(data['clientData']),
+            AuthenticatorData(data['authenticatorData']),
+            data['signature'],
+        )
+        login(request, user)
 
-@public
-def authenticate_begin(request):
-    user = User.objects.get(pk=request.session['fido2_user']['pk'])
-
-    auth_data, state = fido2.authenticate_begin(get_credentials(user))
-    request.session['fido2_state'] = state
-    return HttpResponse(cbor.encode(auth_data), content_type='application/cbor')
-
-
-@public
-def authenticate_complete(request):
-    user_data = request.session.pop('fido2_user')
-    user = User.objects.get(pk=user_data['pk'])
-    user.backend = user_data['backend']
-
-    data = cbor.decode(request.body)
-
-    fido2.authenticate_complete(
-        request.session.pop('fido2_state'),
-        get_credentials(user),
-        data['credentialId'],
-        ClientData(data['clientData']),
-        AuthenticatorData(data['authenticatorData']),
-        data['signature'],
-    )
-    login(request, user)
-
-    return HttpResponse()
+        return HttpResponse()
