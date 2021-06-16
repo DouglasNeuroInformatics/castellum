@@ -20,6 +20,8 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
+from django.contrib.auth import login
+from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import redirect
@@ -34,8 +36,11 @@ from fido2.server import Fido2Server
 from fido2.utils import websafe_decode
 from fido2.utils import websafe_encode
 from fido2.webauthn import PublicKeyCredentialRpEntity
+from stronghold.decorators import public
 
 from castellum.utils.views import get_next_url
+
+from .models import User
 
 LANGUAGE_QUERY_PARAMETER = 'language'
 
@@ -54,6 +59,22 @@ def set_language(request):
             request.user.save()
 
     return redirect(get_next_url(request))
+
+
+class LoginView(DjangoLoginView):
+    def form_valid(self, form):
+        if settings.CASTELLUM_REQUIRE_FIDO2:
+            user = form.get_user()
+            self.request.session['fido2_user'] = {
+                'pk': user.pk,
+                'backend': user.backend,
+            }
+            return self.render_to_response(self.get_context_data(
+                fido2_required=True,
+                success_url=self.get_success_url(),
+            ))
+        else:
+            return super().form_valid(form)
 
 
 def get_credentials(user):
@@ -91,22 +112,31 @@ def register_complete(request):
     return HttpResponse()
 
 
+@public
 def authenticate_begin(request):
-    auth_data, state = fido2.authenticate_begin(get_credentials(request.user))
+    user = User.objects.get(pk=request.session['fido2_user']['pk'])
+
+    auth_data, state = fido2.authenticate_begin(get_credentials(user))
     request.session['fido2_state'] = state
     return HttpResponse(cbor.encode(auth_data), content_type='application/cbor')
 
 
+@public
 def authenticate_complete(request):
+    user_data = request.session.pop('fido2_user')
+    user = User.objects.get(pk=user_data['pk'])
+    user.backend = user_data['backend']
+
     data = cbor.decode(request.body)
 
     fido2.authenticate_complete(
         request.session.pop('fido2_state'),
-        get_credentials(request.user),
+        get_credentials(user),
         data['credentialId'],
         ClientData(data['clientData']),
         AuthenticatorData(data['authenticatorData']),
         data['signature'],
     )
+    login(request, user)
 
     return HttpResponse()

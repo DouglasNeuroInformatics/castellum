@@ -55,4 +55,11 @@
 
     $$.on(document, 'click', '[data-js="fido2-register"]', register);
     $$.on(document, 'click', '[data-js="fido2-authenticate"]', authenticate);
+
+    var fido2Auto = document.querySelector('[data-js="fido2-auto"]');
+    if (fido2Auto) {
+        authenticate().then(() => {
+            window.location = fido2Auto.dataset.successUrl;
+        });
+    }
 })();

@@ -1,9 +1,15 @@
 {% extends "base.html" %}
-{% load i18n bootstrap4 %}
+{% load static i18n bootstrap4 %}
 
 {% block title %}{% translate "Log in" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    {% if fido2_required %}
+        <div class="alert alert-success" role="alert" data-js="fido2-auto" data-success-url="{{ success_url }}">
+            {% translate 'Two factor authentication required' %}
+        </div>
+    {% endif %}
+
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
@@ -16,4 +22,11 @@
             <button class="btn btn-primary" >{% translate 'Login' %}</button>
         </div>
     </form>
+{% endblock %}
+
+{% block extra_scripts %}
+    {% if fido2_required %}
+        <script src="{% static 'cbor-js/cbor.js' %}"></script>
+        <script src="{% static 'js/fido2.js' %}"></script>
+    {% endif %}
 {% endblock %}

@@ -461,3 +461,5 @@ CASTELLUM_ATTRIBUTE_EXPORTER = 'castellum.recruitment.attribute_exporters.JSONEx
 
 SCHEDULER_URL = ''
 SCHEDULER_TOKEN = ''
+
+CASTELLUM_REQUIRE_FIDO2 = False
