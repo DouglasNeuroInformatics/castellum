@@ -29,6 +29,7 @@ def get_settings(request):
         'CASTELLUM_GENERAL_EXCLUSION_CRITERIA': settings.CASTELLUM_GENERAL_EXCLUSION_CRITERIA,
         'CASTELLUM_GENERAL_RECRUITMENT_TEXT': settings.CASTELLUM_GENERAL_RECRUITMENT_TEXT,
         'SCHEDULER_URL': settings.SCHEDULER_URL,
+        'SITE_TITLE': settings.SITE_TITLE,
 
         # Error templates do not get a context. Invert this value to
         # avoid demo warnings in that case.

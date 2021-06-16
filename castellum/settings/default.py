@@ -247,6 +247,7 @@ BOOTSTRAP4 = {
 
 AXES_LOCKOUT_TEMPLATE = 'axes-lockout.html'
 
+SITE_TITLE = 'Castellum'
 
 # Secondary language in emails for readers who do not understand the
 # primary language
