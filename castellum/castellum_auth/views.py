@@ -116,6 +116,8 @@ class FIDO2RegisterView(LoginRequiredMixin, View):
 
 class FIDO2AuhenticateView(StrongholdPublicMixin, View):
     def get(self, request, *args, **kwargs):
+        if 'fido2_user' not in request.session:
+            raise Http404
         user = User.objects.get(pk=request.session['fido2_user']['pk'])
 
         auth_data, state = fido2.authenticate_begin(get_credentials(user))
@@ -123,6 +125,8 @@ class FIDO2AuhenticateView(StrongholdPublicMixin, View):
         return HttpResponse(cbor.encode(auth_data), content_type='application/cbor')
 
     def post(self, request, *args, **kwargs):
+        if 'fido2_user' not in request.session:
+            raise Http404
         user_data = request.session.pop('fido2_user')
         user = User.objects.get(pk=user_data['pk'])
         user.backend = user_data['backend']
