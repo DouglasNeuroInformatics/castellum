@@ -238,6 +238,9 @@ NPM_FILE_PATTERNS = {
         'main.css',
         'locales/de.js',
     ],
+    'cbor-js': [
+        'cbor.js',
+    ],
 }
 
 BOOTSTRAP4 = {

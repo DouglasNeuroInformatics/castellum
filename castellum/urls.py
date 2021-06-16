@@ -38,6 +38,10 @@ from django.views.static import serve
 from stronghold.decorators import public
 
 from castellum.castellum_auth.forms import AuthenticationForm
+from castellum.castellum_auth.views import authenticate_begin
+from castellum.castellum_auth.views import authenticate_complete
+from castellum.castellum_auth.views import register_begin
+from castellum.castellum_auth.views import register_complete
 from castellum.castellum_auth.views import set_language
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
@@ -103,6 +107,10 @@ urlpatterns = [
     path(
         'data-protection/', include('castellum.data_protection.urls', namespace='data_protection')
     ),
+    path('fido2/register/begin/', register_begin),
+    path('fido2/register/complete/', register_complete),
+    path('fido2/authenticate/begin/', authenticate_begin),
+    path('fido2/authenticate/complete/', authenticate_complete),
 ]
 
 if settings.PROTECTED_MEDIA_SERVER:

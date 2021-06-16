@@ -45,6 +45,7 @@ class User(AbstractUser):
         _('Time until automatic logout'), default=settings.LOGOUT_TIMEOUT_DEFAULT
     )
     token = models.CharField(max_length=64, unique=True, default=generate_token)
+    fido2_credential_data = models.TextField(blank=True)
 
     class Meta:
         ordering = ['username']
