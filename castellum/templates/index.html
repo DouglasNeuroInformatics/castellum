@@ -69,4 +69,10 @@
             </div>
         {% endif %}
     </div>
+
+    {% csrf_token %}
+    <button type="button" data-js="fido2-register">register</button>
+    <button type="button" data-js="fido2-authenticate">authenticate</button>
+    <script src="{% static 'cbor-js/cbor.js' %}"></script>
+    <script src="{% static 'js/fido2.js' %}"></script>
 {% endblock %}
