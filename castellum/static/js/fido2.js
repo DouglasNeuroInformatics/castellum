@@ -30,8 +30,7 @@
                 }),
             }))
             .then(raiseForStatus)
-            .catch(alert)
-            .then(() => alert(django.gettext('second factor has been registered')));
+            .then(() => alert(django.gettext('second factor has been registered')), alert);
     };
 
     var authenticate = function() {
@@ -49,8 +48,7 @@
                   'signature': new Uint8Array(assertion.response.signature),
                 }),
             }))
-            .then(raiseForStatus)
-            .catch(alert);
+            .then(raiseForStatus);
     };
 
     $$.on(document, 'click', '[data-js="fido2-register"]', register);
@@ -60,6 +58,6 @@
     if (fido2Auto) {
         authenticate().then(() => {
             window.location = fido2Auto.dataset.successUrl;
-        });
+        }, alert);
     }
 })();
