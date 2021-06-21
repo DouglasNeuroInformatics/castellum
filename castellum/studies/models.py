@@ -184,6 +184,14 @@ class Study(models.Model):
         ),
         default=False
     )
+    is_filter_preview = models.BooleanField(
+        _('Is a filter preview'),
+        help_text=_(
+            'Use this if you only want to see how many subjects would match a specific study '
+            'and filter configuration without actually intending to recruit'
+        ),
+        default=False
+    )
 
     consent = RestrictedFileField(
         _('Consent'),
