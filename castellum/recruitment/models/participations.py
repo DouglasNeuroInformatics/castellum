@@ -142,6 +142,7 @@ class Participation(models.Model):
     )
     exclusion_criteria_checked = models.BooleanField(_('Subject may be suitable'), default=False)
     dropped_out = models.BooleanField(_('Dropped out'), default=False)
+    excluded_by_cleanup = models.BooleanField(_('Excluded by cleanup'), default=False)
 
     attempts = models.IntegerField(_('Attempts'), default=0)
 
