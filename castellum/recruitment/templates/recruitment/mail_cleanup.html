@@ -6,7 +6,7 @@
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        <p>{% translate 'Are you sure you want to exclude these participations from the study?' %}</p>
+        <p>{% blocktranslate with count=participation_count date=batch_date %}Are you sure you want to exclude {{ participation_count }} pending participations from the mail batch on {{ date }} from the study?{% endblocktranslate %}</p>
         <div class="d-print-none mb-3">
             <a href="{% url 'recruitment:mail' study.pk %}" class="btn btn-outline-primary">{% translate 'Cancel' %}</a>
             <button class="btn btn-danger">{% translate 'Confirm' %}</button>

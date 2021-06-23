@@ -378,10 +378,19 @@ class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateVi
     permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
 
+    def dispatch(self, request, *args, **kwargs):
+        self.batch = get_object_or_404(MailBatch, pk=self.kwargs['pk'], study=self.study)
+        return super().dispatch(request, *args, **kwargs)
+
     def post(self, request, *args, **kwargs):
-        batch = get_object_or_404(MailBatch, pk=self.kwargs['pk'], study=self.study)
-        batch.participation_set.update(status=Participation.UNSUITABLE, batch=None)
+        self.batch.participation_set.update(status=Participation.UNSUITABLE, batch=None)
         return redirect('recruitment:mail', self.study.pk)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['participation_count'] = self.batch.participation_set.count()
+        context['batch_date'] = self.batch.datetime
+        return context
 
 
 class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
