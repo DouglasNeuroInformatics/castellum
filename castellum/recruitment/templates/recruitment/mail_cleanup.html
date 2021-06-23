@@ -1,0 +1,15 @@
+{% extends "recruitment/recruitment_base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Cleanup" context 'verb' %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <p>{% translate 'Are you sure you want to exclude these participations from the study?' %}</p>
+        <div class="d-print-none mb-3">
+            <a href="{% url 'recruitment:mail' study.pk %}" class="btn btn-outline-primary">{% translate 'Cancel' %}</a>
+            <button class="btn btn-danger">{% translate 'Confirm' %}</button>
+        </div>
+    </form>
+{% endblock %}

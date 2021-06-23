@@ -373,7 +373,8 @@ class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, View):
         return redirect('recruitment:mail', self.study.pk)
 
 
-class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, View):
+class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
+    template_name = 'recruitment/mail_cleanup.html'
     permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
 
