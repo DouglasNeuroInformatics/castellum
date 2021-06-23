@@ -10,7 +10,9 @@
                         {% for desc, bucket in buckets %}
                             <span class="d-inline-block my-1 mr-2" title="{{ desc.label }}">{{ bucket }}</span>
                         {% endfor %}
-                        {% if participation.status_open and participation.status != participation.NOT_CONTACTED %}
+                        {% if participation.excluded_by_cleanup %}
+                            <span class="badge badge-secondary my-1">{{ participation|verbose_name:'excluded_by_cleanup' }}</span>
+                        {% elif participation.status_open and participation.status != participation.NOT_CONTACTED %}
                             <span class="badge badge-secondary my-1">{{ participation|display:'status' }}</span>
                         {% endif %}
                         {% if participation.status == participation.INVITED and session_count > 0 %}
