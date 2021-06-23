@@ -243,6 +243,9 @@ class Participation(models.Model):
         if self.status == self.INVITED:
             ReliabilityEntry.objects.get_or_create(study=self.study, subject=self.subject)
 
+        if self.status != self.UNSUITABLE:
+            self.excluded_by_cleanup = False
+
         super().save(*args, **kwargs)
 
 
