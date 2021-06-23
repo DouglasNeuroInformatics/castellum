@@ -61,11 +61,11 @@ class ExecutionTag(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
     name = models.CharField(_('Name'), max_length=64)
     color = models.CharField(_('Color'), max_length=16, default='info', choices=[
-        ('info', _('Info')),
-        ('success', _('Success')),
-        ('danger', _('Danger')),
-        ('warning', _('Warning')),
-        ('primary', _('Primary')),
+        ('info', _('Light blue')),
+        ('success', _('Green')),
+        ('danger', _('Red')),
+        ('warning', _('Yellow')),
+        ('primary', _('Dark blue')),
     ])
 
     def __str__(self):
