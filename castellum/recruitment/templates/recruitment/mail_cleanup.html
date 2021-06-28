@@ -6,7 +6,7 @@
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        <p>{% blocktranslate with count=participation_count date=batch_date %}Are you sure you want to exclude {{ participation_count }} pending participations from the mail batch on {{ date }} from the study?{% endblocktranslate %}</p>
+        <p>{% blocktranslate with count=object.participation_set.count date=object.datetime|date %}Are you sure you want to move {{ count }} pending participations that belong to the batch that was sent on {{ date }} to the "excluded"-tab?{% endblocktranslate %}</p>
         <div class="d-print-none mb-3">
             <a href="{% url 'recruitment:mail' study.pk %}" class="btn btn-outline-primary">{% translate 'Cancel' %}</a>
             <button class="btn btn-danger">{% translate 'Confirm' %}</button>
