@@ -2,13 +2,13 @@
 
 <fieldset class="form-row">
     <div class="col-md-2">
-        {% bootstrap_field form.title %}
+        {% bootstrap_field form.title required_css_class='castellum-required' %}
     </div>
     <div class="col-md-5">
-        {% bootstrap_field form.first_name %}
+        {% bootstrap_field form.first_name required_css_class='castellum-required' %}
     </div>
     <div class="col-md-5">
-        {% bootstrap_field form.last_name %}
+        {% bootstrap_field form.last_name required_css_class='castellum-required' %}
     </div>
 </fieldset>
 {% bootstrap_field form.gender %}
