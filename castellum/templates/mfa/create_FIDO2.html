@@ -1,0 +1,25 @@
+{% extends "mfa/base.html" %}
+{% load static i18n bootstrap4%}
+
+{% block title %}{% translate 'Add FIDO2 key' %} &middot; {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="breadcrumb-item"><a href="{% url 'mfa:create' 'FIDO2' %}">{% translate 'Add FIDO2 key' %}</a></li>
+{% endblock %}
+
+{% block content %}
+    <form data-fido2-create="{{ mfa_data }}" method="POST">
+        {% csrf_token %}
+        {% include 'utils/form_errors.html' with form=form %}
+        {% bootstrap_field form.name %}
+        <p>{% translate 'You will be prompted to activate the device once you click "create".' %}</p>
+        {{ form.code.as_hidden }}
+        <button class="btn btn-primary">{% translate 'Create' %}</button>
+    </form>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'cbor-js/cbor.js' %}"></script>
+    <script src="{% static 'mfa/fido2.js' %}"></script>
+{% endblock %}

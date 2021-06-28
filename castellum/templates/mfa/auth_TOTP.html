@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static i18n bootstrap4 %}
+
+{% block title %}{% translate 'Two-factor authentication' %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <div class="my-5">
+        <h1>{% translate 'Two-factor authentication' %}</h1>
+        <p>{% translate 'Open your TOTP app to get an authentication code.' %}</p>
+
+        <form method="POST" class="mb-4">
+            {% csrf_token %}
+            {% include 'utils/form_errors.html' with form=form %}
+            {% bootstrap_field form.code %}
+            <button class="btn btn-primary">{% translate 'Verify' %}</button>
+            <a href="{% url 'mfa:auth' 'FIDO2' %}" class="btn btn-link">{% translate 'Use FIDO2 instead' %}</a>
+        </form>
+    </div>
+{% endblock %}

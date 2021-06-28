@@ -1,0 +1,6 @@
+{% extends "base_with_breadcrumbs.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'mfa:list' %}">{% translate "Login keys" %}</a></li>
+{% endblock %}
