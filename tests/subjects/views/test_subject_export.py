@@ -26,6 +26,7 @@ EXCLUDED = [
     'contacts.Street.',
     'contenttypes.',
     'geofilters.Geolocation.',
+    'mfa.MFAKey.',
     'pseudonyms.Domain.',
     'pseudonyms.Pseudonym.',
     'recruitment.AttributeCategory.',
