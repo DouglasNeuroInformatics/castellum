@@ -58,10 +58,7 @@
                                 <button class="btn btn-outline-primary">{% translate 'Send reminder' %}</button>
                             </form>
                         {% endif %}
-                        <form class="d-inline" method="post" action="{% url 'recruitment:mail-cleanup' study.pk batch.pk %}">
-                            {% csrf_token %}
-                            <button class="btn btn-outline-danger">{% translate 'Cleanup' %}</button>
-                        </form>
+                        <a href="{% url 'recruitment:mail-cleanup' study.pk batch.pk %}" class="btn btn-outline-danger">{% translate 'Cleanup' %}</a>
                     {% endif %}
                 </div>
             </li>

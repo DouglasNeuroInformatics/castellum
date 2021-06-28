@@ -38,6 +38,7 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
@@ -373,13 +374,18 @@ class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, View):
         return redirect('recruitment:mail', self.study.pk)
 
 
-class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, View):
+class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, DetailView):
+    model = MailBatch
+    template_name = 'recruitment/mail_cleanup.html'
     permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
 
+    def get_object(self):
+        return get_object_or_404(MailBatch, pk=self.kwargs['pk'], study=self.study)
+
     def post(self, request, *args, **kwargs):
-        batch = get_object_or_404(MailBatch, pk=self.kwargs['pk'], study=self.study)
-        batch.participation_set.update(status=Participation.UNSUITABLE, batch=None)
+        self.object = self.get_object()
+        self.object.participation_set.update(status=Participation.UNSUITABLE, batch=None)
         return redirect('recruitment:mail', self.study.pk)
 
 
