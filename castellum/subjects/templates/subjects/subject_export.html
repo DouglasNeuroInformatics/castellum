@@ -172,6 +172,11 @@
                     <dt class="col-sm-6" data-fieldname="recruitment.Participation.dropped_out">{{ participation|verbose_name:'dropped_out' }}</dt>
                     <dd class="col-sm-6">{{ participation|display:'dropped_out' }}</dd>
 
+                    <dt class="col-sm-6" data-fieldname="recruitment.Participation.excluded_by_cleanup">
+                        {{ participation|verbose_name:'excluded_by_cleanup' }}
+                    </dt>
+                    <dd class="col-sm-6">{{ participation|display:'excluded_by_cleanup' }}</dd>
+
                     <dt class="col-sm-6" data-fieldname="recruitment.Participation.created_at">{% translate 'Participation created at' %}</dt>
                     <dd class="col-sm-6">{{ participation|display:'created_at' }}</dd>
 

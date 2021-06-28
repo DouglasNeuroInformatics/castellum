@@ -9,7 +9,11 @@
             {{ subject.contact.full_name }}
             <svg class="identicon" data-jdenticon-value="{{ object.pk }}" aria-hidden="true"></svg>
         </h1>
-        <span class="badge badge-secondary">{{ object|display:'status' }}</span>
+        {% if object.excluded_by_cleanup %}
+            <span class="badge badge-secondary">{{ object|verbose_name:'excluded_by_cleanup' }}</span>
+        {% else %}
+            <span class="badge badge-secondary">{{ object|display:'status' }}</span>
+        {% endif %}
         {% if participation.dropped_out %}
             <span class="badge badge-secondary">{{ participation|verbose_name:'dropped_out' }}</span>
         {% endif %}
