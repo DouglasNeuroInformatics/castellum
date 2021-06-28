@@ -36,8 +36,4 @@
     $$.on(document, 'change', '[name="exclusion_criteria_checked"]', function() {
         document.querySelector('#criteria-tab .fa-exclamation-triangle').hidden = this.checked;
     });
-
-    if (document.querySelector('#appointments .is-invalid')) {
-        $('#appointments-tab').tab('show');
-    }
 })();

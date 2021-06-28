@@ -114,4 +114,13 @@
         templateResult: prefixColor,
         templateSelection: prefixColor,
     });
+
+    var firstErrorInTab = document.querySelector(
+        '[role="tabpanel"] form .alert-danger, [role="tabpanel"] .is-invalid'
+    );
+    if (firstErrorInTab) {
+        var panel = firstErrorInTab.closest('[role="tabpanel"]');
+        var tab = document.getElementById(panel.getAttribute('aria-labelledby'));
+        $(tab).tab('show');
+    }
 })();
