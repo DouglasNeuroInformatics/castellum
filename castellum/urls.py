@@ -25,7 +25,6 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import LogoutView
 from django.http import HttpResponse
 from django.urls import include
@@ -35,6 +34,7 @@ from django.views.generic import TemplateView
 from django.views.i18n import JavaScriptCatalog
 from django.views.static import serve
 
+from mfa.views import LoginView
 from stronghold.decorators import public
 
 from castellum.castellum_auth.forms import AuthenticationForm
@@ -103,6 +103,7 @@ urlpatterns = [
     path(
         'data-protection/', include('castellum.data_protection.urls', namespace='data_protection')
     ),
+    path('mfa/', include('mfa.urls', namespace='mfa')),
 ]
 
 if settings.PROTECTED_MEDIA_SERVER:
