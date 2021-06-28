@@ -243,6 +243,7 @@ NPM_FILE_PATTERNS = {
 BOOTSTRAP4 = {
     'set_placeholder': False,
     'success_css_class': None,
+    'required_css_class': 'castellum-required'
 }
 
 AXES_LOCKOUT_TEMPLATE = 'axes-lockout.html'
