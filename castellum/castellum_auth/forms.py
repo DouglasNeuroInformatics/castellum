@@ -55,7 +55,7 @@ class AuthenticationForm(BaseAuthenticationForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        password = cleaned_data['password']
+        password = cleaned_data.get('password')
         if settings.PRODUCTION and password == User.DEMO_PASSWORD:
             raise self.get_invalid_login_error()
         return cleaned_data
