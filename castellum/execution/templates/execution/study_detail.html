@@ -4,7 +4,7 @@
 {% block content %}
     <ul class="table-list mt-3">
         {% for participation, can_access in list %}
-            <li class="table-list-item">
+            <li class="table-list-item {% if participation.dropped_out or participation.subject.blocked or participation.subject.deceased %}opacity-50{% endif %}">
                 {% if can_access %}
                     <div class="d-inline-block my-1 mr-2">
                         <div>
