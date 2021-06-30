@@ -172,6 +172,9 @@
                             <time id="sessions-end">{{ study|display:'sessions_end' }}</time>
                         </dd>
                     </dl>
+                    <p>
+                        {% blocktranslate with reminder_period=reminder_period %}The subject will be reminded {{ reminder_period }} days before each appointment.{% endblocktranslate %}
+                    </p>
 
                     {% for entry in form.appointments %}
                         <div class="form-group">

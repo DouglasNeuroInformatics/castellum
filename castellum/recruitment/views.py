@@ -424,6 +424,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         status_field.widget.choices = choices
 
         context['sessions'] = self.study.studysession_set.order_by('pk')
+        context['reminder_period'] = settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD.days
 
         context['context'] = self.request.GET.get('context')
 

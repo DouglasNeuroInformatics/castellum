@@ -23,6 +23,7 @@ import logging
 import zipfile
 
 from django import forms
+from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
@@ -283,6 +284,11 @@ class ParticipationAppointmentsUpdateView(ParticipationDetailMixin, UpdateView):
         send_appointment_notifications(self.request, self.object, form.appointment_changes)
         messages.success(self.request, _('Data has been saved.'))
         return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['reminder_period'] = settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD.days
+        return context
 
 
 class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):
