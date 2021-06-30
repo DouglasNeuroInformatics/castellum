@@ -18,20 +18,20 @@
     setVisibility();
 
     var invited = document.querySelector('[name="status"] [value="3"]');
+    var initialDisabled = invited.disabled;
     var alert = document.querySelector('[data-js="blocking_invitation_alert"]');
-    if (!invited.disabled) {
-        var setInvitedDisabled = function() {
-            var checked = document.querySelector('[name="exclusion_criteria_checked"]');
-            var needsCheck = checked && !checked.checked;
-            invited.disabled = needsCheck;
-            if (alert) {
-                alert.hidden = !needsCheck;
-            }
-        };
 
-        $$.on(document, 'change', '[name="exclusion_criteria_checked"]', setInvitedDisabled);
-        setInvitedDisabled();
-    }
+    var setInvitedDisabled = function() {
+        var checked = document.querySelector('[name="exclusion_criteria_checked"]');
+        var needsCheck = checked && !checked.checked;
+        invited.disabled = initialDisabled || needsCheck;
+        if (alert) {
+            alert.hidden = !needsCheck;
+        }
+    };
+
+    $$.on(document, 'change', '[name="exclusion_criteria_checked"]', setInvitedDisabled);
+    setInvitedDisabled();
 
     $$.on(document, 'change', '[name="exclusion_criteria_checked"]', function() {
         document.querySelector('#criteria-tab .fa-exclamation-triangle').hidden = this.checked;
