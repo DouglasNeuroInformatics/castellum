@@ -36,7 +36,7 @@ Recruit subjects via phone
             sent an e-mail.)
         -   **participating**
         -   **excluded**
-            (This may apply if attributes of the person do not comply with the
+            (This may apply if recruitment attributes of the person do not comply with the
             requirements of the study, if a person is not interested in the
             particular study or if a person is not available during the data 
             collection of the study)
