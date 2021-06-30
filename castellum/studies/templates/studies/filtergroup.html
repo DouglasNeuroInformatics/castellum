@@ -10,7 +10,7 @@
 
     {% if inaccessible %}
         <p class="alert alert-warning" role="alert">
-            {% translate 'At least one member of this study with access to filters does not have a sufficient privacy level to view the following attributes:' %}
+            {% translate 'At least one member of this study with access to filters does not have a sufficient privacy level to view the following filter attributes:' %}
             {{ inaccessible|join:', ' }}
         </p>
     {% endif %}

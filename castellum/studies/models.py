@@ -195,7 +195,7 @@ class Study(models.Model):
 
     exportable_attributes = models.ManyToManyField(
         'recruitment.AttributeDescription',
-        verbose_name=_('Exportable attributes'),
+        verbose_name=_('Exportable filter attributes'),
         related_name='+',
         blank=True,
         limit_choices_to={'privacy_level_read': 0},

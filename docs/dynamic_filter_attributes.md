@@ -1,7 +1,7 @@
-# Dynamic Attributes
+# Dynamic filter attributes
 
-Castellum does not dictate a fixed set of attributes that can be stored.
-Instead, it allows to define your own attributes.
+Castellum does not dictate a fixed set of filter attributes that can be
+stored. Instead, it allows to define your own attributes.
 
 However, that flexibility comes with a cost: There are certain limits to
 what you can define and migrating existing data is not that simple.
