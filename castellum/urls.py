@@ -91,7 +91,7 @@ urlpatterns = [
     path('feeds/', FeedsView.as_view(), name='feeds'),
 
     path('i18n/', set_language, name='set_language'),
-    path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
+    path('jsi18n/', public(JavaScriptCatalog.as_view()), name='javascript-catalog'),
 
     path('admin/', admin.site.urls),
     path('studies/', include('castellum.studies.urls', namespace='studies')),
