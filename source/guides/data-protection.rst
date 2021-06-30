@@ -1,6 +1,6 @@
 .. _data-protection-dashboard:
 
-Use the date protection dashboard
+Use the data protection dashboard
 =================================
 
 Click on **Data protection** on the front page to go to the data protection
