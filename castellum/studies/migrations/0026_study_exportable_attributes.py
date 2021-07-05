@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='study',
             name='exportable_attributes',
-            field=models.ManyToManyField(blank=True, limit_choices_to={'privacy_level_read': 0}, related_name='_study_exportable_attributes_+', to='recruitment.AttributeDescription', verbose_name='Exportable attributes'),
+            field=models.ManyToManyField(blank=True, limit_choices_to={'privacy_level_read': 0}, related_name='_study_exportable_attributes_+', to='recruitment.AttributeDescription', verbose_name='Exportable recruitment attributes'),
         ),
     ]

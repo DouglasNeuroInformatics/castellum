@@ -24,6 +24,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subject',
             name='attributes',
-            field=models.JSONField(encoder=django.core.serializers.json.DjangoJSONEncoder, verbose_name='Attributes'),
+            field=models.JSONField(encoder=django.core.serializers.json.DjangoJSONEncoder, verbose_name='Recruitment attributes'),
         ),
     ]

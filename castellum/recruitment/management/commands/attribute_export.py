@@ -28,7 +28,7 @@ from castellum.subjects.models import Subject
 
 
 class Command(BaseCommand):
-    help = 'Export attributes for a single subject or the attribute schema.'
+    help = 'Export recruitment attributes for a single subject or the attribute schema.'
 
     def add_arguments(self, parser):
         parser.add_argument('subject_id', type=int, nargs='?')

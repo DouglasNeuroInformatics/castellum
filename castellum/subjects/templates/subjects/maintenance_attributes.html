@@ -1,10 +1,10 @@
 {% extends "subjects/maintenance_base.html" %}
 {% load i18n bootstrap4 auth %}
 
-{% block title %}{% translate "Attributes" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Recruitment attributes" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <p>{% translate 'The following subjects have incomplete attributes:' %}</p>
+    <p>{% translate 'The following subjects have incomplete recruitment attributes:' %}</p>
 
     <ul class="table-list">
         {% for subject in object_list %}
@@ -13,7 +13,7 @@
                 <div>
                     <div>
                         {% with completeness=subject.get_completeness %}
-                            {% translate 'Attribute completeness' %}: {{ completeness.0 }}/{{ completeness.1 }}
+                            {% translate 'Recruitment attribute completeness' %}: {{ completeness.0 }}/{{ completeness.1 }}
                         {% endwith %}
                     </div>
                     <div>
