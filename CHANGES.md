@@ -13,7 +13,7 @@
     contains an error message, it is displayed automatically.
 -   Form validation sometimes resulted in 500 error pages instead of
     showing the validation errors. For example, this happened when a
-    user submitted the recruitment form with an invalid particiaption
+    user submitted the recruitment form with an invalid participation
     status.
 
 ## new features
