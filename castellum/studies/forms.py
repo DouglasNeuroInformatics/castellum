@@ -122,6 +122,11 @@ class SessionForm(forms.ModelForm):
     class Meta:
         model = StudySession
         fields = ['name', 'duration', 'resource', 'type', 'reminder_text', 'schedule_id']
+        help_texts = {
+            'reminder_text': format_lazy(_(
+                'All subjects will be reminded {} days before each appointment.'
+            ), settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD.days)
+        }
         widgets = {
             'type': forms.CheckboxSelectMultiple(),
         }
