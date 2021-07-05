@@ -554,7 +554,7 @@ msgstr "Durchführung für"
 msgid ""
 "The subject will be reminded %(reminder_period)s days before each "
 "appointment."
-msgstr ""
+msgstr "Die Proband*in wird %(reminder_period)s Tage vor jedem Termin an diesen erinnert."
 
 #: castellum/execution/templates/execution/participation_appointments_form.html:33
 #: castellum/recruitment/templates/recruitment/contact.html:184
@@ -643,10 +643,8 @@ msgstr "Kontaktdaten bearbeiten"
 #: castellum/execution/templates/execution/participation_detail.html:33
 #: castellum/recruitment/templates/recruitment/attributes_form.html:4
 #: castellum/recruitment/templates/recruitment/contact.html:85
-#, fuzzy
-#| msgid "Edit attributes"
 msgid "Edit recruitment attributes"
-msgstr "Merkmale bearbeiten"
+msgstr "Rekrutierungsmerkmale bearbeiten"
 
 #: castellum/execution/templates/execution/participation_detail.html:38
 #: castellum/recruitment/templates/recruitment/contact.html:90
@@ -770,10 +768,8 @@ msgid "Domain name"
 msgstr "Domänen-Name"
 
 #: castellum/execution/templates/execution/study_base.html:11
-#, fuzzy
-#| msgid "Export attributes"
 msgid "Export recruitment attributes"
-msgstr "Merkmale exportieren"
+msgstr "Rekrutierungsmerkmale exportieren"
 
 #: castellum/execution/templates/execution/study_base.html:13
 msgid "Consent document"
@@ -1312,7 +1308,7 @@ msgstr "Abgebrochen"
 
 #: castellum/recruitment/models/participations.py:145
 msgid "Excluded by cleanup"
-msgstr ""
+msgstr "Durch Aufräumen ausgeschlossen"
 
 #: castellum/recruitment/models/participations.py:147
 msgid "Attempts"
@@ -1542,15 +1538,11 @@ msgid "Subject is unsuitable or blocked in another study."
 msgstr "Proband*in ist nicht geeignet order in einer anderen Studie blockiert."
 
 #: castellum/recruitment/templates/recruitment/contact.html:31
-#, fuzzy
-#| msgid ""
-#| "Subject has missing attributes. Please contact to check if they are "
-#| "suitable."
 msgid ""
 "Subject has missing recruitment attributes. Please contact to check if they "
 "are suitable."
 msgstr ""
-"Einige Merkmale der Proband*in fehlen. Bitte kontaktieren Sie sie um "
+"Einige Rekrutierungsmerkmale der Proband*in fehlen. Bitte kontaktieren Sie sie um "
 "herauszufinden, ob sie geeignet ist."
 
 #: castellum/recruitment/templates/recruitment/contact.html:36
@@ -1665,8 +1657,6 @@ msgid "Send reminder"
 msgstr "Erinnerung schicken"
 
 #: castellum/recruitment/templates/recruitment/mail_cleanup.html:4
-#, fuzzy
-#| msgid "Cleanup"
 msgctxt "verb"
 msgid "Cleanup"
 msgstr "Aufräumen"
@@ -1676,7 +1666,9 @@ msgstr "Aufräumen"
 msgid ""
 "Are you sure you want to move %(count)s pending participations that belong "
 "to the batch that was sent on %(date)s to the \"excluded\"-tab?"
-msgstr ""
+msgstr "Sind Sie sicher, dass Sie %(count)s unbeantwortete Teilnahmen welche zu "
+"der E-Mail-Serie vom %(date)s gehören in den "Ausgeschlossen"-Tab verschieben "
+"möchten?"
 
 #: castellum/recruitment/templates/recruitment/participation_confirm_delete.html:4
 msgid "Delete study participation"
@@ -1821,7 +1813,7 @@ msgstr "Einmalige Einladung"
 
 #: castellum/studies/forms.py:127
 msgid "All subjects will be reminded {} days before each appointment."
-msgstr ""
+msgstr "Alle Proband*innen werden {} Tage vor jedem Termin an diesen erinnert."
 
 #: castellum/studies/models.py:54
 msgid "Label"
@@ -2032,10 +2024,8 @@ msgid "Consent"
 msgstr "Einwilligung"
 
 #: castellum/studies/models.py:198
-#, fuzzy
-#| msgid "Exportable attributes"
 msgid "Exportable recruitment attributes"
-msgstr "Exportierbare Merkmale"
+msgstr "Exportierbare Rekrutierungsmerkmale"
 
 #: castellum/studies/models.py:213
 msgid "E-mail-address"
@@ -2123,17 +2113,13 @@ msgid "Filters"
 msgstr "Filter"
 
 #: castellum/studies/templates/studies/filtergroup.html:13
-#, fuzzy
-#| msgid ""
-#| "At least one member of this study with access to filters does not have a "
-#| "sufficient privacy level to view the following attributes:"
 msgid ""
 "At least one member of this study with access to filters does not have a "
 "sufficient privacy level to view the following recruitment attributes:"
 msgstr ""
 "Mindestens ein weiteres Mitglied dieser Studie mit Zugriff auf die Filter "
 "verfügt nicht über die nötige Vertraulichkeitsstufe, um die folgenden "
-"Merkmale sehen zu dürfen:"
+"Rekrutierungsmerkmale sehen zu dürfen:"
 
 #: castellum/studies/templates/studies/filtergroup.html:50
 #: castellum/studies/templates/studies/filtergroup_advanced.html:22
@@ -2680,10 +2666,8 @@ msgstr "Slug"
 #: castellum/subjects/templates/subjects/maintenance_attributes.html:4
 #: castellum/subjects/templates/subjects/maintenance_base.html:14
 #: castellum/subjects/templates/subjects/subject_base.html:36
-#, fuzzy
-#| msgid "Recruitment Settings"
 msgid "Recruitment attributes"
-msgstr "Rekrutierungseinstellungen"
+msgstr "Rekrutierungsmerkmale"
 
 #: castellum/subjects/models.py:64
 msgid "Does not want to participate in one time invitations"
@@ -2885,17 +2869,13 @@ msgid "No matches found"
 msgstr "Keine Treffer"
 
 #: castellum/subjects/templates/subjects/maintenance_attributes.html:7
-#, fuzzy
-#| msgid "The following subjects have incomplete attributes:"
 msgid "The following subjects have incomplete recruitment attributes:"
-msgstr "Die folgenden Proband*innen haben unvollständige Merkmale:"
+msgstr "Die folgenden Proband*innen haben unvollständige Rekrutierungsmerkmale:"
 
 #: castellum/subjects/templates/subjects/maintenance_attributes.html:16
 #: castellum/subjects/templates/subjects/subject_detail.html:48
-#, fuzzy
-#| msgid "Attribute completeness"
 msgid "Recruitment attribute completeness"
-msgstr "Vollständigkeit der Merkmale"
+msgstr "Vollständigkeit der Rekrutierungsmerkmale"
 
 #: castellum/subjects/templates/subjects/maintenance_attributes.html:20
 #: castellum/subjects/templates/subjects/maintenance_consent.html:14
@@ -3301,10 +3281,8 @@ msgid "subjects"
 msgstr "Proband*innen"
 
 #: castellum/subjects/templates/subjects/subject_search.html:161
-#, fuzzy
-#| msgid "Complete attributes"
 msgid "Complete recruitment attributes"
-msgstr "Merkmale vollständig"
+msgstr "Rekrutierungsmerkmale vollständig"
 
 #: castellum/subjects/templates/subjects/subject_search.html:167
 msgid "Took part in a study"
@@ -3497,10 +3475,8 @@ msgid "Per Resource"
 msgstr "Je Ressource"
 
 #: castellum/templates/index.html:65 castellum/templates/mfa/base.html:5
-#, fuzzy
-#| msgid "Domain key"
 msgid "Login keys"
-msgstr "Domänen-Schlüssel"
+msgstr "Login-Schlüssel"
 
 #: castellum/templates/index.html:77
 msgid "Admin"
@@ -3515,72 +3491,73 @@ msgstr "Anmelden"
 #: castellum/templates/mfa/auth_TOTP.html:4
 #: castellum/templates/mfa/auth_TOTP.html:8
 msgid "Two-factor authentication"
-msgstr ""
+msgstr "Zwei-Faktor-Authentifizierung"
 
 #: castellum/templates/mfa/auth_FIDO2.html:9
 msgid "When you are ready to authenticate with FIDO2, press the button below."
-msgstr ""
+msgstr "Drücken Sie den Button unten, sobald Sie bereit für die Authentifizierung "
+"mit FIDO2 sind."
 
 #: castellum/templates/mfa/auth_FIDO2.html:15
 #: castellum/templates/mfa/auth_TOTP.html:15
 msgid "Verify"
-msgstr ""
+msgstr "Verifizieren"
 
 #: castellum/templates/mfa/auth_FIDO2.html:16
 msgid "Use TOTP instead"
-msgstr ""
+msgstr "Stattdessen TOTP benutzen"
 
 #: castellum/templates/mfa/auth_TOTP.html:9
 msgid "Open your TOTP app to get an authentication code."
-msgstr ""
+msgstr "Öffnen Sie Ihre TOTP-App, um einen Authentifizierungscode zu erhalten."
 
 #: castellum/templates/mfa/auth_TOTP.html:16
 msgid "Use FIDO2 instead"
-msgstr ""
+msgstr "Stattdessen FIDO2 benutzen"
 
 #: castellum/templates/mfa/create_FIDO2.html:4
 #: castellum/templates/mfa/create_FIDO2.html:8
 #: castellum/templates/mfa/mfakey_list.html:33
 msgid "Add FIDO2 key"
-msgstr ""
+msgstr "FIDO2-Schlüssel hinzufügen"
 
 #: castellum/templates/mfa/create_FIDO2.html:16
 msgid "You will be prompted to activate the device once you click \"create\"."
-msgstr ""
+msgstr "Sobald Sie \"Erstellen\" drücken, werden Sie aufgefordert, "
+"das Gerät zu aktivieren."
 
 #: castellum/templates/mfa/create_TOTP.html:4
 #: castellum/templates/mfa/create_TOTP.html:8
 #: castellum/templates/mfa/mfakey_list.html:32
 msgid "Add TOTP key"
-msgstr ""
+msgstr "TOTP-Schlüssel hinzufügen"
 
 #: castellum/templates/mfa/create_TOTP.html:19
 msgid ""
 "Scan the QR-code with your TOTP app and enter a valid code to finish "
 "registration."
-msgstr ""
+msgstr "Scannen sie den QR-Code mit Ihrer TOTP-App und geben Sie einen validen"
+"Code ein, um die Registrierung abzuschliessen."
 
 #: castellum/templates/mfa/mfakey_confirm_delete.html:5
-#, fuzzy, python-format
-#| msgid "Are you sure you want to remove \"%(username)s\" from this study?"
 msgid "Are you sure you want to delete the key \"%(name)s\"?"
 msgstr ""
-"Sind Sie sicher, dass Sie \"%(username)s\" aus dieser Studie entfernen "
-"möchten?"
+"Sind Sie sicher, dass Sie den Schlüssel \"%(name)s\" löschen möchten?"
 
 #: castellum/templates/mfa/mfakey_list.html:9
 msgid "Login keys configured"
-msgstr ""
+msgstr "Login-Schlüssel eingerichtet"
 
 #: castellum/templates/mfa/mfakey_list.html:11
 msgid "No login keys configured"
-msgstr ""
+msgstr "Keine Login-Schlüssel eingerichtet"
 
 #: castellum/templates/mfa/mfakey_list.html:15
 msgid ""
 "Two-factor authentication adds an additional layer of security to your "
 "account by requiring more than just a password to log in."
-msgstr ""
+msgstr "Indem mehr als lediglich ein Passwort zum Login benötigt wird, erweitert "
+Zwei-Faktor-Authentifizierung die Sicherheit Ihres Kontos um eine zusätzliche Ebene."
 
 #: castellum/utils/forms.py:51 castellum/utils/forms.py:65
 msgid "yyyy-mm-dd, e.g. 2018-07-21"
@@ -3617,6 +3594,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "Attributes"
-#~ msgstr "Merkmale"
