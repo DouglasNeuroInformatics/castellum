@@ -1666,8 +1666,8 @@ msgstr "Aufräumen"
 msgid ""
 "Are you sure you want to move %(count)s pending participations that belong "
 "to the batch that was sent on %(date)s to the \"excluded\"-tab?"
-msgstr "Sind Sie sicher, dass Sie %(count)s unbeantwortete Teilnahmen welche zu "
-"der E-Mail-Serie vom %(date)s gehören in den "Ausgeschlossen"-Tab verschieben "
+msgstr "Sind Sie sicher, dass Sie %(count)s unbeantwortete Teilnahmen die zu "
+"der E-Mail-Serie vom %(date)s gehören in den \"Ausgeschlossen\"-Tab verschieben "
 "möchten?"
 
 #: castellum/recruitment/templates/recruitment/participation_confirm_delete.html:4
@@ -3536,8 +3536,8 @@ msgstr "TOTP-Schlüssel hinzufügen"
 msgid ""
 "Scan the QR-code with your TOTP app and enter a valid code to finish "
 "registration."
-msgstr "Scannen sie den QR-Code mit Ihrer TOTP-App und geben Sie einen validen"
-"Code ein, um die Registrierung abzuschliessen."
+msgstr "Scannen sie den QR-Code mit Ihrer TOTP-App und geben Sie einen validen "
+"Code ein, um die Registrierung abzuschließen."
 
 #: castellum/templates/mfa/mfakey_confirm_delete.html:5
 msgid "Are you sure you want to delete the key \"%(name)s\"?"
@@ -3556,8 +3556,8 @@ msgstr "Keine Login-Schlüssel eingerichtet"
 msgid ""
 "Two-factor authentication adds an additional layer of security to your "
 "account by requiring more than just a password to log in."
-msgstr "Indem mehr als lediglich ein Passwort zum Login benötigt wird, erweitert "
-Zwei-Faktor-Authentifizierung die Sicherheit Ihres Kontos um eine zusätzliche Ebene."
+msgstr "Zwei-Faktor-Authentifizierung erweitert die Sicherheit Ihres Kontos "
+"um eine zusätzliche Ebene, indem mehr als nur ein Passwort zum Login benötigt wird."
 
 #: castellum/utils/forms.py:51 castellum/utils/forms.py:65
 msgid "yyyy-mm-dd, e.g. 2018-07-21"
