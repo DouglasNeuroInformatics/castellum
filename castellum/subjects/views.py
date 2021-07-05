@@ -54,6 +54,8 @@ from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
+from castellum.pseudonyms.helpers import get_pseudonym
+from castellum.pseudonyms.models import Domain
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.models import AttributeDescription
@@ -206,6 +208,25 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         context['coverletter_exists'] = bool(settings.CASTELLUM_COVERLETTER_TEMPLATE)
 
+        return context
+
+
+class SubjectPseudonymsView(SubjectMixin, PermissionRequiredMixin, DetailView):
+    model = Subject
+    template_name = 'subjects/subject_pseudonyms.html'
+    tab = 'detail'
+
+    def has_permission(self):
+        return (
+            self.request.user.has_perm('subjects.export_subject')
+            or self.request.user.has_perm('subjects.delete_subject')
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pseudonyms'] = [
+            (d, get_pseudonym(self.subject, d.key)) for d in Domain.objects.filter(object_id=None)
+        ]
         return context
 
 

@@ -1,0 +1,25 @@
+{% extends "subjects/subject_base.html" %}
+{% load i18n utils %}
+
+{% block title %}{% translate 'General pseudonyms' %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% translate 'Domain key' %}</th>
+                <th>{% translate 'Domain name' %}</th>
+                <th>{% translate 'Pseudonym' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for domain, pseudonym in pseudonyms %}
+                <tr>
+                    <td>{{ domain|display:'key' }}</dt>
+                    <td>{{ domain|display:'name' }}</dt>
+                    <td>{{ pseudonym }}</dt>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
