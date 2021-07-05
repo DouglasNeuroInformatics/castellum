@@ -19,6 +19,7 @@ Welcome to Castellum's documentation!
    :maxdepth: 2
    :caption: Step-by-step guides
 
+   guides/two-factor-authentication
    guides/subject-management
    guides/study-management
    guides/subject-get-pseudonym
