@@ -23,10 +23,9 @@
     authentication for all users by adding
     `mfa.middleware.MFAEnforceMiddleware`. See
     [django-mfa3](https://github.com/xi/django-mfa3) for details.
--   A new "manually excluded" badge is now displayed in recruitment to
-    discern subjects who have been automatically excluded by a cleanup
-    operation. This helps deciding which subjects can be recontacted if
-    the need arises.
+-   A new "excluded by cleanup" badge is now displayed in recruitment to
+    discern subjects who have been automatically excluded. This helps
+    deciding which subjects can be recontacted if the need arises.
 -   The appointment UI now explains when reminders will be sent out.
 -   Attributes are now called "recruitment attributes" throughout the UI
     to clearly express the intended use.
