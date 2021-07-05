@@ -1,0 +1,30 @@
+{% extends "mfa/base.html" %}
+{% load static i18n bootstrap4 mfa %}
+
+{% block title %}{% translate 'Add TOTP key' %} &middot; {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="breadcrumb-item"><a href="{% url 'mfa:create' 'TOTP' %}">{% translate 'Add TOTP key' %}</a></li>
+{% endblock %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        {% include 'utils/form_errors.html' with form=form %}
+        {% bootstrap_field form.name %}
+
+        <div class="card mb-3">
+            <div class="card-body">
+                <p>{% translate 'Scan the QR-code with your TOTP app and enter a valid code to finish registration.' %}</p>
+
+                <div class="text-center">
+                    <a href="{{ mfa_data.url }}">{{ mfa_data.url|qrcode }}</a>
+                </div>
+
+                {% bootstrap_field form.code %}
+            </div>
+        </div>
+        <button class="btn btn-primary">{% translate 'Create' %}</button>
+    </form>
+{% endblock %}

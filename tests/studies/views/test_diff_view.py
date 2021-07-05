@@ -15,6 +15,7 @@ EXCLUDED = [
     'contacts.',
     'contenttypes.',
     'geofilters.Geolocation.',
+    'mfa.MFAKey.',
     'pseudonyms.Pseudonym.',
     'recruitment.AttributeCategory.',
     'recruitment.AttributeCategoryTranslation.',

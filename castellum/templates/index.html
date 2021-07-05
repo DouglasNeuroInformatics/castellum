@@ -56,6 +56,17 @@
             </div>
         {% endif %}
 
+        <div class="col-sm-6 col-md-4 mb-4">
+            <div class="card">
+                <a href="{% url 'mfa:list' %}" class="card-header" tabindex="-1">
+                    <img class="w-100 h-auto" src="{% static 'images/circle-icons/key.png' %}" alt="" width="184" height="184">
+                </a>
+                <div class="card-body">
+                    <a href="{% url 'mfa:list' %}" class="btn btn-primary btn-block">{% translate "Login keys" %}</a>
+                </div>
+            </div>
+        </div>
+
         {% if user.is_staff or user.is_superuser %}
             <div class="col-sm-6 col-md-4 mb-4">
                 <div class="card">

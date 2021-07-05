@@ -25,7 +25,6 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import LogoutView
 from django.http import HttpResponse
 from django.urls import include
@@ -35,6 +34,8 @@ from django.views.generic import TemplateView
 from django.views.i18n import JavaScriptCatalog
 from django.views.static import serve
 
+from mfa.decorators import public as mfa_public
+from mfa.views import LoginView
 from stronghold.decorators import public
 
 from castellum.castellum_auth.forms import AuthenticationForm
@@ -85,13 +86,13 @@ urlpatterns = [
         template_name="login.html",
         authentication_form=AuthenticationForm,
     ), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
-    path('favicon.ico', public(RedirectView.as_view(url='/static/images/favicon.ico'))),
+    path('logout/', mfa_public(LogoutView.as_view()), name='logout'),
+    path('favicon.ico', mfa_public(public(RedirectView.as_view(url='/static/images/favicon.ico')))),
     path('ping/', dummy, name='ping'),
     path('feeds/', FeedsView.as_view(), name='feeds'),
 
-    path('i18n/', set_language, name='set_language'),
-    path('jsi18n/', public(JavaScriptCatalog.as_view()), name='javascript-catalog'),
+    path('i18n/', mfa_public(set_language), name='set_language'),
+    path('jsi18n/', mfa_public(public(JavaScriptCatalog.as_view())), name='javascript-catalog'),
 
     path('admin/', admin.site.urls),
     path('studies/', include('castellum.studies.urls', namespace='studies')),
@@ -103,6 +104,7 @@ urlpatterns = [
     path(
         'data-protection/', include('castellum.data_protection.urls', namespace='data_protection')
     ),
+    path('mfa/', include('mfa.urls', namespace='mfa')),
 ]
 
 if settings.PROTECTED_MEDIA_SERVER:

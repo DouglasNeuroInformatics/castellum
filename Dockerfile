@@ -6,7 +6,7 @@ FROM alpine:3.13.5
 
 ENV PYTHONUNBUFFERED 1
 ENV BUILDPKGS gettext py3-pip py3-wheel
-ENV RUNTIMEPKGS uwsgi uwsgi-python uwsgi-router_static python3 py3-psycopg2 py3-pyldap libmagic proj gdal
+ENV RUNTIMEPKGS uwsgi uwsgi-python uwsgi-router_static python3 py3-psycopg2 py3-pyldap py3-cryptography libmagic proj gdal
 
 RUN adduser -D -g '' uwsgi
 

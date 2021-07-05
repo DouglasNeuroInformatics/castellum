@@ -34,6 +34,10 @@ PROTECTED_MEDIA_SERVER = 'uwsgi'
 # The example deployment does not contain a mail server, so use dummy instead
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# See https://github.com/xi/django-mfa3
+MFA_DOMAIN = 'example.com'
+MFA_SITE_TITLE = 'Castellum Demo'
+
 # See https://docs.djangoproject.com/en/stable/topics/logging/
 ADMINS = [('admin', 'admin@example.com')]
 LOGGING = {

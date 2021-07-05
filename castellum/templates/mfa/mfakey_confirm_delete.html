@@ -1,0 +1,11 @@
+{% extends "mfa/base.html" %}
+{% load i18n %}
+
+{% block content %}
+    <p>{% blocktrans with name=object.name %}Are you sure you want to delete the key "{{ name }}"?{% endblocktrans %}</p>
+    <form method="POST" class="mb-3">
+        {% csrf_token %}
+        <a class="btn btn-outline-primary" href="{% url 'mfa:list' %}">{% translate 'Cancel' %}</a>
+        <button class="btn btn-danger">{% translate 'Confirm' %}</button>
+    </form>
+{% endblock %}

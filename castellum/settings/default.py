@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'parler',
     'stronghold',
+    'mfa',
 
     'castellum.utils',
     'castellum.castellum_auth',
@@ -238,6 +239,9 @@ NPM_FILE_PATTERNS = {
         'main.css',
         'locales/de.js',
     ],
+    'cbor-js': [
+        'cbor.js',
+    ],
 }
 
 BOOTSTRAP4 = {
@@ -246,6 +250,11 @@ BOOTSTRAP4 = {
 }
 
 AXES_LOCKOUT_TEMPLATE = 'axes-lockout.html'
+
+# Two factor authentication
+# See https://github.com/xi/django-mfa3
+MFA_SITE_TITLE = 'Castellum'
+MFA_DOMAIN = None
 
 
 # Secondary language in emails for readers who do not understand the
