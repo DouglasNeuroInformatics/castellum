@@ -54,7 +54,7 @@ information:
     guardian** (see instructions in :ref:`subject-contact-tab`)
 -   **E-mail** address and/or **Phone number** and/or full postal address
     and/or contacting details of the legal guardian
--   **Attributes**
+-   **Recruitment attributes**
 -   **Interest in study types**
 -   **Privacy level**
 -   **Recruitment Consent** given
@@ -157,22 +157,22 @@ with a subject.
 
 .. _subject-attributes-tab:
 
-Attributes Tab
---------------
+Recruitment Attributes Tab
+--------------------------
 
-The attributes tab lists all attributes and interests in study types. As rule
-of thumb you could think of attributes as features that are used to decide on
-suitability for a study. It is expected that they only provide *indications* on
-suitability as there are usually additional criteria that need to be checked
-for a study match.
+The recruitment attributes tab lists all attributes and interests in study types.
+Recruitment attributes are features that are used to decide on suitability for a
+study. It is expected that they only provide *indications* on suitability as
+there are usually additional criteria that need to be checked for a study
+match.
 
--   Fill in the attribute fields used at your institute
+-   Fill in the recruitment attribute fields used at your institute
 -   If the person **Does not want to participate in the following study types**,
     select one or more
 
 .. admonition:: Example
 
-    Attributes may be **Mother Tongue**, **Highest Educational Degree**,
+    Recruitment attributes may be **Mother Tongue**, **Highest Educational Degree**,
     **Age**, **Handedness** and so on.
 
 .. _subject-data-protection-tab:

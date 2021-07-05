@@ -36,7 +36,7 @@ corresponding pseudonyms.
 
 .. note::
    There are only two notable exceptions to this rule: Study participations and
-   search attributes both contain traces of research data, but are required for
+   recruitment attributes both contain traces of research data, but are required for
    the recruitment process.
 
 

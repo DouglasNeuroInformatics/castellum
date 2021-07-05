@@ -60,7 +60,7 @@ of the study.
 .. warning::
     By managing study memberships, study managers can escalate their own
     priviliges inside their studies. For example, they can allow themselves to
-    see attributes of participants.
+    see recruitment attributes of participants.
 
     All studies need to be approved before they can start recruitment. The
     approver should check for suspicious settings before approving the study.

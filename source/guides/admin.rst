@@ -58,7 +58,7 @@ only very few attributes that can be seen as commonly used at every institute.
     or rather scientific grounding of the attribute
 
     .. note::
-        This is used to support Attribute Export in BIDS format. Hence, it is
+        This is used to support Recruitment Attribute Export in BIDS format. Hence, it is
         only shown in admin interface. For example, a Handedness attribute could
         link to a definition at
         `bioontology.org <http://purl.bioontology.org/ontology/SNOMEDCT/57427004>`_.

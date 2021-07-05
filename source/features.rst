@@ -32,8 +32,8 @@ Recruitment
 It is possible to find potential subjects for a study from the pool of subjects
 that have been entered into castellum. They can then be contacted either
 manually or automatically via email. Subjects are only considered if they have
-given consent to recruitment and if their attributes match the filters that
-have been defined in the study.
+given consent to recruitment and if their recruitment attributes match the filters
+that have been defined in the study.
 
 Relevant guides:
 
