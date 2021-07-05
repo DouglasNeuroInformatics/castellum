@@ -26,6 +26,7 @@ There can be different reasons why a user has been locked:
 
 1.  **Account has expired**: Update the expiration date (see :ref:`admin-users`)
 2.  **Too many login attempts**: See `djang-axes <https://django-axes.readthedocs.io/en/latest/3_usage.html#resetting-attempts-and-lockouts>`_
+3.  **Lost access to second authentication factor**: Remove the user's MFA Keys via the admin interface
 
 
 .. _admin-roles:

@@ -18,6 +18,7 @@ Account restrictions
 
 -  Users are automatically logged out on inactivity
 -  User accounts expire on a set date
+-  (Mandatory) :ref:`2fa`
 
 .. _permissions:
 
