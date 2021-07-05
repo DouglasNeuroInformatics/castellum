@@ -1,3 +1,38 @@
+# 0.62.0 (unreleased)
+
+## breaking changes
+
+-   The new setting `MFA_DOMAIN` needs to be set to the domain of your
+    actual server. See the entry on two factor authentication below for
+    more information.
+
+## bug fixes
+
+-   Validation errors in the "create" tab in subject search were hidden
+    because the "matches" tab was displayed by default. Now, if any tab
+    contains an error message, it is displayed automatically.
+-   Form validation sometimes resulted in 500 error pages instead of
+    showing the validation errors. For example, this happened when a
+    user submitted the recruitment form with an invalid particiaption
+    status.
+
+## new features
+
+-   Users can now register a second factor for authentication. FIDO2 and
+    TOTP are supported. Optionally you can enforce the use of two factor
+    authentication for all users by adding
+    `mfa.middleware.MFAEnforceMiddleware`. See
+    [django-mfa3](https://github.com/xi/django-mfa3) for details.
+-   A new "manually excluded" badge is now displayed in recruitment to
+    discern subjects who have been automatically excluded by a cleanup
+    operation. This helps deciding which subjects can be recontacted if
+    the need arises.
+-   The appointment UI now explains when reminders will be sent out.
+-   Attributes are now called "recruitment attributes" throughout the UI
+    to clearly express the intended use.
+-   The UI for selecting a tag color was simplified.
+
+
 # 0.61.0 (2021-06-15)
 
 ## breaking changes
@@ -40,7 +75,7 @@
 -   In Execution, tags can now be assigned to subjects.
     The list of tags can be changed for each study individually.
     A set of default tags is created for each new study.
--   "Gender" is now an optional field for subjetcs. As a result, it no
+-   "Gender" is now an optional field for subjects. As a result, it no
     longer defaults to "female".
 -   The dropout UI was expanded to include more information and allows
     to choose between drop out and keeping the data collected this far
