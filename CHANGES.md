@@ -30,6 +30,10 @@
 -   Attributes are now called "recruitment attributes" throughout the UI
     to clearly express the intended use.
 -   The UI for selecting a tag color was simplified.
+-   Study pseudonyms are now directly accessible from subject export.
+    This facilitates the gathering of subject data from studies.
+    The UI mirrors the way studies can be interacted with from subject
+    deletion.
 
 
 # 0.61.0 (2021-06-15)
