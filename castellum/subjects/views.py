@@ -263,6 +263,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
                 self.object.pk, self.request.user.pk
             ))
 
+            context['has_participations'] = self.object.participation_set.exists()
             context['appointments'] = Appointment.objects.filter(
                 participation__subject=self.object
             )

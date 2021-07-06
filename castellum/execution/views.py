@@ -182,7 +182,11 @@ class ParticipationPseudonymsView(ParticipationDetailMixin, DetailView):
     tab = 'overview'
 
     def has_permission(self):
-        return super().has_permission() or self.request.user.has_perm('subjects.delete_subject')
+        return (
+            super().has_permission()
+            or self.request.user.has_perm('subjects.export_subject')
+            or self.request.user.has_perm('subjects.delete_subject')
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

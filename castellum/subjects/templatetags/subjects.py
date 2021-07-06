@@ -30,8 +30,7 @@ from castellum.utils.mail import MailContext
 register = template.Library()
 
 
-@register.simple_tag(takes_context=True)
-def delete_mail_uri(context, participation):
+def build_uri(context, participation, subject, body, body_en):
     ctx = MailContext('internal')
 
     def get_mail_data():
@@ -45,15 +44,33 @@ def delete_mail_uri(context, participation):
             'sender_name': context['user'].get_full_name(),
         }
 
-    subject = settings.CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_SUBJECT.format(**get_mail_data())
-    body = ctx.prepare_body((
-        get_mail_data,
-        settings.CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY,
-        settings.CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY_EN,
-    ))
+    subject = subject.format(**get_mail_data())
+    body = ctx.prepare_body((get_mail_data, body, body_en))
 
     return 'mailto:{}?subject={}&body={}'.format(
         participation.study.email,
         quote(subject, safe=[]),
         quote(body, safe=[]),
+    )
+
+
+@register.simple_tag(takes_context=True)
+def delete_mail_uri(context, participation):
+    return build_uri(
+        context,
+        participation,
+        settings.CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_SUBJECT,
+        settings.CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY,
+        settings.CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY_EN,
+    )
+
+
+@register.simple_tag(takes_context=True)
+def export_mail_uri(context, participation):
+    return build_uri(
+        context,
+        participation,
+        settings.CASTELLUM_SUBJECT_EXPORT_STUDY_MAIL_SUBJECT,
+        settings.CASTELLUM_SUBJECT_EXPORT_STUDY_MAIL_BODY,
+        settings.CASTELLUM_SUBJECT_EXPORT_STUDY_MAIL_BODY_EN,
     )

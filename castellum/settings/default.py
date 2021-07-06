@@ -400,6 +400,16 @@ Inclusion/Exclusion criteria:
 """
 CASTELLUM_STUDY_STATUS_NOTIFICATION_BODY_EN = None
 
+CASTELLUM_SUBJECT_EXPORT_STUDY_MAIL_SUBJECT = '[{study}] Export requested'
+CASTELLUM_SUBJECT_EXPORT_STUDY_MAIL_BODY = (
+    'Dear {name},\n\n'
+    'we received an export request from a subject who participated in {study}. Please gather all '
+    'information related to the following subject: {url}\n\n'
+    'If you have any questions, feel free to get back to me.\n\n'
+    '{sender_name}\n'
+)
+CASTELLUM_SUBJECT_EXPORT_STUDY_MAIL_BODY_EN = None
+
 CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_SUBJECT = '[{study}] Deletion requested'
 CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY = (
     'Dear {name},\n\n'
