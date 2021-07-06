@@ -3223,6 +3223,8 @@ msgstr "Auskunft beantragen"
 msgid ""
 "Remember to also gather information from the following study participations:"
 msgstr ""
+"Vergessen Sie nicht, auch Informationen bzgl. der folgenden "
+"Studienteilnahmen einzuholen:"
 
 #: castellum/subjects/templates/subjects/subject_export.html:96
 msgid "Contact data created at"
