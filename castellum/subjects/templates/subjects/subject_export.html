@@ -29,33 +29,34 @@
     </form>
 
     {% if has_participations %}
-        <div class="d-print-none my-4">
-            <h2>{% translate 'External data' %}</h2>
-            <p>{% translate 'Remember to also gather information from the following study participations:' %}</p>
-            <ul class="table-list mb-3">
-                {% for participation in object.participation_set.all %}
-                    {% has_perm 'studies.view_study' user participation.study as can_view_study %}
-                    <li class="table-list-item">
-                        <div class="my-1 mr-2">
-                            <div class="h4 d-inline">{{ participation.study }}</div>
-                            <span>{{ participation.study.contact_person }}</span>
-                            <span class="badge badge-secondary">{{ participation|display:'status' }}</span>
-                            {% if participation.dropped_out %}
-                                <span class="badge badge-secondary">{{ participation|verbose_name:'dropped_out' }}</span>
-                            {% endif %}
-                        </div>
-                        <div class="table-list-item-actions">
-                            {% if participation.status == participation.INVITED %}
-                                <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-pseudonyms' participation.study.pk participation.pk %}">{% translate 'Pseudonyms' %}</a>
-                                <a class="btn btn-outline-primary my-1" href="{% export_mail_uri participation %}">{% translate 'Mail to study' %}</a>
-                            {% endif %}
-                            {% if can_view_study %}
-                                <a class="btn btn-outline-primary my-1" href="{% url 'studies:detail' participation.study.pk %}">{% translate 'Study details' %}</a>
-                            {% endif %}
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
+        <div class="card d-print-none my-4">
+            <div class="card-body">
+                <p>{% translate 'Remember to also gather information from the following study participations:' %}</p>
+                <ul class="table-list mb-3">
+                    {% for participation in object.participation_set.all %}
+                        {% has_perm 'studies.view_study' user participation.study as can_view_study %}
+                        <li class="table-list-item">
+                            <div class="my-1 mr-2">
+                                <div class="h4 d-inline">{{ participation.study }}</div>
+                                <span>{{ participation.study.contact_person }}</span>
+                                <span class="badge badge-secondary">{{ participation|display:'status' }}</span>
+                                {% if participation.dropped_out %}
+                                    <span class="badge badge-secondary">{{ participation|verbose_name:'dropped_out' }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="table-list-item-actions">
+                                {% if participation.status == participation.INVITED %}
+                                    <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-pseudonyms' participation.study.pk participation.pk %}">{% translate 'Pseudonyms' %}</a>
+                                    <a class="btn btn-outline-primary my-1" href="{% export_mail_uri participation %}">{% translate 'Mail to study' %}</a>
+                                {% endif %}
+                                {% if can_view_study %}
+                                    <a class="btn btn-outline-primary my-1" href="{% url 'studies:detail' participation.study.pk %}">{% translate 'Study details' %}</a>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     {% endif %}
 
