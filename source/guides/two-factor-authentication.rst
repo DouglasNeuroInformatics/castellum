@@ -16,8 +16,17 @@ tokens.
 Smartphone apps (TOTP)
 ----------------------
 
-We recommend to use a 2FA application on your phone. Just search for "TOTP" in
-the app store of your choice.
+We recommend to use a 2FA application on your phone. Just ask your local IT on 
+suggestions for appropriate apps to be used at your institution.
+
+.. admonition:: Example
+
+    By the time of writing (June 2021) the MPI for Human Development recommends 
+    its Castellum users to install either `Google Authenticator 
+    <https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2>`_ 
+    or `andOTP <https://f-droid.org/packages/org.shadowice.flocke.andotp/>`_ for 
+    Android or `Microsoft Authenticator 
+    <https://apps.apple.com/de/app/microsoft-authenticator/id983156458>`_ on iOS.
 
 Most TOTP apps work the same:
 
