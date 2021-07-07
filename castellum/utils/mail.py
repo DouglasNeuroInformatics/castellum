@@ -96,3 +96,11 @@ class MailContext:
         for recipient in recipients:
             count += self.send_mail(subject, body, [recipient], **kwargs)
         return count
+
+    def send_mail_to_users(self, subject, body, users, **kwargs):
+        count = 0
+        for user in users:
+            with translation.override(user.language or settings.CASTELLUM_FALLBACK_LANGUAGE):
+                # if subject/body are lazy translated strings, translate them now
+                count += self.send_mail(str(subject), str(body), [user.email], **kwargs)
+        return count

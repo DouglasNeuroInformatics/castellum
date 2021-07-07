@@ -21,11 +21,23 @@
 
 import datetime
 
-from django.conf import settings
 from django.core.management.base import BaseCommand
+from django.utils.text import format_lazy
+from django.utils.translation import gettext_lazy as _
 
 from castellum.studies.models import Study
 from castellum.utils.mail import MailContext
+
+SUBJECT = _('[{study}] Sessions ended')
+BODY = _(
+    'Please note that the data collection of study {study} ends today (according to the study '
+    'settings in Castellum). Therefore, now would be a good time to verify again that all '
+    'appointments and participations are correctly maintained in Castellum. If necessary, you '
+    'can extend the data collection period in the study settings.\n\n'
+    'Be aware that complete and correct tracking of participations in Castellum is essential '
+    'as Castellum is the central starting point to carry out requests in respect to GDPR data '
+    'subjects rights.'
+)
 
 
 class Command(BaseCommand):
@@ -34,14 +46,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         with MailContext('internal') as ctx:
             for study in Study.objects.filter(sessions_end=datetime.date.today()):
-                ctx.send_mail(
-                    settings.CASTELLUM_SESSIONS_END_MAIL_SUBJECT.format(study=study),
-                    (
-                        lambda: {'study': study},
-                        settings.CASTELLUM_SESSIONS_END_MAIL_BODY,
-                        settings.CASTELLUM_SESSIONS_END_MAIL_BODY_EN,
-                    ),
-                    [user.email for user in study.members.all() if (
+                ctx.send_mail_to_users(
+                    format_lazy(SUBJECT, study=study),
+                    format_lazy(BODY, study=study),
+                    [user for user in study.members.all() if (
                         user.has_perm('recruitment.conduct_study', obj=study)
                         or user.has_perm('studies.change_study', obj=study)
                     )],

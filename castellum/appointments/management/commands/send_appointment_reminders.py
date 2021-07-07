@@ -25,6 +25,8 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.text import format_lazy
+from django.utils.translation import gettext_lazy as _
 
 from castellum.appointments.helpers import get_reminder_body
 from castellum.appointments.models import Appointment
@@ -55,14 +57,14 @@ def send_mail_to_study_conductors(study, not_reachable, base_url):
         for appointment in not_reachable
     )
     with MailContext('internal') as ctx:
-        return ctx.send_mail(
-            settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_SUBJECT.format(study=study),
-            (
-                lambda: {'urls': urls},
-                settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY,
-                settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY_EN,
-            ),
-            [user.email for user in study.conductors],
+        return ctx.send_mail_to_users(
+            format_lazy(_("Appointment reminders for {study}"), study=study),
+            format_lazy(_(
+                "The following subjects have upcoming appointments, "
+                "but could not be reached by email. Please contact them by "
+                "other means to remind them of their appointment:\n\n{urls}"
+            ), urls=urls),
+            study.conductors,
         )
 
 

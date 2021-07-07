@@ -293,12 +293,6 @@ CASTELLUM_APPOINTMENT_MAIL_BODY_EN = (
     "If you wish to cancel or postpone, please get in touch with {reply_to}.\n\n"
     "Sincerely yours\nthe recruitment team"
 )
-CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_SUBJECT = "Appointment reminders for {study}"
-CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY = (
-    "The following subjects have upcoming appointments, but could not be reached by email. "
-    "Please contact them by other means to remind them of their appointment:\n\n{urls}"
-)
-CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY_EN = None
 
 CASTELLUM_REMINDER_MAIL_SUBJECT_TEMPLATE = "Reminder/Erinnerung: {mail_subject}"
 
@@ -419,18 +413,6 @@ CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY = (
     '{sender_name}\n'
 )
 CASTELLUM_SUBJECT_DELETE_STUDY_MAIL_BODY_EN = None
-
-CASTELLUM_SESSIONS_END_MAIL_SUBJECT = '[{study}] Sessions ended'
-CASTELLUM_SESSIONS_END_MAIL_BODY = (
-    'Please note that the data collection of study {study} ends today (according to the study '
-    'settings in Castellum). Therefore, now would be a good time to verify again that all '
-    'appointments and participations are correctly maintained in Castellum. If necessary, you '
-    'can extend the data collection period in the study settings.\n\n'
-    'Be aware that complete and correct tracking of participations in Castellum is essential '
-    'as Castellum is the central starting point to carry out requests in respect to GDPR data '
-    'subjects rights.'
-)
-CASTELLUM_SESSIONS_END_MAIL_BODY_EN = None
 
 CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 
