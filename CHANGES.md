@@ -1,3 +1,11 @@
+# 0.62.1 (2021-07-07)
+
+## security
+
+-   Do not allow users to see/delete other user's two factor
+    authentication keys.
+
+
 # 0.62.0 (2021-07-06)
 
 ## breaking changes
