@@ -1,4 +1,4 @@
-FROM node:14.17.1
+FROM node:14.17.1 as npm
 COPY package.json .
 RUN npm install --production
 
@@ -23,7 +23,7 @@ RUN apk update && echo $BUILDPKGS $RUNTIMEPKGS && apk add $BUILDPKGS $RUNTIMEPKG
 WORKDIR code/
 
 COPY setup.cfg setup.py LICENSE ./
-COPY --from=0 node_modules/ node_modules
+COPY --from=npm node_modules/ node_modules
 
 RUN pip3 install -e . && \
     pip3 install django-auth-ldap django-axes
