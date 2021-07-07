@@ -83,6 +83,9 @@ AUTH_LDAP_USER_ATTR_MAP = {
     'first_name': 'givenName',
     'last_name': 'sn',
 }
+# Alternatively you can manage permissions directly in LDAP
+# See https://django-auth-ldap.readthedocs.io/en/latest/permissions.html#using-groups-directly
+# AUTH_LDAP_FIND_GROUP_PERMS = True
 
 # Limit login attempts
 # See https://django-axes.readthedocs.io/
