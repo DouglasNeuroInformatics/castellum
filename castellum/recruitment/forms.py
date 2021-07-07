@@ -177,7 +177,6 @@ class ContactForm(forms.ModelForm):
             'status',
             'followup_date',
             'followup_time',
-            'exclusion_criteria_checked',
             'assigned_recruiter',
         ]
 
