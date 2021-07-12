@@ -71,9 +71,14 @@ class StudyRecruitmentSettingsUpdateView(StudyMixin, PermissionRequiredMixin, Up
         'complete_matches_only',
     ]
     permission_required = 'studies.change_study'
-    template_name = 'studies/study_recruitmentsettings_form.html'
     tab = 'recruitmentsettings'
     subtab = 'update'
+
+    def get_template_names(self):
+        if self.study.is_filter_preview:
+            return 'studies/study_recruitmentsettings_filterpreview_form.html'
+        else:
+            return 'studies/study_recruitmentsettings_form.html'
 
     def get_form_class(self):
         if 'castellum.geofilters' in settings.INSTALLED_APPS:
