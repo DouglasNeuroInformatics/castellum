@@ -1,0 +1,57 @@
+{% extends "studies/base.html" %}
+{% load i18n auth utils %}
+
+{% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="breadcrumb-item">{{ study.name }}</li>
+{% endblock %}
+
+{% block header %}
+    <div class="container text-center my-4">
+        <h1>{{ study }}</h1>
+    </div>
+
+    <nav class="d-print-none" aria-label="{% translate 'Tabs' %}">
+        {% has_perm 'studies.access_study' user study as can_access_study %}
+        {% has_perm 'studies.change_study' user study as can_change_study %}
+
+        <ul class="nav nav-tabs justify-content-center mb-3">
+            <li class="nav-item">
+                <a class="nav-link text-muted">{% translate 'Overview' %}</a>
+            </li>
+
+            {% if can_access_study and can_approve_study %}
+                <li class="nav-item">
+                    <a class="nav-link text-muted">{% translate 'Changes' %}</a>
+                </li>
+            {% endif %}
+
+            {% if can_access_study and can_change_study %}
+                <li class="nav-item">
+                    <a class="nav-link text-muted">{% translate 'General' %}</a>
+                </li>
+                {% if not study.is_onetime_invitation %}
+                    <li class="nav-item">
+                        <a class="nav-link text-muted">{% translate 'Member management' %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-muted">{% translate 'Pseudonym domains' %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-muted">{% translate 'Sessions' %}</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link text-muted {% if view.tab == 'recruitmentsettings' %}active{% endif %}" href="{% url 'studies:recruitmentsettings' study.pk %}">{% translate 'Recruitment Settings' %}</a>
+                </li>
+                {% if study.is_onetime_invitation %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if view.tab == 'mail' %}active{% endif %}" href="{% url 'studies:mail' study.pk %}">{% translate 'Mail' %}</a>
+                    </li>
+                {% endif %}
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}
