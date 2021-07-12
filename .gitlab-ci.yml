@@ -17,9 +17,10 @@ test:
       alias: db_default
     - name: postgis/postgis:latest
       alias: db_contacts
-  script:
+  before_script:
     - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
     - pip3 install -e .[test]
+  script:
     - isort -c castellum tests
     - flake8
     - npx eslint castellum
@@ -33,10 +34,12 @@ build:
   image: docker
   services:
     - docker:dind
-  script:
+  before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
     - docker pull $CONTAINER_IMAGE:latest
+  script:
     - docker build --cache-from $CONTAINER_IMAGE:latest -t $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME .
+  after_script:
     - >
       if [ "$CI_COMMIT_REF_NAME" == "main" ]; then
         docker tag $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME $CONTAINER_IMAGE:latest
