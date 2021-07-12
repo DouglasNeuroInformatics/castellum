@@ -55,7 +55,6 @@
         {% if study.has_exclusion_criteria %}
             <li class="nav-item">
                 <a class="nav-link" id="criteria-tab" data-toggle="tab" href="#criteria" role="tab" aria-controls="criteria" aria-selected="false">
-                    {% icon 'exclamation-triangle' label=_('blocking invitation') hidden=object.exclusion_criteria_checked %}
                     {% translate 'Criteria' %}
                 </a>
             </li>
@@ -197,12 +196,6 @@
         </div>
 
         {% include 'utils/form_errors.html' with form=form %}
-        {% if study.has_exclusion_criteria %}
-            <div class="alert alert-warning" role="alert" data-js="blocking_invitation_alert" {% if object.exclusion_criteria_checked %}hidden{% endif %}>
-                {% translate 'Participation cannot be set to "participating" yet. Please check the tabs marked with' %}
-                {% icon 'exclamation-triangle' label=_('blocking invitation') %}
-            </div>
-        {% endif %}
 
         {% csrf_token %}
         {% bootstrap_field form.status %}
