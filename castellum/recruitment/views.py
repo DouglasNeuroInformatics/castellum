@@ -398,6 +398,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     template_name = 'recruitment/contact.html'
     permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
+    tab = 'recruit'
 
     def get_form_class(self):
         if self.request.user.has_perm('appointments.change_appointment', self.study):
@@ -495,30 +496,42 @@ class RecruitmentUpdateMixin(ParticipationMixin):
     study_status = [Study.EXECUTION]
 
     def get_success_url(self):
-        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
+        return self.request.path
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['base_template'] = "recruitment/contact_base.html"
         return context
 
+    def form_valid(self, form, *args):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form, *args)
+
 
 class ContactUpdateView(RecruitmentUpdateMixin, BaseContactUpdateView):
+    tab = 'contact'
+
     def get_object(self):
         return self.participation.subject.contact
 
 
 class AttributesUpdateView(RecruitmentUpdateMixin, BaseAttributesUpdateView):
+    tab = 'attributes'
+
     def get_object(self):
         return self.participation.subject
 
 
 class DataProtectionUpdateView(RecruitmentUpdateMixin, BaseDataProtectionUpdateView):
+    tab = 'data-protection'
+
     def get_object(self):
         return self.participation.subject
 
 
 class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateView):
+    tab = 'additional-info'
+
     def get_object(self):
         return self.participation.subject
 
