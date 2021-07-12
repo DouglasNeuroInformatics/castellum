@@ -492,9 +492,7 @@ class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
         context = super().get_context_data(**kwargs)
         form = kwargs.get('form')
         if form and form.is_valid() and 'contact_form' not in context:
-            context['contact_form'] = ContactForm(
-                user=self.request.user, initial=form.cleaned_data, is_guardian=True
-            )
+            context['contact_form'] = ContactForm(user=self.request.user, initial=form.cleaned_data)
         return context
 
     def post(self, request, *args, **kwargs):
@@ -506,7 +504,7 @@ class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
 
         form = SearchForm(data=request.POST)
         privacy_level_form = SubjectPrivacyLevelForm(user=self.request.user, data=request.POST)
-        contact_form = ContactForm(user=self.request.user, data=request.POST, is_guardian=True)
+        contact_form = ContactForm(user=self.request.user, data=request.POST)
 
         if form.is_valid() and privacy_level_form.is_valid() and contact_form.is_valid():
             contact = contact_form.save()
