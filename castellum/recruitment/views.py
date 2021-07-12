@@ -33,7 +33,6 @@ from django.http import HttpResponse
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
-from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
@@ -491,28 +490,41 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
 
 class RecruitmentUpdateMixin(ParticipationMixin):
     study_status = [Study.EXECUTION]
-    base_template = 'recruitment/base.html'
+    base_template = 'recruitment/participation_update_base.html'
+    tab = 'update-data'
 
     def get_success_url(self):
-        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
+        return self.request.path
+
+    def form_valid(self, form, *args):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form, *args)
 
 
 class ContactUpdateView(RecruitmentUpdateMixin, BaseContactUpdateView):
+    subtab = 'contact'
+
     def get_object(self):
         return self.participation.subject.contact
 
 
 class AttributesUpdateView(RecruitmentUpdateMixin, BaseAttributesUpdateView):
+    subtab = 'attributes'
+
     def get_object(self):
         return self.participation.subject
 
 
 class DataProtectionUpdateView(RecruitmentUpdateMixin, BaseDataProtectionUpdateView):
+    subtab = 'data-protection'
+
     def get_object(self):
         return self.participation.subject
 
 
 class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateView):
+    subtab = 'additional-info'
+
     def get_object(self):
         return self.participation.subject
 

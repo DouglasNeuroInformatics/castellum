@@ -52,26 +52,6 @@
             <div class="tab-content card-body">
                 <div class="tab-pane active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                     {% include 'contacts/__contact.html' with subject=subject %}
-
-                    {% has_perm 'subjects.change_subject' user study as can_change_subject %}
-                    {% if can_change_subject %}
-                        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:contact-update' study.pk object.pk %}">
-                            {% if not subject.contact.is_complete %}
-                                {% icon 'exclamation-triangle' label=_('Missing values') %}
-                            {% endif %}
-                            {% translate 'Edit contact data' %}
-                        </a>
-                        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:attributes-update' study.pk object.pk %}">{% translate 'Edit recruitment attributes' %}</a>
-                        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:data-protection-update' study.pk object.pk %}">
-                            {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age %}
-                                {% icon 'exclamation-triangle' label=_('Missing values') %}
-                            {% endif %}
-                            {% translate 'Edit data protection' %}
-                        </a>
-                        <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:additional-info-update' study.pk object.pk %}">
-                            {% translate 'Edit additional info' %}
-                        </a>
-                    {% endif %}
                 </div>
 
                 <div class="tab-pane" id="study" role="tabpanel" aria-labelledby="study-tab">
