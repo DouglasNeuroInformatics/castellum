@@ -65,8 +65,7 @@
 
                         {% if participation.status_open and participation.last_contacted_elsewhere.date > last_agreeable_contact_time %}
                             <div class="d-inline-block my-1 mr-2">
-                                {% translate 'recently contacted in another recruitment' %}
-                                <span class="list-icon bg-warning text-dark">{% icon 'phone-slash' %}</span>
+                                <span class="list-icon bg-warning text-dark">{% icon 'phone-slash' label=_('recently contacted in another recruitment') %}</span>
                             </div>
                         {% endif %}
                         {% if participation.assigned_recruiter %}
