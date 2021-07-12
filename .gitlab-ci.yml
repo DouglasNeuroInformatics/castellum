@@ -4,7 +4,7 @@ stages:
 
 variables:
   DEBIAN_FRONTEND: noninteractive
-  PYTHON_IMAGE_DEPENDENCIES: "python3-pip npm hunspell hunspell-de-de gdal-bin python3-psycopg2"
+  PYTHON_IMAGE_DEPENDENCIES: "python3-pip hunspell hunspell-de-de gdal-bin python3-psycopg2"
   CONTAINER_IMAGE: registry.git.mpib-berlin.mpg.de/castellum/castellum
   DJANGO_SETTINGS_MODULE: "castellum.settings.gitlab"
   POSTGRES_PASSWORD: "CHANGEME"
@@ -17,19 +17,26 @@ test:
       alias: db_default
     - name: postgis/postgis:latest
       alias: db_contacts
-  script:
+  before_script:
     - apt-get update -q && apt-get install -y -qq $PYTHON_IMAGE_DEPENDENCIES
     - pip3 install -e .[test]
+  script:
     - isort -c castellum tests
     - flake8
-    - npx eslint castellum
     - pospell -l de_DE -p .misc/spelling/de_DE.txt castellum/locale/de/LC_MESSAGES/django.po
     - django-admin makemigrations --dry-run --check --noinput
     - pytest --ds=$DJANGO_SETTINGS_MODULE
   coverage: '/TOTAL.*\s+(\d+\%)/'
 
-# Cache multi stage build
-# see https://testdriven.io/blog/faster-ci-builds-with-docker-cache/
+test-js:
+  stage: test
+  image: node
+  script:
+    - npx eslint castellum
+  only:
+    changes:
+      - castellum/**/*.js
+
 build:
   stage: build
   image: docker
@@ -37,25 +44,14 @@ build:
     - docker:dind
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
+    - docker pull $CONTAINER_IMAGE:latest
   script:
-    - docker build
-        --target npm
-        --cache-from $CONTAINER_IMAGE:npm
-        --tag $CONTAINER_IMAGE:npm
-        --build-arg BUILDKIT_INLINE_CACHE=1
-        "."
-    - docker build
-        --cache-from $CONTAINER_IMAGE:npm
-        --cache-from $CONTAINER_IMAGE:latest
-        --tag $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME
-        --build-arg BUILDKIT_INLINE_CACHE=1
-        "."
+    - docker build --cache-from $CONTAINER_IMAGE:latest -t $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME .
   after_script:
     - >
       if [ "$CI_COMMIT_REF_NAME" == "main" ]; then
         docker tag $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME $CONTAINER_IMAGE:latest
         docker push $CONTAINER_IMAGE:latest
-        docker push $CONTAINER_IMAGE:npm
       fi
     - >
       if [ -n "$CI_COMMIT_TAG" ]; then
