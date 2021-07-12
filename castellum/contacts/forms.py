@@ -87,9 +87,6 @@ class ContactForm(forms.ModelForm):
 
         self.fields['guardians_remove'].choices = self.get_guardians_rm_choices(user)
 
-        self.fields['date_of_birth'].required = not is_guardian
-        self.fields['gender'].required = True
-
     def get_address_form(self, **kwargs):
         address_kwargs = kwargs.copy()
         if kwargs.get('instance'):
