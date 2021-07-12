@@ -158,6 +158,7 @@ class StudyIndexView(LoginRequiredMixin, ListView):
             qs = qs.filter(sessions_end__gte=self.form.cleaned_data['start'].date())
         if self.form.cleaned_data.get('end'):
             qs = qs.filter(sessions_start__lte=self.form.cleaned_data['end'].date())
+        qs = qs.filter(is_filter_preview=False)
         return qs.distinct()
 
     def render_event(self, study):
