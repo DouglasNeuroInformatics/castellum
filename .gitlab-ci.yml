@@ -38,6 +38,8 @@ build:
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
   script:
+    - docker pull $CONTAINER_IMAGE:npm
+    - docker pull $CONTAINER_IMAGE:latest
     - docker build
         --target npm
         --cache-from $CONTAINER_IMAGE:npm
