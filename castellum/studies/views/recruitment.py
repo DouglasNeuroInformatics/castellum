@@ -112,6 +112,10 @@ class StudyExcludedStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
         )
         context['total_count'] = Subject.objects.count()
         context['related_studies'] = list(get_related_studies(self.object))
+        if self.object.is_filter_preview:
+            context['base_template'] = 'studies/study_filterpreview_recruitmentsettings_base.html'
+        else:
+            context['base_template'] = 'studies/study_recruitmentsettings_base.html'
         return context
 
     def get_success_url(self):
