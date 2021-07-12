@@ -284,6 +284,21 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
         return study
 
 
+class CreatePreviewStudyView(PermissionRequiredMixin, View):
+    permission_required = 'studies.change_study'
+
+    def post(self, request, *args, **kwargs):
+        study = Study.objects.create(
+            name='preview',
+            contact_person='preview',
+            principal_investigator='preview',
+            phone='03000000000',
+            email='preview@example.com',
+            is_filter_preview=True,
+        )
+        return redirect('studies:recruitmentsettings', study.pk)
+
+
 class StudyUpdateView(
     StudyMixin, PermissionRequiredMixin, UpdateView
 ):
