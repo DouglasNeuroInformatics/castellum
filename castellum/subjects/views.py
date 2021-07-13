@@ -54,7 +54,7 @@ from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
-from castellum.pseudonyms.helpers import get_pseudonym
+from castellum.pseudonyms.helpers import get_pseudonym_if_exists
 from castellum.pseudonyms.models import Domain
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributesUpdateView
@@ -240,13 +240,13 @@ class SubjectPseudonymView(SubjectMixin, PermissionRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         domain = get_object_or_404(Domain, key=kwargs['domain'], object_id=None)
-        pseudonym = get_pseudonym(self.subject, domain.key)
+        pseudonym = get_pseudonym_if_exists(self.subject, domain.key)
 
         monitoring_logger.info('Pseudonym access: domain {} by {}'.format(
             domain.key, self.request.user.pk
         ))
 
-        return HttpResponse(pseudonym)
+        return HttpResponse(pseudonym or '—')
 
 
 class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
