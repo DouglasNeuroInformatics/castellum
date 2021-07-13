@@ -61,12 +61,12 @@ class StudySessionsView(StudyMixin, PermissionRequiredMixin, UpdateView):
         context['sessions'] = self.study.studysession_set.order_by('pk')
         return context
 
+    def get_success_url(self):
+        return self.request.path
+
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse('studies:sessions', args=[self.object.pk])
 
 
 class StudySessionFormMixin(StudyMixin, PermissionRequiredMixin):

@@ -296,6 +296,9 @@ class SubjectUpdateMixin(SubjectMixin):
         context['base_template'] = 'subjects/subject_base.html'
         return context
 
+    def get_success_url(self):
+        return self.request.path
+
     def form_valid(self, form, *args):
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form, *args)
@@ -304,15 +307,9 @@ class SubjectUpdateMixin(SubjectMixin):
 class DataProtectionUpdateView(SubjectUpdateMixin, BaseDataProtectionUpdateView):
     tab = 'data-protection'
 
-    def get_success_url(self):
-        return reverse('subjects:data-protection', args=[self.object.slug])
-
 
 class AdditionalInfoUpdateView(SubjectUpdateMixin, BaseAdditionalInfoUpdateView):
     tab = 'additional-info'
-
-    def get_success_url(self):
-        return reverse('subjects:additional-info', args=[self.object.slug])
 
 
 class ContactUpdateView(SubjectUpdateMixin, BaseContactUpdateView):
@@ -322,15 +319,9 @@ class ContactUpdateView(SubjectUpdateMixin, BaseContactUpdateView):
         subject = get_object_or_404(Subject, slug=self.kwargs['slug'])
         return subject.contact
 
-    def get_success_url(self):
-        return reverse('subjects:contact', args=[self.object.subject.slug])
-
 
 class AttributesUpdateView(SubjectUpdateMixin, BaseAttributesUpdateView):
     tab = 'attributes'
-
-    def get_success_url(self):
-        return reverse('subjects:attributes', args=[self.object.slug])
 
 
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
