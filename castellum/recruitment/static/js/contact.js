@@ -2,6 +2,7 @@
     var setVisibility = function() {
         var status = document.querySelector('[name="status"]');
         var followupInput = document.querySelector('[name="followup_date"]');
+        var followupTimeInput = document.querySelector('[name="followup_time"]');
         var followup = followupInput.closest('.form-row');
 
         if (status.value === '4') {
@@ -11,6 +12,7 @@
             followup.hidden = true;
             followupInput.required = false;
             followupInput.value = '';
+            followupTimeInput.value = '';
         }
     };
 
