@@ -68,7 +68,6 @@ from castellum.utils import scheduler
 from castellum.utils.mail import MailContext
 
 from . import filter_queries
-from .forms import ContactAndAppointmentsForm
 from .forms import ContactForm
 from .mixins import BaseAttributesUpdateView
 from .mixins import BaseMailRecruitmentView
@@ -402,16 +401,11 @@ class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, DetailView
 
 class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     model = Participation
+    form_class = ContactForm
     template_name = 'recruitment/contact.html'
     permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
     tab = 'contact'
-
-    def get_form_class(self):
-        if self.request.user.has_perm('appointments.change_appointment', self.study):
-            return ContactAndAppointmentsForm
-        else:
-            return ContactForm
 
     def get_initial(self):
         initial = super().get_initial()
@@ -432,8 +426,6 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         status_field.widget.choices = choices
 
         context['sessions'] = self.study.studysession_set.order_by('pk')
-        context['reminder_period'] = settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD.days
-
         context['context'] = self.request.GET.get('context')
 
         return context
@@ -455,15 +447,11 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         if form.instance.status == Participation.INVITED:
             form.instance.dropped_out = False
         response = super().form_valid(form)
-        if isinstance(form, ContactAndAppointmentsForm):
-            send_appointment_notifications(self.request, self.object, form.appointment_changes)
         messages.success(self.request, _('Data has been saved.'))
-
         if self.object.status != Participation.INVITED and scheduler_appointments_exist:
             messages.warning(self.request, _(
                 'Scheduler appointments for this participation have been deleted.'
             ))
-
         return response
 
 

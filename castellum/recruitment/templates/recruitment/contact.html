@@ -26,8 +26,6 @@
         </div>
     {% endif %}
 
-    {% has_perm 'appointments.change_appointment' user study as can_change_appointment %}
-
     <form method="post">
         <div class="card mb-3">
             <div class="card-header">
@@ -45,13 +43,6 @@
                                     {% icon 'exclamation-triangle' label=_('Not checked') %}
                                 {% endif %}
                                 {% translate 'Criteria' %}
-                            </a>
-                        </li>
-                    {% endif %}
-                    {% if can_change_appointment and sessions %}
-                        <li class="nav-item">
-                            <a class="nav-link" id="appointments-tab" data-toggle="tab" href="#appointments" role="tab" aria-controls="appointments" aria-selected="false">
-                                {% translate 'Appointments' %}
                             </a>
                         </li>
                     {% endif %}
@@ -142,46 +133,6 @@
                         {% bootstrap_field form.exclusion_criteria_checked %}
                     </div>
                 {% endif %}
-
-                {% if can_change_appointment %}
-                    <div class="tab-pane" id="appointments" role="tabpanel" aria-labelledby="appointments-tab">
-                        {% if study.session_instructions %}
-                            {{ study.session_instructions|urlize|linebreaks }}
-                        {% endif %}
-
-                        <dl class="row">
-                            <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
-                            <dd class="col-sm-6">
-                                <time id="sessions-start" datetime="{{ study.sessions_start|date:'c' }}">{{ study|display:'sessions_start' }}</time>
-                            </dd>
-
-                            <dt class="col-sm-6">{{ study|verbose_name:'sessions_end' }}</dt>
-                            <dd class="col-sm-6">
-                                <time id="sessions-end" datetime="{{ study.sessions_end|date:'c' }}">{{ study|display:'sessions_end' }}</time>
-                            </dd>
-                        </dl>
-                        <p>
-                            {% blocktranslate with reminder_period=reminder_period %}The subject will be reminded {{ reminder_period }} days before each appointment.{% endblocktranslate %}
-                        </p>
-
-                        {% for entry in form.appointments %}
-                            <div class="form-group">
-                                {% bootstrap_field entry.field form_group_class="" %}
-                                {% if entry.invitation_url == 'not-invited' %}
-                                    <p class="text-muted">
-                                        {% translate 'Scheduler only available for participating subjects.' %}
-                                    </p>
-                                {% elif entry.invitation_url %}
-                                    <a id="invitation_url_{{ entry.field.id_for_label }}" href="{{ entry.invitation_url }}" target="_blank">{% translate 'Select timeslot for this subject' %}</a>
-                                    <button type="button" class="btn btn-sm btn-light" tabindex="-1" data-clipboard="#invitation_url_{{ entry.field.id_for_label }}" data-animation="success" title="{% translate 'Copy link' %}">
-                                        {% icon 'copy' label=_('Copy link') %}
-                                    </button>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                        <a href="{% url 'recruitment:calendar' study.pk %}" class="btn btn-secondary" data-js="popup">{% translate 'Calendar' %}</a>
-                    </div>
-                {% endif %}
             </div>
         </div>
 
@@ -222,5 +173,4 @@
 
 {% block extra_scripts %}
     <script src="{% static 'js/contact.js' %}"></script>
-    <script src="{% static 'js/appointments-form.js' %}"></script>
 {% endblock %}
