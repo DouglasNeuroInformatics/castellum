@@ -169,3 +169,7 @@
 .castellum-required > label::after {
     content: "*";
 }
+
+.unblur-on-focus:not(:focus) {
+    background-color: currentColor;
+}

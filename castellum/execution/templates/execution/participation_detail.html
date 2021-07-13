@@ -14,7 +14,9 @@
         <dl class="row">
             <dt class="col-sm-6">{% translate 'Pseudonym' %}</dt>
             {% for domain, pseudonym in pseudonyms %}
-                <dd class="col-sm-6">{{ pseudonym }}</dd>
+                <dd class="col-sm-6">
+                    <span class="unblur-on-focus" tabindex="0">{{ pseudonym }}</span>
+                </dd>
             {% endfor %}
         </dl>
     {% endif %}
