@@ -52,7 +52,7 @@ from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
-from castellum.pseudonyms.helpers import get_pseudonym
+from castellum.pseudonyms.helpers import get_pseudonym_if_exists
 from castellum.pseudonyms.models import Domain
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributesUpdateView
@@ -222,7 +222,8 @@ class SubjectPseudonymsView(SubjectMixin, PermissionRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['pseudonyms'] = [
-            (d, get_pseudonym(self.subject, d.key)) for d in Domain.objects.filter(object_id=None)
+            (d, get_pseudonym_if_exists(self.subject, d.key))
+            for d in Domain.objects.filter(object_id=None)
         ]
         return context
 
