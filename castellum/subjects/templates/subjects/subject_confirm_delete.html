@@ -17,9 +17,9 @@
             <p class="alert alert-danger">
                 {% translate "This subject cannot be deleted because there still is data about them in studies." %}
             </p>
-        {% elif general_domains_exist %}
+        {% elif subject.pseudonym_set.exists %}
             <p class="alert alert-warning">
-                {% translate "This subject may still have data out Castellum." %}
+                {% translate "This subject does still have data outside of Castellum." %}
             </p>
         {% else %}
             <p class="alert alert-success">
@@ -78,7 +78,7 @@
         <p>{% translate "Are you sure you want to <strong>permanently delete</strong> this subject and all related data?" %}</p>
         <div class="d-print-none mb-3">
             <a href="{% url 'subjects:detail' object.slug %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% translate 'Cancel' %}</a>
-            <button class="btn btn-danger mb-1" {% if has_participations %}disabled{% endif %} >{% translate 'Confirm' %}</button>
+            <button class="btn btn-danger mb-1" {% if subject.pseudonym_set.exists %}disabled{% endif %} >{% translate 'Confirm' %}</button>
         </div>
     </form>
 {% endblock %}

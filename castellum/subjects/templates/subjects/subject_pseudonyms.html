@@ -17,7 +17,7 @@
                 <tr>
                     <td>{{ domain|display:'key' }}</dt>
                     <td>{{ domain|display:'name' }}</dt>
-                    <td>{{ pseudonym }}</dt>
+                    <td>{{ pseudonym|default:'—' }}</dt>
                 </tr>
             {% endfor %}
         </tbody>
