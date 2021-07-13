@@ -493,14 +493,10 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
 
 class RecruitmentUpdateMixin(ParticipationMixin):
     study_status = [Study.EXECUTION]
+    base_template = 'recruitment/base.html'
 
     def get_success_url(self):
         return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = "recruitment/base.html"
-        return context
 
 
 class ContactUpdateView(RecruitmentUpdateMixin, BaseContactUpdateView):

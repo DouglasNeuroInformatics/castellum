@@ -291,10 +291,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
 
 class SubjectUpdateMixin(SubjectMixin):
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = 'subjects/subject_base.html'
-        return context
+    base_template = 'subjects/subject_base.html'
 
     def get_success_url(self):
         return self.request.path
