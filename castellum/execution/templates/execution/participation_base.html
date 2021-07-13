@@ -1,5 +1,5 @@
 {% extends "execution/base.html" %}
-{% load i18n utils %}
+{% load i18n auth utils %}
 
 {% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
 
@@ -22,9 +22,19 @@
             <li class="nav-item">
                 <a href="{% url 'execution:participation-update' study.pk participation.pk %}" class="nav-link {% if view.tab == 'update' %}active{% endif %}">{% translate 'Hints' %}</a>
             </li>
+
             {% if study.studysession_set.exists %}
                 <li class="nav-item">
                     <a href="{% url 'execution:participation-appointments' study.pk participation.pk %}" class="nav-link {% if view.tab == 'appointments' %}active{% endif %}">{% translate 'Appointments' %}</a>
+                </li>
+            {% endif %}
+
+            {% has_perm 'subjects.change_subject' user as can_change_subject %}
+            {% if can_change_subject %}
+                <li class="nav-item">
+                    <a href="{% url 'execution:contact-update' study.pk participation.pk %}" class="nav-link {% if view.tab == 'update-data' %}active{% endif %}">
+                        {% translate 'Update data' %}
+                    </a>
                 </li>
             {% endif %}
         </ul>

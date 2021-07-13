@@ -427,14 +427,15 @@ class ExclusionCriteriaView(StudyMixin, PermissionRequiredMixin, DetailView):
 class ExecutionUpdateMixin(ParticipationMixin):
     study_status = [Study.EXECUTION]
     participation_status = [Participation.INVITED]
-    base_template = 'execution/participation_base.html'
-    tab = 'overview'
+    base_template = 'execution/participation_update_base.html'
+    tab = 'update-data'
 
     def get_success_url(self):
-        return reverse(
-            'execution:participation-detail',
-            args=[self.kwargs['study_pk'], self.kwargs['pk']],
-        )
+        return self.request.path
+
+    def form_valid(self, form, *args):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form, *args)
 
     def get_permission_required(self):
         permission_required = {'recruitment.conduct_study'}
@@ -443,21 +444,29 @@ class ExecutionUpdateMixin(ParticipationMixin):
 
 
 class ContactUpdateView(ExecutionUpdateMixin, BaseContactUpdateView):
+    subtab = 'contact'
+
     def get_object(self):
         return self.participation.subject.contact
 
 
 class AttributesUpdateView(ExecutionUpdateMixin, BaseAttributesUpdateView):
+    subtab = 'attributes'
+
     def get_object(self):
         return self.participation.subject
 
 
 class DataProtectionUpdateView(ExecutionUpdateMixin, BaseDataProtectionUpdateView):
+    subtab = 'data-protection'
+
     def get_object(self):
         return self.participation.subject
 
 
 class AdditionalInfoUpdateView(ExecutionUpdateMixin, BaseAdditionalInfoUpdateView):
+    subtab = 'additional-info'
+
     def get_object(self):
         return self.participation.subject
 
