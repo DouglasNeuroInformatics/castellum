@@ -405,6 +405,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     template_name = 'recruitment/contact.html'
     permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
+    tab = 'contact'
 
     def get_form_class(self):
         if self.request.user.has_perm('appointments.change_appointment', self.study):
@@ -470,6 +471,7 @@ class AppointmentsUpdateView(BaseAppointmentsUpdateView):
     permission_required = ['recruitment.recruit', 'appointments.change_appointment']
     study_status = [Study.EXECUTION]
     base_template = 'recruitment/participation_base.html'
+    tab = 'appointments'
 
 
 class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):

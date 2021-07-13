@@ -1,5 +1,5 @@
 {% extends "recruitment/base.html" %}
-{% load utils %}
+{% load i18n auth utils %}
 
 {% block title %}{{ study }} &middot; {{ block.super }}{% endblock %}
 
@@ -18,4 +18,23 @@
             <span class="badge badge-secondary">{{ participation|verbose_name:'dropped_out' }}</span>
         {% endif %}
     </div>
+
+    <nav class="d-print-none" aria-label="{% translate 'Tabs' %}">
+        <ul class="nav nav-tabs justify-content-center mb-3">
+            <li class="nav-item">
+                <a href="{% url 'recruitment:contact' study.pk participation.pk %}" class="nav-link {% if view.tab == 'contact' %}active{% endif %}">
+                    {% translate 'Contact' %}
+                </a>
+            </li>
+
+            {% has_perm 'subjects.change_appointment' user as can_change_appointment %}
+            {% if can_change_appointment %}
+                <li class="nav-item">
+                    <a href="{% url 'recruitment:appointments' study.pk participation.pk %}" class="nav-link {% if view.tab == 'appointments' %}active{% endif %}">
+                        {% translate 'Appointments' %}
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
 {% endblock %}
