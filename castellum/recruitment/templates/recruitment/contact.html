@@ -162,8 +162,6 @@
             {% has_perm 'subjects.view_subject' user as can_view_subject%}
             {% if can_view_subject and context == 'subjects:participation-list' %}
                 <a class="btn btn-outline-primary" href="{% url context subject.slug %}">{% translate 'Back to subject' %}</a>
-            {% else %}
-                <a class="btn btn-outline-primary" href="{% url 'recruitment:recruitment-open' study.pk %}">{% translate 'Back to list' %}</a>
             {% endif %}
             <button class="btn btn-primary">{% translate 'Save' %}</button>
         </div>

@@ -39,14 +39,6 @@ def test_404_if_study_in_edit_status(client, member, participation):
     assert response.status_code == 404
 
 
-def test_back_to_list(client, member, participation):
-    client.force_login(member)
-    url = '/recruitment/{}/{}/'.format(participation.study.pk, participation.pk)
-    response = client.get(url)
-    assert response.status_code == 200
-    assert b'Back to list' in response.content
-
-
 def test_back_to_subject(client, member, participation):
     participation.status = 1
     participation.save()
