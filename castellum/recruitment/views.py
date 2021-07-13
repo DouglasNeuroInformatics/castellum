@@ -469,6 +469,7 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
 class AppointmentsUpdateView(BaseAppointmentsUpdateView):
     permission_required = ['recruitment.recruit', 'appointments.change_appointment']
     study_status = [Study.EXECUTION]
+    base_template = 'recruitment/participation_base.html'
 
 
 class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):

@@ -1,24 +1,7 @@
-{% extends "recruitment/base.html" %}
+{% extends "recruitment/participation_base.html" %}
 {% load i18n static bootstrap4 utils auth %}
 
-{% block title %}{% translate "Recruitment" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
-
-{% block header %}
-    <div class="container text-center my-4">
-        <h1>
-            {{ subject.contact.full_name }}
-            <svg class="identicon" data-jdenticon-value="{{ object.pk }}" aria-hidden="true"></svg>
-        </h1>
-        {% if object.excluded_by_cleanup %}
-            <span class="badge badge-secondary">{{ object|verbose_name:'excluded_by_cleanup' }}</span>
-        {% else %}
-            <span class="badge badge-secondary">{{ object|display:'status' }}</span>
-        {% endif %}
-        {% if participation.dropped_out %}
-            <span class="badge badge-secondary">{{ participation|verbose_name:'dropped_out' }}</span>
-        {% endif %}
-    </div>
-{% endblock %}
+{% block title %}{% translate "Recruitment" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     {% if not object.match %}
