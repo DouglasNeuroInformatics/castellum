@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n auth %}
 
 <div class="rounded-lg border bg-light p-3 mb-2 d-flex align-items-center {% if removed %}text-muted{% endif %}" data-js="guardian-wrapper">
     <div class="flex-grow-1">
@@ -10,7 +10,8 @@
             <input id="id_{{ name }}_{{ pk }}" type="hidden" name="{{ name }}" value="{{ pk }}" {% if removed %}disabled{% endif %}>
         {% endif %}
     </div>
-    {% if slug %}
+    {% has_perm 'subjects.view_subject' user as can_view_subject %}
+    {% if slug and can_view_subject %}
         <a href="{% url 'subjects:detail' slug %}" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
     {% endif %}
     <button type="button" class="btn btn-sm btn-danger" {% if removed %}hidden{% endif %} data-js="guardian-remove">{% translate 'Remove' %}</button>
