@@ -159,10 +159,6 @@
         </div>
 
         <div class="d-print-none mb-3">
-            {% has_perm 'subjects.view_subject' user as can_view_subject%}
-            {% if can_view_subject and context == 'subjects:participation-list' %}
-                <a class="btn btn-outline-primary" href="{% url context subject.slug %}">{% translate 'Back to subject' %}</a>
-            {% endif %}
             <button class="btn btn-primary">{% translate 'Save' %}</button>
         </div>
     </form>

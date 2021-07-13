@@ -426,16 +426,11 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         status_field.widget.choices = choices
 
         context['sessions'] = self.study.studysession_set.order_by('pk')
-        context['context'] = self.request.GET.get('context')
 
         return context
 
     def get_success_url(self):
-        url = reverse('recruitment:contact', args=[self.study.pk, self.object.pk])
-        context = self.request.GET.get('context')
-        if context == 'subjects:participation-list':
-            url += '?context=' + context
-        return url
+        return self.request.path
 
     def form_valid(self, form):
         scheduler_appointments_exist = Appointment.objects.filter(

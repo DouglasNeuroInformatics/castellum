@@ -39,19 +39,6 @@ def test_404_if_study_in_edit_status(client, member, participation):
     assert response.status_code == 404
 
 
-def test_back_to_subject(client, member, participation):
-    participation.status = 1
-    participation.save()
-
-    client.force_login(member)
-    url = '/recruitment/{}/{}/?context=subjects:participation-list'.format(
-        participation.study.pk, participation.pk
-    )
-    response = client.get(url)
-    assert response.status_code == 200
-    assert b'Back to subject' in response.content
-
-
 @pytest.mark.freeze_time('2018-01-01')
 def test_post_updated_at(client, member, participation):
     client.force_login(member)
