@@ -182,13 +182,9 @@ class OneTimeInvitationMailRecruitmentView(BaseMailRecruitmentView):
     permission_required = 'studies.change_study'
     is_onetime_invitation = True
     participation_status = Participation.INVITED
+    base_template = 'studies/study_base.html'
     tab = 'mail'
 
     def form_valid(self, form):
         self._form_valid(form)
         return redirect('studies:mail', self.study.pk)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = 'studies/study_base.html'
-        return context

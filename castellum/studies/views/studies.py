@@ -290,12 +290,8 @@ class StudyUpdateView(
     model = Study
     form_class = StudyForm
     permission_required = 'studies.change_study'
+    base_template = 'studies/study_base.html'
     tab = 'update'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = 'studies/study_base.html'
-        return context
 
     def get_success_url(self):
         return self.request.path

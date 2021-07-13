@@ -442,6 +442,7 @@ class ExclusionCriteriaView(StudyMixin, PermissionRequiredMixin, DetailView):
 class ExecutionUpdateMixin(ParticipationMixin):
     study_status = [Study.EXECUTION]
     participation_status = [Participation.INVITED]
+    base_template = 'execution/participation_base.html'
     tab = 'overview'
 
     def get_success_url(self):
@@ -449,11 +450,6 @@ class ExecutionUpdateMixin(ParticipationMixin):
             'execution:participation-detail',
             args=[self.kwargs['study_pk'], self.kwargs['pk']],
         )
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['base_template'] = "execution/participation_base.html"
-        return context
 
     def get_permission_required(self):
         permission_required = {'recruitment.conduct_study'}
