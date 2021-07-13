@@ -12,7 +12,8 @@
         if (document.querySelector('[name="guardians_pane"][value="guardians"]').checked) {
             complete = (
                 document.querySelector('[name="guardians_remove"]:disabled') ||
-                document.querySelector('[name="guardians_add"]:not(:disabled)')
+                document.querySelector('[name="guardians_add"]:not(:disabled)') ||
+                document.querySelector('[data-js="guardians-blocked"]')
             );
         } else {
             complete = (
