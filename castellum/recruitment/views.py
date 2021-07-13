@@ -48,6 +48,7 @@ from icalendar import Calendar
 from simplecharts import StackedColumnRenderer
 from stronghold.decorators import public
 
+from castellum.appointments.mixins import BaseAppointmentsUpdateView
 from castellum.appointments.mixins import BaseCalendarView
 from castellum.appointments.mixins import send_appointment_notifications
 from castellum.appointments.models import Appointment
@@ -463,6 +464,11 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
             ))
 
         return response
+
+
+class AppointmentsUpdateView(BaseAppointmentsUpdateView):
+    permission_required = ['recruitment.recruit', 'appointments.change_appointment']
+    study_status = [Study.EXECUTION]
 
 
 class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
