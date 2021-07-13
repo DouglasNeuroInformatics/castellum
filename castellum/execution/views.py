@@ -23,7 +23,6 @@ import logging
 import zipfile
 
 from django import forms
-from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
@@ -40,9 +39,8 @@ from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
-from castellum.appointments.forms import AppointmentsForm
+from castellum.appointments.mixins import BaseAppointmentsUpdateView
 from castellum.appointments.mixins import BaseCalendarView
-from castellum.appointments.mixins import send_appointment_notifications
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.pseudonyms.forms import DomainForm
@@ -269,25 +267,12 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
         return super().form_valid(form)
 
 
-class ParticipationAppointmentsUpdateView(ParticipationDetailMixin, UpdateView):
-    template_name = 'execution/participation_appointments_form.html'
+class ParticipationAppointmentsUpdateView(BaseAppointmentsUpdateView):
     permission_required = ['recruitment.conduct_study', 'appointments.change_appointment']
-    form_class = AppointmentsForm
+    study_status = [Study.EXECUTION]
+    participation_status = [Participation.INVITED]
+    base_template = 'execution/participation_base.html'
     tab = 'appointments'
-
-    def get_success_url(self):
-        return self.request.path
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        send_appointment_notifications(self.request, self.object, form.appointment_changes)
-        messages.success(self.request, _('Data has been saved.'))
-        return response
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['reminder_period'] = settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD.days
-        return context
 
 
 class ResolveView(StudyMixin, PermissionRequiredMixin, FormView):

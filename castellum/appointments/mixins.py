@@ -20,18 +20,23 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
+from django.contrib import messages
 from django.http import JsonResponse
 from django.urls import reverse
 from django.utils import formats
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
+from django.views.generic import UpdateView
 
+from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.recruitment.mixins import ParticipationMixin
 from castellum.recruitment.models import Participation
 from castellum.utils import add_working_days
 from castellum.utils.feeds import BaseICalFeed
 from castellum.utils.mail import MailContext
 
+from .forms import AppointmentsForm
 from .models import Appointment
 
 
@@ -84,6 +89,30 @@ def send_appointment_notifications(request, participation, changes):
                 recipients,
                 cc=[request.user.email],
             )
+
+
+class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
+    model = Participation
+    form_class = AppointmentsForm
+    template_name = 'appointments/appointments_form.html'
+    permission_required = 'appointments.change_appointment'
+
+    def get_object(self, queryset=None):
+        return self.participation
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['reminder_period'] = settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD.days
+        return context
+
+    def get_success_url(self):
+        return self.request.path
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        send_appointment_notifications(self.request, self.object, form.appointment_changes)
+        messages.success(self.request, _('Data has been saved.'))
+        return response
 
 
 class BaseCalendarView(DetailView):
