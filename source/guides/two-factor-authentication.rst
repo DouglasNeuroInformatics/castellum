@@ -7,8 +7,8 @@ To further protect subjects' personal data against compromised or weak
 passwords, Castellum can *and should* be used with two-factor authentication
 (2FA).
 
-If enabled, a successful login requires an additional code or passphrase before
-Castellum can be used (similar to a TAN for online banking).
+If enabled, you need to enter an additional code before you can log in to
+Castellum (similar to a TAN for online banking).
 
 Currently we support any generic TOTP application or FIDO2 hardware security
 tokens.
@@ -28,13 +28,17 @@ suggestions for appropriate apps to be used at your institution.
     Android or `Microsoft Authenticator
     <https://apps.apple.com/de/app/microsoft-authenticator/id983156458>`_ on iOS.
 
+TOTP stands for “Time-based One-Time Password”. As the name suggests, each TOTP
+code can only be used once.
+
 Most TOTP apps work the same:
 
 1.  Install an authenticator app on a phone
 2.  Register that phone on the website (Castellum) by scanning a QR code with
     the authenticator app
-3.  The app will now generate TOTP authentication codes for you that can be
-    used to log in
+3.  The app will now generate a new 6-digit numeric code every 30 seconds
+4.  The code depends on the current time, so make sure that the phone
+    has the correct time set
 
 Hardware Keys (FIDO2)
 ---------------------
