@@ -23,7 +23,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.db import models
 from django.shortcuts import redirect
-from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import UpdateView
@@ -76,17 +75,17 @@ class StudyRecruitmentSettingsUpdateView(StudyMixin, PermissionRequiredMixin, Up
     tab = 'recruitmentsettings'
     subtab = 'update'
 
-    def get_success_url(self):
-        return reverse('studies:recruitmentsettings', args=[self.object.pk])
-
-    def form_valid(self, form):
-        messages.success(self.request, _('Data has been saved.'))
-        return super().form_valid(form)
-
     def get_form_class(self):
         if 'castellum.geofilters' in settings.INSTALLED_APPS:
             self.fields = [*self.fields, 'geo_filter']
         return super().get_form_class()
+
+    def get_success_url(self):
+        return self.request.path
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form)
 
 
 class StudyExcludedStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
@@ -97,9 +96,6 @@ class StudyExcludedStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'studies.change_study'
     tab = 'recruitmentsettings'
     subtab = 'excluded-studies'
-
-    def get_success_url(self):
-        return reverse('studies:excluded-studies', args=[self.object.pk])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -112,6 +108,9 @@ class StudyExcludedStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
         context['total_count'] = Subject.objects.count()
         context['related_studies'] = list(get_related_studies(self.object))
         return context
+
+    def get_success_url(self):
+        return self.request.path
 
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
@@ -129,7 +128,7 @@ class StudyExclusionCriteriaView(StudyMixin, PermissionRequiredMixin, UpdateView
     subtab = 'exclusioncriteria'
 
     def get_success_url(self):
-        return reverse('studies:exclusioncriteria', args=[self.object.pk])
+        return self.request.path
 
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))
@@ -172,7 +171,7 @@ class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):
     subtab = 'mailsettings'
 
     def get_success_url(self):
-        return reverse('studies:mailsettings', args=[self.object.pk])
+        return self.request.path
 
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))

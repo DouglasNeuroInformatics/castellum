@@ -292,13 +292,13 @@ class StudyUpdateView(
     permission_required = 'studies.change_study'
     tab = 'update'
 
-    def get_success_url(self):
-        return reverse('studies:update', args=[self.object.pk])
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['base_template'] = 'studies/study_base.html'
         return context
+
+    def get_success_url(self):
+        return self.request.path
 
     def form_valid(self, form):
         messages.success(self.request, _('Data has been saved.'))

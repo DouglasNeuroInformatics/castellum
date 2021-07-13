@@ -259,10 +259,7 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
         return form
 
     def get_success_url(self):
-        return reverse(
-            'execution:participation-update',
-            args=[self.object.study.pk, self.object.pk],
-        )
+        return self.request.path
 
     def form_valid(self, form):
         self.reliabilityentry.was_reliable = form.cleaned_data['was_reliable']
@@ -279,9 +276,7 @@ class ParticipationAppointmentsUpdateView(ParticipationDetailMixin, UpdateView):
     tab = 'appointments'
 
     def get_success_url(self):
-        return reverse('execution:participation-appointments', args=[
-            self.object.study.pk, self.object.pk
-        ])
+        return self.request.path
 
     def form_valid(self, form):
         response = super().form_valid(form)
