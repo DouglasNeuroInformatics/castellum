@@ -247,3 +247,17 @@ class ExportAnswer(models.Model):
 
     def __str__(self):
         return str(self.created_at)
+
+
+class SubjectCreationRequest(TimeStampedModel):
+    external_id = models.IntegerField(_('External ID'), blank=True, null=True, unique=True)
+    source = models.CharField(_('Data source'), max_length=128, blank=True)
+
+    @cached_property
+    def contact(self):
+        from castellum.contacts.models import ContactCreationRequest
+        return ContactCreationRequest.objects.get(subject_id=self.pk)
+
+    def delete(self):
+        self.contact.delete()
+        return super().delete()
