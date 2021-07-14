@@ -139,6 +139,8 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
             ).values('subject_id')
         ).count()
 
+        context['subjectcreationrequest'] = self.subjectcreationrequest
+
         form = kwargs.get('form')
         if form and form.is_valid():
             context['matches'] = self.get_matches(form.cleaned_data['search'])
