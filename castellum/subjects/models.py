@@ -269,4 +269,6 @@ class SubjectCreationRequest(TimeStampedModel):
         subject = contact.subject
         subject.source = self.source
         subject.save()
+        # CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID is synced on contact save
+        contact.save()
         return subject
