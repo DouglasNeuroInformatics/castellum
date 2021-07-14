@@ -127,13 +127,17 @@
                             <p class="alert alert-danger" role="alert">{{ error }}</p>
                         {% endfor %}
                         {% csrf_token %}
-                        <dl>
-                            <dt>{% translate 'First name' %}</dt>
-                            <dd>{{ form.cleaned_data.first_name }}</dd>
+                        {% if subjectcreationrequest %}
+                            <p class="alert alert-info">{% blocktranslate with name=subjectcreationrequest.contact.full_name %}Information will be taken from subject draft "{{ name }}".{% endblocktranslate %}</p>
+                        {% else %}
+                            <dl>
+                                <dt>{% translate 'First name' %}</dt>
+                                <dd>{{ form.cleaned_data.first_name }}</dd>
 
-                            <dt>{% translate 'Last name' %}</dt>
-                            <dd>{{ form.cleaned_data.last_name }}</dd>
-                        </dl>
+                                <dt>{% translate 'Last name' %}</dt>
+                                <dd>{{ form.cleaned_data.last_name }}</dd>
+                            </dl>
+                        {% endif %}
                         {% bootstrap_field privacy_level_form.privacy_level %}
                         {{ form.search.as_hidden }}
                         <button class="btn btn-primary">{% translate "Create new subject" %}</button>
