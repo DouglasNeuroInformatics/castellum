@@ -23,6 +23,7 @@ from django.contrib import admin
 
 from .models import Address
 from .models import Contact
+from .models import ContactCreationRequest
 from .models import Street
 
 
@@ -60,4 +61,5 @@ class ContactAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Contact, ContactAdmin)
+admin.site.register(ContactCreationRequest)
 admin.site.register(Street)

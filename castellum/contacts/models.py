@@ -123,29 +123,47 @@ class ContactQuerySet(models.QuerySet):
         return q
 
 
-class Contact(TimeStampedModel):
+class BaseContact(TimeStampedModel):
     GENDER = [
         ("f", _("female")),
         ("m", _("male")),
         ("*", _("diverse")),
     ]
+
+    subject_id = models.PositiveIntegerField(unique=True, editable=False, default=None)
+
+    first_name = models.CharField(_('First name'), max_length=64)
+    last_name = models.CharField(_('Last name'), max_length=64)
+    title = models.CharField(_('Title'), max_length=64, blank=True)
+
+    gender = models.CharField(_('Gender'), max_length=1, choices=GENDER, blank=True)
+    date_of_birth = DateField(_('Date of birth'), blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+    def __str__(self):
+        return self.full_name
+
+    @property
+    def full_name(self):
+        return " ".join(filter(None, [self.title, self.first_name, self.last_name]))
+
+    @property
+    def short_name(self):
+        # a bit simplistic, but should be sufficient
+        return '{}. {}'.format(self.first_name[0], self.last_name)
+
+
+class Contact(BaseContact):
     CONTACT_METHODS = [
         ("phone", _("phone")),
         ("email", _("email")),
         ("postal", _("postal")),
     ]
 
-    subject_id = models.PositiveIntegerField(unique=True, editable=False, default=None)
-
-    first_name = models.CharField(_('First name'), max_length=64)
     first_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
-    last_name = models.CharField(_('Last name'), max_length=64)
     last_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
-    title = models.CharField(_('Title'), max_length=64, blank=True)
-
-    gender = models.CharField(_('Gender'), max_length=1, choices=GENDER, blank=True)
-
-    date_of_birth = DateField(_('Date of birth'), blank=True, null=True)
 
     email = models.EmailField(_('Email'), max_length=128, blank=True)
     phone_number = PhoneNumberField(_('Phone number'), max_length=32, blank=True)
@@ -171,9 +189,6 @@ class Contact(TimeStampedModel):
         verbose_name = _('Contact data')
         verbose_name_plural = _('Contact data')
 
-    def __str__(self):
-        return self.full_name
-
     def get_address(self):
         try:
             return self.address
@@ -198,15 +213,6 @@ class Contact(TimeStampedModel):
             self.email,
             [c for c in self.guardians.all() if not c.subject.blocked],
         ])
-
-    @property
-    def full_name(self):
-        return " ".join(filter(None, [self.title, self.first_name, self.last_name]))
-
-    @property
-    def short_name(self):
-        # a bit simplistic, but should be sufficient
-        return '{}. {}'.format(self.first_name[0], self.last_name)
 
     @cached_property
     def is_guardian(self):
@@ -273,3 +279,7 @@ class Street(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ContactCreationRequest(BaseContact):
+    email = models.EmailField(_('Email'), max_length=128)
