@@ -24,11 +24,15 @@ from django.contrib import admin
 from . import models
 
 
+class SubjectAdmin(admin.ModelAdmin):
+    search_fields = ['slug']
+
+
 class ConsentDocumentAdmin(admin.ModelAdmin):
     list_display = ['created_at', 'is_valid']
 
 
-admin.site.register(models.Subject)
+admin.site.register(models.Subject, SubjectAdmin)
 admin.site.register(models.TimeSlot)
 admin.site.register(models.Consent)
 admin.site.register(models.ConsentDocument, ConsentDocumentAdmin)
