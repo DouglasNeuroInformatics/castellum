@@ -322,3 +322,16 @@ class ExportAnswer(models.Model):
 
     def __str__(self):
         return str(self.created_at)
+
+
+class SubjectCreationRequest(TimeStampedModel):
+    attributes = models.JSONField(_('Recruitment attributes'), encoder=DjangoJSONEncoder)
+
+    @cached_property
+    def contact(self):
+        from castellum.contacts.models import ContactCreationRequest
+        return ContactCreationRequest.objects.get(subject_id=self.pk)
+
+    def delete(self):
+        self.contact.delete()
+        return super().delete()

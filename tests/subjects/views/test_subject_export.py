@@ -23,6 +23,7 @@ EXCLUDED = [
     'contacts.Contact.id',
     'contacts.Contact.last_name_phonetic',
     'contacts.Contact.subject_id',
+    'contacts.ContactCreationRequest.',
     'contacts.Street.',
     'contenttypes.',
     'geofilters.Geolocation.',
@@ -57,6 +58,7 @@ EXCLUDED = [
     'subjects.Subject.note_abusive_language',
     'subjects.Subject.pseudonym',
     'subjects.Subject.slug',
+    'subjects.SubjectCreationRequest.',
     'subjects.TimeSlot.',
 
     # already covered by other fields (e.g. backrefs)
