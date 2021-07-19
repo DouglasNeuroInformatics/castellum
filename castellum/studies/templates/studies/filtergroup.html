@@ -1,4 +1,4 @@
-{% extends view.base_template %}
+{% extends view.base_template|default:"studies/study_recruitmentsettings_base.html" %}
 {% load static i18n bootstrap4 utils %}
 
 {% block title %}{% translate "Filters" %} &middot; {{ block.super }}{% endblock %}

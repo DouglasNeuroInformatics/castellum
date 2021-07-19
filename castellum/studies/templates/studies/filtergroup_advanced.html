@@ -1,4 +1,4 @@
-{% extends "studies/study_recruitmentsettings_base.html" %}
+{% extends view.base_template|default:"studies/study_recruitmentsettings_base.html" %}
 {% load i18n auth utils %}
 
 {% block title %}{% translate "Filter Groups" %} &middot; {{ block.super }}{% endblock %}

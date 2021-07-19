@@ -1,16 +1,18 @@
 {% load i18n %}
 
-{% if not study.min_subject_count %}
-    <p class="alert alert-warning" role="alert">
-        {% translate 'Weak recruitment process. Please, define the number of subjects for this study.' %}
-    </p>
-{% elif count < expected_subject_count %}
-    <p class="alert alert-warning" role="alert">
-        {% blocktranslate %}
-            For a smooth recruitment process, your institution recommends at least
-            {{ expected_subject_factor }}× more potential than required subjects
-            (i.e. {{ expected_subject_count }} for this study). Current amount of potential
-            subjects: {{ count }}
-        {% endblocktranslate %}
-    </p>
+{% if not study.is_filter_trial %}
+    {% if not study.min_subject_count %}
+        <p class="alert alert-warning" role="alert">
+            {% translate 'Weak recruitment process. Please, define the number of subjects for this study.' %}
+        </p>
+    {% elif count < expected_subject_count %}
+        <p class="alert alert-warning" role="alert">
+            {% blocktranslate %}
+                For a smooth recruitment process, your institution recommends at least
+                {{ expected_subject_factor }}× more potential than required subjects
+                (i.e. {{ expected_subject_count }} for this study). Current amount of potential
+                subjects: {{ count }}
+            {% endblocktranslate %}
+        </p>
+    {% endif %}
 {% endif %}
