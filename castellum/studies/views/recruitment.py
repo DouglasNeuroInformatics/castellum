@@ -75,7 +75,7 @@ class StudyRecruitmentSettingsUpdateView(StudyMixin, PermissionRequiredMixin, Up
     subtab = 'update'
 
     def get_template_names(self):
-        if self.study.is_filter_preview:
+        if self.study.is_filter_trial:
             return 'studies/study_recruitmentsettings_filterpreview_form.html'
         else:
             return 'studies/study_recruitmentsettings_form.html'
@@ -112,7 +112,7 @@ class StudyExcludedStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
         )
         context['total_count'] = Subject.objects.count()
         context['related_studies'] = list(get_related_studies(self.object))
-        if self.object.is_filter_preview:
+        if self.object.is_filter_trial:
             context['base_template'] = 'studies/study_filterpreview_recruitmentsettings_base.html'
         else:
             context['base_template'] = 'studies/study_recruitmentsettings_base.html'

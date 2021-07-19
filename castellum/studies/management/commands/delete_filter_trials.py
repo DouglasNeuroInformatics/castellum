@@ -25,7 +25,7 @@ from castellum.studies.models import Study
 
 
 class Command(BaseCommand):
-    help = 'Delete filter previews'
+    help = 'Delete filter trials'
 
     def handle(self, *args, **options):
-        Study.objects.filter(is_filter_preview=True).delete()
+        Study.objects.filter(is_filter_trial=True).delete()

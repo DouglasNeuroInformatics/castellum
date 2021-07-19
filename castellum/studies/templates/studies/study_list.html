@@ -124,7 +124,7 @@
                     {% endif %}
                     <a href="{% url 'studies:create' %}" class="btn btn-primary mb-1">{% translate "Create new study" %}</a>
 
-                    <form class="d-inline-block" action="{% url 'studies:create-filter-preview' %}" method="post">
+                    <form class="d-inline-block" action="{% url 'studies:create-filter-trial' %}" method="post">
                         {% csrf_token %}
                         <button class="btn btn-primary mb-1" >{% translate 'Filter Preview' %}</button>
                     </form>
