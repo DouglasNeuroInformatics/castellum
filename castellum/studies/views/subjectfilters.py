@@ -83,7 +83,7 @@ class FilterMixin(StudyMixin, PermissionRequiredMixin, CustomFilterMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.study.is_filter_preview:
+        if self.study.is_filter_trial:
             context['base_template'] = 'studies/study_filterpreview_recruitmentsettings_base.html'
         else:
             context['base_template'] = 'studies/study_recruitmentsettings_base.html'

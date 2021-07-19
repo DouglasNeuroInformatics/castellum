@@ -158,7 +158,7 @@ class StudyIndexView(LoginRequiredMixin, ListView):
             qs = qs.filter(sessions_end__gte=self.form.cleaned_data['start'].date())
         if self.form.cleaned_data.get('end'):
             qs = qs.filter(sessions_start__lte=self.form.cleaned_data['end'].date())
-        qs = qs.filter(is_filter_preview=False)
+        qs = qs.filter(is_filter_trial=False)
         return qs.distinct()
 
     def render_event(self, study):
@@ -295,7 +295,7 @@ class CreatePreviewStudyView(PermissionRequiredMixin, View):
             principal_investigator='preview',
             phone='03000000000',
             email='preview@example.com',
-            is_filter_preview=True,
+            is_filter_trial=True,
         )
         return redirect('studies:recruitmentsettings', study.pk)
 

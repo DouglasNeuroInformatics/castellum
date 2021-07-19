@@ -424,7 +424,7 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
                     models.Q(name__icontains=part) |
                     models.Q(contact_person__icontains=part)
                 )
-            qs = qs.filter(is_filter_preview=False)
+            qs = qs.filter(is_filter_trial=False)
             return qs
         else:
             return Study.objects.none()
