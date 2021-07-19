@@ -71,6 +71,13 @@ class FilterMixin(StudyMixin, PermissionRequiredMixin, CustomFilterMixin):
     tab = 'recruitmentsettings'
     subtab = 'filters'
 
+    @property
+    def base_template(self):
+        if self.study.is_filter_trial:
+            return 'studies/study_filterpreview_recruitmentsettings_base.html'
+        else:
+            return 'studies/study_recruitmentsettings_base.html'
+
     def get_permission_required(self):
         permission_required = set(['studies.change_study'])
         permission_required.update(super().get_permission_required())
@@ -80,14 +87,6 @@ class FilterMixin(StudyMixin, PermissionRequiredMixin, CustomFilterMixin):
             permission_required.add('castellum_auth.privacy_level_{}'.format(max_privacy_level))
 
         return permission_required
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.study.is_filter_trial:
-            context['base_template'] = 'studies/study_filterpreview_recruitmentsettings_base.html'
-        else:
-            context['base_template'] = 'studies/study_recruitmentsettings_base.html'
-        return context
 
 
 class FilterGroupListView(FilterMixin, ListView):

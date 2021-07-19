@@ -102,6 +102,13 @@ class StudyExcludedStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
     tab = 'recruitmentsettings'
     subtab = 'excluded-studies'
 
+    @property
+    def base_template(self):
+        if self.study.is_filter_trial:
+            return 'studies/study_filterpreview_recruitmentsettings_base.html'
+        else:
+            return 'studies/study_recruitmentsettings_base.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['count'] = (
@@ -112,10 +119,6 @@ class StudyExcludedStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
         )
         context['total_count'] = Subject.objects.count()
         context['related_studies'] = list(get_related_studies(self.object))
-        if self.object.is_filter_trial:
-            context['base_template'] = 'studies/study_filterpreview_recruitmentsettings_base.html'
-        else:
-            context['base_template'] = 'studies/study_recruitmentsettings_base.html'
         return context
 
     def get_success_url(self):
