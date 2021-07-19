@@ -1,7 +1,20 @@
-{% extends "studies/study_filterpreview_base.html" %}
-{% load i18n auth %}
+{% extends "studies/base.html" %}
+{% load i18n auth utils %}
+
+{% block title %}{% translate 'Filter trial' %} &middot; {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="breadcrumb-item">{% translate 'Filter trial' %}</li>
+{% endblock %}
 
 {% block container_class %}container-lg{% endblock %}
+
+{% block header %}
+    <div class="container text-center my-4">
+        <h1>{% translate 'Filter trial' %}</h1>
+    </div>
+{% endblock %}
 
 {% block content_with_messages %}
     <div class="row">
@@ -21,10 +34,6 @@
                 {% endif %}
 
                 <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'excluded-studies' %}active{% endif %}" href="{% url 'studies:excluded-studies' study.pk %}">{% translate 'Excluded studies' %}</a>
-                {% if not study.is_onetime_invitation %}
-                    <a class="list-group-item list-group-item-custom list-group-item-action text-hyphens text-muted">{% translate 'Inclusion/exclusion criteria' %}</a>
-                {% endif %}
-                <a class="list-group-item list-group-item-custom list-group-item-action text-muted">{% translate 'Mail Settings' %}</a>
             </nav>
         </div>
 

@@ -74,9 +74,7 @@ class FilterMixin(StudyMixin, PermissionRequiredMixin, CustomFilterMixin):
     @property
     def base_template(self):
         if self.study.is_filter_trial:
-            return 'studies/study_filterpreview_recruitmentsettings_base.html'
-        else:
-            return 'studies/study_recruitmentsettings_base.html'
+            return 'studies/study_filtertrial_base.html'
 
     def get_permission_required(self):
         permission_required = set(['studies.change_study'])
