@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -27,6 +29,7 @@ from .forms import ContactForm
 from .models import Contact
 
 
+@method_decorator(sensitive_post_parameters(), 'dispatch')
 class BaseContactUpdateView(PermissionRequiredMixin, UpdateView):
     model = Contact
     form_class = ContactForm

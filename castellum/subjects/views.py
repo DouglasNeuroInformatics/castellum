@@ -34,8 +34,10 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import FormView
@@ -70,6 +72,7 @@ from .models import Subject
 monitoring_logger = logging.getLogger('monitoring.subjects')
 
 
+@method_decorator(sensitive_post_parameters(), 'dispatch')
 class SubjectSearchView(LoginRequiredMixin, FormView):
     template_name = 'subjects/subject_search.html'
     form_class = SearchForm
@@ -467,6 +470,7 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
         return super().delete(self, request, *args, **kwargs)
 
 
+@method_decorator(sensitive_post_parameters(), 'dispatch')
 class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
     template_name = 'subjects/guardian_search.html'
     permission_required = 'subjects.view_subject'
