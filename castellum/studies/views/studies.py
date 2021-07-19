@@ -290,11 +290,11 @@ class FilterTrialCreateView(PermissionRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         study = Study.objects.create(
-            name='preview',
-            contact_person='preview',
-            principal_investigator='preview',
+            name='Study trial',
+            contact_person='study_trial',
+            principal_investigator='study_trial',
             phone='03000000000',
-            email='preview@example.com',
+            email='study_trial@example.com',
             is_filter_trial=True,
         )
         return redirect('studies:recruitmentsettings', study.pk)
