@@ -24,6 +24,9 @@
                         {% if participation.dropped_out %}
                             <span class="badge badge-secondary my-1">{{ participation|verbose_name:'dropped_out' }}</span>
                         {% endif %}
+                        {% if recently_contacted %}
+                            <span class="badge badge-dark my-1">{% translate 'recently contacted elsewhere' %}</span>
+                        {% endif %}
                         {% if participation.subject.blocked %}
                             <span class="badge badge-dark my-1">{{ participation.subject|verbose_name:'blocked' }}</span>
                         {% endif %}
@@ -33,12 +36,7 @@
                     </div>
 
                     <div class="mr-2">
-                        {% if recently_contacted %}
-                            <div class="d-inline-block my-1 mr-2">
-                                {% translate 'recently contacted in another recruitment' %}
-                                <span class="list-icon bg-warning text-dark">{% icon 'phone-slash' %}</span>
-                            </div>
-                        {% elif participation.status == participation.NOT_REACHED or participation.status == participation.AWAITING_RESPONSE %}
+                        {% if participation.status == participation.NOT_REACHED or participation.status == participation.AWAITING_RESPONSE %}
                             <div class="d-inline-block my-1 mr-2">
                                 {% blocktranslate count attempts=participation.attempts %}{{ attempts }} attempt{% plural %}{{ attempts }} attempts{% endblocktranslate %},
                                 {% translate 'last' %}: <time>{{ participation.updated_at|longdate }}</time>
