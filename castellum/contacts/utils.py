@@ -19,12 +19,24 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import unicodedata
+
 import cologne_phonetics
 from phonenumber_field.phonenumber import PhoneNumber
 from phonenumbers.phonenumberutil import NumberParseException
 
 
+def remove_diacritics(s):
+    # https://stackoverflow.com/a/518232
+    # https://github.com/provinzkraut/cologne_phonetics/pull/2
+    return ''.join(
+        c for c in unicodedata.normalize('NFD', s)
+        if unicodedata.category(c) != 'Mn'
+    )
+
+
 def phonetic(s, encode=True):
+    s = remove_diacritics(s)
     codes = [code for __, code in cologne_phonetics.encode(s)]
     if encode:
         return ':' + ':'.join(codes) + ':'
