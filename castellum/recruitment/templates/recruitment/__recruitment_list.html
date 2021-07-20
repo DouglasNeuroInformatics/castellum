@@ -4,7 +4,7 @@
     {% for participation, buckets, can_access, recently_contacted in participations %}
         <li class="table-list-item">
             {% if can_access %}
-                <div {% if recently_contacted %}class="text-muted"{% endif %}>
+                <div {% if participation.dropped_out or recently_contacted or participation.subject.blocked or participation.subject.deceased %}class="text-muted"{% endif %}>
                     <div>
                         <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
                         {% for desc, bucket in buckets %}
