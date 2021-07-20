@@ -1,10 +1,10 @@
 {% load i18n auth utils %}
 
 <ul class="table-list mt-3">
-    {% for participation, buckets, can_access in participations %}
+    {% for participation, buckets, can_access, recently_contacted in participations %}
         <li class="table-list-item">
             {% if can_access %}
-                <div {% if participation.status_open and participation.last_contacted_elsewhere.date > last_agreeable_contact_time %}class="text-muted"{% endif %}>
+                <div {% if recently_contacted %}class="text-muted"{% endif %}>
                     <div>
                         <svg class="identicon my-1 mr-2" data-jdenticon-value="{{ participation.pk }}" aria-label="{{ participation.pk }}"></svg>
                         {% for desc, bucket in buckets %}
@@ -33,7 +33,7 @@
                     </div>
 
                     <div class="mr-2">
-                        {% if participation.status_open and participation.last_contacted_elsewhere.date > last_agreeable_contact_time %}
+                        {% if recently_contacted %}
                             <div class="d-inline-block my-1 mr-2">
                                 {% translate 'recently contacted in another recruitment' %}
                                 <span class="list-icon bg-warning text-dark">{% icon 'phone-slash' %}</span>
