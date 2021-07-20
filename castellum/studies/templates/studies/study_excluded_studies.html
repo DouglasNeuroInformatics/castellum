@@ -21,7 +21,7 @@
                 <small class="form-text text-muted">{% translate 'Participants from excluded studies will be excluded from recruitment for this study.' %}</small>
                 {% if related_studies %}
                     <small class="form-text text-muted">
-                        {% translate 'Studies in which potential subjects have pariticipated' %}:
+                        {% translate 'Studies in which potential subjects have participated' %}:
                         {% for study in related_studies %}
                             {{ study }} ({{ study.count }}){% if not forloop.last %},{% endif %}
                         {% endfor %}

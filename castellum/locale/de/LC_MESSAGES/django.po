@@ -2365,7 +2365,7 @@ msgstr "Potentielle Proband*innen"
 
 #: castellum/studies/templates/studies/study_detail.html:52
 #: castellum/studies/templates/studies/study_excluded_studies.html:24
-msgid "Studies in which potential subjects have pariticipated"
+msgid "Studies in which potential subjects have participated"
 msgstr "Studien, in denen potentielle Proband*innen teilgenommen haben"
 
 #: castellum/studies/templates/studies/study_detail.html:62
