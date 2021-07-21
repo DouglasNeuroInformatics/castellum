@@ -29,6 +29,9 @@
                 <a href="{% url 'subjects:maintenance-reliability' %}" class="nav-link {% if view.tab == 'reliability' %}active{% endif %}">{% translate 'Reliability' %}</a>
             </li>
             <li class="nav-item">
+                <a href="{% url 'subjects:maintenance-subjectcreationrequest' %}" class="nav-link {% if view.tab == 'subjectcreationrequest' %}active{% endif %}">{% translate 'Subject creation requests' %}</a>
+            </li>
+            <li class="nav-item">
                 <a href="{% url 'subjects:maintenance-notes' %}" class="nav-link {% if view.tab == 'notes' %}active{% endif %}">{% translate 'Notes' %}</a>
             </li>
         </ul>

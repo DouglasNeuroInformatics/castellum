@@ -68,6 +68,7 @@ from .mixins import SubjectMixin
 from .models import Consent
 from .models import ExportAnswer
 from .models import Subject
+from .models import SubjectCreationRequest
 
 monitoring_logger = logging.getLogger('monitoring.subjects')
 
@@ -669,6 +670,14 @@ class MaintenanceReliabilityView(BaseMaintenanceView):
             )
             .order_by('-ratio')
         )
+
+
+class MaintenanceSubjectCreationRequestView(PermissionRequiredMixin, ListView):
+    model = SubjectCreationRequest
+    paginate_by = 20
+    permission_required = 'subjects.change_subject'
+    template_name = 'subjects/maintenance_subjectcreationrequest.html'
+    tab = 'subjectcreationrequest'
 
 
 class MaintenanceNotesView(BaseMaintenanceView):

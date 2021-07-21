@@ -1,0 +1,28 @@
+{% extends "subjects/maintenance_base.html" %}
+{% load i18n bootstrap4 auth %}
+
+{% block title %}{% translate 'TODO' %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <p>{% translate 'TODO' %}</p>
+
+    <ul class="table-list">
+        {% for subjectcreationrequest in object_list %}
+            <li class="table-list-item">
+                <div>
+                    {{ subjectcreationrequest.contact }} {{ subjectcreationrequest.contact.email }}
+                </div>
+                <div class="table-list-item-actions">
+                </div>
+            </li>
+        {% empty %}
+            <li class="alert alert-success" role="alert">{% translate 'Nothing to do' %}</li>
+        {% endfor %}
+    </ul>
+
+    {% if is_paginated %}
+        <nav aria-label="{% translate 'Page navigation' %}">
+            {% bootstrap_pagination page_obj url=request.get_full_path %}
+        </nav>
+    {% endif %}
+{% endblock %}
