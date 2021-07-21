@@ -19,16 +19,26 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import re
 import unicodedata
 
 import cologne_phonetics
 from phonenumber_field.phonenumber import PhoneNumber
 from phonenumbers.phonenumberutil import NumberParseException
 
+RGX_SPECIAL_CHAR_REPLACEMENTS = [
+    (re.compile(r'ä'), 'ae'),
+    (re.compile(r'ö'), 'oe'),
+    (re.compile(r'ü'), 'ue'),
+    (re.compile(r'ß'), 's'),
+]
+
 
 def remove_diacritics(s):
     # https://stackoverflow.com/a/518232
     # https://github.com/provinzkraut/cologne_phonetics/pull/2
+    for exp, replacement in RGX_SPECIAL_CHAR_REPLACEMENTS:
+        s = exp.sub(replacement, s)
     return ''.join(
         c for c in unicodedata.normalize('NFD', s)
         if unicodedata.category(c) != 'Mn'
