@@ -13,6 +13,7 @@
                     {{ subjectcreationrequest.contact }} {{ subjectcreationrequest.contact.email }}
                 </div>
                 <div class="table-list-item-actions">
+                    <a class="btn btn-outline-danger my-1" href="{% url 'subjects:maintenance-subjectcreationrequest-delete' subjectcreationrequest.pk %}">{% translate 'Discard' %}</a>
                 </div>
             </li>
         {% empty %}

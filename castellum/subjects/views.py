@@ -680,6 +680,15 @@ class MaintenanceSubjectCreationRequestView(PermissionRequiredMixin, ListView):
     tab = 'subjectcreationrequest'
 
 
+class MaintenanceSubjectCreationRequestDeleteView(PermissionRequiredMixin, DeleteView):
+    model = SubjectCreationRequest
+    permission_required = 'subjects.change_subject'
+    tab = 'subjectcreationrequest'
+
+    def get_success_url(self):
+        return reverse('subjects:maintenance-subjectcreationrequest')
+
+
 class MaintenanceNotesView(BaseMaintenanceView):
     template_name = 'subjects/maintenance_notes.html'
     tab = 'notes'
