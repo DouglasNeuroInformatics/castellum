@@ -135,6 +135,7 @@ class StudyExclusionCriteriaView(StudyMixin, PermissionRequiredMixin, UpdateView
     fields = ['exclusion_criteria']
     permission_required = 'studies.change_study'
     is_onetime_invitation = False
+    is_filter_trial = False
     tab = 'recruitmentsettings'
     subtab = 'exclusioncriteria'
 
@@ -150,6 +151,7 @@ class StudyRecruitmentTestMailView(StudyMixin, PermissionRequiredMixin, View):
     model = Study
     pk_url_kwarg = 'study_pk'
     permission_required = 'studies.change_study'
+    is_filter_trial = False
 
     def post(self, request, **kwargs):
         with MailContext('recruitment') as ctx:
@@ -178,6 +180,7 @@ class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):
         'mail_body',
     ]
     permission_required = 'studies.change_study'
+    is_filter_trial = False
     tab = 'recruitmentsettings'
     subtab = 'mailsettings'
 
@@ -204,5 +207,6 @@ class OneTimeInvitationMailRecruitmentView(BaseMailRecruitmentView):
 class FilterTrialConvertView(StudyMixin, PermissionRequiredMixin, TemplateView):
     template_name = 'studies/study_filtertrial_convert.html'
     permission_required = 'studies.change_study'
+    is_filter_trial = True
     tab = 'recruitmentsettings'
     subtab = 'convert'
