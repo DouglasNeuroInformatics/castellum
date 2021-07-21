@@ -80,6 +80,12 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
     template_name = 'subjects/subject_search.html'
     form_class = SearchForm
 
+    @cached_property
+    def subjectcreationrequest(self):
+        if 'from-request' in self.request.GET:
+            pk = self.request.GET['from-request']
+            return get_object_or_404(SubjectCreationRequest, pk=pk)
+
     def get_matches(self, search):
         user = self.request.user
         contacts = Contact.objects.fuzzy_filter(search)
@@ -160,19 +166,25 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
 
         if form.is_valid() and privacy_level_form.is_valid():
             if form.cleaned_data.get('last_name'):
-                contact = Contact.objects.create(
-                    first_name=form.cleaned_data['first_name'],
-                    last_name=form.cleaned_data['last_name'],
-                    phone_number=form.cleaned_data['phone_number'],
-                    email=form.cleaned_data.get('email'),
-                )
-                contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
-                contact.subject.save()
+                if 'from-request' in self.request.GET:
+                    subject = self.subjectcreationrequest.convert_to_real_subject()
+                    self.subjectcreationrequest.delete()
+                else:
+                    contact = Contact.objects.create(
+                        first_name=form.cleaned_data['first_name'],
+                        last_name=form.cleaned_data['last_name'],
+                        phone_number=form.cleaned_data['phone_number'],
+                        email=form.cleaned_data.get('email'),
+                    )
+                    subject = contact.subject
+
+                subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
+                subject.save()
 
                 monitoring_logger.info('SubjectData update: {} by {}'.format(
-                    contact.subject_id, self.request.user.pk
+                    subject.id, self.request.user.pk
                 ))
-                return redirect('subjects:detail', slug=contact.subject.slug)
+                return redirect('subjects:detail', slug=subject.slug)
             else:
                 messages.error(request, _(
                     'Both first and last name must be provided in order to create a subject!'
