@@ -335,3 +335,10 @@ class SubjectCreationRequest(TimeStampedModel):
     def delete(self):
         self.contact.delete()
         return super().delete()
+
+    def convert_to_real_subject(self):
+        contact = self.contact.convert_to_real_contact()
+        subject = contact.subject
+        subject.attributes = self.attributes
+        subject.save()
+        return subject

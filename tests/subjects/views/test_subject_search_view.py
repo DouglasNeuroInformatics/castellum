@@ -2,7 +2,9 @@ import pytest
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
+from castellum.contacts.models import ContactCreationRequest
 from castellum.recruitment.models import Participation
+from castellum.subjects.models import SubjectCreationRequest
 
 
 @pytest.mark.smoketest
@@ -149,3 +151,20 @@ def test_create_no_search(client, user):
     client.force_login(user)
     response = client.post('/subjects/', {'privacy_level': 0})
     assert response.status_code == 200
+
+
+def test_create_from_subjectcreationrequest(client, user):
+    subject_request = baker.make(SubjectCreationRequest)
+    contact_request = baker.make(ContactCreationRequest, subject_id=subject_request.pk)
+
+    client.force_login(user)
+    response = client.post('/subjects/?from-request={}'.format(subject_request.pk), {
+        'search': '{} {}'.format(contact_request.first_name, contact_request.last_name),
+        'privacy_level': 0,
+    })
+
+    assert response.status_code == 302
+    assert not SubjectCreationRequest.objects.exists()
+    assert not ContactCreationRequest.objects.exists()
+    assert Contact.objects.exists()
+    assert Contact.objects.get().first_name == contact_request.first_name
