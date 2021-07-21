@@ -25,6 +25,7 @@ from django.db import models
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 from django.views.generic import View
 
@@ -198,3 +199,10 @@ class OneTimeInvitationMailRecruitmentView(BaseMailRecruitmentView):
     def form_valid(self, form):
         self._form_valid(form)
         return redirect('studies:mail', self.study.pk)
+
+
+class FilterTrialConvertView(StudyMixin, PermissionRequiredMixin, TemplateView):
+    template_name = 'studies/study_filtertrial_convert.html'
+    permission_required = 'studies.change_study'
+    tab = 'recruitmentsettings'
+    subtab = 'convert'

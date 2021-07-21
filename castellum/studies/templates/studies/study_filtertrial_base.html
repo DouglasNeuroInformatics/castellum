@@ -34,6 +34,7 @@
                 {% endif %}
 
                 <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'excluded-studies' %}active{% endif %}" href="{% url 'studies:excluded-studies' study.pk %}">{% translate 'Excluded studies' %}</a>
+                <a class="list-group-item list-group-item-custom list-group-item-action {% if view.subtab == 'convert' %}active{% endif %}" href="{% url 'studies:filtertrial-convert' study.pk %}">{% translate 'Convert to study' %}</a>
             </nav>
         </div>
 
