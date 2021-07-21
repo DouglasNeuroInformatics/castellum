@@ -306,8 +306,14 @@ class StudyUpdateView(
     model = Study
     form_class = StudyForm
     permission_required = 'studies.change_study'
-    base_template = 'studies/study_base.html'
     tab = 'update'
+
+    @property
+    def base_template(self):
+        if self.study.is_filter_trial:
+            return 'studies/study_filtertrial_base.html'
+        else:
+            return 'studies/study_base.html'
 
     def get_success_url(self):
         return self.request.path
