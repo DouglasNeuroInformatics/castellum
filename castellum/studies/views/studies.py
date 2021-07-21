@@ -319,6 +319,7 @@ class StudyUpdateView(
         return self.request.path
 
     def form_valid(self, form):
+        form.instance.is_filter_trial = False
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
 
