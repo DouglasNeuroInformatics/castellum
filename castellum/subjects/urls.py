@@ -33,6 +33,7 @@ from .views import MaintenanceContactView
 from .views import MaintenanceDuplicatesView
 from .views import MaintenanceNotesView
 from .views import MaintenanceReliabilityView
+from .views import MaintenanceSubjectCreationRequestDeleteView
 from .views import MaintenanceSubjectCreationRequestView
 from .views import MaintenanceWaitingView
 from .views import ParticipationAddView
@@ -76,6 +77,11 @@ urlpatterns = [
         'maintenance/subjectcreationrequest/',
         MaintenanceSubjectCreationRequestView.as_view(),
         name='maintenance-subjectcreationrequest',
+    ),
+    path(
+        'maintenance/subjectcreationrequest/<int:pk>/delete/',
+        MaintenanceSubjectCreationRequestDeleteView.as_view(),
+        name='maintenance-subjectcreationrequest-delete',
     ),
     path('maintenance/notes/', MaintenanceNotesView.as_view(), name='maintenance-notes'),
     path('<uuid>/', SubjectDetailView.as_view(), name='detail'),
