@@ -15,28 +15,28 @@
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 
-        {% bootstrap_field form.name %}
-        {% bootstrap_field form.contact_person %}
-        {% bootstrap_field form.principal_investigator %}
-        {% bootstrap_field form.affiliated_scientists %}
-        {% bootstrap_field form.affiliated_research_assistants %}
-        {% bootstrap_field form.phone %}
-        {% bootstrap_field form.email %}
-        {% bootstrap_field form.description %}
-        {% bootstrap_field form.tags %}
+        {% bootstrap_field form.name required_css_class='castellum-required' %}
+        {% bootstrap_field form.contact_person required_css_class='castellum-required' %}
+        {% bootstrap_field form.principal_investigator required_css_class='castellum-required' %}
+        {% bootstrap_field form.affiliated_scientists required_css_class='castellum-required' %}
+        {% bootstrap_field form.affiliated_research_assistants required_css_class='castellum-required' %}
+        {% bootstrap_field form.phone required_css_class='castellum-required' %}
+        {% bootstrap_field form.email required_css_class='castellum-required' %}
+        {% bootstrap_field form.description required_css_class='castellum-required' %}
+        {% bootstrap_field form.tags required_css_class='castellum-required' %}
         {% if CASTELLUM_STUDY_STATUS_NOTIFICATION_TO %}
-            {% bootstrap_field form.announce_status_changes %}
+            {% bootstrap_field form.announce_status_changes required_css_class='castellum-required' %}
         {% else %}
             {{ form.announce_status_changes.as_hidden }}
         {% endif %}
-        {% bootstrap_field form.data_sensitivity %}
-        {% bootstrap_field form.consent %}
-        {% bootstrap_field form.min_subject_count %}
+        {% bootstrap_field form.data_sensitivity required_css_class='castellum-required' %}
+        {% bootstrap_field form.consent required_css_class='castellum-required' %}
+        {% bootstrap_field form.min_subject_count required_css_class='castellum-required' %}
         <div data-js="d-select2">
-            {% bootstrap_field form.exportable_attributes %}
+            {% bootstrap_field form.exportable_attributes required_css_class='castellum-required' %}
         </div>
         {% if form.is_onetime_invitation %}
-            {% bootstrap_field form.is_onetime_invitation %}
+            {% bootstrap_field form.is_onetime_invitation required_css_class='castellum-required' %}
         {% endif %}
 
         <div class="d-print-none mb-3">

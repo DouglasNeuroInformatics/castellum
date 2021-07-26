@@ -165,3 +165,7 @@
 .diff-removed {
     color: var(--red);
 }
+
+.castellum-required > label::after {
+    content: "*";
+}

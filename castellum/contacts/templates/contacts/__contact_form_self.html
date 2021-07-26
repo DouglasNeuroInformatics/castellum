@@ -3,30 +3,30 @@
 {% bootstrap_field form.email %}
 <div class="form-row">
     <div class="col-md-6">
-        {% bootstrap_field form.phone_number %}
+        {% bootstrap_field form.phone_number required_css_class='castellum-required' %}
     </div>
     <div class="col-md-6">
-        {% bootstrap_field form.phone_number_alternative %}
+        {% bootstrap_field form.phone_number_alternative required_css_class='castellum-required' %}
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-8">
-        {% bootstrap_field form.address.street %}
+        {% bootstrap_field form.address.street required_css_class='castellum-required' %}
     </div>
     <div class="col-md-4">
-        {% bootstrap_field form.address.house_number %}
+        {% bootstrap_field form.address.house_number required_css_class='castellum-required' %}
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-3">
-        {% bootstrap_field form.address.zip_code %}
+        {% bootstrap_field form.address.zip_code required_css_class='castellum-required' %}
     </div>
     <div class="col-md-5">
-        {% bootstrap_field form.address.city %}
+        {% bootstrap_field form.address.city required_css_class='castellum-required' %}
     </div>
     <div class="col-md-4">
-        {% bootstrap_field form.address.country %}
+        {% bootstrap_field form.address.country required_css_class='castellum-required' %}
     </div>
 </div>
-{% bootstrap_field form.address.additional_information %}
-{% bootstrap_field form.preferred_contact_method %}
+{% bootstrap_field form.address.additional_information required_css_class='castellum-required' %}
+{% bootstrap_field form.preferred_contact_method required_css_class='castellum-required' %}
