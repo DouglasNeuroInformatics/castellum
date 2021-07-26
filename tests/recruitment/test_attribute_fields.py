@@ -47,6 +47,7 @@ def test_text_filter_display(attribute_description):
 def test_choice_display(attribute_description):
     field = attribute_fields.ChoiceAttributeField(attribute_description)
     assert field.get_display(None) == '—'
+    assert field.get_display('') == '—'
     assert field.get_display(attribute_fields.ANSWER_DECLINED) == 'Declined to answer'
     assert field.get_display(1) == 'Right'
 
@@ -59,6 +60,7 @@ def test_choice_filter_display(attribute_description):
 def test_multiple_choice_display(attribute_description):
     field = attribute_fields.MultipleChoiceAttributeField(attribute_description)
     assert field.get_display(None) == '—'
+    assert field.get_display([]) == '—'
     assert field.get_display(attribute_fields.ANSWER_DECLINED) == 'Declined to answer'
     assert field.get_display(1) == 'Right'
     assert field.get_display([2, 1]) == 'Left, Right'

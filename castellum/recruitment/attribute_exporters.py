@@ -87,7 +87,7 @@ class JSONExporter:
                 choices = list(description.attributechoice_set.all())
 
                 value = subject.attributes.get(description.json_key)
-                if value in [None, ANSWER_DECLINED]:
+                if value in ['', None, ANSWER_DECLINED]:
                     pass
                 elif choices:
                     choice = description.attributechoice_set.get(pk=value)
@@ -140,7 +140,7 @@ class BIDSExporter:
             for desc in descriptions:
                 key = desc.label.lower().replace(' ', '_')
                 value = subject.attributes.get(desc.json_key)
-                if value in [None, ANSWER_DECLINED]:
+                if value in ['', None, ANSWER_DECLINED]:
                     row[key] = 'n/a'
                 else:
                     row[key] = value

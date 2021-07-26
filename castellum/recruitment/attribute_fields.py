@@ -91,7 +91,7 @@ class BaseAttributeField:
                 return q
 
     def get_display(self, value):
-        if value is None:
+        if value in ['', None]:
             return '—'
         elif value is ANSWER_DECLINED:
             return _('Declined to answer')
@@ -180,7 +180,7 @@ class ChoiceAttributeField(BaseAttributeField):
         return super().formfield(form_class=form_class, choices=choices, **kwargs)
 
     def get_display(self, value):
-        if value in [None, ANSWER_DECLINED]:
+        if value in ['', None, ANSWER_DECLINED]:
             return super().get_display(value)
         choice = self.description.attributechoice_set.get(pk=value)
         return choice.label
