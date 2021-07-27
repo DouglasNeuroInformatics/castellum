@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-27 12:15+0200\n"
+"POT-Creation-Date: 2021-07-27 12:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1392,7 +1392,7 @@ msgstr "wurde vor kurzem in einer anderen Rekrutierung kontaktiert"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:28
 msgid "contacted elsewhere"
-msgstr ""
+msgstr "woanders kontaktiert"
 
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:41
 #, python-format
@@ -1580,7 +1580,7 @@ msgstr "Gesprächspunkte"
 
 #: castellum/recruitment/templates/recruitment/contact.html:59
 msgid "Not checked"
-msgstr ""
+msgstr "Nicht überprüft"
 
 #: castellum/recruitment/templates/recruitment/contact.html:109
 #: castellum/studies/templates/studies/study_detail.html:14
@@ -2019,16 +2019,17 @@ msgstr ""
 "anonymen Umfrage einzuladen."
 
 #: castellum/studies/models.py:188
-#, fuzzy
-#| msgid "Geo filter file"
 msgid "Is a filter trial"
-msgstr "Geofilter Datei"
+msgstr "Ist ein Probelauf für Filter"
 
 #: castellum/studies/models.py:190
 msgid ""
 "Use this if you only want to see how many subjects would match a specific "
 "study and filter configuration without actually intending to recruit."
 msgstr ""
+"Diese Option erlaubt es, ohne tatsächliche Rekrutierungsabsicht "
+"herauszufinden, wie viele Proband*innen auf eine bestimmte Studien- und "
+"Filterkombination passen würden"
 
 #: castellum/studies/models.py:197 castellum/subjects/models.py:311
 #: castellum/subjects/templates/subjects/maintenance_base.html:23
@@ -2098,17 +2099,7 @@ msgstr ""
 "Proband*innen an."
 
 #: castellum/studies/templates/studies/__filtergroup_common.html:10
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "            For a smooth recruitment process, your institution recommends "
-#| "at least\n"
-#| "            %(expected_subject_factor)s× more potential than required "
-#| "subjects\n"
-#| "            (i.e. %(expected_subject_count)s for this study). Current "
-#| "amount of potential\n"
-#| "            subjects: %(count)s\n"
-#| "        "
+#, python-format
 msgid ""
 "\n"
 "                For a smooth recruitment process, your institution "
@@ -2445,10 +2436,8 @@ msgstr "Kriterien für:"
 #: castellum/studies/templates/studies/study_filtertrial_base.html:4
 #: castellum/studies/templates/studies/study_filtertrial_base.html:8
 #: castellum/studies/templates/studies/study_filtertrial_base.html:15
-#, fuzzy
-#| msgid "Filter"
 msgid "Filter trial"
-msgstr "Filter"
+msgstr "Probelauf für Filter"
 
 #: castellum/studies/templates/studies/study_filtertrial_base.html:22
 #: castellum/studies/templates/studies/study_recruitmentsettings_base.html:9
@@ -2458,18 +2447,18 @@ msgstr "Subtabs"
 
 #: castellum/studies/templates/studies/study_filtertrial_base.html:37
 #: castellum/studies/templates/studies/study_filtertrial_convert.html:4
-#, fuzzy
-#| msgid "Add to study"
 msgid "Convert to study"
-msgstr "Zu Studie hinzufügen"
+msgstr "In Studie umwandeln"
 
 #: castellum/studies/templates/studies/study_filtertrial_convert.html:7
 msgid "Do you want to create a full study with the current set of filters?"
 msgstr ""
+"Möchten Sie eine vollwertige Studie mit der gegenwärtigen Filterauswahl "
+"erstellen?"
 
 #: castellum/studies/templates/studies/study_filtertrial_convert.html:11
 msgid "Convert"
-msgstr ""
+msgstr "Umwandeln"
 
 #: castellum/studies/templates/studies/study_form.html:8
 #: castellum/studies/templates/studies/study_list.html:125
@@ -2514,10 +2503,8 @@ msgid "Page navigation"
 msgstr "Seitennavigation"
 
 #: castellum/studies/templates/studies/study_list.html:129
-#, fuzzy
-#| msgid "Filters"
 msgid "Try filters"
-msgstr "Filter"
+msgstr "Filter ausprobieren"
 
 #: castellum/studies/templates/studies/study_mailsettings.html:4
 #: castellum/studies/templates/studies/study_recruitmentsettings_base.html:27
@@ -3665,13 +3652,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "blocking invitation"
-#~ msgstr "blockiert die Einladung"
-
-#~ msgid ""
-#~ "Participation cannot be set to \"participating\" yet. Please check the "
-#~ "tabs marked with"
-#~ msgstr ""
-#~ "Die Teilnahme kann nicht auf \"nimmt teil\" gesetzt werden. Bitte "
-#~ "überprüfen Sie die Reiter mit dem folgenden Symbol:"
