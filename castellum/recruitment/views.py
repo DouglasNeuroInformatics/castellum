@@ -180,6 +180,10 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             buckets2, get_bucket2 = desc2.field.get_statistics_grouping(self.study)
             buckets2 = dict(buckets2)
 
+        last_agreeable_contact_time = (
+            datetime.date.today() - settings.CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS
+        )
+
         participations = []
         for participation in self.get_queryset():
             subject = participation.subject
@@ -195,7 +199,13 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
                 participation.subject.privacy_level
             )
 
-            participations.append((participation, buckets, can_access))
+            recently_contacted = (
+                participation.status_open
+                and participation.last_contacted_elsewhere
+                and participation.last_contacted_elsewhere.date() > last_agreeable_contact_time
+            )
+
+            participations.append((participation, buckets, can_access, recently_contacted))
         context['participations'] = participations
 
         context['sort_options'] = [
@@ -223,10 +233,6 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             Participation.FOLLOWUP_APPOINTED,
             Participation.AWAITING_RESPONSE,
         ]).count()
-
-        context['last_agreeable_contact_time'] = (
-            datetime.date.today() - settings.CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS
-        )
 
         context['session_count'] = self.study.studysession_set.count()
 
