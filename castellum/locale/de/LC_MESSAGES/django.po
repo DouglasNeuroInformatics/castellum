@@ -610,6 +610,11 @@ msgstr "Hinweise"
 msgid "Appointments"
 msgstr "Termine"
 
+#: castellum/execution/templates/execution/participation_base.html:36
+#: castellum/recruitment/templates/recruitment/participation_base.html:43
+msgid "Update data"
+msgstr "Daten aktualisieren"
+
 #: castellum/execution/templates/execution/participation_criteria.html:9
 #: castellum/recruitment/templates/recruitment/contact.html:146
 #: castellum/studies/templates/studies/study_exclusioncriteria.html:15
