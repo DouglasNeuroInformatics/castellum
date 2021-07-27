@@ -297,6 +297,7 @@ class FilterTrialCreateView(PermissionRequiredMixin, View):
             email='study_trial@example.com',
             is_filter_trial=True,
         )
+        StudyMembership.objects.get_or_create(user=self.request.user, study=study)
         return redirect('studies:recruitmentsettings', study.pk)
 
 
