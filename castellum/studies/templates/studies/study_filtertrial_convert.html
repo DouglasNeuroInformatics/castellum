@@ -1,0 +1,13 @@
+{% extends "studies/study_filtertrial_base.html" %}
+{% load i18n auth bootstrap4 %}
+
+{% block title %}{% translate "Convert to study" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <p>{% translate 'Do you want to create a full study with the current set of filters?' %}</p>
+
+    <form method="post" action="{% url 'studies:update' study.pk %}">
+        {% csrf_token %}
+        <button class="btn btn-primary">{% translate 'Convert' %}</button>
+    </form>
+{% endblock %}

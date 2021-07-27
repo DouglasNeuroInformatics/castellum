@@ -59,6 +59,7 @@ EXCLUDED = [
     'studies.Study.snapshot',
     'studies.Study.status',
     'studies.StudySession.domains',
+    'studies.Study.is_filter_trial'
 ]
 
 

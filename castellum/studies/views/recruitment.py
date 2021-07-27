@@ -25,6 +25,7 @@ from django.db import models
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 from django.views.generic import View
 
@@ -75,6 +76,11 @@ class StudyRecruitmentSettingsUpdateView(StudyMixin, PermissionRequiredMixin, Up
     tab = 'recruitmentsettings'
     subtab = 'update'
 
+    @property
+    def base_template(self):
+        if self.study.is_filter_trial:
+            return 'studies/study_filtertrial_base.html'
+
     def get_form_class(self):
         if 'castellum.geofilters' in settings.INSTALLED_APPS:
             self.fields = [*self.fields, 'geo_filter']
@@ -96,6 +102,11 @@ class StudyExcludedStudiesView(StudyMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'studies.change_study'
     tab = 'recruitmentsettings'
     subtab = 'excluded-studies'
+
+    @property
+    def base_template(self):
+        if self.study.is_filter_trial:
+            return 'studies/study_filtertrial_base.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -124,6 +135,7 @@ class StudyExclusionCriteriaView(StudyMixin, PermissionRequiredMixin, UpdateView
     fields = ['exclusion_criteria']
     permission_required = 'studies.change_study'
     is_onetime_invitation = False
+    is_filter_trial = False
     tab = 'recruitmentsettings'
     subtab = 'exclusioncriteria'
 
@@ -139,6 +151,7 @@ class StudyRecruitmentTestMailView(StudyMixin, PermissionRequiredMixin, View):
     model = Study
     pk_url_kwarg = 'study_pk'
     permission_required = 'studies.change_study'
+    is_filter_trial = False
 
     def post(self, request, **kwargs):
         with MailContext('recruitment') as ctx:
@@ -167,6 +180,7 @@ class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):
         'mail_body',
     ]
     permission_required = 'studies.change_study'
+    is_filter_trial = False
     tab = 'recruitmentsettings'
     subtab = 'mailsettings'
 
@@ -188,3 +202,11 @@ class OneTimeInvitationMailRecruitmentView(BaseMailRecruitmentView):
     def form_valid(self, form):
         self._form_valid(form)
         return redirect('studies:mail', self.study.pk)
+
+
+class FilterTrialConvertView(StudyMixin, PermissionRequiredMixin, TemplateView):
+    template_name = 'studies/study_filtertrial_convert.html'
+    permission_required = 'studies.change_study'
+    is_filter_trial = True
+    tab = 'recruitmentsettings'
+    subtab = 'convert'

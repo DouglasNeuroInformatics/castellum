@@ -35,6 +35,8 @@ class StudyMixin:
         to study members)
     -   check that status is in ``study_status`` and matches
         ``is_onetime_invitation``, otherwise return 404
+    -   check that is_onetime_invitation has desired value
+    -   check that is_filter_trial has desired value
     -   use study as permission object
 
     Requires PermissionRequiredMixin.
@@ -42,6 +44,7 @@ class StudyMixin:
 
     study_status: List[int] = []
     is_onetime_invitation: Optional[bool] = None
+    is_filter_trial: Optional[bool] = None
 
     def get_study(self):
         qs = Study.objects.all()
@@ -49,6 +52,8 @@ class StudyMixin:
             qs = qs.filter(status__in=self.study_status)
         if self.is_onetime_invitation is not None:
             qs = qs.filter(is_onetime_invitation=self.is_onetime_invitation)
+        if self.is_filter_trial is not None:
+            qs = qs.filter(is_filter_trial=self.is_filter_trial)
         key = 'study_pk' if 'study_pk' in self.kwargs else 'pk'
         return get_object_or_404(qs, pk=self.kwargs.get(key))
 

@@ -158,6 +158,7 @@ class StudyIndexView(LoginRequiredMixin, ListView):
             qs = qs.filter(sessions_end__gte=self.form.cleaned_data['start'].date())
         if self.form.cleaned_data.get('end'):
             qs = qs.filter(sessions_start__lte=self.form.cleaned_data['end'].date())
+        qs = qs.filter(is_filter_trial=False)
         return qs.distinct()
 
     def render_event(self, study):
@@ -284,19 +285,42 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
         return study
 
 
+class FilterTrialCreateView(PermissionRequiredMixin, View):
+    permission_required = 'studies.change_study'
+
+    def post(self, request, *args, **kwargs):
+        study = Study.objects.create(
+            name='Study trial',
+            contact_person='study_trial',
+            principal_investigator='study_trial',
+            phone='03000000000',
+            email='study_trial@example.com',
+            is_filter_trial=True,
+        )
+        StudyMembership.objects.get_or_create(user=self.request.user, study=study)
+        return redirect('studies:recruitmentsettings', study.pk)
+
+
 class StudyUpdateView(
     StudyMixin, PermissionRequiredMixin, UpdateView
 ):
     model = Study
     form_class = StudyForm
     permission_required = 'studies.change_study'
-    base_template = 'studies/study_base.html'
     tab = 'update'
+
+    @property
+    def base_template(self):
+        if self.study.is_filter_trial:
+            return 'studies/study_filtertrial_base.html'
+        else:
+            return 'studies/study_base.html'
 
     def get_success_url(self):
         return self.request.path
 
     def form_valid(self, form):
+        form.instance.is_filter_trial = False
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
 
@@ -304,6 +328,7 @@ class StudyUpdateView(
 class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
     model = Study
     permission_required = 'studies.delete_study'
+    is_filter_trial = False
     tab = 'detail'
 
     def get_success_url(self):
@@ -320,6 +345,7 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
 class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'studies.view_study'
     is_onetime_invitation = False
+    is_filter_trial = False
 
     def post(self, request, study_pk):
         # check 'approve_study' without study context to prevent
@@ -350,6 +376,7 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
 
 class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'studies.change_study'
+    is_filter_trial = False
 
     def post(self, request, study_pk):
         if self.study.status == self.study.FINISHED:
@@ -367,6 +394,8 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
 class StudyPseudonymDomainsView(StudyMixin, PermissionRequiredMixin, TemplateView):
     permission_required = 'studies.change_study'
     template_name = 'studies/study_pseudonym_domains.html'
+    is_onetime_invitation = False
+    is_filter_trial = False
     tab = 'domains'
 
     def post(self, request, *args, **kwargs):
@@ -452,6 +481,7 @@ class StudyDiffView(StudyMixin, PermissionRequiredMixin, DetailView):
     model = Study
     permission_required = 'studies.approve_study'
     template_name = 'studies/study_diff.html'
+    is_filter_trial = False
     tab = 'diff'
 
     def get_context_data(self, **kwargs):

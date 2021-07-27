@@ -54,6 +54,7 @@ class StudySessionsView(StudyMixin, PermissionRequiredMixin, UpdateView):
     ]
     permission_required = 'studies.change_study'
     is_onetime_invitation = False
+    is_filter_trial = False
     tab = 'sessions'
 
     def get_context_data(self, **kwargs):
@@ -74,6 +75,7 @@ class StudySessionFormMixin(StudyMixin, PermissionRequiredMixin):
     form_class = SessionForm
     permission_required = 'studies.change_study'
     is_onetime_invitation = False
+    is_filter_trial = False
     tab = 'sessions'
 
     def get_context_data(self, **kwargs):
@@ -104,6 +106,7 @@ class StudySessionDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
     model = StudySession
     permission_required = 'studies.change_study'
     is_onetime_invitation = False
+    is_filter_trial = False
     tab = 'sessions'
 
     def get_success_url(self):

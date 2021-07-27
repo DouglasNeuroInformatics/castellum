@@ -120,9 +120,15 @@
                 {% has_perm 'studies.change_study' user as can_add_study %}
                 {% if can_add_study %}
                     {% if CASTELLUM_ENABLE_STUDY_EXPORT %}
-                        <a href="{% url 'studies:import' %}" class="btn btn-primary">{% translate "Import study" %}</a>
+                        <a href="{% url 'studies:import' %}" class="btn btn-primary mb-1">{% translate "Import study" %}</a>
                     {% endif %}
-                    <a href="{% url 'studies:create' %}" class="btn btn-primary">{% translate "Create new study" %}</a>
+                    <a href="{% url 'studies:create' %}" class="btn btn-primary mb-1">{% translate "Create new study" %}</a>
+
+                    <form class="d-inline-block" action="{% url 'studies:create-filter-trial' %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-primary mb-1" >{% translate 'Try filters' %}</button>
+                    </form>
+
                 {% endif %}
             </div>
         </div>

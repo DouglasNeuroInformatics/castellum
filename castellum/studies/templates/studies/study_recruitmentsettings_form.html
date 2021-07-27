@@ -1,4 +1,4 @@
-{% extends "studies/study_recruitmentsettings_base.html" %}
+{% extends view.base_template|default:"studies/study_recruitmentsettings_base.html" %}
 {% load static i18n bootstrap4 %}
 
 {% block title %}
@@ -10,7 +10,7 @@
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 
-        {% if study.is_onetime_invitation %}
+        {% if study.is_onetime_invitation or study.is_filter_trial %}
             {{ form.recruitment_text.as_hidden }}
         {% else %}
             {% bootstrap_field form.recruitment_text %}

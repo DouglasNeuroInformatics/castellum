@@ -44,6 +44,7 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
     template_name = 'studies/study_members.html'
     permission_required = 'studies.change_study'
     is_onetime_invitation = False
+    is_filter_trial = False
     tab = 'members'
 
     def dispatch(self, *args, **kwargs):
@@ -85,6 +86,7 @@ class StudyMembershipUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView)
     form_class = MemberForm
     permission_required = 'studies.change_study'
     is_onetime_invitation = False
+    is_filter_trial = False
     tab = 'members'
 
     def get_object(self):
@@ -98,6 +100,7 @@ class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView)
     model = StudyMembership
     permission_required = 'studies.change_study'
     is_onetime_invitation = False
+    is_filter_trial = False
     tab = 'members'
 
     def get_object(self):

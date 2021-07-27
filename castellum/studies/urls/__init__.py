@@ -24,6 +24,7 @@ from django.urls import include
 from django.urls import path
 
 from ..views.recruitment import OneTimeInvitationMailRecruitmentView
+from ..views.studies import FilterTrialCreateView
 from ..views.studies import StudyCreateView
 from ..views.studies import StudyDeleteView
 from ..views.studies import StudyDetailView
@@ -43,6 +44,7 @@ app_name = 'studies'
 urlpatterns = [
     path('', StudyIndexView.as_view(), name='index'),
     path('create/', StudyCreateView.as_view(), name='create'),
+    path('create/filtertrial/', FilterTrialCreateView.as_view(), name='create-filter-trial'),
     path('<int:pk>/', StudyDetailView.as_view(), name='detail'),
     path('<int:pk>/update/', StudyUpdateView.as_view(), name='update'),
     path('<int:pk>/delete/', StudyDeleteView.as_view(), name='delete'),
