@@ -1,12 +1,15 @@
+from model_bakery import baker
+
 from castellum.studies.management.commands.delete_filter_trials import Command
 from castellum.studies.models import Study
 
 
 def test_delete_filter_trial(study):
-    study.is_filter_trial = True
-    study.save()
+    baker.make(Study, is_filter_trial=True)
 
     cmd = Command()
     cmd.handle()
 
-    assert not Study.objects.exists()
+    assert not Study.objects.filter(is_filter_trial=True).exists()
+    assert Study.objects.filter(pk=study.pk).exists()
+    assert Study.objects.count() == 1
