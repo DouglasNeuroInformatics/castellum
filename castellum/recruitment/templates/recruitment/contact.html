@@ -1,24 +1,7 @@
-{% extends "recruitment/base.html" %}
+{% extends "recruitment/participation_base.html" %}
 {% load i18n static bootstrap4 utils auth %}
 
-{% block title %}{% translate "Recruitment" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
-
-{% block header %}
-    <div class="container text-center my-4">
-        <h1>
-            {{ subject.contact.full_name }}
-            <svg class="identicon" data-jdenticon-value="{{ object.pk }}" aria-hidden="true"></svg>
-        </h1>
-        {% if object.excluded_by_cleanup %}
-            <span class="badge badge-secondary">{{ object|verbose_name:'excluded_by_cleanup' }}</span>
-        {% else %}
-            <span class="badge badge-secondary">{{ object|display:'status' }}</span>
-        {% endif %}
-        {% if participation.dropped_out %}
-            <span class="badge badge-secondary">{{ participation|verbose_name:'dropped_out' }}</span>
-        {% endif %}
-    </div>
-{% endblock %}
+{% block title %}{% translate "Recruitment" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     {% if not object.match %}
@@ -43,159 +26,94 @@
         </div>
     {% endif %}
 
-    {% has_perm 'appointments.change_appointment' user study as can_change_appointment %}
-
-    <ul class="nav nav-tabs justify-content-center" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="true">{% translate "Contacting details" %}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="study-tab" data-toggle="tab" href="#study" role="tab" aria-controls="study" aria-selected="false">{% translate "Talking points" %}</a>
-        </li>
-        {% if study.has_exclusion_criteria %}
-            <li class="nav-item">
-                <a class="nav-link" id="criteria-tab" data-toggle="tab" href="#criteria" role="tab" aria-controls="criteria" aria-selected="false">
-                    {% if not object.exclusion_criteria_checked %}
-                        {% icon 'exclamation-triangle' label=_('Not checked') %}
-                    {% endif %}
-                    {% translate 'Criteria' %}
-                </a>
-            </li>
-        {% endif %}
-        {% if can_change_appointment and sessions %}
-            <li class="nav-item">
-                <a class="nav-link" id="appointments-tab" data-toggle="tab" href="#appointments" role="tab" aria-controls="appointments" aria-selected="false">
-                    {% translate 'Appointments' %}
-                </a>
-            </li>
-        {% endif %}
-    </ul>
-
     <form method="post">
-        <div class="tab-content mb-3 border border-top-0 p-3">
-            <div class="tab-pane active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                {% include 'contacts/__contact.html' with subject=subject %}
-
-                {% has_perm 'subjects.change_subject' user study as can_change_subject %}
-                {% if can_change_subject %}
-                    <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:contact-update' study.pk object.pk %}">
-                        {% if not subject.contact.is_complete %}
-                            {% icon 'exclamation-triangle' label=_('Missing values') %}
-                        {% endif %}
-                        {% translate 'Edit contact data' %}
-                    </a>
-                    <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:attributes-update' study.pk object.pk %}">{% translate 'Edit recruitment attributes' %}</a>
-                    <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:data-protection-update' study.pk object.pk %}">
-                        {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age %}
-                            {% icon 'exclamation-triangle' label=_('Missing values') %}
-                        {% endif %}
-                        {% translate 'Edit data protection' %}
-                    </a>
-                    <a class="btn btn-secondary btn-sm-inline my-1" href="{% url 'recruitment:additional-info-update' study.pk object.pk %}">
-                        {% translate 'Edit additional info' %}
-                    </a>
-                {% endif %}
+        <div class="card mb-3">
+            <div class="card-header">
+                <ul class="nav nav-pills justify-content-center" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="true">{% translate "Contacting details" %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="study-tab" data-toggle="tab" href="#study" role="tab" aria-controls="study" aria-selected="false">{% translate "Talking points" %}</a>
+                    </li>
+                    {% if study.has_exclusion_criteria %}
+                        <li class="nav-item">
+                            <a class="nav-link" id="criteria-tab" data-toggle="tab" href="#criteria" role="tab" aria-controls="criteria" aria-selected="false">
+                                {% if not object.exclusion_criteria_checked %}
+                                    {% icon 'exclamation-triangle' label=_('Not checked') %}
+                                {% endif %}
+                                {% translate 'Criteria' %}
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
             </div>
 
-            <div class="tab-pane" id="study" role="tabpanel" aria-labelledby="study-tab">
-                {% if CASTELLUM_GENERAL_RECRUITMENT_TEXT %}
-                    {{ CASTELLUM_GENERAL_RECRUITMENT_TEXT|urlize|linebreaks }}
-                {% endif %}
-                {% if study.recruitment_text %}
-                    {{ study.recruitment_text|urlize|linebreaks }}
-                {% endif %}
-
-                <dl class="row">
-                    <dt class="col-sm-6">{% translate 'Type of study' %}</dt>
-                    <dd class="col-sm-6">{{ study|display:'study_type' }}</dd>
-
-                    <dt class="col-sm-6">{% translate 'Duration of sessions in minutes' %}</dt>
-                    <dd class="col-sm-6">
-                        {% if sessions %}
-                            {% for session in sessions %}
-                                {{ session.duration }}{% if not forloop.last %}, {% endif %}
-                            {% endfor %}
-                        {% else %}
-                            &mdash;
-                        {% endif %}
-                    </dd>
-
-                    <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
-                    <dd class="col-sm-6">{{ study|display:'sessions_start' }}</dd>
-
-                    <dt class="col-sm-6">{{ study|verbose_name:'sessions_end' }}</dt>
-                    <dd class="col-sm-6">{{ study|display:'sessions_end' }}</dd>
-
-                    <dt class="col-sm-6">{{ study|verbose_name:'consent' }}</dt>
-                    <dd class="col-sm-6">
-                        {% if study.consent %}
-                            <a href="{{ study.consent.url }}">{{ study.consent.name|basename }}</a>
-                        {% else %}
-                            &mdash;
-                        {% endif %}
-                    </dd>
-                </dl>
-            </div>
-
-            {% if study.has_exclusion_criteria %}
-                <div class="tab-pane" id="criteria" role="tabpanel" aria-labelledby="criteria-tab">
-                    {% if study.exclusion_criteria %}
-                        {{ study.exclusion_criteria|urlize|linebreaks }}
-                    {% endif %}
-                    {% if CASTELLUM_GENERAL_EXCLUSION_CRITERIA %}
-                        <h2>{% translate 'General criteria' %}</h2>
-                        {{ CASTELLUM_GENERAL_EXCLUSION_CRITERIA|urlize|linebreaks }}
-                    {% endif %}
-                    {% for study_type in study.study_type.all %}
-                        {% if study_type.exclusion_criteria %}
-                            <h2>{{ study_type.label }}</h2>
-                            {{ study_type.exclusion_criteria|urlize|linebreaks }}
-                        {% endif %}
-                    {% endfor %}
-
-                    {% bootstrap_field form.exclusion_criteria_checked %}
+            <div class="tab-content card-body">
+                <div class="tab-pane active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                    {% include 'contacts/__contact.html' with subject=subject %}
                 </div>
-            {% endif %}
 
-            {% if can_change_appointment %}
-                <div class="tab-pane" id="appointments" role="tabpanel" aria-labelledby="appointments-tab">
-                    {% if study.session_instructions %}
-                        {{ study.session_instructions|urlize|linebreaks }}
+                <div class="tab-pane" id="study" role="tabpanel" aria-labelledby="study-tab">
+                    {% if CASTELLUM_GENERAL_RECRUITMENT_TEXT %}
+                        {{ CASTELLUM_GENERAL_RECRUITMENT_TEXT|urlize|linebreaks }}
+                    {% endif %}
+                    {% if study.recruitment_text %}
+                        {{ study.recruitment_text|urlize|linebreaks }}
                     {% endif %}
 
                     <dl class="row">
-                        <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
+                        <dt class="col-sm-6">{% translate 'Type of study' %}</dt>
+                        <dd class="col-sm-6">{{ study|display:'study_type' }}</dd>
+
+                        <dt class="col-sm-6">{% translate 'Duration of sessions in minutes' %}</dt>
                         <dd class="col-sm-6">
-                            <time id="sessions-start" datetime="{{ study.sessions_start|date:'c' }}">{{ study|display:'sessions_start' }}</time>
+                            {% if sessions %}
+                                {% for session in sessions %}
+                                    {{ session.duration }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                &mdash;
+                            {% endif %}
                         </dd>
+
+                        <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
+                        <dd class="col-sm-6">{{ study|display:'sessions_start' }}</dd>
 
                         <dt class="col-sm-6">{{ study|verbose_name:'sessions_end' }}</dt>
+                        <dd class="col-sm-6">{{ study|display:'sessions_end' }}</dd>
+
+                        <dt class="col-sm-6">{{ study|verbose_name:'consent' }}</dt>
                         <dd class="col-sm-6">
-                            <time id="sessions-end" datetime="{{ study.sessions_end|date:'c' }}">{{ study|display:'sessions_end' }}</time>
+                            {% if study.consent %}
+                                <a href="{{ study.consent.url }}">{{ study.consent.name|basename }}</a>
+                            {% else %}
+                                &mdash;
+                            {% endif %}
                         </dd>
                     </dl>
-                    <p>
-                        {% blocktranslate with reminder_period=reminder_period %}The subject will be reminded {{ reminder_period }} days before each appointment.{% endblocktranslate %}
-                    </p>
-
-                    {% for entry in form.appointments %}
-                        <div class="form-group">
-                            {% bootstrap_field entry.field form_group_class="" %}
-                            {% if entry.invitation_url == 'not-invited' %}
-                                <p class="text-muted">
-                                    {% translate 'Scheduler only available for participating subjects.' %}
-                                </p>
-                            {% elif entry.invitation_url %}
-                                <a id="invitation_url_{{ entry.field.id_for_label }}" href="{{ entry.invitation_url }}" target="_blank">{% translate 'Select timeslot for this subject' %}</a>
-                                <button type="button" class="btn btn-sm btn-light" tabindex="-1" data-clipboard="#invitation_url_{{ entry.field.id_for_label }}" data-animation="success" title="{% translate 'Copy link' %}">
-                                    {% icon 'copy' label=_('Copy link') %}
-                                </button>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                    <a href="{% url 'recruitment:calendar' study.pk %}" class="btn btn-secondary" data-js="popup">{% translate 'Calendar' %}</a>
                 </div>
-            {% endif %}
+
+                {% if study.has_exclusion_criteria %}
+                    <div class="tab-pane" id="criteria" role="tabpanel" aria-labelledby="criteria-tab">
+                        {% if study.exclusion_criteria %}
+                            {{ study.exclusion_criteria|urlize|linebreaks }}
+                        {% endif %}
+                        {% if CASTELLUM_GENERAL_EXCLUSION_CRITERIA %}
+                            <h2>{% translate 'General criteria' %}</h2>
+                            {{ CASTELLUM_GENERAL_EXCLUSION_CRITERIA|urlize|linebreaks }}
+                        {% endif %}
+                        {% for study_type in study.study_type.all %}
+                            {% if study_type.exclusion_criteria %}
+                                <h2>{{ study_type.label }}</h2>
+                                {{ study_type.exclusion_criteria|urlize|linebreaks }}
+                            {% endif %}
+                        {% endfor %}
+
+                        {% bootstrap_field form.exclusion_criteria_checked %}
+                    </div>
+                {% endif %}
+            </div>
         </div>
 
         {% include 'utils/form_errors.html' with form=form %}
@@ -221,12 +139,6 @@
         </div>
 
         <div class="d-print-none mb-3">
-            {% has_perm 'subjects.view_subject' user as can_view_subject%}
-            {% if can_view_subject and context == 'subjects:participation-list' %}
-                <a class="btn btn-outline-primary" href="{% url context subject.slug %}">{% translate 'Back to subject' %}</a>
-            {% else %}
-                <a class="btn btn-outline-primary" href="{% url 'recruitment:recruitment-open' study.pk %}">{% translate 'Back to list' %}</a>
-            {% endif %}
             <button class="btn btn-primary">{% translate 'Save' %}</button>
         </div>
     </form>
@@ -235,5 +147,4 @@
 
 {% block extra_scripts %}
     <script src="{% static 'js/contact.js' %}"></script>
-    <script src="{% static 'js/appointments-form.js' %}"></script>
 {% endblock %}

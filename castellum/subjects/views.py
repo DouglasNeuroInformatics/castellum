@@ -393,7 +393,7 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
         )
 
         url = reverse('recruitment:contact', args=[study.pk, participation.pk])
-        return redirect(url + '?context=subjects:participation-list')
+        return redirect(url)
 
 
 class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):

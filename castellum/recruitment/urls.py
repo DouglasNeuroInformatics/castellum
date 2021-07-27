@@ -26,6 +26,7 @@ from .feeds import FollowUpFeedForStudy
 from .feeds import FollowUpFeedForUser
 from .feeds import ResourceFeed
 from .views import AdditionalInfoUpdateView
+from .views import AppointmentsUpdateView
 from .views import AttributesUpdateView
 from .views import CalendarView
 from .views import ContactUpdateView
@@ -68,6 +69,11 @@ urlpatterns = [
     path('<int:pk>/calendar/feed/', AppointmentFeed(), name='calendar-feed'),
     path('<int:study_pk>/followups/', FollowUpFeedForStudy(), name='followups-feed'),
     path('<int:study_pk>/<int:pk>/', ContactView.as_view(), name='contact'),
+    path(
+        '<int:study_pk>/<int:pk>/appointments/',
+        AppointmentsUpdateView.as_view(),
+        name='appointments',
+    ),
     path(
         '<int:study_pk>/<int:pk>/update-contact/',
         ContactUpdateView.as_view(),

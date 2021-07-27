@@ -26,7 +26,6 @@ from django import forms
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
-from castellum.appointments.forms import AppointmentsForm
 from castellum.subjects.models import Subject
 from castellum.utils.forms import BaseImportForm
 from castellum.utils.forms import DisabledChoiceField
@@ -202,16 +201,6 @@ class ContactForm(forms.ModelForm):
         self.fields['assigned_recruiter'].queryset = self.instance.study.studymembership_set.filter(
             user_id__in=recruiter_pks
         )
-
-
-class ContactAndAppointmentsForm(ContactForm, AppointmentsForm):
-    def clean(self):
-        cleaned_data = super().clean()
-        if cleaned_data.get('status') != Participation.INVITED:
-            for session in self.instance.study.studysession_set.exclude(schedule_id=None):
-                key = 'appointment-{}'.format(session.pk)
-                del cleaned_data[key]
-        return cleaned_data
 
 
 class SendMailForm(forms.Form):

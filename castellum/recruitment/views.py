@@ -33,7 +33,6 @@ from django.http import HttpResponse
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
-from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
@@ -48,6 +47,7 @@ from icalendar import Calendar
 from simplecharts import StackedColumnRenderer
 from stronghold.decorators import public
 
+from castellum.appointments.mixins import BaseAppointmentsUpdateView
 from castellum.appointments.mixins import BaseCalendarView
 from castellum.appointments.mixins import send_appointment_notifications
 from castellum.appointments.models import Appointment
@@ -67,7 +67,6 @@ from castellum.utils import scheduler
 from castellum.utils.mail import MailContext
 
 from . import filter_queries
-from .forms import ContactAndAppointmentsForm
 from .forms import ContactForm
 from .mixins import BaseAttributesUpdateView
 from .mixins import BaseMailRecruitmentView
@@ -401,15 +400,11 @@ class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, DetailView
 
 class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
     model = Participation
+    form_class = ContactForm
     template_name = 'recruitment/contact.html'
     permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
-
-    def get_form_class(self):
-        if self.request.user.has_perm('appointments.change_appointment', self.study):
-            return ContactAndAppointmentsForm
-        else:
-            return ContactForm
+    tab = 'contact'
 
     def get_initial(self):
         initial = super().get_initial()
@@ -430,18 +425,11 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         status_field.widget.choices = choices
 
         context['sessions'] = self.study.studysession_set.order_by('pk')
-        context['reminder_period'] = settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD.days
-
-        context['context'] = self.request.GET.get('context')
 
         return context
 
     def get_success_url(self):
-        url = reverse('recruitment:contact', args=[self.study.pk, self.object.pk])
-        context = self.request.GET.get('context')
-        if context == 'subjects:participation-list':
-            url += '?context=' + context
-        return url
+        return self.request.path
 
     def form_valid(self, form):
         scheduler_appointments_exist = Appointment.objects.filter(
@@ -453,16 +441,19 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         if form.instance.status == Participation.INVITED:
             form.instance.dropped_out = False
         response = super().form_valid(form)
-        if isinstance(form, ContactAndAppointmentsForm):
-            send_appointment_notifications(self.request, self.object, form.appointment_changes)
         messages.success(self.request, _('Data has been saved.'))
-
         if self.object.status != Participation.INVITED and scheduler_appointments_exist:
             messages.warning(self.request, _(
                 'Scheduler appointments for this participation have been deleted.'
             ))
-
         return response
+
+
+class AppointmentsUpdateView(BaseAppointmentsUpdateView):
+    permission_required = ['recruitment.recruit', 'appointments.change_appointment']
+    study_status = [Study.EXECUTION]
+    base_template = 'recruitment/participation_base.html'
+    tab = 'appointments'
 
 
 class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
@@ -499,28 +490,41 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
 
 class RecruitmentUpdateMixin(ParticipationMixin):
     study_status = [Study.EXECUTION]
-    base_template = 'recruitment/base.html'
+    base_template = 'recruitment/participation_update_base.html'
+    tab = 'update-data'
 
     def get_success_url(self):
-        return reverse('recruitment:contact', args=[self.kwargs['study_pk'], self.kwargs['pk']])
+        return self.request.path
+
+    def form_valid(self, form, *args):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form, *args)
 
 
 class ContactUpdateView(RecruitmentUpdateMixin, BaseContactUpdateView):
+    subtab = 'contact'
+
     def get_object(self):
         return self.participation.subject.contact
 
 
 class AttributesUpdateView(RecruitmentUpdateMixin, BaseAttributesUpdateView):
+    subtab = 'attributes'
+
     def get_object(self):
         return self.participation.subject
 
 
 class DataProtectionUpdateView(RecruitmentUpdateMixin, BaseDataProtectionUpdateView):
+    subtab = 'data-protection'
+
     def get_object(self):
         return self.participation.subject
 
 
 class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateView):
+    subtab = 'additional-info'
+
     def get_object(self):
         return self.participation.subject
 
