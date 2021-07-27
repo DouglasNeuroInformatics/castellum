@@ -1,3 +1,37 @@
+# 0.63.0 (unreleased)
+
+## breaking changes
+
+-   The new command `delete_filter_trials` should be executed daily
+
+## bug fixes
+
+-   In the recruitment list, the text "recently contacted in another
+    recruitment" replaced other, potentially important information. It
+    has been redesigned to be shown in addition to, not instead of, that
+    information.
+-   Removed an accidental loop through all subjects that made the
+    contact form slow
+-   Fixed crashes for subjects with unknown attributes
+-   Fixed a warning about appointments outside of the planned time
+    period
+-   Do not display "unreachable" warning for subjects whose guardians
+    are hidden due to privacy level
+-   Clear followup time on participation status change
+
+## new features
+
+-   Study managers can now try filters without creating a complete
+    study. The ephemeral "filter trial" studies that are created for
+    this can be cleaned up using the `delete_filter_trials` command.
+-   The navigation in recruitment and execution has been restructured.
+-   Show * for required fields in relevant forms
+-   Gender and date of birth are no longer required in contact form
+-   Subjects can now be invited to a study even if exclusion criteria
+    have not been checked.
+-   Allow to search for subject slugs in admin UI
+
+
 # 0.62.1 (2021-07-07)
 
 ## security
