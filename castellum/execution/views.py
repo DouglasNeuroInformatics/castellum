@@ -192,13 +192,19 @@ class ParticipationPseudonymsView(ParticipationDetailMixin, DetailView):
         context['subject'] = None
         context['participation'] = None
 
-        context['pseudonyms'] = [
-            (d, get_pseudonym(self.subject, d.key)) for d in self.study.domains.all()
-        ]
+        context['domains'] = self.study.domains.all()
+
         return context
 
 
 class ParticipationPseudonymView(ParticipationDetailMixin, View):
+    def has_permission(self):
+        return (
+            super().has_permission()
+            or self.request.user.has_perm('subjects.export_subject')
+            or self.request.user.has_perm('subjects.delete_subject')
+        )
+
     def get(self, request, *args, **kwargs):
         domain = get_object_or_404(self.study.domains, key=kwargs['domain'])
         pseudonym = get_pseudonym(self.subject, domain.key)
