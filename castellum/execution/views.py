@@ -204,6 +204,11 @@ class ParticipationPseudonymView(ParticipationDetailMixin, View):
     def get(self, request, *args, **kwargs):
         domain = get_object_or_404(self.study.domains, key=kwargs['domain'])
         pseudonym = get_pseudonym(self.subject, domain.key)
+
+        monitoring_logger.info('Pseudonym access: domain {} by {}'.format(
+            domain.key, self.request.user.pk
+        ))
+
         return HttpResponse(pseudonym)
 
 
