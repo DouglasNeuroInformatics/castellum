@@ -38,6 +38,7 @@ from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
+from django.views.generic import View
 
 from castellum.appointments.mixins import BaseAppointmentsUpdateView
 from castellum.appointments.mixins import BaseCalendarView
@@ -197,6 +198,13 @@ class ParticipationPseudonymsView(ParticipationDetailMixin, DetailView):
             (d, get_pseudonym(self.subject, d.key)) for d in self.study.domains.all()
         ]
         return context
+
+
+class ParticipationPseudonymView(ParticipationDetailMixin, View):
+    def get(self, request, *args, **kwargs):
+        domain = get_object_or_404(self.study.domains, key=kwargs['domain'])
+        pseudonym = get_pseudonym(self.subject, domain.key)
+        return HttpResponse(pseudonym)
 
 
 class ParticipationDropoutView(ParticipationDetailMixin, DetailView):
