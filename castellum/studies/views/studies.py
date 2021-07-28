@@ -392,12 +392,21 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
         return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
 
 
-class StudyPseudonymDomainsView(StudyMixin, PermissionRequiredMixin, TemplateView):
+class StudyDomainsMixin(StudyMixin, PermissionRequiredMixin):
     permission_required = 'studies.change_study'
-    template_name = 'studies/study_pseudonym_domains.html'
     is_onetime_invitation = False
     is_filter_trial = False
     tab = 'domains'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['general_domains_exist'] = Domain.objects.filter(object_id=None).exists()
+        return context
+
+
+class StudyDomainsView(StudyDomainsMixin, TemplateView):
+    template_name = 'studies/study_domains_study.html'
+    subtab = 'domains-study'
 
     def post(self, request, *args, **kwargs):
         if self.request.POST.get('action') == 'add':
@@ -409,7 +418,22 @@ class StudyPseudonymDomainsView(StudyMixin, PermissionRequiredMixin, TemplateVie
             if form.is_valid():
                 form.save()
 
-        return redirect('studies:domains', self.study.pk)
+        return redirect(self.request.path)
+
+
+class StudyDomainsGeneralView(StudyDomainsMixin, UpdateView):
+    model = Study
+    fields = ['general_domains']
+    template_name = 'studies/study_domains_general.html'
+    subtab = 'domains-general'
+
+    def get_success_url(self):
+        return self.request.path
+
+    def form_valid(self, form):
+        form.instance.is_filter_trial = False
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form)
 
 
 class StudyImportView(PermissionRequiredMixin, FormView):
