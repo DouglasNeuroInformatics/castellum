@@ -8,7 +8,7 @@
             {% for domain in domains %}
                 <dt class="col-sm-6">{{ domain }}</dt>
                 <dd class="col-sm-6">
-                    <a href="{% url 'execution:participation-pseudonym' study.pk participation.pk domain.key %}" class="btn btn-sm btn-secondary">
+                    <a href="{% url 'execution:participation-pseudonym' study.pk participation.pk domain.key %}" data-js="replace-me" class="btn btn-sm btn-secondary">
                         {% translate 'get pseudonym' %}
                     </a>
                 </dd>
@@ -19,7 +19,7 @@
             <dt class="col-sm-6">{% translate 'Pseudonym' %}</dt>
             {% for domain in domains %}
                 <dd class="col-sm-6">
-                    <a href="{% url 'execution:participation-pseudonym' study.pk participation.pk domain.key %}" class="btn btn-sm btn-secondary">
+                    <a href="{% url 'execution:participation-pseudonym' study.pk participation.pk domain.key %}" data-js="replace-me" class="btn btn-sm btn-secondary">
                         {% translate 'get pseudonym' %}
                     </a>
                 </dd>
