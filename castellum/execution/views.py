@@ -168,9 +168,7 @@ class ParticipationDetailView(ParticipationDetailMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['pseudonyms'] = [
-            (d, get_pseudonym(self.subject, d.key)) for d in self.study.domains.all()
-        ]
+        context['domains'] = self.study.domains.all()
         return context
 
 
