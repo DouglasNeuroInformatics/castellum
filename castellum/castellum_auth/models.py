@@ -71,6 +71,19 @@ class User(AbstractUser):
             ('privacy_level_2', _('Can access privacy level 2')),
         ]
 
+    def has_perm(self, perm, obj=None):
+        if not self.is_service_account:
+            return super().has_perm(perm, obj=obj)
+        elif not self.controlled_by:
+            return False
+        elif perm == 'studies.access_study':
+            return self.controlled_by.has_perm(perm, obj=obj)
+        else:
+            return (
+                super().has_perm(perm, obj=obj)
+                and self.controlled_by.has_perm(perm, obj=obj)
+            )
+
     def get_privacy_level(self, obj=None):
         for level in range(2, 0, -1):
             perm = 'castellum_auth.privacy_level_{}'.format(level)
