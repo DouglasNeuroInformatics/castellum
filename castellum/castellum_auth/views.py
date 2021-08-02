@@ -19,10 +19,16 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import SuspiciousOperation
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.utils.translation import check_for_language
+from django.views.generic import ListView
 
 from castellum.utils.views import get_next_url
+
+from .models import User
 
 LANGUAGE_QUERY_PARAMETER = 'language'
 
@@ -39,3 +45,11 @@ def set_language(request):
             request.user.save()
 
     return redirect(get_next_url(request))
+
+
+class ServiceAccountListView(LoginRequiredMixin, ListView):
+    model = User
+    template_name = 'castellum_auth/serviceaccount_list.html'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(is_service_account=True)

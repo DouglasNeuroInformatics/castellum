@@ -39,6 +39,8 @@ from mfa.views import LoginView
 from stronghold.decorators import public
 
 from castellum.castellum_auth.forms import AuthenticationForm
+from castellum.castellum_auth.models import User
+from castellum.castellum_auth.views import ServiceAccountListView
 from castellum.castellum_auth.views import set_language
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
@@ -46,6 +48,11 @@ from castellum.studies.models import Study
 
 class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['service_accounts_exist'] = User.objects.filter(is_service_account=True).exists()
+        return context
 
 
 class FeedsView(LoginRequiredMixin, TemplateView):
@@ -105,6 +112,7 @@ urlpatterns = [
         'data-protection/', include('castellum.data_protection.urls', namespace='data_protection')
     ),
     path('mfa/', include('mfa.urls', namespace='mfa')),
+    path('serviceaccounts/', ServiceAccountListView.as_view(), name='service-accounts'),
 ]
 
 if settings.PROTECTED_MEDIA_SERVER:
