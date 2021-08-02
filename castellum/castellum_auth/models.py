@@ -71,6 +71,13 @@ class User(AbstractUser):
             ('privacy_level_2', _('Can access privacy level 2')),
         ]
 
+    @property
+    def id_for_monitoring(self):
+        if self.controlled_by:
+            return '{} (controlled by {})'.format(self.id, self.controlled_by.id_for_monitoring)
+        else:
+            return str(self.id)
+
     def has_perm(self, perm, obj=None):
         if not self.is_service_account:
             return super().has_perm(perm, obj=obj)

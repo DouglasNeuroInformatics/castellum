@@ -120,7 +120,7 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
         result = super().form_valid(form)
         monitoring_logger.info('Attributes update: {} by {}'.format(
             self.object.pk,
-            self.request.user.pk,
+            self.request.user.id_for_monitoring,
         ))
         return result
 

@@ -111,7 +111,7 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
 
     def export(self, domain):
         monitoring_logger.info('Attribute export: study {} by {}'.format(
-            self.study.pk, self.request.user.pk
+            self.study.pk, self.request.user.id_for_monitoring
         ))
 
         exporter = get_exporter()

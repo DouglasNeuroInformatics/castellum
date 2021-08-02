@@ -350,7 +350,7 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
 
     def delete(self, request, *args, **kwargs):
         monitoring_logger.info(
-            'Study {} deleted by {}'.format(self.study.name, self.request.user.pk)
+            'Study {} deleted by {}'.format(self.study.name, self.request.user.id_for_monitoring)
         )
         messages.success(self.request, _('Study has been deleted.'))
         return super().delete(request, *args, **kwargs)
@@ -380,9 +380,9 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
             self.study.set_status(self.study.EXECUTION)
             take_snapshot(self.study)
 
-            monitoring_logger.info(
-                'Study {} started by {}'.format(self.study.name, self.request.user.pk)
-            )
+            monitoring_logger.info('Study {} started by {}'.format(
+                self.study.name, self.request.user.id_for_monitoring
+            ))
 
         send_pr_mail(self.study, request.user.email)
         return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))
