@@ -59,7 +59,11 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
     def get_form(self):
         choices = [(None, '---')]
         choices.extend([
-            (user.pk, str(user)) for user in User.objects.exclude(pk__in=self.object.members.all())
+            (user.pk, str(user)) for user in (
+                User.objects
+                .exclude(pk__in=self.object.members.all())
+                .filter(is_service_account=False)
+            )
         ])
 
         form = AddMemberForm(**self.get_form_kwargs())
