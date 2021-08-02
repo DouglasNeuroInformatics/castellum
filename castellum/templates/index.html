@@ -74,7 +74,7 @@
                         <img class="w-100 h-auto" src="{% static 'images/circle-icons/tractor.png' %}" alt="" width="184" height="184">
                     </a>
                     <div class="card-body">
-                        <a href="{% url 'service-accounts' %}" class="btn btn-primary btn-block">{% translate "Service accounts" %}</a>
+                        <a href="{% url 'service-accounts' %}" class="btn {% if user.serviceaccount_set.exists %}btn-warning{% else %}btn-primary{% endif %} btn-block">{% translate "Service accounts" %}</a>
                     </div>
                 </div>
             </div>

@@ -53,3 +53,15 @@ class ServiceAccountListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(is_service_account=True)
+
+    def post(self, request, *args, **kwargs):
+        service_account = get_object_or_404(self.get_queryset(), pk=request.POST['id'])
+        if request.POST.get('control'):
+            service_account.controlled_by = request.user
+            service_account.save()
+        else:
+            if service_account.controlled_by != request.user:
+                raise SuspiciousOperation
+            service_account.controlled_by = None
+            service_account.save()
+        return redirect(request.path)
