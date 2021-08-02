@@ -65,7 +65,14 @@ class UserAdmin(BaseUserAdmin):
             'fields': ['first_name', 'last_name', 'email', 'language']
         }),
         (_('permissions'), {
-            'fields': ['is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions']
+            'fields': [
+                'is_active',
+                'is_staff',
+                'is_superuser',
+                'groups',
+                'user_permissions',
+                'general_domains',
+            ]
         }),
         (_('important dates'), {
             'fields': ['last_login', 'date_joined', 'expiration_date', 'logout_timeout']
