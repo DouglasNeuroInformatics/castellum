@@ -266,6 +266,9 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
         context = super().get_context_data(**kwargs)
         context['has_participations'] = self.object.participation_set.exists()
         context['is_last_guardian'] = self.is_last_guardian()
+        context['has_pseudonym_in_general_domain'] = (
+            self.subject.pseudonym_set.filter(domain__object_id=None).exists()
+        )
         return context
 
     def get_success_url(self):
@@ -307,6 +310,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
             ))
 
             context['has_participations'] = self.object.participation_set.exists()
+            context['general_domains_exist'] = Domain.objects.filter(object_id=None).exists()
             context['appointments'] = Appointment.objects.filter(
                 participation__subject=self.object
             )
