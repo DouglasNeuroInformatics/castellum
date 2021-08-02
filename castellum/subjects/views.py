@@ -224,10 +224,29 @@ class SubjectPseudonymsView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['pseudonyms'] = [
-            (d, get_pseudonym(self.subject, d.key)) for d in Domain.objects.filter(object_id=None)
-        ]
+        context['domains'] = Domain.objects.filter(object_id=None)
         return context
+
+
+class SubjectPseudonymView(SubjectMixin, PermissionRequiredMixin, View):
+    def get_object(self):
+        return get_object_or_404(Subject, slug=self.kwargs['slug'])
+
+    def has_permission(self):
+        return (
+            self.request.user.has_perm('subjects.export_subject')
+            or self.request.user.has_perm('subjects.delete_subject')
+        )
+
+    def get(self, request, *args, **kwargs):
+        domain = get_object_or_404(Domain, key=kwargs['domain'], object_id=None)
+        pseudonym = get_pseudonym(self.subject, domain.key)
+
+        monitoring_logger.info('Pseudonym access: domain {} by {}'.format(
+            domain.key, self.request.user.pk
+        ))
+
+        return HttpResponse(pseudonym)
 
 
 class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
