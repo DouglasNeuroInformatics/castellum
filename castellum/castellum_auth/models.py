@@ -53,6 +53,17 @@ class User(AbstractUser):
         limit_choices_to={'object_id': None},
     )
 
+    is_service_account = models.BooleanField(_('Is a service account'), default=False)
+    controlled_by = models.ForeignKey(
+        'User',
+        verbose_name=_('Controlled by'),
+        help_text=_('Only relevant for service accounts'),
+        related_name='serviceaccount_set',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+
     class Meta:
         ordering = ['username']
         permissions = [
