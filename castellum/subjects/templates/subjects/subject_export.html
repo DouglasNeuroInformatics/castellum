@@ -28,10 +28,10 @@
         {% endif %}
     </form>
 
-    {% if has_participations %}
+    {% if has_participations or general_domains_exist %}
         <div class="card d-print-none my-4">
             <div class="card-body">
-                <p>{% translate 'Remember to also gather information from the following study participations:' %}</p>
+                <p>{% translate 'Remember to also gather information from the following external sources:' %}</p>
                 <ul class="table-list mb-3">
                     {% for participation in object.participation_set.all %}
                         {% has_perm 'studies.view_study' user participation.study as can_view_study %}
@@ -55,6 +55,16 @@
                             </div>
                         </li>
                     {% endfor %}
+                    {% if general_domains_exist %}
+                        <li class="table-list-item">
+                            <div class="my-1 mr-2">
+                                <div class="h4 d-inline">{% translate "General pseudonym domains" %}</div>
+                            </div>
+                            <div class="table-list-item-actions">
+                                <a class="btn btn-outline-primary my-1" href="{% url 'subjects:pseudonyms' subject.slug %}">{% translate 'Pseudonyms' %}</a>
+                            </div>
+                        </li>
+                    {% endif  %}
                 </ul>
             </div>
         </div>

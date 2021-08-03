@@ -41,6 +41,8 @@ from .views import ParticipationRecruitView
 from .views import SubjectDeleteView
 from .views import SubjectDetailView
 from .views import SubjectExportView
+from .views import SubjectPseudonymsView
+from .views import SubjectPseudonymView
 from .views import SubjectSearchView
 
 app_name = 'subjects'
@@ -67,6 +69,8 @@ urlpatterns = [
     ),
     path('maintenance/notes/', MaintenanceNotesView.as_view(), name='maintenance-notes'),
     path('<slug>/', SubjectDetailView.as_view(), name='detail'),
+    path('<slug>/pseudonyms/', SubjectPseudonymsView.as_view(), name='pseudonyms'),
+    path('<slug>/pseudonyms/<domain>/', SubjectPseudonymView.as_view(), name='pseudonym'),
     path('<slug>/delete/', SubjectDeleteView.as_view(), name='delete'),
     path('<slug>/export/', SubjectExportView.as_view(), name='export'),
     path('<slug>/contact/', ContactUpdateView.as_view(), name='contact'),

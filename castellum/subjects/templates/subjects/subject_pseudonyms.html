@@ -1,0 +1,29 @@
+{% extends "subjects/subject_base.html" %}
+{% load i18n utils %}
+
+{% block title %}{% translate 'General pseudonyms' %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% translate 'Domain key' %}</th>
+                <th>{% translate 'Domain name' %}</th>
+                <th>{% translate 'Pseudonym' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for domain in domains %}
+                <tr>
+                    <td>{{ domain|display:'key' }}</dt>
+                    <td>{{ domain|display:'name' }}</dt>
+                    <td>
+                        <a href="{% url 'subjects:pseudonym' subject.slug domain.key %}" data-js="replace-me" class="btn btn-sm btn-secondary">
+                            {% translate 'get pseudonym' %}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

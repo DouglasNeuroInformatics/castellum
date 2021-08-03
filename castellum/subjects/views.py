@@ -54,6 +54,8 @@ from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
+from castellum.pseudonyms.helpers import get_pseudonym_if_exists
+from castellum.pseudonyms.models import Domain
 from castellum.recruitment import filter_queries
 from castellum.recruitment.mixins import BaseAttributesUpdateView
 from castellum.recruitment.models import AttributeDescription
@@ -209,6 +211,44 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
+class SubjectPseudonymsView(SubjectMixin, PermissionRequiredMixin, DetailView):
+    model = Subject
+    template_name = 'subjects/subject_pseudonyms.html'
+    tab = 'detail'
+
+    def has_permission(self):
+        return (
+            self.request.user.has_perm('subjects.export_subject')
+            or self.request.user.has_perm('subjects.delete_subject')
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['domains'] = Domain.objects.filter(object_id=None)
+        return context
+
+
+class SubjectPseudonymView(SubjectMixin, PermissionRequiredMixin, View):
+    def get_object(self):
+        return get_object_or_404(Subject, slug=self.kwargs['slug'])
+
+    def has_permission(self):
+        return (
+            self.request.user.has_perm('subjects.export_subject')
+            or self.request.user.has_perm('subjects.delete_subject')
+        )
+
+    def get(self, request, *args, **kwargs):
+        domain = get_object_or_404(Domain, key=kwargs['domain'], object_id=None)
+        pseudonym = get_pseudonym_if_exists(self.subject, domain.key)
+
+        monitoring_logger.info('Pseudonym access: domain {} by {}'.format(
+            domain.key, self.request.user.pk
+        ))
+
+        return HttpResponse(pseudonym or '—')
+
+
 class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     model = Subject
     permission_required = 'subjects.delete_subject'
@@ -226,6 +266,9 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
         context = super().get_context_data(**kwargs)
         context['has_participations'] = self.object.participation_set.exists()
         context['is_last_guardian'] = self.is_last_guardian()
+        context['has_pseudonym_in_general_domain'] = (
+            self.subject.pseudonym_set.filter(domain__object_id=None).exists()
+        )
         return context
 
     def get_success_url(self):
@@ -267,6 +310,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
             ))
 
             context['has_participations'] = self.object.participation_set.exists()
+            context['general_domains_exist'] = Domain.objects.filter(object_id=None).exists()
             context['appointments'] = Appointment.objects.filter(
                 participation__subject=self.object
             )
