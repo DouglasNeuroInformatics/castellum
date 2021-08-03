@@ -227,6 +227,8 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             self.object.phone = self.duplicate.phone
             self.object.save()
 
+            self.object.general_domains.set(self.duplicate.general_domains.all())
+
             for session in self.duplicate.studysession_set.order_by('pk'):
                 s = self.object.studysession_set.create(
                     name=session.name,
