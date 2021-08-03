@@ -7,7 +7,7 @@
     <form method="post" class="mb-3" data-js="d-select2">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
-        <p>{% translate 'General Domain Pseudonyms allow you to access data about subjects without a specific study context. This allows institutes to hold stable and/or universal information on subjects in a separate domain (allowing to store the data in an external system). Please note that you should have a good reason to apply for a general domain within your study.' %}</p>
+        <p>{% translate 'General Domains allow you to access pseudonyms for data that is shared via central repositories. Please note these pseudonyms allow to identify subjects globally and therefore carry a high privacy risk.' %}</p>
         {% bootstrap_field form.general_domains %}
         <button class="btn btn-primary">{% translate 'Save' %}</button>
     </form>

@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='study',
             name='general_domains',
-            field=models.ManyToManyField(blank=True, help_text='These are domains that are shared among studies, e.g. for central data repositories.', limit_choices_to={'object_id': None}, to='pseudonyms.Domain', verbose_name='General pseudonym domains'),
+            field=models.ManyToManyField(blank=True, limit_choices_to={'object_id': None}, to='pseudonyms.Domain', verbose_name='General pseudonym domains'),
         ),
     ]
