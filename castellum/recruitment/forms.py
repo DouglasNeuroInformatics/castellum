@@ -77,7 +77,12 @@ class SubjectFilterAddForm(forms.Form):
 class SubjectFilterForm(forms.ModelForm):
     class Meta:
         model = SubjectFilter
-        fields = "__all__"
+        fields = [
+            'group',
+            'description',
+            'operator',
+            'value',
+        ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

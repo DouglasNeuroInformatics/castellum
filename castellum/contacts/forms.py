@@ -47,7 +47,9 @@ class SubjectMultipleChoiceField(forms.ModelMultipleChoiceField):
 class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
-        exclude = ['contact']
+        fields = [
+            'country', 'city', 'zip_code', 'street', 'house_number', 'additional_information'
+        ]
         widgets = {
             'country': DatalistWidget(datalist=(
                 Address.objects.order_by('country').values_list('country', flat=True).distinct
@@ -68,7 +70,17 @@ class ContactForm(forms.ModelForm):
 
     class Meta:
         model = Contact
-        exclude = ['guardians']
+        fields = [
+            'first_name',
+            'last_name',
+            'title',
+            'gender',
+            'date_of_birth',
+            'email',
+            'phone_number',
+            'phone_number_alternative',
+            'preferred_contact_method',
+        ]
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
