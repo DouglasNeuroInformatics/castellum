@@ -229,6 +229,14 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
 
             self.object.general_domains.set(self.duplicate.general_domains.all())
 
+            for domain in self.duplicate.domains.all():
+                Domain.objects.create(
+                    name=domain.name,
+                    bits=domain.bits,
+                    content_type=domain.content_type,
+                    object_id=self.object.pk,
+                )
+
             for session in self.duplicate.studysession_set.order_by('pk'):
                 s = self.object.studysession_set.create(
                     name=session.name,
