@@ -229,6 +229,9 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
 
             self.object.general_domains.set(self.duplicate.general_domains.all())
 
+            # delete the initial domain that was automatically created by the
+            # create_study_domain - signal
+            self.object.domains.all().delete()
             for domain in self.duplicate.domains.all():
                 Domain.objects.create(
                     name=domain.name,
