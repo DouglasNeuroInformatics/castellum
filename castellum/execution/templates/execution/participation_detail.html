@@ -2,19 +2,27 @@
 {% load i18n utils auth %}
 
 {% block content %}
-    {% if pseudonyms|length > 1 %}
+    {% if domains|length > 1 %}
         <h3 class="h5">{% translate 'Pseudonyms' %}</h3>
         <dl class="row">
-            {% for domain, pseudonym in pseudonyms %}
+            {% for domain in domains %}
                 <dt class="col-sm-6">{{ domain }}</dt>
-                <dd class="col-sm-6">{{ pseudonym }}</dd>
+                <dd class="col-sm-6">
+                    <a href="{% url 'execution:participation-pseudonym' study.pk participation.pk domain.key %}" data-js="replace-me" class="btn btn-sm btn-secondary">
+                        {% translate 'get pseudonym' %}
+                    </a>
+                </dd>
             {% endfor %}
         </dl>
     {% else %}
         <dl class="row">
             <dt class="col-sm-6">{% translate 'Pseudonym' %}</dt>
-            {% for domain, pseudonym in pseudonyms %}
-                <dd class="col-sm-6">{{ pseudonym }}</dd>
+            {% for domain in domains %}
+                <dd class="col-sm-6">
+                    <a href="{% url 'execution:participation-pseudonym' study.pk participation.pk domain.key %}" data-js="replace-me" class="btn btn-sm btn-secondary">
+                        {% translate 'get pseudonym' %}
+                    </a>
+                </dd>
             {% endfor %}
         </dl>
     {% endif %}

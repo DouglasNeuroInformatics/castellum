@@ -15,11 +15,15 @@
             </tr>
         </thead>
         <tbody>
-            {% for domain, pseudonym in pseudonyms %}
+            {% for domain in domains %}
                 <tr>
                     <td>{{ domain|display:'key' }}</dt>
                     <td>{{ domain|display:'name' }}</dt>
-                    <td>{{ pseudonym }}</dt>
+                    <td>
+                        <a href="{% url 'execution:participation-pseudonym' study.pk view.kwargs.pk domain.key %}" data-js="replace-me" class="btn btn-sm btn-secondary">
+                            {% translate 'get pseudonym' %}
+                        </a>
+                    </dt>
                 </tr>
             {% endfor %}
         </tbody>

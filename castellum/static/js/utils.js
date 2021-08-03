@@ -90,6 +90,19 @@
         }, 800);
     });
 
+    $$.on(document, 'click', '[data-js="replace-me"]', function(event) {
+        event.preventDefault();
+
+        var spinner = document.createElement('i');
+        spinner.className = 'fa fa-spinner fa-pulse';
+        this.append(spinner);
+
+        fetch(this.href, {credentials: 'same-origin'})
+            .then(response => response.text())
+            .then(pseudonym => this.parentElement.textContent = pseudonym)
+            .catch(() => spinner.remove());
+    });
+
     $.fn.select2.defaults.set('theme', 'bootstrap4');
     $('[data-js="select2"]').select2();
     $('[data-js="select2-tags"]').select2({tags: true});

@@ -38,6 +38,7 @@ from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
+from django.views.generic import View
 
 from castellum.appointments.mixins import BaseAppointmentsUpdateView
 from castellum.appointments.mixins import BaseCalendarView
@@ -167,9 +168,7 @@ class ParticipationDetailView(ParticipationDetailMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['pseudonyms'] = [
-            (d, get_pseudonym(self.subject, d.key)) for d in self.study.domains.all()
-        ]
+        context['domains'] = self.study.domains.all()
         return context
 
 
@@ -193,10 +192,28 @@ class ParticipationPseudonymsView(ParticipationDetailMixin, DetailView):
         context['subject'] = None
         context['participation'] = None
 
-        context['pseudonyms'] = [
-            (d, get_pseudonym(self.subject, d.key)) for d in self.study.domains.all()
-        ]
+        context['domains'] = self.study.domains.all()
+
         return context
+
+
+class ParticipationPseudonymView(ParticipationDetailMixin, View):
+    def has_permission(self):
+        return (
+            super().has_permission()
+            or self.request.user.has_perm('subjects.export_subject')
+            or self.request.user.has_perm('subjects.delete_subject')
+        )
+
+    def get(self, request, *args, **kwargs):
+        domain = get_object_or_404(self.study.domains, key=kwargs['domain'])
+        pseudonym = get_pseudonym(self.subject, domain.key)
+
+        monitoring_logger.info('Pseudonym access: domain {} by {}'.format(
+            domain.key, self.request.user.pk
+        ))
+
+        return HttpResponse(pseudonym)
 
 
 class ParticipationDropoutView(ParticipationDetailMixin, DetailView):
