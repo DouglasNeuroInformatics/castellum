@@ -41,6 +41,7 @@ Relevant guides:
 -   :ref:`study-members`
 -   :ref:`study-sessions`
 -   :ref:`study-recruitment-settings`
+-   :ref:`study-domains`
 -   :ref:`study-finish`
 -   :ref:`study-delete`
 -   :ref:`set-up-external-scheduler`

@@ -70,11 +70,11 @@ external survey services.
 
 Relevant guides:
 
+-   :ref:`study-domains`
+-   :ref:`subject-by-pseudonym`
 -   :ref:`subject-get-pseudonym`
 
 .. todo::
-    -   manage study domains
-    -   find participation by study pseudonym
     -   attribute export
 
 Using pseudonyms from general domains
@@ -92,13 +92,11 @@ studies.
 
 Relevant guides:
 
+-   :ref:`admin-general-domains`
+-   :ref:`admin-users`
+-   :ref:`study-domains`
 -   :ref:`subject-get-pseudonym`
-
-.. todo::
-    -   manage general domains
-    -   add general domains to study
-    -   allow users to access general domains
-    -   subject export/delete
+-   :ref:`subject-delete`
 
 
 Database split

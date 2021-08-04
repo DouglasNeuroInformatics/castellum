@@ -172,6 +172,18 @@ your study:
         links can be inserted as standard text.
 
 
+.. _study-domains:
+
+Manage study pseudony domains
+-----------------------------
+
+In the **Pseudonym domains** tab you can add a new domain or change the name of
+an existing domain.
+
+If there are general domains you can also define which general domains need to
+be accessed in the context of this study.
+
+
 .. _study-members:
 
 Manage study members

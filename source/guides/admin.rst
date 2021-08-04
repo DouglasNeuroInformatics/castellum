@@ -13,8 +13,9 @@ Manage Users
 
 5.  Add the appropriate global :ref:`roles`
 6.  Add the appropriate :ref:`privacy-level`
-7.  Set an expiration date
-8.  Click on one of the saving options
+7.  Add the appropriate **general domains**
+8.  Set an expiration date
+9.  Click on one of the saving options
 
 
 .. _admin-unlock:
@@ -121,3 +122,16 @@ case there is a two step process:
     up in the data protection dashboard.
 
 The legal basis for each subject can be found in the subject detail view.
+
+
+.. _admin-general-domains:
+
+Manage general domains
+----------------------
+
+1.  Click on **Admin** on the front page
+2.  Go to **Domains**
+3.  Click on **Add Domain** (oval with grey background)
+4.  Enter a name
+5.  Leave the ``object_id`` and ``content_type`` fields empty
+6.  Click on one of the saving options

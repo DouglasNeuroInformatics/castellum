@@ -13,10 +13,12 @@ Relevant guides:
 -   :ref:`subject-search`
 -   :ref:`subject-create`
 -   :ref:`subject-edit`
+-   :ref:`subject-by-pseudonym`
 -   :ref:`subject-get-pseudonym`
 -   :ref:`subject-to-be-deleted`
 -   :ref:`subject-delete`
 -   :ref:`study-create`
+-   :ref:`study-domains`
 -   :ref:`study-delete`
 -   :ref:`data-protection-dashboard`
 -   :ref:`subject-export`

@@ -284,7 +284,15 @@ please proceed as follows:
     -   Once the responsible contact person has confirmed the deletion of all
         data, delete the participation record using the **Delete** button.
 
-3.  Once all participation have been deleted you will see a message saying
+3.  If you see a message saying **This subject may still have data in general
+    domains.**, proceed as follows:
+
+    -   Click on **Pseudonyms** next to **General pseudonym domains** to get a
+        list of pseudonyms.
+    -   Contact the responsible person for each general domain and make sure
+        that all data is deleted.
+
+4.  Once all participation have been deleted you will see a message saying
     **Are you sure you want to permanently delete this subject and all related
     data?** You can now click **Confirm** and the subject will be deleted.
 
