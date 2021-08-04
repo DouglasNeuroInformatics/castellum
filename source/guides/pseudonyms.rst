@@ -20,3 +20,7 @@ Get the pseudonyms of a subject
 3.  In the list of participating subjects, click **Details**
 4.  In the subject overview, the pseudonym is listed among the subject's
     contact data and operational hints
+
+.. note::
+    The pseudonyms are only shown once you click a button. Each access to a
+    pseudonym is monitored to detect abuse.
