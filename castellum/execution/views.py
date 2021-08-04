@@ -171,7 +171,7 @@ class ParticipationDetailView(ParticipationDetailMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['domains'] = [
             *self.study.domains.all(),
-            *self.study.general_domains.all(),
+            *self.study.general_domains.filter(user=self.request.user),
         ]
         return context
 
@@ -212,7 +212,7 @@ class ParticipationPseudonymView(ParticipationDetailMixin, View):
     def get(self, request, *args, **kwargs):
         qs = Domain.objects.filter(
             models.Q(pk__in=self.study.domains.all())
-            | models.Q(pk__in=self.study.general_domains.all())
+            | models.Q(pk__in=self.study.general_domains.filter(user=request.user))
         )
         domain = get_object_or_404(qs, key=kwargs['domain'])
         pseudonym = get_pseudonym(self.subject, domain.key)
