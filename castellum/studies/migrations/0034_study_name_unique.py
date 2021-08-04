@@ -19,7 +19,7 @@ def migrate_data(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('studies', '0032_study_is_filter_trial'),
+        ('studies', '0033_study_general_domains'),
     ]
 
     operations = [
