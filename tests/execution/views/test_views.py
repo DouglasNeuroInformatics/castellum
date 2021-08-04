@@ -211,6 +211,21 @@ def test_calendar_view_events(client, member, study_in_execution_status, subject
 
 
 @pytest.mark.smoketest
+def test_participation_update_view(client, member, study_in_execution_status, subject):
+    client.force_login(member)
+
+    participation = baker.make(
+        Participation,
+        study=study_in_execution_status,
+        status=Participation.INVITED,
+        subject=subject,
+    )
+    url = '/execution/{}/{}/update/'.format(study_in_execution_status.pk, participation.pk)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.smoketest
 def test_participation_dropout_view(client, member, study_in_execution_status, subject):
     client.force_login(member)
 
@@ -259,3 +274,11 @@ def test_participation_dropout_confirm_view_post(
     assert response.status_code == 302
     assert participation.status == Participation.UNSUITABLE
     assert participation.dropped_out
+
+
+@pytest.mark.smoketest
+def test_progress_view(client, member, study_in_execution_status):
+    client.force_login(member)
+    url = '/execution/{}/progress/'.format(study_in_execution_status.pk)
+    response = client.get(url)
+    assert response.status_code == 200
