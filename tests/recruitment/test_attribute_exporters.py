@@ -5,6 +5,7 @@ ATTRIBUTES = {
     'd1': 1,
     'd2': 'de',
     'd3': '1970-01-01',
+    'd5': [11, 12],
 }
 
 JSON_SCHEMA = """{
@@ -33,6 +34,17 @@ JSON_SCHEMA = """{
             ],
             "type": "string"
         },
+        "Instruments": {
+            "items": {
+                "enum": [
+                    "Piano",
+                    "Guitar",
+                    "Drums"
+                ],
+                "type": "string"
+            },
+            "type": "array"
+        },
         "Language": {
             "type": "string"
         },
@@ -47,6 +59,10 @@ JSON_DATA = """[
     {
         "Date of birth": "1970-01-01",
         "Handedness": "Right",
+        "Instruments": [
+            "Piano",
+            "Guitar"
+        ],
         "Language": "de",
         "id": "test"
     }
@@ -75,11 +91,18 @@ BIDS_SCHEMA = """{
             "10": "Master"
         }
     },
+    "instruments": {
+        "Levels": {
+            "11": "Piano",
+            "12": "Guitar",
+            "13": "Drums"
+        }
+    },
     "language": {}
 }"""
 
-BIDS_DATA = """participant_id\thandedness\tlanguage\tdate_of_birth\thighest_degree\r
-sub-test\t1\tde\t1970-01-01\tn/a\r
+BIDS_DATA = """participant_id\thandedness\tlanguage\tdate_of_birth\thighest_degree\tinstruments\r
+sub-test\t1\tde\t1970-01-01\tn/a\t11,12\r
 """
 
 
