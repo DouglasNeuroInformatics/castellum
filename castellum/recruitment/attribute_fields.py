@@ -168,10 +168,12 @@ class TextAttributeField(BaseAttributeField):
 
 
 class BaseChoiceAttributeField(BaseAttributeField):
-    def formfield(self, form_class=None, **kwargs):
+    def get_choices(self):
         qs = self.description.attributechoice_set.translated()
-        choices = [(None, _('Unknown'))] + list(qs.values_list('pk', 'translations__label'))
-        return super().formfield(form_class=form_class, choices=choices, **kwargs)
+        return list(qs.values_list('pk', 'translations__label'))
+
+    def formfield(self, form_class=None, **kwargs):
+        return super().formfield(form_class=form_class, choices=self.get_choices(), **kwargs)
 
     def get_display(self, value):
         if value in ['', None, ANSWER_DECLINED]:
@@ -204,6 +206,9 @@ class ChoiceAttributeField(BaseChoiceAttributeField):
         ("exact", _("is")),
         ("!exact", _("is not")),
     ]
+
+    def get_choices(self):
+        return [(None, _('Unknown'))] + super().get_choices()
 
 
 class MultipleChoiceAttributeField(BaseChoiceAttributeField):
