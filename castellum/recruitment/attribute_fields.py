@@ -167,13 +167,7 @@ class TextAttributeField(BaseAttributeField):
     ]
 
 
-class ChoiceAttributeField(BaseAttributeField):
-    form_class = IntegerChoiceField
-    available_operators = [
-        ("exact", _("is")),
-        ("!exact", _("is not")),
-    ]
-
+class BaseChoiceAttributeField(BaseAttributeField):
     def formfield(self, form_class=None, **kwargs):
         qs = self.description.attributechoice_set.translated()
         choices = [(None, _('Unknown'))] + list(qs.values_list('pk', 'translations__label'))
@@ -204,7 +198,15 @@ class ChoiceAttributeField(BaseAttributeField):
         return buckets, get_bucket
 
 
-class MultipleChoiceAttributeField(ChoiceAttributeField):
+class ChoiceAttributeField(BaseChoiceAttributeField):
+    form_class = IntegerChoiceField
+    available_operators = [
+        ("exact", _("is")),
+        ("!exact", _("is not")),
+    ]
+
+
+class MultipleChoiceAttributeField(BaseChoiceAttributeField):
     form_class = IntegerMultipleChoiceField
     filter_form_class = IntegerChoiceField
     available_operators = [
