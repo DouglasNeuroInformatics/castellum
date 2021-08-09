@@ -35,10 +35,15 @@ from dateutil.relativedelta import relativedelta
 from castellum.utils.forms import DateField
 from castellum.utils.forms import IntegerChoiceField
 from castellum.utils.forms import IntegerMultipleChoiceField
+from castellum.utils.forms import Select2Mixin
 
 from .fields import AgeField
 
 ANSWER_DECLINED = "ANSWER_DECLINED"
+
+
+class Select2IntegerMultipleChoiceField(Select2Mixin, IntegerMultipleChoiceField):
+    pass
 
 
 class BaseAttributeField:
@@ -212,7 +217,7 @@ class ChoiceAttributeField(BaseChoiceAttributeField):
 
 
 class MultipleChoiceAttributeField(BaseChoiceAttributeField):
-    form_class = IntegerMultipleChoiceField
+    form_class = Select2IntegerMultipleChoiceField
     filter_form_class = IntegerChoiceField
     available_operators = [
         ("contains", _("contains")),
