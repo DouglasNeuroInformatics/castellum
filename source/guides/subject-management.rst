@@ -267,7 +267,7 @@ sufficient legal basis to keep the data.
     This is only available for users with permissions that are granted to staff
     members who are data protection coordinators or the like.
 
-    If deletion was requested by a subject you should follow your institutes
+    If deletion was requested by a subject you should follow your institute's
     rules on verifying identity of requester.
 
 In order to delete the externally and internally stored data of a subject,
@@ -292,7 +292,7 @@ please proceed as follows:
     -   Contact the responsible person for each general domain and make sure
         that all data is deleted.
 
-4.  Once all participation have been deleted you will see a message saying
+4.  Once all participations have been deleted you will see a message saying
     **Are you sure you want to permanently delete this subject and all related
     data?** You can now click **Confirm** and the subject will be deleted.
 

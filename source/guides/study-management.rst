@@ -174,8 +174,8 @@ your study:
 
 .. _study-domains:
 
-Manage study pseudony domains
------------------------------
+Manage study pseudonym domains
+------------------------------
 
 In the **Pseudonym domains** tab you can add a new domain or change the name of
 an existing domain.

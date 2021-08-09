@@ -4,8 +4,8 @@ Data separation
 At its core, Castellum is about splitting a subject's data into little pieces.
 On the one hand this means that users can only access the pieces that are
 necessary for them. On the other hand this means that castellum contains the
-necessary information to but all the pieces back together, e.g. so it can be
-deleted on request
+necessary information to put all the pieces back together, e.g. so it can be
+deleted on request.
 
 
 Contact data
@@ -65,7 +65,7 @@ Using study pseudonyms
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Whenever you collect data in the context of a study, it should be stored with a
-study pseudonym. Pseudonyms can also be printed on quastionairs or passed to
+study pseudonym. Pseudonyms can also be printed on questionnaires or passed to
 external survey services.
 
 Relevant guides:
