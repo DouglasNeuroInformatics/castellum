@@ -48,9 +48,9 @@ to link the data back to the subject.
     <https://pypi.org/project/castellum-pseudonyms/>`_.
 
 A subject can have many different pseudonyms in different domains. Castellum
-automatically creates a new domain for each study. But there can be more than
-one domain per study. There can also be *general domains* that are not
-connected to studies at all.
+automatically creates a new domain for each study. There can be more than one
+domain per study as well as *general domains* that are not connected to studies
+at all.
 
 .. warning::
     Pseudonyms are only unique (and therefore useful) within their domain.
@@ -102,8 +102,8 @@ Relevant guides:
 Database split
 --------------
 
-In Castellum, contact data is handled in a separate database server from
-everything else to provide an additional barrier.
+In Castellum, contact data is handled in a database server which is separated
+from everything else to provide an additional barrier.
 
 This provides a clear structure for developers that should help avoiding
 critical data leaks. Even if an attacker is able to dump a whole table or even
