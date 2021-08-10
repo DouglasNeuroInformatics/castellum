@@ -29,7 +29,7 @@
                 </li>
             {% endif %}
 
-            {% has_perm 'subjects.change_subject' user as can_change_subject %}
+            {% has_perm 'subjects.change_subject' user study as can_change_subject %}
             {% if can_change_subject %}
                 <li class="nav-item">
                     <a href="{% url 'execution:contact-update' study.pk participation.pk %}" class="nav-link {% if view.tab == 'update-data' %}active{% endif %}">
