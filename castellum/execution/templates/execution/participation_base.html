@@ -23,13 +23,14 @@
                 <a href="{% url 'execution:participation-update' study.pk participation.pk %}" class="nav-link {% if view.tab == 'update' %}active{% endif %}">{% translate 'Hints' %}</a>
             </li>
 
-            {% if study.studysession_set.exists %}
+            {% has_perm 'appointments.change_appointment' user study as can_change_appointment %}
+            {% if can_change_appointment and study.studysession_set.exists %}
                 <li class="nav-item">
                     <a href="{% url 'execution:participation-appointments' study.pk participation.pk %}" class="nav-link {% if view.tab == 'appointments' %}active{% endif %}">{% translate 'Appointments' %}</a>
                 </li>
             {% endif %}
 
-            {% has_perm 'subjects.change_subject' user as can_change_subject %}
+            {% has_perm 'subjects.change_subject' user study as can_change_subject %}
             {% if can_change_subject %}
                 <li class="nav-item">
                     <a href="{% url 'execution:contact-update' study.pk participation.pk %}" class="nav-link {% if view.tab == 'update-data' %}active{% endif %}">
