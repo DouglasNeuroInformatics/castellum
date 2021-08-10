@@ -12,6 +12,7 @@ Welcome to Castellum's documentation!
    overview
    features
    roles
+   privacy
    security
    faqs
 
@@ -22,7 +23,7 @@ Welcome to Castellum's documentation!
    guides/two-factor-authentication
    guides/subject-management
    guides/study-management
-   guides/subject-get-pseudonym
+   guides/pseudonyms
    guides/data-protection
 
    guides/consent-management

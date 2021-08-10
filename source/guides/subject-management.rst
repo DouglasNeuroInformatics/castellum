@@ -267,7 +267,7 @@ sufficient legal basis to keep the data.
     This is only available for users with permissions that are granted to staff
     members who are data protection coordinators or the like.
 
-    If deletion was requested by a subject you should follow your institutes 
+    If deletion was requested by a subject you should follow your institute's
     rules on verifying identity of requester.
 
 In order to delete the externally and internally stored data of a subject,
@@ -281,10 +281,18 @@ please proceed as follows:
     -   Contact the responsible person for each study and ask them to delete
         all collected data of the subject concerned. Identify the subject using
         the study pseudonym that is displayed.
-    -   Once the responsible contact person has conformed the deletion of all
+    -   Once the responsible contact person has confirmed the deletion of all
         data, delete the participation record using the **Delete** button.
 
-3.  Once all participation have been deleted you will see a message saying
+3.  If you see a message saying **This subject may still have data in general
+    domains.**, proceed as follows:
+
+    -   Click on **Pseudonyms** next to **General pseudonym domains** to get a
+        list of pseudonyms.
+    -   Contact the responsible person for each general domain and make sure
+        that all data is deleted.
+
+4.  Once all participations have been deleted you will see a message saying
     **Are you sure you want to permanently delete this subject and all related
     data?** You can now click **Confirm** and the subject will be deleted.
 
