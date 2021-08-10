@@ -39,6 +39,7 @@ class JSONExporter:
     TYPES = {
         'IntegerField': 'integer',
         'BooleanField': 'boolean',
+        'MultipleChoiceField': 'array',
     }
     FORMATS = {
         'DateField': 'date',
@@ -62,12 +63,21 @@ class JSONExporter:
             key = description.label
             choices = list(description.attributechoice_set.all())
 
-            schema['properties'][key] = {k: v for k, v in [
+            data = {k: v for k, v in [
                 ('type', self.TYPES.get(description.field_type, 'string')),
                 ('format', self.FORMATS.get(description.field_type)),
                 ('enum', [c.label for c in choices]),
                 ('description', description.help_text),
             ] if v}
+
+            if data['type'] == 'array':
+                enum = data.pop('enum')
+                data['items'] = {
+                    'type': 'string',
+                    'enum': enum,
+                }
+
+            schema['properties'][key] = data
 
         return self._json_dumps(schema)
 
@@ -90,8 +100,14 @@ class JSONExporter:
                 if value in ['', None, ANSWER_DECLINED]:
                     pass
                 elif choices:
-                    choice = description.attributechoice_set.get(pk=value)
-                    data[-1][key] = choice.label
+                    if isinstance(value, list):
+                        data[-1][key] = []
+                        for v in value:
+                            choice = description.attributechoice_set.get(pk=v)
+                            data[-1][key].append(choice.label)
+                    else:
+                        choice = description.attributechoice_set.get(pk=value)
+                        data[-1][key] = choice.label
                 else:
                     data[-1][key] = value
 
@@ -142,6 +158,8 @@ class BIDSExporter:
                 value = subject.attributes.get(desc.json_key)
                 if value in ['', None, ANSWER_DECLINED]:
                     row[key] = 'n/a'
+                elif isinstance(value, list):
+                    row[key] = ','.join(str(pk) for pk in value)
                 else:
                     row[key] = value
             writer.writerow(row)

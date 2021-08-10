@@ -35,10 +35,15 @@ from dateutil.relativedelta import relativedelta
 from castellum.utils.forms import DateField
 from castellum.utils.forms import IntegerChoiceField
 from castellum.utils.forms import IntegerMultipleChoiceField
+from castellum.utils.forms import Select2Mixin
 
 from .fields import AgeField
 
 ANSWER_DECLINED = "ANSWER_DECLINED"
+
+
+class Select2IntegerMultipleChoiceField(Select2Mixin, IntegerMultipleChoiceField):
+    pass
 
 
 class BaseAttributeField:
@@ -167,17 +172,13 @@ class TextAttributeField(BaseAttributeField):
     ]
 
 
-class ChoiceAttributeField(BaseAttributeField):
-    form_class = IntegerChoiceField
-    available_operators = [
-        ("exact", _("is")),
-        ("!exact", _("is not")),
-    ]
+class BaseChoiceAttributeField(BaseAttributeField):
+    def get_choices(self):
+        qs = self.description.attributechoice_set.translated()
+        return list(qs.values_list('pk', 'translations__label'))
 
     def formfield(self, form_class=None, **kwargs):
-        qs = self.description.attributechoice_set.translated()
-        choices = [(None, _('Unknown'))] + list(qs.values_list('pk', 'translations__label'))
-        return super().formfield(form_class=form_class, choices=choices, **kwargs)
+        return super().formfield(form_class=form_class, choices=self.get_choices(), **kwargs)
 
     def get_display(self, value):
         if value in ['', None, ANSWER_DECLINED]:
@@ -204,8 +205,19 @@ class ChoiceAttributeField(BaseAttributeField):
         return buckets, get_bucket
 
 
-class MultipleChoiceAttributeField(ChoiceAttributeField):
-    form_class = IntegerMultipleChoiceField
+class ChoiceAttributeField(BaseChoiceAttributeField):
+    form_class = IntegerChoiceField
+    available_operators = [
+        ("exact", _("is")),
+        ("!exact", _("is not")),
+    ]
+
+    def get_choices(self):
+        return [(None, _('Unknown'))] + super().get_choices()
+
+
+class MultipleChoiceAttributeField(BaseChoiceAttributeField):
+    form_class = Select2IntegerMultipleChoiceField
     filter_form_class = IntegerChoiceField
     available_operators = [
         ("contains", _("contains")),

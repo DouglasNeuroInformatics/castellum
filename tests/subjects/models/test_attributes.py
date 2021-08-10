@@ -37,7 +37,7 @@ def test_attributes_get_completeness_non_empty(attribute_description):
 @pytest.mark.django_db
 def test_attribute_description_by_category(attribute_descriptions):
     categories = AttributeDescription.objects.by_category()
-    assert len(categories[UNCATEGORIZED]) == 4
+    assert len(categories[UNCATEGORIZED]) == 5
     assert len(categories) == 1
 
 
@@ -48,7 +48,7 @@ def test_attribute_description_by_category_with_categories(attribute_description
     description.save()
 
     categories = AttributeDescription.objects.by_category()
-    assert len(categories[UNCATEGORIZED]) == 3
+    assert len(categories[UNCATEGORIZED]) == 4
     assert len(categories) == 2
 
 

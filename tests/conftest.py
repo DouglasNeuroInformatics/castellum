@@ -24,6 +24,31 @@ from castellum.studies.models import Study
 from castellum.studies.models import StudyGroup
 from castellum.studies.models import StudyMembership
 
+ADDITIONAL_ATTRIBUTE_DESCRIPTIONS = [{
+    'field_type': 'MultipleChoiceField',
+    'order': 4,
+    'label': {
+        'de': 'Instrumente',
+        'en': 'Instruments',
+    },
+    'choices': [{
+        'label': {
+            'de': 'Klavier',
+            'en': 'Piano',
+        }
+    }, {
+        'label': {
+            'de': 'Gitarre',
+            'en': 'Guitar',
+        }
+    }, {
+        'label': {
+            'de': 'Schlagzeug',
+            'en': 'Drums',
+        }
+    }],
+}]
+
 baker.generators.add(
     'castellum.utils.fields.DateField', baker.generators.default_mapping[DateField]
 )
@@ -78,6 +103,8 @@ def attribute_descriptions(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
         if not AttributeDescription.objects.exists():
             create_attribute_descriptions.generate_attribute_descriptions()
+            for data in ADDITIONAL_ATTRIBUTE_DESCRIPTIONS:
+                AttributeDescription._import(data)
 
 
 @pytest.fixture(scope='session', autouse=True)
