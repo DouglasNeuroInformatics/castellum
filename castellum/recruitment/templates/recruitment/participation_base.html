@@ -28,7 +28,7 @@
             </li>
 
             {% has_perm 'subjects.change_appointment' user study as can_change_appointment %}
-            {% if can_change_appointment %}
+            {% if can_change_appointment and study.studysession_set.exists %}
                 <li class="nav-item">
                     <a href="{% url 'recruitment:appointments' study.pk participation.pk %}" class="nav-link {% if view.tab == 'appointments' %}active{% endif %}">
                         {% translate 'Appointments' %}
