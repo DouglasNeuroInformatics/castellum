@@ -31,6 +31,10 @@ from castellum.contacts.models import Contact
     # ('Meier', 'Mei er', True), # fails
     # ('Meier', 'Meiek', True),  # fails
 
+    # diacritics
+    ('Gerçeği', 'Gercegi', True),
+    ('Mašoník', 'Masonik', True),
+
     # more than one category
     ('Meier Schmidt', 'Mayer', True),
     ('Meier Schmidt', 'Mier', True),
