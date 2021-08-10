@@ -1,3 +1,13 @@
+# 0.63.1 (2021-08-10)
+
+## bug fixes
+
+-   Fixed an error when using attribute export with MultipleChoiceField
+-   Fixed multiple issues in the conditions for showing the
+    "Appointments" and "Update data" tabs in both recruitment and
+    execution
+
+
 # 0.63.0 (2021-07-27)
 
 ## breaking changes
