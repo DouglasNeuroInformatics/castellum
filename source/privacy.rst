@@ -1,5 +1,5 @@
-Data separation
-===============
+Privacy
+=======
 
 At its core, Castellum is about splitting a subject's data into little pieces.
 On the one hand this means that users can only access the pieces that are
