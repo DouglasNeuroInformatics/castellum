@@ -228,7 +228,7 @@ def test_source_domain_general_bad_study(client, conductor, study_in_execution_s
     assert response.status_code == 404
 
 
-def test_transformed_pseudonym(client, conductor, study_in_execution_status, subject):
+def test_normalize_pseudonym(client, conductor, study_in_execution_status, subject):
     study = study_in_execution_status
     domain = baker.make(Domain, context=study)
     target_domain = baker.make(Domain, context=study)

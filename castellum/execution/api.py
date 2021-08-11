@@ -81,6 +81,30 @@ class APIExportView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
         return JsonResponse({'participants': data})
 
 
+class APIValidateView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
+    permission_required = ['recruitment.conduct_study']
+    study_status = [Study.EXECUTION]
+
+    def get(self, request, **kwargs):
+        try:
+            pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
+        except ValueError:
+            raise Http404
+
+        domain = get_object_or_404(self.study.domains, key=self.kwargs['domain'])
+
+        try:
+            subject = get_subject(domain.key, pseudonym)
+        except Subject.DoesNotExist:
+            raise Http404
+
+        get_object_or_404(
+            Participation, subject=subject, study=self.study, status=Participation.INVITED
+        )
+
+        return JsonResponse({'pseudonym': pseudonym})
+
+
 class APIResolveView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
     permission_required = ['recruitment.conduct_study']
     study_status = [Study.EXECUTION]
