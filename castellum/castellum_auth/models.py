@@ -69,6 +69,7 @@ class User(AbstractUser):
         permissions = [
             ('privacy_level_1', _('Can access privacy level 1')),
             ('privacy_level_2', _('Can access privacy level 2')),
+            ('control_serviceaccount', _('Can control service accounts')),
         ]
 
     @property

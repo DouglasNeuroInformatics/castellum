@@ -67,7 +67,8 @@
             </div>
         </div>
 
-        {% if service_accounts_exist %}
+        {% has_perm 'castellum_auth.control_serviceaccount' user as can_control_serviceaccount %}
+        {% if can_control_serviceaccount and service_accounts_exist %}
             <div class="col-sm-6 col-md-4 mb-4">
                 <div class="card">
                     <a href="{% url 'service-accounts' %}" class="card-header" tabindex="-1">
