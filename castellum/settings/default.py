@@ -439,7 +439,7 @@ CASTELLUM_FILE_UPLOAD_MAX_SIZE = 5000000
 # First argument is a hint about the number of random bits that should be included.
 CASTELLUM_PSEUDONYM_GENERATE = castellum_pseudonyms.generate
 
-# A function that raises a ValidationError if the pseudonym's format is invalid.
+# A function that raises a ValueError if the pseudonym's format is invalid.
 #
 # Returns a *cleaned* pseudonym. This can be used to implement
 # auto-correction. But in most cases this will be the same as the input
