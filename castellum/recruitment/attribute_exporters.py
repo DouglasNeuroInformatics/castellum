@@ -84,7 +84,7 @@ class JSONExporter:
     def get_schema_filename(self):
         return 'attributes.schema.json'
 
-    def get_data(self, descriptions, subjects):
+    def get_raw_data(self, descriptions, subjects):
         data = []
 
         for _id, subject in subjects:
@@ -111,7 +111,10 @@ class JSONExporter:
                 else:
                     data[-1][key] = value
 
-        return self._json_dumps(data)
+        return data
+
+    def get_data(self, descriptions, subjects):
+        return self._json_dumps(self.get_raw_data(descriptions, subjects))
 
     def get_data_filename(self):
         return 'attributes.json'
