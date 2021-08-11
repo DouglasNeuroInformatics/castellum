@@ -21,9 +21,9 @@
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import SuspiciousOperation
-from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.utils.translation import check_for_language
+from django.views.generic import DetailView
 from django.views.generic import ListView
 
 from castellum.utils.views import get_next_url
@@ -54,8 +54,16 @@ class ServiceAccountListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return super().get_queryset().filter(is_service_account=True)
 
+
+class ServiceAccountControlView(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = 'castellum_auth/serviceaccount_control.html'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(is_service_account=True)
+
     def post(self, request, *args, **kwargs):
-        service_account = get_object_or_404(self.get_queryset(), pk=request.POST['id'])
+        service_account = self.get_object()
         if request.POST.get('control'):
             service_account.controlled_by = request.user
             service_account.save()
@@ -64,4 +72,4 @@ class ServiceAccountListView(LoginRequiredMixin, ListView):
                 raise SuspiciousOperation
             service_account.controlled_by = None
             service_account.save()
-        return redirect(request.path)
+        return redirect('service-accounts')

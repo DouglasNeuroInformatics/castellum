@@ -40,6 +40,7 @@ from stronghold.decorators import public
 
 from castellum.castellum_auth.forms import AuthenticationForm
 from castellum.castellum_auth.models import User
+from castellum.castellum_auth.views import ServiceAccountControlView
 from castellum.castellum_auth.views import ServiceAccountListView
 from castellum.castellum_auth.views import set_language
 from castellum.studies.models import Resource
@@ -113,6 +114,11 @@ urlpatterns = [
     ),
     path('mfa/', include('mfa.urls', namespace='mfa')),
     path('serviceaccounts/', ServiceAccountListView.as_view(), name='service-accounts'),
+    path(
+        'serviceaccounts/<int:pk>/',
+        ServiceAccountControlView.as_view(),
+        name='service-accounts-control',
+    ),
 ]
 
 if settings.PROTECTED_MEDIA_SERVER:
