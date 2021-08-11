@@ -21,6 +21,9 @@
 
 from django.urls import path
 
+from .api import APIDomainsView
+from .api import APIExportView
+from .api import APIResolveView
 from .feeds import AppointmentFeedForStudy
 from .feeds import AppointmentFeedForUser
 from .views import AdditionalInfoUpdateView
@@ -109,5 +112,12 @@ urlpatterns = [
         '<int:study_pk>/<int:pk>/update-additional-info/',
         AdditionalInfoUpdateView.as_view(),
         name='additional-info-update',
+    ),
+
+    path('<int:pk>/api/domains/', APIDomainsView.as_view()),
+    path('<int:pk>/api/domains/<uuid:domain>/', APIExportView.as_view()),
+    path(
+        '<int:study_pk>/api/domains/<uuid:domain>/<pseudonym>/<uuid:target_domain>/',
+        APIResolveView.as_view()
     ),
 ]
