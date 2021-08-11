@@ -174,7 +174,7 @@ msgstr "Volljährig"
 
 #: castellum/contacts/forms.py:64
 msgid "Has legal guardian"
-msgstr "Hat Vormund"
+msgstr "Hat gesetzliche Vertreter*in"
 
 #: castellum/contacts/forms.py:115
 msgid "Provide more details for the address."
@@ -182,7 +182,7 @@ msgstr "Adressdaten unvollständig"
 
 #: castellum/contacts/forms.py:140
 msgid "Subjects under the age of {} need a legal guardian."
-msgstr "Proband*innen unter {} Jahren müssen einen Vormund haben."
+msgstr "Proband*innen unter {} Jahren müssen eine gesetzliche Vertreter*in haben."
 
 #: castellum/contacts/forms.py:149 castellum/contacts/forms.py:152
 #: castellum/contacts/forms.py:155
@@ -270,7 +270,7 @@ msgstr "Bevorzugte Kontaktmöglichkeit"
 #: castellum/contacts/models.py:161
 #: castellum/subjects/templates/subjects/guardian_search.html:4
 msgid "Guardians"
-msgstr "Vormünder"
+msgstr "Gesetzliche Vertreter*innen"
 
 #: castellum/contacts/models.py:168 castellum/contacts/models.py:169
 #: castellum/subjects/templates/subjects/subject_export.html:64
@@ -320,12 +320,12 @@ msgstr "Name"
 #: castellum/contacts/templates/contacts/__contact.html:7
 #: castellum/contacts/templates/contacts/__contact.html:18
 msgid "Legal guardian"
-msgstr "Vormund"
+msgstr "Gesetzliche Vertreter*in"
 
 #: castellum/contacts/templates/contacts/__contact.html:11
 msgid "This guardian has other wards who may also be suitable for this study."
 msgstr ""
-"Diese Person ist Vormund von weiteren Proband*innen, die ebenfalls für diese "
+"Diese Person ist gesetzliche Vertreter*in von weiteren Proband*innen, die ebenfalls für diese "
 "Studien passen könnten."
 
 #: castellum/contacts/templates/contacts/__contact.html:19
@@ -382,7 +382,7 @@ msgstr ""
 
 #: castellum/contacts/templates/contacts/__guardian_item.html:5
 msgid "Guardian"
-msgstr "Vormund"
+msgstr "Gesetzliche Vertreter*in"
 
 #: castellum/contacts/templates/contacts/__guardian_item.html:15
 #: castellum/data_protection/templates/data_protection/__subject_list.html:18
@@ -432,18 +432,18 @@ msgid ""
 "address, or guardian should be provided."
 msgstr ""
 "Geschlecht und Geburtsdatum sowie entweder E-Mail, Telefonnummer, Adresse "
-"oder Vormund sollten angegeben werden."
+"oder gesetzliche Vertreter*in sollten angegeben werden."
 
 #: castellum/contacts/templates/contacts/contact_form.html:38
 #, python-format
 msgid "%(count)s guardians not listed because of insufficient privacy level."
 msgstr ""
-"%(count)s Vormünder werden wegen unzureichender Vertraulichkeitsstufe nicht "
+"%(count)s gesetzliche Vertreter*innen werden wegen unzureichender Vertraulichkeitsstufe nicht "
 "aufgelistet."
 
 #: castellum/contacts/templates/contacts/contact_form.html:50
 msgid "Add guardian"
-msgstr "Vormund hinzufügen"
+msgstr "Gesetzliche Vertreter*in hinzufügen"
 
 #: castellum/contacts/templates/contacts/contact_form.html:54
 #: castellum/execution/templates/execution/participation_appointments_form.html:49
@@ -1564,7 +1564,7 @@ msgid ""
 "the same address as one of their guardians."
 msgstr ""
 "Diese Studie benutzt einen geographischen Filter. Bitte stellen Sie sicher, "
-"dass die Proband*in an der gleichen Adresse wie einer der Vormünder lebt."
+"dass die Proband*in an der gleichen Adresse wie eine der gesetzliche Vertreter*innen lebt."
 
 #: castellum/recruitment/templates/recruitment/contact.html:42
 msgid ""
@@ -2781,8 +2781,8 @@ msgid ""
 "their wards."
 msgstr ""
 "Die Proband*in ist aufgrund unangemessenen Verhaltens gesperrt. Sie wird "
-"weder für die Rekrutierung in Betracht gezogen, noch als Vormund "
-"kontaktiert. Falls diese Proband*in Vormund ist kann es allerdings sein, "
+"weder für die Rekrutierung in Betracht gezogen, noch als gesetzliche Vertreter*in "
+"kontaktiert. Falls diese Proband*in gesetzliche Vertreter*in ist kann es allerdings sein, "
 "dass sie über Umwege von Rekrutierungsprozessen erfährt."
 
 #: castellum/subjects/models.py:107
@@ -2910,7 +2910,7 @@ msgstr "Treffer"
 #: castellum/subjects/templates/subjects/guardian_search.html:81
 #: castellum/subjects/templates/subjects/guardian_search.html:83
 msgid "Set up as guardian"
-msgstr "Als Vormund auswählen"
+msgstr "Als gesetzliche Vertreter*in auswählen"
 
 #: castellum/subjects/templates/subjects/guardian_search.html:89
 #: castellum/subjects/templates/subjects/subject_search.html:118
@@ -3031,8 +3031,8 @@ msgid ""
 "This subject has a legal guardian. For information on availability and notes "
 "please find their details."
 msgstr ""
-"Diese Proband*in hat einen Vormund. Informationen zu Verfügbarkeit sowie "
-"Notizen sind unter dessen Details zu finden."
+"Diese Proband*in hat eine gesetzliche Vertreter*in. Informationen zu Verfügbarkeit sowie "
+"Notizen sind unter deren Details zu finden."
 
 #: castellum/subjects/templates/subjects/subject_additional_info_form.html:20
 #: castellum/subjects/templates/subjects/subject_export.html:151
@@ -3056,7 +3056,7 @@ msgid ""
 "This subject is the only guardian of another subject. Deletion means that "
 "this subject's ward becomes unreachable!"
 msgstr ""
-"Diese Proband*in ist der einzige Vormund einer anderen Proband*in. Sie zu "
+"Diese Proband*in ist die einzige gesetzliche Vertreter*in einer anderen Proband*in. Sie zu "
 "löschen bedeutet, dass diese Proband*in nicht mehr kontaktiert werden kann!"
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:15
@@ -3157,7 +3157,7 @@ msgstr "(Zugriff verweigert)"
 #: castellum/subjects/templates/subjects/subject_detail.html:29
 #: castellum/subjects/templates/subjects/subject_export.html:105
 msgid "Guardian of"
-msgstr "Vormund von"
+msgstr "Gesetzliche Vertreter*in von"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:42
 msgid "Subject data registered"
@@ -3209,7 +3209,7 @@ msgstr "<a href=\"%(url)s\">Zu einer Studie hinzufügen</a>, sofern anwendbar"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:97
 msgid "Guardianship"
-msgstr "Vormundschaft"
+msgstr "Gesetzliche Vertretung"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:98
 msgid "Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 1626, 1902 BGB"
@@ -3223,7 +3223,7 @@ msgid ""
 "one as their guardian."
 msgstr ""
 "<a href=\"%(url)s\">Proband*in finden oder erstellen</a> und diese Person "
-"als deren Vormund eintragen"
+"als deren gesetzliche Vertreter*in eintragen"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:111
 msgid "Art. 6 (1) lit. f GDPR"
