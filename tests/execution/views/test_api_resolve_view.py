@@ -226,3 +226,20 @@ def test_source_domain_general_bad_study(client, conductor, study_in_execution_s
     response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
 
     assert response.status_code == 404
+
+
+def test_transformed_pseudonym(client, conductor, study_in_execution_status, subject):
+    study = study_in_execution_status
+    domain = baker.make(Domain, context=study)
+    target_domain = baker.make(Domain, context=study)
+    baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
+    pseudonym = get_pseudonym(subject, domain.key)
+    target_pseudonym = get_pseudonym(subject, target_domain.key)
+
+    url = '/execution/{}/api/domains/{}/{}/{}/'.format(
+        study.pk, domain.key, pseudonym.lower(), target_domain.key
+    )
+    response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
+
+    assert response.status_code == 200
+    assert response.json() == {'pseudonym': target_pseudonym}

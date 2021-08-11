@@ -21,6 +21,7 @@
 
 import logging
 
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.http import Http404
@@ -85,9 +86,15 @@ class APIResolveView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
     study_status = [Study.EXECUTION]
 
     def get(self, request, **kwargs):
-        domain = get_object_or_404(self.study.domains, key=self.kwargs['domain'])
         try:
-            subject = get_subject(domain.key, self.kwargs['pseudonym'])
+            pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
+        except ValueError:
+            raise Http404
+
+        domain = get_object_or_404(self.study.domains, key=self.kwargs['domain'])
+
+        try:
+            subject = get_subject(domain.key, pseudonym)
         except Subject.DoesNotExist:
             raise Http404
         if not self.request.user.has_privacy_level(subject.privacy_level):
