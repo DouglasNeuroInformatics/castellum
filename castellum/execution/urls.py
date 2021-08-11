@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.urls import path
 
 from .api import APIDomainsView
@@ -113,11 +114,14 @@ urlpatterns = [
         AdditionalInfoUpdateView.as_view(),
         name='additional-info-update',
     ),
-
-    path('<int:pk>/api/domains/', APIDomainsView.as_view()),
-    path('<int:pk>/api/domains/<uuid:domain>/', APIExportView.as_view()),
-    path(
-        '<int:study_pk>/api/domains/<uuid:domain>/<pseudonym>/<uuid:target_domain>/',
-        APIResolveView.as_view()
-    ),
 ]
+
+if settings.CASTELLUM_PSEUDONYMS_API_ENABLED:
+    urlpatterns += [
+        path('<int:pk>/api/domains/', APIDomainsView.as_view()),
+        path('<int:pk>/api/domains/<uuid:domain>/', APIExportView.as_view()),
+        path(
+            '<int:study_pk>/api/domains/<uuid:domain>/<pseudonym>/<uuid:target_domain>/',
+            APIResolveView.as_view()
+        ),
+    ]

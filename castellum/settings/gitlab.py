@@ -20,6 +20,7 @@ DATABASES = {
 }
 
 CASTELLUM_COVERLETTER_TEMPLATE = BASE_DIR / 'subjects' / 'fixtures' / 'demo_coverletter.docx'
+CASTELLUM_PSEUDONYMS_API_ENABLED = True
 
 # Setup geofilters
 INSTALLED_APPS.append('castellum.geofilters')
