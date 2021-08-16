@@ -13,8 +13,12 @@
             {% csrf_token %}
 
             <div class="form-group">
-                <label class="d-block">
-                    {% translate "E-mail text" %}
+                <label class="d-block">{{ study|verbose_name:'mail_subject'}}
+                    <input readonly class="form-control" value="{{ study.mail_subject }}"/>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="d-block">{{ study|verbose_name:'mail_body'}}
                     <textarea readonly class="form-control">{{ study.mail_body }}</textarea>
                 </label>
             </div>
@@ -53,10 +57,9 @@
                 <div class="table-list-item-actions">
                     {% if batch.no_response_size %}
                         {% if not batch.reminded %}
-                            <form class="d-inline" method="post" action="{% url 'recruitment:mail-remind' study.pk batch.pk %}">
-                                {% csrf_token %}
-                                <button class="btn btn-outline-primary">{% translate 'Send reminder' %}</button>
-                            </form>
+                            <a href="{% url 'recruitment:mail-remind' study.pk batch.pk %}" class="btn btn-outline-primary">
+                                {% translate 'Send reminder' %}
+                            </a>
                         {% endif %}
                         <a href="{% url 'recruitment:mail-cleanup' study.pk batch.pk %}" class="btn btn-outline-danger">{% translate 'Cleanup' %}</a>
                     {% endif %}

@@ -1,0 +1,37 @@
+{% extends view.base_template|default:"recruitment/base.html" %}
+{% load i18n auth bootstrap4 utils %}
+
+{% block title %}{% translate "Send reminder mail" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+
+    {% if not study.mail_body %}
+        <p class="alert alert-danger" role="alert">{% translate "Mail recruitment has not been set up!" %}</p>
+    {% else %}
+        <p>
+            {% blocktranslate with no_response_size=object.participation_set.count contacted_size=object.contacted_size %}
+                Send reminder mail for {{ no_response_size }}/{{ contacted_size }} potential subjects.
+            {% endblocktranslate %}
+        </p>
+
+        <form method="post">
+            {% include 'utils/form_errors.html' with form=form %}
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="d-block">{{ study|verbose_name:'mail_subject'}}
+                    <input readonly class="form-control" value="{{ mail_subject }}"/>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="d-block">{{ study|verbose_name:'mail_body'}}
+                    <textarea readonly class="form-control">{{ study.mail_body }}</textarea>
+                </label>
+            </div>
+
+            <div class="mb-3">
+                <button class="btn btn-primary" >{% translate 'Send' %}</button>
+            </div>
+        </form>
+    {% endif %}
+
+{% endblock %}

@@ -346,9 +346,23 @@ class MailRecruitmentView(BaseMailRecruitmentView):
         return redirect('recruitment:mail', self.study.pk)
 
 
-class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, View):
+class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, DetailView):
+    model = MailBatch
     permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
+    template_name = 'recruitment/mail_remind.html'
+
+    def get_object(self):
+        return get_object_or_404(MailBatch, pk=self.kwargs['pk'], study=self.study, reminded=None)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mail_subject'] = (
+            settings.CASTELLUM_REMINDER_MAIL_SUBJECT_TEMPLATE.format(
+                mail_subject=self.study.mail_subject
+            )
+        )
+        return context
 
     def send_reminder_mail(self, contact, ctx):
         return ctx.send_separate_mails(
@@ -372,7 +386,7 @@ class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, View):
             Participation.objects.filter(pk__in=pks).update(updated_at=timezone.now())
 
     def post(self, request, *args, **kwargs):
-        batch = get_object_or_404(MailBatch, pk=self.kwargs['pk'], study=self.study, reminded=None)
+        batch = self.get_object()
         self.send_reminder_mails(batch)
         batch.reminded = timezone.now()
         batch.save()
