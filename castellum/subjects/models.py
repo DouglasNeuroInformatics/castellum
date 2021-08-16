@@ -106,10 +106,6 @@ class Subject(TimeStampedModel):
 
     source = models.CharField(_('Data source'), max_length=128, blank=True)
 
-    note_hard_of_hearing = models.BooleanField(_('Hard of hearing'), default=False)
-    note_difficult_to_understand = models.BooleanField(_('Difficult to understand'), default=False)
-    note_abusive_language = models.BooleanField(_('Abusive language'), default=False)
-
     additional_suitability_document = models.ManyToManyField(
         'studies.StudyType',
         verbose_name=_('Additional suitability document for study type'),
