@@ -1,3 +1,38 @@
+# 0.64.0 (unreleased)
+
+## breaking changes
+
+-   Names of studies now have to be unique. Existing non-unique names
+    are automatically changed by appending a number.
+-   django-auth-ldap (included in the castellum docker image) has been
+    updated to [3.0.0](https://django-auth-ldap.readthedocs.io/en/latest/changes.html)
+-   Hardcoded subject notes (deprecated since 0.53.0) have been removed
+
+## bug fixes
+
+-   When duplicating a study, its domains are now also duplicated.
+-   In subject search, characters with diacritics are no longer ignored.
+    For example, "Gerçeği" is now treated the same as "Gercegi", not
+    "Gerei".
+-   Subject notes have been deprecated and read-only since 0.53.0. This
+    version restores an option to delete them to aid migration to other
+    mechanisms.
+
+## new features
+
+-   For data that is not directly related to a specific study there are
+    now [general pseudonym domains](https://castellum.mpib.berlin/documentation/en/privacy.html#using-pseudonyms-from-general-domains)
+-   Access to pseudonyms is now included in the monitoring log. In the
+    UI, pseudonyms therefore now have to be requested individually and
+    are no longer shown all at once.
+-   The UI for study pseudonyms has been changed so that it is now easy
+    to access the domain key. The domain key is important to make sure
+    that pseudonyms are unambiguous.
+-   The form field used for multiple choice Attributes now uses select2
+-   (german translation) "Vormund" has been changed to "gesetzliche
+    Vertreter\*in"
+
+
 # 0.63.1 (2021-08-10)
 
 ## bug fixes
