@@ -390,6 +390,8 @@ class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, DetailView)
         self.send_reminder_mails(batch)
         batch.reminded = timezone.now()
         batch.save()
+        # should conform with BaseMailRecruitmentView
+        messages.success(self.request, _('Emails sent successfully!'))
         return redirect('recruitment:mail', self.study.pk)
 
 
