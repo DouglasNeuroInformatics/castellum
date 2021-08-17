@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-17 10:39+0200\n"
+"POT-Creation-Date: 2021-08-17 10:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -197,7 +197,7 @@ msgstr "Zeit bis zur automatischen Abmeldung"
 
 #: castellum/castellum_auth/models.py:51
 msgid "Available general domains"
-msgstr ""
+msgstr "Verfügbare allgemeine Domänen"
 
 #: castellum/castellum_auth/models.py:59
 msgid "Can access privacy level 1"
@@ -650,10 +650,8 @@ msgstr "Pseudonyme"
 #: castellum/execution/templates/execution/participation_detail.html:23
 #: castellum/execution/templates/execution/participation_pseudonyms.html:24
 #: castellum/subjects/templates/subjects/subject_pseudonyms.html:22
-#, fuzzy
-#| msgid "By pseudonym"
 msgid "get pseudonym"
-msgstr "Nach Pseudonym"
+msgstr "Pseudonym anzeigen"
 
 #: castellum/execution/templates/execution/participation_detail.html:19
 #: castellum/execution/templates/execution/participation_pseudonyms.html:14
@@ -1704,18 +1702,11 @@ msgstr ""
 "möchten?"
 
 #: castellum/recruitment/templates/recruitment/mail_remind.html:4
-#, fuzzy
-#| msgid "Send reminder"
 msgid "Send reminder mail"
 msgstr "Erinnerung schicken"
 
 #: castellum/recruitment/templates/recruitment/mail_remind.html:12
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                            still awaiting response for "
-#| "%(no_response_size)s/%(contacted_size)s potential subjects\n"
-#| "                        "
+#, python-format
 msgid ""
 "\n"
 "                Send reminder mail for %(no_response_size)s/"
@@ -1723,8 +1714,8 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"Noch keine Antwort von %(no_response_size)s/%(contacted_size)s potenziellen "
-"Proband*innen"
+"Erinnerungsmail an %(no_response_size)s/%(contacted_size)s potenzielle "
+"Proband*innen schicken"
 
 #: castellum/recruitment/templates/recruitment/participation_confirm_delete.html:4
 msgid "Delete study participation"
@@ -1990,10 +1981,8 @@ msgstr "Momentaufnahme"
 #: castellum/studies/models.py:135
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:66
 #: castellum/subjects/templates/subjects/subject_export.html:61
-#, fuzzy
-#| msgid "Pseudonym domains"
 msgid "General pseudonym domains"
-msgstr "Pseudonym-Domänen"
+msgstr "Allgemeine Pseudonym-Domänen"
 
 #: castellum/studies/models.py:140
 msgid "Advanced filtering"
@@ -2474,17 +2463,13 @@ msgid "Memberships"
 msgstr "Mitgliedschaften"
 
 #: castellum/studies/templates/studies/study_domains_base.html:11
-#, fuzzy
-#| msgid "Study details"
 msgid "Study domains"
-msgstr "Studiendetails"
+msgstr "Studien-Domänen"
 
 #: castellum/studies/templates/studies/study_domains_base.html:12
 #: castellum/studies/templates/studies/study_domains_general.html:4
-#, fuzzy
-#| msgid "General"
 msgid "General domains"
-msgstr "Allgemein"
+msgstr "Allgemeine Domänen"
 
 #: castellum/studies/templates/studies/study_domains_general.html:10
 msgid ""
@@ -2492,6 +2477,11 @@ msgid ""
 "central repositories. Please note these pseudonyms allow to identify "
 "subjects globally and therefore carry a high privacy risk."
 msgstr ""
+"Allgemeine Domänen erlauben den Zugriff auf Pseudonyme für Daten, welche "
+"über zentrale Datenspeichersysteme verwaltet werden. Bitte beachten Sie, "
+"dass es mithilfe dieser Pseudonyme möglich sein kann, Proband*innen "
+"kontextunabhängig zu identifizieren. Daher ist dieses Verfahren mit hohen "
+"Risiken für den Datenschutz verbunden."
 
 #: castellum/studies/templates/studies/study_domains_study.html:7
 msgid ""
@@ -2510,10 +2500,8 @@ msgstr ""
 
 #: castellum/studies/templates/studies/study_domains_study.html:26
 #: castellum/studies/templates/studies/study_domains_study.html:27
-#, fuzzy
-#| msgid "Copy link"
 msgid "Copy key"
-msgstr "Link Kopieren"
+msgstr "Schlüssel Kopieren"
 
 #: castellum/studies/templates/studies/study_domains_study.html:43
 msgid "Add domain"
@@ -3122,6 +3110,8 @@ msgstr ""
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:22
 msgid "This subject may still have data in general domains."
 msgstr ""
+"Zu dieser Proband*in sind möglicherweise noch Daten in allgemeinen Domänen "
+"vorhanden."
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:26
 msgid ""
@@ -3152,15 +3142,11 @@ msgstr ""
 "<strong>unwiederbringlich</strong> löschen möchten?"
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:82
-#, fuzzy
-#| msgid ""
-#| "I have made sure that all external data related to this study has been "
-#| "destroyed"
 msgid ""
 "I have made sure that all external data related to this subject has been "
 "destroyed"
 msgstr ""
-"Ich habe sichergestellt, dass alle zu dieser Studie gehörenden externen "
+"Ich habe sichergestellt, dass alle zu dieser Proband*in gehörenden externen "
 "Daten gelöscht wurden."
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:21
@@ -3333,15 +3319,11 @@ msgid "Request export"
 msgstr "Auskunft beantragen"
 
 #: castellum/subjects/templates/subjects/subject_export.html:34
-#, fuzzy
-#| msgid ""
-#| "Remember to also gather information from the following study "
-#| "participations:"
 msgid ""
 "Remember to also gather information from the following external sources:"
 msgstr ""
-"Vergessen Sie nicht, auch Informationen bzgl. der folgenden "
-"Studienteilnahmen einzuholen:"
+"Vergessen Sie nicht, auch Informationen aus den folgenden externen Quellen "
+"einzuholen:"
 
 #: castellum/subjects/templates/subjects/subject_export.html:106
 msgid "Contact data created at"
@@ -3392,10 +3374,8 @@ msgid "Contact attempts"
 msgstr "Kontaktversuche"
 
 #: castellum/subjects/templates/subjects/subject_pseudonyms.html:4
-#, fuzzy
-#| msgid "Invalid pseudonym"
 msgid "General pseudonyms"
-msgstr "Ungültiges Pseudonym"
+msgstr "Allgemeine Pseudonyme"
 
 #: castellum/subjects/templates/subjects/subject_search.html:39
 msgid "This list may be restricted based on your permissions."
@@ -3735,30 +3715,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "Edit contact data"
-#~ msgstr "Kontaktdaten bearbeiten"
-
-#~ msgid "Edit data protection"
-#~ msgstr "Datenschutz bearbeiten"
-
-#~ msgid "Edit additional info"
-#~ msgstr "Zusätzliche Informationen bearbeiten"
-
-#~ msgid "Back to subject"
-#~ msgstr "Zurück zur Proband*in"
-
-#~ msgid "Back to list"
-#~ msgstr "Zurück zur Liste"
-
-#~ msgid "E-mail text"
-#~ msgstr "E-Mail Text"
-
-#~ msgid "Hard of hearing"
-#~ msgstr "Schwerhörig"
-
-#~ msgid "Difficult to understand"
-#~ msgstr "Schwer zu verstehen"
-
-#~ msgid "Abusive language"
-#~ msgstr "Beleidigende Sprache"
