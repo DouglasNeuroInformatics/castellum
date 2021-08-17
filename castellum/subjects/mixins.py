@@ -20,7 +20,6 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
-from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.views.generic import UpdateView
@@ -36,6 +35,8 @@ from .models import Subject
 class SubjectMixin:
     """Use this on every view that represents a subject.
 
+    Requires ``AccessMixin``.
+
     -   set ``self.subject``
     -   check privacy level
     """
@@ -49,9 +50,10 @@ class SubjectMixin:
             return obj.subject
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            if not request.user.has_privacy_level(self.subject.privacy_level):
-                raise PermissionDenied
+        if not request.user.is_authenticated:
+            return self.handle_no_permission()
+        if not request.user.has_privacy_level(self.subject.privacy_level):
+            return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
