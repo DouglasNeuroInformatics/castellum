@@ -87,6 +87,9 @@ they have to be sent to which room.
 Administrator
 ~~~~~~~~~~~~~
 
+**Administrators** are in charge of defining basic structures and performing
+privileged actions.
+
 Relevant guides:
 
 -   :ref:`admin-users`
@@ -109,15 +112,14 @@ Recruiter
 Persons responsible for invitations to studies and the management of appointments
 should take on the role of **Recruiters** in Castellum. For this purpose, the
 **Recruiter** can view the contact details of individual subjects to establish
-communication with them. The study co-ordination office will define a recruitment
+communication with them. The **Study Coordinators** will define a recruitment
 text and criteria to be clarified in advance, which the **recruiters** should use
-when recruiting the respondent. To be able to add study participations, Castellum
-provides a calendar which enables consistent appointment bookings.
+when recruiting the respondent. To be able to schedule appointments, Castellum
+provides a calendar which shows available time slots.
 
-If persons take on the role of **Recruiter** and additionally **Subject Manager**,
-they can simultaneously ensure data maintenance in Castellum when contacting
-subjects for recruitment purposes. For this purpose, characteristics and contact
-details of subjects are continuously updated and supplemented.
+If a **Recruiter** additionally takes on the role of **Subject Manager**, they
+can continuously update and supplement subject data during the recruitment
+process.
 
 Relevant guides:
 
@@ -139,9 +141,6 @@ scientific data in a study with or on subjects. In order to implement this with
 the help of Castellum, the **Study Conductor** can view the participation
 pseudonyms of the respective subjects in the database.
 
-If a subject is participating in a study for the first time, the **Study
-Conductor** can obtain both the study consent and the recruitment consent on site.
-
 Relevant guides:
 
 -   :ref:`subject-search`
@@ -157,8 +156,8 @@ Relevant guides:
 Subject Manager
 ~~~~~~~~~~~~~~~
 
-**Recruiters** or **Study Conductors** may be given this role so they can
-update subject data as part of their usual worflows.
+**Recruiters** or **Study Conductors** may additionally be given this role so
+they can update subject data as part of their usual workflows.
 
 This role is different from **Principal Subject Manager** in that it is limited
 to subjects that participate in the respective study.
