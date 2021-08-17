@@ -1602,7 +1602,7 @@ msgid ""
 "the same address as one of their guardians."
 msgstr ""
 "Diese Studie benutzt einen geographischen Filter. Bitte stellen Sie sicher, "
-"dass die Proband*in an der gleichen Adresse wie eine der gesetzliche "
+"dass die Proband*in an der gleichen Adresse wie eine der gesetzlichen "
 "Vertreter*innen lebt."
 
 #: castellum/recruitment/templates/recruitment/contact.html:25
