@@ -29,6 +29,8 @@
     to access the domain key. The domain key is important to make sure
     that pseudonyms are unambiguous.
 -   The form field used for multiple choice Attributes now uses select2
+-   You are now asked for confirmation before sending mail recruitment
+    reminders
 -   (german translation) "Vormund" has been changed to "gesetzliche
     Vertreter\*in"
 
