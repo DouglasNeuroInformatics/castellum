@@ -45,6 +45,7 @@ Relevant guides:
 -   :ref:`study-finish`
 -   :ref:`study-delete`
 -   :ref:`set-up-external-scheduler`
+-   :ref:`study-filter-trial`
 
 Study Approver
 ~~~~~~~~~~~~~~
