@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-17 10:59+0200\n"
+"POT-Creation-Date: 2021-08-17 12:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1683,6 +1683,7 @@ msgstr ""
 "Proband*innen"
 
 #: castellum/recruitment/templates/recruitment/mail.html:63
+#: castellum/recruitment/templates/recruitment/mail_remind.html:4
 msgid "Send reminder"
 msgstr "Erinnerung schicken"
 
@@ -1701,20 +1702,15 @@ msgstr ""
 "Mail-Serie vom %(date)s gehören in den \"Ausgeschlossen\"-Tab verschieben "
 "möchten?"
 
-#: castellum/recruitment/templates/recruitment/mail_remind.html:4
-msgid "Send reminder mail"
-msgstr "Erinnerung schicken"
-
 #: castellum/recruitment/templates/recruitment/mail_remind.html:12
-#, python-format
 msgid ""
 "\n"
-"                Send reminder mail for %(no_response_size)s/"
-"%(contacted_size)s potential subjects.\n"
+"                Send reminder to %(no_response_size)s/%(contacted_size)s "
+"potential subjects.\n"
 "            "
 msgstr ""
 "\n"
-"Erinnerungsmail an %(no_response_size)s/%(contacted_size)s potenzielle "
+"Erinnerung an %(no_response_size)s/%(contacted_size)s potenzielle "
 "Proband*innen schicken"
 
 #: castellum/recruitment/templates/recruitment/participation_confirm_delete.html:4

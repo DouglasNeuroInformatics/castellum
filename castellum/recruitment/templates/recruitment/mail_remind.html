@@ -1,7 +1,7 @@
 {% extends view.base_template|default:"recruitment/base.html" %}
 {% load i18n utils %}
 
-{% block title %}{% translate "Send reminder mail" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Send reminder" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
 
@@ -10,7 +10,7 @@
     {% else %}
         <p>
             {% blocktranslate with no_response_size=object.participation_set.count contacted_size=object.contacted_size %}
-                Send reminder mail for {{ no_response_size }}/{{ contacted_size }} potential subjects.
+                Send reminder to {{ no_response_size }}/{{ contacted_size }} potential subjects.
             {% endblocktranslate %}
         </p>
 
