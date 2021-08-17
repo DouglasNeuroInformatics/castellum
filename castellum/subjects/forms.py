@@ -192,3 +192,17 @@ class AdditionalInfoForm(forms.ModelForm):
         widgets = {
             'additional_suitability_document': forms.CheckboxSelectMultiple(),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['rm_subject_notes'] = forms.ModelMultipleChoiceField(
+            widget=forms.CheckboxSelectMultiple,
+            queryset=self.instance.subjectnote_set.all(),
+            required=False,
+        )
+
+    def save(self, commit=True):
+        subject = super().save(commit=commit)
+        for note in self.cleaned_data['rm_subject_notes']:
+            note.delete()
+        return subject
