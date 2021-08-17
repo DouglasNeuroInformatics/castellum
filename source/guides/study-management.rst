@@ -295,3 +295,16 @@ Click on **Studies** on the front page
 -   In the field **Search** you can look for a certain study
 -   By choosing a **Status** and / or a Study **Type**, you may also filter
     studies
+
+
+.. _study-filter-trial:
+
+Check whether the database contains enough subjects for your reasearch project
+==============================================================================
+
+Click on **Studies** on the front page and then on **Try filters**. You can
+now experiment with filters just as in a regular study. The preview will show
+you how many subjects in the database match your filters.
+
+If you decide you want to keep the set of filters you can go to **Convert to
+study** to convert your temporary settings to a regular study.
