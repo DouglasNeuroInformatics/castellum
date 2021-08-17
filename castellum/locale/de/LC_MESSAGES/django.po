@@ -1703,12 +1703,6 @@ msgstr ""
 "möchten?"
 
 #: castellum/recruitment/templates/recruitment/mail_remind.html:12
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                Send reminder mail for %(no_response_size)s/"
-#| "%(contacted_size)s potential subjects.\n"
-#| "            "
 msgid ""
 "\n"
 "                Send reminder to %(no_response_size)s/%(contacted_size)s "
@@ -1716,7 +1710,7 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"Erinnerungsmail an %(no_response_size)s/%(contacted_size)s potenzielle "
+"Erinnerung an %(no_response_size)s/%(contacted_size)s potenzielle "
 "Proband*innen schicken"
 
 #: castellum/recruitment/templates/recruitment/participation_confirm_delete.html:4
@@ -3717,6 +3711,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "Send reminder mail"
-#~ msgstr "Erinnerung schicken"
