@@ -10,11 +10,11 @@ Society. Its main goals are:
 
 -   **Subject management**: Castellum is a central place to collect
     references to all data related to a subject, e.g. so it can be
-    deleted on request
+    deleted on request.
 -   **Pseudonym service**: Contact details are stored in Castellum so
     all other databases can work with pseudonyms instead.
 -   **Recruitment**: Castellum allows you to find potential subjects
-    from an existing pool using study specific filters
+    from an existing pool using study specific filters.
 -   **Appointments**: You can manage appointments for test sessions.
 
 ## Links
