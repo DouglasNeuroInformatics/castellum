@@ -279,7 +279,7 @@ CASTELLUM_APPOINTMENT_REMINDER_PERIOD = datetime.timedelta(days=2)
 CASTELLUM_APPOINTMENT_MAIL_SUBJECT = "Reminder: You have an appointment"
 CASTELLUM_APPOINTMENT_MAIL_BODY = (
     "Guten Tag {name},\n\n"
-    "wir möchten Sie an ihren Termin in der Studie {study} am {date} erinnern.\n"
+    "wir möchten Sie an Ihren Termin in der Studie {study} am {date} erinnern.\n"
     "Falls Sie absagen oder den Termin verschieben möchten, so melden Sie sich "
     "bitte bei {reply_to}.\n\n"
     "Zusätzliche Informationen:\n"
