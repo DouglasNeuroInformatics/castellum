@@ -21,8 +21,8 @@ Pseudonym service
     with pseudonyms instead.
 
 Recruitment
-    Castellum allows you to find potential subjects from an existing pool using
-    study specific filters.
+    Castellum allows you to find potential participants from an existing pool
+    using study specific filters.
 
 Appointments
     You can manage appointments for test sessions.
