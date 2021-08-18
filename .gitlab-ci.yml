@@ -44,7 +44,7 @@ build:
     - docker:dind
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.git.mpib-berlin.mpg.de
-    - docker pull $CONTAINER_IMAGE:latest
+    - docker pull $CONTAINER_IMAGE:latest || true
   script:
     - docker build --cache-from $CONTAINER_IMAGE:latest -t $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME .
   after_script:
