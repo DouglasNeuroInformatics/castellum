@@ -81,6 +81,35 @@ user's privacy level is controlled via the special permissions
 ``privacy_level_1`` and ``privacy_level_2``. The three levels (0-2) accord to
 the data security levels of the Max Planck Society.
 
+Data separation
+---------------
+
+Implementation
+~~~~~~~~~~~~~~
+
+We chose to split the data into three different categories:
+
+-  Scientific data is handled outside of castellum. Castellum only
+   provides the pseudonyms that are used to map this data to subjects.
+-  Data relevant for recruitment is handled in castellum.
+-  Contact data is also handled in castellum, but in a separate database
+   to provide an additional barrier.
+
+Security Considerations
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The described architecture provides a clear structure for developers
+that should help avoiding critical data leaks. Even if an attacker is
+able to dump a whole table or even a whole database, this structure
+still limits the impact.
+
+However, it is important to understand that the barrier between
+recruitment and contact data is not that high. Since castellum has full
+access to both, an attacker can also gain full access. Spreading the
+system across several databases on different servers or even in
+different organizations does not help much if there is still a single
+point of entry.
+
 Monitoring
 ----------
 
