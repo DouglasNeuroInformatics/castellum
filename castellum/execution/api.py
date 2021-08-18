@@ -35,7 +35,6 @@ from castellum.castellum_auth.mixins import APIAuthMixin
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.models import Domain
-from castellum.recruitment.attribute_exporters import JSONExporter
 from castellum.recruitment.models import Participation
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
@@ -51,34 +50,6 @@ class APIDomainsView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
     def get(self, request, **kwargs):
         data = [{'key': domain.key, 'name': domain.name} for domain in self.study.domains.all()]
         return JsonResponse({'domains': data})
-
-
-class APIExportView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
-    permission_required = ['recruitment.conduct_study']
-    study_status = [Study.EXECUTION]
-
-    def get(self, request, **kwargs):
-        monitoring_logger.info('Attribute export: study {} by {}'.format(
-            self.study.pk, request.user.pk
-        ))
-
-        domain = get_object_or_404(self.study.domains, key=kwargs['domain'])
-
-        exporter = JSONExporter()
-        descriptions = self.study.exportable_attributes.all()
-
-        subjects = []
-        for participation in (
-            self.study.participation_set
-            .filter(status=Participation.INVITED)
-            .select_related('subject')
-        ):
-            if request.user.has_privacy_level(participation.subject.privacy_level):
-                pseudonym = get_pseudonym(participation.subject, domain.key)
-                subjects.append((pseudonym, participation.subject))
-
-        data = exporter.get_raw_data(descriptions, subjects)
-        return JsonResponse({'participants': data})
 
 
 class APIValidateView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
