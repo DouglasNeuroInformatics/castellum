@@ -13,7 +13,7 @@ Society. Its main goals are:
     deleted on request.
 -   **Pseudonym service**: Contact details are stored in Castellum so
     all other databases can work with pseudonyms instead.
--   **Recruitment**: Castellum allows you to find potential subjects
+-   **Recruitment**: Castellum allows you to find potential participants
     from an existing pool using study specific filters.
 -   **Appointments**: You can manage appointments for test sessions.
 
