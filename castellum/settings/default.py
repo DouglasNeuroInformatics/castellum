@@ -473,5 +473,15 @@ CASTELLUM_GENERAL_RECRUITMENT_TEXT = ''
 # See castellum/recruitment/attribute_exporters.py for details
 CASTELLUM_ATTRIBUTE_EXPORTER = 'castellum.recruitment.attribute_exporters.JSONExporter'
 
+# Enables some additional views that expose content as JSON:
+#
+# list of study domains:
+#   /execution/<study_id>/api/domains/
+# validate a single pseudonym
+#   /execution/<study_id>/api/domains/<domain>/<pseudonym>/
+# resolve pseudonym to a target domain (can also be a general domain):
+#   /execution/<study_id>/api/domains/<domain>/<pseudonym>/<target_domain>/
+CASTELLUM_PSEUDONYMS_API_ENABLED = False
+
 SCHEDULER_URL = ''
 SCHEDULER_TOKEN = ''

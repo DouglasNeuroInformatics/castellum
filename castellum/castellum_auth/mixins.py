@@ -20,6 +20,9 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth import mixins as auth_mixins
+from django.core.exceptions import PermissionDenied
+
+from .models import User
 
 
 class PermissionRequiredMixin(auth_mixins.PermissionRequiredMixin):
@@ -30,3 +33,42 @@ class PermissionRequiredMixin(auth_mixins.PermissionRequiredMixin):
         perms = self.get_permission_required()
         permission_object = self.get_permission_object()
         return self.request.user.has_perms(perms, obj=permission_object)
+
+
+class APIAuthMixin:
+    """Similar to PermissionRequiredMixin.
+
+    Differences:
+    -   Does not redirect to login on error
+    -   Gets request.user from the HTTP_AUTHORIZATION header
+    """
+    permission_required = None
+
+    def handle_no_permission(self):
+        raise PermissionDenied
+
+    def get_permission_required(self):
+        return self.permission_required
+
+    def get_permission_object(self):
+        return None
+
+    def has_permission(self):
+        perms = self.get_permission_required()
+        permission_object = self.get_permission_object()
+        return self.request.user.has_perms(perms, obj=permission_object)
+
+    def authenticate(self):
+        auth = self.request.headers.get('Authorization', '').split()
+        if len(auth) != 2 or auth[0].lower() != 'token':
+            self.handle_no_permission()
+        try:
+            return User.objects.get(token=auth[1])
+        except User.DoesNotExist:
+            self.handle_no_permission()
+
+    def dispatch(self, request, *args, **kwargs):
+        self.request.user = self.authenticate()
+        if not self.has_permission():
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
