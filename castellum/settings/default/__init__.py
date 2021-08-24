@@ -98,7 +98,7 @@ CASTELLUM_DEFAULT_EXECUTION_TAGS = [
 
 # Email for announcing new GDPR requests
 # make sure to setup a cron-job for ``notify_to_be_deleted``
-CASTELLUM_DELETE_NOTIFICATION_TO = ''
+CASTELLUM_GDPR_NOTIFICATION_TO = []
 
 # Email addresses for announcing new public studies
 CASTELLUM_STUDY_STATUS_NOTIFICATION_TO = []

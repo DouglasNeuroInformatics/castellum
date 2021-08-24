@@ -74,7 +74,7 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
         return kwargs
 
     def form_valid(self, form):
-        if settings.CASTELLUM_DELETE_NOTIFICATION_TO:
+        if settings.CASTELLUM_GDPR_NOTIFICATION_TO:
             old = Subject.objects.get(pk=self.object.pk)
 
             with MailContext('internal') as ctx:
@@ -89,7 +89,7 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
                             settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY,
                             settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY_EN,
                         ),
-                        [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
+                        settings.CASTELLUM_GDPR_NOTIFICATION_TO,
                     )
 
                 if self.object.to_be_deleted and not self.object.to_be_deleted_notified:
@@ -103,7 +103,7 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
                             settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY,
                             settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY_EN,
                         ),
-                        [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
+                        settings.CASTELLUM_GDPR_NOTIFICATION_TO,
                     )
 
             # If a user explicitly removes the ``to_be_deleted`` they
