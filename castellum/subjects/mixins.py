@@ -88,7 +88,7 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
                             lambda: {'url': url},
                             settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY,
                             settings.CASTELLUM_EXPORT_SUBJECT_NOTIFICATION_BODY_EN,
-                        )
+                        ),
                         [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
                     )
 
