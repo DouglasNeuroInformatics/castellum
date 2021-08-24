@@ -14,6 +14,7 @@
             {% bootstrap_field form.code %}
             <button class="btn btn-primary">{% translate 'Verify' %}</button>
             <a href="{% url 'mfa:auth' 'FIDO2' %}" class="btn btn-link">{% translate 'Use FIDO2 instead' %}</a>
+            <a href="{% url 'mfa:auth' 'recovery' %}" class="btn btn-link">{% translate 'Use recovery code instead' %}</a>
         </form>
     </div>
 {% endblock %}

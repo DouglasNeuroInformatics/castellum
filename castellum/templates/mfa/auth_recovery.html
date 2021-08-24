@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static i18n bootstrap4 %}
+
+{% block title %}{% translate 'Two-factor authentication' %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <div class="my-5">
+        <h1>{% translate 'Two-factor authentication' %}</h1>
+
+        <p class="alert alert-warning">
+            The recovery code will be removed after it has been used.
+            Make sure to create a new one after login!
+        </p>
+
+        <form method="POST" class="mb-4">
+            {% csrf_token %}
+            {% include 'utils/form_errors.html' with form=form %}
+            {% bootstrap_field form.code %}
+            <button class="btn btn-primary">{% translate 'Verify' %}</button>
+            <a href="{% url 'mfa:auth' 'FIDO2' %}" class="btn btn-link">{% translate 'Use FIDO2 instead' %}</a>
+            <a href="{% url 'mfa:auth' 'TOTP' %}" class="btn btn-link">{% translate 'Use TOTP instead' %}</a>
+        </form>
+    </div>
+{% endblock %}
