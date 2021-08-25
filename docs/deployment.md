@@ -94,7 +94,7 @@ user requests. We provide the following management commands for that:
 After installing castellum on your server there are some more steps
 before you can start using it:
 
-1.  Adapt the settings. See `castellum/settings/default.py` for the full
+1.  Adapt the settings. See `castellum/settings/default/` for the full
     list of available settings.
 
     The most important ones are listed in the [django deployment
