@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import logging
+import textwrap
 
 from django.conf import settings
 from django.contrib import messages
@@ -72,6 +73,9 @@ def send_pr_mail(study, user_email):
         return 0
 
     def get_mail_data():
+        def quote(s):
+            return textwrap.indent(s, '> ', lambda l: True)
+
         return {
             'status': study.get_status_display(),
             'previous_status': study.get_previous_status_display(),
@@ -83,11 +87,11 @@ def send_pr_mail(study, user_email):
             'sessions_start': study.sessions_start,
             'sessions_end': study.sessions_end,
             'excluded_studies': ', '.join(s.name for s in study.excluded_studies.all()),
-            'filters': '\n'.join(', '.join(
+            'filters': quote('\n'.join(', '.join(
                 str(f) for f in group.subjectfilter_set.all()
-            ) for group in study.subjectfiltergroup_set.all()),
-            'recruitment_text': study.mail_body or study.recruitment_text,
-            'exclusion_criteria': study.exclusion_criteria,
+            ) for group in study.subjectfiltergroup_set.all())),
+            'recruitment_text': quote(study.mail_body or study.recruitment_text),
+            'exclusion_criteria': quote(study.exclusion_criteria),
         }
 
     with MailContext('internal') as ctx:
