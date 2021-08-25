@@ -91,7 +91,7 @@ def send_pr_mail(study, user_email):
         }
 
     with MailContext('internal') as ctx:
-        return ctx.send_mail(
+        success = ctx.send_mail(
             settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_SUBJECT.format(study=study.name),
             (
                 get_mail_data,
@@ -101,6 +101,12 @@ def send_pr_mail(study, user_email):
             settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO,
             cc=[user_email],
         )
+
+    if success:
+        study.announce_status_changes = False
+        study.save()
+
+    return success
 
 
 def take_snapshot(study):
