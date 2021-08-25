@@ -86,7 +86,7 @@ def send_pr_mail(study, user_email):
             'filters': '\n'.join(', '.join(
                 str(f) for f in group.subjectfilter_set.all()
             ) for group in study.subjectfiltergroup_set.all()),
-            'recruitment_text': study.recruitment_text,
+            'recruitment_text': study.mail_body or study.recruitment_text,
             'exclusion_criteria': study.exclusion_criteria,
         }
 
