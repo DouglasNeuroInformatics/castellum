@@ -42,7 +42,7 @@ def subjects_notify(subjects, base_url):
                         settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY,
                         settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY_EN,
                     ),
-                    [settings.CASTELLUM_DELETE_NOTIFICATION_TO],
+                    settings.CASTELLUM_GDPR_NOTIFICATION_TO,
                 )
                 if sent:
                     count += 1
@@ -69,8 +69,8 @@ class Command(BaseCommand):
         parser.add_argument('--limit-by', default=100, type=int)
 
     def handle(self, *args, **options):
-        if not settings.CASTELLUM_DELETE_NOTIFICATION_TO:
-            raise CommandError('CASTELLUM_DELETE_NOTIFICATION_TO is not set')
+        if not settings.CASTELLUM_GDPR_NOTIFICATION_TO:
+            raise CommandError('CASTELLUM_GDPR_NOTIFICATION_TO is not set')
 
         subjects, missing = helpers.get_all_subjects(options['limit_by'])
         count = subjects_notify(subjects, options['base_url'])

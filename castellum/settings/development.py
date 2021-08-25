@@ -48,7 +48,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID = 3
 CASTELLUM_COVERLETTER_TEMPLATE = BASE_DIR / 'subjects' / 'fixtures' / 'demo_coverletter.docx'
-CASTELLUM_DELETE_NOTIFICATION_TO = 'data-protection@example.com'
+CASTELLUM_GDPR_NOTIFICATION_TO = ['data-protection@example.com']
 CASTELLUM_STUDY_STATUS_NOTIFICATION_TO = ['pr@example.com']
 CASTELLUM_PSEUDONYMS_API_ENABLED = True
 
