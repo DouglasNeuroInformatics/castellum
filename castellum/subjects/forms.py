@@ -180,11 +180,6 @@ class AdditionalInfoForm(forms.ModelForm):
         fields = [
             'deceased',
             'blocked',
-            'availability_monday',
-            'availability_tuesday',
-            'availability_wednesday',
-            'availability_thursday',
-            'availability_friday',
             'not_available_until',
             'source',
             'additional_suitability_document',

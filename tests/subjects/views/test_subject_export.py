@@ -55,7 +55,6 @@ EXCLUDED = [
     'subjects.Subject.to_be_deleted_notified',
     'subjects.Subject.pseudonym',
     'subjects.Subject.slug',
-    'subjects.TimeSlot.',
 
     # already covered by other fields (e.g. backrefs)
     'subjects.SubjectNote.',

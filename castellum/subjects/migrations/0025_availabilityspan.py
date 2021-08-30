@@ -63,4 +63,27 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.RunPython(migrate_data),
+        migrations.RemoveField(
+            model_name='subject',
+            name='availability_friday',
+        ),
+        migrations.RemoveField(
+            model_name='subject',
+            name='availability_monday',
+        ),
+        migrations.RemoveField(
+            model_name='subject',
+            name='availability_thursday',
+        ),
+        migrations.RemoveField(
+            model_name='subject',
+            name='availability_tuesday',
+        ),
+        migrations.RemoveField(
+            model_name='subject',
+            name='availability_wednesday',
+        ),
+        migrations.DeleteModel(
+            name='TimeSlot',
+        ),
     ]

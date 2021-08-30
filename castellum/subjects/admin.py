@@ -35,6 +35,5 @@ class ConsentDocumentAdmin(admin.ModelAdmin):
 admin.site.register(models.AvailabilitySpan)
 admin.site.register(models.Subject, SubjectAdmin)
 admin.site.register(models.SubjectNote)
-admin.site.register(models.TimeSlot)
 admin.site.register(models.Consent)
 admin.site.register(models.ConsentDocument, ConsentDocumentAdmin)
