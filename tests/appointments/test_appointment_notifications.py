@@ -16,13 +16,14 @@ def dt(s):
     '2017-01-01 12:00',
     '2017-01-02 12:00',
 ])
-def test_appointment_notifications(rf, user, member, participation, start):
-    request = rf.get('/test/')
-    request.user = user
+def test_appointment_notifications(user, member, participation, start):
     with freeze_time('2017-01-01'):
-        send_appointment_notifications(request, participation, [
-            (dt(start), None),
-        ])
+        send_appointment_notifications(
+            participation,
+            [(dt(start), None)],
+            'http://example.com',
+            user=user,
+        )
     assert len(mail.outbox) == 1
 
 
@@ -33,42 +34,47 @@ def test_appointment_notifications(rf, user, member, participation, start):
     '2018-01-01 12:00',
 ])
 def test_appointment_notifications_no_relevant_change(
-    rf, user, member, participation, start
+    user, member, participation, start
 ):
-    request = rf.get('/test/')
-    request.user = user
     with freeze_time('2017-01-01'):
-        send_appointment_notifications(request, participation, [
-            (dt(start), None),
-        ])
+        send_appointment_notifications(
+            participation,
+            [(dt(start), None)],
+            'http://example.com',
+            user=user,
+        )
     assert len(mail.outbox) == 0
 
 
-def test_appointment_notifications_no_change(rf, user, member, participation):
-    request = rf.get('/test/')
-    request.user = user
-    send_appointment_notifications(request, participation, [])
+def test_appointment_notifications_no_change(user, member, participation):
+    send_appointment_notifications(
+        participation,
+        [],
+        'http://example.com',
+        user=user,
+    )
     assert len(mail.outbox) == 0
 
 
-def test_appointment_notifications_no_members(rf, user, participation):
-    request = rf.get('/test/')
-    request.user = user
+def test_appointment_notifications_no_members(user, participation):
     with freeze_time('2017-01-01'):
-        send_appointment_notifications(request, participation, [
-            (dt('2017-01-01 12:00'), dt('2017-01-01 13:00')),
-        ])
+        send_appointment_notifications(
+            participation,
+            [(dt('2017-01-01 12:00'), dt('2017-01-01 13:00'))],
+            'http://example.com',
+            user=user,
+        )
     assert len(mail.outbox) == 0
 
 
-def test_appointment_notifications_weekend(rf, user, member, participation):
-    request = rf.get('/test/')
-    request.user = user
+def test_appointment_notifications_weekend(user, member, participation):
     with freeze_time('2017-01-06'):
-        send_appointment_notifications(request, participation, [
-            # friday to monday
-            (dt('2017-01-09 12:00'), dt('2017-01-09 13:00')),
-        ])
+        send_appointment_notifications(
+            participation,
+            [(dt('2017-01-09 12:00'), dt('2017-01-09 13:00'))],  # friday to monday
+            'http://example.com',
+            user=user,
+        )
     assert len(mail.outbox) == 1
 
 
@@ -76,13 +82,14 @@ def test_appointment_notifications_weekend(rf, user, member, participation):
     '2017-01-01 12:00',
     '2017-01-02 12:00',
 ])
-def test_appointment_notifications_cc(rf, user, conductor, participation, start):
-    request = rf.get('/test/')
-    request.user = user
+def test_appointment_notifications_cc(user, conductor, participation, start):
     with freeze_time('2017-01-01'):
-        send_appointment_notifications(request, participation, [
-            (dt(start), None),
-        ])
+        send_appointment_notifications(
+            participation,
+            [(dt(start), None)],
+            'http://example.com',
+            user=user,
+        )
     assert len(mail.outbox) == 1
     assert mail.outbox[0].cc == [user.email]
 
@@ -91,11 +98,12 @@ def test_appointment_notifications_cc(rf, user, conductor, participation, start)
     '2017-01-01 12:00',
     '2017-01-02 12:00',
 ])
-def test_no_appointment_notifications_if_only_conductor(rf, conductor, participation, start):
-    request = rf.get('/test/')
-    request.user = conductor
+def test_no_appointment_notifications_if_only_conductor(conductor, participation, start):
     with freeze_time('2017-01-01'):
-        send_appointment_notifications(request, participation, [
-            (dt(start), None),
-        ])
+        send_appointment_notifications(
+            participation,
+            [(dt(start), None)],
+            'http://example.com',
+            user=conductor,
+        )
     assert len(mail.outbox) == 0

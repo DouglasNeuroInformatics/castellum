@@ -40,7 +40,7 @@ from .forms import AppointmentsForm
 from .models import Appointment
 
 
-def send_appointment_notifications(request, participation, changes):
+def send_appointment_notifications(participation, changes, base_url, user=None):
     start = timezone.now()
     end = add_working_days(start, 2)
     relevant_changes = [
@@ -65,17 +65,17 @@ def send_appointment_notifications(request, participation, changes):
                 format_datetime(old),
                 format_datetime(new),
             ) for (old, new) in relevant_changes),
-            'participation_url': request.build_absolute_uri(reverse(
+            'participation_url': base_url + reverse(
                 'execution:participation-detail',
                 args=[participation.study.pk, participation.pk]
-            )),
-            'calendar_url': request.build_absolute_uri(reverse(
+            ),
+            'calendar_url': base_url + reverse(
                 'execution:calendar',
                 args=[participation.study.pk]
-            )),
+            ),
         }
 
-    recipients = [user.email for user in participation.study.conductors if user != request.user]
+    recipients = [u.email for u in participation.study.conductors if u != user]
     if recipients:
         with MailContext('internal') as ctx:
             return ctx.send_mail(
@@ -86,7 +86,7 @@ def send_appointment_notifications(request, participation, changes):
                     settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY_EN,
                 ),
                 recipients,
-                cc=[request.user.email],
+                cc=[u.email for u in [user] if u],
             )
 
 
@@ -109,7 +109,12 @@ class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, Up
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        send_appointment_notifications(self.request, self.object, form.appointment_changes)
+        send_appointment_notifications(
+            self.object,
+            form.appointment_changes,
+            self.request._current_scheme_host,
+            user=self.request.user,
+        )
         messages.success(self.request, _('Data has been saved.'))
         return response
 
