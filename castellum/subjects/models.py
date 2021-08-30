@@ -21,6 +21,7 @@
 
 import datetime
 
+from django import forms
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
@@ -262,6 +263,37 @@ class Subject(TimeStampedModel):
         completed = len([k for k, v in self.attributes.items() if v not in [None, '']])
         total = AttributeDescription.objects.count()
         return completed, total
+
+
+class AvailabilitySpan(models.Model):
+    # matches datetime.weekday()
+    MONDAY = 0
+    TUESDAY = 1
+    WEDNESDAY = 2
+    THURSDAY = 3
+    FRIDAY = 4
+    SATURDAY = 5
+    SUNDAY = 6
+
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    start = models.TimeField(_('start'), blank=True, null=True)
+    end = models.TimeField(_('end'), blank=True, null=True)
+    day = models.SmallIntegerField('day', choices=[
+        (MONDAY, _('Monday')),
+        (TUESDAY, _('Tuesday')),
+        (WEDNESDAY, _('Wednesday')),
+        (THURSDAY, _('Thursday')),
+        (FRIDAY, _('Friday')),
+        (SATURDAY, _('Saturday')),
+        (SUNDAY, _('Sunday')),
+    ])
+
+    class Meta:
+        ordering = ['day', models.F('start').asc(nulls_first=True)]
+
+    def clean(self):
+        if self.start and self.end and self.start >= self.end:
+            raise forms.ValidationError(_('Start must be before end'), code='order')
 
 
 class SubjectNote(models.Model):

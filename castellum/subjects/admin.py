@@ -32,6 +32,7 @@ class ConsentDocumentAdmin(admin.ModelAdmin):
     list_display = ['created_at', 'is_valid']
 
 
+admin.site.register(models.AvailabilitySpan)
 admin.site.register(models.Subject, SubjectAdmin)
 admin.site.register(models.SubjectNote)
 admin.site.register(models.TimeSlot)

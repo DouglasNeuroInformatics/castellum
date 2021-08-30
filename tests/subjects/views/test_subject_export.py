@@ -45,6 +45,7 @@ EXCLUDED = [
     'recruitment.SubjectFilterGroup.',
     'sessions.',
     'studies.',
+    'subjects.AvailabilitySpan.',
     'subjects.ConsentDocument.',
     'subjects.Consent.id',
     'subjects.Consent.subject',

@@ -159,6 +159,11 @@
         </dl>
 
         <h2>{% translate 'Availability' %}</h2>
+        <ul data-fieldname="subjects.Subject.availabilityspan">
+            {% for span in subject.availabilityspan_set.all %}
+                <li class="col-sm-6">{{ span.day }} {{ span.start }} - {{ span.end }}</li>
+            {% endfor %}
+        </ul>
         <dl class="row">
             <dt class="col-sm-6" data-fieldname="subjects.Subject.availability_monday">{{ subject|verbose_name:'availability_monday' }}</dt>
             <dd class="col-sm-6">{{ subject|display:'availability_monday' }}</dd>
