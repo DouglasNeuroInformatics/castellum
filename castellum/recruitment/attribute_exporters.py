@@ -98,7 +98,7 @@ class JSONExporter:
 
                 value = subject.attributes.get(description.json_key)
                 if value in ['', None, ANSWER_DECLINED]:
-                    pass
+                    data[-1][key] = None
                 elif choices:
                     if isinstance(value, list):
                         data[-1][key] = []
