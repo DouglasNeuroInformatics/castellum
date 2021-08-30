@@ -19,6 +19,7 @@ Society. Its main goals are:
 
 ## Links
 
+-   Product home page: https://castellum.mpib.berlin
 -   Project home page: https://www.mpib-berlin.mpg.de/research-data/castellum
 -   Source code: https://git.mpib-berlin.mpg.de/castellum/castellum/
 -   Releases: https://git.mpib-berlin.mpg.de/castellum/castellum/-/releases
