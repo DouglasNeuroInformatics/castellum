@@ -1,19 +1,18 @@
-from datetime import datetime
-from itertools import cycle
+import datetime
 
 from django.utils import timezone
 
 import pytest
 from model_bakery import baker
 
+from castellum.subjects.models import AvailabilitySpan
 from castellum.subjects.models import Subject
-from castellum.subjects.models import TimeSlot
 
 
 @pytest.mark.freeze_time("2020-10-31")
 @pytest.mark.unittest
 def test_not_available_until_is_in_the_future():
-    not_available_until = timezone.make_aware(datetime(2020, 11, 1))
+    not_available_until = timezone.make_aware(datetime.datetime(2020, 11, 1))
     subject = baker.prepare(Subject, not_available_until=not_available_until)
 
     assert subject.is_available is False
@@ -31,9 +30,13 @@ def test_contact_is_not_available_at_the_weekend():
 @pytest.mark.django_db
 def test_contact_is_currently_not_available():
     subject = baker.make(Subject)
-    timeslots = baker.make(TimeSlot, hour=cycle([10, 11, 12]), _quantity=3)
-    subject.availability_tuesday.add(*timeslots)
-
+    baker.make(
+        AvailabilitySpan,
+        subject=subject,
+        day=AvailabilitySpan.TUESDAY,
+        start=datetime.time(10),
+        end=datetime.time(13),
+    )
     assert subject.is_available is False
 
 
@@ -41,22 +44,31 @@ def test_contact_is_currently_not_available():
 @pytest.mark.django_db
 def test_contact_is_available():
     subject = baker.make(Subject)
-    timeslots = baker.make(TimeSlot, hour=cycle(range(20)), _quantity=20)
-    subject.availability_tuesday.add(*timeslots)
-
+    baker.make(
+        AvailabilitySpan,
+        subject=subject,
+        day=AvailabilitySpan.TUESDAY,
+        start=datetime.time(0),
+        end=datetime.time(20),
+    )
     assert subject.is_available is True
 
 
 @pytest.mark.freeze_time("2020-10-27 15:00")
 @pytest.mark.django_db
 def test_get_next_available_datetime():
-    not_available_until = timezone.localtime(timezone.make_aware(datetime(2020, 11, 1)))
+    not_available_until = timezone.localtime(timezone.make_aware(datetime.datetime(2020, 11, 1)))
     subject = baker.make(Subject, not_available_until=not_available_until)
-    timeslot = baker.make(TimeSlot, hour=10)
-    subject.availability_tuesday.add(timeslot)
+    baker.make(
+        AvailabilitySpan,
+        subject=subject,
+        day=AvailabilitySpan.TUESDAY,
+        start=datetime.time(10),
+        end=datetime.time(11),
+    )
 
     actual = subject.get_next_available_datetime(not_available_until)
-    expected = timezone.make_aware(datetime(2020, 11, 3, hour=10))
+    expected = timezone.make_aware(datetime.datetime(2020, 11, 3, hour=10))
 
     assert actual == expected
 
@@ -64,12 +76,19 @@ def test_get_next_available_datetime():
 @pytest.mark.freeze_time("2020-10-27 15:00")
 @pytest.mark.django_db
 def test_get_next_available_datetime_same_day():
-    not_available_until = timezone.localtime(timezone.make_aware(datetime(2020, 10, 27, hour=15)))
+    not_available_until = timezone.localtime(
+        timezone.make_aware(datetime.datetime(2020, 10, 27, hour=15))
+    )
     subject = baker.make(Subject, not_available_until=not_available_until)
-    timeslot = baker.make(TimeSlot, hour=15)
-    subject.availability_tuesday.add(timeslot)
+    baker.make(
+        AvailabilitySpan,
+        subject=subject,
+        day=AvailabilitySpan.TUESDAY,
+        start=datetime.time(15),
+        end=datetime.time(16),
+    )
 
     actual = subject.get_next_available_datetime(not_available_until)
-    expected = timezone.make_aware(datetime(2020, 10, 27, hour=15))
+    expected = timezone.make_aware(datetime.datetime(2020, 10, 27, hour=15))
 
     assert actual == expected
