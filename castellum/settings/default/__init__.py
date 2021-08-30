@@ -148,6 +148,8 @@ CASTELLUM_ATTRIBUTE_EXPORTER = 'castellum.recruitment.attribute_exporters.JSONEx
 #
 # list of study domains:
 #   /execution/<study_id>/api/domains/
+# list of pseudonyms in a domain:
+#   /execution/<study_id>/api/domains/<domain>/
 # validate a single pseudonym
 #   /execution/<study_id>/api/domains/<domain>/<pseudonym>/
 # resolve pseudonym to a target domain (can also be a general domain):

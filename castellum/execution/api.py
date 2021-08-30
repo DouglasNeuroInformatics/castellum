@@ -76,6 +76,22 @@ class APIValidateView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
         return JsonResponse({'pseudonym': pseudonym})
 
 
+class APIPseudonymsView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
+    permission_required = ['recruitment.conduct_study']
+    study_status = [Study.EXECUTION]
+
+    def get(self, request, **kwargs):
+        domain = get_object_or_404(self.study.domains, key=kwargs['domain'])
+
+        pseudonyms = [get_pseudonym(p.subject, domain.key) for p in (
+            self.study.participation_set
+            .filter(status=Participation.INVITED)
+            .select_related('subject')
+        )]
+
+        return JsonResponse({'pseudonyms': pseudonyms})
+
+
 class APIResolveView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
     permission_required = ['recruitment.conduct_study']
     study_status = [Study.EXECUTION]
