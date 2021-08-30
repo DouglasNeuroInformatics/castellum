@@ -25,6 +25,7 @@ import zipfile
 from django import forms
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -125,10 +126,8 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
             .filter(status=Participation.INVITED)
             .select_related('subject')
         ):
-            has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
-            if has_access:
-                pseudonym = get_pseudonym(participation.subject, domain.key)
-                subjects.append((pseudonym, participation.subject))
+            pseudonym = get_pseudonym(participation.subject, domain.key)
+            subjects.append((pseudonym, participation.subject))
 
         filename = exporter.get_schema_filename()
         content = exporter.get_schema(descriptions)
@@ -143,6 +142,8 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
         return response
 
     def get(self, request, **kwargs):
+        if not request.user.has_privacy_level(self.study.get_invited_max_privacy_level()):
+            raise PermissionDenied
         if 'domain' in self.request.GET:
             domain = get_object_or_404(self.study.domains.all(), key=self.request.GET['domain'])
             return self.export(domain)

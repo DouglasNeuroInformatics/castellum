@@ -270,6 +270,17 @@ class Study(models.Model):
         result = self.subjectfiltergroup_set.aggregate(models.Max(key))
         return result[key + '__max'] or 0
 
+    def get_invited_max_privacy_level(self):
+        from castellum.recruitment.models import Participation
+
+        key = 'subject__privacy_level'
+        result = (
+            self.participation_set
+            .filter(status=Participation.INVITED)
+            .aggregate(models.Max(key))
+        )
+        return result[key + '__max'] or 0
+
     @property
     def study_type(self):
         return StudyType.objects.filter(studysession__study=self).distinct()
