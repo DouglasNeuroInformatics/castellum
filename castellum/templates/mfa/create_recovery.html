@@ -1,0 +1,33 @@
+{% extends "mfa/base.html" %}
+{% load static i18n bootstrap4 mfa %}
+
+{% block title %}{% translate 'Add recovery code' %} &middot; {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="breadcrumb-item"><a href="{% url 'mfa:create' 'recovery' %}">{% translate 'Add recovery code' %}</a></li>
+{% endblock %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        {% include 'utils/form_errors.html' with form=form %}
+
+        <p>{% translate "A recovery code can be used when you lose access to your other two-factor authentication options. Each recovery code can only be used once." %}</p>
+        <p>{% translate "Make sure to store your recovery codes in a safe place! If you lose your login keys and don’t have the recovery codes you will lose access to your account." %}</p>
+
+        {% bootstrap_field form.name %}
+
+        <div class="form-group">
+            <label for="id_code">{% translate 'Recovery code' %}</label>
+            <input id="id_code" name="code" class="form-control" readonly value="{{ mfa_data.code }}">
+        </div>
+
+        <label class="form-group d-block">
+            <input type="checkbox" required>
+            I have savely stored the code
+        </label>
+
+        <button class="btn btn-primary">{% translate 'Create' %}</button>
+    </form>
+{% endblock %}

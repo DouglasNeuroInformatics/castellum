@@ -2,6 +2,13 @@
 {% load i18n %}
 
 {% block content %}
+    {% if object_list|length == 1 %}
+        <div class="alert alert-warning">
+            <p>{% translate "You have registered only a single key. If you lose access to that key you won't be able log into your account again." %}</p>
+            <a href="{% url 'mfa:create' 'recovery' %}" class="btn btn-warning flex-shrink-0">{% translate 'Add recovery code' %}</a>
+        </div>
+    {% endif %}
+
     <div class="card mb-3 {% if not object_list %}bg-warning{% endif %}">
         <div class="card-body">
             <h5 class="card-title">
@@ -31,6 +38,7 @@
             <div>
                 <a href="{% url 'mfa:create' 'TOTP' %}" class="btn btn-link btn-sm">{% translate 'Add TOTP key' %}</a>
                 <a href="{% url 'mfa:create' 'FIDO2' %}" class="btn btn-link btn-sm">{% translate 'Add FIDO2 key' %}</a>
+                <a href="{% url 'mfa:create' 'recovery' %}" class="btn btn-link btn-sm">{% translate 'Add recovery code' %}</a>
             </div>
         </div>
     </div>
