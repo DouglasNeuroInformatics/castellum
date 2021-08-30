@@ -7,6 +7,7 @@ carefully chosen API endpoints. These are:
 
 -   `/execution/<study_id>/api/domains/`
 -   `/execution/<study_id>/api/domains/<domain>/<pseudonym>/`
+-   `/execution/<study_id>/api/domains/<domain>/<pseudonym>/attributes/`
 -   `/execution/<study_id>/api/domains/<domain>/<pseudonym>/<target_domain>/`
 
 ## Authentication
