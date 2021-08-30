@@ -647,6 +647,11 @@ class SchedulerPingView(View):
                 start=start,
             )
 
-        send_appointment_notifications(request, participation, appointment_changes)
+        send_appointment_notifications(
+            participation,
+            appointment_changes,
+            request.build_absolute_uri('/'),
+            user=request.user,
+        )
 
         return HttpResponse(status=204)
