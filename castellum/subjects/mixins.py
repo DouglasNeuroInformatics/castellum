@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
+from django.forms import modelformset_factory
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.views.generic import UpdateView
@@ -29,6 +30,7 @@ from castellum.utils.mail import MailContext
 
 from .forms import AdditionalInfoForm
 from .forms import DataProtectionForm
+from .models import AvailabilitySpan
 from .models import Subject
 
 
@@ -122,3 +124,39 @@ class BaseAdditionalInfoUpdateView(PermissionRequiredMixin, UpdateView):
     form_class = AdditionalInfoForm
     permission_required = 'subjects.change_subject'
     template_name = 'subjects/subject_additional_info_form.html'
+
+    def get_formset(self):
+        formset_class = modelformset_factory(
+            AvailabilitySpan,
+            fields=['day', 'start', 'end'],
+            extra=1,
+            can_delete=True,
+        )
+        return formset_class(
+            queryset=self.object.availabilityspan_set.all(),
+            data=self.get_form_kwargs().get('data'),
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'formset' not in context:
+            context['formset'] = self.get_formset()
+        return context
+
+    def form_invalid(self, form, formset):
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+    def form_valid(self, form, formset):
+        for f in formset.extra_forms:
+            f.instance.subject = self.subject
+        formset.save()
+        return super().form_valid(form)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        formset = self.get_formset()
+        if form.is_valid() and formset.is_valid():
+            return self.form_valid(form, formset)
+        else:
+            return self.form_invalid(form, formset)

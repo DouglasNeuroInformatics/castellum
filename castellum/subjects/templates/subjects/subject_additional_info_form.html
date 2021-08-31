@@ -16,7 +16,34 @@
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 
-        {% bootstrap_field form.not_available_until %}
+        <fieldset class="mb-3">
+            <legend class="h5">{% translate "Availability" %}</legend>
+
+            <div data-js="availability">
+                {% for error in formset.non_form_errors %}
+                    <p class="alert alert-danger" role="alert">{{ error }}</p>
+                {% endfor %}
+
+                {{ formset.management_form }}
+
+                {% for form in formset %}
+                    <fieldset class="mb-2" {% if form.DELETE.value %}hidden{% endif %}>
+                        {{ form.id.as_hidden }}
+                        <div class="form-row">
+                            <div class="col-md">{% bootstrap_field form.day %}</div>
+                            <div class="col-md">{% bootstrap_field form.start %}</div>
+                            <div class="col-md">{% bootstrap_field form.end %}</div>
+                            <div class="col-md">{% bootstrap_field form.DELETE %}</div>
+                        </div>
+                        {% for error in form.non_field_errors %}
+                            <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </fieldset>
+                {% endfor %}
+            </div>
+
+            {% bootstrap_field form.not_available_until %}
+        </fieldset>
 
         {% if subject.subjectnote_set.exists %}
             <fieldset>
