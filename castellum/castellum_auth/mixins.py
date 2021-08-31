@@ -21,6 +21,7 @@
 
 from django.contrib.auth import mixins as auth_mixins
 from django.core.exceptions import PermissionDenied
+from django.utils import timezone
 
 from .models import User
 
@@ -62,10 +63,18 @@ class APIAuthMixin:
         auth = self.request.headers.get('Authorization', '').split()
         if len(auth) != 2 or auth[0].lower() != 'token':
             self.handle_no_permission()
+
         try:
-            return User.objects.get(token=auth[1])
+            user = User.objects.get(token=auth[1])
         except User.DoesNotExist:
             self.handle_no_permission()
+
+        if not user.expiration_date:
+            raise PermissionDenied('Account is not activated.')
+        elif user.expiration_date < timezone.now():
+            raise PermissionDenied('Account is expired.')
+
+        return user
 
     def dispatch(self, request, *args, **kwargs):
         self.request.user = self.authenticate()
