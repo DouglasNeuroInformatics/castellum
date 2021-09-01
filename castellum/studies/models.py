@@ -281,6 +281,11 @@ class Study(models.Model):
         )
         return result[key + '__max'] or 0
 
+    def get_exportable_attributes_max_privacy_level(self):
+        key = 'privacy_level_read'
+        result = self.exportable_attributes.aggregate(models.Max(key))
+        return result[key + '__max'] or 0
+
     @property
     def study_type(self):
         return StudyType.objects.filter(studysession__study=self).distinct()
