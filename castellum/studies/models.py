@@ -212,7 +212,6 @@ class Study(models.Model):
         verbose_name=_('Exportable recruitment attributes'),
         related_name='+',
         blank=True,
-        limit_choices_to={'privacy_level_read': 0},
     )
 
     mail_subject = models.CharField(_('E-mail subject'), max_length=254, blank=True)
