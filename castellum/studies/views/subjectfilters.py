@@ -152,6 +152,8 @@ class FilterGroupUpdateView(FilterMixin, UpdateView):
 
     def form_valid(self, form, formset):
         messages.success(self.request, _('Filter update successfull!'))
+        for f in formset.extra_forms:
+            f.instance.group = self.object
         formset.save()
         return super().form_valid(form)
 
