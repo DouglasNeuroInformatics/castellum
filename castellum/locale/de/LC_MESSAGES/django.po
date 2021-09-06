@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-06 16:02+0200\n"
+"POT-Creation-Date: 2021-09-06 16:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3630,7 +3630,7 @@ msgstr "Stattdessen TOTP benutzen"
 #: castellum/templates/mfa/auth_FIDO2.html:17
 #: castellum/templates/mfa/auth_TOTP.html:17
 msgid "Use recovery code instead"
-msgstr ""
+msgstr "Stattdessen Wiederherstellungscode benutzen"
 
 #: castellum/templates/mfa/auth_TOTP.html:9
 msgid "Open your TOTP app to get an authentication code."
@@ -3672,13 +3672,16 @@ msgstr ""
 #: castellum/templates/mfa/mfakey_list.html:8
 #: castellum/templates/mfa/mfakey_list.html:41
 msgid "Add recovery code"
-msgstr ""
+msgstr "Wiederherstellungscode hinzufügen"
 
 #: castellum/templates/mfa/create_recovery.html:16
 msgid ""
 "A recovery code can be used when you lose access to your other two-factor "
 "authentication options. Each recovery code can only be used once."
 msgstr ""
+"Ein Wiederherstellungscode kann benutzt werden wenn Sie keinen Zugriff mehr "
+"auf Ihre anderen 2-Faktor-Authentifizierungsoptionen haben. Jeder "
+"Wiederherstellungscodekann nur ein einziges Mal verwendet werden."
 
 #: castellum/templates/mfa/create_recovery.html:17
 msgid ""
@@ -3686,10 +3689,13 @@ msgid ""
 "login keys and don’t have the recovery codes you will lose access to your "
 "account."
 msgstr ""
+"Bewahren Sie ihre Wiederherstellungscodes an einem sicheren Ort auf! Wenn "
+"Sie ihre Login-Schlüssel verlieren und nicht über Wiederherstellungscodes "
+"verfügen, werden Sie nicht mehr auf Ihr Konto zugreifen können."
 
 #: castellum/templates/mfa/create_recovery.html:22
 msgid "Recovery code"
-msgstr ""
+msgstr "Wiederherstellungscode"
 
 #: castellum/templates/mfa/mfakey_confirm_delete.html:5
 #, python-format
@@ -3701,6 +3707,8 @@ msgid ""
 "You have registered only a single key. If you lose access to that key you "
 "won't be able log into your account again."
 msgstr ""
+"Sie haben nur einen einzigen Schlüsel registriert. Wenn Sie diesen Schlüssel "
+"verlieren, werden Sie nicht mehr auf Ihr Konto zugreifen können."
 
 #: castellum/templates/mfa/mfakey_list.html:16
 msgid "Login keys configured"
