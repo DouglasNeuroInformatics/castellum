@@ -264,7 +264,7 @@ class AvailabilitySpan(models.Model):
 
     def clean(self):
         if self.start and self.end and self.start >= self.end:
-            raise forms.ValidationError(_('Start must be before end'), code='order')
+            raise forms.ValidationError({'start': _('Start must be before end')})
 
 
 class SubjectNote(models.Model):

@@ -35,9 +35,6 @@
                             <div class="col-md">{% bootstrap_field form.end %}</div>
                             <div class="col-md">{% bootstrap_field form.DELETE %}</div>
                         </div>
-                        {% for error in form.non_field_errors %}
-                            <p class="text-danger">{{ error }}</p>
-                        {% endfor %}
                     </fieldset>
                 {% endfor %}
             </div>
