@@ -35,6 +35,7 @@ from castellum.castellum_auth.mixins import APIAuthMixin
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.models import Domain
+from castellum.recruitment.attribute_exporters import JSONExporter
 from castellum.recruitment.models import Participation
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
@@ -92,12 +93,11 @@ class APIResolveView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
             subject = get_subject(domain.key, pseudonym)
         except Subject.DoesNotExist:
             raise Http404
-        if not self.request.user.has_privacy_level(subject.privacy_level):
-            raise PermissionDenied
-
         get_object_or_404(
             Participation, subject=subject, study=self.study, status=Participation.INVITED
         )
+        if not self.request.user.has_privacy_level(subject.privacy_level):
+            raise PermissionDenied
 
         domains = Domain.objects.filter(
             models.Q(pk__in=self.study.domains.all())
@@ -111,3 +111,36 @@ class APIResolveView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
         ))
 
         return JsonResponse({'pseudonym': pseudonym})
+
+
+class APIAttributesView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
+    permission_required = ['recruitment.conduct_study']
+    study_status = [Study.EXECUTION]
+
+    def get(self, request, **kwargs):
+        try:
+            pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
+        except ValueError:
+            raise Http404
+
+        domain = get_object_or_404(self.study.domains, key=self.kwargs['domain'])
+
+        try:
+            subject = get_subject(domain.key, pseudonym)
+        except Subject.DoesNotExist:
+            raise Http404
+        get_object_or_404(
+            Participation, subject=subject, study=self.study, status=Participation.INVITED
+        )
+        if not self.request.user.has_privacy_level(subject.privacy_level):
+            raise PermissionDenied
+
+        monitoring_logger.info('Attribute export: study {} subject {} by {}'.format(
+            self.study.pk, subject.pk, request.user.pk
+        ))
+
+        exporter = JSONExporter()
+        descriptions = self.study.exportable_attributes.all()
+
+        attrs = exporter.get_subject_attributes(descriptions, subject)
+        return JsonResponse(attrs)

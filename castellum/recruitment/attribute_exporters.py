@@ -84,37 +84,40 @@ class JSONExporter:
     def get_schema_filename(self):
         return 'attributes.schema.json'
 
-    def get_raw_data(self, descriptions, subjects):
+    def get_subject_attributes(self, descriptions, subject):
+        attrs = {}
+
+        for description in descriptions:
+            key = description.label
+            choices = list(description.attributechoice_set.all())
+
+            value = subject.attributes.get(description.json_key)
+            if value in ['', None, ANSWER_DECLINED]:
+                attrs[key] = None
+            elif choices:
+                if isinstance(value, list):
+                    attrs[key] = []
+                    for v in value:
+                        choice = description.attributechoice_set.get(pk=v)
+                        attrs[key].append(choice.label)
+                else:
+                    choice = description.attributechoice_set.get(pk=value)
+                    attrs[key] = choice.label
+            else:
+                attrs[key] = value
+
+        return attrs
+
+    def get_data(self, descriptions, subjects):
         data = []
 
         for _id, subject in subjects:
             data.append({
                 'id': str(_id),
+                **self.get_subject_attributes(descriptions, subject),
             })
 
-            for description in descriptions:
-                key = description.label
-                choices = list(description.attributechoice_set.all())
-
-                value = subject.attributes.get(description.json_key)
-                if value in ['', None, ANSWER_DECLINED]:
-                    pass
-                elif choices:
-                    if isinstance(value, list):
-                        data[-1][key] = []
-                        for v in value:
-                            choice = description.attributechoice_set.get(pk=v)
-                            data[-1][key].append(choice.label)
-                    else:
-                        choice = description.attributechoice_set.get(pk=value)
-                        data[-1][key] = choice.label
-                else:
-                    data[-1][key] = value
-
-        return data
-
-    def get_data(self, descriptions, subjects):
-        return self._json_dumps(self.get_raw_data(descriptions, subjects))
+        return self._json_dumps(data)
 
     def get_data_filename(self):
         return 'attributes.json'

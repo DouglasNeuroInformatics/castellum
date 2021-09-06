@@ -59,6 +59,7 @@ JSON_DATA = """[
     {
         "Date of birth": "1970-01-01",
         "Handedness": "Right",
+        "Highest degree": null,
         "Instruments": [
             "Piano",
             "Guitar"
