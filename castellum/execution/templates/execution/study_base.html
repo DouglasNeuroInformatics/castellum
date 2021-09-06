@@ -8,8 +8,9 @@
         <h1 class="text-center">{{ study }}</h1>
 
         <div class="d-print-none">
-            {% has_privacy_level study.get_invited_max_privacy_level user as has_privacy_level %}
-            {% if has_privacy_level %}
+            {% has_privacy_level study.get_invited_max_privacy_level user as has_subject_privacy_level %}
+            {% has_privacy_level study.get_exportable_attributes_max_privacy_level user as has_attribute_privacy_level %}
+            {% if has_subject_privacy_level and has_attribute_privacy_level %}
                 <a href="{% url 'execution:export' study.pk %}" class="btn btn-outline-primary mb-1">{% trans 'Export recruitment attributes' %}</a>
             {% endif %}
             {% if study.consent %}

@@ -212,7 +212,6 @@ class Study(models.Model):
         verbose_name=_('Exportable recruitment attributes'),
         related_name='+',
         blank=True,
-        limit_choices_to={'privacy_level_read': 0},
     )
 
     mail_subject = models.CharField(_('E-mail subject'), max_length=254, blank=True)
@@ -279,6 +278,11 @@ class Study(models.Model):
             .filter(status=Participation.INVITED)
             .aggregate(models.Max(key))
         )
+        return result[key + '__max'] or 0
+
+    def get_exportable_attributes_max_privacy_level(self):
+        key = 'privacy_level_read'
+        result = self.exportable_attributes.aggregate(models.Max(key))
         return result[key + '__max'] or 0
 
     @property
