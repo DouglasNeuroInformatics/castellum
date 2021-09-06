@@ -3681,7 +3681,7 @@ msgid ""
 msgstr ""
 "Ein Wiederherstellungscode kann benutzt werden wenn Sie keinen Zugriff mehr "
 "auf Ihre anderen 2-Faktor-Authentifizierungsoptionen haben. Jeder "
-"Wiederherstellungscodekann nur ein einziges Mal verwendet werden."
+"Wiederherstellungscode kann nur ein einziges Mal verwendet werden."
 
 #: castellum/templates/mfa/create_recovery.html:17
 msgid ""
@@ -3707,7 +3707,7 @@ msgid ""
 "You have registered only a single key. If you lose access to that key you "
 "won't be able log into your account again."
 msgstr ""
-"Sie haben nur einen einzigen Schlüsel registriert. Wenn Sie diesen Schlüssel "
+"Sie haben nur einen einzigen Schlüssel registriert. Wenn Sie diesen Schlüssel "
 "verlieren, werden Sie nicht mehr auf Ihr Konto zugreifen können."
 
 #: castellum/templates/mfa/mfakey_list.html:16
