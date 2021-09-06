@@ -1,3 +1,6 @@
+from django.utils import timezone
+
+from freezegun import freeze_time
 from model_bakery import baker
 
 from castellum.pseudonyms.helpers import get_pseudonym
@@ -34,6 +37,26 @@ def test_token_required(client, conductor, study_in_execution_status, subject):
         study.pk, domain.key, pseudonym, target_domain.key
     )
     response = client.get(url)  # no token
+
+    assert response.status_code == 403
+
+
+def test_user_expired(client, conductor, study_in_execution_status, subject):
+    study = study_in_execution_status
+    domain = baker.make(Domain, context=study)
+    target_domain = baker.make(Domain, context=study)
+    baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
+    pseudonym = get_pseudonym(subject, domain.key)
+
+    with freeze_time('2000-01-01'):
+        conductor.expiration_date = timezone.now()
+        conductor.save()
+
+    url = '/execution/{}/api/domains/{}/{}/{}/'.format(
+        study.pk, domain.key, pseudonym, target_domain.key
+    )
+    with freeze_time('2000-01-02'):
+        response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
 
     assert response.status_code == 403
 
