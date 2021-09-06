@@ -93,12 +93,11 @@ class APIResolveView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
             subject = get_subject(domain.key, pseudonym)
         except Subject.DoesNotExist:
             raise Http404
-        if not self.request.user.has_privacy_level(subject.privacy_level):
-            raise PermissionDenied
-
         get_object_or_404(
             Participation, subject=subject, study=self.study, status=Participation.INVITED
         )
+        if not self.request.user.has_privacy_level(subject.privacy_level):
+            raise PermissionDenied
 
         domains = Domain.objects.filter(
             models.Q(pk__in=self.study.domains.all())
@@ -130,12 +129,11 @@ class APIAttributesView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
             subject = get_subject(domain.key, pseudonym)
         except Subject.DoesNotExist:
             raise Http404
-        if not self.request.user.has_privacy_level(subject.privacy_level):
-            raise PermissionDenied
-
         get_object_or_404(
             Participation, subject=subject, study=self.study, status=Participation.INVITED
         )
+        if not self.request.user.has_privacy_level(subject.privacy_level):
+            raise PermissionDenied
 
         monitoring_logger.info('Attribute export: study {} subject {} by {}'.format(
             self.study.pk, subject.pk, request.user.pk
