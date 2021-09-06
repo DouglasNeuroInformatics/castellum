@@ -39,6 +39,16 @@
         return $col;
     };
 
+    var deleteRow = function($row, id) {
+        var $delInput = document.createElement('input');
+        $delInput.type = 'hidden';
+        $delInput.name = `form-${id}-DELETE`;
+        $delInput.value = 'on';
+        $row.append($delInput);
+
+        $row.hidden = true;
+    };
+
     var addRow = function(day, id) {
         var $day = $wrapper.children[day];
         var $rows = $day.querySelector('[data-js="availability-rows"]');
@@ -69,15 +79,7 @@
         $del.type = 'button';
         $del.className = 'btn btn-danger';
         $del.textContent = django.gettext('Delete');
-        $del.addEventListener('click', function() {
-            var $delInput = document.createElement('input');
-            $delInput.type = 'hidden';
-            $delInput.name = `form-${id}-DELETE`;
-            $delInput.value = 'on';
-            $row.append($delInput);
-
-            $row.hidden = true;
-        });
+        $del.addEventListener('click', () => deleteRow($row, id));
         $delCol.append($del);
 
         return $row;
@@ -117,6 +119,7 @@
         var $origDay = $fieldset.querySelector('[name$="-day"]');
         var $origStart = $fieldset.querySelector('[name$="-start"]');
         var $origEnd = $fieldset.querySelector('[name$="-end"]');
+        var $origDelete = $fieldset.querySelector('[name$="-DELETE"]');
 
         if ($origDay.value === '') {
             return;
@@ -134,6 +137,9 @@
         $pkInput.value = $origPk.value;
         $startInput.value = $origStart.value;
         $endInput.value = $origEnd.value;
+        if ($origDelete.checked) {
+            deleteRow($row, id);
+        }
     });
 
     $availability.append($wrapper);
