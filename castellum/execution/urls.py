@@ -24,6 +24,7 @@ from django.urls import path
 
 from .api import APIAttributesView
 from .api import APIDomainsView
+from .api import APIPseudonymsView
 from .api import APIResolveView
 from .api import APIValidateView
 from .feeds import AppointmentFeedForStudy
@@ -120,6 +121,7 @@ urlpatterns = [
 if settings.CASTELLUM_PSEUDONYMS_API_ENABLED:
     urlpatterns += [
         path('<int:pk>/api/domains/', APIDomainsView.as_view()),
+        path('<int:pk>/api/domains/<uuid:domain>/', APIPseudonymsView.as_view()),
         path('<int:pk>/api/domains/<uuid:domain>/<pseudonym>/', APIValidateView.as_view()),
         path(
             '<int:study_pk>/api/domains/<uuid:domain>/<pseudonym>/attributes/',

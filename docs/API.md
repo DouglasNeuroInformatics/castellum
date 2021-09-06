@@ -6,6 +6,7 @@ Castellum is primarily a GUI application. There are only a few
 carefully chosen API endpoints. These are:
 
 -   `/execution/<study_id>/api/domains/`
+-   `/execution/<study_id>/api/domains/<domain>/`
 -   `/execution/<study_id>/api/domains/<domain>/<pseudonym>/`
 -   `/execution/<study_id>/api/domains/<domain>/<pseudonym>/attributes/`
 -   `/execution/<study_id>/api/domains/<domain>/<pseudonym>/<target_domain>/`
