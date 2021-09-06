@@ -49,6 +49,14 @@
         $row.hidden = true;
     };
 
+    var copyInputProps = function($orig, $input) {
+        $input.className = $orig.className;
+        $input.value = $orig.value;
+        $orig.parentElement.querySelectorAll('.invalid-feedback').forEach($el => {
+            $input.parentElement.append($el);
+        });
+    }
+
     var addRow = function(day, id) {
         var $day = $wrapper.children[day];
         var $rows = $day.querySelector('[data-js="availability-rows"]');
@@ -135,8 +143,8 @@
         var $endInput = $row.querySelector('[name$="-end"]');
 
         $pkInput.value = $origPk.value;
-        $startInput.value = $origStart.value;
-        $endInput.value = $origEnd.value;
+        copyInputProps($origStart, $startInput);
+        copyInputProps($origEnd, $endInput);
         if ($origDelete.checked) {
             deleteRow($row, id);
         }
