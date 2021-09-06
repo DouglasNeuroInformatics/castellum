@@ -1,3 +1,41 @@
+# 0.65.0 (unreleased)
+
+## security
+
+-   Due to insufficient validation, users were able to add filters to
+    other studies.
+
+## breaking changes
+
+-   `CASTELLUM_DELETE_NOTIFICATION_TO` was renamed to
+    `CASTELLUM_GDPR_NOTIFICATION_TO` and now takes a list of email
+    addresses instead of a single one.
+-   `castellum.recruitment.attribute_exporters.JSONExporter` now
+    includes unknown attributes with a value of `null` instead of
+    skipping them.
+
+## bug fixes
+
+-   fix a crash in GDPR export if `CASTELLUM_GDPR_NOTIFICATION_TO` is
+    set
+
+## new features
+
+-   There is now an API to interact with pseudonyms. See `docs/API.md`
+    for details.
+-   PR mails are now only sent once per study and include the
+    recruitment mail body instead of the full recruitment text (if
+    available).
+-   Two factor authentication now provides recovery codes. The set of
+    enabled authentication methods can be controlled with the
+    `MFA_METHODS` setting.
+-   It is now possible to select exportable attributes regardless of
+    privacy level.
+-   Study conductors with an insufficient privacy level are now longer
+    allowed to export attributes. Previously they were allowed to do it,
+    but the export was incomplete.
+
+
 # 0.64.0 (2021-08-17)
 
 ## breaking changes
