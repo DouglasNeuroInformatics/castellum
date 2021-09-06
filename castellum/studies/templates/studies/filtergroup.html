@@ -17,8 +17,6 @@
 
     {% for pk, form in templates.items %}
         <template id="template-{{ pk }}">
-            <input type="hidden" name="{{ form.prefix }}-group" value="{{ object.id }}" />
-
             <div class="col-sm-12">
                 {{ form.desc.filter_label }}
                 {{ form.description.as_hidden }}
@@ -65,7 +63,6 @@
                         <fieldset class="form-row mb-3" {% if form.DELETE.value %}hidden{% endif %}>
                             {{ form.id.as_hidden }}
                             {{ form.DELETE.as_hidden }}
-                            <input type="hidden" name="{{ form.prefix }}-group" value="{{ object.id }}" />
 
                             <div class="col-sm-12">
                                 {{ form.desc.filter_label }}

@@ -78,7 +78,6 @@ class SubjectFilterForm(forms.ModelForm):
     class Meta:
         model = SubjectFilter
         fields = [
-            'group',
             'description',
             'operator',
             'value',
