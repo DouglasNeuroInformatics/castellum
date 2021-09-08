@@ -1,5 +1,7 @@
 # 0.65.1 (2021-09-08)
 
+## bug fixes
+
 -   Fixed crash in filter trials due to non-unique study names.
 
 
