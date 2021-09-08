@@ -23,5 +23,11 @@ from django.contrib import admin
 
 from . import models
 
-admin.site.register(models.Domain)
+
+class DomainAdmin(admin.ModelAdmin):
+    readonly_fields = ['key']
+    search_fields = ['name', 'key']
+
+
+admin.site.register(models.Domain, DomainAdmin)
 admin.site.register(models.Pseudonym)
