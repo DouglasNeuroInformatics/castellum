@@ -1,3 +1,8 @@
+# 0.65.1 (2021-09-08)
+
+-   Fixed crash in filter trials due to non-unique study names.
+
+
 # 0.65.0 (2021-09-07)
 
 ## security
