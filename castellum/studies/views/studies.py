@@ -53,6 +53,7 @@ from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.subjects.models import Subject
 from castellum.utils import Exclusion
+from castellum.utils import uuid_str
 from castellum.utils.mail import MailContext
 from castellum.utils.views import get_next_url
 
@@ -310,7 +311,7 @@ class FilterTrialCreateView(PermissionRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         study = Study.objects.create(
-            name='Study trial',
+            name=uuid_str(),
             contact_person='study_trial',
             principal_investigator='study_trial',
             phone='03000000000',
