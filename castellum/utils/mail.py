@@ -41,8 +41,9 @@ def render_body_with_fallback(get_mail_data, text, fallback=None, lang=None):
 
 
 class MailContext:
-    def __init__(self, name=None):
-        self.connection = None
+    def __init__(self, name=None, connection=None):
+        self.connection = connection
+        self.close_connection = False
         self.data = {
             'from_email': settings.DEFAULT_FROM_EMAIL,
             'language': settings.LANGUAGE_CODE,
@@ -57,6 +58,7 @@ class MailContext:
     def __enter__(self):
         if not self.connection:
             self.connection = get_connection(**self.data['connection'])
+            self.close_connection = True
             try:
                 self.connection.open()
             except Exception:
@@ -66,7 +68,8 @@ class MailContext:
         return self
 
     def __exit__(self, type, value, traceback):
-        self.connection.close()
+        if self.close_connection:
+            self.connection.close()
         self.connection = None
 
     def prepare_body(self, body, recipients_string=''):
