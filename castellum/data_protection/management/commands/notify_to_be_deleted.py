@@ -74,10 +74,14 @@ class Command(BaseCommand):
 
         count = subjects_notify(subjects, options['base_url'])
         if options['verbosity'] > 0:
-            self.stdout.write('notified about {} subjects'.format(count))
+            self.stdout.write(
+                'notify to be deleted: '
+                'notifications about {} subjects have been sent'.format(count)
+            )
 
         count = subjects_reset(subjects)
         if options['verbosity'] > 0:
             self.stdout.write(
+                'notify to be deleted: '
                 'reset {} subjects that previously were marked as notified'.format(count)
             )
