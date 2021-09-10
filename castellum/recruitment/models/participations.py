@@ -25,6 +25,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.forms import ValidationError
 from django.utils import formats
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
@@ -44,7 +45,7 @@ class BaseMailBatch(models.Model):
         abstract = True
 
     def __str__(self):
-        return formats.date_format(self.datetime, 'DATETIME_FORMAT')
+        return formats.date_format(timezone.localtime(self.datetime), 'DATETIME_FORMAT')
 
 
 class MailBatch(BaseMailBatch):
