@@ -23,8 +23,8 @@ import datetime
 
 from django.db import models
 from django.forms import ValidationError
-from django.utils.formats import date_format
-from django.utils.formats import time_format
+from django.utils import formats
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from castellum.recruitment.models import Participation
@@ -53,7 +53,7 @@ class Appointment(models.Model):
         ]
 
     def __str__(self):
-        return '{} {}'.format(date_format(self.start), time_format(self.start))
+        return formats.date_format(timezone.localtime(self.start), 'DATETIME_FORMAT')
 
     def clean(self):
         if self.session.study != self.participation.study:

@@ -21,18 +21,20 @@
 
 from django.conf import settings
 from django.utils import formats
+from django.utils import timezone
 
 
-def date_format(date):
-    return formats.date_format(date, 'l, ') + formats.date_format(date, 'DATETIME_FORMAT')
+def date_format(dt):
+    ldt = timezone.localtime(dt)
+    return formats.date_format(ldt, 'l, ') + formats.date_format(ldt, 'DATETIME_FORMAT')
 
 
-def get_reminder_body(name, session, date):
+def get_reminder_body(name, session, dt):
     def get_mail_data():
         return {
             'name': name,
             'study': session.study.name,
-            'date': date_format(date),
+            'date': date_format(dt),
             'reply_to': session.study.email,
             'session_reminder_text': session.reminder_text.strip() or '—',
         }
