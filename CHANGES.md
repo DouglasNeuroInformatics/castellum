@@ -1,3 +1,11 @@
+# 0.65.2 (2021-09-10)
+
+## bug fixes
+
+-   Fixed timezone offset in some places, most importantly in
+    appointment reminder mails.
+
+
 # 0.65.1 (2021-09-08)
 
 ## bug fixes
