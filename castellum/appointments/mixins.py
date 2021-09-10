@@ -56,8 +56,7 @@ def send_appointment_notifications(request, participation, changes):
     def format_datetime(dt):
         if not dt:
             return _('not scheduled')
-        ldt = timezone.localtime(dt)
-        return formats.date_format(ldt, 'DATETIME_FORMAT')
+        return formats.date_format(timezone.localtime(dt), 'DATETIME_FORMAT')
 
     def get_mail_data():
         return {

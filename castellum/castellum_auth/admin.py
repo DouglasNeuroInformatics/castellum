@@ -37,7 +37,9 @@ def expiration_date_repr(obj):
     if not obj.expiration_date:
         return
 
-    formatted_date = formats.date_format(obj.expiration_date, 'SHORT_DATE_FORMAT')
+    formatted_date = formats.date_format(
+        timezone.localtime(obj.expiration_date), 'SHORT_DATE_FORMAT'
+    )
 
     if obj.expiration_date < timezone.now():
         expire = _('expired')
