@@ -34,10 +34,13 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
     ]
     limit_by = 10
 
+    def limit(self, qs):
+        return qs[:self.limit_by], max(qs.count() - self.limit_by, 0)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['export_requested'], context['export_requested_missing'] = helpers.get_export_requested(self.limit_by)  # noqa
-        context['to_be_deleted'], context['to_be_deleted_missing'] = helpers.get_to_be_deleted(self.limit_by)  # noqa
-        context['no_legal_basis'], context['no_legal_basis_missing'] = helpers.get_no_legal_basis(self.limit_by)  # noqa
-        context['unreachable'], context['unreachable_missing'] = helpers.get_unreachable(self.limit_by)  # noqa
+        context['export_requested'], context['export_requested_missing'] = self.limit(helpers.get_export_requested())  # noqa
+        context['to_be_deleted'], context['to_be_deleted_missing'] = self.limit(helpers.get_to_be_deleted())  # noqa
+        context['no_legal_basis'], context['no_legal_basis_missing'] = self.limit(helpers.get_no_legal_basis())  # noqa
+        context['unreachable'], context['unreachable_missing'] = self.limit(helpers.get_unreachable())  # noqa
         return context

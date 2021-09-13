@@ -32,22 +32,21 @@ from castellum.utils.mail import MailContext
 def subjects_notify(subjects, base_url):
     count = 0
     with MailContext('internal') as ctx:
-        for subject in subjects:
-            if not subject.to_be_deleted_notified:
-                url = base_url + reverse('subjects:detail', args=[subject.slug])
-                sent = ctx.send_mail(
-                    settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
-                    (
-                        lambda: {'url': url},
-                        settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY,
-                        settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY_EN,
-                    ),
-                    settings.CASTELLUM_GDPR_NOTIFICATION_TO,
-                )
-                if sent:
-                    count += 1
-                    subject.to_be_deleted_notified = True
-                    subject.save()
+        for subject in subjects.filter(to_be_deleted_notified=False):
+            url = base_url + reverse('subjects:detail', args=[subject.slug])
+            sent = ctx.send_mail(
+                settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_SUBJECT,
+                (
+                    lambda: {'url': url},
+                    settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY,
+                    settings.CASTELLUM_DELETE_SUBJECT_NOTIFICATION_BODY_EN,
+                ),
+                settings.CASTELLUM_GDPR_NOTIFICATION_TO,
+            )
+            if sent:
+                count += 1
+                subject.to_be_deleted_notified = True
+                subject.save()
     return count
 
 
@@ -66,24 +65,19 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('base_url')
-        parser.add_argument('--limit-by', default=100, type=int)
 
     def handle(self, *args, **options):
         if not settings.CASTELLUM_GDPR_NOTIFICATION_TO:
             raise CommandError('CASTELLUM_GDPR_NOTIFICATION_TO is not set')
 
-        subjects, missing = helpers.get_all_subjects(options['limit_by'])
+        subjects = helpers.get_all_subjects()
+
         count = subjects_notify(subjects, options['base_url'])
         if options['verbosity'] > 0:
             self.stdout.write('notified about {} subjects'.format(count))
-        if missing:
-            if options['verbosity'] > 0:
-                self.stdout.write(
-                    'skipped resetting because {} subjects were missing'.format(missing)
-                )
-        else:
-            count = subjects_reset(subjects)
-            if options['verbosity'] > 0:
-                self.stdout.write(
-                    'reset {} subjects that previously were marked as notified'.format(count)
-                )
+
+        count = subjects_reset(subjects)
+        if options['verbosity'] > 0:
+            self.stdout.write(
+                'reset {} subjects that previously were marked as notified'.format(count)
+            )
