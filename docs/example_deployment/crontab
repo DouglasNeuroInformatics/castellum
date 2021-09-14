@@ -4,5 +4,5 @@
 2	1	*	*	*	django-admin notify_to_be_deleted http://example.com
 3	1	*	*	*	django-admin send_appointment_reminders http://example.com
 4	1	*	*	*	django-admin notify_sessions_end
-5	1	*	*	*	django-admin delete_filter_trials
+5	1	*	*	*	django-admin cleanup_filter_trials
 6	1	*	*	1	django-admin geocode_all

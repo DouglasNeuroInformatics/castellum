@@ -86,7 +86,7 @@ user requests. We provide the following management commands for that:
     is sent to the respective study coordinators instead.
 -   `notify_sessions_end`: Remind study members to finish a study when
     sessions end.
--   `delete_filter_trials`: Delete filter trials as they are meant to be
+-   `cleanup_filter_trials`: Delete filter trials as they are meant to be
     used only once.
 
 ## Initial setup

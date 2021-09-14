@@ -1,10 +1,10 @@
 from model_bakery import baker
 
-from castellum.studies.management.commands.delete_filter_trials import Command
+from castellum.studies.management.commands.cleanup_filter_trials import Command
 from castellum.studies.models import Study
 
 
-def test_delete_filter_trial(study):
+def test_cleanup_filter_trial(study):
     baker.make(Study, is_filter_trial=True)
 
     cmd = Command()
