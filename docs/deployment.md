@@ -79,6 +79,8 @@ user requests. We provide the following management commands for that:
 
 -   `clearsessions`: Delete expired sessions.
 -   `cleanup_media`: Delete unused uploaded files.
+-   `cleanup_availability`: Remove obsolete "not available until"
+    entries.
 -   `notify_to_be_deleted`: Automatically notify about content that
     should be deleted.
 -   `send_appointment_reminders`: Send email reminders to subjects with
