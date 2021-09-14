@@ -36,16 +36,6 @@ from castellum.utils.fields import RestrictedFileField
 from castellum.utils.models import TimeStampedModel
 
 
-class TimeSlot(models.Model):
-    hour = models.PositiveSmallIntegerField(_('hour'))
-
-    class Meta:
-        ordering = ['hour']
-
-    def __str__(self):
-        return str(self.hour)
-
-
 class SubjectQuerySet(models.QuerySet):
     def annotate_reliability(self):
         return self.annotate(
@@ -115,21 +105,6 @@ class Subject(TimeStampedModel):
             'undergo all types of exams or tests conducted in the respective type of study.'
         ),
         blank=True,
-    )
-    availability_monday = models.ManyToManyField(
-        TimeSlot, verbose_name=_('Monday'), blank=True, related_name='+'
-    )
-    availability_tuesday = models.ManyToManyField(
-        TimeSlot, verbose_name=_('Tuesday'), blank=True, related_name='+'
-    )
-    availability_wednesday = models.ManyToManyField(
-        TimeSlot, verbose_name=_('Wednesday'), blank=True, related_name='+'
-    )
-    availability_thursday = models.ManyToManyField(
-        TimeSlot, verbose_name=_('Thursday'), blank=True, related_name='+'
-    )
-    availability_friday = models.ManyToManyField(
-        TimeSlot, verbose_name=_('Friday'), blank=True, related_name='+'
     )
 
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
