@@ -158,7 +158,10 @@ class Contact(TimeStampedModel):
     )
 
     guardians = models.ManyToManyField(
-        'contacts.Contact', verbose_name=_('Guardians'), related_name='guardian_of', blank=True
+        'contacts.Contact',
+        verbose_name=_('Legal representatives'),
+        related_name='guardian_of',
+        blank=True,
     )
 
     objects = ContactQuerySet.as_manager()

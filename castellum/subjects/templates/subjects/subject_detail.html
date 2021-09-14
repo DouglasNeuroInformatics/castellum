@@ -26,7 +26,7 @@
         {% endif %}
 
         {% if subject.contact.guardian_of.exists %}
-            <dt class="col-sm-6">{% translate 'Guardian of' %}</dt>
+            <dt class="col-sm-6">{% translate 'Legal representative of' %}</dt>
             <dd class="col-sm-6">
                 {% for c in subject.contact.guardian_of.all %}
                     {% has_privacy_level c.subject.privacy_level user as can_access %}
@@ -94,7 +94,7 @@
         </dd>
 
         <dt class="col-sm-6">
-            {% translate 'Guardianship' %}
+            {% translate 'Legal representative' %}
             <small class="d-block text-muted">{% translate 'Art. 6 (1) lit. a, Art. 9 (2) lit. a GDPR and Art. 1626, 1902 BGB' %}</small>
         </dt>
         <dd class="col-sm-6">
@@ -102,7 +102,7 @@
                 {{ subject.contact|display:'is_guardian' }}
             {% else %}
                 {% url 'subjects:index' as url %}
-                {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">find or create a subject</a> and set this one as their guardian.{% endblocktranslate %}
+                {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">find or create a subject</a> and set this one as their legal representative.{% endblocktranslate %}
             {% endif %}
         </dd>
 

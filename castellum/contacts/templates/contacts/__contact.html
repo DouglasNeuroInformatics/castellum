@@ -29,7 +29,7 @@
         {% include 'contacts/__contact_detail.html' with contact=guardian guardian=True %}
     {% else %}
         <dl class="row">
-            <dt class="col-sm-6 text-muted">{% translate 'Legal guardian' %}</dt>
+            <dt class="col-sm-6 text-muted">{% translate 'Legal representative' %}</dt>
             <dd class="col-sm-6 text-muted">{% translate 'Insufficient privacy level' %}</dd>
         </dl>
     {% endif %}
