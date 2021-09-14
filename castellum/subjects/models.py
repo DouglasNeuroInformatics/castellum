@@ -193,53 +193,7 @@ class Subject(TimeStampedModel):
     @property
     def is_available(self):
         now = timezone.localtime()
-        if self.not_available_until and self.not_available_until > now:
-            return False
-        days = [
-            self.availability_monday,
-            self.availability_tuesday,
-            self.availability_wednesday,
-            self.availability_thursday,
-            self.availability_friday,
-        ]
-        if now.weekday() >= len(days):
-            return False
-        hours = days[now.weekday()]
-        return hours.filter(hour=now.hour).exists()
-
-    def get_next_available_datetime(self, start):
-        days = [
-            self.availability_monday,
-            self.availability_tuesday,
-            self.availability_wednesday,
-            self.availability_thursday,
-            self.availability_friday,
-            None,
-            None,
-        ]
-
-        # +1 accounts for the hours before start.hour on the
-        # first weekday we are checking
-        sliced_days = days[start.weekday():] + days[:start.weekday() + 1]
-        start = timezone.localtime(start)
-        for i, hours in enumerate(sliced_days):
-            if not hours:
-                continue
-            if i == 0:
-                hours = hours.filter(hour__gte=start.hour)
-            earliest_hour = hours.first()
-            if earliest_hour:
-                return start.replace(
-                    hour=earliest_hour.hour, minute=0, second=0, microsecond=0
-                ) + timezone.timedelta(days=i)
-
-    @cached_property
-    def next_available(self):
-        now = timezone.localtime()
-        if self.not_available_until and self.not_available_until > now:
-            return self.get_next_available_datetime(self.not_available_until)
-        else:
-            return self.get_next_available_datetime(now)
+        return not self.not_available_until or self.not_available_until <= now
 
     def annotate_reliability(self):
         if hasattr(self, 'reliability_issues'):

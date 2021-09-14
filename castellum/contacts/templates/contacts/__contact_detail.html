@@ -27,12 +27,10 @@
         {% if contact.subject.is_available %}
             {% translate "Yes" %}
             <span class="list-icon bg-success text-light">{% icon 'phone' %}</span>
-        {% elif not contact.subject.next_available %}
-            &mdash;
         {% else %}
             {% translate "No" %}
             <span class="list-icon bg-success text-light">{% icon 'phone' %}</span>
-            {% blocktranslate with next_available=contact.subject.next_available %}
+            {% blocktranslate with next_available=contact.subject.not_available_until %}
                 (not until {{ next_available }})
             {% endblocktranslate %}
         {% endif %}
