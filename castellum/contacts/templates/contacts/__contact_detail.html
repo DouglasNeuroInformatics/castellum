@@ -8,7 +8,7 @@
         <dd class="col-sm-6">
             {{ contact.full_name }}
             {% if contact.guardian_of.count > 1 %}
-                {% icon 'users' label=_('This legal representative has other wards who may also be suitable for this study.') %}
+                {% icon 'users' label=_('This person represents other subjects who may also be suitable for this study.') %}
             {% endif %}
         </dd>
     {% endif %}
