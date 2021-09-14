@@ -479,6 +479,21 @@ class ContactUpdateView(ExecutionUpdateMixin, BaseContactUpdateView):
         return self.participation.subject.contact
 
 
+class GuardianContactUpdateView(ExecutionUpdateMixin, BaseContactUpdateView):
+    subtab = 'contact'
+
+    # FIXME: check privacy level of subject *and* guardian
+
+    def get_object(self):
+        contact = self.participation.subject.contact
+        return get_object_or_404(contact.guardians, pk=self.kwargs['guardian_pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['foo'] = True
+        return context
+
+
 class AttributesUpdateView(ExecutionUpdateMixin, BaseAttributesUpdateView):
     subtab = 'attributes'
 

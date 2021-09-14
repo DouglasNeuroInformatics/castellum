@@ -36,6 +36,7 @@ from .views import ContactUpdateView
 from .views import DataProtectionUpdateView
 from .views import ExclusionCriteriaView
 from .views import ExportView
+from .views import GuardianContactUpdateView
 from .views import NewsMailView
 from .views import ParticipationAppointmentsUpdateView
 from .views import ParticipationDetailView
@@ -100,6 +101,13 @@ urlpatterns = [
         '<int:study_pk>/<int:pk>/update-contact/',
         ContactUpdateView.as_view(),
         name='contact-update',
+    ),
+    path(
+        # FIXME: no study-local way to identify guardian
+        # PK is leaked in HTML, so we can use that
+        '<int:study_pk>/<int:pk>/guardian-update-contact/<int:guardian_pk>/',
+        GuardianContactUpdateView.as_view(),
+        name='guardian-contact-update',
     ),
     path(
         '<int:study_pk>/<int:pk>/update-attributes/',

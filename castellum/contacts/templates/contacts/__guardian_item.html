@@ -10,9 +10,16 @@
             <input id="id_{{ name }}_{{ pk }}" type="hidden" name="{{ name }}" value="{{ pk }}" {% if removed %}disabled{% endif %}>
         {% endif %}
     </div>
-    {% has_perm 'subjects.view_subject' user as can_view_subject %}
-    {% if slug and can_view_subject %}
-        <a href="{% url 'subjects:detail' slug %}" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
+    {% if slug %}
+        {# FIXME: how to decide which link to show here? #}
+        {% if foo %}
+            {% has_perm 'subjects.view_subject' user as can_view_subject %}
+            {% if can_view_subject %}
+                <a href="{% url 'subjects:detail' slug %}" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
+            {% endif %}
+        {% else %}
+            <a href="{% url 'execution:guardian-contact-update' study.pk participation.id pk %}" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
+        {% endif %}
     {% endif %}
     <button type="button" class="btn btn-sm btn-danger" {% if removed %}hidden{% endif %} data-js="guardian-remove">{% translate 'Remove' %}</button>
     <button type="button" class="btn btn-sm btn-outline-danger" {% if not removed %}hidden{% endif %} data-js="guardian-restore">{% translate 'Restore' %}</button>
