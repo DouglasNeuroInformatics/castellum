@@ -6,37 +6,9 @@
 {% endblock %}
 
 {% block content %}
-    {% if subject.contact.has_guardian %}
-        <p class="alert alert-warning" role="alert">
-            {% translate 'This subject has a legal guardian. For information on availability and notes please find their details.' %}
-        </p>
-    {% endif %}
-
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
-
-        <fieldset data-js="availability" class="mb-3">
-            <legend class="h5">{% translate "Availability" %}</legend>
-
-            <div class="form-row">
-                <div class="col-6 col-sm-2">
-                    {% bootstrap_field form.availability_monday %}
-                </div>
-                <div class="col-6 col-sm-2">
-                    {% bootstrap_field form.availability_tuesday %}
-                </div>
-                <div class="col-6 col-sm-2">
-                    {% bootstrap_field form.availability_wednesday %}
-                </div>
-                <div class="col-6 col-sm-2">
-                    {% bootstrap_field form.availability_thursday %}
-                </div>
-                <div class="col-6 col-sm-2">
-                    {% bootstrap_field form.availability_friday %}
-                </div>
-            </div>
-        </fieldset>
 
         {% bootstrap_field form.not_available_until %}
 
