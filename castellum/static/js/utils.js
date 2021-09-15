@@ -93,6 +93,10 @@
     $$.on(document, 'click', '[data-js="replace-me"]', function(event) {
         event.preventDefault();
 
+        if (this.querySelector('.fa-spinner')) {
+            return;
+        }
+
         var spinner = document.createElement('i');
         spinner.className = 'fa fa-spinner fa-pulse';
         this.append(spinner);
