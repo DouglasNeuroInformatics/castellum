@@ -1,20 +1,5 @@
 {% load i18n auth utils reliability %}
 
-{% for guardian in subject.contact.guardians.all %}
-    {% has_privacy_level guardian.subject.privacy_level user as can_access %}
-    {% if can_access %}
-        {% include 'contacts/__contact_detail.html' with contact=guardian guardian=True %}
-    {% else %}
-        <dl class="row">
-            <dt class="col-sm-6 text-muted">{% translate 'Legal guardian' %}</dt>
-            <dd class="col-sm-6 text-muted">{% translate 'Insufficient privacy level' %}</dd>
-        </dl>
-    {% endif %}
-    <hr>
-{% empty %}
-    {% include 'contacts/__contact_detail.html' with contact=subject.contact %}
-{% endfor %}
-
 <dl class="row">
     <dt class="col-sm-6">{% translate "Reliability" %}</dt>
     <dd class="col-sm-6">
@@ -36,3 +21,18 @@
         </dd>
     {% endif %}
 </dl>
+
+{% for guardian in subject.contact.guardians.all %}
+    <hr>
+    {% has_privacy_level guardian.subject.privacy_level user as can_access %}
+    {% if can_access %}
+        {% include 'contacts/__contact_detail.html' with contact=guardian guardian=True %}
+    {% else %}
+        <dl class="row">
+            <dt class="col-sm-6 text-muted">{% translate 'Legal guardian' %}</dt>
+            <dd class="col-sm-6 text-muted">{% translate 'Insufficient privacy level' %}</dd>
+        </dl>
+    {% endif %}
+{% empty %}
+    {% include 'contacts/__contact_detail.html' with contact=subject.contact %}
+{% endfor %}
