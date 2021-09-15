@@ -29,7 +29,7 @@
             <span class="list-icon bg-success text-light">{% icon 'phone' %}</span>
         {% else %}
             {% translate "No" %}
-            <span class="list-icon bg-success text-light">{% icon 'phone' %}</span>
+            <span class="list-icon bg-warning text-dark">{% icon 'phone' %}</span>
             {% blocktranslate with next_available=contact.subject.not_available_until %}
                 (not until {{ next_available }})
             {% endblocktranslate %}
