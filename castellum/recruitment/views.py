@@ -516,6 +516,11 @@ class RecruitmentUpdateMixin(ParticipationMixin):
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form, *args)
 
+    def get_permission_required(self):
+        permission_required = {'recruitment.recruit'}
+        permission_required.update(super().get_permission_required())
+        return permission_required
+
 
 class ContactUpdateView(RecruitmentUpdateMixin, BaseContactUpdateView):
     subtab = 'contact'
