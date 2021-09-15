@@ -27,6 +27,7 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
 from django.db import models
+from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -61,6 +62,7 @@ from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
+from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
 from castellum.utils.mail import MailContext
 
@@ -608,3 +610,36 @@ class TagView(StudyMixin, PermissionRequiredMixin, TemplateView):
             tag.delete()
             messages.success(request, _('Tag has been deleted.'))
             return redirect('execution:execution-tags', self.study.pk)
+
+
+class GuardianContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView):
+    base_template = 'execution/base.html'
+    study_status = [Study.EXECUTION]
+
+    def get_success_url(self):
+        return self.request.path
+
+    def form_valid(self, form, *args):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form, *args)
+
+    def get_permission_required(self):
+        permission_required = {'recruitment.conduct_study'}
+        permission_required.update(super().get_permission_required())
+        return permission_required
+
+    def get_object(self):
+        participation = get_object_or_404(
+            Participation,
+            pk=self.kwargs['participation_pk'],
+            study=self.study,
+            status=Participation.INVITED,
+        )
+        if not self.request.user.has_privacy_level(participation.subject.privacy_level):
+            return self.handle_no_permission()
+
+        for guardian in participation.subject.contact.guardians.all():
+            if guardian.subject.slug == self.kwargs['slug']:
+                return guardian
+
+        raise Http404
