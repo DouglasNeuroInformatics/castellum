@@ -36,6 +36,7 @@ from .views import ContactUpdateView
 from .views import DataProtectionUpdateView
 from .views import ExclusionCriteriaView
 from .views import ExportView
+from .views import GuardianContactUpdateView
 from .views import NewsMailView
 from .views import ParticipationAppointmentsUpdateView
 from .views import ParticipationDetailView
@@ -115,6 +116,11 @@ urlpatterns = [
         '<int:study_pk>/<int:pk>/update-additional-info/',
         AdditionalInfoUpdateView.as_view(),
         name='additional-info-update',
+    ),
+    path(
+        '<int:study_pk>/guardians/<int:pk>/update-contact/',
+        GuardianContactUpdateView.as_view(),
+        name='guardian-contact-update',
     ),
 ]
 

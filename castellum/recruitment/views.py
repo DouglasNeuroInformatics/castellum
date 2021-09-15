@@ -35,6 +35,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.utils.decorators import method_decorator
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView
@@ -60,6 +61,7 @@ from castellum.studies.models import StudySession
 from castellum.studies.models import StudyTypeEventFeed
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
+from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
 from castellum.utils import cached_request
 from castellum.utils import contrast_color
@@ -548,6 +550,39 @@ class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateV
 
     def get_object(self):
         return self.participation.subject
+
+
+class GuardianContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView):
+    base_template = 'recruitment/base.html'
+    study_status = [Study.EXECUTION]
+
+    def get_success_url(self):
+        return self.request.path
+
+    def form_valid(self, form, *args):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form, *args)
+
+    def get_permission_required(self):
+        permission_required = {'recruitment.recruit'}
+        permission_required.update(super().get_permission_required())
+        return permission_required
+
+    def is_legitimate_ward(self, contact):
+        return (
+            self.request.user.has_privacy_level(contact.subject.privacy_level)
+            and contact.subject.participation_set.filter(study=self.study).exists()
+        )
+
+    @cached_property
+    def subject(self):
+        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
+        if not any(self.is_legitimate_ward(c) for c in subject.contact.guardian_of.all()):
+            raise Http404
+        return subject
+
+    def get_object(self):
+        return self.subject.contact
 
 
 class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):

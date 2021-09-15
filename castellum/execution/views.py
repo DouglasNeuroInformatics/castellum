@@ -27,6 +27,7 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
 from django.db import models
+from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -61,6 +62,7 @@ from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
+from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
 from castellum.utils.mail import MailContext
 
@@ -608,3 +610,38 @@ class TagView(StudyMixin, PermissionRequiredMixin, TemplateView):
             tag.delete()
             messages.success(request, _('Tag has been deleted.'))
             return redirect('execution:execution-tags', self.study.pk)
+
+
+class GuardianContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView):
+    base_template = 'execution/base.html'
+    study_status = [Study.EXECUTION]
+
+    def get_success_url(self):
+        return self.request.path
+
+    def form_valid(self, form, *args):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form, *args)
+
+    def get_permission_required(self):
+        permission_required = {'recruitment.conduct_study'}
+        permission_required.update(super().get_permission_required())
+        return permission_required
+
+    def is_legitimate_ward(self, contact):
+        return (
+            self.request.user.has_privacy_level(contact.subject.privacy_level)
+            and contact.subject.participation_set.filter(
+                status=Participation.INVITED, study=self.study
+            ).exists()
+        )
+
+    @cached_property
+    def subject(self):
+        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
+        if not any(self.is_legitimate_ward(c) for c in subject.contact.guardian_of.all()):
+            raise Http404
+        return subject
+
+    def get_object(self):
+        return self.subject.contact
