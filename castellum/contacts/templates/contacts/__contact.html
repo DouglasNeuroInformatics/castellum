@@ -3,16 +3,7 @@
 {% for guardian in subject.contact.guardians.all %}
     {% has_privacy_level guardian.subject.privacy_level user as can_access %}
     {% if can_access %}
-        <dl class="row mb-0">
-            <dt class="col-sm-6">{% translate 'Legal guardian' %}</dt>
-            <dd class="col-sm-6">
-                {{ guardian.full_name }}
-                {% if guardian.guardian_of.count > 1 %}
-                    {% icon 'users' label=_('This guardian has other wards who may also be suitable for this study.') %}
-                {% endif %}
-            </dd>
-        </dl>
-        {% include 'contacts/__contact_detail.html' with contact=guardian %}
+        {% include 'contacts/__contact_detail.html' with contact=guardian guardian=True %}
     {% else %}
         <dl class="row">
             <dt class="col-sm-6 text-muted">{% translate 'Legal guardian' %}</dt>

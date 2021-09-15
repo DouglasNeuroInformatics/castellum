@@ -1,6 +1,18 @@
 {% load i18n utils %}
 
+<h3 class="h5">{% translate 'Contact data' %}</h3>
+
 <dl class="row">
+    {% if guardian %}
+        <dt class="col-sm-6">{% translate 'Legal guardian' %}</dt>
+        <dd class="col-sm-6">
+            {{ contact.full_name }}
+            {% if contact.guardian_of.count > 1 %}
+                {% icon 'users' label=_('This guardian has other wards who may also be suitable for this study.') %}
+            {% endif %}
+        </dd>
+    {% endif %}
+
     <dt class="col-sm-6">{{ contact|verbose_name:'email' }}</dt>
     <dd class="col-sm-6">
         <a {% if contact.email %}href="mailto:{{ contact.email }}"{% endif %}>{{ contact|display:'email' }}</a>
