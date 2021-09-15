@@ -32,4 +32,16 @@
             {% if summary %}({{ summary }}){% endif %}
         {% endwith %}
     </dd>
+
+    {# also show not_available_until if it should have been set on guardians #}
+    {% if not subject.is_available and subject.contact.guardians.exists %}
+        <dt class="col-sm-6">{% translate "Currently available" %}</dt>
+        <dd class="col-sm-6">
+            {% translate "No" %}
+            <span class="list-icon bg-warning text-dark">{% icon 'phone' %}</span>
+            {% blocktranslate with next_available=subject.not_available_until %}
+                (not until {{ next_available }})
+            {% endblocktranslate %}
+        </dd>
+    {% endif %}
 </dl>
