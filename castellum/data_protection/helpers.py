@@ -28,29 +28,25 @@ from castellum.recruitment.models import Participation
 from castellum.subjects.models import Subject
 
 
-def get_export_requested(limit_by):
-    subjects = Subject.objects.filter(export_requested__isnull=False).annotate(
+def get_export_requested():
+    return Subject.objects.filter(export_requested__isnull=False).annotate(
         due=models.ExpressionWrapper(
             models.F('export_requested') + settings.CASTELLUM_SUBJECT_DELETION_PERIOD,
             output_field=models.DateField(),
         )
     ).order_by('export_requested')
 
-    return subjects[:limit_by], max(subjects.count() - limit_by, 0)
 
-
-def get_to_be_deleted(limit_by):
-    subjects = Subject.objects.filter(to_be_deleted__isnull=False).annotate(
+def get_to_be_deleted():
+    return Subject.objects.filter(to_be_deleted__isnull=False).annotate(
         due=models.ExpressionWrapper(
             models.F('to_be_deleted') + settings.CASTELLUM_SUBJECT_DELETION_PERIOD,
             output_field=models.DateField(),
         )
     ).order_by('to_be_deleted')
 
-    return subjects[:limit_by], max(subjects.count() - limit_by, 0)
 
-
-def get_no_legal_basis(limit_by):
+def get_no_legal_basis():
     # this query has the biggest potential to shrink down
     # the number of matches, so it is done first
     subjects = Subject.objects\
@@ -68,12 +64,10 @@ def get_no_legal_basis(limit_by):
         .alias(guardian_of_count=models.Count('guardian_of'))\
         .filter(guardian_of_count=0, subject_id__in=list(subject_pks))
 
-    subjects = Subject.objects.filter(filter_queries.pk_filter(contacts))
-
-    return subjects[:limit_by], max(subjects.count() - limit_by, 0)
+    return Subject.objects.filter(filter_queries.pk_filter(contacts))
 
 
-def get_unreachable(limit_by):
+def get_unreachable():
     contacts = Contact.objects\
         .alias(guardian_count=models.Count('guardians'))\
         .filter(
@@ -84,16 +78,11 @@ def get_unreachable(limit_by):
         )\
         .order_by()
 
-    subjects = Subject.objects.filter(filter_queries.pk_filter(contacts))
-
-    return subjects[:limit_by], max(subjects.count() - limit_by, 0)
+    return Subject.objects.filter(filter_queries.pk_filter(contacts))
 
 
-def get_all_subjects(limit_by):
-    subjects = set()
-    missing = 0
+def get_all_subjects():
+    q = models.Q()
     for fn in [get_to_be_deleted, get_no_legal_basis, get_unreachable]:
-        s, m = fn(limit_by)
-        subjects.update(s)
-        missing += m
-    return subjects, missing
+        q |= models.Q(pk__in=fn().values('pk').order_by())
+    return Subject.objects.filter(q)
