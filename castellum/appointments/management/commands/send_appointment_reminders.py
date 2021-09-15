@@ -46,7 +46,7 @@ def send_mail_to_subject(ctx, study, appointment):
     )
 
 
-def send_mail_to_study_conductors(study, not_reachable, base_url):
+def send_mail_to_study_conductors(study, not_reachable, base_url, ctx):
     urls = '\n'.join(
         base_url + reverse(
             'execution:participation-detail',
@@ -54,16 +54,15 @@ def send_mail_to_study_conductors(study, not_reachable, base_url):
         )
         for appointment in not_reachable
     )
-    with MailContext('internal') as ctx:
-        return ctx.send_mail(
-            settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_SUBJECT.format(study=study),
-            (
-                lambda: {'urls': urls},
-                settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY,
-                settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY_EN,
-            ),
-            [user.email for user in study.conductors],
-        )
+    return ctx.send_mail(
+        settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_SUBJECT.format(study=study),
+        (
+            lambda: {'urls': urls},
+            settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY,
+            settings.CASTELLUM_APPOINTMENT_NO_EMAIL_MAIL_BODY_EN,
+        ),
+        [user.email for user in study.conductors],
+    )
 
 
 def send_appointment_reminders(base_url):
@@ -71,17 +70,17 @@ def send_appointment_reminders(base_url):
     reached_count = 0
     not_reached_count = 0
 
-    for study in Study.objects.filter(status=Study.EXECUTION):
-        due_appointments = Appointment.objects.filter(
-            start__gte=now,
-            start__lte=now + settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD,
-            reminded=False,
-            session__study=study,
-            participation__status=Participation.INVITED,
-        ).select_related('participation__subject')
-        not_reachable = []
+    with MailContext('recruitment') as ctx:
+        for study in Study.objects.filter(status=Study.EXECUTION):
+            due_appointments = Appointment.objects.filter(
+                start__gte=now,
+                start__lte=now + settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD,
+                reminded=False,
+                session__study=study,
+                participation__status=Participation.INVITED,
+            ).select_related('participation__subject')
+            not_reachable = []
 
-        with MailContext('recruitment') as ctx:
             for appointment in due_appointments:
                 success = send_mail_to_subject(ctx, study, appointment)
                 if success:
@@ -90,10 +89,11 @@ def send_appointment_reminders(base_url):
                     not_reached_count += 1
                     not_reachable.append(appointment)
 
-        if not_reachable:
-            send_mail_to_study_conductors(study, not_reachable, base_url)
+            if not_reachable:
+                with MailContext('internal', ctx.connection) as internal_ctx:
+                    send_mail_to_study_conductors(study, not_reachable, base_url, internal_ctx)
 
-        due_appointments.update(reminded=True)
+                due_appointments.update(reminded=True)
 
     return reached_count, not_reached_count
 
