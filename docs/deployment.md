@@ -79,15 +79,17 @@ user requests. We provide the following management commands for that:
 
 -   `clearsessions`: Delete expired sessions.
 -   `cleanup_media`: Delete unused uploaded files.
+-   `cleanup_availability`: Remove obsolete "not available until"
+    entries.
+-   `cleanup_filter_trials`: Delete filter trials as they are meant to be
+    used only once.
 -   `notify_to_be_deleted`: Automatically notify about content that
     should be deleted.
+-   `notify_sessions_end`: Remind study members to finish a study when
+    sessions end.
 -   `send_appointment_reminders`: Send email reminders to subjects with
     upcoming appointments. If the subjects have no email address, a note
     is sent to the respective study coordinators instead.
--   `notify_sessions_end`: Remind study members to finish a study when
-    sessions end.
--   `delete_filter_trials`: Delete filter trials as they are meant to be
-    used only once.
 
 ## Initial setup
 
