@@ -36,16 +36,6 @@ from castellum.utils.fields import RestrictedFileField
 from castellum.utils.models import TimeStampedModel
 
 
-class TimeSlot(models.Model):
-    hour = models.PositiveSmallIntegerField(_('hour'))
-
-    class Meta:
-        ordering = ['hour']
-
-    def __str__(self):
-        return str(self.hour)
-
-
 class SubjectQuerySet(models.QuerySet):
     def annotate_reliability(self):
         return self.annotate(
@@ -116,21 +106,6 @@ class Subject(TimeStampedModel):
         ),
         blank=True,
     )
-    availability_monday = models.ManyToManyField(
-        TimeSlot, verbose_name=_('Monday'), blank=True, related_name='+'
-    )
-    availability_tuesday = models.ManyToManyField(
-        TimeSlot, verbose_name=_('Tuesday'), blank=True, related_name='+'
-    )
-    availability_wednesday = models.ManyToManyField(
-        TimeSlot, verbose_name=_('Wednesday'), blank=True, related_name='+'
-    )
-    availability_thursday = models.ManyToManyField(
-        TimeSlot, verbose_name=_('Thursday'), blank=True, related_name='+'
-    )
-    availability_friday = models.ManyToManyField(
-        TimeSlot, verbose_name=_('Friday'), blank=True, related_name='+'
-    )
 
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
 
@@ -193,53 +168,7 @@ class Subject(TimeStampedModel):
     @property
     def is_available(self):
         now = timezone.localtime()
-        if self.not_available_until and self.not_available_until > now:
-            return False
-        days = [
-            self.availability_monday,
-            self.availability_tuesday,
-            self.availability_wednesday,
-            self.availability_thursday,
-            self.availability_friday,
-        ]
-        if now.weekday() >= len(days):
-            return False
-        hours = days[now.weekday()]
-        return hours.filter(hour=now.hour).exists()
-
-    def get_next_available_datetime(self, start):
-        days = [
-            self.availability_monday,
-            self.availability_tuesday,
-            self.availability_wednesday,
-            self.availability_thursday,
-            self.availability_friday,
-            None,
-            None,
-        ]
-
-        # +1 accounts for the hours before start.hour on the
-        # first weekday we are checking
-        sliced_days = days[start.weekday():] + days[:start.weekday() + 1]
-        start = timezone.localtime(start)
-        for i, hours in enumerate(sliced_days):
-            if not hours:
-                continue
-            if i == 0:
-                hours = hours.filter(hour__gte=start.hour)
-            earliest_hour = hours.first()
-            if earliest_hour:
-                return start.replace(
-                    hour=earliest_hour.hour, minute=0, second=0, microsecond=0
-                ) + timezone.timedelta(days=i)
-
-    @cached_property
-    def next_available(self):
-        now = timezone.localtime()
-        if self.not_available_until and self.not_available_until > now:
-            return self.get_next_available_datetime(self.not_available_until)
-        else:
-            return self.get_next_available_datetime(now)
+        return not self.not_available_until or self.not_available_until <= now
 
     def annotate_reliability(self):
         if hasattr(self, 'reliability_issues'):
