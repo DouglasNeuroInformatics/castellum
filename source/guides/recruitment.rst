@@ -90,6 +90,11 @@ you to set up appointments of the participants:
    the study. Click and populate those session fields that need to be appointed
    at this moment.
 
+.. hint::
+
+    Study execution provides the same feature to make appointments with 
+    participating subjects. Thus, this can also be done by study conductors.
+
 3. The **Calendar** button in the **Appointments** tab opens a new window and 
    allows you to have a look at all already appointed sessions of the study. 
    This calendar will also show appointments of resources if they are connected 
