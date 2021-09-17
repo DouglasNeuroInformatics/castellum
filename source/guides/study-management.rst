@@ -57,7 +57,7 @@ When adding a test session:
 -   Always give the session a **Name** and specify the **Duration of a session
     in minutes** (duration will be used for appointment booking)
 -   Additionally, select the **Type** of the session and (if applicable at your
-    institute) select a **Ressource**
+    institute) select a **Resource**
 -   **Additional text for reminder emails** allows you to provide information
     to subjects prior to the actual appointment. You can send yourself a test
     mail to check the appearance of session reminders by using the
