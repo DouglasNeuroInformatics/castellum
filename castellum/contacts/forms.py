@@ -83,7 +83,7 @@ class ContactForm(forms.ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user')
+        self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
 
         self.address = self.get_address_form(**kwargs)
@@ -93,7 +93,7 @@ class ContactForm(forms.ModelForm):
         elif any([self.instance.get_address(), self.instance.phone_number, self.instance.email]):
             self.fields['guardians_pane'].initial = 'self'
 
-        self.fields['guardians_remove'].choices = self.get_guardians_rm_choices(user)
+        self.fields['guardians_remove'].choices = self.get_guardians_rm_choices(self.user)
 
     def get_address_form(self, **kwargs):
         address_kwargs = kwargs.copy()
@@ -182,13 +182,14 @@ class ContactForm(forms.ModelForm):
             contact = Contact.objects.get(pk=contact.pk)
 
         if self.cleaned_data.get('guardians_pane') == 'guardians':
-            contact.guardians.remove(*[
-                subject.contact for subject in self.cleaned_data.get('guardians_remove', [])
-            ])
+            if self.user.has_perm('subjects.change_subject'):
+                contact.guardians.remove(*[
+                    subject.contact for subject in self.cleaned_data.get('guardians_remove', [])
+                ])
 
-            contact.guardians.add(*[
-                subject.contact for subject in self.cleaned_data.get('guardians_add', [])
-            ])
+                contact.guardians.add(*[
+                    subject.contact for subject in self.cleaned_data.get('guardians_add', [])
+                ])
         else:
             contact.guardians.set([])
 

@@ -1,19 +1,22 @@
 {% load i18n auth %}
 
 <div class="rounded-lg border bg-light p-3 mb-2 d-flex align-items-center {% if removed %}text-muted{% endif %}" data-js="guardian-wrapper">
+    {% has_perm 'subjects.view_subject' user as can_view_subject %}
+    {% has_perm 'subjects.change_subject' user as can_change_subject %}
     <div class="flex-grow-1">
         <div>{% translate 'Guardian' %}</div>
         <label for="id_{{ name }}_{{ pk }}" class="h5 mb-0">{{ label }}</label>
         {% if name == 'guardians_remove' %}
-            <input id="id_{{ name }}_{{ pk }}" type="hidden" name="{{ name }}" value="{{ pk }}" {% if not removed %}disabled{% endif %}>
+            <input type="hidden" name="{{ name }}" {% if can_change_subject %}id="id_{{ name }}_{{ pk }}" value="{{ pk }}"{% endif %} {% if not removed %}disabled{% endif %}>
         {% else %}
-            <input id="id_{{ name }}_{{ pk }}" type="hidden" name="{{ name }}" value="{{ pk }}" {% if removed %}disabled{% endif %}>
+            <input type="hidden" name="{{ name }}" {% if can_change_subject %}id="id_{{ name }}_{{ pk }}" value="{{ pk }}"{% endif %} {% if removed %}disabled{% endif %}>
         {% endif %}
     </div>
-    {% has_perm 'subjects.view_subject' user as can_view_subject %}
     {% if slug and can_view_subject %}
         <a href="{% url 'subjects:detail' slug %}" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
     {% endif %}
-    <button type="button" class="btn btn-sm btn-danger" {% if removed %}hidden{% endif %} data-js="guardian-remove">{% translate 'Remove' %}</button>
-    <button type="button" class="btn btn-sm btn-outline-danger" {% if not removed %}hidden{% endif %} data-js="guardian-restore">{% translate 'Restore' %}</button>
+    {% if can_change_subject %}
+        <button type="button" class="btn btn-sm btn-danger" {% if removed %}hidden{% endif %} data-js="guardian-remove">{% translate 'Remove' %}</button>
+        <button type="button" class="btn btn-sm btn-outline-danger" {% if not removed %}hidden{% endif %} data-js="guardian-restore">{% translate 'Restore' %}</button>
+    {% endif %}
 </div>
