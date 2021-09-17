@@ -65,3 +65,38 @@ Recruit subjects via mail
 4.  Enter the number of subjects that you want to contact
 
 5.  Click **Send**
+
+
+.. _recruitment-appointments:
+
+Make appointments for sessions
+==============================
+
+.. note::
+
+    This describes setting up appointments **for** the participants manually by 
+    Castellum users. There is also a guide on how to use the optional external 
+    scheduler feature in Castellum that offers potential participants to select 
+    appointments by themselves: :ref:`make-appointments-with-external-scheduler`.
+
+If you are recruiting for a study that has at least one session Castellum allows
+you to set up appointments of the participants:
+
+1. In recruitment click on **Contact** in the *Open* list or on **Review** in the 
+   *Participating* list to get the details of the participant. Go to the tab 
+   **Appointments**.
+
+2. The tab **Appointments** offers a date and time field for every session of 
+   the study. Click and populate those session fields that need to be appointed
+   at this moment.
+
+3. The **Calendar** button in the **Appointments** tab opens a new window and 
+   allows you to have a look at all already appointed sessions of the study. 
+   This calendar will also show appointments of resources if they are connected 
+   to a study session.
+
+.. warning::
+
+    Castellum only detects appointment collisions for connected resources! In 
+    other words Castellum allows you to save various concurrent appointments if 
+    the session doesn't have a resource connected. 
