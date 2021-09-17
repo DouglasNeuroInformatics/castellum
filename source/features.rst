@@ -61,13 +61,13 @@ rooms or machines that can not be used in more than one appointment at a time.
 Relevant guides:
 
 -   :ref:`study-sessions`
+-   :ref:`recruitment-appointments`
 -   :ref:`set-up-external-scheduler`
 -   :ref:`make-appointments-with-external-scheduler`
 -   :ref:`access-calendar-feeds`
 
 .. TODO::
 
-    -   make appointments
     -   manage resources
 
 Misc
