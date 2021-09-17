@@ -49,7 +49,7 @@ the dates for appointments for study sessions themselves.
 
 .. _make-appointments-with-external-scheduler:
 
-Make appontments with the external scheduler
+Make appointments with the external scheduler
 ============================================
 
 Castellum allows the use of an external scheduler. That way subjects can select
