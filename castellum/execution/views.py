@@ -58,6 +58,7 @@ from castellum.recruitment.models import ExecutionTag
 from castellum.recruitment.models import NewsMailBatch
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import ReliabilityEntry
+from castellum.recruitment.models import StudyGuardian
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
@@ -638,10 +639,11 @@ class GuardianContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView)
 
     @cached_property
     def subject(self):
-        subject = get_object_or_404(Subject, pk=self.kwargs['pk'])
-        if not any(self.is_legitimate_ward(c) for c in subject.contact.guardian_of.all()):
+        study_guardian = get_object_or_404(StudyGuardian, pk=self.kwargs['pk'], study=self.study)
+        wards = study_guardian.subject.contact.guardian_of.all()
+        if not any(self.is_legitimate_ward(c) for c in wards):
             raise Http404
-        return subject
+        return study_guardian.subject
 
     def get_object(self):
         return self.subject.contact

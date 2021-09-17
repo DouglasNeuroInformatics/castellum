@@ -258,3 +258,10 @@ class ReliabilityEntry(models.Model):
     class Meta:
         verbose_name = _('Reliability entry')
         verbose_name_plural = _('Reliability entry')
+
+
+class StudyGuardian(models.Model):
+    # this model only exists so we do not have to leak guardians'
+    # global IDs in recruitment/execution
+    study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, verbose_name=_('Subject'), on_delete=models.CASCADE)

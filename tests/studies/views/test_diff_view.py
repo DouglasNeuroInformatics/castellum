@@ -27,6 +27,7 @@ EXCLUDED = [
     'recruitment.NewsMailBatch.',
     'recruitment.Participation.',
     'recruitment.ReliabilityEntry.',
+    'recruitment.StudyGuardian.',
     'recruitment.SubjectFilterGroup.id',
     'recruitment.SubjectFilterGroup.study',
     'sessions.',

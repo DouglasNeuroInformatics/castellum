@@ -40,6 +40,7 @@ from .models import MailBatch
 from .models import NewsMailBatch
 from .models import Participation
 from .models import ReliabilityEntry
+from .models import StudyGuardian
 from .models import SubjectFilter
 from .models import SubjectFilterGroup
 
@@ -105,6 +106,7 @@ admin.site.register(ReliabilityEntry)
 admin.site.register(MailBatch)
 admin.site.register(NewsMailBatch)
 admin.site.register(Participation)
+admin.site.register(StudyGuardian)
 admin.site.register(SubjectFilter)
 admin.site.register(SubjectFilterGroup)
 admin.site.register(ExecutionTag)

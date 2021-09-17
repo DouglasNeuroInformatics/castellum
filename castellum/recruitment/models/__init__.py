@@ -29,5 +29,6 @@ from .participations import MailBatch
 from .participations import NewsMailBatch
 from .participations import Participation
 from .participations import ReliabilityEntry
+from .participations import StudyGuardian
 from .subjectfilters import SubjectFilter
 from .subjectfilters import SubjectFilterGroup
