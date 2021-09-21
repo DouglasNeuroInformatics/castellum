@@ -98,7 +98,7 @@ class ContactForm(forms.ModelForm):
             )
             self.fields['guardians_remove'].choices = self.guardians
             self.fields['guardians_add'] = SubjectMultipleChoiceField(
-                Subject.objects, required=False
+                Subject.objects.filter(privacy_level__lte=user.get_privacy_level()), required=False
             )
 
     def get_address_form(self, **kwargs):
