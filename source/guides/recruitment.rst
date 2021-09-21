@@ -80,7 +80,7 @@ Make appointments for sessions
     appointments by themselves: :ref:`make-appointments-with-external-scheduler`.
 
 If you are recruiting for a study that has at least one session Castellum allows
-you to set up appointments of the participants:
+you to set up appointments for the participants:
 
 1. In recruitment click on **Contact** in the *Open* list or on **Review** in the 
    *Participating* list to get the details of the participant. Go to the tab 
@@ -90,10 +90,10 @@ you to set up appointments of the participants:
    the study. Click and populate those session fields that need to be appointed
    at this moment.
 
-    .. hint::
+   .. hint::
 
-        Study execution provides the same feature to make appointments with 
-        participating subjects. Thus, this can also be done by study conductors.
+       Study execution provides the same feature to make appointments with 
+       participating subjects. Thus, this can also be done by study conductors.
 
 3. The **Calendar** button in the **Appointments** tab opens a new window and 
    allows you to have a look at all already appointed sessions of the study. 
