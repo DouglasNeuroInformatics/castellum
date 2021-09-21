@@ -52,3 +52,16 @@ def sync_date_of_birth(sender, instance, using, **kwargs):
         key = 'd{}'.format(settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID)
         instance.subject.attributes[key] = instance.date_of_birth
         instance.subject.save()
+
+
+def delete_study_guardians(sender, instance, **kwargs):
+    from castellum.contacts.models import Contact
+
+    from .models import StudyGuardian
+
+    if sender is Contact.guardians.through:
+        ids = list(instance.guardians.values_list('subject_id', flat=True))
+        StudyGuardian.objects\
+            .filter(participation__subject=instance.subject)\
+            .exclude(subject_id__in=ids)\
+            .delete()
