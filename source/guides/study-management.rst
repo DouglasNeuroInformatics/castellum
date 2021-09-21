@@ -1,3 +1,8 @@
+================
+Study management
+================
+
+
 .. _study-create:
 
 Create a study

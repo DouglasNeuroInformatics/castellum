@@ -1,3 +1,8 @@
+=================================
+Appointments: External scheduling
+=================================
+
+
 .. _set-up-external-scheduler:
 
 Set up an external scheduler for appointments

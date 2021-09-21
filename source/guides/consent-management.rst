@@ -1,3 +1,8 @@
+=============================
+Managing recruitment consents
+=============================
+
+
 .. _subject-consent:
 
 Set Recruitment Consent for a Subject

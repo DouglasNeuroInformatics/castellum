@@ -1,3 +1,8 @@
+=================
+Study recruitment
+=================
+
+
 .. _recruitment:
 
 Recruit subjects via phone

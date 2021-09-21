@@ -1,3 +1,8 @@
+=====================
+Secure authentication
+=====================
+
+
 .. _2fa:
 
 Two-Factor-Authentication
