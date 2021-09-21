@@ -1,15 +1,15 @@
 .. _access-calendar-feeds:
 
-Access calendar feeds
-=====================
+========================
+List available calendars
+========================
 
-Access the calendar feeds overview page
----------------------------------------
 
-add "/feeds/" to the URL of the castellum start page and confirm.
+To access the calendar feeds overview page add "/feeds/" to the URL of the 
+castellum start page and confirm.
 
 Find the different types of calendars
--------------------------------------
+=====================================
 
 1.  Under "Per User" find user-specific feeds:
 
@@ -23,7 +23,7 @@ Find the different types of calendars
     -   The list of resources is configurable by your institution (TODO link to resources guide)
 
 Reset user tokens
------------------
+=================
 
 Each calendar feed URL contains a token that uniquely identifies you so you can
 access feeds that would not be available to other users.

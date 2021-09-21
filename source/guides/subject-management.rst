@@ -1,3 +1,8 @@
+==================
+Subject management
+==================
+
+
 .. _subject-search:
 
 Search for a subject

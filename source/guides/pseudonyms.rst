@@ -1,3 +1,8 @@
+====================
+Pseudonym management
+====================
+
+
 .. _subject-by-pseudonym:
 
 Find subject by study pseudonym

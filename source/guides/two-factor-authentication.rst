@@ -1,7 +1,9 @@
 .. _2fa:
 
-Two-Factor-Authentication
-=========================
+=====================
+Secure authentication
+=====================
+
 
 To further protect subjects' personal data against compromised or weak
 passwords, Castellum can *and should* be used with two-factor authentication
@@ -14,7 +16,7 @@ Currently we support any generic TOTP application or FIDO2 hardware security
 tokens.
 
 Smartphone apps (TOTP)
-----------------------
+======================
 
 We recommend to use a 2FA application on your phone. Just ask your local IT on
 suggestions for appropriate apps to be used at your institution.
@@ -41,7 +43,7 @@ Most TOTP apps work the same:
     has the correct time set
 
 Hardware Keys (FIDO2)
----------------------
+=====================
 
 If you do not want to use your phone and TOTP, you can also chose to use
 FIDO2-based hardware keys (tokens). In that case we recommend `Yubico FIDO2
