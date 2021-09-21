@@ -235,6 +235,22 @@ def test_contact_form_with_guardians_add(user, full_data, contact):
 
 
 @pytest.mark.django_db
+def test_contact_form_with_guardians_add_privacy_level(user, full_data, contact):
+    full_data.update({
+        'guardians_pane': 'guardians',
+        'guardians_add': [contact.subject.pk],
+    })
+
+    contact.subject.privacy_level = 2
+    contact.subject.save()
+
+    form = ContactForm(user=user, data=full_data, instance=contact)
+
+    assert form.is_valid() is False
+    assert 'Select a valid choice.' in str(form.errors)
+
+
+@pytest.mark.django_db
 def test_contact_form_with_guardians_removes_address(user, full_data):
     form = ContactForm(user=user, data=full_data)
     contact = form.save()

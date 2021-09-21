@@ -65,8 +65,6 @@ class ContactForm(forms.ModelForm):
         ('self', _('Full of age')),
         ('guardians', _('Has legal guardian')),
     ], widget=forms.RadioSelect)
-    guardians_remove = forms.ModelMultipleChoiceField(Subject.objects, required=False)
-    guardians_add = SubjectMultipleChoiceField(Subject.objects, required=False)
 
     class Meta:
         model = Contact
@@ -93,7 +91,15 @@ class ContactForm(forms.ModelForm):
         elif any([self.instance.get_address(), self.instance.phone_number, self.instance.email]):
             self.fields['guardians_pane'].initial = 'self'
 
-        self.fields['guardians_remove'].choices = self.get_guardians_rm_choices(user)
+        self.guardians = self.get_guardians_rm_choices(user)
+        if user.has_perm('subjects.change_subject'):
+            self.fields['guardians_remove'] = forms.ModelMultipleChoiceField(
+                Subject.objects, required=False
+            )
+            self.fields['guardians_remove'].choices = self.guardians
+            self.fields['guardians_add'] = SubjectMultipleChoiceField(
+                Subject.objects.filter(privacy_level__lte=user.get_privacy_level()), required=False
+            )
 
     def get_address_form(self, **kwargs):
         address_kwargs = kwargs.copy()

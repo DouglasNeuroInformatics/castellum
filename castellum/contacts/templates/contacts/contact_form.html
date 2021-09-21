@@ -1,5 +1,5 @@
 {% extends view.base_template|default:"subjects/base.html" %}
-{% load static i18n bootstrap4 %}
+{% load static i18n auth bootstrap4 %}
 
 {% block title %}
     {% if object %}
@@ -29,25 +29,42 @@
         </div>
 
         <div id="contact-guardians" class="mb-3" {% if form.guardians_pane.value != 'guardians' %}hidden{% endif %}>
-            <template id="guardian-template">
-                {% include 'contacts/__guardian_item.html' with name=form.guardians_add.name pk='{pk}' label='' removed=False %}
-            </template>
-
             {% if form.guardians_blocked > 0 %}
                 <p class="text-muted" data-js="guardians-blocked">
                     {% blocktranslate with count=form.guardians_blocked %}{{ count }} guardians not listed because of insufficient privacy level.{% endblocktranslate %}
                 </p>
             {% endif %}
 
-            {% for widget in form.guardians_remove %}
-                {% include 'contacts/__guardian_item.html' with name=form.guardians_remove.name pk=widget.data.value label=widget.choice_label slug=widget.choice_label.subject.slug removed=widget.data.selected %}
-            {% endfor %}
+            {% has_perm 'subjects.change_subject' user as can_change_subject %}
+            {% if can_change_subject %}
+                <template id="guardian-template">
+                    {% include 'contacts/__guardian_item.html' with name=form.guardians_add.name pk='{pk}' label='' removed=False %}
+                </template>
 
-            {% for subject in form.cleaned_data.guardians_add %}
-                {% include 'contacts/__guardian_item.html' with name=form.guardians_add.name pk=subject.pk label=subject label=subject.contact.full_name removed=False %}
-            {% endfor %}
+                {% for widget in form.guardians_remove %}
+                    {% include 'contacts/__guardian_item.html' with name=form.guardians_remove.name pk=widget.data.value label=widget.choice_label slug=widget.choice_label.subject.slug removed=widget.data.selected %}
+                {% endfor %}
 
-            <button type="button" class="btn btn-primary" data-js="guardian-add">{% translate 'Add guardian' %}</button>
+                {% for subject in form.cleaned_data.guardians_add %}
+                    {% include 'contacts/__guardian_item.html' with name=form.guardians_add.name pk=subject.pk label=subject label=subject.contact.full_name removed=False %}
+                {% endfor %}
+
+                <button type="button" class="btn btn-primary" data-js="guardian-add">{% translate 'Add guardian' %}</button>
+            {% else %}
+                {% has_perm 'subjects.view_subject' user as can_view_subject %}
+                {% for subject_id, contact in form.guardians %}
+                    <div class="rounded-lg border bg-light p-3 mb-2 d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div>{% translate 'Guardian' %}</div>
+                            <div class="h5 mb-0">{{ contact }}</div>
+                            <input type="hidden" name="guardians_remove" disabled>
+                        </div>
+                        {% if can_view_subject %}
+                            <a href="{% url 'subjects:detail' contact.subject.slug %}" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
 
         <div class="d-print-none mb-3">
