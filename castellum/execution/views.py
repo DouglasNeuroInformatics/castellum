@@ -630,19 +630,17 @@ class GuardianContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView)
         permission_required.update(super().get_permission_required())
         return permission_required
 
-    def is_legitimate_ward(self, contact):
-        return (
-            self.request.user.has_privacy_level(contact.subject.privacy_level)
-            and contact.subject.participation_set.filter(
-                status=Participation.INVITED, study=self.study
-            ).exists()
-        )
-
     @cached_property
     def subject(self):
-        study_guardian = get_object_or_404(StudyGuardian, pk=self.kwargs['pk'], study=self.study)
-        wards = study_guardian.subject.contact.guardian_of.all()
-        if not any(self.is_legitimate_ward(c) for c in wards):
+        study_guardian = get_object_or_404(
+            StudyGuardian,
+            pk=self.kwargs['pk'],
+            participation__study=self.study,
+            participation__status=Participation.INVITED,
+        )
+        if not self.request.user.has_privacy_level(
+            study_guardian.participation.subject.privacy_level
+        ):
             raise Http404
         return study_guardian.subject
 

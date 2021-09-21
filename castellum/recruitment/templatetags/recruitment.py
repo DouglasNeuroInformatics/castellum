@@ -27,6 +27,8 @@ register = template.Library()
 
 
 @register.simple_tag
-def get_study_guardian(study, subject):
-    study_guardian, _ = StudyGuardian.objects.get_or_create(subject=subject, study=study)
+def get_study_guardian(participation, subject):
+    study_guardian, _ = StudyGuardian.objects.get_or_create(
+        subject=subject, participation=participation
+    )
     return study_guardian

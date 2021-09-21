@@ -62,10 +62,10 @@
                         {% if view.context == 'subject_management' %}
                             <a href="{% url 'subjects:detail' contact.subject.slug %}" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
                         {% elif view.context == 'recruitment' %}
-                            {% get_study_guardian study contact.subject as study_guardian %}
+                            {% get_study_guardian participation contact.subject as study_guardian %}
                             <a href="{% url 'recruitment:guardian-contact-update' study.pk study_guardian.pk %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
                         {% elif view.context == 'execution' %}
-                            {% get_study_guardian study contact.subject as study_guardian %}
+                            {% get_study_guardian participation contact.subject as study_guardian %}
                             <a href="{% url 'execution:guardian-contact-update' study.pk study_guardian.pk %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
                         {% endif %}
                     </div>

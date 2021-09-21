@@ -263,5 +263,7 @@ class ReliabilityEntry(models.Model):
 class StudyGuardian(models.Model):
     # this model only exists so we do not have to leak guardians'
     # global IDs in recruitment/execution
-    study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
+    participation = models.ForeignKey(
+        Participation, verbose_name=_('Participation'), on_delete=models.CASCADE
+    )
     subject = models.ForeignKey(Subject, verbose_name=_('Subject'), on_delete=models.CASCADE)
