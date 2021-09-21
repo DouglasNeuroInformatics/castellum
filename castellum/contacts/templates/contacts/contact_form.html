@@ -43,12 +43,12 @@
                 {% include 'contacts/__guardian_item.html' with name=form.guardians_remove.name pk=widget.data.value label=widget.choice_label slug=widget.choice_label.subject.slug removed=widget.data.selected %}
             {% endfor %}
 
-            {% for subject in form.cleaned_data.guardians_add %}
-                {% include 'contacts/__guardian_item.html' with name=form.guardians_add.name pk=subject.pk label=subject label=subject.contact.full_name removed=False %}
-            {% endfor %}
-
             {% has_perm 'subjects.change_subject' user as can_change_subject %}
             {% if can_change_subject %}
+                {% for subject in form.cleaned_data.guardians_add %}
+                    {% include 'contacts/__guardian_item.html' with name=form.guardians_add.name pk=subject.pk label=subject label=subject.contact.full_name removed=False %}
+                {% endfor %}
+
                 <button type="button" class="btn btn-primary" data-js="guardian-add">{% translate 'Add guardian' %}</button>
             {% endif %}
         </div>
