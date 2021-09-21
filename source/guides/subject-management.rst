@@ -15,8 +15,8 @@ Search for a subject
 
 3.  Confirm by clicking **Submit**
 
-4.  Under the **Matches** tab all matching subjects or their guardians are
-    listed
+4.  Under the **Matches** tab all matching subjects or their legal 
+    representative are listed
 
     -   Next to their name the date of birth is listed and, if provided, also
         their email address
@@ -50,10 +50,11 @@ information:
 -   **Gender**
 -   **Date of birth**
 -   Information on whether the person is **Full of age** or **has legal
-    guardian**. If the subject has a legal guardian, you will need to **Add
-    guardian** (see instructions in :ref:`subject-contact-tab`)
+    representative**. If the subject has a legal representative, you will need 
+    to **Add legal representative** (see instructions in 
+    :ref:`subject-contact-tab`)
 -   **E-mail** address and/or **Phone number** and/or full postal address
-    and/or contacting details of the legal guardian
+    and/or contacting details of the legal representative
 -   **Recruitment attributes**
 -   **Interest in study types**
 -   **Privacy level**
@@ -78,7 +79,7 @@ In order to create a potential subject in Castellum, please proceed as follows:
 2.  Define the **Privacy level**
 
     -   0 (regular) describes adults without extraordinary features
-    -   1 (increased) indicates children or adults with a legal guardian
+    -   1 (increased) indicates children or adults with a legal representative
     -   2 (high) represents adults (and their children/wards) who for example
         are public figures
 
@@ -115,7 +116,7 @@ add or rather edit the consent that applies:
 
 -   **Recruitment consent**
 -   **Study consent**
--   **Guardianship**
+-   **Legal representative**
 -   **Subject blocked**
 
 .. _subject-contact-tab:
@@ -140,20 +141,22 @@ with a subject.
         as c/o details
     -   Specify the **Preferred contact method**
 
-2.  If the person is not of an adult age or has a guardian for example due to a
-    disability or illness, select **Has legal guardian** > **Add guardian**
+2.  If the person is not of an adult age or has a legal representative for 
+    example due to a disability or illness, select **Has legal representative**
+    > **Add legal representative**
 
     -   A new window will open
-    -   Fill in the first and last name of the subject's legal guardian >
+    -   Fill in the first and last name of the subject's legal representative >
         **Submit**
     -   If a **Match** is found, select it
     -   If **No matches found** applies, click **Create** > Enter necessary
         information in the fields provided > **Create new subject**
 
     .. note::
-        The legal guardian is now added. You can also create several guardians.
-        By clicking on **Remove** next to the guardian's name, you can delete
-        them as the guardian of the subject.
+        The legal representative is now added. You can also create several 
+        legal representatives. By clicking on **Remove** next to the legal 
+        representative's name, you can delete them as the legal representative 
+        of the subject.
 
 .. _subject-attributes-tab:
 
@@ -303,6 +306,7 @@ please proceed as follows:
 
 .. note::
 
-    Deleting a subject who has guardians will **not** automatically delete the
-    corresponding guardians. However, if there is no other reason to keep the
-    guardians in Castellum, they will appear in the data protection dashboard.
+    Deleting a subject who has legal representatives will **not** automatically 
+    delete the corresponding legal representatives. However, if there is no 
+    other reason to keep the legal representatives in Castellum, they will 
+    appear in the data protection dashboard.
