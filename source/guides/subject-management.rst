@@ -16,7 +16,7 @@ Search for a subject
 3.  Confirm by clicking **Submit**
 
 4.  Under the **Matches** tab all matching subjects or their legal 
-    representative are listed
+    representatives are listed
 
     -   Next to their name the date of birth is listed and, if provided, also
         their email address
