@@ -62,6 +62,7 @@ EXCLUDED = [
     'contacts.Address.',
     'recruitment.Participation.appointment',
     'recruitment.ExecutionTag.',
+    'recruitment.StudyGuardian.',
     'subjects.Subject.participation',
     'subjects.Subject.reliabilityentry',
 
