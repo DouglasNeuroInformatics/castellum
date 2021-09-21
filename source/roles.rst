@@ -127,12 +127,8 @@ Relevant guides:
 -   :ref:`subject-search`
 -   :ref:`recruitment`
 -   :ref:`recruitment-mail`
+-   :ref:`recruitment-appointments`
 -   :ref:`make-appointments-with-external-scheduler`
-
-
-.. TODO::
-
-    -   make appointments
 
 Study Conductor
 ~~~~~~~~~~~~~~~
