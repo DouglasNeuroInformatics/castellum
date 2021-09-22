@@ -525,6 +525,7 @@ class RecruitmentUpdateMixin(ParticipationMixin):
 
 class ContactUpdateView(RecruitmentUpdateMixin, BaseContactUpdateView):
     subtab = 'contact'
+    context = 'recruitment'
 
     def get_object(self):
         return self.participation.subject.contact

@@ -476,6 +476,7 @@ class ExecutionUpdateMixin(ParticipationMixin):
 
 class ContactUpdateView(ExecutionUpdateMixin, BaseContactUpdateView):
     subtab = 'contact'
+    context = 'execution'
 
     def get_object(self):
         return self.participation.subject.contact
