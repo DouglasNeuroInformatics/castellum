@@ -76,6 +76,7 @@ from .mixins import get_recruitable
 from .models import MailBatch
 from .models import Participation
 from .models.attributes import get_description_by_statistics_rank
+from .templatetags.recruitment import study_guardian_hash
 
 logger = logging.getLogger(__name__)
 
@@ -576,7 +577,7 @@ class GuardianContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView)
             return self.handle_no_permission()
 
         for guardian in participation.subject.contact.guardians.all():
-            if guardian.subject.slug == self.kwargs['slug']:
+            if study_guardian_hash(self.study, guardian.subject) == self.kwargs['hash']:
                 return guardian
 
         raise Http404

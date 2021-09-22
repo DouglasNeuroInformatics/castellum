@@ -118,7 +118,7 @@ urlpatterns = [
         name='additional-info-update',
     ),
     path(
-        '<int:study_pk>/<int:participation_pk>/guardians/<slug>/update-contact/',
+        '<int:study_pk>/<int:participation_pk>/guardians/<hash>/update-contact/',
         GuardianContactUpdateView.as_view(),
         name='guardian-contact-update',
     ),

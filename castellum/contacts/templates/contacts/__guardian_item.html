@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n recruitment %}
 
 <div class="rounded-lg border bg-light p-3 mb-2 d-flex align-items-center {% if removed %}text-muted{% endif %}" data-js="guardian-wrapper">
     <div class="flex-grow-1">
@@ -14,9 +14,11 @@
         {% if view.context == 'subject_management' %}
             <a href="{% url 'subjects:detail' guardian.slug %}" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
         {% elif view.context == 'recruitment' %}
-            <a href="{% url 'recruitment:guardian-contact-update' study.pk participation.pk guardian.slug %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
+            {% study_guardian_hash study guardian as hash %}
+            <a href="{% url 'recruitment:guardian-contact-update' study.pk participation.pk hash %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
         {% elif view.context == 'execution' %}
-            <a href="{% url 'execution:guardian-contact-update' study.pk participation.pk guardian.slug %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
+            {% study_guardian_hash study guardian as hash %}
+            <a href="{% url 'execution:guardian-contact-update' study.pk participation.pk hash %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
         {% endif %}
     {% endif %}
     <button type="button" class="btn btn-sm btn-danger" {% if removed %}hidden{% endif %} data-js="guardian-remove">{% translate 'Remove' %}</button>
