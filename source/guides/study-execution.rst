@@ -5,7 +5,7 @@ Study execution
 ===============
 
 Study execution provides you with a set of features needed to conduct a study.
-Foremost, it lists all particpating subjects of a study. Most importantly it 
+Foremost, it lists all participating subjects of a study. Most importantly it 
 allows you to obtain pseudonyms for each participant as described here: 
 :ref:`subject-get-pseudonym`.
 
@@ -66,7 +66,7 @@ The participant details in study execution allow you to add additional hints
 that may be important for you or other conductors when working with this 
 participant. The **Hints** tab offers you 
 
-- to specify the interest in future study outcomes. All interescted participants 
+- to specify the interest in future study outcomes. All interested participants 
   can be contacted later via the **News** tab in study execution.
 - to assign a conductor who should be working with the participant.
 - select **Execution tags** that may help to comply with processes or similar. 
