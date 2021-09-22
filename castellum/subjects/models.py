@@ -196,7 +196,7 @@ class Subject(TimeStampedModel):
 
 
 class SubjectNote(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, to_field='uuid')
     content = models.CharField(_('Content'), max_length=128, blank=True)
 
 
@@ -224,7 +224,7 @@ class Consent(models.Model):
     CONFIRMED = 'confirmed'
 
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
-    subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
+    subject = models.OneToOneField(Subject, on_delete=models.CASCADE, to_field='uuid')
     document = models.ForeignKey(
         ConsentDocument, verbose_name=_('Document'), on_delete=models.CASCADE
     )
@@ -239,7 +239,7 @@ class Consent(models.Model):
 
 
 class ExportAnswer(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, to_field='uuid')
     created_at = models.DateField(_('Created at'), auto_now_add=True)
     created_by = models.CharField(_('Created by'), max_length=150)
 
