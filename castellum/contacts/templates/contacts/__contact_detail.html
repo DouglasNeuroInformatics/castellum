@@ -10,6 +10,12 @@
             {% if contact.guardian_of.count > 1 %}
                 {% icon 'users' label=_('This person represents other subjects who may also be suitable for this study.') %}
             {% endif %}
+            {% if contact.subject.blocked %}
+                <span class="badge badge-dark my-1">{{ contact.subject|verbose_name:'blocked' }}</span>
+            {% endif %}
+            {% if contact.subject.deceased %}
+                <span class="badge badge-dark my-1">{{ contact.subject|verbose_name:'deceased' }}</span>
+            {% endif %}
         </dd>
     {% endif %}
 
