@@ -4,7 +4,8 @@
 Study execution
 ===============
 
-Study execution lists all particpating subjects of a list. Most importantly it 
+Study execution provides you with a set of features needed to conduct a study.
+Foremost, it lists all particpating subjects of a study. Most importantly it 
 allows you to obtain pseudonyms for each participant as described here: 
 :ref:`subject-get-pseudonym`.
 
@@ -12,7 +13,7 @@ The **List** tab simply shows all participants regardless of whether they have
 an appointment. For each entry it will present a color coded reliability score, 
 the appointment states and assigned tags. The **Calendar** tab allows you to 
 view all participants with appointments (week, month and list views). The 
-**By pseudonym** tab offers a search for participants by specifying study 
+**By pseudonym** tab offers to find a participant by specifying study 
 specific pseudonyms (see :ref:`subject-by-pseudonym`).
 
 The **News** tab offers a mail form to contact all interested participants on 
