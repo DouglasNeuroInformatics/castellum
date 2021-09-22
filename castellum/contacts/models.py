@@ -135,7 +135,7 @@ class Contact(TimeStampedModel):
         ("postal", _("postal")),
     ]
 
-    subject_id = models.UUIDField(unique=True, editable=False, default=None)
+    subject_id = models.UUIDField(editable=False, default=None)
 
     first_name = models.CharField(_('First name'), max_length=64)
     first_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
