@@ -8,6 +8,25 @@ Study execution lists all particpating subjects of a list. Most importantly it
 allows you to obtain pseudonyms for each participant as described here: 
 :ref:`subject-get-pseudonym`.
 
+The **List** tab simply shows all participants regardless of whether they have 
+an appointment. For each entry it will present a color coded reliability score, 
+the appointment states and assigned tags. The **Calendar** tab allows you to 
+view all participants with appointments (week, month and list views). The 
+**By pseudonym** tab offers a search for participants by specifying study 
+specific pseudonyms (see :ref:`subject-by-pseudonym`).
+
+The **News** tab offers a mail form to contact all interested participants on 
+recent study outcomes, study specific events or similar. After sending such a 
+message and if applicable Castellum will send you an additional mail that 
+lists all participants who want to be informed via postal mail.
+
+The **Tags** tab allows you to edit, add or delete tags that should be used to 
+tag participants during study execution in order to support your workflows or 
+the like.
+
+The **Progress** tab gives insights on the current number of participants and 
+appointments.
+
 
 .. _execution-annotations:
 
