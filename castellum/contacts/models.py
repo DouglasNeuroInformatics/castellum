@@ -135,7 +135,7 @@ class Contact(TimeStampedModel):
         ("postal", _("postal")),
     ]
 
-    subject_id = models.PositiveIntegerField(unique=True, editable=False, default=None)
+    subject_id = models.UUIDField(unique=True, editable=False, default=None)
 
     first_name = models.CharField(_('First name'), max_length=64)
     first_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
@@ -179,7 +179,7 @@ class Contact(TimeStampedModel):
 
     @cached_property
     def subject(self):
-        subject = Subject.objects.get(pk=self.subject_id)
+        subject = Subject.objects.get(uuid=self.subject_id)
         subject.__dict__['contact'] = self
         return subject
 
