@@ -28,6 +28,34 @@ The **Progress** tab gives insights on the current number of participants and
 appointments.
 
 
+.. _execution-attribute-export:
+
+Export attributes of participants
+=================================
+
+You may want to initially populate your scientific data with a listing of 
+known attributes of the participants. Therefore, Castellum allows you to export 
+attributes of all participants sorted by a pseudonym.
+
+.. note::
+
+    This feature only allows to export those attributes that are specified in 
+    study management as **Exportable recruitment attributes**.
+
+    You are only allowed to export attributes if your privacy level is matching 
+    those of the *highest rated* attribute and/or participant.
+
+    If there is more than one study specific pseudonym domain set up in study 
+    management you will have to select the domain that should be used for export.
+
+The export will provide a zipped file containing of an attributes file and a 
+schema file that allows you to comprehend the actual values in the attributes 
+file. Depending on your Castellum setup the attributes file will be provided 
+as custom ``json`` or ``tsv`` (as 
+`BIDS compliant participants file <https://bids-specification.readthedocs.io/en/stable/03-modality-agnostic-files.html#participants-file>`_
+) file.
+
+
 .. _execution-annotations:
 
 Conductor Annotations on participants
