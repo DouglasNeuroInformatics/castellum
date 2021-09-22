@@ -71,6 +71,13 @@ Recruit subjects via mail
 
 5.  Click **Send**
 
+.. hint::
+    The section **Previous mails** will appear after you have sent your first 
+    batch of mails. It lists all contacted groups allowing you to remind those 
+    potential participants of a group who did not respond yet. Please note, that 
+    this reminder can only be triggered once per group. It will send out the 
+    current invitation mail text with a prefixed e-mail subject indicating it as 
+    "Reminder/Erinnerung".
 
 .. _recruitment-appointments:
 
