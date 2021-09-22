@@ -346,6 +346,7 @@ class AdditionalInfoUpdateView(SubjectUpdateMixin, BaseAdditionalInfoUpdateView)
 
 class ContactUpdateView(SubjectUpdateMixin, BaseContactUpdateView):
     tab = 'contact'
+    context = 'subject_management'
 
     def get_object(self):
         subject = get_object_or_404(Subject, slug=self.kwargs['slug'])

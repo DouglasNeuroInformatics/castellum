@@ -60,6 +60,7 @@ from castellum.studies.models import StudySession
 from castellum.studies.models import StudyTypeEventFeed
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
+from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
 from castellum.utils import cached_request
 from castellum.utils import contrast_color
@@ -75,6 +76,7 @@ from .mixins import get_recruitable
 from .models import MailBatch
 from .models import Participation
 from .models.attributes import get_description_by_statistics_rank
+from .templatetags.recruitment import study_guardian_hash
 
 logger = logging.getLogger(__name__)
 
@@ -524,6 +526,7 @@ class RecruitmentUpdateMixin(ParticipationMixin):
 
 class ContactUpdateView(RecruitmentUpdateMixin, BaseContactUpdateView):
     subtab = 'contact'
+    context = 'recruitment'
 
     def get_object(self):
         return self.participation.subject.contact
@@ -548,6 +551,36 @@ class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateV
 
     def get_object(self):
         return self.participation.subject
+
+
+class GuardianContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView):
+    base_template = 'recruitment/base.html'
+    study_status = [Study.EXECUTION]
+
+    def get_success_url(self):
+        return self.request.path
+
+    def form_valid(self, form, *args):
+        messages.success(self.request, _('Data has been saved.'))
+        return super().form_valid(form, *args)
+
+    def get_permission_required(self):
+        permission_required = {'recruitment.recruit'}
+        permission_required.update(super().get_permission_required())
+        return permission_required
+
+    def get_object(self):
+        participation = get_object_or_404(
+            Participation, pk=self.kwargs['participation_pk'], study=self.study
+        )
+        if not self.request.user.has_privacy_level(participation.subject.privacy_level):
+            return self.handle_no_permission()
+
+        for guardian in participation.subject.contact.guardians.all():
+            if study_guardian_hash(self.study, guardian.subject) == self.kwargs['hash']:
+                return guardian
+
+        raise Http404
 
 
 class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):

@@ -1,5 +1,5 @@
 {% extends view.base_template|default:"subjects/base.html" %}
-{% load static i18n auth bootstrap4 %}
+{% load static i18n auth recruitment bootstrap4 %}
 
 {% block title %}
     {% if object %}
@@ -42,7 +42,7 @@
                 </template>
 
                 {% for widget in form.guardians_remove %}
-                    {% include 'contacts/__guardian_item.html' with name=form.guardians_remove.name pk=widget.data.value label=widget.choice_label slug=widget.choice_label.subject.slug removed=widget.data.selected %}
+                    {% include 'contacts/__guardian_item.html' with name=form.guardians_remove.name pk=widget.data.value label=widget.choice_label guardian=widget.choice_label.subject removed=widget.data.selected %}
                 {% endfor %}
 
                 {% for subject in form.cleaned_data.guardians_add %}
@@ -59,8 +59,14 @@
                             <div class="h5 mb-0">{{ contact }}</div>
                             <input type="hidden" name="guardians_remove" disabled>
                         </div>
-                        {% if can_view_subject %}
+                        {% if view.context == 'subject_management' %}
                             <a href="{% url 'subjects:detail' contact.subject.slug %}" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
+                        {% elif view.context == 'recruitment' %}
+                            {% study_guardian_hash study contact.subject as hash %}
+                            <a href="{% url 'recruitment:guardian-contact-update' study.pk participation.pk hash %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
+                        {% elif view.context == 'execution' %}
+                            {% study_guardian_hash study contact.subject as hash %}
+                            <a href="{% url 'execution:guardian-contact-update' study.pk participation.pk hash %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
                         {% endif %}
                     </div>
                 {% endfor %}
