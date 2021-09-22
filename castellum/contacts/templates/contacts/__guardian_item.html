@@ -2,7 +2,7 @@
 
 <div class="rounded-lg border bg-light p-3 mb-2 d-flex align-items-center {% if removed %}text-muted{% endif %}" data-js="guardian-wrapper">
     <div class="flex-grow-1">
-        <div>{% translate 'Guardian' %}</div>
+        <div>{% translate 'Legal representative' %}</div>
         <label for="id_{{ name }}_{{ pk }}" class="h5 mb-0">{{ label }}</label>
         {% if name == 'guardians_remove' %}
             <input id="id_{{ name }}_{{ pk }}" type="hidden" name="{{ name }}" value="{{ pk }}" {% if not removed %}disabled{% endif %}>

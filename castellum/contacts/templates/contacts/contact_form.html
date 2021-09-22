@@ -15,7 +15,7 @@
         {% include 'utils/form_errors.html' with form=form %}
 
         {% if not object.is_complete %}
-            <p class="alert alert-warning" role="alert">{% translate "Gender and date of birth as well as at least one of email, phone number, address, or guardian should be provided." %}</p>
+            <p class="alert alert-warning" role="alert">{% translate "Gender and date of birth as well as at least one of email, phone number, address, or legal representative should be provided." %}</p>
         {% endif %}
 
         {% csrf_token %}
@@ -31,7 +31,7 @@
         <div id="contact-guardians" class="mb-3" {% if form.guardians_pane.value != 'guardians' %}hidden{% endif %}>
             {% if form.guardians_blocked > 0 %}
                 <p class="text-muted" data-js="guardians-blocked">
-                    {% blocktranslate with count=form.guardians_blocked %}{{ count }} guardians not listed because of insufficient privacy level.{% endblocktranslate %}
+                    {% blocktranslate with count=form.guardians_blocked %}{{ count }} legal representatives not listed because of insufficient privacy level.{% endblocktranslate %}
                 </p>
             {% endif %}
 
@@ -49,13 +49,13 @@
                     {% include 'contacts/__guardian_item.html' with name=form.guardians_add.name pk=subject.pk label=subject label=subject.contact.full_name removed=False %}
                 {% endfor %}
 
-                <button type="button" class="btn btn-primary" data-js="guardian-add">{% translate 'Add guardian' %}</button>
+                <button type="button" class="btn btn-primary" data-js="guardian-add">{% translate 'Add legal representative' %}</button>
             {% else %}
                 {% has_perm 'subjects.view_subject' user as can_view_subject %}
                 {% for subject_id, contact in form.guardians %}
                     <div class="rounded-lg border bg-light p-3 mb-2 d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <div>{% translate 'Guardian' %}</div>
+                            <div>{% translate 'Legal representative' %}</div>
                             <div class="h5 mb-0">{{ contact }}</div>
                             <input type="hidden" name="guardians_remove" disabled>
                         </div>

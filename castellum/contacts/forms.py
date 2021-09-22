@@ -63,7 +63,7 @@ class AddressForm(forms.ModelForm):
 class ContactForm(forms.ModelForm):
     guardians_pane = forms.ChoiceField(required=False, choices=[
         ('self', _('Full of age')),
-        ('guardians', _('Has legal guardian')),
+        ('guardians', _('Has legal representative')),
     ], widget=forms.RadioSelect)
 
     class Meta:
@@ -155,7 +155,7 @@ class ContactForm(forms.ModelForm):
             age = datetime.date.today() - date_of_birth
             if not is_guardians_pane and age.days // 365 < settings.CASTELLUM_FULL_AGE:
                 msg = _(
-                    'Subjects under the age of {} need a legal guardian.'
+                    'Subjects under the age of {} need a legal representative.'
                 ).format(settings.CASTELLUM_FULL_AGE)
                 raise ValidationError(msg, code='invalid')
 

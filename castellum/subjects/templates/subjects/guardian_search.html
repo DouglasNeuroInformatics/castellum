@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n static bootstrap4 auth utils %}
 
-{% block title %}{% translate "Guardians" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Legal representatives" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
     <p>{% translate 'Total number of subjects' %}: {{ count_total }}</p>
@@ -81,9 +81,9 @@
                                     </div>
                                     <div class="table-list-item-actions">
                                         {% if can_access %}
-                                            <button type="button" class="btn btn-primary my-1" data-js="guardian-use" data-name="{{ contact.full_name }}" data-pk="{{ contact.subject.pk }}">{% translate 'Set up as guardian' %}</button>
+                                            <button type="button" class="btn btn-primary my-1" data-js="guardian-use" data-name="{{ contact.full_name }}" data-pk="{{ contact.subject.pk }}">{% translate 'Set up as legal representative' %}</button>
                                         {% else %}
-                                            <button type="button" class="btn btn-primary my-1" disabled>{% translate 'Set up as guardian' %}</button>
+                                            <button type="button" class="btn btn-primary my-1" disabled>{% translate 'Set up as legal representative' %}</button>
                                         {% endif %}
                                     </div>
                                 </li>
