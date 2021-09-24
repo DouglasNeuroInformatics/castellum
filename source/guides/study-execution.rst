@@ -69,6 +69,13 @@ participant. The **Hints** tab offers you
 - to specify the interest in future study outcomes. All interested participants 
   can be contacted later via the **News** tab in study execution.
 - to assign a conductor who should be working with the participant.
+  
+  .. warning::
+    In case you have study members who are recruiter and conductor: Please note
+    that assignments are context aware. In other words assigned recruiters will 
+    not be automatically marked as assigned conductors in the study execution 
+    and vice versa.
+
 - select **Execution tags** that may help to comply with processes or similar. 
   If the standard tags are not sufficient for your workflow click on 
   **Manage tags** to add, edit or delete them.
