@@ -21,3 +21,6 @@ data of them:
   the **Matches** list to go to the subject details view.
 - Click on **Update data** and select appropriate categories that need to be 
   edited. Edit and save the forms accordingly.
+
+Although it has a slightly different look and feel you can get reference on 
+editing subject data here: :ref:`subject-edit`.
