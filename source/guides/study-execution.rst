@@ -5,7 +5,7 @@ Study execution
 ===============
 
 Study execution provides you with a set of features needed to conduct a study.
-Foremost, it lists all participating subjects of a study. Most importantly it 
+For a start, it lists all participating subjects of a study. Most importantly it 
 allows you to obtain pseudonyms for each participant as described here: 
 :ref:`subject-get-pseudonym`.
 
