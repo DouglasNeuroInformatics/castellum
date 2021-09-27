@@ -311,5 +311,13 @@ Click on **Studies** on the front page and then on **Try filters**. You can
 now experiment with filters just as in a regular study. The preview will show
 you how many subjects in the database match your filters.
 
+.. admonition:: Example
+
+    By the time of writing (September 2021) the MPI for Human Development 
+    recommends its Castellum recruiters to aim for at least 10× more potential 
+    than required subjects for a smooth recruitment process. Otherwise it 
+    becomes essential to populate the database via external sources or efforts 
+    first.  
+
 If you decide you want to keep the set of filters you can go to **Convert to
 study** to convert your temporary settings to a regular study.
