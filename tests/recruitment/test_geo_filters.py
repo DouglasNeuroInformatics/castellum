@@ -68,7 +68,7 @@ def test_geofilter(point, expected):
 def test_geofilter_with_guardian(point1, point2, expected):
     contact = baker.make(Contact)
 
-    contact.guardians.set([
+    contact.legal_representatives.set([
         make_contact(point1),
         make_contact(point2),
     ])

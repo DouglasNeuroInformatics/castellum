@@ -172,8 +172,8 @@ def geofilter(study):
     outside = Geolocation.objects.exclude(point__within=polygon)
     wards = (
         Contact.objects
-        .exclude(guardians__geolocation=None)
-        .exclude(guardians__geolocation__in=outside)
+        .exclude(legal_representatives__geolocation=None)
+        .exclude(legal_representatives__geolocation__in=outside)
     )
     contacts = Contact.objects.filter(
         models.Q(geolocation__point__within=polygon)

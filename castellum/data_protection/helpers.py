@@ -61,17 +61,17 @@ def get_no_legal_basis():
     subject_pks = subjects.values_list('pk', flat=True)
 
     contacts = Contact.objects\
-        .alias(guardian_of_count=models.Count('guardian_of'))\
-        .filter(guardian_of_count=0, subject_id__in=list(subject_pks))
+        .alias(legal_representative_of_count=models.Count('legal_representative_of'))\
+        .filter(legal_representative_of_count=0, subject_id__in=list(subject_pks))
 
     return Subject.objects.filter(filter_queries.pk_filter(contacts))
 
 
 def get_unreachable():
     contacts = Contact.objects\
-        .alias(guardian_count=models.Count('guardians'))\
+        .alias(legal_representative_count=models.Count('legal_representatives'))\
         .filter(
-            guardian_count=0,
+            legal_representative_count=0,
             address=None,
             email='',
             phone_number='',

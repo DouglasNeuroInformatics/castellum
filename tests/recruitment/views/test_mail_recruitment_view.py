@@ -47,7 +47,7 @@ def test_guardian_mail_add_to_study(client, user):
         mail_body="some body",
     )
     contact1 = baker.make(Contact, email="example1@example.com")
-    contact2 = baker.make(Contact, guardians=[contact1])
+    contact2 = baker.make(Contact, legal_representatives=[contact1])
     baker.make(Consent, subject=contact2.subject, status=Consent.CONFIRMED)
 
     study.members.add(user)

@@ -109,11 +109,11 @@
             <dt class="col-sm-6" data-fieldname="contacts.Contact.updated_at">{% translate 'Contact data last updated at' %}</dt>
             <dd class="col-sm-6">{{ subject.contact|display:'updated_at' }}</dd>
 
-            <dt class="col-sm-6" data-fieldname="contacts.Contact.guardians">{{ subject.contact|verbose_name:'guardians' }}</dt>
-            <dd class="col-sm-6">{{ subject.contact|display:'guardians' }}</dd>
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.legal_representatives">{{ subject.contact|verbose_name:'legal_representatives' }}</dt>
+            <dd class="col-sm-6">{{ subject.contact|display:'legal_representatives' }}</dd>
 
-            <dt class="col-sm-6" data-fieldname="contacts.Contact.guardian_of">{% translate 'Legal representative of' %}</dt>
-            <dd class="col-sm-6">{{ subject.contact|display:'guardian_of' }}</dd>
+            <dt class="col-sm-6" data-fieldname="contacts.Contact.legal_representative_of">{% translate 'Legal representative of' %}</dt>
+            <dd class="col-sm-6">{{ subject.contact|display:'legal_representative_of' }}</dd>
         </dl>
 
         <h2>{% translate 'Procedural data' %}</h2>

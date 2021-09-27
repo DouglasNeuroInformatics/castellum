@@ -255,8 +255,8 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     tab = 'delete'
 
     def is_last_guardian(self):
-        for ward in self.object.contact.guardian_of.all():
-            if ward.guardians.count() <= 1:
+        for ward in self.object.contact.legal_representative_of.all():
+            if ward.legal_representatives.count() <= 1:
                 return True
         return False
 
@@ -587,19 +587,19 @@ class MaintenanceContactView(BaseMaintenanceView):
     def get_queryset(self):
         contacts = Contact.objects\
             .alias(
-                guardian_count=models.Count('guardians'),
-                guardian_of_count=models.Count('guardian_of'),
+                legal_representative_count=models.Count('legal_representatives'),
+                legal_representative_of_count=models.Count('legal_representative_of'),
             )\
             .filter(
                 models.Q(
                     gender='',
                 ) | models.Q(
-                    guardian_count=0,
+                    legal_representative_count=0,
                     address=None,
                     email='',
                     phone_number='',
                 ) | models.Q(
-                    guardian_of_count=0,
+                    legal_representative_of_count=0,
                     date_of_birth=None,
                 )
             )\

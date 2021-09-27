@@ -22,7 +22,7 @@
     {% endif %}
 </dl>
 
-{% for guardian in subject.contact.guardians.all %}
+{% for guardian in subject.contact.legal_representatives.all %}
     <hr>
     {% has_privacy_level guardian.subject.privacy_level user as can_access %}
     {% if can_access %}

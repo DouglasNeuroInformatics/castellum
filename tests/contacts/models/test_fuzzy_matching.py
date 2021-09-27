@@ -130,7 +130,7 @@ def test_every_input_must_match():
 def test_guardian_email():
     search = 'test@example.com'
     guardian = baker.make(Contact, email='test@example.com')
-    baker.make(Contact, guardians=[guardian])
+    baker.make(Contact, legal_representatives=[guardian])
     assert Contact.objects.fuzzy_filter(search).count() == 2
 
 
@@ -138,5 +138,5 @@ def test_guardian_email():
 def test_guardian_phone():
     search = '030123456789'
     guardian = baker.make(Contact, phone_number='030123456789')
-    baker.make(Contact, guardians=[guardian])
+    baker.make(Contact, legal_representatives=[guardian])
     assert Contact.objects.fuzzy_filter(search).count() == 2

@@ -113,7 +113,7 @@ class ContactForm(forms.ModelForm):
     def get_guardians_rm_choices(self, user):
         self.guardians_blocked = 0
         if self.instance.id:
-            for contact in self.instance.guardians.all():
+            for contact in self.instance.legal_representatives.all():
                 if user.has_privacy_level(contact.subject.privacy_level):
                     yield (contact.subject.pk, contact)
                 else:
@@ -149,7 +149,7 @@ class ContactForm(forms.ModelForm):
 
         has_address = any(self.data.get(name) for name in self.address.fields)
 
-        # validate guardian required for underage subjects
+        # validate legal_representative required for underage subjects
         if date_of_birth:
             age = datetime.date.today() - date_of_birth
             if (
@@ -190,15 +190,15 @@ class ContactForm(forms.ModelForm):
             contact = Contact.objects.get(pk=contact.pk)
 
         if self.cleaned_data.get('pane') == 'guardians':
-            contact.guardians.remove(*[
+            contact.legal_representatives.remove(*[
                 subject.contact for subject in self.cleaned_data.get('guardians_remove', [])
             ])
 
-            contact.guardians.add(*[
+            contact.legal_representatives.add(*[
                 subject.contact for subject in self.cleaned_data.get('guardians_add', [])
             ])
         else:
-            contact.guardians.set([])
+            contact.legal_representatives.set([])
 
         return contact
 

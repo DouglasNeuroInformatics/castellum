@@ -12,9 +12,9 @@
 
     <dl class="row">
         {% if subject.contact.has_guardian %}
-            <dt class="col-sm-6">{{ subject.contact|verbose_name:'guardians' }}</dt>
+            <dt class="col-sm-6">{{ subject.contact|verbose_name:'legal_representatives' }}</dt>
             <dd class="col-sm-6">
-                {% for c in subject.contact.guardians.all %}
+                {% for c in subject.contact.legal_representatives.all %}
                     {% has_privacy_level c.subject.privacy_level user as can_access %}
                     {% if can_access %}
                         <a href="{% url 'subjects:detail' c.subject.slug %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
@@ -28,7 +28,7 @@
         {% if subject.contact.is_guardian %}
             <dt class="col-sm-6">{% translate 'Legal representative of' %}</dt>
             <dd class="col-sm-6">
-                {% for c in subject.contact.guardian_of.all %}
+                {% for c in subject.contact.legal_representative_of.all %}
                     {% has_privacy_level c.subject.privacy_level user as can_access %}
                     {% if can_access %}
                         <a href="{% url 'subjects:detail' c.subject.slug %}">{{ c }}</a>{% if not forloop.last %},{% endif %}

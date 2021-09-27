@@ -14,7 +14,7 @@ def test_get_no_legal_basis(subject):
 
 def test_get_no_legal_basis_guardians(subject):
     ward = baker.make(Contact)
-    ward.guardians.add(subject.contact)
+    ward.legal_representatives.add(subject.contact)
 
     actual = helpers.get_no_legal_basis()
 

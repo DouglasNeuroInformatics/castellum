@@ -274,7 +274,7 @@ def test_contact_form_with_guardians_remove(user, full_data, contact):
         'guardians_remove': [contact.subject.pk],
     })
 
-    contact.guardians.add(contact)
+    contact.legal_representatives.add(contact)
 
     form = ContactForm(user=user, data=full_data, instance=contact)
 

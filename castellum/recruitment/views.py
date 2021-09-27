@@ -576,7 +576,7 @@ class GuardianContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView)
         if not self.request.user.has_privacy_level(participation.subject.privacy_level):
             return self.handle_no_permission()
 
-        for guardian in participation.subject.contact.guardians.all():
+        for guardian in participation.subject.contact.legal_representatives.all():
             if study_guardian_hash(self.study, guardian.subject) == self.kwargs['hash']:
                 return guardian
 

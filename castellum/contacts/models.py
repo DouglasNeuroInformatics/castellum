@@ -79,23 +79,23 @@ class ContactQuerySet(models.QuerySet):
 
     def guardian_full_name_is_matched(self, parts):
         return (
-            self.name_is_matched(parts, 'guardians__first') &
-            self.name_is_matched(parts, 'guardians__last')
+            self.name_is_matched(parts, 'legal_representatives__first') &
+            self.name_is_matched(parts, 'legal_representatives__last')
         )
 
     def guardian_phone_number_is_matched(self, parts):
         q = models.Q()
         for part in parts:
             if '@' not in part and is_phone_number(part):
-                q |= models.Q(guardians__phone_number=part)
-                q |= models.Q(guardians__phone_number_alternative=part)
+                q |= models.Q(legal_representatives__phone_number=part)
+                q |= models.Q(legal_representatives__phone_number_alternative=part)
         return q
 
     def guardian_email_is_matched(self, parts):
         q = models.Q()
         for part in parts:
             if '@' in part:
-                q |= models.Q(guardians__email__iexact=part)
+                q |= models.Q(legal_representatives__email__iexact=part)
         return q
 
     def all_parts_match(self, parts):
@@ -104,21 +104,21 @@ class ContactQuerySet(models.QuerySet):
             if '@' in part:
                 q &= (
                     models.Q(email__iexact=part) |
-                    models.Q(guardians__email__iexact=part)
+                    models.Q(legal_representatives__email__iexact=part)
                 )
             elif is_phone_number(part):
                 q &= (
                     models.Q(phone_number=part) |
                     models.Q(phone_number_alternative=part) |
-                    models.Q(guardians__phone_number=part) |
-                    models.Q(guardians__phone_number_alternative=part)
+                    models.Q(legal_representatives__phone_number=part) |
+                    models.Q(legal_representatives__phone_number_alternative=part)
                 )
             else:
                 q &= (
                     self.match_name(part, 'first') |
                     self.match_name(part, 'last') |
-                    self.match_name(part, 'guardians__first') |
-                    self.match_name(part, 'guardians__last')
+                    self.match_name(part, 'legal_representatives__first') |
+                    self.match_name(part, 'legal_representatives__last')
                 )
         return q
 
@@ -157,10 +157,10 @@ class Contact(TimeStampedModel):
         _('Preferred contact method'), max_length=16, blank=True, choices=CONTACT_METHODS
     )
 
-    guardians = models.ManyToManyField(
+    legal_representatives = models.ManyToManyField(
         'contacts.Contact',
         verbose_name=_('Legal representatives'),
-        related_name='guardian_of',
+        related_name='legal_representative_of',
         blank=True,
     )
 
@@ -196,7 +196,7 @@ class Contact(TimeStampedModel):
             self.get_address(),
             self.phone_number,
             self.email,
-            [c for c in self.guardians.all() if not c.subject.blocked],
+            [c for c in self.legal_representatives.all() if not c.subject.blocked],
         ])
 
     @property
@@ -210,24 +210,30 @@ class Contact(TimeStampedModel):
 
     @cached_property
     def is_guardian(self):
-        return self.id and self.guardian_of.exists()
+        return self.id and self.legal_representative_of.exists()
 
     @cached_property
     def has_guardian(self):
-        return self.id and self.guardians.exists()
+        return self.id and self.legal_representatives.exists()
 
     @cached_property
     def own_or_guardian_emails(self):
         if self.email:
             return [self.email]
         else:
-            return [c.email for c in self.guardians.exclude(email='') if not c.subject.blocked]
+            return [
+                c.email
+                for c in self.legal_representatives.exclude(email='')
+                if not c.subject.blocked
+            ]
 
     @cached_property
     def email_recipients_string(self):
         if len(self.own_or_guardian_emails) > 1:
             return ', '.join(
-                g.full_name for g in self.guardians.exclude(email='') if not g.subject.blocked
+                c.full_name
+                for c in self.legal_representatives.exclude(email='')
+                if not c.subject.blocked
             )
 
     def save(self, *args, **kwargs):
