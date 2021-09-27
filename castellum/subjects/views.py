@@ -255,7 +255,7 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     tab = 'delete'
 
     def is_last_guardian(self):
-        if self.object.contact.guardian_of.exists():
+        if self.object.contact.is_guardian:
             for ward in Contact.objects.filter(guardians=self.object.contact):
                 if ward.guardians.count() <= 1:
                     return True

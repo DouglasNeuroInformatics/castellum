@@ -11,7 +11,7 @@
     {% endif %}
 
     <dl class="row">
-        {% if subject.contact.guardians.exists %}
+        {% if subject.contact.has_guardian %}
             <dt class="col-sm-6">{{ subject.contact|verbose_name:'guardians' }}</dt>
             <dd class="col-sm-6">
                 {% for c in subject.contact.guardians.all %}
@@ -25,7 +25,7 @@
             </dd>
         {% endif %}
 
-        {% if subject.contact.guardian_of.exists %}
+        {% if subject.contact.is_guardian %}
             <dt class="col-sm-6">{% translate 'Legal representative of' %}</dt>
             <dd class="col-sm-6">
                 {% for c in subject.contact.guardian_of.all %}
