@@ -28,36 +28,36 @@
             {% include 'contacts/__contact_form_self.html' with form=form %}
         </div>
 
-        <div id="contact-guardians" class="mb-3" {% if form.pane.value != 'guardians' %}hidden{% endif %}>
-            {% if form.guardians_blocked > 0 %}
+        <div id="contact-legal-representatives" class="mb-3" {% if form.pane.value != 'legal_representatives' %}hidden{% endif %}>
+            {% if form.legal_representatives_blocked > 0 %}
                 <p class="text-muted" data-js="legal-representatives-blocked">
-                    {% blocktranslate with count=form.guardians_blocked %}{{ count }} legal representatives not listed because of insufficient privacy level.{% endblocktranslate %}
+                    {% blocktranslate with count=form.legal_representatives_blocked %}{{ count }} legal representatives not listed because of insufficient privacy level.{% endblocktranslate %}
                 </p>
             {% endif %}
 
             {% has_perm 'subjects.change_subject' user as can_change_subject %}
             {% if can_change_subject %}
                 <template id="legal-representative-template">
-                    {% include 'contacts/__legal_representative_item.html' with name=form.guardians_add.name pk='{pk}' label='' removed=False %}
+                    {% include 'contacts/__legal_representative_item.html' with name=form.legal_representatives_add.name pk='{pk}' label='' removed=False %}
                 </template>
 
-                {% for widget in form.guardians_remove %}
-                    {% include 'contacts/__legal_representative_item.html' with name=form.guardians_remove.name pk=widget.data.value label=widget.choice_label guardian=widget.choice_label.subject removed=widget.data.selected %}
+                {% for widget in form.legal_representatives_remove %}
+                    {% include 'contacts/__legal_representative_item.html' with name=form.legal_representatives_remove.name pk=widget.data.value label=widget.choice_label legal_representative=widget.choice_label.subject removed=widget.data.selected %}
                 {% endfor %}
 
-                {% for subject in form.cleaned_data.guardians_add %}
-                    {% include 'contacts/__legal_representative_item.html' with name=form.guardians_add.name pk=subject.pk label=subject label=subject.contact.full_name removed=False %}
+                {% for subject in form.cleaned_data.legal_representatives_add %}
+                    {% include 'contacts/__legal_representative_item.html' with name=form.legal_representatives_add.name pk=subject.pk label=subject label=subject.contact.full_name removed=False %}
                 {% endfor %}
 
                 <button type="button" class="btn btn-primary" data-js="legal-representative-add">{% translate 'Add legal representative' %}</button>
             {% else %}
                 {% has_perm 'subjects.view_subject' user as can_view_subject %}
-                {% for subject_id, contact in form.guardians %}
+                {% for subject_id, contact in form.legal_representatives %}
                     <div class="rounded-lg border bg-light p-3 mb-2 d-flex align-items-center">
                         <div class="flex-grow-1">
                             <div>{% translate 'Legal representative' %}</div>
                             <div class="h5 mb-0">{{ contact }}</div>
-                            <input type="hidden" name="guardians_remove" disabled>
+                            <input type="hidden" name="legal_representatives_remove" disabled>
                         </div>
                         {% if view.context == 'subject_management' %}
                             <a href="{% url 'subjects:detail' contact.subject.slug %}" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>

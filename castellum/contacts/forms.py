@@ -63,7 +63,7 @@ class AddressForm(forms.ModelForm):
 class ContactForm(forms.ModelForm):
     pane = forms.ChoiceField(required=False, choices=[
         ('self', _('Full of age')),
-        ('guardians', _('Has legal representative')),
+        ('legal_representatives', _('Has legal representative')),
     ], widget=forms.RadioSelect)
 
     class Meta:
@@ -87,17 +87,17 @@ class ContactForm(forms.ModelForm):
         self.address = self.get_address_form(**kwargs)
 
         if self.instance.has_legal_representative:
-            self.fields['pane'].initial = 'guardians'
+            self.fields['pane'].initial = 'legal_representatives'
         elif any([self.instance.get_address(), self.instance.phone_number, self.instance.email]):
             self.fields['pane'].initial = 'self'
 
-        self.guardians = self.get_guardians_rm_choices(user)
+        self.legal_representatives = self.get_legal_representatives_rm_choices(user)
         if user.has_perm('subjects.change_subject'):
-            self.fields['guardians_remove'] = forms.ModelMultipleChoiceField(
+            self.fields['legal_representatives_remove'] = forms.ModelMultipleChoiceField(
                 Subject.objects, required=False
             )
-            self.fields['guardians_remove'].choices = self.guardians
-            self.fields['guardians_add'] = SubjectMultipleChoiceField(
+            self.fields['legal_representatives_remove'].choices = self.legal_representatives
+            self.fields['legal_representatives_add'] = SubjectMultipleChoiceField(
                 Subject.objects.filter(privacy_level__lte=user.get_privacy_level()), required=False
             )
 
@@ -110,14 +110,14 @@ class ContactForm(forms.ModelForm):
             field.required = False
         return form
 
-    def get_guardians_rm_choices(self, user):
-        self.guardians_blocked = 0
+    def get_legal_representatives_rm_choices(self, user):
+        self.legal_representatives_blocked = 0
         if self.instance.id:
             for contact in self.instance.legal_representatives.all():
                 if user.has_privacy_level(contact.subject.privacy_level):
                     yield (contact.subject.pk, contact)
                 else:
-                    self.guardians_blocked += 1
+                    self.legal_representatives_blocked += 1
 
     def validate_address(self):
         # populate self.address.cleaned_data
@@ -141,7 +141,7 @@ class ContactForm(forms.ModelForm):
         preferred_contact_method = cleaned_data.get('preferred_contact_method', '')
 
         # clear unselected pane
-        if cleaned_data.get('pane') == 'guardians':
+        if cleaned_data.get('pane') == 'legal_representatives':
             cleaned_data['phone_number'] = ''
             cleaned_data['phone_number_alternative'] = ''
             cleaned_data['email'] = ''
@@ -153,7 +153,7 @@ class ContactForm(forms.ModelForm):
         if date_of_birth:
             age = datetime.date.today() - date_of_birth
             if (
-                cleaned_data.get('pane') != 'guardians'
+                cleaned_data.get('pane') != 'legal_representatives'
                 and age.days // 365 < settings.CASTELLUM_FULL_AGE
             ):
                 msg = _(
@@ -181,7 +181,7 @@ class ContactForm(forms.ModelForm):
         contact = super().save()
 
         has_address = any(self.data.get(name) for name in self.address.fields)
-        if has_address and self.cleaned_data.get('pane') != 'guardians':
+        if has_address and self.cleaned_data.get('pane') != 'legal_representatives':
             self.address.instance.contact = contact
             self.address.save()
         elif contact.get_address():
@@ -189,13 +189,13 @@ class ContactForm(forms.ModelForm):
             # refresh from db
             contact = Contact.objects.get(pk=contact.pk)
 
-        if self.cleaned_data.get('pane') == 'guardians':
+        if self.cleaned_data.get('pane') == 'legal_representatives':
             contact.legal_representatives.remove(*[
-                subject.contact for subject in self.cleaned_data.get('guardians_remove', [])
+                s.contact for s in self.cleaned_data.get('legal_representatives_remove', [])
             ])
 
             contact.legal_representatives.add(*[
-                subject.contact for subject in self.cleaned_data.get('guardians_add', [])
+                s.contact for s in self.cleaned_data.get('legal_representatives_add', [])
             ])
         else:
             contact.legal_representatives.set([])

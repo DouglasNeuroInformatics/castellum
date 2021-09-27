@@ -4,7 +4,7 @@
     <div class="flex-grow-1">
         <div>{% translate 'Legal representative' %}</div>
         <label for="id_{{ name }}_{{ pk }}" class="h5 mb-0">{{ label }}</label>
-        {% if name == 'guardians_remove' %}
+        {% if name == 'legal_representatives_remove' %}
             <input id="id_{{ name }}_{{ pk }}" type="hidden" name="{{ name }}" value="{{ pk }}" {% if not removed %}disabled{% endif %}>
         {% else %}
             <input id="id_{{ name }}_{{ pk }}" type="hidden" name="{{ name }}" value="{{ pk }}" {% if removed %}disabled{% endif %}>

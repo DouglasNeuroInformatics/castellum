@@ -1,6 +1,6 @@
 (function() {
     $$.on(document, 'change', '[name="pane"]', function() {
-        ['self', 'guardians'].forEach(function(id) {
+        ['self', 'legal_representatives'].forEach(function(id) {
             var pane = document.getElementById('contact-' + id);
             var radio = document.querySelector('[name="pane"][value="' + id + '"]');
             pane.hidden = !radio.checked;
@@ -9,10 +9,10 @@
 
     $$.on(document, 'submit', '[data-js="contact-completeness"]', function(event) {
         var complete = false;
-        if (document.querySelector('[name="pane"][value="guardians"]').checked) {
+        if (document.querySelector('[name="pane"][value="legal_representatives"]').checked) {
             complete = (
-                document.querySelector('[name="guardians_remove"]:disabled') ||
-                document.querySelector('[name="guardians_add"]:not(:disabled)') ||
+                document.querySelector('[name="legal_representatives_remove"]:disabled') ||
+                document.querySelector('[name="legal_representatives_add"]:not(:disabled)') ||
                 document.querySelector('[data-js="legal-representatives-blocked"]')
             );
         } else {
@@ -38,7 +38,7 @@
         wrapper.classList.toggle('text-muted', removed);
         remove.hidden = removed;
         restore.hidden = !removed;
-        if (input.name === 'guardians_remove') {
+        if (input.name === 'legal_representatives_remove') {
             input.disabled = !removed;
         } else {
             input.disabled = removed;
