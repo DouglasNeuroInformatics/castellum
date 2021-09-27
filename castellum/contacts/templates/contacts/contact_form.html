@@ -22,13 +22,13 @@
 
         {% include 'contacts/__contact_form_top.html' with form=form %}
 
-        {% bootstrap_field form.guardians_pane show_label=False %}
+        {% bootstrap_field form.pane show_label=False %}
 
-        <div id="contact-self" class="mb-3" {% if form.guardians_pane.value != 'self' %}hidden{% endif %}>
+        <div id="contact-self" class="mb-3" {% if form.pane.value != 'self' %}hidden{% endif %}>
             {% include 'contacts/__contact_form_self.html' with form=form %}
         </div>
 
-        <div id="contact-guardians" class="mb-3" {% if form.guardians_pane.value != 'guardians' %}hidden{% endif %}>
+        <div id="contact-guardians" class="mb-3" {% if form.pane.value != 'guardians' %}hidden{% endif %}>
             {% if form.guardians_blocked > 0 %}
                 <p class="text-muted" data-js="guardians-blocked">
                     {% blocktranslate with count=form.guardians_blocked %}{{ count }} legal representatives not listed because of insufficient privacy level.{% endblocktranslate %}

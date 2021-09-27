@@ -61,7 +61,7 @@ class AddressForm(forms.ModelForm):
 
 
 class ContactForm(forms.ModelForm):
-    guardians_pane = forms.ChoiceField(required=False, choices=[
+    pane = forms.ChoiceField(required=False, choices=[
         ('self', _('Full of age')),
         ('guardians', _('Has legal representative')),
     ], widget=forms.RadioSelect)
@@ -87,9 +87,9 @@ class ContactForm(forms.ModelForm):
         self.address = self.get_address_form(**kwargs)
 
         if self.instance.has_guardian:
-            self.fields['guardians_pane'].initial = 'guardians'
+            self.fields['pane'].initial = 'guardians'
         elif any([self.instance.get_address(), self.instance.phone_number, self.instance.email]):
-            self.fields['guardians_pane'].initial = 'self'
+            self.fields['pane'].initial = 'self'
 
         self.guardians = self.get_guardians_rm_choices(user)
         if user.has_perm('subjects.change_subject'):
@@ -135,14 +135,13 @@ class ContactForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        is_guardians_pane = cleaned_data.get('guardians_pane') == 'guardians'
         date_of_birth = cleaned_data.get('date_of_birth')
         phone_number = cleaned_data.get('phone_number', '')
         email = cleaned_data.get('email', '')
         preferred_contact_method = cleaned_data.get('preferred_contact_method', '')
 
         # clear unselected pane
-        if is_guardians_pane:
+        if cleaned_data.get('pane') == 'guardians':
             cleaned_data['phone_number'] = ''
             cleaned_data['phone_number_alternative'] = ''
             cleaned_data['email'] = ''
@@ -153,7 +152,10 @@ class ContactForm(forms.ModelForm):
         # validate guardian required for underage subjects
         if date_of_birth:
             age = datetime.date.today() - date_of_birth
-            if not is_guardians_pane and age.days // 365 < settings.CASTELLUM_FULL_AGE:
+            if (
+                cleaned_data.get('pane') != 'guardians'
+                and age.days // 365 < settings.CASTELLUM_FULL_AGE
+            ):
                 msg = _(
                     'Subjects under the age of {} need a legal representative.'
                 ).format(settings.CASTELLUM_FULL_AGE)
@@ -179,7 +181,7 @@ class ContactForm(forms.ModelForm):
         contact = super().save()
 
         has_address = any(self.data.get(name) for name in self.address.fields)
-        if has_address and self.cleaned_data.get('guardians_pane') != 'guardians':
+        if has_address and self.cleaned_data.get('pane') != 'guardians':
             self.address.instance.contact = contact
             self.address.save()
         elif contact.get_address():
@@ -187,7 +189,7 @@ class ContactForm(forms.ModelForm):
             # refresh from db
             contact = Contact.objects.get(pk=contact.pk)
 
-        if self.cleaned_data.get('guardians_pane') == 'guardians':
+        if self.cleaned_data.get('pane') == 'guardians':
             contact.guardians.remove(*[
                 subject.contact for subject in self.cleaned_data.get('guardians_remove', [])
             ])

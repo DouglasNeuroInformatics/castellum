@@ -223,7 +223,7 @@ def test_contact_form_with_address_and_wrong_preferred_contact_method(user, full
 @pytest.mark.django_db
 def test_contact_form_with_guardians_add(user, full_data, contact):
     full_data.update({
-        'guardians_pane': 'guardians',
+        'pane': 'guardians',
         'guardians_add': [contact.subject.pk],
     })
 
@@ -237,7 +237,7 @@ def test_contact_form_with_guardians_add(user, full_data, contact):
 @pytest.mark.django_db
 def test_contact_form_with_guardians_add_privacy_level(user, full_data, contact):
     full_data.update({
-        'guardians_pane': 'guardians',
+        'pane': 'guardians',
         'guardians_add': [contact.subject.pk],
     })
 
@@ -258,7 +258,7 @@ def test_contact_form_with_guardians_removes_address(user, full_data):
 
     data = {
         **full_data,
-        'guardians_pane': 'guardians',
+        'pane': 'guardians',
         'guardians_add': [contact.subject.pk],
     }
 
@@ -270,7 +270,7 @@ def test_contact_form_with_guardians_removes_address(user, full_data):
 @pytest.mark.django_db
 def test_contact_form_with_guardians_remove(user, full_data, contact):
     full_data.update({
-        'guardians_pane': 'guardians',
+        'pane': 'guardians',
         'guardians_remove': [contact.subject.pk],
     })
 
