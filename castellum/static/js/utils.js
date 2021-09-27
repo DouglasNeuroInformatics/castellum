@@ -102,7 +102,13 @@
         this.append(spinner);
 
         fetch(this.href, {credentials: 'same-origin'})
-            .then(response => response.text())
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw response;
+                }
+            })
             .then(pseudonym => this.parentElement.textContent = pseudonym)
             .catch(() => spinner.remove());
     });
