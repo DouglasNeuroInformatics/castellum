@@ -13,7 +13,7 @@ from castellum.contacts.models import Contact
 def test_200(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/guardians/'
+    url = '/subjects/representatives/'
     response = client.get(url)
     assert response.status_code == 200
     assert b'create-tab' not in response.content
@@ -21,7 +21,7 @@ def test_200(request, client, user_fixture):
 
 def test_with_parameters_200(client, user):
     client.force_login(user)
-    response = client.post('/subjects/guardians/', {'search': 'foo bar'})
+    response = client.post('/subjects/representatives/', {'search': 'foo bar'})
     assert response.status_code == 200
     assert b'create-tab' in response.content
 
@@ -30,7 +30,7 @@ def test_match(request, client, user):
     baker.make(Contact, first_name='foo', last_name='bar')
 
     client.force_login(user)
-    response = client.post('/subjects/guardians/', {'search': 'foo bar'})
+    response = client.post('/subjects/representatives/', {'search': 'foo bar'})
 
     assert response.content.count(b'<li class="table-list-item">') == 1
 
@@ -44,7 +44,7 @@ def test_match(request, client, user):
 def test_create(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/guardians/'
+    url = '/subjects/representatives/'
     response = client.post(url, {
         'search': 'foo bar',
         'first_name': 'foo',
@@ -61,7 +61,7 @@ def test_create(request, client, user_fixture):
 
 def test_create_invalid(client, user):
     client.force_login(user)
-    url = '/subjects/guardians/'
+    url = '/subjects/representatives/'
     response = client.post(url, {
         'search': 'foo bar',
         'first_name': 'foo',

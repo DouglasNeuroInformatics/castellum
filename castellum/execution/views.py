@@ -614,7 +614,7 @@ class TagView(StudyMixin, PermissionRequiredMixin, TemplateView):
             return redirect('execution:execution-tags', self.study.pk)
 
 
-class GuardianContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView):
+class LegalRepresentativeContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView):
     base_template = 'execution/base.html'
     study_status = [Study.EXECUTION]
 

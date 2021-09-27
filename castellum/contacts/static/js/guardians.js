@@ -67,7 +67,7 @@
     $$.on(document, 'click', '[data-js="guardian-add"]', function() {
         // copied from django
         var config = 'height=500,width=800,resizable=yes,scrollbars=yes';
-        var win = window.open('/subjects/guardians/', 'guardian-add', config);
+        var win = window.open('/subjects/representatives/', 'guardian-add', config);
         win.focus();
     });
 

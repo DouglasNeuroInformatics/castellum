@@ -63,10 +63,10 @@
                             <a href="{% url 'subjects:detail' contact.subject.slug %}" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
                         {% elif view.context == 'recruitment' %}
                             {% study_guardian_hash study contact.subject as hash %}
-                            <a href="{% url 'recruitment:guardian-contact-update' study.pk participation.pk hash %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
+                            <a href="{% url 'recruitment:legal-representative-contact-update' study.pk participation.pk hash %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
                         {% elif view.context == 'execution' %}
                             {% study_guardian_hash study contact.subject as hash %}
-                            <a href="{% url 'execution:guardian-contact-update' study.pk participation.pk hash %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
+                            <a href="{% url 'execution:legal-representative-contact-update' study.pk participation.pk hash %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
                         {% endif %}
                     </div>
                 {% endfor %}

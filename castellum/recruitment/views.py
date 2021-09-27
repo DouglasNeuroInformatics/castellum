@@ -553,7 +553,7 @@ class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateV
         return self.participation.subject
 
 
-class GuardianContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView):
+class LegalRepresentativeContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView):
     base_template = 'recruitment/base.html'
     study_status = [Study.EXECUTION]
 

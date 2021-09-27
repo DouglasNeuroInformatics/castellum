@@ -503,7 +503,7 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 
 
 @method_decorator(sensitive_post_parameters(), 'dispatch')
-class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
+class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
     template_name = 'subjects/guardian_search.html'
     permission_required = 'subjects.view_subject'
     nochrome = True
