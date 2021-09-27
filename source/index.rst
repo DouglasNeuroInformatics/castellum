@@ -23,6 +23,7 @@ Welcome to Castellum's documentation!
    guides/two-factor-authentication
    guides/subject-management
    guides/study-management
+   guides/study-execution
    guides/pseudonyms
    guides/data-protection
 
