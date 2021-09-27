@@ -345,7 +345,7 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
         return ctx.send_separate_mails(
             subject,
             body.replace('{name}', contact.full_name),
-            contact.own_or_guardian_emails,
+            contact.own_or_legal_representative_emails,
             reply_to=[self.study.email],
             recipients_string=contact.email_recipients_string,
         )

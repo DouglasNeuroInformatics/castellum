@@ -86,7 +86,7 @@ class ContactForm(forms.ModelForm):
 
         self.address = self.get_address_form(**kwargs)
 
-        if self.instance.has_guardian:
+        if self.instance.has_legal_representative:
             self.fields['pane'].initial = 'guardians'
         elif any([self.instance.get_address(), self.instance.phone_number, self.instance.email]):
             self.fields['pane'].initial = 'self'

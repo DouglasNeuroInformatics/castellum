@@ -161,7 +161,7 @@ class Subject(TimeStampedModel):
         return (
             self.has_consent_or_waiting
             or self.has_study_consent
-            or self.contact.is_guardian
+            or self.contact.is_legal_representative
             or self.blocked
         )
 

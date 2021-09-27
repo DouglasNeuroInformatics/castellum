@@ -39,9 +39,9 @@ class ContactQuerySet(models.QuerySet):
             self.full_name_is_matched(parts) |
             self.phone_number_is_matched(parts) |
             self.email_is_matched(parts) |
-            self.guardian_full_name_is_matched(parts) |
-            self.guardian_phone_number_is_matched(parts) |
-            self.guardian_email_is_matched(parts)
+            self.legal_representative_full_name_is_matched(parts) |
+            self.legal_representative_phone_number_is_matched(parts) |
+            self.legal_representative_email_is_matched(parts)
         )
         return self.filter(q).distinct()
 
@@ -77,13 +77,13 @@ class ContactQuerySet(models.QuerySet):
                 q |= models.Q(email__iexact=part)
         return q
 
-    def guardian_full_name_is_matched(self, parts):
+    def legal_representative_full_name_is_matched(self, parts):
         return (
             self.name_is_matched(parts, 'legal_representatives__first') &
             self.name_is_matched(parts, 'legal_representatives__last')
         )
 
-    def guardian_phone_number_is_matched(self, parts):
+    def legal_representative_phone_number_is_matched(self, parts):
         q = models.Q()
         for part in parts:
             if '@' not in part and is_phone_number(part):
@@ -91,7 +91,7 @@ class ContactQuerySet(models.QuerySet):
                 q |= models.Q(legal_representatives__phone_number_alternative=part)
         return q
 
-    def guardian_email_is_matched(self, parts):
+    def legal_representative_email_is_matched(self, parts):
         q = models.Q()
         for part in parts:
             if '@' in part:
@@ -188,7 +188,11 @@ class Contact(TimeStampedModel):
 
     @property
     def is_complete(self):
-        return (self.is_guardian or self.date_of_birth) and self.is_reachable and self.gender
+        return (
+            (self.is_legal_representative or self.date_of_birth)
+            and self.is_reachable
+            and self.gender
+        )
 
     @property
     def is_reachable(self):
@@ -209,15 +213,15 @@ class Contact(TimeStampedModel):
         return '{}. {}'.format(self.first_name[0], self.last_name)
 
     @cached_property
-    def is_guardian(self):
+    def is_legal_representative(self):
         return self.id and self.legal_representative_of.exists()
 
     @cached_property
-    def has_guardian(self):
+    def has_legal_representative(self):
         return self.id and self.legal_representatives.exists()
 
     @cached_property
-    def own_or_guardian_emails(self):
+    def own_or_legal_representative_emails(self):
         if self.email:
             return [self.email]
         else:
@@ -229,7 +233,7 @@ class Contact(TimeStampedModel):
 
     @cached_property
     def email_recipients_string(self):
-        if len(self.own_or_guardian_emails) > 1:
+        if len(self.own_or_legal_representative_emails) > 1:
             return ', '.join(
                 c.full_name
                 for c in self.legal_representatives.exclude(email='')

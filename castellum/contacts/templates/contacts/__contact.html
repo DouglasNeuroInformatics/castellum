@@ -10,7 +10,7 @@
     </dd>
 
     {# also show not_available_until if it should have been set on guardians #}
-    {% if not subject.is_available and subject.contact.has_guardian %}
+    {% if not subject.is_available and subject.contact.has_legal_representative %}
         <dt class="col-sm-6">{% translate "Currently available" %}</dt>
         <dd class="col-sm-6">
             {% translate "No" %}
