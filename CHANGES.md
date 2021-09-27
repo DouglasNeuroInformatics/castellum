@@ -1,3 +1,42 @@
+# 0.66.0 (unreleased)
+
+## security
+
+-   Fixed a missing permission check that allowed subject managers to
+    see and edit data of subjects in recruitment without needing to be
+    recruiters.
+-   Fixed a missing check that allowed users to add legal
+    representatives to a subject without checking the representative's
+    privacy level.
+-   Fixed leak of subject ID in recruitment and execution. This is not
+    an issue on its own, but could lead to more serious leaks if
+    combined with other vulnerabilities.
+
+## breaking changes
+
+-   Removed timeslot-based availability. This includes the `timeslots`
+    fixture.
+-   Renamed the command `delete_filter_trials` to
+    `cleanup_filter_trials`.
+-   Removed the optional argument `--limit` from the command
+    `notify_to_be_deleted`.
+-   The new command `cleanup_availability` to clear "not available
+    until" entries that have passed. It should be run daily.
+-   Adding and removing legal representatives now requires the global
+    `subjects.change_subject` permission.
+
+## new features
+
+-   Changed "guardian" to "legal representative"
+-   It is now possible to edit contact data of legal representatives in
+    recruitment and execution.
+-   Contact details now also display "not available until" if the
+    subject has legal representatives.
+-   Contact details now display whether a legal representative is
+    blocked or deceased.
+-   Command logs are now more verbose
+
+
 # 0.65.2 (2021-09-10)
 
 ## bug fixes
