@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-27 14:39+0200\n"
+"POT-Creation-Date: 2021-09-27 14:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -241,15 +241,13 @@ msgstr "Volljährig"
 
 #: castellum/contacts/forms.py:66
 msgid "Has legal representative"
-msgstr ""
+msgstr "Hat gesetzliche Vertreter*in"
 
 #: castellum/contacts/forms.py:133
 msgid "Provide more details for the address."
 msgstr "Adressdaten unvollständig"
 
 #: castellum/contacts/forms.py:158
-#, fuzzy
-#| msgid "Subjects under the age of {} need a legal guardian."
 msgid "Subjects under the age of {} need a legal representative."
 msgstr ""
 "Proband*innen unter {} Jahren müssen eine gesetzliche Vertreter*in haben."
@@ -340,7 +338,7 @@ msgstr "Bevorzugte Kontaktmöglichkeit"
 #: castellum/contacts/models.py:162
 #: castellum/subjects/templates/subjects/guardian_search.html:4
 msgid "Legal representatives"
-msgstr ""
+msgstr "Gesetzliche Vertreter*innen"
 
 #: castellum/contacts/models.py:171 castellum/contacts/models.py:172
 #: castellum/contacts/templates/contacts/__contact_detail.html:3
@@ -429,7 +427,7 @@ msgstr ""
 #: castellum/contacts/templates/contacts/contact_form.html:58
 #: castellum/subjects/templates/subjects/subject_detail.html:97
 msgid "Legal representative"
-msgstr ""
+msgstr "Gesetzliche Vertreter*in"
 
 #: castellum/contacts/templates/contacts/__contact.html:33
 #: castellum/studies/templates/studies/study_filtertrial_base.html:31
@@ -438,9 +436,6 @@ msgid "Insufficient privacy level"
 msgstr "Vertraulichkeitsstufe nicht ausreichend"
 
 #: castellum/contacts/templates/contacts/__contact_detail.html:11
-#, fuzzy
-#| msgid ""
-#| "This guardian has other wards who may also be suitable for this study."
 msgid ""
 "This person represents other subjects who may also be suitable for this "
 "study."
@@ -510,10 +505,6 @@ msgid "Create new subject"
 msgstr "Neue Proband*in anlegen"
 
 #: castellum/contacts/templates/contacts/contact_form.html:18
-#, fuzzy
-#| msgid ""
-#| "Gender and date of birth as well as at least one of email, phone number, "
-#| "address, or guardian should be provided."
 msgid ""
 "Gender and date of birth as well as at least one of email, phone number, "
 "address, or legal representative should be provided."
@@ -522,9 +513,7 @@ msgstr ""
 "oder gesetzliche Vertreter*in sollten angegeben werden."
 
 #: castellum/contacts/templates/contacts/contact_form.html:34
-#, fuzzy, python-format
-#| msgid ""
-#| "%(count)s guardians not listed because of insufficient privacy level."
+#, python-format
 msgid ""
 "%(count)s legal representatives not listed because of insufficient privacy "
 "level."
@@ -534,7 +523,7 @@ msgstr ""
 
 #: castellum/contacts/templates/contacts/contact_form.html:52
 msgid "Add legal representative"
-msgstr ""
+msgstr "Gesetzliche Vertreter*in hinzufügen"
 
 #: castellum/data_protection/templates/data_protection/__subject_list.html:12
 msgid "Due in"
@@ -1620,10 +1609,6 @@ msgstr ""
 "sie um herauszufinden, ob sie geeignet ist."
 
 #: castellum/recruitment/templates/recruitment/contact.html:19
-#, fuzzy
-#| msgid ""
-#| "This study uses a geographic filter. Please verify that the subject lives "
-#| "at the same address as one of their guardians."
 msgid ""
 "This study uses a geographic filter. Please verify that the subject lives at "
 "the same address as one of their legal representatives."
@@ -2849,13 +2834,6 @@ msgid "Subject is blocked"
 msgstr "Proband*in ist gesperrt"
 
 #: castellum/subjects/models.py:90
-#, fuzzy
-#| msgid ""
-#| "The subject has been blocked due to inappropriate behaviour. They will "
-#| "neither be considered for recruitment, nor contacted as guardians. "
-#| "Blocking this subject does not automatically block their ward nor their "
-#| "co-guardians. They may thus still receive information about the "
-#| "recruitment process of their wards."
 msgid ""
 "The person has been blocked due to inappropriate behaviour. They will "
 "neither be considered for recruitment, nor contacted as a legal "
@@ -2962,7 +2940,7 @@ msgstr "Treffer"
 #: castellum/subjects/templates/subjects/guardian_search.html:84
 #: castellum/subjects/templates/subjects/guardian_search.html:86
 msgid "Set up as legal representative"
-msgstr ""
+msgstr "Als gesetzliche Vertreter*in auswählen"
 
 #: castellum/subjects/templates/subjects/guardian_search.html:92
 #: castellum/subjects/templates/subjects/subject_search.html:121
@@ -3087,15 +3065,11 @@ msgid "Delete subject"
 msgstr "Proband*in löschen"
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:12
-#, fuzzy
-#| msgid ""
-#| "This subject is the only guardian of another subject. Deletion means that "
-#| "this subject's ward becomes unreachable!"
 msgid ""
 "This person is the only legal representative of another subject. Deletion "
 "means that the subject represented by this person becomes unreachable!"
 msgstr ""
-"Diese Proband*in ist die einzige gesetzliche Vertreter*in einer anderen "
+"Diese Person ist die einzige gesetzliche Vertreter*in einer anderen "
 "Proband*in. Sie zu löschen bedeutet, dass diese Proband*in nicht mehr "
 "kontaktiert werden kann!"
 
@@ -3211,7 +3185,7 @@ msgstr "(Zugriff verweigert)"
 #: castellum/subjects/templates/subjects/subject_detail.html:29
 #: castellum/subjects/templates/subjects/subject_export.html:115
 msgid "Legal representative of"
-msgstr ""
+msgstr "Gesetzliche Vertreter*in von"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:42
 msgid "Subject data registered"
@@ -3267,10 +3241,7 @@ msgstr ""
 "Art. 6 Abs. 1 lit. a, Art. 9 Abs. 2 lit. a DSGVO und Art. 1626, 1902 BGB"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:105
-#, fuzzy, python-format
-#| msgid ""
-#| "If applicable, <a href=\"%(url)s\">find or create a subject</a> and set "
-#| "this one as their guardian."
+#, python-format
 msgid ""
 "If applicable, <a href=\"%(url)s\">find or create a subject</a> and set this "
 "one as their legal representative."
@@ -3584,7 +3555,7 @@ msgstr "Termine"
 
 #: castellum/templates/feeds.html:33 castellum/templates/feeds.html:43
 msgid "(without personal data)"
-msgstr ""
+msgstr "(ohne personenbezogene Daten)"
 
 #: castellum/templates/feeds.html:40
 msgid "Per Resource"
@@ -3762,58 +3733,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "Has legal guardian"
-#~ msgstr "Hat gesetzliche Vertreter*in"
-
-#~ msgid "Guardians"
-#~ msgstr "Gesetzliche Vertreter*innen"
-
-#~ msgid "Legal guardian"
-#~ msgstr "Gesetzliche Vertreter*in"
-
-#~ msgid "Guardian"
-#~ msgstr "Gesetzliche Vertreter*in"
-
-#~ msgid "Add guardian"
-#~ msgstr "Gesetzliche Vertreter*in hinzufügen"
-
-#~ msgid "hour"
-#~ msgstr "Stunde"
-
-#~ msgid "Monday"
-#~ msgstr "Montag"
-
-#~ msgid "Tuesday"
-#~ msgstr "Dienstag"
-
-#~ msgid "Wednesday"
-#~ msgstr "Mittwoch"
-
-#~ msgid "Thursday"
-#~ msgstr "Donnerstag"
-
-#~ msgid "Friday"
-#~ msgstr "Freitag"
-
-#~ msgid "Set up as guardian"
-#~ msgstr "Als gesetzliche Vertreter*in auswählen"
-
-#~ msgid ""
-#~ "This subject has a legal guardian. For information on availability and "
-#~ "notes please find their details."
-#~ msgstr ""
-#~ "Diese Proband*in hat eine gesetzliche Vertreter*in. Informationen zu "
-#~ "Verfügbarkeit sowie Notizen sind unter deren Details zu finden."
-
-#~ msgid "Availability"
-#~ msgstr "Erreichbarkeit"
-
-#~ msgid "Guardian of"
-#~ msgstr "Gesetzliche Vertreter*in von"
-
-#~ msgid "Guardianship"
-#~ msgstr "Gesetzliche Vertretung"
-
-#~ msgid "(occupied slots only)"
-#~ msgstr "(nur belegte Zeitfenster)"
