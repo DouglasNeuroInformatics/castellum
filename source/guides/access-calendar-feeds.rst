@@ -5,7 +5,7 @@ List available calendars
 ========================
 
 
-To access the calendar feeds overview page add "/feeds/" to the URL of the 
+To access the calendar feeds overview page add "/feeds/" to the URL of the
 castellum start page and confirm.
 
 Find the different types of calendars

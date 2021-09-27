@@ -20,7 +20,7 @@ Search for a subject
 
 3.  Confirm by clicking **Submit**
 
-4.  Under the **Matches** tab all matching subjects or their legal 
+4.  Under the **Matches** tab all matching subjects or their legal
     representatives are listed
 
     -   Next to their name the date of birth is listed and, if provided, also
@@ -55,8 +55,8 @@ information:
 -   **Gender**
 -   **Date of birth**
 -   Information on whether the person is **Full of age** or **has legal
-    representative**. If the subject has a legal representative, you will need 
-    to **Add legal representative** (see instructions in 
+    representative**. If the subject has a legal representative, you will need
+    to **Add legal representative** (see instructions in
     :ref:`subject-contact-tab`)
 -   **E-mail** address and/or **Phone number** and/or full postal address
     and/or contacting details of the legal representative
@@ -146,7 +146,7 @@ with a subject.
         as c/o details
     -   Specify the **Preferred contact method**
 
-2.  If the person is not of an adult age or has a legal representative for 
+2.  If the person is not of an adult age or has a legal representative for
     example due to a disability or illness, select **Has legal representative**
     > **Add legal representative**
 
@@ -158,9 +158,9 @@ with a subject.
         information in the fields provided > **Create new subject**
 
     .. note::
-        The legal representative is now added. You can also create several 
-        legal representatives. By clicking on **Remove** next to the legal 
-        representative's name, you can delete them as the legal representative 
+        The legal representative is now added. You can also create several
+        legal representatives. By clicking on **Remove** next to the legal
+        representative's name, you can delete them as the legal representative
         of the subject.
 
 .. _subject-attributes-tab:
@@ -311,7 +311,7 @@ please proceed as follows:
 
 .. note::
 
-    Deleting a subject who has legal representatives will **not** automatically 
-    delete the corresponding legal representatives. However, if there is no 
-    other reason to keep the legal representatives in Castellum, they will 
+    Deleting a subject who has legal representatives will **not** automatically
+    delete the corresponding legal representatives. However, if there is no
+    other reason to keep the legal representatives in Castellum, they will
     appear in the data protection dashboard.

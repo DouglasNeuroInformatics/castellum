@@ -56,5 +56,5 @@ a single subject.
 
 .. warning::
 
-    These steps only outline the data export from a software view. Your institute should provide organizational steps 
-    to verify actual identity of the requester. Furthermore, secure transfer of exported data needs to be set up.  
+    These steps only outline the data export from a software view. Your institute should provide organizational steps
+    to verify actual identity of the requester. Furthermore, secure transfer of exported data needs to be set up.

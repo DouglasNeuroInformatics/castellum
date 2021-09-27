@@ -43,7 +43,7 @@ Recruit subjects via phone
         -   **excluded**
             (This may apply if recruitment attributes of the person do not comply with the
             requirements of the study, if a person is not interested in the
-            particular study or if a person is not available during the data 
+            particular study or if a person is not available during the data
             collection of the study)
 
     -   Click on **Save**
@@ -72,11 +72,11 @@ Recruit subjects via mail
 5.  Click **Send**
 
 .. hint::
-    The section **Previous mails** will appear after you have sent your first 
-    batch of mails. It lists all contacted groups allowing you to remind those 
-    potential participants of a group who did not respond yet. Please note, that 
-    this reminder can only be triggered once per group. It will send out the 
-    current invitation mail text with a prefixed e-mail subject indicating it as 
+    The section **Previous mails** will appear after you have sent your first
+    batch of mails. It lists all contacted groups allowing you to remind those
+    potential participants of a group who did not respond yet. Please note, that
+    this reminder can only be triggered once per group. It will send out the
+    current invitation mail text with a prefixed e-mail subject indicating it as
     "Reminder/Erinnerung".
 
 .. _recruitment-appointments:
@@ -86,34 +86,34 @@ Make appointments for sessions
 
 .. note::
 
-    This describes setting up appointments **for** the participants manually by 
-    Castellum users. There is also a guide on how to use the optional external 
-    scheduler feature in Castellum that offers potential participants to select 
+    This describes setting up appointments **for** the participants manually by
+    Castellum users. There is also a guide on how to use the optional external
+    scheduler feature in Castellum that offers potential participants to select
     appointments by themselves: :ref:`make-appointments-with-external-scheduler`.
 
 If you are recruiting for a study that has at least one session Castellum allows
 you to set up appointments for the participants:
 
-1. In recruitment click on **Contact** in the *Open* list or on **Review** in the 
-   *Participating* list to get the details of the participant. Go to the tab 
+1. In recruitment click on **Contact** in the *Open* list or on **Review** in the
+   *Participating* list to get the details of the participant. Go to the tab
    **Appointments**.
 
-2. The tab **Appointments** offers a date and time field for every session of 
+2. The tab **Appointments** offers a date and time field for every session of
    the study. Click and populate those session fields that need to be appointed
    at this moment.
 
    .. hint::
 
-       Study execution provides the same feature to make appointments with 
+       Study execution provides the same feature to make appointments with
        participating subjects. Thus, this can also be done by study conductors.
 
-3. The **Calendar** button in the **Appointments** tab opens a new window and 
-   allows you to have a look at all already appointed sessions of the study. 
-   This calendar will also show appointments of resources if they are connected 
+3. The **Calendar** button in the **Appointments** tab opens a new window and
+   allows you to have a look at all already appointed sessions of the study.
+   This calendar will also show appointments of resources if they are connected
    to a study session (see :ref:`study-sessions`).
 
 .. warning::
 
-    Castellum only detects appointment collisions for connected resources! In 
-    other words Castellum allows you to save various concurrent appointments if 
-    the session doesn't have a resource connected. 
+    Castellum only detects appointment collisions for connected resources! In
+    other words Castellum allows you to save various concurrent appointments if
+    the session doesn't have a resource connected.
