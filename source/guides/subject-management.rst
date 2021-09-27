@@ -208,14 +208,6 @@ This tab mainly focusses on when to best reach out to subjects.
 
     .. admonition:: Example
 
-        The person can be reached by phone between 9 and 11 a.m. on tuesdays.
-
-        -   Click on **9** under **Tuesday**,
-        -   Hold the Shift-button and
-        -   Click on **11** under **Tuesday**
-
-    .. admonition:: Example
-
         The person is abroad for 6 months.
 
         -   Select **Not available until** today in 6 months
