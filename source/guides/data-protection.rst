@@ -29,7 +29,7 @@ dashboard regularly.
 
     It is recommended to configure an email address that should receive email
     notifications about new data protection tasks. Please ask your system
-    administrator to setup ``CASTELLUM_DELETE_NOTIFICATION_TO``.
+    administrator to setup ``CASTELLUM_GDPR_NOTIFICATION_TO``.
 
 
 .. _subject-export:
