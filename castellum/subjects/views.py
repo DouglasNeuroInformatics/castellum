@@ -255,12 +255,10 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     tab = 'delete'
 
     def is_last_guardian(self):
-        if self.object.contact.is_guardian:
-            for ward in Contact.objects.filter(guardians=self.object.contact):
-                if ward.guardians.count() <= 1:
-                    return True
-        else:
-            return False
+        for ward in self.object.contact.guardian_of.all():
+            if ward.guardians.count() <= 1:
+                return True
+        return False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
