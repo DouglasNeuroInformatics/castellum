@@ -14,10 +14,10 @@
         {% if view.context == 'subject_management' %}
             <a href="{% url 'subjects:detail' guardian.slug %}" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
         {% elif view.context == 'recruitment' %}
-            {% study_guardian_hash study guardian as hash %}
+            {% study_legal_representative_hash study guardian as hash %}
             <a href="{% url 'recruitment:legal-representative-contact-update' study.pk participation.pk hash %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
         {% elif view.context == 'execution' %}
-            {% study_guardian_hash study guardian as hash %}
+            {% study_legal_representative_hash study guardian as hash %}
             <a href="{% url 'execution:legal-representative-contact-update' study.pk participation.pk hash %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
         {% endif %}
     {% endif %}
