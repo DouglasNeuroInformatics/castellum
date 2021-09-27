@@ -254,7 +254,7 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     permission_required = 'subjects.delete_subject'
     tab = 'delete'
 
-    def is_last_guardian(self):
+    def is_last_legal_representative(self):
         for ward in self.object.contact.legal_representative_of.all():
             if ward.legal_representatives.count() <= 1:
                 return True
@@ -263,7 +263,7 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['has_participations'] = self.object.participation_set.exists()
-        context['is_last_guardian'] = self.is_last_guardian()
+        context['is_last_legal_representative'] = self.is_last_legal_representative()
         context['has_pseudonym_in_general_domain'] = (
             self.subject.pseudonym_set.filter(domain__object_id=None).exists()
         )

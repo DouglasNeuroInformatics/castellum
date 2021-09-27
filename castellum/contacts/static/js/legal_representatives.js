@@ -29,7 +29,7 @@
         }
     });
 
-    var toggleGuardian = function(el, removed) {
+    var toggleLegalRepresentative = function(el, removed) {
         var wrapper = el.closest('[data-js="legal-representative-wrapper"]');
         var remove = wrapper.querySelector('[data-js="legal-representative-remove"]');
         var restore = wrapper.querySelector('[data-js="legal-representative-restore"]');
@@ -46,14 +46,14 @@
     };
 
     $$.on(document, 'click', '[data-js="legal-representative-remove"]', function() {
-        toggleGuardian(this, true);
+        toggleLegalRepresentative(this, true);
     });
 
     $$.on(document, 'click', '[data-js="legal-representative-restore"]', function() {
-        toggleGuardian(this, false);
+        toggleLegalRepresentative(this, false);
     });
 
-    var addGuardian = function(name, pk) {
+    var addLegalRepresentative = function(name, pk) {
         var template = document.getElementById('legal-representative-template');
         var button = document.querySelector('[data-js="legal-representative-add"]');
 
@@ -71,10 +71,10 @@
         win.focus();
     });
 
-    window.closeGuardianPopup = function(win, data) {
+    window.closeLegalRepresentativePopup = function(win, data) {
         if (data) {
             data = JSON.parse(data);
-            addGuardian(data.name, data.pk);
+            addLegalRepresentative(data.name, data.pk);
         }
         win.close();
     };
@@ -85,7 +85,7 @@
 
     var use = function() {
         var data = JSON.stringify(this.dataset);
-        opener.closeGuardianPopup(window, data);
+        opener.closeLegalRepresentativePopup(window, data);
     };
 
     $$.on(document, 'click', '[data-js="legal-representative-use"]', use);

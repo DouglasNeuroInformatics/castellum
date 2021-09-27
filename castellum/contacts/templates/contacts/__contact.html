@@ -22,11 +22,11 @@
     {% endif %}
 </dl>
 
-{% for guardian in subject.contact.legal_representatives.all %}
+{% for legal_representative in subject.contact.legal_representatives.all %}
     <hr>
-    {% has_privacy_level guardian.subject.privacy_level user as can_access %}
+    {% has_privacy_level legal_representative.subject.privacy_level user as can_access %}
     {% if can_access %}
-        {% include 'contacts/__contact_detail.html' with contact=guardian guardian=True %}
+        {% include 'contacts/__contact_detail.html' with contact=legal_representative legal_representative=True %}
     {% else %}
         <dl class="row">
             <dt class="col-sm-6 text-muted">{% translate 'Legal representative' %}</dt>

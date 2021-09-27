@@ -7,7 +7,7 @@
     <form method="post">
         {% csrf_token %}
 
-        {% if is_last_guardian %}
+        {% if is_last_legal_representative %}
             <p class="alert alert-danger">
                 {% translate "This person is the only legal representative of another subject. Deletion means that the subject represented by this person becomes unreachable!" %}
             </p>
