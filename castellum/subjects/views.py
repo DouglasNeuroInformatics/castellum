@@ -504,7 +504,7 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 
 @method_decorator(sensitive_post_parameters(), 'dispatch')
 class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
-    template_name = 'subjects/guardian_search.html'
+    template_name = 'subjects/legal_representative_search.html'
     permission_required = 'subjects.view_subject'
     nochrome = True
 
@@ -538,7 +538,7 @@ class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
             monitoring_logger.info('SubjectData update: {} by {}'.format(
                 contact.subject_id, self.request.user.pk
             ))
-            return TemplateResponse(self.request, 'subjects/guardian_success.html', {
+            return TemplateResponse(self.request, 'subjects/legal_representative_success.html', {
                 'name': contact.full_name,
                 'pk': contact.subject.pk,
             })

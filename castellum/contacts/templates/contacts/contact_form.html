@@ -38,15 +38,15 @@
             {% has_perm 'subjects.change_subject' user as can_change_subject %}
             {% if can_change_subject %}
                 <template id="guardian-template">
-                    {% include 'contacts/__guardian_item.html' with name=form.guardians_add.name pk='{pk}' label='' removed=False %}
+                    {% include 'contacts/__legal_representative_item.html' with name=form.guardians_add.name pk='{pk}' label='' removed=False %}
                 </template>
 
                 {% for widget in form.guardians_remove %}
-                    {% include 'contacts/__guardian_item.html' with name=form.guardians_remove.name pk=widget.data.value label=widget.choice_label guardian=widget.choice_label.subject removed=widget.data.selected %}
+                    {% include 'contacts/__legal_representative_item.html' with name=form.guardians_remove.name pk=widget.data.value label=widget.choice_label guardian=widget.choice_label.subject removed=widget.data.selected %}
                 {% endfor %}
 
                 {% for subject in form.cleaned_data.guardians_add %}
-                    {% include 'contacts/__guardian_item.html' with name=form.guardians_add.name pk=subject.pk label=subject label=subject.contact.full_name removed=False %}
+                    {% include 'contacts/__legal_representative_item.html' with name=form.guardians_add.name pk=subject.pk label=subject label=subject.contact.full_name removed=False %}
                 {% endfor %}
 
                 <button type="button" class="btn btn-primary" data-js="guardian-add">{% translate 'Add legal representative' %}</button>
@@ -80,6 +80,6 @@
 {% endblock %}
 
 {% block extra_scripts %}
-    <script src="{% static 'js/guardians.js' %}"></script>
+    <script src="{% static 'js/legal_representatives.js' %}"></script>
     <script src="{% static 'js/streets.js' %}"></script>
 {% endblock %}
