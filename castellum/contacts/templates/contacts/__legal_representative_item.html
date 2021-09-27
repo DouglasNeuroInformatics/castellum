@@ -1,6 +1,6 @@
 {% load i18n recruitment %}
 
-<div class="rounded-lg border bg-light p-3 mb-2 d-flex align-items-center {% if removed %}text-muted{% endif %}" data-js="guardian-wrapper">
+<div class="rounded-lg border bg-light p-3 mb-2 d-flex align-items-center {% if removed %}text-muted{% endif %}" data-js="legal-representative-wrapper">
     <div class="flex-grow-1">
         <div>{% translate 'Legal representative' %}</div>
         <label for="id_{{ name }}_{{ pk }}" class="h5 mb-0">{{ label }}</label>
@@ -21,6 +21,6 @@
             <a href="{% url 'execution:legal-representative-contact-update' study.pk participation.pk hash %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
         {% endif %}
     {% endif %}
-    <button type="button" class="btn btn-sm btn-danger" {% if removed %}hidden{% endif %} data-js="guardian-remove">{% translate 'Remove' %}</button>
-    <button type="button" class="btn btn-sm btn-outline-danger" {% if not removed %}hidden{% endif %} data-js="guardian-restore">{% translate 'Restore' %}</button>
+    <button type="button" class="btn btn-sm btn-danger" {% if removed %}hidden{% endif %} data-js="legal-representative-remove">{% translate 'Remove' %}</button>
+    <button type="button" class="btn btn-sm btn-outline-danger" {% if not removed %}hidden{% endif %} data-js="legal-representative-restore">{% translate 'Restore' %}</button>
 </div>

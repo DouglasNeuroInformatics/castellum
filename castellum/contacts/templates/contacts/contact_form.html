@@ -30,14 +30,14 @@
 
         <div id="contact-guardians" class="mb-3" {% if form.pane.value != 'guardians' %}hidden{% endif %}>
             {% if form.guardians_blocked > 0 %}
-                <p class="text-muted" data-js="guardians-blocked">
+                <p class="text-muted" data-js="legal-representatives-blocked">
                     {% blocktranslate with count=form.guardians_blocked %}{{ count }} legal representatives not listed because of insufficient privacy level.{% endblocktranslate %}
                 </p>
             {% endif %}
 
             {% has_perm 'subjects.change_subject' user as can_change_subject %}
             {% if can_change_subject %}
-                <template id="guardian-template">
+                <template id="legal-representative-template">
                     {% include 'contacts/__legal_representative_item.html' with name=form.guardians_add.name pk='{pk}' label='' removed=False %}
                 </template>
 
@@ -49,7 +49,7 @@
                     {% include 'contacts/__legal_representative_item.html' with name=form.guardians_add.name pk=subject.pk label=subject label=subject.contact.full_name removed=False %}
                 {% endfor %}
 
-                <button type="button" class="btn btn-primary" data-js="guardian-add">{% translate 'Add legal representative' %}</button>
+                <button type="button" class="btn btn-primary" data-js="legal-representative-add">{% translate 'Add legal representative' %}</button>
             {% else %}
                 {% has_perm 'subjects.view_subject' user as can_view_subject %}
                 {% for subject_id, contact in form.guardians %}

@@ -53,7 +53,7 @@ def test_create(request, client, user_fixture):
         'gender': '*',
         'privacy_level': 0,
     })
-    assert b'guardian-use-auto' in response.content
+    assert b'legal-representative-use-auto' in response.content
     qs = Contact.objects.filter(first_name='foo', last_name='bar')
     assert qs.exists()
     assert qs.get().subject.privacy_level == 0
@@ -69,5 +69,5 @@ def test_create_invalid(client, user):
         'date_of_birth': '1970-01-01',
         'gender': '*',
     })
-    assert b'guardian-use-auto' not in response.content
+    assert b'legal-representative-use-auto' not in response.content
     assert not Contact.objects.filter(first_name='foo', last_name='bar').exists()

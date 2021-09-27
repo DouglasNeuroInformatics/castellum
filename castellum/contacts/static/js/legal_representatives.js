@@ -13,7 +13,7 @@
             complete = (
                 document.querySelector('[name="guardians_remove"]:disabled') ||
                 document.querySelector('[name="guardians_add"]:not(:disabled)') ||
-                document.querySelector('[data-js="guardians-blocked"]')
+                document.querySelector('[data-js="legal-representatives-blocked"]')
             );
         } else {
             complete = (
@@ -30,9 +30,9 @@
     });
 
     var toggleGuardian = function(el, removed) {
-        var wrapper = el.closest('[data-js="guardian-wrapper"]');
-        var remove = wrapper.querySelector('[data-js="guardian-remove"]');
-        var restore = wrapper.querySelector('[data-js="guardian-restore"]');
+        var wrapper = el.closest('[data-js="legal-representative-wrapper"]');
+        var remove = wrapper.querySelector('[data-js="legal-representative-remove"]');
+        var restore = wrapper.querySelector('[data-js="legal-representative-restore"]');
         var input = wrapper.querySelector('input');
 
         wrapper.classList.toggle('text-muted', removed);
@@ -45,17 +45,17 @@
         }
     };
 
-    $$.on(document, 'click', '[data-js="guardian-remove"]', function() {
+    $$.on(document, 'click', '[data-js="legal-representative-remove"]', function() {
         toggleGuardian(this, true);
     });
 
-    $$.on(document, 'click', '[data-js="guardian-restore"]', function() {
+    $$.on(document, 'click', '[data-js="legal-representative-restore"]', function() {
         toggleGuardian(this, false);
     });
 
     var addGuardian = function(name, pk) {
-        var template = document.getElementById('guardian-template');
-        var button = document.querySelector('[data-js="guardian-add"]');
+        var template = document.getElementById('legal-representative-template');
+        var button = document.querySelector('[data-js="legal-representative-add"]');
 
         var wrapper = document.createElement('div');
         wrapper.innerHTML = template.innerHTML.replace(/{pk}/g, pk);
@@ -64,10 +64,10 @@
         button.before(wrapper.children[0]);
     };
 
-    $$.on(document, 'click', '[data-js="guardian-add"]', function() {
+    $$.on(document, 'click', '[data-js="legal-representative-add"]', function() {
         // copied from django
         var config = 'height=500,width=800,resizable=yes,scrollbars=yes';
-        var win = window.open('/subjects/representatives/', 'guardian-add', config);
+        var win = window.open('/subjects/representatives/', 'legal-representative-add', config);
         win.focus();
     });
 
@@ -79,7 +79,7 @@
         win.close();
     };
 
-    $$.on(document, 'click', '[data-js="guardian-dismiss"]', function() {
+    $$.on(document, 'click', '[data-js="legal-representative-dismiss"]', function() {
         window.close();
     });
 
@@ -88,6 +88,6 @@
         opener.closeGuardianPopup(window, data);
     };
 
-    $$.on(document, 'click', '[data-js="guardian-use"]', use);
-    document.querySelectorAll('[data-js="guardian-use-auto"]').forEach(el => use.call(el));
+    $$.on(document, 'click', '[data-js="legal-representative-use"]', use);
+    document.querySelectorAll('[data-js="legal-representative-use-auto"]').forEach(el => use.call(el));
 })();
