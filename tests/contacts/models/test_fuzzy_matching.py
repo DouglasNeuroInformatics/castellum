@@ -127,7 +127,7 @@ def test_every_input_must_match():
 
 
 @pytest.mark.django_db
-def test_guardian_email():
+def test_legal_representative_email():
     search = 'test@example.com'
     guardian = baker.make(Contact, email='test@example.com')
     baker.make(Contact, legal_representatives=[guardian])
@@ -135,7 +135,7 @@ def test_guardian_email():
 
 
 @pytest.mark.django_db
-def test_guardian_phone():
+def test_legal_representative_phone():
     search = '030123456789'
     guardian = baker.make(Contact, phone_number='030123456789')
     baker.make(Contact, legal_representatives=[guardian])

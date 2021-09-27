@@ -38,7 +38,7 @@ def test_mail_add_to_study(client, user):
     assert study.participation_set.count() == 2
 
 
-def test_guardian_mail_add_to_study(client, user):
+def test_legal_representative_mail_add_to_study(client, user):
     client.force_login(user)
     study = baker.make(
         Study,

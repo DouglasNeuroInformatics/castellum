@@ -221,7 +221,7 @@ def test_contact_form_with_address_and_wrong_preferred_contact_method(user, full
 
 
 @pytest.mark.django_db
-def test_contact_form_with_guardians_add(user, full_data, contact):
+def test_contact_form_with_legal_representatives_add(user, full_data, contact):
     full_data.update({
         'pane': 'guardians',
         'guardians_add': [contact.subject.pk],
@@ -235,7 +235,7 @@ def test_contact_form_with_guardians_add(user, full_data, contact):
 
 
 @pytest.mark.django_db
-def test_contact_form_with_guardians_add_privacy_level(user, full_data, contact):
+def test_contact_form_with_legal_representatives_add_privacy_level(user, full_data, contact):
     full_data.update({
         'pane': 'guardians',
         'guardians_add': [contact.subject.pk],
@@ -251,7 +251,7 @@ def test_contact_form_with_guardians_add_privacy_level(user, full_data, contact)
 
 
 @pytest.mark.django_db
-def test_contact_form_with_guardians_removes_address(user, full_data):
+def test_contact_form_with_legal_representatives_removes_address(user, full_data):
     form = ContactForm(user=user, data=full_data)
     contact = form.save()
     assert contact.get_address()
@@ -268,7 +268,7 @@ def test_contact_form_with_guardians_removes_address(user, full_data):
 
 
 @pytest.mark.django_db
-def test_contact_form_with_guardians_remove(user, full_data, contact):
+def test_contact_form_with_legal_representatives_remove(user, full_data, contact):
     full_data.update({
         'pane': 'guardians',
         'guardians_remove': [contact.subject.pk],
@@ -283,7 +283,7 @@ def test_contact_form_with_guardians_remove(user, full_data, contact):
 
 
 @pytest.mark.django_db
-def test_contact_form_underage_without_guardian(user, full_data):
+def test_contact_form_underage_without_legal_representative(user, full_data):
     msg = 'Subjects under the age of 16 need a legal representative.'
     full_data.update({
         'date_of_birth': '{}-01-01'.format(datetime.date.today().year),
