@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-27 12:43+0200\n"
+"POT-Creation-Date: 2021-09-27 14:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: castellum/contacts/static/js/availability.js:26
-msgid "All week"
-msgstr "Ganze Woche"
-
-#: castellum/contacts/static/js/availability.js:35
-msgid "All day"
-msgstr "Ganzer Tag"
 
 #: castellum/contacts/static/js/guardians.js:26
 msgid "There is no way to contact this subject. Are you sure you want to save?"
@@ -43,3 +35,9 @@ msgstr ""
 #: castellum/static/js/autologout.js:20
 msgid "If you do nothing your session will expire"
 msgstr "Wenn Sie nichts tun wird ihre Sitzung ablaufen"
+
+#~ msgid "All week"
+#~ msgstr "Ganze Woche"
+
+#~ msgid "All day"
+#~ msgstr "Ganzer Tag"
