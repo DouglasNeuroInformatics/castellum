@@ -39,7 +39,7 @@ ContactForm = modelform_factory(ContactCreationRequest, fields=[
 ])
 
 
-def import_creationrequest(data):
+def import_creationrequest(data, source):
     subject_form = SubjectForm(data)
     contact_form = ContactForm(data)
 
@@ -47,6 +47,7 @@ def import_creationrequest(data):
     contact_valid = contact_form.is_valid()
 
     if subject_valid and contact_valid:
+        subject_form.instance.source = source
         subjectcreationrequest = subject_form.save()
         contact_form.instance.subject_id = subjectcreationrequest.pk
         contact_form.save()
@@ -55,7 +56,7 @@ def import_creationrequest(data):
         raise ValueError({**subject_form.errors, **contact_form.errors})
 
 
-def do_import(url, token):
+def do_import(url, token, source):
     r = requests.get(url, headers={'Authorization': 'token ' + token})
     r.raise_for_status()
 
@@ -64,7 +65,7 @@ def do_import(url, token):
 
     for item in r.json()['subjects']:
         try:
-            success.append(import_creationrequest(item))
+            success.append(import_creationrequest(item, source))
         except Exception as e:
             errors.append(e)
 
@@ -93,9 +94,10 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('url', help='URL to a list of subject creation requests (JSON)')
         parser.add_argument('--token', help='Authentication token')
+        parser.add_argument('--source', help='Data source')
 
     def handle(self, *args, **options):
-        success, errors = do_import(options['url'], options['token'])
+        success, errors = do_import(options['url'], options['token'], options['source'])
         if options['verbosity'] > 1:
             for error in errors:
                 self.stderr.write(str(error))
