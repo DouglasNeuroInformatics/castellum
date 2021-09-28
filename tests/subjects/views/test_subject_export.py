@@ -23,6 +23,7 @@ EXCLUDED = [
     'contacts.Contact.id',
     'contacts.Contact.last_name_phonetic',
     'contacts.Contact.subject_id',
+    'contacts.ContactCreationRequest.',
     'contacts.Street.',
     'contenttypes.',
     'geofilters.Geolocation.',
@@ -54,6 +55,7 @@ EXCLUDED = [
     'subjects.Subject.to_be_deleted_notified',
     'subjects.Subject.pseudonym',
     'subjects.Subject.slug',
+    'subjects.SubjectCreationRequest.',
 
     # already covered by other fields (e.g. backrefs)
     'subjects.SubjectNote.',
