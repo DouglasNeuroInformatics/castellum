@@ -5,7 +5,7 @@ subject database for scientific research developed at Max Planck institutes
 within the Max Planck Society (see [links](#links) for more info).
 
 Castellum docs are automatically deployed to GitLab pages (on changes in
-_master_ branch). They are available here:
+_main_ branch). They are available here:
 - English: https://castellum.mpib.berlin/documentation/en/
 - German: https://castellum.mpib.berlin/documentation/de/
 
