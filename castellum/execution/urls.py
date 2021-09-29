@@ -52,12 +52,12 @@ from .views import TagView
 
 app_name = 'execution'
 urlpatterns = [
-    path('calendar/feed/', AppointmentFeedForUser(), name='calendar-user-feed'),
+    path('calendar/feed/', AppointmentFeedForUser.as_view(), name='calendar-user-feed'),
     path('<int:study_pk>/', StudyDetailView.as_view(), name='study-detail'),
     path('<int:study_pk>/resolve/', ResolveView.as_view(), name='resolve'),
     path('<int:study_pk>/news/', NewsMailView.as_view(), name='news-mail'),
     path('<int:pk>/calendar/', CalendarView.as_view(), name='calendar'),
-    path('<int:pk>/calendar/feed/', AppointmentFeedForStudy(), name='calendar-feed'),
+    path('<int:pk>/calendar/feed/', AppointmentFeedForStudy.as_view(), name='calendar-feed'),
     path('<int:pk>/criteria/', ExclusionCriteriaView.as_view(), name='criteria'),
     path('<int:pk>/export/', ExportView.as_view(), name='export'),
     path('<int:pk>/progress/', ProgressView.as_view(), name='progress'),

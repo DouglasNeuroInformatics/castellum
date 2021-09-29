@@ -40,7 +40,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.studies.mixins import StudyMixin
 from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
-from castellum.utils.feeds import BaseICalFeed
+from castellum.utils.feeds import BaseCalendarFeed
 from castellum.utils.mail import MailContext
 
 from . import filter_queries
@@ -146,17 +146,17 @@ class BaseAttributesUpdateView(PermissionRequiredMixin, UpdateView):
         return context
 
 
-class BaseFollowUpFeed(BaseICalFeed):
+class BaseFollowUpFeed(BaseCalendarFeed):
     def item_title(self, item):
         return '{} - Follow-Up'.format(item.study.name)
 
-    def item_start_datetime(self, item):
+    def item_start(self, item):
         if item.followup_time:
             return datetime.datetime.combine(item.followup_date, item.followup_time)
         else:
             return item.followup_date
 
-    def item_updateddate(self, item):
+    def item_updated_at(self, item):
         return item.updated_at
 
     def item_link(self, item):
