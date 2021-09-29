@@ -54,7 +54,7 @@ EXCLUDED = [
     'subjects.SubjectNote.id',
     'subjects.Subject.to_be_deleted_notified',
     'subjects.Subject.pseudonym',
-    'subjects.Subject.slug',
+    'subjects.Subject.uuid',
     'subjects.SubjectCreationRequest.',
 
     # already covered by other fields (e.g. backrefs)
@@ -94,7 +94,7 @@ def test_subject_export_complete(client, user, participation):
     baker.make(ReliabilityEntry, subject=subject)
     subject.save()
 
-    response = client.get('/subjects/{}/export/'.format(subject.slug))
+    response = client.get('/subjects/{}/export/'.format(subject.uuid))
 
     expected = set(iter_fields())
     actual = {s.decode('utf-8') for s in re.findall(b'data-fieldname="([^"]*)"', response.content)}
@@ -112,7 +112,7 @@ def test_subject_export_complete(client, user, participation):
 def test_export_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/export/'.format(subject.slug)
+    url = '/subjects/{}/export/'.format(subject.uuid)
     response = client.get(url)
     assert response.status_code == 200
 
@@ -122,7 +122,7 @@ def test_export_requested(client, user, subject):
     subject.save()
 
     client.force_login(user)
-    url = '/subjects/{}/export/'.format(subject.slug)
+    url = '/subjects/{}/export/'.format(subject.uuid)
     response = client.get(url)
 
     assert response.status_code == 200
@@ -131,7 +131,7 @@ def test_export_requested(client, user, subject):
 
 def test_export_post(client, user, subject):
     client.force_login(user)
-    url = '/subjects/{}/export/'.format(subject.slug)
+    url = '/subjects/{}/export/'.format(subject.uuid)
 
     client.post(url)
     subject.refresh_from_db()

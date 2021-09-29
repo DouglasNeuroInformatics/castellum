@@ -13,7 +13,7 @@ from castellum.contacts.models import Contact
 def test_detail_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/'.format(subject.slug)
+    url = '/subjects/{}/'.format(subject.uuid)
     response = client.get(url)
     assert response.status_code == 200
 
@@ -28,7 +28,7 @@ def test_detail_200(request, client, user_fixture, subject):
 def test_data_protection_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/data-protection/'.format(subject.slug)
+    url = '/subjects/{}/data-protection/'.format(subject.uuid)
     response = client.get(url)
     assert response.status_code == 200
 
@@ -37,7 +37,7 @@ def test_data_protection_post_valid(client, user, subject):
     client.force_login(user)
     assert subject.privacy_level == 0
 
-    url = '/subjects/{}/data-protection/'.format(subject.slug)
+    url = '/subjects/{}/data-protection/'.format(subject.uuid)
     response = client.post(url, {
         'privacy_level': 1,
     })
@@ -50,7 +50,7 @@ def test_data_protection_post_valid(client, user, subject):
 def test_data_protection_post_invalid_privacy_level(client, user, subject):
     client.force_login(user)
 
-    url = '/subjects/{}/data-protection/'.format(subject.slug)
+    url = '/subjects/{}/data-protection/'.format(subject.uuid)
     response = client.post(url, {
         'privacy_level': 2,
     })
@@ -61,7 +61,7 @@ def test_data_protection_post_invalid_privacy_level(client, user, subject):
 def test_data_protection_post_invalid_to_be_deleted_consent(client, user, subject):
     client.force_login(user)
 
-    url = '/subjects/{}/data-protection/'.format(subject.slug)
+    url = '/subjects/{}/data-protection/'.format(subject.uuid)
     response = client.post(url, {
         'privacy_level': 1,
         'to_be_deleted': 'on',
@@ -81,7 +81,7 @@ def test_data_protection_post_invalid_to_be_deleted_consent(client, user, subjec
 def test_additional_info_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/additional-info/'.format(subject.slug)
+    url = '/subjects/{}/additional-info/'.format(subject.uuid)
     response = client.get(url)
     assert response.status_code == 200
 
@@ -96,7 +96,7 @@ def test_additional_info_200(request, client, user_fixture, subject):
 def test_contact_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/contact/'.format(subject.slug)
+    url = '/subjects/{}/contact/'.format(subject.uuid)
     response = client.get(url)
     assert response.status_code == 200
 
@@ -111,7 +111,7 @@ def test_contact_200(request, client, user_fixture, subject):
 def test_partcipation_list_200(request, client, user_fixture, participation):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/participations/'.format(participation.subject.slug)
+    url = '/subjects/{}/participations/'.format(participation.subject.uuid)
     response = client.get(url)
     assert response.status_code == 200
 
@@ -126,14 +126,14 @@ def test_partcipation_list_200(request, client, user_fixture, participation):
 def test_delete_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/delete/'.format(subject.slug)
+    url = '/subjects/{}/delete/'.format(subject.uuid)
     response = client.get(url)
     assert response.status_code == 200
 
 
 def test_delete_post(client, user, contact):
     client.force_login(user)
-    url = '/subjects/{}/delete/'.format(contact.subject.slug)
+    url = '/subjects/{}/delete/'.format(contact.subject.uuid)
     client.post(url)
     assert not Contact.objects.filter(pk=contact.pk).exists()
 
@@ -148,6 +148,6 @@ def test_delete_post(client, user, contact):
 def test_coverletter_200(request, client, user_fixture, subject):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    url = '/subjects/{}/coverletter.docx'.format(subject.slug)
+    url = '/subjects/{}/coverletter.docx'.format(subject.uuid)
     response = client.get(url)
     assert response.status_code == 200

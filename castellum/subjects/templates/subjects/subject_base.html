@@ -3,7 +3,7 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <li class="breadcrumb-item"><a href="{% url 'subjects:detail' subject.slug %}">{{ subject.contact.short_name }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'subjects:detail' subject.uuid %}">{{ subject.contact.short_name }}</a></li>
 {% endblock %}
 
 {% block header %}
@@ -14,7 +14,7 @@
     <nav class="d-print-none" aria-label="{% translate 'Tabs' %}">
         <ul class="nav nav-tabs justify-content-center mb-3">
             <li class="nav-item">
-                <a href="{% url 'subjects:detail' subject.slug %}" class="nav-link {% if view.tab == 'detail' %}active{% endif %}">
+                <a href="{% url 'subjects:detail' subject.uuid %}" class="nav-link {% if view.tab == 'detail' %}active{% endif %}">
                     {% if not subject.has_legal_basis %}
                         {% icon 'exclamation-triangle' label=_('No legal basis') %}
                     {% endif %}
@@ -25,7 +25,7 @@
             {% has_perm 'subjects.change_subject' user as can_change_subject %}
             {% if can_change_subject %}
                 <li class="nav-item">
-                    <a href="{% url 'subjects:contact' subject.slug %}" class="nav-link {% if view.tab == 'contact' %}active{% endif %}">
+                    <a href="{% url 'subjects:contact' subject.uuid %}" class="nav-link {% if view.tab == 'contact' %}active{% endif %}">
                         {% if not subject.contact.is_complete %}
                             {% icon 'exclamation-triangle' label=_('Missing values') %}
                         {% endif %}
@@ -33,10 +33,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'subjects:attributes' subject.slug %}" class="nav-link {% if view.tab == 'attributes' %}active{% endif %}">{% translate "Recruitment attributes" %}</a>
+                    <a href="{% url 'subjects:attributes' subject.uuid %}" class="nav-link {% if view.tab == 'attributes' %}active{% endif %}">{% translate "Recruitment attributes" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'subjects:data-protection' subject.slug %}" class="nav-link {% if view.tab == 'data-protection' %}active{% endif %}">
+                    <a href="{% url 'subjects:data-protection' subject.uuid %}" class="nav-link {% if view.tab == 'data-protection' %}active{% endif %}">
                         {% if subject.consent.document.is_deprecated or subject.has_consent_from_before_full_age %}
                             {% icon 'exclamation-triangle' label=_('Missing values') %}
                         {% endif %}
@@ -44,20 +44,20 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'subjects:additional-info' subject.slug %}" class="nav-link {% if view.tab == 'additional-info' %}active{% endif %}">
+                    <a href="{% url 'subjects:additional-info' subject.uuid %}" class="nav-link {% if view.tab == 'additional-info' %}active{% endif %}">
                         {% translate 'Additional Info' %}
                     </a>
                 </li>
             {% endif %}
 
             <li class="nav-item">
-                <a href="{% url 'subjects:participation-list' subject.slug %}" class="nav-link {% if view.tab == 'participations' %}active{% endif %}">{% translate "Study Participations" %}</a>
+                <a href="{% url 'subjects:participation-list' subject.uuid %}" class="nav-link {% if view.tab == 'participations' %}active{% endif %}">{% translate "Study Participations" %}</a>
             </li>
 
             {% has_perm 'subjects.export_subject' user as can_export_subject %}
             {% if can_export_subject %}
                 <li class="nav-item">
-                    <a href="{% url 'subjects:export' subject.slug %}" class="nav-link {% if view.tab == 'export' %}active{% endif %}">
+                    <a href="{% url 'subjects:export' subject.uuid %}" class="nav-link {% if view.tab == 'export' %}active{% endif %}">
                         {% if subject.export_requested %}
                             {% icon 'exclamation-triangle' label=_('Export requested') %}
                         {% endif %}
@@ -69,7 +69,7 @@
             {% has_perm 'subjects.delete_subject' user as can_delete_subject %}
             {% if can_delete_subject %}
                 <li class="nav-item">
-                    <a href="{% url 'subjects:delete' subject.slug %}" class="nav-link {% if view.tab == 'delete' %}active{% endif %}">
+                    <a href="{% url 'subjects:delete' subject.uuid %}" class="nav-link {% if view.tab == 'delete' %}active{% endif %}">
                         {% if subject.to_be_deleted %}
                             {% icon 'exclamation-triangle' label=_('To be deleted') %}
                         {% endif %}

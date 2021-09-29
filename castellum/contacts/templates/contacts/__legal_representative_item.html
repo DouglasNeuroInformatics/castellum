@@ -12,7 +12,7 @@
     </div>
     {% if legal_representative %}
         {% if view.context == 'subject_management' %}
-            <a href="{% url 'subjects:detail' legal_representative.slug %}" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
+            <a href="{% url 'subjects:detail' legal_representative.uuid %}" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
         {% elif view.context == 'recruitment' %}
             {% study_legal_representative_hash study legal_representative as hash %}
             <a href="{% url 'recruitment:legal-representative-contact-update' study.pk participation.pk hash %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>

@@ -171,7 +171,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 monitoring_logger.info('SubjectData update: {} by {}'.format(
                     contact.subject_id, self.request.user.pk
                 ))
-                return redirect('subjects:detail', slug=contact.subject.slug)
+                return redirect('subjects:detail', uuid=contact.subject.uuid)
             else:
                 messages.error(request, _(
                     'Both first and last name must be provided in order to create a subject!'
@@ -230,7 +230,7 @@ class SubjectPseudonymsView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
 class SubjectPseudonymView(SubjectMixin, PermissionRequiredMixin, View):
     def get_object(self):
-        return get_object_or_404(Subject, slug=self.kwargs['slug'])
+        return get_object_or_404(Subject, uuid=self.kwargs['uuid'])
 
     def has_permission(self):
         return (
@@ -320,7 +320,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         else:
             self.object.export_requested = datetime.date.today()
         self.object.save()
-        return redirect('subjects:export', self.object.slug)
+        return redirect('subjects:export', self.object.uuid)
 
 
 class SubjectUpdateMixin(SubjectMixin):
@@ -347,7 +347,7 @@ class ContactUpdateView(SubjectUpdateMixin, BaseContactUpdateView):
     context = 'subject_management'
 
     def get_object(self):
-        subject = get_object_or_404(Subject, slug=self.kwargs['slug'])
+        subject = get_object_or_404(Subject, uuid=self.kwargs['uuid'])
         return subject.contact
 
 
@@ -364,7 +364,7 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
 
     @cached_property
     def subject(self):
-        return get_object_or_404(Subject, slug=self.kwargs['slug'])
+        return get_object_or_404(Subject, uuid=self.kwargs['uuid'])
 
     def get_queryset(self):
         return (
@@ -383,7 +383,7 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
 
     @cached_property
     def subject(self):
-        return get_object_or_404(Subject, slug=self.kwargs['slug'])
+        return get_object_or_404(Subject, uuid=self.kwargs['uuid'])
 
     def get_queryset(self):
         perms = ['recruitment.recruit', 'studies.access_study']
@@ -436,7 +436,7 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
 
     @cached_property
     def subject(self):
-        return get_object_or_404(Subject, slug=self.kwargs['slug'])
+        return get_object_or_404(Subject, uuid=self.kwargs['uuid'])
 
     def get(self, request, *args, **kwargs):
         self.form = StudyFilterForm(self.request.GET)
@@ -488,11 +488,11 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 
     def get_object(self):
         return get_object_or_404(
-            Participation, pk=self.kwargs['pk'], subject__slug=self.kwargs['subject_slug']
+            Participation, pk=self.kwargs['pk'], subject__uuid=self.kwargs['subject_uuid']
         )
 
     def get_success_url(self):
-        return reverse('subjects:delete', args=[self.subject.slug])
+        return reverse('subjects:delete', args=[self.subject.uuid])
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()

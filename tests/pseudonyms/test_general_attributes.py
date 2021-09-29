@@ -25,7 +25,7 @@ def test_general_domain(client, user, conductor, study_in_execution_status, subj
 
     participation.delete()
 
-    url = '/subjects/{}/delete/'.format(subject.slug)
+    url = '/subjects/{}/delete/'.format(subject.uuid)
     client.force_login(user)
     response = client.get(url)
     assert b'This subject may still have data in general domains.' in response.content

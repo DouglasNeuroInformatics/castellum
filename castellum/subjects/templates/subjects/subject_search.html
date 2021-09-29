@@ -89,7 +89,7 @@
                                     <div class="table-list-item-actions">
                                         {% if can_view_subject %}
                                             {% if can_access %}
-                                                <a class="btn btn-outline-primary my-1" href="{% url 'subjects:detail' subject.slug %}">{% translate 'Details' %}</a>
+                                                <a class="btn btn-outline-primary my-1" href="{% url 'subjects:detail' subject.uuid %}">{% translate 'Details' %}</a>
                                             {% else %}
                                                 <button class="btn btn-outline-primary my-1" disabled>{% translate 'Details' %}</button>
                                             {% endif %}

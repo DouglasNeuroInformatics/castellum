@@ -2776,8 +2776,8 @@ msgstr ""
 "Rekrutierungseinwilligung haben, nicht beides."
 
 #: castellum/subjects/models.py:50
-msgid "Slug"
-msgstr "Slug"
+msgid "UUID"
+msgstr "UUID"
 
 #: castellum/subjects/models.py:54
 msgid "Does not want to participate in one time invitations"

@@ -25,7 +25,7 @@ from . import models
 
 
 class SubjectAdmin(admin.ModelAdmin):
-    search_fields = ['slug']
+    search_fields = ['uuid']
 
 
 class ConsentDocumentAdmin(admin.ModelAdmin):
