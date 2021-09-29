@@ -1,28 +1,7 @@
-# (c) 2018-2021
-#     MPIB <https://www.mpib-berlin.mpg.de/>,
-#     MPI-CBS <https://www.cbs.mpg.de/>,
-#     MPIP <http://www.psych.mpg.de/>
-#
-# This file is part of Castellum.
-#
-# Castellum is free software; you can redistribute it and/or modify it
-# under the terms of the GNU Affero General Public License as published
-# by the Free Software Foundation; either version 3 of the License, or
-# (at your option) any later version.
-#
-# Castellum is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Affero General Public License for more details.
-#
-# You should have received a copy of the GNU Affero General Public
-# License along with Castellum. If not, see
-# <http://www.gnu.org/licenses/>.
+"""Fetch SubjectCreationRequests from self registration.
 
-"""
-Depending on the service that is used to gather SubjectCreationRequests
-this script may not be flexible enough. In that case it can still serve
-as an example.
+Customize this script and copy it to ``castellum/subjects/management/commands/``,
+You can then execute it using ``django-admin fetch_from_self_registration``.
 
 See https://git.mpib-berlin.mpg.de/castellum/castellum_self_registration
 """
@@ -91,7 +70,7 @@ def do_cleanup_remote(token):
 
 
 class Command(BaseCommand):
-    help = 'Fetch SubjectCreationRequests from an external service.'
+    help = __doc__.split('\n')[0]
 
     def add_arguments(self, parser):
         parser.add_argument('url', help='URL to a list of subject creation requests (JSON)')
