@@ -17,7 +17,7 @@
                 {% for c in subject.contact.legal_representatives.all %}
                     {% has_privacy_level c.subject.privacy_level user as can_access %}
                     {% if can_access %}
-                        <a href="{% url 'subjects:detail' c.subject.slug %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
+                        <a href="{% url 'subjects:detail' c.subject.uuid %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
                     {% else %}
                         <span class="text-muted">{% translate '(access denied)' %}</span>{% if not forloop.last %},{% endif %}
                     {% endif %}
@@ -31,7 +31,7 @@
                 {% for c in subject.contact.legal_representative_of.all %}
                     {% has_privacy_level c.subject.privacy_level user as can_access %}
                     {% if can_access %}
-                        <a href="{% url 'subjects:detail' c.subject.slug %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
+                        <a href="{% url 'subjects:detail' c.subject.uuid %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
                     {% else %}
                         <span class="text-muted">{% translate '(access denied)' %}</span>{% if not forloop.last %},{% endif %}
                     {% endif %}
@@ -75,7 +75,7 @@
             {% if subject.has_legal_basis %}
                 {{ subject|display:'has_consent_or_waiting' }}
             {% else %}
-                {% url 'subjects:data-protection' subject.slug as url %}
+                {% url 'subjects:data-protection' subject.uuid as url %}
                 {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">set consent status</a>.{% endblocktranslate %}
             {% endif %}
         </dd>
@@ -88,7 +88,7 @@
             {% if subject.has_legal_basis %}
                 {{ subject|display:'has_study_consent' }}
             {% else %}
-                {% url 'subjects:add-to-study' subject.slug as url %}
+                {% url 'subjects:add-to-study' subject.uuid as url %}
                 {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">add to a study</a>.{% endblocktranslate %}
             {% endif %}
         </dd>
@@ -119,7 +119,7 @@
 
     {% if coverletter_exists %}
         <div class="d-print-none mb-3">
-            <a href="{% url 'subjects:coverletter' object.slug %}" class="btn btn-secondary">{% translate 'Download cover letter' %}</a>
+            <a href="{% url 'subjects:coverletter' object.uuid %}" class="btn btn-secondary">{% translate 'Download cover letter' %}</a>
         </div>
     {% endif %}
 {% endblock %}

@@ -61,7 +61,7 @@
                                 <div class="h4 d-inline">{% translate "General pseudonym domains" %}</div>
                             </div>
                             <div class="table-list-item-actions">
-                                <a class="btn btn-outline-primary my-1" href="{% url 'subjects:pseudonyms' subject.slug %}">{% translate 'Pseudonyms' %}</a>
+                                <a class="btn btn-outline-primary my-1" href="{% url 'subjects:pseudonyms' subject.uuid %}">{% translate 'Pseudonyms' %}</a>
                             </div>
                         </li>
                     {% endif  %}

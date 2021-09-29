@@ -54,7 +54,7 @@
                                     {% if can_view_study %}
                                         <a class="btn btn-outline-primary my-1" href="{% url 'studies:detail' participation.study.pk %}">{% translate 'Study details' %}</a>
                                     {% endif %}
-                                    <a class="btn btn-danger my-1" href="{% url 'subjects:participation-delete' subject.slug participation.pk %}">
+                                    <a class="btn btn-danger my-1" href="{% url 'subjects:participation-delete' subject.uuid participation.pk %}">
                                         {% translate 'Delete' %}
                                     </a>
                                 </div>
@@ -66,7 +66,7 @@
                                     <div class="h4 d-inline">{% translate "General pseudonym domains" %}</div>
                                 </div>
                                 <div class="table-list-item-actions">
-                                    <a class="btn btn-outline-primary my-1" href="{% url 'subjects:pseudonyms' subject.slug %}">{% translate 'Pseudonyms' %}</a>
+                                    <a class="btn btn-outline-primary my-1" href="{% url 'subjects:pseudonyms' subject.uuid %}">{% translate 'Pseudonyms' %}</a>
                                 </div>
                             </li>
                         {% endif  %}
@@ -83,7 +83,7 @@
             </label>
         {% endif %}
         <div class="d-print-none mb-3">
-            <a href="{% url 'subjects:detail' object.slug %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% translate 'Cancel' %}</a>
+            <a href="{% url 'subjects:detail' object.uuid %}" class="btn btn-outline-primary mb-1" data-js="cancel">{% translate 'Cancel' %}</a>
             <button class="btn btn-danger mb-1" {% if has_participations or has_pseudonym_in_general_domain %}disabled{% endif %} >{% translate 'Confirm' %}</button>
         </div>
     </form>

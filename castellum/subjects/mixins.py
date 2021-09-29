@@ -79,7 +79,7 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
 
             with MailContext('internal') as ctx:
                 if self.object.export_requested and not old.export_requested:
-                    rel = reverse('subjects:detail', args=[self.object.slug])
+                    rel = reverse('subjects:detail', args=[self.object.uuid])
                     url = self.request.build_absolute_uri(rel)
 
                     self.object.to_be_deleted_notified = ctx.send_mail(
@@ -93,7 +93,7 @@ class BaseDataProtectionUpdateView(PermissionRequiredMixin, UpdateView):
                     )
 
                 if self.object.to_be_deleted and not self.object.to_be_deleted_notified:
-                    rel = reverse('subjects:detail', args=[self.object.slug])
+                    rel = reverse('subjects:detail', args=[self.object.uuid])
                     url = self.request.build_absolute_uri(rel)
 
                     self.object.to_be_deleted_notified = ctx.send_mail(
