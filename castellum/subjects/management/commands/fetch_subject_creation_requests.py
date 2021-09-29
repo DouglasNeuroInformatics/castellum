@@ -23,6 +23,8 @@
 Depending on the service that is used to gather SubjectCreationRequests
 this script may not be flexible enough. In that case it can still serve
 as an example.
+
+See https://git.mpib-berlin.mpg.de/castellum/castellum_self_registration
 """
 
 from django.core.management.base import BaseCommand
