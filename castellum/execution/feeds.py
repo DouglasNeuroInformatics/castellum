@@ -19,12 +19,13 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.core.exceptions import PermissionDenied
-from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from castellum.appointments.mixins import BaseAppointmentFeed
+from castellum.castellum_auth.mixins import ParamAuthMixin
+from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 
 
@@ -45,30 +46,25 @@ class BaseExecutionAppointmentFeed(BaseAppointmentFeed):
         return self.request.build_absolute_uri(self.item_link(item))
 
 
-class AppointmentFeedForStudy(BaseExecutionAppointmentFeed):
-    def get_object(self, request, *args, **kwargs):
-        study = get_object_or_404(Study, pk=kwargs['pk'], status=Study.EXECUTION)
-        perms = ['recruitment.conduct_study', 'studies.access_study']
-        if not self.request.user.has_perms(perms, obj=study):
-            raise PermissionDenied
-        return study
+class AppointmentFeedForStudy(
+    ParamAuthMixin, StudyMixin, PermissionRequiredMixin, BaseExecutionAppointmentFeed
+):
+    permission_required = 'recruitment.conduct_study'
+    study_status = [Study.EXECUTION]
 
-    def items(self, study):
-        return super().items(study)\
-            .filter(session__study=study)\
+    def items(self):
+        return super().items()\
+            .filter(session__study=self.study)\
             .select_related('participation__subject', 'session__study')
 
 
-class AppointmentFeedForUser(BaseExecutionAppointmentFeed):
-    def get_object(self, request, *args, **kwargs):
-        return self.request.user
-
-    def items(self, user):
-        items = super().items(user)\
+class AppointmentFeedForUser(ParamAuthMixin, BaseExecutionAppointmentFeed):
+    def items(self):
+        items = super().items()\
             .filter(session__study__status=Study.EXECUTION)\
             .select_related('participation__subject', 'session__study')
 
         perms = ['recruitment.conduct_study', 'studies.access_study']
         for item in items:
-            if user.has_perms(perms, obj=item.session.study):
+            if self.request.user.has_perms(perms, obj=item.session.study):
                 yield item

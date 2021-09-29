@@ -33,7 +33,7 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment.mixins import ParticipationMixin
 from castellum.recruitment.models import Participation
 from castellum.utils import add_working_days
-from castellum.utils.feeds import BaseICalFeed
+from castellum.utils.feeds import BaseCalendarFeed
 from castellum.utils.mail import MailContext
 
 from .forms import AppointmentsForm
@@ -137,12 +137,12 @@ class BaseCalendarView(DetailView):
             return super().get(request, *args, **kwargs)
 
 
-class BaseAppointmentFeed(BaseICalFeed):
-    def items(self, obj):
+class BaseAppointmentFeed(BaseCalendarFeed):
+    def items(self):
         return Appointment.objects.filter(participation__status=Participation.INVITED)
 
-    def item_start_datetime(self, item):
+    def item_start(self, item):
         return item.start
 
-    def item_end_datetime(self, item):
+    def item_end(self, item):
         return item.end

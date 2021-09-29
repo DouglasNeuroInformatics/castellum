@@ -19,10 +19,12 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 
 from castellum.appointments.mixins import BaseAppointmentFeed
+from castellum.castellum_auth.mixins import ParamAuthMixin
+from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Resource
 from castellum.studies.models import Study
 
@@ -30,28 +32,21 @@ from .mixins import BaseFollowUpFeed
 from .models import Participation
 
 
-class FollowUpFeedForStudy(BaseFollowUpFeed):
-    def get_object(self, request, *args, **kwargs):
-        study = get_object_or_404(Study, pk=kwargs.get('study_pk'), status=Study.EXECUTION)
-        perms = ['recruitment.recruit', 'studies.access_study']
-        if not self.request.user.has_perms(perms, obj=study):
-            raise PermissionDenied
-        return study
+class FollowUpFeedForStudy(ParamAuthMixin, StudyMixin, PermissionRequiredMixin, BaseFollowUpFeed):
+    permission_required = 'recruitment.recruit'
+    study_status = [Study.EXECUTION]
 
-    def items(self, study):
+    def items(self):
         return Participation.objects\
-            .filter(study=study, followup_date__isnull=False)\
+            .filter(study=self.study, followup_date__isnull=False)\
             .order_by('-followup_date', '-followup_time')
 
 
-class FollowUpFeedForUser(BaseFollowUpFeed):
-    def get_object(self, request, *args, **kwargs):
-        return self.request.user
-
-    def items(self, user):
+class FollowUpFeedForUser(ParamAuthMixin, BaseFollowUpFeed):
+    def items(self):
         perms = ['recruitment.recruit', 'studies.access_study']
         for study in Study.objects.filter(status=Study.EXECUTION):
-            if not user.has_perms(perms, obj=study):
+            if not self.request.user.has_perms(perms, obj=study):
                 continue
             qs = Participation.objects\
                 .filter(study=study, followup_date__isnull=False)\
@@ -60,29 +55,26 @@ class FollowUpFeedForUser(BaseFollowUpFeed):
                 yield participation
 
 
-class AppointmentFeed(BaseAppointmentFeed):
-    def get_object(self, request, *args, **kwargs):
-        study = get_object_or_404(Study, pk=kwargs['pk'], status=Study.EXECUTION)
-        perms = ['appointments.change_appointment', 'studies.access_study']
-        if not self.request.user.has_perms(perms, obj=study):
-            raise PermissionDenied
-        return study
+class AppointmentFeed(ParamAuthMixin, StudyMixin, PermissionRequiredMixin, BaseAppointmentFeed):
+    permission_required = 'appointments.change_appointment'
+    study_status = [Study.EXECUTION]
 
-    def items(self, study):
-        return super().items(study).filter(session__study=study)
+    def items(self):
+        return super().items().filter(session__study=self.study)
 
-    def item_link(self, item):
+    def item_title(self, item):
+        return ''
+
+    def item_uid(self, item):
         # This is not really a usable link, but it is unique
         return '/appointments/{}/'.format(item.pk)
 
 
-class ResourceFeed(BaseAppointmentFeed):
-    def get_object(self, request, *args, **kwargs):
-        return get_object_or_404(Resource, pk=kwargs['pk'])
-
-    def items(self, resource):
+class ResourceFeed(ParamAuthMixin, BaseAppointmentFeed):
+    def items(self):
+        resource = get_object_or_404(Resource, pk=self.kwargs['pk'])
         return (
-            super().items(resource)
+            super().items()
             .filter(session__resource=resource)
             .exclude(session__study__status=Study.FINISHED)
         )
@@ -90,6 +82,6 @@ class ResourceFeed(BaseAppointmentFeed):
     def item_title(self, item):
         return item.session.study.name
 
-    def item_link(self, item):
+    def item_uid(self, item):
         # This is not really a usable link, but it is unique
         return '/appointments/{}/'.format(item.pk)
