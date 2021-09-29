@@ -143,6 +143,16 @@
 
                                     <dt>{% translate 'Last name' %}</dt>
                                     <dd>{{ form.cleaned_data.last_name }}</dd>
+
+                                    {% if form.cleaned_data.email %}
+                                        <dt>{% translate 'Email' %}</dt>
+                                        <dd>{{ form.cleaned_data.email }}</dd>
+                                    {% endif %}
+
+                                    {% if form.cleaned_data.phone_number %}
+                                        <dt>{% translate 'Phone number' %}</dt>
+                                        <dd>{{ form.cleaned_data.phone_number }}</dd>
+                                    {% endif %}
                                 </dl>
                             {% endif %}
                             {% bootstrap_field privacy_level_form.privacy_level %}
