@@ -1,5 +1,5 @@
 {% extends "subjects/maintenance_base.html" %}
-{% load i18n bootstrap4 auth %}
+{% load i18n bootstrap4 auth utils %}
 
 {% block title %}{% translate 'Subject creation requests' %} &middot; {{ block.super }}{% endblock %}
 
@@ -10,7 +10,19 @@
         {% for subjectcreationrequest in object_list %}
             <li class="table-list-item">
                 <div>
-                    {{ subjectcreationrequest.contact }} {{ subjectcreationrequest.contact.email }}
+                    {{ subjectcreationrequest.contact }}
+                    <div class="text-muted">
+                        {% if subjectcreationrequest.contact.email %}
+                            <span class="d-inline-block mr-2">{{ subjectcreationrequest.contact|display:'email' }}</span>
+                        {% endif %}
+                        {% if subjectcreationrequest.contact.date_of_birth %}
+                            <span class="d-inline-block mr-2">{{ subjectcreationrequest.contact|display:'date_of_birth' }}</span>
+                        {% endif %}
+                        {% if subjectcreationrequest.contact.gender %}
+                            <span class="d-inline-block mr-2">{{ subjectcreationrequest.contact|display:'gender' }}</span>
+                        {% endif %}
+                        <span class="d-inline-block">{{ subjectcreationrequest|display:'source' }}</span>
+                    </div>
                 </div>
                 <div class="table-list-item-actions">
                     <form method="POST" class="d-inline-block" action="{% url 'subjects:index' %}?from-request={{ subjectcreationrequest.pk }}" target="_blank">
