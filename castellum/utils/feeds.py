@@ -60,6 +60,8 @@ class BaseCalendarFeed(View):
                 event.add('url', self._item_link(item))
             if hasattr(self, 'item_description'):
                 event.add('description', self.item_description(item))
+            elif hasattr(self, 'item_link'):
+                event.add('description', self._item_link(item))
             cal.add_component(event)
 
         response = HttpResponse(content_type='text/calendar')
