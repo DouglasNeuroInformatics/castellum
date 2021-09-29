@@ -51,6 +51,7 @@ CASTELLUM_COVERLETTER_TEMPLATE = BASE_DIR / 'subjects' / 'fixtures' / 'demo_cove
 CASTELLUM_GDPR_NOTIFICATION_TO = ['data-protection@example.com']
 CASTELLUM_STUDY_STATUS_NOTIFICATION_TO = ['pr@example.com']
 CASTELLUM_PSEUDONYMS_API_ENABLED = True
+CASTELLUM_SUBJECT_CREATION_REQUESTS_ENABLED = True
 
 # Setup geofilters
 INSTALLED_APPS.append('castellum.geofilters')

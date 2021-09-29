@@ -158,5 +158,17 @@ CASTELLUM_ATTRIBUTE_EXPORTER = 'castellum.recruitment.attribute_exporters.JSONEx
 #   /execution/<study_id>/api/domains/<domain>/<pseudonym>/<target_domain>/
 CASTELLUM_PSEUDONYMS_API_ENABLED = False
 
+# If you want to allow external services to automatically add subjects
+# to the database you need to write a custom script. However, in most
+# cases it makes sense to add a review step (e.g. to detect duplicates).
+#
+# In that case, instead of creating instances of ``Subject`` and
+# ``Contact`` directly, it is recommended to use
+# ``SubjectCreationRequest`` and ``ContactCreationRequest`` instead.
+#
+# This option enables the related review UI (available from the
+# maintenance dashboard).
+CASTELLUM_SUBJECT_CREATION_REQUESTS_ENABLED = False
+
 SCHEDULER_URL = ''
 SCHEDULER_TOKEN = ''
