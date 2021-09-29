@@ -162,9 +162,6 @@ class BaseFollowUpFeed(BaseCalendarFeed):
     def item_link(self, item):
         return reverse('recruitment:contact', args=[item.study.pk, item.pk])
 
-    def item_description(self, item):
-        return self.request.build_absolute_uri(self.item_link(item))
-
 
 class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
     template_name = 'recruitment/mail.html'

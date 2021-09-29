@@ -42,9 +42,6 @@ class BaseExecutionAppointmentFeed(BaseAppointmentFeed):
             item.session.study.pk, item.participation.pk
         ])
 
-    def item_description(self, item):
-        return self.request.build_absolute_uri(self.item_link(item))
-
 
 class AppointmentFeedForStudy(
     ParamAuthMixin, StudyMixin, PermissionRequiredMixin, BaseExecutionAppointmentFeed
