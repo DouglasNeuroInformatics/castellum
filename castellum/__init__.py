@@ -20,3 +20,4 @@
 # <http://www.gnu.org/licenses/>.
 
 __version__ = '0.66.0'
+__release_date__ = '2021-09-28'
