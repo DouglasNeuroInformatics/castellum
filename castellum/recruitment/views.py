@@ -76,7 +76,7 @@ from .mixins import get_recruitable
 from .models import MailBatch
 from .models import Participation
 from .models.attributes import get_description_by_statistics_rank
-from .templatetags.recruitment import study_guardian_hash
+from .templatetags.recruitment import study_legal_representative_hash
 
 logger = logging.getLogger(__name__)
 
@@ -372,7 +372,7 @@ class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, DetailView)
                 mail_subject=self.study.mail_subject
             ),
             self.study.mail_body.replace('{name}', contact.full_name),
-            contact.own_or_guardian_emails,
+            contact.own_or_legal_representative_emails,
             reply_to=[self.study.email],
             recipients_string=contact.email_recipients_string,
         )
@@ -553,7 +553,7 @@ class AdditionalInfoUpdateView(RecruitmentUpdateMixin, BaseAdditionalInfoUpdateV
         return self.participation.subject
 
 
-class GuardianContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView):
+class LegalRepresentativeContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView):
     base_template = 'recruitment/base.html'
     study_status = [Study.EXECUTION]
 
@@ -576,9 +576,10 @@ class GuardianContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView)
         if not self.request.user.has_privacy_level(participation.subject.privacy_level):
             return self.handle_no_permission()
 
-        for guardian in participation.subject.contact.guardians.all():
-            if study_guardian_hash(self.study, guardian.subject) == self.kwargs['hash']:
-                return guardian
+        for legal_representative in participation.subject.contact.legal_representatives.all():
+            h = study_legal_representative_hash(self.study, legal_representative.subject)
+            if h == self.kwargs['hash']:
+                return legal_representative
 
         raise Http404
 

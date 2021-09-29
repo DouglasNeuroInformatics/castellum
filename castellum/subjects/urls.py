@@ -26,7 +26,7 @@ from .views import AttributesUpdateView
 from .views import ContactUpdateView
 from .views import CoverletterView
 from .views import DataProtectionUpdateView
-from .views import GuardianSearchView
+from .views import LegalRepresentativeSearchView
 from .views import MaintenanceAttributesView
 from .views import MaintenanceConsentView
 from .views import MaintenanceContactView
@@ -48,7 +48,11 @@ from .views import SubjectSearchView
 app_name = 'subjects'
 urlpatterns = [
     path('', SubjectSearchView.as_view(), name='index'),
-    path('guardians/', GuardianSearchView.as_view(), name='guardian-search'),
+    path(
+        'representatives/',
+        LegalRepresentativeSearchView.as_view(),
+        name='legal-representative-search',
+    ),
     path(
         'maintenance/attributes/',
         MaintenanceAttributesView.as_view(),

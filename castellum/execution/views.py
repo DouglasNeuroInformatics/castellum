@@ -58,7 +58,7 @@ from castellum.recruitment.models import ExecutionTag
 from castellum.recruitment.models import NewsMailBatch
 from castellum.recruitment.models import Participation
 from castellum.recruitment.models import ReliabilityEntry
-from castellum.recruitment.templatetags.recruitment import study_guardian_hash
+from castellum.recruitment.templatetags.recruitment import study_legal_representative_hash
 from castellum.studies.mixins import StudyMixin
 from castellum.studies.models import Study
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
@@ -345,7 +345,7 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
         return ctx.send_separate_mails(
             subject,
             body.replace('{name}', contact.full_name),
-            contact.own_or_guardian_emails,
+            contact.own_or_legal_representative_emails,
             reply_to=[self.study.email],
             recipients_string=contact.email_recipients_string,
         )
@@ -614,7 +614,7 @@ class TagView(StudyMixin, PermissionRequiredMixin, TemplateView):
             return redirect('execution:execution-tags', self.study.pk)
 
 
-class GuardianContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView):
+class LegalRepresentativeContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView):
     base_template = 'execution/base.html'
     study_status = [Study.EXECUTION]
 
@@ -640,8 +640,9 @@ class GuardianContactUpdateView(StudyMixin, SubjectMixin, BaseContactUpdateView)
         if not self.request.user.has_privacy_level(participation.subject.privacy_level):
             return self.handle_no_permission()
 
-        for guardian in participation.subject.contact.guardians.all():
-            if study_guardian_hash(self.study, guardian.subject) == self.kwargs['hash']:
-                return guardian
+        for legal_representative in participation.subject.contact.legal_representatives.all():
+            h = study_legal_representative_hash(self.study, legal_representative.subject)
+            if h == self.kwargs['hash']:
+                return legal_representative
 
         raise Http404

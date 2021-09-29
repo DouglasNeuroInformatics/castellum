@@ -40,7 +40,7 @@ def send_mail_to_subject(ctx, study, appointment):
     return ctx.send_separate_mails(
         settings.CASTELLUM_APPOINTMENT_MAIL_SUBJECT,
         get_reminder_body(contact.full_name, appointment.session, appointment.start),
-        contact.own_or_guardian_emails,
+        contact.own_or_legal_representative_emails,
         reply_to=[study.email],
         recipients_string=contact.email_recipients_string,
     )

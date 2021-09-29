@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div data-js="legal-representative-use-auto" data-name="{{ name }}" data-pk="{{ pk }}"></div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/legal_representatives.js' %}"></script>
+{% endblock %}

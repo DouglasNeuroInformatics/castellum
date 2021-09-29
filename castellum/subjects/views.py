@@ -254,18 +254,16 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     permission_required = 'subjects.delete_subject'
     tab = 'delete'
 
-    def is_last_guardian(self):
-        if self.object.contact.guardian_of.exists():
-            for ward in Contact.objects.filter(guardians=self.object.contact):
-                if ward.guardians.count() <= 1:
-                    return True
-        else:
-            return False
+    def is_last_legal_representative(self):
+        for ward in self.object.contact.legal_representative_of.all():
+            if ward.legal_representatives.count() <= 1:
+                return True
+        return False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['has_participations'] = self.object.participation_set.exists()
-        context['is_last_guardian'] = self.is_last_guardian()
+        context['is_last_legal_representative'] = self.is_last_legal_representative()
         context['has_pseudonym_in_general_domain'] = (
             self.subject.pseudonym_set.filter(domain__object_id=None).exists()
         )
@@ -505,8 +503,8 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 
 
 @method_decorator(sensitive_post_parameters(), 'dispatch')
-class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
-    template_name = 'subjects/guardian_search.html'
+class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
+    template_name = 'subjects/legal_representative_search.html'
     permission_required = 'subjects.view_subject'
     nochrome = True
 
@@ -540,7 +538,7 @@ class GuardianSearchView(PermissionRequiredMixin, SubjectSearchView):
             monitoring_logger.info('SubjectData update: {} by {}'.format(
                 contact.subject_id, self.request.user.pk
             ))
-            return TemplateResponse(self.request, 'subjects/guardian_success.html', {
+            return TemplateResponse(self.request, 'subjects/legal_representative_success.html', {
                 'name': contact.full_name,
                 'pk': contact.subject.pk,
             })
@@ -589,19 +587,19 @@ class MaintenanceContactView(BaseMaintenanceView):
     def get_queryset(self):
         contacts = Contact.objects\
             .alias(
-                guardian_count=models.Count('guardians'),
-                guardian_of_count=models.Count('guardian_of'),
+                legal_representative_count=models.Count('legal_representatives'),
+                legal_representative_of_count=models.Count('legal_representative_of'),
             )\
             .filter(
                 models.Q(
                     gender='',
                 ) | models.Q(
-                    guardian_count=0,
+                    legal_representative_count=0,
                     address=None,
                     email='',
                     phone_number='',
                 ) | models.Q(
-                    guardian_of_count=0,
+                    legal_representative_of_count=0,
                     date_of_birth=None,
                 )
             )\

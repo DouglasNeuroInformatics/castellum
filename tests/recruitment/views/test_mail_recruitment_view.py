@@ -38,7 +38,7 @@ def test_mail_add_to_study(client, user):
     assert study.participation_set.count() == 2
 
 
-def test_guardian_mail_add_to_study(client, user):
+def test_legal_representative_mail_add_to_study(client, user):
     client.force_login(user)
     study = baker.make(
         Study,
@@ -47,7 +47,7 @@ def test_guardian_mail_add_to_study(client, user):
         mail_body="some body",
     )
     contact1 = baker.make(Contact, email="example1@example.com")
-    contact2 = baker.make(Contact, guardians=[contact1])
+    contact2 = baker.make(Contact, legal_representatives=[contact1])
     baker.make(Consent, subject=contact2.subject, status=Consent.CONFIRMED)
 
     study.members.add(user)

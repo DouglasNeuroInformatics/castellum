@@ -1,0 +1,26 @@
+{% load i18n recruitment %}
+
+<div class="rounded-lg border bg-light p-3 mb-2 d-flex align-items-center {% if removed %}text-muted{% endif %}" data-js="legal-representative-wrapper">
+    <div class="flex-grow-1">
+        <div>{% translate 'Legal representative' %}</div>
+        <label for="id_{{ name }}_{{ pk }}" class="h5 mb-0">{{ label }}</label>
+        {% if name == 'legal_representatives_remove' %}
+            <input id="id_{{ name }}_{{ pk }}" type="hidden" name="{{ name }}" value="{{ pk }}" {% if not removed %}disabled{% endif %}>
+        {% else %}
+            <input id="id_{{ name }}_{{ pk }}" type="hidden" name="{{ name }}" value="{{ pk }}" {% if removed %}disabled{% endif %}>
+        {% endif %}
+    </div>
+    {% if legal_representative %}
+        {% if view.context == 'subject_management' %}
+            <a href="{% url 'subjects:detail' legal_representative.slug %}" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
+        {% elif view.context == 'recruitment' %}
+            {% study_legal_representative_hash study legal_representative as hash %}
+            <a href="{% url 'recruitment:legal-representative-contact-update' study.pk participation.pk hash %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
+        {% elif view.context == 'execution' %}
+            {% study_legal_representative_hash study legal_representative as hash %}
+            <a href="{% url 'execution:legal-representative-contact-update' study.pk participation.pk hash %}" target="_blank" class="btn btn-sm btn-outline-primary mx-1">{% translate 'Details' %}</a>
+        {% endif %}
+    {% endif %}
+    <button type="button" class="btn btn-sm btn-danger" {% if removed %}hidden{% endif %} data-js="legal-representative-remove">{% translate 'Remove' %}</button>
+    <button type="button" class="btn btn-sm btn-outline-danger" {% if not removed %}hidden{% endif %} data-js="legal-representative-restore">{% translate 'Restore' %}</button>
+</div>

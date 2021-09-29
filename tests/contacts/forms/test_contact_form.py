@@ -221,24 +221,24 @@ def test_contact_form_with_address_and_wrong_preferred_contact_method(user, full
 
 
 @pytest.mark.django_db
-def test_contact_form_with_guardians_add(user, full_data, contact):
+def test_contact_form_with_legal_representatives_add(user, full_data, contact):
     full_data.update({
-        'guardians_pane': 'guardians',
-        'guardians_add': [contact.subject.pk],
+        'pane': 'legal_representatives',
+        'legal_representatives_add': [contact.subject.pk],
     })
 
     form = ContactForm(user=user, data=full_data)
 
     assert form.is_valid() is True
-    assert form.cleaned_data['guardians_add'].get() == contact.subject
+    assert form.cleaned_data['legal_representatives_add'].get() == contact.subject
     assert form.cleaned_data['email'] == ''
 
 
 @pytest.mark.django_db
-def test_contact_form_with_guardians_add_privacy_level(user, full_data, contact):
+def test_contact_form_with_legal_representatives_add_privacy_level(user, full_data, contact):
     full_data.update({
-        'guardians_pane': 'guardians',
-        'guardians_add': [contact.subject.pk],
+        'pane': 'legal_representatives',
+        'legal_representatives_add': [contact.subject.pk],
     })
 
     contact.subject.privacy_level = 2
@@ -251,15 +251,15 @@ def test_contact_form_with_guardians_add_privacy_level(user, full_data, contact)
 
 
 @pytest.mark.django_db
-def test_contact_form_with_guardians_removes_address(user, full_data):
+def test_contact_form_with_legal_representatives_removes_address(user, full_data):
     form = ContactForm(user=user, data=full_data)
     contact = form.save()
     assert contact.get_address()
 
     data = {
         **full_data,
-        'guardians_pane': 'guardians',
-        'guardians_add': [contact.subject.pk],
+        'pane': 'legal_representatives',
+        'legal_representatives_add': [contact.subject.pk],
     }
 
     form = ContactForm(user=user, instance=contact, data=data)
@@ -268,22 +268,22 @@ def test_contact_form_with_guardians_removes_address(user, full_data):
 
 
 @pytest.mark.django_db
-def test_contact_form_with_guardians_remove(user, full_data, contact):
+def test_contact_form_with_legal_representatives_remove(user, full_data, contact):
     full_data.update({
-        'guardians_pane': 'guardians',
-        'guardians_remove': [contact.subject.pk],
+        'pane': 'legal_representatives',
+        'legal_representatives_remove': [contact.subject.pk],
     })
 
-    contact.guardians.add(contact)
+    contact.legal_representatives.add(contact)
 
     form = ContactForm(user=user, data=full_data, instance=contact)
 
     assert form.is_valid() is True
-    assert form.cleaned_data['guardians_remove'].get() == contact.subject
+    assert form.cleaned_data['legal_representatives_remove'].get() == contact.subject
 
 
 @pytest.mark.django_db
-def test_contact_form_underage_without_guardian(user, full_data):
+def test_contact_form_underage_without_legal_representative(user, full_data):
     msg = 'Subjects under the age of 16 need a legal representative.'
     full_data.update({
         'date_of_birth': '{}-01-01'.format(datetime.date.today().year),

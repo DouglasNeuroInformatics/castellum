@@ -32,7 +32,7 @@ from .views import CalendarView
 from .views import ContactUpdateView
 from .views import ContactView
 from .views import DataProtectionUpdateView
-from .views import GuardianContactUpdateView
+from .views import LegalRepresentativeContactUpdateView
 from .views import MailRecruitmentCleanupView
 from .views import MailRecruitmentRemindView
 from .views import MailRecruitmentView
@@ -96,8 +96,8 @@ urlpatterns = [
         name='additional-info-update',
     ),
     path(
-        '<int:study_pk>/<int:participation_pk>/guardians/<hash>/update-contact/',
-        GuardianContactUpdateView.as_view(),
-        name='guardian-contact-update',
+        '<int:study_pk>/<int:participation_pk>/representatives/<hash>/update-contact/',
+        LegalRepresentativeContactUpdateView.as_view(),
+        name='legal-representative-contact-update',
     ),
 ]

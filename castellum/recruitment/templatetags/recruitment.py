@@ -27,7 +27,7 @@ register = template.Library()
 
 
 @register.simple_tag
-def study_guardian_hash(study, subject):
+def study_legal_representative_hash(study, subject):
     m = hashlib.sha256()
     m.update(str(study.pk).encode('ascii'))
     m.update(subject.slug.encode('ascii'))

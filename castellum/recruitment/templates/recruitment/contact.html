@@ -14,7 +14,7 @@
                 {% translate 'Subject has missing recruitment attributes. Please contact to check if they are suitable.' %}
             </div>
         {% endif %}
-        {% if subject.contact.has_guardian and study.geo_filter %}
+        {% if subject.contact.has_legal_representative and study.geo_filter %}
             <div class="alert alert-warning" role="alert">
                 {% translate 'This study uses a geographic filter. Please verify that the subject lives at the same address as one of their legal representatives.' %}
             </div>

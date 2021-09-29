@@ -11,10 +11,10 @@
     {% endif %}
 
     <dl class="row">
-        {% if subject.contact.guardians.exists %}
-            <dt class="col-sm-6">{{ subject.contact|verbose_name:'guardians' }}</dt>
+        {% if subject.contact.has_legal_representative %}
+            <dt class="col-sm-6">{{ subject.contact|verbose_name:'legal_representatives' }}</dt>
             <dd class="col-sm-6">
-                {% for c in subject.contact.guardians.all %}
+                {% for c in subject.contact.legal_representatives.all %}
                     {% has_privacy_level c.subject.privacy_level user as can_access %}
                     {% if can_access %}
                         <a href="{% url 'subjects:detail' c.subject.slug %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
@@ -25,10 +25,10 @@
             </dd>
         {% endif %}
 
-        {% if subject.contact.guardian_of.exists %}
+        {% if subject.contact.is_legal_representative %}
             <dt class="col-sm-6">{% translate 'Legal representative of' %}</dt>
             <dd class="col-sm-6">
-                {% for c in subject.contact.guardian_of.all %}
+                {% for c in subject.contact.legal_representative_of.all %}
                     {% has_privacy_level c.subject.privacy_level user as can_access %}
                     {% if can_access %}
                         <a href="{% url 'subjects:detail' c.subject.slug %}">{{ c }}</a>{% if not forloop.last %},{% endif %}
@@ -99,7 +99,7 @@
         </dt>
         <dd class="col-sm-6">
             {% if subject.has_legal_basis %}
-                {{ subject.contact|display:'is_guardian' }}
+                {{ subject.contact|display:'is_legal_representative' }}
             {% else %}
                 {% url 'subjects:index' as url %}
                 {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">find or create a subject</a> and set this one as their legal representative.{% endblocktranslate %}

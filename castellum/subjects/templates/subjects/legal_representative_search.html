@@ -13,7 +13,7 @@
         {% bootstrap_field form.search %}
 
         <div class="mb-4">
-            <button type="button" class="btn btn-outline-primary" data-js="guardian-dismiss">{% translate "Dismiss" %}</button>
+            <button type="button" class="btn btn-outline-primary" data-js="legal-representative-dismiss">{% translate "Dismiss" %}</button>
             <button class="btn btn-primary" >{% translate 'Submit' %}</button>
         </div>
     </form>
@@ -81,7 +81,7 @@
                                     </div>
                                     <div class="table-list-item-actions">
                                         {% if can_access %}
-                                            <button type="button" class="btn btn-primary my-1" data-js="guardian-use" data-name="{{ contact.full_name }}" data-pk="{{ contact.subject.pk }}">{% translate 'Set up as legal representative' %}</button>
+                                            <button type="button" class="btn btn-primary my-1" data-js="legal-representative-use" data-name="{{ contact.full_name }}" data-pk="{{ contact.subject.pk }}">{% translate 'Set up as legal representative' %}</button>
                                         {% else %}
                                             <button type="button" class="btn btn-primary my-1" disabled>{% translate 'Set up as legal representative' %}</button>
                                         {% endif %}
@@ -123,5 +123,5 @@
 {% endblock %}
 
 {% block extra_scripts %}
-    <script src="{% static 'js/guardians.js' %}"></script>
+    <script src="{% static 'js/legal_representatives.js' %}"></script>
 {% endblock %}

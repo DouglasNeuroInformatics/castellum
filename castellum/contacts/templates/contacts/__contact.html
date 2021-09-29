@@ -9,8 +9,8 @@
         {% endwith %}
     </dd>
 
-    {# also show not_available_until if it should have been set on guardians #}
-    {% if not subject.is_available and subject.contact.guardians.exists %}
+    {# also show not_available_until if it should have been set on legal representatives #}
+    {% if not subject.is_available and subject.contact.has_legal_representative %}
         <dt class="col-sm-6">{% translate "Currently available" %}</dt>
         <dd class="col-sm-6">
             {% translate "No" %}
@@ -22,11 +22,11 @@
     {% endif %}
 </dl>
 
-{% for guardian in subject.contact.guardians.all %}
+{% for legal_representative in subject.contact.legal_representatives.all %}
     <hr>
-    {% has_privacy_level guardian.subject.privacy_level user as can_access %}
+    {% has_privacy_level legal_representative.subject.privacy_level user as can_access %}
     {% if can_access %}
-        {% include 'contacts/__contact_detail.html' with contact=guardian guardian=True %}
+        {% include 'contacts/__contact_detail.html' with contact=legal_representative legal_representative=True %}
     {% else %}
         <dl class="row">
             <dt class="col-sm-6 text-muted">{% translate 'Legal representative' %}</dt>
