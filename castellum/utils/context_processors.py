@@ -21,9 +21,13 @@
 
 from django.conf import settings
 
+import castellum
+
 
 def get_settings(request):
     return {
+        'CASTELLUM_VERSION': castellum.__version__,
+        'CASTELLUM_RELEASE_DATE': castellum.__release_date__,
         'CASTELLUM_ENABLE_STUDY_EXPORT': settings.CASTELLUM_ENABLE_STUDY_EXPORT,
         'CASTELLUM_STUDY_STATUS_NOTIFICATION_TO': settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO,
         'CASTELLUM_GENERAL_EXCLUSION_CRITERIA': settings.CASTELLUM_GENERAL_EXCLUSION_CRITERIA,

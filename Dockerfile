@@ -22,7 +22,9 @@ RUN apk update && echo $BUILDPKGS $RUNTIMEPKGS && apk add $BUILDPKGS $RUNTIMEPKG
 
 WORKDIR code/
 
+RUN mkdir castellum
 COPY setup.cfg setup.py LICENSE ./
+COPY castellum/__init__.py castellum/
 COPY --from=0 node_modules/ node_modules
 
 RUN pip3 install -e . && \
