@@ -187,6 +187,8 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
     permission_required = 'subjects.view_subject'
     template_name = 'subjects/subject_detail.html'
     tab = 'detail'
+    slug_field = 'uuid'
+    slug_url_kwarg = 'uuid'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -253,6 +255,8 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
     model = Subject
     permission_required = 'subjects.delete_subject'
     tab = 'delete'
+    slug_field = 'uuid'
+    slug_url_kwarg = 'uuid'
 
     def is_last_legal_representative(self):
         for ward in self.object.contact.legal_representative_of.all():
@@ -286,6 +290,8 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
     template_name = 'subjects/subject_export.html'
     permission_required = 'subjects.export_subject'
     tab = 'export'
+    slug_field = 'uuid'
+    slug_url_kwarg = 'uuid'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -336,10 +342,14 @@ class SubjectUpdateMixin(SubjectMixin):
 
 class DataProtectionUpdateView(SubjectUpdateMixin, BaseDataProtectionUpdateView):
     tab = 'data-protection'
+    slug_field = 'uuid'
+    slug_url_kwarg = 'uuid'
 
 
 class AdditionalInfoUpdateView(SubjectUpdateMixin, BaseAdditionalInfoUpdateView):
     tab = 'additional-info'
+    slug_field = 'uuid'
+    slug_url_kwarg = 'uuid'
 
 
 class ContactUpdateView(SubjectUpdateMixin, BaseContactUpdateView):
@@ -353,6 +363,8 @@ class ContactUpdateView(SubjectUpdateMixin, BaseContactUpdateView):
 
 class AttributesUpdateView(SubjectUpdateMixin, BaseAttributesUpdateView):
     tab = 'attributes'
+    slug_field = 'uuid'
+    slug_url_kwarg = 'uuid'
 
 
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
@@ -712,6 +724,8 @@ class MaintenanceNotesView(BaseMaintenanceView):
 class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, View):
     model = Subject
     permission_required = 'subjects.view_subject'
+    slug_field = 'uuid'
+    slug_url_kwarg = 'uuid'
 
     def get_data(self):
         contact = self.object.contact
