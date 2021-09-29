@@ -136,6 +136,28 @@
                             {% csrf_token %}
                             {% if subjectcreationrequest %}
                                 <p class="alert alert-info">{% blocktranslate with name=subjectcreationrequest.contact.full_name %}Information will be taken from subject creation request "{{ name }}".{% endblocktranslate %}</p>
+                                <dl>
+                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'title' }}</dt>
+                                    <dd>{{ subjectcreationrequest.contact|display:'title' }}</dd>
+
+                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'first_name' }}</dt>
+                                    <dd>{{ subjectcreationrequest.contact|display:'first_name' }}</dd>
+
+                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'last_name' }}</dt>
+                                    <dd>{{ subjectcreationrequest.contact|display:'last_name' }}</dd>
+
+                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'gender' }}</dt>
+                                    <dd>{{ subjectcreationrequest.contact|display:'gender' }}</dd>
+
+                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'date_of_birth' }}</dt>
+                                    <dd>{{ subjectcreationrequest.contact|display:'date_of_birth' }}</dd>
+
+                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'email' }}</dt>
+                                    <dd>{{ subjectcreationrequest.contact|display:'email' }}</dd>
+
+                                    <dt>{{ subjectcreationrequest|verbose_name:'source' }}</dt>
+                                    <dd>{{ subjectcreationrequest|display:'source' }}</dd>
+                                </dl>
                             {% else %}
                                 <dl>
                                     <dt>{% translate 'First name' %}</dt>
