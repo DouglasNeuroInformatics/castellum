@@ -4,6 +4,10 @@
 {% block title %}{% translate "Subjects" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    {% if subjectcreationrequest %}
+        {% url 'subjects:maintenance-subjectcreationrequest-delete' subjectcreationrequest.pk as discard_url %}
+        <p class="alert alert-info mb-5">{% blocktranslate with name=subjectcreationrequest.contact.full_name discard_url=discard_url %}Please make sure that {{ name }} does not yet exist in the database. If you find duplicates, you can also <a href="{{ discard_url }}">discard this request</a>.{% endblocktranslate %}</p>
+    {% endif %}
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
@@ -135,7 +139,6 @@
                             {% endfor %}
                             {% csrf_token %}
                             {% if subjectcreationrequest %}
-                                <p class="alert alert-info">{% blocktranslate with name=subjectcreationrequest.contact.full_name %}Information will be taken from subject creation request "{{ name }}".{% endblocktranslate %}</p>
                                 <dl>
                                     <dt>{{ subjectcreationrequest.contact|verbose_name:'title' }}</dt>
                                     <dd>{{ subjectcreationrequest.contact|display:'title' }}</dd>

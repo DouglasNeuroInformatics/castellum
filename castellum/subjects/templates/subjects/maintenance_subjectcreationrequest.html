@@ -18,7 +18,6 @@
                         <input type="hidden" name="search" value="{{ subjectcreationrequest.contact.first_name }} {{ subjectcreationrequest.contact.last_name }}">
                         <button class="btn btn-outline-primary my-1">{% translate 'Submit' %}</button>
                     </form>
-                    <a class="btn btn-outline-danger my-1" href="{% url 'subjects:maintenance-subjectcreationrequest-delete' subjectcreationrequest.pk %}">{% translate 'Discard' %}</a>
                 </div>
             </li>
         {% empty %}
