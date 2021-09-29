@@ -134,7 +134,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
 
         form = kwargs.get('form')
         if form and form.is_valid():
-            context['matches'] = self.get_matches(form.cleaned_data['search'])
+            context['matches'] = list(self.get_matches(form.cleaned_data['search']))
 
             if 'privacy_level_form' not in context:
                 context['privacy_level_form'] = SubjectPrivacyLevelForm(user=self.request.user)
