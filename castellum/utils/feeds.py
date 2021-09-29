@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.utils import timezone
 from django.views.generic import View
 
@@ -29,6 +30,20 @@ from icalendar import Event
 
 class BaseCalendarFeed(View):
     def get(self, request, **kwargs):
+        if request.GET.get('format') == 'json':
+            return self.get_json(request, **kwargs)
+        else:
+            return self.get_ics(request, **kwargs)
+
+    def get_json(self, request, **kwargs):
+        return JsonResponse({'events': [{
+            'title': self.item_title(item),
+            'start': self.item_start(item),
+            'end': self.item_end(item) if hasattr(self, 'item_end') else None,
+            'url': self._item_link(item) if hasattr(self, 'item_link') else None,
+        } for item in self.items()]})
+
+    def get_ics(self, request, **kwargs):
         cal = Calendar()
         cal.add('version', '2.0')
         cal.add('prodid', 'castellum')
