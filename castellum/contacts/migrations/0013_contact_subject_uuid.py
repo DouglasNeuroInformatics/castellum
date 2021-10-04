@@ -28,4 +28,9 @@ class Migration(migrations.Migration):
             field=models.UUIDField(blank=True, editable=False, null=True),
         ),
         migrations.RunPython(migrate_data),
+        migrations.AlterField(
+            model_name='contact',
+            name='subject_uuid',
+            field=models.UUIDField(default=None, editable=False, unique=True),
+        ),
     ]
