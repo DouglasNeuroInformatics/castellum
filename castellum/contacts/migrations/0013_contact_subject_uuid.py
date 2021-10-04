@@ -33,4 +33,8 @@ class Migration(migrations.Migration):
             name='subject_uuid',
             field=models.UUIDField(default=None, editable=False, unique=True),
         ),
+        migrations.RemoveField(
+            model_name='contact',
+            name='subject_id',
+        ),
     ]

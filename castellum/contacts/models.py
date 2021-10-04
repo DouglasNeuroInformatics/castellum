@@ -130,8 +130,6 @@ class BaseContact(TimeStampedModel):
         ("*", _("diverse")),
     ]
 
-    subject_id = models.PositiveIntegerField(unique=True, editable=False, default=None)
-
     first_name = models.CharField(_('First name'), max_length=64)
     last_name = models.CharField(_('Last name'), max_length=64)
     title = models.CharField(_('Title'), max_length=64, blank=True)
@@ -294,6 +292,7 @@ class Street(models.Model):
 
 
 class ContactCreationRequest(BaseContact):
+    subject_id = models.PositiveIntegerField(unique=True, editable=False, default=None)
     email = models.EmailField(_('Email'), max_length=128)
 
     def convert_to_real_contact(self):
