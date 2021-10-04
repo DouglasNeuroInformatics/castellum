@@ -69,3 +69,10 @@ class APIAuthMixin(StrongholdPublicMixin):
     def dispatch(self, request, *args, **kwargs):
         self.request.user = self.authenticate()
         return super().dispatch(request, *args, **kwargs)
+
+
+class ParamAuthMixin(APIAuthMixin):
+    def get_token(self):
+        if 'token' not in self.request.GET:
+            raise PermissionDenied
+        return self.request.GET['token']
