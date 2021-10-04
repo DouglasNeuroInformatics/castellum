@@ -3,10 +3,22 @@
 from django.db import migrations, models
 
 
+def migrate_data(apps, schema_editor):
+    Contact = apps.get_model('contacts', 'Contact')
+    Subject = apps.get_model('subjects', 'Subject')
+    for contact in Contact.objects.all():
+        subject = Subject.objects.get(id=contact.subject_id)
+        contact.subject_uuid = subject.uuid
+        contact.save()
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
         ('contacts', '0012_rename_guardians_contact_legal_representatives'),
+
+        # this dependency is ineffective because it is about the other database
+        ('subjects', '0028_alter_subject_uuid'),
     ]
 
     operations = [
@@ -15,4 +27,5 @@ class Migration(migrations.Migration):
             name='subject_uuid',
             field=models.UUIDField(blank=True, editable=False, null=True),
         ),
+        migrations.RunPython(migrate_data),
     ]
