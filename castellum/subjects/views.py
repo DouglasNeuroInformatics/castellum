@@ -614,12 +614,8 @@ class MaintenanceContactView(BaseMaintenanceView):
                     legal_representative_of_count=0,
                     date_of_birth=None,
                 )
-            )\
-            .values('subject_id')\
-            .order_by()
-        return super().get_queryset()\
-            .filter(pk__in=[c['subject_id'] for c in contacts])\
-            .order_by('pk')
+            )
+        return super().get_queryset().filter(filter_queries.pk_filter(contacts)).order_by('pk')
 
 
 class MaintenanceDuplicatesView(BaseMaintenanceView):
