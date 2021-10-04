@@ -49,6 +49,7 @@ class DateInput(forms.DateInput):
     def __init__(self, attrs=None):
         defaults = {
             'placeholder': _('yyyy-mm-dd, e.g. 2018-07-21'),
+            'max': '9999-12-31',
             'autocomplete': 'off',
             'type': 'date',
         }
@@ -63,6 +64,7 @@ class DateTimeInput(forms.SplitDateTimeWidget):
     def __init__(self, date_attrs=None, time_attrs=None):
         date_defaults = {
             'placeholder': _('yyyy-mm-dd, e.g. 2018-07-21'),
+            'max': '9999-12-31',
             'autocomplete': 'off',
             'type': 'date',
         }
