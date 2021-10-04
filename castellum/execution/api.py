@@ -44,19 +44,18 @@ from castellum.subjects.models import Subject
 monitoring_logger = logging.getLogger('monitoring.execution')
 
 
-class APIDomainsView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
+class BaseAPIView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
     permission_required = ['recruitment.conduct_study']
     study_status = [Study.EXECUTION]
 
+
+class APIDomainsView(BaseAPIView):
     def get(self, request, **kwargs):
         data = [{'key': domain.key, 'name': domain.name} for domain in self.study.domains.all()]
         return JsonResponse({'domains': data})
 
 
-class APIValidateView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
-    permission_required = ['recruitment.conduct_study']
-    study_status = [Study.EXECUTION]
-
+class APIValidateView(BaseAPIView):
     def get(self, request, **kwargs):
         try:
             pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
@@ -77,10 +76,7 @@ class APIValidateView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
         return JsonResponse({'pseudonym': pseudonym})
 
 
-class APIPseudonymsView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
-    permission_required = ['recruitment.conduct_study']
-    study_status = [Study.EXECUTION]
-
+class APIPseudonymsView(BaseAPIView):
     def get(self, request, **kwargs):
         domain = get_object_or_404(self.study.domains, key=kwargs['domain'])
 
@@ -93,10 +89,7 @@ class APIPseudonymsView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
         return JsonResponse({'pseudonyms': pseudonyms})
 
 
-class APIResolveView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
-    permission_required = ['recruitment.conduct_study']
-    study_status = [Study.EXECUTION]
-
+class APIResolveView(BaseAPIView):
     def get(self, request, **kwargs):
         try:
             pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
@@ -129,10 +122,7 @@ class APIResolveView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
         return JsonResponse({'pseudonym': pseudonym})
 
 
-class APIAttributesView(StrongholdPublicMixin, StudyMixin, APIAuthMixin, View):
-    permission_required = ['recruitment.conduct_study']
-    study_status = [Study.EXECUTION]
-
+class APIAttributesView(BaseAPIView):
     def get(self, request, **kwargs):
         try:
             pseudonym = settings.CASTELLUM_PSEUDONYM_CLEAN(self.kwargs['pseudonym'])
