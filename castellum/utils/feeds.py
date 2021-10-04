@@ -29,6 +29,8 @@ from icalendar import Event
 
 
 class BaseCalendarFeed(View):
+    token_required = False
+
     def get(self, request, **kwargs):
         if request.GET.get('format') == 'json':
             return self.get_json(request, **kwargs)

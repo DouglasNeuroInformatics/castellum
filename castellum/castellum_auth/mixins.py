@@ -67,7 +67,8 @@ class APIAuthMixin(StrongholdPublicMixin):
         return user
 
     def dispatch(self, request, *args, **kwargs):
-        self.request.user = self.authenticate()
+        if getattr(self, 'token_required', True) or not request.user.is_authenticated:
+            self.request.user = self.authenticate()
         return super().dispatch(request, *args, **kwargs)
 
 
