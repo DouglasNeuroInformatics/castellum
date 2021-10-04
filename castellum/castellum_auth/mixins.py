@@ -39,37 +39,25 @@ class PermissionRequiredMixin(auth_mixins.PermissionRequiredMixin):
 
 
 class APIAuthMixin(StrongholdPublicMixin):
-    """Similar to PermissionRequiredMixin.
+    """Authenticate with token header instead of login.
 
-    Differences:
-    -   Does not redirect to login on error
-    -   Gets request.user from the HTTP_AUTHORIZATION header
+    This should be the first mixin so that authentication is checked
+    before anything else.
     """
-    permission_required = None
 
-    def handle_no_permission(self):
-        raise PermissionDenied
+    raise_exception = True
 
-    def get_permission_required(self):
-        return self.permission_required
-
-    def get_permission_object(self):
-        return None
-
-    def has_permission(self):
-        perms = self.get_permission_required()
-        permission_object = self.get_permission_object()
-        return self.request.user.has_perms(perms, obj=permission_object)
-
-    def authenticate(self):
+    def get_token(self):
         auth = self.request.headers.get('Authorization', '').split()
         if len(auth) != 2 or auth[0].lower() != 'token':
-            self.handle_no_permission()
+            raise PermissionDenied
+        return auth[1]
 
+    def authenticate(self):
         try:
-            user = User.objects.get(token=auth[1])
+            user = User.objects.get(token=self.get_token())
         except User.DoesNotExist:
-            self.handle_no_permission()
+            raise PermissionDenied
 
         if not user.expiration_date:
             raise PermissionDenied('Account is not activated.')
@@ -80,6 +68,4 @@ class APIAuthMixin(StrongholdPublicMixin):
 
     def dispatch(self, request, *args, **kwargs):
         self.request.user = self.authenticate()
-        if not self.has_permission():
-            return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
