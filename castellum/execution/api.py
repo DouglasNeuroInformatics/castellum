@@ -30,6 +30,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import View
 
 from castellum.castellum_auth.mixins import APIAuthMixin
+from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.helpers import get_subject
 from castellum.pseudonyms.models import Domain
@@ -42,7 +43,7 @@ from castellum.subjects.models import Subject
 monitoring_logger = logging.getLogger('monitoring.execution')
 
 
-class BaseAPIView(StudyMixin, APIAuthMixin, View):
+class BaseAPIView(APIAuthMixin, StudyMixin, PermissionRequiredMixin, View):
     permission_required = ['recruitment.conduct_study']
     study_status = [Study.EXECUTION]
 
