@@ -29,7 +29,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import View
 
-from stronghold.views import StrongholdPublicMixin
+from castellum.utils.views import StrongholdPublicMixin
 
 from castellum.castellum_auth.mixins import APIAuthMixin
 from castellum.pseudonyms.helpers import get_pseudonym
