@@ -90,7 +90,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         user = self.request.user
         contacts = Contact.objects.fuzzy_filter(search)
         can_view_subject = user.has_perm('subjects.view_subject')
-        for subject in Subject.objects.filter(filter_queries.pk_filter(contacts)):
+        for subject in Subject.objects.filter(filter_queries.uuid_filter(contacts)):
             has_privacy_level = user.has_privacy_level(subject.privacy_level)
             participations = []
             for participation in subject.participation_set.filter(study__status=Study.EXECUTION):
@@ -184,7 +184,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 subject.save()
 
                 monitoring_logger.info('SubjectData update: {} by {}'.format(
-                    subject.id, self.request.user.pk
+                    subject.pk, self.request.user.pk
                 ))
                 return redirect('subjects:detail', uuid=subject.uuid)
             else:
@@ -539,7 +539,7 @@ class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
 
     def get_matches(self, search):
         contacts = Contact.objects.fuzzy_filter(search)
-        return Subject.objects.filter(filter_queries.pk_filter(contacts))
+        return Subject.objects.filter(filter_queries.uuid_filter(contacts))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -565,7 +565,7 @@ class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
             contact.subject.save()
 
             monitoring_logger.info('SubjectData update: {} by {}'.format(
-                contact.subject_id, self.request.user.pk
+                contact.subject.pk, self.request.user.pk
             ))
             return TemplateResponse(self.request, 'subjects/legal_representative_success.html', {
                 'name': contact.full_name,
@@ -602,7 +602,7 @@ class MaintenanceAttributesView(BaseMaintenanceView):
             .annotate(completeness=completeness)\
             .filter(
                 filter_queries.has_consent(),
-                filter_queries.pk_filter(full_age),
+                filter_queries.uuid_filter(full_age),
                 deceased=False,
                 completeness__lt=total,
             )\
@@ -632,7 +632,7 @@ class MaintenanceContactView(BaseMaintenanceView):
                     date_of_birth=None,
                 )
             )
-        return super().get_queryset().filter(filter_queries.pk_filter(contacts)).order_by('pk')
+        return super().get_queryset().filter(filter_queries.uuid_filter(contacts)).order_by('pk')
 
 
 class MaintenanceDuplicatesView(BaseMaintenanceView):
@@ -644,14 +644,14 @@ class MaintenanceDuplicatesView(BaseMaintenanceView):
         to_be_deleted = list(
             Subject.objects
             .filter(to_be_deleted__isnull=False)
-            .values_list('pk', flat=True)
+            .values_list('uuid', flat=True)
             .order_by()
         )
 
         return (
             Contact.objects
             .values('first_name', 'last_name')
-            .exclude(subject_id__in=to_be_deleted)
+            .exclude(subject_uuid__in=to_be_deleted)
             .alias(
                 count=models.Count('id'),
                 date_of_birth_count=models.Count('date_of_birth', distinct=True),

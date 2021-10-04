@@ -58,13 +58,13 @@ def get_no_legal_basis():
         ))\
         .exclude(blocked=True, deceased=False)\
         .filter(pr_count=0)
-    subject_pks = subjects.values_list('pk', flat=True)
+    subject_uuids = subjects.values_list('uuid', flat=True)
 
     contacts = Contact.objects\
         .alias(legal_representative_of_count=models.Count('legal_representative_of'))\
-        .filter(legal_representative_of_count=0, subject_id__in=list(subject_pks))
+        .filter(legal_representative_of_count=0, subject_uuid__in=list(subject_uuids))
 
-    return Subject.objects.filter(filter_queries.pk_filter(contacts))
+    return Subject.objects.filter(filter_queries.uuid_filter(contacts))
 
 
 def get_unreachable():
@@ -78,7 +78,7 @@ def get_unreachable():
         )\
         .order_by()
 
-    return Subject.objects.filter(filter_queries.pk_filter(contacts))
+    return Subject.objects.filter(filter_queries.uuid_filter(contacts))
 
 
 def get_all_subjects():

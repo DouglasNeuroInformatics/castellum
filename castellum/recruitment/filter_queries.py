@@ -149,17 +149,17 @@ def study_filters(study, include_unknown=None):
     return q
 
 
-def pk_filter(qs, key='subject_id'):
+def uuid_filter(qs, key='subject_uuid'):
     # This is a mirco-optimization to avoid large IN queries in postgres
     # See https://dba.stackexchange.com/questions/91247
-    pks = set(qs.values_list(key, flat=True).order_by())
+    uuids = set(qs.values_list(key, flat=True).order_by())
     total = Subject.objects.count()
-    if len(pks) > total / 2:
-        all_pks = Subject.objects.values_list('pk', flat=True)
-        pks = set(all_pks).difference(pks)
-        return ~models.Q(pk__in=pks)
+    if len(uuids) > total / 2:
+        all_uuids = Subject.objects.values_list('uuid', flat=True)
+        uuids = set(all_uuids).difference(uuids)
+        return ~models.Q(uuid__in=uuids)
     else:
-        return models.Q(pk__in=pks)
+        return models.Q(uuid__in=uuids)
 
 
 def geofilter(study):
@@ -179,7 +179,7 @@ def geofilter(study):
         models.Q(geolocation__point__within=polygon)
         | models.Q(id__in=wards.values('id'))
     )
-    return pk_filter(contacts)
+    return uuid_filter(contacts)
 
 
 def completeness_expr():

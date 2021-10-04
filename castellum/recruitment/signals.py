@@ -48,7 +48,11 @@ def delete_attribute_data(sender, instance, using, **kwargs):
 def sync_date_of_birth(sender, instance, using, **kwargs):
     from castellum.contacts.models import Contact
 
-    if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID and sender is Contact and instance.subject_id:
+    if (
+        settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
+        and sender is Contact
+        and instance.subject_uuid
+    ):
         key = 'd{}'.format(settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID)
         instance.subject.attributes[key] = instance.date_of_birth
         instance.subject.save()

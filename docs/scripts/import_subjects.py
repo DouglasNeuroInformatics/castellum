@@ -64,7 +64,7 @@ class Command(BaseCommand):
                             subject_data['source'] = SOURCE
                             subject = create(Subject, subject_data)
 
-                            contact = create(Contact, contact_data, subject_id=subject.id)
+                            contact = create(Contact, contact_data, subject_uuid=subject.uuid)
 
                             if address_data:
                                 create(Address, address_data, contact_id=contact.id)

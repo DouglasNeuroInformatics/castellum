@@ -22,7 +22,7 @@ EXCLUDED = [
     'contacts.Contact.geolocation',
     'contacts.Contact.id',
     'contacts.Contact.last_name_phonetic',
-    'contacts.Contact.subject_id',
+    'contacts.Contact.subject_uuid',
     'contacts.ContactCreationRequest.',
     'contacts.Street.',
     'contenttypes.',

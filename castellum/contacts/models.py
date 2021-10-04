@@ -199,7 +199,7 @@ class Contact(BaseContact):
 
     @cached_property
     def subject(self):
-        subject = Subject.objects.get(pk=self.subject_id)
+        subject = Subject.objects.get(uuid=self.subject_uuid)
         subject.__dict__['contact'] = self
         return subject
 
@@ -249,9 +249,9 @@ class Contact(BaseContact):
             )
 
     def save(self, *args, **kwargs):
-        if not self.subject_id:
+        if not self.subject_uuid:
             subject = Subject.objects.create(attributes={})
-            self.subject_id = subject.pk
+            self.subject_uuid = subject.uuid
 
         self.first_name_phonetic = phonetic(self.first_name)
         self.last_name_phonetic = phonetic(self.last_name)
