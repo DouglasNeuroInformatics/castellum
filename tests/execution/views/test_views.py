@@ -198,14 +198,15 @@ def test_calendar_view_events(client, member, study_in_execution_status, subject
         session__study=study_in_execution_status,
     )
 
-    response = client.get('/execution/{}/calendar/?events'.format(study_in_execution_status.pk))
+    url = '/execution/{}/calendar/?events'.format(study_in_execution_status.pk)
+    response = client.get(url, follow=True)
 
     assert response.status_code == 200
 
     data = response.json()
     assert 'events' in data
     assert len(data['events']) == 1
-    assert data['events'][0]['url'] == '/execution/{}/{}/'.format(
+    assert data['events'][0]['url'] == 'http://testserver/execution/{}/{}/'.format(
         study_in_execution_status.pk, participation.pk
     )
 

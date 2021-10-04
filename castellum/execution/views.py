@@ -21,6 +21,7 @@
 
 import logging
 import zipfile
+from urllib.parse import urlencode
 
 from django import forms
 from django.contrib import messages
@@ -43,7 +44,6 @@ from django.views.generic import UpdateView
 from django.views.generic import View
 
 from castellum.appointments.mixins import BaseAppointmentsUpdateView
-from castellum.appointments.mixins import BaseCalendarView
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.pseudonyms.forms import DomainForm
@@ -504,25 +504,19 @@ class AdditionalInfoUpdateView(ExecutionUpdateMixin, BaseAdditionalInfoUpdateVie
         return self.participation.subject
 
 
-class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
+class CalendarView(StudyMixin, PermissionRequiredMixin, DetailView):
     model = Study
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
     template_name = 'execution/calendar.html'
     tab = 'calendar'
 
-    def render_appointment(self, appointment):
-        return {
-            'title': appointment.session.name,
-            'start': appointment.start,
-            'end': appointment.end,
-            'url': reverse('execution:participation-detail', args=[
-                self.object.pk, appointment.participation.pk
-            ]),
-        }
-
-    def get_appointments(self):
-        return super().get_appointments().filter(session__study=self.object)
+    def get(self, request, *args, **kwargs):
+        if 'events' in request.GET:
+            url = reverse('execution:calendar-feed', args=[self.study.pk])
+            return redirect(url + '?format=json&' + urlencode(request.GET))
+        else:
+            return super().get(request, *args, **kwargs)
 
 
 class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):

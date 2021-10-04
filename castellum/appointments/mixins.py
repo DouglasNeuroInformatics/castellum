@@ -21,12 +21,10 @@
 
 from django.conf import settings
 from django.contrib import messages
-from django.http import JsonResponse
 from django.urls import reverse
 from django.utils import formats
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import DetailView
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -112,29 +110,6 @@ class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, Up
         send_appointment_notifications(self.request, self.object, form.appointment_changes)
         messages.success(self.request, _('Data has been saved.'))
         return response
-
-
-class BaseCalendarView(DetailView):
-    template_name = 'appointments/calendar.html'
-
-    def get_appointments(self):
-        return Appointment.objects.filter(participation__status=Participation.INVITED)
-
-    def render_appointment(self, appointment):
-        return {
-            'start': appointment.start,
-            'end': appointment.end,
-        }
-
-    def get_events(self):
-        self.object = self.get_object()
-        return [self.render_appointment(a) for a in self.get_appointments()]
-
-    def get(self, request, *args, **kwargs):
-        if 'events' in request.GET:
-            return JsonResponse({'events': self.get_events()})
-        else:
-            return super().get(request, *args, **kwargs)
 
 
 class BaseAppointmentFeed(BaseCalendarFeed):

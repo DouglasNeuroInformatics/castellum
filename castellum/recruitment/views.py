@@ -23,6 +23,7 @@ import datetime
 import logging
 import random
 from collections import defaultdict
+from urllib.parse import urlencode
 
 from django.conf import settings
 from django.contrib import messages
@@ -33,6 +34,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
@@ -48,7 +50,6 @@ from simplecharts import StackedColumnRenderer
 from stronghold.decorators import public
 
 from castellum.appointments.mixins import BaseAppointmentsUpdateView
-from castellum.appointments.mixins import BaseCalendarView
 from castellum.appointments.mixins import send_appointment_notifications
 from castellum.appointments.models import Appointment
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -584,14 +585,12 @@ class LegalRepresentativeContactUpdateView(StudyMixin, SubjectMixin, BaseContact
         raise Http404
 
 
-class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
+class CalendarView(StudyMixin, PermissionRequiredMixin, DetailView):
     model = Study
     permission_required = 'appointments.change_appointment'
     study_status = [Study.EXECUTION]
+    template_name = 'appointments/calendar.html'
     nochrome = True
-
-    def get_appointments(self):
-        return super().get_appointments().filter(session__study=self.object)
 
     def get_external_events(self):
         for feed in StudyTypeEventFeed.objects.filter(study_type__studysession__study=self.object):
@@ -610,8 +609,12 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
             except Exception as e:
                 logger.error('Fetching StudyTypeEventFeed {} failed: {}'.format(feed.pk, e))
 
-    def get_events(self):
-        return super().get_events() + list(self.get_external_events())
+    def get(self, request, *args, **kwargs):
+        if 'events' in request.GET:
+            url = reverse('recruitment:calendar-feed', args=[self.study.pk])
+            return redirect(url + '?format=json&' + urlencode(request.GET))
+        else:
+            return super().get(request, *args, **kwargs)
 
 
 @method_decorator(public, 'dispatch')
