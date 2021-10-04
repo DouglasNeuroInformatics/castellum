@@ -114,7 +114,13 @@ class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, Up
 
 class BaseAppointmentFeed(BaseCalendarFeed):
     def items(self):
-        return Appointment.objects.filter(participation__status=Participation.INVITED)
+        qs = Appointment.objects.filter(participation__status=Participation.INVITED)
+        filters = self.get_filters()
+        if 'start' in filters:
+            qs = qs.filter(start__gte=filters['start'])
+        if 'end' in filters:
+            qs = qs.filter(start__lte=filters['end'])
+        return qs
 
     def item_start(self, item):
         return item.start

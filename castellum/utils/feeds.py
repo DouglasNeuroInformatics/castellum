@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.utils import timezone
@@ -30,6 +32,16 @@ from icalendar import Event
 
 class BaseCalendarFeed(View):
     token_required = False
+
+    def get_filters(self):
+        filters = {}
+        for key in ['start', 'end']:
+            if key in self.request.GET:
+                try:
+                    filters[key] = datetime.datetime.fromisoformat(self.request.GET[key])
+                except ValueError:
+                    pass
+        return filters
 
     def get(self, request, **kwargs):
         if request.GET.get('format') == 'json':
