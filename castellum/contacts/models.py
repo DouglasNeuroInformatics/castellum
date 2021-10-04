@@ -162,6 +162,8 @@ class Contact(BaseContact):
         ("postal", _("postal")),
     ]
 
+    subject_uuid = models.UUIDField(blank=True, null=True, editable=False)
+
     first_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
     last_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
 
