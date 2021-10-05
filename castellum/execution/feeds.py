@@ -22,6 +22,7 @@
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 from castellum.appointments.mixins import BaseAppointmentFeed
 from castellum.studies.models import Study
@@ -29,7 +30,11 @@ from castellum.studies.models import Study
 
 class BaseExecutionAppointmentFeed(BaseAppointmentFeed):
     def item_title(self, item):
-        return '{} - {}'.format(item.participation.subject.contact.full_name, item.session.name)
+        if self.request.user.has_privacy_level(item.participation.subject.privacy_level):
+            name = item.participation.subject.contact.full_name
+        else:
+            name = _('(access denied)')
+        return '{} - {}'.format(name, item.session.name)
 
     def item_link(self, item):
         return reverse('execution:participation-detail', args=[
