@@ -23,6 +23,8 @@ from django.contrib.auth import mixins as auth_mixins
 from django.core.exceptions import PermissionDenied
 from django.utils import timezone
 
+from castellum.utils.views import StrongholdPublicMixin
+
 from .models import User
 
 
@@ -36,7 +38,7 @@ class PermissionRequiredMixin(auth_mixins.PermissionRequiredMixin):
         return self.request.user.has_perms(perms, obj=permission_object)
 
 
-class APIAuthMixin:
+class APIAuthMixin(StrongholdPublicMixin):
     """Similar to PermissionRequiredMixin.
 
     Differences:

@@ -19,7 +19,10 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.utils.decorators import classonlymethod
 from django.utils.http import url_has_allowed_host_and_scheme
+
+from stronghold.decorators import public
 
 
 def get_next_url(request, default='/'):
@@ -31,3 +34,11 @@ def get_next_url(request, default='/'):
         return url
     else:
         return default
+
+
+class StrongholdPublicMixin:
+    # https://github.com/mgrouchy/django-stronghold/pull/88
+
+    @classonlymethod
+    def as_view(cls, *args, **kwargs):
+        return public(super().as_view(*args, **kwargs))
