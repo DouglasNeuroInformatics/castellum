@@ -57,9 +57,9 @@ class StudyMixin:
         key = 'study_pk' if 'study_pk' in self.kwargs else 'pk'
         return get_object_or_404(qs, pk=self.kwargs.get(key))
 
-    def setup(self, request, *args, **kwargs):
-        super().setup(request, *args, **kwargs)
+    def has_permission(self):
         self.study = self.get_study()
+        return super().has_permission()
 
     def get_permission_object(self):
         return self.study
