@@ -4,6 +4,13 @@ from django.db import migrations, models
 import uuid
 
 
+def migrate_data(apps, schema_editor):
+    Subject = apps.get_model('subjects', 'Subject')
+    for subject in Subject.objects.all():
+        subject.uuid_new = uuid.UUID(subject.uuid)
+        subject.save()
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -11,9 +18,19 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
+        migrations.AddField(
+            model_name='subject',
+            name='uuid_new',
+            field=models.UUIDField(default=uuid.uuid4, unique=True, verbose_name='UUID'),
+        ),
+        migrations.RunPython(migrate_data),
+        migrations.RemoveField(
             model_name='subject',
             name='uuid',
-            field=models.UUIDField(default=uuid.uuid4, unique=True, verbose_name='UUID'),
+        ),
+        migrations.RenameField(
+            model_name='subject',
+            old_name='uuid_new',
+            new_name='uuid',
         ),
     ]
