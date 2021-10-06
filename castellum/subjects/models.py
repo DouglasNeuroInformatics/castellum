@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+import uuid
 
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
@@ -30,7 +31,6 @@ from django.utils.translation import gettext_lazy as _
 
 from dateutil.relativedelta import relativedelta
 
-from castellum.utils import uuid_str
 from castellum.utils.fields import DateTimeField
 from castellum.utils.fields import RestrictedFileField
 from castellum.utils.models import TimeStampedModel
@@ -47,7 +47,7 @@ class SubjectQuerySet(models.QuerySet):
 
 
 class Subject(TimeStampedModel):
-    uuid = models.CharField(_('UUID'), max_length=64, default=uuid_str, unique=True)
+    uuid = models.UUIDField(_('UUID'), max_length=64, default=uuid.uuid4, unique=True)
 
     attributes = models.JSONField(_('Recruitment attributes'), encoder=DjangoJSONEncoder)
     onetime_invitation_disinterest = models.BooleanField(
