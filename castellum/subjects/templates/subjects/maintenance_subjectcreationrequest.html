@@ -21,7 +21,9 @@
                         {% if subjectcreationrequest.contact.gender %}
                             <span class="d-inline-block mr-2">{{ subjectcreationrequest.contact|display:'gender' }}</span>
                         {% endif %}
-                        <span class="d-inline-block">{{ subjectcreationrequest|display:'source' }}</span>
+                        {% if subjectcreationrequest.source %}
+                            <span class="d-inline-block mr-2">{{ subjectcreationrequest|display:'source' }}</span>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="table-list-item-actions">
