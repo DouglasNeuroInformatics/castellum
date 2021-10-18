@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-18 13:43+0200\n"
+"POT-Creation-Date: 2021-10-18 14:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2931,10 +2931,8 @@ msgid "Export answers"
 msgstr "Antworten auf Auskunftsgesuche"
 
 #: castellum/subjects/models.py:254
-#, fuzzy
-#| msgid "Delete"
 msgid "Delete URL"
-msgstr "Löschen"
+msgstr "Lösch-URL"
 
 #: castellum/subjects/templates/subjects/base.html:6
 #: castellum/subjects/templates/subjects/subject_search.html:4
@@ -3003,10 +3001,8 @@ msgstr "Warten auf Einwilligung"
 
 #: castellum/subjects/templates/subjects/maintenance_base.html:33
 #: castellum/subjects/templates/subjects/maintenance_subjectcreationrequest.html:4
-#, fuzzy
-#| msgid "Subject data registered"
 msgid "Subject creation requests"
-msgstr "Proband*innen-Daten registriert"
+msgstr "Anfragen zur Erstellung von Proband*innen"
 
 #: castellum/subjects/templates/subjects/maintenance_base.html:37
 #: castellum/subjects/templates/subjects/maintenance_notes.html:4
@@ -3040,7 +3036,7 @@ msgstr "Die folgenden Proband*innen kommen oft zu spät oder gar nicht:"
 
 #: castellum/subjects/templates/subjects/maintenance_subjectcreationrequest.html:7
 msgid "The following people would like to be added to the database:"
-msgstr ""
+msgstr "Die folgenden Personen möchten gerne zur Datenbank hinzugefügt werden:"
 
 #: castellum/subjects/templates/subjects/maintenance_waiting.html:7
 msgid "The following subjects have been contacted for recruitment consent:"
@@ -3379,6 +3375,9 @@ msgid ""
 "find duplicates, you can also <a href=\"%(discard_url)s\">discard this "
 "request</a>."
 msgstr ""
+"Bitte stellen Sie sicher, dass %(name)s noch nicht in der Datenbank "
+"vorhanden ist. Falls Sie Duplikate finden können Sie <a href="
+"\"%(discard_url)s\">die Anfrage verwerfen</a>."
 
 #: castellum/subjects/templates/subjects/subject_search.html:47
 msgid "This list may be restricted based on your permissions."
@@ -3414,19 +3413,15 @@ msgstr "Aktuell rekrutierbar"
 
 #: castellum/subjects/templates/subjects/subjectcreationrequest_confirm_delete.html:4
 msgid "Discard subject creation request"
-msgstr ""
+msgstr "Anfrage zur Erstellung einer Proband*in verwerfen"
 
 #: castellum/subjects/templates/subjects/subjectcreationrequest_confirm_delete.html:9
-#, fuzzy
-#| msgid ""
-#| "Are you sure you want to <strong>permanently delete</strong> this subject "
-#| "and all related data?"
 msgid ""
 "Are you sure you want to <strong>permanently delete</strong> this subject "
 "creation request?"
 msgstr ""
-"Sind Sie sicher, dass Sie diese Proband*in und alle zugehörigen Daten "
-"<strong>unwiederbringlich</strong> löschen möchten?"
+"Sind Sie sicher, dass Sie diese Anfrage zur Erstellung einer Proband*in und "
+"alle zugehörigen Daten <strong>unwiederbringlich</strong> löschen möchten?"
 
 #: castellum/subjects/templatetags/reliability.py:50
 msgid "no participations so far"
