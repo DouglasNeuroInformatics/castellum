@@ -4,6 +4,10 @@
 {% block title %}{% translate "Subjects" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    {% if subjectcreationrequest %}
+        {% url 'subjects:maintenance-subjectcreationrequest-delete' subjectcreationrequest.pk as discard_url %}
+        <p class="alert alert-info mb-5">{% blocktranslate with name=subjectcreationrequest.contact.full_name discard_url=discard_url %}Please make sure that {{ name }} does not yet exist in the database. If you find duplicates, you can also <a href="{{ discard_url }}">discard this request</a>.{% endblocktranslate %}</p>
+    {% endif %}
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
@@ -134,16 +138,52 @@
                                 <p class="alert alert-danger" role="alert">{{ error }}</p>
                             {% endfor %}
                             {% csrf_token %}
-                            <dl>
-                                <dt>{% translate 'First name' %}</dt>
-                                <dd>{{ form.cleaned_data.first_name }}</dd>
+                            {% if subjectcreationrequest %}
+                                <dl>
+                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'title' }}</dt>
+                                    <dd>{{ subjectcreationrequest.contact|display:'title' }}</dd>
 
-                                <dt>{% translate 'Last name' %}</dt>
-                                <dd>{{ form.cleaned_data.last_name }}</dd>
-                            </dl>
+                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'first_name' }}</dt>
+                                    <dd>{{ subjectcreationrequest.contact|display:'first_name' }}</dd>
+
+                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'last_name' }}</dt>
+                                    <dd>{{ subjectcreationrequest.contact|display:'last_name' }}</dd>
+
+                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'gender' }}</dt>
+                                    <dd>{{ subjectcreationrequest.contact|display:'gender' }}</dd>
+
+                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'date_of_birth' }}</dt>
+                                    <dd>{{ subjectcreationrequest.contact|display:'date_of_birth' }}</dd>
+
+                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'email' }}</dt>
+                                    <dd>{{ subjectcreationrequest.contact|display:'email' }}</dd>
+
+                                    <dt>{{ subjectcreationrequest|verbose_name:'source' }}</dt>
+                                    <dd>{{ subjectcreationrequest|display:'source' }}</dd>
+                                </dl>
+                            {% else %}
+                                <dl>
+                                    <dt>{% translate 'First name' %}</dt>
+                                    <dd>{{ form.cleaned_data.first_name }}</dd>
+
+                                    <dt>{% translate 'Last name' %}</dt>
+                                    <dd>{{ form.cleaned_data.last_name }}</dd>
+
+                                    {% if form.cleaned_data.email %}
+                                        <dt>{% translate 'Email' %}</dt>
+                                        <dd>{{ form.cleaned_data.email }}</dd>
+                                    {% endif %}
+
+                                    {% if form.cleaned_data.phone_number %}
+                                        <dt>{% translate 'Phone number' %}</dt>
+                                        <dd>{{ form.cleaned_data.phone_number }}</dd>
+                                    {% endif %}
+                                </dl>
+                            {% endif %}
                             {% bootstrap_field privacy_level_form.privacy_level %}
                             {{ form.search.as_hidden }}
                             <button class="btn btn-primary">{% translate "Create new subject" %}</button>
+                        </form>
                         </form>
                     </div>
                 {% endif %}

@@ -263,3 +263,12 @@ class SubjectCreationRequest(TimeStampedModel):
     def delete(self):
         self.contact.delete()
         return super().delete()
+
+    def convert_to_real_subject(self):
+        contact = self.contact.convert_to_real_contact()
+        subject = contact.subject
+        subject.source = self.source
+        subject.save()
+        # CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID is synced on contact save
+        contact.save()
+        return subject

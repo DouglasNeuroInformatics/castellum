@@ -293,3 +293,13 @@ class Street(models.Model):
 
 class ContactCreationRequest(BaseContact):
     email = models.EmailField(_('Email'), max_length=128)
+
+    def convert_to_real_contact(self):
+        return Contact.objects.create(
+            first_name=self.first_name,
+            last_name=self.last_name,
+            title=self.title,
+            gender=self.gender,
+            date_of_birth=self.date_of_birth,
+            email=self.email,
+        )

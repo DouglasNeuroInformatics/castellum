@@ -1,0 +1,47 @@
+{% extends "subjects/maintenance_base.html" %}
+{% load i18n bootstrap4 auth utils %}
+
+{% block title %}{% translate 'Subject creation requests' %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <p>{% translate 'The following people would like to be added to the database:' %}</p>
+
+    <ul class="table-list">
+        {% for subjectcreationrequest in object_list %}
+            <li class="table-list-item">
+                <div>
+                    {{ subjectcreationrequest.contact }}
+                    <div class="text-muted">
+                        {% if subjectcreationrequest.contact.email %}
+                            <span class="d-inline-block mr-2">{{ subjectcreationrequest.contact|display:'email' }}</span>
+                        {% endif %}
+                        {% if subjectcreationrequest.contact.date_of_birth %}
+                            <span class="d-inline-block mr-2">{{ subjectcreationrequest.contact|display:'date_of_birth' }}</span>
+                        {% endif %}
+                        {% if subjectcreationrequest.contact.gender %}
+                            <span class="d-inline-block mr-2">{{ subjectcreationrequest.contact|display:'gender' }}</span>
+                        {% endif %}
+                        {% if subjectcreationrequest.source %}
+                            <span class="d-inline-block mr-2">{{ subjectcreationrequest|display:'source' }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="table-list-item-actions">
+                    <form method="POST" class="d-inline-block" action="{% url 'subjects:index' %}?from-request={{ subjectcreationrequest.pk }}" target="_blank">
+                        {% csrf_token %}
+                        <input type="hidden" name="search" value="{{ subjectcreationrequest.contact.first_name }} {{ subjectcreationrequest.contact.last_name }}">
+                        <button class="btn btn-outline-primary my-1">{% translate 'Submit' %}</button>
+                    </form>
+                </div>
+            </li>
+        {% empty %}
+            <li class="alert alert-success" role="alert">{% translate 'Nothing to do' %}</li>
+        {% endfor %}
+    </ul>
+
+    {% if is_paginated %}
+        <nav aria-label="{% translate 'Page navigation' %}">
+            {% bootstrap_pagination page_obj url=request.get_full_path %}
+        </nav>
+    {% endif %}
+{% endblock %}

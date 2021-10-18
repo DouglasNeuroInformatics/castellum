@@ -70,6 +70,7 @@ from .mixins import SubjectMixin
 from .models import Consent
 from .models import ExportAnswer
 from .models import Subject
+from .models import SubjectCreationRequest
 
 monitoring_logger = logging.getLogger('monitoring.subjects')
 
@@ -78,6 +79,12 @@ monitoring_logger = logging.getLogger('monitoring.subjects')
 class SubjectSearchView(LoginRequiredMixin, FormView):
     template_name = 'subjects/subject_search.html'
     form_class = SearchForm
+
+    @cached_property
+    def subjectcreationrequest(self):
+        if 'from-request' in self.request.GET:
+            pk = self.request.GET['from-request']
+            return get_object_or_404(SubjectCreationRequest, pk=pk)
 
     def get_matches(self, search):
         user = self.request.user
@@ -132,6 +139,8 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
             ).values('subject_id')
         ).count()
 
+        context['subjectcreationrequest'] = self.subjectcreationrequest
+
         form = kwargs.get('form')
         if form and form.is_valid():
             context['matches'] = list(self.get_matches(form.cleaned_data['search']))
@@ -159,19 +168,25 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
 
         if form.is_valid() and privacy_level_form.is_valid():
             if form.cleaned_data.get('last_name'):
-                contact = Contact.objects.create(
-                    first_name=form.cleaned_data['first_name'],
-                    last_name=form.cleaned_data['last_name'],
-                    phone_number=form.cleaned_data['phone_number'],
-                    email=form.cleaned_data.get('email'),
-                )
-                contact.subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
-                contact.subject.save()
+                if 'from-request' in self.request.GET:
+                    subject = self.subjectcreationrequest.convert_to_real_subject()
+                    self.subjectcreationrequest.delete()
+                else:
+                    contact = Contact.objects.create(
+                        first_name=form.cleaned_data['first_name'],
+                        last_name=form.cleaned_data['last_name'],
+                        phone_number=form.cleaned_data['phone_number'],
+                        email=form.cleaned_data.get('email'),
+                    )
+                    subject = contact.subject
+
+                subject.privacy_level = privacy_level_form.cleaned_data['privacy_level']
+                subject.save()
 
                 monitoring_logger.info('SubjectData update: {} by {}'.format(
-                    contact.subject_id, self.request.user.pk
+                    subject.id, self.request.user.pk
                 ))
-                return redirect('subjects:detail', uuid=contact.subject.uuid)
+                return redirect('subjects:detail', uuid=subject.uuid)
             else:
                 messages.error(request, _(
                     'Both first and last name must be provided in order to create a subject!'
@@ -707,6 +722,23 @@ class MaintenanceReliabilityView(BaseMaintenanceView):
             )
             .order_by('-ratio')
         )
+
+
+class MaintenanceSubjectCreationRequestView(PermissionRequiredMixin, ListView):
+    model = SubjectCreationRequest
+    paginate_by = 20
+    permission_required = 'subjects.change_subject'
+    template_name = 'subjects/maintenance_subjectcreationrequest.html'
+    tab = 'subjectcreationrequest'
+
+
+class SubjectCreationRequestDeleteView(PermissionRequiredMixin, DeleteView):
+    model = SubjectCreationRequest
+    permission_required = 'subjects.change_subject'
+    tab = 'subjectcreationrequest'
+
+    def get_success_url(self):
+        return reverse('subjects:index')
 
 
 class MaintenanceNotesView(BaseMaintenanceView):
