@@ -52,7 +52,6 @@ from .models import Participation
 from .models.attributes import ANSWER_DECLINED
 from .models.attributes import UNCATEGORIZED
 
-logger = logging.getLogger(__name__)
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
