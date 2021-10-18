@@ -53,12 +53,12 @@
         toggleLegalRepresentative(this, false);
     });
 
-    var addLegalRepresentative = function(name, pk) {
+    var addLegalRepresentative = function(name, uuid) {
         var template = document.getElementById('legal-representative-template');
         var button = document.querySelector('[data-js="legal-representative-add"]');
 
         var wrapper = document.createElement('div');
-        wrapper.innerHTML = template.innerHTML.replace(/{pk}/g, pk);
+        wrapper.innerHTML = template.innerHTML.replace(/{uuid}/g, uuid);
         wrapper.querySelector('label').textContent = name;
 
         button.before(wrapper.children[0]);
@@ -74,7 +74,7 @@
     window.closeLegalRepresentativePopup = function(win, data) {
         if (data) {
             data = JSON.parse(data);
-            addLegalRepresentative(data.name, data.pk);
+            addLegalRepresentative(data.name, data.uuid);
         }
         win.close();
     };
