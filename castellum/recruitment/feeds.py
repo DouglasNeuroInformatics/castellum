@@ -65,7 +65,7 @@ class AppointmentFeed(ParamAuthMixin, StudyMixin, PermissionRequiredMixin, BaseA
     def item_title(self, item):
         return ''
 
-    def item_link(self, item):
+    def item_uid(self, item):
         # This is not really a usable link, but it is unique
         return '/appointments/{}/'.format(item.pk)
 
@@ -82,6 +82,6 @@ class ResourceFeed(ParamAuthMixin, BaseAppointmentFeed):
     def item_title(self, item):
         return item.session.study.name
 
-    def item_link(self, item):
+    def item_uid(self, item):
         # This is not really a usable link, but it is unique
         return '/appointments/{}/'.format(item.pk)
