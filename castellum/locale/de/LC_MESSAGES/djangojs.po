@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-27 14:32+0200\n"
+"POT-Creation-Date: 2021-10-18 14:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: castellum/contacts/static/js/guardians.js:26
+#: castellum/contacts/static/js/legal_representatives.js:26
 msgid "There is no way to contact this subject. Are you sure you want to save?"
 msgstr ""
 "Es gibt keine Möglichkeit, diese Proband*in zu kontaktieren. Sind Sie "
