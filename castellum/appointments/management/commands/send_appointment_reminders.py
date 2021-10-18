@@ -89,7 +89,7 @@ def send_appointment_reminders(base_url):
                 with MailContext('internal', ctx.connection) as internal_ctx:
                     send_mail_to_study_conductors(study, not_reachable, base_url, internal_ctx)
 
-                due_appointments.update(reminded=True)
+            due_appointments.update(reminded=True)
 
     return reached_count, not_reached_count
 
