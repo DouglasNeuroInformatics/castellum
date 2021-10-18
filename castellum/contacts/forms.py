@@ -94,11 +94,13 @@ class ContactForm(forms.ModelForm):
         self.legal_representatives = self.get_legal_representatives_rm_choices(user)
         if user.has_perm('subjects.change_subject'):
             self.fields['legal_representatives_remove'] = forms.ModelMultipleChoiceField(
-                Subject.objects, required=False
+                Subject.objects, to_field_name='uuid', required=False
             )
             self.fields['legal_representatives_remove'].choices = self.legal_representatives
             self.fields['legal_representatives_add'] = SubjectMultipleChoiceField(
-                Subject.objects.filter(privacy_level__lte=user.get_privacy_level()), required=False
+                Subject.objects.filter(privacy_level__lte=user.get_privacy_level()),
+                to_field_name='uuid',
+                required=False,
             )
 
     def get_address_form(self, **kwargs):
@@ -115,7 +117,7 @@ class ContactForm(forms.ModelForm):
         if self.instance.id:
             for contact in self.instance.legal_representatives.all():
                 if user.has_privacy_level(contact.subject.privacy_level):
-                    yield (contact.subject.pk, contact)
+                    yield (contact.subject.uuid, contact)
                 else:
                     self.legal_representatives_blocked += 1
 

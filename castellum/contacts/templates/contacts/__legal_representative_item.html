@@ -3,11 +3,11 @@
 <div class="rounded-lg border bg-light p-3 mb-2 d-flex align-items-center {% if removed %}text-muted{% endif %}" data-js="legal-representative-wrapper">
     <div class="flex-grow-1">
         <div>{% translate 'Legal representative' %}</div>
-        <label for="id_{{ name }}_{{ pk }}" class="h5 mb-0">{{ label }}</label>
+        <label for="id_{{ name }}_{{ uuid }}" class="h5 mb-0">{{ label }}</label>
         {% if name == 'legal_representatives_remove' %}
-            <input id="id_{{ name }}_{{ pk }}" type="hidden" name="{{ name }}" value="{{ pk }}" {% if not removed %}disabled{% endif %}>
+            <input id="id_{{ name }}_{{ uuid }}" type="hidden" name="{{ name }}" value="{{ uuid }}" {% if not removed %}disabled{% endif %}>
         {% else %}
-            <input id="id_{{ name }}_{{ pk }}" type="hidden" name="{{ name }}" value="{{ pk }}" {% if removed %}disabled{% endif %}>
+            <input id="id_{{ name }}_{{ uuid }}" type="hidden" name="{{ name }}" value="{{ uuid }}" {% if removed %}disabled{% endif %}>
         {% endif %}
     </div>
     {% if legal_representative %}

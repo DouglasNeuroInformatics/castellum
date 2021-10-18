@@ -38,15 +38,15 @@
             {% has_perm 'subjects.change_subject' user as can_change_subject %}
             {% if can_change_subject %}
                 <template id="legal-representative-template">
-                    {% include 'contacts/__legal_representative_item.html' with name=form.legal_representatives_add.name pk='{pk}' label='' removed=False %}
+                    {% include 'contacts/__legal_representative_item.html' with name=form.legal_representatives_add.name uuid='{uuid}' label='' removed=False %}
                 </template>
 
                 {% for widget in form.legal_representatives_remove %}
-                    {% include 'contacts/__legal_representative_item.html' with name=form.legal_representatives_remove.name pk=widget.data.value label=widget.choice_label legal_representative=widget.choice_label.subject removed=widget.data.selected %}
+                    {% include 'contacts/__legal_representative_item.html' with name=form.legal_representatives_remove.name uuid=widget.data.value label=widget.choice_label legal_representative=widget.choice_label.subject removed=widget.data.selected %}
                 {% endfor %}
 
                 {% for subject in form.cleaned_data.legal_representatives_add %}
-                    {% include 'contacts/__legal_representative_item.html' with name=form.legal_representatives_add.name pk=subject.pk label=subject label=subject.contact.full_name removed=False %}
+                    {% include 'contacts/__legal_representative_item.html' with name=form.legal_representatives_add.name uuid=subject.uuid label=subject label=subject.contact.full_name removed=False %}
                 {% endfor %}
 
                 <button type="button" class="btn btn-primary" data-js="legal-representative-add">{% translate 'Add legal representative' %}</button>

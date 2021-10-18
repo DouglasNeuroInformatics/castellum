@@ -224,7 +224,7 @@ def test_contact_form_with_address_and_wrong_preferred_contact_method(user, full
 def test_contact_form_with_legal_representatives_add(user, full_data, contact):
     full_data.update({
         'pane': 'legal_representatives',
-        'legal_representatives_add': [contact.subject.pk],
+        'legal_representatives_add': [contact.subject.uuid],
     })
 
     form = ContactForm(user=user, data=full_data)
@@ -238,7 +238,7 @@ def test_contact_form_with_legal_representatives_add(user, full_data, contact):
 def test_contact_form_with_legal_representatives_add_privacy_level(user, full_data, contact):
     full_data.update({
         'pane': 'legal_representatives',
-        'legal_representatives_add': [contact.subject.pk],
+        'legal_representatives_add': [contact.subject.uuid],
     })
 
     contact.subject.privacy_level = 2
@@ -259,7 +259,7 @@ def test_contact_form_with_legal_representatives_removes_address(user, full_data
     data = {
         **full_data,
         'pane': 'legal_representatives',
-        'legal_representatives_add': [contact.subject.pk],
+        'legal_representatives_add': [contact.subject.uuid],
     }
 
     form = ContactForm(user=user, instance=contact, data=data)
@@ -271,7 +271,7 @@ def test_contact_form_with_legal_representatives_removes_address(user, full_data
 def test_contact_form_with_legal_representatives_remove(user, full_data, contact):
     full_data.update({
         'pane': 'legal_representatives',
-        'legal_representatives_remove': [contact.subject.pk],
+        'legal_representatives_remove': [contact.subject.uuid],
     })
 
     contact.legal_representatives.add(contact)
