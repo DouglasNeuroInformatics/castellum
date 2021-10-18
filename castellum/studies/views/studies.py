@@ -356,11 +356,12 @@ class StudyDeleteView(StudyMixin, PermissionRequiredMixin, DeleteView):
         return reverse('studies:index')
 
     def delete(self, request, *args, **kwargs):
+        response = super().delete(request, *args, **kwargs)
         monitoring_logger.info(
             'Study {} deleted by {}'.format(self.study.name, self.request.user.pk)
         )
         messages.success(self.request, _('Study has been deleted.'))
-        return super().delete(request, *args, **kwargs)
+        return response
 
 
 class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
@@ -385,11 +386,10 @@ class StudyStartRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
             self.study.participation_set.update(assigned_recruiter=None, assigned_conductor=None)
         else:
             self.study.set_status(self.study.EXECUTION)
-            take_snapshot(self.study)
-
             monitoring_logger.info(
                 'Study {} started by {}'.format(self.study.name, self.request.user.pk)
             )
+            take_snapshot(self.study)
 
         send_pr_mail(self.study, request.user.email)
         return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))

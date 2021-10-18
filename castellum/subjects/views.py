@@ -295,9 +295,10 @@ class SubjectDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView):
         self.object = self.get_object()
         if self.object.participation_set.exists():
             return self.get(request, *args, **kwargs)
+        response = super().delete(request, *args, **kwargs)
         monitoring_logger.info('Subject deleted by {}'.format(self.request.user.pk))
         messages.success(self.request, _('Subject has been deleted.'))
-        return super().delete(request, *args, **kwargs)
+        return response
 
 
 class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
@@ -312,10 +313,6 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
 
         if self.object.export_requested:
-            monitoring_logger.info('GDPR-Request export: {} by {}'.format(
-                self.object.pk, self.request.user.pk
-            ))
-
             context['has_participations'] = self.object.participation_set.exists()
             context['general_domains_exist'] = Domain.objects.filter(object_id=None).exists()
             context['appointments'] = Appointment.objects.filter(
@@ -330,6 +327,10 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
                 context['attributes'].append((
                     description.label, description.field.get_display(value)
                 ))
+
+            monitoring_logger.info('GDPR-Request export: {} by {}'.format(
+                self.object.pk, self.request.user.pk
+            ))
 
         return context
 
@@ -523,10 +524,11 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
+        response = super().delete(self, request, *args, **kwargs)
         monitoring_logger.info('Participation in Study {} deleted by {}'.format(
             self.object.study.name, self.request.user.pk
         ))
-        return super().delete(self, request, *args, **kwargs)
+        return response
 
 
 @method_decorator(sensitive_post_parameters(), 'dispatch')

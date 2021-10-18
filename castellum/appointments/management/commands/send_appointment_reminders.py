@@ -19,8 +19,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import logging
-
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.urls import reverse
@@ -31,8 +29,6 @@ from castellum.appointments.models import Appointment
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
 from castellum.utils.mail import MailContext
-
-logger = logging.getLogger(__name__)
 
 
 def send_mail_to_subject(ctx, study, appointment):

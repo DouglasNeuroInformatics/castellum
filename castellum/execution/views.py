@@ -114,10 +114,6 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
         return context
 
     def export(self, domain):
-        monitoring_logger.info('Attribute export: study {} by {}'.format(
-            self.study.pk, self.request.user.pk
-        ))
-
         exporter = get_exporter()
         descriptions = self.study.exportable_attributes.all()
         response = HttpResponse(content_type='application/zip')
@@ -141,6 +137,10 @@ class ExportView(StudyMixin, PermissionRequiredMixin, DetailView):
         content = exporter.get_data(descriptions, subjects)
         with zresponse.open(filename, 'w') as fh:
             fh.write(content.encode('UTF-8'))
+
+        monitoring_logger.info('Attribute export: study {} by {}'.format(
+            self.study.pk, self.request.user.pk
+        ))
 
         return response
 
