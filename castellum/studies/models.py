@@ -379,6 +379,7 @@ class StudyMembership(models.Model):
 
 class Resource(models.Model):
     name = models.CharField(_('Name'), max_length=128)
+    managers = models.ManyToManyField(User, verbose_name=_('Managers'), blank=True)
 
     def __str__(self):
         return self.name
