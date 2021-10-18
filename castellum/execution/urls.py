@@ -29,6 +29,7 @@ from .api import APIResolveView
 from .api import APIValidateView
 from .feeds import AppointmentFeedForStudy
 from .feeds import AppointmentFeedForUser
+from .feeds import ResourceFeed
 from .views import AdditionalInfoUpdateView
 from .views import AttributesUpdateView
 from .views import CalendarView
@@ -53,6 +54,7 @@ from .views import TagView
 app_name = 'execution'
 urlpatterns = [
     path('calendar/feed/', AppointmentFeedForUser.as_view(), name='calendar-user-feed'),
+    path('resources/<int:pk>/', ResourceFeed.as_view(), name='resource-feed'),
     path('<int:study_pk>/', StudyDetailView.as_view(), name='study-detail'),
     path('<int:study_pk>/resolve/', ResolveView.as_view(), name='resolve'),
     path('<int:study_pk>/news/', NewsMailView.as_view(), name='news-mail'),
