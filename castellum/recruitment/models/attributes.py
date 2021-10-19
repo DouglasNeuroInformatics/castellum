@@ -93,12 +93,12 @@ class AttributeCategory(TranslatableModel):
 
 
 class AttributeDescriptionQuerySet(TranslatableQuerySet):
-    def allowed_read(self, user, obj=None):
-        privacy_level = user.get_privacy_level(obj=obj)
+    def allowed_read(self, user):
+        privacy_level = user.get_privacy_level()
         return self.filter(privacy_level_read__lte=privacy_level)
 
-    def allowed_write(self, user, obj=None):
-        privacy_level = user.get_privacy_level(obj=obj)
+    def allowed_write(self, user):
+        privacy_level = user.get_privacy_level()
         return self.filter(privacy_level_write__lte=privacy_level)
 
     def by_category(self, qs=None):

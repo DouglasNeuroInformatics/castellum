@@ -163,10 +163,10 @@ class AttributesForm(forms.ModelForm):
         return super().save()
 
     @classmethod
-    def factory(cls, user, obj=None):
+    def factory(cls, user):
         allowed_descriptions = (
             AttributeDescription.objects
-            .allowed_write(user, obj=obj)
+            .allowed_write(user)
             .exclude(id=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID)
         )
         form_fields = {desc.json_key: desc.field.formfield() for desc in allowed_descriptions}
