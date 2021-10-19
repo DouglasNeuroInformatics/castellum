@@ -30,5 +30,5 @@ def has_perm(perm, user, obj=None):
 
 
 @register.simple_tag
-def has_privacy_level(level, user, obj=None):
-    return user.has_privacy_level(level, obj=obj)
+def has_privacy_level(level, user):
+    return user.has_privacy_level(level)
