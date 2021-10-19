@@ -161,8 +161,8 @@ def test_source_domain_general(client, conductor, study_in_execution_status, sub
     study = study_in_execution_status
 
     domain = baker.make(Domain)
+    domain.users.add(conductor)
     study.general_domains.add(domain)
-    conductor.general_domains.add(domain)
 
     target_domain = baker.make(Domain, context=study)
     baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
@@ -199,8 +199,8 @@ def test_target_domain_general(client, conductor, study_in_execution_status, sub
     domain = baker.make(Domain, context=study)
 
     target_domain = baker.make(Domain)
+    target_domain.users.add(conductor)
     study.general_domains.add(target_domain)
-    conductor.general_domains.add(target_domain)
 
     baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
     pseudonym = get_pseudonym(subject, domain.key)
@@ -238,7 +238,7 @@ def test_source_domain_general_bad_study(client, conductor, study_in_execution_s
     domain = baker.make(Domain, context=study)
 
     target_domain = baker.make(Domain)
-    conductor.general_domains.add(target_domain)
+    target_domain.users.add(conductor)
 
     baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
     pseudonym = get_pseudonym(subject, domain.key)

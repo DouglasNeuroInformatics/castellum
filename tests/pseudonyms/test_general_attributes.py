@@ -14,7 +14,7 @@ def test_general_domain(client, user, conductor, study_in_execution_status, subj
     )
 
     study_in_execution_status.general_domains.add(domain)
-    conductor.general_domains.add(domain)
+    domain.users.add(conductor)
 
     url = '/execution/{}/{}/pseudonyms/{}/'.format(
         study_in_execution_status.pk, participation.pk, domain.key
@@ -40,7 +40,7 @@ def test_general_domain_not_in_study(client, conductor, study_in_execution_statu
         status=Participation.INVITED,
     )
 
-    conductor.general_domains.add(domain)
+    domain.users.add(conductor)
 
     url = '/execution/{}/{}/pseudonyms/{}/'.format(
         study_in_execution_status.pk, participation.pk, domain.key

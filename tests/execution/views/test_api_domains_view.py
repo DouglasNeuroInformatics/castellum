@@ -18,7 +18,7 @@ def test_apidomainsview(client, conductor, study_in_execution_status):
 def test_no_general_domains(client, conductor, study_in_execution_status):
     domain = baker.make(Domain)
     study_in_execution_status.general_domains.add(domain)
-    conductor.general_domains.add(domain)
+    domain.users.add(conductor)
 
     url = '/execution/{}/api/domains/'.format(study_in_execution_status.pk)
     response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
