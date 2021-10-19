@@ -19,26 +19,45 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse
+from django.utils import timezone
+from django.views.generic import View
 
-from django_ical.views import ICalFeed
-from stronghold.decorators import public
-
-from castellum.castellum_auth.models import User
+from icalendar import Calendar
+from icalendar import Event
 
 
-@public
-class BaseICalFeed(ICalFeed):
-    def __call__(self, request, *args, **kwargs):
-        self.request = request
-        try:
-            self.request.user = User.objects.get(token=request.GET.get('token'))
-        except User.DoesNotExist:
-            raise PermissionDenied
-        return super().__call__(request, *args, **kwargs)
+class BaseCalendarFeed(View):
+    def get(self, request, **kwargs):
+        cal = Calendar()
+        cal.add('version', '2.0')
+        cal.add('prodid', 'castellum')
 
-    def item_title(self, item):
-        return None
+        for item in self.items():
+            event = Event()
+            event.add('uid', request.build_absolute_uri(self.item_uid(item)))
+            event.add('dtstamp', self.item_updated_at(item))
+            event.add('summary', self.item_title(item))
+            event.add('dtstart', self.item_start(item))
+            if hasattr(self, 'item_end'):
+                event.add('dtend', self.item_end(item))
+            if hasattr(self, 'item_link'):
+                event.add('url', self._item_link(item))
+            if hasattr(self, 'item_description'):
+                event.add('description', self.item_description(item))
+            elif hasattr(self, 'item_link'):
+                event.add('description', self._item_link(item))
+            cal.add_component(event)
 
-    def item_description(self, item):
-        return None
+        response = HttpResponse(content_type='text/calendar')
+        response.write(cal.to_ical())
+        return response
+
+    def item_updated_at(self, item):
+        return timezone.now()
+
+    def item_uid(self, item):
+        return self.item_link(item)
+
+    def _item_link(self, item):
+        return self.request.build_absolute_uri(self.item_link(item))
