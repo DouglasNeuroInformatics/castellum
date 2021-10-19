@@ -130,8 +130,6 @@ class BaseContact(TimeStampedModel):
         ("*", _("diverse")),
     ]
 
-    subject_id = models.PositiveIntegerField(unique=True, editable=False, default=None)
-
     first_name = models.CharField(_('First name'), max_length=64)
     last_name = models.CharField(_('Last name'), max_length=64)
     title = models.CharField(_('Title'), max_length=64, blank=True)
@@ -161,6 +159,8 @@ class Contact(BaseContact):
         ("email", _("email")),
         ("postal", _("postal")),
     ]
+
+    subject_uuid = models.UUIDField(unique=True, editable=False, default=None)
 
     first_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
     last_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
@@ -197,7 +197,7 @@ class Contact(BaseContact):
 
     @cached_property
     def subject(self):
-        subject = Subject.objects.get(pk=self.subject_id)
+        subject = Subject.objects.get(uuid=self.subject_uuid)
         subject.__dict__['contact'] = self
         return subject
 
@@ -247,9 +247,9 @@ class Contact(BaseContact):
             )
 
     def save(self, *args, **kwargs):
-        if not self.subject_id:
+        if not self.subject_uuid:
             subject = Subject.objects.create(attributes={})
-            self.subject_id = subject.pk
+            self.subject_uuid = subject.uuid
 
         self.first_name_phonetic = phonetic(self.first_name)
         self.last_name_phonetic = phonetic(self.last_name)
@@ -292,6 +292,7 @@ class Street(models.Model):
 
 
 class ContactCreationRequest(BaseContact):
+    subject_id = models.PositiveIntegerField(unique=True, editable=False, default=None)
     email = models.EmailField(_('Email'), max_length=128)
 
     def convert_to_real_contact(self):

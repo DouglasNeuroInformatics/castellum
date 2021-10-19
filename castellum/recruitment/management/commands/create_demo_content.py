@@ -171,7 +171,7 @@ def fake_contact(subject):
         last_name=last_name,
         last_name_phonetic=phonetic(last_name),
         date_of_birth=date_of_birth,
-        subject_id=subject.pk,
+        subject_uuid=subject.uuid,
     )
 
     if fake.random.random() < 0.67:
