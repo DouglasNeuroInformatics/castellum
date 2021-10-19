@@ -1,3 +1,8 @@
+# 0.67.1 (2021-10-19)
+
+-   Fixed a faulty migration.
+
+
 # 0.67.0 (2021-10-19)
 
 ## security
