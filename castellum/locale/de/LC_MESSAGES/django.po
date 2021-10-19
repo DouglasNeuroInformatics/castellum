@@ -3038,6 +3038,10 @@ msgstr "Die folgenden Proband*innen kommen oft zu spät oder gar nicht:"
 msgid "The following people would like to be added to the database:"
 msgstr "Die folgenden Personen möchten gerne zur Datenbank hinzugefügt werden:"
 
+#: castellum/subjects/templates/subjects/maintenance_subjectcreationrequest.html:33
+msgid "Process request"
+msgstr "Anfrage bearbeiten"
+
 #: castellum/subjects/templates/subjects/maintenance_waiting.html:7
 msgid "The following subjects have been contacted for recruitment consent:"
 msgstr ""
