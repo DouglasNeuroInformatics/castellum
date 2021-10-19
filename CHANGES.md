@@ -1,3 +1,42 @@
+# 0.67.0 (unreleased)
+
+## security
+
+-   Added a missing privacy level check in appointment feeds
+-   Fixed a possible subject enumeration in the legal guardian form
+
+## bug fixes
+
+-   Fixed sending appointment reminders only once (regression from
+    0.66.0)
+-   In date inputs, limit the number of digits for the year to 4 (not
+    supported in all browsers)
+
+## new features
+
+-   A common requirement we hear is that potential subjects should be
+    able to register themselves to castellum by using a web form.
+    Castellum is usually not reachable from the internet for security
+    reasons. The solution is to have a separate form and create a cron
+    job that automatically fetches new subjects from that form and adds
+    them to castellum.
+
+    However, that process would bypass the manual checks for duplicates
+    and validity. For that reason we added a system to create "subject
+    creation requests" that serve as an intermediate step. The cron job
+    can create those requests. A human can then review and either accept
+    or discard them.
+
+    An example script for the cron job is available in
+    `docs/scripts/fetch_from_self_registration.py`. The relevant UI can
+    be enabled with the `CASTELLUM_SUBJECT_CREATION_REQUESTS_ENABLED`
+    setting.
+-   The castellum version number and release date are now displayed on
+    the front page.
+-   The subject search UI now automatically switches to the create tab
+    if there are no matches.
+
+
 # 0.66.0 (2021-09-28)
 
 ## security
