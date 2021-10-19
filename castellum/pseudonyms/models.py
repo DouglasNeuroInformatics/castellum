@@ -23,7 +23,9 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
+from castellum.castellum_auth.models import User
 from castellum.subjects.models import Subject
 from castellum.utils import uuid_str
 
@@ -36,6 +38,13 @@ class Domain(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
     object_id = models.PositiveIntegerField(null=True, blank=True)
     context = GenericForeignKey()
+
+    users = models.ManyToManyField(
+        User,
+        verbose_name=_('Users who can access this domain'),
+        help_text=_('only relevant for general domains'),
+        blank=True,
+    )
 
     class Meta:
         ordering = ['id']
