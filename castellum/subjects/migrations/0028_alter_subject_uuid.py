@@ -21,9 +21,14 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='subject',
             name='uuid_new',
-            field=models.UUIDField(default=uuid.uuid4, unique=True, verbose_name='UUID'),
+            field=models.UUIDField(null=True),
         ),
         migrations.RunPython(migrate_data),
+        migrations.AlterField(
+            model_name='subject',
+            name='uuid_new',
+            field=models.UUIDField(default=uuid.uuid4, unique=True, verbose_name='UUID'),
+        ),
         migrations.RemoveField(
             model_name='subject',
             name='uuid',
