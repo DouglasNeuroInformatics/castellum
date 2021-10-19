@@ -26,7 +26,6 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from castellum.pseudonyms.models import Domain
 from castellum.utils import get_parler_languages
 from castellum.utils.fields import DateTimeField
 
@@ -46,12 +45,6 @@ class User(AbstractUser):
         _('Time until automatic logout'), default=settings.LOGOUT_TIMEOUT_DEFAULT
     )
     token = models.CharField(max_length=64, unique=True, default=generate_token)
-    general_domains = models.ManyToManyField(
-        Domain,
-        verbose_name=_('Available general domains'),
-        blank=True,
-        limit_choices_to={'object_id': None},
-    )
 
     class Meta:
         ordering = ['username']
