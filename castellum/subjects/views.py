@@ -136,7 +136,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         ).exclude(
             pk__in=Participation._base_manager.filter(
                 filter_queries._reverse_exclusive_studies()
-            ).values('subject_id')
+            ).values('subject')
         ).count()
 
         context['subjectcreationrequest'] = self.subjectcreationrequest
