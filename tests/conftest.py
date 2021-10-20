@@ -65,6 +65,11 @@ baker.generators.add(
 TestCase.databases = ['default', 'contacts']
 
 
+def pytest_collection_modifyitems(items):
+    # run migration tests last so they do not interfere with session scoped data
+    items.sort(key=lambda item: 'migrator_factory' in getattr(item, 'fixturenames', []))
+
+
 def create_user(group_name):
     future = timezone.now() + datetime.timedelta(days=10000)
     user = baker.make(User, expiration_date=future, email='test@example.com')
