@@ -1,0 +1,22 @@
+{% extends "appointments/resource_base.html" %}
+{% load i18n auth %}
+
+{% block content %}
+    <ul class="table-list">
+        {% for resource in object_list %}
+            <li class="table-list-item">
+                <div class="h4">{{ resource }}</div>
+                {% is_resource_manager user resource as can_manage_resource %}
+                {% if can_manage_resource %}
+                    <div class="table-list-item-actions">
+                        <a href="{% url 'appointments:resource-detail' resource.pk %}" class="btn btn-outline-primary">{% translate 'Details' %}</a>
+                    </div>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li class="alert alert-warning">
+                {% translate 'No resources' %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

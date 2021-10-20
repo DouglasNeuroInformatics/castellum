@@ -22,8 +22,12 @@
 from django.urls import path
 
 from .views import ReceptionView
+from .views import ResourceDetailView
+from .views import ResourceListView
 
 app_name = 'appointments'
 urlpatterns = [
     path('reception/', ReceptionView.as_view(), name='reception'),
+    path('resources/', ResourceListView.as_view(), name='resource-list'),
+    path('resources/<int:pk>/', ResourceDetailView.as_view(), name='resource-detail'),
 ]
