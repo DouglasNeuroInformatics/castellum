@@ -66,15 +66,6 @@ class StudyType(TranslatableModel):
         return self.label
 
 
-class StudyTypeEventFeed(models.Model):
-    study_type = models.ForeignKey(StudyType, on_delete=models.CASCADE)
-    url = models.URLField(_('URL'))
-    color = ColorField(_('Color'))
-
-    def __str__(self):
-        return '{} {}'.format(self.study_type, self.url)
-
-
 class Study(models.Model):
     EDIT = 0
     EXECUTION = 1
