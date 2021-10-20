@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import uuid
 
 from django.core.management.base import BaseCommand
 
@@ -31,15 +32,15 @@ class Command(BaseCommand):
     help = 'Export recruitment attributes for a single subject or the attribute schema.'
 
     def add_arguments(self, parser):
-        parser.add_argument('subject_id', type=int, nargs='?')
+        parser.add_argument('subject_uuid', type=uuid.UUID, nargs='?')
         parser.add_argument('--exporter')
 
     def handle(self, **options):
         exporter = get_exporter(options.get('exporter'))
         descriptions = AttributeDescription.objects.all()
-        if options['subject_id'] is None:
+        if options['subject_uuid'] is None:
             s = exporter.get_schema(descriptions)
         else:
-            subject = Subject.objects.get(pk=options['subject_id'])
+            subject = Subject.objects.get(pk=options['subject_uuid'])
             s = exporter.get_data(descriptions, [(subject.pk, subject)])
         print(s)
