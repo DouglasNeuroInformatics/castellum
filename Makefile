@@ -45,7 +45,7 @@ lint:
 
 .PHONY: test
 test:
-	$(VIRTUAL_ENV)/bin/pytest --no-migrations
+	$(VIRTUAL_ENV)/bin/pytest
 
 .PHONY: install
 install: venv
