@@ -107,7 +107,7 @@ def attribute_descriptions(django_db_setup, django_db_blocker):
                 AttributeDescription._import(data)
 
 
-@pytest.fixture(scope='session', autouse=True)
+@pytest.fixture
 def groups(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
         call_command('loaddata', 'groups')
@@ -119,7 +119,7 @@ def study_types(django_db_setup, django_db_blocker):
         call_command('loaddata', 'study_types')
 
 
-@pytest.fixture(scope='session', autouse=True)
+@pytest.fixture
 def study_groups(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
         call_command('loaddata', 'study_groups')
@@ -131,42 +131,42 @@ def user(db):
 
 
 @pytest.fixture
-def study_approver(db):
+def study_approver(db, groups):
     return create_user('Study approver')
 
 
 @pytest.fixture
-def study_coordinator(db):
+def study_coordinator(db, groups):
     return create_user('Study coordinator')
 
 
 @pytest.fixture
-def subject_manager(db):
+def subject_manager(db, groups):
     return create_user('Principal subject manager')
 
 
 @pytest.fixture
-def data_protection_coordinator(db):
+def data_protection_coordinator(db, groups):
     return create_user('Data protection coordinator')
 
 
 @pytest.fixture
-def receptionist(db):
+def receptionist(db, groups):
     return create_user('Receptionist')
 
 
 @pytest.fixture
-def member(study, study_in_execution_status, study_in_edit_status):
+def member(study, study_in_execution_status, study_in_edit_status, study_groups):
     return create_member("all", [study, study_in_execution_status, study_in_edit_status])
 
 
 @pytest.fixture
-def recruiter(study, study_in_execution_status, study_in_edit_status):
+def recruiter(study, study_in_execution_status, study_in_edit_status, study_groups):
     return create_member('Recruiter', [study, study_in_execution_status, study_in_edit_status])
 
 
 @pytest.fixture
-def conductor(study, study_in_execution_status, study_in_edit_status):
+def conductor(study, study_in_execution_status, study_in_edit_status, study_groups):
     return create_member('Conductor', [study, study_in_execution_status, study_in_edit_status])
 
 
