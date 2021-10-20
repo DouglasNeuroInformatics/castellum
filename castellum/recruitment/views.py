@@ -55,9 +55,9 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.pseudonyms.helpers import get_subject
 from castellum.studies.mixins import StudyMixin
+from castellum.studies.models import Resource
 from castellum.studies.models import Study
 from castellum.studies.models import StudySession
-from castellum.studies.models import StudyTypeEventFeed
 from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.subjects.mixins import SubjectMixin
@@ -594,21 +594,21 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
         return super().get_appointments().filter(session__study=self.object)
 
     def get_external_events(self):
-        for feed in StudyTypeEventFeed.objects.filter(study_type__studysession__study=self.object):
+        for resource in Resource.objects.filter(studysession__study=self.study).exclude(url=''):
             try:
-                text = cached_request(feed.url, timeout=60)
+                text = cached_request(resource.url, timeout=60)
                 calendar = Calendar.from_ical(text)
                 for event in calendar.walk('VEVENT'):
                     yield {
-                        'title': '[{}] {}'.format(feed.study_type, event.get('SUMMARY', '')),
+                        'title': '[{}] {}'.format(resource, event.get('SUMMARY', '')),
                         'start': event.get('DTSTART').dt,
                         'end': event.get('DTEND').dt,
-                        'backgroundColor': feed.color,
-                        'borderColor': feed.color,
-                        'textColor': contrast_color(feed.color),
+                        'backgroundColor': resource.color,
+                        'borderColor': resource.color,
+                        'textColor': contrast_color(resource.color),
                     }
             except Exception as e:
-                logger.error('Fetching StudyTypeEventFeed {} failed: {}'.format(feed.pk, e))
+                logger.error('Fetching events for resource {} failed: {}'.format(resource.pk, e))
 
     def get_events(self):
         return super().get_events() + list(self.get_external_events())
