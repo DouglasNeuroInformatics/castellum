@@ -52,7 +52,7 @@
                 <button type="button" class="btn btn-primary" data-js="legal-representative-add">{% translate 'Add legal representative' %}</button>
             {% else %}
                 {% has_perm 'subjects.view_subject' user as can_view_subject %}
-                {% for subject_id, contact in form.legal_representatives %}
+                {% for subject_pk, contact in form.legal_representatives %}
                     <div class="rounded-lg border bg-light p-3 mb-2 d-flex align-items-center">
                         <div class="flex-grow-1">
                             <div>{% translate 'Legal representative' %}</div>
