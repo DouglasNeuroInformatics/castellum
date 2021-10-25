@@ -148,4 +148,4 @@ class BaseAppointmentFeed(BaseCalendarFeed):
         return item.end
 
     def item_uid(self, item):
-        return '{}@appointment-{}'.format(self.request.get_host(), item.pk)
+        return 'appointment-{}@{}'.format(item.pk, self.request.get_host())

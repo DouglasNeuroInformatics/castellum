@@ -162,7 +162,7 @@ class BaseFollowUpFeed(BaseCalendarFeed):
         return reverse('recruitment:contact', args=[item.study.pk, item.pk])
 
     def item_uid(self, item):
-        return '{}@followup-{}'.format(self.request.get_host(), item.pk)
+        return 'followup-{}@{}'.format(item.pk, self.request.get_host())
 
 
 class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
