@@ -6,17 +6,19 @@ You can then execute it using ``django-admin fetch_from_self_registration``.
 See https://git.mpib-berlin.mpg.de/castellum/castellum_self_registration
 """
 
+from datetime import datetime
+import json
+import requests
+
 from django.core.management.base import BaseCommand
 from django.forms import modelform_factory
-
-import requests
 
 from castellum.contacts.models import ContactCreationRequest
 from castellum.subjects.models import SubjectCreationRequest
 
 SubjectForm = modelform_factory(SubjectCreationRequest, fields=['delete_url'])
 ContactForm = modelform_factory(ContactCreationRequest, fields=[
-    'first_name', 'last_name', 'title', 'gender', 'date_of_birth', 'email'
+    'first_name', 'last_name', 'gender', 'date_of_birth', 'email', 'phone_number'
 ])
 
 
@@ -38,15 +40,34 @@ def import_creationrequest(data, source):
 
 
 def do_import(url, token, source):
-    r = requests.get(url, headers={'Authorization': 'token ' + token})
+    r = requests.get(url, headers={'APIKEY': token})
     r.raise_for_status()
-
     success = []
     errors = []
 
-    for item in r.json()['subjects']:
+    for item in json.loads(r.content)['content']:
+        gender = item['answers']['4']['answer']
+        first_name = item['answers']['6']['answer']['first']
+        last_name = item['answers']['6']['answer']['last']
+        day = int(item['answers']['7']['answer']['day'])
+        month = int(item['answers']['7']['answer']['month'])
+        year = int(item['answers']['7']['answer']['year'])
+        date_of_birth = datetime(year=year, month=month, day=day)
+        phone_number = item['answers']['8']['answer']['area'] + item['answers']['8']['answer']['phone']
+        email = item['answers']['9']['answer']
+        submissionID = item['id']
+
+        subject = {
+            'first_name': first_name,
+            'last_name': last_name,
+            'gender': gender,
+            'date_of_birth': date_of_birth,
+            'email': email,
+            'phone_number': phone_number,
+            'delete_url': "https://api.jotform.com/submission/{id}?apiKey={token}".format(id=id, token=token),
+        }
         try:
-            success.append(import_creationrequest(item, source))
+            success.append(import_creationrequest(subject, source))
         except Exception as e:
             errors.append(e)
 
@@ -58,7 +79,7 @@ def do_cleanup_remote(token):
     errors = []
 
     for subject in SubjectCreationRequest.objects.exclude(delete_url=None):
-        r = requests.delete(subject.delete_url, headers={'Authorization': 'token ' + token})
+        r = requests.delete(subject.delete_url, headers={'APIKEY': token})
         if r.status_code in [200, 204, 404]:
             subject.external_id = None
             subject.save()
