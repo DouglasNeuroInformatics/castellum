@@ -35,7 +35,7 @@ class BaseCalendarFeed(View):
 
         for item in self.items():
             event = Event()
-            event.add('uid', request.build_absolute_uri(self.item_uid(item)))
+            event.add('uid', self.item_uid(item))
             event.add('dtstamp', self.item_updated_at(item))
             event.add('summary', self.item_title(item))
             event.add('dtstart', self.item_start(item))
@@ -55,9 +55,6 @@ class BaseCalendarFeed(View):
 
     def item_updated_at(self, item):
         return timezone.now()
-
-    def item_uid(self, item):
-        return self.item_link(item)
 
     def _item_link(self, item):
         return self.request.build_absolute_uri(self.item_link(item))

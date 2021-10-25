@@ -146,3 +146,6 @@ class BaseAppointmentFeed(BaseCalendarFeed):
 
     def item_end(self, item):
         return item.end
+
+    def item_uid(self, item):
+        return 'appointment-{}@{}'.format(item.pk, self.request.get_host())
