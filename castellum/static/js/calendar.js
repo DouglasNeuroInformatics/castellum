@@ -25,7 +25,8 @@ document.querySelectorAll('[data-js="calendar"]').forEach(function(el) {
             },
             timeGridWeek: {
                 allDaySlot: false,
-                slotDuration: '00:30:00',
+                slotDuration: '00:15:00',
+                slotLabelInterval: '01:00:00',
                 scrollTime: '08:00:00',
             },
         },
