@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
@@ -26,6 +27,7 @@ from castellum.appointments.mixins import BaseAppointmentFeed
 from castellum.castellum_auth.mixins import ParamAuthMixin
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.studies.mixins import StudyMixin
+from castellum.studies.models import Resource
 from castellum.studies.models import Study
 
 
@@ -65,3 +67,13 @@ class AppointmentFeedForUser(ParamAuthMixin, BaseExecutionAppointmentFeed):
         for item in items:
             if self.request.user.has_perms(perms, obj=item.session.study):
                 yield item
+
+
+class ResourceFeed(ParamAuthMixin, BaseExecutionAppointmentFeed):
+    def items(self):
+        resource = get_object_or_404(Resource, pk=self.kwargs['pk'], managers=self.request.user)
+        return (
+            super().items()
+            .filter(session__resource=resource)
+            .exclude(session__study__status=Study.FINISHED)
+        )

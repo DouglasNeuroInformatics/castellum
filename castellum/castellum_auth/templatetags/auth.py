@@ -32,3 +32,8 @@ def has_perm(perm, user, obj=None):
 @register.simple_tag
 def has_privacy_level(level, user):
     return user.has_privacy_level(level)
+
+
+@register.simple_tag
+def is_resource_manager(user, resource):
+    return resource.managers.filter(pk=user.pk).exists()

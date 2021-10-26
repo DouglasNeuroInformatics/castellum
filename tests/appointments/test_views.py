@@ -13,5 +13,5 @@ import pytest
 def test_reception_view(request, client, user_fixture):
     user = request.getfixturevalue(user_fixture)
     client.force_login(user)
-    response = client.get('/appointments/reception/')
+    response = client.get('/reception/')
     assert response.status_code == 200

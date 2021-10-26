@@ -40,6 +40,10 @@
     <h2>{% translate 'Per Resource' %}</h2>
     <ul>
         {% for resource in resources %}
+            {% is_resource_manager user resource as can_manage_resource %}
+            {% if can_manage_resource %}
+                <li><a href="{% url 'execution:resource-feed' resource.pk %}?token={{ user.token }}">{{ resource }}</a></li>
+            {% endif %}
             <li><a href="{% url 'recruitment:resource-feed' resource.pk %}?token={{ user.token }}">{{ resource }} {% translate '(without personal data)' %}</a></li>
         {% endfor %}
     </ul>

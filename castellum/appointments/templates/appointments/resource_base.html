@@ -1,0 +1,12 @@
+{% extends "base_with_breadcrumbs.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Resources" %} &middot; {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="breadcrumb-item"><a href="{% url 'appointments:resource-list' %}">{% translate 'Resources' %}</a></li>
+    {% if object %}
+        <li class="breadcrumb-item"><a href="{% url 'appointments:resource-detail' object.pk %}">{{ object }}</a></li>
+    {% endif %}
+{% endblock %}
