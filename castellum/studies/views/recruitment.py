@@ -45,6 +45,12 @@ from ..models import Study
 
 
 def get_related_studies(study):
+    """Get studies in which potential subjects have participated.
+
+    This is useful to find candidates for excluded_studies to avoid
+    training effects.
+    """
+
     # if no filters exist, all active studies would be related
     if not SubjectFilter.objects.filter(group__study=study).exists():
         return Study.objects.none()
