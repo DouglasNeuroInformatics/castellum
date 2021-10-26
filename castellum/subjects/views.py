@@ -569,7 +569,7 @@ class LegalRepresentativeSearchView(PermissionRequiredMixin, SubjectSearchView):
             ))
             return TemplateResponse(self.request, 'subjects/legal_representative_success.html', {
                 'name': contact.full_name,
-                'pk': contact.subject.pk,
+                'uuid': contact.subject.uuid,
             })
         return self.render_to_response(self.get_context_data(
             form=form,
