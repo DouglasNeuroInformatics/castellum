@@ -68,7 +68,7 @@ CASTELLUM_CONSENT_REVIEW_PERIOD = relativedelta(weeks=2)
 # after requesting to be deleted
 CASTELLUM_SUBJECT_DELETION_PERIOD = datetime.timedelta(days=30)
 
-CASTELLUM_APPOINTMENT_REMINDER_PERIOD = datetime.timedelta(days=2)
+CASTELLUM_APPOINTMENT_REMINDER_PERIOD = datetime.timedelta(days=3)
 
 # the number of subjects that is added to the recruitment list every time
 CASTELLUM_RECRUITMENT_BATCH_SIZE = 15
