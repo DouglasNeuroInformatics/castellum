@@ -63,6 +63,7 @@ from ..forms import StudyForm
 from ..mixins import StudyMixin
 from ..models import Study
 from ..models import StudyMembership
+from .recruitment import get_conflicting_studies
 from .recruitment import get_related_studies
 
 monitoring_logger = logging.getLogger('monitoring.studies')
@@ -202,6 +203,7 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
             ).count()
         )
         context['related_studies'] = list(get_related_studies(self.object))
+        context['conflicting_studies'] = get_conflicting_studies(self.object)
         return context
 
 
