@@ -68,6 +68,34 @@ def get_related_studies(study):
         .order_by('-count')[:5]
 
 
+def get_conflicting_studies(study):
+    """Get studies which will recruit similar subjects at the same time.
+
+    This is useful to avoid recruitment bottlenecks.
+    """
+
+    if not study.sessions_start or not study.sessions_end:
+        return []
+
+    studies = Study.objects.filter(
+        sessions_start__lte=study.sessions_end, sessions_end__gte=study.sessions_start
+    ).exclude(pk=study.pk)
+
+    results = []
+    for other in studies:
+        subjects = Subject.objects.filter(filter_queries.study(other))
+        intersection = subjects.filter(filter_queries.study(study))
+        count = subjects.count()
+        if count == 0:
+            other.count = 0
+        else:
+            other.count = int(other.min_subject_count / count * intersection.count())
+        if other.count != 0:
+            results.append(other)
+
+    return sorted(results, key=lambda s: -s.count)[:5]
+
+
 class StudyRecruitmentSettingsUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView):
     model = Study
     pk_url_kwarg = 'study_pk'

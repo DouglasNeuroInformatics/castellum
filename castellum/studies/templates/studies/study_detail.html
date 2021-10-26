@@ -58,6 +58,15 @@
             {% endfor %}
         </dd>
 
+        <dt class="col-sm-6">{% translate 'Studies which will recruit similar subjects at the same time' %}</dt>
+        <dd class="col-sm-6">
+            {% for study in conflicting_studies %}
+                {{ study }} ({{ study.count }}){% if not forloop.last %},{% endif %}
+            {% empty %}
+                &mdash;
+            {% endfor %}
+        </dd>
+
         {% if not object.is_onetime_invitation %}
             <dt class="col-sm-6">{% translate 'Recruitment text provided' %}</dt>
             <dd class="col-sm-6">{% if object.recruitment_text %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
