@@ -1,3 +1,9 @@
+# 0.67.2 (2021-10-26)
+
+-   Fixed adding newly created legal representatives (regression from
+    0.67.0)
+
+
 # 0.67.1 (2021-10-19)
 
 -   Fixed a faulty migration.
