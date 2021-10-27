@@ -1,9 +1,7 @@
-import pytest
 from model_bakery import baker
 
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
-from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.studies.models import Study
 from castellum.studies.models import StudySession
@@ -106,36 +104,3 @@ def test_disinterest_in_study_type(db):
     session.type.add(study_type)
     baker.make(Subject, study_type_disinterest=[study_type])
     assert not Subject.objects.filter(filter_queries.study(study)).exists()
-
-
-@pytest.mark.django_db
-def test_clone_with_empty_filter_group(study):
-    subject_filter_group = baker.make(SubjectFilterGroup, study=study)
-    clone = SubjectFilterGroup.objects.clone(subject_filter_group)
-
-    assert subject_filter_group.id != clone.id
-    assert study == clone.study
-    assert 0 == clone.subjectfilter_set.count()
-
-
-@pytest.mark.django_db
-def test_clone_with_multiple_filters(attribute_description, study):
-    subject_filter_group = baker.make(SubjectFilterGroup, study=study)
-    SubjectFilter.objects.create(
-        group=subject_filter_group,
-        description=attribute_description,
-        operator="operator1",
-        value="value1",
-    )
-    SubjectFilter.objects.create(
-        group=subject_filter_group,
-        description=attribute_description,
-        operator="operator2",
-        value="value2",
-    )
-
-    clone = SubjectFilterGroup.objects.clone(subject_filter_group)
-
-    assert subject_filter_group.id != clone.id
-    assert study == clone.study
-    assert 2 == clone.subjectfilter_set.count()

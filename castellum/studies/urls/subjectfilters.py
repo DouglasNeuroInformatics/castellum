@@ -23,7 +23,6 @@ from django.urls import path
 
 from ..views.subjectfilters import FilterGroupCreateView
 from ..views.subjectfilters import FilterGroupDeleteView
-from ..views.subjectfilters import FilterGroupDuplicateView
 from ..views.subjectfilters import FilterGroupListView
 from ..views.subjectfilters import FilterGroupUpdateView
 
@@ -32,5 +31,4 @@ urlpatterns = [
     path('create/', FilterGroupCreateView.as_view(), name='filtergroup-create'),
     path('<int:pk>/', FilterGroupUpdateView.as_view(), name='filtergroup-update'),
     path('<int:pk>/delete/', FilterGroupDeleteView.as_view(), name='filtergroup-delete'),
-    path('<int:pk>/duplicate/', FilterGroupDuplicateView.as_view(), name='filtergroup-duplicate'),
 ]

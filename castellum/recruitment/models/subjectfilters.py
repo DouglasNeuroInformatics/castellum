@@ -28,23 +28,8 @@ from castellum.subjects.models import Subject
 from ..models import AttributeDescription
 
 
-class SubjectFilterGroupManager(models.Manager):
-    def clone(self, original_group):
-        cloned_group = SubjectFilterGroup.objects.create(study=original_group.study)
-        SubjectFilter.objects.bulk_create(self.clone_filters(original_group, cloned_group))
-        return cloned_group
-
-    def clone_filters(self, original_group, cloned_group):
-        for f in original_group.subjectfilter_set.all():
-            yield SubjectFilter(
-                group=cloned_group, description=f.description, operator=f.operator, value=f.value
-            )
-
-
 class SubjectFilterGroup(models.Model):
     study = models.ForeignKey(Study, on_delete=models.CASCADE)
-
-    objects = SubjectFilterGroupManager()
 
     def get_absolute_url(self):
         return reverse('studies:filtergroup-update', args=[self.study.pk, self.pk])

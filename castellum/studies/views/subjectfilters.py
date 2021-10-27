@@ -219,14 +219,3 @@ class FilterGroupDeleteView(FilterMixin, DeleteView):
 
     def get_success_url(self):
         return reverse('studies:filtergroup-index', args=[self.study.pk])
-
-
-class FilterGroupDuplicateView(FilterMixin, View):
-    permission_required = 'studies.change_study'
-
-    def post(self, request, study_pk, pk):
-        original = get_object_or_404(SubjectFilterGroup, study=self.study, pk=pk)
-        SubjectFilterGroup.objects.clone(original)
-        messages.success(request, _(
-            'The filters have been duplicated. You can now edit the duplicate.'))
-        return redirect('studies:filtergroup-index', self.study.pk)

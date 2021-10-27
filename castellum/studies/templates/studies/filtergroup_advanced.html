@@ -44,10 +44,6 @@
                             {% endwith %}
                         </div>
                         <div>
-                            <form class="d-inline" method="post" action="{% url 'studies:filtergroup-duplicate' study.pk group.pk %}">
-                                {% csrf_token %}
-                                <button class="btn btn-outline-primary mb-1" >{% translate "Duplicate" %}</button>
-                            </form>
                             <a href="{% url 'studies:filtergroup-update' study.pk group.pk %}" class="btn btn-outline-primary mb-1">{% translate "Edit" %}</a>
                             <a href="{% url 'studies:filtergroup-delete' study.pk group.pk %}" class="btn btn-danger mb-1">{% translate "Delete" %}</a>
                         </div>
