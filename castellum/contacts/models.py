@@ -136,6 +136,7 @@ class BaseContact(TimeStampedModel):
 
     gender = models.CharField(_('Gender'), max_length=1, choices=GENDER, blank=True)
     date_of_birth = DateField(_('Date of birth'), blank=True, null=True)
+    phone_number = PhoneNumberField(_('Phone number'), max_length=32, blank=True)
 
     class Meta:
         abstract = True
@@ -166,7 +167,6 @@ class Contact(BaseContact):
     last_name_phonetic = models.CharField(max_length=128, editable=False, default=None)
 
     email = models.EmailField(_('Email'), max_length=128, blank=True)
-    phone_number = PhoneNumberField(_('Phone number'), max_length=32, blank=True)
     phone_number_alternative = PhoneNumberField(
         _('Phone number alternative'), max_length=32, blank=True
     )
