@@ -56,7 +56,6 @@ class StudyForm(forms.ModelForm):
             'email',
             'description',
             'announce_status_changes',
-            'data_sensitivity',
             'consent',
             'min_subject_count',
             'exportable_attributes',
