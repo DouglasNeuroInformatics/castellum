@@ -30,6 +30,9 @@ document.querySelectorAll('[data-js="calendar"]').forEach(function(el) {
                 scrollTime: '08:00:00',
             },
         },
+        eventDidMount: function(arg) {
+            arg.el.title = arg.event.title;
+        },
     });
     window.addEventListener('resize', function() {
         var offsetTop = el.getBoundingClientRect().top + window.scrollY;
