@@ -21,6 +21,7 @@
 
 import datetime
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.utils import timezone
@@ -69,10 +70,10 @@ class AutoLogoutMiddleware:
             login_time = request.user.last_login or now
             idle_time = now - get_last_active(request)
 
-            if login_time.date() != now.date() or idle_time > request.user.logout_timeout:
+            if login_time.date() != now.date() or idle_time > settings.CASTELLUM_LOGOUT_TIMEOUT:
                 logout(request)
                 messages.add_message(request, messages.ERROR, _('Your session has expired'))
-            elif idle_time > request.user.logout_timeout / 10:
+            elif idle_time > settings.CASTELLUM_LOGOUT_TIMEOUT / 10:
                 set_last_active(request)
 
         return self.get_response(request)

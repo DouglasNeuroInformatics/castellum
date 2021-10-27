@@ -77,7 +77,7 @@ class UserAdmin(BaseUserAdmin):
             ]
         }),
         (_('important dates'), {
-            'fields': ['last_login', 'date_joined', 'expiration_date', 'logout_timeout']
+            'fields': ['last_login', 'date_joined', 'expiration_date']
         }),
     ]
 

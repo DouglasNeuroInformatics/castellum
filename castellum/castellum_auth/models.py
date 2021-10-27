@@ -21,7 +21,6 @@
 
 import secrets
 
-from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -42,9 +41,6 @@ class User(AbstractUser):
         _('Language'), max_length=5, choices=get_parler_languages(), blank=True
     )
     expiration_date = DateTimeField(_('Expiration date'), blank=True, null=True)
-    logout_timeout = models.DurationField(
-        _('Time until automatic logout'), default=settings.LOGOUT_TIMEOUT_DEFAULT
-    )
     token = models.CharField(max_length=64, unique=True, default=generate_token)
     general_domains = models.ManyToManyField(
         Domain,
