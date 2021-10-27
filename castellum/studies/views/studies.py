@@ -223,7 +223,6 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             self.object.exclusion_criteria = self.duplicate.exclusion_criteria
             self.object.recruitment_text = self.duplicate.recruitment_text
             self.object.advanced_filtering = self.duplicate.advanced_filtering
-            self.object.custom_filter = self.duplicate.custom_filter
             self.object.is_exclusive = self.duplicate.is_exclusive
             self.object.complete_matches_only = self.duplicate.complete_matches_only
             self.object.excluded_studies.set(self.duplicate.excluded_studies.all())

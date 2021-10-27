@@ -24,7 +24,6 @@ from django.contrib import messages
 from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
-from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DeleteView
@@ -45,29 +44,7 @@ from castellum.subjects.models import Subject
 from ..mixins import StudyMixin
 
 
-class CustomFilterMixin:
-    """Should be called *after* PermissionRequiredMixin."""
-
-    def dispatch(self, request, *args, **kwargs):
-        if self.study.custom_filter:
-            return TemplateResponse(
-                request=self.request,
-                template='studies/filtergroup_blocked.html',
-                context={
-                    'study': self.study,
-                    'total_count': Subject.objects.count(),
-                    'count': (
-                        Subject.objects.filter(
-                            filter_queries.study(self.object),
-                            filter_queries.has_consent(),
-                        ).count()
-                    ),
-                },
-            )
-        return super().dispatch(request, *args, **kwargs)
-
-
-class FilterMixin(StudyMixin, PermissionRequiredMixin, CustomFilterMixin):
+class FilterMixin(StudyMixin, PermissionRequiredMixin):
     tab = 'recruitmentsettings'
     subtab = 'filters'
 
