@@ -57,7 +57,6 @@ class StudyType(TranslatableModel):
         _('Additional subject characteristics that should be verified during recruitment'),
         blank=True,
     )
-    data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
     export_key = models.CharField(
         _('Export key'), max_length=32, choices=[(k, k) for k in EXPORT_KEYS], blank=True
     )
@@ -89,7 +88,6 @@ class Study(models.Model):
         _('Previous status'), choices=STATUS, default=EDIT
     )
     status = models.SmallIntegerField(_('Status'), choices=STATUS, default=EDIT)
-    data_sensitivity = models.BooleanField(_('Contains sensitive data'), default=False)
     min_subject_count = models.PositiveIntegerField(_('Required number of subjects'), default=0)
     session_instructions = models.TextField(
         _('Session instructions'),
@@ -313,10 +311,6 @@ class Study(models.Model):
             return self.previous_status == Study.EXECUTION
         else:
             return self.status == Study.EXECUTION
-
-    @cached_property
-    def is_sensitive(self):
-        return self.data_sensitivity or self.study_type.filter(data_sensitivity=True).exists()
 
     # NOTE: this might not be the same as the group of the same name!
     @cached_property

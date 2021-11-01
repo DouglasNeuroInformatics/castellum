@@ -4,8 +4,7 @@
     "pk": 1,
     "fields": {
         "exclusion_criteria": "",
-        "export_key": "Online",
-        "data_sensitivity": false
+        "export_key": "Online"
     }
 },
 {
@@ -13,8 +12,7 @@
     "pk": 2,
     "fields": {
         "exclusion_criteria": "",
-        "export_key": "Behavioral lab",
-        "data_sensitivity": false
+        "export_key": "Behavioral lab"
     }
 },
 {
@@ -22,8 +20,7 @@
     "pk": 3,
     "fields": {
         "exclusion_criteria": "Bestimmte Personen d\u00fcrfen gar nicht oder nur nach Absprache mit dem Studienleiter untersucht werden.\r\n\r\nHaben bzw. tragen Sie\u2026:\r\n\r\n-   einen Herzschrittmacher\r\n-   Metallimplantate (z. B. Knochenplatten, Gelenkprothesen, k\u00fcnstlicher Darmausgang mit Magnetverschluss, Gef\u00e4\u00dfclips, k\u00fcnstliche Herzklappen, Stents, Cava-Filter)\r\n-   Metallsplitter (z. B. nach Unf\u00e4llen beim Arbeiten mit Metall oder\r\n    durch Kriegsverletzungen)\r\n-   eine feste Zahnspange\r\n-   eine T\u00e4towierung (manche Tatoofarben enthalten Metallpartikel)\r\n-   Permanent-Make-up\r\n-   eine Spirale zur Empf\u00e4ngnisverh\u00fctung (Intrauterinpessar)\r\n-   ein Cochlea-Implantat (H\u00f6rprothese)\r\n-   eine Medikamentenpumpe\r\n-   Akupunkturnadeln\r\n-   andere/sonstige metallische Fremdk\u00f6rper die nicht heraus genommen werden k\u00f6nnen\r\n\r\nAllgemeine Fragen:\r\n\r\n-   Sind Sie schwanger oder k\u00f6nnten evtl. schwanger sein?\r\n-   Hatten Sie schon einmal eine Operation am Gehirn?\r\n-   Hatten Sie schon einmal eine Operation am Herzen?\r\n\r\nHinweis: Unproblematisch sind in der Regel metallhaltige Zahnf\u00fcllungen sowie Rei\u00dfverschl\u00fcsse, Kn\u00f6pfe und Nieten an Hosen.",
-        "export_key": "MRI",
-        "data_sensitivity": true
+        "export_key": "MRI"
     }
 },
 {
@@ -31,8 +28,7 @@
     "pk": 4,
     "fields": {
         "exclusion_criteria": "",
-        "export_key": "Simulation",
-        "data_sensitivity": false
+        "export_key": "Simulation"
     }
 },
 {
@@ -40,8 +36,7 @@
     "pk": 5,
     "fields": {
         "exclusion_criteria": "",
-        "export_key": "EEG",
-        "data_sensitivity": false
+        "export_key": "EEG"
     }
 },
 {
