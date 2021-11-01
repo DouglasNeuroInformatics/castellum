@@ -204,7 +204,21 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
             ).count()
         )
         context['related_studies'] = list(get_related_studies(self.object))
-        context['conflicting_studies'] = get_conflicting_studies(self.object)
+
+        width = self.object.min_subject_count
+        conflicting_studies = get_conflicting_studies(self.object)
+        context['conflicting_studies'] = []
+        for study in conflicting_studies[:2]:
+            width += study.count
+            context['conflicting_studies'].append((study, study.count, width))
+        if len(conflicting_studies) > 2:
+            others = sum(study.count for study in conflicting_studies[2:])
+            width += others
+            context['conflicting_studies'].append((_('Others'), others, width))
+        context['expected_subjects_threshold'] = (
+            context['potential_count'] / settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+        )
+
         return context
 
 

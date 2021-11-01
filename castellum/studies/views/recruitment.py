@@ -93,7 +93,7 @@ def get_conflicting_studies(study):
         if other.count != 0:
             results.append(other)
 
-    return sorted(results, key=lambda s: -s.count)[:5]
+    return sorted(results, key=lambda s: -s.count)
 
 
 class StudyRecruitmentSettingsUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView):

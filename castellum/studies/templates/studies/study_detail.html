@@ -43,24 +43,39 @@
     <h3 class="h5">{% translate "Recruitment settings" %}</h3>
 
     <dl class="row">
-        <dt class="col-sm-6">{% translate 'Participating subjects' %}</dt>
-        <dd class="col-sm-6">{{ object.invited_count }}/{{ object.min_subject_count }}</dd>
+        <dt class="col-12">{% translate 'Participating subjects' %}</dt>
+        <dd class="col-12">
+            <svg class="progress w-100" viewbox="0 0 {{ object.min_subject_count }} 10" preserveAspectRatio="none">
+                <rect class="text-success" fill="currentColor" width="{{ object.invited_count }}" height="10" />
+            </svg>
+            <span class="text-success" aria-hidden="true">&#9679;</span>
+            {{ object.invited_count }}/{{ object.min_subject_count }}
+        </dd>
 
-        <dt class="col-sm-6">{% translate 'Potential subjects' %}</dt>
-        <dd class="col-sm-6">{{ potential_count }}</dd>
+        <dt class="col-12">{% translate 'Potential subjects' %}</dt>
+        <dd class="col-12">
+            <small class="d-block text-muted">{% translate 'There should be enough potential subjects for this study and other studies which will recruit similar subjects at the same time.' %}</small>
+            <svg class="progress w-100" viewbox="0 0 {{ potential_count }} 10" preserveAspectRatio="none">
+                {% for label, count, width in conflicting_studies reversed %}
+                    <rect class="text-warning" fill="currentColor" width="{{ width }}" height="10" />
+                {% endfor %}
+                <rect class="text-success" fill="currentColor" width="{{ object.min_subject_count }}" height="10" />
+                <line x1="{{ expected_subjects_threshold }}" x2="{{ expected_subjects_threshold }}" y1="0" y2="10" stroke="currentColor" />
+            </svg>
+            <dl class="dl-inline">
+                <dt><span class="text-success" aria-hidden="true">&#9679;</span> {{ object }}</dt>
+                <dd>{{ object.min_subject_count }}/{{ potential_count }}</dd>
+
+                {% for label, count, width in conflicting_studies %}
+                    <dt><span class="text-warning" aria-hidden="true">&#9679;</span> {{ label }}</dt>
+                    <dd>{{ count }}/{{ potential_count }}</dd>
+                {% endfor %}
+            </dl>
+        </dd>
 
         <dt class="col-sm-6">{% translate 'Studies in which potential subjects have participated' %}</dt>
         <dd class="col-sm-6">
             {% for study in related_studies %}
-                {{ study }} ({{ study.count }}){% if not forloop.last %},{% endif %}
-            {% empty %}
-                &mdash;
-            {% endfor %}
-        </dd>
-
-        <dt class="col-sm-6">{% translate 'Studies which will recruit similar subjects at the same time' %}</dt>
-        <dd class="col-sm-6">
-            {% for study in conflicting_studies %}
                 {{ study }} ({{ study.count }}){% if not forloop.last %},{% endif %}
             {% empty %}
                 &mdash;
