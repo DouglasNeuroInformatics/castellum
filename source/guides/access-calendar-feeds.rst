@@ -34,8 +34,8 @@ Find the different types of calendars
 
     In order to check availability of a resource it is sufficient to subscribe 
     to the "Per Resource" feed. However, to check whether it is possible to swap 
-    open slots with other studies users have to match this information with the 
-    external calendar.
+    open slots with other studies users have to match this feed information with 
+    the external calendar view of the room booking system.
 
 Reset user tokens
 =================
