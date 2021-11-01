@@ -31,6 +31,7 @@ from faker import Faker
 
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
+from castellum.contacts.models import ContactCreationRequest
 from castellum.contacts.models import Street
 from castellum.contacts.models import phonetic
 from castellum.recruitment.models import AttributeChoice
@@ -39,6 +40,7 @@ from castellum.studies.models import StudySession
 from castellum.subjects.models import Consent
 from castellum.subjects.models import ConsentDocument
 from castellum.subjects.models import Subject
+from castellum.subjects.models import SubjectCreationRequest
 
 fake = Faker('de_DE')
 
@@ -115,6 +117,13 @@ def fake_subject():
     return Subject(privacy_level=fake.random.randint(0, 2), attributes=fake_attributes())
 
 
+def fake_subject_creation_request(id):
+    delete_url = "https://example.com/self_registration/delete/{id}".format(id=id)
+    return SubjectCreationRequest.objects.create(
+        delete_url=delete_url, source="https://example.com/self_registration"
+    )
+
+
 def fake_studysession(study):
     return StudySession(study=study, name=fake.word(), duration=fake.random.randrange(10, 120, 10))
 
@@ -182,6 +191,31 @@ def fake_contact(subject):
     return contact
 
 
+def fake_contact_creation_request(subject_creation_request):
+    if fake.random.random() < 0.5:
+        gender = 'f'
+        first_name = fake.first_name_female()
+        last_name = fake.last_name_female()
+    else:
+        gender = 'm'
+        first_name = fake.first_name_male()
+        last_name = fake.last_name_male()
+
+    date_of_birth = fake_date_of_birth()
+
+    contact_creation_request = ContactCreationRequest.objects.create(
+        gender=gender,
+        first_name=first_name,
+        last_name=last_name,
+        date_of_birth=date_of_birth,
+        email=fake.email(),
+        phone_number=fake_phone_number(),
+        subject_id=subject_creation_request.pk,
+    )
+
+    return contact_creation_request
+
+
 def fake_attributes():
     data = {}
     if fake.random.random() < 0.9:
@@ -216,6 +250,13 @@ def generate_studies(count):
         session.save()
         for name, color in settings.CASTELLUM_DEFAULT_EXECUTION_TAGS:
             study.executiontag_set.create(name=name, color=color)
+
+
+def generate_subject_creation_requests(count):
+    print('Generating subject creation requests')
+    for i in range(count):
+        subject_creation_request = fake_subject_creation_request(id=i)
+        fake_contact_creation_request(subject_creation_request)
 
 
 def generate_subjects(count):
@@ -266,6 +307,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--study-count', default=5, type=int)
         parser.add_argument('--subject-count', default=2000, type=int)
+        parser.add_argument('--subject-creation-request-count', default=20, type=int)
         parser.add_argument('--street-count', default=1000, type=int)
 
     def handle(self, *args, **options):
@@ -278,3 +320,8 @@ class Command(BaseCommand):
             generate_subjects(options['subject_count'])
         if not Street.objects.exists():
             generate_streets(options['street_count'])
+        if (
+            not SubjectCreationRequest.objects.exists()
+            and settings.CASTELLUM_SUBJECT_CREATION_REQUESTS_ENABLED
+        ):
+            generate_subject_creation_requests(options['subject_creation_request_count'])
