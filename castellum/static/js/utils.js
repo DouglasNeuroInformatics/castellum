@@ -25,6 +25,15 @@
                 }
             };
         },
+        icon: function(cls, label) {
+            var i = document.createElement('i');
+            i.className = cls;
+            if (label) {
+                i.title = label;
+                i.setAttribute('aria-label', label);
+            }
+            return i;
+        },
     };
 
     var preventDoubleClick = false;

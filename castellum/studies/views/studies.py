@@ -175,6 +175,7 @@ class StudyIndexView(LoginRequiredMixin, ListView):
             'end': study.sessions_end,
             'title': study.name,
             'url': reverse('studies:detail', args=[study.pk]),
+            'min_subject_count': study.min_subject_count,
         }
 
     def get_context_data(self, **kwargs):

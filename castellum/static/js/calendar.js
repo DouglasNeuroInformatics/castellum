@@ -32,6 +32,13 @@ document.querySelectorAll('[data-js="calendar"]').forEach(function(el) {
         },
         eventDidMount: function(arg) {
             arg.el.title = arg.event.title;
+
+            if (arg.event.extendedProps.min_subject_count) {
+                var container = arg.el.querySelector('.fc-event-title');
+                var span = document.createElement('span');
+                span.append('(', $$.icon('fas fa-users', django.gettext('Participants')), ' ', arg.event.extendedProps.min_subject_count, ')');
+                container.append(' ', span);
+            }
         },
     });
     window.addEventListener('resize', function() {
