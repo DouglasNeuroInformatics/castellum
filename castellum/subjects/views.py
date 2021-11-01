@@ -742,6 +742,11 @@ class SubjectCreationRequestDeleteView(PermissionRequiredMixin, DeleteView):
     def get_success_url(self):
         return reverse('subjects:index')
 
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.contact.delete()
+        return redirect(self.get_success_url())
+
 
 class MaintenanceNotesView(BaseMaintenanceView):
     template_name = 'subjects/maintenance_notes.html'
