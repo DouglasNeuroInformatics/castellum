@@ -20,7 +20,11 @@ Find the different types of calendars
 
 3.  Under "Per Resource" find all occupied slots for all resources.
 
-    -   The list of resources is configurable by your institution (TODO link to resources guide)
+    -   The list of resources is configurable by your institution 
+    
+    .. TODO::
+        
+        - link to resources guide
 
 .. admonition:: Example
 
