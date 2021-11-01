@@ -134,7 +134,6 @@ class Study(models.Model):
         ),
         default=False,
     )
-    custom_filter = models.CharField(_('Custom filter'), max_length=254, blank=True)
     geo_filter = RestrictedFileField(
         _('Geo filter file'),
         help_text=_(

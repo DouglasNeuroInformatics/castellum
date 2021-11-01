@@ -41,7 +41,6 @@ from castellum.studies.models import Study
 from castellum.subjects.models import Consent
 from castellum.subjects.models import Subject
 
-from .filter_registry import custom_filters
 from .models import AttributeDescription
 from .models import Participation
 
@@ -137,14 +136,11 @@ def already_in_study(study):
 def study_filters(study, include_unknown=None):
     """A wrapper around subjectfilters()."""
 
-    if study.custom_filter:
-        q = custom_filters[study.custom_filter](include_unknown=include_unknown)
-    else:
-        # Filter according to all subjectfilters from all
-        # subjectfiltergroups.
-        q = models.Q()
-        for group in study.subjectfiltergroup_set.all():
-            q |= subjectfilters(group, include_unknown=include_unknown)
+    # Filter according to all subjectfilters from all
+    # subjectfiltergroups.
+    q = models.Q()
+    for group in study.subjectfiltergroup_set.all():
+        q |= subjectfilters(group, include_unknown=include_unknown)
 
     return q
 
