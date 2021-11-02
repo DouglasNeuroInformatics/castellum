@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <table class="table">
+        {% for model in stats %}
+            <tr>
+                <th>{{ model.name }}</th>
+                <th></th>
+                <td>{{ model.count }}</th>
+            </tr>
+            {% for field in model.fields %}
+                <tr>
+                    <th>{{ model.name }}</th>
+                    <th>{{ field.name }}</th>
+                    <td>{{ field.count }}</th>
+                    <td>{{ field.percent|default:'—' }}</th>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </table>
+{% endblock %}

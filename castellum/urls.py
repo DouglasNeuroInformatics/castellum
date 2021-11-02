@@ -107,6 +107,11 @@ urlpatterns = [
     path('mfa/', include('mfa.urls', namespace='mfa')),
 ]
 
+if 'castellum.stats' in settings.INSTALLED_APPS:
+    urlpatterns += [
+        path('stats/', include('castellum.stats.urls', namespace='stats')),
+    ]
+
 if settings.PROTECTED_MEDIA_SERVER:
     urlpatterns += [
         path('media/<path:path>', protected_media),

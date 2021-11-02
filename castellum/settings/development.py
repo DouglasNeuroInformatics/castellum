@@ -53,5 +53,6 @@ CASTELLUM_STUDY_STATUS_NOTIFICATION_TO = ['pr@example.com']
 CASTELLUM_PSEUDONYMS_API_ENABLED = True
 CASTELLUM_SUBJECT_CREATION_REQUESTS_ENABLED = True
 
-# Setup geofilters
+# Setup optional apps
 INSTALLED_APPS.append('castellum.geofilters')
+INSTALLED_APPS.append('castellum.stats')
