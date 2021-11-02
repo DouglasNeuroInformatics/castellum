@@ -7,6 +7,7 @@ from freezegun import freeze_time
 from model_bakery import baker
 
 from castellum.contacts.models import Contact
+from castellum.contacts.models import ContactCreationRequest
 from castellum.recruitment.models import ReliabilityEntry
 from castellum.subjects.models import Consent
 
@@ -177,3 +178,31 @@ def test_maintenance_reliability(client, user, subject):
     response = client.get(url)
     assert response.status_code == 200
     assert response.content.count(b'"table-list-item"') == 1
+
+
+@pytest.mark.smoketest
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    'subject_manager',
+    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+])
+def test_maintenance_subjectcreationrequest(
+    request, user_fixture, client, user, subject_creation_request
+):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    url = '/subjects/maintenance/subjectcreationrequest/'
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.content.count(b'"table-list-item"') == 1
+
+
+def test_maintenance_delete_subjectcreationrequest(client, user, subject_creation_request):
+    client.force_login(user)
+    url = '/subjects/subjectcreationrequest/{}/delete/'.format(subject_creation_request.pk)
+    response = client.post(url)
+    subject_creation_request.refresh_from_db()
+    assert response.status_code == 302
+    assert subject_creation_request.data_is_deleted
+    assert not ContactCreationRequest.objects.exists()

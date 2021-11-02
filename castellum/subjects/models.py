@@ -254,6 +254,10 @@ class SubjectCreationRequest(TimeStampedModel):
         _('Delete URL'), max_length=128, blank=True, null=True, unique=True
     )
     source = models.CharField(_('Data source'), max_length=128, blank=True)
+    data_is_deleted = models.BooleanField(
+        _('Personal data has been deleted'),
+        default=False,
+    )
 
     @cached_property
     def contact(self):

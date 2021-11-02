@@ -733,6 +733,9 @@ class MaintenanceSubjectCreationRequestView(PermissionRequiredMixin, ListView):
     template_name = 'subjects/maintenance_subjectcreationrequest.html'
     tab = 'subjectcreationrequest'
 
+    def get_queryset(self):
+        return SubjectCreationRequest.objects.filter(data_is_deleted=False)
+
 
 class SubjectCreationRequestDeleteView(PermissionRequiredMixin, DeleteView):
     model = SubjectCreationRequest
@@ -741,6 +744,13 @@ class SubjectCreationRequestDeleteView(PermissionRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse('subjects:index')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.contact.delete()
+        self.object.data_is_deleted = True
+        self.object.save()
+        return redirect(self.get_success_url())
 
 
 class MaintenanceNotesView(BaseMaintenanceView):
