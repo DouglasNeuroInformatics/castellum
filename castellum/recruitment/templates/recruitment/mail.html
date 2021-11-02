@@ -34,7 +34,7 @@
         </form>
     {% endif %}
 
-    {% if study.mailbatch_set.all %}
+    {% if batches %}
         <h3 class="mt-5">{% translate "Previous mails" %}</h3>
         <ul class="table-list mb-3">
         {% for batch in batches reversed %}
