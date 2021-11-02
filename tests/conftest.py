@@ -14,6 +14,7 @@ from model_bakery import baker
 from castellum.castellum_auth.models import User
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
+from castellum.contacts.models import ContactCreationRequest
 from castellum.recruitment.management.commands import create_attribute_descriptions
 from castellum.recruitment.management.commands import create_demo_content
 from castellum.recruitment.models import AttributeDescription
@@ -23,6 +24,7 @@ from castellum.recruitment.models import SubjectFilterGroup
 from castellum.studies.models import Study
 from castellum.studies.models import StudyGroup
 from castellum.studies.models import StudyMembership
+from castellum.subjects.models import SubjectCreationRequest
 
 ADDITIONAL_ATTRIBUTE_DESCRIPTIONS = [{
     'field_type': 'MultipleChoiceField',
@@ -212,6 +214,13 @@ def contact(db):
 @pytest.fixture
 def subject(contact):
     return contact.subject
+
+
+@pytest.fixture
+def subject_creation_request(db):
+    subject_creation_request = baker.make(SubjectCreationRequest)
+    baker.make(ContactCreationRequest, subject_id=subject_creation_request.pk)
+    return subject_creation_request
 
 
 @pytest.fixture
