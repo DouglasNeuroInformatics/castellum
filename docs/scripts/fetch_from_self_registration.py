@@ -45,6 +45,8 @@ def do_import(url, token, source):
     errors = []
 
     for item in r.json()['subjects']:
+        if SubjectCreationRequest.objects.filter(delete_url=item['delete_url']).exists():
+            continue
         try:
             success.append(import_creationrequest(item, source))
         except Exception as e:
@@ -76,6 +78,7 @@ class Command(BaseCommand):
         parser.add_argument('url', help='URL to a list of subject creation requests (JSON)')
         parser.add_argument('--token', help='Authentication token')
         parser.add_argument('--source', help='Data source')
+        parser.add_argument('--delete', action='store_true')
 
     def handle(self, *args, **options):
         success, errors = do_import(options['url'], options['token'], options['source'])
@@ -85,11 +88,11 @@ class Command(BaseCommand):
         if options['verbosity'] > 0:
             self.stdout.write('Created {} subject creation requests'.format(len(success)))
 
-        success, errors = do_cleanup_remote(options['token'])
-        if options['verbosity'] > 1:
-            for error in errors:
-                self.stderr.write(str(error))
-        if options['verbosity'] > 0:
-            self.stdout.write(
-                'Cleaned up {} subject creation requests from remote service'.format(len(success))
-            )
+        if options['delete']:
+            success, errors = do_cleanup_remote(options['token'])
+            if options['verbosity'] > 1:
+                for error in errors:
+                    self.stderr.write(str(error))
+            if options['verbosity'] > 0:
+                msg = 'Cleaned up {} subject creation requests from remote service'
+                self.stdout.write(msg.format(len(success)))
