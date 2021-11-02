@@ -43,8 +43,13 @@
     <h3 class="h5">{% translate "Recruitment settings" %}</h3>
 
     <dl class="row">
-        <dt class="col-sm-6">{% translate 'Participating subjects' %}</dt>
-        <dd class="col-sm-6">{{ object.invited_count }}/{{ object.min_subject_count }}</dd>
+        {% if study.is_onetime_invitation %}
+            <dt class="col-sm-6">{% translate 'Contacted subjects' %}</dt>
+            <dd class="col-sm-6">{{ object.participation_set.count }}/{{ object.min_subject_count }}</dd>
+        {% else %}
+            <dt class="col-sm-6">{% translate 'Participating subjects' %}</dt>
+            <dd class="col-sm-6">{{ object.invited_count }}/{{ object.min_subject_count }}</dd>
+        {% endif %}
 
         <dt class="col-sm-6">{% translate 'Potential subjects' %}</dt>
         <dd class="col-sm-6">{{ potential_count }}</dd>
