@@ -54,7 +54,6 @@ from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
-from castellum.contacts.models import ContactCreationRequest
 from castellum.pseudonyms.helpers import get_pseudonym_if_exists
 from castellum.pseudonyms.models import Domain
 from castellum.recruitment import filter_queries
@@ -735,13 +734,7 @@ class MaintenanceSubjectCreationRequestView(PermissionRequiredMixin, ListView):
     tab = 'subjectcreationrequest'
 
     def get_queryset(self):
-        contact_creation_requests = list(
-            ContactCreationRequest.objects.all().values_list('subject_id', flat=True)
-        )
-
-        return SubjectCreationRequest.objects.filter(
-            pk__in=contact_creation_requests
-        )
+        return SubjectCreationRequest.objects.filter(data_is_deleted=False)
 
 
 class SubjectCreationRequestDeleteView(PermissionRequiredMixin, DeleteView):
@@ -755,6 +748,8 @@ class SubjectCreationRequestDeleteView(PermissionRequiredMixin, DeleteView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.contact.delete()
+        self.object.data_is_deleted = True
+        self.object.save()
         return redirect(self.get_success_url())
 
 
