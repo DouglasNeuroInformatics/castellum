@@ -28,7 +28,7 @@ COPY castellum/__init__.py castellum/
 COPY --from=0 node_modules/ node_modules
 
 RUN pip3 install -e . && \
-    pip3 install django-auth-ldap django-axes
+    pip3 install django-auth-ldap django-axes django-model-stats
 
 COPY castellum/ castellum
 

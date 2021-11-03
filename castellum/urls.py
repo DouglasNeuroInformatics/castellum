@@ -112,6 +112,11 @@ if settings.PROTECTED_MEDIA_SERVER:
         path('media/<path:path>', protected_media),
     ]
 
+if 'model_stats' in settings.INSTALLED_APPS:
+    urlpatterns = [
+        path('admin/stats/', include('model_stats.urls')),
+    ] + urlpatterns
+
 try:
     import debug_toolbar
     urlpatterns += [
