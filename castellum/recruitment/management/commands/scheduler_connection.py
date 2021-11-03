@@ -98,7 +98,9 @@ class Command(BaseCommand):
 
             try:
                 self.update_appointment(data['schedule'], data['token'], options['base_url'])
-            except Exception:
+            except Exception as e:
+                if options['verbosity'] > 0:
+                    self.stdout.write(str(e))
                 status = 'error'
 
             requests.post('{}?id={}&{}'.format(url, event['id'], status), headers=headers)
