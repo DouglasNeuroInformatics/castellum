@@ -1,4 +1,4 @@
-FROM node:14.18.1
+FROM node
 COPY package.json .
 RUN npm install --production
 
