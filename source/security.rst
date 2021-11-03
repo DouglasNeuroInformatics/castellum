@@ -85,8 +85,8 @@ Access to resources and general domains
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Similar to how a study membership allows a user to access a specific study,
-users need to be authorized to access specific resources and general domains.
-This can only be done by administrators.
+users need to be authorized to access specific resources and :ref:`general
+domains <general-domains>`. This can only be done by administrators.
 
 Data separation
 ---------------
