@@ -81,6 +81,13 @@ user's privacy level is controlled via the special permissions
 ``privacy_level_1`` and ``privacy_level_2``. The three levels (0-2) accord to
 the data security levels of the Max Planck Society.
 
+Access to resources and general domains
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Similar to how a study membership allows a user to access a specific study,
+users need to be authorized to access specific resources and general domains.
+This can only be done by administrators.
+
 Data separation
 ---------------
 
