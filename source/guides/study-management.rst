@@ -25,6 +25,10 @@ Create a study
     invite potential subjects **anonymously** via mail.
 
 4.  Fill in any additional information (you can still do that later)
+    
+    -   Quick note on **Consent**: this allows users to upload a blueprint of 
+        the study consent. This blueprint can be obtained (and printed) later by 
+        recruiters or conductors.
 
 5.  Click on **Save** to record your progress
 
