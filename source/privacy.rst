@@ -77,6 +77,8 @@ Relevant guides:
 .. todo::
     -   attribute export
 
+.. _general-domains:
+
 Using pseudonyms from general domains
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
