@@ -17,6 +17,7 @@ Relevant guides:
 -   :ref:`subject-get-pseudonym`
 -   :ref:`subject-to-be-deleted`
 -   :ref:`subject-delete`
+-   :ref:`subject-add-to-study`
 -   :ref:`study-create`
 -   :ref:`study-domains`
 -   :ref:`study-delete`
@@ -25,7 +26,6 @@ Relevant guides:
 
 .. TODO::
 
-    -   add subject to study
     -   maintenance
 
 Recruitment
