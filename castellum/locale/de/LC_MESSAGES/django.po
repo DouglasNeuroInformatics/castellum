@@ -143,10 +143,8 @@ msgstr "Heute keine Termine"
 #: castellum/appointments/templates/appointments/resource_base.html:4
 #: castellum/appointments/templates/appointments/resource_base.html:8
 #: castellum/templates/index.html:51
-#, fuzzy
-#| msgid "Resource"
 msgid "Resources"
-msgstr "Ressource"
+msgstr "Ressourcen"
 
 #: castellum/appointments/templates/appointments/resource_list.html:12
 #: castellum/contacts/templates/contacts/__legal_representative_item.html:15
@@ -176,10 +174,8 @@ msgid "Details"
 msgstr "Details"
 
 #: castellum/appointments/templates/appointments/resource_list.html:18
-#, fuzzy
-#| msgid "Resource"
 msgid "No resources"
-msgstr "Ressource"
+msgstr "Keine Ressourcen"
 
 #: castellum/appointments/views.py:72 castellum/execution/feeds.py:39
 #: castellum/subjects/templates/subjects/subject_detail.html:22
@@ -2153,10 +2149,8 @@ msgid "name"
 msgstr "Name"
 
 #: castellum/studies/models.py:366
-#, fuzzy
-#| msgid "Manage groups"
 msgid "Managers"
-msgstr "Gruppen verwalten"
+msgstr "Manager*innen"
 
 #: castellum/studies/models.py:377
 msgid "Duration of a session in minutes"
@@ -2447,10 +2441,8 @@ msgid "Recruitment settings"
 msgstr "Rekrutierungseinstellungen"
 
 #: castellum/studies/templates/studies/study_detail.html:47
-#, fuzzy
-#| msgid "Potential subjects"
 msgid "Contacted subjects"
-msgstr "Potentielle Proband*innen"
+msgstr "Kontaktierte Proband*innen"
 
 #: castellum/studies/templates/studies/study_detail.html:50
 msgid "Participating subjects"
@@ -2949,10 +2941,8 @@ msgid "Delete URL"
 msgstr "Lösch-URL"
 
 #: castellum/subjects/models.py:258
-#, fuzzy
-#| msgid "Tag has been deleted."
 msgid "Personal data has been deleted"
-msgstr "Tag wurde gelöscht"
+msgstr "Persönliche Daten wurden gelöscht"
 
 #: castellum/subjects/templates/subjects/base.html:6
 #: castellum/subjects/templates/subjects/subject_search.html:4
@@ -3801,12 +3791,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "Time until automatic logout"
-#~ msgstr "Zeit bis zur automatischen Abmeldung"
-
-#~ msgid "Contains sensitive data"
-#~ msgstr "Enthält sensible Daten"
-
-#~ msgid "Custom filter"
-#~ msgstr "Spezieller Filter"

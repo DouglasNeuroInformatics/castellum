@@ -38,4 +38,4 @@ msgstr "Wenn Sie nichts tun wird ihre Sitzung ablaufen"
 
 #: castellum/static/js/calendar.js:39
 msgid "Participants"
-msgstr ""
+msgstr "Teilnehmer*innen"
