@@ -1,3 +1,41 @@
+# 0.68.0 (unrelased)
+
+You need to update to at least 0.67.0 before updating to this version.
+
+## breaking changes
+
+-   The default value for `CASTELLUM_APPOINTMENT_REMINDER_PERIOD` was
+    increased from 2 days to 3 days.
+-   `StudyTypeEventFeed` was removed. For most use cases you can use
+    `Resource.url` instead.
+-   `User.logout_timeout` and `LOGOUT_TIMEOUT_DEFAULT` were replaced by
+    `CASTELLUM_LOGOUT_TIMEOUT`.
+-   `Sudy.data_sensitivity` was removed.
+-   `Study.custom_filter` was removed. If you need a similar
+    functionality it is recommended to create a bespoke attribute and
+    fill it automatically from a python script.
+-   `SubjectCreationRequest` is only marked as deleted. Only the
+    associated contact information is actually deleted.
+
+## bug fixes
+
+-   Calendars now use more space for events to avoid cropping. The text
+    is also available as a tooltip.
+-   For studies that are one time invitations, display the number of
+    contacted subjects instead of invited subjects in the overview.
+
+## new features
+
+-   Users can now be added as managers for resources. In that case they
+    gain access to a resource calendar.
+-   Resources can now reference external event feeds. This event feed is
+    included in the recruitment calendar for studies that use this
+    resource.
+-   The study calendar now includes the number of required subjects.
+    This helps finding potential capacity peaks.
+-   `ContactCreationRequest` gained a `phone_number` field.
+
+
 # 0.67.2 (2021-10-26)
 
 -   Fixed adding newly created legal representatives (regression from
