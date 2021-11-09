@@ -189,6 +189,10 @@ class Study(models.Model):
 
     consent = RestrictedFileField(
         _('Consent'),
+        help_text=_(
+            'A blueprint of the study consent. This file can be obtained '
+            '(and printed) later by recruiters or conductors.'
+        ),
         blank=True,
         upload_to='studies/consent/',
         content_types=['application/pdf'],
