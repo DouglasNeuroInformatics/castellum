@@ -32,8 +32,4 @@ Welcome to Castellum's documentation!
    guides/appointments-external-scheduler
    guides/access-calendar-feeds
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Admin guides
-
    guides/admin
