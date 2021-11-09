@@ -351,4 +351,5 @@ To add a subject to any study, proceed as follows:
 .. NOTE::
 
     Please note that this search doesn't differentiate between active and finished studies.
-    Matching filters are not checked either.
+    Matching filters are not checked either. This feature is intended to support migrating
+    from other tools that previously tracked study participations.
