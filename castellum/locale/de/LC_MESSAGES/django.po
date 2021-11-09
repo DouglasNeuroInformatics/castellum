@@ -2111,6 +2111,14 @@ msgstr ""
 msgid "Consent"
 msgstr "Einwilligung"
 
+#: castellum/studies/models.py:193
+msgid ""
+"A blueprint of the study consent. This file can be obtained (and printed) "
+"later by recruiters or conductors."
+msgstr ""
+"Eine Vorlage der Studieneinwilligung. Rekrutierende und Durchführende können "
+"später auf diese Datei zugreifen (und sie ausdrucken)."
+
 #: castellum/studies/models.py:200
 msgid "Exportable recruitment attributes"
 msgstr "Exportierbare Rekrutierungsmerkmale"
