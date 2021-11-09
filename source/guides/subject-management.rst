@@ -345,12 +345,8 @@ To add a subject to any study, proceed as follows:
 
 2.  Under **Add to study**, enter the name of the study you want to add the subject to.
 
-3.  Clicking on the button named **Contact** will take you to this subject's contact page
-    in the recruitment for the selected study.
-    For further information on how to proceed from there, please see the recruitment guide
-    (starting with point 4.)
-
-    :ref:`recruitment`
+3.  Clicking on the button named **Add to study** will set this subject as participating
+    in the study.
 
 .. NOTE::
 
