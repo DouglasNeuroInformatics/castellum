@@ -333,10 +333,8 @@ proceed as follows:
 
 3.  Clicking on the button named **Contact** will take you to this subject's contact page
     in the recruitment for the selected study.
-    For further information on how to proceed from there, please see the recruitment guide
-    (starting with point 4.)
-
-    :ref:`recruitment`
+    For further information on how to proceed from there, please see the please see the
+    :ref:`recruitment guide <recruitment>` (starting with point 4).
 
 
 To add a subject to any study, proceed as follows:
