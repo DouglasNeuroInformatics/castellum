@@ -1,7 +1,7 @@
 """Fetch SubjectCreationRequests from self registration.
 
 Customize this script and copy it to ``castellum/subjects/management/commands/``,
-You can then execute it using ``django-admin fetch_from_self_registration``.
+You can then execute it using ``django-admin sync_self_registration``.
 
 See https://git.mpib-berlin.mpg.de/castellum/castellum_self_registration
 """
