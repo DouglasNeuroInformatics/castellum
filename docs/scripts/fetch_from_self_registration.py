@@ -93,25 +93,23 @@ class Command(BaseCommand):
         parser.add_argument('--source', help='Data source')
         parser.add_argument('--delete', action='store_true')
 
-    def handle(self, *args, **options):
-        items = get_remote_data(options['url'], options['token'])
-
-        success, errors = do_import(items, options['source'])
+    def log(self, msg, errors, options):
         if options['verbosity'] > 1:
             for error in errors:
                 self.stderr.write(str(error))
         if options['verbosity'] > 0:
-            self.stdout.write('Created {} subject creation requests'.format(len(success)))
+            self.stdout.write(msg)
+
+    def handle(self, *args, **options):
+        items = get_remote_data(options['url'], options['token'])
+
+        success, errors = do_import(items, options['source'])
+        self.log('Created {} subject creation requests'.format(len(success)), errors, options)
 
         success_count = do_cleanup_local(items)
-        if options['verbosity'] > 0:
-            self.stdout.write('Cleaned up {} local subject creation requests'.format(success_count))
+        self.log('Cleaned up {} local subject creation requests'.format(success_count), [], options)
 
         if options['delete']:
             success, errors = do_cleanup_remote(options['token'])
-            if options['verbosity'] > 1:
-                for error in errors:
-                    self.stderr.write(str(error))
-            if options['verbosity'] > 0:
-                msg = 'Cleaned up {} subject creation requests from remote service'
-                self.stdout.write(msg.format(len(success)))
+            msg = 'Cleaned up {} subject creation requests from remote service'
+            self.log(msg.format(len(success)), errors, options)
