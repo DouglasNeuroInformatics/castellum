@@ -28,6 +28,7 @@ Relevant guides:
 -   :ref:`subject-edit`
 -   :ref:`subject-to-be-deleted`
 -   :ref:`subject-consent`
+-   :ref:`subject-add-to-study`
 
 Study Coordinator
 ~~~~~~~~~~~~~~~~~
