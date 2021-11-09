@@ -1,7 +1,7 @@
 """Fetch SubjectCreationRequests from self registration.
 
 Customize this script and copy it to ``castellum/subjects/management/commands/``,
-You can then execute it using ``django-admin fetch_from_self_registration``.
+You can then execute it using ``django-admin sync_self_registration``.
 
 See https://git.mpib-berlin.mpg.de/castellum/castellum_self_registration
 """
@@ -18,6 +18,12 @@ SubjectForm = modelform_factory(SubjectCreationRequest, fields=['delete_url'])
 ContactForm = modelform_factory(ContactCreationRequest, fields=[
     'first_name', 'last_name', 'title', 'gender', 'date_of_birth', 'email'
 ])
+
+
+def get_remote_data(url, token):
+    r = requests.get(url, headers={'Authorization': 'token ' + token})
+    r.raise_for_status()
+    return r.json()['subjects']
 
 
 def import_creationrequest(data, source):
@@ -37,14 +43,11 @@ def import_creationrequest(data, source):
         raise ValueError({**subject_form.errors, **contact_form.errors})
 
 
-def do_import(url, token, source):
-    r = requests.get(url, headers={'Authorization': 'token ' + token})
-    r.raise_for_status()
-
+def do_import(items, source):
     success = []
     errors = []
 
-    for item in r.json()['subjects']:
+    for item in items:
         if SubjectCreationRequest.objects.filter(delete_url=item['delete_url']).exists():
             continue
         try:
@@ -53,6 +56,16 @@ def do_import(url, token, source):
             errors.append(e)
 
     return success, errors
+
+
+def do_cleanup_local(items):
+    count, _ = (
+        SubjectCreationRequest.objects
+        .filter(is_deleted=True)
+        .exclude(delete_url__in=[item['delete_url'] for item in items])
+        .delete()
+    )
+    return count
 
 
 def do_cleanup_remote(token):
@@ -80,19 +93,23 @@ class Command(BaseCommand):
         parser.add_argument('--source', help='Data source')
         parser.add_argument('--delete', action='store_true')
 
-    def handle(self, *args, **options):
-        success, errors = do_import(options['url'], options['token'], options['source'])
+    def log(self, msg, errors, options):
         if options['verbosity'] > 1:
             for error in errors:
                 self.stderr.write(str(error))
         if options['verbosity'] > 0:
-            self.stdout.write('Created {} subject creation requests'.format(len(success)))
+            self.stdout.write(msg)
+
+    def handle(self, *args, **options):
+        items = get_remote_data(options['url'], options['token'])
+
+        success, errors = do_import(items, options['source'])
+        self.log('Created {} subject creation requests'.format(len(success)), errors, options)
+
+        success_count = do_cleanup_local(items)
+        self.log('Cleaned up {} local subject creation requests'.format(success_count), [], options)
 
         if options['delete']:
             success, errors = do_cleanup_remote(options['token'])
-            if options['verbosity'] > 1:
-                for error in errors:
-                    self.stderr.write(str(error))
-            if options['verbosity'] > 0:
-                msg = 'Cleaned up {} subject creation requests from remote service'
-                self.stdout.write(msg.format(len(success)))
+            msg = 'Cleaned up {} subject creation requests from remote service'
+            self.log(msg.format(len(success)), errors, options)
