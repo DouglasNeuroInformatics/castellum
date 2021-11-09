@@ -20,6 +20,12 @@ ContactForm = modelform_factory(ContactCreationRequest, fields=[
 ])
 
 
+def get_remote_data(url, token):
+    r = requests.get(url, headers={'Authorization': 'token ' + token})
+    r.raise_for_status()
+    return r.json()['subjects']
+
+
 def import_creationrequest(data, source):
     subject_form = SubjectForm(data)
     contact_form = ContactForm(data)
@@ -37,14 +43,11 @@ def import_creationrequest(data, source):
         raise ValueError({**subject_form.errors, **contact_form.errors})
 
 
-def do_import(url, token, source):
-    r = requests.get(url, headers={'Authorization': 'token ' + token})
-    r.raise_for_status()
-
+def do_import(items, source):
     success = []
     errors = []
 
-    for item in r.json()['subjects']:
+    for item in items:
         if SubjectCreationRequest.objects.filter(delete_url=item['delete_url']).exists():
             continue
         try:
@@ -53,6 +56,16 @@ def do_import(url, token, source):
             errors.append(e)
 
     return success, errors
+
+
+def do_cleanup_local(items):
+    count, _ = (
+        SubjectCreationRequest.objects
+        .filter(is_deleted=True)
+        .exclude(delete_url__in=[item['delete_url'] for item in items])
+        .delete()
+    )
+    return count
 
 
 def do_cleanup_remote(token):
@@ -81,12 +94,18 @@ class Command(BaseCommand):
         parser.add_argument('--delete', action='store_true')
 
     def handle(self, *args, **options):
-        success, errors = do_import(options['url'], options['token'], options['source'])
+        items = get_remote_data(options['url'], options['token'])
+
+        success, errors = do_import(items, options['source'])
         if options['verbosity'] > 1:
             for error in errors:
                 self.stderr.write(str(error))
         if options['verbosity'] > 0:
             self.stdout.write('Created {} subject creation requests'.format(len(success)))
+
+        success_count = do_cleanup_local(items)
+        if options['verbosity'] > 0:
+            self.stdout.write('Cleaned up {} local subject creation requests'.format(success_count))
 
         if options['delete']:
             success, errors = do_cleanup_remote(options['token'])
