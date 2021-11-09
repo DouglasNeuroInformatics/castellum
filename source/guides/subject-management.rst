@@ -307,3 +307,47 @@ please proceed as follows:
     delete the corresponding legal representatives. However, if there is no
     other reason to keep the legal representatives in Castellum, they will
     appear in the data protection dashboard.
+
+
+.. _subject-add-to-study:
+
+Add a subject to a study
+========================
+
+.. NOTE::
+
+    Please note that these are instructions on how to add a specific subject to a study.
+    If you have a study and are looking for subjects, please use the recruitment process
+    (:ref:`recruitment`)
+
+There are two similar but different ways to add a subject to a study.
+
+
+To add a subject to an active study whose filters match the attributes of the subject,
+proceed as follows:
+
+1.  In the subject details, go to the **Study participations** tab
+
+2.  Clicking on **Matching studies** will show a list of studies whose filters match on
+    this subject's attributes.
+
+3.  Clicking on the button named **Contact** will take you to this subject's contact page
+    in the recruitment for the selected study.
+    For further information on how to proceed from there, please see the please see the
+    :ref:`recruitment guide <recruitment>` (starting with point 4).
+
+
+To add a subject to any study, proceed as follows:
+
+1.  In the subject details, go to the **Study participations** tab
+
+2.  Under **Add to study**, enter the name of the study you want to add the subject to.
+
+3.  Clicking on the button named **Add to study** will set this subject as participating
+    in the study.
+
+.. NOTE::
+
+    Please note that this search doesn't differentiate between active and finished studies.
+    Matching filters are not checked either. This feature is intended to support migrating
+    from other tools that previously tracked study participations.
