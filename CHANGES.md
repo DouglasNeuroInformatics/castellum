@@ -14,8 +14,10 @@ You need to update to at least 0.67.0 before updating to this version.
 -   `Study.custom_filter` was removed. If you need a similar
     functionality it is recommended to create a bespoke attribute and
     fill it automatically from a python script.
--   `SubjectCreationRequest` is only marked as deleted. Only the
-    associated contact information is actually deleted.
+-   When accepting or discarding a `SubjectCreationRequest`, it is no
+    longer deleted but only marked as deleted. The associated contact
+    information is still deleted. This way you can discerne whether an
+    incoming request has already been handled or not.
 
 ## bug fixes
 
