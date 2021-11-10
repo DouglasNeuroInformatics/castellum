@@ -43,7 +43,7 @@ from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 from django.views.generic import View
 
-from icalendar import Calendar
+from icalevents import icalparser
 from simplecharts import StackedColumnRenderer
 from stronghold.decorators import public
 
@@ -617,12 +617,11 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
                     end=self.request.GET['end'],
                 )
                 text = cached_request(url, timeout=60)
-                calendar = Calendar.from_ical(text)
-                for event in calendar.walk('VEVENT'):
+                for event in icalparser.parse_events(text):
                     yield {
-                        'title': '[{}] {}'.format(resource, event.get('SUMMARY', '')),
-                        'start': event.get('DTSTART').dt,
-                        'end': event.get('DTEND').dt,
+                        'title': '[{}] {}'.format(resource, event.summary or ''),
+                        'start': event.start,
+                        'end': event.end,
                         'backgroundColor': resource.color,
                         'borderColor': resource.color,
                         'textColor': contrast_color(resource.color),
