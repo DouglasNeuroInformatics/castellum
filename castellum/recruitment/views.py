@@ -617,7 +617,12 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
                     end=self.request.GET['end'],
                 )
                 text = cached_request(url, timeout=60)
-                for event in icalparser.parse_events(text):
+                events = icalparser.parse_events(
+                    text,
+                    start=datetime.datetime.fromisoformat(self.request.GET['start']),
+                    end=datetime.datetime.fromisoformat(self.request.GET['end']),
+                )
+                for event in events:
                     yield {
                         'title': '[{}] {}'.format(resource, event.summary or ''),
                         'start': event.start,
