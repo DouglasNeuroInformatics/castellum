@@ -32,6 +32,7 @@ from castellum.recruitment.models import Participation
 from castellum.studies.models import Resource
 
 from .mixins import BaseCalendarView
+from .mixins import get_external_resource_events
 
 
 class ReceptionView(PermissionRequiredMixin, ListView):
@@ -82,3 +83,8 @@ class ResourceDetailView(LoginRequiredMixin, BaseCalendarView):
             ]),
             **super().render_appointment(appointment),
         }
+
+    def get_events(self):
+        start = datetime.datetime.fromisoformat(self.request.GET['start'])
+        end = datetime.datetime.fromisoformat(self.request.GET['end'])
+        return super().get_events() + get_external_resource_events(self.object, start, end)
