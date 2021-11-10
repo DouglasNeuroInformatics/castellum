@@ -594,7 +594,12 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
         return super().get_appointments().filter(session__study=self.object)
 
     def get_external_events(self):
-        for resource in Resource.objects.filter(studysession__study=self.study).exclude(url=''):
+        for resource in (
+            Resource.objects
+            .filter(studysession__study=self.study)
+            .exclude(url='')
+            .distinct()
+        ):
             try:
                 text = cached_request(resource.url, timeout=60)
                 calendar = Calendar.from_ical(text)
