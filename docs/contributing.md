@@ -34,7 +34,7 @@ When reporting an issue, please make sure to answer these questions:
 5. Which browser (in which version) are you using?
 
 If you find a security vulnerability, please do **not** open an issue.
-Email <feg@mpib-berlin.mpg.de> instead.
+Email <infosec@mpib-berlin.mpg.de> instead.
 
 # Contributing code
 
