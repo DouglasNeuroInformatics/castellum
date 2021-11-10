@@ -1,3 +1,8 @@
+# 0.68.1 (2021-11-10)
+
+-   Fixed events from `Resource.url` showing up multiple times.
+
+
 # 0.68.0 (2021-11-09)
 
 You need to update to at least 0.67.0 before updating to this version.
