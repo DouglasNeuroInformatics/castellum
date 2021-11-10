@@ -11,8 +11,7 @@
         "jdenticon": "^3.1.1",
         "jquery": "^3.6.0",
         "popper.js": "^1.16.1",
-        "select2": "^4.0.13",
-        "vanillajs-datepicker": "^1.1.4"
+        "select2": "^4.0.13"
     },
     "devDependencies": {
         "eslint": "^8.1.0"
@@ -29,8 +28,7 @@
             "$": "readonly",
             "$$": "readonly",
             "django": "readonly",
-            "FullCalendar": "readonly",
-            "Datepicker": "readonly"
+            "FullCalendar": "readonly"
         }
     }
 }
