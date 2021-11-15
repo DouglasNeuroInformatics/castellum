@@ -23,7 +23,6 @@ import datetime
 import logging
 import random
 from collections import defaultdict
-from urllib.parse import quote_plus
 
 from django.conf import settings
 from django.contrib import messages
@@ -44,12 +43,12 @@ from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 from django.views.generic import View
 
-from icalevents import icalparser
 from simplecharts import StackedColumnRenderer
 from stronghold.decorators import public
 
 from castellum.appointments.mixins import BaseAppointmentsUpdateView
 from castellum.appointments.mixins import BaseCalendarView
+from castellum.appointments.mixins import get_external_resource_events
 from castellum.appointments.mixins import send_appointment_notifications
 from castellum.appointments.models import Appointment
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -63,8 +62,6 @@ from castellum.subjects.mixins import BaseAdditionalInfoUpdateView
 from castellum.subjects.mixins import BaseDataProtectionUpdateView
 from castellum.subjects.mixins import SubjectMixin
 from castellum.subjects.models import Subject
-from castellum.utils import cached_request
-from castellum.utils import contrast_color
 from castellum.utils import scheduler
 from castellum.utils.mail import MailContext
 
@@ -605,38 +602,18 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
             context['legend'].insert(0, (FULLCALENDAR_DEFAULT_COLOR, self.study.name))
         return context
 
-    def get_external_events(self):
+    def get_events(self):
+        events = super().get_events()
+        start = datetime.datetime.fromisoformat(self.request.GET['start'])
+        end = datetime.datetime.fromisoformat(self.request.GET['end'])
         for resource in (
             Resource.objects
             .filter(studysession__study=self.study)
             .exclude(url='')
             .distinct()
         ):
-            try:
-                url = resource.url.format(
-                    start=quote_plus(self.request.GET['start']),
-                    end=quote_plus(self.request.GET['end']),
-                )
-                text = cached_request(url, timeout=60)
-                events = icalparser.parse_events(
-                    text,
-                    start=datetime.datetime.fromisoformat(self.request.GET['start']),
-                    end=datetime.datetime.fromisoformat(self.request.GET['end']),
-                )
-                for event in events:
-                    yield {
-                        'title': '[{}] {}'.format(resource, event.summary or ''),
-                        'start': event.start,
-                        'end': event.end,
-                        'backgroundColor': resource.color,
-                        'borderColor': resource.color,
-                        'textColor': contrast_color(resource.color),
-                    }
-            except Exception as e:
-                logger.error('Fetching events for resource {} failed: {}'.format(resource.pk, e))
-
-    def get_events(self):
-        return super().get_events() + list(self.get_external_events())
+            events += get_external_resource_events(resource, start, end)
+        return events
 
 
 @method_decorator(public, 'dispatch')

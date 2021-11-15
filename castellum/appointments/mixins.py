@@ -19,6 +19,9 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import logging
+from urllib.parse import quote_plus
+
 from django.conf import settings
 from django.contrib import messages
 from django.http import JsonResponse
@@ -29,15 +32,21 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
 
+from icalevents import icalparser
+
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment.mixins import ParticipationMixin
 from castellum.recruitment.models import Participation
 from castellum.utils import add_working_days
+from castellum.utils import cached_request
+from castellum.utils import contrast_color
 from castellum.utils.feeds import BaseCalendarFeed
 from castellum.utils.mail import MailContext
 
 from .forms import AppointmentsForm
 from .models import Appointment
+
+logger = logging.getLogger(__name__)
 
 
 def send_appointment_notifications(request, participation, changes):
@@ -88,6 +97,32 @@ def send_appointment_notifications(request, participation, changes):
                 recipients,
                 cc=[request.user.email],
             )
+
+
+def get_external_resource_events(resource, start, end):
+    if not resource.url:
+        return []
+    try:
+        events = []
+        url = resource.url.format(
+            start=quote_plus(start.isoformat()),
+            end=quote_plus(end.isoformat()),
+        )
+        text = cached_request(url, timeout=60)
+        events = icalparser.parse_events(text, start=start, end=end)
+        for event in events:
+            events.append({
+                'title': '[{}] {}'.format(resource, event.summary or ''),
+                'start': event.start,
+                'end': event.end,
+                'backgroundColor': resource.color,
+                'borderColor': resource.color,
+                'textColor': contrast_color(resource.color),
+            })
+        return events
+    except Exception as e:
+        logger.error('Fetching events for resource {} failed: {}'.format(resource.pk, e))
+        return []
 
 
 class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
