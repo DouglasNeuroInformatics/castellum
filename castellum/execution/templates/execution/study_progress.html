@@ -5,11 +5,15 @@
 
 {% block content %}
     <svg class="progress w-100" viewbox="0 0 {{ total }} 10" preserveAspectRatio="none">
-        <rect class="text-success" fill="currentColor" width="{{ invited }}" height="10" />
+        <rect class="text-warning" fill="currentColor" width="{{ invited }}" height="10" />
+        <rect class="text-success" fill="currentColor" width="{{ participating }}" height="10" />
     </svg>
     <dl class="dl-inline">
         <dt><span class="text-success" aria-hidden="true">&#9679;</span> {% translate 'participating' %}</dt>
-        <dd>{{ invited }}/{{ total }}</dd>
+        <dd>{{ participating }}/{{ study.min_subject_count }}</dd>
+
+        <dt><span class="text-warning" aria-hidden="true">&#9679;</span> {% translate 'dropped out' %}</dt>
+        <dd>{{ dropped_out }}</dd>
     </dl>
 
     {% for session in sessions %}
@@ -20,10 +24,10 @@
         </svg>
         <dl class="dl-inline">
             <dt><span class="text-success" aria-hidden="true">&#9679;</span> {% translate 'took place' %}</dt>
-            <dd>{{ session.took_place }}/{{ total }}</dd>
+            <dd>{{ session.took_place }}/{{ study.min_subject_count }}</dd>
 
             <dt><span class="text-warning" aria-hidden="true">&#9679;</span> {% translate 'scheduled' %}</dt>
-            <dd>{{ session.scheduled }}/{{ total }}</dd>
+            <dd>{{ session.scheduled_for_future }}</dd>
         </dl>
     {% endfor %}
 {% endblock %}
