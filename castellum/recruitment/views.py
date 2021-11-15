@@ -23,6 +23,7 @@ import datetime
 import logging
 import random
 from collections import defaultdict
+from urllib.parse import quote_plus
 
 from django.conf import settings
 from django.contrib import messages
@@ -613,8 +614,8 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
         ):
             try:
                 url = resource.url.format(
-                    start=self.request.GET['start'],
-                    end=self.request.GET['end'],
+                    start=quote_plus(self.request.GET['start']),
+                    end=quote_plus(self.request.GET['end']),
                 )
                 text = cached_request(url, timeout=60)
                 calendar = Calendar.from_ical(text)
