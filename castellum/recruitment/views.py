@@ -78,6 +78,8 @@ from .models import Participation
 from .models.attributes import get_description_by_statistics_rank
 from .templatetags.recruitment import study_legal_representative_hash
 
+FULLCALENDAR_DEFAULT_COLOR = '#3788d8'
+
 logger = logging.getLogger(__name__)
 
 
@@ -599,7 +601,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
         for resource in Resource.objects.filter(studysession__study=self.study).exclude(url=''):
             context['legend'].append((resource.color, resource.name))
         if context['legend']:
-            context['legend'].insert(0, ('#3788d8', self.study.name))
+            context['legend'].insert(0, (FULLCALENDAR_DEFAULT_COLOR, self.study.name))
         return context
 
     def get_external_events(self):
