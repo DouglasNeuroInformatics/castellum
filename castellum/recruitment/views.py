@@ -612,7 +612,11 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
             .distinct()
         ):
             try:
-                text = cached_request(resource.url, timeout=60)
+                url = resource.url.format(
+                    start=self.request.GET['start'],
+                    end=self.request.GET['end'],
+                )
+                text = cached_request(url, timeout=60)
                 calendar = Calendar.from_ical(text)
                 for event in calendar.walk('VEVENT'):
                     yield {
