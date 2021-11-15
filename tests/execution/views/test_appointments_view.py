@@ -52,6 +52,31 @@ def test_appointment_delete(client, member, participation):
     assert not participation.appointment_set.exists()
 
 
+def test_appointment_update(client, member, participation):
+    session = baker.make(StudySession, study=participation.study)
+    appointment = baker.make(
+        Appointment,
+        session=session,
+        participation=participation,
+    )
+
+    client.force_login(member)
+    url = '/recruitment/{}/{}/appointments/'.format(
+        participation.study.pk, participation.pk
+    )
+    response = client.post(url, {
+        'status': 2,
+        'appointment-{}_0'.format(session.pk): '2020-01-01',
+        'appointment-{}_1'.format(session.pk): '12:00',
+    })
+    assert response.status_code == 302
+
+    appointment.refresh_from_db()
+    assert appointment.session == session
+    assert appointment.participation == participation
+    assert appointment.start.year == 2020
+
+
 @pytest.mark.parametrize('time', (
     '10:30',
     '11:00',
