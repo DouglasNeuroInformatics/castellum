@@ -52,19 +52,6 @@
         this.form.querySelector('[type="submit"],button:not([type])').disabled = !this.checked;
     });
 
-    document.querySelectorAll('[type="date"]').forEach(function(e) {
-        if (e.type !== 'date') {
-            new Datepicker(e, {
-                format: 'yyyy-mm-dd',
-                language: document.documentElement.lang,
-                autoclose: true,
-                calendarWeeks: true,
-                daysOfWeekHighlighted: [0, 6],
-                todayHighlight: true,
-            });
-        }
-    });
-
     $$.on(document, 'click', '[data-clipboard]', function() {
         var targetSelector = this.dataset.clipboard;
         var target = document.querySelector(targetSelector);
