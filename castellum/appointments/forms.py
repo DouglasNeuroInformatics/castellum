@@ -36,6 +36,24 @@ from .models import MINUTE
 from .models import Appointment
 
 
+def appointment_is_available(session, start, ignored):
+    return not session.resource or not (
+        Appointment.objects
+        .alias(
+            # corresponds to the Appointment.end property
+            end=MultiDurationExpr(models.F('start'), MINUTE, models.F('session__duration')),
+        )
+        .filter(
+            participation__status=Participation.INVITED,
+            session__resource=session.resource,
+            end__gt=start,
+            start__lt=start + session.duration * MINUTE,
+        )
+        .exclude(pk__in=ignored)
+        .exists()
+    )
+
+
 class AppointmentsForm(forms.ModelForm):
     class Meta:
         model = Participation
@@ -88,18 +106,8 @@ class AppointmentsForm(forms.ModelForm):
                 self.add_error(key2, _('Appointments must not overlap.'))
                 break
 
-        qs = Appointment.objects\
-            .exclude(participation=self.instance)\
-            .filter(participation__status=Participation.INVITED)\
-            .alias(
-                # corresponds to the Appointment.end property
-                end=MultiDurationExpr(models.F('start'), MINUTE, models.F('session__duration')),
-            )
-
         for session, key, start, end in appointments:
-            if session.resource and qs.filter(
-                session__resource=session.resource, end__gt=start, start__lt=end,
-            ).exists():
+            if not appointment_is_available(session, start, self.instance.appointment_set.all()):
                 self.add_error(key, _('The required resource is not available at this time'))
 
         return cleaned_data
