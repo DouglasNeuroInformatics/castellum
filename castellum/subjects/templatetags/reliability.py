@@ -47,7 +47,7 @@ def reliability_summary(subject):
     subject.annotate_reliability()
 
     if subject.reliability_total == 0:
-        return _('no participations so far')
+        return _('no data so far')
     else:
         return _('{issues} issues in {total} studies').format(
             issues=subject.reliability_issues, total=subject.reliability_total
