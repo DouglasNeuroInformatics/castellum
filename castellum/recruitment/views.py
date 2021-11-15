@@ -24,6 +24,7 @@ import logging
 import random
 from collections import defaultdict
 
+from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -46,6 +47,7 @@ from django.views.generic import View
 from simplecharts import StackedColumnRenderer
 from stronghold.decorators import public
 
+from castellum.appointments.forms import appointment_is_available
 from castellum.appointments.mixins import BaseAppointmentsUpdateView
 from castellum.appointments.mixins import BaseCalendarView
 from castellum.appointments.mixins import get_external_resource_events
@@ -626,14 +628,14 @@ class SchedulerPingView(View):
         except ObjectDoesNotExist:
             raise Http404
         participation = get_object_or_404(Participation, subject=subject, study=session.study)
-        appointment = (
-            Appointment.objects
-            .filter(participation=participation, session=session)
-            .first()
-        )
+        appointments = Appointment.objects.filter(participation=participation, session=session)
 
         start = scheduler.get(self.kwargs['schedule_id'], self.kwargs['pseudonym'])
 
+        if not appointment_is_available(session, start, appointments):
+            raise forms.ValidationError
+
+        appointment = appointments.first()
         appointment_changes = []
 
         if appointment:
