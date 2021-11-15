@@ -27,7 +27,7 @@
             <dd>{{ session.took_place }}/{{ total }}</dd>
 
             <dt><span class="text-warning" aria-hidden="true">&#9679;</span> {% translate 'scheduled' %}</dt>
-            <dd>{{ session.scheduled }}/{{ total }}</dd>
+            <dd>{{ session.scheduled_for_future }}/{{ total }}</dd>
         </dl>
     {% endfor %}
 {% endblock %}

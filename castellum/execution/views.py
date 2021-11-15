@@ -548,13 +548,6 @@ class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
         context['invited'] = context['participating'] + context['dropped_out']
         context['total'] = max(self.study.min_subject_count, context['invited'])
         context['sessions'] = self.study.studysession_set.annotate(
-            scheduled=models.Count(
-                'appointment',
-                filter=models.Q(
-                    appointment__participation__status=Participation.INVITED,
-                ),
-                distinct=True,
-            ),
             took_place=models.Count(
                 'appointment',
                 filter=models.Q(
@@ -563,6 +556,16 @@ class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
                 ),
                 distinct=True,
             ),
+            scheduled_for_future=models.Count(
+                'appointment',
+                filter=models.Q(
+                    appointment__participation__status=Participation.INVITED,
+                    appointment__start__gt=timezone.now(),
+                ),
+                distinct=True,
+            ),
+        ).annotate(
+            scheduled=models.F('took_place') + models.F('scheduled_for_future')
         ).order_by('pk')
 
         return context
