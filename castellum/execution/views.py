@@ -546,7 +546,6 @@ class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
             .count()
         )
         context['invited'] = context['participating'] + context['dropped_out']
-        context['total'] = max(self.study.min_subject_count, context['invited'])
         context['sessions'] = self.study.studysession_set.annotate(
             took_place=models.Count(
                 'appointment',

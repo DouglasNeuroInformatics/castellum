@@ -10,10 +10,10 @@
     </svg>
     <dl class="dl-inline">
         <dt><span class="text-success" aria-hidden="true">&#9679;</span> {% translate 'participating' %}</dt>
-        <dd>{{ participating }}/{{ total }}</dd>
+        <dd>{{ participating }}/{{ study.min_subject_count }}</dd>
 
         <dt><span class="text-warning" aria-hidden="true">&#9679;</span> {% translate 'dropped out' %}</dt>
-        <dd>{{ dropped_out }}/{{ total }}</dd>
+        <dd>{{ dropped_out }}</dd>
     </dl>
 
     {% for session in sessions %}
@@ -24,10 +24,10 @@
         </svg>
         <dl class="dl-inline">
             <dt><span class="text-success" aria-hidden="true">&#9679;</span> {% translate 'took place' %}</dt>
-            <dd>{{ session.took_place }}/{{ total }}</dd>
+            <dd>{{ session.took_place }}/{{ study.min_subject_count }}</dd>
 
             <dt><span class="text-warning" aria-hidden="true">&#9679;</span> {% translate 'scheduled' %}</dt>
-            <dd>{{ session.scheduled_for_future }}/{{ total }}</dd>
+            <dd>{{ session.scheduled_for_future }}</dd>
         </dl>
     {% endfor %}
 {% endblock %}
