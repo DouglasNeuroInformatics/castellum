@@ -535,16 +535,17 @@ class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['invited'] = (
-            self.study.participation_set
-            .filter(status=Participation.INVITED)
-            .count()
-        )
         context['participating'] = (
             self.study.participation_set
             .filter(status=Participation.INVITED, dropped_out=False)
             .count()
         )
+        context['dropped_out'] = (
+            self.study.participation_set
+            .filter(status=Participation.INVITED, dropped_out=True)
+            .count()
+        )
+        context['invited'] = context['participating'] + context['dropped_out']
         context['total'] = max(self.study.min_subject_count, context['invited'])
         context['sessions'] = self.study.studysession_set.annotate(
             scheduled=models.Count(

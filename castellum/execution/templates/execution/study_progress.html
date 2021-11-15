@@ -12,8 +12,8 @@
         <dt><span class="text-success" aria-hidden="true">&#9679;</span> {% translate 'participating' %}</dt>
         <dd>{{ participating }}/{{ total }}</dd>
 
-        <dt><span class="text-warning" aria-hidden="true">&#9679;</span> {% translate 'invited' %}</dt>
-        <dd>{{ invited }}/{{ total }}</dd>
+        <dt><span class="text-warning" aria-hidden="true">&#9679;</span> {% translate 'dropped out' %}</dt>
+        <dd>{{ dropped_out }}/{{ total }}</dd>
     </dl>
 
     {% for session in sessions %}
