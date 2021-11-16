@@ -36,6 +36,16 @@ from castellum.utils.fields import RestrictedFileField
 from castellum.utils.models import TimeStampedModel
 
 
+class StudyTypeDisinterest(models.Model):
+    subject_uuid = models.UUIDField()
+    obj = models.ForeignKey('studies.StudyType', related_name='+', on_delete=models.CASCADE)
+
+
+class AdditionalSuitabilityDocument(models.Model):
+    subject_uuid = models.UUIDField()
+    obj = models.ForeignKey('studies.StudyType', related_name='+', on_delete=models.CASCADE)
+
+
 class SubjectQuerySet(models.QuerySet):
     def annotate_reliability(self):
         return self.annotate(
@@ -195,6 +205,7 @@ class Subject(TimeStampedModel):
 
 class SubjectNote(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    subject_uuid = models.UUIDField(null=True)
     content = models.CharField(_('Content'), max_length=128, blank=True)
 
 
@@ -223,6 +234,7 @@ class Consent(models.Model):
 
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
+    subject_uuid = models.UUIDField(null=True)
     document = models.ForeignKey(
         ConsentDocument, verbose_name=_('Document'), on_delete=models.CASCADE
     )
@@ -238,6 +250,7 @@ class Consent(models.Model):
 
 class ExportAnswer(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    subject_uuid = models.UUIDField(null=True)
     created_at = models.DateField(_('Created at'), auto_now_add=True)
     created_by = models.CharField(_('Created by'), max_length=150)
 

@@ -133,6 +133,7 @@ class Participation(models.Model):
     updated_at = DateTimeField(_('Updated at'), auto_now=True)
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, editable=False)
+    subject_uuid = models.UUIDField(null=True)
     study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
     batch = models.ForeignKey(
         MailBatch, verbose_name=_('Mail batch'), blank=True, null=True, on_delete=models.SET_NULL
@@ -253,6 +254,7 @@ class Participation(models.Model):
 class ReliabilityEntry(models.Model):
     study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, verbose_name=_('Subject'), on_delete=models.CASCADE)
+    subject_uuid = models.UUIDField(null=True)
     was_reliable = models.BooleanField(_('Was reliable'), default=True)
 
     class Meta:
