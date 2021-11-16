@@ -115,7 +115,7 @@ def test_appointment_resource_overlap(client, member, participation, time):
     })
     assert response.status_code == 302
     messages = [str(m) for m in get_messages(response.wsgi_request)]
-    assert 'Some resources might not be available at the selected times' not in messages
+    assert 'Some appointments for resources overlap' not in messages
 
 
 def test_appointment_resource_overlap_ignore_not_invited(client, member, participation):
@@ -142,7 +142,7 @@ def test_appointment_resource_overlap_ignore_not_invited(client, member, partici
     })
     assert response.status_code == 302
     messages = [str(m) for m in get_messages(response.wsgi_request)]
-    assert 'Some resources might not be available at the selected times' not in messages
+    assert 'Some appointments for resources overlap' not in messages
 
 
 def test_appointment_change_appointment_permission(client, member, participation):

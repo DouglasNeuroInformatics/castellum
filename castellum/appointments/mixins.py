@@ -174,7 +174,7 @@ class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, Up
             messages.warning(self.request, _('Some appointments overlap'))
         if self.has_resource_overlap():
             messages.warning(self.request, _(
-                'Some resources might not be available at the selected times'
+                'Some appointments for resources overlap'
             ))
         return response
 
