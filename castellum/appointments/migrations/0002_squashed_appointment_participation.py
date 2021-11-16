@@ -6,6 +6,8 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
+    replaces = [('appointments', '0002_status_wording')]
+
     initial = True
 
     dependencies = [

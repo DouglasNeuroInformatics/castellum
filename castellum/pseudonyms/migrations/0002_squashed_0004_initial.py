@@ -6,6 +6,12 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
+    replaces = [
+        ('pseudonyms', '0002_pseudonym_unique_subject_domain'),
+        ('pseudonyms', '0003_domain_context'),
+        ('pseudonyms', '0004_domain_name'),
+    ]
+
     initial = True
 
     dependencies = [

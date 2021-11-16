@@ -9,6 +9,8 @@ import parler.models
 
 class Migration(migrations.Migration):
 
+    replaces = [('recruitment', '0001_squashed_0021_rename_outcome_to_news')]
+
     initial = True
 
     dependencies = [

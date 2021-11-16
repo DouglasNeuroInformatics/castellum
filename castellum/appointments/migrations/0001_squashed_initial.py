@@ -6,6 +6,8 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
+    replaces = [('appointments', '0001_initial')]
+
     initial = True
 
     dependencies = [

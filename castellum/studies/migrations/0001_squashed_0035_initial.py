@@ -11,6 +11,20 @@ import parler.models
 
 class Migration(migrations.Migration):
 
+    replaces = [
+        ('studies', '0001_squashed_0025_studysession_schedule_id'),
+        ('studies', '0026_study_exportable_attributes'),
+        ('studies', '0027_studysession_reminder_text'),
+        ('studies', '0028_studysession_schedule_id_charfield'),
+        ('studies', '0029_studytag'),
+        ('studies', '0030_domain_context'),
+        ('studies', '0031_study_snapshot'),
+        ('studies', '0032_study_is_filter_trial'),
+        ('studies', '0033_study_general_domains'),
+        ('studies', '0034_study_name_unique'),
+        ('studies', '0035_alter_study_exportable_attributes'),
+    ]
+
     initial = True
 
     dependencies = [

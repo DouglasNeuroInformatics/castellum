@@ -9,6 +9,20 @@ import uuid
 
 class Migration(migrations.Migration):
 
+    replaces = [
+        ('subjects', '0001_squashed_0018_subject_slug'),
+        ('subjects', '0019_subject_additional_suitability_document'),
+        ('subjects', '0020_subject_deceased'),
+        ('subjects', '0021_merge_attributeset'),
+        ('subjects', '0022_verbose_names'),
+        ('subjects', '0023_subject_blocked'),
+        ('subjects', '0024_subject_rm_note_fields'),
+        ('subjects', '0025_rm_availability'),
+        ('subjects', '0026_subjectcreationrequest'),
+        ('subjects', '0027_rename_subject_slug_to_uuid'),
+        ('subjects', '0028_alter_subject_uuid'),
+    ]
+
     initial = True
 
     dependencies = [

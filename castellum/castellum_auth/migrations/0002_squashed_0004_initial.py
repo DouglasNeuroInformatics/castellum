@@ -5,6 +5,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
+    replaces = [
+        ('castellum_auth', '0002_user_token'),
+        ('castellum_auth', '0003_first_name_length'),
+        ('castellum_auth', '0004_user_general_domains'),
+    ]
+
     initial = True
 
     dependencies = [

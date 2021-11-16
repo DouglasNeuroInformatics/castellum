@@ -7,6 +7,21 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
+    replaces = [
+        ('contacts', '0001_initial'),
+        ('contacts', '0002_contact_subject_id'),
+        ('contacts', '0003_subject_id_positive'),
+        ('contacts', '0004_refactor_contact_address'),
+        ('contacts', '0005_street'),
+        ('contacts', '0006_verbose_names'),
+        ('contacts', '0007_longer_house_number'),
+        ('contacts', '0008_alter_contact_gender'),
+        ('contacts', '0009_phonetic_diacritics'),
+        ('contacts', '0010_alter_contact_guardians'),
+        ('contacts', '0011_contactcreationrequest'),
+        ('contacts', '0012_rename_guardians_contact_legal_representatives'),
+    ]
+
     initial = True
 
     dependencies = [

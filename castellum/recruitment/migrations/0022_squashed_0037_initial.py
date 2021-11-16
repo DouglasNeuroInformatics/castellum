@@ -7,6 +7,25 @@ import parler.fields
 
 class Migration(migrations.Migration):
 
+    replaces = [
+        ('recruitment', '0022_delete_attributeset'),
+        ('recruitment', '0023_delete_appointment'),
+        ('recruitment', '0024_attributedescription_url'),
+        ('recruitment', '0025_verbose_names'),
+        ('recruitment', '0026_participation_batch'),
+        ('recruitment', '0027_mailbatch_reminded'),
+        ('recruitment', '0028_mailbatch_reminded_datetime'),
+        ('recruitment', '0029_status_wording'),
+        ('recruitment', '0030_participation_dropped_out'),
+        ('recruitment', '0031_execution_tag'),
+        ('recruitment', '0032_executiontag_color'),
+        ('recruitment', '0033_reliabilityentry'),
+        ('recruitment', '0034_alter_executiontag_color'),
+        ('recruitment', '0035_participation_assigned_recruiter'),
+        ('recruitment', '0036_participation_assigned_conductor'),
+        ('recruitment', '0037_participation_excluded_by_cleanup'),
+    ]
+
     initial = True
 
     dependencies = [

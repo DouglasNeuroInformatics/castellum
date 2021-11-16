@@ -6,6 +6,8 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
+    replaces = [('appointments', '0003_remove_appointment_show_up')]
+
     initial = True
 
     dependencies = [
