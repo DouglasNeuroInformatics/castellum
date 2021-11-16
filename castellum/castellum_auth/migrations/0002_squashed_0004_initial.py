@@ -9,8 +9,8 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('auth', '0012_alter_user_first_name_max_length'),
-        ('castellum_auth', '0001_initial'),
-        ('pseudonyms', '0001_initial'),
+        ('castellum_auth', '0001_squashed_initial'),
+        ('pseudonyms', '0001_squashed_initial'),
     ]
 
     operations = [
