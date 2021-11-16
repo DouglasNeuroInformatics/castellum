@@ -23,13 +23,11 @@ import itertools
 
 from django import forms
 from django.conf import settings
-from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.recruitment.models import Participation
 from castellum.utils import scheduler
-from castellum.utils.expressions import MultiDurationExpr
 from castellum.utils.forms import DateTimeField
 
 from .models import MINUTE
@@ -89,12 +87,9 @@ class AppointmentsForm(forms.ModelForm):
                 break
 
         qs = Appointment.objects\
+            .annotate_end()\
             .exclude(participation=self.instance)\
-            .filter(participation__status=Participation.INVITED)\
-            .alias(
-                # corresponds to the Appointment.end property
-                end=MultiDurationExpr(models.F('start'), MINUTE, models.F('session__duration')),
-            )
+            .filter(participation__status=Participation.INVITED)
 
         for session, key, start, end in appointments:
             if session.resource and qs.filter(
