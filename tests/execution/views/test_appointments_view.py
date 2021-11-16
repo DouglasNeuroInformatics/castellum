@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth.models import Permission
+from django.contrib.messages import get_messages
 from django.utils import timezone
 
 import pytest
@@ -77,6 +78,8 @@ def test_appointment_overlap(client, member, participation, time):
         'appointment-{}_1'.format(session2.pk): time,
     })
     assert response.status_code == 302
+    messages = [str(m) for m in get_messages(response.wsgi_request)]
+    assert 'Some appointments overlap' not in messages
 
 
 @pytest.mark.parametrize('time', (
@@ -111,6 +114,8 @@ def test_appointment_resource_overlap(client, member, participation, time):
         'appointment-{}_1'.format(session.pk): time,
     })
     assert response.status_code == 302
+    messages = [str(m) for m in get_messages(response.wsgi_request)]
+    assert 'Some resources might not be available at the selected times' not in messages
 
 
 def test_appointment_resource_overlap_ignore_not_invited(client, member, participation):
@@ -136,6 +141,8 @@ def test_appointment_resource_overlap_ignore_not_invited(client, member, partici
         'appointment-{}_1'.format(session.pk): '12:00',
     })
     assert response.status_code == 302
+    messages = [str(m) for m in get_messages(response.wsgi_request)]
+    assert 'Some resources might not be available at the selected times' not in messages
 
 
 def test_appointment_change_appointment_permission(client, member, participation):

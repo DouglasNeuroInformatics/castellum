@@ -142,10 +142,40 @@ class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, Up
     def get_success_url(self):
         return self.request.path
 
+    def has_participation_overlap(self):
+        return any((
+            self.object.appointment_set
+            .annotate_end()
+            .exclude(pk=appointment.pk)
+            .filter(end__gt=appointment.start, start__lt=appointment.end)
+            .exists()
+        ) for appointment in self.object.appointment_set.all())
+
+    def has_resource_overlap(self):
+        return any(appointment.session.resource and (
+            Appointment.objects
+            .annotate_end()
+            .exclude(pk=appointment.pk)
+            .filter(
+                session__resource=appointment.session.resource,
+                participation__status=Participation.INVITED,
+                end__gt=appointment.start,
+                start__lt=appointment.end,
+            )
+            .exists()
+        ) for appointment in self.object.appointment_set.select_related('session__resource'))
+
     def form_valid(self, form):
         response = super().form_valid(form)
         send_appointment_notifications(self.request, self.object, form.appointment_changes)
+
         messages.success(self.request, _('Data has been saved.'))
+        if self.has_participation_overlap():
+            messages.warning(self.request, _('Some appointments overlap'))
+        if self.has_resource_overlap():
+            messages.warning(self.request, _(
+                'Some resources might not be available at the selected times'
+            ))
         return response
 
 
