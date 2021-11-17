@@ -3,6 +3,26 @@
 from django.db import migrations, models
 
 
+def factory(app, model_name):
+    def migrate_data(apps, schema_editor):
+        Model = apps.get_model(app, model_name)
+        for obj in Model.objects.all().select_related('subject'):
+            obj.subject_uuid = obj.subject.uuid
+            obj.save()
+    return migrate_data
+
+
+def factory_m2m(app, model_name, rel_name):
+    def migrate_data(apps, schema_editor):
+        Subject = apps.get_model('subjects', 'Subject')
+        Model = apps.get_model(app, model_name)
+        for subject in Subject.objects.all():
+            qs = getattr(subject, rel_name)
+            for obj in qs.all():
+                Model.objects.create(subject_uuid=subject.uuid, obj=obj)
+    return migrate_data
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -16,16 +36,19 @@ class Migration(migrations.Migration):
             name='subject_uuid',
             field=models.UUIDField(null=True),
         ),
+        migrations.RunPython(factory('subjects', 'Consent')),
         migrations.AddField(
             model_name='exportanswer',
             name='subject_uuid',
             field=models.UUIDField(null=True),
         ),
+        migrations.RunPython(factory('subjects', 'ExportAnswer')),
         migrations.AddField(
             model_name='subjectnote',
             name='subject_uuid',
             field=models.UUIDField(null=True),
         ),
+        migrations.RunPython(factory('subjects', 'SubjectNote')),
         migrations.CreateModel(
             name='StudyTypeDisinterest',
             fields=[
@@ -34,6 +57,9 @@ class Migration(migrations.Migration):
                 ('obj', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='+', to='studies.studytype')),
             ],
         ),
+        migrations.RunPython(factory_m2m(
+            'subjects', 'StudyTypeDisinterest', 'study_type_disinterest'
+        )),
         migrations.CreateModel(
             name='AdditionalSuitabilityDocument',
             fields=[
@@ -42,4 +68,7 @@ class Migration(migrations.Migration):
                 ('obj', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='+', to='studies.studytype')),
             ],
         ),
+        migrations.RunPython(factory_m2m(
+            'subjects', 'AdditionalSuitabilityDocument', 'additional_suitability_document'
+        )),
     ]
