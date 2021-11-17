@@ -37,6 +37,7 @@ from icalevents import icalparser
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment.mixins import ParticipationMixin
 from castellum.recruitment.models import Participation
+from castellum.studies.models import Resource
 from castellum.utils import add_working_days
 from castellum.utils import cached_request
 from castellum.utils import contrast_color
@@ -151,19 +152,21 @@ class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, Up
             .exists()
         ) for appointment in self.object.appointment_set.all())
 
-    def has_resource_overlap(self):
-        return any(appointment.session.resource and (
-            Appointment.objects
-            .annotate_end()
-            .exclude(pk=appointment.pk)
-            .filter(
-                session__resource=appointment.session.resource,
-                participation__status=Participation.INVITED,
-                end__gt=appointment.start,
-                start__lt=appointment.end,
-            )
-            .exists()
-        ) for appointment in self.object.appointment_set.select_related('session__resource'))
+    def get_resource_overlaps(self):
+        for resource in Resource.objects.all():
+            if any((
+                Appointment.objects
+                .annotate_end()
+                .exclude(pk=appointment.pk)
+                .filter(
+                    session__resource=resource,
+                    participation__status=Participation.INVITED,
+                    end__gt=appointment.start,
+                    start__lt=appointment.end,
+                )
+                .exists()
+            ) for appointment in self.object.appointment_set.filter(session__resource=resource)):
+                yield resource
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -172,10 +175,10 @@ class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, Up
         messages.success(self.request, _('Data has been saved.'))
         if self.has_participation_overlap():
             messages.warning(self.request, _('Some appointments overlap'))
-        if self.has_resource_overlap():
+        for resource in self.get_resource_overlaps():
             messages.warning(self.request, _(
-                'Some appointments for resources overlap'
-            ))
+                'Some appointments for {resource} overlap'
+            ).format(resource=resource))
         return response
 
 

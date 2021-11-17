@@ -92,7 +92,7 @@ def test_appointment_overlap(client, member, participation, time):
     '13:30',
 ))
 def test_appointment_resource_overlap(client, member, participation, time):
-    resource = baker.make(Resource)
+    resource = baker.make(Resource, name='MRI')
     session = baker.make(
         StudySession, study=participation.study, duration=60, resource=resource
     )
@@ -115,11 +115,11 @@ def test_appointment_resource_overlap(client, member, participation, time):
     })
     assert response.status_code == 302
     messages = [str(m) for m in get_messages(response.wsgi_request)]
-    assert 'Some appointments for resources overlap' not in messages
+    assert 'Some appointments for MRI overlap' not in messages
 
 
 def test_appointment_resource_overlap_ignore_not_invited(client, member, participation):
-    resource = baker.make(Resource)
+    resource = baker.make(Resource, name='MRI')
     session = baker.make(
         StudySession, study=participation.study, duration=60, resource=resource
     )
@@ -142,7 +142,7 @@ def test_appointment_resource_overlap_ignore_not_invited(client, member, partici
     })
     assert response.status_code == 302
     messages = [str(m) for m in get_messages(response.wsgi_request)]
-    assert 'Some appointments for resources overlap' not in messages
+    assert 'Some appointments for MRI overlap' not in messages
 
 
 def test_appointment_change_appointment_permission(client, member, participation):
