@@ -37,18 +37,33 @@ class Migration(migrations.Migration):
             field=models.UUIDField(null=True),
         ),
         migrations.RunPython(factory('subjects', 'Consent')),
+        migrations.RemoveField(
+            model_name='consent',
+            name='subject',
+        ),
+
         migrations.AddField(
             model_name='exportanswer',
             name='subject_uuid',
             field=models.UUIDField(null=True),
         ),
         migrations.RunPython(factory('subjects', 'ExportAnswer')),
+        migrations.RemoveField(
+            model_name='exportanswer',
+            name='subject',
+        ),
+
         migrations.AddField(
             model_name='subjectnote',
             name='subject_uuid',
             field=models.UUIDField(null=True),
         ),
         migrations.RunPython(factory('subjects', 'SubjectNote')),
+        migrations.RemoveField(
+            model_name='subjectnote',
+            name='subject',
+        ),
+
         migrations.CreateModel(
             name='StudyTypeDisinterest',
             fields=[
@@ -60,6 +75,11 @@ class Migration(migrations.Migration):
         migrations.RunPython(factory_m2m(
             'subjects', 'StudyTypeDisinterest', 'study_type_disinterest'
         )),
+        migrations.RemoveField(
+            model_name='subject',
+            name='study_type_disinterest',
+        ),
+
         migrations.CreateModel(
             name='AdditionalSuitabilityDocument',
             fields=[
@@ -71,4 +91,8 @@ class Migration(migrations.Migration):
         migrations.RunPython(factory_m2m(
             'subjects', 'AdditionalSuitabilityDocument', 'additional_suitability_document'
         )),
+        migrations.RemoveField(
+            model_name='subject',
+            name='additional_suitability_document',
+        ),
     ]

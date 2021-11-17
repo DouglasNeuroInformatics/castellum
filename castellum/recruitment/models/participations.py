@@ -132,7 +132,6 @@ class Participation(models.Model):
     created_at = DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = DateTimeField(_('Updated at'), auto_now=True)
 
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, editable=False)
     subject_uuid = models.UUIDField(null=True)
     study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
     batch = models.ForeignKey(
@@ -179,7 +178,7 @@ class Participation(models.Model):
     class Meta:
         verbose_name = _('Study participation')
         verbose_name_plural = _('Study participations')
-        unique_together = ['study', 'subject']
+        # unique_together = ['study', 'subject']
         permissions = [
             ('conduct_study', _('Can conduct studies')),
             ('search_participations', _('Can search for any participation')),
@@ -253,7 +252,6 @@ class Participation(models.Model):
 
 class ReliabilityEntry(models.Model):
     study = models.ForeignKey(Study, verbose_name=_('Study'), on_delete=models.CASCADE)
-    subject = models.ForeignKey(Subject, verbose_name=_('Subject'), on_delete=models.CASCADE)
     subject_uuid = models.UUIDField(null=True)
     was_reliable = models.BooleanField(_('Was reliable'), default=True)
 

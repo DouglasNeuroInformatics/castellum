@@ -25,10 +25,23 @@ class Migration(migrations.Migration):
             field=models.UUIDField(null=True),
         ),
         migrations.RunPython(factory('recruitment', 'Participation')),
+        migrations.AlterUniqueTogether(
+            name='participation',
+            unique_together=set(),
+        ),
+        migrations.RemoveField(
+            model_name='participation',
+            name='subject',
+        ),
+
         migrations.AddField(
             model_name='reliabilityentry',
             name='subject_uuid',
             field=models.UUIDField(null=True),
         ),
         migrations.RunPython(factory('recruitment', 'ReliabilityEntry')),
+        migrations.RemoveField(
+            model_name='reliabilityentry',
+            name='subject',
+        ),
     ]

@@ -64,12 +64,6 @@ class Subject(TimeStampedModel):
         _('Does not want to participate in one time invitations'),
         default=False,
     )
-    study_type_disinterest = models.ManyToManyField(
-        'studies.StudyType',
-        verbose_name=_('Does not want to participate in the following study types'),
-        blank=True,
-        related_name='+',
-    )
 
     privacy_level = models.PositiveIntegerField(
         _('Privacy level'),
@@ -105,17 +99,6 @@ class Subject(TimeStampedModel):
     ))
 
     source = models.CharField(_('Data source'), max_length=128, blank=True)
-
-    additional_suitability_document = models.ManyToManyField(
-        'studies.StudyType',
-        verbose_name=_('Additional suitability document for study type'),
-        related_name='+',
-        help_text=_(
-            'Additional suitability documents are records that certify that a subject may safely '
-            'undergo all types of exams or tests conducted in the respective type of study.'
-        ),
-        blank=True,
-    )
 
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
 
@@ -204,7 +187,6 @@ class Subject(TimeStampedModel):
 
 
 class SubjectNote(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     subject_uuid = models.UUIDField(null=True)
     content = models.CharField(_('Content'), max_length=128, blank=True)
 
@@ -233,7 +215,6 @@ class Consent(models.Model):
     CONFIRMED = 'confirmed'
 
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
-    subject = models.OneToOneField(Subject, on_delete=models.CASCADE)
     subject_uuid = models.UUIDField(null=True)
     document = models.ForeignKey(
         ConsentDocument, verbose_name=_('Document'), on_delete=models.CASCADE
@@ -249,7 +230,6 @@ class Consent(models.Model):
 
 
 class ExportAnswer(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     subject_uuid = models.UUIDField(null=True)
     created_at = models.DateField(_('Created at'), auto_now_add=True)
     created_by = models.CharField(_('Created by'), max_length=150)

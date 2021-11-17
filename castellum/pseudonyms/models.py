@@ -45,7 +45,6 @@ class Domain(models.Model):
 
 
 class Pseudonym(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, blank=True, null=True)
     subject_uuid = models.UUIDField(null=True)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
     pseudonym = models.CharField(max_length=64, default=None)
@@ -53,7 +52,7 @@ class Pseudonym(models.Model):
     class Meta:
         unique_together = [
             ['domain', 'pseudonym'],
-            ['domain', 'subject'],
+            # ['domain', 'subject'],
         ]
 
     def __str__(self):

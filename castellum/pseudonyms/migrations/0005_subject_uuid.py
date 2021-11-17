@@ -25,4 +25,12 @@ class Migration(migrations.Migration):
             field=models.UUIDField(null=True),
         ),
         migrations.RunPython(factory('pseudonyms', 'Pseudonym')),
+        migrations.AlterUniqueTogether(
+            name='pseudonym',
+            unique_together={('domain', 'pseudonym')},
+        ),
+        migrations.RemoveField(
+            model_name='pseudonym',
+            name='subject',
+        ),
     ]
