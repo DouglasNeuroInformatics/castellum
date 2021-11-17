@@ -4,9 +4,22 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
+
+def factory_m2m(app, model_name, rel_name):
+    def migrate_data(apps, schema_editor):
+        Subject = apps.get_model('subjects', 'Subject')
+        Model = apps.get_model(app, model_name)
+        for item in Model.objects.all():
+            subject = Subject.objects.get(uuid=item.subject_uuid)
+            rel = getattr(subject, rel_name)
+            rel.add(item.obj)
+    return migrate_data
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('studies', '0041_alter_study_consent'),
         ('subjects', '0031_subject_uuid_primary_key'),
     ]
 
@@ -42,5 +55,29 @@ class Migration(migrations.Migration):
             model_name='subjectnote',
             old_name='subject_uuid',
             new_name='subject',
+        ),
+
+        migrations.AddField(
+            model_name='subject',
+            name='study_type_disinterest',
+            field=models.ManyToManyField(blank=True, related_name='_subjects_subject_study_type_disinterest_+', to='studies.StudyType', verbose_name='Does not want to participate in the following study types'),
+        ),
+        migrations.RunPython(factory_m2m(
+            'subjects', 'StudyTypeDisinterest', 'study_type_disinterest'
+        )),
+        migrations.DeleteModel(
+            name='StudyTypeDisinterest',
+        ),
+
+        migrations.AddField(
+            model_name='subject',
+            name='additional_suitability_document',
+            field=models.ManyToManyField(blank=True, help_text='Additional suitability documents are records that certify that a subject may safely undergo all types of exams or tests conducted in the respective type of study.', related_name='_subjects_subject_additional_suitability_document_+', to='studies.StudyType', verbose_name='Additional suitability document for study type'),
+        ),
+        migrations.RunPython(factory_m2m(
+            'subjects', 'AdditionalSuitabilityDocument', 'additional_suitability_document'
+        )),
+        migrations.DeleteModel(
+            name='AdditionalSuitabilityDocument',
         ),
     ]

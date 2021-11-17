@@ -36,16 +36,6 @@ from castellum.utils.fields import RestrictedFileField
 from castellum.utils.models import TimeStampedModel
 
 
-class StudyTypeDisinterest(models.Model):
-    subject_uuid = models.UUIDField()
-    obj = models.ForeignKey('studies.StudyType', related_name='+', on_delete=models.CASCADE)
-
-
-class AdditionalSuitabilityDocument(models.Model):
-    subject_uuid = models.UUIDField()
-    obj = models.ForeignKey('studies.StudyType', related_name='+', on_delete=models.CASCADE)
-
-
 class SubjectQuerySet(models.QuerySet):
     def annotate_reliability(self):
         return self.annotate(
@@ -63,6 +53,12 @@ class Subject(TimeStampedModel):
     onetime_invitation_disinterest = models.BooleanField(
         _('Does not want to participate in one time invitations'),
         default=False,
+    )
+    study_type_disinterest = models.ManyToManyField(
+        'studies.StudyType',
+        verbose_name=_('Does not want to participate in the following study types'),
+        blank=True,
+        related_name='+',
     )
 
     privacy_level = models.PositiveIntegerField(
@@ -99,6 +95,17 @@ class Subject(TimeStampedModel):
     ))
 
     source = models.CharField(_('Data source'), max_length=128, blank=True)
+
+    additional_suitability_document = models.ManyToManyField(
+        'studies.StudyType',
+        verbose_name=_('Additional suitability document for study type'),
+        related_name='+',
+        help_text=_(
+            'Additional suitability documents are records that certify that a subject may safely '
+            'undergo all types of exams or tests conducted in the respective type of study.'
+        ),
+        blank=True,
+    )
 
     not_available_until = DateTimeField(_("not available until"), blank=True, null=True)
 
