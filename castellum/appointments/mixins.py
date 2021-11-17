@@ -24,6 +24,7 @@ from urllib.parse import quote_plus
 
 from django.conf import settings
 from django.contrib import messages
+from django.db import models
 from django.http import JsonResponse
 from django.urls import reverse
 from django.utils import formats
@@ -153,20 +154,25 @@ class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, Up
         ) for appointment in self.object.appointment_set.all())
 
     def get_resource_overlaps(self):
-        for resource in Resource.objects.all():
-            if any((
-                Appointment.objects
-                .annotate_end()
-                .exclude(pk=appointment.pk)
-                .filter(
-                    session__resource=resource,
-                    participation__status=Participation.INVITED,
-                    end__gt=appointment.start,
-                    start__lt=appointment.end,
-                )
-                .exists()
-            ) for appointment in self.object.appointment_set.filter(session__resource=resource)):
-                yield resource
+        inner = (
+            Appointment.objects
+            .annotate_end()
+            .exclude(pk=models.OuterRef('pk'))
+            .filter(
+                session__resource=models.OuterRef('session__resource'),
+                participation__status=Participation.INVITED,
+                end__gt=models.OuterRef('start'),
+                start__lt=models.OuterRef('end'),
+            )
+        )
+        outer = (
+            self.object.appointment_set.all()
+            .annotate_end()
+            .alias(overlap=models.Subquery(inner.values('pk')[:1]))
+            .exclude(overlap=None)
+            .order_by()
+        )
+        return Resource.objects.filter(pk__in=outer.values('session__resource__pk'))
 
     def form_valid(self, form):
         response = super().form_valid(form)
