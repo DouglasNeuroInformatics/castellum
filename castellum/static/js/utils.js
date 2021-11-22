@@ -142,4 +142,41 @@
         var tab = document.getElementById(panel.getAttribute('aria-labelledby'));
         $(tab).tab('show');
     }
+
+    var getItem = function(key) {
+        return JSON.parse(sessionStorage.getItem('back_' + key));
+    }
+
+    var setItem = function(key, value) {
+        sessionStorage.setItem('back_' + key, JSON.stringify(value));
+    }
+
+    var setupSubjectBack = function() {
+        var isInSubjects = location.pathname.startsWith('/subjects/');
+        var subject = location.pathname.split('/')[2];
+
+        if (isInSubjects && !subject) {
+            setItem('fromSearch', true);
+            setItem('subject', null);
+            setItem('count', 0);
+        } else if (isInSubjects && subject && getItem('fromSearch') && !getItem('subject')) {
+            setItem('subject', subject);
+            setItem('count', 1);
+        } else if (isInSubjects && subject && getItem('fromSearch') && subject === getItem('subject')) {
+            setItem('count', getItem('count') + 1);
+            var button = document.createElement('button');
+            button.textContent = 'Back';
+            button.addEventListener('click', function() {
+                history.go(-getItem('count'));
+            });
+            button.className = 'btn btn-primary';
+            document.body.append(button);
+        } else {
+            setItem('fromSearch', false);
+            setItem('subject', null);
+            setItem('count', 0);
+        }
+    }
+
+    setupSubjectBack();
 })();
