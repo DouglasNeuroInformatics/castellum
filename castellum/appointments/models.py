@@ -29,9 +29,18 @@ from django.utils.translation import gettext_lazy as _
 
 from castellum.recruitment.models import Participation
 from castellum.studies.models import StudySession
+from castellum.utils.expressions import MultiDurationExpr
 from castellum.utils.fields import DateTimeField
 
 MINUTE = datetime.timedelta(seconds=60)
+
+
+class AppointmentQuerySet(models.QuerySet):
+    def annotate_end(self):
+        return self.annotate(
+            # corresponds to the Appointment.end property
+            end=MultiDurationExpr(models.F('start'), MINUTE, models.F('session__duration')),
+        )
 
 
 class Appointment(models.Model):
@@ -43,6 +52,8 @@ class Appointment(models.Model):
         on_delete=models.CASCADE,
         verbose_name=_('Participation'),
     )
+
+    objects = AppointmentQuerySet.as_manager()
 
     class Meta:
         verbose_name = _('Appointment')

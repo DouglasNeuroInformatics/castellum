@@ -24,6 +24,7 @@ from urllib.parse import quote_plus
 
 from django.conf import settings
 from django.contrib import messages
+from django.db import models
 from django.http import JsonResponse
 from django.urls import reverse
 from django.utils import formats
@@ -37,6 +38,7 @@ from icalevents import icalparser
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment.mixins import ParticipationMixin
 from castellum.recruitment.models import Participation
+from castellum.studies.models import Resource
 from castellum.utils import add_working_days
 from castellum.utils import cached_request
 from castellum.utils import contrast_color
@@ -142,10 +144,47 @@ class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, Up
     def get_success_url(self):
         return self.request.path
 
+    def has_participation_overlap(self):
+        return any((
+            self.object.appointment_set
+            .annotate_end()
+            .exclude(pk=appointment.pk)
+            .filter(end__gt=appointment.start, start__lt=appointment.end)
+            .exists()
+        ) for appointment in self.object.appointment_set.all())
+
+    def get_resource_overlaps(self):
+        inner = (
+            Appointment.objects
+            .annotate_end()
+            .exclude(pk=models.OuterRef('pk'))
+            .filter(
+                session__resource=models.OuterRef('session__resource'),
+                participation__status=Participation.INVITED,
+                end__gt=models.OuterRef('start'),
+                start__lt=models.OuterRef('end'),
+            )
+        )
+        outer = (
+            self.object.appointment_set.all()
+            .annotate_end()
+            .alias(overlap=models.Subquery(inner.values('pk')[:1]))
+            .exclude(overlap=None)
+            .order_by()
+        )
+        return Resource.objects.filter(pk__in=outer.values('session__resource__pk'))
+
     def form_valid(self, form):
         response = super().form_valid(form)
         send_appointment_notifications(self.request, self.object, form.appointment_changes)
+
         messages.success(self.request, _('Data has been saved.'))
+        if self.has_participation_overlap():
+            messages.warning(self.request, _('Some appointments overlap'))
+        for resource in self.get_resource_overlaps():
+            messages.warning(self.request, _(
+                'Some appointments for {resource} overlap'
+            ).format(resource=resource))
         return response
 
 

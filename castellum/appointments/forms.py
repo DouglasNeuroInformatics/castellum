@@ -19,21 +19,14 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import itertools
-
 from django import forms
 from django.conf import settings
-from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.recruitment.models import Participation
 from castellum.utils import scheduler
-from castellum.utils.expressions import MultiDurationExpr
 from castellum.utils.forms import DateTimeField
-
-from .models import MINUTE
-from .models import Appointment
 
 
 class AppointmentsForm(forms.ModelForm):
@@ -69,40 +62,6 @@ class AppointmentsForm(forms.ModelForm):
             return '{} ({}) - {}'.format(session.name, types, duration)
         else:
             return '{} - {}'.format(session.name, duration)
-
-    def clean(self):
-        cleaned_data = super().clean()
-
-        appointments = []
-        for session in self.instance.study.studysession_set.all():
-            key = 'appointment-{}'.format(session.pk)
-            start = cleaned_data.get(key)
-            if start:
-                appointments.append((session, key, start, start + session.duration * MINUTE))
-
-        for a, b in itertools.combinations(appointments, 2):
-            __, key1, start1, end1 = a
-            __, key2, start2, end2 = b
-            if start1 < end2 and start2 < end1:
-                self.add_error(key1, _('Appointments must not overlap.'))
-                self.add_error(key2, _('Appointments must not overlap.'))
-                break
-
-        qs = Appointment.objects\
-            .exclude(participation=self.instance)\
-            .filter(participation__status=Participation.INVITED)\
-            .alias(
-                # corresponds to the Appointment.end property
-                end=MultiDurationExpr(models.F('start'), MINUTE, models.F('session__duration')),
-            )
-
-        for session, key, start, end in appointments:
-            if session.resource and qs.filter(
-                session__resource=session.resource, end__gt=start, start__lt=end,
-            ).exists():
-                self.add_error(key, _('The required resource is not available at this time'))
-
-        return cleaned_data
 
     def save(self):
         pariticipation = super().save()
