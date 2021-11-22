@@ -734,7 +734,7 @@ class MaintenanceSubjectCreationRequestView(PermissionRequiredMixin, ListView):
     tab = 'subjectcreationrequest'
 
     def get_queryset(self):
-        return SubjectCreationRequest.objects.filter(data_is_deleted=False)
+        return SubjectCreationRequest.objects.filter(data_is_deleted=False).order_by('created_at')
 
 
 class SubjectCreationRequestDeleteView(PermissionRequiredMixin, DeleteView):
