@@ -294,14 +294,8 @@ class RecruitmentViewOpen(RecruitmentView):
             settings.CASTELLUM_RECRUITMENT_BATCH_SIZE,
             hard_limit - not_contacted_count,
         )
-        try:
-            participations = self.create_participations(batch_size)
-            Participation.objects.bulk_create(participations)
-        except KeyError:
-            participations = []
-            messages.error(request, _(
-                'The custom filter that is set for this study does not exist.'
-            ))
+        participations = self.create_participations(batch_size)
+        Participation.objects.bulk_create(participations)
 
         if not_contacted_count + len(participations) > settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT:
             messages.error(request, _(
