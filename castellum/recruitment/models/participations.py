@@ -21,6 +21,7 @@
 
 import datetime
 
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.forms import ValidationError
@@ -75,6 +76,8 @@ class ExecutionTag(models.Model):
 
 class ParticipationQuerySet(models.QuerySet):
     def with_sort_properties(self):
+        recent = timezone.now() - settings.CASTELLUM_SHORT_TERM_DURATION
+
         return self.annotate(
             status_not_reached=models.Count(
                 'id',
@@ -95,6 +98,14 @@ class ParticipationQuerySet(models.QuerySet):
                         subject__participation__status=Participation.NOT_CONTACTED
                     )
                 ),
+            ),
+            recent_participation_count=models.Count(
+                'subject__participation',
+                filter=models.Q(
+                    subject__participation__created_at__gt=recent,
+                    subject__participation__status=Participation.INVITED,
+                ),
+                distinct=True,
             ),
         )
 
