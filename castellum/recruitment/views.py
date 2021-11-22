@@ -69,6 +69,7 @@ from .templatetags.recruitment import study_legal_representative_hash
 FULLCALENDAR_DEFAULT_COLOR = '#3788d8'
 
 logger = logging.getLogger(__name__)
+monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
 class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
@@ -265,6 +266,11 @@ class RecruitmentViewOpen(RecruitmentView):
 
     def post(self, request, *args, **kwargs):
         is_urgent = request.POST.get('submit') == 'urgent'
+
+        if is_urgent:
+            monitoring_logger.info('Urgent recruitment in study {} by {}'.format(
+                self.study.pk, request.user.pk
+            ))
 
         if self.study.min_subject_count == 0:
             messages.error(request, _(
