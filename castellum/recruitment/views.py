@@ -253,8 +253,8 @@ class RecruitmentViewOpen(RecruitmentView):
     ]
     subtab = 'open'
 
-    def create_participations(self, batch_size):
-        subjects = get_recruitable(self.study)
+    def create_participations(self, batch_size, is_urgent=False):
+        subjects = get_recruitable(self.study, is_urgent)
 
         added = min(batch_size, len(subjects))
         participations = []
@@ -264,6 +264,8 @@ class RecruitmentViewOpen(RecruitmentView):
         return participations
 
     def post(self, request, *args, **kwargs):
+        is_urgent = request.POST.get('submit') == 'urgent'
+
         if self.study.min_subject_count == 0:
             messages.error(request, _(
                 'This study does not require participants. '
@@ -288,7 +290,7 @@ class RecruitmentViewOpen(RecruitmentView):
             settings.CASTELLUM_RECRUITMENT_BATCH_SIZE,
             hard_limit - not_contacted_count,
         )
-        participations = self.create_participations(batch_size)
+        participations = self.create_participations(batch_size, is_urgent)
         Participation.objects.bulk_create(participations)
 
         if not_contacted_count + len(participations) > settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT:

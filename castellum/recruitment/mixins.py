@@ -55,7 +55,7 @@ from .models.attributes import UNCATEGORIZED
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
-def get_recruitable(study):
+def get_recruitable(study, is_urgent=False):
     """Get all subjects who are recruitable for this study, i.e. apply all filters."""
     qs = Subject.objects.filter(
         filter_queries.study(study),
@@ -73,6 +73,18 @@ def get_recruitable(study):
         models.Q(last_contacted__lte=last_contacted) |
         models.Q(last_contacted__isnull=True)
     )
+
+    if is_urgent:
+        # matches the definition in ParticipationQuerySet
+        recent = timezone.now() - settings.CASTELLUM_RECENT_ACTIVITY_PERIOD
+        qs = qs.annotate(recent_participation_count=models.Count(
+            'participation',
+            filter=models.Q(
+                participation__updated_at__gt=recent,
+                participation__status=Participation.INVITED,
+            ),
+            distinct=True,
+        )).exclude(recent_participation_count=0)
 
     return list(qs)
 
