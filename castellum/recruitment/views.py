@@ -97,6 +97,8 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
                 '-subject__attributes__' + desc2.json_key,
                 '-updated_at',
             ]
+        elif self.sort == 'recently-active':
+            order_by = ['-recent_participation_count', '-updated_at']
         else:
             order_by = [
                 '-followup_urgent', 'status', 'followup_date', 'followup_time', '-updated_at'
@@ -205,6 +207,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ('followup', _('Follow-up date')),
             ('last_contact_attempt', _('Last contact attempt')),
             ('statistics', _('Statistics')),
+            ('recently-active', _('Recently active')),
         ]
         sort_options = dict(context['sort_options'])
         context['sort_label'] = sort_options.get(self.sort, _('Relevance'))
