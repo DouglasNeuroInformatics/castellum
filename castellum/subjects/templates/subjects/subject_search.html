@@ -184,40 +184,40 @@
                 {% endif %}
             </div>
         </div>
+    {% else %}
+        <aside class="border bg-light p-3 mb-3 mt-5" aria-labelledby="stats">
+            {% has_perm 'subjects.change_subject' user as can_change_subject %}
+            {% if can_change_subject %}
+                <a href="{% url 'subjects:maintenance-attributes' %}" class="btn btn-primary float-right">{% translate 'Maintenance' %}</a>
+            {% endif %}
+
+            <h2 id="stats" class="h4">{% translate 'Current data situation' %}</h2>
+            <p>{% translate 'Total number of subjects' %}: {{ count_total }}</p>
+            <dl class="row">
+                <dt class="col-sm-5">{% translate 'Contact data updated in last 6 months' %}</dt>
+                <dd class="col-sm-3">{{ count_updated }} {% translate 'subjects' %}</dd>
+                <dd class="col-sm-4">
+                    <meter class="w-100" max="{{ count_total }}" value="{{ count_updated }}"></meter>
+                </dd>
+
+                <dt class="col-sm-5">{% translate 'Complete recruitment attributes' %}</dt>
+                <dd class="col-sm-3">{{ count_complete }} {% translate 'subjects' %}</dd>
+                <dd class="col-sm-4">
+                    <meter class="w-100" max="{{ count_total }}" value="{{ count_complete }}"></meter>
+                </dd>
+
+                <dt class="col-sm-5">{% translate 'Took part in a study' %}</dt>
+                <dd class="col-sm-3">{{ count_participated }} {% translate 'subjects' %}</dd>
+                <dd class="col-sm-4">
+                    <meter class="w-100" max="{{ count_total }}" value="{{ count_participated }}"></meter>
+                </dd>
+
+                <dt class="col-sm-5">{% translate 'Currently recruitable' %}</dt>
+                <dd class="col-sm-3">{{ count_recruitable }} {% translate 'subjects' %}</dd>
+                <dd class="col-sm-4">
+                    <meter class="w-100" max="{{ count_total }}" value="{{ count_recruitable }}"></meter>
+                </dd>
+            </dl>
+        </aside>
     {% endif %}
-
-    <aside class="border bg-light p-3 mb-3 mt-5" aria-labelledby="stats">
-        {% has_perm 'subjects.change_subject' user as can_change_subject %}
-        {% if can_change_subject %}
-            <a href="{% url 'subjects:maintenance-attributes' %}" class="btn btn-primary float-right">{% translate 'Maintenance' %}</a>
-        {% endif %}
-
-        <h2 id="stats" class="h4">{% translate 'Current data situation' %}</h2>
-        <p>{% translate 'Total number of subjects' %}: {{ count_total }}</p>
-        <dl class="row">
-            <dt class="col-sm-5">{% translate 'Contact data updated in last 6 months' %}</dt>
-            <dd class="col-sm-3">{{ count_updated }} {% translate 'subjects' %}</dd>
-            <dd class="col-sm-4">
-                <meter class="w-100" max="{{ count_total }}" value="{{ count_updated }}"></meter>
-            </dd>
-
-            <dt class="col-sm-5">{% translate 'Complete recruitment attributes' %}</dt>
-            <dd class="col-sm-3">{{ count_complete }} {% translate 'subjects' %}</dd>
-            <dd class="col-sm-4">
-                <meter class="w-100" max="{{ count_total }}" value="{{ count_complete }}"></meter>
-            </dd>
-
-            <dt class="col-sm-5">{% translate 'Took part in a study' %}</dt>
-            <dd class="col-sm-3">{{ count_participated }} {% translate 'subjects' %}</dd>
-            <dd class="col-sm-4">
-                <meter class="w-100" max="{{ count_total }}" value="{{ count_participated }}"></meter>
-            </dd>
-
-            <dt class="col-sm-5">{% translate 'Currently recruitable' %}</dt>
-            <dd class="col-sm-3">{{ count_recruitable }} {% translate 'subjects' %}</dd>
-            <dd class="col-sm-4">
-                <meter class="w-100" max="{{ count_total }}" value="{{ count_recruitable }}"></meter>
-            </dd>
-        </dl>
-    </aside>
 {% endblock %}
