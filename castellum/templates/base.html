@@ -40,13 +40,13 @@
                                     <form class="btn-group" action="{% url 'set_language' %}" method="post">
                                         {# Bootstrap uses :firstchild for styling #}
                                         {% if forloop.first %}
-                                            <button title="{{ label }}" class="btn btn-secondary">{{ lang }}</button>
+                                            <button title="{{ label }}" class="btn btn-secondary {% if lang == LANGUAGE_CODE %}active{% endif %}">{{ lang }}</button>
                                         {% endif %}
                                         {% csrf_token %}
                                         <input name="next" type="hidden" value="{{ request.get_full_path }}" />
                                         <input name="language" type="hidden" value="{{ lang }}" />
                                         {% if not forloop.first %}
-                                            <button title="{{ label }}" class="btn btn-secondary">{{ lang }}</button>
+                                            <button title="{{ label }}" class="btn btn-secondary {% if lang == LANGUAGE_CODE %}active{% endif %}">{{ lang }}</button>
                                         {% endif %}
                                     </form>
                                 {% endfor %}
