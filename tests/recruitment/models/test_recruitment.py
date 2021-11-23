@@ -23,7 +23,7 @@ def test_last_contacted_elsewhere():
         participation_2.status = Participation.NOT_REACHED
         participation_2.save()
 
-    participation_1 = Participation.objects.get(pk=participation_1.pk)
+    participation_1 = Participation.objects.with_sort_properties().get(pk=participation_1.pk)
     assert participation_1.last_contacted_elsewhere == participation_2.updated_at
 
 
@@ -47,7 +47,7 @@ def test_last_contacted_elsewhere_several_others():
     with freeze_time("2021-11-11 11:11"):
         participation_2.save()
 
-    participation_1 = Participation.objects.get(pk=participation_1.pk)
+    participation_1 = Participation.objects.with_sort_properties().get(pk=participation_1.pk)
     assert participation_1.last_contacted_elsewhere == participation_2.updated_at
 
 
@@ -66,7 +66,7 @@ def test_last_contacted_elsewhere_no_others():
     with freeze_time("2021-11-11 11:11"):
         participation_1.save()
 
-    participation_1 = Participation.objects.get(pk=participation_1.pk)
+    participation_1 = Participation.objects.with_sort_properties().get(pk=participation_1.pk)
     assert participation_1.last_contacted_elsewhere is None
 
 
@@ -90,7 +90,7 @@ def test_last_contacted_elsewhere_several_studies():
         participation_3.status = Participation.NOT_REACHED
         participation_3.save()
 
-    participation_1 = Participation.objects.get(pk=participation_1.pk)
+    participation_1 = Participation.objects.with_sort_properties().get(pk=participation_1.pk)
     assert participation_1.last_contacted_elsewhere == participation_3.updated_at
 
 
@@ -108,7 +108,7 @@ def test_last_contacted_elsewhere_not_contacted():
         participation_2.status = Participation.NOT_CONTACTED
         participation_2.save()
 
-    participation_1 = Participation.objects.get(pk=participation_1.pk)
+    participation_1 = Participation.objects.with_sort_properties().get(pk=participation_1.pk)
     assert participation_1.last_contacted_elsewhere is None
 
 
@@ -131,7 +131,7 @@ def test_attempts():
         participation.status = Participation.NOT_REACHED
         participation.save()
 
-    participation = Participation.objects.get(pk=participation.pk)
+    participation = Participation.objects.with_sort_properties().get(pk=participation.pk)
     assert participation.attempts == 2
 
 
@@ -140,7 +140,7 @@ def test_attempts_single_revision():
     participation = baker.make(
         Participation, status=Participation.AWAITING_RESPONSE
     )
-    participation = Participation.objects.get(pk=participation.pk)
+    participation = Participation.objects.with_sort_properties().get(pk=participation.pk)
     assert participation.attempts == 1
 
 

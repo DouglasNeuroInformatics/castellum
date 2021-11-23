@@ -113,6 +113,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ]
 
         return Participation.objects\
+            .with_sort_properties()\
             .with_appointment_count()\
             .prefetch_related('subject')\
             .filter(status__in=self.shown_status, study=self.study)\

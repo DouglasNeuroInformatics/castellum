@@ -73,9 +73,9 @@ class ExecutionTag(models.Model):
         return self.name
 
 
-class ParticipationManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().annotate(
+class ParticipationQuerySet(models.QuerySet):
+    def with_sort_properties(self):
+        return self.annotate(
             status_not_reached=models.Count(
                 'id',
                 filter=models.Q(status__in=[
@@ -99,7 +99,7 @@ class ParticipationManager(models.Manager):
         )
 
     def with_appointment_count(self):
-        return self.get_queryset().annotate(
+        return self.annotate(
             appointment_count=models.Count('appointment', distinct=True)
         )
 
@@ -173,7 +173,7 @@ class Participation(models.Model):
         related_name='+',
     )
 
-    objects = ParticipationManager()
+    objects = ParticipationQuerySet.as_manager()
 
     class Meta:
         verbose_name = _('Study participation')
