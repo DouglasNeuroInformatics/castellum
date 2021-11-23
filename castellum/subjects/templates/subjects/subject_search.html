@@ -38,11 +38,7 @@
             {% endif %}
 
             <div class="tab-content card-body">
-                {% if can_change_subject and form.cleaned_data.last_name %}
-                    <div class="tab-pane {% if matches %}active{% endif %}" id="matches" role="tabpanel" aria-labelledby="matches-tab">
-                {% else %}
-                    <div>
-                {% endif %}
+                <div {% if can_change_subject and form.cleaned_data.last_name %}class="tab-pane {% if matches %}active{% endif %}" id="matches" role="tabpanel" aria-labelledby="matches-tab"{% endif %}>
                     {% if not can_view_subject %}
                         <p class="alert alert-warning">{% translate 'This list may be restricted based on your permissions.' %}</p>
                     {% endif %}
