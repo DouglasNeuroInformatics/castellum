@@ -24,6 +24,9 @@
                         {% if subjectcreationrequest.source %}
                             <span class="d-inline-block mr-2">{{ subjectcreationrequest|display:'source' }}</span>
                         {% endif %}
+                        {% if subjectcreationrequest.contact.message %}
+                            <span class="d-inline-block mr-2">{{ subjectcreationrequest.contact|display:'message' }}</span>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="table-list-item-actions">
