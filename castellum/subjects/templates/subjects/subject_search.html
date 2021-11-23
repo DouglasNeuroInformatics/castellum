@@ -4,186 +4,176 @@
 {% block title %}{% translate "Subjects" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    {% has_perm 'subjects.change_subject' user as can_change_subject %}
+    {% has_perm 'subjects.view_subject' user as can_view_subject %}
+
     {% if subjectcreationrequest %}
         {% url 'subjects:maintenance-subjectcreationrequest-delete' subjectcreationrequest.pk as discard_url %}
         <p class="alert alert-info mb-5">{% blocktranslate with name=subjectcreationrequest.contact.full_name discard_url=discard_url %}Please make sure that {{ name }} does not yet exist in the database. If you find duplicates, you can also <a href="{{ discard_url }}">discard this request</a>.{% endblocktranslate %}</p>
     {% endif %}
-    <form method="post">
+
+    <form method="post" id="search-form">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
 
         {% bootstrap_field form.search %}
 
         <div class="mb-4">
-            <button class="btn btn-primary" >{% translate 'Submit' %}</button>
+            <button class="btn btn-primary">{% translate 'Search' %}</button>
+            {% if can_change_subject %}
+                <button class="btn btn-warning" name="action" value="create">{% translate 'Create subject' %}</button>
+            {% endif %}
         </div>
     </form>
 
     {% if form.is_valid %}
-        {% has_perm 'subjects.change_subject' user as can_change_subject %}
-        {% has_perm 'subjects.view_subject' user as can_view_subject %}
+        {% if can_change_subject and is_create %}
+            <form method="post">
+                {% for error in privacy_level_form.non_field_errors %}
+                    <p class="alert alert-danger" role="alert">{{ error }}</p>
+                {% endfor %}
+                {% csrf_token %}
+                {% if subjectcreationrequest %}
+                    <dl>
+                        <dt>{{ subjectcreationrequest.contact|verbose_name:'title' }}</dt>
+                        <dd>{{ subjectcreationrequest.contact|display:'title' }}</dd>
 
-        <div class="card">
-            {% if can_change_subject and form.cleaned_data.last_name %}
-                <div class="card-header">
-                    <ul class="nav nav-pills justify-content-center" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link {% if matches %}active{% endif %}" id="matches-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="matches" {% if matches %}aria-selected="true"{% endif %}>{% translate "Matches" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if not matches %}active{% endif %}" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create" {% if not matches %}aria-selected="true"{% endif %}>{% translate "Create" %}</a>
-                        </li>
-                    </ul>
-                </div>
+                        <dt>{{ subjectcreationrequest.contact|verbose_name:'first_name' }}</dt>
+                        <dd>{{ subjectcreationrequest.contact|display:'first_name' }}</dd>
+
+                        <dt>{{ subjectcreationrequest.contact|verbose_name:'last_name' }}</dt>
+                        <dd>{{ subjectcreationrequest.contact|display:'last_name' }}</dd>
+
+                        <dt>{{ subjectcreationrequest.contact|verbose_name:'gender' }}</dt>
+                        <dd>{{ subjectcreationrequest.contact|display:'gender' }}</dd>
+
+                        <dt>{{ subjectcreationrequest.contact|verbose_name:'date_of_birth' }}</dt>
+                        <dd>{{ subjectcreationrequest.contact|display:'date_of_birth' }}</dd>
+
+                        <dt>{{ subjectcreationrequest.contact|verbose_name:'email' }}</dt>
+                        <dd>{{ subjectcreationrequest.contact|display:'email' }}</dd>
+
+                        <dt>{{ subjectcreationrequest|verbose_name:'source' }}</dt>
+                        <dd>{{ subjectcreationrequest|display:'source' }}</dd>
+                    </dl>
+                {% else %}
+                    <dl>
+                        <dt>{% translate 'First name' %}</dt>
+                        <dd>{{ form.cleaned_data.first_name }}</dd>
+
+                        <dt>{% translate 'Last name' %}</dt>
+                        <dd>{{ form.cleaned_data.last_name }}</dd>
+
+                        {% if form.cleaned_data.email %}
+                            <dt>{% translate 'Email' %}</dt>
+                            <dd>{{ form.cleaned_data.email }}</dd>
+                        {% endif %}
+
+                        {% if form.cleaned_data.phone_number %}
+                            <dt>{% translate 'Phone number' %}</dt>
+                            <dd>{{ form.cleaned_data.phone_number }}</dd>
+                        {% endif %}
+                    </dl>
+                {% endif %}
+                {% bootstrap_field privacy_level_form.privacy_level %}
+                {{ form.search.as_hidden }}
+                <button class="btn btn-warning">{% translate "Create new subject" %}</button>
+            </form>
+        {% else %}
+            {% if form.cleaned_data.action == 'create' %}
+                <p class="alert alert-warning">{% translate 'Please check these matches before creating a new subjects.' %}</p>
+            {% endif %}
+            {% if not can_view_subject %}
+                <p class="alert alert-warning">{% translate 'This list may be restricted based on your permissions.' %}</p>
             {% endif %}
 
-            <div class="tab-content card-body">
-                <div {% if can_change_subject and form.cleaned_data.last_name %}class="tab-pane {% if matches %}active{% endif %}" id="matches" role="tabpanel" aria-labelledby="matches-tab"{% endif %}>
-                    {% if not can_view_subject %}
-                        <p class="alert alert-warning">{% translate 'This list may be restricted based on your permissions.' %}</p>
-                    {% endif %}
-
-                    <ul class="table-list">
-                        {% for subject, contact, participations, can_access in matches %}
-                            <li>
-                                <div class="table-list-item">
-                                    <div>
-                                        {% if can_access %}
-                                            <div class="h4 d-inline-block my-1 mr-2">
-                                                {% if contact.title %}{{ contact.title }}{% endif %}
-                                                {% if contact.first_name|lower == form.cleaned_data.first_name|lower %}
-                                                    <mark>{{ contact.first_name }}</mark>
-                                                {% else %}
-                                                    {{ contact.first_name }}
-                                                {% endif %}
-                                                {% if contact.last_name|lower == form.cleaned_data.last_name|lower %}
-                                                    <mark>{{ contact.last_name }}</mark>
-                                                {% else %}
-                                                    {{ contact.last_name }}
-                                                {% endif %}
-                                            </div>
-                                            {% if can_view_subject %}
-                                                <div class="d-inline-block">
-                                                    {% if contact.date_of_birth %}
-                                                        <div class="d-inline-block my-1 mr-2">{{ contact.date_of_birth }}</div>
-                                                    {% endif %}
-                                                    {% if contact.email %}
-                                                        <div class="d-inline-block my-1 mr-2">
-                                                            {% if contact.email|lower == form.cleaned_data.email|lower %}
-                                                                <mark>{{ contact.email }}</mark>
-                                                            {% else %}
-                                                                {{ contact.email }}
-                                                            {% endif %}
-                                                        </div>
-                                                    {% endif %}
-                                                </div>
-                                                {% if subject.blocked %}
-                                                    <span class="badge badge-dark my-1 mr-2">{{ subject|verbose_name:'blocked' }}</span>
-                                                {% endif %}
-                                            {% endif %}
-                                        {% else %}
-                                            <h3 class="h4 d-inline-block text-muted my-1 mr-2">{{ contact.full_name }}</h3>
-                                            <div class="d-inline-block text-muted my-1 mr-2">{% translate 'access denied' %}</div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="table-list-item-actions">
-                                        {% if can_view_subject %}
-                                            {% if can_access %}
-                                                <a class="btn btn-outline-primary my-1" href="{% url 'subjects:detail' subject.uuid %}">{% translate 'Details' %}</a>
-                                            {% else %}
-                                                <button class="btn btn-outline-primary my-1" disabled>{% translate 'Details' %}</button>
-                                            {% endif %}
-                                        {% endif %}
-                                    </div>
-                                </div>
+            <ul class="table-list">
+                {% for subject, contact, participations, can_access in matches %}
+                    <li>
+                        <div class="table-list-item">
+                            <div>
                                 {% if can_access %}
-                                    <ul class="table-list">
-                                        {% for participation, can_recruit, can_conduct in participations %}
-                                            <li class="table-list-item">
-                                                <div>
-                                                    <span class="h5 d-inline-block my-1 mr-2">{{ participation.study }}</span>
-                                                    <span class="d-inline-block my-1 mr-2">{{ participation.study.contact_person }}</span>
-                                                    <span class="badge badge-secondary my-1">{{ participation|display:'status' }}</span>
-                                                    {% if participation.dropped_out %}
-                                                        <span class="badge badge-secondary my-1">{{ participation|verbose_name:'dropped_out' }}</span>
+                                    <div class="h4 d-inline-block my-1 mr-2">
+                                        {% if contact.title %}{{ contact.title }}{% endif %}
+                                        {% if contact.first_name|lower == form.cleaned_data.first_name|lower %}
+                                            <mark>{{ contact.first_name }}</mark>
+                                        {% else %}
+                                            {{ contact.first_name }}
+                                        {% endif %}
+                                        {% if contact.last_name|lower == form.cleaned_data.last_name|lower %}
+                                            <mark>{{ contact.last_name }}</mark>
+                                        {% else %}
+                                            {{ contact.last_name }}
+                                        {% endif %}
+                                    </div>
+                                    {% if can_view_subject %}
+                                        <div class="d-inline-block">
+                                            {% if contact.date_of_birth %}
+                                                <div class="d-inline-block my-1 mr-2">{{ contact.date_of_birth }}</div>
+                                            {% endif %}
+                                            {% if contact.email %}
+                                                <div class="d-inline-block my-1 mr-2">
+                                                    {% if contact.email|lower == form.cleaned_data.email|lower %}
+                                                        <mark>{{ contact.email }}</mark>
+                                                    {% else %}
+                                                        {{ contact.email }}
                                                     {% endif %}
                                                 </div>
-                                                <div class="table-list-item-actions">
-                                                    {% if can_recruit %}
-                                                        <a class="btn btn-outline-primary my-1" href="{% url 'recruitment:contact' participation.study.pk participation.pk %}">{% translate 'Recruitment' %}</a>
-                                                    {% endif %}
-                                                    {% if can_conduct %}
-                                                        <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-detail' participation.study.pk participation.pk %}">{% translate 'Execution' %}</a>
-                                                    {% endif %}
-                                                </div>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
+                                            {% endif %}
+                                        </div>
+                                        {% if subject.blocked %}
+                                            <span class="badge badge-dark my-1 mr-2">{{ subject|verbose_name:'blocked' }}</span>
+                                        {% endif %}
+                                    {% endif %}
+                                {% else %}
+                                    <h3 class="h4 d-inline-block text-muted my-1 mr-2">{{ contact.full_name }}</h3>
+                                    <div class="d-inline-block text-muted my-1 mr-2">{% translate 'access denied' %}</div>
                                 {% endif %}
-                            </li>
-                        {% empty %}
-                            <li class="alert alert-warning" role="alert">{% translate 'No matches found' %}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-
-                {% if can_change_subject and form.cleaned_data.last_name %}
-                    <div class="tab-pane {% if not matches %}active{% endif %}" id="create" role="tabpanel" aria-labelledby="create-tab">
-                        <form method="post">
-                            {% for error in privacy_level_form.non_field_errors %}
-                                <p class="alert alert-danger" role="alert">{{ error }}</p>
-                            {% endfor %}
-                            {% csrf_token %}
-                            {% if subjectcreationrequest %}
-                                <dl>
-                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'title' }}</dt>
-                                    <dd>{{ subjectcreationrequest.contact|display:'title' }}</dd>
-
-                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'first_name' }}</dt>
-                                    <dd>{{ subjectcreationrequest.contact|display:'first_name' }}</dd>
-
-                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'last_name' }}</dt>
-                                    <dd>{{ subjectcreationrequest.contact|display:'last_name' }}</dd>
-
-                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'gender' }}</dt>
-                                    <dd>{{ subjectcreationrequest.contact|display:'gender' }}</dd>
-
-                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'date_of_birth' }}</dt>
-                                    <dd>{{ subjectcreationrequest.contact|display:'date_of_birth' }}</dd>
-
-                                    <dt>{{ subjectcreationrequest.contact|verbose_name:'email' }}</dt>
-                                    <dd>{{ subjectcreationrequest.contact|display:'email' }}</dd>
-
-                                    <dt>{{ subjectcreationrequest|verbose_name:'source' }}</dt>
-                                    <dd>{{ subjectcreationrequest|display:'source' }}</dd>
-                                </dl>
-                            {% else %}
-                                <dl>
-                                    <dt>{% translate 'First name' %}</dt>
-                                    <dd>{{ form.cleaned_data.first_name }}</dd>
-
-                                    <dt>{% translate 'Last name' %}</dt>
-                                    <dd>{{ form.cleaned_data.last_name }}</dd>
-
-                                    {% if form.cleaned_data.email %}
-                                        <dt>{% translate 'Email' %}</dt>
-                                        <dd>{{ form.cleaned_data.email }}</dd>
+                            </div>
+                            <div class="table-list-item-actions">
+                                {% if can_view_subject %}
+                                    {% if can_access %}
+                                        <a class="btn btn-outline-primary my-1" href="{% url 'subjects:detail' subject.uuid %}">{% translate 'Details' %}</a>
+                                    {% else %}
+                                        <button class="btn btn-outline-primary my-1" disabled>{% translate 'Details' %}</button>
                                     {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if can_access %}
+                            <ul class="table-list">
+                                {% for participation, can_recruit, can_conduct in participations %}
+                                    <li class="table-list-item">
+                                        <div>
+                                            <span class="h5 d-inline-block my-1 mr-2">{{ participation.study }}</span>
+                                            <span class="d-inline-block my-1 mr-2">{{ participation.study.contact_person }}</span>
+                                            <span class="badge badge-secondary my-1">{{ participation|display:'status' }}</span>
+                                            {% if participation.dropped_out %}
+                                                <span class="badge badge-secondary my-1">{{ participation|verbose_name:'dropped_out' }}</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="table-list-item-actions">
+                                            {% if can_recruit %}
+                                                <a class="btn btn-outline-primary my-1" href="{% url 'recruitment:contact' participation.study.pk participation.pk %}">{% translate 'Recruitment' %}</a>
+                                            {% endif %}
+                                            {% if can_conduct %}
+                                                <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-detail' participation.study.pk participation.pk %}">{% translate 'Execution' %}</a>
+                                            {% endif %}
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <li class="alert alert-warning" role="alert">{% translate 'No matches found' %}</li>
+                {% endfor %}
+            </ul>
 
-                                    {% if form.cleaned_data.phone_number %}
-                                        <dt>{% translate 'Phone number' %}</dt>
-                                        <dd>{{ form.cleaned_data.phone_number }}</dd>
-                                    {% endif %}
-                                </dl>
-                            {% endif %}
-                            {% bootstrap_field privacy_level_form.privacy_level %}
-                            {{ form.search.as_hidden }}
-                            <button class="btn btn-primary">{% translate "Create new subject" %}</button>
-                        </form>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
+            {% if can_change_subject and form.cleaned_data.action == 'create' %}
+                <button class="btn btn-warning" name="action" value="force-create" form="search-form">{% translate 'Create subject anyway' %}</button>
+            {% endif %}
+        {% endif %}
     {% else %}
         <aside class="border bg-light p-3 mb-3 mt-5" aria-labelledby="stats">
             {% has_perm 'subjects.change_subject' user as can_change_subject %}
