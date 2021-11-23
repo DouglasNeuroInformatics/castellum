@@ -294,6 +294,7 @@ class Street(models.Model):
 class ContactCreationRequest(BaseContact):
     subject_id = models.PositiveIntegerField(unique=True, editable=False, default=None)
     email = models.EmailField(_('Email'), max_length=128)
+    message = models.TextField(_('Message'), blank=True)
 
     def convert_to_real_contact(self):
         return Contact.objects.create(
