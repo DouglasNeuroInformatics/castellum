@@ -227,6 +227,12 @@ class SearchForm(forms.Form):
             else:
                 names.append(part)
 
+        if not (len(names) > 1 or phone_numbers or emails):
+            self.add_error(
+                'search',
+                _('At least full name, phone number or email address have to be provided'),
+            )
+
         cleaned_data['first_name'] = names[0] if names else ''
         cleaned_data['last_name'] = ' '.join(names[1:])
         cleaned_data['phone_number'] = phone_numbers[0] if phone_numbers else ''
