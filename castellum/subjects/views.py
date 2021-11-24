@@ -390,8 +390,7 @@ class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     tab = 'participations'
     subtab = 'list'
 
-    @cached_property
-    def subject(self):
+    def get_subject(self):
         return get_object_or_404(Subject, uuid=self.kwargs['uuid'])
 
     def get_queryset(self):
@@ -409,8 +408,7 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
     tab = 'participations'
     subtab = 'recruit'
 
-    @cached_property
-    def subject(self):
+    def get_subject(self):
         return get_object_or_404(Subject, uuid=self.kwargs['uuid'])
 
     def get_queryset(self):
@@ -462,8 +460,7 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
     tab = 'participations'
     subtab = 'add'
 
-    @cached_property
-    def subject(self):
+    def get_subject(self):
         return get_object_or_404(Subject, uuid=self.kwargs['uuid'])
 
     def get(self, request, *args, **kwargs):

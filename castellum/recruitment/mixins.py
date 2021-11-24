@@ -97,8 +97,7 @@ class ParticipationMixin(StudyMixin, SubjectMixin):
             qs = qs.filter(status__in=self.participation_status)
         return get_object_or_404(qs, pk=self.kwargs['pk'], study_id=self.kwargs['study_pk'])
 
-    @cached_property
-    def subject(self):
+    def get_subject(self):
         return self.participation.subject
 
     def get_context_data(self, **kwargs):

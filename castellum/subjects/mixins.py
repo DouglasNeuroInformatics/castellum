@@ -21,7 +21,6 @@
 
 from django.conf import settings
 from django.urls import reverse
-from django.utils.functional import cached_property
 from django.views.generic import UpdateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -41,8 +40,7 @@ class SubjectMixin:
     -   check privacy level
     """
 
-    @cached_property
-    def subject(self):
+    def get_subject(self):
         obj = self.get_object()
         if isinstance(obj, Subject):
             return obj
@@ -52,6 +50,7 @@ class SubjectMixin:
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return self.handle_no_permission()
+        self.subject = self.get_subject()
         if not request.user.has_privacy_level(self.subject.privacy_level):
             return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
