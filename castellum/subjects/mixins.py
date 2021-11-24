@@ -47,13 +47,11 @@ class SubjectMixin:
         else:
             return obj.subject
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return self.handle_no_permission()
+    def check_auth_conditions(self):
+        if not super().check_auth_conditions():
+            return False
         self.subject = self.get_subject()
-        if not request.user.has_privacy_level(self.subject.privacy_level):
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
+        return self.request.user.has_privacy_level(self.subject.privacy_level)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
