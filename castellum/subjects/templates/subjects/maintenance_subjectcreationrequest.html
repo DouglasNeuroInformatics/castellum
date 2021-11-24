@@ -12,26 +12,21 @@
                 <dl class="row">
                     <dt class="col-sm-4">{% translate 'Name' %}:</dt>
                     <dd class="col-sm-8">{{ subjectcreationrequest.contact|display:'full_name' }}</dd>
-                    {% if subjectcreationrequest.contact.email %}
-                        <dt class="col-sm-4">{{ subjectcreationrequest.contact|verbose_name:'email' }}:</dt>
-                        <dd class="col-sm-8">{{ subjectcreationrequest.contact|display:'email' }}</dd>
-                    {% endif %}
-                    {% if subjectcreationrequest.contact.date_of_birth %}
-                        <dt class="col-sm-4">{{ subjectcreationrequest.contact|verbose_name:'date_of_birth' }}:</dt>
-                        <dd class="col-sm-8">{{ subjectcreationrequest.contact|display:'date_of_birth' }}</dd>
-                    {% endif %}
-                    {% if subjectcreationrequest.contact.gender %}
-                        <dt class="col-sm-4">{{ subjectcreationrequest.contact|verbose_name:'gender' }}:</dt>
-                        <dd class="col-sm-8">{{ subjectcreationrequest.contact|display:'gender' }}</dd>
-                    {% endif %}
-                    {% if subjectcreationrequest.contact.message %}
-                        <dt class="col-sm-4">{{ subjectcreationrequest.contact|verbose_name:'message' }}:</dt>
-                        <dd class="col-sm-8">{{ subjectcreationrequest.contact|display:'message' }}</dd>
-                    {% endif %}
-                    {% if subjectcreationrequest.source %}
-                        <dt class="col-sm-4">{{ subjectcreationrequest|verbose_name:'source' }}:</dt>
-                        <dd class="col-sm-8">{{ subjectcreationrequest|display:'source' }}</dd>
-                    {% endif %}
+
+                    <dt class="col-sm-4">{{ subjectcreationrequest.contact|verbose_name:'email' }}:</dt>
+                    <dd class="col-sm-8">{{ subjectcreationrequest.contact|display:'email' }}</dd>
+
+                    <dt class="col-sm-4">{{ subjectcreationrequest.contact|verbose_name:'date_of_birth' }}:</dt>
+                    <dd class="col-sm-8">{{ subjectcreationrequest.contact|display:'date_of_birth' }}</dd>
+
+                    <dt class="col-sm-4">{{ subjectcreationrequest.contact|verbose_name:'gender' }}:</dt>
+                    <dd class="col-sm-8">{{ subjectcreationrequest.contact|display:'gender' }}</dd>
+
+                    <dt class="col-sm-4">{{ subjectcreationrequest.contact|verbose_name:'message' }}:</dt>
+                    <dd class="col-sm-8">{{ subjectcreationrequest.contact|display:'message' }}</dd>
+
+                    <dt class="col-sm-4">{{ subjectcreationrequest|verbose_name:'source' }}:</dt>
+                    <dd class="col-sm-8">{{ subjectcreationrequest|display:'source' }}</dd>
                 </dl>
                 <div class="table-list-item-actions">
                     <form method="POST" class="d-inline-block" action="{% url 'subjects:index' %}?from-request={{ subjectcreationrequest.pk }}" target="_blank">
