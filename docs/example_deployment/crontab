@@ -5,5 +5,6 @@
 3	1	*	*	*	django-admin cleanup_filter_trials
 4	1	*	*	*	django-admin notify_to_be_deleted http://example.com
 5	1	*	*	*	django-admin notify_sessions_end
-6	1	*	*	*	django-admin send_appointment_reminders http://example.com
-7	1	*	*	1	django-admin geocode_all
+6	1	*	*	*	django-admin fetch_scheduler_appointments http://example.com
+7	1	*	*	*	django-admin send_appointment_reminders http://example.com
+8	1	*	*	1	django-admin geocode_all
