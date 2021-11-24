@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from urllib.parse import urljoin
+
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.urls import reverse
@@ -44,10 +46,10 @@ def send_mail_to_subject(ctx, study, appointment):
 
 def send_mail_to_study_conductors(study, not_reachable, base_url, ctx):
     urls = '\n'.join(
-        base_url + reverse(
+        urljoin(base_url, reverse(
             'execution:participation-detail',
             args=[study.pk, appointment.participation.pk],
-        )
+        ))
         for appointment in not_reachable
     )
     return ctx.send_mail(
