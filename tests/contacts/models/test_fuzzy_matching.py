@@ -51,6 +51,33 @@ def test_phonetic_matching(right, wrong, expected):
 
 
 @pytest.mark.django_db
+@pytest.mark.parametrize('first,last,query', [
+    ('Else', 'Lasker Schüler', 'Else Lasker Schüler'),
+    ('Else', 'Lasker-Schüler', 'Else Lasker Schüler'),
+    ('Else', 'Lasker Schüler', 'Else Lasker-Schüler'),
+    ('Else', 'Lasker Schüler', 'Else Lasker'),
+    ('Else', 'Lasker Schüler', 'Else Schüler'),
+
+    ('Alfred Jodocus', 'Kwak', 'Alfred Jodocus Kwak'),
+    ('Alfred-Jodocus', 'Kwak', 'Alfred Jodocus Kwak'),
+    ('Alfred Jodocus', 'Kwak', 'Alfred-Jodocus Kwak'),
+    ('Alfred Jodocus', 'Kwak', 'Alfred Kwak'),
+    ('Alfred Jodocus', 'Kwak', 'Jodocus Kwak'),
+
+    # every input must match some part of the data, so the following
+    # cases would fail
+    # ('Else', 'Lasker', 'Else Lasker Schüler'),
+    # ('Else', 'Schüler', 'Else Lasker Schüler'),
+    # ('Alfred', 'Kwak', 'Alfred Jodocus Kwak'),
+    # ('Jodocus', 'Kwak', 'Alfred Jodocus Kwak'),
+])
+def test_double_names(first, last, query):
+    baker.make(Contact, first_name=first, last_name=last)
+    qs = Contact.objects.fuzzy_filter(query)
+    assert qs.exists()
+
+
+@pytest.mark.django_db
 def test_only_phone():
     search = '030123456789'
     baker.make(Contact, first_name='Eve', last_name='Meier', phone_number='030123456789')
