@@ -201,7 +201,12 @@ class BaseCalendarView(DetailView):
         }
 
     def get_appointments(self):
-        return Appointment.objects.filter(participation__status=Participation.INVITED)
+        qs = Appointment.objects.filter(participation__status=Participation.INVITED)
+        if 'start' in self.request.GET:
+            qs = qs.annotate_end().filter(end__gte=self.filters['start'])
+        if 'end' in self.request.GET:
+            qs = qs.filter(start__lte=self.filters['end'])
+        return qs
 
     def render_appointment(self, appointment):
         return {
