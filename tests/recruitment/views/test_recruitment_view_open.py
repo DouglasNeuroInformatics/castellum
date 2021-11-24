@@ -11,6 +11,20 @@ from castellum.recruitment.models import SubjectFilterGroup
 from castellum.subjects.models import Consent
 
 
+def create_subject():
+    contact = baker.make(Contact)
+    subject = contact.subject
+    subject.attributes = {'d1': 1}
+    subject.save()
+    baker.make(Consent, subject=subject, status=Consent.CONFIRMED)
+    return subject
+
+
+def create_participation(study, status=Participation.NOT_CONTACTED):
+    subject = create_subject()
+    baker.make(Participation, subject=subject, study=study, status=status)
+
+
 def test_min_subject_count_is_zero(client, member, study_in_execution_status):
     study_in_execution_status.min_subject_count = 0
     study_in_execution_status.save()
@@ -110,17 +124,3 @@ def test_no_matching_subjects(
     assert len(messages) == 1
     assert str(messages[0]) == "No potential participants could be found for this study."
     assert response.status_code == 200
-
-
-def create_subject():
-    contact = baker.make(Contact)
-    subject = contact.subject
-    subject.attributes = {'d1': 1}
-    subject.save()
-    baker.make(Consent, subject=subject, status=Consent.CONFIRMED)
-    return subject
-
-
-def create_participation(study, status=Participation.NOT_CONTACTED):
-    subject = create_subject()
-    baker.make(Participation, subject=subject, study=study, status=status)
