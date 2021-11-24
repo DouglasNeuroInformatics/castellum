@@ -28,6 +28,8 @@ from castellum.recruitment.models import Participation
 from castellum.utils import scheduler
 from castellum.utils.forms import DateTimeField
 
+from .models import Appointment
+
 
 class AppointmentsForm(forms.ModelForm):
     class Meta:
@@ -69,23 +71,7 @@ class AppointmentsForm(forms.ModelForm):
 
         for session, appointment in pariticipation.get_appointments():
             start = self.cleaned_data.get('appointment-{}'.format(session.pk))
-
-            if appointment:
-                if not start:
-                    self.appointment_changes.append((appointment.start, None))
-                    appointment.delete()
-                elif start != appointment.start:
-                    self.appointment_changes.append((appointment.start, start))
-                    appointment.start = start
-                    appointment.reminded = False
-                    appointment.save()
-            elif start:
-                self.appointment_changes.append((None, start))
-                pariticipation.appointment_set.create(
-                    session=session,
-                    start=start,
-                )
-
+            self.appointment_changes += Appointment.change_start(session, pariticipation, start)
         return pariticipation
 
     @property

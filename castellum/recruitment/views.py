@@ -621,31 +621,9 @@ class SchedulerPingView(View):
         except ObjectDoesNotExist:
             raise Http404
         participation = get_object_or_404(Participation, subject=subject, study=session.study)
-        appointment = (
-            Appointment.objects
-            .filter(participation=participation, session=session)
-            .first()
-        )
-
         start = scheduler.get(self.kwargs['schedule_id'], self.kwargs['pseudonym'])
 
-        appointment_changes = []
-
-        if appointment:
-            if not start:
-                appointment_changes.append((appointment.start, None))
-                appointment.delete()
-            elif start != appointment.start:
-                appointment_changes.append((appointment.start, start))
-                appointment.start = start
-                appointment.reminded = False
-                appointment.save()
-        elif start:
-            appointment_changes.append((None, start))
-            participation.appointment_set.create(
-                session=session,
-                start=start,
-            )
+        appointment_changes = Appointment.change_start(session, participation, start)
 
         send_appointment_notifications(
             participation,

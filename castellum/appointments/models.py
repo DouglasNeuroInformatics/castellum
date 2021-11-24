@@ -75,3 +75,31 @@ class Appointment(models.Model):
     @property
     def end(self):
         return self.start + MINUTE * self.session.duration
+
+    @staticmethod
+    def change_start(session, participation, start):
+        appointment = (
+            Appointment.objects
+            .filter(session=session, participation=participation)
+            .first()
+        )
+
+        changes = []
+
+        if appointment:
+            if not start:
+                changes.append((appointment.start, None))
+                appointment.delete()
+            elif start != appointment.start:
+                changes.append((appointment.start, start))
+                appointment.start = start
+                appointment.reminded = False
+                appointment.save()
+        elif start:
+            changes.append((None, start))
+            participation.appointment_set.create(
+                session=session,
+                start=start,
+            )
+
+        return changes
