@@ -14,7 +14,9 @@ Search for a subject
 
 2.  Enter the first name and surname, the email address, or the phone number
 
-    -   The second first name can be specified, but does not have to be
+    -   If you provide a second first name, you will only find the subject if
+        that name was also entered in the contact data. So if you do not find a
+        subject by full name, also try leaving out second names.
     -   Keep the order as indicated
     -   No comma needed
 
