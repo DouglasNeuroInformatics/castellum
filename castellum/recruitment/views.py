@@ -46,10 +46,10 @@ from django.views.generic import View
 from simplecharts import StackedColumnRenderer
 from stronghold.decorators import public
 
+from castellum.appointments.helpers import get_external_resource_events
+from castellum.appointments.helpers import send_appointment_notifications
 from castellum.appointments.mixins import BaseAppointmentsUpdateView
 from castellum.appointments.mixins import BaseCalendarView
-from castellum.appointments.mixins import get_external_resource_events
-from castellum.appointments.mixins import send_appointment_notifications
 from castellum.appointments.models import Appointment
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView

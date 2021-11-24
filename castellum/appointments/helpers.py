@@ -19,9 +19,23 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import logging
+from urllib.parse import quote_plus
+
 from django.conf import settings
+from django.urls import reverse
 from django.utils import formats
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+
+from icalevents import icalparser
+
+from castellum.utils import add_working_days
+from castellum.utils import cached_request
+from castellum.utils import contrast_color
+from castellum.utils.mail import MailContext
+
+logger = logging.getLogger(__name__)
 
 
 def date_format(dt):
@@ -44,3 +58,79 @@ def get_reminder_body(name, session, dt):
         settings.CASTELLUM_APPOINTMENT_MAIL_BODY,
         settings.CASTELLUM_APPOINTMENT_MAIL_BODY_EN,
     )
+
+
+def send_appointment_notifications(request, participation, changes):
+    start = timezone.now()
+    end = add_working_days(start, 2)
+    relevant_changes = [
+        (old, new) for (old, new) in changes if (
+            (old and old >= start and old <= end) or
+            (new and new >= start and new <= end)
+        )
+    ]
+
+    if not relevant_changes:
+        return
+
+    def format_datetime(dt):
+        if not dt:
+            return _('not scheduled')
+        return formats.date_format(timezone.localtime(dt), 'DATETIME_FORMAT')
+
+    def get_mail_data():
+        return {
+            'study': participation.study,
+            'changes': '\n'.join('{} -> {}'.format(
+                format_datetime(old),
+                format_datetime(new),
+            ) for (old, new) in relevant_changes),
+            'participation_url': request.build_absolute_uri(reverse(
+                'execution:participation-detail',
+                args=[participation.study.pk, participation.pk]
+            )),
+            'calendar_url': request.build_absolute_uri(reverse(
+                'execution:calendar',
+                args=[participation.study.pk]
+            )),
+        }
+
+    recipients = [user.email for user in participation.study.conductors if user != request.user]
+    if recipients:
+        with MailContext('internal') as ctx:
+            return ctx.send_mail(
+                settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT,
+                (
+                    get_mail_data,
+                    settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY,
+                    settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY_EN,
+                ),
+                recipients,
+                cc=[request.user.email],
+            )
+
+
+def get_external_resource_events(resource, start, end):
+    if not resource.url:
+        return []
+    try:
+        events = []
+        url = resource.url.format(
+            start=quote_plus(start.isoformat()),
+            end=quote_plus(end.isoformat()),
+        )
+        text = cached_request(url, timeout=60)
+        events = icalparser.parse_events(text, start=start, end=end)
+        for event in events:
+            events.append({
+                'title': '[{}] {}'.format(resource, event.summary or ''),
+                'start': event.start,
+                'end': event.end,
+                'backgroundColor': resource.color,
+                'borderColor': resource.color,
+                'textColor': contrast_color(resource.color),
+            })
+        return events
+    except Exception as e:
+        logger.error('Fetching events for resource {} failed: {}'.format(resource.pk, e))
+        return []

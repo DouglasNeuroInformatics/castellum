@@ -31,8 +31,8 @@ from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Resource
 
+from .helpers import get_external_resource_events
 from .mixins import BaseCalendarView
-from .mixins import get_external_resource_events
 
 
 class ReceptionView(PermissionRequiredMixin, ListView):
