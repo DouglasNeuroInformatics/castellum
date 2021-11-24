@@ -37,7 +37,7 @@ MINUTE = datetime.timedelta(seconds=60)
 
 class AppointmentQuerySet(models.QuerySet):
     def annotate_end(self):
-        return self.annotate(
+        return self.alias(
             # corresponds to the Appointment.end property
             end=MultiDurationExpr(models.F('start'), MINUTE, models.F('session__duration')),
         )
