@@ -19,6 +19,7 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
 import logging
 from urllib.parse import quote_plus
 
@@ -29,6 +30,7 @@ from django.http import JsonResponse
 from django.urls import reverse
 from django.utils import formats
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
@@ -190,6 +192,13 @@ class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, Up
 
 class BaseCalendarView(DetailView):
     template_name = 'appointments/calendar.html'
+
+    @cached_property
+    def filters(self):
+        return {
+            'start': datetime.datetime.fromisoformat(self.request.GET['start']),
+            'end': datetime.datetime.fromisoformat(self.request.GET['end']),
+        }
 
     def get_appointments(self):
         return Appointment.objects.filter(participation__status=Participation.INVITED)

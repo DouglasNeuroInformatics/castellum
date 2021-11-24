@@ -599,15 +599,15 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
 
     def get_events(self):
         events = super().get_events()
-        start = datetime.datetime.fromisoformat(self.request.GET['start'])
-        end = datetime.datetime.fromisoformat(self.request.GET['end'])
         for resource in (
             Resource.objects
             .filter(studysession__study=self.study)
             .exclude(url='')
             .distinct()
         ):
-            events += get_external_resource_events(resource, start, end)
+            events += get_external_resource_events(
+                resource, self.filters['start'], self.filters['end']
+            )
         return events
 
 
