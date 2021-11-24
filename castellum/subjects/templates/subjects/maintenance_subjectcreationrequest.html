@@ -24,13 +24,13 @@
                         <dt class="col-sm-4">{{ subjectcreationrequest.contact|verbose_name:'gender' }}:</dt>
                         <dd class="col-sm-8">{{ subjectcreationrequest.contact|display:'gender' }}</dd>
                     {% endif %}
-                    {% if subjectcreationrequest.source %}
-                        <dt class="col-sm-4">{{ subjectcreationrequest|verbose_name:'source' }}:</dt>
-                        <dd class="col-sm-8">{{ subjectcreationrequest|display:'source' }}</dd>
-                    {% endif %}
                     {% if subjectcreationrequest.contact.message %}
                         <dt class="col-sm-4">{{ subjectcreationrequest.contact|verbose_name:'message' }}:</dt>
                         <dd class="col-sm-8">{{ subjectcreationrequest.contact|display:'message' }}</dd>
+                    {% endif %}
+                    {% if subjectcreationrequest.source %}
+                        <dt class="col-sm-4">{{ subjectcreationrequest|verbose_name:'source' }}:</dt>
+                        <dd class="col-sm-8">{{ subjectcreationrequest|display:'source' }}</dd>
                     {% endif %}
                 </dl>
                 <div class="table-list-item-actions">
