@@ -55,3 +55,6 @@ CASTELLUM_SUBJECT_CREATION_REQUESTS_ENABLED = True
 
 # Setup geofilters
 INSTALLED_APPS.append('castellum.geofilters')
+
+SCHEDULER_URL = 'http://localhost:8001'
+SCHEDULER_TOKEN = 'CHANGEME'

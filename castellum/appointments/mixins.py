@@ -64,9 +64,13 @@ class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, Up
                 continue
 
             changes += Appointment.change_start(session, self.participation, start)
-        send_appointment_notifications(
-            self.participation, changes, self.request.build_absolute_uri('/')
-        )
+        if changes:
+            send_appointment_notifications(
+                self.participation, changes, self.request.build_absolute_uri('/')
+            )
+            messages.info(self.request, _(
+                'Some appointments have been updated from the external schedule'
+            ))
 
     def get(self, request, *args, **kwargs):
         self.update_scheduler_appointments()
