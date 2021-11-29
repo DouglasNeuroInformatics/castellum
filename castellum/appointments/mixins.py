@@ -30,10 +30,14 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
 
+import requests
+
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
+from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.recruitment.mixins import ParticipationMixin
 from castellum.recruitment.models import Participation
 from castellum.studies.models import Resource
+from castellum.utils import scheduler
 from castellum.utils.feeds import BaseCalendarFeed
 
 from .forms import AppointmentsForm
@@ -49,6 +53,28 @@ class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, Up
 
     def get_object(self, queryset=None):
         return self.participation
+
+    def update_scheduler_appointments(self):
+        changes = []
+        for session in self.study.studysession_set.exclude(schedule_id=None):
+            pseudonym = get_pseudonym(self.subject, session.domain)
+            try:
+                start = scheduler.get(session.schedule_id, pseudonym)
+            except requests.HTTPError:
+                continue
+
+            changes += Appointment.change_start(session, self.participation, start)
+        if changes:
+            send_appointment_notifications(
+                self.participation, changes, self.request.build_absolute_uri('/')
+            )
+            messages.info(self.request, _(
+                'Some appointments have been updated from the external schedule'
+            ))
+
+    def get(self, request, *args, **kwargs):
+        self.update_scheduler_appointments()
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
