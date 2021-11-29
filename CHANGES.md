@@ -1,3 +1,43 @@
+# 0.69.0 (unreleased)
+
+You need to update to at least 0.68.0 before updating to this version.
+
+## breaking changes
+
+-   The primary key for the Subject model was changed from `Subject.id`
+    (integer) to `Subject.uuid` (UUID) to effectively make enumeration
+    attacks impossible.
+-   The `attribute_export` command now requires a subject UUID instead
+    of an ID.
+-   Castellum will no longer prevent users from creating overlapping
+    appointments because this turned out to be too inflexible in
+    practice. The corresponding error messages have been downgraded
+    to warnings.
+-   There is no longer a datepicker for browsers that do not natively
+    support one. This mostly affects Safari prior to 14.1.
+-   The legacy scheduler API (`SchedulerPingView`) has been removed.
+    Instead you can now use the new `fetch_scheduler_appointments`
+    command. Additionally, scheduler events will automatically be
+    fetched when users access an appointment view.
+
+## bug fixes
+
+-   External calendar feeds defined via `Resource.url` now properly
+    support recurring events.
+-   Users are now warned on invalid subject search queries instead of
+    just showing no results.
+
+## new features
+
+-   Calendars with events in different colors now contain a legend.
+-   `Resource.url` can now contain `{start}` and `{end}` placeholders.
+-   The external calendar feed from `Resource.url` is now also displayed
+    in the resource manager calendar.
+-   The execution progress view now displays participating and dropped
+    out subjects separately.
+-   `ContactCreationRequest` gained a free text `message` field.
+
+
 # 0.68.1 (2021-11-10)
 
 -   Fixed events from `Resource.url` showing up multiple times.
