@@ -368,7 +368,14 @@ class StudyMembership(models.Model):
 class Resource(models.Model):
     name = models.CharField(_('Name'), max_length=128)
     managers = models.ManyToManyField(User, verbose_name=_('Managers'), blank=True)
-    url = models.URLField(_('URL'), blank=True)
+    url = models.URLField(
+        _('URL'),
+        help_text=_(
+            'Any "{start}"- and "{end}-tags included in the URL will '
+            'automatically be replaced by the relevant datetime in ISO 8601 format.'
+        ),
+        blank=True,
+    )
     color = ColorField(_('Color'), default='#000000')
 
     def __str__(self):
