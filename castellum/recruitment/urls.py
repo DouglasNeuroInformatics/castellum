@@ -40,13 +40,11 @@ from .views import RecruitmentCleanupView
 from .views import RecruitmentViewInvited
 from .views import RecruitmentViewOpen
 from .views import RecruitmentViewUnsuitable
-from .views import SchedulerPingView
 
 app_name = 'recruitment'
 urlpatterns = [
     path('followups/', FollowUpFeedForUser.as_view(), name='followups-user-feed'),
     path('resources/<int:pk>/', ResourceFeed.as_view(), name='resource-feed'),
-    path('scheduler-ping/<int:schedule_id>/<pseudonym>/', SchedulerPingView.as_view()),
     path('<int:study_pk>/', RecruitmentViewOpen.as_view(), name='recruitment-open'),
     path('<int:study_pk>/invited/', RecruitmentViewInvited.as_view(), name='recruitment-invited'),
     path(

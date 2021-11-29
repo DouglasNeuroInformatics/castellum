@@ -90,7 +90,12 @@ class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, Up
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        send_appointment_notifications(self.request, self.object, form.appointment_changes)
+        send_appointment_notifications(
+            self.object,
+            form.appointment_changes,
+            self.request.build_absolute_uri('/'),
+            user=self.request.user,
+        )
 
         messages.success(self.request, _('Data has been saved.'))
         if self.has_participation_overlap():
