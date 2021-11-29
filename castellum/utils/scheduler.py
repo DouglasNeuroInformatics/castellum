@@ -60,6 +60,15 @@ def get(id, token):
     return parse_date(start) if start else None
 
 
+def get_bulk(id):
+    url = '{}/api/{}/'.format(settings.SCHEDULER_URL, id)
+    r = requests.request(url, headers={
+        'Authorization': 'token ' + settings.SCHEDULER_TOKEN,
+    })
+    r.raise_for_status()
+    return {key: parse_date(value) for key, value in r.json().items()}
+
+
 def create_invitation_url(id, token):
     put(id, token)  # make sure token exists
     return '{}/invitations/{}/{}/'.format(settings.SCHEDULER_URL, id, token)

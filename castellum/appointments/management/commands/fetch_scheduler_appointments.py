@@ -21,8 +21,6 @@
 
 from django.core.management.base import BaseCommand
 
-import requests
-
 from castellum.appointments.helpers import send_appointment_notifications
 from castellum.appointments.models import Appointment
 from castellum.pseudonyms.helpers import get_pseudonym
@@ -46,14 +44,13 @@ class Command(BaseCommand):
             .filter(study__status=Study.EXECUTION)
             .exclude(schedule_id=None)
         ):
+            data = scheduler.get_bulk(session.schedule_id)
+
             for participation in session.study.participation_set.filter(
                 status=Participation.INVITED
             ):
                 pseudonym = get_pseudonym(participation.subject, session.domain)
-                try:
-                    start = scheduler.get(session.schedule_id, pseudonym)
-                except requests.HTTPError:
-                    continue
+                start = data.get(pseudonym)
 
                 changes = Appointment.change_start(session, participation, start)
                 if changes:
