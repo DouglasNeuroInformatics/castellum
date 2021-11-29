@@ -32,6 +32,7 @@
                     <form method="POST" class="d-inline-block" action="{% url 'subjects:index' %}?from-request={{ subjectcreationrequest.pk }}" target="_blank">
                         {% csrf_token %}
                         <input type="hidden" name="search" value="{{ subjectcreationrequest.contact.first_name }} {{ subjectcreationrequest.contact.last_name }}">
+                        <input type="hidden" name="action" value="create">
                         <button class="btn btn-outline-primary my-1">{% translate 'Process request' %}</button>
                     </form>
                 </div>
