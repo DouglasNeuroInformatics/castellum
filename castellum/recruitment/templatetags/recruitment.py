@@ -30,5 +30,5 @@ register = template.Library()
 def study_legal_representative_hash(study, subject):
     m = hashlib.sha256()
     m.update(str(study.pk).encode('ascii'))
-    m.update(subject.uuid.encode('ascii'))
+    m.update(str(subject.uuid).encode('ascii'))
     return m.hexdigest()

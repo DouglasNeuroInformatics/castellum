@@ -37,6 +37,16 @@ class PermissionRequiredMixin(auth_mixins.PermissionRequiredMixin):
         permission_object = self.get_permission_object()
         return self.request.user.has_perms(perms, obj=permission_object)
 
+    def check_auth_conditions(self):
+        """Hook to add additional conditions."""
+        return self.has_permission()
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.check_auth_conditions():
+            return self.handle_no_permission()
+        # skip auth_mixins.PermissionRequiredMixin
+        return super(auth_mixins.PermissionRequiredMixin, self).dispatch(request, *args, **kwargs)
+
 
 class APIAuthMixin(StrongholdPublicMixin):
     """Authenticate with token header instead of login.
