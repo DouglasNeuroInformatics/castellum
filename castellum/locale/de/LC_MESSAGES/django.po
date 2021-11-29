@@ -26,7 +26,7 @@ msgstr "nicht geplant"
 
 #: castellum/appointments/mixins.py:72
 msgid "Some appointments have been updated from the external schedule"
-msgstr ""
+msgstr "Einige Termine wurden aus dem externen Terminplan aktualisiert"
 
 #: castellum/appointments/mixins.py:126 castellum/execution/views.py:298
 #: castellum/execution/views.py:469 castellum/execution/views.py:616
@@ -43,16 +43,12 @@ msgid "Data has been saved."
 msgstr "Eingabe wurde gespeichert"
 
 #: castellum/appointments/mixins.py:128
-#, fuzzy
-#| msgid "No appointments today"
 msgid "Some appointments overlap"
-msgstr "Heute keine Termine"
+msgstr "Einige Termine haben Überschneidungen"
 
 #: castellum/appointments/mixins.py:131
-#, fuzzy, python-brace-format
-#| msgid "Appointments must not overlap."
 msgid "Some appointments for {resource} overlap"
-msgstr "Termine dürfen sich nicht überschneiden."
+msgstr "Einige Termine für {resource} haben Überschneidungen"
 
 #: castellum/appointments/models.py:47
 msgid "Session"
@@ -321,10 +317,8 @@ msgid "Search for name, phone number or email address"
 msgstr "Suche nach Name, Telefonnummer oder E-Mail Adresse"
 
 #: castellum/contacts/forms.py:233
-#, fuzzy
-#| msgid "Search for name, phone number or email address"
 msgid "At least full name, phone number or email address have to be provided"
-msgstr "Suche nach Name, Telefonnummer oder E-Mail Adresse"
+msgstr "Mindestens der volle Name, Telefonnummer oder E-Mail Adresse müssen angegeben werden"
 
 #: castellum/contacts/models.py:128
 msgid "female"
@@ -444,7 +438,7 @@ msgstr "Name"
 
 #: castellum/contacts/models.py:297
 msgid "Message"
-msgstr ""
+msgstr "Nachricht"
 
 #: castellum/contacts/templates/contacts/__contact.html:4
 #: castellum/execution/views.py:277
@@ -1016,10 +1010,8 @@ msgid "participating"
 msgstr "nimmt teil"
 
 #: castellum/execution/templates/execution/study_progress.html:15
-#, fuzzy
-#| msgid "Dropped out"
 msgid "dropped out"
-msgstr "Abgebrochen"
+msgstr "abgebrochen"
 
 #: castellum/execution/templates/execution/study_progress.html:26
 msgid "took place"
@@ -3456,10 +3448,8 @@ msgstr ""
 "alle zugehörigen Daten <strong>unwiederbringlich</strong> löschen möchten?"
 
 #: castellum/subjects/templatetags/reliability.py:50
-#, fuzzy
-#| msgid "no participations so far"
 msgid "no data so far"
-msgstr "Bisher keine Teilnahmen gefunden"
+msgstr "bisher keine Daten"
 
 #: castellum/subjects/templatetags/reliability.py:52
 #, python-brace-format
@@ -3811,18 +3801,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "The required resource is not available at this time"
-#~ msgstr "Die benötigte Ressource ist zu diesem Zeitpunkt nicht verfügbar"
-
-#~ msgid "The custom filter that is set for this study does not exist."
-#~ msgstr ""
-#~ "Der spezielle Filter, der für diese Studie gesetzt wurde, existiert nicht."
-
-#~ msgid "matches"
-#~ msgstr "Treffer"
-
-#~ msgid "This study uses a custom filter. Regular filters are not available."
-#~ msgstr ""
-#~ "Diese Studie benutzt spezielle Filter. Normale Filter sind nicht "
-#~ "verfügbar."
