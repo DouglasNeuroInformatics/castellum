@@ -12,19 +12,22 @@
         <p class="alert alert-info mb-5">{% blocktranslate with name=subjectcreationrequest.contact.full_name discard_url=discard_url %}Please make sure that {{ name }} does not yet exist in the database. If you find duplicates, you can also <a href="{{ discard_url }}">discard this request</a>.{% endblocktranslate %}</p>
     {% endif %}
 
-    <form method="post" id="search-form">
-        {% include 'utils/form_errors.html' with form=form %}
-        {% csrf_token %}
+    {% if form.is_valid and can_view_subject and is_create %}
+    {% else %}
+        <form method="post" id="search-form">
+            {% include 'utils/form_errors.html' with form=form %}
+            {% csrf_token %}
 
-        {% bootstrap_field form.search %}
+            {% bootstrap_field form.search %}
 
-        <div class="mb-4">
-            <button class="btn btn-primary">{% translate 'Search' %}</button>
-            {% if can_change_subject %}
-                <button class="btn btn-warning" name="action" value="create">{% translate 'Create subject' %}</button>
-            {% endif %}
-        </div>
-    </form>
+            <div class="mb-4">
+                <button class="btn btn-primary">{% translate 'Search' %}</button>
+                {% if can_change_subject %}
+                    <button class="btn btn-warning" name="action" value="create">{% translate 'Create subject' %}</button>
+                {% endif %}
+            </div>
+        </form>
+    {% endif %}
 
     {% if form.is_valid %}
         {% if can_change_subject and is_create %}
