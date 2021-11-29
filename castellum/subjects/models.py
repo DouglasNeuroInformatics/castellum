@@ -47,7 +47,7 @@ class SubjectQuerySet(models.QuerySet):
 
 
 class Subject(TimeStampedModel):
-    uuid = models.UUIDField(_('UUID'), max_length=64, default=uuid.uuid4, unique=True)
+    uuid = models.UUIDField(_('UUID'), default=uuid.uuid4, primary_key=True)
 
     attributes = models.JSONField(_('Recruitment attributes'), encoder=DjangoJSONEncoder)
     onetime_invitation_disinterest = models.BooleanField(

@@ -513,7 +513,7 @@ class ParticipationDeleteView(SubjectMixin, PermissionRequiredMixin, DeleteView)
 
     def get_object(self):
         return get_object_or_404(
-            Participation, pk=self.kwargs['pk'], subject__uuid=self.kwargs['subject_uuid']
+            Participation, pk=self.kwargs['pk'], subject=self.kwargs['subject_uuid']
         )
 
     def get_success_url(self):
