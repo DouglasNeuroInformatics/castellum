@@ -6,14 +6,6 @@
 {% block container_class %}container-lg{% endblock %}
 
 {% block content %}
-    <ul class="nav nav-tabs mb-2">
-        {% for value, label in form.display.field.choices %}
-            <li class="nav-item">
-                <a href="{% url_replace_param display=value %}" class="nav-link {% if form.cleaned_data.display == value %}active{% endif %}">{{ label }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-
     <div class="row">
         <div class="col-md-3" role="region" aria-label="{% translate 'Filter' %}">
             <form class="mb-2" method="get" aria-label="{{ form.q.label }}">
@@ -59,6 +51,14 @@
         </div>
 
         <div class="col-md-9">
+            <ul class="nav nav-tabs mb-2">
+                {% for value, label in form.display.field.choices %}
+                    <li class="nav-item">
+                        <a href="{% url_replace_param display=value %}" class="nav-link {% if form.cleaned_data.display == value %}active{% endif %}">{{ label }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+
             {% if form.cleaned_data.display == 'calendar' %}
                 <div class="my-5" data-js="calendar" data-layout="year"></div>
             {% else %}
