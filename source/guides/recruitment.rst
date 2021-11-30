@@ -109,14 +109,13 @@ you to set up appointments for the participants:
 
 3. The **Calendar** button in the **Appointments** tab opens a new window and
    allows you to have a look at all already appointed sessions of the study.
-   This calendar will also show appointments of resources if they are connected
-   to a study session (see :ref:`study-sessions`).
 
 .. warning::
 
-    Castellum only detects appointment collisions for connected resources! In
-    other words Castellum allows you to save various concurrent appointments if
-    the session doesn't have a resource connected.
+    There are cases in which for example two subjects will be tested at the
+    same time. For that reason castellum does not prevent you from booking
+    overlapping appointments. You have to make sure that the requied staff and
+    resources are available yourself.
 
 .. _recruitment-cleanup:
 
