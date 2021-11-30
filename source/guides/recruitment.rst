@@ -112,9 +112,10 @@ you to set up appointments for the participants:
 
 .. warning::
 
-    Castellum only detects appointment collisions for connected resources! In
-    other words Castellum allows you to save various concurrent appointments if
-    the session doesn't have a resource connected.
+    There are cases in which for example two subjects will be tested at the
+    same time. For that reason castellum does not prevent you from booking
+    overlapping appointments. You have to make sure that the requied staff and
+    resources are available yourself.
 
 .. _recruitment-cleanup:
 
