@@ -109,8 +109,6 @@ you to set up appointments for the participants:
 
 3. The **Calendar** button in the **Appointments** tab opens a new window and
    allows you to have a look at all already appointed sessions of the study.
-   This calendar will also show appointments of resources if they are connected
-   to a study session (see :ref:`study-sessions`).
 
 .. warning::
 
