@@ -62,9 +62,9 @@
         </div>
 
         <div class="col-md-9">
-            <div class="d-print-none text-right mb-3">
-                {% has_perm 'studies.change_study' user as can_add_study %}
-                {% if can_add_study %}
+            {% has_perm 'studies.change_study' user as can_add_study %}
+            {% if can_add_study %}
+                <div class="d-print-none text-right mb-3">
                     <a href="{% url 'studies:create' %}" class="btn btn-primary mb-1">{% translate "Create new study" %}</a>
                     {% if CASTELLUM_ENABLE_STUDY_EXPORT %}
                         <a href="{% url 'studies:import' %}" class="btn btn-secondary mb-1">{% translate "Import study" %}</a>
@@ -73,8 +73,8 @@
                         {% csrf_token %}
                         <button class="btn btn-secondary mb-1" >{% translate 'Try filters' %}</button>
                     </form>
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
 
             <ul class="nav nav-tabs mb-2">
                 {% for value, label in form.display.field.choices %}
