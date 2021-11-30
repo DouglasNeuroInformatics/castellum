@@ -1,3 +1,7 @@
+==============
+Administration
+==============
+
 .. _admin-users:
 
 Manage Users
