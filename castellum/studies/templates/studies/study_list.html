@@ -6,7 +6,7 @@
 {% block container_class %}container-lg{% endblock %}
 
 {% block content %}
-    <ul class="nav nav-pills mb-2">
+    <ul class="nav nav-tabs mb-2">
         {% for value, label in form.display.field.choices %}
             <li class="nav-item">
                 <a href="{% url_replace_param display=value %}" class="nav-link {% if form.cleaned_data.display == value %}active{% endif %}">{{ label }}</a>
