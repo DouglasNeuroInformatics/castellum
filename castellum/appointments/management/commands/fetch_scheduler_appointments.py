@@ -21,8 +21,6 @@
 
 from django.core.management.base import BaseCommand
 
-import requests
-
 from castellum.appointments.helpers import send_appointment_notifications
 from castellum.appointments.models import Appointment
 from castellum.pseudonyms.helpers import get_pseudonym
@@ -32,6 +30,29 @@ from castellum.studies.models import StudySession
 from castellum.utils import scheduler
 
 
+def fetch_scheduler_appointments(base_url):
+    count = 0
+
+    for session in (
+        StudySession.objects
+        .filter(study__status=Study.EXECUTION)
+        .exclude(schedule_id=None)
+    ):
+        data = scheduler.get_bulk(session.schedule_id)
+
+        for participation in session.study.participation_set.filter(
+            status=Participation.INVITED
+        ):
+            pseudonym = get_pseudonym(participation.subject, session.domain)
+            start = data.get(pseudonym)
+
+            changes = Appointment.change_start(session, participation, start)
+            if changes:
+                count += 1
+                send_appointment_notifications(participation, changes, base_url)
+    return count
+
+
 class Command(BaseCommand):
     help = 'Fetch appointments from scheduler.'
 
@@ -39,26 +60,6 @@ class Command(BaseCommand):
         parser.add_argument('base_url')
 
     def handle(self, *args, **options):
-        count = 0
-
-        for session in (
-            StudySession.objects
-            .filter(study__status=Study.EXECUTION)
-            .exclude(schedule_id=None)
-        ):
-            for participation in session.study.participation_set.filter(
-                status=Participation.INVITED
-            ):
-                pseudonym = get_pseudonym(participation.subject, session.domain)
-                try:
-                    start = scheduler.get(session.schedule_id, pseudonym)
-                except requests.HTTPError:
-                    continue
-
-                changes = Appointment.change_start(session, participation, start)
-                if changes:
-                    count += 1
-                    send_appointment_notifications(participation, changes, options['base_url'])
-
+        count = fetch_scheduler_appointments(options['base_url'])
         if options['verbosity'] > 0:
             self.stdout.write('Updated {} appointments'.format(count))
