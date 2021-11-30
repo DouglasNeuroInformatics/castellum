@@ -123,27 +123,27 @@ you to set up appointments for the participants:
 Cleanup open list in recruitment
 ================================
 
-The open list in study recruitment can become quite large and noisy if you are 
-waiting for many responses and/or failed to reach many potential participants. 
+The open list in study recruitment can become quite large and noisy if you are
+waiting for many responses and/or failed to reach many potential participants.
 Therefore, Castellum provides a cleanup feature:
 
-1. Scroll down to the end of the open list in recruitment and click on 
+1. Scroll down to the end of the open list in recruitment and click on
    **Cleanup**
-2. Decide if you want to cleanup the *complete* open list (**All**) or 
-   only those potential participants whose status is marked as 
-   **Awaiting response** for more than 10 days. The third option allows you to 
-   run potentially modified recruitment filters on the list (**Mismatch**). This 
-   allows to cleanup those who do not match anymore. A click on either of these 
+2. Decide if you want to cleanup the *complete* open list (**All**) or
+   only those potential participants whose status is marked as
+   **Awaiting response** for more than 10 days. The third option allows you to
+   run potentially modified recruitment filters on the list (**Mismatch**). This
+   allows to cleanup those who do not match anymore. A click on either of these
    buttons will start the cleanup process.
-3. After cleaning up the affected potential participants will be moved to the 
-   **Excluded** list with the additional tag **Excluded by cleanup**. This may 
+3. After cleaning up the affected potential participants will be moved to the
+   **Excluded** list with the additional tag **Excluded by cleanup**. This may
    allow you to reconsider contacting some of them.
 
-The open list also gets quickly populated by mail recruitment (if set up) with 
-many potential participants with the status **Awaiting response**. Thus, 
+The open list also gets quickly populated by mail recruitment (if set up) with
+many potential participants with the status **Awaiting response**. Thus,
 Castellum additionally allows to cleanup by mail batches:
 
-1. Go to the **Mail** tab in recruitment and select an appropriate entry of the 
+1. Go to the **Mail** tab in recruitment and select an appropriate entry of the
    **Previous mails** list. Select **Cleanup**.
-2. Confirm that you want to cleanup all potential participants of the mail batch 
+2. Confirm that you want to cleanup all potential participants of the mail batch
    who did not respond.
