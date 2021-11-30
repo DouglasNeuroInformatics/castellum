@@ -51,6 +51,21 @@
         </div>
 
         <div class="col-md-9">
+            <div class="d-print-none text-right mb-3">
+                {% has_perm 'studies.change_study' user as can_add_study %}
+                {% if can_add_study %}
+                    {% if CASTELLUM_ENABLE_STUDY_EXPORT %}
+                        <a href="{% url 'studies:import' %}" class="btn btn-primary mb-1">{% translate "Import study" %}</a>
+                    {% endif %}
+                    <a href="{% url 'studies:create' %}" class="btn btn-primary mb-1">{% translate "Create new study" %}</a>
+
+                    <form class="d-inline-block" action="{% url 'studies:create-filter-trial' %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-primary mb-1" >{% translate 'Try filters' %}</button>
+                    </form>
+                {% endif %}
+            </div>
+
             <ul class="nav nav-tabs mb-2">
                 {% for value, label in form.display.field.choices %}
                     <li class="nav-item">
@@ -113,22 +128,6 @@
                     </nav>
                 {% endif %}
             {% endif  %}
-
-            <div class="d-print-none mb-3">
-                {% has_perm 'studies.change_study' user as can_add_study %}
-                {% if can_add_study %}
-                    {% if CASTELLUM_ENABLE_STUDY_EXPORT %}
-                        <a href="{% url 'studies:import' %}" class="btn btn-primary mb-1">{% translate "Import study" %}</a>
-                    {% endif %}
-                    <a href="{% url 'studies:create' %}" class="btn btn-primary mb-1">{% translate "Create new study" %}</a>
-
-                    <form class="d-inline-block" action="{% url 'studies:create-filter-trial' %}" method="post">
-                        {% csrf_token %}
-                        <button class="btn btn-primary mb-1" >{% translate 'Try filters' %}</button>
-                    </form>
-
-                {% endif %}
-            </div>
         </div>
     </div>
 {% endblock %}
