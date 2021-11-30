@@ -26,6 +26,7 @@ You need to update to at least 0.68.0 before updating to this version.
     support recurring events.
 -   Users are now warned on invalid subject search queries instead of
     just showing no results.
+-   Fixed crash in legal representative update view.
 
 ## new features
 
