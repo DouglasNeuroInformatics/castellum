@@ -7,47 +7,58 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-3" role="region" aria-label="{% translate 'Filter' %}">
-            <form class="mb-2" method="get" aria-label="{{ form.q.label }}">
-                <div class="input-group">
+        <div class="col-md-3">
+            <form method="get" class="bg-light p-3" aria-label="{% translate 'Filter' %}">
+                <div class="input-group mb-4">
                     <input type="search" class="form-control" name="{{ form.q.name }}" value="{{ form.cleaned_data.q }}" placeholder="{{ form.q.label }}">
-                    {% for field in form %}
-                        {% if field.name != 'q' and field.value %}
-                            {{ field.as_hidden }}
-                        {% endif %}
-                    {% endfor %}
                     <div class="input-group-append">
-                        <button class="btn btn-outline-primary" >{% translate 'Go' %}</button>
+                        <button class="btn btn-primary" >{% translate 'Go' %}</button>
                     </div>
                 </div>
-            </form>
-            <div class="card mb-3">
-                <div class="card-header">{% translate 'Membership' %}</div>
-                <div class="list-group list-group-flush">
+                <hr>
+                <fieldset>
+                    <legend class="h6">{% translate 'Membership' %}</legend>
                     {% for value, label in form.member.field.choices %}
-                        <a class="list-group-item list-group-item-custom list-group-item-action {% if form.cleaned_data.member == value|lower %}active{% endif %}" href="{% url_replace_param member=value %}">{{ label }}</a>
+                        <label class="form-check">
+                            <input type="radio" name="member" value="{{ value }}" class="form-check-input" {% if form.cleaned_data.member == value|lower %}checked{% endif %}>
+                            <span class="form-check-label">{{ label }}</span>
+                        </label>
                     {% endfor %}
-                </div>
-            </div>
-            <div class="card mb-3">
-                <div class="card-header">{{ form.status.label }}</div>
-                <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-custom list-group-item-action {% if not form.status.value %}active{% endif %}" href="{% url_replace_param status=None %}">{% translate 'All' %}</a>
+                </fieldset>
+                <hr>
+                <fieldset>
+                    <legend class="h6">{{ form.status.label }}</legend>
+                    <label class="form-check">
+                        <input type="radio" name="status" value="" class="form-check-input" {% if not form.status.value %}checked{% endif %}>
+                        <span class="form-check-label">{% translate 'All' %}</span>
+                    </label>
                     {% for value, label in form.status.field.choices %}
-                        <a class="list-group-item list-group-item-custom list-group-item-action {% if form.status.value == value|lower %}active{% endif %}" href="{% url_replace_param status=value %}">{{ label }}</a>
+                        <label class="form-check">
+                            <input type="radio" name="status" value="{{ value }}" class="form-check-input" {% if form.cleaned_data.status == value|lower %}checked{% endif %}>
+                            <span class="form-check-label">{{ label }}</span>
+                        </label>
                     {% endfor %}
-                </div>
-            </div>
-            <div class="card mb-3">
-                <div class="card-header">{{ form.type.label }}</div>
-                <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-custom list-group-item-action {% if not form.type.value and not form.is_onetime_invitation.value %}active{% endif %}" href="{% url_replace_param type=None is_onetime_invitation=None %}">{% translate 'All' %}</a>
+                </fieldset>
+                <hr>
+                <fieldset>
+                    <legend class="h6">{{ form.type.label }}</legend>
+                    <label class="form-check">
+                        <input type="radio" name="type" value="{{ value }}" class="form-check-input" {% if not form.type.value and not form.cleaned_data.is_onetime_invitation %}checked{% endif %}>
+                        <span class="form-check-label">{% translate 'All' %}</span>
+                    </label>
                     {% for value, label in form.type.field.choices %}
-                        <a class="list-group-item list-group-item-custom list-group-item-action {% if form.type.value == value|lower %}active{% endif %}" href="{% url_replace_param type=value is_onetime_invitation=None %}">{{ label }}</a>
+                        <label class="form-check">
+                            <input type="radio" name="type" value="{{ value }}" class="form-check-input" {% if form.type.value == value|lower %}checked{% endif %}>
+                            <span class="form-check-label">{{ label }}</span>
+                        </label>
                     {% endfor %}
-                    <a class="list-group-item list-group-item-custom list-group-item-action {% if form.is_onetime_invitation.value %}active{% endif %}" href="{% url_replace_param type=None is_onetime_invitation=1 %}">{{ form.is_onetime_invitation.label }}</a>
-                </div>
-            </div>
+                    <label class="form-check">
+                        <input type="radio" name="type" value="onetime_invitation" class="form-check-input" {% if form.cleaned_data.is_onetime_invitation %}checked{% endif %}>
+                        <span class="form-check-label">{{ form.is_onetime_invitation.label }}</span>
+                    </label>
+                </fieldset>
+                <button class="btn btn-primary mt-3">{% translate 'Apply' %}</button>
+            </form>
         </div>
 
         <div class="col-md-9">
