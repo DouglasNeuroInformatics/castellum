@@ -1,4 +1,4 @@
-# 0.69.0 (unreleased)
+# 0.69.0 (2021-11-30)
 
 You need to update to at least 0.68.0 before updating to this version.
 
