@@ -3,12 +3,10 @@
 
 {% block content %}
     <h3 class="h5">{% translate "General" %}</h3>
+
     <dl class="row">
         <dt class="col-sm-6">{{ object|verbose_name:'principal_investigator' }}</dt>
         <dd class="col-sm-6">{{ object|display:'principal_investigator' }}</dd>
-
-        <dt class="col-sm-6">{{ object|verbose_name:'affiliated_scientists' }}</dt>
-        <dd class="col-sm-6">{{ object|display:'affiliated_scientists' }}</dd>
 
         <dt class="col-sm-6">{% translate 'Members' %}</dt>
         <dd class="col-sm-6">
