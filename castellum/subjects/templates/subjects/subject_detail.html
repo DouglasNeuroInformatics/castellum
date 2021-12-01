@@ -1,5 +1,5 @@
 {% extends "subjects/subject_base.html" %}
-{% load i18n bootstrap4 utils auth reliability %}
+{% load i18n bootstrap4 utils auth subjects reliability %}
 
 {% block title %}{% translate "Subject details" %} &middot; {{ block.super }}{% endblock %}
 
@@ -47,6 +47,12 @@
 
         <dt class="col-sm-6">{% translate 'Recruitment attribute completeness' %}</dt>
         <dd class="col-sm-6">{{ attribute_completeness|default:'—' }}</dd>
+
+        <dt class="col-sm-6">{{ subject|verbose_name:'privacy_level' }}</dt>
+        <dd class="col-sm-6">
+            {{ subject.privacy_level }}
+            <i class="fas fa-user-shield text-{{ subject|privacy_level }}" aria-hidden="true"></i>
+        </dd>
 
         <dt class="col-sm-6">{% translate "Reliability" %}</dt>
         <dd class="col-sm-6">
