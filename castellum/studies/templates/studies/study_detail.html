@@ -3,29 +3,12 @@
 
 {% block content %}
     <h3 class="h5">{% translate "General" %}</h3>
-
     <dl class="row">
         <dt class="col-sm-6">{{ object|verbose_name:'principal_investigator' }}</dt>
         <dd class="col-sm-6">{{ object|display:'principal_investigator' }}</dd>
 
         <dt class="col-sm-6">{{ object|verbose_name:'affiliated_scientists' }}</dt>
         <dd class="col-sm-6">{{ object|display:'affiliated_scientists' }}</dd>
-
-        <dt class="col-sm-6">{% translate 'Type of study' %}</dt>
-        <dd class="col-sm-6">{{ object|display:'study_type' }}</dd>
-
-        {% if not object.is_onetime_invitation %}
-            <dt class="col-sm-6">{% translate 'Scheduled runtime' %}</dt>
-            <dd class="col-sm-6">
-                {% if object.sessions_start and object.sessions_end %}
-                    {{ object.sessions_start }} - {{ object.sessions_end }}
-                {% elif object.sessions_start %}
-                    {{ object.sessions_start }} - {% translate 'not defined' %}
-                {% else %}
-                    &mdash;
-                {% endif %}
-            </dd>
-        {% endif %}
 
         <dt class="col-sm-6">{% translate 'Members' %}</dt>
         <dd class="col-sm-6">
@@ -38,8 +21,29 @@
         <dd class="col-sm-6">{% if object.consent %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
     </dl>
 
-    <h3 class="h5">{% translate "Recruitment settings" %}</h3>
+    {% if not object.is_onetime_invitation %}
+        <h3 class="h5">{% translate "Sessions" %}</h3>
+        <dl class="row">
+            <dt class="col-sm-6">{% translate 'Count' %}</dt>
+            <dd class="col-sm-6">{{ object.studysession_set.count }}</dd>
 
+            <dt class="col-sm-6">{% translate 'Types of sessions' %}</dt>
+            <dd class="col-sm-6">{{ object|display:'study_type' }}</dd>
+
+            <dt class="col-sm-6">{% translate 'Scheduled runtime' %}</dt>
+            <dd class="col-sm-6">
+                {% if object.sessions_start and object.sessions_end %}
+                    {{ object.sessions_start }} - {{ object.sessions_end }}
+                {% elif object.sessions_start %}
+                    {{ object.sessions_start }} - {% translate 'not defined' %}
+                {% else %}
+                    &mdash;
+                {% endif %}
+            </dd>
+        </dl>
+    {% endif %}
+
+    <h3 class="h5">{% translate "Recruitment settings" %}</h3>
     <dl class="row">
         {% if study.is_onetime_invitation %}
             <dt class="col-sm-6">{% translate 'Contacted subjects' %}</dt>
