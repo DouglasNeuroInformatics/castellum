@@ -59,7 +59,6 @@ class StudyForm(forms.ModelForm):
             'consent',
             'min_subject_count',
             'exportable_attributes',
-            'is_onetime_invitation',
         ]
         help_texts = {
             'announce_status_changes': format_lazy(
@@ -70,9 +69,6 @@ class StudyForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        if self.instance.pk:
-            del self.fields['is_onetime_invitation']
 
         if self.instance.pk:
             self.fields['tags'].initial = list(self.instance.tags)
