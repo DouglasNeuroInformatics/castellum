@@ -272,7 +272,6 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
     def get_initial(self):
         initial = super().get_initial()
         if self.duplicate:
-            initial['name'] = "Copy " + self.duplicate.name
             initial['contact_person'] = self.duplicate.contact_person
             initial['principal_investigator'] = self.duplicate.principal_investigator
             initial['affiliated_scientists'] = self.duplicate.affiliated_scientists

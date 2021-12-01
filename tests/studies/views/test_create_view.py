@@ -63,11 +63,11 @@ def test_create_study_on_post(request, client, user_fixture):
 
 def test_duplicate_study_get(client, user):
     client.force_login(user)
-    original = baker.make(Study, name="Test study", members=[user])
+    original = baker.make(Study, email="test@example.com", members=[user])
     response = client.get('/studies/create/?duplicate_pk={}'.format(original.pk))
 
     assert response.status_code == 200
-    assert b'value="Copy Test study"' in response.content
+    assert b'value="test@example.com"' in response.content
 
 
 def test_duplicate_study_404(client, user):
