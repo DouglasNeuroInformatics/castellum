@@ -121,8 +121,7 @@ def get_external_resource_events(resource, start, end):
             end=quote_plus(end.isoformat()),
         )
         text = cached_request(url, timeout=60)
-        events = icalparser.parse_events(text, start=start, end=end)
-        for event in events:
+        for event in icalparser.parse_events(text, start=start, end=end):
             events.append({
                 'title': '[{}] {}'.format(resource, event.summary or ''),
                 'start': event.start,
