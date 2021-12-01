@@ -27,18 +27,16 @@
             </dd>
         {% endif %}
 
+        <dt class="col-sm-6">{% translate 'Members' %}</dt>
+        <dd class="col-sm-6">
+            {% for member in object.members.all %}
+                {{ member.get_full_name }}{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        </dd>
+
         <dt class="col-sm-6">{% translate 'Consent document uploaded' %}</dt>
         <dd class="col-sm-6">{% if object.consent %}{% translate 'Yes' %}{% else %}{% translate 'No' %}{% endif %}</dd>
     </dl>
-
-    {% if not object.is_onetime_invitation %}
-        <h3 class="h5">{% translate "Member management" %}</h3>
-
-        <dl class="row">
-            <dt class="col-sm-6">{% translate 'Recruiters' %}</dt>
-            <dd class="col-sm-6">{{ object.recruiters|join:', '|default:'—' }}</dd>
-        </dl>
-    {% endif %}
 
     <h3 class="h5">{% translate "Recruitment settings" %}</h3>
 
