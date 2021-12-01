@@ -1,3 +1,8 @@
+# 0.29.2 (2021-12-01)
+
+-   Fixed displaying external event feeds
+
+
 # 0.69.1 (2021-11-30)
 
 -   Fixed pseudonym migration
