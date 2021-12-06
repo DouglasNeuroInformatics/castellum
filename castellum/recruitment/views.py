@@ -69,6 +69,7 @@ from .templatetags.recruitment import study_legal_representative_hash
 FULLCALENDAR_DEFAULT_COLOR = '#3788d8'
 
 logger = logging.getLogger(__name__)
+monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
 class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
@@ -97,6 +98,8 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
                 '-subject__attributes__' + desc2.json_key,
                 '-updated_at',
             ]
+        elif self.sort == 'recently-active':
+            order_by = ['-recent_participation_count', '-updated_at']
         else:
             order_by = [
                 '-followup_urgent', 'status', 'followup_date', 'followup_time', '-updated_at'
@@ -205,6 +208,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
             ('followup', _('Follow-up date')),
             ('last_contact_attempt', _('Last contact attempt')),
             ('statistics', _('Statistics')),
+            ('recently-active', _('Recently active')),
         ]
         sort_options = dict(context['sort_options'])
         context['sort_label'] = sort_options.get(self.sort, _('Relevance'))
@@ -250,8 +254,8 @@ class RecruitmentViewOpen(RecruitmentView):
     ]
     subtab = 'open'
 
-    def create_participations(self, batch_size):
-        subjects = get_recruitable(self.study)
+    def create_participations(self, batch_size, is_urgent=False):
+        subjects = get_recruitable(self.study, is_urgent)
 
         added = min(batch_size, len(subjects))
         participations = []
@@ -261,6 +265,13 @@ class RecruitmentViewOpen(RecruitmentView):
         return participations
 
     def post(self, request, *args, **kwargs):
+        is_urgent = request.POST.get('submit') == 'urgent'
+
+        if is_urgent:
+            monitoring_logger.info('Urgent recruitment in study {} by {}'.format(
+                self.study.pk, request.user.pk
+            ))
+
         if self.study.min_subject_count == 0:
             messages.error(request, _(
                 'This study does not require participants. '
@@ -285,7 +296,7 @@ class RecruitmentViewOpen(RecruitmentView):
             settings.CASTELLUM_RECRUITMENT_BATCH_SIZE,
             hard_limit - not_contacted_count,
         )
-        participations = self.create_participations(batch_size)
+        participations = self.create_participations(batch_size, is_urgent)
         Participation.objects.bulk_create(participations)
 
         if not_contacted_count + len(participations) > settings.CASTELLUM_RECRUITMENT_SOFT_LIMIT:
