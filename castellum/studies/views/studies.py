@@ -499,29 +499,9 @@ class StudyImportView(PermissionRequiredMixin, FormView):
 
 class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
     permission_required = 'studies.view_study'
-    STATUS_MAP = {
-        Study.EDIT: 'not_started',
-        Study.EXECUTION: 'started',
-        Study.FINISHED: 'finished',
-    }
 
     def get(self, request, *args, **kwargs):
-        data = {
-            'name': self.study.name,
-            'contact_person': {
-                'name': self.study.contact_person,
-                'email': self.study.email,
-            },
-            'principal_investigator': {'name': self.study.principal_investigator},
-            'description': self.study.description,
-            'status': self.STATUS_MAP[self.study.status],
-            'sessions_start': self.study.sessions_start,
-            'sessions_end': self.study.sessions_end,
-            'number_participants_expected': self.study.min_subject_count,
-            'keywords': list(self.study.tags),
-            'type': [t for t in self.study.study_type.values_list('export_key', flat=True) if t],
-        }
-
+        data = self.study.export()
         response = JsonResponse({k: v for k, v in data.items() if v})
         filename = 'castellum_{}.json'.format(slugify(self.study.name))
         response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
