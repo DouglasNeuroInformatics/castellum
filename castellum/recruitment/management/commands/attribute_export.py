@@ -43,4 +43,4 @@ class Command(BaseCommand):
         else:
             subject = Subject.objects.get(pk=options['subject_uuid'])
             s = exporter.get_data(descriptions, [(subject.pk, subject)])
-        print(s)
+        self.stdout.write(s)
