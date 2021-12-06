@@ -128,15 +128,15 @@ urlpatterns = [
 
 if settings.CASTELLUM_API_ENABLED:
     urlpatterns += [
-        path('<int:pk>/api/domains/', APIDomainsView.as_view()),
-        path('<int:pk>/api/domains/<uuid:domain>/', APIPseudonymsView.as_view()),
-        path('<int:pk>/api/domains/<uuid:domain>/<pseudonym>/', APIValidateView.as_view()),
+        path('api/studies/<int:pk>/domains/', APIDomainsView.as_view()),
+        path('api/studies/<int:pk>/domains/<uuid:domain>/', APIPseudonymsView.as_view()),
+        path('api/studies/<int:pk>/domains/<uuid:domain>/<pseudonym>/', APIValidateView.as_view()),
         path(
-            '<int:study_pk>/api/domains/<uuid:domain>/<pseudonym>/attributes/',
+            'api/studies/<int:study_pk>/domains/<uuid:domain>/<pseudonym>/attributes/',
             APIAttributesView.as_view()
         ),
         path(
-            '<int:study_pk>/api/domains/<uuid:domain>/<pseudonym>/<uuid:target_domain>/',
+            'api/studies/<int:study_pk>/domains/<uuid:domain>/<pseudonym>/<uuid:target_domain>/',
             APIResolveView.as_view()
         ),
     ]
