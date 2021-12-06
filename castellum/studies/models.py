@@ -345,6 +345,29 @@ class Study(models.Model):
             self.has_filters,
         ])
 
+    def export(self):
+        STATUS_MAP = {
+            Study.EDIT: 'not_started',
+            Study.EXECUTION: 'started',
+            Study.FINISHED: 'finished',
+        }
+
+        return {
+            'name': self.name,
+            'contact_person': {
+                'name': self.contact_person,
+                'email': self.email,
+            },
+            'principal_investigator': {'name': self.principal_investigator},
+            'description': self.description,
+            'status': STATUS_MAP[self.status],
+            'sessions_start': self.sessions_start,
+            'sessions_end': self.sessions_end,
+            'number_participants_expected': self.min_subject_count,
+            'keywords': list(self.tags),
+            'type': [t for t in self.study_type.values_list('export_key', flat=True) if t],
+        }
+
 
 class StudyGroup(models.Model):
     name = models.CharField(_('name'), max_length=150, unique=True)
