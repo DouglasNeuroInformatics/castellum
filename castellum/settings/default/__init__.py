@@ -151,7 +151,9 @@ CASTELLUM_ATTRIBUTE_EXPORTER = 'castellum.recruitment.attribute_exporters.JSONEx
 #
 # list of active studies:
 #   /execution/api/studies/
-# list of study domains:
+# basic metadata about a study
+#   /execution/api/studies/<study_id>/metadata/
+# list of pseudonyms in a domain:
 #   /execution/api/studies/<study_id>/domains/
 # list of pseudonyms in a domain:
 #   /execution/api/studies/<study_id>/domains/<domain>/

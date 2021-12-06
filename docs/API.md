@@ -7,6 +7,7 @@ The following API endpoints can be enabled with the
 `CASTELLUM_PSEUDONYMS_API_ENABLED` setting:
 
 -   `/execution/api/studies/`
+-   `/execution/api/studies/<study_id>/metadata/`
 -   `/execution/api/studies/<study_id>/domains/`
 -   `/execution/api/studies/<study_id>/domains/<domain>/`
 -   `/execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/`

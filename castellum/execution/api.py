@@ -58,6 +58,11 @@ class APIStudiesView(APIAuthMixin, View):
         return JsonResponse({'studies': data})
 
 
+class APIMetadataView(BaseAPIView):
+    def get(self, request, **kwargs):
+        return JsonResponse(self.study.export())
+
+
 class APIDomainsView(BaseAPIView):
     def get(self, request, **kwargs):
         data = [{'key': domain.key, 'name': domain.name} for domain in self.study.domains.all()]
