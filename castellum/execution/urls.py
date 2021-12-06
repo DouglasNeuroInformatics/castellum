@@ -26,6 +26,7 @@ from .api import APIAttributesView
 from .api import APIDomainsView
 from .api import APIPseudonymsView
 from .api import APIResolveView
+from .api import APIStudiesView
 from .api import APIValidateView
 from .feeds import AppointmentFeedForStudy
 from .feeds import AppointmentFeedForUser
@@ -128,6 +129,7 @@ urlpatterns = [
 
 if settings.CASTELLUM_PSEUDONYMS_API_ENABLED:
     urlpatterns += [
+        path('api/studies/', APIStudiesView.as_view()),
         path('api/studies/<int:pk>/domains/', APIDomainsView.as_view()),
         path('api/studies/<int:pk>/domains/<uuid:domain>/', APIPseudonymsView.as_view()),
         path('api/studies/<int:pk>/domains/<uuid:domain>/<pseudonym>/', APIValidateView.as_view()),

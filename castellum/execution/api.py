@@ -48,6 +48,16 @@ class BaseAPIView(APIAuthMixin, StudyMixin, PermissionRequiredMixin, View):
     study_status = [Study.EXECUTION]
 
 
+class APIStudiesView(APIAuthMixin, View):
+    def get(self, request, **kwargs):
+        data = [
+            study.pk
+            for study in Study.objects.filter(status=Study.EXECUTION)
+            if request.user.has_perm('recruitment.conduct_study', obj=study)
+        ]
+        return JsonResponse({'studies': data})
+
+
 class APIDomainsView(BaseAPIView):
     def get(self, request, **kwargs):
         data = [{'key': domain.key, 'name': domain.name} for domain in self.study.domains.all()]
