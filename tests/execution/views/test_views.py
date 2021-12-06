@@ -39,7 +39,6 @@ def test_study_detail_view_appointment_count(client, member, study_in_execution_
     client.force_login(member)
     url = '/execution/{}/'.format(study_in_execution_status.pk)
     response = client.get(url)
-    print(response.content)
     assert b'1/2' in response.content
 
 

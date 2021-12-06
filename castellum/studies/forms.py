@@ -120,7 +120,6 @@ class StudyFilterForm(forms.Form):
         cleaned_data = super().clean()
         if self.data.get('type') == 'onetime_invitation':
             cleaned_data['is_onetime_invitation'] = True
-        print(cleaned_data)
         return cleaned_data
 
 
