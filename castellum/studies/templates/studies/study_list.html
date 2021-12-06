@@ -6,61 +6,84 @@
 {% block container_class %}container-lg{% endblock %}
 
 {% block content %}
-    <div class="d-flex flex-column flex-md-row justify-content-between">
-        <ul class="nav nav-pills mb-2">
-            {% for value, label in form.display.field.choices %}
-                <li class="nav-item">
-                    <a href="{% url_replace_param display=value %}" class="nav-link {% if form.cleaned_data.display == value %}active{% endif %}">{{ label }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-        <form class="mb-2" method="get" aria-label="{{ form.q.label }}">
-            <div class="input-group">
-                <input type="search" class="form-control" name="{{ form.q.name }}" value="{{ form.cleaned_data.q }}" placeholder="{{ form.q.label }}">
-                {% for field in form %}
-                    {% if field.name != 'q' and field.value %}
-                        {{ field.as_hidden }}
-                    {% endif %}
-                {% endfor %}
-                <div class="input-group-append">
-                    <button class="btn btn-outline-primary" >{% translate 'Go' %}</button>
-                </div>
-            </div>
-        </form>
-    </div>
-
     <div class="row">
-        <div class="col-md-3 order-1" role="region" aria-label="{% translate 'Filter' %}">
-            <div class="card mb-3">
-                <div class="card-header">{% translate 'Membership' %}</div>
-                <div class="list-group list-group-flush">
+        <div class="col-md-3">
+            <form method="get" class="bg-light p-3" aria-label="{% translate 'Filter' %}">
+                <div class="input-group mb-4">
+                    <input type="search" class="form-control" name="{{ form.q.name }}" value="{{ form.cleaned_data.q }}" placeholder="{{ form.q.label }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" >{% translate 'Go' %}</button>
+                    </div>
+                </div>
+                <hr>
+                <fieldset>
+                    <legend class="h6">{% translate 'Membership' %}</legend>
                     {% for value, label in form.member.field.choices %}
-                        <a class="list-group-item list-group-item-custom list-group-item-action {% if form.cleaned_data.member == value|lower %}active{% endif %}" href="{% url_replace_param member=value %}">{{ label }}</a>
+                        <label class="form-check">
+                            <input type="radio" name="member" value="{{ value }}" class="form-check-input" {% if form.cleaned_data.member == value|lower %}checked{% endif %}>
+                            <span class="form-check-label">{{ label }}</span>
+                        </label>
                     {% endfor %}
-                </div>
-            </div>
-            <div class="card mb-3">
-                <div class="card-header">{{ form.status.label }}</div>
-                <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-custom list-group-item-action {% if not form.status.value %}active{% endif %}" href="{% url_replace_param status=None %}">{% translate 'All' %}</a>
+                </fieldset>
+                <hr>
+                <fieldset>
+                    <legend class="h6">{{ form.status.label }}</legend>
+                    <label class="form-check">
+                        <input type="radio" name="status" value="" class="form-check-input" {% if not form.status.value %}checked{% endif %}>
+                        <span class="form-check-label">{% translate 'All' %}</span>
+                    </label>
                     {% for value, label in form.status.field.choices %}
-                        <a class="list-group-item list-group-item-custom list-group-item-action {% if form.status.value == value|lower %}active{% endif %}" href="{% url_replace_param status=value %}">{{ label }}</a>
+                        <label class="form-check">
+                            <input type="radio" name="status" value="{{ value }}" class="form-check-input" {% if form.cleaned_data.status == value|lower %}checked{% endif %}>
+                            <span class="form-check-label">{{ label }}</span>
+                        </label>
                     {% endfor %}
-                </div>
-            </div>
-            <div class="card mb-3">
-                <div class="card-header">{{ form.type.label }}</div>
-                <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-custom list-group-item-action {% if not form.type.value and not form.is_onetime_invitation.value %}active{% endif %}" href="{% url_replace_param type=None is_onetime_invitation=None %}">{% translate 'All' %}</a>
+                </fieldset>
+                <hr>
+                <fieldset>
+                    <legend class="h6">{{ form.type.label }}</legend>
+                    <label class="form-check">
+                        <input type="radio" name="type" value="{{ value }}" class="form-check-input" {% if not form.type.value and not form.cleaned_data.is_onetime_invitation %}checked{% endif %}>
+                        <span class="form-check-label">{% translate 'All' %}</span>
+                    </label>
                     {% for value, label in form.type.field.choices %}
-                        <a class="list-group-item list-group-item-custom list-group-item-action {% if form.type.value == value|lower %}active{% endif %}" href="{% url_replace_param type=value is_onetime_invitation=None %}">{{ label }}</a>
+                        <label class="form-check">
+                            <input type="radio" name="type" value="{{ value }}" class="form-check-input" {% if form.type.value == value|lower %}checked{% endif %}>
+                            <span class="form-check-label">{{ label }}</span>
+                        </label>
                     {% endfor %}
-                    <a class="list-group-item list-group-item-custom list-group-item-action {% if form.is_onetime_invitation.value %}active{% endif %}" href="{% url_replace_param type=None is_onetime_invitation=1 %}">{{ form.is_onetime_invitation.label }}</a>
-                </div>
-            </div>
+                    <label class="form-check">
+                        <input type="radio" name="type" value="onetime_invitation" class="form-check-input" {% if form.cleaned_data.is_onetime_invitation %}checked{% endif %}>
+                        <span class="form-check-label">{{ form.is_onetime_invitation.label }}</span>
+                    </label>
+                </fieldset>
+                <button class="btn btn-primary mt-3">{% translate 'Apply' %}</button>
+            </form>
         </div>
 
         <div class="col-md-9">
+            {% has_perm 'studies.change_study' user as can_add_study %}
+            {% if can_add_study %}
+                <div class="d-print-none text-right mb-3">
+                    <a href="{% url 'studies:create' %}" class="btn btn-primary mb-1">{% translate "Create new study" %}</a>
+                    {% if CASTELLUM_ENABLE_STUDY_EXPORT %}
+                        <a href="{% url 'studies:import' %}" class="btn btn-secondary mb-1">{% translate "Import study" %}</a>
+                    {% endif %}
+                    <form class="d-inline-block" action="{% url 'studies:create-filter-trial' %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-secondary mb-1" >{% translate 'Try filters' %}</button>
+                    </form>
+                </div>
+            {% endif %}
+
+            <ul class="nav nav-tabs mb-2">
+                {% for value, label in form.display.field.choices %}
+                    <li class="nav-item">
+                        <a href="{% url_replace_param display=value %}" class="nav-link {% if form.cleaned_data.display == value %}active{% endif %}">{{ label }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+
             {% if form.cleaned_data.display == 'calendar' %}
                 <div class="my-5" data-js="calendar" data-layout="year"></div>
             {% else %}
@@ -115,22 +138,6 @@
                     </nav>
                 {% endif %}
             {% endif  %}
-
-            <div class="d-print-none mb-3">
-                {% has_perm 'studies.change_study' user as can_add_study %}
-                {% if can_add_study %}
-                    {% if CASTELLUM_ENABLE_STUDY_EXPORT %}
-                        <a href="{% url 'studies:import' %}" class="btn btn-primary mb-1">{% translate "Import study" %}</a>
-                    {% endif %}
-                    <a href="{% url 'studies:create' %}" class="btn btn-primary mb-1">{% translate "Create new study" %}</a>
-
-                    <form class="d-inline-block" action="{% url 'studies:create-filter-trial' %}" method="post">
-                        {% csrf_token %}
-                        <button class="btn btn-primary mb-1" >{% translate 'Try filters' %}</button>
-                    </form>
-
-                {% endif %}
-            </div>
         </div>
     </div>
 {% endblock %}

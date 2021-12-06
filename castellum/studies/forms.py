@@ -116,6 +116,13 @@ class StudyFilterForm(forms.Form):
     start = forms.DateTimeField()
     end = forms.DateTimeField()
 
+    def clean(self):
+        cleaned_data = super().clean()
+        if self.data.get('type') == 'onetime_invitation':
+            cleaned_data['is_onetime_invitation'] = True
+        print(cleaned_data)
+        return cleaned_data
+
 
 class SessionForm(forms.ModelForm):
     class Meta:
