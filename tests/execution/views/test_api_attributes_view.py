@@ -14,7 +14,9 @@ def test_apiattributesview(
     baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/{}/api/domains/{}/{}/attributes/'.format(study.pk, domain.key, pseudonym)
+    url = '/execution/api/studies/{}/domains/{}/{}/attributes/'.format(
+        study.pk, domain.key, pseudonym
+    )
     response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
 
     assert response.status_code == 200
@@ -28,7 +30,9 @@ def test_participation_status(client, conductor, study_in_execution_status, subj
     baker.make(Participation, study=study, subject=subject, status=Participation.NOT_CONTACTED)
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/{}/api/domains/{}/{}/attributes/'.format(study.pk, domain.key, pseudonym)
+    url = '/execution/api/studies/{}/domains/{}/{}/attributes/'.format(
+        study.pk, domain.key, pseudonym
+    )
     response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
 
     assert response.status_code == 404
@@ -43,7 +47,9 @@ def test_privacy_level(client, conductor, study_in_execution_status, subject):
     baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/{}/api/domains/{}/{}/attributes/'.format(study.pk, domain.key, pseudonym)
+    url = '/execution/api/studies/{}/domains/{}/{}/attributes/'.format(
+        study.pk, domain.key, pseudonym
+    )
     response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
 
     assert response.status_code == 403
@@ -55,7 +61,9 @@ def test_unrelated_domain(client, conductor, study_in_execution_status, subject)
     baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
     pseudonym = get_pseudonym(subject, domain.key)
 
-    url = '/execution/{}/api/domains/{}/{}/attributes/'.format(study.pk, domain.key, pseudonym)
+    url = '/execution/api/studies/{}/domains/{}/{}/attributes/'.format(
+        study.pk, domain.key, pseudonym
+    )
     response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
 
     assert response.status_code == 404

@@ -6,11 +6,11 @@ Castellum is primarily a GUI application. There is no API by default.
 The following API endpoints can be enabled with the
 `CASTELLUM_PSEUDONYMS_API_ENABLED` setting:
 
--   `/execution/<study_id>/api/domains/`
--   `/execution/<study_id>/api/domains/<domain>/`
--   `/execution/<study_id>/api/domains/<domain>/<pseudonym>/`
--   `/execution/<study_id>/api/domains/<domain>/<pseudonym>/attributes/`
--   `/execution/<study_id>/api/domains/<domain>/<pseudonym>/<target_domain>/`
+-   `/execution/api/studies/<study_id>/domains/`
+-   `/execution/api/studies/<study_id>/domains/<domain>/`
+-   `/execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/`
+-   `/execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/attributes/`
+-   `/execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/<target_domain>/`
 
 ## Authentication
 

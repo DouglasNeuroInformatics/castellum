@@ -150,15 +150,15 @@ CASTELLUM_ATTRIBUTE_EXPORTER = 'castellum.recruitment.attribute_exporters.JSONEx
 # Enables some additional views that expose content as JSON:
 #
 # list of study domains:
-#   /execution/<study_id>/api/domains/
+#   /execution/api/studies/<study_id>/domains/
 # list of pseudonyms in a domain:
-#   /execution/<study_id>/api/domains/<domain>/
+#   /execution/api/studies/<study_id>/domains/<domain>/
 # validate a single pseudonym
-#   /execution/<study_id>/api/domains/<domain>/<pseudonym>/
+#   /execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/
 # get exportable attributes:
-#   /execution/<study_id>/api/domains/<domain>/<pseudonym>/attributes/
+#   /execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/attributes/
 # resolve pseudonym to a target domain (can also be a general domain):
-#   /execution/<study_id>/api/domains/<domain>/<pseudonym>/<target_domain>/
+#   /execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/<target_domain>/
 CASTELLUM_PSEUDONYMS_API_ENABLED = False
 
 # If you want to allow external services to automatically add subjects
