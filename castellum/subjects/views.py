@@ -33,6 +33,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -720,6 +721,17 @@ class MaintenanceReliabilityView(BaseMaintenanceView):
             )
             .order_by('-ratio')
         )
+
+
+class MaintenanceEstrangedSubjectsView(BaseMaintenanceView):
+    template_name = 'subjects/maintenance_estranged_subjects.html'
+    tab = 'estranged_subjects'
+
+    def get_queryset(self):
+        return Subject.objects.filter(
+            filter_queries.has_consent(include_waiting=True),
+            updated_at__lte=timezone.now() - settings.CASTELLUM_ENSTRANGED_SUBJECTS_PERIOD
+        ).order_by("updated_at")
 
 
 class MaintenanceSubjectCreationRequestView(PermissionRequiredMixin, ListView):

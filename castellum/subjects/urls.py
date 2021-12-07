@@ -30,6 +30,7 @@ from .views import MaintenanceAttributesView
 from .views import MaintenanceConsentView
 from .views import MaintenanceContactView
 from .views import MaintenanceDuplicatesView
+from .views import MaintenanceEstrangedSubjectsView
 from .views import MaintenanceNotesView
 from .views import MaintenanceReliabilityView
 from .views import MaintenanceSubjectCreationRequestView
@@ -71,6 +72,11 @@ urlpatterns = [
         'maintenance/reliability/',
         MaintenanceReliabilityView.as_view(),
         name='maintenance-reliability',
+    ),
+    path(
+        'maintenance/estranged-subjects/',
+        MaintenanceEstrangedSubjectsView.as_view(),
+        name='maintenance-estranged-subjects',
     ),
     path(
         'maintenance/subjectcreationrequest/',
