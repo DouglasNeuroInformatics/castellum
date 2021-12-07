@@ -230,12 +230,17 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
 
         if self.duplicate:
             # copy all fields that are not part of the create form
+            self.object.affiliated_scientists = self.duplicate.affiliated_scientists
+            self.object.affiliated_research_assistants = self.duplicate.affiliated_research_assistants  # noqa
+            self.object.description = self.duplicate.description
+            self.object.announce_status_changes = self.duplicate.announce_status_changes
             self.object.exclusion_criteria = self.duplicate.exclusion_criteria
             self.object.recruitment_text = self.duplicate.recruitment_text
             self.object.advanced_filtering = self.duplicate.advanced_filtering
             self.object.is_exclusive = self.duplicate.is_exclusive
             self.object.complete_matches_only = self.duplicate.complete_matches_only
             self.object.excluded_studies.set(self.duplicate.excluded_studies.all())
+            self.object.consent = self.duplicate.consent
             self.object.mail_subject = self.duplicate.mail_subject
             self.object.mail_body = self.duplicate.mail_body
             self.object.save()
@@ -262,6 +267,10 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
                 )
                 s.type.set(session.type.all())
 
+            self.object.exportable_attributes.set(self.duplicate.exportable_attributes.all())
+
+            for name in self.duplicate.tags:
+                self.object.studytag_set.create(name=name)
             for tag in self.duplicate.executiontag_set.all():
                 self.object.executiontag_set.create(name=tag.name)
         else:
@@ -280,18 +289,11 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
     def get_initial(self):
         initial = super().get_initial()
         if self.duplicate:
-            initial['contact_person'] = self.duplicate.contact_person
             initial['principal_investigator'] = self.duplicate.principal_investigator
-            initial['affiliated_scientists'] = self.duplicate.affiliated_scientists
-            initial['affiliated_research_assistants'] = self.duplicate.affiliated_research_assistants  # noqa
+            initial['contact_person'] = self.duplicate.contact_person
             initial['phone'] = self.duplicate.phone
             initial['email'] = self.duplicate.email
-            initial['description'] = self.duplicate.description
-            initial['tags'] = list(self.duplicate.tags)
-            initial['announce_status_changes'] = self.duplicate.announce_status_changes
-            initial['consent'] = self.duplicate.consent
             initial['min_subject_count'] = self.duplicate.min_subject_count
-            initial['exportable_attributes'] = list(self.duplicate.exportable_attributes.all())
             initial['is_onetime_invitation'] = self.duplicate.is_onetime_invitation
         return initial
 
