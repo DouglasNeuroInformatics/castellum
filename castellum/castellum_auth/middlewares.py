@@ -65,7 +65,7 @@ class AutoLogoutMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if request.user.is_authenticated:
+        if request.user.is_authenticated and 'events' not in request.GET:
             now = timezone.now()
             login_time = request.user.last_login or now
             idle_time = now - get_last_active(request)
