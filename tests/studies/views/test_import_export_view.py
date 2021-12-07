@@ -17,5 +17,5 @@ def test_import_export(client, member, study):
     response = client.post('/studies/import/', {'file': BytesIO(response.content)})
 
     assert b'<input type="text" name="name" value="test"' in response.content
-    assert b'<input type="email" name="email" maxlength="128" class="form-control is-invalid"' in response.content  # noqa
+    assert b'<input type="tel" name="phone" placeholder="e.g. 030 123456" maxlength="32" class="form-control is-invalid"' in response.content  # noqa
     assert b'<option value="foo" selected>foo</option>' in response.content
