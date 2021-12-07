@@ -29,6 +29,7 @@ from django.utils import formats
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+import requests
 from dateutil.relativedelta import relativedelta
 from icalevents import icalparser
 
@@ -151,7 +152,11 @@ def fetch_scheduler_appointments(study, base_url, timeout=0):
         .exclude(schedule_id=None)
         .filter(schedule_updated_at__lt=now - relativedelta(seconds=timeout))
     ):
-        data = scheduler.get_bulk(session.schedule_id)
+        try:
+            data = scheduler.get_bulk(session.schedule_id)
+        except requests.RequestException as e:
+            logger.error('Fetching schedule for session {} failed: {}'.format(session.pk, e))
+            continue
 
         session.schedule_updated_at = now
         session.save()
