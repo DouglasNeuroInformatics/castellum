@@ -112,7 +112,7 @@
 
             {% if can_access_study and can_approve_study %}
                 <li class="nav-item">
-                    <a class="nav-link {% if view.tab == 'diff' %}active{% endif %}" href="{% url 'studies:diff' study.pk %}">{% translate 'Changes' %}</a>
+                    <a class="nav-link {% if view.tab == 'diff' %}active{% endif %}" href="{% url 'studies:diff' study.pk %}">{% translate 'Review changes' %}</a>
                 </li>
             {% endif %}
 

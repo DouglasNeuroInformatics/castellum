@@ -1,10 +1,10 @@
 {% extends "studies/study_base.html" %}
 {% load static i18n utils diff %}
 
-{% block title %}{% translate "Changes" %} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% translate "Review changes" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-    <p class="alert alert-info">{% translate 'This page provides an overview of all the settings for this study. Any changes that were made since the study was started are highlighted.' %}</p>
+    <p class="alert alert-info">{% translate 'This page lists all the settings for this study. Any changes that were made since the study was started are highlighted.' %}</p>
 
     <dl class="row">
         <dt class="col-sm-6" data-fieldname="studies.Study.name">{{ study|verbose_name:'name' }}</dt>
