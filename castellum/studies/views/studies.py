@@ -480,6 +480,7 @@ class StudyImportView(PermissionRequiredMixin, FormView):
         self.request.POST.update({
             'name': json['name'],
             'contact_person': self.render_person(json.get('contact_person', {})),
+            'email': json.get('contact_person', {}).get('email'),
             'principal_investigator': self.render_person(json.get('principal_investigator', {})),
             'affiliated_scientists': self.render_persons(json.get('affiliated_scientists', [])),
             'affiliated_research_assistants': self.render_persons(
@@ -505,7 +506,10 @@ class StudyExportView(StudyMixin, PermissionRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         data = {
             'name': self.study.name,
-            'contact_person': {'name': self.study.contact_person},
+            'contact_person': {
+                'name': self.study.contact_person,
+                'email': self.study.email,
+            },
             'principal_investigator': {'name': self.study.principal_investigator},
             'description': self.study.description,
             'status': self.STATUS_MAP[self.study.status],
