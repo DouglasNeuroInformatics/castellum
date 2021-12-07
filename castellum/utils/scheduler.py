@@ -66,7 +66,10 @@ def get_bulk(id):
         'Authorization': 'token ' + settings.SCHEDULER_TOKEN,
     })
     r.raise_for_status()
-    return {key: parse_date(value) for key, value in r.json().items()}
+    return {
+        key: parse_date(value) if value else None
+        for key, value in r.json().items()
+    }
 
 
 def create_invitation_url(id, token):
