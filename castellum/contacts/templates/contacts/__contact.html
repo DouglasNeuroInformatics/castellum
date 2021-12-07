@@ -1,6 +1,12 @@
-{% load i18n auth utils reliability %}
+{% load i18n auth utils subjects reliability %}
 
 <dl class="row">
+    <dt class="col-sm-6">{{ subject|verbose_name:'privacy_level' }}</dt>
+    <dd class="col-sm-6">
+        {{ subject.privacy_level }}
+        <i class="fas fa-user-shield text-{{ subject|privacy_level }}" aria-hidden="true"></i>
+    </dd>
+
     <dt class="col-sm-6">{% translate "Reliability" %}</dt>
     <dd class="col-sm-6">
         <span class="text-{{ subject|reliability_level }}" aria-hidden="true">&#9679;</span>

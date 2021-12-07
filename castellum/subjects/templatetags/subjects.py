@@ -74,3 +74,13 @@ def export_mail_uri(context, participation):
         settings.CASTELLUM_SUBJECT_EXPORT_STUDY_MAIL_BODY,
         settings.CASTELLUM_SUBJECT_EXPORT_STUDY_MAIL_BODY_EN,
     )
+
+
+@register.filter
+def privacy_level(subject):
+    if subject.privacy_level >= 2:
+        return 'danger'
+    elif subject.privacy_level == 1:
+        return 'warning'
+    else:
+        return 'body'
