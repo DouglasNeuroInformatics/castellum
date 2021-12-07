@@ -50,8 +50,6 @@ class StudyForm(forms.ModelForm):
             'name',
             'contact_person',
             'principal_investigator',
-            'affiliated_scientists',
-            'affiliated_research_assistants',
             'phone',
             'email',
             'description',

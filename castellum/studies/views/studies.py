@@ -274,8 +274,6 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
         if self.duplicate:
             initial['contact_person'] = self.duplicate.contact_person
             initial['principal_investigator'] = self.duplicate.principal_investigator
-            initial['affiliated_scientists'] = self.duplicate.affiliated_scientists
-            initial['affiliated_research_assistants'] = self.duplicate.affiliated_research_assistants  # noqa
             initial['phone'] = self.duplicate.phone
             initial['email'] = self.duplicate.email
             initial['description'] = self.duplicate.description
@@ -484,10 +482,6 @@ class StudyImportView(PermissionRequiredMixin, FormView):
             'contact_person': self.render_person(json.get('contact_person', {})),
             'email': json.get('contact_person', {}).get('email'),
             'principal_investigator': self.render_person(json.get('principal_investigator', {})),
-            'affiliated_scientists': self.render_persons(json.get('affiliated_scientists', [])),
-            'affiliated_research_assistants': self.render_persons(
-                json.get('affiliated_research_assistants', [])
-            ),
             'description': json.get('description'),
             'min_subject_count': json.get('number_participants_expected'),
         })
