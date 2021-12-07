@@ -16,24 +16,26 @@
         {% csrf_token %}
 
         {% bootstrap_field form.name required_css_class='castellum-required' %}
-        {% bootstrap_field form.contact_person required_css_class='castellum-required' %}
         {% bootstrap_field form.principal_investigator required_css_class='castellum-required' %}
-        {% bootstrap_field form.affiliated_scientists required_css_class='castellum-required' %}
-        {% bootstrap_field form.affiliated_research_assistants required_css_class='castellum-required' %}
+        {% bootstrap_field form.contact_person required_css_class='castellum-required' %}
         {% bootstrap_field form.phone required_css_class='castellum-required' %}
         {% bootstrap_field form.email required_css_class='castellum-required' %}
+        {% bootstrap_field form.min_subject_count required_css_class='castellum-required' %}
+
         {% bootstrap_field form.description required_css_class='castellum-required' %}
         {% bootstrap_field form.tags required_css_class='castellum-required' %}
+        {% bootstrap_field form.affiliated_scientists required_css_class='castellum-required' %}
+        {% bootstrap_field form.affiliated_research_assistants required_css_class='castellum-required' %}
+
+        <div data-js="d-select2">
+            {% bootstrap_field form.exportable_attributes required_css_class='castellum-required' %}
+        </div>
+        {% bootstrap_field form.consent required_css_class='castellum-required' %}
         {% if CASTELLUM_STUDY_STATUS_NOTIFICATION_TO %}
             {% bootstrap_field form.announce_status_changes required_css_class='castellum-required' %}
         {% else %}
             {{ form.announce_status_changes.as_hidden }}
         {% endif %}
-        {% bootstrap_field form.consent required_css_class='castellum-required' %}
-        {% bootstrap_field form.min_subject_count required_css_class='castellum-required' %}
-        <div data-js="d-select2">
-            {% bootstrap_field form.exportable_attributes required_css_class='castellum-required' %}
-        </div>
         {% if form.is_onetime_invitation %}
             {% bootstrap_field form.is_onetime_invitation required_css_class='castellum-required' %}
         {% endif %}
