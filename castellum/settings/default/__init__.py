@@ -92,6 +92,10 @@ CASTELLUM_PERIOD_BETWEEN_CONTACT_ATTEMPTS = relativedelta(weeks=2)
 # what is considered "has recently participated in a study"
 CASTELLUM_RECENT_ACTIVITY_PERIOD = relativedelta(months=4)
 
+# timespan after which uncontacted subjects with consent will show up in
+# MaintenanceEstrangedSubjectsView
+CASTELLUM_ENSTRANGED_SUBJECTS_PERIOD = relativedelta(months=18)
+
 # default execution tags which are automatically created for each new study
 CASTELLUM_DEFAULT_EXECUTION_TAGS = [
     ('ready', 'info'),

@@ -28,6 +28,9 @@
             <li class="nav-item">
                 <a href="{% url 'subjects:maintenance-reliability' %}" class="nav-link {% if view.tab == 'reliability' %}active{% endif %}">{% translate 'Reliability' %}</a>
             </li>
+            <li class="nav-item">
+                <a href="{% url 'subjects:maintenance-estranged-subjects' %}" class="nav-link {% if view.tab == 'estranged_subjects' %}active{% endif %}">{% translate 'Estranged subjects' %}</a>
+            </li>
             {% if CASTELLUM_SUBJECT_CREATION_REQUESTS_ENABLED %}
                 <li class="nav-item">
                     <a href="{% url 'subjects:maintenance-subjectcreationrequest' %}" class="nav-link {% if view.tab == 'subjectcreationrequest' %}active{% endif %}">{% translate 'Subject creation requests' %}</a>
