@@ -494,14 +494,8 @@ class StudyImportView(PermissionRequiredMixin, FormView):
             'contact_person': self.render_person(json.get('contact_person', {})),
             'email': json.get('contact_person', {}).get('email'),
             'principal_investigator': self.render_person(json.get('principal_investigator', {})),
-            'affiliated_scientists': self.render_persons(json.get('affiliated_scientists', [])),
-            'affiliated_research_assistants': self.render_persons(
-                json.get('affiliated_research_assistants', [])
-            ),
-            'description': json.get('description'),
             'min_subject_count': json.get('number_participants_expected'),
         })
-        self.request.POST.setlist('tags', json.get('keywords', []))
 
         create_view = StudyCreateView.as_view()
         return create_view(self.request)
