@@ -29,6 +29,7 @@ from django.utils import formats
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from dateutil.relativedelta import relativedelta
 from icalevents import icalparser
 
 from castellum.pseudonyms.helpers import get_pseudonym
@@ -141,11 +142,19 @@ def get_external_resource_events(resource, start, end):
         return []
 
 
-def fetch_scheduler_appointments(study, base_url):
+def fetch_scheduler_appointments(study, base_url, timeout=0):
     count = 0
+    now = timezone.now()
 
-    for session in study.studysession_set .exclude(schedule_id=None):
+    for session in (
+        study.studysession_set
+        .exclude(schedule_id=None)
+        .filter(schedule_updated_at__lt=now - relativedelta(seconds=timeout))
+    ):
         data = scheduler.get_bulk(session.schedule_id)
+
+        session.schedule_updated_at = now
+        session.save()
 
         for participation in session.study.participation_set.filter(
             status=Participation.INVITED
