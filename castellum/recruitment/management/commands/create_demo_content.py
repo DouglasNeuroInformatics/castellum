@@ -207,8 +207,8 @@ def generate_geolocations(contacts):
     ) for contact in contacts)
 
 
-def generate_studies(count):
-    print('Generating studies')
+def generate_studies(count, stdout):
+    stdout.write('Generating studies')
     studies = [fake_study() for i in range(count)]
     for study in studies:
         study.save()
@@ -218,16 +218,16 @@ def generate_studies(count):
             study.executiontag_set.create(name=name, color=color)
 
 
-def generate_subjects(count):
+def generate_subjects(count, stdout):
     # NOTE: We have ForeignKeys to Address and Subject. Unfortunately, bulk_create does not set
     # the id on the instances, so we have to get them from the database after bulk_create. This
     # assumes that the database was empty before.
 
-    print('Generating subjects')
+    stdout.write('Generating subjects')
     Subject.objects.bulk_create([fake_subject() for i in range(count)], batch_size=200)
     subjects = Subject.objects.all()[:count]
 
-    print('Generating contacts')
+    stdout.write('Generating contacts')
     contacts = [fake_contact(subjects[i]) for i in range(count)]
     contacts[-1].first_name = 'Muhammad'
     contacts[-1].first_name_phonetic = phonetic('Muhammad')
@@ -238,14 +238,14 @@ def generate_subjects(count):
     Contact.objects.bulk_create(contacts)
     contacts = Contact.objects.all()[:count]
 
-    print('Generating addresses')
+    stdout.write('Generating addresses')
     Address.objects.bulk_create(fake_address(contact) for contact in contacts)
 
     if 'castellum.geofilters' in settings.INSTALLED_APPS:
-        print('Generating geolocations')
+        stdout.write('Generating geolocations')
         generate_geolocations(contacts)
 
-    print('Generating consents')
+    stdout.write('Generating consents')
     try:
         document = ConsentDocument.objects.filter(is_valid=True).latest()
     except ConsentDocument.DoesNotExist:
@@ -254,8 +254,8 @@ def generate_subjects(count):
     Consent.objects.bulk_create(consents)
 
 
-def generate_streets(count):
-    print('Generating streets')
+def generate_streets(count, stdout):
+    stdout.write('Generating streets')
     streets = [Street(name=fake.street_name()) for i in range(count)]
     Street.objects.bulk_create(streets, batch_size=200)
 
@@ -273,8 +273,8 @@ class Command(BaseCommand):
             raise CommandError('Demo content not created in production environment.')
 
         if not Study.objects.exists():
-            generate_studies(options['study_count'])
+            generate_studies(options['study_count'], self.stdout)
         if not Subject.objects.exists():
-            generate_subjects(options['subject_count'])
+            generate_subjects(options['subject_count'], self.stdout)
         if not Street.objects.exists():
-            generate_streets(options['street_count'])
+            generate_streets(options['street_count'], self.stdout)
