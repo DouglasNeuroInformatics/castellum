@@ -41,6 +41,7 @@ from castellum.utils import scheduler
 from castellum.utils.feeds import BaseCalendarFeed
 
 from .forms import AppointmentsForm
+from .helpers import fetch_scheduler_appointments
 from .helpers import send_appointment_notifications
 from .models import Appointment
 
@@ -69,6 +70,14 @@ class SchedulerFetchParticipationMixin:
                 messages.info(self.request, _(
                     'Some appointments have been updated from the external schedule'
                 ))
+        return super().get(request, *args, **kwargs)
+
+
+class SchedulerFetchStudyMixin:
+    def get(self, request, *args, **kwargs):
+        if settings.SCHEDULER_URL:
+            base_url = request.build_absolute_uri('/')
+            fetch_scheduler_appointments(self.study, base_url, timeout=300)
         return super().get(request, *args, **kwargs)
 
 

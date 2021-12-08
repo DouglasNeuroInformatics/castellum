@@ -44,6 +44,7 @@ from django.views.generic import View
 
 from castellum.appointments.mixins import BaseAppointmentsUpdateView
 from castellum.appointments.mixins import BaseCalendarView
+from castellum.appointments.mixins import SchedulerFetchStudyMixin
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.pseudonyms.forms import DomainForm
@@ -72,7 +73,7 @@ from .forms import NewsMailForm
 monitoring_logger = logging.getLogger('monitoring.execution')
 
 
-class StudyDetailView(StudyMixin, PermissionRequiredMixin, DetailView):
+class StudyDetailView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin, DetailView):
     template_name = 'execution/study_detail.html'
     model = Study
     permission_required = 'recruitment.conduct_study'
@@ -504,7 +505,7 @@ class AdditionalInfoUpdateView(ExecutionUpdateMixin, BaseAdditionalInfoUpdateVie
         return self.participation.subject
 
 
-class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
+class CalendarView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin, BaseCalendarView):
     model = Study
     permission_required = 'recruitment.conduct_study'
     study_status = [Study.EXECUTION]
@@ -525,7 +526,7 @@ class CalendarView(StudyMixin, PermissionRequiredMixin, BaseCalendarView):
         return super().get_appointments().filter(session__study=self.object)
 
 
-class ProgressView(StudyMixin, PermissionRequiredMixin, ListView):
+class ProgressView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin, ListView):
     model = Study
     template_name = 'execution/study_progress.html'
     permission_required = 'recruitment.conduct_study'
