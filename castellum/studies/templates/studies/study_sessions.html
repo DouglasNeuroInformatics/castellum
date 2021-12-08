@@ -4,6 +4,12 @@
 {% block title %}{% translate "Sessions" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    {% if study.status != study.EDIT %}
+        <p class="alert alert-warning">
+            {% translate 'Please note that study recruitment has already been started. Therefore, editing session settings may lead to unexpected results for existing appointments.' %}
+        </p>
+    {% endif %}
+
     <ul class="table-list mb-3">
         {% for session in sessions %}
             <li class="table-list-item">
