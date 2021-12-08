@@ -73,7 +73,8 @@ class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, Up
             ))
 
     def get(self, request, *args, **kwargs):
-        self.update_scheduler_appointments()
+        if settings.SCHEDULER_URL:
+            self.update_scheduler_appointments()
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
