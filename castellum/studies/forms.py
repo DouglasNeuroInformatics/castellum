@@ -136,6 +136,18 @@ class SessionForm(forms.ModelForm):
             'type': forms.CheckboxSelectMultiple(),
         }
 
+    def clean_schedule_id(self):
+        value = self.cleaned_data['schedule_id']
+        if (
+            self.instance.pk
+            and self.instance.schedule_id != value
+            and self.instance.appointment_set.exists()
+        ):
+            raise forms.ValidationError(
+                _('Schedule ID can no longer be changed once appointments have been scheduled')
+            )
+        return value
+
 
 class ExcludedStudiesForm(forms.ModelForm):
     class Meta:
