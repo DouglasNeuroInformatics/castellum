@@ -1910,6 +1910,10 @@ msgstr ""
 "Die Terminplanungs-ID kann nicht mehr verändert werden sobald Termine "
 "geplant wurden"
 
+#: castellum/studies/forms.py:150
+msgid "A schedule with this ID does not exist"
+msgstr "Eine Terminplanung mit dieser ID existiert nicht"
+
 #: castellum/studies/models.py:54
 msgid "Label"
 msgstr "Bezeichnung"
