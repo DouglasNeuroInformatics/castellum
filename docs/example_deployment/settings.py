@@ -67,7 +67,11 @@ LOGGING = {
         'monitoring': {
             'handlers': ['monitoring-file'],
             'level': 'INFO',
-        }
+        },
+        'castellum': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
     },
 }
 
