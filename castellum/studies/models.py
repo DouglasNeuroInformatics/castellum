@@ -28,6 +28,7 @@ from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.forms import ValidationError
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
@@ -395,6 +396,7 @@ class StudySession(models.Model):
     schedule_id = models.CharField(
         _('External schedule ID'), max_length=64, blank=True, null=True, unique=True
     )
+    schedule_updated_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return '{} - {}'.format(self.study, self.name)
