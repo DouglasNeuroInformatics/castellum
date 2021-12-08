@@ -1,4 +1,4 @@
-# 0.29.2 (2021-12-01)
+# 0.69.2 (2021-12-01)
 
 -   Fixed displaying external event feeds
 
