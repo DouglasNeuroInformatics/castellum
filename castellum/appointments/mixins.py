@@ -45,16 +45,8 @@ from .helpers import send_appointment_notifications
 from .models import Appointment
 
 
-class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
-    model = Participation
-    form_class = AppointmentsForm
-    template_name = 'appointments/appointments_form.html'
-    permission_required = 'appointments.change_appointment'
-
-    def get_object(self, queryset=None):
-        return self.participation
-
-    def update_scheduler_appointments(self):
+class SchedulerFetchParticipationMixin:
+    def fetch_scheduler_appointments(self):
         changes = []
         for session in self.study.studysession_set.exclude(schedule_id=None):
             pseudonym = get_pseudonym(self.subject, session.domain)
@@ -64,18 +56,32 @@ class BaseAppointmentsUpdateView(ParticipationMixin, PermissionRequiredMixin, Up
                 continue
 
             changes += Appointment.change_start(session, self.participation, start)
-        if changes:
-            send_appointment_notifications(
-                self.participation, changes, self.request.build_absolute_uri('/')
-            )
-            messages.info(self.request, _(
-                'Some appointments have been updated from the external schedule'
-            ))
+        send_appointment_notifications(
+            self.participation, changes, self.request.build_absolute_uri('/')
+        )
+        return len(changes)
 
     def get(self, request, *args, **kwargs):
         if settings.SCHEDULER_URL:
             self.update_scheduler_appointments()
+            count = self.fetch_scheduler_appointments()
+            if count > 0:
+                messages.info(self.request, _(
+                    'Some appointments have been updated from the external schedule'
+                ))
         return super().get(request, *args, **kwargs)
+
+
+class BaseAppointmentsUpdateView(
+    SchedulerFetchParticipationMixin, ParticipationMixin, PermissionRequiredMixin, UpdateView
+):
+    model = Participation
+    form_class = AppointmentsForm
+    template_name = 'appointments/appointments_form.html'
+    permission_required = 'appointments.change_appointment'
+
+    def get_object(self, queryset=None):
+        return self.participation
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
