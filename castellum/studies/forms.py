@@ -28,6 +28,7 @@ from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 
 from castellum.castellum_auth.models import User
+from castellum.utils import scheduler
 from castellum.utils.forms import BaseImportForm
 from castellum.utils.forms import TagField
 
@@ -132,6 +133,7 @@ class SessionForm(forms.ModelForm):
 
     def clean_schedule_id(self):
         value = self.cleaned_data['schedule_id']
+
         if (
             self.instance.pk
             and self.instance.schedule_id != value
@@ -140,6 +142,13 @@ class SessionForm(forms.ModelForm):
             raise forms.ValidationError(
                 _('Schedule ID can no longer be changed once appointments have been scheduled')
             )
+
+        if settings.SCHEDULER_URL and value:
+            try:
+                scheduler.get_bulk(value)
+            except Exception as e:
+                raise forms.ValidationError(_('A schedule with this ID does not exist')) from e
+
         return value
 
 
