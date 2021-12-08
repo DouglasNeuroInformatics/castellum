@@ -62,7 +62,7 @@ def get(id, token):
 
 def get_bulk(id):
     url = '{}/api/{}/'.format(settings.SCHEDULER_URL, id)
-    r = requests.request(url, headers={
+    r = requests.get(url, headers={
         'Authorization': 'token ' + settings.SCHEDULER_TOKEN,
     })
     r.raise_for_status()
