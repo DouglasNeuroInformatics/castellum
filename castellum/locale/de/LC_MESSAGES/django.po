@@ -2172,7 +2172,16 @@ msgstr "Name"
 msgid "Managers"
 msgstr "Manager*innen"
 
-#: castellum/studies/models.py:381
+#: castellum/studies/models.py:374
+#, python-brace-format
+msgid ""
+"Any \"{start}\"- and \"{end}-tags included in the URL will automatically be "
+"replaced by the relevant datetime in ISO 8601 format."
+msgstr ""
+"Alle \"{start}\"- und \"{end}-Tags in der URL werden automatisch durch "
+"die relevante Zeitangabe im ISO 8601-Format ersetzt."
+
+#: castellum/studies/models.py:388
 msgid "Duration of a session in minutes"
 msgstr "Sitzungsdauer in Minuten"
 
@@ -2672,7 +2681,7 @@ msgstr "Keine Mitglieder"
 #: castellum/studies/templates/studies/study_recruitmentsettings_base.html:34
 msgid ""
 "Please note that study recruitment has already been started. Therefore, "
-"editing recruitment settings may end up in inconsistent suggestions for "
+"editing recruitment settings may result in inconsistent suggestions for "
 "potential subjects."
 msgstr ""
 "Die Rekrutierung hat bereits begonnen. Veränderungen in den "
@@ -2687,7 +2696,17 @@ msgstr "Allgemeine Rekrutierungseinstellungen"
 msgid "General recruitment text"
 msgstr "Allgemeiner Rekrutierungstext"
 
-#: castellum/studies/templates/studies/study_sessions.html:13
+#: castellum/studies/templates/studies/study_sessions.html:9
+msgid ""
+"Please note that study recruitment has already been started. Therefore, "
+"editing session settings may lead to unexpected results for existing "
+"appointments."
+msgstr ""
+"Die Rekrutierung hat bereits begonnen. Veränderungen in den "
+"Sitzungseinstellungen können zu unerwarteten Ergebnissen für bestehende "
+"Termine führen."
+
+#: castellum/studies/templates/studies/study_sessions.html:19
 msgid "min"
 msgstr "min"
 
