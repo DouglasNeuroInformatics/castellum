@@ -14,7 +14,7 @@
         {% for session in sessions %}
             <li class="table-list-item">
                 <div class="h4 d-inline-block my-1 mr-2">
-                    {{ session.name }}
+                    <a class="unlink" href="{% url 'studies:session-update' study.pk session.pk %}">{{ session.name }}</a>
                 </div>
                 <span class="my-1 mr-2">{{ session.duration }}{% translate 'min' %}</span>
                 {% for type in session.type.all %}

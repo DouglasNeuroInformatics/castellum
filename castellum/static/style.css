@@ -173,3 +173,8 @@
 input:checked + .checkbox-opacity {
     opacity: 0.5;
 }
+
+.unlink {
+    color: inherit !important;
+    text-decoration: none !important;
+}

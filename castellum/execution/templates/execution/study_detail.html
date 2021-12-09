@@ -8,7 +8,7 @@
                 {% if can_access %}
                     <div class="d-inline-block my-1 mr-2 {% if participation.dropped_out or participation.subject.blocked or participation.subject.deceased %}text-muted{% endif %}">
                         <div>
-                            {{ participation.subject.contact.full_name }}
+                            <a class="unlink" href="{% url 'execution:participation-detail' study.pk participation.pk %}">{{ participation.subject.contact.full_name }}</a>
                             {% with summary=participation.subject|reliability_summary %}
                                 <span class="d-inline-block my-1 text-{{ participation.subject|reliability_level }}" aria-label="{{ summary }}" title="{{ summary }}">&#9679;</span>
                             {% endwith %}

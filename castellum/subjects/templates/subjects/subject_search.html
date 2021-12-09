@@ -50,17 +50,19 @@
                                     <div>
                                         {% if can_access %}
                                             <div class="h4 d-inline-block my-1 mr-2">
-                                                {% if contact.title %}{{ contact.title }}{% endif %}
-                                                {% if contact.first_name|lower == form.cleaned_data.first_name|lower %}
-                                                    <mark>{{ contact.first_name }}</mark>
-                                                {% else %}
-                                                    {{ contact.first_name }}
-                                                {% endif %}
-                                                {% if contact.last_name|lower == form.cleaned_data.last_name|lower %}
-                                                    <mark>{{ contact.last_name }}</mark>
-                                                {% else %}
-                                                    {{ contact.last_name }}
-                                                {% endif %}
+                                                <a class="unlink" {% if can_access %}href="{% url 'subjects:detail' subject.uuid %}"{% endif %}>
+                                                    {% if contact.title %}{{ contact.title }}{% endif %}
+                                                    {% if contact.first_name|lower == form.cleaned_data.first_name|lower %}
+                                                        <mark>{{ contact.first_name }}</mark>
+                                                    {% else %}
+                                                        {{ contact.first_name }}
+                                                    {% endif %}
+                                                    {% if contact.last_name|lower == form.cleaned_data.last_name|lower %}
+                                                        <mark>{{ contact.last_name }}</mark>
+                                                    {% else %}
+                                                        {{ contact.last_name }}
+                                                    {% endif %}
+                                                </a>
                                             </div>
                                             {% if can_view_subject %}
                                                 <div class="d-inline-block">

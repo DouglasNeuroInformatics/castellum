@@ -90,15 +90,18 @@
                 <ul class="table-list mb-3">
                     {% for study in object_list %}
                         <li class="table-list-item">
+                            {% has_perm 'studies.access_study' user study as can_access %}
+                            {% has_perm 'studies.view_study' user study as can_view_study %}
                             <div>
-                                <div class="h4 d-inline-block my-1 mr-2">{{ study.name }}</div>
+                                <div class="h4 d-inline-block my-1 mr-2">
+                                    <a class="unlink" {% if can_view_study %}href="{% url 'studies:detail' study.pk %}"{% endif %}>{{ study.name }}</a>
+                                </div>
                                 <div class="d-inline-block my-1 mr-2">{{ study.contact_person }}</div>
                                 {% if study.status == study.FINISHED %}
                                     <span class="badge badge-secondary">{% translate 'Finished' %}</span>
                                 {% endif %}
                             </div>
                             <div class="table-list-item-actions">
-                                {% has_perm 'studies.access_study' user study as can_access %}
                                 {% if can_access and study.status == study.EXECUTION %}
                                     {% has_perm 'recruitment.recruit' user study as can_recruit %}
                                     {% if can_recruit %}
@@ -111,7 +114,6 @@
                                     {% endif %}
                                 {% endif %}
 
-                                {% has_perm 'studies.view_study' user study as can_view_study %}
                                 {% if can_view_study %}
                                     <a class="btn btn-outline-primary my-1" href="{% url 'studies:detail' study.pk %}">{% translate 'Details' %}</a>
                                 {% endif %}

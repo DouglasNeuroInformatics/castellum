@@ -5,7 +5,9 @@
     <ul class="table-list">
         {% for resource in object_list %}
             <li class="table-list-item">
-                <div class="h4">{{ resource }}</div>
+                <div class="h4">
+                    <a class="unlink" {% if can_manage_resource %}href="{% url 'appointments:resource-detail' resource.pk %}"{% endif %}>{{ resource }}</a>
+                </div>
                 {% is_resource_manager user resource as can_manage_resource %}
                 {% if can_manage_resource %}
                     <div class="table-list-item-actions">

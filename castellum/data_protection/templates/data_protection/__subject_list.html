@@ -5,7 +5,7 @@
         <li class="table-list-item">
             <div>
                 <div>
-                    {{ subject.contact }}
+                    <a class="unlink" href="{% url 'subjects:detail' subject.uuid %}">{{ subject.contact }}</a>
                 </div>
                 {% if subject.due %}
                     <div>
