@@ -23,6 +23,7 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from castellum.subjects.models import Subject
 from castellum.utils import uuid_str
@@ -36,12 +37,23 @@ class Domain(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
     object_id = models.PositiveIntegerField(null=True, blank=True)
     context = GenericForeignKey()
+    exportable_attributes = models.ManyToManyField(
+        'recruitment.AttributeDescription',
+        verbose_name=_('Exportable recruitment attributes'),
+        related_name='+',
+        blank=True,
+    )
 
     class Meta:
         ordering = ['id']
 
     def __str__(self):
         return self.name or self.key
+
+    def get_exportable_attributes_max_privacy_level(self):
+        key = 'privacy_level_read'
+        result = self.exportable_attributes.aggregate(models.Max(key))
+        return result[key + '__max'] or 0
 
 
 class Pseudonym(models.Model):
