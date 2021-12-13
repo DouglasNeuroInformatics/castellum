@@ -27,90 +27,103 @@
     {% endif %}
 
     <form method="post">
-        <div class="card mb-3">
-            <div class="card-header">
-                <ul class="nav nav-pills justify-content-center" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="true">{% translate "Contacting details" %}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="study-tab" data-toggle="tab" href="#study" role="tab" aria-controls="study" aria-selected="false">{% translate "Talking points" %}</a>
-                    </li>
-                    {% if study.has_exclusion_criteria %}
-                        <li class="nav-item">
-                            <a class="nav-link" id="criteria-tab" data-toggle="tab" href="#criteria" role="tab" aria-controls="criteria" aria-selected="false">
+        <div class="accordion mb-3" id="accordion">
+            <div class="card">
+                <div class="card-header" id="contact-heading">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#contact-pane" aria-expanded="true" aria-controls="contact-pane">
+                            {% translate "Contacting details" %}
+                        </button>
+                    </h2>
+                </div>
+                <div id="contact-pane" class="collapse show" aria-labelledby="contact-heading" data-parent="#accordion">
+                    <div class="card-body">
+                        {% include 'contacts/__contact.html' with subject=subject %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="study-heading">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#study-pane" aria-expanded="true" aria-controls="study-pane">
+                            {% translate "Talking points" %}
+                        </button>
+                    </h2>
+                </div>
+                <div id="study-pane" class="collapse" aria-labelledby="study-heading" data-parent="#accordion">
+                    <div class="card-body">
+                        {% if CASTELLUM_GENERAL_RECRUITMENT_TEXT %}
+                            {{ CASTELLUM_GENERAL_RECRUITMENT_TEXT|urlize|linebreaks }}
+                        {% endif %}
+                        {% if study.recruitment_text %}
+                            {{ study.recruitment_text|urlize|linebreaks }}
+                        {% endif %}
+
+                        <dl class="row">
+                            <dt class="col-sm-6">{% translate 'Type of study' %}</dt>
+                            <dd class="col-sm-6">{{ study|display:'study_type' }}</dd>
+
+                            <dt class="col-sm-6">{% translate 'Duration of sessions in minutes' %}</dt>
+                            <dd class="col-sm-6">
+                                {% if sessions %}
+                                    {% for session in sessions %}
+                                        {{ session.duration }}{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    &mdash;
+                                {% endif %}
+                            </dd>
+
+                            <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
+                            <dd class="col-sm-6">{{ study|display:'sessions_start' }}</dd>
+
+                            <dt class="col-sm-6">{{ study|verbose_name:'sessions_end' }}</dt>
+                            <dd class="col-sm-6">{{ study|display:'sessions_end' }}</dd>
+
+                            <dt class="col-sm-6">{{ study|verbose_name:'consent' }}</dt>
+                            <dd class="col-sm-6">
+                                {% if study.consent %}
+                                    <a href="{{ study.consent.url }}">{{ study.consent.name|basename }}</a>
+                                {% else %}
+                                    &mdash;
+                                {% endif %}
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            {% if study.has_exclusion_criteria %}
+                <div class="card">
+                    <div class="card-header" id="criteria-heading">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#criteria-pane" aria-expanded="true" aria-controls="criteria-pane">
                                 {% if not object.exclusion_criteria_checked %}
                                     {% icon 'exclamation-triangle' label=_('Not checked') %}
                                 {% endif %}
                                 {% translate 'Criteria' %}
-                            </a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
-
-            <div class="tab-content card-body">
-                <div class="tab-pane active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                    {% include 'contacts/__contact.html' with subject=subject %}
-                </div>
-
-                <div class="tab-pane" id="study" role="tabpanel" aria-labelledby="study-tab">
-                    {% if CASTELLUM_GENERAL_RECRUITMENT_TEXT %}
-                        {{ CASTELLUM_GENERAL_RECRUITMENT_TEXT|urlize|linebreaks }}
-                    {% endif %}
-                    {% if study.recruitment_text %}
-                        {{ study.recruitment_text|urlize|linebreaks }}
-                    {% endif %}
-
-                    <dl class="row">
-                        <dt class="col-sm-6">{% translate 'Type of study' %}</dt>
-                        <dd class="col-sm-6">{{ study|display:'study_type' }}</dd>
-
-                        <dt class="col-sm-6">{% translate 'Duration of sessions in minutes' %}</dt>
-                        <dd class="col-sm-6">
-                            {% if sessions %}
-                                {% for session in sessions %}
-                                    {{ session.duration }}{% if not forloop.last %}, {% endif %}
-                                {% endfor %}
-                            {% else %}
-                                &mdash;
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="criteria-pane" class="collapse" aria-labelledby="criteria-heading" data-parent="#accordion">
+                        <div class="card-body">
+                            {% if study.exclusion_criteria %}
+                                {{ study.exclusion_criteria|urlize|linebreaks }}
                             {% endif %}
-                        </dd>
-
-                        <dt class="col-sm-6">{{ study|verbose_name:'sessions_start' }}</dt>
-                        <dd class="col-sm-6">{{ study|display:'sessions_start' }}</dd>
-
-                        <dt class="col-sm-6">{{ study|verbose_name:'sessions_end' }}</dt>
-                        <dd class="col-sm-6">{{ study|display:'sessions_end' }}</dd>
-
-                        <dt class="col-sm-6">{{ study|verbose_name:'consent' }}</dt>
-                        <dd class="col-sm-6">
-                            {% if study.consent %}
-                                <a href="{{ study.consent.url }}">{{ study.consent.name|basename }}</a>
-                            {% else %}
-                                &mdash;
+                            {% if CASTELLUM_GENERAL_EXCLUSION_CRITERIA %}
+                                <h2>{% translate 'General criteria' %}</h2>
+                                {{ CASTELLUM_GENERAL_EXCLUSION_CRITERIA|urlize|linebreaks }}
                             {% endif %}
-                        </dd>
-                    </dl>
-                </div>
+                            {% for study_type in study.study_type.all %}
+                                {% if study_type.exclusion_criteria %}
+                                    <h2>{{ study_type.label }}</h2>
+                                    {{ study_type.exclusion_criteria|urlize|linebreaks }}
+                                {% endif %}
+                            {% endfor %}
 
-                {% if study.has_exclusion_criteria %}
-                    <div class="tab-pane" id="criteria" role="tabpanel" aria-labelledby="criteria-tab">
-                        {% if study.exclusion_criteria %}
-                            {{ study.exclusion_criteria|urlize|linebreaks }}
-                        {% endif %}
-                        {% if CASTELLUM_GENERAL_EXCLUSION_CRITERIA %}
-                            <h2>{% translate 'General criteria' %}</h2>
-                            {{ CASTELLUM_GENERAL_EXCLUSION_CRITERIA|urlize|linebreaks }}
-                        {% endif %}
-                        {% for study_type in study.study_type.all %}
-                            {% if study_type.exclusion_criteria %}
-                                <h2>{{ study_type.label }}</h2>
-                                {{ study_type.exclusion_criteria|urlize|linebreaks }}
-                            {% endif %}
-                        {% endfor %}
-
-                        {% bootstrap_field form.exclusion_criteria_checked %}
+                            {% bootstrap_field form.exclusion_criteria_checked %}
+                        </div>
                     </div>
                 {% endif %}
             </div>
