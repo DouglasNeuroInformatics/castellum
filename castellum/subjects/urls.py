@@ -19,8 +19,10 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.urls import path
 
+from .api import APIAttributesView
 from .views import AdditionalInfoUpdateView
 from .views import AttributesUpdateView
 from .views import ContactUpdateView
@@ -123,3 +125,8 @@ urlpatterns = [
         name='participation-delete',
     ),
 ]
+
+if settings.CASTELLUM_API_ENABLED:
+    urlpatterns += [
+        path('api/subjects/<uuid:domain>/<pseudonym>/attributes/', APIAttributesView.as_view()),
+    ]
