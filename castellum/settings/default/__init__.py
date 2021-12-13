@@ -159,7 +159,7 @@ CASTELLUM_ATTRIBUTE_EXPORTER = 'castellum.recruitment.attribute_exporters.JSONEx
 #   /execution/<study_id>/api/domains/<domain>/<pseudonym>/attributes/
 # resolve pseudonym to a target domain (can also be a general domain):
 #   /execution/<study_id>/api/domains/<domain>/<pseudonym>/<target_domain>/
-CASTELLUM_PSEUDONYMS_API_ENABLED = False
+CASTELLUM_API_ENABLED = False
 
 # If you want to allow external services to automatically add subjects
 # to the database you need to write a custom script. However, in most

@@ -126,7 +126,7 @@ urlpatterns = [
     ),
 ]
 
-if settings.CASTELLUM_PSEUDONYMS_API_ENABLED:
+if settings.CASTELLUM_API_ENABLED:
     urlpatterns += [
         path('<int:pk>/api/domains/', APIDomainsView.as_view()),
         path('<int:pk>/api/domains/<uuid:domain>/', APIPseudonymsView.as_view()),
