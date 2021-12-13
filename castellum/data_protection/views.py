@@ -19,6 +19,8 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from django.views.generic import TemplateView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -43,4 +45,5 @@ class DataProtectionView(PermissionRequiredMixin, TemplateView):
         context['to_be_deleted'], context['to_be_deleted_missing'] = self.limit(helpers.get_to_be_deleted())  # noqa
         context['no_legal_basis'], context['no_legal_basis_missing'] = self.limit(helpers.get_no_legal_basis())  # noqa
         context['unreachable'], context['unreachable_missing'] = self.limit(helpers.get_unreachable())  # noqa
+        context['today'] = datetime.date.today()
         return context
