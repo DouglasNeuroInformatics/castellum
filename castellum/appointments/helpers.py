@@ -29,12 +29,19 @@ from django.utils import formats
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+import requests
+from dateutil.relativedelta import relativedelta
 from icalevents import icalparser
 
+from castellum.pseudonyms.helpers import get_pseudonym
+from castellum.recruitment.models import Participation
 from castellum.utils import add_working_days
 from castellum.utils import cached_request
 from castellum.utils import contrast_color
+from castellum.utils import scheduler
 from castellum.utils.mail import MailContext
+
+from .models import Appointment
 
 logger = logging.getLogger(__name__)
 
@@ -134,3 +141,34 @@ def get_external_resource_events(resource, start, end):
     except Exception as e:
         logger.error('Fetching events for resource {} failed: {}'.format(resource.pk, e))
         return []
+
+
+def fetch_scheduler_appointments(study, base_url, timeout=0):
+    count = 0
+    now = timezone.now()
+
+    for session in (
+        study.studysession_set
+        .exclude(schedule_id=None)
+        .filter(schedule_updated_at__lt=now - relativedelta(seconds=timeout))
+    ):
+        try:
+            data = scheduler.get_bulk(session.schedule_id)
+        except requests.RequestException as e:
+            logger.error('Fetching schedule for session {} failed: {}'.format(session.pk, e))
+            continue
+
+        session.schedule_updated_at = now
+        session.save()
+
+        for participation in session.study.participation_set.filter(
+            status=Participation.INVITED
+        ):
+            pseudonym = get_pseudonym(participation.subject, session.domain)
+            start = data.get(pseudonym)
+
+            changes = Appointment.change_start(session, participation, start)
+            if changes:
+                count += 1
+                send_appointment_notifications(participation, changes, base_url)
+    return count

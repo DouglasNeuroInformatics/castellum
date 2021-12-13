@@ -42,6 +42,7 @@ EXCLUDED = [
     'studies.StudySession.appointment',
     'studies.StudySession.id',
     'studies.StudySession.study',
+    'studies.StudySession.schedule_updated_at',
     'studies.StudyType.',
     'studies.StudyTypeEventFeed.',
     'studies.StudyTypeTranslation.',

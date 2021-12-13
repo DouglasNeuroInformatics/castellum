@@ -21,36 +21,9 @@
 
 from django.core.management.base import BaseCommand
 
-from castellum.appointments.helpers import send_appointment_notifications
-from castellum.appointments.models import Appointment
-from castellum.pseudonyms.helpers import get_pseudonym
-from castellum.recruitment.models import Participation
+from castellum.appointments.helpers import fetch_scheduler_appointments
 from castellum.studies.models import Study
 from castellum.studies.models import StudySession
-from castellum.utils import scheduler
-
-
-def fetch_scheduler_appointments(base_url):
-    count = 0
-
-    for session in (
-        StudySession.objects
-        .filter(study__status=Study.EXECUTION)
-        .exclude(schedule_id=None)
-    ):
-        data = scheduler.get_bulk(session.schedule_id)
-
-        for participation in session.study.participation_set.filter(
-            status=Participation.INVITED
-        ):
-            pseudonym = get_pseudonym(participation.subject, session.domain)
-            start = data.get(pseudonym)
-
-            changes = Appointment.change_start(session, participation, start)
-            if changes:
-                count += 1
-                send_appointment_notifications(participation, changes, base_url)
-    return count
 
 
 class Command(BaseCommand):
@@ -60,6 +33,12 @@ class Command(BaseCommand):
         parser.add_argument('base_url')
 
     def handle(self, *args, **options):
-        count = fetch_scheduler_appointments(options['base_url'])
+        count = 0
+        for study in Study.objects.filter(
+            status=Study.EXECUTION,
+            pk__in=StudySession.objects.exclude(schedule_id=None).values('study'),
+        ):
+            count += fetch_scheduler_appointments(study, options['base_url'])
+
         if options['verbosity'] > 0:
             self.stdout.write('Updated {} appointments'.format(count))
