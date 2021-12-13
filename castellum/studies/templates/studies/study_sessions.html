@@ -41,23 +41,28 @@
         </a>
     </div>
 
-    <form method="post">
-        {% include 'utils/form_errors.html' with form=form %}
-        {% csrf_token %}
+    <form class="card mb-3" method="post">
+        <div role="heading" aria-level="2" class="card-header">
+            {% translate "General Info" %}
+        </div>
+        <div class="card-body">
+            {% include 'utils/form_errors.html' with form=form %}
+            {% csrf_token %}
 
-        <fieldset class="form-row">
-            <div class="col-md-6">
-                {% bootstrap_field form.sessions_start %}
+            <fieldset class="form-row">
+                <div class="col-md-6">
+                    {% bootstrap_field form.sessions_start %}
+                </div>
+                <div class="col-md-6">
+                    {% bootstrap_field form.sessions_end %}
+                </div>
+            </fieldset>
+
+            {% bootstrap_field form.session_instructions %}
+
+            <div class="d-print-none">
+                <button class="btn btn-primary" >{% translate 'Save' %}</button>
             </div>
-            <div class="col-md-6">
-                {% bootstrap_field form.sessions_end %}
-            </div>
-        </fieldset>
-
-        {% bootstrap_field form.session_instructions %}
-
-        <div class="d-print-none mb-3">
-            <button class="btn btn-primary" >{% translate 'Save' %}</button>
         </div>
     </form>
 {% endblock %}
