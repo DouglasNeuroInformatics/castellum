@@ -31,7 +31,6 @@ from django.views.generic import View
 from castellum.castellum_auth.mixins import APIAuthMixin
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.pseudonyms.helpers import get_subject
-from castellum.pseudonyms.models import Domain
 from castellum.recruitment.attribute_exporters import JSONExporter
 
 from .models import Subject
@@ -48,7 +47,7 @@ class APIAttributesView(APIAuthMixin, PermissionRequiredMixin, View):
         except ValueError:
             raise Http404
 
-        domain = get_object_or_404(Domain, key=self.kwargs['domain'])
+        domain = get_object_or_404(request.user.general_domains, key=self.kwargs['domain'])
 
         try:
             subject = get_subject(domain.key, pseudonym)
