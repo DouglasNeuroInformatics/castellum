@@ -149,6 +149,10 @@ CASTELLUM_ATTRIBUTE_EXPORTER = 'castellum.recruitment.attribute_exporters.JSONEx
 
 # Enables some additional views that expose content as JSON:
 #
+# list of studies
+#   /studies/api/studies/?status=<edit|execution|finished>
+# basic metadata of a study
+#   /studies/api/studies/<study_id>/
 # list of study domains:
 #   /execution/api/studies/<study_id>/domains/
 # list of pseudonyms in a domain:
