@@ -1,5 +1,5 @@
 {% extends "studies/study_base.html" %}
-{% load i18n bootstrap4 utils %}
+{% load i18n bootstrap4 %}
 
 {% block title %}{% translate "Member management" %} &middot; {{ block.super }}{% endblock %}
 
@@ -26,7 +26,7 @@
                 <tr>
                     <td>
                         <div class="font-weight-bold">{{ form.instance.user.get_full_name }}</div>
-                        <small>{{ form.instance.user|display:'groups' }}</small>
+                        <small>{% for group in form.instance.user.groups.all %}{{ group }}<br>{% endfor %}</small>
                         <form method="post" id="membership-form-{{ form.instance.pk }}">
                             {% csrf_token %}
                             <input type="hidden" name="{{ form.user.name }}" value="{{ form.user.value }}">
