@@ -32,7 +32,6 @@
                         </ul>
                     </div>
                     <div class="table-list-item-actions">
-                        <a href="{% url 'studies:member' object.pk membership.pk %}" class="btn btn-outline-primary my-1">{% translate 'Manage groups' %}</a>
                         {% if membership.user == user %}
                             <a href="#" class="btn btn-outline-danger my-1 disabled" tabindex="-1" aria-disabled="true">{% translate 'Remove' %}</a>
                         {% else %}

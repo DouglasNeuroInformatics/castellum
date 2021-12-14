@@ -22,10 +22,8 @@
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
-from django.urls import reverse
 from django.views.generic import DeleteView
 from django.views.generic import FormView
-from django.views.generic import UpdateView
 from django.views.generic.detail import SingleObjectMixin
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
@@ -79,21 +77,6 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
             if user.has_perm('studies.change_study', obj=self.object):
                 if user.get_privacy_level() < max_privacy_level:
                     yield user.get_full_name()
-
-
-class StudyMembershipUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView):
-    model = StudyMembership
-    form_class = MemberForm
-    permission_required = 'studies.change_study'
-    is_onetime_invitation = False
-    is_filter_trial = False
-    tab = 'members'
-
-    def get_object(self):
-        return get_object_or_404(StudyMembership, pk=self.kwargs['pk'], study=self.study)
-
-    def get_success_url(self):
-        return reverse('studies:members', args=[self.object.study.pk])
 
 
 class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView):

@@ -22,11 +22,9 @@
 from django.urls import path
 
 from ..views.members import StudyMembershipRemoveView
-from ..views.members import StudyMembershipUpdateView
 from ..views.members import StudyMembersView
 
 urlpatterns = [
     path('', StudyMembersView.as_view(), name='members'),
-    path('<int:pk>/', StudyMembershipUpdateView.as_view(), name='member'),
     path('<int:pk>/delete/', StudyMembershipRemoveView.as_view(), name='delete-member'),
 ]
