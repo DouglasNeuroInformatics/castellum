@@ -29,11 +29,7 @@
                         <td></td>
                     {% endfor %}
                     <td>
-                        {% if membership.user == user %}
-                            <a href="#" class="btn btn-outline-danger my-1 disabled" tabindex="-1" aria-disabled="true">{% translate 'Remove' %}</a>
-                        {% else %}
-                            <a href="{% url 'studies:delete-member' object.pk membership.pk %}" class="btn btn-outline-danger my-1">{% translate 'Remove' %}</a>
-                        {% endif %}
+                        <a href="{% url 'studies:delete-member' object.pk form.instance.pk %}" class="btn btn-outline-danger my-1 {% if form.instance.user == user %}disabled{% endif %}">{% translate 'Remove' %}</a>
                     </td>
                 </tr>
             {% endfor %}
