@@ -9,7 +9,7 @@ def test_apipseudonymsview(client, conductor, study_in_execution_status, subject
     domain = baker.make(Domain, context=study)
     baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
 
-    url = '/execution/{}/api/domains/{}/'.format(study.pk, domain.key)
+    url = '/execution/api/studies/{}/domains/{}/'.format(study.pk, domain.key)
     response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
 
     assert response.status_code == 200
@@ -22,7 +22,7 @@ def test_participation_status(client, conductor, study_in_execution_status, subj
     domain = baker.make(Domain, context=study)
     baker.make(Participation, study=study, subject=subject, status=Participation.NOT_CONTACTED)
 
-    url = '/execution/{}/api/domains/{}/'.format(study.pk, domain.key)
+    url = '/execution/api/studies/{}/domains/{}/'.format(study.pk, domain.key)
     response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
 
     assert response.status_code == 200
@@ -38,7 +38,7 @@ def test_privacy_level(client, conductor, study_in_execution_status, subject):
     domain = baker.make(Domain, context=study)
     baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
 
-    url = '/execution/{}/api/domains/{}/'.format(study.pk, domain.key)
+    url = '/execution/api/studies/{}/domains/{}/'.format(study.pk, domain.key)
     response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
 
     assert response.status_code == 200
@@ -51,7 +51,7 @@ def test_unrelated_domain(client, conductor, study_in_execution_status, subject)
     domain = baker.make(Domain)
     baker.make(Participation, study=study, subject=subject, status=Participation.INVITED)
 
-    url = '/execution/{}/api/domains/{}/'.format(study.pk, domain.key)
+    url = '/execution/api/studies/{}/domains/{}/'.format(study.pk, domain.key)
     response = client.get(url, HTTP_AUTHORIZATION='token ' + conductor.token)
 
     assert response.status_code == 404
