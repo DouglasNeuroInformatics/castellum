@@ -11,38 +11,38 @@
         </p>
     {% endif %}
 
-    <form method="post">
-        {% include 'utils/form_errors.html' with form=form %}
-        {% csrf_token %}
-
-        <ul class="table-list mt-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% translate "Name" %}</th>
+                {% for value, label in form.groups.field.choices %}
+                    <th>{{ label }}</th>
+                {% endfor %}
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
             {% for membership in object.studymembership_set.all %}
-                <li class="table-list-item">
-                    <div>
-                        <div class="h4 d-inline-block my-1 mr-2">{{ membership.user.get_full_name }}</div>
-                        <ul class="d-inline-block p-0">
-                            {% for group in membership.user.groups.all %}
-                                <li class="badge badge-secondary my-1 mr-2" title="{% translate 'global group' %}" aria-label="{{ group }}">{{ group }}</li>
-                            {% endfor %}
-                        </ul>
-                        <ul class="d-inline-block p-0">
-                            {% for group in membership.groups.all %}
-                                <li class="badge badge-primary my-1 mr-2" title="{% translate 'local group' %}" aria-label="{{ group }}">{{ group }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="table-list-item-actions">
+                <tr>
+                    <td>{{ membership.user.get_full_name }}</td>
+                    {% for value, label in form.groups.field.choices %}
+                        <td></td>
+                    {% endfor %}
+                    <td>
                         {% if membership.user == user %}
                             <a href="#" class="btn btn-outline-danger my-1 disabled" tabindex="-1" aria-disabled="true">{% translate 'Remove' %}</a>
                         {% else %}
                             <a href="{% url 'studies:delete-member' object.pk membership.pk %}" class="btn btn-outline-danger my-1">{% translate 'Remove' %}</a>
                         {% endif %}
-                    </div>
-                </li>
-            {% empty %}
-                <li class="alert alert-warning">{% translate 'No members' %}</li>
+                    </td>
+                </tr>
             {% endfor %}
-        </ul>
+        </tbody>
+    </table>
+
+    <form method="post">
+        {% include 'utils/form_errors.html' with form=form %}
+        {% csrf_token %}
 
         <div data-js="d-select2">
             {% bootstrap_field form.user %}
