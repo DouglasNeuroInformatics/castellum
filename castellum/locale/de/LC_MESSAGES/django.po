@@ -1903,6 +1903,17 @@ msgstr "Einmalige Einladung"
 msgid "All subjects will be reminded {} days before each appointment."
 msgstr "Alle Proband*innen werden {} Tage vor jedem Termin an diesen erinnert."
 
+#: castellum/studies/forms.py:143
+msgid ""
+"Schedule ID can no longer be changed once appointments have been scheduled"
+msgstr ""
+"Die Terminplanungs-ID kann nicht mehr verändert werden sobald Termine "
+"geplant wurden"
+
+#: castellum/studies/forms.py:150
+msgid "A schedule with this ID does not exist"
+msgstr "Eine Terminplanung mit dieser ID existiert nicht"
+
 #: castellum/studies/models.py:54
 msgid "Label"
 msgstr "Bezeichnung"
