@@ -21,11 +21,17 @@
         }
     });
 
-    $$.on(document, 'change', 'form[method="post"]', function() {
+    document.addEventListener('change', function(event) {
+        // form can be defined implicitly (ancestor) or explicitly (`form="…"`)
+        var form = event.target.form;
+        if (!form || form.method.toLowerCase() !== 'post') {
+            return;
+        }
+
         // beforeunload prevents caching, so only register it when necessary
         registerBeforeUnload();
-        if (!unsavedForms.includes(this)) {
-            unsavedForms.push(this);
+        if (!unsavedForms.includes(form)) {
+            unsavedForms.push(form);
         }
     });
     $$.on(document, 'submit', 'form', function() {
