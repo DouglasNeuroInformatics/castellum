@@ -1,5 +1,5 @@
 {% extends "studies/study_base.html" %}
-{% load i18n bootstrap4 %}
+{% load i18n bootstrap4 utils %}
 
 {% block title %}{% translate "Member management" %} &middot; {{ block.super }}{% endblock %}
 
@@ -15,6 +15,7 @@
         <thead>
             <tr>
                 <th>{% translate "Name" %}</th>
+                <th>{% translate "Global groups"%}</th>
                 {% for value, label in form.groups.field.choices %}
                     <th>{{ label }}</th>
                 {% endfor %}
@@ -31,6 +32,9 @@
                             <input type="hidden" name="{{ form.user.name }}" value="{{ form.user.value }}">
                             <input type="hidden" name="membership" value="{{ form.instance.pk }}">
                         </form>
+                    </td>
+                    <td>
+                        {{ form.instance.user|display:'groups' }}
                     </td>
                     {% for value, label in form.groups.field.choices %}
                         <td>
@@ -54,6 +58,7 @@
                         </div>
                     </form>
                 </td>
+                <td></td>
                 {% for value, label in form.groups.field.choices %}
                     <td>
                         <div class="form-check">
