@@ -29,7 +29,6 @@ from django.views.generic.detail import SingleObjectMixin
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 from castellum.castellum_auth.models import User
 
-from ..forms import AddMemberForm
 from ..forms import MemberForm
 from ..mixins import StudyMixin
 from ..models import Study
@@ -60,14 +59,13 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
             (user.pk, str(user)) for user in User.objects.exclude(pk__in=self.object.members.all())
         ])
 
-        form = AddMemberForm(**self.get_form_kwargs())
+        form = MemberForm(**self.get_form_kwargs())
         form.fields['user'].choices = choices
         return form
 
     def form_valid(self, form):
-        StudyMembership.objects.get_or_create(
-            user=form.cleaned_data['user'], study=self.object
-        )
+        form.instance.study = self.object
+        form.save()
         return redirect('studies:members', self.object.pk)
 
     def get_unprivileged_members(self):

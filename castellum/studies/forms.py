@@ -27,7 +27,6 @@ from django.conf import settings
 from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 
-from castellum.castellum_auth.models import User
 from castellum.utils import scheduler
 from castellum.utils.forms import BaseImportForm
 from castellum.utils.forms import TagField
@@ -169,14 +168,10 @@ class ExcludedStudiesForm(forms.ModelForm):
         self.fields["excluded_studies"].widget.attrs['class'] = 'form-control'
 
 
-class AddMemberForm(forms.Form):
-    user = forms.ModelChoiceField(queryset=User.objects.all())
-
-
 class MemberForm(forms.ModelForm):
     class Meta:
         model = StudyMembership
-        fields = ['groups']
+        fields = ['user', 'groups']
         widgets = {
             'groups': forms.CheckboxSelectMultiple(),
         }
