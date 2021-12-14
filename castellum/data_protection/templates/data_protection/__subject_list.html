@@ -8,10 +8,21 @@
                     {{ subject.contact }}
                 </div>
                 {% if subject.due %}
-                    <div>
-                        {% translate 'Due in' %}:
-                        <time title="{{ subject.due|longdate }}">{{ subject.due|timeuntil }}</time>
-                    </div>
+                    {% if subject.due > today %}
+                        <div>
+                            {% translate 'Due in' %}:
+                            <time title="{{ subject.due|longdate }}">{{ subject.due|timeuntil }}</time>
+                        </div>
+                    {% elif select.due == today %}
+                        <div class="text-danger font-weight-bold">
+                            {% translate 'Due today' %}
+                        </div>
+                    {% else %}
+                        <div class="text-danger font-weight-bold">
+                            {% translate 'Overdue for' %}:
+                            <time title="{{ subject.due|longdate }}">{{ subject.due|timesince }}</time>
+                        </div>
+                    {% endif %}
                 {% endif %}
             </div>
             <div class="table-list-item-actions">
