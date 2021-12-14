@@ -37,19 +37,26 @@
                     </td>
                 </tr>
             {% endfor %}
+            <tr>
+                <td>
+                    <form method="post" id="membership-form-add">
+                        {% csrf_token %}
+                        <div data-js="d-select2">
+                            {% bootstrap_field form.user show_label='sr-only' %}
+                        </div>
+                    </form>
+                </td>
+                {% for value, label in form.groups.field.choices %}
+                    <td>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="{{ form.groups.name }}" value="{{ value }}" form="membership-form-add">
+                        </div>
+                    </td>
+                {% endfor %}
+                <td>
+                    <button class="btn btn-primary" form="membership-form-add">{% translate 'Add' %}</button>
+                </td>
+            </tr>
         </tbody>
     </table>
-
-    <form method="post">
-        {% include 'utils/form_errors.html' with form=form %}
-        {% csrf_token %}
-
-        <div data-js="d-select2">
-            {% bootstrap_field form.user %}
-        </div>
-
-        <div class="d-print-none mb-3">
-            <button class="btn btn-primary" >{% translate 'Add' %}</button>
-        </div>
-    </form>
 {% endblock %}
