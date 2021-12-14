@@ -15,7 +15,6 @@
         <thead>
             <tr>
                 <th>{% translate "Name" %}</th>
-                <th>{% translate "Global groups"%}</th>
                 {% for value, label in form.groups.field.choices %}
                     <th>{{ label }}</th>
                 {% endfor %}
@@ -26,15 +25,13 @@
             {% for form in membership_forms %}
                 <tr>
                     <td>
-                        {{ form.instance.user.get_full_name }}
+                        <div class="font-weight-bold">{{ form.instance.user.get_full_name }}</div>
+                        <small>{{ form.instance.user|display:'groups' }}</small>
                         <form method="post" id="membership-form-{{ form.instance.pk }}">
                             {% csrf_token %}
                             <input type="hidden" name="{{ form.user.name }}" value="{{ form.user.value }}">
                             <input type="hidden" name="membership" value="{{ form.instance.pk }}">
                         </form>
-                    </td>
-                    <td>
-                        {{ form.instance.user|display:'groups' }}
                     </td>
                     {% for value, label in form.groups.field.choices %}
                         <td>
@@ -58,7 +55,6 @@
                         </div>
                     </form>
                 </td>
-                <td></td>
                 {% for value, label in form.groups.field.choices %}
                     <td>
                         <div class="form-check">
