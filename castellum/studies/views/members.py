@@ -51,6 +51,9 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['unprivileged_users'] = list(self.get_unprivileged_members())
+        context['membership_forms'] = [
+            MemberForm(instance=membership) for membership in self.study.studymembership_set.all()
+        ]
         return context
 
     def get_form(self):
@@ -59,7 +62,13 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
             (user.pk, str(user)) for user in User.objects.exclude(pk__in=self.object.members.all())
         ])
 
-        form = MemberForm(**self.get_form_kwargs())
+        kwargs = self.get_form_kwargs()
+        if 'membership' in self.request.POST:
+            kwargs['instance'] = get_object_or_404(
+                self.study.studymembership_set, pk=self.request.POST['membership']
+            )
+
+        form = MemberForm(**kwargs)
         form.fields['user'].choices = choices
         return form
 
