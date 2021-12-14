@@ -13,6 +13,10 @@
                             {% translate 'Due in' %}:
                             <time title="{{ subject.due|longdate }}">{{ subject.due|timeuntil }}</time>
                         </div>
+                    {% elif select.due == today %}
+                        <div class="text-danger font-weight-bold">
+                            {% translate 'Due today' %}
+                        </div>
                     {% else %}
                         <div class="text-danger font-weight-bold">
                             {% translate 'Overdue for' %}:
