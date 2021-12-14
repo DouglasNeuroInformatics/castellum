@@ -22,7 +22,7 @@
                         <span title="{% translate 'Subjects must match all of the following filters.' %}">
                             {% translate 'All of these' %}
                         </span>
-                        <span class="text-end">{% blocktranslate with count=group.get_matches.count %}{{ count }} potential subjects{% endblocktranslate %}</span>
+                        <span class="text-end">{% blocktranslate with count=group.get_potential_matches.count %}{{ count }} potential subjects{% endblocktranslate %}</span>
                     </div>
                     <div class="card-body d-flex justify-content-between flex-column flex-lg-row">
                         <div>

@@ -199,6 +199,10 @@ class StudyDetailView(PermissionRequiredMixin, DetailView):
             Subject.objects.filter(
                 filter_queries.study(self.object),
                 filter_queries.has_consent()
+            ).exclude(
+                pk__in=self.object.participation_set.filter(
+                    status__in=[Participation.INVITED, Participation.UNSUITABLE]
+                ).values('subject')
             ).count()
         )
         context['related_studies'] = list(get_related_studies(self.object))
