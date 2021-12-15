@@ -12,13 +12,15 @@
 
     <ul class="table-list">
         {% for subject in object_list %}
-            <li class="table-list-item">
-                <div>
-                    <div>
-                        {{ subject.contact }}
+            <li class="table-list-item flex-nowrap">
+                <div class="row align-items-center flex-grow-1">
+                    <div class="col-md">
+                        <span class="h5">{{ subject.contact }}</span>
                     </div>
-                    {% if subject.due %}
-                        {% if subject.due > today %}
+                    <div class="col-md">
+                        {% if not subject.due %}
+                            {# pass #}
+                        {% elif subject.due > today %}
                             <div>
                                 {% translate 'Due in' %}:
                                 <time title="{{ subject.due|longdate }}">{{ subject.due|timeuntil }}</time>
@@ -33,8 +35,8 @@
                                 <time title="{{ subject.due|longdate }}">{{ subject.due|timesince }}</time>
                             </div>
                         {% endif %}
-                    {% endif %}
-                    <div>
+                    </div>
+                    <div class="col-md">
                         {% if subject.export_requested %}
                             <span class="badge badge-info">{% translate 'Export requested' %}</span>
                         {% endif %}
@@ -49,7 +51,7 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="table-list-item-actions">
+                <div class="table-list-item-actions flex-grow-0">
                     <a class="btn btn-outline-primary" href="{% url 'subjects:detail' subject.uuid %}">{% translate 'Details' %}</a>
                 </div>
             </li>
