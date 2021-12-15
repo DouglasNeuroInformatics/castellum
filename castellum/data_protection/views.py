@@ -37,7 +37,10 @@ class DataProtectionView(PermissionRequiredMixin, ListView):
     paginate_by = 15
 
     def get_queryset(self):
-        return helpers.get_subjects()
+        if self.request.user.has_perm('subjects.delete_subject'):
+            return helpers.get_subjects()
+        else:
+            return helpers.get_export_requested()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
