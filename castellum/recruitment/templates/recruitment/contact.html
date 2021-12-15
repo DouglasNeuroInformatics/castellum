@@ -28,31 +28,27 @@
 
     <form method="post">
         <div class="accordion mb-3" id="accordion">
-            <div class="card">
-                <div class="card-header" id="contact-heading">
-                    <h2 class="mb-0">
-                        <button class="btn btn-link d-block w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#contact-pane" aria-expanded="true" aria-controls="contact-pane">
-                            {% translate "Contacting details" %}
-                        </button>
-                    </h2>
+            <div class="accordion-item">
+                <div class="accordion-header" id="contact-heading">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#contact-pane" aria-expanded="true" aria-controls="contact-pane">
+                        {% translate "Contacting details" %}
+                    </button>
                 </div>
-                <div id="contact-pane" class="collapse show" aria-labelledby="contact-heading" data-parent="#accordion">
-                    <div class="card-body">
+                <div id="contact-pane" class="accordion-collapse collapse show" aria-labelledby="contact-heading" data-bs-parent="#accordion">
+                    <div class="accordion-body">
                         {% include 'contacts/__contact.html' with subject=subject %}
                     </div>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header" id="study-heading">
-                    <h2 class="mb-0">
-                        <button class="btn btn-link d-block w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#study-pane" aria-expanded="true" aria-controls="study-pane">
-                            {% translate "Talking points" %}
-                        </button>
-                    </h2>
+            <div class="accordion-item">
+                <div class="accordion-header" id="study-heading">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#study-pane" aria-expanded="true" aria-controls="study-pane">
+                        {% translate "Talking points" %}
+                    </button>
                 </div>
-                <div id="study-pane" class="collapse" aria-labelledby="study-heading" data-parent="#accordion">
-                    <div class="card-body">
+                <div id="study-pane" class="accordion-collapse collapse" aria-labelledby="study-heading" data-bs-parent="#accordion">
+                    <div class="accordion-body">
                         {% if CASTELLUM_GENERAL_RECRUITMENT_TEXT %}
                             {{ CASTELLUM_GENERAL_RECRUITMENT_TEXT|urlize|linebreaks }}
                         {% endif %}
@@ -95,19 +91,17 @@
             </div>
 
             {% if study.has_exclusion_criteria %}
-                <div class="card">
-                    <div class="card-header" id="criteria-heading">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link d-block w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#criteria-pane" aria-expanded="true" aria-controls="criteria-pane">
-                                {% if not object.exclusion_criteria_checked %}
-                                    {% icon 'exclamation-triangle' label=_('Not checked') %}
-                                {% endif %}
-                                {% translate 'Criteria' %}
-                            </button>
-                        </h2>
+                <div class="accordion-item">
+                    <div class="accordion-header" id="criteria-heading">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#criteria-pane" aria-expanded="true" aria-controls="criteria-pane">
+                            {% if not object.exclusion_criteria_checked %}
+                                {% icon 'exclamation-triangle' label=_('Not checked') %}
+                            {% endif %}
+                            {% translate 'Criteria' %}
+                        </button>
                     </div>
-                    <div id="criteria-pane" class="collapse" aria-labelledby="criteria-heading" data-parent="#accordion">
-                        <div class="card-body">
+                    <div id="criteria-pane" class="accordion-collapse collapse" aria-labelledby="criteria-heading" data-bs-parent="#accordion">
+                        <div class="accordion-body">
                             {% if study.exclusion_criteria %}
                                 {{ study.exclusion_criteria|urlize|linebreaks }}
                             {% endif %}
