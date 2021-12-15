@@ -86,3 +86,28 @@ def get_all_subjects():
     for fn in [get_to_be_deleted, get_no_legal_basis, get_unreachable]:
         q |= models.Q(pk__in=fn().values('pk').order_by())
     return Subject.objects.filter(q)
+
+
+def get_subjects():
+    return Subject.objects.annotate(
+        due=models.ExpressionWrapper(
+            models.Case(
+                models.When(
+                    (
+                        models.Q(export_requested__lt=models.F('to_be_deleted'))
+                        | models.Q(to_be_deleted__isnull=True)
+                    ),
+                    then=models.F('export_requested'),
+                ),
+                default=models.F('to_be_deleted'),
+            ) + settings.CASTELLUM_SUBJECT_DELETION_PERIOD,
+            output_field=models.DateField(),
+        ),
+        no_legal_basis=models.Exists(get_no_legal_basis().filter(pk=models.OuterRef('pk'))),
+        unreachable=models.Exists(get_unreachable().filter(pk=models.OuterRef('pk'))),
+    ).exclude(
+        export_requested__isnull=True,
+        to_be_deleted__isnull=True,
+        no_legal_basis=False,
+        unreachable=False,
+    ).order_by(models.F('due').asc(nulls_last=True))
