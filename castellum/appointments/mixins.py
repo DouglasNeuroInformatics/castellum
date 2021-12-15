@@ -20,6 +20,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import datetime
+import logging
 
 from django.conf import settings
 from django.contrib import messages
@@ -45,6 +46,8 @@ from .helpers import fetch_scheduler_appointments
 from .helpers import send_appointment_notifications
 from .models import Appointment
 
+logger = logging.getLogger(__name__)
+
 
 class SchedulerFetchParticipationMixin:
     def fetch_scheduler_appointments(self):
@@ -53,7 +56,8 @@ class SchedulerFetchParticipationMixin:
             pseudonym = get_pseudonym(self.subject, session.domain)
             try:
                 start = scheduler.get(session.schedule_id, pseudonym)
-            except requests.HTTPError:
+            except requests.RequestException as e:
+                logger.error('Fetching schedule for session {} failed: {}'.format(session.pk, e))
                 continue
 
             changes += Appointment.change_start(session, self.participation, start)
