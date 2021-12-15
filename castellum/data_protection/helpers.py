@@ -37,15 +37,6 @@ def get_export_requested():
     ).order_by('export_requested')
 
 
-def get_to_be_deleted():
-    return Subject.objects.filter(to_be_deleted__isnull=False).annotate(
-        due=models.ExpressionWrapper(
-            models.F('to_be_deleted') + settings.CASTELLUM_SUBJECT_DELETION_PERIOD,
-            output_field=models.DateField(),
-        )
-    ).order_by('to_be_deleted')
-
-
 def get_no_legal_basis():
     # this query has the biggest potential to shrink down
     # the number of matches, so it is done first
@@ -79,13 +70,6 @@ def get_unreachable():
         .order_by()
 
     return Subject.objects.filter(filter_queries.uuid_filter(contacts))
-
-
-def get_all_subjects():
-    q = models.Q()
-    for fn in [get_to_be_deleted, get_no_legal_basis, get_unreachable]:
-        q |= models.Q(pk__in=fn().values('pk').order_by())
-    return Subject.objects.filter(q)
 
 
 def get_subjects():

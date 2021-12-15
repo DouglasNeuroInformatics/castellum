@@ -72,7 +72,11 @@ class Command(BaseCommand):
         if not settings.CASTELLUM_GDPR_NOTIFICATION_TO:
             raise CommandError('CASTELLUM_GDPR_NOTIFICATION_TO is not set')
 
-        subjects = helpers.get_all_subjects()
+        subjects = helpers.get_subjects().exclude(
+            to_be_deleted__isnull=True,
+            no_legal_basis=False,
+            unreachable=False,
+        )
 
         count = subjects_notify(subjects, options['base_url'])
         if options['verbosity'] > 0:
