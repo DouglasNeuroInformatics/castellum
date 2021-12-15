@@ -1,5 +1,5 @@
 {% extends "base_with_breadcrumbs.html" %}
-{% load i18n auth %}
+{% load i18n bootstrap4 auth utils %}
 
 {% block title %}{% translate 'Data protection dashboard' %} &middot; {{ block.super }}{% endblock %}
 
@@ -8,18 +8,49 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{% translate 'Export requested' %}</h2>
-    {% include 'data_protection/__subject_list.html' with subjects=export_requested missing=export_requested_missing %}
+    <h1>{% translate 'Data protection dashboard' %}</h1>
 
-    {% has_perm 'subjects.delete_subject' user as can_delete_subject %}
-    {% if can_delete_subject %}
-        <h2>{% translate 'To be deleted' %}</h2>
-        {% include 'data_protection/__subject_list.html' with subjects=to_be_deleted missing=to_be_deleted_missing %}
-
-        <h2>{% translate 'No legal basis' %}</h2>
-        {% include 'data_protection/__subject_list.html' with subjects=no_legal_basis missing=no_legal_basis_missing %}
-
-        <h2>{% translate 'Unreachable' %}</h2>
-        {% include 'data_protection/__subject_list.html' with subjects=unreachable missing=unreachable_missing %}
+    <ul class="table-list">
+        {% for subject in object_list %}
+            <li class="table-list-item">
+                <div>
+                    <div>
+                        {{ subject.contact }}
+                    </div>
+                    {% if subject.due %}
+                        {% if subject.due > today %}
+                            <div>
+                                {% translate 'Due in' %}:
+                                <time title="{{ subject.due|longdate }}">{{ subject.due|timeuntil }}</time>
+                            </div>
+                        {% elif select.due == today %}
+                            <div class="text-danger font-weight-bold">
+                                {% translate 'Due today' %}
+                            </div>
+                        {% else %}
+                            <div class="text-danger font-weight-bold">
+                                {% translate 'Overdue for' %}:
+                                <time title="{{ subject.due|longdate }}">{{ subject.due|timesince }}</time>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="table-list-item-actions">
+                    <a class="btn btn-outline-primary" href="{% url 'subjects:detail' subject.uuid %}">{% translate 'Details' %}</a>
+                </div>
+            </li>
+        {% empty %}
+            <li class="alert alert-success">{% translate 'Nothing to do' %}</li>
+        {% endfor %}
+        {% if missing > 0 %}
+            <li class="table-list-item text-muted">
+                {% blocktranslate %}… and {{ missing }} further entries{% endblocktranslate %}
+            </li>
+        {% endif %}
+    </ul>
+    {% if is_paginated %}
+        <nav aria-label="{% translate 'Page navigation' %}">
+            {% bootstrap_pagination page_obj url=request.get_full_path %}
+        </nav>
     {% endif %}
 {% endblock %}
