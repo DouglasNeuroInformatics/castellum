@@ -23,6 +23,8 @@ from django.conf import settings
 from django.urls import include
 from django.urls import path
 
+from ..views.api import APIStudyDetailView
+from ..views.api import APIStudyListView
 from ..views.recruitment import OneTimeInvitationMailRecruitmentView
 from ..views.studies import FilterTrialCreateView
 from ..views.studies import StudyCreateView
@@ -64,4 +66,9 @@ if settings.CASTELLUM_ENABLE_STUDY_EXPORT:
     urlpatterns += [
         path('import/', StudyImportView.as_view(), name='import'),
         path('<int:pk>/export/', StudyExportView.as_view(), name='export'),
+    ]
+if settings.CASTELLUM_API_ENABLED:
+    urlpatterns += [
+        path('api/studies/', APIStudyListView.as_view()),
+        path('api/studies/<int:pk>/', APIStudyDetailView.as_view()),
     ]
