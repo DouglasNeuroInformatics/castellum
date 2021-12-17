@@ -18,6 +18,7 @@
             <tr>
                 <th>{% translate "Name" %}</th>
                 <th>{% translate "Global groups" %}</th>
+                <th>{% translate "Privacy level" %}</th>
                 {% for value, label in form.groups.field.choices %}
                     <th>{{ label }}</th>
                 {% endfor %}
@@ -38,6 +39,7 @@
                     <td class="align-middle">
                         <small>{% for group in form.instance.user.groups.all %}{{ group }}<br>{% endfor %}</small>
                     </td>
+                    <td class="align-middle text-center">{{ form.instance.user.get_privacy_level }}</td>
                     {% for value, label in form.groups.field.choices %}
                         <td class="align-middle text-center">
                             <div class="form-check">
@@ -61,6 +63,7 @@
                         </div>
                     </form>
                 </td>
+                <td></td>
                 <td></td>
                 {% for value, label in form.groups.field.choices %}
                     <td class="align-middle text-center">
