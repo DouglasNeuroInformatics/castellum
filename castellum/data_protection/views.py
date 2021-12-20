@@ -21,29 +21,28 @@
 
 import datetime
 
-from django.views.generic import TemplateView
+from django.views.generic import ListView
 
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
 
 from . import helpers
 
 
-class DataProtectionView(PermissionRequiredMixin, TemplateView):
+class DataProtectionView(PermissionRequiredMixin, ListView):
     template_name = 'data_protection/index.html'
     permission_required = [
         'subjects.export_subject',
         'castellum_auth.privacy_level_2',
     ]
-    limit_by = 10
+    paginate_by = 15
 
-    def limit(self, qs):
-        return qs[:self.limit_by], max(qs.count() - self.limit_by, 0)
+    def get_queryset(self):
+        if self.request.user.has_perm('subjects.delete_subject'):
+            return helpers.get_subjects()
+        else:
+            return helpers.get_export_requested()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['export_requested'], context['export_requested_missing'] = self.limit(helpers.get_export_requested())  # noqa
-        context['to_be_deleted'], context['to_be_deleted_missing'] = self.limit(helpers.get_to_be_deleted())  # noqa
-        context['no_legal_basis'], context['no_legal_basis_missing'] = self.limit(helpers.get_no_legal_basis())  # noqa
-        context['unreachable'], context['unreachable_missing'] = self.limit(helpers.get_unreachable())  # noqa
         context['today'] = datetime.date.today()
         return context
