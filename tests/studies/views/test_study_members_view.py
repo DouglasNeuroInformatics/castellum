@@ -1,4 +1,7 @@
 import pytest
+from model_bakery import baker
+
+from castellum.studies.models import StudyMembership
 
 
 @pytest.mark.smoketest
@@ -14,3 +17,17 @@ def test_studymembers_200(request, client, user_fixture, study):
     client.force_login(user)
     response = client.get('/studies/{}/members/'.format(study.pk))
     assert response.status_code == 200
+
+
+def test_studymembers_wrong_study(client, member, study):
+    membership = baker.make(StudyMembership)
+    assert membership.study != study
+
+    client.force_login(member)
+    response = client.post('/studies/{}/members/'.format(study.pk), {
+        'membership': membership.pk,
+        'user': membership.user.pk,
+        'groups': [],
+    })
+
+    assert response.status_code == 404

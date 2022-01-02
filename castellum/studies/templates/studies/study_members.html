@@ -1,6 +1,8 @@
 {% extends "studies/study_base.html" %}
 {% load i18n bootstrap4 %}
 
+{% block container_class %}{% endblock %}
+
 {% block title %}{% translate "Member management" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
@@ -11,46 +13,70 @@
         </p>
     {% endif %}
 
-    <form method="post">
-        {% include 'utils/form_errors.html' with form=form %}
-        {% csrf_token %}
-
-        <ul class="table-list mt-3">
-            {% for membership in object.studymembership_set.all %}
-                <li class="table-list-item">
-                    <div>
-                        <div class="h4 d-inline-block my-1 mr-2">{{ membership.user.get_full_name }}</div>
-                        <ul class="d-inline-block p-0">
-                            {% for group in membership.user.groups.all %}
-                                <li class="badge badge-secondary my-1 mr-2" title="{% translate 'global group' %}" aria-label="{{ group }}">{{ group }}</li>
-                            {% endfor %}
-                        </ul>
-                        <ul class="d-inline-block p-0">
-                            {% for group in membership.groups.all %}
-                                <li class="badge badge-primary my-1 mr-2" title="{% translate 'local group' %}" aria-label="{{ group }}">{{ group }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="table-list-item-actions">
-                        <a href="{% url 'studies:member' object.pk membership.pk %}" class="btn btn-outline-primary my-1">{% translate 'Manage groups' %}</a>
-                        {% if membership.user == user %}
-                            <a href="#" class="btn btn-outline-danger my-1 disabled" tabindex="-1" aria-disabled="true">{% translate 'Remove' %}</a>
-                        {% else %}
-                            <a href="{% url 'studies:delete-member' object.pk membership.pk %}" class="btn btn-outline-danger my-1">{% translate 'Remove' %}</a>
-                        {% endif %}
-                    </div>
-                </li>
-            {% empty %}
-                <li class="alert alert-warning">{% translate 'No members' %}</li>
+    <table class="table w-auto mx-auto">
+        <thead>
+            <tr>
+                <th>{% translate "Name" %}</th>
+                <th>{% translate "Global groups" %}</th>
+                <th>{% translate "Privacy level" %}</th>
+                {% for value, label in form.groups.field.choices %}
+                    <th>{{ label }}</th>
+                {% endfor %}
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for form in membership_forms %}
+                <tr>
+                    <td class="align-middle">
+                        <div class="font-weight-bold">{{ form.instance.user.get_full_name }}</div>
+                        <form method="post" id="membership-form-{{ form.instance.pk }}">
+                            {% csrf_token %}
+                            <input type="hidden" name="{{ form.user.name }}" value="{{ form.user.value }}">
+                            <input type="hidden" name="membership" value="{{ form.instance.pk }}">
+                        </form>
+                    </td>
+                    <td class="align-middle">
+                        <small>{% for group in form.instance.user.groups.all %}{{ group }}<br>{% endfor %}</small>
+                    </td>
+                    <td class="align-middle text-center">{{ form.instance.user.get_privacy_level }}</td>
+                    {% for value, label in form.groups.field.choices %}
+                        <td class="align-middle text-center">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="{{ form.groups.name }}" value="{{ value }}" form="membership-form-{{ form.instance.pk }}" {% if value in form.groups.value %}checked{% endif %}>
+                                &nbsp;
+                            </div>
+                        </td>
+                    {% endfor %}
+                    <td class="align-middle">
+                        <button class="btn btn-primary" form="membership-form-{{ form.instance.pk }}">{% translate 'Save' %}</button>
+                        <a href="{% url 'studies:delete-member' object.pk form.instance.pk %}" class="btn btn-outline-danger my-1 {% if form.instance.user == user %}disabled{% endif %}">{% translate 'Remove' %}</a>
+                    </td>
+                </tr>
             {% endfor %}
-        </ul>
-
-        <div data-js="d-select2">
-            {% bootstrap_field form.user %}
-        </div>
-
-        <div class="d-print-none mb-3">
-            <button class="btn btn-primary" >{% translate 'Add' %}</button>
-        </div>
-    </form>
+            <tr>
+                <td class="align-middle">
+                    <form method="post" id="membership-form-add">
+                        {% csrf_token %}
+                        <div data-js="d-select2">
+                            {% bootstrap_field form.user show_label='sr-only' form_group_class='' %}
+                        </div>
+                    </form>
+                </td>
+                <td></td>
+                <td></td>
+                {% for value, label in form.groups.field.choices %}
+                    <td class="align-middle text-center">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="{{ form.groups.name }}" value="{{ value }}" form="membership-form-add">
+                            &nbsp;
+                        </div>
+                    </td>
+                {% endfor %}
+                <td class="align-middle">
+                    <button class="btn btn-primary" form="membership-form-add">{% translate 'Add' %}</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 {% endblock %}
