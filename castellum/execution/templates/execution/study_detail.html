@@ -6,7 +6,7 @@
         {% for participation, can_access in list %}
             <li class="table-list-item">
                 {% if can_access %}
-                    <div class="d-inline-block my-1 mr-2 {% if participation.dropped_out or participation.subject.blocked or participation.subject.deceased %}text-muted{% endif %}">
+                    <div class="d-inline-block my-1 me-2 {% if participation.dropped_out or participation.subject.blocked or participation.subject.deceased %}text-muted{% endif %}">
                         <div>
                             {{ participation.subject.contact.full_name }}
                             {% with summary=participation.subject|reliability_summary %}
@@ -47,7 +47,7 @@
                     </div>
                 {% else %}
                     <div class="text-muted">
-                        <div class="d-inline-block my-1 mr-2">
+                        <div class="d-inline-block my-1 me-2">
                             {% translate 'access denied' %}
                             <span class="list-icon bg-danger text-light">{% icon 'ban' %}</span>
                         </div>

@@ -13,15 +13,15 @@
     <ul class="table-list mb-3">
         {% for session in sessions %}
             <li class="table-list-item">
-                <div class="h4 d-inline-block my-1 mr-2">
+                <div class="h4 d-inline-block my-1 me-2">
                     {{ session.name }}
                 </div>
-                <span class="my-1 mr-2">{{ session.duration }}{% translate 'min' %}</span>
+                <span class="my-1 me-2">{{ session.duration }}{% translate 'min' %}</span>
                 {% for type in session.type.all %}
-                    <span class="badge badge-secondary my-1 mr-1">{{ type }}</span>
+                    <span class="badge badge-secondary my-1 me-1">{{ type }}</span>
                 {% endfor %}
                 {% if session.resource %}
-                    <span class="badge badge-primary my-1 mr-1">{{ session.resource }}</span>
+                    <span class="badge badge-primary my-1 me-1">{{ session.resource }}</span>
                 {% endif %}
                 <div class="table-list-item-actions">
                     <a class="btn btn-outline-primary my-1" href="{% url 'studies:session-update' study.pk session.pk %}">{% translate 'Edit' %}</a>

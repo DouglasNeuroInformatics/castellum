@@ -35,7 +35,7 @@
 
                     <div class="collapse navbar-collapse justify-content-end" id="navbarToggler">
                         {% if user.is_authenticated and LANGUAGES|length > 1 %}
-                            <div class="btn-group mb-2 mb-sm-0 mr-sm-5" role="region" aria-label="{% translate 'Set language' %}">
+                            <div class="btn-group mb-2 mb-sm-0 me-sm-5" role="region" aria-label="{% translate 'Set language' %}">
                                 {% for lang, label in LANGUAGES %}
                                     <form class="btn-group" action="{% url 'set_language' %}" method="post">
                                         {# Bootstrap uses :firstchild for styling #}
