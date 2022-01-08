@@ -82,12 +82,12 @@
 }
 
 .list-group-item-custom {
-    color: var(--primary);
+    color: var(--bs-primary);
 }
 
 .list-group-item-custom.active {
-    color: var(--dark);
-    background-color: var(--white);
+    color: var(--bs-dark);
+    background-color: var(--bs-white);
     border-color: rgba(0,0,0,.125);
     position: relative;
 }
@@ -99,7 +99,7 @@
     top: 0;
     bottom: 0;
     width: 0.25rem;
-    background-color: var(--primary);
+    background-color: var(--bs-primary);
 }
 
 .breadcrumb {
@@ -110,11 +110,11 @@
 }
 
 .container {
-    max-width: var(--breakpoint-md, 768px);
+    max-width: var(--bs-breakpoint-md, 768px);
 }
 
 .container-lg {
-    max-width: var(--breakpoint-lg, 992px);
+    max-width: var(--bs-breakpoint-lg, 992px);
 }
 
 .text-hyphens {
@@ -140,8 +140,8 @@
     margin-top: -0.6em;
     border-radius: 50%;
     text-align: center;
-    color: var(--white);
-    background-color: var(--success);
+    color: var(--bs-white);
+    background-color: var(--bs-success);
     background-image: url("images/bootstrap/check.svg");
     opacity: 0;
     transition: opacity 300ms ease;
@@ -169,13 +169,13 @@
 }
 
 .diff-changed {
-    color: var(--orange);
+    color: var(--bs-orange);
 }
 .diff-added {
-    color: var(--green);
+    color: var(--bs-green);
 }
 .diff-removed {
-    color: var(--red);
+    color: var(--bs-red);
 }
 
 .castellum-required > label::after {
