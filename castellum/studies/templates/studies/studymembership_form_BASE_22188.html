@@ -1,0 +1,31 @@
+{% extends "studies/study_base.html" %}
+{% load i18n bootstrap4 %}
+
+{% block title %}{{ object.user }} &middot; {% translate "Member management" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h2>{% translate 'User' %}: {{ object.user }}</h2>
+
+    <h3>{% translate 'Global groups' %}</h3>
+    <p>{% translate 'The User belongs to the following groups in all studies' %}</p>
+    <ul class="p-0">
+        {% for group in object.user.groups.all %}
+            <li class="badge badge-secondary my-1 mr-2">{{ group }}</li>
+        {% empty %}
+            <li class="text-secondary d-block">{% translate 'no global groups' %}</li>
+        {% endfor %}
+    </ul>
+
+    <form method="post">
+        {% include 'utils/form_errors.html' with form=form %}
+        {% csrf_token %}
+
+        <h3>{% translate "Additional groups in this study" %}</h3>
+        <p>{% translate 'The User belongs to the following groups only in the context of this study' %}</p>
+        {% bootstrap_field form.groups show_label=False %}
+
+        <div class="d-print-none mb-3">
+            <button class="btn btn-primary" >{% translate 'Save' %}</button>
+        </div>
+    </form>
+{% endblock %}
