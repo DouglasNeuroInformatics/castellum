@@ -7,10 +7,10 @@
             <div class="col-sm-6 mb-2">
                 {% csrf_token %}
                 <input type="hidden" name="id" value="{{ form.instance.id }}">
-                {% bootstrap_field form.name show_label=False form_group_class='' %}
+                {% bootstrap_field form.name show_label=False layout="inline" %}
             </div>
             <div class="col-sm-2 mb-2" data-js="d-select2-color">
-                {% bootstrap_field form.color show_label=False form_group_class='' %}
+                {% bootstrap_field form.color show_label=False layout="inline" %}
             </div>
             <div class="col-sm-2 mb-2">
                 <button name="action" value="save" class="btn btn-primary d-block w-100">{% translate 'Save' %}</button>
@@ -24,10 +24,10 @@
     <form method="POST" class="row gx-2 mb-2">
         <div class="col-sm-6 mb-2">
             {% csrf_token %}
-            {% bootstrap_field create_form.name show_label=False form_group_class='' %}
+            {% bootstrap_field create_form.name show_label=False layout="inline" %}
         </div>
         <div class="col-sm-2 mb-2" data-js="d-select2-color">
-            {% bootstrap_field create_form.color show_label=False form_group_class='' %}
+            {% bootstrap_field create_form.color show_label=False layout="inline" %}
         </div>
         <div class="col-sm-4 mb-2">
             <button name="action" value="create" class="btn btn-primary d-block w-100">{% translate 'Create' %}</button>
