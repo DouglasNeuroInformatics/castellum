@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sed -i 's/\(load.*\)bootstrap4/\1django_bootstrap5/g' `git grep -l bootstrap4`
+sed -i 's/\(load.*\)bootstrap4/\1django_bootstrap5/g' `git grep -l django_bootstrap5`
 git commit -a -m "auto-adapt bootstrap template library"
 
 sed -i 's/var(--/var(--bs-/g' `git ls-files castellum | grep 'css'`
