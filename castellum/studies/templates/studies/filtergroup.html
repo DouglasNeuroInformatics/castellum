@@ -60,7 +60,7 @@
 
                 <div id="filter-forms">
                     {% for form in formset %}
-                        <fieldset class="form-row mb-3" {% if form.DELETE.value %}hidden{% endif %}>
+                        <fieldset class="row gx-2 mb-3" {% if form.DELETE.value %}hidden{% endif %}>
                             {{ form.id.as_hidden }}
                             {{ form.DELETE.as_hidden }}
 
@@ -87,7 +87,7 @@
                     {% endfor %}
                 </div>
 
-                <div class="form-row">
+                <div class="row gx-2">
                     <div class="col-sm-4">
                         {% bootstrap_field add_form.description show_label=False %}
                     </div>

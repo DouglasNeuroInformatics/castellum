@@ -3,7 +3,7 @@
 
 {% block content %}
     {% for form in forms %}
-        <form method="POST" class="form-row mb-2">
+        <form method="POST" class="row gx-2 mb-2">
             <div class="col-sm-6 mb-2">
                 {% csrf_token %}
                 <input type="hidden" name="id" value="{{ form.instance.id }}">
@@ -21,7 +21,7 @@
         </form>
     {% endfor %}
 
-    <form method="POST" class="form-row mb-2">
+    <form method="POST" class="row gx-2 mb-2">
         <div class="col-sm-6 mb-2">
             {% csrf_token %}
             {% bootstrap_field create_form.name show_label=False form_group_class='' %}
