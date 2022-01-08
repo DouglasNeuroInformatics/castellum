@@ -18,7 +18,7 @@
                 <p>
                     {% for note in subject.subjectnote_set.all %}
                         <input type="checkbox" class="sr-only" id="subjectnote_{{ note.pk }}" name="rm_subject_notes" value="{{ note.pk }}">
-                        <span class="badge badge-secondary checkbox-opacity">
+                        <span class="badge bg-secondary checkbox-opacity">
                             {{ note.content }}
                             <label class="m-0" for="subjectnote_{{ note.pk }}" aria-label="{% translate 'Delete' %}" title="{% translate 'Delete' %}">&times;</label>
                         </span>

@@ -18,10 +18,10 @@
                 </div>
                 <span class="my-1 me-2">{{ session.duration }}{% translate 'min' %}</span>
                 {% for type in session.type.all %}
-                    <span class="badge badge-secondary my-1 me-1">{{ type }}</span>
+                    <span class="badge bg-secondary my-1 me-1">{{ type }}</span>
                 {% endfor %}
                 {% if session.resource %}
-                    <span class="badge badge-primary my-1 me-1">{{ session.resource }}</span>
+                    <span class="badge bg-primary my-1 me-1">{{ session.resource }}</span>
                 {% endif %}
                 <div class="table-list-item-actions">
                     <a class="btn btn-outline-primary my-1" href="{% url 'studies:session-update' study.pk session.pk %}">{% translate 'Edit' %}</a>
