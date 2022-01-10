@@ -245,3 +245,27 @@ def test_maintenance_estranged_subjects_contains_never_contacted(client, user, s
     with freeze_time(timezone.now()):
         response = client.get(url)
         assert response.content.count(b'"table-list-item"') == 1
+
+
+def test_maintenance_estranged_subjects_doesnt_contain_blocked(client, user, subject):
+    client.force_login(user)
+    url = '/subjects/maintenance/estranged-subjects/'
+    with freeze_time("2000-01-01 12:00"):
+        subject = baker.make(Subject, blocked=True)
+        baker.make(Consent, status=Consent.CONFIRMED, subject=subject)
+
+    with freeze_time(timezone.now()):
+        response = client.get(url)
+        assert response.content.count(b'"table-list-item"') == 0
+
+
+def test_maintenance_estranged_subjects_doesnt_contain_deceased(client, user, subject):
+    client.force_login(user)
+    url = '/subjects/maintenance/estranged-subjects/'
+    with freeze_time("2000-01-01 12:00"):
+        subject = baker.make(Subject, deceased=True)
+        baker.make(Consent, status=Consent.CONFIRMED, subject=subject)
+
+    with freeze_time(timezone.now()):
+        response = client.get(url)
+        assert response.content.count(b'"table-list-item"') == 0

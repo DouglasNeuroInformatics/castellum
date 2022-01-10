@@ -730,6 +730,8 @@ class MaintenanceEstrangedSubjectsView(BaseMaintenanceView):
     def get_queryset(self):
         return Subject.objects.filter(
             filter_queries.has_consent(include_waiting=True),
+            blocked=False,
+            deceased=False,
             updated_at__lte=timezone.now() - settings.CASTELLUM_ENSTRANGED_SUBJECTS_PERIOD
         ).order_by("updated_at")
 
