@@ -56,7 +56,7 @@
                     <form method="post" id="membership-form-add">
                         {% csrf_token %}
                         <div data-js="d-select2">
-                            {% bootstrap_field form.user show_label='sr-only' form_group_class='' %}
+                            {% bootstrap_field form.user show_label='sr-only' wrapper_class='' %}
                         </div>
                     </form>
                 </td>
