@@ -257,8 +257,13 @@ class Participation(models.Model):
         if self.status != self.UNSUITABLE:
             self.excluded_by_cleanup = False
 
-        # updates Subject.updated_at
-        self.subject.save()
+        if (
+            self.status in [self.INVITED, self.UNSUITABLE, self.FOLLOWUP_APPOINTED]
+            and self.status != self._old_status
+            and not self.excluded_by_cleanup
+        ):
+            # updates Subject.updated_at
+            self.subject.save()
 
         super().save(*args, **kwargs)
 
