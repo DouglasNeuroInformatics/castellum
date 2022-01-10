@@ -403,6 +403,7 @@ class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, DetailView
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
+        # needs to be update() in order not to set Subject.updated_at
         self.object.participation_set.update(
             status=Participation.UNSUITABLE,
             batch=None,
@@ -496,6 +497,7 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
         else:
             return HttpResponseBadRequest()
 
+        # needs to be update() in order not to set Subject.updated_at
         qs.update(status=Participation.UNSUITABLE, batch=None, excluded_by_cleanup=True)
 
         return redirect('recruitment:recruitment-open', self.study.pk)
