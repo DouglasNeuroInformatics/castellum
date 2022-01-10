@@ -13,6 +13,7 @@ The following API endpoints can be enabled with the
 -   `/execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/`
 -   `/execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/attributes/`
 -   `/execution/api/studies/<study_id>/domains/<domain>/<pseudonym>/<target_domain>/`
+-   `/subjects/api/subjects/<domain>/<pseudonym>/attributes/`
 
 ## Authentication
 
