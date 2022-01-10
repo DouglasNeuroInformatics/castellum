@@ -10,6 +10,7 @@ from castellum.contacts.models import Contact
 from castellum.contacts.models import ContactCreationRequest
 from castellum.recruitment.models import ReliabilityEntry
 from castellum.subjects.models import Consent
+from castellum.subjects.models import Subject
 
 
 @pytest.mark.smoketest
@@ -206,3 +207,65 @@ def test_maintenance_delete_subjectcreationrequest(client, user, subject_creatio
     assert response.status_code == 302
     assert subject_creation_request.data_is_deleted
     assert not ContactCreationRequest.objects.exists()
+
+
+@pytest.mark.smoketest
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    'subject_manager',
+    pytest.param('data_protection_coordinator', marks=pytest.mark.xfail(strict=True)),
+])
+def test_maintenance_estranged_subjects_200(request, client, user_fixture):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    url = '/subjects/maintenance/estranged-subjects/'
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+def test_maintenance_estranged_subjects_doesnt_contain_no_consent(client, user, subject):
+    client.force_login(user)
+    url = '/subjects/maintenance/estranged-subjects/'
+    with freeze_time("2000-01-01 12:00"):
+        baker.make(Subject)
+
+    with freeze_time(timezone.now()):
+        response = client.get(url)
+        assert response.content.count(b'"table-list-item"') == 0
+
+
+def test_maintenance_estranged_subjects_contains_never_contacted(client, user, subject):
+    client.force_login(user)
+    url = '/subjects/maintenance/estranged-subjects/'
+    with freeze_time("2000-01-01 12:00"):
+        subject = baker.make(Subject)
+        baker.make(Consent, status=Consent.CONFIRMED, subject=subject)
+
+    with freeze_time(timezone.now()):
+        response = client.get(url)
+        assert response.content.count(b'"table-list-item"') == 1
+
+
+def test_maintenance_estranged_subjects_doesnt_contain_blocked(client, user, subject):
+    client.force_login(user)
+    url = '/subjects/maintenance/estranged-subjects/'
+    with freeze_time("2000-01-01 12:00"):
+        subject = baker.make(Subject, blocked=True)
+        baker.make(Consent, status=Consent.CONFIRMED, subject=subject)
+
+    with freeze_time(timezone.now()):
+        response = client.get(url)
+        assert response.content.count(b'"table-list-item"') == 0
+
+
+def test_maintenance_estranged_subjects_doesnt_contain_deceased(client, user, subject):
+    client.force_login(user)
+    url = '/subjects/maintenance/estranged-subjects/'
+    with freeze_time("2000-01-01 12:00"):
+        subject = baker.make(Subject, deceased=True)
+        baker.make(Consent, status=Consent.CONFIRMED, subject=subject)
+
+    with freeze_time(timezone.now()):
+        response = client.get(url)
+        assert response.content.count(b'"table-list-item"') == 0
