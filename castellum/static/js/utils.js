@@ -140,6 +140,6 @@
     if (firstErrorInTab) {
         var panel = firstErrorInTab.closest('[role="tabpanel"]');
         var tab = document.getElementById(panel.getAttribute('aria-labelledby'));
-        $(tab).tab('show');
+        new bootstrap.Tab(tab).show();
     }
 })();
