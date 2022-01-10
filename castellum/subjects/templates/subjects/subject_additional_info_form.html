@@ -17,7 +17,7 @@
                 <legend class="h5">{% translate "Notes" %}</legend>
                 <p>
                     {% for note in subject.subjectnote_set.all %}
-                        <input type="checkbox" class="sr-only" id="subjectnote_{{ note.pk }}" name="rm_subject_notes" value="{{ note.pk }}">
+                        <input type="checkbox" class="visually-hidden" id="subjectnote_{{ note.pk }}" name="rm_subject_notes" value="{{ note.pk }}">
                         <span class="badge bg-secondary checkbox-opacity">
                             {{ note.content }}
                             <label class="m-0" for="subjectnote_{{ note.pk }}" aria-label="{% translate 'Delete' %}" title="{% translate 'Delete' %}">&times;</label>
