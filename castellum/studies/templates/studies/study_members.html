@@ -42,10 +42,7 @@
                     <td class="align-middle text-center">{{ form.instance.user.get_privacy_level }}</td>
                     {% for value, label in form.groups.field.choices %}
                         <td class="align-middle text-center">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="{{ form.groups.name }}" value="{{ value }}" form="membership-form-{{ form.instance.pk }}" {% if value in form.groups.value %}checked{% endif %}>
-                                &nbsp;
-                            </div>
+                            <input type="checkbox" class="form-check-input" name="{{ form.groups.name }}" value="{{ value }}" form="membership-form-{{ form.instance.pk }}" {% if value in form.groups.value %}checked{% endif %}>
                         </td>
                     {% endfor %}
                     <td class="align-middle">
@@ -67,10 +64,7 @@
                 <td></td>
                 {% for value, label in form.groups.field.choices %}
                     <td class="align-middle text-center">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="{{ form.groups.name }}" value="{{ value }}" form="membership-form-add">
-                            &nbsp;
-                        </div>
+                        <input type="checkbox" class="form-check-input" name="{{ form.groups.name }}" value="{{ value }}" form="membership-form-add">
                     </td>
                 {% endfor %}
                 <td class="align-middle">
