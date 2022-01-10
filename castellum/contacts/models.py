@@ -253,6 +253,9 @@ class Contact(BaseContact):
         self.first_name_phonetic = phonetic(self.first_name)
         self.last_name_phonetic = phonetic(self.last_name)
 
+        # updates Subject.updated_at
+        self.subject.save()
+
         return super().save(*args, **kwargs)
 
 
@@ -281,6 +284,11 @@ class Address(models.Model):
         ]
         verbose_name = _('Address')
         verbose_name_plural = _('Addresses')
+
+    def save(self, *args, **kwargs):
+        # updates Subject.updated_at
+        self.contact.subject.save()
+        return super().save(*args, **kwargs)
 
 
 class Street(models.Model):

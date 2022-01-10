@@ -71,6 +71,11 @@ class Appointment(models.Model):
                 _('Session and participation do not belong to the same study'), code='study'
             )
 
+    def save(self, *args, **kwargs):
+        # updates Subject.updated_at
+        self.participation.subject.save()
+        super().save(*args, **kwargs)
+
     @property
     def end(self):
         return self.start + MINUTE * self.session.duration

@@ -257,6 +257,9 @@ class Participation(models.Model):
         if self.status != self.UNSUITABLE:
             self.excluded_by_cleanup = False
 
+        # updates Subject.updated_at
+        self.subject.save()
+
         super().save(*args, **kwargs)
 
 
@@ -268,3 +271,8 @@ class ReliabilityEntry(models.Model):
     class Meta:
         verbose_name = _('Reliability entry')
         verbose_name_plural = _('Reliability entry')
+
+    def save(self, *args, **kwargs):
+        # updates Subject.updated_at
+        self.subject.save()
+        super().save(*args, **kwargs)

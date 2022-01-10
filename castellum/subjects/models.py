@@ -234,6 +234,11 @@ class Consent(models.Model):
         get_latest_by = 'document__created_at'
         verbose_name = _('Consent')
 
+    def save(self, *args, **kwargs):
+        # updates Subject.updated_at
+        self.subject.save()
+        return super().save(*args, **kwargs)
+
 
 class ExportAnswer(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
