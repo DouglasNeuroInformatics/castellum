@@ -1,5 +1,5 @@
 {% extends view.base_template|default:"studies/study_recruitmentsettings_base.html" %}
-{% load static i18n bootstrap4 utils %}
+{% load static i18n django_bootstrap5 utils %}
 
 {% block title %}{% translate "Filters" %} &middot; {{ block.super }}{% endblock %}
 
@@ -48,7 +48,7 @@
                 <span title="{% translate 'Subjects must match all of the following filters.' %}">
                     {% translate 'All of these' %}
                 </span>
-                <span class="text-right" title="{% translate 'required' %}: {{ study.min_subject_count }} {% translate 'total' %}: {{ total_count }}" aria-label="{% blocktranslate %}{{ count }} potential subjects{% endblocktranslate %}">
+                <span class="text-end" title="{% translate 'required' %}: {{ study.min_subject_count }} {% translate 'total' %}: {{ total_count }}" aria-label="{% blocktranslate %}{{ count }} potential subjects{% endblocktranslate %}">
                     {% blocktranslate %}{{ count }} potential subjects{% endblocktranslate %}
                 </span>
             </div>
@@ -60,7 +60,7 @@
 
                 <div id="filter-forms">
                     {% for form in formset %}
-                        <fieldset class="form-row mb-3" {% if form.DELETE.value %}hidden{% endif %}>
+                        <fieldset class="row gx-2 mb-3" {% if form.DELETE.value %}hidden{% endif %}>
                             {{ form.id.as_hidden }}
                             {{ form.DELETE.as_hidden }}
 
@@ -87,7 +87,7 @@
                     {% endfor %}
                 </div>
 
-                <div class="form-row">
+                <div class="row gx-2">
                     <div class="col-sm-4">
                         {% bootstrap_field add_form.description show_label=False %}
                     </div>

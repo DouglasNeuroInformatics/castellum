@@ -14,7 +14,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'bootstrap4',
+    'django_bootstrap5',
     'phonenumber_field',
     'parler',
     'stronghold',
@@ -150,7 +150,7 @@ NPM_FILE_PATTERNS = {
     ],
     'jdenticon': ['dist/jdenticon.min.js'],
     'jquery': ['dist/jquery.min.js'],
-    'popper.js': ['dist/umd/popper.min.js'],
+    '@popperjs': ['core/dist/umd/popper-lite.min.js'],
     '@fortawesome/fontawesome-free': [
         'css/all.min.css',
         'webfonts/fa-regular-400.eot',
@@ -182,9 +182,8 @@ NPM_FILE_PATTERNS = {
     ],
 }
 
-BOOTSTRAP4 = {
+BOOTSTRAP5 = {
     'set_placeholder': False,
-    'success_css_class': None,
 }
 
 AXES_LOCKOUT_TEMPLATE = 'axes-lockout.html'

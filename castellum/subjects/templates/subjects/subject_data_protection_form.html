@@ -1,5 +1,5 @@
 {% extends view.base_template|default:"subjects/base.html" %}
-{% load static i18n bootstrap4 utils %}
+{% load static i18n django_bootstrap5 utils %}
 
 {% block title %}
     {% translate "Edit subject" %} &middot; {{ block.super }}
@@ -12,34 +12,34 @@
 
         {% bootstrap_field form.privacy_level %}
 
-        <div class="form-group">
+        <div class="mb-3">
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="{{ form.consent_status.id_for_label }}" {% if form.consent_status.value == 'confirmed' %}checked{% endif %} disabled>
                 <label class="form-check-label" for="{{ form.consent_status.id_for_label }}">{{ form.consent_status.label }}</label>
-                <small class="form-text bg-light p-2 mb-2" data-js="consent-confirm" hidden>
+                <div class="form-text bg-light text-body p-2 mb-2" data-js="consent-confirm" hidden>
                     <div class="d-flex justify-content-between align-items-center">
                         {% translate 'Waiting for confirmation by the subject.' %}
                         <button type="button" class="btn btn-primary btn-sm">{% translate 'Confirm' %}</button>
                     </div>
-                </small>
+                </div>
                 {% if object.consent.document.is_deprecated %}
-                    <small class="form-text bg-warning p-2 mb-2">
+                    <div class="form-text bg-warning text-dark p-2 mb-2">
                         {% blocktranslate %}
                             The current consent refers to an outdated document and will soon expire, thus rendering the recruitment consent invalid.
                             Please contact this subject and ask them to consent to the latest document or withdraw their consent.
                             This message will disappear once you change the value of the checkbox.
                         {% endblocktranslate %}
-                    </small>
+                    </div>
                 {% endif %}
                 {% if object.has_consent_from_before_full_age %}
-                    <small class="form-text bg-warning p-2 mb-2">
+                    <div class="form-text bg-warning text-dark p-2 mb-2">
                         {% blocktranslate %}
                             The subject has recently come of age. Please ask them to renew or withdraw their consent.
                             This message will disappear once you change the value of the checkbox.
                         {% endblocktranslate %}
-                    </small>
+                    </div>
                 {% endif %}
-                <small class="form-text text-muted">{{ form.consent_status.help_text }}</small>
+                <div class="form-text">{{ form.consent_status.help_text }}</div>
             </div>
             <input type="hidden" name="{{ form.consent_status.name }}" id="{{ form.consent_status.id_for_label }}_hidden" value="{{ form.consent_status.value|default:'' }}" autocomplete="off">
         </div>

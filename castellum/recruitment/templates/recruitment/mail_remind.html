@@ -17,13 +17,13 @@
         <form method="post">
             {% include 'utils/form_errors.html' with form=form %}
             {% csrf_token %}
-            <div class="form-group">
+            <div class="mb-3">
                 <label class="d-block">
                     {{ study|verbose_name:'mail_subject' }}
                     <input readonly class="form-control" value="{{ mail_subject }}"/>
                 </label>
             </div>
-            <div class="form-group">
+            <div class="mb-3">
                 <label class="d-block">
                     {{ study|verbose_name:'mail_body' }}
                     <textarea readonly class="form-control">{{ study.mail_body }}</textarea>

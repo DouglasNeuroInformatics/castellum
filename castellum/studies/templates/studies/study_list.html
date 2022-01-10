@@ -1,5 +1,5 @@
 {% extends "studies/base.html" %}
-{% load i18n static auth bootstrap4 utils %}
+{% load i18n static auth django_bootstrap5 utils %}
 
 {% block title %}{% translate "Studies" %} &middot; {{ block.super }}{% endblock %}
 
@@ -64,7 +64,7 @@
         <div class="col-md-9">
             {% has_perm 'studies.change_study' user as can_add_study %}
             {% if can_add_study %}
-                <div class="d-print-none text-right mb-3">
+                <div class="d-print-none text-end mb-3">
                     <a href="{% url 'studies:create' %}" class="btn btn-primary mb-1">{% translate "Create new study" %}</a>
                     {% if CASTELLUM_ENABLE_STUDY_EXPORT %}
                         <a href="{% url 'studies:import' %}" class="btn btn-secondary mb-1">{% translate "Import study" %}</a>
@@ -91,10 +91,10 @@
                     {% for study in object_list %}
                         <li class="table-list-item">
                             <div>
-                                <div class="h4 d-inline-block my-1 mr-2">{{ study.name }}</div>
-                                <div class="d-inline-block my-1 mr-2">{{ study.contact_person }}</div>
+                                <div class="h4 d-inline-block my-1 me-2">{{ study.name }}</div>
+                                <div class="d-inline-block my-1 me-2">{{ study.contact_person }}</div>
                                 {% if study.status == study.FINISHED %}
-                                    <span class="badge badge-secondary">{% translate 'Finished' %}</span>
+                                    <span class="badge bg-secondary">{% translate 'Finished' %}</span>
                                 {% endif %}
                             </div>
                             <div class="table-list-item-actions">

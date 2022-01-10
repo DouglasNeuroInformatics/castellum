@@ -1,5 +1,5 @@
 {% extends "mfa/base.html" %}
-{% load static i18n bootstrap4 mfa %}
+{% load static i18n django_bootstrap5 mfa %}
 
 {% block title %}{% translate 'Add recovery code' %} &middot; {{ block.super }}{% endblock %}
 
@@ -18,12 +18,12 @@
 
         {% bootstrap_field form.name %}
 
-        <div class="form-group">
+        <div class="mb-3">
             <label for="id_code">{% translate 'Recovery code' %}</label>
             <input id="id_code" name="code" class="form-control" readonly value="{{ mfa_data.code }}">
         </div>
 
-        <label class="form-group d-block">
+        <label class="mb-3 d-block">
             <input type="checkbox" required>
             I have savely stored the code
         </label>

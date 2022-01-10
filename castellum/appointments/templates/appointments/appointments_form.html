@@ -1,5 +1,5 @@
 {% extends view.base_template|default:"base.html" %}
-{% load i18n static bootstrap4 utils %}
+{% load i18n static django_bootstrap5 utils %}
 
 {% block content %}
     {% if study.session_instructions %}
@@ -26,8 +26,8 @@
         </p>
 
         {% for entry in form.appointments %}
-            <div class="form-group">
-                {% bootstrap_field entry.field form_group_class="" %}
+            <div class="mb-3">
+                {% bootstrap_field entry.field layout="inline" %}
                 {% if entry.invitation_url == 'not-invited' %}
                     <p class="text-muted">
                         {% translate 'Scheduler only available for participating subjects.' %}

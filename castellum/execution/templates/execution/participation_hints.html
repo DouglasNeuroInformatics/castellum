@@ -1,5 +1,5 @@
 {% extends "execution/participation_base.html" %}
-{% load i18n bootstrap4 %}
+{% load i18n django_bootstrap5 %}
 
 {% block content %}
     <form method="post">
@@ -11,14 +11,14 @@
         {% bootstrap_field form.assigned_conductor %}
 
         {% if study.executiontag_set.exists %}
-            <div class="form-group">
+            <div class="mb-3">
                 {{ form.execution_tags.label }}
 
                 {% for value, label in form.execution_tags.field.choices %}
                     <label class="form-check mb-0">
                         <input type="checkbox" class="form-check-input" name="execution_tags" value="{{ value }}" {% if value.instance.id in form.execution_tags.value %}checked{% endif %}>
                         <span class="form-check-label">
-                            <span class="badge badge-{{ value.instance.color }}">{{ label }}</span>
+                            <span class="badge bg-{{ value.instance.color }}">{{ label }}</span>
                         </span>
                     </label>
                 {% endfor %}

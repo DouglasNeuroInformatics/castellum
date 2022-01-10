@@ -1,5 +1,5 @@
 {% extends "subjects/base.html" %}
-{% load i18n bootstrap4 auth utils %}
+{% load i18n django_bootstrap5 auth utils %}
 
 {% block title %}{% translate "Subjects" %} &middot; {{ block.super }}{% endblock %}
 
@@ -28,10 +28,10 @@
                 <div class="card-header">
                     <ul class="nav nav-pills justify-content-center" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link {% if matches %}active{% endif %}" id="matches-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="matches" {% if matches %}aria-selected="true"{% endif %}>{% translate "Matches" %}</a>
+                            <a class="nav-link {% if matches %}active{% endif %}" id="matches-tab" data-bs-toggle="tab" href="#matches" role="tab" aria-controls="matches" {% if matches %}aria-selected="true"{% endif %}>{% translate "Matches" %}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if not matches %}active{% endif %}" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create" {% if not matches %}aria-selected="true"{% endif %}>{% translate "Create" %}</a>
+                            <a class="nav-link {% if not matches %}active{% endif %}" id="create-tab" data-bs-toggle="tab" href="#create" role="tab" aria-controls="create" {% if not matches %}aria-selected="true"{% endif %}>{% translate "Create" %}</a>
                         </li>
                     </ul>
                 </div>
@@ -49,7 +49,7 @@
                                 <div class="table-list-item">
                                     <div>
                                         {% if can_access %}
-                                            <div class="h4 d-inline-block my-1 mr-2">
+                                            <div class="h4 d-inline-block my-1 me-2">
                                                 {% if contact.title %}{{ contact.title }}{% endif %}
                                                 {% if contact.first_name|lower == form.cleaned_data.first_name|lower %}
                                                     <mark>{{ contact.first_name }}</mark>
@@ -65,10 +65,10 @@
                                             {% if can_view_subject %}
                                                 <div class="d-inline-block">
                                                     {% if contact.date_of_birth %}
-                                                        <div class="d-inline-block my-1 mr-2">{{ contact.date_of_birth }}</div>
+                                                        <div class="d-inline-block my-1 me-2">{{ contact.date_of_birth }}</div>
                                                     {% endif %}
                                                     {% if contact.email %}
-                                                        <div class="d-inline-block my-1 mr-2">
+                                                        <div class="d-inline-block my-1 me-2">
                                                             {% if contact.email|lower == form.cleaned_data.email|lower %}
                                                                 <mark>{{ contact.email }}</mark>
                                                             {% else %}
@@ -78,12 +78,12 @@
                                                     {% endif %}
                                                 </div>
                                                 {% if subject.blocked %}
-                                                    <span class="badge badge-dark my-1 mr-2">{{ subject|verbose_name:'blocked' }}</span>
+                                                    <span class="badge bg-dark my-1 me-2">{{ subject|verbose_name:'blocked' }}</span>
                                                 {% endif %}
                                             {% endif %}
                                         {% else %}
-                                            <h3 class="h4 d-inline-block text-muted my-1 mr-2">{{ contact.full_name }}</h3>
-                                            <div class="d-inline-block text-muted my-1 mr-2">{% translate 'access denied' %}</div>
+                                            <h3 class="h4 d-inline-block text-muted my-1 me-2">{{ contact.full_name }}</h3>
+                                            <div class="d-inline-block text-muted my-1 me-2">{% translate 'access denied' %}</div>
                                         {% endif %}
                                     </div>
                                     <div class="table-list-item-actions">
@@ -101,11 +101,11 @@
                                         {% for participation, can_recruit, can_conduct in participations %}
                                             <li class="table-list-item">
                                                 <div>
-                                                    <span class="h5 d-inline-block my-1 mr-2">{{ participation.study }}</span>
-                                                    <span class="d-inline-block my-1 mr-2">{{ participation.study.contact_person }}</span>
-                                                    <span class="badge badge-secondary my-1">{{ participation|display:'status' }}</span>
+                                                    <span class="h5 d-inline-block my-1 me-2">{{ participation.study }}</span>
+                                                    <span class="d-inline-block my-1 me-2">{{ participation.study.contact_person }}</span>
+                                                    <span class="badge bg-secondary my-1">{{ participation|display:'status' }}</span>
                                                     {% if participation.dropped_out %}
-                                                        <span class="badge badge-secondary my-1">{{ participation|verbose_name:'dropped_out' }}</span>
+                                                        <span class="badge bg-secondary my-1">{{ participation|verbose_name:'dropped_out' }}</span>
                                                     {% endif %}
                                                 </div>
                                                 <div class="table-list-item-actions">
@@ -189,7 +189,7 @@
     <aside class="border bg-light p-3 mb-3 mt-5" aria-labelledby="stats">
         {% has_perm 'subjects.change_subject' user as can_change_subject %}
         {% if can_change_subject %}
-            <a href="{% url 'subjects:maintenance-attributes' %}" class="btn btn-primary float-right">{% translate 'Maintenance' %}</a>
+            <a href="{% url 'subjects:maintenance-attributes' %}" class="btn btn-primary float-end">{% translate 'Maintenance' %}</a>
         {% endif %}
 
         <h2 id="stats" class="h4">{% translate 'Current data situation' %}</h2>

@@ -1,5 +1,5 @@
 {% extends "studies/study_base.html" %}
-{% load static i18n bootstrap4 %}
+{% load static i18n django_bootstrap5 %}
 
 {% block title %}{% translate "Sessions" %} &middot; {{ block.super }}{% endblock %}
 
@@ -19,8 +19,8 @@
         {% bootstrap_field form.type required_css_class='castellum-required' %}
         {% bootstrap_field form.reminder_text required_css_class='castellum-required' %}
         {% if SCHEDULER_URL and object %}
-            <div class="form-group">
-                {% bootstrap_field form.schedule_id form_group_class="" required_css_class='castellum-required' %}
+            <div class="mb-3">
+                {% bootstrap_field form.schedule_id layout="inline" required_css_class='castellum-required' %}
                 {% if object.schedule_id %}
                     <a href="{{ schedule_url }}" target="_blank">{% translate 'Go to schedule' %}</a>
                 {% else %}

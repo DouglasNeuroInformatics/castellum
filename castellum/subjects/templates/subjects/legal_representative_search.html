@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n static bootstrap4 auth utils %}
+{% load i18n static django_bootstrap5 auth utils %}
 
 {% block title %}{% translate "Legal representatives" %} &middot; {{ block.super }}{% endblock %}
 
@@ -26,10 +26,10 @@
                 <div class="card-header">
                     <ul class="nav nav-pills justify-content-center" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link {{ is_post|yesno:',active' }}" id="matches-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="matches" aria-selected="{{ is_post|yesno:'false,true' }}">{% translate "Matches" %}</a>
+                            <a class="nav-link {{ is_post|yesno:',active' }}" id="matches-tab" data-bs-toggle="tab" href="#matches" role="tab" aria-controls="matches" aria-selected="{{ is_post|yesno:'false,true' }}">{% translate "Matches" %}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ is_post|yesno:'active,' }}" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create" aria-selected="{{ is_post|yesno:'true,false' }}">{% translate "Create" %}</a>
+                            <a class="nav-link {{ is_post|yesno:'active,' }}" id="create-tab" data-bs-toggle="tab" href="#create" role="tab" aria-controls="create" aria-selected="{{ is_post|yesno:'true,false' }}">{% translate "Create" %}</a>
                         </li>
                     </ul>
                 </div>
@@ -44,7 +44,7 @@
                                 <li class="table-list-item">
                                     <div>
                                         {% if can_access %}
-                                            <div class="h4 d-inline-block my-1 mr-2">
+                                            <div class="h4 d-inline-block my-1 me-2">
                                                 {% if contact.title %}{{ contact.title }}{% endif %}
                                                 {% if contact.first_name|lower == form.cleaned_data.first_name|lower %}
                                                     <mark>{{ contact.first_name }}</mark>
@@ -59,10 +59,10 @@
                                             </div>
                                             <div class="d-inline-block">
                                                 {% if contact.date_of_birth %}
-                                                    <div class="d-inline-block my-1 mr-2">{{ contact.date_of_birth }}</div>
+                                                    <div class="d-inline-block my-1 me-2">{{ contact.date_of_birth }}</div>
                                                 {% endif %}
                                                 {% if contact.email %}
-                                                    <div class="d-inline-block my-1 mr-2">
+                                                    <div class="d-inline-block my-1 me-2">
                                                         {% if contact.email|lower == form.cleaned_data.email|lower %}
                                                             <mark>{{ contact.email }}</mark>
                                                         {% else %}
@@ -72,11 +72,11 @@
                                                 {% endif %}
                                             </div>
                                             {% if subject.blocked %}
-                                                <span class="badge badge-dark my-1 mr-2">{{ subject|verbose_name:'blocked' }}</span>
+                                                <span class="badge bg-dark my-1 me-2">{{ subject|verbose_name:'blocked' }}</span>
                                             {% endif %}
                                         {% else %}
-                                            <h3 class="h4 d-inline-block text-muted my-1 mr-2">{{ contact.full_name }}</h3>
-                                            <div class="d-inline-block text-muted my-1 mr-2">{% translate 'access denied' %}</div>
+                                            <h3 class="h4 d-inline-block text-muted my-1 me-2">{{ contact.full_name }}</h3>
+                                            <div class="d-inline-block text-muted my-1 me-2">{% translate 'access denied' %}</div>
                                         {% endif %}
                                     </div>
                                     <div class="table-list-item-actions">

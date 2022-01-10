@@ -73,7 +73,7 @@
     });
 
     $$.on(document, 'click', '[data-js="clear-datetime"]', function() {
-        this.closest('.form-row').querySelectorAll('input').forEach(el => {
+        this.closest('.row gx-2').querySelectorAll('input').forEach(el => {
             el.value = '';
             $$.trigger(el, 'change');
         });
@@ -123,7 +123,7 @@
             return null;
         }
         var $badge = $('<span class="w-100 badge">&nbsp</span>');
-        $badge.addClass('badge-' + state.element.value);
+        $badge.addClass('bg-' + state.element.value);
         $badge.attr('aria-label', state.text);
         return $badge;
     };

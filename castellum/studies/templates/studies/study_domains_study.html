@@ -1,5 +1,5 @@
 {% extends "studies/study_domains_base.html" %}
-{% load i18n auth bootstrap4 utils %}
+{% load i18n auth django_bootstrap5 utils %}
 
 {% block title %}{% translate "Pseudonym domains" %} &middot; {{ block.super }}{% endblock %}
 
@@ -8,7 +8,7 @@
     <ul class="p-0">
         {% for domain in study.domains.all %}
             <li class="d-block">
-                <form method="post" class="form-row">
+                <form method="post" class="row gx-2">
                     <div class="col col-md-6">
                         {% csrf_token %}
                         <input type="hidden" name="action" value="name">

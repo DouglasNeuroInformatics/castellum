@@ -1,5 +1,5 @@
 {% extends "recruitment/recruitment_base.html" %}
-{% load i18n bootstrap4 %}
+{% load i18n django_bootstrap5 %}
 
 {% block title %}{% translate "Recruitment" %} &middot; {{ study }} &middot; {{ block.super }}{% endblock %}
 
@@ -16,7 +16,7 @@
                     {% translate 'Mark all open participations as excluded.' %}
                 </div>
                 <div class="card-footer">
-                    <button name="action" value="all" class="btn btn-primary btn-block">{% translate 'All' %}</button>
+                    <button name="action" value="all" class="btn btn-primary d-block w-100">{% translate 'All' %}</button>
                 </div>
             </div>
             <div class="card">
@@ -24,7 +24,7 @@
                     {% translate 'Mark all subjects as excluded who have not answered for 10 days or more.' %}
                 </div>
                 <div class="card-footer">
-                    <button name="action" value="awaiting_response" class="btn btn-primary btn-block">{% translate 'Awaiting response' %}</button>
+                    <button name="action" value="awaiting_response" class="btn btn-primary d-block w-100">{% translate 'Awaiting response' %}</button>
                 </div>
             </div>
             <div class="card">
@@ -32,7 +32,7 @@
                     {% translate 'Mark all subject who do not match the current filter criteria as excluded.' %}
                 </div>
                 <div class="card-footer">
-                    <button name="action" value="mismatch" class="btn btn-primary btn-block">{% translate 'Mismatch' %}</button>
+                    <button name="action" value="mismatch" class="btn btn-primary d-block w-100">{% translate 'Mismatch' %}</button>
                 </div>
             </div>
         </div>

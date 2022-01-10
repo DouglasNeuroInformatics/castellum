@@ -17,29 +17,29 @@
             <li class="nav-item">
                 <a class="nav-link {% if view.subtab == 'open' %}active{% endif %}" href="{% url 'recruitment:recruitment-open' study.pk %}">
                     {% translate 'Open' %}
-                    <span class="badge badge-light">{{ open_count }}</span>
+                    <span class="badge bg-light text-body">{{ open_count }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if view.subtab == 'invited' %}active{% endif %}" href="{% url 'recruitment:recruitment-invited' study.pk %}">
                     {% translate 'Participating' %}
-                    <span class="badge badge-light">{{ invited_count }}/{{ study.min_subject_count }}</span>
+                    <span class="badge bg-light text-body">{{ invited_count }}/{{ study.min_subject_count }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if view.subtab == 'unsuitable' %}active{% endif %}" href="{% url 'recruitment:recruitment-unsuitable' study.pk %}">
                     {% translate 'Excluded' %}
-                    <span class="badge badge-light">{{ unsuitable_count }}</span>
+                    <span class="badge bg-light text-body">{{ unsuitable_count }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled">{% translate 'All' context 'total' %} <span class="badge badge-light">{{all_count}}</span></a>
+                <a class="nav-link disabled">{% translate 'All' context 'total' %} <span class="badge bg-light text-body">{{all_count}}</span></a>
             </li>
         </ul>
 
         {% if view.subtab == 'open' %}
             <form class="dropdown" method="get">
-                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="sortDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="sortDropdownButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ sort_label }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="sortDropdownButton">

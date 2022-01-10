@@ -1,5 +1,5 @@
 {% extends "studies/study_base.html" %}
-{% load static i18n auth bootstrap4 %}
+{% load static i18n auth django_bootstrap5 %}
 
 {% block title %}{% translate "Sessions" %} &middot; {{ block.super }}{% endblock %}
 
@@ -13,15 +13,15 @@
     <ul class="table-list mb-3">
         {% for session in sessions %}
             <li class="table-list-item">
-                <div class="h4 d-inline-block my-1 mr-2">
+                <div class="h4 d-inline-block my-1 me-2">
                     {{ session.name }}
                 </div>
-                <span class="my-1 mr-2">{{ session.duration }}{% translate 'min' %}</span>
+                <span class="my-1 me-2">{{ session.duration }}{% translate 'min' %}</span>
                 {% for type in session.type.all %}
-                    <span class="badge badge-secondary my-1 mr-1">{{ type }}</span>
+                    <span class="badge bg-secondary my-1 me-1">{{ type }}</span>
                 {% endfor %}
                 {% if session.resource %}
-                    <span class="badge badge-primary my-1 mr-1">{{ session.resource }}</span>
+                    <span class="badge bg-primary my-1 me-1">{{ session.resource }}</span>
                 {% endif %}
                 <div class="table-list-item-actions">
                     <a class="btn btn-outline-primary my-1" href="{% url 'studies:session-update' study.pk session.pk %}">{% translate 'Edit' %}</a>
@@ -49,7 +49,7 @@
             {% include 'utils/form_errors.html' with form=form %}
             {% csrf_token %}
 
-            <fieldset class="form-row">
+            <fieldset class="row gx-2">
                 <div class="col-md-6">
                     {% bootstrap_field form.sessions_start %}
                 </div>
