@@ -27,7 +27,7 @@
 
         {% for entry in form.appointments %}
             <div class="mb-3">
-                {% bootstrap_field entry.field layout="inline" %}
+                {% bootstrap_field entry.field wrapper_class="" %}
                 {% if entry.invitation_url == 'not-invited' %}
                     <p class="text-muted">
                         {% translate 'Scheduler only available for participating subjects.' %}
