@@ -72,6 +72,13 @@ class ExecutionTag(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def bootstrap_class(self):
+        cls = 'bg-{}'.format(self.color)
+        if self.color in ['info', 'warning']:
+            cls += ' text-dark'
+        return cls
+
 
 class ParticipationQuerySet(models.QuerySet):
     def with_sort_properties(self):
