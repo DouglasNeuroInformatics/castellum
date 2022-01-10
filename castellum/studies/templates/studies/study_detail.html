@@ -12,6 +12,8 @@
         <dd class="col-sm-6">
             {% for member in object.members.all %}
                 {{ member.get_full_name }}{% if not forloop.last %},{% endif %}
+            {% empty%}
+                &mdash;
             {% endfor %}
         </dd>
 
