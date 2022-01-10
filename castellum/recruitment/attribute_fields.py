@@ -1,7 +1,6 @@
-# (c) 2018-2021
-#     MPIB <https://www.mpib-berlin.mpg.de/>,
-#     MPI-CBS <https://www.cbs.mpg.de/>,
-#     MPIP <http://www.psych.mpg.de/>
+# (c) 2018-2022 MPIB <https://www.mpib-berlin.mpg.de/>,
+#     2018-2019 MPI-CBS <https://www.cbs.mpg.de/>,
+#     2018-2019 MPIP <http://www.psych.mpg.de/>
 #
 # This file is part of Castellum.
 #
