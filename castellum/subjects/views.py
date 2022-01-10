@@ -208,8 +208,6 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['updated_at'] = max(self.object.updated_at, self.object.contact.updated_at)
-
         completed, total = self.object.get_completeness()
         context['attribute_completeness'] = '{:.0%}'.format(completed / (total or 1))
 
