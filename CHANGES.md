@@ -21,6 +21,7 @@
     `fetch_scheduler_appointments` command
 -   Fixed crash when trying to edit a guardian in recruitment/execution
 -   Fixed missing translation fallback for attribute options
+-   Fixed phone number in subject creation requests
 
 ## new features
 
