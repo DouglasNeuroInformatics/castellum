@@ -202,27 +202,16 @@ be accessed in the context of this study.
 Manage study members
 --------------------
 
-If you want to give access to other staff members (e.g. recruiters) for your
-study, please follow the steps below.
+The **Member management** tab allows you to give other staff members (e.g.
+recruiters) access to your study. Each row of the table represents a member.
+You can change their groups or remove them from your study. The last row allows
+you to add new members to the study.
 
-1.  Go to the **Member management** tab
+.. note::
 
-2.  If you click on the field under **User**, you will be shown all possible
-    users to whom you can assign roles
-
-3.  Select the user who is supposed to take over the recruitment
-
-4.  Click on **Add**
-
-5.  Click **Manage groups** next to the person you have chosen
-
-6.  Select the appropriate roles and click **Save**
-
-    .. note::
-
-        Some features (e.g. recruitment) only become available once the study
-        is started. So, some added users may not instantly notice those role
-        changes.
+    Some features (e.g. recruitment) only become available once the study
+    is started. So, some added users may not instantly notice those role
+    changes.
 
 
 .. _study-start:
