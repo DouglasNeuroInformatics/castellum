@@ -300,10 +300,10 @@ Find your study
 
 Click on **Studies** on the front page
 
+-   In the field **Search** you can look for a certain study
 -   By selecting **Mine** in **Membership**, you will see studies you created
     or are a member of. Under the field **All** you can see all studies that
     have been created.
--   In the field **Search** you can look for a certain study
 -   By choosing a **Status** and / or a Study **Type**, you may also filter
     studies
 
