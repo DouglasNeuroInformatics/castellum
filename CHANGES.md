@@ -1,3 +1,8 @@
+# 0.70.1 (2022-01-11)
+
+-   Fixed a broken migration
+
+
 # 0.70.0 (2022-01-11)
 
 ## security
