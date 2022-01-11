@@ -67,7 +67,6 @@ from .templatetags.recruitment import study_legal_representative_hash
 
 FULLCALENDAR_DEFAULT_COLOR = '#3788d8'
 
-logger = logging.getLogger(__name__)
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
