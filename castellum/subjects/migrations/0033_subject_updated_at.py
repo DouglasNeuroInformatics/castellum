@@ -30,6 +30,9 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('subjects', '0032_subject_uuid_foreign_key'),
+
+        # this dependency is ineffective because it is about the other database
+        ('contacts', '0015_contactcreationrequest_message'),
     ]
 
     operations = [
