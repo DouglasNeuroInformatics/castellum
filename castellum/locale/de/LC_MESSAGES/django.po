@@ -1860,7 +1860,7 @@ msgstr ""
 
 #: castellum/recruitment/templates/recruitment/recruitment.html:69
 msgid "Add recently active"
-msgstr "Kürzlich aktive hinzufügen"
+msgstr "Kürzlich Aktive hinzufügen"
 
 #: castellum/recruitment/templates/recruitment/recruitment_base.html:18
 #: castellum/studies/templates/studies/study_base.html:139
@@ -2519,7 +2519,7 @@ msgstr "Anzahl"
 
 #: castellum/studies/templates/studies/study_detail.html:30
 msgid "Types of sessions"
-msgstr "Arten von Sitzungen"
+msgstr "Typen von Sitzungen"
 
 #: castellum/studies/templates/studies/study_detail.html:33
 msgid "Scheduled runtime"
@@ -3107,7 +3107,7 @@ msgstr "Warten auf Einwilligung"
 #: castellum/subjects/templates/subjects/maintenance_base.html:24
 #: castellum/subjects/templates/subjects/maintenance_estranged_subjects.html:4
 msgid "Estranged subjects"
-msgstr "Unvertraute Proband*innen"
+msgstr "In Vergessenheit geratene Proband*innen"
 
 #: castellum/subjects/templates/subjects/maintenance_base.html:26
 #: castellum/subjects/templates/subjects/maintenance_subjectcreationrequest.html:4
