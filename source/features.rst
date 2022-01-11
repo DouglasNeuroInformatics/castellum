@@ -52,7 +52,7 @@ Appointments
 
 Castellum can be used to manage appointments for test session. It will send
 reminder mails to subjects automatically. You can also define resources such as
-rooms or machines that can not be used in more than one appointment at a time.
+rooms or machines.
 
 Relevant guides:
 
