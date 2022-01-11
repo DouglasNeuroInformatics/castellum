@@ -20,7 +20,13 @@ def migrate_data(apps, schema_editor):
                 ).values_list('updated_at', flat=True))
             else:
                 participation_updated_at = None
-            contact_updated_at = Contact.objects.get(subject_uuid=subject.pk).updated_at
+
+            contact = Contact.objects.filter(subject_uuid=subject.pk)
+            if contact.exists():
+                contact_updated_at = Contact.objects.get(subject_uuid=subject.pk).updated_at
+            else:
+                contact_updated_at = None
+
             most_recent_contact = max(subject.updated_at, contact_updated_at, participation_updated_at)
             # needs to be update() in order not to set Subject.updated_at to now
             Subject.objects.filter(uuid=subject.uuid).update(updated_at=most_recent_contact)
