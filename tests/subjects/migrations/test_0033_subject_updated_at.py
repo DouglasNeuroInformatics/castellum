@@ -4,7 +4,7 @@ from freezegun import freeze_time
 from tests.markers import skip_old_migration
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db(databases=['default', 'contacts'])
 @skip_old_migration('0.70')
 def test_keep_uuid(migrator):
     old_state = migrator.apply_initial_migration(('subjects', '0032_subject_uuid_foreign_key'))
