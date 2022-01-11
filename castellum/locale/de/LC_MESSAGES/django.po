@@ -2519,7 +2519,7 @@ msgstr "Anzahl"
 
 #: castellum/studies/templates/studies/study_detail.html:30
 msgid "Types of sessions"
-msgstr "Typen von Sitzungen"
+msgstr "Sitzungstypen"
 
 #: castellum/studies/templates/studies/study_detail.html:33
 msgid "Scheduled runtime"
@@ -2776,10 +2776,8 @@ msgid "Add session"
 msgstr "Sitzung hinzufügen"
 
 #: castellum/studies/templates/studies/study_sessions.html:46
-#, fuzzy
-#| msgid "General"
 msgid "General Info"
-msgstr "Allgemein"
+msgstr "Allgemeine Informationen"
 
 #: castellum/studies/templates/studies/studymembership_confirm_delete.html:4
 msgid "Remove member"
