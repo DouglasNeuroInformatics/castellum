@@ -17,11 +17,9 @@ def migrate_data(apps, schema_editor):
             excluded_by_cleanup=False,
         ).aggregate(models.Max('updated_at'))
 
-        contact = Contact.objects.filter(subject_uuid=subject.pk)
-        if contact.exists():
-            contact_updated_at = Contact.objects.get(subject_uuid=subject.pk).updated_at
-        else:
-            contact_updated_at = None
+        contact = Contact.objects.filter(subject_uuid=subject.pk).first()
+        if contact:
+            contact_updated_at = contact.updated_at
 
         dates = [subject.updated_at, contact_updated_at, participation_updated_at]
         most_recent_contact = max(date for date in dates if date)
