@@ -24,6 +24,6 @@ def test_keep_uuid(migrator):
     Subject = new_state.apps.get_model('subjects', 'Subject')
     subject = Subject.objects.first()
 
-    assert subject.updated_at == participation.updated_at
+    assert subject.updated_at == participation.updated_at.date()
 
     migrator.reset()
