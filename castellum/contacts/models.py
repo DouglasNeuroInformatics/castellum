@@ -310,5 +310,6 @@ class ContactCreationRequest(BaseContact):
             title=self.title,
             gender=self.gender,
             date_of_birth=self.date_of_birth,
+            phone_number=self.phone_number,
             email=self.email,
         )
