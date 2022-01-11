@@ -12,13 +12,10 @@ def migrate_data(apps, schema_editor):
 
 
     for subject in Subject.objects.filter(deceased=False, blocked=False):
-        if subject.participation_set:
-            participation_updated_at = max(subject.participation_set.filter(
-                status__in=contacted_status,
-                excluded_by_cleanup=False,
-            ).values_list('updated_at', flat=True))
-        else:
-            participation_updated_at = None
+        participation_updated_at = subject.participation_set.filter(
+            status__in=contacted_status,
+            excluded_by_cleanup=False,
+        ).aggregate(models.Max('updated_at'))
 
         contact = Contact.objects.filter(subject_uuid=subject.pk)
         if contact.exists():
