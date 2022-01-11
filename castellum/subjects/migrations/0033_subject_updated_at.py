@@ -10,13 +10,18 @@ def migrate_data(apps, schema_editor):
     FOLLOWUP_APPOINTED = 4
     contacted_status = [INVITED, UNSUITABLE, FOLLOWUP_APPOINTED]
 
-
-    for subject in Subject.objects.filter(deceased=False, blocked=False):
-        participation_updated_at = subject.participation_set.filter(
-            status__in=contacted_status,
-            excluded_by_cleanup=False,
-        ).aggregate(models.Max('updated_at'))
-
+    subjects = Subject.objects.filter(
+        deceased=False, blocked=False
+    ).annotate(
+        participation_updated_at=models.Max(
+            'participation__updated_at',
+            filter=models.Q(
+                participation__status__in=[INVITED, UNSUITABLE, FOLLOWUP_APPOINTED],
+                participation__excluded_by_cleanup=False,
+            )
+        )
+    )
+    for subject in subjects:
         contact = Contact.objects.filter(subject_uuid=subject.pk).first()
         if contact:
             contact_updated_at = contact.updated_at
