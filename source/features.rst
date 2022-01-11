@@ -47,10 +47,6 @@ Relevant guides:
 -   :ref:`study-filter-trial`
 -   :ref:`admin-attributes`
 
-.. TODO::
-
-    -   attribute download
-
 Appointments
 ------------
 
