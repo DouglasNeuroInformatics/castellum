@@ -25,11 +25,11 @@ Create a study
     invite potential subjects **anonymously** via mail.
 
 4.  Fill in any additional information (you can still do that later)
-    
+
     .. note::
 
-        Quick note on **Consent**: this allows users to upload a blueprint of 
-        the study consent. This blueprint can be obtained (and printed) later by 
+        Quick note on **Consent**: this allows users to upload a blueprint of
+        the study consent. This blueprint can be obtained (and printed) later by
         recruiters or conductors.
 
 5.  Click on **Save** to record your progress
@@ -319,11 +319,11 @@ you how many subjects in the database match your filters.
 
 .. admonition:: Example
 
-    By the time of writing (September 2021) the MPI for Human Development 
-    recommends its Castellum recruiters to aim for at least 10× more potential 
-    than required subjects for a smooth recruitment process. Otherwise it 
-    becomes essential to populate the database via external sources or efforts 
-    first.  
+    By the time of writing (September 2021) the MPI for Human Development
+    recommends its Castellum recruiters to aim for at least 10× more potential
+    than required subjects for a smooth recruitment process. Otherwise it
+    becomes essential to populate the database via external sources or efforts
+    first.
 
 If you decide you want to keep the set of filters you can go to **Convert to
 study** to convert your temporary settings to a regular study.
