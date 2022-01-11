@@ -4,11 +4,11 @@ from django.db import migrations, models
 def migrate_data(apps, schema_editor):
     Subject = apps.get_model('subjects', 'Subject')
     Contact = apps.get_model('contacts', 'Contact')
+
     # re-implementation of constants from model Participation
     UNSUITABLE = 2
     INVITED = 3
     FOLLOWUP_APPOINTED = 4
-    contacted_status = [INVITED, UNSUITABLE, FOLLOWUP_APPOINTED]
 
     subjects = Subject.objects.filter(
         deceased=False, blocked=False
@@ -21,6 +21,7 @@ def migrate_data(apps, schema_editor):
             )
         )
     )
+
     for subject in subjects:
         contact = Contact.objects.filter(subject_uuid=subject.pk).first()
         if contact:
@@ -30,8 +31,9 @@ def migrate_data(apps, schema_editor):
 
         dates = [subject.updated_at, contact_updated_at, subject.participation_updated_at.date()]
         most_recent_contact = max(date for date in dates if date)
-        # needs to be update() in order not to set Subject.updated_at to now
+
         if most_recent_contact != subject.updated_at:
+            # needs to be update() in order not to set Subject.updated_at to now
             Subject.objects.filter(uuid=subject.uuid).update(updated_at=most_recent_contact)
 
 
