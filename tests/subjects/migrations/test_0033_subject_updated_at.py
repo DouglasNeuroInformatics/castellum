@@ -5,7 +5,7 @@ from tests.markers import skip_old_migration
 
 
 @pytest.mark.django_db(databases=['default', 'contacts'])
-@skip_old_migration('0.70')
+@skip_old_migration('0.70.1')
 def test_set_updated_at(migrator):
     old_state = migrator.apply_initial_migration(('subjects', '0032_subject_uuid_foreign_key'))
     Subject = old_state.apps.get_model('subjects', 'Subject')
