@@ -13,11 +13,13 @@ Create a study
 2.  Fill in all required fields on the page:
 
     -   **Name** describes the title of the study you want to create
+    -   **Principal Investigator** is the lead researcher
     -   **Responsible contact person** is the person who can be contacted if
         any questions regarding the study occur
-    -   **Principal Investigator** is the lead researcher
     -   **Phone number** and **E-mail-address** are the contact information at
         which the contact person can be reached
+    -   **Required number of subjects** is the number of people you need to
+        recruit for this study
 
 3.  Decide on setting it up as a regular study that includes study recruitment
     and execution or as a **one time invitation**. The option **Is a one time
