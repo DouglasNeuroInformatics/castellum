@@ -1,3 +1,62 @@
+# 0.70.0 (unreleased)
+
+## security
+
+-   The calendars that are displayed in different parts of castellum
+    constantly poll for new events. This was counted as user activity
+    and therefore prevented the auto-logout mechanism to work correctly.
+    With this release these requests are ignored when checking for user
+    activity.
+
+## breaking changes
+
+-   `CASTELLUM_PSEUDONYMS_API_ENABLED` was renamed/extended to
+    `CASTELLUM_API_ENABLED`
+-   The execution API URLs changed (see docs/API.md for details)
+
+## bug fixes
+
+-   Fixed some missing fields in study duplication
+-   Fixed various issues (including crashes) in the
+    `fetch_scheduler_appointments` command
+-   Fixed crash when trying to edit a guardian in recruitment/execution
+-   Fixed missing translation fallback for attribute options
+
+## new features
+
+-   This release contains many UI changes. Highlights:
+    -   Styling was updated to bootstrap 5
+    -   Changed the study list layout
+    -   Changed study member management to display a single table
+    -   Changed the data protection dashboard to display a single list
+-   In recruitment, recently active (and therefore potentially
+    responsive) subjects are highlighted with a badge and a new sort
+    option. There is also a new button to only add recently active
+    subjects.
+-   A subject's privacy level is now prominently displayed in the UI,
+    including recruitment and execution. A user's privacy level is
+    correspondingly displayed in member management. This way it is
+    easier to see whether your coworkers are allowed to access a
+    specific subject.
+-   There is a new subject maintenance view for subjects that have not
+    been contacted in a long time.
+-   The email address is now included in study export/import
+-   The data protection dashboard now also displays meaningful
+    information when the request is overdue.
+-   Scheduler appointments are now synced automatically for the whole
+    study when a relevant view is used. Previously, only the
+    appointments for a single subject were synced when relevant views
+    for that subject were used.
+-   When setting a schedule ID, castellum now checks whether that
+    schedule actually exists.
+-   A schedule ID can no longer be changed once an appointment exists to
+    avoid synchronisation issues between the scheduler and castellum.
+-   Added two new API endpoints to list studies and get study metadata
+    (see docs/API.md for details)
+-   General domains can now have exportable attributes that are
+    available via a new API endpoint
+
+
 # 0.69.2 (2021-12-01)
 
 -   Fixed displaying external event feeds
