@@ -8,11 +8,11 @@ def migrate_data(apps, schema_editor):
     UNSUITABLE = 2
     INVITED = 3
     FOLLOWUP_APPOINTED = 4
+    contacted_status = [INVITED, UNSUITABLE, FOLLOWUP_APPOINTED]
 
 
     for subject in Subject.objects.all():
         if not subject.deceased or subject.blocked:
-            contacted_status = [INVITED, UNSUITABLE, FOLLOWUP_APPOINTED]
             if subject.participation_set:
                 participation_updated_at = max(subject.participation_set.filter(
                     status__in=contacted_status,
