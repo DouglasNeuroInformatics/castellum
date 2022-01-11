@@ -131,7 +131,7 @@ The legal basis for each subject can be found in the subject detail view.
 .. _admin-general-domains:
 
 Manage general domains
-----------------------
+======================
 
 1.  Click on **Admin** on the front page
 2.  Go to **Domains**

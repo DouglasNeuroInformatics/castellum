@@ -88,9 +88,7 @@ a *general domain*.
 
 Because these pseudonyms are the same across all studies, access to them is
 highly restricted. Both the user and the study need to be authorized before it
-shows up in list of pseudonyms. This also means that, even though general
-domains exist independently of studies, they can only be accessed through
-studies.
+shows up in list of pseudonyms.
 
 Relevant guides:
 

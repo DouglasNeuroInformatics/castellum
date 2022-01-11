@@ -13,11 +13,13 @@ Create a study
 2.  Fill in all required fields on the page:
 
     -   **Name** describes the title of the study you want to create
+    -   **Principal Investigator** is the lead researcher
     -   **Responsible contact person** is the person who can be contacted if
         any questions regarding the study occur
-    -   **Principal Investigator** is the lead researcher
     -   **Phone number** and **E-mail-address** are the contact information at
         which the contact person can be reached
+    -   **Required number of subjects** is the number of people you need to
+        recruit for this study
 
 3.  Decide on setting it up as a regular study that includes study recruitment
     and execution or as a **one time invitation**. The option **Is a one time
@@ -25,11 +27,11 @@ Create a study
     invite potential subjects **anonymously** via mail.
 
 4.  Fill in any additional information (you can still do that later)
-    
+
     .. note::
 
-        Quick note on **Consent**: this allows users to upload a blueprint of 
-        the study consent. This blueprint can be obtained (and printed) later by 
+        Quick note on **Consent**: this allows users to upload a blueprint of
+        the study consent. This blueprint can be obtained (and printed) later by
         recruiters or conductors.
 
 5.  Click on **Save** to record your progress
@@ -200,27 +202,16 @@ be accessed in the context of this study.
 Manage study members
 --------------------
 
-If you want to give access to other staff members (e.g. recruiters) for your
-study, please follow the steps below.
+The **Member management** tab allows you to give other staff members (e.g.
+recruiters) access to your study. Each row of the table represents a member.
+You can change their groups or remove them from your study. The last row allows
+you to add new members to the study.
 
-1.  Go to the **Member management** tab
+.. note::
 
-2.  If you click on the field under **User**, you will be shown all possible
-    users to whom you can assign roles
-
-3.  Select the user who is supposed to take over the recruitment
-
-4.  Click on **Add**
-
-5.  Click **Manage groups** next to the person you have chosen
-
-6.  Select the appropriate roles and click **Save**
-
-    .. note::
-
-        Some features (e.g. recruitment) only become available once the study
-        is started. So, some added users may not instantly notice those role
-        changes.
+    Some features (e.g. recruitment) only become available once the study
+    is started. So, some added users may not instantly notice those role
+    changes.
 
 
 .. _study-start:
@@ -279,9 +270,9 @@ organization. We assume that it makes sense to delete all study data after few
 years, effectively anonymizing the research data.
 
 Once you delete a study from Castellum it is no longer possible to answer to
-export or delete requests from subjects. Make sure that all relevant external
-has been deleted before you delete a study from Castellum. Then proceed as
-follows:
+export or delete requests for this particular study. Make sure that all
+relevant external data has been deleted before you delete a study from
+Castellum. Then proceed as follows:
 
 1.  :ref:`Find the study <study-search>` at the **Studies** page, click
     **Details**
@@ -300,10 +291,10 @@ Find your study
 
 Click on **Studies** on the front page
 
+-   In the field **Search** you can look for a certain study
 -   By selecting **Mine** in **Membership**, you will see studies you created
     or are a member of. Under the field **All** you can see all studies that
     have been created.
--   In the field **Search** you can look for a certain study
 -   By choosing a **Status** and / or a Study **Type**, you may also filter
     studies
 
@@ -319,11 +310,11 @@ you how many subjects in the database match your filters.
 
 .. admonition:: Example
 
-    By the time of writing (September 2021) the MPI for Human Development 
-    recommends its Castellum recruiters to aim for at least 10× more potential 
-    than required subjects for a smooth recruitment process. Otherwise it 
-    becomes essential to populate the database via external sources or efforts 
-    first.  
+    By the time of writing (September 2021) the MPI for Human Development
+    recommends its Castellum recruiters to aim for at least 10× more potential
+    than required subjects for a smooth recruitment process. Otherwise it
+    becomes essential to populate the database via external sources or efforts
+    first.
 
 If you decide you want to keep the set of filters you can go to **Convert to
 study** to convert your temporary settings to a regular study.

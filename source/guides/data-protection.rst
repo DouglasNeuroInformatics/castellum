@@ -12,10 +12,10 @@ Click on **Data protection** on the front page to go to the data protection
 dashboard. This dashboard lists tasks you need to take care of by initiating
 follow-up steps for each category.
 
--   **Export requested** lists all subjects who requested a GDPR export. See
-    :ref:`subject-export` for the necessary steps.
--   **To be deleted**, **No legal basis**, and **Unreachable** all list
-    subjects who should be deleted for different reasons. See
+-   A subject is tagged **Export requested** if they requested a GDPR export.
+    See :ref:`subject-export` for the necessary steps.
+-   A subject is tagged **To be deleted**, **No legal basis**, or
+    **Unreachable** if they should be deleted for different reasons. See
     :ref:`subject-delete` for the necessary steps.
 
 In all those categories it usually makes sense to contact the subjects before
