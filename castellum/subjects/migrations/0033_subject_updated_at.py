@@ -25,6 +25,8 @@ def migrate_data(apps, schema_editor):
         contact = Contact.objects.filter(subject_uuid=subject.pk).first()
         if contact:
             contact_updated_at = contact.updated_at
+        else:
+            contact_updated_at = None
 
         dates = [subject.updated_at, contact_updated_at, subject.participation_updated_at.date()]
         most_recent_contact = max(date for date in dates if date)
