@@ -67,7 +67,6 @@ class SchedulerFetchParticipationMixin:
 
     def get(self, request, *args, **kwargs):
         if settings.SCHEDULER_URL:
-            self.update_scheduler_appointments()
             count = self.fetch_scheduler_appointments()
             if count > 0:
                 messages.info(self.request, _(
