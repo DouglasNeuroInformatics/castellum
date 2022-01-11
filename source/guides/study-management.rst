@@ -279,9 +279,9 @@ organization. We assume that it makes sense to delete all study data after few
 years, effectively anonymizing the research data.
 
 Once you delete a study from Castellum it is no longer possible to answer to
-export or delete requests from subjects. Make sure that all relevant external
-has been deleted before you delete a study from Castellum. Then proceed as
-follows:
+export or delete requests for this particular study. Make sure that all
+relevant external data has been deleted before you delete a study from
+Castellum. Then proceed as follows:
 
 1.  :ref:`Find the study <study-search>` at the **Studies** page, click
     **Details**
