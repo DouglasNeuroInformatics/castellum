@@ -7,10 +7,12 @@
 
 {% block content %}
     {% if unprivileged_users %}
-        <p class="alert alert-warning">
-            {% translate 'Some members of this study with access to filters are blocked from managing filters due to an insufficient privacy level. Blocked users are: ' %}
-            {{ unprivileged_users|join:', ' }}
-        </p>
+        <div class="container">
+            <p class="alert alert-warning">
+                {% translate 'Some members of this study with access to filters are blocked from managing filters due to an insufficient privacy level. Blocked users are: ' %}
+                {{ unprivileged_users|join:', ' }}
+            </p>
+        </div>
     {% endif %}
 
     <table class="table w-auto mx-auto">
