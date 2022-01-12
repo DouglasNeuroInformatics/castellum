@@ -15,9 +15,15 @@ anything in Castellum. These can be useful to provide pseudonyms for
 external databases that are used accross studies, e.g. for blood samples
 or IQ scores.
 
-General domains can be created in the admin UI by creating a domain that
-has a blank `content_type` and `object_id`. Study coordinators can then
-select which general domain they need to access in their study.
+In order to use a general domain you need to perform these steps:
+
+-   In the admin UI, create a domain that has a blank `content_type`
+    and `object_id`. There you can also select which attributes need to
+    be accessible for this domain via the API.
+-   Also in the admin UI, add the domain to the "available general
+    domains" for relevant users.
+-   Study coordinators can then select which general domain they need to
+    access in their study.
 
 ## Legacy pseudonyms
 
