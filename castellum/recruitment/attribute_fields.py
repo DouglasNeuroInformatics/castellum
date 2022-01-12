@@ -173,8 +173,8 @@ class TextAttributeField(BaseAttributeField):
 
 class BaseChoiceAttributeField(BaseAttributeField):
     def get_choices(self):
-        qs = self.description.attributechoice_set.active_translations()
-        return list(qs.values_list('pk', 'translations__label'))
+        qs = self.description.attributechoice_set.all()
+        return [(c.pk, c.label) for c in qs]
 
     def formfield(self, form_class=None, **kwargs):
         return super().formfield(form_class=form_class, choices=self.get_choices(), **kwargs)
