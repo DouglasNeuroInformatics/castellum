@@ -51,6 +51,7 @@ from .models import Participation
 from .models.attributes import ANSWER_DECLINED
 from .models.attributes import UNCATEGORIZED
 
+logger = logging.getLogger(__name__)
 monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
@@ -196,13 +197,17 @@ class BaseMailRecruitmentView(StudyMixin, PermissionRequiredMixin, FormView):
         with MailContext('recruitment') as ctx:
             while len(participations) < batch_size and subjects:
                 pick = subjects.pop(random.randrange(0, len(subjects)))
-                success = ctx.send_separate_mails(
-                    self.study.mail_subject,
-                    self.personalize_mail_body(self.study.mail_body, pick.contact),
-                    pick.contact.own_or_legal_representative_emails,
-                    reply_to=[self.study.email],
-                    recipients_string=pick.contact.email_recipients_string,
-                )
+                try:
+                    success = ctx.send_separate_mails(
+                        self.study.mail_subject,
+                        self.personalize_mail_body(self.study.mail_body, pick.contact),
+                        pick.contact.own_or_legal_representative_emails,
+                        reply_to=[self.study.email],
+                        recipients_string=pick.contact.email_recipients_string,
+                    )
+                except Exception:
+                    logger.exception('failed to send mail')
+                    break
                 if success:
                     participations.append(Participation(
                         study=self.study,
