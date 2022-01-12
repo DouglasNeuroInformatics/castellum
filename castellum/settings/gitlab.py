@@ -2,6 +2,9 @@ from .default import *
 
 SECRET_KEY = 'CHANGEME',
 
+# disable cache busting (necessary for testing)
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

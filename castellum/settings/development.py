@@ -9,6 +9,9 @@ DEBUG = True
 
 PROTECTED_MEDIA_SERVER = 'django'
 
+# disable cache busting (necessary for testing)
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
 # setup debug toolbar
 
 try:
