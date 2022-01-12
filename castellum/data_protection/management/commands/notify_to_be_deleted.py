@@ -46,19 +46,15 @@ def subjects_notify(subjects, base_url):
             )
             if sent:
                 count += 1
-                subject.to_be_deleted_notified = True
-                subject.save()
+                # do not set updated_at
+                Subject.objects.filter(pk=subject.pk).update(to_be_deleted_notified=True)
     return count
 
 
 def subjects_reset(subjects):
-    count = 0
-    for subject in Subject.objects.filter(to_be_deleted_notified=True):
-        if subject not in subjects:
-            subject.to_be_deleted_notified = False
-            subject.save()
-            count += 1
-    return count
+    return Subject.objects\
+        .filter(to_be_deleted_notified=True)\
+        .update(to_be_deleted_notified=False)
 
 
 class Command(BaseCommand):
