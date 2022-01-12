@@ -133,6 +133,9 @@ STATICFILES_FINDERS = [
     'npm.finders.NpmFinder',
 ]
 
+# enable cache busting
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
 STATIC_URL = '/static/'
 
 STATIC_ROOT = BASE_DIR / 'collected_static'
@@ -158,6 +161,11 @@ NPM_FILE_PATTERNS = {
         'webfonts/fa-regular-400.woff',
         'webfonts/fa-regular-400.ttf',
         'webfonts/fa-regular-400.svg',
+        'webfonts/fa-brands-400.eot',
+        'webfonts/fa-brands-400.woff2',
+        'webfonts/fa-brands-400.woff',
+        'webfonts/fa-brands-400.ttf',
+        'webfonts/fa-brands-400.svg',
         'webfonts/fa-solid-900.eot',
         'webfonts/fa-solid-900.woff2',
         'webfonts/fa-solid-900.woff',
