@@ -1,3 +1,13 @@
+# 0.70.2 (2022-01-12)
+
+-   Enabled cache busting
+-   Fixed width of alert in member management
+-   Fixed error on invalid placeholders in resource URL
+-   Fixed duplicate display of attribute options
+-   Gracefully handle mail server errors in mail recruitment
+-   Ignore `notify_to_be_deleted` for estranged subject maintenance view
+
+
 # 0.70.1 (2022-01-11)
 
 -   Fixed a broken migration
