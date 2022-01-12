@@ -17,7 +17,7 @@ or IQ scores.
 
 In order to use a general domain you need to perform these steps:
 
--   In the admin UI, create a domains that has a blank `content_type`
+-   In the admin UI, create a domain that has a blank `content_type`
     and `object_id`. There you can also select which attributes need to
     be accessible for this domain via the API.
 -   Also in the admin UI, add the domain to the "available general
