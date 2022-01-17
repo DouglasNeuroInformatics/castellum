@@ -24,6 +24,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from castellum.castellum_auth.models import User
 from castellum.subjects.models import Subject
 from castellum.utils import uuid_str
 
@@ -36,6 +37,13 @@ class Domain(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
     object_id = models.PositiveIntegerField(null=True, blank=True)
     context = GenericForeignKey()
+
+    managers = models.ManyToManyField(
+        User,
+        verbose_name=_('Users who can access this domain'),
+        related_name='general_domains',
+        blank=True,
+    )
     exportable_attributes = models.ManyToManyField(
         'recruitment.AttributeDescription',
         verbose_name=_('Exportable recruitment attributes'),
