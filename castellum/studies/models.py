@@ -410,9 +410,7 @@ class StudySession(models.Model):
     name = models.CharField(_('Name'), max_length=128)
     duration = models.PositiveIntegerField(_('Duration of a session in minutes'))
     type = models.ManyToManyField(StudyType, verbose_name=_('Type'), blank=True)
-    resource = models.ForeignKey(
-        Resource, on_delete=models.SET_NULL, verbose_name=_('Resource'), blank=True, null=True
-    )
+    resources = models.ManyToManyField(Resource, verbose_name=_('Resources'), blank=True)
     domains = GenericRelation(Domain)
     reminder_text = models.TextField(_('Additional text for reminder emails'), blank=True)
     schedule_id = models.CharField(

@@ -94,7 +94,7 @@ def test_appointment_overlap(client, member, participation, time):
 def test_appointment_resource_overlap(client, member, participation, time):
     resource = baker.make(Resource, name='MRI')
     session = baker.make(
-        StudySession, study=participation.study, duration=60, resource=resource
+        StudySession, study=participation.study, duration=60, resources=[resource]
     )
     baker.make(
         Appointment,
@@ -121,7 +121,7 @@ def test_appointment_resource_overlap(client, member, participation, time):
 def test_appointment_resource_overlap_ignore_not_invited(client, member, participation):
     resource = baker.make(Resource, name='MRI')
     session = baker.make(
-        StudySession, study=participation.study, duration=60, resource=resource
+        StudySession, study=participation.study, duration=60, resources=[resource]
     )
     baker.make(
         Appointment,

@@ -12,9 +12,11 @@
         {% bootstrap_field form.name required_css_class='castellum-required' %}
         {% bootstrap_field form.duration required_css_class='castellum-required' %}
         {% if has_resources %}
-            {% bootstrap_field form.resource required_css_class='castellum-required' %}
+            <div data-js="d-select2">
+                {% bootstrap_field form.resources required_css_class='castellum-required' %}
+            </div>
         {% else %}
-            {{ form.resource.as_hidden }}
+            {{ form.resources.as_hidden }}
         {% endif %}
         {% bootstrap_field form.type required_css_class='castellum-required' %}
         {% bootstrap_field form.reminder_text required_css_class='castellum-required' %}

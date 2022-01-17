@@ -73,6 +73,6 @@ class ResourceFeed(ParamAuthMixin, BaseExecutionAppointmentFeed):
         resource = get_object_or_404(Resource, pk=self.kwargs['pk'], managers=self.request.user)
         return (
             super().items()
-            .filter(session__resource=resource)
+            .filter(session__resources=resource)
             .exclude(session__study__status=Study.FINISHED)
         )
