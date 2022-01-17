@@ -35,13 +35,6 @@
                                 <span class="badge bg-dark my-1" title="{{ participation.subject.TOOLTIPS.deceased }}">{{ participation.subject|verbose_name:'deceased' }}</span>
                             {% endif %}
                         </div>
-
-                        {% if participation.assigned_conductor %}
-                            <div>
-                                {% icon 'user' label=_('assigned to') %}
-                                {{ participation.assigned_conductor.user.get_full_name }}
-                            </div>
-                        {% endif %}
                     </div>
                     <div class="table-list-item-actions">
                         <a class="btn btn-outline-primary my-1" href="{% url 'execution:participation-detail' study.pk participation.pk %}">{% translate 'Details' %}</a>
