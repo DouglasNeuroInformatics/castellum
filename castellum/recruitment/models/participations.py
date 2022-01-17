@@ -176,14 +176,6 @@ class Participation(models.Model):
         null=True,
         related_name='+',
     )
-    assigned_conductor = models.ForeignKey(
-        StudyMembership,
-        verbose_name=_('Assigned conductor'),
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-        related_name='+',
-    )
 
     objects = ParticipationQuerySet.as_manager()
 
