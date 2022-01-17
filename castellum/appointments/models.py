@@ -27,6 +27,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from castellum.recruitment.models import Participation
+from castellum.studies.models import StudyMembership
 from castellum.studies.models import StudySession
 from castellum.utils.expressions import MultiDurationExpr
 from castellum.utils.fields import DateTimeField
@@ -53,6 +54,12 @@ class Appointment(models.Model):
     )
 
     objects = AppointmentQuerySet.as_manager()
+    assigned_conductors = models.ManyToManyField(
+        StudyMembership,
+        verbose_name=_('Assigned conductors'),
+        blank=True,
+        related_name='+',
+    )
 
     class Meta:
         verbose_name = _('Appointment')
