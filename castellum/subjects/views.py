@@ -230,6 +230,8 @@ class SubjectPseudonymsView(SubjectMixin, PermissionRequiredMixin, DetailView):
     model = Subject
     template_name = 'subjects/subject_pseudonyms.html'
     tab = 'detail'
+    slug_field = 'uuid'
+    slug_url_kwarg = 'uuid'
 
     def has_permission(self):
         return (

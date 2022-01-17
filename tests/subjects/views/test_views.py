@@ -1,6 +1,8 @@
 import pytest
+from model_bakery import baker
 
 from castellum.contacts.models import Contact
+from castellum.pseudonyms.models import Domain
 
 
 @pytest.mark.smoketest
@@ -136,6 +138,38 @@ def test_delete_post(client, user, contact):
     url = '/subjects/{}/delete/'.format(contact.subject.uuid)
     client.post(url)
     assert not Contact.objects.filter(pk=contact.pk).exists()
+
+
+@pytest.mark.smoketest
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
+    'data_protection_coordinator',
+])
+def test_pseudonyms_200(request, client, user_fixture, subject):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    baker.make(Domain)
+    url = '/subjects/{}/pseudonyms/'.format(subject.uuid)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.smoketest
+@pytest.mark.parametrize('user_fixture', [
+    pytest.param('study_coordinator', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('recruiter', marks=pytest.mark.xfail(strict=True)),
+    pytest.param('subject_manager', marks=pytest.mark.xfail(strict=True)),
+    'data_protection_coordinator',
+])
+def test_pseudonym_200(request, client, user_fixture, subject):
+    user = request.getfixturevalue(user_fixture)
+    client.force_login(user)
+    domain = baker.make(Domain)
+    url = '/subjects/{}/pseudonyms/{}/'.format(subject.uuid, domain.key)
+    response = client.get(url)
+    assert response.status_code == 200
 
 
 @pytest.mark.smoketest
