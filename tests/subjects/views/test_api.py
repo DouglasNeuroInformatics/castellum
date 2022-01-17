@@ -6,7 +6,7 @@ from castellum.pseudonyms.models import Domain
 
 
 @pytest.mark.smoketest
-def test_api_study_detail_view(client, user, subject, attribute_description):
+def test_api_attributes_view(client, user, subject, attribute_description):
     domain = baker.make(Domain)
     domain.exportable_attributes.add(attribute_description)
     pseudonym = get_pseudonym(subject, domain.key)
@@ -21,7 +21,7 @@ def test_api_study_detail_view(client, user, subject, attribute_description):
     assert data == {attribute_description.label: None}
 
 
-def test_api_study_detail_view_no_user_access(client, user, subject, attribute_description):
+def test_api_attributes_view_no_user_access(client, user, subject, attribute_description):
     domain = baker.make(Domain)
     domain.exportable_attributes.add(attribute_description)
     pseudonym = get_pseudonym(subject, domain.key)
