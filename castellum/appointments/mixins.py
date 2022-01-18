@@ -117,7 +117,7 @@ class BaseAppointmentsUpdateView(
             .annotate_end()
             .exclude(pk=models.OuterRef('pk'))
             .filter(
-                session__resource=models.OuterRef('session__resource'),
+                session__resources=models.OuterRef('session__resources'),
                 participation__status=Participation.INVITED,
                 end__gt=models.OuterRef('start'),
                 start__lt=models.OuterRef('end'),
@@ -130,7 +130,7 @@ class BaseAppointmentsUpdateView(
             .exclude(overlap=None)
             .order_by()
         )
-        return Resource.objects.filter(pk__in=outer.values('session__resource__pk'))
+        return Resource.objects.filter(pk__in=outer.values('session__resources__pk'))
 
     def form_valid(self, form):
         response = super().form_valid(form)

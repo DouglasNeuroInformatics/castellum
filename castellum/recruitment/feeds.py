@@ -70,7 +70,7 @@ class ResourceFeed(ParamAuthMixin, BaseAppointmentFeed):
         resource = get_object_or_404(Resource, pk=self.kwargs['pk'])
         return (
             super().items()
-            .filter(session__resource=resource)
+            .filter(session__resources=resource)
             .exclude(session__study__status=Study.FINISHED)
         )
 

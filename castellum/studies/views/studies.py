@@ -248,10 +248,10 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
                 s = self.object.studysession_set.create(
                     name=session.name,
                     duration=session.duration,
-                    resource_id=session.resource_id,
                     reminder_text=session.reminder_text,
                 )
                 s.type.set(session.type.all())
+                s.resources.set(session.resources.all())
 
             for tag in self.duplicate.executiontag_set.all():
                 self.object.executiontag_set.create(name=tag.name)
