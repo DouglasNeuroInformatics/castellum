@@ -27,7 +27,6 @@ from django.utils import timezone
 
 from castellum.appointments.helpers import get_reminder_body
 from castellum.appointments.models import Appointment
-from castellum.recruitment.models import Participation
 from castellum.studies.models import Study
 from castellum.utils.mail import MailContext
 
@@ -74,7 +73,6 @@ def send_appointment_reminders(base_url):
                 start__lte=now + settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD,
                 reminded=False,
                 session__study=study,
-                participation__status=Participation.INVITED,
             ).select_related('participation__subject')
             not_reachable = []
 

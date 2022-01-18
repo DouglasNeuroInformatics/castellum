@@ -550,18 +550,12 @@ class ProgressView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin
         context['sessions'] = self.study.studysession_set.annotate(
             took_place=models.Count(
                 'appointment',
-                filter=models.Q(
-                    appointment__participation__status=Participation.INVITED,
-                    appointment__start__lte=timezone.now(),
-                ),
+                filter=models.Q(appointment__start__lte=timezone.now()),
                 distinct=True,
             ),
             scheduled_for_future=models.Count(
                 'appointment',
-                filter=models.Q(
-                    appointment__participation__status=Participation.INVITED,
-                    appointment__start__gt=timezone.now(),
-                ),
+                filter=models.Q(appointment__start__gt=timezone.now()),
                 distinct=True,
             ),
         ).annotate(
