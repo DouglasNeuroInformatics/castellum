@@ -2,6 +2,10 @@
 {% load i18n static django_bootstrap5 utils %}
 
 {% block content %}
+    {% if participation.status != participation.INVITED %}
+        <p class="alert alert-warning">{% translate 'Appointments only available for participating subjects' %}</p>
+    {% endif %}
+
     {% if study.session_instructions %}
         {{ study.session_instructions|urlize|linebreaks }}
     {% endif %}
@@ -28,11 +32,7 @@
         {% for entry in form.appointments %}
             <div class="mb-3">
                 {% bootstrap_field entry.field wrapper_class="" %}
-                {% if entry.invitation_url == 'not-invited' %}
-                    <p class="text-muted">
-                        {% translate 'Scheduler only available for participating subjects.' %}
-                    </p>
-                {% elif entry.invitation_url %}
+                {% if entry.invitation_url %}
                     <a id="invitation_url_{{ entry.field.id_for_label }}" href="{{ entry.invitation_url }}" target="_blank">{% translate 'Select timeslot for this subject' %}</a>
                     <button type="button" class="btn btn-sm btn-light" tabindex="-1" data-clipboard="#invitation_url_{{ entry.field.id_for_label }}" data-animation="success" title="{% translate 'Copy link' %}">
                         {% icon 'copy' label=_('Copy link') %}

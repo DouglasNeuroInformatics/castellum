@@ -18,6 +18,9 @@ from castellum.studies.models import StudySession
 def test_appointment(client, member, participation):
     session = baker.make(StudySession, study=participation.study)
 
+    participation.status = participation.INVITED
+    participation.save()
+
     client.force_login(member)
     url = '/recruitment/{}/{}/appointments/'.format(
         participation.study.pk, participation.pk
@@ -42,6 +45,9 @@ def test_appointment_delete(client, member, participation):
         participation=participation,
     )
 
+    participation.status = participation.INVITED
+    participation.save()
+
     client.force_login(member)
     url = '/recruitment/{}/{}/appointments/'.format(
         participation.study.pk, participation.pk
@@ -65,6 +71,9 @@ def test_appointment_delete(client, member, participation):
 def test_appointment_overlap(client, member, participation, time):
     session1 = baker.make(StudySession, study=participation.study, duration=60)
     session2 = baker.make(StudySession, study=participation.study, duration=60)
+
+    participation.status = participation.INVITED
+    participation.save()
 
     client.force_login(member)
     url = '/recruitment/{}/{}/appointments/'.format(
@@ -104,6 +113,9 @@ def test_appointment_resource_overlap(client, member, participation, time):
         participation__status=Participation.INVITED,
     )
 
+    participation.status = participation.INVITED
+    participation.save()
+
     client.force_login(member)
     url = '/recruitment/{}/{}/appointments/'.format(
         participation.study.pk, participation.pk
@@ -131,6 +143,9 @@ def test_appointment_resource_overlap_ignore_not_invited(client, member, partici
         participation__status=Participation.UNSUITABLE,
     )
 
+    participation.status = participation.INVITED
+    participation.save()
+
     client.force_login(member)
     url = '/recruitment/{}/{}/appointments/'.format(
         participation.study.pk, participation.pk
@@ -153,6 +168,9 @@ def test_appointment_change_appointment_permission(client, member, participation
     StudyMembership.objects.create(user=user, study=participation.study)
 
     session = baker.make(StudySession, study=participation.study, duration=60)
+
+    participation.status = participation.INVITED
+    participation.save()
 
     url = '/recruitment/{}/{}/appointments/'.format(participation.study.pk, participation.pk)
 
