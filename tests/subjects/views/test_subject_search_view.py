@@ -164,7 +164,7 @@ def test_create_from_subjectcreationrequest(client, user):
     })
 
     assert response.status_code == 302
-    assert not SubjectCreationRequest.objects.exists()
+    assert SubjectCreationRequest.objects.get().data_is_deleted
     assert not ContactCreationRequest.objects.exists()
     assert Contact.objects.exists()
     assert Contact.objects.get().first_name == contact_request.first_name

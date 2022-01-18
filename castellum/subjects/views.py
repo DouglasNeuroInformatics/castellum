@@ -170,7 +170,7 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
             if form.cleaned_data.get('last_name'):
                 if 'from-request' in self.request.GET:
                     subject = self.subjectcreationrequest.convert_to_real_subject()
-                    self.subjectcreationrequest.delete()
+                    self.subjectcreationrequest.mark_as_deleted()
                 else:
                     contact = Contact.objects.create(
                         first_name=form.cleaned_data['first_name'],
@@ -757,9 +757,7 @@ class SubjectCreationRequestDeleteView(PermissionRequiredMixin, DeleteView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.object.contact.delete()
-        self.object.data_is_deleted = True
-        self.object.save()
+        self.object.mark_as_deleted()
         return redirect(self.get_success_url())
 
 

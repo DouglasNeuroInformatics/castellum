@@ -268,9 +268,10 @@ class SubjectCreationRequest(TimeStampedModel):
         from castellum.contacts.models import ContactCreationRequest
         return ContactCreationRequest.objects.get(subject_id=self.pk)
 
-    def delete(self):
+    def mark_as_deleted(self):
         self.contact.delete()
-        return super().delete()
+        self.data_is_deleted = True
+        self.save()
 
     def convert_to_real_subject(self):
         contact = self.contact.convert_to_real_contact()
