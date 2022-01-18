@@ -87,8 +87,11 @@ class FilterGroupListView(FilterMixin, ListView):
             ).count()
         )
         context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+
+        participating = self.study.participation_set.filter(status=Participation.INVITED).count()
+        still_needed = self.study.min_subject_count - participating
         context['expected_subject_count'] = (
-            self.study.min_subject_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+            still_needed * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         )
         return context
 
@@ -171,8 +174,11 @@ class FilterGroupUpdateView(FilterMixin, UpdateView):
 
         context['total_count'] = Subject.objects.count()
         context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+
+        participating = self.study.participation_set.filter(status=Participation.INVITED).count()
+        still_needed = self.study.min_subject_count - participating
         context['expected_subject_count'] = (
-            self.study.min_subject_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+            still_needed * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         )
 
         context['inaccessible'] = list(self.get_inaccessible_attributedescriptions())
