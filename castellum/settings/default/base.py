@@ -113,6 +113,8 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 
+DEFAULT_EXCEPTION_REPORTER = 'castellum.utils.debug.ExceptionReporter'
+
 # Internationalization
 USE_I18N = True
 USE_L10N = True
