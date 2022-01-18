@@ -108,7 +108,7 @@ class APIResolveView(BaseAPIView):
 
         domains = Domain.objects.filter(
             models.Q(pk__in=self.study.domains.all())
-            | models.Q(pk__in=self.study.general_domains.filter(user=request.user))
+            | models.Q(pk__in=self.study.general_domains.filter(managers=request.user))
         )
         target_domain = get_object_or_404(domains, key=self.kwargs['target_domain'])
         pseudonym = get_pseudonym(subject, target_domain.key)

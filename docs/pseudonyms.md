@@ -18,10 +18,11 @@ or IQ scores.
 In order to use a general domain you need to perform these steps:
 
 -   In the admin UI, create a domain that has a blank `content_type`
-    and `object_id`. There you can also select which attributes need to
-    be accessible for this domain via the API.
--   Also in the admin UI, add the domain to the "available general
-    domains" for relevant users.
+    and `object_id`.
+-   In the same UI, select which users need to be able to access this
+    general domain.
+-   Also in the same UI, select which attributes need to be accessible
+    for this domain via the API.
 -   Study coordinators can then select which general domain they need to
     access in their study.
 
