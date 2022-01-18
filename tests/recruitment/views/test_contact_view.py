@@ -62,7 +62,7 @@ def test_warning_on_appointment_deletion(client, member, participation):
     client.force_login(member)
 
     url = '/recruitment/{}/{}/'.format(participation.study.pk, participation.pk)
-    warning = b'Scheduler appointments for this participation have been deleted.'
+    warning = b'Appointments for this participation have been deleted.'
 
     response = client.post(url, {
         'status': Participation.INVITED,

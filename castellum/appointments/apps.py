@@ -30,4 +30,4 @@ class AppointmentsConfig(AppConfig):
 
     def ready(self):
         pre_delete.connect(signals.delete_scheduler_appointments_on_delete)
-        pre_save.connect(signals.delete_scheduler_appointments_on_save)
+        pre_save.connect(signals.delete_appointments_on_save)

@@ -32,7 +32,7 @@ def delete_scheduler_appointments_on_delete(sender, instance, using, **kwargs):
             scheduler.delete(session.schedule_id, pseudonym)
 
 
-def delete_scheduler_appointments_on_save(sender, instance, using, **kwargs):
+def delete_appointments_on_save(sender, instance, using, **kwargs):
     from castellum.recruitment.models import Participation
 
     from .models import Appointment
@@ -41,11 +41,6 @@ def delete_scheduler_appointments_on_save(sender, instance, using, **kwargs):
         # PERF: ignore if instance has not been saved to the database yet
         if not instance.pk:
             return
-        delete_scheduler_appointments_on_delete(sender, instance, using, **kwargs)
 
-        qs = (
-            Appointment.objects
-            .filter(participation=instance)
-            .exclude(session__schedule_id=None)
-        )
-        qs.delete()
+        delete_scheduler_appointments_on_delete(sender, instance, using, **kwargs)
+        Appointment.objects.filter(participation=instance).delete()

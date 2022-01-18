@@ -445,19 +445,16 @@ class ContactView(ParticipationMixin, PermissionRequiredMixin, UpdateView):
         return self.request.path
 
     def form_valid(self, form):
-        scheduler_appointments_exist = Appointment.objects.filter(
-            participation=self.object,
-            session__schedule_id__isnull=False,
-        ).exists()
+        appointments_exist = Appointment.objects.filter(participation=self.object).exists()
 
         form.instance.batch = None
         if form.instance.status == Participation.INVITED:
             form.instance.dropped_out = False
         response = super().form_valid(form)
         messages.success(self.request, _('Data has been saved.'))
-        if self.object.status != Participation.INVITED and scheduler_appointments_exist:
+        if self.object.status != Participation.INVITED and appointments_exist:
             messages.warning(self.request, _(
-                'Scheduler appointments for this participation have been deleted.'
+                'Appointments for this participation have been deleted.'
             ))
         return response
 
