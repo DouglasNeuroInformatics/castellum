@@ -24,6 +24,7 @@ from django.conf import settings
 from django.contrib.gis.geos import Point
 from django.core.management.base import BaseCommand
 from django.core.management.base import CommandError
+from django.db import IntegrityError
 
 import phonenumbers
 from faker import Faker
@@ -208,9 +209,14 @@ def generate_geolocations(contacts):
 
 def generate_studies(count, stdout):
     stdout.write('Generating studies')
-    studies = [fake_study() for i in range(count)]
-    for study in studies:
-        study.save()
+    i = 0
+    while i < count:
+        study = fake_study()
+        try:
+            study.save()
+        except IntegrityError:
+            continue
+        i += 1
         session = fake_studysession(study)
         session.save()
         for name, color in settings.CASTELLUM_DEFAULT_EXECUTION_TAGS:
