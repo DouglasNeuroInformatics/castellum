@@ -5,7 +5,10 @@ from freezegun import freeze_time
 from model_bakery import baker
 
 from castellum.recruitment import attribute_fields
+from castellum.recruitment.models import AttributeChoice
+from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import SubjectFilter
+from castellum.subjects.models import Subject
 
 
 def test_number_display(attribute_description):
@@ -69,6 +72,19 @@ def test_multiple_choice_display(attribute_description):
 def test_multiple_choice_filter_display(attribute_description):
     field = attribute_fields.MultipleChoiceAttributeField(attribute_description)
     assert field.get_filter_display('contains', [2, 1]) == 'Handedness contains Left, Right'
+
+
+def test_multiple_choice_filter(db):
+    description = baker.make(AttributeDescription, field_type='MultipleChoiceField')
+    choice1 = baker.make(AttributeChoice, description=description)
+    choice2 = baker.make(AttributeChoice, description=description)
+
+    baker.make(Subject, attributes={description.json_key: []})
+    baker.make(Subject, attributes={description.json_key: [choice1.pk]})
+    baker.make(Subject, attributes={description.json_key: [choice1.pk, choice2.pk]})
+
+    count = Subject.objects.filter(description.field.filter_to_q('contains', choice1.pk)).count()
+    assert count == 2
 
 
 def test_age_display(attribute_description):
