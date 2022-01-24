@@ -19,6 +19,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth import mixins as auth_mixins
+from django.contrib.auth import user_login_failed
 from django.core.exceptions import PermissionDenied
 from django.utils import timezone
 
@@ -76,7 +77,11 @@ class APIAuthMixin(StrongholdPublicMixin):
         return user
 
     def dispatch(self, request, *args, **kwargs):
-        self.request.user = self.authenticate()
+        try:
+            self.request.user = self.authenticate()
+        except PermissionDenied:
+            user_login_failed.send(sender=__name__, credentials={}, request=request)
+            raise
         return super().dispatch(request, *args, **kwargs)
 
 
