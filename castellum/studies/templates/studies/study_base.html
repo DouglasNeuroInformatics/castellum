@@ -12,6 +12,9 @@
     <div class="container text-center my-4">
         <div>
             <h1>{{ study }}</h1>
+            {% for tag in study.tags.all %}
+                <span class="badge bg-info text-dark">{{ tag }}</span>
+            {% endfor %}
             {% if study.is_started %}
                 <span class="badge bg-secondary">{% translate 'Started' %}</span>
             {% endif %}
