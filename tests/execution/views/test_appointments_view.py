@@ -18,6 +18,9 @@ from castellum.studies.models import StudySession
 def test_appointment(client, member, participation):
     session = baker.make(StudySession, study=participation.study)
 
+    participation.status = participation.INVITED
+    participation.save()
+
     client.force_login(member)
     url = '/recruitment/{}/{}/appointments/'.format(
         participation.study.pk, participation.pk
@@ -42,6 +45,9 @@ def test_appointment_delete(client, member, participation):
         participation=participation,
     )
 
+    participation.status = participation.INVITED
+    participation.save()
+
     client.force_login(member)
     url = '/recruitment/{}/{}/appointments/'.format(
         participation.study.pk, participation.pk
@@ -65,6 +71,9 @@ def test_appointment_delete(client, member, participation):
 def test_appointment_overlap(client, member, participation, time):
     session1 = baker.make(StudySession, study=participation.study, duration=60)
     session2 = baker.make(StudySession, study=participation.study, duration=60)
+
+    participation.status = participation.INVITED
+    participation.save()
 
     client.force_login(member)
     url = '/recruitment/{}/{}/appointments/'.format(
@@ -104,6 +113,9 @@ def test_appointment_resource_overlap(client, member, participation, time):
         participation__status=Participation.INVITED,
     )
 
+    participation.status = participation.INVITED
+    participation.save()
+
     client.force_login(member)
     url = '/recruitment/{}/{}/appointments/'.format(
         participation.study.pk, participation.pk
@@ -118,33 +130,6 @@ def test_appointment_resource_overlap(client, member, participation, time):
     assert 'Some appointments for MRI overlap' not in messages
 
 
-def test_appointment_resource_overlap_ignore_not_invited(client, member, participation):
-    resource = baker.make(Resource, name='MRI')
-    session = baker.make(
-        StudySession, study=participation.study, duration=60, resources=[resource]
-    )
-    baker.make(
-        Appointment,
-        session=session,
-        start=timezone.make_aware(timezone.datetime(2020, 1, 1, 12)),
-        participation__study=participation.study,
-        participation__status=Participation.UNSUITABLE,
-    )
-
-    client.force_login(member)
-    url = '/recruitment/{}/{}/appointments/'.format(
-        participation.study.pk, participation.pk
-    )
-    response = client.post(url, {
-        'status': 2,
-        'appointment-{}_0'.format(session.pk): '2020-01-01',
-        'appointment-{}_1'.format(session.pk): '12:00',
-    })
-    assert response.status_code == 302
-    messages = [str(m) for m in get_messages(response.wsgi_request)]
-    assert 'Some appointments for MRI overlap' not in messages
-
-
 def test_appointment_change_appointment_permission(client, member, participation):
     future = timezone.now() + datetime.timedelta(days=10000)
     user = baker.make(User, expiration_date=future, email='test@example.com')
@@ -153,6 +138,9 @@ def test_appointment_change_appointment_permission(client, member, participation
     StudyMembership.objects.create(user=user, study=participation.study)
 
     session = baker.make(StudySession, study=participation.study, duration=60)
+
+    participation.status = participation.INVITED
+    participation.save()
 
     url = '/recruitment/{}/{}/appointments/'.format(participation.study.pk, participation.pk)
 

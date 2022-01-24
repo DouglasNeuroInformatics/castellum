@@ -118,7 +118,6 @@ class BaseAppointmentsUpdateView(
             .exclude(pk=models.OuterRef('pk'))
             .filter(
                 session__resources=models.OuterRef('session__resources'),
-                participation__status=Participation.INVITED,
                 end__gt=models.OuterRef('start'),
                 start__lt=models.OuterRef('end'),
             )
@@ -162,7 +161,7 @@ class BaseCalendarView(DetailView):
         }
 
     def get_appointments(self):
-        qs = Appointment.objects.filter(participation__status=Participation.INVITED)
+        qs = Appointment.objects.all()
         if 'start' in self.request.GET:
             qs = qs.annotate_end().filter(end__gte=self.filters['start'])
         if 'end' in self.request.GET:
@@ -188,7 +187,7 @@ class BaseCalendarView(DetailView):
 
 class BaseAppointmentFeed(BaseCalendarFeed):
     def items(self):
-        return Appointment.objects.filter(participation__status=Participation.INVITED)
+        return Appointment.objects.all()
 
     def item_start(self, item):
         return item.start

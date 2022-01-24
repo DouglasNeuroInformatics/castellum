@@ -27,7 +27,6 @@ from django.views.generic import ListView
 
 from castellum.appointments.models import Appointment
 from castellum.castellum_auth.mixins import PermissionRequiredMixin
-from castellum.recruitment.models import Participation
 from castellum.studies.models import Resource
 
 from .helpers import get_external_resource_events
@@ -40,10 +39,7 @@ class ReceptionView(PermissionRequiredMixin, ListView):
     permission_required = 'appointments.view_current_appointments'
 
     def get_queryset(self):
-        return super().get_queryset().filter(
-            participation__status=Participation.INVITED,
-            start__date=datetime.date.today(),
-        ).order_by('start')
+        return super().get_queryset().filter(start__date=datetime.date.today(),).order_by('start')
 
 
 class ResourceListView(LoginRequiredMixin, ListView):
