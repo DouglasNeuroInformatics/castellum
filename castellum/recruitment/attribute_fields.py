@@ -31,6 +31,7 @@ from django.utils.translation import gettext_lazy as _
 
 from dateutil.relativedelta import relativedelta
 
+from castellum.utils.expressions import ListContainsLookup  # noqa
 from castellum.utils.forms import DateField
 from castellum.utils.forms import IntegerChoiceField
 from castellum.utils.forms import IntegerMultipleChoiceField
@@ -219,6 +220,7 @@ class MultipleChoiceAttributeField(BaseChoiceAttributeField):
     form_class = Select2IntegerMultipleChoiceField
     filter_form_class = IntegerChoiceField
     available_operators = [
+        # see castellum.utils.expressions.ListContainsLookup
         ("contains", _("contains")),
         ("!contains", _("does not contain")),
     ]

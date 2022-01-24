@@ -19,6 +19,7 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.db import models
+from django.db.models.fields import json
 
 
 class MultiDurationExpr(models.Expression):
@@ -61,3 +62,20 @@ class MultiDurationExpr(models.Expression):
 
         sql = "django_format_dtdelta('+', {}, {} * {})".format(*expressions)
         return sql, expression_params
+
+
+@models.JSONField.register_lookup
+class ListContainsLookup(json.DataContains):
+    """Work around https://code.djangoproject.com/ticket/31836"""
+
+    lookup_name = 'contains'
+
+    def as_sqlite(self, compiler, connection):
+        lhs, lhs_params, lhs_key_transforms = self.lhs.preprocess_lhs(compiler, connection)
+        lhs_json_path = json.compile_json_path(lhs_key_transforms)
+        rhs, rhs_params = self.process_rhs(compiler, connection)
+        params = (*lhs_params, lhs_json_path, *rhs_params)
+        return (
+            "EXISTS(SELECT (1) FROM JSON_EACH({}, %s) "
+            "WHERE JSON_QUOTE(json_each.value) = {} LIMIT 1)"
+        ).format(lhs, rhs), params
