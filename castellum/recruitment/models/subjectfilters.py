@@ -25,6 +25,7 @@ from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 
 from ..models import AttributeDescription
+from ..models import Participation
 
 
 class SubjectFilterGroupManager(models.Manager):
@@ -48,12 +49,16 @@ class SubjectFilterGroup(models.Model):
     def get_absolute_url(self):
         return reverse('studies:filtergroup-update', args=[self.study.pk, self.pk])
 
-    def get_matches(self):
+    def get_potential_matches(self):
         from .. import filter_queries
         return Subject.objects.filter(
             filter_queries.study_except_filters(self.study),
             filter_queries.subjectfilters(self),
             filter_queries.has_consent(),
+        ).exclude(
+            pk__in=self.study.participation_set.filter(
+                status__in=[Participation.INVITED, Participation.UNSUITABLE]
+            ).values('subject')
         )
 
 

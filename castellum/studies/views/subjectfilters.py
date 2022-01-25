@@ -36,6 +36,7 @@ from castellum.recruitment.forms import SubjectFilterAddForm
 from castellum.recruitment.forms import SubjectFilterForm
 from castellum.recruitment.forms import SubjectFilterFormSet
 from castellum.recruitment.models import AttributeDescription
+from castellum.recruitment.models import Participation
 from castellum.recruitment.models import SubjectFilter
 from castellum.recruitment.models import SubjectFilterGroup
 from castellum.subjects.models import Subject
@@ -79,11 +80,18 @@ class FilterGroupListView(FilterMixin, ListView):
             Subject.objects.filter(
                 filter_queries.study(self.study),
                 filter_queries.has_consent()
+            ).exclude(
+                pk__in=self.study.participation_set.filter(
+                    status__in=[Participation.INVITED, Participation.UNSUITABLE]
+                ).values('subject')
             ).count()
         )
         context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+
+        participating = self.study.participation_set.filter(status=Participation.INVITED).count()
+        still_needed = self.study.min_subject_count - participating
         context['expected_subject_count'] = (
-            self.study.min_subject_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+            still_needed * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         )
         return context
 
@@ -162,12 +170,15 @@ class FilterGroupUpdateView(FilterMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['count'] = self.object.get_matches().count()
+        context['count'] = self.object.get_potential_matches().count()
 
         context['total_count'] = Subject.objects.count()
         context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+
+        participating = self.study.participation_set.filter(status=Participation.INVITED).count()
+        still_needed = self.study.min_subject_count - participating
         context['expected_subject_count'] = (
-            self.study.min_subject_count * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
+            still_needed * settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
         )
 
         context['inaccessible'] = list(self.get_inaccessible_attributedescriptions())
