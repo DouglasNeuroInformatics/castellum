@@ -66,13 +66,13 @@ class AppointmentsForm(forms.ModelForm):
             return '{} - {}'.format(session.name, duration)
 
     def save(self):
-        pariticipation = super().save()
+        participation = super().save()
         self.appointment_changes = []
 
-        for session, appointment in pariticipation.get_appointments():
+        for session, appointment in participation.get_appointments():
             start = self.cleaned_data.get('appointment-{}'.format(session.pk))
-            self.appointment_changes += Appointment.change_start(session, pariticipation, start)
-        return pariticipation
+            self.appointment_changes += Appointment.change_start(session, participation, start)
+        return participation
 
     @property
     def appointments(self):
