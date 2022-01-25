@@ -275,6 +275,7 @@ class ParticipationUpdateView(ParticipationDetailMixin, UpdateView):
         )
         form.fields['was_reliable'] = forms.TypedChoiceField(
             label=_('Reliability'),
+            help_text=_('Give other recruiters a hint about this subject!'),
             initial=self.reliabilityentry.was_reliable,
             widget=forms.RadioSelect,
             coerce=lambda v: v == 'True',

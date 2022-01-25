@@ -2,6 +2,7 @@
 {% load i18n django_bootstrap5 %}
 
 {% block content %}
+    <p>{% translate 'This page allows to customize participant tags to the specific workflows of this study.' %}</p>
     {% for form in forms %}
         <form method="POST" class="row g-2 mb-3">
             <div class="col-sm-6">

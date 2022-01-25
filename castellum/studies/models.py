@@ -202,6 +202,10 @@ class Study(models.Model):
     exportable_attributes = models.ManyToManyField(
         'recruitment.AttributeDescription',
         verbose_name=_('Exportable recruitment attributes'),
+        help_text=_(
+            'This allows to download these attributes as a data file in study '
+            'execution, e.g. to use a specific attribute for the analysis.'
+        ),
         related_name='+',
         blank=True,
     )

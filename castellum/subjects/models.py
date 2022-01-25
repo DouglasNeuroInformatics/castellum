@@ -62,6 +62,7 @@ class Subject(TimeStampedModel):
 
     privacy_level = models.PositiveIntegerField(
         _('Privacy level'),
+        help_text=_('Users need at least this level to access this subject'),
         default=0,
         choices=[
             (0, _('0 (regular)')),
@@ -73,14 +74,16 @@ class Subject(TimeStampedModel):
     to_be_deleted = models.DateField(_('To be deleted'), blank=True, null=True, help_text=_(
         'All data about this subject should be deleted or fully anonymized. '
         'This includes all data in Castellum and all data collected in studies. '
-        'This option should be used when a subject requests GDPR deletion.'
+        'When a subject requests GDPR deletion please use this option to set the '
+        'processing of their request in motion.'
     ))
     to_be_deleted_notified = models.BooleanField(default=False)
 
     export_requested = models.DateField(_('Export requested'), blank=True, null=True, help_text=_(
         'The subject wants to receive an export of all data we have stored about them. '
         'This includes all data in Castellum and all data collected in studies. '
-        'This option should be used when a subject requests GDPR export.'
+        'When a subject requests GDPR export please use this option to set the '
+        'processing of their request in motion.'
     ))
 
     deceased = models.BooleanField(_('Subject is deceased'), default=False)
