@@ -32,6 +32,9 @@
         {% for entry in form.appointments %}
             <div class="mb-3">
                 {% bootstrap_field entry.field wrapper_class="" %}
+                <div data-js="d-select2-clear">
+                    {% bootstrap_field entry.assigned_conductors wrapper_class="" %}
+                </div>
                 {% if entry.invitation_url == 'error' %}
                     <span class="text-danger">{% translate 'Error while contacting schedule' %}</span>
                 {% elif entry.invitation_url %}

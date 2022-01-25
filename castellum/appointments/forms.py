@@ -58,6 +58,9 @@ class AppointmentsForm(forms.ModelForm):
                 ),
                 required=False,
             )
+            self.fields['conductors-' + key] = Appointment._meta.get_field(
+                'assigned_conductors'
+            ).formfield(initial=appointment.assigned_conductors.all() if appointment else [])
             if settings.SCHEDULER_URL and session.schedule_id:
                 if self.instance.status == Participation.INVITED:
                     pseudonym = get_pseudonym(self.instance.subject, session.domain)
@@ -83,8 +86,14 @@ class AppointmentsForm(forms.ModelForm):
         self.appointment_changes = []
 
         for session in self.instance.study.studysession_set.all():
-            start = self.cleaned_data.get('appointment-{}'.format(session.pk))
+            key = 'appointment-{}'.format(session.pk)
+            start = self.cleaned_data.get(key)
             self.appointment_changes += Appointment.change_start(session, participation, start)
+            appointment = self.instance.appointment_set.filter(session=session).first()
+            if appointment:
+                assigned_conductors = self.cleaned_data.get('conductors-{}'.format(key))
+                appointment.assigned_conductors.set(assigned_conductors)
+
         return participation
 
     @property
@@ -93,5 +102,6 @@ class AppointmentsForm(forms.ModelForm):
             if key.startswith('appointment-'):
                 yield {
                     'field': self[key],
-                    'invitation_url': self.invitation_urls.get(key)
+                    'invitation_url': self.invitation_urls.get(key),
+                    'assigned_conductors': self['conductors-' + key],
                 }
