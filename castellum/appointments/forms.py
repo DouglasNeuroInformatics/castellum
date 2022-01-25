@@ -76,9 +76,9 @@ class AppointmentsForm(forms.ModelForm):
 
     @property
     def appointments(self):
-        for name in self.fields:
-            if name.startswith('appointment-'):
+        for key in self.fields:
+            if key.startswith('appointment-'):
                 yield {
-                    'field': self[name],
-                    'invitation_url': self.invitation_urls.get(name)
+                    'field': self[key],
+                    'invitation_url': self.invitation_urls.get(key)
                 }
