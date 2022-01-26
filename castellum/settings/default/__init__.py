@@ -128,6 +128,7 @@ CASTELLUM_PSEUDONYM_CLEAN = castellum_pseudonyms.clean
 
 CASTELLUM_STUDY_DOMAIN_BITS = 20
 CASTELLUM_SESSION_DOMAIN_BITS = 20
+CASTELLUM_CONSENT_DOMAIN_BITS = 40
 
 # Path to a cover letter template
 # Must be in .docx format

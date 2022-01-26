@@ -22,6 +22,7 @@ import datetime
 import uuid
 
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericRelation
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.utils import timezone
@@ -211,6 +212,7 @@ class ConsentDocument(models.Model):
         content_types=['application/pdf'],
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
+    domains = GenericRelation('pseudonyms.Domain')
 
     class Meta:
         get_latest_by = 'created_at'
@@ -224,6 +226,12 @@ class ConsentDocument(models.Model):
             return cls.objects.filter(is_valid=True).latest()
         except cls.DoesNotExist:
             return cls.objects.create()
+
+    @cached_property
+    def domain(self):
+        domain = self.domains.first()
+        if domain:
+            return domain.key
 
 
 class Consent(models.Model):
