@@ -212,6 +212,24 @@ class ConsentDocument(models.Model):
         content_types=['application/pdf'],
         max_upload_size=settings.CASTELLUM_FILE_UPLOAD_MAX_SIZE,
     )
+    confirmed_document_url = models.URLField(
+        _('Confirmed document URL'),
+        help_text=_(
+            'Link to the confirmed document for a subject. '
+            'Any "{pseudonym}"-tags included in the URL will '
+            'automatically be replaced by the subject\'s pseudonym.'
+        ),
+        blank=True,
+    )
+    confirm_url = models.URLField(
+        _('Confirm URL'),
+        help_text=_(
+            'Link to a form where a subject can confirm their consent. '
+            'Any "{pseudonym}"-tags included in the URL will '
+            'automatically be replaced by the subject\'s pseudonym.'
+        ),
+        blank=True,
+    )
     domains = GenericRelation('pseudonyms.Domain')
 
     class Meta:
