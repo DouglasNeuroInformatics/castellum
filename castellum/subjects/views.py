@@ -21,6 +21,7 @@
 import datetime
 import logging
 import zipfile
+from urllib.parse import quote_plus
 
 from django.conf import settings
 from django.contrib import messages
@@ -372,6 +373,12 @@ class DataProtectionUpdateView(SubjectUpdateMixin, BaseDataProtectionUpdateView)
         pseudonym = get_pseudonym(self.object, document.domain)
         context['consent_document'] = document
         context['consent_pseudonym'] = pseudonym
+        context['consent_confirm_url'] = (
+            document.confirm_url.replace('{pseudonym}', quote_plus(pseudonym))
+        )
+        context['consent_confirmed_document_url'] = (
+            document.confirmed_document_url.replace('{pseudonym}', pseudonym)
+        )
         return context
 
 
