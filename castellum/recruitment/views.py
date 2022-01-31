@@ -188,9 +188,7 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
                 value2 = subject.attributes.get(desc2.json_key)
                 buckets.append((desc2, buckets2[get_bucket2(value2)]))
 
-            can_access = self.request.user.has_privacy_level(
-                participation.subject.privacy_level
-            )
+            can_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
 
             recently_contacted = (
                 participation.status_open
@@ -215,12 +213,8 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
 
         queryset = Participation.objects.filter(study=self.study)
         context['all_count'] = queryset.count()
-        context['invited_count'] = queryset.filter(
-            status=Participation.INVITED
-        ).count()
-        context['unsuitable_count'] = queryset.filter(
-            status=Participation.UNSUITABLE
-        ).count()
+        context['invited_count'] = queryset.filter(status=Participation.INVITED).count()
+        context['unsuitable_count'] = queryset.filter(status=Participation.UNSUITABLE).count()
         context['open_count'] = queryset.filter(status__in=[
             Participation.NOT_CONTACTED,
             Participation.NOT_REACHED,
@@ -277,8 +271,7 @@ class RecruitmentViewOpen(RecruitmentView):
             ))
             return self.get(request, *args, **kwargs)
 
-        not_contacted_count = self.get_queryset()\
-            .filter(status=Participation.NOT_CONTACTED).count()
+        not_contacted_count = self.get_queryset().filter(status=Participation.NOT_CONTACTED).count()
         hard_limit = self.study.min_subject_count * settings.CASTELLUM_RECRUITMENT_HARD_LIMIT_FACTOR
 
         if not_contacted_count >= hard_limit:
@@ -353,10 +346,8 @@ class MailRecruitmentRemindView(StudyMixin, PermissionRequiredMixin, DetailView)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['mail_subject'] = (
-            settings.CASTELLUM_REMINDER_MAIL_SUBJECT_TEMPLATE.format(
-                mail_subject=self.study.mail_subject
-            )
+        context['mail_subject'] = settings.CASTELLUM_REMINDER_MAIL_SUBJECT_TEMPLATE.format(
+            mail_subject=self.study.mail_subject
         )
         return context
 

@@ -159,9 +159,7 @@ def fetch_scheduler_appointments(study, base_url, timeout=0):
         session.schedule_updated_at = now
         session.save()
 
-        for participation in session.study.participation_set.filter(
-            status=Participation.INVITED
-        ):
+        for participation in session.study.participation_set.filter(status=Participation.INVITED):
             pseudonym = get_pseudonym(participation.subject, session.domain)
             start = data.get(pseudonym)
 

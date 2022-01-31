@@ -78,9 +78,7 @@ class ImportMixin:
 class AttributeCategory(TranslatableModel):
     order = models.IntegerField(default=0)
 
-    translations = TranslatedFields(
-        label=models.CharField(max_length=64)
-    )
+    translations = TranslatedFields(label=models.CharField(max_length=64))
 
     class Meta:
         ordering = ['order']
@@ -219,9 +217,7 @@ class AttributeChoice(ImportMixin, TranslatableModel):
 
     description = models.ForeignKey(AttributeDescription, on_delete=models.CASCADE)
     order = models.IntegerField(default=0)
-    translations = TranslatedFields(
-        label=models.CharField(max_length=64)
-    )
+    translations = TranslatedFields(label=models.CharField(max_length=64))
 
     class Meta:
         ordering = ['order']

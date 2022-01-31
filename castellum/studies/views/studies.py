@@ -327,9 +327,7 @@ class FilterTrialCreateView(PermissionRequiredMixin, View):
         return redirect('studies:recruitmentsettings', study.pk)
 
 
-class StudyUpdateView(
-    StudyMixin, PermissionRequiredMixin, UpdateView
-):
+class StudyUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView):
     model = Study
     form_class = StudyForm
     permission_required = 'studies.change_study'
@@ -409,9 +407,7 @@ class StudyFinishRecruitmentView(StudyMixin, PermissionRequiredMixin, View):
             self.study.restore_previous_status()
         else:
             self.study.set_status(self.study.FINISHED)
-            self.study.participation_set\
-                .exclude(status=Participation.INVITED)\
-                .delete()
+            self.study.participation_set.exclude(status=Participation.INVITED).delete()
             self.study.participation_set.update(assigned_recruiter=None, assigned_conductor=None)
         send_pr_mail(self.study, request.user.email)
         return redirect(get_next_url(request, reverse('studies:detail', args=[self.study.pk])))

@@ -100,9 +100,7 @@ class ParticipationQuerySet(models.QuerySet):
                 'subject__participation__updated_at',
                 filter=(
                     ~models.Q(subject__participation__study=models.F('study'))
-                    & ~models.Q(
-                        subject__participation__status=Participation.NOT_CONTACTED
-                    )
+                    & ~models.Q(subject__participation__status=Participation.NOT_CONTACTED)
                 ),
             ),
             recent_participation_count=models.Count(
@@ -116,9 +114,7 @@ class ParticipationQuerySet(models.QuerySet):
         )
 
     def with_appointment_count(self):
-        return self.annotate(
-            appointment_count=models.Count('appointment', distinct=True)
-        )
+        return self.annotate(appointment_count=models.Count('appointment', distinct=True))
 
 
 class Participation(models.Model):
@@ -222,6 +218,7 @@ class Participation(models.Model):
     @cached_property
     def match(self):
         from .. import filter_queries
+
         if Subject.objects.filter(
             filter_queries.study(self.study, include_unknown=False),
             pk=self.subject.pk,

@@ -213,8 +213,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         dropout_count = self.object.participation_set.filter(dropped_out=True).count()
         dropout_total = self.object.participation_set.filter(
-            models.Q(status=Participation.INVITED) |
-            models.Q(dropped_out=True)
+            models.Q(status=Participation.INVITED) | models.Q(dropped_out=True)
         ).count()
         if dropout_total == 0:
             context['dropout_rate'] = '—'
@@ -315,9 +314,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         if self.object.export_requested:
             context['has_participations'] = self.object.participation_set.exists()
             context['general_domains_exist'] = Domain.objects.filter(object_id=None).exists()
-            context['appointments'] = Appointment.objects.filter(
-                participation__subject=self.object
-            )
+            context['appointments'] = Appointment.objects.filter(participation__subject=self.object)
 
             context['notes'] = self.object.subjectnote_set.all()
 
@@ -445,9 +442,7 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
         if not request.user.has_perms(perms, obj=study):
             raise PermissionDenied
 
-        participation, __ = Participation.objects.get_or_create(
-            subject=self.subject, study=study
-        )
+        participation, __ = Participation.objects.get_or_create(subject=self.subject, study=study)
 
         url = reverse('recruitment:contact', args=[study.pk, participation.pk])
         return redirect(url)
@@ -480,8 +475,7 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
             ))
             for part in q.split():
                 qs = qs.filter(
-                    models.Q(name__icontains=part) |
-                    models.Q(contact_person__icontains=part)
+                    models.Q(name__icontains=part) | models.Q(contact_person__icontains=part)
                 )
             qs = qs.filter(is_filter_trial=False)
             return qs

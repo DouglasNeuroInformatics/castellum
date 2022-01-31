@@ -171,8 +171,7 @@ def geofilter(study):
         .exclude(legal_representatives__geolocation__in=outside)
     )
     contacts = Contact.objects.filter(
-        models.Q(geolocation__point__within=polygon)
-        | models.Q(id__in=wards.values('id'))
+        models.Q(geolocation__point__within=polygon) | models.Q(id__in=wards.values('id'))
     )
     return uuid_filter(contacts)
 
