@@ -83,10 +83,8 @@ msgid "Session and participation do not belong to the same study"
 msgstr "Sitzung und Teilnahme gehören nicht zur selben Studie"
 
 #: castellum/appointments/templates/appointments/appointments_form.html:6
-#, fuzzy
-#| msgid "Scheduler only available for participating subjects."
 msgid "Appointments only available for participating subjects"
-msgstr "Terminplaner nur für teilnehmende Proband*innen verfügbar"
+msgstr "Termine nur für teilnehmende Proband*innen verfügbar"
 
 #: castellum/appointments/templates/appointments/appointments_form.html:29
 #, python-format
@@ -955,6 +953,8 @@ msgid ""
 "This page allows to customize participant tags to the specific workflows of "
 "this study."
 msgstr ""
+"Auf dieser Seite können die Teilnehmer*innen-Tags auf die speziellen "
+"Arbeitsabläufe dieser Studie angepasst werden."
 
 #: castellum/execution/templates/execution/study_execution_tags.html:20
 #: castellum/studies/templates/studies/filtergroup.html:37
@@ -1059,7 +1059,7 @@ msgstr "geplant"
 
 #: castellum/execution/views.py:278
 msgid "Give other recruiters a hint about this subject!"
-msgstr ""
+msgstr "Gib anderen Rekrutierenden einen Hinweis zu dieser Proband*in!"
 
 #: castellum/execution/views.py:283
 msgid "I would invite this subject again for further studies"
@@ -1118,7 +1118,7 @@ msgstr "Domäne"
 
 #: castellum/pseudonyms/models.py:43
 msgid "Users who can access this domain"
-msgstr ""
+msgstr "Nutzer*innen, die auf diese Domäne zugreifen können"
 
 #: castellum/pseudonyms/models.py:49 castellum/studies/models.py:204
 msgid "Exportable recruitment attributes"
@@ -1933,10 +1933,8 @@ msgstr ""
 "Proband*innen gefunden werden. Diese wurden hinzugefügt."
 
 #: castellum/recruitment/views.py:457
-#, fuzzy
-#| msgid "Scheduler appointments for this participation have been deleted."
 msgid "Appointments for this participation have been deleted."
-msgstr "Scheduler-Termine für diese Teilnahme wurden gelöscht."
+msgstr "Termine für diese Teilnahme wurden gelöscht."
 
 #: castellum/studies/forms.py:65
 msgid "Mails will be sent to: {}"
@@ -2217,6 +2215,9 @@ msgid ""
 "This allows to download these attributes as a data file in study execution, "
 "e.g. to use a specific attribute for the analysis."
 msgstr ""
+"Hierdurch wird es möglich, die angegeben Merkmale als Daten-Datei in der "
+"Studiendurchführung herunterzuladen, z.B. um ein bestimmtes Merkmal in der "
+"Auswertung zu verwenden."
 
 #: castellum/studies/models.py:222
 msgid "E-mail-address"
@@ -2921,6 +2922,8 @@ msgstr "Möchte nicht an Studien der folgenden Typen teilnehmen"
 #: castellum/subjects/models.py:65
 msgid "Users need at least this level to access this subject"
 msgstr ""
+"Nutzer*innen brauchen mindestens diese Stufe, um auf diese Proband*in "
+"zugreifen zu können."
 
 #: castellum/subjects/models.py:68
 msgid "0 (regular)"
@@ -2935,11 +2938,6 @@ msgid "2 (high)"
 msgstr "2 (hoch)"
 
 #: castellum/subjects/models.py:75
-#, fuzzy
-#| msgid ""
-#| "All data about this subject should be deleted or fully anonymized. This "
-#| "includes all data in Castellum and all data collected in studies. This "
-#| "option should be used when a subject requests GDPR deletion."
 msgid ""
 "All data about this subject should be deleted or fully anonymized. This "
 "includes all data in Castellum and all data collected in studies. When a "
@@ -2948,15 +2946,10 @@ msgid ""
 msgstr ""
 "Alle Daten über diese Proband*in sollten gelöscht oder vollständig "
 "anonymisiert werden. Dies beinhaltet alle Daten in Castellum sowie alle "
-"Daten, die in Studien erhoben wurden. Diese Option sollte benutzt werden, "
-"wenn eine Proband*in DSGVO-Löschung fordert."
+"Daten, die in Studien erhoben wurden. Nutze diese Option wenn eine "
+"Proband*in DSGVO-Löschung fordert um die Bearbeitung in Gang zu setzen."
 
 #: castellum/subjects/models.py:83
-#, fuzzy
-#| msgid ""
-#| "The subject wants to receive an export of all data we have stored about "
-#| "them. This includes all data in Castellum and all data collected in "
-#| "studies. This option should be used when a subject requests GDPR export."
 msgid ""
 "The subject wants to receive an export of all data we have stored about "
 "them. This includes all data in Castellum and all data collected in studies. "
@@ -2965,8 +2958,8 @@ msgid ""
 msgstr ""
 "Die Proband*in möchte eine Auskunft über alle über sie gespeicherten Daten. "
 "Dies beinhaltet alle Daten in Castellum sowie alle Daten, die in Studien "
-"erhoben wurden. Diese Option sollte benutzt werden, wenn eine Proband*in "
-"DSGVO-Auskunft beantragt."
+"erhoben wurden. Nutze diese Option wenn eine "
+"Proband*in DSGVO-Löschung fordert um die Bearbeitung in Gang zu setzen."
 
 #: castellum/subjects/models.py:89
 msgid "Subject is deceased"
@@ -3926,9 +3919,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "Available general domains"
-#~ msgstr "Verfügbare allgemeine Domänen"
-
-#~ msgid "Resource"
-#~ msgstr "Ressource"
