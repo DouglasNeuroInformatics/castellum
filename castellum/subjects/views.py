@@ -97,15 +97,15 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 can_access_study = user.has_perm('studies.access_study', obj=participation.study)
                 invited = participation.status == Participation.INVITED
                 can_recruit = (
-                    has_privacy_level and
-                    can_access_study and
-                    user.has_perm('recruitment.recruit', obj=participation.study)
+                    has_privacy_level
+                    and can_access_study
+                    and user.has_perm('recruitment.recruit', obj=participation.study)
                 )
                 can_conduct = (
-                    has_privacy_level and
-                    can_access_study and
-                    invited and
-                    user.has_perm('recruitment.conduct_study', obj=participation.study)
+                    has_privacy_level
+                    and can_access_study
+                    and invited
+                    and user.has_perm('recruitment.conduct_study', obj=participation.study)
                 )
                 can_search = invited and user.has_perm('recruitment.search_participations')
                 if can_recruit or can_conduct or can_search:

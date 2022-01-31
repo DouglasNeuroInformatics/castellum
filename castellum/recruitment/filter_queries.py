@@ -186,9 +186,9 @@ def completeness_expr():
         field_name = 'attributes__' + description.json_key
         completeness += models.Case(
             models.When((
-                models.Q(**{field_name: ''}) |
-                models.Q(**{field_name: None}) |
-                models.Q(**{field_name + '__isnull': True})
+                models.Q(**{field_name: ''})
+                | models.Q(**{field_name: None})
+                | models.Q(**{field_name + '__isnull': True})
             ), models.Value(0)),
             default=models.Value(1),
         )

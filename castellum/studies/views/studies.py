@@ -147,11 +147,11 @@ class StudyIndexView(LoginRequiredMixin, ListView):
         if q:
             for part in q.split():
                 qs = qs.filter(
-                    models.Q(name__icontains=part) |
-                    models.Q(contact_person__icontains=part) |
-                    models.Q(principal_investigator__icontains=part) |
-                    models.Q(description__icontains=part) |
-                    models.Q(studytag__name__icontains=part)
+                    models.Q(name__icontains=part)
+                    | models.Q(contact_person__icontains=part)
+                    | models.Q(principal_investigator__icontains=part)
+                    | models.Q(description__icontains=part)
+                    | models.Q(studytag__name__icontains=part)
                 )
         if self.form.cleaned_data['member'] == 'my':
             qs = qs.filter(studymembership__user=self.request.user)
