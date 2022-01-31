@@ -1,3 +1,46 @@
+# 0.71.0 (unreleased)
+
+## breaking changes
+
+-   It is no longer possible to create appointments for subjects
+    who are not participating. If the status is changed from
+    "participating" to anything else, existing appointments are deleted.
+    This has less potential for cofusion than keeping the appointments
+    but ignoring them.
+-   The docker image is not based on Alpine 3.14 which might cause
+    issues if used with a docker version before 20.10.
+
+## security
+
+-   If available, django-axes is now also used to block brute-force
+    attacks on API views. Previously it was only used on the login view.
+    Django-axes is available by default in the official docker image.
+-   In production setups, Django by default sends error reports to the
+    email addresses defined in the `ADMINS` setting. These reports
+    potentially contain sensitive data, e.g. session IDs. Starting with
+    this version, Castellum cuts down the amount of information
+    contained in these reports. You can restore the original behavior
+    using the `DEFAULT_EXCEPTION_REPORTER` setting.
+
+## bug fixes
+
+-   Fixed a crash in the subjects pseudonyms view
+-   Fixed cases in which subject creation requests were imported a
+    second time after that had already been processed.
+-   Fixed an indeterministic crash in the `create_demo_content` command.
+
+## new features
+
+-   It is now possible to add more than one resource to a session.
+-   The users who are allowed to access a general domain are now defined
+    in the admin UI for domains, not users.
+-   Study tags are now displayed more prominently.
+-   The "potential subjects" counts in study management now exclude
+    subjects who are already participating or excluded.
+-   JSON files in attribute export are now UTF-8 instead of ASCII with
+    escape codes.
+
+
 # 0.70.2 (2022-01-12)
 
 -   Enabled cache busting
