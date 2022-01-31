@@ -269,6 +269,7 @@ class SubjectCreationRequest(TimeStampedModel):
     @cached_property
     def contact(self):
         from castellum.contacts.models import ContactCreationRequest
+
         return ContactCreationRequest.objects.get(subject_id=self.pk)
 
     def mark_as_deleted(self):

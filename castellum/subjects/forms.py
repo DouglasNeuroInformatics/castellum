@@ -47,7 +47,6 @@ def get_initial_consent_status(subject):
 
 
 class DataProtectionForm(forms.ModelForm):
-
     class Meta:
         model = Subject
         fields = ['privacy_level']
@@ -98,8 +97,8 @@ class DataProtectionForm(forms.ModelForm):
         if cleaned_data.get('to_be_deleted') and cleaned_data.get('consent_status'):
             raise ValidationError(
                 _(
-                     'Subjects can either be marked for deletion or have recruitment consent, '
-                     'not both.'
+                    'Subjects can either be marked for deletion or have recruitment consent, '
+                    'not both.'
                 ),
                 code='invalid',
             )
@@ -148,7 +147,6 @@ class DataProtectionForm(forms.ModelForm):
 
 
 class SubjectPrivacyLevelForm(forms.ModelForm):
-
     class Meta:
         model = Subject
         fields = ['privacy_level']
@@ -173,7 +171,6 @@ class SubjectPrivacyLevelForm(forms.ModelForm):
 
 
 class AdditionalInfoForm(forms.ModelForm):
-
     class Meta:
         model = Subject
         fields = [
