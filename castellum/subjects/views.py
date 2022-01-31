@@ -54,6 +54,7 @@ from castellum.contacts.forms import SearchForm
 from castellum.contacts.mixins import BaseContactUpdateView
 from castellum.contacts.models import Address
 from castellum.contacts.models import Contact
+from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.pseudonyms.helpers import get_pseudonym_if_exists
 from castellum.pseudonyms.models import Domain
 from castellum.recruitment import filter_queries
@@ -368,7 +369,9 @@ class DataProtectionUpdateView(SubjectUpdateMixin, BaseDataProtectionUpdateView)
             document = self.object.consent.document
         except Consent.DoesNotExist:
             document = ConsentDocument.get_latest()
+        pseudonym = get_pseudonym(self.object, document.domain)
         context['consent_document'] = document
+        context['consent_pseudonym'] = pseudonym
         return context
 
 
