@@ -86,12 +86,14 @@ class StudyDetailView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMi
         context = super().get_context_data(**kwargs)
 
         context['list'] = []
-        participations = self.study.participation_set\
-            .with_appointment_count()\
-            .filter(status=Participation.INVITED)\
+        participations = (
+            self.study.participation_set
+            .with_appointment_count()
+            .filter(status=Participation.INVITED)
             .prefetch_related(
                 models.Prefetch('subject', queryset=Subject.objects.annotate_reliability())
             )
+        )
         for participation in participations:
             has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
             context['list'].append((participation, has_access))

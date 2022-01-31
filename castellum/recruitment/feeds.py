@@ -36,9 +36,11 @@ class FollowUpFeedForStudy(ParamAuthMixin, StudyMixin, PermissionRequiredMixin, 
     study_status = [Study.EXECUTION]
 
     def items(self):
-        return Participation.objects\
-            .filter(study=self.study, followup_date__isnull=False)\
+        return (
+            Participation.objects
+            .filter(study=self.study, followup_date__isnull=False)
             .order_by('-followup_date', '-followup_time')
+        )
 
 
 class FollowUpFeedForUser(ParamAuthMixin, BaseFollowUpFeed):
@@ -47,9 +49,11 @@ class FollowUpFeedForUser(ParamAuthMixin, BaseFollowUpFeed):
         for study in Study.objects.filter(status=Study.EXECUTION):
             if not self.request.user.has_perms(perms, obj=study):
                 continue
-            qs = Participation.objects\
-                .filter(study=study, followup_date__isnull=False)\
+            qs = (
+                Participation.objects
+                .filter(study=study, followup_date__isnull=False)
                 .order_by('-followup_date', '-followup_time')
+            )
             for participation in qs:
                 yield participation
 

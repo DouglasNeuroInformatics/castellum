@@ -57,7 +57,8 @@ class ResourceDetailView(LoginRequiredMixin, BaseCalendarView):
     def get_appointments(self):
         return (
             super()
-            .get_appointments().filter(session__resources=self.object)
+            .get_appointments()
+            .filter(session__resources=self.object)
             .select_related('participation__subject', 'participation__study', 'session')
         )
 

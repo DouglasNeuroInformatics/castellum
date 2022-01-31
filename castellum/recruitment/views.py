@@ -103,12 +103,14 @@ class RecruitmentView(StudyMixin, PermissionRequiredMixin, ListView):
                 '-followup_urgent', 'status', 'followup_date', 'followup_time', '-updated_at'
             ]
 
-        return Participation.objects\
-            .with_sort_properties()\
-            .with_appointment_count()\
-            .prefetch_related('subject')\
-            .filter(status__in=self.shown_status, study=self.study)\
+        return (
+            Participation.objects
+            .with_sort_properties()
+            .with_appointment_count()
+            .prefetch_related('subject')
+            .filter(status__in=self.shown_status, study=self.study)
             .order_by(*order_by)
+        )
 
     def _get_statistics(self):
         participations = Participation.objects.filter(

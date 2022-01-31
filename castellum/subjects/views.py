@@ -126,10 +126,12 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         ).distinct().count()
 
         completeness, total = filter_queries.completeness_expr()
-        context['count_complete'] = Subject.objects\
-            .alias(completeness=completeness)\
-            .filter(completeness=total, deceased=False)\
+        context['count_complete'] = (
+            Subject.objects
+            .alias(completeness=completeness)
+            .filter(completeness=total, deceased=False)
             .count()
+        )
 
         context['count_recruitable'] = Subject.objects.filter(
             filter_queries.has_consent(), filter_queries.to_be_deleted(), deceased=False,
@@ -589,15 +591,17 @@ class MaintenanceAttributesView(BaseMaintenanceView):
         full_age = Contact.objects.exclude(
             date_of_birth__gt=today - relativedelta(years=settings.CASTELLUM_FULL_AGE),
         )
-        return super().get_queryset()\
-            .annotate(completeness=completeness)\
+        return (
+            super().get_queryset()
+            .annotate(completeness=completeness)
             .filter(
                 filter_queries.has_consent(),
                 filter_queries.uuid_filter(full_age),
                 deceased=False,
                 completeness__lt=total,
-            )\
+            )
             .order_by('completeness')
+        )
 
 
 class MaintenanceContactView(BaseMaintenanceView):
@@ -674,11 +678,13 @@ class MaintenanceConsentView(BaseMaintenanceView):
         return super().get_queryset().filter(pk__in=pks, deceased=False)
 
     def get_by_outdated_document(self):
-        return super().get_queryset()\
+        return (
+            super().get_queryset()
             .exclude(pk__in=Subject.objects.filter(
                 filter_queries.has_consent(exclude_deprecated=True)
-            ))\
+            ))
             .filter(consent__status=Consent.CONFIRMED, deceased=False)
+        )
 
     def get_queryset(self):
         return Subject.objects.none().union(
@@ -779,10 +785,11 @@ class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, 
     def patch_document(self, content):
         name, address1, address2 = self.get_data()
 
-        return content\
-            .replace(b'{name}', name.encode('utf8'))\
-            .replace(b'{address1}', address1.encode('utf8'))\
+        return (
+            content.replace(b'{name}', name.encode('utf8'))
+            .replace(b'{address1}', address1.encode('utf8'))
             .replace(b'{address2}', address2.encode('utf8'))
+        )
 
     def patch_zipfile(self, zin, zout):
         for name in zin.namelist():
