@@ -114,7 +114,7 @@ you to set up appointments for the participants:
 
     There are cases in which for example two subjects will be tested at the
     same time. For that reason castellum does not prevent you from booking
-    overlapping appointments. You have to make sure that the requied staff and
+    overlapping appointments. You have to make sure that the required staff and
     resources are available yourself.
 
 .. _recruitment-cleanup:
