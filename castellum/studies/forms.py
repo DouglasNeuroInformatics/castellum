@@ -63,7 +63,7 @@ class StudyForm(forms.ModelForm):
         help_texts = {
             'announce_status_changes': format_lazy(
                 _('Mails will be sent to: {}'),
-                ', '.join(settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO)
+                ', '.join(settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO),
             ),
         }
 

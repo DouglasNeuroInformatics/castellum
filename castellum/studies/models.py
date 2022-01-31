@@ -174,7 +174,7 @@ class Study(models.Model):
             'Use this if you want to skip the usual recruitment workflow and just send an '
             'email to subjects, e.g. to invite them to an anonymous online survey.'
         ),
-        default=False
+        default=False,
     )
     is_filter_trial = models.BooleanField(
         _('Is a filter trial'),
@@ -182,7 +182,7 @@ class Study(models.Model):
             'Use this if you only want to see how many subjects would match a specific study '
             'and filter configuration without actually intending to recruit.'
         ),
-        default=False
+        default=False,
     )
 
     consent = RestrictedFileField(
