@@ -27,7 +27,7 @@
                     {% bootstrap_field form.operator show_label=False %}
                 </div>
             {% else %}
-                <input type="hidden" name="{{ form.prefix }}-operator" value="exact" />
+                <input type="hidden" name="{{ form.prefix }}-operator" value="exact">
             {% endif %}
             <div class="col-sm">
                 {% bootstrap_field form.value show_label=False %}
@@ -74,7 +74,7 @@
                                     {% bootstrap_field form.operator show_label=False %}
                                 </div>
                             {% else %}
-                                <input type="hidden" name="{{ form.prefix }}-operator" value="exact" />
+                                <input type="hidden" name="{{ form.prefix }}-operator" value="exact">
                             {% endif %}
                             <div class="col-sm">
                                 {% bootstrap_field form.value show_label=False %}
