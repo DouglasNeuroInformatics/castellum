@@ -77,14 +77,14 @@ class FilterGroupListView(FilterMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['total_count'] = Subject.objects.count()
         context['count'] = (
-            Subject.objects.filter(
-                filter_queries.study(self.study),
-                filter_queries.has_consent()
-            ).exclude(
+            Subject.objects
+            .filter(filter_queries.study(self.study), filter_queries.has_consent())
+            .exclude(
                 pk__in=self.study.participation_set.filter(
                     status__in=[Participation.INVITED, Participation.UNSUITABLE]
                 ).values('subject')
-            ).count()
+            )
+            .count()
         )
         context['expected_subject_factor'] = settings.CASTELLUM_EXPECTED_SUBJECT_FACTOR
 

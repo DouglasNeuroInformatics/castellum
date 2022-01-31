@@ -84,9 +84,7 @@ class Study(models.Model):
         _('Affiliated Research Assistants'), max_length=254, blank=True
     )
     description = models.TextField(_('Description'), blank=True)
-    previous_status = models.SmallIntegerField(
-        _('Previous status'), choices=STATUS, default=EDIT
-    )
+    previous_status = models.SmallIntegerField(_('Previous status'), choices=STATUS, default=EDIT)
     status = models.SmallIntegerField(_('Status'), choices=STATUS, default=EDIT)
     min_subject_count = models.PositiveIntegerField(_('Required number of subjects'), default=0)
     session_instructions = models.TextField(
@@ -176,7 +174,7 @@ class Study(models.Model):
             'Use this if you want to skip the usual recruitment workflow and just send an '
             'email to subjects, e.g. to invite them to an anonymous online survey.'
         ),
-        default=False
+        default=False,
     )
     is_filter_trial = models.BooleanField(
         _('Is a filter trial'),
@@ -184,7 +182,7 @@ class Study(models.Model):
             'Use this if you only want to see how many subjects would match a specific study '
             'and filter configuration without actually intending to recruit.'
         ),
-        default=False
+        default=False,
     )
 
     consent = RestrictedFileField(
@@ -302,9 +300,9 @@ class Study(models.Model):
     @cached_property
     def has_exclusion_criteria(self):
         return (
-            settings.CASTELLUM_GENERAL_EXCLUSION_CRITERIA or
-            self.exclusion_criteria or
-            self.study_type.exclude(exclusion_criteria='').exists()
+            settings.CASTELLUM_GENERAL_EXCLUSION_CRITERIA
+            or self.exclusion_criteria
+            or self.study_type.exclude(exclusion_criteria='').exists()
         )
 
     @cached_property

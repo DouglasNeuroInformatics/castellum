@@ -86,12 +86,14 @@ class StudyDetailView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMi
         context = super().get_context_data(**kwargs)
 
         context['list'] = []
-        participations = self.study.participation_set\
-            .with_appointment_count()\
-            .filter(status=Participation.INVITED)\
+        participations = (
+            self.study.participation_set
+            .with_appointment_count()
+            .filter(status=Participation.INVITED)
             .prefetch_related(
                 models.Prefetch('subject', queryset=Subject.objects.annotate_reliability())
             )
+        )
         for participation in participations:
             has_access = self.request.user.has_privacy_level(participation.subject.privacy_level)
             context['list'].append((participation, has_access))
@@ -361,9 +363,7 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
         )
 
     def send_summary(self, succeeded, failed, form):
-        postal = list(self.study.participation_set.filter(
-            news_interest=Participation.VIA_POSTAL
-        ))
+        postal = list(self.study.participation_set.filter(news_interest=Participation.VIA_POSTAL))
 
         body = 'You sent news emails to {} subjects.'.format(len(succeeded))
 
@@ -418,14 +418,10 @@ class NewsMailView(StudyMixin, PermissionRequiredMixin, FormView):
         if 'testmail' in form.data:
             return self.send_test_mail(form)
 
-        interested = self.study.participation_set.filter(
-            news_interest=Participation.VIA_EMAIL
-        )
+        interested = self.study.participation_set.filter(news_interest=Participation.VIA_EMAIL)
 
         if interested.count() == 0:
-            messages.warning(self.request, _(
-                'None of the subjects signed up for news emails.'
-            ))
+            messages.warning(self.request, _('None of the subjects signed up for news emails.'))
             return self.form_invalid(form)
 
         succeeded = []
@@ -536,16 +532,12 @@ class ProgressView(SchedulerFetchStudyMixin, StudyMixin, PermissionRequiredMixin
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['participating'] = (
-            self.study.participation_set
-            .filter(status=Participation.INVITED, dropped_out=False)
-            .count()
-        )
-        context['dropped_out'] = (
-            self.study.participation_set
-            .filter(status=Participation.INVITED, dropped_out=True)
-            .count()
-        )
+        context['participating'] = self.study.participation_set.filter(
+            status=Participation.INVITED, dropped_out=False
+        ).count()
+        context['dropped_out'] = self.study.participation_set.filter(
+            status=Participation.INVITED, dropped_out=True
+        ).count()
         context['invited'] = context['participating'] + context['dropped_out']
         context['total'] = max(self.study.min_subject_count, context['invited'])
         context['sessions'] = self.study.studysession_set.annotate(

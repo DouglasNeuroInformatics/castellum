@@ -88,9 +88,7 @@ class SubjectFilterForm(forms.ModelForm):
         self.desc = self._get_selected_description(**kwargs)
 
         self.fields["value"] = self.desc.field.filter_formfield(required=True)
-        self.fields["operator"] = forms.ChoiceField(
-            choices=self.desc.field.available_operators
-        )
+        self.fields["operator"] = forms.ChoiceField(choices=self.desc.field.available_operators)
 
     def _get_selected_description(self, instance=None, data=None, prefix=None, **kwargs):
         if instance:

@@ -63,7 +63,7 @@ class StudyForm(forms.ModelForm):
         help_texts = {
             'announce_status_changes': format_lazy(
                 _('Mails will be sent to: {}'),
-                ', '.join(settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO)
+                ', '.join(settings.CASTELLUM_STUDY_STATUS_NOTIFICATION_TO),
             ),
         }
 
@@ -127,9 +127,10 @@ class SessionForm(forms.ModelForm):
         model = StudySession
         fields = ['name', 'duration', 'resources', 'type', 'reminder_text', 'schedule_id']
         help_texts = {
-            'reminder_text': format_lazy(_(
-                'All subjects will be reminded {} days before each appointment.'
-            ), settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD.days)
+            'reminder_text': format_lazy(
+                _('All subjects will be reminded {} days before each appointment.'),
+                settings.CASTELLUM_APPOINTMENT_REMINDER_PERIOD.days,
+            )
         }
         widgets = {
             'type': forms.CheckboxSelectMultiple(),

@@ -122,9 +122,11 @@ def get_external_resource_events(resource, start, end):
         return []
     try:
         events = []
-        url = resource.url\
-            .replace('{start}', quote_plus(start.isoformat()))\
+        url = (
+            resource.url
+            .replace('{start}', quote_plus(start.isoformat()))
             .replace('{end}', quote_plus(end.isoformat()))
+        )
         text = cached_request(url, timeout=60)
         for event in icalparser.parse_events(text, start=start, end=end):
             events.append({
@@ -159,9 +161,7 @@ def fetch_scheduler_appointments(study, base_url, timeout=0):
         session.schedule_updated_at = now
         session.save()
 
-        for participation in session.study.participation_set.filter(
-            status=Participation.INVITED
-        ):
+        for participation in session.study.participation_set.filter(status=Participation.INVITED):
             pseudonym = get_pseudonym(participation.subject, session.domain)
             start = data.get(pseudonym)
 

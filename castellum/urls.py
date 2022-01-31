@@ -118,6 +118,7 @@ if 'model_stats' in settings.INSTALLED_APPS:
 
 try:
     import debug_toolbar
+
     urlpatterns += [
         path('__debug__/', include(debug_toolbar.urls)),
     ]

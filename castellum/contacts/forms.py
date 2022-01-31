@@ -46,9 +46,7 @@ class SubjectMultipleChoiceField(forms.ModelMultipleChoiceField):
 class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
-        fields = [
-            'country', 'city', 'zip_code', 'street', 'house_number', 'additional_information'
-        ]
+        fields = ['country', 'city', 'zip_code', 'street', 'house_number', 'additional_information']
         widgets = {
             'country': DatalistWidget(datalist=(
                 Address.objects.order_by('country').values_list('country', flat=True).distinct

@@ -97,15 +97,15 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
                 can_access_study = user.has_perm('studies.access_study', obj=participation.study)
                 invited = participation.status == Participation.INVITED
                 can_recruit = (
-                    has_privacy_level and
-                    can_access_study and
-                    user.has_perm('recruitment.recruit', obj=participation.study)
+                    has_privacy_level
+                    and can_access_study
+                    and user.has_perm('recruitment.recruit', obj=participation.study)
                 )
                 can_conduct = (
-                    has_privacy_level and
-                    can_access_study and
-                    invited and
-                    user.has_perm('recruitment.conduct_study', obj=participation.study)
+                    has_privacy_level
+                    and can_access_study
+                    and invited
+                    and user.has_perm('recruitment.conduct_study', obj=participation.study)
                 )
                 can_search = invited and user.has_perm('recruitment.search_participations')
                 if can_recruit or can_conduct or can_search:
@@ -126,10 +126,12 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         ).distinct().count()
 
         completeness, total = filter_queries.completeness_expr()
-        context['count_complete'] = Subject.objects\
-            .alias(completeness=completeness)\
-            .filter(completeness=total, deceased=False)\
+        context['count_complete'] = (
+            Subject.objects
+            .alias(completeness=completeness)
+            .filter(completeness=total, deceased=False)
             .count()
+        )
 
         context['count_recruitable'] = Subject.objects.filter(
             filter_queries.has_consent(), filter_queries.to_be_deleted(), deceased=False,
@@ -213,8 +215,7 @@ class SubjectDetailView(SubjectMixin, PermissionRequiredMixin, DetailView):
 
         dropout_count = self.object.participation_set.filter(dropped_out=True).count()
         dropout_total = self.object.participation_set.filter(
-            models.Q(status=Participation.INVITED) |
-            models.Q(dropped_out=True)
+            models.Q(status=Participation.INVITED) | models.Q(dropped_out=True)
         ).count()
         if dropout_total == 0:
             context['dropout_rate'] = '—'
@@ -315,9 +316,7 @@ class SubjectExportView(SubjectMixin, PermissionRequiredMixin, DetailView):
         if self.object.export_requested:
             context['has_participations'] = self.object.participation_set.exists()
             context['general_domains_exist'] = Domain.objects.filter(object_id=None).exists()
-            context['appointments'] = Appointment.objects.filter(
-                participation__subject=self.object
-            )
+            context['appointments'] = Appointment.objects.filter(participation__subject=self.object)
 
             context['notes'] = self.object.subjectnote_set.all()
 
@@ -445,9 +444,7 @@ class ParticipationRecruitView(SubjectMixin, PermissionRequiredMixin, ListView):
         if not request.user.has_perms(perms, obj=study):
             raise PermissionDenied
 
-        participation, __ = Participation.objects.get_or_create(
-            subject=self.subject, study=study
-        )
+        participation, __ = Participation.objects.get_or_create(subject=self.subject, study=study)
 
         url = reverse('recruitment:contact', args=[study.pk, participation.pk])
         return redirect(url)
@@ -480,8 +477,7 @@ class ParticipationAddView(SubjectMixin, PermissionRequiredMixin, ListView):
             ))
             for part in q.split():
                 qs = qs.filter(
-                    models.Q(name__icontains=part) |
-                    models.Q(contact_person__icontains=part)
+                    models.Q(name__icontains=part) | models.Q(contact_person__icontains=part)
                 )
             qs = qs.filter(is_filter_trial=False)
             return qs
@@ -595,15 +591,17 @@ class MaintenanceAttributesView(BaseMaintenanceView):
         full_age = Contact.objects.exclude(
             date_of_birth__gt=today - relativedelta(years=settings.CASTELLUM_FULL_AGE),
         )
-        return super().get_queryset()\
-            .annotate(completeness=completeness)\
+        return (
+            super().get_queryset()
+            .annotate(completeness=completeness)
             .filter(
                 filter_queries.has_consent(),
                 filter_queries.uuid_filter(full_age),
                 deceased=False,
                 completeness__lt=total,
-            )\
+            )
             .order_by('completeness')
+        )
 
 
 class MaintenanceContactView(BaseMaintenanceView):
@@ -680,11 +678,13 @@ class MaintenanceConsentView(BaseMaintenanceView):
         return super().get_queryset().filter(pk__in=pks, deceased=False)
 
     def get_by_outdated_document(self):
-        return super().get_queryset()\
+        return (
+            super().get_queryset()
             .exclude(pk__in=Subject.objects.filter(
                 filter_queries.has_consent(exclude_deprecated=True)
-            ))\
+            ))
             .filter(consent__status=Consent.CONFIRMED, deceased=False)
+        )
 
     def get_queryset(self):
         return Subject.objects.none().union(
@@ -732,7 +732,7 @@ class MaintenanceEstrangedSubjectsView(BaseMaintenanceView):
             filter_queries.has_consent(include_waiting=True),
             blocked=False,
             deceased=False,
-            updated_at__lte=timezone.now() - settings.CASTELLUM_ENSTRANGED_SUBJECTS_PERIOD
+            updated_at__lte=timezone.now() - settings.CASTELLUM_ENSTRANGED_SUBJECTS_PERIOD,
         ).order_by("updated_at")
 
 
@@ -785,10 +785,11 @@ class CoverletterView(SubjectMixin, PermissionRequiredMixin, SingleObjectMixin, 
     def patch_document(self, content):
         name, address1, address2 = self.get_data()
 
-        return content\
-            .replace(b'{name}', name.encode('utf8'))\
-            .replace(b'{address1}', address1.encode('utf8'))\
+        return (
+            content.replace(b'{name}', name.encode('utf8'))
+            .replace(b'{address1}', address1.encode('utf8'))
             .replace(b'{address2}', address2.encode('utf8'))
+        )
 
     def patch_zipfile(self, zin, zout):
         for name in zin.namelist():

@@ -51,6 +51,7 @@ class SubjectFilterGroup(models.Model):
 
     def get_potential_matches(self):
         from .. import filter_queries
+
         return Subject.objects.filter(
             filter_queries.study_except_filters(self.study),
             filter_queries.subjectfilters(self),

@@ -39,58 +39,69 @@ def get_export_requested():
 def get_no_legal_basis():
     # this query has the biggest potential to shrink down
     # the number of matches, so it is done first
-    subjects = Subject.objects\
-        .alias(pr_count=models.Count('participation', filter=~models.Q(
-            participation__status=Participation.UNSUITABLE
-        )))\
+    subjects = (
+        Subject.objects
+        .alias(pr_count=models.Count(
+            'participation', filter=~models.Q(participation__status=Participation.UNSUITABLE)
+        ))
         .exclude(pk__in=Subject.objects.filter(
             filter_queries.has_consent(include_waiting=True), deceased=False
-        ))\
-        .exclude(blocked=True, deceased=False)\
+        ))
+        .exclude(blocked=True, deceased=False)
         .filter(pr_count=0)
+    )
     subject_uuids = subjects.values_list('uuid', flat=True)
 
-    contacts = Contact.objects\
-        .alias(legal_representative_of_count=models.Count('legal_representative_of'))\
+    contacts = (
+        Contact.objects
+        .alias(legal_representative_of_count=models.Count('legal_representative_of'))
         .filter(legal_representative_of_count=0, subject_uuid__in=list(subject_uuids))
+    )
 
     return Subject.objects.filter(filter_queries.uuid_filter(contacts))
 
 
 def get_unreachable():
-    contacts = Contact.objects\
-        .alias(legal_representative_count=models.Count('legal_representatives'))\
+    contacts = (
+        Contact.objects
+        .alias(legal_representative_count=models.Count('legal_representatives'))
         .filter(
             legal_representative_count=0,
             address=None,
             email='',
             phone_number='',
-        )\
+        )
         .order_by()
+    )
 
     return Subject.objects.filter(filter_queries.uuid_filter(contacts))
 
 
 def get_subjects():
-    return Subject.objects.annotate(
-        due=models.ExpressionWrapper(
-            models.Case(
-                models.When(
-                    (
-                        models.Q(export_requested__lt=models.F('to_be_deleted'))
-                        | models.Q(to_be_deleted__isnull=True)
+    return (
+        Subject.objects
+        .annotate(
+            due=models.ExpressionWrapper(
+                models.Case(
+                    models.When(
+                        (
+                            models.Q(export_requested__lt=models.F('to_be_deleted'))
+                            | models.Q(to_be_deleted__isnull=True)
+                        ),
+                        then=models.F('export_requested'),
                     ),
-                    then=models.F('export_requested'),
-                ),
-                default=models.F('to_be_deleted'),
-            ) + settings.CASTELLUM_SUBJECT_DELETION_PERIOD,
-            output_field=models.DateField(),
-        ),
-        no_legal_basis=models.Exists(get_no_legal_basis().filter(pk=models.OuterRef('pk'))),
-        unreachable=models.Exists(get_unreachable().filter(pk=models.OuterRef('pk'))),
-    ).exclude(
-        export_requested__isnull=True,
-        to_be_deleted__isnull=True,
-        no_legal_basis=False,
-        unreachable=False,
-    ).order_by(models.F('due').asc(nulls_last=True))
+                    default=models.F('to_be_deleted'),
+                ) + settings.CASTELLUM_SUBJECT_DELETION_PERIOD,
+                output_field=models.DateField(),
+            ),
+            no_legal_basis=models.Exists(get_no_legal_basis().filter(pk=models.OuterRef('pk'))),
+            unreachable=models.Exists(get_unreachable().filter(pk=models.OuterRef('pk'))),
+        )
+        .exclude(
+            export_requested__isnull=True,
+            to_be_deleted__isnull=True,
+            no_legal_basis=False,
+            unreachable=False,
+        )
+        .order_by(models.F('due').asc(nulls_last=True))
+    )

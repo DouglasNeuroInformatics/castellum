@@ -82,11 +82,9 @@ class Appointment(models.Model):
 
     @staticmethod
     def change_start(session, participation, start):
-        appointment = (
-            Appointment.objects
-            .filter(session=session, participation=participation)
-            .first()
-        )
+        appointment = Appointment.objects.filter(
+            session=session, participation=participation
+        ).first()
 
         changes = []
 

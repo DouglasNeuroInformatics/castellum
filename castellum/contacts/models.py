@@ -35,12 +35,12 @@ class ContactQuerySet(models.QuerySet):
     def fuzzy_filter(self, search):
         parts = search.split()
         q = self.all_parts_match(parts) & (
-            self.full_name_is_matched(parts) |
-            self.phone_number_is_matched(parts) |
-            self.email_is_matched(parts) |
-            self.legal_representative_full_name_is_matched(parts) |
-            self.legal_representative_phone_number_is_matched(parts) |
-            self.legal_representative_email_is_matched(parts)
+            self.full_name_is_matched(parts)
+            | self.phone_number_is_matched(parts)
+            | self.email_is_matched(parts)
+            | self.legal_representative_full_name_is_matched(parts)
+            | self.legal_representative_phone_number_is_matched(parts)
+            | self.legal_representative_email_is_matched(parts)
         )
         return self.filter(q).distinct()
 
@@ -78,8 +78,8 @@ class ContactQuerySet(models.QuerySet):
 
     def legal_representative_full_name_is_matched(self, parts):
         return (
-            self.name_is_matched(parts, 'legal_representatives__first') &
-            self.name_is_matched(parts, 'legal_representatives__last')
+            self.name_is_matched(parts, 'legal_representatives__first')
+            & self.name_is_matched(parts, 'legal_representatives__last')
         )
 
     def legal_representative_phone_number_is_matched(self, parts):
@@ -102,22 +102,22 @@ class ContactQuerySet(models.QuerySet):
         for part in parts:
             if '@' in part:
                 q &= (
-                    models.Q(email__iexact=part) |
-                    models.Q(legal_representatives__email__iexact=part)
+                    models.Q(email__iexact=part)
+                    | models.Q(legal_representatives__email__iexact=part)
                 )
             elif is_phone_number(part):
                 q &= (
-                    models.Q(phone_number=part) |
-                    models.Q(phone_number_alternative=part) |
-                    models.Q(legal_representatives__phone_number=part) |
-                    models.Q(legal_representatives__phone_number_alternative=part)
+                    models.Q(phone_number=part)
+                    | models.Q(phone_number_alternative=part)
+                    | models.Q(legal_representatives__phone_number=part)
+                    | models.Q(legal_representatives__phone_number_alternative=part)
                 )
             else:
                 q &= (
-                    self.match_name(part, 'first') |
-                    self.match_name(part, 'last') |
-                    self.match_name(part, 'legal_representatives__first') |
-                    self.match_name(part, 'legal_representatives__last')
+                    self.match_name(part, 'first')
+                    | self.match_name(part, 'last')
+                    | self.match_name(part, 'legal_representatives__first')
+                    | self.match_name(part, 'legal_representatives__last')
                 )
         return q
 

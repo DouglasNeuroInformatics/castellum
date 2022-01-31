@@ -52,9 +52,11 @@ def subjects_notify(subjects, base_url):
 
 
 def subjects_reset(subjects):
-    return Subject.objects\
-        .filter(to_be_deleted_notified=True)\
+    return (
+        Subject.objects
+        .filter(to_be_deleted_notified=True)
         .update(to_be_deleted_notified=False)
+    )
 
 
 class Command(BaseCommand):

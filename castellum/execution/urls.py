@@ -132,10 +132,10 @@ if settings.CASTELLUM_API_ENABLED:
         path('api/studies/<int:pk>/domains/<uuid:domain>/<pseudonym>/', APIValidateView.as_view()),
         path(
             'api/studies/<int:study_pk>/domains/<uuid:domain>/<pseudonym>/attributes/',
-            APIAttributesView.as_view()
+            APIAttributesView.as_view(),
         ),
         path(
             'api/studies/<int:study_pk>/domains/<uuid:domain>/<pseudonym>/<uuid:target_domain>/',
-            APIResolveView.as_view()
+            APIResolveView.as_view(),
         ),
     ]

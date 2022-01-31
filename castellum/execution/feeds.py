@@ -51,16 +51,20 @@ class AppointmentFeedForStudy(
     study_status = [Study.EXECUTION]
 
     def items(self):
-        return super().items()\
-            .filter(session__study=self.study)\
+        return (
+            super().items()
+            .filter(session__study=self.study)
             .select_related('participation__subject', 'session__study')
+        )
 
 
 class AppointmentFeedForUser(ParamAuthMixin, BaseExecutionAppointmentFeed):
     def items(self):
-        items = super().items()\
-            .filter(session__study__status=Study.EXECUTION)\
+        items = (
+            super().items()
+            .filter(session__study__status=Study.EXECUTION)
             .select_related('participation__subject', 'session__study')
+        )
 
         perms = ['recruitment.conduct_study', 'studies.access_study']
         for item in items:

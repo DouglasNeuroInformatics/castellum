@@ -52,13 +52,15 @@ def get_related_studies(study):
     related_prs = Participation.objects.filter(
         updated_at__gte=dt,
         status=Participation.INVITED,
-        subject__in=Subject.objects.filter(filter_queries.study(study))
+        subject__in=Subject.objects.filter(filter_queries.study(study)),
     )
-    return Study.objects\
-        .filter(participation__in=related_prs)\
-        .annotate(count=models.Count('pk'))\
-        .exclude(pk=study.pk)\
+    return (
+        Study.objects
+        .annotate(count=models.Count('pk'))
+        .filter(participation__in=related_prs)
+        .exclude(pk=study.pk)
         .order_by('-count')[:5]
+    )
 
 
 class StudyRecruitmentSettingsUpdateView(StudyMixin, PermissionRequiredMixin, UpdateView):
