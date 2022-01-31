@@ -5,7 +5,7 @@
 -   It is no longer possible to create appointments for subjects
     who are not participating. If the status is changed from
     "participating" to anything else, existing appointments are deleted.
-    This has less potential for cofusion than keeping the appointments
+    This has less potential for confusion than keeping the appointments
     but ignoring them.
 -   The docker image is now based on Alpine 3.14 which might cause
     issues if used with a docker version before 20.10.
@@ -37,8 +37,8 @@
 -   Study tags are now displayed more prominently.
 -   The "potential subjects" counts in study management now exclude
     subjects who are already participating or excluded.
--   JSON files in attribute export are now UTF-8 instead of ASCII with
-    escape codes.
+-   JSON files in attribute export now use UTF-8 encoding instead of
+    ASCII with escape codes.
 
 
 # 0.70.2 (2022-01-12)
