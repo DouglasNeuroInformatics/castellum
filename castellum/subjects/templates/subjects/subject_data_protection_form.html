@@ -26,16 +26,15 @@
                     <div class="form-text bg-warning text-dark p-2 mb-2">
                         {% blocktranslate %}
                             The current consent refers to an outdated document and will soon expire, thus rendering the recruitment consent invalid.
-                            Please contact this subject and ask them to consent to the latest document or withdraw their consent.
-                            This message will disappear once you change the value of the checkbox.
+                            Please remove the current consent and contact the subject to confirm the latest document.
                         {% endblocktranslate %}
                     </div>
                 {% endif %}
                 {% if object.has_consent_from_before_full_age %}
                     <div class="form-text bg-warning text-dark p-2 mb-2">
                         {% blocktranslate %}
-                            The subject has recently come of age. Please ask them to renew or withdraw their consent.
-                            This message will disappear once you change the value of the checkbox.
+                            The subject has recently come of age.
+                            Please remove the current consent and contact the subject for a new one.
                         {% endblocktranslate %}
                     </div>
                 {% endif %}
