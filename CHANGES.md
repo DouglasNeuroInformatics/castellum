@@ -7,7 +7,7 @@
     "participating" to anything else, existing appointments are deleted.
     This has less potential for cofusion than keeping the appointments
     but ignoring them.
--   The docker image is not based on Alpine 3.14 which might cause
+-   The docker image is now based on Alpine 3.14 which might cause
     issues if used with a docker version before 20.10.
 
 ## security
@@ -26,7 +26,7 @@
 
 -   Fixed a crash in the subjects pseudonyms view
 -   Fixed cases in which subject creation requests were imported a
-    second time after that had already been processed.
+    second time after they had already been processed.
 -   Fixed an indeterministic crash in the `create_demo_content` command.
 
 ## new features
