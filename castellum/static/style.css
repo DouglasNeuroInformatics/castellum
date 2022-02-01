@@ -95,6 +95,10 @@
 }
 .breadcrumb a {
     color: inherit;
+    text-decoration: none;
+}
+.breadcrumb a:hover {
+    text-decoration: underline;
 }
 
 .container {
@@ -172,13 +176,6 @@
 
 input:checked + .checkbox-opacity {
     opacity: 0.5;
-}
-
-.breadcrumb-item a {
-    text-decoration: none;
-}
-.breadcrumb-item a:hover {
-    text-decoration: underline;
 }
 
 /* adapt full calendar to bootstrap 5 */
