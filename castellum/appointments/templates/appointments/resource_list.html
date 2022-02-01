@@ -9,7 +9,7 @@
                 {% is_resource_manager user resource as can_manage_resource %}
                 {% if can_manage_resource %}
                     <div class="table-list-item-actions">
-                        <a href="{% url 'appointments:resource-detail' resource.pk %}" class="btn btn-outline-primary">{% translate 'Details' %}</a>
+                        <a href="{% url 'appointments:resource-detail' resource.pk %}" class="btn btn-link">{% translate 'Details' %}</a>
                     </div>
                 {% endif %}
             </li>
