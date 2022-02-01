@@ -1,3 +1,9 @@
+# 0.71.1 (2022-02-01)
+
+-   Fix cases in which all subjects would be included in the subject
+    protection dashboard.
+
+
 # 0.71.0 (2022-02-01)
 
 ## breaking changes
