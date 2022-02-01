@@ -46,6 +46,9 @@ class ResourceListView(LoginRequiredMixin, ListView):
     model = Resource
     template_name = 'appointments/resource_list.html'
 
+    def get_queryset(self):
+        return self.request.user.resource_set.all()
+
 
 class ResourceDetailView(LoginRequiredMixin, BaseCalendarView):
     model = Resource
