@@ -18,6 +18,8 @@ DATABASES = {
 
 ALLOWED_HOSTS = ['*']
 
+TIME_ZONE = 'Europe/Berlin'
+
 # LDAP
 # See https://django-auth-ldap.readthedocs.io/
 AUTHENTICATION_BACKENDS = [
