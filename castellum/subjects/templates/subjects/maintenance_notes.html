@@ -11,9 +11,7 @@
             {% has_privacy_level subject.privacy_level user as can_access %}
             <li class="table-list-item">
                 <div>
-                    <div>
-                        {% translate 'Last updated on' %}: {{ subject.updated_at|date }}
-                    </div>
+                    <div>{% translate 'Last updated on' %}: {{ subject.updated_at|date }}</div>
                 </div>
                 <div class="table-list-item-actions">
                     {% if can_access %}
