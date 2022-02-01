@@ -102,6 +102,15 @@
     background-color: var(--bs-primary);
 }
 
+.link-lite {
+    color: inherit;
+    text-decoration: none;
+}
+.link-lite:hover {
+    color: inherit;
+    text-decoration: underline;
+}
+
 .breadcrumb {
     font-size: smaller;
 }

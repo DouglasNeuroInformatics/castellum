@@ -16,7 +16,7 @@
             <li class="table-list-item flex-nowrap">
                 <div class="row align-items-center flex-grow-1">
                     <div class="col-md">
-                        <span class="h5">{{ subject.contact }}</span>
+                        <a class="h5 link-lite" href="{% url 'subjects:detail' subject.uuid %}">{{ subject.contact }}</a>
                     </div>
                     <div class="col-md">
                         {% if not subject.due %}
@@ -53,9 +53,6 @@
                             {% endif %}
                         {% endif %}
                     </div>
-                </div>
-                <div class="table-list-item-actions flex-grow-0">
-                    <a class="btn btn-link" href="{% url 'subjects:detail' subject.uuid %}">{% translate 'Details' %}</a>
                 </div>
             </li>
         {% empty %}
