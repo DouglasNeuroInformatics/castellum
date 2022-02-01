@@ -25,18 +25,6 @@
     padding: 0.1rem 0 0.1rem 3rem;
 }
 
-.btn-sm-inline {
-    display: block;
-    width: 100%;
-}
-
-@media (min-width: 576px) {
-    .btn-sm-inline {
-        display: inline-block;
-        width: auto;
-    }
-}
-
 /* work around https://github.com/twbs/bootstrap/issues/25394 */
 .navbar-dark .navbar-toggler-icon {
     background-image: url("images/bootstrap/hamburger.svg");
