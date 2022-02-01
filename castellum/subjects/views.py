@@ -62,6 +62,7 @@ from castellum.recruitment.models import AttributeDescription
 from castellum.recruitment.models import Participation
 from castellum.studies.forms import StudyFilterForm
 from castellum.studies.models import Study
+from castellum.utils.expressions import exists
 
 from .forms import SubjectPrivacyLevelForm
 from .mixins import BaseAdditionalInfoUpdateView
@@ -687,7 +688,7 @@ class MaintenanceConsentView(BaseMaintenanceView):
         pks = [c.subject.pk for c in contacts if c.subject.has_consent_from_before_full_age]
         return super().get_queryset().filter(pk__in=pks, deceased=False)
 
-    def get_by_outdated_document(self):
+    def get_by_deprecated_document(self):
         return (
             super().get_queryset()
             .exclude(pk__in=Subject.objects.filter(
@@ -697,10 +698,23 @@ class MaintenanceConsentView(BaseMaintenanceView):
         )
 
     def get_queryset(self):
-        return Subject.objects.none().union(
-            self.get_by_consent_from_before_full_age(),
-            self.get_by_outdated_document(),
-        ).order_by('pk')
+        return (
+            Subject.objects
+            .annotate(
+                consent_document_deprecated=exists(
+                    self.get_by_deprecated_document(), pk=models.OuterRef('pk')
+                ),
+                consent_from_before_full_age=exists(
+                    self.get_by_consent_from_before_full_age(), pk=models.OuterRef('pk')
+                ),
+            )
+            .exclude(
+                consent_document_deprecated=False,
+                consent_from_before_full_age=False,
+            )
+            .select_related('consent__document')
+            .order_by('pk')
+        )
 
 
 class MaintenanceWaitingView(BaseMaintenanceView):

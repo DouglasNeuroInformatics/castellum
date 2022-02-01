@@ -11,6 +11,14 @@
             {% has_privacy_level subject.privacy_level user as can_access %}
             <li class="table-list-item">
                 <div>
+                    <div>
+                        {% if subject.consent_from_before_full_age %}
+                            {% translate 'Consent from before full age' %}
+                        {% endif %}
+                        {% if subject.consent_document_deprecated %}
+                            {{ subject.consent.document }}
+                        {% endif %}
+                    </div>
                     <div>{% translate 'Last updated on' %}: {{ subject.updated_at|date }}</div>
                 </div>
                 <div class="table-list-item-actions">

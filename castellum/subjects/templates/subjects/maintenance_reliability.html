@@ -1,5 +1,5 @@
 {% extends "subjects/maintenance_base.html" %}
-{% load i18n django_bootstrap5 auth %}
+{% load i18n django_bootstrap5 auth reliability %}
 
 {% block title %}{% translate "Reliability" %} &middot; {{ block.super }}{% endblock %}
 
@@ -11,6 +11,12 @@
             {% has_privacy_level subject.privacy_level user as can_access %}
             <li class="table-list-item">
                 <div>
+                    <div>
+                        <span class="text-{{ subject|reliability_level }}" aria-hidden="true">&#9679;</span>
+                        {% with summary=subject|reliability_summary %}
+                            {% if summary %}({{ summary }}){% endif %}
+                        {% endwith %}
+                    </div>
                     <div>{% translate 'Last updated on' %}: {{ subject.updated_at|date }}</div>
                 </div>
                 <div class="table-list-item-actions">
