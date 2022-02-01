@@ -25,6 +25,7 @@ from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
 from castellum.subjects.models import Subject
+from castellum.utils.expressions import exists
 
 
 def get_export_requested():
@@ -94,8 +95,8 @@ def get_subjects():
                 ) + settings.CASTELLUM_SUBJECT_DELETION_PERIOD,
                 output_field=models.DateField(),
             ),
-            no_legal_basis=models.Exists(get_no_legal_basis().filter(pk=models.OuterRef('pk'))),
-            unreachable=models.Exists(get_unreachable().filter(pk=models.OuterRef('pk'))),
+            no_legal_basis=exists(get_no_legal_basis(), pk=models.OuterRef('pk')),
+            unreachable=exists(get_unreachable(), pk=models.OuterRef('pk')),
         )
         .exclude(
             export_requested__isnull=True,
