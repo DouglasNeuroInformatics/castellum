@@ -251,10 +251,7 @@ def generate_subjects(count, stdout):
         generate_geolocations(contacts)
 
     stdout.write('Generating consents')
-    try:
-        document = ConsentDocument.objects.filter(is_valid=True).latest()
-    except ConsentDocument.DoesNotExist:
-        document = ConsentDocument.objects.create()
+    document = ConsentDocument.get_latest()
     consents = [Consent(subject=s, document=document, status=Consent.CONFIRMED) for s in subjects]
     Consent.objects.bulk_create(consents)
 

@@ -218,6 +218,13 @@ class ConsentDocument(models.Model):
     def __str__(self):
         return _('Version {}').format(self.pk)
 
+    @classmethod
+    def get_latest(cls):
+        try:
+            return cls.objects.filter(is_valid=True).latest()
+        except cls.DoesNotExist:
+            return cls.objects.create()
+
 
 class Consent(models.Model):
     WAITING = 'waiting'
