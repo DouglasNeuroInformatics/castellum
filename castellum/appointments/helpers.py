@@ -70,8 +70,11 @@ def get_reminder_body(name, session, dt):
 def send_appointment_notifications(participation, changes, base_url, user=None):
     start = timezone.now()
     end = add_working_days(start, 2)
+    as_datetimes = [
+        (old, appointment.start if appointment else None) for (old, appointment) in changes
+    ]
     relevant_changes = [
-        (old, new) for (old, new) in changes if (
+        (old, new) for (old, new) in as_datetimes if (
             (old and old >= start and old <= end) or
             (new and new >= start and new <= end)
         )

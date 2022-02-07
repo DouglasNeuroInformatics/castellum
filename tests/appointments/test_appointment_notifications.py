@@ -4,8 +4,10 @@ from django.utils.dateparse import parse_datetime
 
 import pytest
 from freezegun import freeze_time
+from model_bakery import baker
 
 from castellum.appointments.helpers import send_appointment_notifications
+from castellum.appointments.models import Appointment
 
 
 def dt(s):
@@ -57,10 +59,11 @@ def test_appointment_notifications_no_change(user, member, participation):
 
 
 def test_appointment_notifications_no_members(user, participation):
+    appointment = baker.make(Appointment, start=dt('2017-01-01 13:00'), participation=participation)
     with freeze_time('2017-01-01'):
         send_appointment_notifications(
             participation,
-            [(dt('2017-01-01 12:00'), dt('2017-01-01 13:00'))],
+            [(dt('2017-01-01 12:00'), appointment)],
             'http://example.com',
             user=user,
         )
@@ -68,10 +71,11 @@ def test_appointment_notifications_no_members(user, participation):
 
 
 def test_appointment_notifications_weekend(user, member, participation):
+    appointment = baker.make(Appointment, start=dt('2017-01-09 13:00'), participation=participation)
     with freeze_time('2017-01-06'):
         send_appointment_notifications(
             participation,
-            [(dt('2017-01-09 12:00'), dt('2017-01-09 13:00'))],  # friday to monday
+            [(dt('2017-01-09 12:00'), appointment)],  # friday to monday
             'http://example.com',
             user=user,
         )
