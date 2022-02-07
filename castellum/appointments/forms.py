@@ -39,8 +39,9 @@ class AppointmentsForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         self.invitation_urls = {}
-        for session, appointment in self.instance.get_appointments():
+        for session in self.instance.study.studysession_set.all():
             key = 'appointment-{}'.format(session.pk)
+            appointment = self.instance.appointment_set.filter(session=session).first()
             self.fields[key] = DateTimeField(
                 label=self.format_session_name(session),
                 help_text=session.reminder_text,
@@ -69,7 +70,7 @@ class AppointmentsForm(forms.ModelForm):
         participation = super().save()
         self.appointment_changes = []
 
-        for session, appointment in participation.get_appointments():
+        for session in self.instance.study.studysession_set.all():
             start = self.cleaned_data.get('appointment-{}'.format(session.pk))
             self.appointment_changes += Appointment.change_start(session, participation, start)
         return participation
