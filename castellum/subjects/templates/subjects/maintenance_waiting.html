@@ -12,7 +12,7 @@
             <li class="table-list-item">
                 <div>
                     <div>{% translate 'Waiting since' %}: {{ subject.consent.updated_at|date }}</div>
-                    <div>{% translate 'Last updated on' %}: {{ subject.updated_at|date }}</div>
+                    <div>{% translate 'Last contacted on' %}: {{ subject.updated_at|date }}</div>
                 </div>
                 <div class="table-list-item-actions">
                     {% if can_access %}
