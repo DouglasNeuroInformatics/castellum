@@ -8,7 +8,10 @@
 
 {% block header %}
     <div class="container text-center my-4">
-        <h1>{{ subject.contact.full_name }}</h1>
+        <h1>
+            <svg class="identicon" data-jdenticon-value="{{ subject.pk }}" aria-hidden="true"></svg>
+            {{ subject.contact.full_name }}
+        </h1>
     </div>
 
     <nav class="d-print-none" aria-label="{% translate 'Tabs' %}">
