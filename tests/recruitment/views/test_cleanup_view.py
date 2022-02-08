@@ -110,6 +110,6 @@ def test_cleanup_view_mismatch(
     participation2.refresh_from_db()
     assert participation2.status == Participation.UNSUITABLE
     participation3.refresh_from_db()
-    assert participation3.status == Participation.UNSUITABLE
+    assert participation3.status == Participation.NOT_CONTACTED
     participation4.refresh_from_db()
     assert participation4.status == Participation.INVITED
