@@ -5,7 +5,10 @@
 
 {% block content %}
     <h2>{% translate 'Cleanup' %}</h2>
-    <p>{% translate 'Please select which entries should be marked as excluded:' %}</p>
+    <ul>
+        <li>{% translate 'The selected entries will be marked as excluded.' %}</li>
+        <li>{% translate 'The selected entries will also get an "excluded by cleanup" badge so you can distinguish them from manually excluded ones.' %}</li>
+    </ul>
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
