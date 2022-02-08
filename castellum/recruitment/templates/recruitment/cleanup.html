@@ -5,7 +5,7 @@
 
 {% block content %}
     <h2>{% translate 'Cleanup' %}</h2>
-    <p>{% translate 'Please select one of the following options:' %}</p>
+    <p>{% translate 'Please select which entries should be marked as excluded:' %}</p>
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
@@ -13,7 +13,7 @@
         <div class="card-group mb-3">
             <div class="card">
                 <div class="card-body">
-                    {% translate 'Mark all open participations as excluded.' %}
+                    {% translate 'All open participations.' %}
                 </div>
                 <div class="card-footer">
                     {% with querysets.all.count as count %}
@@ -23,7 +23,7 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    {% translate 'Mark all subjects as excluded who have not answered for 10 days or more.' %}
+                    {% translate 'All subjects that have been in "awaiting response" status for 10 days or more.' %}
                 </div>
                 <div class="card-footer">
                     {% with querysets.awaiting_response.count as count %}
@@ -33,11 +33,11 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    {% translate 'Mark all subject who do not match the current filter criteria as excluded.' %}
+                    {% translate 'All subjects who do not match the current filter criteria or who are blocked in other studies.' %}
                 </div>
                 <div class="card-footer">
                     {% with querysets.mismatch.count as count %}
-                        <button name="action" value="mismatch" class="btn btn-danger d-block w-100" {% if count == 0 %}disabled{% endif %}>{% translate 'Mismatch' %} ({{ count }})</button>
+                        <button name="action" value="mismatch" class="btn btn-danger d-block w-100" {% if count == 0 %}disabled{% endif %}>{% translate 'Unsuitable' %} ({{ count }})</button>
                     {% endwith %}
                 </div>
             </div>
