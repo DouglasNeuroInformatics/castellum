@@ -465,29 +465,38 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
     study_status = [Study.EXECUTION]
     tab = 'recruitment'
 
-    def post(self, request, *args, **kwargs):
-        action = request.POST.get('action')
+    def get_querysets(self):
         qs = self.study.participation_set.exclude(status__in=[
             Participation.INVITED,
             Participation.UNSUITABLE,
         ])
-
-        if action == 'all':
-            pass
-        elif action == 'mismatch':
-            qs = qs.exclude(subject__in=Subject.objects.filter(
+        return {
+            'all': qs,
+            'mismatch': qs.exclude(subject__in=Subject.objects.filter(
                 filter_queries.study(self.study, include_unknown=False),
-            ))
-        elif action == 'awaiting_response':
-            qs = qs.filter(
+            )),
+            'awaiting_response': qs.filter(
                 status=Participation.AWAITING_RESPONSE,
                 updated_at__lt=timezone.now() - datetime.timedelta(days=10),
-            )
-        else:
+            ),
+        }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['querysets'] = self.get_querysets()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        action = request.POST.get('action')
+        querysets = self.get_querysets()
+
+        if action not in querysets:
             return HttpResponseBadRequest()
 
         # needs to be update() in order not to set Subject.updated_at
-        qs.update(status=Participation.UNSUITABLE, batch=None, excluded_by_cleanup=True)
+        querysets[action].update(
+            status=Participation.UNSUITABLE, batch=None, excluded_by_cleanup=True
+        )
 
         return redirect('recruitment:recruitment-open', self.study.pk)
 

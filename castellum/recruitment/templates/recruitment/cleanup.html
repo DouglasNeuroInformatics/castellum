@@ -16,7 +16,9 @@
                     {% translate 'Mark all open participations as excluded.' %}
                 </div>
                 <div class="card-footer">
-                    <button name="action" value="all" class="btn btn-danger d-block w-100">{% translate 'All' %}</button>
+                    {% with querysets.all.count as count %}
+                        <button name="action" value="all" class="btn btn-danger d-block w-100">{% translate 'All' %} ({{ count }})</button>
+                    {% endwith %}
                 </div>
             </div>
             <div class="card">
@@ -24,7 +26,9 @@
                     {% translate 'Mark all subjects as excluded who have not answered for 10 days or more.' %}
                 </div>
                 <div class="card-footer">
-                    <button name="action" value="awaiting_response" class="btn btn-danger d-block w-100">{% translate 'Awaiting response' %}</button>
+                    {% with querysets.awaiting_response.count as count %}
+                        <button name="action" value="awaiting_response" class="btn btn-danger d-block w-100">{% translate 'Awaiting response' %} ({{ count }})</button>
+                    {% endwith %}
                 </div>
             </div>
             <div class="card">
@@ -32,7 +36,9 @@
                     {% translate 'Mark all subject who do not match the current filter criteria as excluded.' %}
                 </div>
                 <div class="card-footer">
-                    <button name="action" value="mismatch" class="btn btn-danger d-block w-100">{% translate 'Mismatch' %}</button>
+                    {% with querysets.mismatch.count as count %}
+                        <button name="action" value="mismatch" class="btn btn-danger d-block w-100">{% translate 'Mismatch' %} ({{ count }})</button>
+                    {% endwith %}
                 </div>
             </div>
         </div>
