@@ -4,7 +4,6 @@
 {% block title %}{% translate "Send reminder" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
-
     {% if not study.mail_body %}
         <p class="alert alert-danger" role="alert">{% translate "Mail recruitment has not been set up!" %}</p>
     {% else %}
@@ -35,5 +34,4 @@
             </div>
         </form>
     {% endif %}
-
 {% endblock %}
