@@ -18,9 +18,13 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import logging
+
 from django import forms
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+
+import requests
 
 from castellum.pseudonyms.helpers import get_pseudonym
 from castellum.recruitment.models import Participation
@@ -28,6 +32,8 @@ from castellum.utils import scheduler
 from castellum.utils.forms import DateTimeField
 
 from .models import Appointment
+
+logger = logging.getLogger(__name__)
 
 
 class AppointmentsForm(forms.ModelForm):
@@ -55,7 +61,13 @@ class AppointmentsForm(forms.ModelForm):
             if settings.SCHEDULER_URL and session.schedule_id:
                 if self.instance.status == Participation.INVITED:
                     pseudonym = get_pseudonym(self.instance.subject, session.domain)
-                    url = scheduler.create_invitation_url(session.schedule_id, pseudonym)
+                    try:
+                        url = scheduler.create_invitation_url(session.schedule_id, pseudonym)
+                    except requests.RequestException as e:
+                        logger.error(
+                            'Creating invitation for session {} failed: {}'.format(session.pk, e)
+                        )
+                        url = 'error'
                     self.invitation_urls[key] = url
 
     def format_session_name(self, session):
