@@ -59,7 +59,7 @@
                     {% if batch.no_response_size %}
                         {% if not batch.reminded %}
                             <a href="{% url 'recruitment:mail-remind' study.pk batch.pk %}" class="btn btn-outline-primary">
-                                {% translate 'Send reminder' %}
+                                {% translate 'Send reminder' %}…
                             </a>
                         {% endif %}
                         <a href="{% url 'recruitment:mail-cleanup' study.pk batch.pk %}" class="btn btn-outline-danger">{% translate 'Cleanup' %}</a>
