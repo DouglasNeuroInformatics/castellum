@@ -8,6 +8,7 @@
     <ul>
         <li>{% translate 'The selected entries will be marked as excluded.' %}</li>
         <li>{% translate 'The selected entries will also get an "excluded by cleanup" badge so you can distinguish them from manually excluded ones.' %}</li>
+        <li>{% translate 'Entries that have a follow-up scheduled will never be cleaned up automatically.' %}</li>
     </ul>
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}

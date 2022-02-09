@@ -93,6 +93,14 @@ def test_cleanup_view_mismatch(
             attribute_description.json_key: 2,
         },
     )
+    participation5 = baker.make(
+        Participation,
+        study=study_in_execution_status,
+        status=Participation.FOLLOWUP_APPOINTED,
+        subject__attributes={
+            attribute_description.json_key: 2,
+        },
+    )
 
     baker.make(
         SubjectFilter,
@@ -113,3 +121,5 @@ def test_cleanup_view_mismatch(
     assert participation3.status == Participation.NOT_CONTACTED
     participation4.refresh_from_db()
     assert participation4.status == Participation.INVITED
+    participation5.refresh_from_db()
+    assert participation5.status == Participation.FOLLOWUP_APPOINTED

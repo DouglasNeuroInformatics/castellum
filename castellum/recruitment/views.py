@@ -396,7 +396,9 @@ class MailRecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, DetailView
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         # needs to be update() in order not to set Subject.updated_at
-        self.object.participation_set.update(
+        self.object.participation_set.exclude(
+            status=Participation.FOLLOWUP_APPOINTED
+        ).update(
             status=Participation.UNSUITABLE,
             batch=None,
             excluded_by_cleanup=True,
@@ -469,6 +471,7 @@ class RecruitmentCleanupView(StudyMixin, PermissionRequiredMixin, TemplateView):
         qs = self.study.participation_set.exclude(status__in=[
             Participation.INVITED,
             Participation.UNSUITABLE,
+            Participation.FOLLOWUP_APPOINTED,
         ])
         return {
             'all': qs,
