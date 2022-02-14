@@ -26,6 +26,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.utils import timezone
 from django.utils.functional import cached_property
+from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 
 from dateutil.relativedelta import relativedelta
@@ -71,20 +72,36 @@ class Subject(TimeStampedModel):
         ],
     )
 
-    to_be_deleted = models.DateField(_('To be deleted'), blank=True, null=True, help_text=_(
-        'The subject wants all data about them to be deleted or fully anonymized. '
-        'This includes all data in Castellum and all data collected in studies. '
-        'When a subject requests GDPR deletion please use this option to set the '
-        'processing of their request in motion.'
-    ))
+    to_be_deleted = models.DateField(
+        _('To be deleted'),
+        blank=True,
+        null=True,
+        help_text=format_lazy(
+            '{} {} {}',
+            _('The subject wants all data about them to be deleted or fully anonymized.'),
+            _('This includes all data in Castellum and all data collected in studies.'),
+            _(
+                'When a subject requests GDPR deletion please use this option to set the '
+                'processing of their request in motion.'
+            ),
+        )
+    )
     to_be_deleted_notified = models.BooleanField(default=False)
 
-    export_requested = models.DateField(_('Export requested'), blank=True, null=True, help_text=_(
-        'The subject wants to receive an export of all data we have stored about them. '
-        'This includes all data in Castellum and all data collected in studies. '
-        'When a subject requests GDPR export please use this option to set the '
-        'processing of their request in motion.'
-    ))
+    export_requested = models.DateField(
+        _('Export requested'),
+        blank=True,
+        null=True,
+        help_text=format_lazy(
+            '{} {} {}',
+            _('The subject wants to receive an export of all data we have stored about them.'),
+            _('This includes all data in Castellum and all data collected in studies.'),
+            _(
+                'When a subject requests GDPR export please use this option to set the '
+                'processing of their request in motion.'
+            ),
+        ),
+    )
 
     deceased = models.BooleanField(_('Subject is deceased'), default=False)
 
