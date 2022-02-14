@@ -62,6 +62,7 @@
         wrapper.querySelector('label').textContent = name;
 
         button.before(wrapper.children[0]);
+        jdenticon();
     };
 
     $$.on(document, 'click', '[data-js="legal-representative-add"]', function() {
