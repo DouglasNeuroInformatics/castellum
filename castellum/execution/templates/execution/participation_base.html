@@ -10,7 +10,7 @@
             <span class="badge {{ tag.bootstrap_class }}">{{ tag }}</span>
         {% endfor %}
         {% if participation.dropped_out %}
-            <span class="badge bg-secondary">{{ participation|verbose_name:'dropped_out' }}</span>
+            <span class="badge bg-secondary" title="{{ participation.TOOLTIPS.dropped_out }}">{{ participation|verbose_name:'dropped_out' }}</span>
         {% endif %}
     </div>
 
