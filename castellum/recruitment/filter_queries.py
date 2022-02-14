@@ -21,7 +21,7 @@
 
 """Filter queries for Subjects.
 
-There are many complicted filters for Subjects.
+There are many complicated filters for Subjects.
 In order to avoid losing track these are collected in this file.
 
 All of the functions return instances of ``django.db.models.Q``,
@@ -145,7 +145,7 @@ def study_filters(study, include_unknown=None):
 
 
 def uuid_filter(qs, key='subject_uuid'):
-    # This is a mirco-optimization to avoid large IN queries in postgres
+    # This is a micro-optimization to avoid large IN queries in postgres
     # See https://dba.stackexchange.com/questions/91247
     uuids = set(qs.values_list(key, flat=True).order_by())
     total = Subject.objects.count()
