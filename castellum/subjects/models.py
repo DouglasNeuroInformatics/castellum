@@ -72,7 +72,7 @@ class Subject(TimeStampedModel):
     )
 
     to_be_deleted = models.DateField(_('To be deleted'), blank=True, null=True, help_text=_(
-        'All data about this subject should be deleted or fully anonymized. '
+        'The subject wants all data about them to be deleted or fully anonymized. '
         'This includes all data in Castellum and all data collected in studies. '
         'When a subject requests GDPR deletion please use this option to set the '
         'processing of their request in motion.'
