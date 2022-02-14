@@ -13,7 +13,7 @@
                                 <span class="d-inline-block my-1 text-{{ participation.subject|reliability_level }}" aria-label="{{ summary }}" title="{{ summary }}">&#9679;</span>
                             {% endwith %}
                             {% if session_count > 0 %}
-                                <span class="badge bg-secondary my-1">
+                                <span class="badge bg-secondary my-1" title="{% blocktranslate with count=participation.appointment_count total=session_count %}{{ count }} out of {{ total }} appointments have already been scheduled{% endblocktranslate %}">
                                     {% icon 'calendar' label=_('Appointments') %}
                                     {{ participation.appointment_count }}/{{ session_count }}
                                     {% if participation.appointment_today %}

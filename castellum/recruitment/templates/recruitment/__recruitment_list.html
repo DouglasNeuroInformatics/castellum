@@ -16,7 +16,7 @@
                             <span class="badge bg-secondary my-1">{{ participation|display:'status' }}</span>
                         {% endif %}
                         {% if participation.status == participation.INVITED and session_count > 0 %}
-                            <span class="badge bg-secondary my-1">
+                            <span class="badge bg-secondary my-1" title="{% blocktranslate with count=participation.appointment_count total=session_count %}{{ count }} out of {{ total }} appointments have already been scheduled{% endblocktranslate %}">
                                 {% icon 'calendar' label=_('Appointments') %}
                                 {{ participation.appointment_count }}/{{ session_count }}
                             </span>
