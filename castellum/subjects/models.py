@@ -47,6 +47,19 @@ class SubjectQuerySet(models.QuerySet):
 
 
 class Subject(TimeStampedModel):
+    TOOLTIPS = {
+        'blocked': _('The subject has been blocked due to inappropriate behaviour.'),
+        'deceased': _('The subject has passed away.'),
+        'export_requested': _(
+            'The subject wants to receive an export of all data we have stored about them.'
+        ),
+        'to_be_deleted': _(
+            'The subject wants all data about them to be deleted or fully anonymized.'
+        ),
+        'unreachable': _('There is no way to contact the subject.'),
+        'no_legal_basis': _('There is no legal reason to keep the data of the subject.'),
+    }
+
     uuid = models.UUIDField(_('UUID'), default=uuid.uuid4, primary_key=True)
 
     attributes = models.JSONField(_('Recruitment attributes'), encoder=DjangoJSONEncoder)
