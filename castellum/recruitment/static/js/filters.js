@@ -12,6 +12,7 @@
             container.append(formrow);
             totalForms.value = parseInt(totalForms.value, 10) + 1;
             $$.trigger(totalForms, 'change');
+            formrow.querySelector('select').focus();
         }
     });
 
