@@ -19,10 +19,11 @@ def dt(s):
     '2017-01-02 12:00',
 ])
 def test_appointment_notifications(user, member, participation, start):
+    appointment = baker.make(Appointment, participation=participation, start=dt(start))
     with freeze_time('2017-01-01'):
         send_appointment_notifications(
             participation,
-            [(dt(start), None)],
+            [(dt(start), appointment, ['test@example.com'])],
             'http://example.com',
             user=user,
         )
@@ -38,10 +39,17 @@ def test_appointment_notifications(user, member, participation, start):
 def test_appointment_notifications_no_relevant_change(
     user, member, participation, start
 ):
+    appointment = baker.make(Appointment, participation=participation, start=dt(start))
     with freeze_time('2017-01-01'):
         send_appointment_notifications(
             participation,
-            [(dt(start), None)],
+            [(
+                dt(start),
+                None,
+                Appointment.get_conductor_mails(
+                    appointment=appointment, participation=participation
+                )
+            )],
             'http://example.com',
             user=user,
         )
@@ -63,7 +71,13 @@ def test_appointment_notifications_no_members(user, participation):
     with freeze_time('2017-01-01'):
         send_appointment_notifications(
             participation,
-            [(dt('2017-01-01 12:00'), appointment)],
+            [(
+                dt('2017-01-01 12:00'),
+                appointment,
+                Appointment.get_conductor_mails(
+                    appointment=appointment, participation=participation
+                )
+            )],
             'http://example.com',
             user=user,
         )
@@ -75,7 +89,13 @@ def test_appointment_notifications_weekend(user, member, participation):
     with freeze_time('2017-01-06'):
         send_appointment_notifications(
             participation,
-            [(dt('2017-01-09 12:00'), appointment)],  # friday to monday
+            [(
+                dt('2017-01-09 12:00'),
+                appointment,
+                Appointment.get_conductor_mails(
+                    appointment=appointment, participation=participation
+                )
+            )],  # friday to monday
             'http://example.com',
             user=user,
         )
@@ -90,7 +110,11 @@ def test_appointment_notifications_cc(user, conductor, participation, start):
     with freeze_time('2017-01-01'):
         send_appointment_notifications(
             participation,
-            [(dt(start), None)],
+            [(
+                dt(start),
+                None,
+                Appointment.get_conductor_mails(participation=participation, appointment=None),
+            )],
             'http://example.com',
             user=user,
         )
@@ -106,7 +130,11 @@ def test_no_appointment_notifications_if_only_conductor(conductor, participation
     with freeze_time('2017-01-01'):
         send_appointment_notifications(
             participation,
-            [(dt(start), None)],
+            [(
+                dt(start),
+                None,
+                Appointment.get_conductor_mails(participation=participation, appointment=None),
+            )],
             'http://example.com',
             user=conductor,
         )
