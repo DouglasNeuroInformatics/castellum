@@ -63,7 +63,9 @@ def get_description_choices(user):
 
 
 class SubjectFilterAddForm(forms.Form):
-    description = DisabledModelChoiceField(AttributeDescription.objects.none(), required=False)
+    description = DisabledModelChoiceField(
+        AttributeDescription.objects.none(), label=_('Attribute'), required=False
+    )
 
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -87,8 +89,12 @@ class SubjectFilterForm(forms.ModelForm):
 
         self.desc = self._get_selected_description(**kwargs)
 
-        self.fields["value"] = self.desc.field.filter_formfield(required=True)
-        self.fields["operator"] = forms.ChoiceField(choices=self.desc.field.available_operators)
+        self.fields["value"] = self.desc.field.filter_formfield(
+            label=_('Filter value'), required=True
+        )
+        self.fields["operator"] = forms.ChoiceField(
+            label=_('Comparison'), choices=self.desc.field.available_operators
+        )
 
     def _get_selected_description(self, instance=None, data=None, prefix=None, **kwargs):
         if instance:
