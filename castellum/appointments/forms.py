@@ -88,11 +88,11 @@ class AppointmentsForm(forms.ModelForm):
         for session in self.instance.study.studysession_set.all():
             key = 'appointment-{}'.format(session.pk)
             start = self.cleaned_data.get(key)
-            self.appointment_changes += Appointment.change_start(session, participation, start)
             appointment = self.instance.appointment_set.filter(session=session).first()
             if appointment:
                 assigned_conductors = self.cleaned_data.get('conductors-{}'.format(key))
                 appointment.assigned_conductors.set(assigned_conductors)
+            self.appointment_changes += Appointment.change_start(session, participation, start)
 
         return participation
 
