@@ -88,22 +88,36 @@ class Appointment(models.Model):
         return self.start + MINUTE * self.session.duration
 
     @staticmethod
-    def change_start(session, participation, start):
+    def get_conductor_mails(participation, appointment):
+        conductors = None
+        if appointment:
+            assert appointment.participation == participation
+            if appointment.assigned_conductors:
+                conductors = [conductor.email for conductor in appointment.assigned_conductors.all()]
+        else:
+            conductors = [conductor.email for conductor in participation.study.conductors]
+        return conductors
+
+    def change_start(self, session, participation, start):
         appointment = participation.appointment_set.filter(session=session).first()
 
         changes = []
 
         if appointment:
             if not start:
-                changes.append((appointment.start, appointment))
+                changes.append(
+                    (appointment.start, appointment, [get_conductor_mails(appointment=appointment)])
+                )
                 appointment.delete()
             elif start != appointment.start:
-                changes.append((appointment.start, appointment))
+                changes.append(
+                    (appointment.start, appointment, [get_conductor_mails(appointment=appointment)])
+                )
                 appointment.start = start
                 appointment.reminded = False
                 appointment.save()
         elif start:
-            changes.append((None, appointment))
+            changes.append((start, None, [get_conductor_mails(participation=participation)]))
             participation.appointment_set.create(
                 session=session,
                 start=start,

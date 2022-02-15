@@ -70,11 +70,15 @@ def get_reminder_body(name, session, dt):
 def send_appointment_notifications(participation, changes, base_url, user=None):
     start = timezone.now()
     end = add_working_days(start, 2)
-    as_datetimes = [
-        (old, appointment.start if appointment else None) for (old, appointment) in changes
-    ]
+    as_datetimes = []
+    for old, appointment, conductor_mails in changes:
+        if appointment:
+            as_datetimes.append((old, appointment.start, conductor_mails))
+        else:
+            as_datetimes.append((old, None, conductor_mails))
+
     relevant_changes = [
-        (old, new) for (old, new) in as_datetimes if (
+        (old, new, conductor_mails) for (old, new, conductor_mails) in as_datetimes if (
             (old and old >= start and old <= end) or
             (new and new >= start and new <= end)
         )
@@ -94,7 +98,7 @@ def send_appointment_notifications(participation, changes, base_url, user=None):
             'changes': '\n'.join('{} -> {}'.format(
                 format_datetime(old),
                 format_datetime(new),
-            ) for (old, new) in relevant_changes),
+            ) for (old, new, _) in relevant_changes),
             'participation_url': urljoin(base_url, reverse(
                 'execution:participation-detail',
                 args=[participation.study.pk, participation.pk]
@@ -105,19 +109,19 @@ def send_appointment_notifications(participation, changes, base_url, user=None):
             )),
         }
 
-    recipients = [u.email for u in participation.study.conductors if u != user]
-    if recipients:
-        with MailContext('internal') as ctx:
-            return ctx.send_mail(
-                settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT,
-                (
-                    get_mail_data,
-                    settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY,
-                    settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY_EN,
-                ),
-                recipients,
-                cc=[u.email for u in [user] if u],
-            )
+    for (old, new, conductor_mails) in relevant_changes:
+        if conductor_mails:
+            with MailContext('internal') as ctx:
+                return ctx.send_mail(
+                    settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_SUBJECT,
+                    (
+                        get_mail_data,
+                        settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY,
+                        settings.CASTELLUM_APPOINTMENT_CHANGE_NOTIFICATION_BODY_EN,
+                    ),
+                    conductor_mails,
+                    cc=[u.email for u in [user] if u],
+                )
 
 
 def get_external_resource_events(resource, start, end):

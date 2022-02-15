@@ -92,7 +92,9 @@ class AppointmentsForm(forms.ModelForm):
             if appointment:
                 assigned_conductors = self.cleaned_data.get('conductors-{}'.format(key))
                 appointment.assigned_conductors.set(assigned_conductors)
-            self.appointment_changes += Appointment.change_start(session, participation, start)
+            self.appointment_changes += Appointment.change_start(
+                appointment, session, participation, start
+            )
 
         return participation
 
