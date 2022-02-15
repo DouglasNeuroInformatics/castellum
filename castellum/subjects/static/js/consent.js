@@ -28,6 +28,7 @@
     });
     $$.on(document, 'click', '[data-js="consent-confirm"] button', function() {
         setConsent('confirmed');
+        consentCheckbox.focus();
     });
     setConsent(consentHidden.value);
 
