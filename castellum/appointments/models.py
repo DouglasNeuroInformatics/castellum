@@ -93,7 +93,9 @@ class Appointment(models.Model):
         if appointment:
             assert appointment.participation == participation
             if appointment.assigned_conductors:
-                conductors = [conductor.email for conductor in appointment.assigned_conductors.all()]
+                conductors = [
+                    conductor.email for conductor in appointment.assigned_conductors.all()
+                ]
         else:
             conductors = [conductor.email for conductor in participation.study.conductors]
         return conductors
@@ -106,18 +108,30 @@ class Appointment(models.Model):
         if appointment:
             if not start:
                 changes.append(
-                    (appointment.start, appointment, [get_conductor_mails(appointment=appointment)])
+                    (
+                        appointment.start,
+                        appointment,
+                        [self.get_conductor_mails(appointment=appointment)]
+                    )
                 )
                 appointment.delete()
             elif start != appointment.start:
                 changes.append(
-                    (appointment.start, appointment, [get_conductor_mails(appointment=appointment)])
+                    (
+                        appointment.start,
+                        appointment,
+                        [self.get_conductor_mails(appointment=appointment)]
+                    )
                 )
                 appointment.start = start
                 appointment.reminded = False
                 appointment.save()
         elif start:
-            changes.append((start, None, [get_conductor_mails(participation=participation)]))
+            changes.append((
+                start,
+                None,
+                [self.get_conductor_mails(participation=participation)])
+            )
             participation.appointment_set.create(
                 session=session,
                 start=start,
