@@ -17,10 +17,11 @@
 
     {% for pk, form in templates.items %}
         <template id="template-{{ pk }}">
-            <div class="col-sm-12">
+            {{ form.description.as_hidden }}
+
+            <legend class="col-sm-12 h6">
                 {{ form.desc.filter_label }}
-                {{ form.description.as_hidden }}
-            </div>
+            </legend>
 
             {% if form.operator.field.choices|length > 1 %}
                 <div class="col-sm-4">
@@ -63,11 +64,11 @@
                         <fieldset class="row gx-2 mb-3" {% if form.DELETE.value %}hidden{% endif %}>
                             {{ form.id.as_hidden }}
                             {{ form.DELETE.as_hidden }}
+                            {{ form.description.as_hidden }}
 
-                            <div class="col-sm-12">
+                            <legend class="col-sm-12 h6">
                                 {{ form.desc.filter_label }}
-                                {{ form.description.as_hidden }}
-                            </div>
+                            </legend>
 
                             {% if form.operator.field.choices|length > 1 %}
                                 <div class="col-sm-4">
