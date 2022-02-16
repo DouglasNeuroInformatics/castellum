@@ -6,6 +6,7 @@
         {% for participation, can_access in list %}
             <li class="table-list-item">
                 {% if can_access %}
+                    <svg class="identicon my-1 me-2" data-jdenticon-value="{{ participation.pk }}" aria-hidden="true"></svg>
                     <div class="d-inline-block my-1 me-2 {% if participation.dropped_out or participation.subject.blocked or participation.subject.deceased %}text-muted{% endif %}">
                         <div>
                             {{ participation.subject.contact.full_name }}

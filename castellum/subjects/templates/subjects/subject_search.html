@@ -47,6 +47,9 @@
                         {% for subject, contact, participations, can_access in matches %}
                             <li>
                                 <div class="table-list-item">
+                                    {% if can_access %}
+                                        <svg class="identicon my-1 me-2" data-jdenticon-value="{{ subject.uuid }}" aria-hidden="true"></svg>
+                                    {% endif %}
                                     <div>
                                         {% if can_access %}
                                             <div class="h4 d-inline-block my-1 me-2">
