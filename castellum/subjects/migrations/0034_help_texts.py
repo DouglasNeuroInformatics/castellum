@@ -23,6 +23,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subject',
             name='to_be_deleted',
-            field=models.DateField(blank=True, help_text='All data about this subject should be deleted or fully anonymized. This includes all data in Castellum and all data collected in studies. When a subject requests GDPR deletion please use this option to set the processing of their request in motion.', null=True, verbose_name='To be deleted'),
+            field=models.DateField(blank=True, help_text='The subject wants all data about them to be deleted or fully anonymized. This includes all data in Castellum and all data collected in studies. When a subject requests GDPR deletion please use this option to set the processing of their request in motion.', null=True, verbose_name='To be deleted'),
         ),
     ]

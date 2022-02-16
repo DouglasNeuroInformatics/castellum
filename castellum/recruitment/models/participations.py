@@ -141,6 +141,23 @@ class Participation(models.Model):
         (VIA_EMAIL, _('via email')),
     ]
 
+    TOOLTIPS = {
+        'dropped_out': _('The subject did not complete the study.'),
+        'excluded_by_cleanup': _('The subject has been excluded by a bulk cleanup.'),
+        'recently_active': _('The subject has recently been in contact with our institute.'),
+        'recently_contacted': _('The subject was recently contacted in another recruitment.'),
+        'status': {
+            NOT_CONTACTED: _('The subject has not yet been contacted.'),
+            NOT_REACHED: _('The last contact attempt has failed.'),
+            UNSUITABLE: _('The subject will not participate in the study.'),
+            INVITED: _('The subject has agreed to participate in the study.'),
+            FOLLOWUP_APPOINTED: _('The subject has agreed on a date and time for a follow-up.'),
+            AWAITING_RESPONSE: _(
+                'The subject has been contacted (e.g. by email) but has not yet responded.'
+            ),
+        }
+    }
+
     created_at = DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = DateTimeField(_('Updated at'), auto_now=True)
 
@@ -209,6 +226,9 @@ class Participation(models.Model):
             Participation.FOLLOWUP_APPOINTED,
             Participation.AWAITING_RESPONSE,
         ]
+
+    def get_status_tooltip(self):
+        return self.TOOLTIPS['status'][self.status]
 
     @cached_property
     def appointment_today(self):
