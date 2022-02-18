@@ -24,6 +24,7 @@ from django.db import models
 from castellum.contacts.models import Contact
 from castellum.recruitment import filter_queries
 from castellum.recruitment.models import Participation
+from castellum.studies.models import Study
 from castellum.subjects.models import Subject
 from castellum.utils.expressions import exists
 
@@ -43,7 +44,10 @@ def get_no_legal_basis():
     subjects = (
         Subject.objects
         .alias(pr_count=models.Count(
-            'participation', filter=~models.Q(participation__status=Participation.UNSUITABLE)
+            'participation', filter=(
+                ~models.Q(participation__status=Participation.UNSUITABLE)
+                & ~models.Q(participation__study__status=Study.FINISHED)
+            )
         ))
         .exclude(pk__in=Subject.objects.filter(
             filter_queries.has_consent(include_waiting=True), deceased=False
