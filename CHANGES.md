@@ -15,10 +15,13 @@
     -   Cleanup will no longer exclude subjects that have a follow-up
         scheduled.
 -   The recruitment consent now also shows which version of the consent
-    document was confirmed.
+    document was confirmed and on which date.
 -   The maintenance dashboard contains additional relevant information
     for each subject.
 -   Most badges gained a short explanation in a tooltip.
+-   The accessibility was improved. Most importantly, there is now an
+    invisible link at the beginning of the page to skip directly to the
+    main content.
 
 
 # 0.71.1 (2022-02-01)
