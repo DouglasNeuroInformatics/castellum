@@ -1,3 +1,26 @@
+# 0.72.0 (unreleased)
+
+## bug fixes
+
+-   Better handling of errors when the scheduler is not available.
+
+## new features
+
+-   Identicons are used to represent subjects throughout the
+    application.
+-   The UI for cleaning up the recruitment list has been revised. We
+    also made some changes to how it works:
+    -   Cleaning up subject that do not match the current filters will
+        no longer exclude subjects with unknown attributes.
+    -   Cleanup will no longer exclude subjects that have a follow-up
+        scheduled.
+-   The recruitment consent now also shows which version of the consent
+    document was confirmed.
+-   The maintenance dashboard contains additional relevant information
+    for each subject.
+-   Most badges gained a short explanation in a tooltip.
+
+
 # 0.71.1 (2022-02-01)
 
 -   Fix cases in which all subjects would be included in the subject
