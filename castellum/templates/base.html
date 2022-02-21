@@ -26,6 +26,9 @@
     {% endif %}
     {% if not view.nochrome %}
         <header class="bg-dark">
+            <div class="container visually-hidden-focusable">
+                <a href="#content" class="d-inline-block p-2 text-white">{% translate 'Skip to main content' %}</a>
+            </div>
             <div class="container">
                 <div class="navbar navbar-expand-sm navbar-dark">
                     <a href="/" rel="home" class="navbar-brand">Castellum</a>
@@ -68,7 +71,7 @@
         {% block after_header %}{% endblock %}
     {% endif %}
 
-    <main class="py-3">
+    <div class="py-3">
         {% block header %}{% endblock %}
 
         <div class="{% block container_class %}container{% endblock %}">
@@ -97,10 +100,12 @@
                     {% endfor %}
                 {% endif %}
 
-                {% block content %}{% endblock %}
+                <main id="content">
+                    {% block content %}{% endblock %}
+                </main>
             {% endblock %}
         </div>
-    </main>
+    </div>
 
     {% block footer %}{% endblock %}
 
