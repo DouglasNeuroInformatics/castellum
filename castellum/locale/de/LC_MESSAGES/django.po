@@ -2508,7 +2508,7 @@ msgstr "Rekrutierung und Ausführung für diese Studie haben geendet."
 #: castellum/studies/templates/studies/study_base.html:52
 #: castellum/studies/templates/studies/study_base.html:66
 msgid "Stop recruitment and execution for this study"
-msgstr "Rekrutierung und Ausführung für diese Studie anhalten"
+msgstr "Rekrutierung und Durchführung für diese Studie anhalten"
 
 #: castellum/studies/templates/studies/study_base.html:53
 #: castellum/studies/templates/studies/study_base.html:67
@@ -2518,11 +2518,11 @@ msgstr "Stopp"
 #: castellum/studies/templates/studies/study_base.html:56
 #: castellum/studies/templates/studies/study_base.html:70
 msgid "Start recruitment and execution for this study"
-msgstr "Rekrutierung und Ausführung für diese Studie starten"
+msgstr "Rekrutierung und Durchführung für diese Studie starten"
 
 #: castellum/studies/templates/studies/study_base.html:84
 msgid "Resume recruitment and execution for this study"
-msgstr "Rekrutierung und Ausführung für diese Studie wiederaufnehmen"
+msgstr "Rekrutierung und Durchführung für diese Studie wiederaufnehmen"
 
 #: castellum/studies/templates/studies/study_base.html:85
 msgid "Resume study"
@@ -2530,7 +2530,7 @@ msgstr "Studie wiederaufnehmen"
 
 #: castellum/studies/templates/studies/study_base.html:88
 msgid "Conclude recruitment and execution for this study"
-msgstr "Rekrutierung und Ausführung für diese Studie beenden"
+msgstr "Rekrutierung und Durchführung für diese Studie beenden"
 
 #: castellum/studies/templates/studies/study_base.html:89
 msgid "Finish study"
