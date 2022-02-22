@@ -933,7 +933,7 @@ msgstr "Fortschritt"
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:19
 #, python-format
 msgid "%(count)s out of %(total)s appointments have already been scheduled"
-msgstr "%(count)s von %(total)s Terminen wurden bereits geplant"
+msgstr "%(count)s von %(total)s Terminen sind bereits geplant"
 
 #: castellum/execution/templates/execution/study_detail.html:21
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:54
@@ -1456,7 +1456,7 @@ msgstr "Die Proband*innen wurde noch nicht kontaktiert."
 
 #: castellum/recruitment/models/participations.py:153
 msgid "The last contact attempt has failed."
-msgstr "Der letzte Kontaktversuch war erfolglos."
+msgstr "Der letzte Kontaktversuch war nicht erfolgreich."
 
 #: castellum/recruitment/models/participations.py:154
 msgid "The subject will not participate in the study."
@@ -3434,7 +3434,7 @@ msgstr "Proband*innen-Daten registriert"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:45
 msgid "Last contacted"
-msgstr "nicht kontaktiert"
+msgstr "Zuletzt kontaktiert"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:65
 msgid "Drop out rate"
