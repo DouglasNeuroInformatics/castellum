@@ -4,10 +4,8 @@ Merkmalskategorien
 Teilnahmestatus
 Vertraulichkeitsstufe
 Castellum
-Castellum-Einverständnis
 innendetails
 Wiedervorlagetermin
-Wiedervorlagetermine
 strong
 kontaktierbar
 rekrutierbar
@@ -16,12 +14,12 @@ Wiedervorlagezeit
 -Tags
 settings
 lit.
-Checkbox
 Rekrutierer
 Geofilter
-Up
 Vorgangsbezogene
 Feeds
 innenverwaltung
 Zuverlässigkeitseintrag
 Durchführer
+Volljährigkeit
+Aufräumfunktion
