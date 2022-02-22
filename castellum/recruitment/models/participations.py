@@ -143,7 +143,9 @@ class Participation(models.Model):
 
     TOOLTIPS = {
         'dropped_out': _('The subject did not complete the study.'),
-        'excluded_by_cleanup': _('The subject has been excluded by a bulk cleanup.'),
+        'excluded_by_cleanup': _(
+            'The subject has been excluded through the bulk cleanup feature.'
+        ),
         'recently_active': _('The subject has recently been in contact with our institute.'),
         'recently_contacted': _('The subject was recently contacted in another recruitment.'),
         'status': {
