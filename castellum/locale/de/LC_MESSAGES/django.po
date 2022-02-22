@@ -97,7 +97,7 @@ msgstr ""
 
 #: castellum/appointments/templates/appointments/appointments_form.html:36
 msgid "Error while contacting schedule"
-msgstr ""
+msgstr "Fehler beim Kontaktieren der Terminplanung"
 
 #: castellum/appointments/templates/appointments/appointments_form.html:38
 msgid "Select timeslot for this subject"
@@ -933,7 +933,7 @@ msgstr "Fortschritt"
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:19
 #, python-format
 msgid "%(count)s out of %(total)s appointments have already been scheduled"
-msgstr ""
+msgstr "%(count)s von %(total)s Terminen wurden bereits geplant"
 
 #: castellum/execution/templates/execution/study_detail.html:21
 #: castellum/recruitment/templates/recruitment/__recruitment_list.html:54
@@ -1247,20 +1247,16 @@ msgid "younger than"
 msgstr "jünger als"
 
 #: castellum/recruitment/forms.py:67
-#, fuzzy
-#| msgid "Attribute category"
 msgid "Attribute"
-msgstr "Merkmalskategorie"
+msgstr "Merkmal"
 
 #: castellum/recruitment/forms.py:93
-#, fuzzy
-#| msgid "Filter trial"
 msgid "Filter value"
-msgstr "Probelauf für Filter"
+msgstr "Filterwert"
 
 #: castellum/recruitment/forms.py:96
 msgid "Comparison"
-msgstr ""
+msgstr "Vergleich"
 
 #: castellum/recruitment/forms.py:131
 msgid "There are duplicates in filters. Please change or delete filters!"
@@ -1438,61 +1434,48 @@ msgid "via email"
 msgstr "per E-Mail"
 
 #: castellum/recruitment/models/participations.py:145
-#, fuzzy
-#| msgid "The subject will continue participating in this study."
 msgid "The subject did not complete the study."
-msgstr "Die Proband*in wird weiterhin an der Studie teilnehmen."
+msgstr "Die Proband*in hat die Studie nicht abgeschlossen."
 
 #: castellum/recruitment/models/participations.py:147
 msgid "The subject has been excluded through the bulk cleanup feature."
-msgstr ""
+msgstr "Die Proband*in wurde durch die Aufräumfunktion ausgeschlossen."
 
 #: castellum/recruitment/models/participations.py:149
-#, fuzzy
-#| msgid "The following subjects have not been contacted for a long time:"
 msgid "The subject has recently been in contact with our institute."
-msgstr ""
-"Die folgenden Proband*innen sind seit langer Zeit nicht kontaktiert worden:"
+msgstr "Die Proband*in stand kürzlich in Kontakt mit unserem Institut."
 
 #: castellum/recruitment/models/participations.py:150
-#, fuzzy
-#| msgid "recently contacted in another recruitment"
 msgid "The subject was recently contacted in another recruitment."
-msgstr "wurde vor kurzem in einer anderen Rekrutierung kontaktiert"
+msgstr ""
+"Die Proband*in wurde vor kurzem in einer anderen Rekrutierung kontaktiert."
 
 #: castellum/recruitment/models/participations.py:152
-#, fuzzy
-#| msgid "The following subjects have not been contacted for a long time:"
 msgid "The subject has not yet been contacted."
-msgstr ""
-"Die folgenden Proband*innen sind seit langer Zeit nicht kontaktiert worden:"
+msgstr "Die Proband*innen wurde noch nicht kontaktiert."
 
 #: castellum/recruitment/models/participations.py:153
-#, fuzzy
-#| msgid "Last contact attempt"
 msgid "The last contact attempt has failed."
-msgstr "Letzter Kontaktversuch"
+msgstr "Der letzte Kontaktversuch war erfolglos."
 
 #: castellum/recruitment/models/participations.py:154
-#, fuzzy
-#| msgid "The subject will continue participating in this study."
 msgid "The subject will not participate in the study."
-msgstr "Die Proband*in wird weiterhin an der Studie teilnehmen."
+msgstr "Die Proband*in wird nicht an der Studie teilnehmen."
 
 #: castellum/recruitment/models/participations.py:155
-#, fuzzy
-#| msgid "The subject will continue participating in this study."
 msgid "The subject has agreed to participate in the study."
-msgstr "Die Proband*in wird weiterhin an der Studie teilnehmen."
+msgstr "Die Proband*in hat zugestimmt an der Studie teilzunehmen."
 
 #: castellum/recruitment/models/participations.py:156
 msgid "The subject has agreed on a date and time for a follow-up."
-msgstr ""
+msgstr "Es wurde ein Wiedervorlagetermin mit der Proband*in vereinbart."
 
 #: castellum/recruitment/models/participations.py:158
 msgid ""
 "The subject has been contacted (e.g. by email) but has not yet responded."
 msgstr ""
+"Die Proband*in wurde kontaktiert (z.B. per E-Mail) aber hat noch nicht "
+"geantwortet."
 
 #: castellum/recruitment/models/participations.py:163
 #: castellum/subjects/models.py:234 castellum/subjects/models.py:285
@@ -1717,25 +1700,28 @@ msgstr "Aufräumen"
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:9
 msgid "The selected entries will be marked as excluded."
-msgstr ""
+msgstr "Die ausgewählten Einträge werden als ausgeschlossen markiert."
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:10
 msgid ""
 "The selected entries will also get an \"excluded by cleanup\" badge so you "
 "can distinguish them from manually excluded ones."
 msgstr ""
+"Die ausgewählten Einträge bekommen außerdem eine \"durch Aufräumen "
+"ausgeschlossen\"-Markierung um sie besser von manuell ausgeschlossenen "
+"Einträgen unterscheiden zu können."
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:11
 msgid ""
 "Entries that have a follow-up scheduled will never be cleaned up "
 "automatically."
 msgstr ""
+"Einträge mit einer angesetzten Wiedervorlage werden nie durch automatisches "
+"Aufräumen ausgeschlossen."
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:20
-#, fuzzy
-#| msgid "Mark all open participations as excluded."
 msgid "All open participations."
-msgstr "Markiere alle offenen Teilnahmen als ausgeschlossen."
+msgstr "Alle offenen Teilnahmen."
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:24
 #: castellum/studies/forms.py:108
@@ -1745,34 +1731,28 @@ msgid "All"
 msgstr "Alle"
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:30
-#, fuzzy
-#| msgid ""
-#| "Mark all subjects as excluded who have not answered for 10 days or more."
 msgid ""
 "All subjects that have been in \"awaiting response\" status for 10 days or "
 "more."
 msgstr ""
-"Markiere alle Proband*innen als ausgeschlossen, die nicht innerhalb von 10 "
-"Tagen geantwortet haben."
+"Alle Proband*innen die den Status \"auf Antwort wartend\" für 10 oder mehr "
+"Tage innehatten."
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:34
 msgid "Awaiting response"
 msgstr "Auf Antwort wartend"
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:40
-#, fuzzy
-#| msgid ""
-#| "Mark all subject who do not match the current filter criteria as excluded."
 msgid ""
 "All subjects who do not match the current filter criteria or who are blocked "
 "in other studies."
 msgstr ""
-"Markiere alle Proband*innen als ausgeschlossen, die nicht auf die aktuellen "
-"Filterkriterien passen."
+"Alle Proband*innen, die nicht auf die aktuellen Filterkriterien passen oder "
+"die durch andere Studien blockiert sind."
 
 #: castellum/recruitment/templates/recruitment/cleanup.html:44
 msgid "Unsuitable"
-msgstr ""
+msgstr "Nicht geeignet"
 
 #: castellum/recruitment/templates/recruitment/contact.html:9
 msgid "Subject is unsuitable or blocked in another study."
@@ -2513,10 +2493,8 @@ msgstr ""
 "löschen wollen?"
 
 #: castellum/studies/templates/studies/study_base.html:19
-#, fuzzy
-#| msgid "Resume recruitment and execution for this study"
 msgid "Recruitment and execution for this study have started."
-msgstr "Rekrutierung und Ausführung für diese Studie wiederaufnehmen"
+msgstr "Rekrutierung und Ausführung für diese Studie haben begonnen."
 
 #: castellum/studies/templates/studies/study_base.html:19
 msgid "Started"
@@ -2524,10 +2502,8 @@ msgstr "Gestartet"
 
 #: castellum/studies/templates/studies/study_base.html:22
 #: castellum/studies/templates/studies/study_list.html:100
-#, fuzzy
-#| msgid "Resume recruitment and execution for this study"
 msgid "Recruitment and execution for this study have ended."
-msgstr "Rekrutierung und Ausführung für diese Studie wiederaufnehmen"
+msgstr "Rekrutierung und Ausführung für diese Studie haben geendet."
 
 #: castellum/studies/templates/studies/study_base.html:52
 #: castellum/studies/templates/studies/study_base.html:66
@@ -2979,34 +2955,34 @@ msgstr ""
 "Rekrutierungseinwilligung haben, nicht beides."
 
 #: castellum/subjects/models.py:51
-#, fuzzy
-#| msgid "This subject has been blocked due to inappropriate behaviour"
 msgid "The subject has been blocked due to inappropriate behaviour."
 msgstr "Die Proband*in wurde aufgrund unangemessenen Verhaltens gesperrt."
 
 #: castellum/subjects/models.py:52
-#, fuzzy
-#| msgid "This subject is deceased"
 msgid "The subject has passed away."
-msgstr "Diese Proband*in ist verstorben."
+msgstr "Die Proband*in ist verstorben."
 
 #: castellum/subjects/models.py:54 castellum/subjects/models.py:110
 msgid ""
 "The subject wants to receive an export of all data we have stored about them."
 msgstr ""
+"Die Proband*in möchte eine Auskunft über alle über sie gespeicherten Daten "
+"erhalten."
 
 #: castellum/subjects/models.py:57 castellum/subjects/models.py:94
 msgid ""
 "The subject wants all data about them to be deleted or fully anonymized."
 msgstr ""
+"Die Proband*in möchte, dass alle Daten über sie gelöscht oder vollständig "
+"anonymisiert werden."
 
 #: castellum/subjects/models.py:59
 msgid "There is no way to contact the subject."
-msgstr ""
+msgstr "Es gibt keine Möglichkeit die Proband*in zu kontaktieren."
 
 #: castellum/subjects/models.py:60
 msgid "There is no legal reason to keep the data of the subject."
-msgstr ""
+msgstr "Es gibt keine Rechtsgrundlage um die Daten der Proband*in zu behalten."
 
 #: castellum/subjects/models.py:63
 msgid "UUID"
@@ -3041,28 +3017,24 @@ msgstr "2 (hoch)"
 #: castellum/subjects/models.py:95 castellum/subjects/models.py:111
 msgid "This includes all data in Castellum and all data collected in studies."
 msgstr ""
+"Dies beinhaltet alle Daten in Castellum sowie alle Daten, die in Studien "
+"erhoben wurden."
 
 #: castellum/subjects/models.py:97
-#, fuzzy
-#| msgid ""
-#| "All data about this subject should be deleted or fully anonymized. This "
-#| "includes all data in Castellum and all data collected in studies. When a "
-#| "subject requests GDPR deletion please use this option to set the "
-#| "processing of their request in motion."
 msgid ""
 "When a subject requests GDPR deletion please use this option to set the "
 "processing of their request in motion."
 msgstr ""
-"Alle Daten über diese Proband*in sollten gelöscht oder vollständig "
-"anonymisiert werden. Dies beinhaltet alle Daten in Castellum sowie alle "
-"Daten, die in Studien erhoben wurden. Nutze diese Option wenn eine "
-"Proband*in DSGVO-Löschung fordert um die Bearbeitung in Gang zu setzen."
+"Nutzen Sie diese Option wenn eine Proband*in DSGVO-Löschung fordert um die "
+"Bearbeitung in Gang zu setzen."
 
 #: castellum/subjects/models.py:113
 msgid ""
 "When a subject requests GDPR export please use this option to set the "
 "processing of their request in motion."
 msgstr ""
+"Nutzen Sie diese Option wenn eine Proband*in DSGVO-Auskunft fordert um die "
+"Bearbeitung in Gang zu setzen."
 
 #: castellum/subjects/models.py:119
 msgid "Subject is deceased"
@@ -3211,10 +3183,8 @@ msgstr "Vollständigkeit der Rekrutierungsmerkmale"
 #: castellum/subjects/templates/subjects/maintenance_notes.html:15
 #: castellum/subjects/templates/subjects/maintenance_reliability.html:21
 #: castellum/subjects/templates/subjects/maintenance_waiting.html:16
-#, fuzzy
-#| msgid "Last updated on"
 msgid "Last contacted on"
-msgstr "Zuletzt aktualisiert am"
+msgstr "Zuletzt kontaktiert am"
 
 #: castellum/subjects/templates/subjects/maintenance_base.html:6
 #: castellum/subjects/templates/subjects/maintenance_base.html:10
@@ -3253,10 +3223,8 @@ msgid "The following subjects have an outdated consent:"
 msgstr "Die Einwilligung der folgenden Proband*innen ist nicht mehr aktuell:"
 
 #: castellum/subjects/templates/subjects/maintenance_consent.html:17
-#, fuzzy
-#| msgid "Consent document uploaded"
 msgid "Consent from before full age"
-msgstr "Einwilligungserklärung hochgeladen"
+msgstr "Einwilligungserklärung von vor der Volljährigkeit"
 
 #: castellum/subjects/templates/subjects/maintenance_contact.html:7
 msgid "The following subjects have incomplete contact data:"
@@ -3298,10 +3266,8 @@ msgstr ""
 "kontaktiert:"
 
 #: castellum/subjects/templates/subjects/maintenance_waiting.html:15
-#, fuzzy
-#| msgid "awaiting response"
 msgid "Waiting since"
-msgstr "auf Antwort wartend"
+msgstr "auf Antwort wartend seit"
 
 #: castellum/subjects/templates/subjects/participation_add.html:4
 #: castellum/subjects/templates/subjects/participation_recruit.html:4
@@ -3413,17 +3379,6 @@ msgid "Waiting for confirmation by the subject."
 msgstr "Warten auf Bestätigung durch die Proband*in."
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:34
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                            The current consent refers to an outdated "
-#| "document and will soon expire, thus rendering the recruitment consent "
-#| "invalid.\n"
-#| "                            Please contact this subject and ask them to "
-#| "consent to the latest document or withdraw their consent.\n"
-#| "                            This message will disappear once you change "
-#| "the value of the checkbox.\n"
-#| "                        "
 msgid ""
 "\n"
 "                            The current consent refers to an outdated "
@@ -3434,24 +3389,15 @@ msgid ""
 "                        "
 msgstr ""
 "\n"
-"                            Da sich die gegenwärtige Einwilligung auf ein "
-"veraltetes Dokument bezieht wird sie demnächst ablaufen und die "
+"                            Die gegenwärtige Einwilligung bezieht sich auf "
+"ein veraltetes Dokument und wird demnächst ablaufen und die "
 "Rekrutierungseinwilligung somit ungültig machen.\n"
-"                            Bitte kontaktieren Sie die Proband*in um die "
-"Einwilligung in die aktuellste Erklärung einzuholen oder den Widerruf der "
-"Einwilligung festzuhalten.\n"
-"                            Diese Nachricht wird verschwinden sobald Sie den "
-"Wert der Checkbox ändern."
+"                            Bitte entfernen Sie die gegenwärtige "
+"Einwilligung und kontaktieren Sie die Proband*in um die Einwilligung in die "
+"aktuellste Erklärung einzuholen.\n"
+"                        "
 
 #: castellum/subjects/templates/subjects/subject_data_protection_form.html:42
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                            The subject has recently come of age. Please "
-#| "ask them to renew or withdraw their consent.\n"
-#| "                            This message will disappear once you change "
-#| "the value of the checkbox.\n"
-#| "                        "
 msgid ""
 "\n"
 "                            The subject has recently come of age.\n"
@@ -3461,10 +3407,9 @@ msgid ""
 msgstr ""
 "\n"
 "                            Die Proband*in ist kürzlich volljährig geworden. "
-"Bitte kontaktieren Sie sie um die Einwilligung in die aktuellste Erklärung "
-"einzuholen oder den Widerruf der Einwilligung festzuhalten.\n"
-"                            Diese Nachricht wird verschwinden sobald Sie den "
-"Wert der Checkbox ändern."
+"Bitte entfernen Sie die gegenwärtige Einwilligung und kontaktieren Sie die "
+"Proband*in um eine neue zu erhalten.\n"
+"                        "
 
 #: castellum/subjects/templates/subjects/subject_detail.html:4
 msgid "Subject details"
@@ -3488,8 +3433,6 @@ msgid "Subject data registered"
 msgstr "Proband*innen-Daten registriert"
 
 #: castellum/subjects/templates/subjects/subject_detail.html:45
-#, fuzzy
-#| msgid "not contacted"
 msgid "Last contacted"
 msgstr "nicht kontaktiert"
 
@@ -3779,7 +3722,7 @@ msgstr "Demo-Modus"
 
 #: castellum/templates/base.html:30
 msgid "Skip to main content"
-msgstr ""
+msgstr "Zu den Hauptinhalten springen"
 
 #: castellum/templates/base.html:35
 msgid "Toggle navigation"
@@ -3807,7 +3750,7 @@ msgstr "Diese Proband*in ist zur Löschung vorgemerkt."
 
 #: castellum/templates/base.html:91
 msgid "This subject has been blocked due to inappropriate behaviour"
-msgstr "Die Proband*in wurde aufgrund unangemessenen Verhaltens gesperrt."
+msgstr "Diese Proband*in wurde aufgrund unangemessenen Verhaltens gesperrt."
 
 #: castellum/templates/base.html:116
 msgid "Unsaved Changes"
@@ -4058,43 +4001,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "Please select one of the following options:"
-#~ msgstr "Bitte wählen Sie eine der folgenden Optionen:"
-
-#~ msgid "Mismatch"
-#~ msgstr "Kein Treffer"
-
-#~ msgid "Back"
-#~ msgstr "Zurück"
-
-#~ msgid "User"
-#~ msgstr "Nutzer*in"
-
-#~ msgid "The User belongs to the following groups in all studies"
-#~ msgstr "Die Nutzer*in gehört in allen Studien zu den folgenden Gruppen"
-
-#~ msgid "no global groups"
-#~ msgstr "keine globalen Gruppe"
-
-#~ msgid "Additional groups in this study"
-#~ msgstr "Zusätzliche Gruppen in dieser Studie"
-
-#~ msgid ""
-#~ "The User belongs to the following groups only in the context of this study"
-#~ msgstr ""
-#~ "Die Nutzer*in gehört nur im Kontext dieser Studie zu den folgenden Gruppen"
-
-#~ msgid ""
-#~ "The subject wants to receive an export of all data we have stored about "
-#~ "them. This includes all data in Castellum and all data collected in "
-#~ "studies. When a subject requests GDPR export please use this option to "
-#~ "set the processing of their request in motion."
-#~ msgstr ""
-#~ "Die Proband*in möchte eine Auskunft über alle über sie gespeicherten "
-#~ "Daten. Dies beinhaltet alle Daten in Castellum sowie alle Daten, die in "
-#~ "Studien erhoben wurden. Nutze diese Option wenn eine Proband*in DSGVO-"
-#~ "Löschung fordert um die Bearbeitung in Gang zu setzen."
-
-#~ msgid "Last edited"
-#~ msgstr "Zuletzt bearbeitet"
