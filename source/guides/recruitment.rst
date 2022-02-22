@@ -131,7 +131,7 @@ Therefore, Castellum provides a cleanup feature:
 2. Decide if you want to cleanup the *complete* open list (**All**) or
    only those potential participants whose status is marked as
    **Awaiting response** for more than 10 days. The third option allows you to
-   run potentially modified recruitment filters on the list (**Mismatch**). This
+   run potentially modified recruitment filters on the list (**Unsuitable**). This
    allows to cleanup those who do not match anymore. A click on either of these
    buttons will start the cleanup process.
 3. After cleaning up the affected potential participants will be moved to the
