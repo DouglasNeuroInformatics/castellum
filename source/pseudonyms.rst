@@ -1,30 +1,14 @@
-Privacy
-=======
+Pseudonyms
+==========
 
-At its core, Castellum is about splitting a subject's data into little pieces.
-On the one hand this means that users can only access the pieces that are
-necessary for them. On the other hand this means that castellum contains the
-necessary information to put all the pieces back together, e.g. so it can be
-deleted on request.
-
-
-Contact data
-------------
-
-Contact details are stored in Castellum itself. This means that anyone who
-wants to get in contact with a subject needs to go through castellum.
+Scientific data should never be stored with a subject's name. Instead,
+Castellum provides pseudonyms that can be used to link the data back to the
+subject. Anyone who wants to get in contact with a subject should have to go
+through castellum.
 
 .. warning::
     Traces of contact data can also exist in the systems that are used for
     communication, e.g. email servers or payment providers.
-
-
-Pseudonyms
-----------
-
-Scientific data should never be stored with a subject's name. Instead,
-Castellum automatically generates and stores random pseudonyms that can be used
-to link the data back to the subject.
 
 .. note::
     An alternative approach for generating pseudonyms would be to calculate an
@@ -62,7 +46,7 @@ use a single domain for all bio samples. Or you could use separate domains for
 blood, saliva, stool, ….
 
 Using study pseudonyms
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 Whenever you collect data in the context of a study, it should be stored with a
 study pseudonym. Pseudonyms can also be printed on questionnaires or passed to
@@ -80,7 +64,7 @@ Relevant guides:
 .. _general-domains:
 
 Using pseudonyms from general domains
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------------
 
 Central repositories (e.g. for bio samples or IQ scores) often store data that
 is not related to a specific study. In these cases, you can use pseudonyms from
