@@ -308,7 +308,7 @@ please proceed as follows:
     Deleting a subject who has legal representatives will **not** automatically
     delete the corresponding legal representatives. However, if there is no
     other reason to keep the legal representatives in Castellum, they will
-    appear in the data protection dashboard.
+    appear in the :ref:`data protection dashboard <data-protection-dashboard>`.
 
 
 .. _subject-add-to-study:
