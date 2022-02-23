@@ -1,18 +1,6 @@
 Security
 ========
 
-The main purpose of castellum is to handle data of test subjects. It is
-important to be able to read and write this data in various ways. We are
-also legally required to provide some specific forms of access, e.g.
-exporting or deleting all data on a single subject.
-
-On the other hand, we are also required to handle this data very
-carefully. Among other things, we are required to split the data so that
-users can only ever access the parts of the data they really need.
-
-The security measures outlined in this section are meant to only allow access
-where allowed and required.
-
 Account restrictions
 --------------------
 
