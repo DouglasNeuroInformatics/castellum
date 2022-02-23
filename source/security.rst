@@ -1,5 +1,5 @@
-Security
-========
+Security Measures
+=================
 
 Account restrictions
 --------------------
