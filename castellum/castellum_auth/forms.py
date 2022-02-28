@@ -20,9 +20,11 @@
 
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm as BaseAuthenticationForm
+from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.forms import UserCreationForm
 
 from .models import User
+from .models import generate_token
 
 
 class UserCreationAdminForm(UserCreationForm):
@@ -37,6 +39,20 @@ class UserCreationAdminForm(UserCreationForm):
     def save(self, commit=True):
         if not self.cleaned_data["password1"]:
             self.cleaned_data["password1"] = None
+        return super().save(commit=commit)
+
+
+class UserChangeAdminForm(UserChangeForm):
+    class Meta(UserChangeForm.Meta):
+        model = User
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['token'].required = False
+
+    def save(self, commit=True):
+        if not self.instance.token:
+            self.instance.token = generate_token()
         return super().save(commit=commit)
 
 
