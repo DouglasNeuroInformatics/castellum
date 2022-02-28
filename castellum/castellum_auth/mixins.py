@@ -65,7 +65,7 @@ class APIAuthMixin(StrongholdPublicMixin):
 
     def authenticate(self):
         try:
-            user = User.objects.get(token=self.get_token())
+            user = User.objects.get(token=self.get_token(), is_active=True)
         except User.DoesNotExist:
             raise PermissionDenied
 
