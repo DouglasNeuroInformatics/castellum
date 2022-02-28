@@ -116,11 +116,13 @@ class DataProtectionForm(forms.ModelForm):
                 if initial_status != Consent.WAITING:
                     subject.consent.document = ConsentDocument.get_latest()
                 subject.consent.status = new_status
+                subject.consent.underage_when_given = subject.contact.is_underage
                 subject.consent.save()
             except Consent.DoesNotExist:
                 Consent.objects.create(
                     subject=subject,
                     status=new_status,
+                    underage_when_given=subject.contact.is_underage,
                     document=ConsentDocument.get_latest(),
                 )
         else:
