@@ -161,9 +161,9 @@ class AttributesForm(forms.ModelForm):
             'attributes': cleaned_data,
         }
 
-    def save(self):
+    def save(self, *args, **kwargs):
         self.instance.attributes.update(self.cleaned_data['attributes'])
-        return super().save()
+        return super().save(*args, **kwargs)
 
     @classmethod
     def factory(cls, user):

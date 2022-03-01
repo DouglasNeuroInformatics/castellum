@@ -176,8 +176,8 @@ class ContactForm(forms.ModelForm):
 
         return cleaned_data
 
-    def save(self):
-        contact = super().save()
+    def save(self, *args, **kwargs):
+        contact = super().save(*args, **kwargs)
 
         has_address = any(self.data.get(name) for name in self.address.fields)
         if has_address and self.cleaned_data.get('pane') != 'legal_representatives':
