@@ -12,7 +12,7 @@ Welcome to Castellum's documentation!
    overview
    features
    roles
-   privacy
+   pseudonyms
    security
    faqs
 
