@@ -124,7 +124,7 @@ class DataProtectionForm(forms.ModelForm):
         else:
             Consent.objects.filter(subject=subject).delete()
 
-    def save(self, commit=True):
+    def save(self, *args, **kwargs):
         if not self.cleaned_data.get('to_be_deleted'):
             self.instance.to_be_deleted = None
         elif not self.instance.to_be_deleted:
@@ -135,7 +135,7 @@ class DataProtectionForm(forms.ModelForm):
         elif not self.instance.export_requested:
             self.instance.export_requested = datetime.date.today()
 
-        subject = super().save(commit)
+        subject = super().save(*args, **kwargs)
         self.save_consent(subject)
 
         return subject
@@ -187,8 +187,8 @@ class AdditionalInfoForm(forms.ModelForm):
             required=False,
         )
 
-    def save(self, commit=True):
-        subject = super().save(commit=commit)
+    def save(self, *args, **kwargs):
+        subject = super().save(*args, **kwargs)
         for note in self.cleaned_data['rm_subject_notes']:
             note.delete()
         return subject

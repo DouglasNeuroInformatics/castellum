@@ -78,8 +78,8 @@ class AppointmentsForm(forms.ModelForm):
         else:
             return '{} - {}'.format(session.name, duration)
 
-    def save(self):
-        participation = super().save()
+    def save(self, *args, **kwargs):
+        participation = super().save(*args, **kwargs)
         self.appointment_changes = []
 
         for session in self.instance.study.studysession_set.all():

@@ -85,8 +85,8 @@ class StudyForm(forms.ModelForm):
             tags.update(widget.value_from_datadict(self.data, {}, 'tags'))
         return [(name, name) for name in sorted(tags)]
 
-    def save(self, commit=True):
-        obj = super().save(commit=commit)
+    def save(self, *args, **kwargs):
+        obj = super().save(*args, **kwargs)
 
         for tag in obj.studytag_set.all():
             if tag.name not in self.cleaned_data['tags']:
