@@ -12,6 +12,7 @@ Welcome to Castellum's documentation!
    overview
    features
    roles
+   legal-basis
    pseudonyms
    security
    faqs

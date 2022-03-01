@@ -118,13 +118,8 @@ Overview Tab
 ------------
 
 This tab gives you a quick overview of the subject data. Importantly, it offers
-different legal bases for storing the subject data in Castellum. You can check,
-add or rather edit the consent that applies:
-
--   **Recruitment consent**
--   **Study consent**
--   **Legal representative**
--   **Subject blocked**
+different :ref:`legal bases <legal-basis>` for storing the subject data in
+Castellum. You can check, add or rather edit the basis that applies.
 
 .. _subject-contact-tab:
 
@@ -308,7 +303,7 @@ please proceed as follows:
     Deleting a subject who has legal representatives will **not** automatically
     delete the corresponding legal representatives. However, if there is no
     other reason to keep the legal representatives in Castellum, they will
-    appear in the data protection dashboard.
+    appear in the :ref:`data protection dashboard <data-protection-dashboard>`.
 
 
 .. _subject-add-to-study:
