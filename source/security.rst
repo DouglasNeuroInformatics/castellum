@@ -1,17 +1,5 @@
-Security
-========
-
-The main purpose of castellum is to handle data of test subjects. It is
-important to be able to read and write this data in various ways. We are
-also legally required to provide some specific forms of access, e.g.
-exporting or deleting all data on a single subject.
-
-On the other hand, we are also required to handle this data very
-carefully. Among other things, we are required to split the data so that
-users can only ever access the parts of the data they really need.
-
-The security measures outlined in this section are meant to only allow access
-where allowed and required.
+Security Measures
+=================
 
 Account restrictions
 --------------------
@@ -88,11 +76,8 @@ Similar to how a study membership allows a user to access a specific study,
 users need to be authorized to access specific resources and :ref:`general
 domains <general-domains>`. This can only be done by administrators.
 
-Data separation
----------------
-
-Implementation
-~~~~~~~~~~~~~~
+Database separation
+-------------------
 
 We chose to split the data into three different categories:
 
@@ -102,20 +87,16 @@ We chose to split the data into three different categories:
 -  Contact data is also handled in castellum, but in a separate database
    to provide an additional barrier.
 
-Security Considerations
-~~~~~~~~~~~~~~~~~~~~~~~
+Storing contact data in a separate database provides a clear structure for
+developers that should help avoiding critical data leaks. Even if an attacker
+is able to dump a whole table or even a whole database, this structure still
+limits the impact.
 
-The described architecture provides a clear structure for developers
-that should help avoiding critical data leaks. Even if an attacker is
-able to dump a whole table or even a whole database, this structure
-still limits the impact.
-
-However, it is important to understand that the barrier between
-recruitment and contact data is not that high. Since castellum has full
-access to both, an attacker can also gain full access. Spreading the
-system across several databases on different servers or even in
-different organizations does not help much if there is still a single
-point of entry.
+However, it is important to understand that the barrier between recruitment and
+contact data is not that high. Since castellum has full access to both, an
+attacker can also gain full access. Spreading the system across several
+databases on different servers or even in different organizations does not help
+much if there is still a single point of entry.
 
 Monitoring
 ----------
