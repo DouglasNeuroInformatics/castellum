@@ -1,3 +1,16 @@
+# 0.72.1 (2022-03-02)
+
+## security
+
+-   Accounts that were deactivated by removing the `is_active` flag were
+    still able to access data using their token (either via the API or
+    from calendar feeds). Note that expired accounts were still blocked.
+
+## bug fixes
+
+-   Fixed resetting user tokens in the admin UI.
+
+
 # 0.72.0 (2022-02-22)
 
 ## bug fixes
