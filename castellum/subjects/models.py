@@ -18,7 +18,6 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import datetime
 import uuid
 
 from django.conf import settings
@@ -28,8 +27,6 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
-
-from dateutil.relativedelta import relativedelta
 
 from castellum.utils.fields import DateTimeField
 from castellum.utils.fields import RestrictedFileField
@@ -177,11 +174,11 @@ class Subject(TimeStampedModel):
 
     @property
     def has_consent_from_before_full_age(self):
-        if not self.has_consent or not self.contact.date_of_birth:
-            return False
-        today = datetime.date.today()
-        full_age = self.contact.date_of_birth + relativedelta(years=settings.CASTELLUM_FULL_AGE)
-        return full_age < today and full_age > self.consent.updated_at.date()
+        return (
+            self.contact.is_underage is False
+            and self.has_consent
+            and self.consent.underage_when_given
+        )
 
     @cached_property
     def has_study_consent(self):
