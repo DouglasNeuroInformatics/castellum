@@ -27,6 +27,7 @@ from .views import AttributesUpdateView
 from .views import ContactUpdateView
 from .views import CoverletterView
 from .views import DataProtectionUpdateView
+from .views import DeleteRecruitmentDataView
 from .views import LegalRepresentativeSearchView
 from .views import MaintenanceAttributesView
 from .views import MaintenanceConsentView
@@ -98,6 +99,11 @@ urlpatterns = [
     path('<uuid:uuid>/export/', SubjectExportView.as_view(), name='export'),
     path('<uuid:uuid>/contact/', ContactUpdateView.as_view(), name='contact'),
     path('<uuid:uuid>/attributes/', AttributesUpdateView.as_view(), name='attributes'),
+    path(
+        '<uuid:uuid>/attributes/delete/',
+        DeleteRecruitmentDataView.as_view(),
+        name='delete-recruitment-data',
+    ),
     path(
         '<uuid:uuid>/data-protection/',
         DataProtectionUpdateView.as_view(),

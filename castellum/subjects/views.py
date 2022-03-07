@@ -393,6 +393,31 @@ class AttributesUpdateView(SubjectUpdateMixin, BaseAttributesUpdateView):
     slug_url_kwarg = 'uuid'
 
 
+class DeleteRecruitmentDataView(SubjectMixin, PermissionRequiredMixin, DetailView):
+    model = Subject
+    permission_required = 'subjects.change_subject'
+    template_name = 'subjects/confirm_delete_recruitment_data.html'
+    tab = 'attributes'
+    slug_field = 'uuid'
+    slug_url_kwarg = 'uuid'
+
+    def post(self, request, *args, **kwargs):
+        attributes = {}
+        if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID:
+            desc = AttributeDescription.objects.get(
+                pk=settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID
+            )
+            attributes[desc.json_key] = self.subject.attributes[desc.json_key]
+
+        self.subject.onetime_invitation_disinterest = False
+        self.subject.attributes = attributes
+        self.subject.save()
+
+        self.subject.study_type_disinterest.all().delete()
+
+        return redirect('subjects:attributes', uuid=self.subject.uuid)
+
+
 class ParticipationListView(SubjectMixin, PermissionRequiredMixin, ListView):
     model = Participation
     template_name = 'subjects/participation_list.html'
