@@ -4,6 +4,13 @@
 {% block title %}{% translate "Edit recruitment attributes" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    {% if subject.has_residual_recruitment_data %}
+        <p class="alert alert-warning">
+            <strong>{% translate 'Residual recruitment data' %}.</strong>
+            {% translate 'The subject does not have recruitment consent, so any data that is only relevant for recruitment should be deleted.' %}
+        </p>
+    {% endif %}
+
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}

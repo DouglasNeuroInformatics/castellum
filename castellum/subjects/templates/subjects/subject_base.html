@@ -36,7 +36,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'subjects:attributes' subject.uuid %}" class="nav-link {% if view.tab == 'attributes' %}active{% endif %}">{% translate "Recruitment attributes" %}</a>
+                    <a href="{% url 'subjects:attributes' subject.uuid %}" class="nav-link {% if view.tab == 'attributes' %}active{% endif %}">
+                        {% if subject.has_residual_recruitment_data %}
+                            {% icon 'exclamation-triangle' label=_('Residual recruitment data') %}
+                        {% endif %}
+                        {% translate "Recruitment attributes" %}
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'subjects:data-protection' subject.uuid %}" class="nav-link {% if view.tab == 'data-protection' %}active{% endif %}">
