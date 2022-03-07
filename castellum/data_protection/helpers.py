@@ -78,6 +78,20 @@ def get_unreachable():
     return Subject.objects.filter(filter_queries.uuid_filter(contacts))
 
 
+def get_residual_recruitment_data():
+    completeness, _total = filter_queries.completeness_expr()
+    return (
+        Subject.objects
+        .alias(completeness=completeness)
+        .exclude(filter_queries.has_consent(include_waiting=True))
+        .filter(
+            models.Q(completeness__gt=1 if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID else 0)
+            | ~models.Q(study_type_disinterest=None)
+            | models.Q(anonymous_invitation_disinterest=True)
+        )
+    )
+
+
 def get_subjects():
     return (
         Subject.objects
@@ -98,12 +112,16 @@ def get_subjects():
             ),
             no_legal_basis=exists(get_no_legal_basis(), pk=models.OuterRef('pk')),
             unreachable=exists(get_unreachable(), pk=models.OuterRef('pk')),
+            residual_recruitment_data=exists(
+                get_residual_recruitment_data(), pk=models.OuterRef('pk')
+            ),
         )
         .exclude(
             export_requested__isnull=True,
             to_be_deleted__isnull=True,
             no_legal_basis=False,
             unreachable=False,
+            residual_recruitment_data=False,
         )
         .order_by(models.F('due').asc(nulls_last=True))
     )
