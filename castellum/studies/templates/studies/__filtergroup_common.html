@@ -2,11 +2,11 @@
 
 {% if not study.is_filter_trial %}
     {% if not study.min_subject_count %}
-        <p class="alert alert-warning" role="alert">
+        <p class="alert alert-warning">
             {% translate 'Weak recruitment process. Please, define the number of subjects for this study.' %}
         </p>
     {% elif count < expected_subject_count %}
-        <p class="alert alert-warning" role="alert">
+        <p class="alert alert-warning">
             {% blocktranslate %}
                 For a smooth recruitment process, your institution recommends at least
                 {{ expected_subject_factor }}× more potential than required subjects
