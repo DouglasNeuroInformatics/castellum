@@ -138,6 +138,24 @@ def test_maintenance_consent_200(request, client, user_fixture):
     url = '/subjects/maintenance/consent/'
     response = client.get(url)
     assert response.status_code == 200
+    assert response.content.count(b'<li class="table-list-item">') == 0
+
+
+def test_maintenance_consent_from_before_full_age(client, user):
+    contact = baker.make(Contact, date_of_birth=date(2000, 1, 1))
+
+    with freeze_time('2014-01-01'):
+        baker.make(
+            Consent, status=Consent.CONFIRMED, subject=contact.subject, underage_when_given=True
+        )
+
+    with freeze_time('2018-01-01'):
+        url = '/subjects/maintenance/consent/'
+        client.force_login(user)
+        response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.content.count(b'<li class="table-list-item">') == 1
 
 
 @pytest.mark.smoketest
