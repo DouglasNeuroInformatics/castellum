@@ -56,7 +56,10 @@ monitoring_logger = logging.getLogger('monitoring.recruitment')
 
 
 def get_recruitable(study, is_urgent=False):
-    """Get all subjects who are recruitable for this study, i.e. apply all filters."""
+    """Get all subjects who are recruitable for this study.
+
+    i.e. apply all filters
+    """
     qs = Subject.objects.filter(
         filter_queries.study(study),
         filter_queries.has_consent(),
@@ -70,8 +73,8 @@ def get_recruitable(study, is_urgent=False):
             participation__status=Participation.NOT_CONTACTED
         ),
     )).filter(
-        models.Q(last_contacted__lte=last_contacted) |
-        models.Q(last_contacted__isnull=True)
+        models.Q(last_contacted__lte=last_contacted)
+        | models.Q(last_contacted__isnull=True)
     )
 
     if is_urgent:
@@ -95,7 +98,8 @@ class ParticipationMixin(StudyMixin, SubjectMixin):
     -   pull in StudyMixin and SubjectMixin
     -   set ``self.participation``
     -   check that ``pk`` and ``study_pk`` refer to the same study
-    -   check that status is in ``participation_status``, otherwise return 404
+    -   check that status is in ``participation_status``, otherwise
+        return 404
 
     Requires PermissionRequiredMixin.
     """
