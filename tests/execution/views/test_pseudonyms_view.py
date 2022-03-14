@@ -28,7 +28,7 @@ def test_lists_all_pseudonyms(client, conductor, study):
         study.pk, participation.pk
     ))
     assert response.status_code == 200
-    assert response.content.count(b'<tr') == 3
+    assert response.content.count(b'<tr') == 2
 
 
 def test_no_name(client, conductor, study, subject):

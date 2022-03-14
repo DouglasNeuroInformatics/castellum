@@ -21,17 +21,6 @@
 from django.conf import settings
 
 
-def create_study_domain(sender, instance, using, **kwargs):
-    from castellum.pseudonyms.models import Domain
-    from castellum.studies.models import Study
-
-    if sender is Study and not instance.domains.exists():
-        Domain.objects.create(
-            bits=settings.CASTELLUM_STUDY_DOMAIN_BITS,
-            context=instance,
-        )
-
-
 def delete_study_domain(sender, instance, using, **kwargs):
     from castellum.studies.models import Study
 

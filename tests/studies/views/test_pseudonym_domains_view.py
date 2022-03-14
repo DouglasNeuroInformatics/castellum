@@ -1,4 +1,7 @@
 import pytest
+from model_bakery import baker
+
+from castellum.pseudonyms.models import Domain
 
 
 @pytest.mark.smoketest
@@ -14,12 +17,12 @@ def test_add(client, study, member):
         'action': 'add',
     })
     assert response.status_code == 302
-    assert study.domains.count() == 2
+    assert study.domains.count() == 1
 
 
 def test_name(client, study, member):
     client.force_login(member)
-    domain = study.domains.first()
+    domain = baker.make(Domain, context=study)
     response = client.post('/studies/{}/domains/'.format(study.pk), {
         'action': 'name',
         'domain': domain.key,
@@ -35,4 +38,4 @@ def test_delete(client, study, member):
     domain = study.domains.create()
     response = client.post('/studies/{}/domains/{}/'.format(study.pk, domain.key))
     assert response.status_code == 302
-    assert study.domains.count() == 1
+    assert study.domains.count() == 0
