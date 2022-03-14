@@ -105,6 +105,7 @@ def test_participation_detail_view_tags(client, subject, conductor, study_in_exe
 def test_resolve_view(client, member, study_in_execution_status, subject):
     client.force_login(member)
 
+    domain = baker.make(Domain, context=study_in_execution_status)
     participation = baker.make(
         Participation,
         study=study_in_execution_status,
@@ -117,7 +118,6 @@ def test_resolve_view(client, member, study_in_execution_status, subject):
     response = client.get(url)
     assert b'<input type="hidden" name="domain"' in response.content
 
-    domain = study_in_execution_status.domains.first()
     pseudonym = get_pseudonym(subject, domain.key)
 
     response = client.post(url, {
