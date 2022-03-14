@@ -81,6 +81,8 @@ user requests. We provide the following management commands for that:
 -   `cleanup_media`: Delete unused uploaded files.
 -   `cleanup_availability`: Remove obsolete "not available until"
     entries.
+-   `cleanup_underage_consents`: Remove recruitment consents for
+    underage subjects 2 years after they have come of age.
 -   `cleanup_filter_trials`: Delete filter trials as they are meant to be
     used only once.
 -   `notify_to_be_deleted`: Automatically notify about content that
