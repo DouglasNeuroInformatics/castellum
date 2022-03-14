@@ -119,6 +119,9 @@
         <dd class="col-sm-6">
             {% if subject.has_legal_basis %}
                 {{ subject|display:'blocked' }}
+            {% else %}
+                {% url 'subjects:additional-info' subject.uuid as url %}
+                {% blocktranslate with url=url %}If applicable, <a href="{{ url }}">block this subject</a>.{% endblocktranslate %}
             {% endif %}
         </dd>
     </dl>

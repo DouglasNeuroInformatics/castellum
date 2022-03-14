@@ -3494,7 +3494,12 @@ msgstr ""
 msgid "Art. 6 (1) lit. f GDPR"
 msgstr "Art. 6 Abs. 1 lit. f DSGVO"
 
-#: castellum/subjects/templates/subjects/subject_detail.html:128
+#: castellum/subjects/templates/subjects/subject_detail.html:124
+#, python-format
+msgid "If applicable, <a href=\"%(url)s\">block this subject</a>."
+msgstr "<a href=\"%(url)s\">Diese Proband*in sperren</a>, sofern anwendbar"
+
+#: castellum/subjects/templates/subjects/subject_detail.html:131
 msgid "Download cover letter"
 msgstr "Anschreiben herunterladen"
 
