@@ -36,8 +36,8 @@
         {% else %}
             {{ form.announce_status_changes.as_hidden }}
         {% endif %}
-        {% if form.is_onetime_invitation %}
-            {% bootstrap_field form.is_onetime_invitation required_css_class='castellum-required' %}
+        {% if form.is_anonymous_invitation %}
+            {% bootstrap_field form.is_anonymous_invitation required_css_class='castellum-required' %}
         {% endif %}
 
         <div class="d-print-none mb-3">

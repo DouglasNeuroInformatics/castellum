@@ -39,7 +39,7 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
     pk_url_kwarg = 'study_pk'
     template_name = 'studies/study_members.html'
     permission_required = 'studies.change_study'
-    is_onetime_invitation = False
+    is_anonymous_invitation = False
     is_filter_trial = False
     tab = 'members'
 
@@ -88,7 +88,7 @@ class StudyMembersView(StudyMixin, PermissionRequiredMixin, SingleObjectMixin, F
 class StudyMembershipRemoveView(StudyMixin, PermissionRequiredMixin, DeleteView):
     model = StudyMembership
     permission_required = 'studies.change_study'
-    is_onetime_invitation = False
+    is_anonymous_invitation = False
     is_filter_trial = False
     tab = 'members'
 

@@ -60,8 +60,8 @@ class Subject(TimeStampedModel):
     uuid = models.UUIDField(_('UUID'), default=uuid.uuid4, primary_key=True)
 
     attributes = models.JSONField(_('Recruitment attributes'), encoder=DjangoJSONEncoder)
-    onetime_invitation_disinterest = models.BooleanField(
-        _('Does not want to participate in one time invitations'),
+    anonymous_invitation_disinterest = models.BooleanField(
+        _('Does not want to participate in anonymous invitations'),
         default=False,
     )
     study_type_disinterest = models.ManyToManyField(
@@ -200,7 +200,7 @@ class Subject(TimeStampedModel):
         return not self.has_consent_or_waiting and (
             completed > (1 if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID else 0)
             or self.study_type_disinterest.exists()
-            or self.onetime_invitation_disinterest
+            or self.anonymous_invitation_disinterest
         )
 
     @property

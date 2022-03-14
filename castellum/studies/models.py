@@ -168,8 +168,8 @@ class Study(models.Model):
         'studies.Study', verbose_name=_('Excluded studies'), related_name='+', blank=True
     )
 
-    is_onetime_invitation = models.BooleanField(
-        _('Is a one time invitation'),
+    is_anonymous_invitation = models.BooleanField(
+        _('Is an anonymous invitation'),
         help_text=_(
             'Use this if you want to skip the usual recruitment workflow and just send an '
             'email to subjects, e.g. to invite them to an anonymous online survey.'

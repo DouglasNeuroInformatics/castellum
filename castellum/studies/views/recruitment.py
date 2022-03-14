@@ -135,7 +135,7 @@ class StudyExclusionCriteriaView(StudyMixin, PermissionRequiredMixin, UpdateView
     template_name = 'studies/study_exclusioncriteria.html'
     fields = ['exclusion_criteria']
     permission_required = 'studies.change_study'
-    is_onetime_invitation = False
+    is_anonymous_invitation = False
     is_filter_trial = False
     tab = 'recruitmentsettings'
     subtab = 'exclusioncriteria'
@@ -195,7 +195,7 @@ class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):
 
 class OneTimeInvitationMailRecruitmentView(BaseMailRecruitmentView):
     permission_required = 'studies.change_study'
-    is_onetime_invitation = True
+    is_anonymous_invitation = True
     participation_status = Participation.INVITED
     base_template = 'studies/study_base.html'
     tab = 'mail'

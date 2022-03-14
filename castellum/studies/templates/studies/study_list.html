@@ -43,7 +43,7 @@
                 <fieldset>
                     <legend class="h6">{{ form.type.label }}</legend>
                     <label class="form-check">
-                        <input type="radio" name="type" value="{{ value }}" class="form-check-input" {% if not form.type.value and not form.cleaned_data.is_onetime_invitation %}checked{% endif %}>
+                        <input type="radio" name="type" value="{{ value }}" class="form-check-input" {% if not form.type.value and not form.cleaned_data.is_anonymous_invitation %}checked{% endif %}>
                         <span class="form-check-label">{% translate 'All' %}</span>
                     </label>
                     {% for value, label in form.type.field.choices %}
@@ -53,8 +53,8 @@
                         </label>
                     {% endfor %}
                     <label class="form-check">
-                        <input type="radio" name="type" value="onetime_invitation" class="form-check-input" {% if form.cleaned_data.is_onetime_invitation %}checked{% endif %}>
-                        <span class="form-check-label">{{ form.is_onetime_invitation.label }}</span>
+                        <input type="radio" name="type" value="anonymous_invitation" class="form-check-input" {% if form.cleaned_data.is_anonymous_invitation %}checked{% endif %}>
+                        <span class="form-check-label">{{ form.is_anonymous_invitation.label }}</span>
                     </label>
                 </fieldset>
                 <button class="btn btn-primary mt-3">{% translate 'Apply' %}</button>
