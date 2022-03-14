@@ -89,9 +89,7 @@ def test_duplicate_study_post(client, user):
 def test_duplicate_study_has_different_domains(client, user):
     client.force_login(user)
     original = baker.make(Study, recruitment_text='foo bar', members=[user])
-    original_domain = baker.make(
-        Domain,
-    )
+    original_domain = baker.make(Domain, context=original)
 
     client.post('/studies/create/?duplicate_pk={}'.format(original.pk), STUDY_FORM)
 
