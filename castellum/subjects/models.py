@@ -194,6 +194,15 @@ class Subject(TimeStampedModel):
             or self.blocked
         )
 
+    @cached_property
+    def has_residual_recruitment_data(self):
+        completed, _total = self.get_completeness()
+        return not self.has_consent_or_waiting and (
+            completed > (1 if settings.CASTELLUM_DATE_OF_BIRTH_ATTRIBUTE_ID else 0)
+            or self.study_type_disinterest.exists()
+            or self.onetime_invitation_disinterest
+        )
+
     @property
     def is_available(self):
         now = timezone.localtime()

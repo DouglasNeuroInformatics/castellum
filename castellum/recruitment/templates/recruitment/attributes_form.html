@@ -4,6 +4,16 @@
 {% block title %}{% translate "Edit recruitment attributes" %} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
+    {% if subject.has_residual_recruitment_data %}
+        <div class="alert alert-warning">
+            <p>
+                <strong>{% translate 'Residual recruitment data' %}.</strong>
+                {% translate 'The subject does not have recruitment consent, so any data that is only relevant for recruitment should be deleted.' %}
+            </p>
+            <a href="{% url 'subjects:delete-recruitment-data' subject.uuid %}" class="btn btn-warning">{% translate 'Delete all' %}</a>
+        </div>
+    {% endif %}
+
     <form method="post">
         {% include 'utils/form_errors.html' with form=form %}
         {% csrf_token %}
