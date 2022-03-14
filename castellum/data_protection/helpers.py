@@ -82,6 +82,7 @@ def get_subjects():
     return (
         Subject.objects
         .annotate(
+            # depending on database backend, this is either a date or a datetime
             due=models.ExpressionWrapper(
                 models.Case(
                     models.When(

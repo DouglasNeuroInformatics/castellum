@@ -21,12 +21,12 @@
                     <div class="col-md">
                         {% if not subject.due %}
                             {# pass #}
-                        {% elif subject.due > today %}
+                        {% elif subject.due|force_date > today %}
                             <div>
                                 {% translate 'Due in' %}:
                                 <time title="{{ subject.due|longdate }}">{{ subject.due|timeuntil }}</time>
                             </div>
-                        {% elif select.due == today %}
+                        {% elif select.due|force_date == today %}
                             <div class="text-danger font-weight-bold">
                                 {% translate 'Due today' %}
                             </div>
