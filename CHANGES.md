@@ -1,3 +1,19 @@
+# 0.73.0 (unreleased)
+
+## bug fixes
+
+-   Fixed resetting user token in admin UI
+-   Fixed future due date in data protection dashboard
+-   Fixed getting pseudonyms in execution for finished studies
+
+## new features
+
+-   Added script `cleanup_underage_consents` to remove recruitment
+    consents for underage subjects 2 years after they have come of age.
+-   Help subject managers to clear residual recruitment data if there is
+    no recruitment consent.
+
+
 # 0.72.1 (2022-03-02)
 
 ## security
