@@ -71,10 +71,15 @@ def _list(qs):
 
 
 @register.filter
-def is_today(date):
+def force_date(date):
     if isinstance(date, datetime.datetime):
         date = date.date()
-    return date == datetime.date.today()
+    return date
+
+
+@register.filter
+def is_today(date):
+    return force_date(date) == datetime.date.today()
 
 
 @register.filter
