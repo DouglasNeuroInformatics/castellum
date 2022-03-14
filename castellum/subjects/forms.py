@@ -108,17 +108,21 @@ class DataProtectionForm(forms.ModelForm):
     def save_consent(self, subject):
         new_status = self.cleaned_data.get('consent_status')
         if new_status:
+            initial_status = get_initial_consent_status(subject)
+            if initial_status == new_status:
+                return
+
             try:
-                initial_status = get_initial_consent_status(subject)
-                if initial_status != new_status:
-                    if initial_status != Consent.WAITING:
-                        subject.consent.document = ConsentDocument.get_latest()
-                    subject.consent.status = new_status
-                    subject.consent.save()
+                if initial_status != Consent.WAITING:
+                    subject.consent.document = ConsentDocument.get_latest()
+                subject.consent.status = new_status
+                subject.consent.underage_when_given = subject.contact.is_underage
+                subject.consent.save()
             except Consent.DoesNotExist:
                 Consent.objects.create(
                     subject=subject,
                     status=new_status,
+                    underage_when_given=subject.contact.is_underage,
                     document=ConsentDocument.get_latest(),
                 )
         else:

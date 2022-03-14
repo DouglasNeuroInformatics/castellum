@@ -677,16 +677,16 @@ class MaintenanceConsentView(BaseMaintenanceView):
     def get_by_consent_from_before_full_age(self):
         today = datetime.date.today()
 
-        # date_of_birth is stored in Contact, so we cannot query it
-        # directly. As an optimization, we only look at subjects that
-        # came of age in the past year.
-        contacts = Contact.objects.filter(
-            date_of_birth__lt=today - relativedelta(years=settings.CASTELLUM_FULL_AGE),
-            date_of_birth__gt=today - relativedelta(years=settings.CASTELLUM_FULL_AGE + 1),
+        full_age = Contact.objects.exclude(
+            date_of_birth__gt=today - relativedelta(years=settings.CASTELLUM_FULL_AGE),
         )
 
-        pks = [c.subject.pk for c in contacts if c.subject.has_consent_from_before_full_age]
-        return super().get_queryset().filter(pk__in=pks, deceased=False)
+        return super().get_queryset().filter(
+            filter_queries.uuid_filter(full_age),
+            filter_queries.has_consent(),
+            consent__underage_when_given=True,
+            deceased=False,
+        )
 
     def get_by_deprecated_document(self):
         return (

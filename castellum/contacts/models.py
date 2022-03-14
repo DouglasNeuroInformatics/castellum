@@ -18,9 +18,14 @@
 # License along with Castellum. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import datetime
+
+from django.conf import settings
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+
+from dateutil.relativedelta import relativedelta
 
 from castellum.subjects.models import Subject
 from castellum.utils.fields import DateField
@@ -216,6 +221,13 @@ class Contact(BaseContact):
             self.email,
             [c for c in self.legal_representatives.all() if not c.subject.blocked],
         ])
+
+    @property
+    def is_underage(self):
+        if not self.date_of_birth:
+            return None
+        delta = relativedelta(years=settings.CASTELLUM_FULL_AGE)
+        return self.date_of_birth + delta > datetime.date.today()
 
     @cached_property
     def is_legal_representative(self):
