@@ -187,7 +187,7 @@ class ParticipationDetailView(ParticipationDetailMixin, DetailView):
 
 class ParticipationPseudonymsView(ParticipationDetailMixin, DetailView):
     participation_status = [Participation.INVITED]
-    study_status = []
+    study_status = []  # for GDPR requests after study has finished
     template_name = 'execution/participation_pseudonyms.html'
     tab = 'overview'
 
@@ -211,6 +211,8 @@ class ParticipationPseudonymsView(ParticipationDetailMixin, DetailView):
 
 
 class ParticipationPseudonymView(ParticipationDetailMixin, View):
+    study_status = []  # for GDPR requests after study has finished
+
     def has_permission(self):
         return (
             super().has_permission()
