@@ -457,6 +457,18 @@ class StudyDomainsGeneralView(StudyDomainsMixin, UpdateView):
         return super().form_valid(form)
 
 
+class StudyDomainDeleteView(StudyDomainsMixin, DeleteView):
+    model = Domain
+    template_name = 'studies/domain_confirm_delete.html'
+    subtab = 'domains-study'
+
+    def get_object(self):
+        return get_object_or_404(self.study.domains.all(), key=self.kwargs['key'])
+
+    def get_success_url(self):
+        return reverse('studies:domains', args=[self.study.pk])
+
+
 class StudyImportView(PermissionRequiredMixin, FormView):
     permission_required = 'studies.change_study'
     template_name = 'studies/study_import.html'

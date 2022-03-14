@@ -30,6 +30,7 @@ from ..views.studies import StudyCreateView
 from ..views.studies import StudyDeleteView
 from ..views.studies import StudyDetailView
 from ..views.studies import StudyDiffView
+from ..views.studies import StudyDomainDeleteView
 from ..views.studies import StudyDomainsGeneralView
 from ..views.studies import StudyDomainsView
 from ..views.studies import StudyExportView
@@ -52,6 +53,11 @@ urlpatterns = [
     path('<int:pk>/delete/', StudyDeleteView.as_view(), name='delete'),
     path('<int:pk>/domains/', StudyDomainsView.as_view(), name='domains'),
     path('<int:pk>/domains/general', StudyDomainsGeneralView.as_view(), name='domains-general'),
+    path(
+        '<int:study_pk>/domains/<uuid:key>/',
+        StudyDomainDeleteView.as_view(),
+        name='domain-delete',
+    ),
     path('<int:study_pk>/start/', StudyStartRecruitmentView.as_view(), name='start'),
     path('<int:study_pk>/finish/', StudyFinishRecruitmentView.as_view(), name='finish'),
     path('<int:pk>/mail/', OneTimeInvitationMailRecruitmentView.as_view(), name='mail'),

@@ -1,0 +1,15 @@
+{% extends "studies/study_domains_base.html" %}
+{% load i18n auth django_bootstrap5 utils %}
+
+{% block title %}{% translate "Delete" %} &middot; {% translate "Study domains" %} &middot; {{ block.super }}{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <p>{% translate "Are you sure you want to <strong>permanently delete</strong> this domain and all related pseudonyms?" %}</p>
+        <div class="d-print-none mb-3">
+            <a href="{% url 'studies:domains' study.pk %}" class="btn btn-outline-primary" data-js="cancel">{% translate 'Cancel' %}</a>
+            <button class="btn btn-danger">{% translate 'Confirm' %}</button>
+        </div>
+    </form>
+{% endblock %}
