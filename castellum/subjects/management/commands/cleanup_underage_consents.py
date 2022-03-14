@@ -32,7 +32,7 @@ from castellum.subjects.models import Subject
 
 
 class Command(BaseCommand):
-    help = 'Remove recruitment consents that were given before the subject came off age'
+    help = 'Remove recruitment consents that were given before the subject came of age'
 
     def handle(self, *args, **options):
         today = datetime.date.today()
