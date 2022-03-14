@@ -840,12 +840,12 @@ msgstr "Tags verwalten"
 #: castellum/execution/templates/execution/participation_pseudonyms.html:12
 #: castellum/subjects/templates/subjects/subject_pseudonyms.html:10
 msgid "Domain key"
-msgstr "Domänen-Schlüssel"
+msgstr "Raum-Schlüssel"
 
 #: castellum/execution/templates/execution/participation_pseudonyms.html:13
 #: castellum/subjects/templates/subjects/subject_pseudonyms.html:11
 msgid "Domain name"
-msgstr "Domänen-Name"
+msgstr "Raum-Name"
 
 #: castellum/execution/templates/execution/participation_update_base.html:9
 #: castellum/recruitment/templates/recruitment/participation_update_base.html:9
@@ -1123,11 +1123,11 @@ msgstr "Ungültiges Pseudonym"
 
 #: castellum/pseudonyms/forms.py:37
 msgid "Domain"
-msgstr "Domäne"
+msgstr "Raum"
 
 #: castellum/pseudonyms/models.py:43
 msgid "Users who can access this domain"
-msgstr "Nutzer*innen, die auf diese Domäne zugreifen können"
+msgstr "Nutzer*innen, die auf diesen Raum zugreifen können"
 
 #: castellum/pseudonyms/models.py:49 castellum/studies/models.py:202
 msgid "Exportable recruitment attributes"
@@ -2174,7 +2174,7 @@ msgstr "Momentaufnahme"
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:66
 #: castellum/subjects/templates/subjects/subject_export.html:61
 msgid "General pseudonym domains"
-msgstr "Allgemeine Pseudonym-Domänen"
+msgstr "Allgemeine Pseudonym-Räume"
 
 #: castellum/studies/models.py:127
 msgid "Advanced filtering"
@@ -2556,7 +2556,7 @@ msgstr "Mitgliederverwaltung"
 #: castellum/studies/templates/studies/study_base.html:131
 #: castellum/studies/templates/studies/study_domains_study.html:4
 msgid "Pseudonym domains"
-msgstr "Pseudonym-Domänen"
+msgstr "Pseudonym-Räume"
 
 #: castellum/studies/templates/studies/study_base.html:134
 #: castellum/studies/templates/studies/study_detail.html:25
@@ -2676,7 +2676,7 @@ msgstr ""
 
 #: castellum/studies/templates/studies/study_diff.html:52
 msgid "Domains"
-msgstr "Domänen"
+msgstr "Räume"
 
 #: castellum/studies/templates/studies/study_diff.html:100
 msgid "Memberships"
@@ -2684,12 +2684,12 @@ msgstr "Mitgliedschaften"
 
 #: castellum/studies/templates/studies/study_domains_base.html:11
 msgid "Study domains"
-msgstr "Studien-Domänen"
+msgstr "Studien-Räume"
 
 #: castellum/studies/templates/studies/study_domains_base.html:12
 #: castellum/studies/templates/studies/study_domains_general.html:4
 msgid "General domains"
-msgstr "Allgemeine Domänen"
+msgstr "Allgemeine Räume"
 
 #: castellum/studies/templates/studies/study_domains_general.html:10
 msgid ""
@@ -2697,7 +2697,7 @@ msgid ""
 "central repositories. Please note these pseudonyms allow to identify "
 "subjects globally and therefore carry a high privacy risk."
 msgstr ""
-"Allgemeine Domänen erlauben den Zugriff auf Pseudonyme für Daten, welche "
+"Allgemeine Räume erlauben den Zugriff auf Pseudonyme für Daten, welche "
 "über zentrale Datenspeichersysteme verwaltet werden. Bitte beachten Sie, "
 "dass es mithilfe dieser Pseudonyme möglich sein kann, Proband*innen "
 "kontextunabhängig zu identifizieren. Daher ist dieses Verfahren mit hohen "
@@ -2714,8 +2714,8 @@ msgstr ""
 "Pseudonyme erlauben es, Daten über Proband*innen zu speichern, ohne diese "
 "mit Namen oder anderen personenbezogenen Daten zu verknüpfen. Oft genügt ein "
 "einzelnes Pseudonym pro Proband*in und Studie. Sollten allerdings mehr "
-"erforderlich sein, können Sie zusätzliche Pseudonym-Domänen erzeugen. Bitte "
-"beachten Sie, dass ein Pseudonym nur in Kombination mit seiner Domäne "
+"erforderlich sein, können Sie zusätzliche Pseudonym-Räume erzeugen. Bitte "
+"beachten Sie, dass ein Pseudonym nur in Kombination mit seinem Raum "
 "bedeutsam ist."
 
 #: castellum/studies/templates/studies/study_domains_study.html:26
@@ -2725,7 +2725,7 @@ msgstr "Schlüssel Kopieren"
 
 #: castellum/studies/templates/studies/study_domains_study.html:43
 msgid "Add domain"
-msgstr "Domäne hinzufügen"
+msgstr "Raum hinzufügen"
 
 #: castellum/studies/templates/studies/study_excluded_studies.html:21
 msgid ""
@@ -3335,7 +3335,7 @@ msgstr ""
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:22
 msgid "This subject may still have data in general domains."
 msgstr ""
-"Zu dieser Proband*in sind möglicherweise noch Daten in allgemeinen Domänen "
+"Zu dieser Proband*in sind möglicherweise noch Daten in allgemeinen Räumen "
 "vorhanden."
 
 #: castellum/subjects/templates/subjects/subject_confirm_delete.html:26
