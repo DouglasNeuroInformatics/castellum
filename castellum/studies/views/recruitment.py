@@ -196,7 +196,6 @@ class StudyMailSettingsView(StudyMixin, PermissionRequiredMixin, UpdateView):
 class OneTimeInvitationMailRecruitmentView(BaseMailRecruitmentView):
     permission_required = 'studies.change_study'
     is_anonymous_invitation = True
-    participation_status = Participation.INVITED
     base_template = 'studies/study_base.html'
     tab = 'mail'
 

@@ -318,7 +318,6 @@ class RecruitmentViewOpen(RecruitmentView):
 class MailRecruitmentView(BaseMailRecruitmentView):
     permission_required = 'recruitment.recruit'
     study_status = [Study.EXECUTION]
-    participation_status = Participation.AWAITING_RESPONSE
     tab = 'mail'
 
     def get_context_data(self, **kwargs):
