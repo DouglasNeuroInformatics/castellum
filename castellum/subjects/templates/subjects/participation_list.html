@@ -11,7 +11,7 @@
                 <span class="d-inline-block my-1 me-2">{{ participation.study.contact_person }}</span>
             </li>
         {% empty %}
-            <li class="alert alert-warning" role="alert">{% translate 'No participations found' %}</li>
+            <li class="alert alert-warning">{% translate 'No participations found' %}</li>
         {% endfor %}
     </ul>
 {% endblock %}

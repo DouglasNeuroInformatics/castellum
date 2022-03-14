@@ -6,7 +6,7 @@
 {% block content %}
 
     {% if not study.mail_body %}
-        <p class="alert alert-danger" role="alert">{% translate "Mail recruitment has not been set up!" %}</p>
+        <p class="alert alert-danger">{% translate "Mail recruitment has not been set up!" %}</p>
     {% else %}
         <form method="post">
             {% include 'utils/form_errors.html' with form=form %}
