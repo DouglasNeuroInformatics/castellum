@@ -1685,22 +1685,20 @@ msgstr "Rekrutierungsmerkmale bearbeiten"
 
 #: castellum/recruitment/templates/recruitment/attributes_form.html:10
 #: castellum/subjects/templates/subjects/subject_base.html:41
-#, fuzzy
-#| msgid "General recruitment text"
 msgid "Residual recruitment data"
-msgstr "Allgemeiner Rekrutierungstext"
+msgstr "Verbliebene Rekrutierungsdaten"
 
 #: castellum/recruitment/templates/recruitment/attributes_form.html:11
 msgid ""
 "The subject does not have recruitment consent, so any data that is only "
 "relevant for recruitment should be deleted."
 msgstr ""
+"Die Proband*in hat keine Rekrutierungseinwilligung. Deshalb sollten alle "
+"Daten die nur für die Rekrutierung relevant sind gelöscht werden."
 
 #: castellum/recruitment/templates/recruitment/attributes_form.html:13
-#, fuzzy
-#| msgid "Delete"
 msgid "Delete all"
-msgstr "Löschen"
+msgstr "Alles löschen"
 
 #: castellum/recruitment/templates/recruitment/base.html:8
 msgid "Recruitment for"
@@ -3124,7 +3122,7 @@ msgstr "Version {}"
 
 #: castellum/subjects/models.py:271
 msgid "Underage when given"
-msgstr ""
+msgstr "Minderjährig bei Einwilligung"
 
 #: castellum/subjects/models.py:273
 msgid "Document"
@@ -3165,22 +3163,17 @@ msgid "Subjects"
 msgstr "Proband*innen"
 
 #: castellum/subjects/templates/subjects/confirm_delete_recruitment_data.html:4
-#, fuzzy
-#| msgid "Complete recruitment attributes"
 msgid "Delete recruitment data"
-msgstr "Rekrutierungsmerkmale vollständig"
+msgstr "Rekrutierungsdaten löschen"
 
 #: castellum/subjects/templates/subjects/confirm_delete_recruitment_data.html:9
-#, fuzzy
-#| msgid ""
-#| "Are you sure you want to <strong>permanently delete</strong> this subject "
-#| "creation request?"
 msgid ""
 "Are you sure you want to <strong>permanently delete</strong> all recruitment "
 "attributes and study type disinterests for this subject?"
 msgstr ""
-"Sind Sie sicher, dass Sie diese Anfrage zur Erstellung einer Proband*in und "
-"alle zugehörigen Daten <strong>unwiederbringlich</strong> löschen möchten?"
+"Sind Sie sicher, dass Sie alle Rekrutierungsdaten und Desinteresse an "
+"Studientypen für diese Proband*in <strong>unwiederbringlich</strong> löschen "
+"möchten?"
 
 #: castellum/subjects/templates/subjects/legal_representative_search.html:7
 #: castellum/subjects/templates/subjects/subject_search.html:202
@@ -4046,6 +4039,3 @@ msgstr "Bitte korrigieren Sie die Fehler an den Feldern."
 #: castellum/utils/templates/utils/widgets/splitdatetime.html:8
 msgid "Clear"
 msgstr "Leeren"
-
-#~ msgid "Submit"
-#~ msgstr "Absenden"
