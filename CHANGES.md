@@ -1,3 +1,8 @@
+# 0.73.1 (2022-03-15)
+
+-   Fixed missing translations
+
+
 # 0.73.0 (2022-03-15)
 
 ## bug fixes
