@@ -6,10 +6,17 @@
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        <p>{% translate "Are you sure you want to <strong>permanently delete</strong> this domain and all related pseudonyms?" %}</p>
+        <p>{% blocktranslate %}Are you sure you want to <strong>permanently delete</strong> the domain "{{ object }}" and all related pseudonyms?{% endblocktranslate %}</p>
+        <p>{% translate "Once a pseudonym is deleted, it is no longer possible to find the corresponding contact information. Note, however, that additional steps might be necessary for full anonymization (e.g. for image data)." %}</p>
+        <p>{% translate "The date when a domain should be deleted is usually defined in the ethics application and the study consent form." %}</p>
+
+        <label class="form-check">
+            <input type="checkbox" class="form-check-input" data-js="confirm-delete">
+            <span class="form-check-label">{% translate "I understand that I will no longer be able to find subjects based on pseudonyms from this domain." %}</span>
+        </label>
         <div class="d-print-none mb-3">
             <a href="{% url 'studies:domains' study.pk %}" class="btn btn-outline-primary" data-js="cancel">{% translate 'Cancel' %}</a>
-            <button class="btn btn-danger">{% translate 'Confirm' %}</button>
+            <button class="btn btn-danger" disabled>{% translate 'Confirm' %}</button>
         </div>
     </form>
 {% endblock %}
