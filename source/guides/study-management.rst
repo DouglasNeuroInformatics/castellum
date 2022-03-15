@@ -190,8 +190,8 @@ your study:
 Manage study pseudonym domains
 ------------------------------
 
-In the **Pseudonym domains** tab you can add a new domain or change the name of
-an existing domain.
+In the **Pseudonym domains** tab you can create, rename, and delete pseudonym
+domains.
 
 If there are general domains you can also define which general domains need to
 be accessed in the context of this study.

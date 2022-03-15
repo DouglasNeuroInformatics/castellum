@@ -60,6 +60,17 @@ Relevant guides:
 -   :ref:`subject-get-pseudonym`
 -   :ref:`subject-delete`
 
+Deleting domains
+----------------
+
+It is possible to delete a domain and all related pseudonyms. Once a pseudonym
+is deleted, it is no longer possible to find the corresponding contact
+information. Note, however, that additional steps might be necessary for full
+anonymization of scientific data (e.g. image data).
+
+The date when a study domain should be deleted is usually defined in the ethics
+application and the study consent form.
+
 How pseudonyms are generated
 ----------------------------
 
