@@ -40,7 +40,12 @@ class DomainForm(forms.Form):
         super().__init__(*args, **kwargs)
 
         self.fields['domain'].choices = [(d.key, str(d)) for d in context.domains.all()]
-        self.fields['domain'].initial = self.fields['domain'].choices[0][0]
+        if self.fields['domain'].choices:
+            self.fields['domain'].initial = self.fields['domain'].choices[0][0]
+        else:
+            self.fields['domain'].disabled = True
+            self.cleaned_data = {}
+            self.add_error(None, _('All pseudonym domains have been deleted.'))
 
 
 class PseudonymForm(DomainForm):

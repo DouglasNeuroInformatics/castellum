@@ -12,7 +12,7 @@ def test_apidomainsview(client, conductor, study_in_execution_status):
 
     assert response.status_code == 200
     data = response.json()
-    assert len(data['domains']) == 3
+    assert len(data['domains']) == 2
 
 
 def test_no_general_domains(client, conductor, study_in_execution_status):
@@ -25,7 +25,7 @@ def test_no_general_domains(client, conductor, study_in_execution_status):
 
     assert response.status_code == 200
     data = response.json()
-    assert len(data['domains']) == 1
+    assert len(data['domains']) == 0
 
 
 def test_permission(client, recruiter, study_in_execution_status):

@@ -260,6 +260,11 @@ class StudyCreateView(PermissionRequiredMixin, CreateView):
             for tag in self.duplicate.executiontag_set.all():
                 self.object.executiontag_set.create(name=tag.name)
         else:
+            Domain.objects.create(
+                bits=settings.CASTELLUM_STUDY_DOMAIN_BITS,
+                context=self.object,
+            )
+
             for name, color in settings.CASTELLUM_DEFAULT_EXECUTION_TAGS:
                 self.object.executiontag_set.create(name=name, color=color)
 
@@ -455,6 +460,18 @@ class StudyDomainsGeneralView(StudyDomainsMixin, UpdateView):
         form.instance.is_filter_trial = False
         messages.success(self.request, _('Data has been saved.'))
         return super().form_valid(form)
+
+
+class StudyDomainDeleteView(StudyDomainsMixin, DeleteView):
+    model = Domain
+    template_name = 'studies/domain_confirm_delete.html'
+    subtab = 'domains-study'
+
+    def get_object(self):
+        return get_object_or_404(self.study.domains.all(), key=self.kwargs['key'])
+
+    def get_success_url(self):
+        return reverse('studies:domains', args=[self.study.pk])
 
 
 class StudyImportView(PermissionRequiredMixin, FormView):

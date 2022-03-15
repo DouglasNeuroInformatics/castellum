@@ -14,7 +14,7 @@
                 </dd>
             {% endfor %}
         </dl>
-    {% else %}
+    {% elif domains|length > 0 %}
         <dl class="row">
             <dt class="col-sm-6">{% translate 'Pseudonym' %}</dt>
             {% for domain in domains %}
