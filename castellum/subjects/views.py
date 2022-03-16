@@ -131,12 +131,15 @@ class SubjectSearchView(LoginRequiredMixin, FormView):
         context['count_complete'] = (
             Subject.objects
             .alias(completeness=completeness)
-            .filter(completeness=total, deceased=False)
+            .filter(completeness=total, deceased=False, blocked=False)
             .count()
         )
 
         context['count_recruitable'] = Subject.objects.filter(
-            filter_queries.has_consent(), filter_queries.to_be_deleted(), deceased=False,
+            filter_queries.has_consent(),
+            filter_queries.to_be_deleted(),
+            deceased=False,
+            blocked=False,
         ).exclude(
             pk__in=Participation._base_manager.filter(
                 filter_queries._reverse_exclusive_studies()
