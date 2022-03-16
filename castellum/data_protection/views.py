@@ -29,10 +29,7 @@ from . import helpers
 
 class DataProtectionView(PermissionRequiredMixin, ListView):
     template_name = 'data_protection/index.html'
-    permission_required = [
-        'subjects.export_subject',
-        'castellum_auth.privacy_level_2',
-    ]
+    permission_required = ['subjects.export_subject']
     paginate_by = 15
 
     def get_queryset(self):

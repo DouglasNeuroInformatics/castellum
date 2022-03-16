@@ -55,8 +55,7 @@
         {% endif %}
 
         {% has_perm 'subjects.export_subject' user as can_export_subject %}
-        {% has_privacy_level 2 user as has_privacy_level_2 %}
-        {% if can_export_subject and has_privacy_level_2 %}
+        {% if can_export_subject %}
             <div class="col-sm-6 col-md-4">
                 <div class="card">
                     <a href="{% url 'data_protection:index' %}" class="card-header" tabindex="-1" aria-hidden="true">
