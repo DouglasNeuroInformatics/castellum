@@ -4,6 +4,22 @@ from django.db import migrations, models
 import django.db.models.deletion
 import parler.fields
 import parler.models
+from parler.utils.context import switch_language
+
+
+def create_privacy_levels(apps, schema_editor):
+    PrivacyLevelLabel = apps.get_model('subjects', 'PrivacyLevelLabel')
+
+    for value, label_en, label_de in [
+        (1, 'increased', 'erhöht'),
+        (2, 'high', 'hoch'),
+    ]:
+        level = PrivacyLevelLabel.objects.create(value=value)
+        with switch_language(level, 'en'):
+            level.label = label_en
+        with switch_language(level, 'de'):
+            level.label = label_de
+        level.save()
 
 
 class Migration(migrations.Migration):
@@ -42,4 +58,5 @@ class Migration(migrations.Migration):
             },
             bases=(parler.models.TranslatedFieldsModelMixin, models.Model),
         ),
+        migrations.RunPython(create_privacy_levels),
     ]
