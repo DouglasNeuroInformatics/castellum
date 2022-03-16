@@ -77,16 +77,6 @@
                 "delete_study",
                 "studies",
                 "study"
-            ],
-            [
-                "privacy_level_1",
-                "castellum_auth",
-                "user"
-            ],
-            [
-                "privacy_level_2",
-                "castellum_auth",
-                "user"
             ]
         ]
     }
